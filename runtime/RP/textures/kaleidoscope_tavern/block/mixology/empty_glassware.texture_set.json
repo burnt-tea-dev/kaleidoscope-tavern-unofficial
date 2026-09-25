@@ -2,6 +2,10 @@
   "format_version": "1.16.100",
   "minecraft:texture_set": {
     "color": "empty_glassware",
-    "metalness_emissive_roughness": "empty_glassware_mer"
+    "metalness_emissive_roughness": [
+      0,
+      0,
+      150
+    ]
   }
 }
