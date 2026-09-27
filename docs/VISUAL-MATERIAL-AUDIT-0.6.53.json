@@ -5017,7 +5017,7 @@
       "emissive_max": 0,
       "roughness": 220,
       "references": [
-        "attachables/base_sandwich_board.attachable.json"
+        "textures/kt_derived/a17/item_display_base_sandwich_board.texture_set.json"
       ]
     },
     {
