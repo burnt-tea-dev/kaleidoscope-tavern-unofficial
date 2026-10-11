@@ -1,14 +1,15 @@
-## T146 integrated candidate: bounded native scope
+## 當前部署：T146／W123／G125
 
-Canonical T145 plus restricted-safe shaker snapshots, board signature 62 inverse and 100 ms HUD visibility. Five standalone recordings show no missing HUD in 259 active captured frames; finished/empty repeat and short-release retained ingredients are positive. While-held slot switching is INCONCLUSIVE and same-second rapid restart is NOT_TESTED. W122/T146 is a rejected negative control; selected W123/T146 still requires separate complete-family admission. LIVE deployment remains pending. See [scope](RELEASE-NOTES-0.6.146.md).
+2026-10-11已部署T146／W123／G125及私有整合1.0.32，來源與當次准入／存檔證據見[當前基線](../family/BASELINE-STATUS.md)。一次新鮮停服存檔的首次啟動／保存／重啟同時供應完整家族BDS與資料保存證據；現服讀回成功，真人驗收仍待進行。
 
-## 當前板面用戶端修補：T144
+T146保留T145手持辨識及T144輸入框修補，追加受限事件的安全原料快照、黑板signature62逆轉換與100ms進度顯示。[原修補範圍](RELEASE-NOTES-0.6.146.md)中的五段獨立錄影仍只支持有限場景：259個活動畫面未見HUD缺失，已完成／空杯重複使用及短按保留原料有正向觀察；持續按住時切槽仍不確定，同秒快速重啟未測。這些觀察不等於現服完整家族或聲音驗收。
 
-實際部署來源、CI、原生／存檔證據統一見[當前基線](../family/BASELINE-STATUS.md)。T143 四個重複輸入框與板外文字是已確認真人缺陷；T144 修補見[發版說明](RELEASE-NOTES-0.6.144.md)，仍需真人確認。 live 2026-10-10 的調酒 `STALE_HAND` 由 T145 事件副本辨識修補承接，見[發版說明](RELEASE-NOTES-0.6.145.md)。以下歷史段落保留原證據身份。
-
-| 範圍 | 本輪 source 修補 | 未完成／待驗 |
+| 範圍 | 本輪source修補 | 未完成／待驗 |
 | --- | --- | --- |
-| 板面输入容量 | 精確三語 title＋field 路由至 640／700／3000 encoded 字；RAW 320／350／1500、像素／行數、stale／reach／wax 保存檢查不變。原 native single-line widget，foreign 保留 100。 | 原生 sibling controller／焦點及三种输入设备待真人；正式多行、彩字距離與望遠鏡仍未完成。 |
+| 黑板 | root bindings保留單一匹配輸入框；正確原生座標逆轉換及signature62重建舊字形，不改保存文字、對齊或topY。 | 現服四向板面／焦點、觸控與手把待真人；正式多行、彩字距離與望遠鏡仍未完成。 |
+| 雪克杯 | 原料metadata移到可寫階段，保留原clone、扣料／退瓶／回復與取消守護；進度保持100ms，游標插值仍50ms。 | 現服投料、持續搖晃、放開／切槽、聲音與快速重新開始仍待真人確認。 |
+
+以下歷史段落保留原證據身份，不能視為現服狀態或當前真人驗收。
 
 ## 保留 canonical T141／W118 的修補與證據
 
