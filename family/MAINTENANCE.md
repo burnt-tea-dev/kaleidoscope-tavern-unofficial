@@ -12,9 +12,9 @@ flowchart LR
   C[官方作者原包與檔案 SHA256] --> D[家族組裝器]
   B --> D
   D --> E[固定 BP/RP 順序與相依檢查]
-  E --> F[隔離 BDS 原生驗證]
-  F --> G[停服備份與舊存檔遷移演練]
-  G --> H[逐候選延期登記與 BSM 准入]
+  E --> G[停服與一份一致備份]
+  G --> F[存檔副本一次載入與重啟驗證]
+  F --> H[逐候選延期登記與 BSM 准入]
   H --> L[完整家族更新至 live 測試]
   L --> M[真人用戶端驗收]
   L --> I[逐檔部署收據與定時漂移巡檢]
@@ -68,17 +68,17 @@ Cookery 1.0.8→1.6.0 的作者 UUID 變更使用已提交的 `family/identity-m
 
 ## 驗證資料與磁碟容量
 
-2026-10-07 使用者要求刪除舊副本，不再為清理建立封存。已結束的舊測試世界、候選包和多餘回退副本可清理；保留正式存檔、最新兩套完整一致回退、未完成工作、canonical Git、作者原包、現行准入及其實際引用的證據。清理前確認沒有程序仍在使用目錄；既有掛載不應由一般目錄清理器遍歷。
+2026-10-07 使用者要求刪除舊副本，不再為清理建立封存。已結束的舊測試世界、候選包和多餘回退副本可清理；保留正式存檔、最新一份完整一致回退、未完成工作、canonical Git、作者原包、現行准入及其實際引用的證據。清理前確認沒有程序仍在使用目錄；既有掛載不應由一般目錄清理器遍歷。
 
-canonical 家族更新器在新建候選、原生驗證與停服前要求至少 15 GiB 可用保留量；原生驗證另預留候選副本，停服前依實際世界／候選磁碟佔用預留四套世界與兩套候選的成長量。這是配置副本的容量預檢，不做新一輪內容 hash，不取代停服備份、迁移與逐檔准入。
+2026-10-11起，依使用者精簡要求，BDS與保存共用一次停服存檔副本演練，預設只留最新一份完整回退。容量按一份停服備份、一份不含舊包的QA世界資料及一份候選副本計算，另留2 GiB運行餘裕。QA包清理後才配置安裝暫存，舊包以rename移入回退；UUID遷移或容器修復另計實際額外副本。取消固定15 GiB及四套世界的估算，不重掃內容hash。
 
 完整原生載入與重啟均成功、最後逐檔 audit 通過且引擎無活動程序後，更新器刪除該次 QA 世界多餘的 BP／RP；實際使用的候選、世界 DB、兩次日誌與報告保留。`packs-pruned.json` 記錄候選來源與收據。已清理引擎禁止再次啟動，重跑須新建隔離世界；成功且不可變的證據仍按原條件重用。任何差異、overlay、未完成或失敗驗證都保留現場。
 
 存檔演練直接複製 DB／世界資料並安裝候選包，不先複製隨即刪掉的舊包。正式世界、回退備份與 QA DB 之間不共用可寫檔案。空間不足時在停服前拒絕新配置，清掉已結束的舊副本後再重試；不得靠刪除現行回退或改寫收據通過檢查。
 
-跨部署清理由 `tools/family_update.py --config <本機設定> cleanup-copies` 產生唯讀計畫，加入 `--execute` 才刪除。設定必須明列絕對路徑 `retention_root`；执行前在 host 讀取 `/proc/1/ns/pid` 的 symlink 字串並存入 `retention_pid_namespace`。执行及每次刪除前都核對該值，不能以 sandbox 的隔離 `/proc` 當作 host 已停止的證明。只有部署、准入、原生驗證、重啟、fresh saved-world 與停服備份 metadata 一致的已完成輸出才可退役；最新至少兩套完整回退、current policy／lease 與可追溯 JSON 證據仍引用的資料、失敗／未完成／有活動程序的輸出都保留。存在掛載、symlink、Git 或來源重疊的刪除目標拒絕處理。
+跨部署清理由 `tools/family_update.py --config <本機設定> cleanup-copies` 產生唯讀計畫，加入 `--execute` 才刪除。設定必須明列絕對路徑 `retention_root`；执行前在 host 讀取 `/proc/1/ns/pid` 的 symlink 字串並存入 `retention_pid_namespace`。执行及每次刪除前都核對該值，不能以 sandbox 的隔離 `/proc` 當作 host 已停止的證明。只有部署、准入、原生驗證、重啟、fresh saved-world 與停服備份 metadata 一致的已完成輸出才可退役；最新一份完整回退、current policy／lease 與可追溯 JSON 證據仍引用的資料、失敗／未完成／有活動程序的輸出都保留。存在掛載、symlink、Git 或來源重疊的刪除目標拒絕處理。
 
-清理只刪固定的候選 BP／RP、Exact／Saved QA DB／packs、舊 `production-snapshot`／`production-rollback`／staged 副本；保留原 JSON、日誌、收據與實作／來源資料。不新增封存，不重掃所有歷史世界的內容；只有本次確實要刪舊備份時，才在刪除邊界用既有逐檔收據核對保留的最新兩套快照／回退內容一次，後續刪除沿用該證據並核對其檔案 metadata 未變。`retired-copies.json` 另記錄計畫與結果，原准入收據不改；退役輸出禁止 resume／再部署，中斷後只能繼續同一份清理計畫。設定了 `retention_root` 的新部署成功後自動执行此保留策略；清理另用同一把 maintenance lock，清理失敗不會回退或停止已成功更新的 live。舊設定可用單獨的 cleanup 設定執行，不得改寫其既有發版 config／收據。
+清理只刪固定的候選 BP／RP、Exact／Saved QA DB／packs、舊 `production-snapshot`／`production-rollback`／staged 副本；保留原 JSON、日誌、收據與實作／來源資料。不新增封存，不重掃所有歷史世界的內容；只有本次確實要刪舊備份時，才在刪除邊界用既有逐檔收據核對保留的最新一份快照／回退內容一次，後續刪除沿用該證據並核對其檔案 metadata 未變。`retired-copies.json` 另記錄計畫與結果，原准入收據不改；退役輸出禁止 resume／再部署，中斷後只能繼續同一份清理計畫。設定了 `retention_root` 的新部署成功後自動执行此保留策略；清理另用同一把 maintenance lock，清理失敗不會回退或停止已成功更新的 live。舊設定可用單獨的 cleanup 設定執行，不得改寫其既有發版 config／收據。
 
 `family/cleanup-copies.service.example`／`.timer.example` 示範每小時一次 host 清理；本機設定保留在服務器，不提交憑證或私有驗證內容。定時清理沿用同一 canonical 入口、lock、namespace、policy 引用及保留策略；不能用另一份腳本绕過防護。
 
@@ -88,4 +88,4 @@ canonical 家族更新器在新建候選、原生驗證與停服前要求至少 
 
 ### 可重建 QA 引擎輸入
 
-`cleanup-engine-inputs` 在完成 `cleanup-copies` 後，退役沒有現行引用且有成功正常結束報告的 QA 執行檔與固定原版資料目錄。沿用 canonical maintenance lock、host namespace、掛載／symlink 與傳遞證據保護；有部署收據的引擎必須先完整退役，最新兩套回退仍保留。世界、observer來源、日誌和JSON不刪。每小時服務依序呼叫兩個入口，避免只清包卻永久累積整份引擎；退役副本禁止重啟，重驗用新隔離目錄。
+`cleanup-engine-inputs` 在完成 `cleanup-copies` 後，退役沒有現行引用且有成功正常結束報告的 QA 執行檔與固定原版資料目錄。沿用 canonical maintenance lock、host namespace、掛載／symlink 與傳遞證據保護；有部署收據的引擎必須先完整退役，最新一份回退仍保留。世界、observer來源、日誌和JSON不刪。每小時服務依序呼叫兩個入口，避免只清包卻永久累積整份引擎；退役副本禁止重啟，重驗用新隔離目錄。

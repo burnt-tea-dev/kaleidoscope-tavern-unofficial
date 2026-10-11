@@ -4,6 +4,10 @@
 版本仍由各自 canonical runtime 決定；本工具不凍結版本、不修改包內容，
 不替代 `family_bundle.py`、`family_guard.py` 或 BSM 准入。
 
+2026-10-11 使用者要求刪除繁瑣部署、多餘備份，以功能穩定可玩為優先。
+現行流程只做：**沿用來源 CI → 組裝與相依 → 停服備份一份 → 存檔副本載入／重啟 → 准入、更新與讀回**。
+BDS 與保存驗證共用同一次演練；不另建新世界再跑相同循環。預設只留最新一份完整回退。
+
 ## 精簡工作規則（使用者 2026-10-08）
 
 工作以玩家遇到的問題及原作行為為單位，不以增加測試數、收據數或版本數為進度。
@@ -39,20 +43,14 @@ active world、summary 名稱及 `server.properties` 原始 bytes，防止停 A 
 LevelDB Python adapter；`gh` 需已有正常的唯讀 GitHub 認證。缺少依賴會在停服前拒絕。
 不要解析 venv Python 的符號連結改用系統 Python，也不要使用 `-O`。
 
-```sh
-/path/to/venv/bin/python tools/family_update.py --config /local/update.json plan
-/path/to/venv/bin/python tools/family_update.py --config /local/update.json prepare --execute
-/path/to/venv/bin/python tools/family_update.py --config /local/update.json deploy --execute
-```
-
-已存在本輪 live 開發持續授權時，可用單一命令完成上述流程：
+已有 live 開發持續授權時，以單一命令完成：
 
 ```sh
 /path/to/venv/bin/python tools/family_update.py --config /local/update.json update --execute
 ```
 
 沒有 `--execute` 時只顯示計畫，不建立候選、不停服、不寫政策。`prepare` 不修改 live；
-`deploy` 仍必須通過來源、static、BDS、fresh saved-world、canonical／BSM admission。
+`prepare` 完成來源、組裝與 static；`deploy` 從本次停服備份完成一次 BDS／保存演練與 canonical／BSM admission。
 來源必須是乾淨、與遠端相符的 main，執行中的工具 bytes 也必須與 canonical 相符。
 
 私有整合正在更新外部AMW相依而尚未完成完整驗證時，可以canonical家族鎖的
@@ -68,7 +66,7 @@ LevelDB Python adapter；`gh` 需已有正常的唯讀 GitHub 認證。缺少依
 | live 清單快照 | 同一輸出目錄已有完整 capture | live 全檔、順序、政策、localization index、server properties、引擎仍相同 |
 | 完整家族組裝 | 同候選已成功生成 | 三庫與 extension 的提交／tree／baseline、家族鎖、組裝器、設定、runner、候選全檔仍相同 |
 | 功能檢查 | 已合併 PR 的真實 GitHub checks | 完整 PR Git tree 等於本機 main；必要 GitHub Actions checks 都 success；任何失敗／未完成的附加 check 也拒絕 |
-| 新世界 BDS 首次＋重啟 | 同候選、場景、引擎與完整輸入的成功報告 | 原始 log hash、兩個不同 phase、server／家族初始化、0 玩家／0 錯誤；builtin packs、definitions 與 engine config 不得漂移 |
+| 存檔副本 BDS 首次＋重啟 | 同一部署的 BDS／保存欄位共用一份報告 | 本次停服備份、候選、引擎、原始 logs、零玩家／零錯誤、玩家與容器資料保留；不跨部署沿用舊存檔 |
 | 已部署的同一候選 | 完整 live bytes、版號、顺序與政策仍匹配 | 再次呼叫不重啟；來源或 live 已改則拒絕將舊候選當目前版本 |
 
 GitHub 檢查是實際執行的功能測試證據，不再為了填收據在本機重跑同一套。
@@ -89,7 +87,7 @@ cache 重用只適用於同一份不可變候選。不是只看版號、mtime、
 每次真正改 live 都取得 maintenance lock／lease，確認最初為 RUNNING，正常停服，
 建立全檔一致備份，從**本次**備份建立隔離世界，載入同一個候選並重啟。
 `bds` 和 `saved_world_migration` 共同引用這次保存檔演練，不因有兩個欄位再多跑一次。
-新世界初始化與既有世界保存資料是兩個場景，各自首次＋重啟仍保留。
+取消額外新世界首次＋重啟。每次保留一份完整回退，新部署成功後退役更舊且未被引用的副本。
 
 實際安裝前重新比對來源、存檔未被包安裝改寫、完整收據與相依，登記本候選的
 `deferred_client_acceptance`，並執行 canonical 與 BSM guard。原始組裝收據不改寫；
