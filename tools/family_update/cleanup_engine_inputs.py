@@ -162,6 +162,10 @@ def diagnostic_targets(engine, root, mounts):
         for side, names in (('behavior_packs', ('structures',)),
                             ('resource_packs', ('textures', 'sounds'))):
             pack_root = base / side
+            # Shared vanilla engine inputs are not copies or deletion targets.
+            # World inputs are validated by _walk above and still reject links.
+            if base == engine and pack_root.is_symlink():
+                continue
             if not pack_root.exists():
                 continue
             retention._walk(pack_root, root, mounts)
