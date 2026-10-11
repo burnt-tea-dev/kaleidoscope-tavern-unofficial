@@ -167,7 +167,11 @@ class EngineInputCleanup(unittest.TestCase):
         db.mkdir(parents=True)
         (db / '000001.ldb').write_bytes(b'temporary database')
         (db / 'CURRENT').write_text('MANIFEST-000001')
+        (db / 'MANIFEST-000001').write_bytes(b'temporary DB manifest')
         (db / 'LOG').write_text('original DB diagnostic log')
+        (db / 'MANIFEST.json').write_text('{"diagnostic":true}')
+        (db / 'MANIFEST-1.json').write_text('{"diagnostic":true}')
+        (db / 'observer.js').write_text('unique DB observer source')
         pack = world / 'behavior_packs/uuid'
         (pack / 'scripts').mkdir(parents=True)
         (pack / 'scripts/observer.js').write_text('unique observer source')
@@ -192,11 +196,13 @@ class EngineInputCleanup(unittest.TestCase):
         self.assertFalse((pack / 'structures/hall.mcstructure').exists())
         self.assertTrue(result['test_world_database_files_removed'])
         for path in [db / 'LOG', pack / 'scripts/observer.js', pack / 'structures/metadata.json',
+                     db / 'MANIFEST.json', db / 'MANIFEST-1.json', db / 'observer.js',
                      pack / 'manifest.json', pack / 'models/diagnostic.png', self.engine / 'first.log']:
             self.assertTrue(path.exists(), str(path))
         self.assertEqual(self.report.read_bytes(), original_report)
         marker = json.loads((self.engine / cleanup.MARKER).read_text())
         self.assertIsNone(marker['report'])
+        self.assertFalse(marker['qa_closed'])
         self.assertFalse(marker['diagnostic_retirement']['reports'][0]['original_status']['ok'])
 
     def test_explicit_unknown_report_requires_review_and_preserves_source(self):
@@ -334,6 +340,117 @@ class EngineInputCleanup(unittest.TestCase):
                                         str(self.engine / 'observer-config.json').encode() + b'\0')
         with self.assertRaisesRegex(RuntimeError, 'active process'):
             cleanup.assert_idle(self.engine, self.root / 'proc')
+
+    def test_mixed_assets_and_db_are_one_exact_group_without_per_image_guards(self):
+        db, pack = self.diagnostic_world()
+        rp = self.engine / 'worlds/QA/resource_packs/uuid'
+        textures = rp / 'textures'
+        textures.mkdir(parents=True)
+        (textures / 'item_texture.json').write_text('retained atlas source')
+        (textures / 'observer.js').write_text('retained observer source')
+        for i in range(32):
+            (textures / f'{i}.png').write_bytes(b'copied image')
+        review = self.retirement_list()
+        plan = cleanup.plan(self.root, self.context, retire_diagnostics=review)
+        groups = [t for t in plan['selected'][0]['targets'] if 'selected_files' in t]
+        self.assertEqual(len(groups), 1)
+        self.assertEqual(groups[0]['path'], str(self.engine / 'worlds'))
+        self.assertEqual(len(groups[0]['selected_files']), 36)
+        with patch.object(cleanup, 'assert_idle', wraps=cleanup.assert_idle) as idle:
+            result = cleanup.execute(plan, lambda: self.context)
+        self.assertLessEqual(idle.call_count, 4)
+        self.assertTrue((textures / 'item_texture.json').exists())
+        self.assertTrue((textures / 'observer.js').exists())
+        self.assertTrue((db / 'LOG').exists())
+        self.assertTrue((db / 'MANIFEST-1.json').exists())
+        self.assertFalse((db / 'MANIFEST-000001').exists())
+        self.assertNotIn(str(self.engine / 'worlds'), result['deleted'])
+        self.assertNotIn(str(textures), result['deleted'])
+        self.assertTrue(self.engine.joinpath('worlds').is_dir())
+
+    def test_changed_leaf_mid_group_records_only_successful_removals_and_resumes(self):
+        self.report.write_text(json.dumps({'ok': False, 'normal_stop': True, 'exit_code': 0, 'errors': ['original failure']}))
+        original_report = self.report.read_bytes()
+        db, pack = self.diagnostic_world()
+        review = self.retirement_list()
+        plan = cleanup.plan(self.root, self.context, retire_diagnostics=review)
+        group = next(t for t in plan['selected'][0]['targets'] if 'selected_files' in t)
+        first, second = [Path(group['path']) / rel for rel in group['selected_files'][:2]]
+        before = second.stat()
+        original_unlink = os.unlink
+        fired = False
+        def unlink_then_change(path, *args, **kwargs):
+            nonlocal fired
+            original_unlink(path, *args, **kwargs)
+            if kwargs.get('dir_fd') is not None and not fired:
+                fired = True
+                second.write_bytes(b'x' * before.st_size)
+                os.utime(second, ns=(before.st_atime_ns, before.st_mtime_ns))
+        with patch.object(cleanup.os, 'unlink', side_effect=unlink_then_change):
+            with self.assertRaisesRegex(RuntimeError, 'leaf changed'):
+                cleanup.execute(plan, lambda: self.context)
+        marker = json.loads((self.engine / cleanup.MARKER).read_text())
+        self.assertEqual(marker['state'], 'retiring')
+        self.assertIn(str(first), marker['removed'])
+        self.assertNotIn(str(second), marker['removed'])
+        self.assertNotIn(group['path'], marker['removed'])
+        self.assertTrue(second.exists())
+        self.assertEqual(self.report.read_bytes(), original_report)
+        # The new plan binds the remaining generated leaf's new metadata.
+        resumed = cleanup.plan(self.root, self.context, retire_diagnostics=review)
+        row = resumed['selected'][0]
+        self.assertIn(str(first), row['previous_removed'])
+        self.assertFalse((self.engine / 'bedrock_server').exists())
+        result = cleanup.execute(resumed, lambda: self.context)
+        self.assertIn(str(second), result['deleted'])
+        marker = json.loads((self.engine / cleanup.MARKER).read_text())
+        self.assertEqual(marker['state'], 'retired')
+        self.assertIn(str(first), marker['previous_removed'])
+        self.assertNotIn(str(first), marker['removed'])
+        self.assertNotIn(group['path'], marker['removed'])
+        self.assertEqual(self.report.read_bytes(), original_report)
+        self.assertTrue((db / 'LOG').exists())
+
+    def test_mid_group_git_and_parent_symlink_changes_preserve_source_assets(self):
+        db, pack = self.diagnostic_world()
+        (pack / 'structures/00-first.mcstructure').write_bytes(b'first generated asset')
+        review = self.retirement_list()
+        plan = cleanup.plan(self.root, self.context, retire_diagnostics=review)
+        original_unlink = os.unlink
+        fired = False
+        def unlink_then_git(path, *args, **kwargs):
+            nonlocal fired
+            original_unlink(path, *args, **kwargs)
+            if kwargs.get('dir_fd') is not None and not fired:
+                fired = True
+                (pack / '.git').mkdir()
+        with patch.object(cleanup.os, 'unlink', side_effect=unlink_then_git):
+            with self.assertRaisesRegex(RuntimeError, 'Git/source entry'):
+                cleanup.execute(plan, lambda: self.context)
+        asset = pack / 'structures/hall.mcstructure'
+        self.assertTrue(asset.exists())
+        (pack / '.git').rmdir()
+        # Recreate the first sorted leaf to change its parent before hall's turn.
+        (pack / 'structures/00-first.mcstructure').write_bytes(b'fresh first generated asset')
+        (db / '000002.ldb').write_bytes(b'additional generated data')
+        outside = self.root / 'outside-structures'
+        outside.mkdir()
+        (outside / 'hall.mcstructure').write_bytes(b'protected outside source')
+        plan = cleanup.plan(self.root, self.context, retire_diagnostics=review)
+        fired = False
+        def unlink_then_link(path, *args, **kwargs):
+            nonlocal fired
+            original_unlink(path, *args, **kwargs)
+            if kwargs.get('dir_fd') is not None and not fired:
+                fired = True
+                (pack / 'structures').rename(pack / 'kept-structures')
+                (pack / 'structures').symlink_to(outside, target_is_directory=True)
+        with patch.object(cleanup.os, 'unlink', side_effect=unlink_then_link):
+            with self.assertRaises(OSError):
+                cleanup.execute(plan, lambda: self.context)
+        self.assertEqual((outside / 'hall.mcstructure').read_bytes(), b'protected outside source')
+        self.assertTrue((pack / 'kept-structures/hall.mcstructure').exists())
+        self.assertTrue((pack / 'scripts/observer.js').exists())
 
 
 if __name__ == '__main__':
