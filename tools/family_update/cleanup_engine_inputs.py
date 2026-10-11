@@ -5,6 +5,7 @@ reviewed retirement lists may remove old diagnostic world DBs and binary assets.
 Uses the same lock, host namespace and transitive evidence guards as copy cleanup.
 """
 import argparse
+from contextlib import ExitStack
 import fcntl
 import filecmp
 import json
@@ -15,7 +16,6 @@ import stat
 
 from . import common as c
 from . import cleanup_copies, retention
-from .storage import assert_idle
 
 PAYLOAD = ('bedrock_server', 'definitions', 'behavior_packs', 'resource_packs',
            'world_templates', 'treatments', 'data', 'minecraftpe', 'config',
@@ -27,8 +27,13 @@ BINARY_ASSETS = {'.png', '.jpg', '.jpeg', '.tga', '.dds', '.ogg', '.wav',
                  '.mp3', '.fsb', '.mcstructure'}
 
 
+def assert_idle(engine, proc_root=Path('/proc')):
+    retention._assert_idle(engine, proc_root)
+
+
 def database_file(p):
-    return p.suffix in {'.ldb', '.sst'} or p.name in {'CURRENT', 'LOCK'} or p.name.startswith('MANIFEST-')
+    manifest = p.name.removeprefix('MANIFEST-') if p.name.startswith('MANIFEST-') else ''
+    return p.suffix in {'.ldb', '.sst'} or p.name in {'CURRENT', 'LOCK'} or (manifest.isascii() and manifest.isdigit())
 
 
 def reviewed_retirements(path, root, mounts):
@@ -66,6 +71,26 @@ def diagnostic_reports(engine, root, mounts):
                             'original_status': {key: value[key] for key in
                                                 ('ok', 'normal_stop', 'exit_code') if key in value}})
     return reports
+
+
+def previous_removals(engine, root, mounts):
+    marker = engine / MARKER
+    if not marker.exists():
+        return None, []
+    identity = [*retention._stat(marker), marker.lstat().st_ctime_ns]
+    value = retention._read(marker, root, mounts)
+    if not isinstance(value, dict):
+        raise ValueError('QA retirement marker must be an object')
+    if identity != [*retention._stat(marker), marker.lstat().st_ctime_ns]:
+        raise RuntimeError('QA retirement marker changed while reading')
+    removed = []
+    for name in ('previous_removed', 'removed'):
+        for path in value.get(name, []):
+            actual = retention._absolute(path)
+            if engine not in actual.parents:
+                raise ValueError('Recorded removal must remain under its QA engine')
+            removed.append(str(actual))
+    return identity, list(dict.fromkeys(removed))
 
 
 def overlap(a, b):
@@ -117,63 +142,104 @@ def target_metadata(p, root, mounts, generated_file=False):
         if generated_file:
             metadata['ctime_ns'] = s.st_ctime_ns
         return metadata
-    details = retention._walk(p, root, mounts)
+    details = retention._walk(p, root, mounts, identities=generated_file)
     metadata = {'path': str(p), 'metadata': retention._stat(p),
                 'allocated_bytes': details['allocated_bytes'], 'files': sorted(details['files'])}
     if generated_file:
-        metadata['file_metadata'] = {rel: [*retention._stat(p / rel), (p / rel).lstat().st_ctime_ns]
-                                     for rel in metadata['files']}
+        metadata.update({key: details[key] for key in
+                         ('file_metadata', 'file_allocated_bytes', 'directory_metadata')})
     return metadata
 
 
-def generated_targets(path, root, mounts, predicate):
-    """Remove only generated leaves; scripts, JSON, observer and log files stay."""
-    if not path.exists() or path.is_symlink():
-        return []
+def pack_asset_file(parts):
+    return (len(parts) >= 4 and Path(parts[-1]).suffix in BINARY_ASSETS and
+            ((parts[0] == 'behavior_packs' and parts[2] == 'structures') or
+             (parts[0] == 'resource_packs' and parts[2] in {'textures', 'sounds'})))
+
+
+def diagnostic_group(path, root, mounts, select):
     metadata = target_metadata(path, root, mounts, generated_file=True)
-    if path.is_file():
-        return [dict(metadata, diagnostic_generated=True)] if predicate(path) else []
-    if metadata['files'] and all(predicate(Path(rel)) for rel in metadata['files']):
-        return [dict(metadata, diagnostic_generated=True)]
-    targets = []
-    for child in path.iterdir():
-        if child.is_dir() or predicate(child):
-            targets += generated_targets(child, root, mounts, predicate)
-    return targets
+    selected = [rel for rel in metadata['files'] if select(Path(rel).parts)]
+    if not selected:
+        return []
+    seen, allocated = set(), 0
+    for rel in selected:
+        identity = tuple(metadata['file_metadata'][rel][:2])
+        if identity not in seen:
+            allocated += metadata['file_allocated_bytes'][rel]
+            seen.add(identity)
+    return [dict(metadata, diagnostic_generated=True, selected_files=selected,
+                 selected_allocated_bytes=allocated)]
 
 
 def diagnostic_targets(engine, root, mounts):
     targets = []
-    binary = lambda p: p.suffix in BINARY_ASSETS
     executable = engine / 'bedrock_server'
     if executable.exists() and not executable.is_symlink():
         targets.append(target_metadata(executable, root, mounts))
-    pack_roots = [engine]
     worlds = engine / 'worlds'
     if worlds.exists():
-        retention._walk(worlds, root, mounts)
-        for world in worlds.iterdir():
-            if not world.is_dir():
-                continue
-            # Do not remove whole worlds/packs: observer scripts and JSON remain.
-            targets += generated_targets(world / 'db', root, mounts, database_file)
-            pack_roots.append(world)
-    for base in pack_roots:
-        for side, names in (('behavior_packs', ('structures',)),
-                            ('resource_packs', ('textures', 'sounds'))):
-            pack_root = base / side
-            # Shared vanilla engine inputs are not copies or deletion targets.
-            # World inputs are validated by _walk above and still reject links.
-            if base == engine and pack_root.is_symlink():
-                continue
-            if not pack_root.exists():
-                continue
-            retention._walk(pack_root, root, mounts)
-            for pack in pack_root.iterdir():
-                if pack.is_dir():
-                    for name in names:
-                        targets += generated_targets(pack / name, root, mounts, binary)
+        def world_file(parts):
+            return (len(parts) >= 3 and parts[1] == 'db' and database_file(Path(parts[-1]))) or pack_asset_file(parts[1:])
+        targets += diagnostic_group(worlds, root, mounts, world_file)
+    for side in ('behavior_packs', 'resource_packs'):
+        pack_root = engine / side
+        # Shared vanilla inputs are not copied targets. Worlds still reject links.
+        if pack_root.is_symlink() or not pack_root.exists():
+            continue
+        targets += diagnostic_group(pack_root, root, mounts,
+                                    lambda parts, side=side: pack_asset_file((side, *parts)))
     return targets
+
+
+def unlink_selected(target, root):
+    """One guarded group; each leaf uses pinned, no-follow directory descriptors."""
+    scope = Path(target['path'])
+    flags = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW
+    namespace = lambda info: [info.st_dev, info.st_ino, info.st_mode]
+    def check_git(fd):
+        try:
+            os.stat('.git', dir_fd=fd, follow_symlinks=False)
+        except FileNotFoundError:
+            return
+        raise RuntimeError('Git/source entry appeared before deleting a selected QA leaf')
+    with ExitStack() as scope_handles:
+        fd = os.open(scope.anchor, flags)
+        scope_handles.callback(os.close, fd)
+        directory, ancestors = Path(scope.anchor), []
+        for part in scope.parts[1:]:
+            fd = os.open(part, flags, dir_fd=fd)
+            scope_handles.callback(os.close, fd)
+            directory /= part
+            if directory == root or root in directory.parents:
+                check_git(fd)
+                ancestors.append((fd, namespace(os.fstat(fd))))
+        if namespace(os.fstat(fd)) != target['directory_metadata']['.']:
+            raise RuntimeError('Selected QA scope namespace changed')
+        for rel in target['selected_files']:
+            relative = Path(rel)
+            if relative.is_absolute() or '..' in relative.parts:
+                raise ValueError('Selected QA files must stay below their exact scope')
+            with ExitStack() as leaf_handles:
+                parent, opened, prefix = fd, [], Path('.')
+                for part in relative.parts[:-1]:
+                    parent = os.open(part, flags, dir_fd=parent)
+                    leaf_handles.callback(os.close, parent)
+                    prefix /= part
+                    expected = target['directory_metadata'][prefix.as_posix()]
+                    if namespace(os.fstat(parent)) != expected:
+                        raise RuntimeError('Selected QA leaf parent namespace changed')
+                    opened.append((parent, expected))
+                for handle, identity in [*ancestors, *opened]:
+                    if namespace(os.fstat(handle)) != identity:
+                        raise RuntimeError('Selected QA ancestor namespace changed')
+                    check_git(handle)
+                info = os.stat(relative.name, dir_fd=parent, follow_symlinks=False)
+                identity = [info.st_dev, info.st_ino, info.st_size, info.st_mtime_ns, info.st_ctime_ns]
+                if not stat.S_ISREG(info.st_mode) or identity != target['file_metadata'][rel]:
+                    raise RuntimeError('Selected QA leaf changed before unlink: ' + str(scope / rel))
+                os.unlink(relative.name, dir_fd=parent)
+                yield str(scope / rel)
 
 
 
@@ -339,15 +405,20 @@ def plan(root, context, comparison_cache=None, retire_diagnostics=None):
                 targets += asset_targets(engine, root, mounts, comparison_cache)
             if not targets:
                 raise ValueError('No real copied inputs or byte-identical asset directories')
+            marker_identity, previous = previous_removals(engine, root, mounts)
+            info = engine.lstat()
             selected.append({'engine': str(engine), 'report': proof,
                              'diagnostic_retirement': retirement,
+                             'engine_namespace': [info.st_dev, info.st_ino, info.st_mode],
+                             'marker_metadata': marker_identity, 'previous_removed': previous,
                              'managed_output': str(managed) if managed else None,
                              'deployment_binding': binding, 'targets': targets})
         except (OSError, ValueError, RuntimeError, KeyError, TypeError) as error:
             preserved.append({'engine': str(engine), 'reason': str(error)})
     return {'schema': 1, 'root': str(root), 'selected': selected, 'preserved': preserved,
             'reviewed_retirements': review,
-            'estimated_allocated_bytes': sum(t['allocated_bytes'] for r in selected for t in r['targets']),
+            'estimated_allocated_bytes': sum(t.get('selected_allocated_bytes', t['allocated_bytes'])
+                                            for r in selected for t in r['targets']),
             'newest_retained': deployments['newest_retained'],
             'disk_before': retention._disk(root), 'worlds_sources_logs_reports_removed': False}
 
@@ -388,49 +459,78 @@ def execute(planned, context_provider, comparison_cache=None):
         for report in retirement['reports'] if retirement else []:
             if retention._stat(Path(report['path'])) != report['metadata']:
                 raise RuntimeError('Original diagnostic report changed')
+        if previous_removals(engine, root, mounts) != (row['marker_metadata'], row['previous_removed']):
+            raise RuntimeError('QA retirement marker changed before recording removals')
         marker = engine / MARKER
-        c.atomic(marker, {'schema': 1, 'state': 'retiring', 'qa_closed': True,
-                          'report': row['report'], 'targets': row['targets'],
-                          'diagnostic_retirement': retirement,
-                          'worlds_sources_logs_reports_removed': False})
-        for target in row['targets']:
-            p = Path(target['path'])
-            current = context_provider()
-            current_guards, current_lease = retention._context(current['protected'], current['lease'], current['references'])
-            if current_lease.get('state') == 'active' or any(overlap(engine, guard) for guard in current_guards):
-                raise RuntimeError('Maintenance or evidence context changed before deleting QA input')
-            assert_idle(engine)
-            mounts = retention._mount_paths()
-            managed = ancestor_guard(engine, root, mounts)
-            if (str(managed) if managed else None) != row['managed_output']:
-                raise RuntimeError('Managed/source ancestry changed before deletion')
-            if reviewed_retirements(review_path, root, mounts) != review:
-                raise RuntimeError('Diagnostic retirement list changed before deletion')
-            for report in retirement['reports'] if retirement else []:
-                if retention._stat(Path(report['path'])) != report['metadata']:
-                    raise RuntimeError('Original diagnostic report changed before deletion')
-            # Recheck the complete deletion boundary; no content hash/suite rerun.
-            actual = target_metadata(p, root, mounts, generated_file=target.get('diagnostic_generated', False))
-            expected = {key: value for key, value in target.items()
-                        if key not in {'asset_reference', 'diagnostic_generated'}}
-            if actual != expected:
-                raise RuntimeError('QA input changed before deletion: ' + str(p))
-            asset = target.get('asset_reference')
-            if asset:
-                for rel, identities in asset['files'].items():
-                    if [retention._stat(p / rel), retention._stat(Path(asset['source']) / rel)] != identities:
-                        raise RuntimeError('Compared asset changed before deletion: ' + str(p / rel))
-            if p.is_dir():
-                shutil.rmtree(p)
-            else:
-                p.unlink()
-            result['deleted'].append(str(p))
-            if target.get('diagnostic_generated') and 'db' in p.relative_to(engine).parts:
-                result['test_world_database_files_removed'] = True
-        c.atomic(marker, {'schema': 1, 'state': 'retired', 'qa_closed': True,
-                          'report': row['report'], 'removed': [t['path'] for t in row['targets']],
-                          'diagnostic_retirement': retirement,
-                          'worlds_sources_logs_reports_removed': False})
+        removed, completed = [], False
+        marker_base = {'schema': 1, 'qa_closed': bool(row['report']), 'report': row['report'],
+                       'diagnostic_retirement': retirement,
+                       'previous_removed': row['previous_removed'],
+                       'worlds_sources_logs_reports_removed': False}
+        def save_marker(state):
+            fresh_mounts = retention._mount_paths()
+            current_managed = ancestor_guard(engine, root, fresh_mounts)
+            if (str(current_managed) if current_managed else None) != row['managed_output']:
+                raise RuntimeError('QA source ancestry changed before recording removals')
+            retention._safe_path(marker, root, fresh_mounts)
+            info = engine.lstat()
+            if [info.st_dev, info.st_ino, info.st_mode] != row['engine_namespace']:
+                raise RuntimeError('QA engine namespace changed before recording removals')
+            c.atomic(marker, {**marker_base, 'state': state,
+                              **({'targets': row['targets']} if state == 'retiring' else {}), 'removed': removed})
+        save_marker('retiring')
+        try:
+            for target in row['targets']:
+                p = Path(target['path'])
+                current = context_provider()
+                current_guards, current_lease = retention._context(current['protected'], current['lease'], current['references'])
+                if current_lease.get('state') == 'active' or any(overlap(engine, guard) for guard in current_guards):
+                    raise RuntimeError('Maintenance or evidence context changed before deleting QA input')
+                assert_idle(engine)
+                mounts = retention._mount_paths()
+                managed = ancestor_guard(p, root, mounts)
+                if (str(managed) if managed else None) != row['managed_output']:
+                    raise RuntimeError('Managed/source ancestry changed before deletion')
+                if reviewed_retirements(review_path, root, mounts) != review:
+                    raise RuntimeError('Diagnostic retirement list changed before deletion')
+                for report in retirement['reports'] if retirement else []:
+                    if retention._stat(Path(report['path'])) != report['metadata']:
+                        raise RuntimeError('Original diagnostic report changed before deletion')
+                # Recheck the complete group boundary; no hash/suite rerun.
+                actual = target_metadata(p, root, mounts, generated_file=target.get('diagnostic_generated', False))
+                expected = {key: value for key, value in target.items()
+                            if key not in {'asset_reference', 'diagnostic_generated',
+                                           'selected_files', 'selected_allocated_bytes'}}
+                if actual != expected:
+                    raise RuntimeError('QA input changed before deletion: ' + str(p))
+                asset = target.get('asset_reference')
+                if asset:
+                    for rel, identities in asset['files'].items():
+                        if [retention._stat(p / rel), retention._stat(Path(asset['source']) / rel)] != identities:
+                            raise RuntimeError('Compared asset changed before deletion: ' + str(p / rel))
+                if 'selected_files' in target:
+                    for leaf in unlink_selected(target, root):
+                        result['deleted'].append(leaf)
+                        removed.append(leaf)
+                        parts = Path(leaf).relative_to(engine).parts
+                        if len(parts) >= 4 and parts[0] == 'worlds' and parts[2] == 'db':
+                            result['test_world_database_files_removed'] = True
+                else:
+                    if p.is_dir():
+                        shutil.rmtree(p)
+                    else:
+                        p.unlink()
+                    result['deleted'].append(str(p))
+                    removed.append(str(p))
+                save_marker('retiring')
+            completed = True
+        finally:
+            # Never write a progress marker through a newly mounted/source path.
+            try:
+                save_marker('retired' if completed else 'retiring')
+            except (OSError, ValueError, RuntimeError):
+                if completed:
+                    raise
     result.update(state='completed', disk_after=retention._disk(root))
     return result
 
@@ -447,8 +547,9 @@ def main(argv=None):
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         c.lease_available()
         comparisons = {}
-        proposed = plan(root, cleanup_copies.execution_context(), comparisons, args.retire_diagnostics)
-        result = execute(proposed, cleanup_copies.execution_context, comparisons)
+        context = cleanup_copies.execution_context_provider()
+        proposed = plan(root, context(), comparisons, args.retire_diagnostics)
+        result = execute(proposed, context, comparisons)
         c.R.mkdir(parents=True, exist_ok=True)
         c.atomic(c.R / 'engine-input-cleanup.json', result)
         return result
