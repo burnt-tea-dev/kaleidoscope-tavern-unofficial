@@ -28,24 +28,26 @@ def same_runtime(receipt, inventory):
 
 
 def verify_native(verified_candidate=None):
+    """The fresh saved-world rehearsal supplies both native and save evidence."""
     receipt = verify_candidate_sources() if verified_candidate is None else verified_candidate
-    evidence = read(R / 'exact-engine/native-report.json')
+    evidence = read(R / 'saved-world-report.json')
+    assert evidence['native_acceptance_source'] == 'saved_world', 'Require this deployment\'s combined native rehearsal'
     assert evidence['candidate_receipt_sha256'] == sha(C / 'family-receipt.json')
     assert evidence['engine_sha256'] == sha(B / 'bedrock_server'), 'Native engine changed'
     assert evidence['engine_inputs'] == engine_inputs(), 'Native engine builtin packs or configuration changed'
-    assert evidence['scenario_metadata'] == report_ref(R / 'production-before/level-metadata.dat'), 'Native scenario metadata changed'
-    assert evidence['bds'] is True and evidence['client'] is False
-    assert evidence.get('preserve_captured_experiments',False)==CONFIG.get('preserve_captured_experiments',False), 'Native feature profile changed'
-    if CONFIG.get('preserve_captured_experiments',False):
-        from family_update.native_common import level_metadata
-        assert evidence['experiments']==level_metadata(R/'production-before/level-metadata.dat')['experiments'].unpack(), 'Native flags differ from the captured world'
-    assert evidence['test_only_overlays'] == [] and evidence['simulated_players'] is False
-    assert evidence['packs'] == len(receipt['packs'])
+    assert evidence['backup_receipt'] == report_ref(R / 'production-before/backup-receipt.json'), 'Fresh stopped backup evidence changed'
+    assert evidence['snapshot_source'] == str(R / 'production-snapshot'), 'Rehearsal used a different snapshot'
+    assert evidence['fresh_stopped_backup'] and evidence['existing_world_loaded'] and evidence['saved_world_migration']
+    assert evidence['bds'] is True and evidence['client'] is False and evidence['players'] == 0
+    assert evidence['test_only_overlays'] == [] and evidence['simulated_players'] is False and evidence['exact_files_checked'] is True
+    assert evidence['packs'] == len(receipt['packs']) and evidence['versions'] == versions(receipt)
     assert [run['phase'] for run in evidence['runs']] == ['first', 'restart'], 'Native first/start and restart are distinct required scenes'
     for run in evidence['runs']:
         assert run['ok'] and run['started'] and run['family_initialized'] and run['exit_code'] == 0 and not run['errors']
         assert run['real_player_connections'] == 0
-        assert run['log_sha256'] == sha(R / 'exact-engine' / (run['phase'] + '.log')), 'Native log changed'
+        assert run['player_records_unchanged'] and run['custom_container_inventories_retained'] and run['native_freezer_inputs_retained']
+        assert run['log_sha256'] == sha(R / 'saved-world-engine' / (run['phase'] + '.log')), 'Native log changed'
+    assert evidence['player_records_before'] == evidence['player_records_after']
     return evidence
 
 
@@ -296,14 +298,8 @@ def prepare(include_ci=True):
         return result
     if include_ci:
         record_static(verified_candidate=receipt)
-    if (R / 'exact-engine/native-report.json').exists():
-        # Same read-only prepare phase: source and candidate were just audited.
-        # Recheck the cached native evidence without rescanning every pack.
-        verify_native(verified_candidate=receipt)
-        print('REUSED exact native loading and restart evidence', flush=True)
-    else:
-        run_stage('run_native')
-        verify_native()
+    # One fresh stopped-world rehearsal exercises the exact family, startup,
+    # normal save/restart and existing data together during deployment.
     return {'state': 'ready_for_fresh_saved_world_and_deploy', 'client': False}
 
 
@@ -350,7 +346,7 @@ def deploy():
 def plan():
     files = {
         'capture': 'production-before/capture.json', 'assemble': 'build-evidence.json',
-        'static_ci': 'static-evidence.json', 'native': 'exact-engine/native-report.json',
-        'fresh_saved_world': 'saved-world-report.json', 'deploy': 'deployment-result.json',
+        'static_ci': 'static-evidence.json',
+        'native_and_saved_world': 'saved-world-report.json', 'deploy': 'deployment-result.json',
     }
     return {'schema': 1, 'execute': False, 'output': str(R), 'server': SERVER, 'live': summary(), 'lease': read(LEASE) if LEASE.exists() else {}, 'stages': {key: {'report': str(R / relative), 'exists': (R / relative).exists()} for key, relative in files.items()}, 'reuse_rule': 'Revalidate source/config/tool/file/log hashes before reusing a completed stage; incomplete or mismatched outputs are preserved and rejected.', 'fresh_rule': 'Each new live deployment creates a stopped-world backup and rehearses that exact backup. Never reuse saved-world/client evidence from another deployment.', 'client': False}

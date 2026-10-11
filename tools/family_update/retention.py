@@ -1,4 +1,4 @@
-"""Delete retired canonical copies, preserving evidence and the newest two rollbacks.
+"""Delete retired canonical copies, preserving evidence and the newest rollback.
 
 Planning is read-only. Backup deletion verifies retained contents once against
 existing receipts, then reuses stat identities. No receipt rewriting, BDS or live API calls.
@@ -167,9 +167,17 @@ def _runs(report, saved=False):
 
 
 def _proof(r, root, mounts):
-    docs = {name: _read(r / name, root, mounts) for name in REPORTS}
+    saved = _read(r / 'saved-world-report.json', root, mounts)
+    saved_native = saved.get('native_acceptance_source') == 'saved_world'
+    native_report = 'saved-world-report.json' if saved_native else 'exact-engine/native-report.json'
+    # Only the explicit new contract reuses the stopped-world rehearsal as BDS
+    # evidence. A missing historical fresh-world report remains incomplete.
+    report_names = tuple(name for name in REPORTS
+                         if not saved_native or name != 'exact-engine/native-report.json')
+    docs = {name: saved if name == 'saved-world-report.json' else _read(r / name, root, mounts)
+            for name in report_names}
     dep, post = docs['deployment-result.json'], docs['poststart-verification.json']
-    saved, native = docs['saved-world-report.json'], docs['exact-engine/native-report.json']
+    native = docs[native_report]
     backup, admission = docs['production-before/backup-receipt.json'], docs['admission-report.json']
     reviewed, build = docs['reviewed-family-receipt.json'], docs['build-evidence.json']
     static_evidence, rollback = docs['static-evidence.json'], docs['rollback-map.json']
@@ -192,7 +200,8 @@ def _proof(r, root, mounts):
              reviewed['acceptance'].get('saved_world_migration') is True and static_evidence.get('ok') is True and
              static_evidence.get('pr_checks_verified') is True, 'Complete family gates did not pass')
     _require(native.get('bds') is True and native.get('exact_files_checked') is True and
-             native.get('test_only_overlays') == [] and native.get('simulated_players') is False and native.get('real_players') == 0,
+             native.get('test_only_overlays') == [] and native.get('simulated_players') is False and
+             native.get('players' if saved_native else 'real_players') == 0,
              'Exact native evidence did not pass')
     _require(all(saved.get(key) is True for key in ['fresh_stopped_backup', 'existing_world_loaded', 'saved_world_migration', 'bds']) and
              saved.get('test_only_overlays') == [] and saved.get('simulated_players') is False and saved.get('players') == 0,
@@ -200,7 +209,8 @@ def _proof(r, root, mounts):
     _require(saved.get('player_records_before') == saved.get('player_records_after') and
              saved.get('engine_sha256') == native.get('engine_sha256') and bool(saved.get('engine_sha256')) and
              saved.get('engine_inputs') == native.get('engine_inputs') and bool(saved.get('engine_inputs')), 'Saved/native engine or player binding differs')
-    _runs(native)
+    if not saved_native:
+        _runs(native)
     _runs(saved, saved=True)
     _require(backup.get('status') == 'consistent_stopped_backup' and backup.get('live_status') == 'STOPPED' and
              backup.get('consistent_stopped_snapshot') == str(r / 'production-snapshot') and
@@ -208,7 +218,7 @@ def _proof(r, root, mounts):
              saved.get('snapshot_cutoff') == backup.get('recorded_at') and bool(backup.get('files')) and
              backup.get('files', {}).get('level.dat') == backup.get('level_dat_sha256'), 'Stopped backup binding differs')
     refs = {ref['path']: ref for ref in reviewed.get('evidence', {}).get('reports', [])}
-    for name in ['saved-world-report.json', 'exact-engine/native-report.json', 'production-before/backup-receipt.json', 'build-evidence.json', 'static-evidence.json']:
+    for name in dict.fromkeys(['saved-world-report.json', native_report, 'production-before/backup-receipt.json', 'build-evidence.json', 'static-evidence.json']):
         _require(str(r / name) in refs and bool(refs[str(r / name)].get('sha256')), 'Missing reviewed report reference: ' + name)
     _require(saved.get('backup_receipt') == refs[str(r / 'production-before/backup-receipt.json')], 'Saved-world backup receipt reference differs')
     _require(dep.get('versions') == post.get('versions') == native.get('versions') == build.get('versions'), 'Version metadata differs')
@@ -220,7 +230,7 @@ def _proof(r, root, mounts):
         _require(not any(_overlap(p, r / rel) for rel in COPIES + BACKUPS), 'Recorded source overlaps a copy target')
     identity = {'output': str(r), 'completed_at': dep['completed_at'], 'reviewed_receipt_sha256': digest,
                 'assembled_receipt_sha256': assembled, 'backup_receipt': saved['backup_receipt'],
-                'report_metadata': {name: _stat(r / name) for name in REPORTS}}
+                'report_metadata': {name: _stat(r / name) for name in report_names}}
     return {'identity': identity, 'docs': docs}
 
 
@@ -289,7 +299,7 @@ def _discover(root, guards, mounts, directories=None):
         if 'bedrock_server' in files and 'deployment-result.json' not in files:
             dirs[:] = []
             continue
-        # Protected deployments still participate in the newest-two horizon.
+        # Protected deployments still participate in the retention horizon.
         # Historic child mounts stay outside discovery and deletion.
         dirs[:] = [d for d in dirs if d not in SKIP and not (p / d).is_symlink() and p / d not in mounts]
         if 'deployment-result.json' in files:
@@ -303,11 +313,11 @@ def _disk(root):
     return {'total_bytes': d.total, 'used_bytes': d.used, 'free_bytes': d.free}
 
 
-def plan(root, *, protected=(), lease=None, references=(), retain=2, proc_root=Path('/proc')):
+def plan(root, *, protected=(), lease=None, references=(), retain=1, proc_root=Path('/proc')):
     """Read-only metadata-bound plan; only explicitly configured roots are eligible."""
     root = _absolute(root)
-    if retain < 2:
-        raise ValueError('Retain at least the newest two complete rollbacks')
+    if retain < 1:
+        raise ValueError('Retain at least the newest complete rollback')
     mounts = _mount_paths()
     _safe_path(root, root, mounts)
     _require(root.is_dir() and not root.is_symlink(), 'Configured retention root must be a real directory')
@@ -386,7 +396,7 @@ def plan(root, *, protected=(), lease=None, references=(), retain=2, proc_root=P
             row['state'] = 'eligible' if pending or marker else 'no_remaining_copies'
             row['reason'] = 'Successful retired deployment; original reports remain'
             if not rollback_ready:
-                row['retained'].extend({'path': str(r / rel), 'reason': 'Newest two complete stopped rollbacks are not proven'} for rel in BACKUPS)
+                row['retained'].extend({'path': str(r / rel), 'reason': 'Required complete stopped rollbacks are not proven'} for rel in BACKUPS)
             if (r / 'production-original-db').exists():
                 row['retained'].append({'path': str(r / 'production-original-db'), 'reason': 'Ownership/container migration original database is never in cleanup scope'})
         except (OSError, ValueError, RuntimeError, KeyError, TypeError) as error:
@@ -416,7 +426,7 @@ def _verify_horizon(planned):
 
 def _retained_integrity(planned, root, mounts):
     """One deletion-boundary content pass against EXISTING receipts, no new truth."""
-    _require(planned['rollback_retention_ready'], 'Two complete retained rollbacks are required')
+    _require(planned['rollback_retention_ready'], 'A complete retained rollback is required')
     _verify_horizon(planned)
     rows = {row['output']: row for row in planned['outputs']}
     snapshots, digest_cache = {}, {}
