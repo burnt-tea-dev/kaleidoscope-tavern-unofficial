@@ -1,7 +1,5 @@
 # T146: safe ingredient loading, native board inverse and bounded HUD continuity
 
-The text below preserves the original draft review and its evidence scope. T146/W123/G125 was subsequently deployed on 2026-10-11 after complete-family admission and fresh saved-world rehearsal; current sources and deployment evidence are in [the family baseline](../family/BASELINE-STATUS.md). Human client acceptance remains pending.
-
 Canonical base: T145 main `c18339024c5f3e45d54e521f08bc331d27c804c5`. Reviewed combined public source: `076ae8fd27d5158cc7572241f5b8c0d91e501f18`, tree `3569481a6627cf020307a986fefb49e07ba4934b`. All canonical T145 functionality is retained. The selected World Liquor lock and all five paired CI checkouts now use W123 source `d605518f6ff91265070751ab70ff491ccfcb10b6`, whose BP/RP require exact Tavern T146. This is a standalone candidate, not complete-family admission.
 
 ## Functional changes
