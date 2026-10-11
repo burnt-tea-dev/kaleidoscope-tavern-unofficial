@@ -1,6 +1,10 @@
-## Current maintained baseline: 0.6.147
+## Current merged source: 0.6.147
 
-T147 is a **draft source candidate**, paired with W124. Only the shaker progress hold changes from 100 to 200 ms; one-tick cursor motion stays 50 ms. Limited HUD200 diagnostic recordings improved continuity, with stationary end holds explicitly retained; physical input/packet timing and acceptance of the newly versioned formal pair remain unverified. No merge, release or LIVE change is included. See [draft scope](docs/RELEASE-NOTES-0.6.147.md).
+T147's bounded HUD200 repair is merged in [PR331](https://github.com/casama233/kaleidoscope-tavern-unofficial/pull/331). The shaker progress hold changes from 100 to 200 ms; one-tick cursor motion stays 50 ms. The same canonical owned files are being prepared for the T147/G128/W124 public releases and full-family LIVE update. At this preparation checkpoint, the original LIVE remains T146/G125/W123; actual deployment and acceptance stay indexed in [the family status](family/BASELINE-STATUS.md).
+
+Planned publication: [v0.6.147-beta.1 release](https://github.com/casama233/kaleidoscope-tavern-unofficial/releases/tag/v0.6.147-beta.1) and [the complete Tavern BP/RP download](https://github.com/casama233/kaleidoscope-tavern-unofficial/releases/download/v0.6.147-beta.1/Kaleidoscope_Tavern_Unofficial_0.6.147_baseline1.mcaddon). These links become available after explicit publication. [Publication preparation](docs/PUBLICATION-T147-G128-W124.md) records exact sources, dependency requirements and the public Cookery API assembly boundary.
+
+Limited HUD200 diagnostic recordings support improved continuity, with stationary end holds retained. They do not establish physical input/packet timing or complete acceptance of the newly versioned formal family. The [original diagnostic scope](docs/RELEASE-NOTES-0.6.147.md) stays unchanged.
 
 T146 combines the native board inverse, restricted-safe ingredient snapshots and bounded 100 ms shaker HUD hold on canonical T145. T146/W123/G125 was deployed on [private deployment time] after complete-family admission and a fresh saved-world first start and restart. Human client acceptance remains pending. Five earlier standalone HUD recordings retain their stated scope; while-held slot switching is inconclusive and same-second rapid restart remains untested. See [scope and validation](docs/RELEASE-NOTES-0.6.146.md).
 
@@ -16,7 +20,7 @@ A Bedrock port of [Kaleidoscope Tavern](https://github.com/KaleidoscopeMods/Kale
 
 - [T140 guide revision](docs/RELEASE-NOTES-0.6.140.md) retains all three languages and preparation details on demand, adds four reviewed AMW pages and shares the view through the optional Cookery entrance. T141 preserves this published guide and T139's native clock/reload, machine ingredient, Mob selection and immersion repairs.
 - [T132 repairs](docs/RELEASE-NOTES-0.6.132.md) share instant splash dispatch and source immunity, repair shaker input echoes and storage rollback, preserve Vision's living recipients and query order, and add scoped guide flipbooks, board escaping and shorter HUD expiry. [Current PR disposition](docs/audit/PR-DISPOSITIONS.md) is the single backlog index; native/client/live acceptance remains separate.
-- The deployed development baseline is Tavern **0.6.146**, World Liquor **0.1.123** and Grilling **2.8.125**. The [family lock](family/upstream.lock.json) and [current baseline index](family/BASELINE-STATUS.md) own exact source, dependency and bounded verification records.
+- The original LIVE at this preparation checkpoint is Tavern **0.6.146**, World Liquor **0.1.123** and Grilling **2.8.125**. The [family lock](family/upstream.lock.json) selects the new T147/G128/W124 candidate; the [current baseline index](family/BASELINE-STATUS.md) records actual deployments and bounded verification.
 - [baseline.json](baseline.json) owns package identity and exact dependencies; [CHANGELOG.md](CHANGELOG.md) records changes.
 - Bedrock 1.26.50 or newer; current load target BDS 1.26.52.3.
 - Enable both Tavern BP and RP. Cookery is optional; the reviewed family target is author Cookery1.6.0. World Liquor uses its exact paired Tavern version.
