@@ -1,3 +1,8 @@
+## 0.6.147 draft
+
+- Bound shaker progress visibility at 200 ms while preserving 50 ms cursor interpolation and shared-channel ownership.
+- Pair identity with World Liquor W124. Existing T146/W123 history and diagnostic failures remain intact; new formal-pair client acceptance is pending. See [scope](docs/RELEASE-NOTES-0.6.147.md).
+
 # Maintained changes
 
 ## 0.6.143
