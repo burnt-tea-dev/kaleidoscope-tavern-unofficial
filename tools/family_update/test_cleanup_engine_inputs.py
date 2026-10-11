@@ -325,6 +325,16 @@ class EngineInputCleanup(unittest.TestCase):
         self.assertTrue((pack / 'scripts/observer.js').exists())
         self.assertTrue(self.report.exists())
 
+    def test_argv_only_process_reference_prevents_engine_retirement(self):
+        process = self.root / 'proc/777777'
+        process.mkdir(parents=True)
+        # cwd/exe/fd do not reference the engine, but an open QA command does.
+        (process / 'cwd').symlink_to(self.root)
+        (process / 'cmdline').write_bytes(b'python\0--config=' +
+                                        str(self.engine / 'observer-config.json').encode() + b'\0')
+        with self.assertRaisesRegex(RuntimeError, 'active process'):
+            cleanup.assert_idle(self.engine, self.root / 'proc')
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -50,6 +50,11 @@
 明列清單不能退役任何有部署祖先的QA。沿用maintenance lock和host process namespace，
 清單、報告及生成檔案stat在刪除邊界重新核對，不重跑遊戲或全盤hash。
 
+同一次清理可沿用已解析的引用集合；每個刪除邊界仍核對所有JSON/config的full stat／ctime，
+以及source／reference的存在、inode／mode、解析結果和完整symlink鏈身份。
+正式世界正常autosave不改路徑身份時不失效；JSON內容、路徑身份或解析改變則拒絕並重新計畫。
+cache只存在本次呼叫內；lease、host namespace、掛載、活動程序（含argv）、目標資料仍逐次檢查。
+
 ## 避免重複工作
 
 本機只診斷具體失敗；完整套件交必要 CI。版本／檔案完整性核對是部署前提，不是玩法或畫面證據。沒有內容變更就不升包、不建立 QA 世界、不重啟 LIVE；工作區或文件整理只審閱差異。

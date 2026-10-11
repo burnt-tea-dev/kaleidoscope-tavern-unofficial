@@ -1,5 +1,6 @@
 """Current reference changes and cleanup failures never modify live deployment."""
 import json
+import os
 from pathlib import Path
 import sys
 import tempfile
@@ -110,6 +111,116 @@ class ContextTests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, 'Cleanup is partial'):
                 m.perform(execute=True)
         self.assertEqual(json.loads((m.c.R / 'retention-cleanup.json').read_text())['state'], 'partial')
+
+    def context_provider(self):
+        m.c.CONFIG['retention_pid_namespace'] = os.readlink('/proc/self/ns/pid')
+        self.write(self.config_path, m.c.CONFIG)
+        return m.execution_context_provider()
+
+    def test_invocation_reuses_json_parsing_and_tolerates_protected_world_autosave(self):
+        db = m.c.W / 'db'
+        db.mkdir(parents=True)
+        data = db / 'players.ldb'
+        data.write_bytes(b'original live data')
+        provider = self.context_provider()
+        with patch.object(m.c, 'read', wraps=m.c.read) as reads:
+            first = provider()
+            parsed = reads.call_count
+            data.write_bytes(data.read_bytes() + b'autosave append')
+            (db / 'new-chunk.ldb').write_bytes(b'normal live chunk creation')
+            self.assertEqual(provider(), first)
+            self.assertEqual(reads.call_count, parsed)
+        # A separate invocation parses again; this is not a permanent cache.
+        with patch.object(m.c, 'read', wraps=m.c.read) as reads:
+            m.execution_context_provider()()
+            self.assertGreater(reads.call_count, 0)
+
+    def test_transitive_json_same_size_rewrite_with_restored_mtime_invalidates_context(self):
+        newer = self.root / 'new-deployment/production-snapshot'
+        newer.mkdir(parents=True)
+        provider = self.context_provider()
+        provider()
+        before = self.report.stat()
+        changed = self.report.read_bytes().replace(b'old-deployment', b'new-deployment')
+        self.assertEqual(len(changed), before.st_size)
+        self.report.write_bytes(changed)
+        os.utime(self.report, ns=(before.st_atime_ns, before.st_mtime_ns))
+        with self.assertRaisesRegex(RuntimeError, 'context paths changed'):
+            provider()
+
+    def test_config_ctime_change_and_new_reference_are_never_reused(self):
+        provider = self.context_provider()
+        provider()
+        before = self.config_path.stat()
+        self.config_path.write_bytes(self.config_path.read_bytes())
+        os.utime(self.config_path, ns=(before.st_atime_ns, before.st_mtime_ns))
+        with self.assertRaisesRegex(RuntimeError, 'context paths changed'):
+            provider()
+        provider = m.execution_context_provider()
+        provider()
+        self.write(self.quality / 'senluo-policy.json', {'approved_receipt': str(self.root / 'different.json')})
+        with self.assertRaisesRegex(RuntimeError, 'context paths changed'):
+            provider()
+
+    def test_json_changed_during_initial_read_cannot_bind_old_context_to_new_stat(self):
+        provider = self.context_provider()
+        original_read = m.c.read
+        def raced_read(path):
+            value = original_read(path)
+            if Path(path) == self.report:
+                self.write(self.report, {'world_source': str(self.root / 'new-snapshot')})
+            return value
+        with patch.object(m.c, 'read', side_effect=raced_read):
+            with self.assertRaisesRegex(RuntimeError, 'changed while reading'):
+                provider()
+
+    def test_non_json_reference_missing_to_present_and_symlink_retarget_abort_reuse(self):
+        missing = self.root / 'future-snapshot'
+        self.write(self.report, {'world_source': str(missing)})
+        provider = self.context_provider()
+        provider()
+        missing.mkdir()
+        with self.assertRaisesRegex(RuntimeError, 'context paths changed'):
+            provider()
+        alias = self.root / 'snapshot-alias'
+        alias.symlink_to(self.snapshot, target_is_directory=True)
+        self.write(self.report, {'world_source': str(alias)})
+        provider = m.execution_context_provider()
+        provider()
+        alias.unlink()
+        alias.symlink_to(missing, target_is_directory=True)
+        with self.assertRaisesRegex(RuntimeError, 'context paths changed'):
+            provider()
+
+    def test_intermediate_symlink_replacement_is_detected_even_with_same_final_target(self):
+        middle = self.root / 'indirect/link'
+        middle.parent.mkdir()
+        middle.symlink_to(self.snapshot, target_is_directory=True)
+        alias = self.root / 'snapshot-alias'
+        alias.symlink_to(middle, target_is_directory=True)
+        self.write(self.report, {'world_source': str(alias)})
+        provider = self.context_provider()
+        provider()
+        original_alias = alias.lstat()
+        middle.unlink()
+        middle.symlink_to(self.snapshot, target_is_directory=True)
+        self.assertEqual(alias.resolve(), self.snapshot)
+        self.assertEqual(alias.lstat().st_ino, original_alias.st_ino)
+        with self.assertRaisesRegex(RuntimeError, 'context paths changed'):
+            provider()
+
+    def test_cached_context_still_checks_namespace_and_reads_new_lease_state(self):
+        self.write(m.c.LEASE, {'state': 'completed'})
+        provider = self.context_provider()
+        first = provider()
+        self.write(m.c.LEASE, {'state': 'active', 'output': str(self.root / 'working')})
+        current = provider()
+        self.assertEqual(current, first)
+        _, lease = m.retention._context(current['protected'], current['lease'], current['references'])
+        self.assertEqual(lease['state'], 'active')
+        with patch.object(m.os, 'readlink', return_value='pid:[different]'):
+            with self.assertRaisesRegex(RuntimeError, 'host process namespace'):
+                provider()
 
 
 if __name__ == '__main__':
