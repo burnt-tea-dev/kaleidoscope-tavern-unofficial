@@ -3,6 +3,7 @@ import json
 import hashlib
 import os
 from pathlib import Path
+import shutil
 import tempfile
 import unittest
 import sys
@@ -325,8 +326,9 @@ class EngineInputCleanup(unittest.TestCase):
                 asset.write_bytes(b'x' * before.st_size)
                 os.utime(asset, ns=(before.st_atime_ns, before.st_mtime_ns))
             return self.context
-        with self.assertRaisesRegex(RuntimeError, 'QA input changed'):
-            cleanup.execute(plan, context)
+        result = cleanup.execute(plan, context)
+        self.assertIn('QA input changed', result['preserved'][0]['reason'])
+        self.assertEqual(json.loads((self.engine / cleanup.MARKER).read_text())['state'], 'retiring')
         self.assertEqual(asset.read_bytes(), b'x' * before.st_size)
         self.assertTrue((pack / 'scripts/observer.js').exists())
         self.assertTrue(self.report.exists())
@@ -387,8 +389,8 @@ class EngineInputCleanup(unittest.TestCase):
                 second.write_bytes(b'x' * before.st_size)
                 os.utime(second, ns=(before.st_atime_ns, before.st_mtime_ns))
         with patch.object(cleanup.os, 'unlink', side_effect=unlink_then_change):
-            with self.assertRaisesRegex(RuntimeError, 'leaf changed'):
-                cleanup.execute(plan, lambda: self.context)
+            result = cleanup.execute(plan, lambda: self.context)
+        self.assertIn('leaf changed', result['preserved'][0]['reason'])
         marker = json.loads((self.engine / cleanup.MARKER).read_text())
         self.assertEqual(marker['state'], 'retiring')
         self.assertIn(str(first), marker['removed'])
@@ -451,6 +453,145 @@ class EngineInputCleanup(unittest.TestCase):
         self.assertEqual((outside / 'hall.mcstructure').read_bytes(), b'protected outside source')
         self.assertTrue((pack / 'kept-structures/hall.mcstructure').exists())
         self.assertTrue((pack / 'scripts/observer.js').exists())
+
+    def hardlinked_diagnostics(self):
+        source = self.root / 'retained/shared.png'
+        source.parent.mkdir()
+        source.write_bytes(b'immutable shared image')
+        source.chmod(0o644)
+        self.context['protected'] = [source.parent]
+        engines = [self.engine, self.root / 'task/next-probe', self.root / 'task/independent-probe']
+        assets = []
+        for i, engine in enumerate(engines):
+            engine.mkdir(parents=True, exist_ok=True)
+            (engine / 'bedrock_server').write_bytes(b'reproducible test engine')
+            folder = engine / 'worlds/QA/resource_packs/uuid/textures'
+            folder.mkdir(parents=True)
+            asset = folder / '00.png'
+            if i < 2:
+                os.link(source, asset)
+            else:
+                asset.write_bytes(b'independent copied image')
+            assets.append(asset)
+        second_alias = assets[0].with_name('01.png')
+        os.link(source, second_alias)
+        review = self.retirement_list()
+        review.write_text(json.dumps({'schema': 1, 'engines': [
+            {'engine': str(engine), 'reason': 'Reviewed superseded diagnostic'} for engine in engines]}))
+        return source, assets, second_alias, engines, review
+
+    def test_same_invocation_hardlink_unlinks_allow_same_group_and_later_engine(self):
+        source, assets, second_alias, engines, review = self.hardlinked_diagnostics()
+        original = source.stat()
+        plan = cleanup.plan(self.root, self.context, retire_diagnostics=review)
+        original_plan = json.dumps(plan, sort_keys=True)
+        result = cleanup.execute(plan, lambda: self.context)
+        self.assertEqual(result['preserved'], [])
+        for path in [*assets, second_alias]:
+            self.assertFalse(path.exists(), str(path))
+            self.assertIn(str(path), result['deleted'])
+        self.assertEqual(source.read_bytes(), b'immutable shared image')
+        self.assertEqual(source.stat().st_nlink, 1)
+        self.assertEqual((source.stat().st_ino, source.stat().st_size, source.stat().st_mtime_ns),
+                         (original.st_ino, original.st_size, original.st_mtime_ns))
+        self.assertEqual(json.dumps(plan, sort_keys=True), original_plan)
+        for engine in engines:
+            self.assertEqual(json.loads((engine / cleanup.MARKER).read_text())['state'], 'retired')
+
+    def assert_external_change_after_own_unlink_is_preserved(self, change):
+        source, assets, second_alias, engines, review = self.hardlinked_diagnostics()
+        plan = cleanup.plan(self.root, self.context, retire_diagnostics=review)
+        original_record = cleanup.UnlinkLedger.record
+        fired = False
+        def record_then_change(ledger, before, after, path):
+            nonlocal fired
+            original_record(ledger, before, after, path)
+            if path == assets[0] and not fired:
+                fired = True
+                change(second_alias)
+        with patch.object(cleanup.UnlinkLedger, 'record', record_then_change):
+            result = cleanup.execute(plan, lambda: self.context)
+        self.assertTrue(fired)
+        self.assertFalse(assets[0].exists())
+        self.assertTrue(second_alias.exists())
+        self.assertTrue(assets[1].exists())
+        self.assertFalse(assets[2].exists())
+        self.assertEqual({row['engine'] for row in result['preserved']}, set(map(str, engines[:2])))
+        marker = json.loads((engines[0] / cleanup.MARKER).read_text())
+        self.assertEqual(marker['state'], 'retiring')
+        self.assertIn(str(assets[0]), marker['removed'])
+        self.assertNotIn(str(second_alias), marker['removed'])
+        self.assertEqual(json.loads((engines[2] / cleanup.MARKER).read_text())['state'], 'retired')
+
+    def test_external_chmod_after_own_unlink_is_preserved_and_other_engine_continues(self):
+        self.assert_external_change_after_own_unlink_is_preserved(lambda p: p.chmod(0o600))
+
+    def test_external_same_size_rewrite_restored_mtime_after_own_unlink_is_preserved(self):
+        def rewrite(path):
+            before = path.stat()
+            path.write_bytes(b'x' * before.st_size)
+            os.utime(path, ns=(before.st_atime_ns, before.st_mtime_ns))
+        self.assert_external_change_after_own_unlink_is_preserved(rewrite)
+
+    def test_external_replacement_after_own_unlink_is_preserved_and_other_engine_continues(self):
+        def replace(path):
+            before = path.stat()
+            temporary = path.with_suffix('.replacement')
+            temporary.write_bytes(b'x' * before.st_size)
+            os.utime(temporary, ns=(before.st_atime_ns, before.st_mtime_ns))
+            temporary.replace(path)
+        self.assert_external_change_after_own_unlink_is_preserved(replace)
+
+    def test_failed_post_unlink_proof_records_actual_removal_without_ledger_entry(self):
+        source, assets, second_alias, engines, review = self.hardlinked_diagnostics()
+        shared_identity = (source.stat().st_dev, source.stat().st_ino)
+        ledger = cleanup.UnlinkLedger()
+        plan = cleanup.plan(self.root, self.context, retire_diagnostics=review)
+        original_unlink = os.unlink
+        fired = False
+        def unlink_then_chmod(path, *args, **kwargs):
+            nonlocal fired
+            original_unlink(path, *args, **kwargs)
+            if kwargs.get('dir_fd') is not None and not fired:
+                fired = True
+                source.chmod(0o600)
+        with patch.object(cleanup.os, 'unlink', side_effect=unlink_then_chmod), \
+                patch.object(cleanup, 'UnlinkLedger', return_value=ledger):
+            result = cleanup.execute(plan, lambda: self.context)
+        self.assertNotIn(shared_identity, ledger.inodes)
+        self.assertIn(str(assets[0]), result['deleted'])
+        marker = json.loads((engines[0] / cleanup.MARKER).read_text())
+        self.assertIn(str(assets[0]), marker['removed'])
+        self.assertEqual(marker['state'], 'retiring')
+        self.assertTrue(second_alias.exists())
+        self.assertTrue(assets[1].exists())
+        self.assertFalse(assets[2].exists())
+        self.assertEqual({row['engine'] for row in result['preserved']}, set(map(str, engines[:2])))
+
+    def test_disappeared_target_preserves_engine_and_continues_next_engine(self):
+        source, assets, second_alias, engines, review = self.hardlinked_diagnostics()
+        plan = cleanup.plan(self.root, self.context, retire_diagnostics=review)
+        original_target_metadata = cleanup.target_metadata
+        fired = False
+        def remove_target_at_boundary(path, *args, **kwargs):
+            nonlocal fired
+            if path == self.engine / 'worlds' and not fired:
+                fired = True
+                shutil.rmtree(path)
+            return original_target_metadata(path, *args, **kwargs)
+        # The replan completes before the missing target is introduced.
+        original_plan = cleanup.plan
+        latest = original_plan(self.root, self.context, retire_diagnostics=review)
+        with patch.object(cleanup, 'plan', return_value=latest), \
+                patch.object(cleanup, 'target_metadata', side_effect=remove_target_at_boundary):
+            result = cleanup.execute(plan, lambda: self.context)
+        self.assertTrue(fired)
+        self.assertIn(str(self.engine), {row['engine'] for row in result['preserved']})
+        # External removal of shared aliases changes nlink/ctime, so the second
+        # engine is also preserved, while the independent engine still retires.
+        self.assertTrue(assets[1].exists())
+        self.assertFalse(assets[2].exists())
+        self.assertEqual(json.loads((self.engine / cleanup.MARKER).read_text())['state'], 'retiring')
 
 
 if __name__ == '__main__':

@@ -27,6 +27,70 @@ BINARY_ASSETS = {'.png', '.jpg', '.jpeg', '.tga', '.dds', '.ogg', '.wav',
                  '.mp3', '.fsb', '.mcstructure'}
 
 
+class QAInputChanged(RuntimeError):
+    """Preserve this engine's remaining inputs without weakening global guards."""
+
+
+def leaf_identity(info):
+    return [info.st_dev, info.st_ino, info.st_size, info.st_mtime_ns,
+            info.st_ctime_ns, info.st_nlink]
+
+
+class UnlinkLedger:
+    """Exact inode transitions proved by our own unlinks in this invocation."""
+    def __init__(self):
+        self.inodes = {}
+
+    @staticmethod
+    def fingerprint(info):
+        return (info.st_dev, info.st_ino, info.st_size, info.st_mtime_ns,
+                info.st_mode, info.st_uid, info.st_gid)
+
+    def matches(self, expected, actual):
+        entry = self.inodes.get(tuple(expected[:2]))
+        if entry is None:
+            return expected == actual
+        return (tuple(expected) in entry['versions'] and
+                actual == entry['current'])
+
+    def verify(self, expected, info, path):
+        entry = self.inodes.get(tuple(expected[:2]))
+        if (not stat.S_ISREG(info.st_mode) or
+                not self.matches(expected, leaf_identity(info)) or
+                (entry is not None and self.fingerprint(info) != entry['fingerprint'])):
+            raise QAInputChanged('Selected QA leaf changed before unlink: ' + str(path))
+
+    def record(self, before, after, path):
+        identity = leaf_identity(before)
+        entry = self.inodes.get(tuple(identity[:2]))
+        if (self.fingerprint(before) != self.fingerprint(after) or
+                after.st_nlink != before.st_nlink - 1 or
+                (entry is not None and (identity != entry['current'] or
+                                       self.fingerprint(before) != entry['fingerprint']))):
+            raise QAInputChanged('Selected QA inode changed across unlink: ' + str(path))
+        if after.st_nlink == 0:
+            # No alias remains to validate; do not retain every unique inode.
+            self.inodes.pop(tuple(identity[:2]), None)
+            return
+        if entry is None:
+            entry = {'fingerprint': self.fingerprint(before), 'versions': {tuple(identity)}}
+            self.inodes[tuple(identity[:2])] = entry
+        entry['current'] = leaf_identity(after)
+        entry['versions'].add(tuple(entry['current']))
+
+
+def matching_target(actual, expected, ledger):
+    if actual is None or actual.keys() != expected.keys():
+        return False
+    if any(actual[key] != expected[key] for key in expected if key != 'file_metadata'):
+        return False
+    if 'file_metadata' not in expected:
+        return True
+    original, current = expected['file_metadata'], actual['file_metadata']
+    return (original.keys() == current.keys() and
+            all(ledger.matches(identity, current[rel]) for rel, identity in original.items()))
+
+
 def assert_idle(engine, proc_root=Path('/proc')):
     retention._assert_idle(engine, proc_root)
 
@@ -192,7 +256,7 @@ def diagnostic_targets(engine, root, mounts):
     return targets
 
 
-def unlink_selected(target, root):
+def unlink_selected(target, root, ledger, record_removed):
     """One guarded group; each leaf uses pinned, no-follow directory descriptors."""
     scope = Path(target['path'])
     flags = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW
@@ -223,7 +287,10 @@ def unlink_selected(target, root):
             with ExitStack() as leaf_handles:
                 parent, opened, prefix = fd, [], Path('.')
                 for part in relative.parts[:-1]:
-                    parent = os.open(part, flags, dir_fd=parent)
+                    try:
+                        parent = os.open(part, flags, dir_fd=parent)
+                    except FileNotFoundError as error:
+                        raise QAInputChanged('Selected QA leaf parent disappeared: ' + str(scope / rel)) from error
                     leaf_handles.callback(os.close, parent)
                     prefix /= part
                     expected = target['directory_metadata'][prefix.as_posix()]
@@ -234,12 +301,31 @@ def unlink_selected(target, root):
                     if namespace(os.fstat(handle)) != identity:
                         raise RuntimeError('Selected QA ancestor namespace changed')
                     check_git(handle)
-                info = os.stat(relative.name, dir_fd=parent, follow_symlinks=False)
-                identity = [info.st_dev, info.st_ino, info.st_size, info.st_mtime_ns, info.st_ctime_ns]
-                if not stat.S_ISREG(info.st_mode) or identity != target['file_metadata'][rel]:
-                    raise RuntimeError('Selected QA leaf changed before unlink: ' + str(scope / rel))
-                os.unlink(relative.name, dir_fd=parent)
-                yield str(scope / rel)
+                leaf = scope / rel
+                try:
+                    handle = os.open(relative.name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK,
+                                     dir_fd=parent)
+                except FileNotFoundError as error:
+                    raise QAInputChanged('Selected QA leaf disappeared: ' + str(leaf)) from error
+                leaf_handles.callback(os.close, handle)
+                info = os.fstat(handle)
+                ledger.verify(target['file_metadata'][rel], info, leaf)
+                # The name must still refer to the inode pinned by the leaf fd.
+                try:
+                    named = os.stat(relative.name, dir_fd=parent, follow_symlinks=False)
+                except FileNotFoundError as error:
+                    raise QAInputChanged('Selected QA leaf disappeared: ' + str(leaf)) from error
+                if leaf_identity(named) != leaf_identity(info):
+                    raise QAInputChanged('Selected QA leaf name changed before unlink: ' + str(leaf))
+                try:
+                    os.unlink(relative.name, dir_fd=parent)
+                except FileNotFoundError as error:
+                    raise QAInputChanged('Selected QA leaf disappeared: ' + str(leaf)) from error
+                # Record the actual unlink before even the post-unlink fstat:
+                # a failed postcondition must not lose its removal audit.
+                record_removed(str(leaf))
+                after = os.fstat(handle)
+                ledger.record(info, after, leaf)
 
 
 
@@ -439,6 +525,7 @@ def execute(planned, context_provider, comparison_cache=None):
     if latest.get('reviewed_retirements') != review:
         raise RuntimeError('Diagnostic retirement list changed; plan again')
     eligible = {r['engine']: r for r in latest['selected']}
+    ledger = UnlinkLedger()
     for row in planned['selected']:
         engine = Path(row['engine'])
         if eligible.get(str(engine)) != row:
@@ -497,24 +584,28 @@ def execute(planned, context_provider, comparison_cache=None):
                     if retention._stat(Path(report['path'])) != report['metadata']:
                         raise RuntimeError('Original diagnostic report changed before deletion')
                 # Recheck the complete group boundary; no hash/suite rerun.
-                actual = target_metadata(p, root, mounts, generated_file=target.get('diagnostic_generated', False))
+                try:
+                    actual = target_metadata(p, root, mounts, generated_file=target.get('diagnostic_generated', False))
+                except FileNotFoundError as error:
+                    raise QAInputChanged('QA input disappeared before deletion: ' + str(p)) from error
                 expected = {key: value for key, value in target.items()
                             if key not in {'asset_reference', 'diagnostic_generated',
                                            'selected_files', 'selected_allocated_bytes'}}
-                if actual != expected:
-                    raise RuntimeError('QA input changed before deletion: ' + str(p))
+                if not matching_target(actual, expected, ledger):
+                    raise QAInputChanged('QA input changed before deletion: ' + str(p))
                 asset = target.get('asset_reference')
                 if asset:
                     for rel, identities in asset['files'].items():
                         if [retention._stat(p / rel), retention._stat(Path(asset['source']) / rel)] != identities:
                             raise RuntimeError('Compared asset changed before deletion: ' + str(p / rel))
                 if 'selected_files' in target:
-                    for leaf in unlink_selected(target, root):
+                    def record_removed(leaf):
                         result['deleted'].append(leaf)
                         removed.append(leaf)
                         parts = Path(leaf).relative_to(engine).parts
                         if len(parts) >= 4 and parts[0] == 'worlds' and parts[2] == 'db':
                             result['test_world_database_files_removed'] = True
+                    unlink_selected(target, root, ledger, record_removed)
                 else:
                     if p.is_dir():
                         shutil.rmtree(p)
@@ -524,6 +615,8 @@ def execute(planned, context_provider, comparison_cache=None):
                     removed.append(str(p))
                 save_marker('retiring')
             completed = True
+        except QAInputChanged as error:
+            result['preserved'].append({'engine': str(engine), 'path': str(p), 'reason': str(error)})
         finally:
             # Never write a progress marker through a newly mounted/source path.
             try:
