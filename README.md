@@ -1,8 +1,8 @@
 ## Current maintained baseline: 0.6.146
 
-T146 combines the native board inverse, restricted-safe ingredient snapshots and bounded 100 ms shaker HUD hold on canonical T145. Five recorded standalone HUD scenes are positive within their stated scope; while-held slot switching is inconclusive and same-second rapid restart remains untested. Earlier unpublished candidates stay frozen as evidence. No full-family or LIVE acceptance is claimed. See [scope and validation](docs/RELEASE-NOTES-0.6.146.md).
+T146 combines the native board inverse, restricted-safe ingredient snapshots and bounded 100 ms shaker HUD hold on canonical T145. T146/W123/G125 was deployed on [private deployment time] after complete-family admission and a fresh saved-world first start and restart. Human client acceptance remains pending. Five earlier standalone HUD recordings retain their stated scope; while-held slot switching is inconclusive and same-second rapid restart remains untested. See [scope and validation](docs/RELEASE-NOTES-0.6.146.md).
 
-The actual deployed family and its source, CI, native and saved-world evidence are indexed in [family/BASELINE-STATUS.md](family/BASELINE-STATUS.md). Human client acceptance remains pending; historical notes keep their original scope.
+The actual deployed family and its source, CI, native and saved-world evidence are indexed in [family/BASELINE-STATUS.md](family/BASELINE-STATUS.md). Human client acceptance remains pending; the release notes preserve their original draft-review scope and point-in-time status.
 
 T144 addresses the client's four duplicate board input boxes and reported board-text displacement (deployed [private deployment time]); rendered input, focus and placement still require human confirmation. T145 identifies the held shaker from the live hand when a native use event copy omits its dynamic-property value. See [the repair scope](docs/RELEASE-NOTES-0.6.145.md); real-client shaking still requires human confirmation.
 
@@ -14,7 +14,7 @@ A Bedrock port of [Kaleidoscope Tavern](https://github.com/KaleidoscopeMods/Kale
 
 - [T140 guide revision](docs/RELEASE-NOTES-0.6.140.md) retains all three languages and preparation details on demand, adds four reviewed AMW pages and shares the view through the optional Cookery entrance. T141 preserves this published guide and T139's native clock/reload, machine ingredient, Mob selection and immersion repairs.
 - [T132 repairs](docs/RELEASE-NOTES-0.6.132.md) share instant splash dispatch and source immunity, repair shaker input echoes and storage rollback, preserve Vision's living recipients and query order, and add scoped guide flipbooks, board escaping and shorter HUD expiry. [Current PR disposition](docs/audit/PR-DISPOSITIONS.md) is the single backlog index; native/client/live acceptance remains separate.
-- The deployed development baseline is Tavern **0.6.142**, World Liquor **0.1.119** and Grilling **2.8.123**. The [family lock](family/upstream.lock.json) and [current baseline index](family/BASELINE-STATUS.md) own exact source, dependency and bounded verification records.
+- The deployed development baseline is Tavern **0.6.146**, World Liquor **0.1.123** and Grilling **2.8.125**. The [family lock](family/upstream.lock.json) and [current baseline index](family/BASELINE-STATUS.md) own exact source, dependency and bounded verification records.
 - [baseline.json](baseline.json) owns package identity and exact dependencies; [CHANGELOG.md](CHANGELOG.md) records changes.
 - Bedrock 1.26.50 or newer; current load target BDS 1.26.52.3.
 - Enable both Tavern BP and RP. Cookery is optional; the reviewed family target is author Cookery1.6.0. World Liquor uses its exact paired Tavern version.
