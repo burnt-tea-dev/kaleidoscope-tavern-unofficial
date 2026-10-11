@@ -22,14 +22,20 @@ def main(argv=None):
     parser.add_argument('--config', type=Path, required=True)
     parser.add_argument('command', nargs='?', default='plan', choices=['plan', 'status', 'prepare', 'record-ci', 'deploy', 'update', 'saved-world', 'verify-live', 'cleanup-copies', 'cleanup-engine-inputs'])
     parser.add_argument('--execute', action='store_true')
+    parser.add_argument('--retire-diagnostics', type=Path)
     args = parser.parse_args(argv)
+    if args.retire_diagnostics and args.command != 'cleanup-engine-inputs':
+        parser.error('--retire-diagnostics is only valid for cleanup-engine-inputs')
     common.configure(args.config)
     if args.command in ['cleanup-copies', 'cleanup-engine-inputs']:
         if args.execute:
             common.verify_canonical_runner()
         from family_update import cleanup_copies, cleanup_engine_inputs
         module = cleanup_copies if args.command == 'cleanup-copies' else cleanup_engine_inputs
-        result = module.main(['--execute'] if args.execute else [])
+        cleanup_args = ['--execute'] if args.execute else []
+        if args.retire_diagnostics:
+            cleanup_args += ['--retire-diagnostics', str(args.retire_diagnostics)]
+        result = module.main(cleanup_args)
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return 0
     from family_update import workflow
