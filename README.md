@@ -1,4 +1,6 @@
-## Current maintained baseline: 0.6.146
+## Current maintained baseline: 0.6.147
+
+T147 is a **draft source candidate**, paired with W124. Only the shaker progress hold changes from 100 to 200 ms; one-tick cursor motion stays 50 ms. Limited HUD200 diagnostic recordings improved continuity, with stationary end holds explicitly retained; physical input/packet timing and acceptance of the newly versioned formal pair remain unverified. No merge, release or LIVE change is included. See [draft scope](docs/RELEASE-NOTES-0.6.147.md).
 
 T146 combines the native board inverse, restricted-safe ingredient snapshots and bounded 100 ms shaker HUD hold on canonical T145. T146/W123/G125 was deployed on [private deployment time] after complete-family admission and a fresh saved-world first start and restart. Human client acceptance remains pending. Five earlier standalone HUD recordings retain their stated scope; while-held slot switching is inconclusive and same-second rapid restart remains untested. See [scope and validation](docs/RELEASE-NOTES-0.6.146.md).
 
