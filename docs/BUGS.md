@@ -1,6 +1,6 @@
-## T146 integrated candidate: bounded native scope
+## T146 deployed development baseline: human acceptance pending
 
-Canonical T145 plus restricted-safe shaker snapshots, board signature 62 inverse and 100 ms HUD visibility. Five standalone recordings show no missing HUD in 259 active captured frames; finished/empty repeat and short-release retained ingredients are positive. While-held slot switching is INCONCLUSIVE and same-second rapid restart is NOT_TESTED. W122/T146 is a rejected negative control; selected W123/T146 still requires separate complete-family admission. LIVE deployment remains pending. See [scope](RELEASE-NOTES-0.6.146.md).
+T146/W123/G125 passed complete-family admission and fresh stopped-world first start and restart, then deployed on [private deployment time]; see [current baseline](../family/BASELINE-STATUS.md). T146 retains restricted-safe shaker snapshots, board signature 62 inverse and 100 ms HUD visibility. Five earlier standalone recordings show no missing HUD in 259 active captured frames; finished/empty repeat and short-release retained ingredients are positive. While-held slot switching is INCONCLUSIVE and same-second rapid restart is NOT_TESTED. W122/T146 remains a rejected negative control. Actual LIVE input, board placement, HUD and audio acceptance remain pending. See [original scope](RELEASE-NOTES-0.6.146.md).
 
 ## 當前調酒修補：T145
 
