@@ -55,6 +55,12 @@
 正式世界正常autosave不改路徑身份時不失效；JSON內容、路徑身份或解析改變則拒絕並重新計畫。
 cache只存在本次呼叫內；lease、host namespace、掛載、活動程序（含argv）、目標資料仍逐次檢查。
 
+失敗診斷的生成檔以 `selected_files` 精確集合在同一worlds／包目錄scope內批次處理，
+每scope只做一次完整metadata及活動程序／引用／掛載邊界；逐leaf仍核stat／ctime，
+用不跟隨symlink的directory descriptor檢查父層namespace與Git再unlink。
+只記實際unlink的leaf，保留JSON／JS／LOG與群組目錄；中斷保持retiring，重新計畫只選剩餘生成檔，
+前次成功移除紀錄另留 `previous_removed`。明列退休不代表正常QA，`qa_closed=false`及原失敗狀態保留。
+
 ## 避免重複工作
 
 本機只診斷具體失敗；完整套件交必要 CI。版本／檔案完整性核對是部署前提，不是玩法或畫面證據。沒有內容變更就不升包、不建立 QA 世界、不重啟 LIVE；工作區或文件整理只審閱差異。

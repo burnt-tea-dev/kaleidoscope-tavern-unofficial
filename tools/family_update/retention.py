@@ -89,7 +89,7 @@ def _stat(p):
     return [s.st_dev, s.st_ino, s.st_size, s.st_mtime_ns]
 
 
-def _walk(p, root, mounts):
+def _walk(p, root, mounts, identities=False):
     """One metadata pass, reject mounts/symlinks/special entries; never read bytes."""
     _safe_path(p, root, mounts)
     if not p.exists():
@@ -97,6 +97,11 @@ def _walk(p, root, mounts):
     if not p.is_dir():
         raise ValueError('Copy target must be a directory: ' + str(p))
     names, seen, total = set(), set(), 0
+    metadata = {}
+    if identities:
+        info = p.lstat()
+        metadata = {'file_metadata': {}, 'file_allocated_bytes': {},
+                    'directory_metadata': {'.': [info.st_dev, info.st_ino, info.st_mode]}}
     for directory, dirs, files in os.walk(p, followlinks=False):
         for name in [*dirs, *files]:
             child = Path(directory) / name
@@ -106,12 +111,19 @@ def _walk(p, root, mounts):
             if not (stat.S_ISREG(s.st_mode) or stat.S_ISDIR(s.st_mode)):
                 raise ValueError('Symlink/non-regular copy entry: ' + str(child))
             if stat.S_ISREG(s.st_mode):
-                names.add(child.relative_to(p).as_posix())
+                relative = child.relative_to(p).as_posix()
+                names.add(relative)
+                if identities:
+                    metadata['file_metadata'][relative] = [s.st_dev, s.st_ino, s.st_size,
+                                                          s.st_mtime_ns, s.st_ctime_ns]
+                    metadata['file_allocated_bytes'][relative] = s.st_blocks * 512
+            elif identities:
+                metadata['directory_metadata'][child.relative_to(p).as_posix()] = [s.st_dev, s.st_ino, s.st_mode]
             key = s.st_dev, s.st_ino
             if key not in seen:
                 total += s.st_blocks * 512
                 seen.add(key)
-    return {'present': True, 'files': names, 'allocated_bytes': total}
+    return {'present': True, 'files': names, 'allocated_bytes': total, **metadata}
 
 
 def _paths(value):
