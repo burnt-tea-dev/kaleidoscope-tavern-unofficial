@@ -15,7 +15,6 @@ import stat
 
 from . import common as c
 from . import cleanup_copies, retention
-from .storage import assert_idle
 
 PAYLOAD = ('bedrock_server', 'definitions', 'behavior_packs', 'resource_packs',
            'world_templates', 'treatments', 'data', 'minecraftpe', 'config',
@@ -25,6 +24,10 @@ SKIP = retention.SKIP | {'definitions', 'data', 'upstream-archives', 'worlds'}
 MARKER = 'engine-inputs-retired.json'
 BINARY_ASSETS = {'.png', '.jpg', '.jpeg', '.tga', '.dds', '.ogg', '.wav',
                  '.mp3', '.fsb', '.mcstructure'}
+
+
+def assert_idle(engine, proc_root=Path('/proc')):
+    retention._assert_idle(engine, proc_root)
 
 
 def database_file(p):
@@ -447,8 +450,9 @@ def main(argv=None):
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         c.lease_available()
         comparisons = {}
-        proposed = plan(root, cleanup_copies.execution_context(), comparisons, args.retire_diagnostics)
-        result = execute(proposed, cleanup_copies.execution_context, comparisons)
+        context = cleanup_copies.execution_context_provider()
+        proposed = plan(root, context(), comparisons, args.retire_diagnostics)
+        result = execute(proposed, context, comparisons)
         c.R.mkdir(parents=True, exist_ok=True)
         c.atomic(c.R / 'engine-input-cleanup.json', result)
         return result
