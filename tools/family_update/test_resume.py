@@ -161,27 +161,34 @@ class ResumeTests(unittest.TestCase):
             'tool_sha256': {'family_bundle.py': common.sha(self.t / 'tools/family_bundle.py')},
             'candidate_receipt_sha256': common.sha(self.c / 'family-receipt.json'),
         })
-        engine = self.r / 'exact-engine'
+        self.write(self.before / 'backup-receipt.json', {'fixture': 'fresh stopped backup'})
+        engine = self.r / 'saved-world-engine'
         engine.mkdir()
         runs = []
         for phase in ('first', 'restart'):
             (engine / (phase + '.log')).write_text('fixture zero-player log for ' + phase)
-            runs.append({'phase': phase, 'ok': True, 'started': True, 'family_initialized': True, 'exit_code': 0, 'errors': [], 'real_player_connections': 0, 'log_sha256': common.sha(engine / (phase + '.log'))})
+            runs.append({'phase': phase, 'ok': True, 'started': True, 'family_initialized': True, 'exit_code': 0, 'errors': [], 'real_player_connections': 0, 'player_records_unchanged': True, 'custom_container_inventories_retained': True, 'native_freezer_inputs_retained': True, 'log_sha256': common.sha(engine / (phase + '.log'))})
         self.native = {
             'candidate_receipt_sha256': common.sha(self.c / 'family-receipt.json'),
             'engine_sha256': common.sha(self.b / 'bedrock_server'),
             'engine_inputs': common.engine_inputs(),
-            'scenario_metadata': common.report_ref(self.before / 'level-metadata.dat'),
+            'backup_receipt': common.report_ref(self.before / 'backup-receipt.json'),
+            'snapshot_source': str(self.r / 'production-snapshot'),
+            'native_acceptance_source': 'saved_world', 'fresh_stopped_backup': True,
+            'existing_world_loaded': True, 'saved_world_migration': True, 'players': 0,
+            'versions': common.versions(self.receipt), 'exact_files_checked': True,
+            'player_records_before': {}, 'player_records_after': {},
             'bds': True, 'client': False, 'test_only_overlays': [], 'simulated_players': False,
             'packs': len(self.receipt['packs']), 'runs': runs,
         }
-        self.write(engine / 'native-report.json', self.native)
+        self.write(self.r / 'saved-world-report.json', self.native)
 
     def write(self, path, value):
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(json.dumps(value, indent=2) + '\n')
 
-    def test_complete_prepare_reuses_stages_but_rechecks_source_and_pack_bytes(self):
+    def test_complete_prepare_reuses_static_without_a_separate_native_world(self):
+        (self.r / 'saved-world-report.json').unlink()
         result = workflow.prepare()
         self.assertEqual(result['state'], 'ready_for_fresh_saved_world_and_deploy')
         self.stages.assert_not_called()
@@ -214,15 +221,15 @@ class ResumeTests(unittest.TestCase):
             workflow.prepare()
         self.stages.assert_not_called()
 
-    def test_cached_native_failed_run_never_restarts_or_repairs_its_own_evidence(self):
+    def test_saved_native_failed_run_never_restarts_or_repairs_its_own_evidence(self):
         self.native['runs'][1]['ok'] = False
-        self.write(self.r / 'exact-engine/native-report.json', self.native)
+        self.write(self.r / 'saved-world-report.json', self.native)
         with self.assertRaises(AssertionError):
-            workflow.prepare()
+            workflow.verify_native()
         self.stages.assert_not_called()
 
     def test_cached_native_rejects_log_engine_builtin_and_scenario_drift(self):
-        paths = [self.r / 'exact-engine/restart.log', self.b / 'bedrock_server', self.before / 'level-metadata.dat']
+        paths = [self.r / 'saved-world-engine/restart.log', self.b / 'bedrock_server', self.before / 'backup-receipt.json']
         paths.extend(self.b / name / 'fixture.dat' for name in ('definitions', 'behavior_packs', 'resource_packs', 'config', 'minecraftpe', 'treatments'))
         for path in paths:
             with self.subTest(path=path):
@@ -236,27 +243,28 @@ class ResumeTests(unittest.TestCase):
                     path.write_bytes(original)
 
     def test_native_requires_distinct_first_and_restart_runs(self):
+        self.assertEqual(workflow.verify_native(), self.native)
         self.native['runs'][1] = deepcopy(self.native['runs'][0])
-        self.write(self.r / 'exact-engine/native-report.json', self.native)
+        self.write(self.r / 'saved-world-report.json', self.native)
         with self.assertRaises(AssertionError):
             workflow.verify_native()
 
     def test_native_rejects_failed_start_error_exit_or_player_connection(self):
-        for field, invalid in (('started', False), ('family_initialized', False), ('ok', False), ('exit_code', 1), ('errors', ['fixture error']), ('real_player_connections', 1)):
+        for field, invalid in (('started', False), ('family_initialized', False), ('ok', False), ('exit_code', 1), ('errors', ['fixture error']), ('real_player_connections', 1), ('player_records_unchanged', False), ('custom_container_inventories_retained', False), ('native_freezer_inputs_retained', False)):
             with self.subTest(field=field):
                 report = deepcopy(self.native)
                 report['runs'][1][field] = invalid
-                self.write(self.r / 'exact-engine/native-report.json', report)
+                self.write(self.r / 'saved-world-report.json', report)
                 with self.assertRaises(AssertionError):
                     workflow.verify_native()
         self.stages.assert_not_called()
 
     def test_native_rejects_wrong_scope_overlay_or_pack_count(self):
-        for field, invalid in (('bds', False), ('client', True), ('simulated_players', True), ('test_only_overlays', ['unexpected']), ('packs', 99), ('candidate_receipt_sha256', 'wrong')):
+        for field, invalid in (('bds', False), ('client', True), ('simulated_players', True), ('test_only_overlays', ['unexpected']), ('packs', 99), ('candidate_receipt_sha256', 'wrong'), ('native_acceptance_source', 'old-fresh-world'), ('exact_files_checked', False), ('fresh_stopped_backup', False), ('saved_world_migration', False), ('versions', {}), ('player_records_after', {'changed': 'data'})):
             with self.subTest(field=field):
                 report = deepcopy(self.native)
                 report[field] = invalid
-                self.write(self.r / 'exact-engine/native-report.json', report)
+                self.write(self.r / 'saved-world-report.json', report)
                 with self.assertRaises(AssertionError):
                     workflow.verify_native()
         self.stages.assert_not_called()
@@ -266,7 +274,7 @@ class ResumeTests(unittest.TestCase):
         self.write(self.before / 'inventory.json', self.inventory)
         # Even invalid old native evidence must not launch a native process for
         # a source/provenance-only update whose complete runtime already matches.
-        (self.r / 'exact-engine/native-report.json').write_text('invalid unused evidence')
+        (self.r / 'saved-world-report.json').write_text('invalid unused evidence')
         with patch.object(workflow, 'verify_native', side_effect=AssertionError('No native work for identical runtime')):
             prepared = workflow.prepare()
             self.stages.assert_not_called()

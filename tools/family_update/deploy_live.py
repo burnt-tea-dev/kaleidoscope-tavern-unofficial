@@ -16,18 +16,18 @@ def preflight():
     assert sha(Q / 'family_guard.py') == sha(T / 'tools/family_guard.py'), 'BSM guard differs from canonical; investigate, never silently replace'
     # Every entry point uses the same evidence validator; share the already
     # verified immutable candidate within this preflight instead of rescanning.
-    from family_update.workflow import record_static, verify_native
+    from family_update.workflow import record_static
     record_static(verified_candidate=receipt)
-    verify_native(verified_candidate=receipt)
     quality(C, receipt)
     from family_update.identity_migration import candidate_plan
     candidate_plan(receipt, original)
     source_state(verify_remote=True)
     agents = Path(str(AUTHORIZATION)).read_text()
     assert '使用者已持續授權' in agents and '供使用者直接測試開發效果' in agents and '`deferred_client_acceptance`' in agents, 'Re-read current deployment authorization'
-    from family_update.storage import allocated, require_space
-    # Snapshot, writable DB rehearsal/migration, rollback and recovery staging.
-    require_space(R, "Stopped backup, rehearsal and rollback", 4 * allocated(W) + 2 * allocated(C))
+    from family_update.storage import deployment_allocation, require_space
+    require_space(R, "Stopped backup and saved-world rehearsal", deployment_allocation(W, C,
+        identity_migration=bool(CONFIG.get('identity_migration')),
+        container_recovery=bool(CONFIG.get('container_recovery_plan'))))
     return original,receipt
 
 def acquire_lease(receipt):
@@ -38,17 +38,9 @@ def acquire_lease(receipt):
 
 def finalize_receipt():
     raw=read(C/'family-receipt.json'); digest=sha(C/'family-receipt.json')
-    native=read(R/'exact-engine/native-report.json'); saved=read(R/'saved-world-report.json')
-    assert saved['fresh_stopped_backup'] and saved['saved_world_migration'] and saved['bds']
-    assert saved['candidate_receipt_sha256']==native['candidate_receipt_sha256']==digest
-    assert saved['engine_sha256']==native['engine_sha256']==sha(B/'bedrock_server')
-    assert saved['engine_inputs']==native['engine_inputs']==engine_inputs()
-    assert [run['phase'] for run in saved['runs']]==['first','restart']
-    assert all(run['ok'] and run['started'] and run['family_initialized'] and not run['errors'] and run['player_records_unchanged'] and run['custom_container_inventories_retained'] for run in saved['runs'])
-    for run in saved['runs']:
-        assert sha(R/'saved-world-engine'/(run['phase']+'.log'))==run['log_sha256']
-    assert saved['player_records_before']==saved['player_records_after']
-    reports=['build-evidence.json','static-evidence.json','compatibility-report.json','exact-engine/native-report.json','saved-world-report.json','production-before/backup-receipt.json','handoff-authorization.json']
+    from family_update.workflow import verify_native
+    saved=verify_native(verified_candidate=raw)
+    reports=['build-evidence.json','static-evidence.json','compatibility-report.json','saved-world-report.json','production-before/backup-receipt.json','handoff-authorization.json']
     reports.append('saved-world-container-inventories.json')
     if CONFIG.get('native_storage_reanchor_plan'):
         from family_update.native_storage_reanchor import verify as verify_native_storage
@@ -230,7 +222,7 @@ def main(argv=None):
     parser.add_argument('--execute',action='store_true',help='Perform already-authorized live development deployment after review')
     args=parser.parse_args(argv)
     if not args.execute:
-        print(json.dumps({'execute':False,'lease':read(LEASE) if LEASE.exists() else {},'live':summary(),'candidate':str(C),'fresh_backup':str(R/'production-snapshot'),'required_reports':[str(R/p) for p in ['production-before/inventory.json','build-evidence.json','static-evidence.json','compatibility-report.json','exact-engine/native-report.json']],'authorization_source':str(AUTHORIZATION),'client':False,'production_ready':False},ensure_ascii=False,indent=2)); return
+        print(json.dumps({'execute':False,'lease':read(LEASE) if LEASE.exists() else {},'live':summary(),'candidate':str(C),'fresh_backup':str(R/'production-snapshot'),'required_reports':[str(R/p) for p in ['production-before/inventory.json','build-evidence.json','static-evidence.json','compatibility-report.json']],'native_rehearsal':'Fresh stopped-world first/start and restart during deployment','authorization_source':str(AUTHORIZATION),'client':False,'production_ready':False},ensure_ascii=False,indent=2)); return
     # A separate advisory lock protects cooperating helpers; the visible lease
     # also protects against other existing deployment scripts and must be free.
     with open(str(LOCK), 'a+') as lock:

@@ -1,6 +1,8 @@
 """Exercise the real finalizer with isolated synthetic reports, never BDS/live."""
-import ast,hashlib,json,os,tempfile,unittest
+import ast,hashlib,json,os,sys,tempfile,unittest
+from unittest.mock import patch
 from pathlib import Path
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 
 SOURCE=Path(__file__).with_name('deploy_live.py')
 NODE=next(node for node in ast.parse(SOURCE.read_text()).body
@@ -29,7 +31,13 @@ class FinalizerPrivateProofRefTests(unittest.TestCase):
         native={'candidate_receipt_sha256':sha(self.c/'family-receipt.json'),'engine_sha256':sha(self.b/'bedrock_server'),'engine_inputs':inputs}
         saved={**native,'fresh_stopped_backup':True,'saved_world_migration':True,'bds':True,'runs':runs,
                'player_records_before':{},'player_records_after':{}}
-        atomic(self.root/'exact-engine/native-report.json',native);atomic(self.root/'saved-world-report.json',saved)
+        atomic(self.root/'saved-world-report.json',saved)
+        # Detailed shared validation is exercised by test_resume; here only
+        # finalizer evidence references and immutable writes are under test.
+        def verified_native(*, verified_candidate):
+            self.assertEqual(verified_candidate,json.loads(self.raw))
+            return saved
+        self.native_check=self.enterContext(patch('family_update.workflow.verify_native', side_effect=verified_native))
         for name in ['build-evidence.json','static-evidence.json','compatibility-report.json','production-before/backup-receipt.json',
                      'handoff-authorization.json','saved-world-container-inventories.json']:
             atomic(self.root/name,{'synthetic_fixture_only':True})
@@ -41,15 +49,16 @@ class FinalizerPrivateProofRefTests(unittest.TestCase):
         exec(compile(ast.Module(body=[NODE],type_ignores=[]),str(SOURCE),'exec'),self.namespace)
     def finalize(self):
         result=self.namespace['finalize_receipt']()
+        self.native_check.assert_called_once()
         self.assertEqual((self.c/'family-receipt.json').read_bytes(),self.raw)
         self.assertEqual(read(self.root/'reviewed-family-receipt.json'),result)
         self.assertFalse(result['production_ready']);self.assertFalse(result['acceptance']['client'])
         return result
     def test_configured_proof_included_once_with_exact_absolute_path_and_hash(self):
         self.assertEqual(self.finalize()['evidence']['reports'].count(report_ref(self.private.resolve())),1)
-    def test_without_extension_original_eight_reports_retained(self):
+    def test_without_extension_seven_combined_reports_retained(self):
         self.config.clear();reports=self.finalize()['evidence']['reports']
-        self.assertEqual(len(reports),8);self.assertNotIn(report_ref(self.private),reports)
+        self.assertEqual(len(reports),7);self.assertNotIn(report_ref(self.private),reports)
     def test_missing_configured_proof_refuses_reviewed_write_and_keeps_raw(self):
         self.private.unlink()
         with self.assertRaises(FileNotFoundError):self.namespace['finalize_receipt']()
@@ -58,7 +67,7 @@ class FinalizerPrivateProofRefTests(unittest.TestCase):
     def test_existing_resolved_report_path_deduplicated(self):
         existing=self.root/'build-evidence.json';self.config['extension_validation']=str(existing.parent/'proofs'/'..'/existing.name)
         reports=self.finalize()['evidence']['reports']
-        self.assertEqual(len(reports),8);self.assertEqual(reports.count(report_ref(existing)),1)
+        self.assertEqual(len(reports),7);self.assertEqual(reports.count(report_ref(existing)),1)
     def test_existing_reviewed_receipt_refused_without_overwriting(self):
         self.finalize();path=self.root/'reviewed-family-receipt.json';before=path.read_bytes()
         with self.assertRaisesRegex(AssertionError,'Do not overwrite'):self.namespace['finalize_receipt']()
