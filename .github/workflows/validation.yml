@@ -50,6 +50,7 @@ jobs:
       - run: python tools/test_container_recovery.py
       - run: python tools/test_family_upstream_watch.py
       - run: python tools/test_family_java_upstream_watch.py
+      - run: python tools/test_release_publication.py
       - run: python tools/test_bridge_project.py
   bridge:
     needs: impact
@@ -149,7 +150,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: casama233/kaleidoscope-world-liquor-unofficial
-          ref: 31dcafe0c8b25f74c9c76829b60af412d31c9263
+          ref: 63d6f5c11ffe6e3c5579212a51314c24466c49a8
           path: world-liquor-src
           persist-credentials: false
       - uses: actions/setup-python@v5
@@ -176,7 +177,7 @@ jobs:
               'world-liquor':{'repository':'casama233/kaleidoscope-world-liquor-unofficial','repository_id':1385218112}}
           assert os.environ['GITHUB_REPOSITORY']==identities['tavern']['repository']
           assert os.environ['GITHUB_REPOSITORY_ID']==str(identities['tavern']['repository_id'])
-          assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=peer,text=True).strip()=='31dcafe0c8b25f74c9c76829b60af412d31c9263'
+          assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=peer,text=True).strip()=='63d6f5c11ffe6e3c5579212a51314c24466c49a8'
           lock=json.loads((root/'family/upstream.lock.json').read_text())
           lock['owned']=[row for row in lock['owned'] if row['key'] in {'tavern','world-liquor'}]
           assert len(lock['owned'])==2 and {row['key'] for row in lock['owned']}=={'tavern','world-liquor'}
@@ -347,9 +348,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: casama233/kaleidoscope-world-liquor-unofficial
-          # Draft World Liquor 0.1.124 requires this Tavern 0.6.147 runtime.
+          # Merged World Liquor 0.1.124 requires this Tavern 0.6.147 runtime.
           # Pin exact peer bytes, not an obsolete release or a moving branch.
-          ref: 31dcafe0c8b25f74c9c76829b60af412d31c9263
+          ref: 63d6f5c11ffe6e3c5579212a51314c24466c49a8
           path: liquor
           persist-credentials: false
       - uses: actions/setup-node@v4
