@@ -1,34 +1,34 @@
 # 家族現行基線與差距
 
-**2026-10-09 20:13:58 香港時間**：luosen 已部署 **酒館0.6.143／燒烤2.8.124／世界名酒0.1.120／沉浸進食1.1.0**；Cookery1.6.0、私有料理1.0.30。引擎1.26.52.3，完整 **42包（22BP／20RP）**、RUNNING、poststart `ok=true`／`errors=[]`。`client=false`、`production_ready=false`、`pending_client_acceptance`。
+**2026-10-11 12:57:47 香港時間**：luosen 已部署 **酒館0.6.146／燒烤2.8.125／世界名酒0.1.123／私有料理1.0.32**；Cookery1.6.0、沉浸進食1.1.0、AMW2.6.27。引擎1.26.52.3，完整 **42包（22BP／20RP）**。當次讀回 RUNNING、poststart `ok=true`／`errors=[]`、drift `ok=true`；`client=false`、`production_ready=false`、`pending_client_acceptance`。
 
 ## 本輪修補與真實剩餘範圍
 
 | 包 | 已修與保留 | 剩餘差距 |
 |---|---|---|
-| Tavern T143 | 精確酒館三語scope的原生單行容量640／700／3000；原保存限制320／350／1500及stale／reach／wax防線不變。保留全部指南、雪克杯、原料／存檔及光效修補。 | 正式多行、真controller／焦點／输入；任意三份裝飾原料；純roll／穿牆輪廓／名字裝備隱藏、原生Player及完整聲畫。 |
-| Grilling G124 | 取料、HUD與食用共用可保存／重新載入的調料映射；後覆寫、讀回／回滾及舊存檔預設。合併兩個重複palette parser，原八種素材不變；保留API0.2.10與G122守恆／品質。 | 需明確Server provider，不自動讀Java datapack或任意producer；任意秘製串背包圖示、完整宿主操作／食用／保存事件及聲畫仍待完成／實測。 |
-| World Liquor W120 | 斬首／肘擊依direct LivingEntity判定，斬首要求存活，ground-crit規則保持。保留84類含魚、67頁、配方／作者資源及確認錨。 | Incoming取消／重入／fallback／marker／causal drops、SkullOwner、Luck loot、Elbow原力合成、CaptainGift碰撞、automation與26.1.2整分支。 |
-| Immersive Eating1.1.0 | CF9104552完整原包、新UUID／API／相依已審查；新四食物／原指南／手部動畫／音效。新owner遷移完成，本次舊owner資料0筆，不冒充非空音效偏好遷移。 | 真玩家進食、第一人稱、音效啟停與設定保存待接受；不由headless載入推定渲染。 |
+| Tavern T146 | 原料載入避開 before-event 的受限 metadata 讀取；黑板使用正確原生逆轉換，signature62 在普通維護時重建舊字形；進度圖保持100ms，游標仍按50ms移動。保留T144單一輸入框修補、T145手持辨識、七入口指南及存檔。 | 現服黑板位置／焦點、投料／搖晃／進度與聲音仍待真人確認；正式多行、任意裝飾原料、純roll／穿牆輪廓與完整Java聲畫仍有差距。 |
+| Grilling G125 | 修正受限事件與延後站點辨識、取消／拆機守恆、滿背包出料；調整烤架亮度、油液及牆譜畫面、Numb相位與搖瓶音效。保留可保存調料映射與API0.2.10。 | 任意秘製串背包圖示／進食HUD、完整原作姿勢、原生流體／碰撞、宿主操作與真人聲畫仍待完成／實測。 |
+| World Liquor W123 | BP／RP精確配對T146，保留W120斬首／肘擊LivingEntity判定、84類含魚、67頁、配方／作者資源及確認錨。 | Incoming取消／重入／fallback／marker／causal drops、SkullOwner、Luck loot、Elbow原力合成、CaptainGift碰撞、automation與26.1.2整分支。 |
+| Immersive Eating1.1.0 | 保留已適配的作者原包、新UUID／API／相依及四種新增食物；原指南、手部動畫與音效保留。 | 真玩家進食、第一人稱、音效啟停與設定保存待接受；載入成功不等於渲染驗收。 |
 
-詳各canonical [Tavern matrix](../docs/PARITY-MATRIX.md)、[Grilling matrix](https://github.com/casama233/kaleidoscope-grilling-unofficial/blob/main/docs/PARITY-MATRIX.md)、[World Liquor matrix](https://github.com/casama233/kaleidoscope-world-liquor-unofficial/blob/main/docs/PARITY-MATRIX.md)。共享指南入口／fallback、獨立安裝SDK及legacy保存讀取各有用途，保留；歷史原型與來源不刪。
+詳各canonical [Tavern matrix](../docs/PARITY-MATRIX.md)、[Grilling matrix](https://github.com/casama233/kaleidoscope-grilling-unofficial/blob/main/docs/PARITY-MATRIX.md)、[World Liquor matrix](https://github.com/casama233/kaleidoscope-world-liquor-unofficial/blob/main/docs/PARITY-MATRIX.md)。T146先前獨立錄影的有限觀察保留原範圍：持續按住時切槽仍不確定，同秒快速重啟未測，無音訊及完整家族真人驗收。
 
 ## 來源與當次證據
 
-- T：[PR313](https://github.com/casama233/kaleidoscope-tavern-unofficial/pull/313)及[PR314](https://github.com/casama233/kaleidoscope-tavern-unofficial/pull/314)，部署捕獲`b01cdd9970231c8e7484332dbec7bd81ef62237f`；runtime956727d8。見[T143](../docs/RELEASE-NOTES-0.6.143.md)。
-- G：[PR189](https://github.com/casama233/kaleidoscope-grilling-unofficial/pull/189)，部署捕獲`f60d8e90b7a0848c0e8673353e105221ba2da21d`；runtime469441bc。見[G124](https://github.com/casama233/kaleidoscope-grilling-unofficial/blob/469441bc6556b5e91adedfd44876ac072572012a/docs/STATUS-A2.8.124.md)。
-- W：[PR101](https://github.com/casama233/kaleidoscope-world-liquor-unofficial/pull/101)，部署捕獲`95c7193ddc3e17f8c7c362df8d2cb88171f9225b`；runtimeaf5af53f。見[W120](https://github.com/casama233/kaleidoscope-world-liquor-unofficial/blob/5c09f0375e5ea2f7dbaf5b69d01bf8227e86816a/docs/RELEASE-NOTES-0.1.120.md)。
-- 本次紀錄`20261009-gap-repairs-t143-g124-w120-ie110-preimage`，reviewed SHA **`e242d37dfbd80215c0ba86881ca2d8d9d72827b1e7592aed6f8bae20b5bb445c`**，政策installed與延期真人登記綁同SHA。完整42包static、新世界first／restart、本次fresh正常停服備份與保存first／restart、family_guard／BSM准入及逐檔／順序讀回通過。
-- 18筆玩家資料及2容器內容保存；非空T原生儲存的ledger／完整物品NBT保留。冰櫃輸入0樣本，不能當非空操作證據。作者UUID經隔離演練後採用已審DB副本，原停服DB／回退保留，`level.dat`未替換。
-- 真Cookery接收Tavern **227條目／31分類／681組三語正文**；七入口／子分類／單品圖示與94製法不變。沉浸進食另有 **23條目**及三語導航／設定，不混入酒館總數。兩個observer只在隔離QA，沒有進LIVE。
-- Poststart **407 warnings／0 errors**，包括既有97853 block permutations及載入提示；沒有效能或完整Java一比一接受。首次／重啟與接收皆0玩家／無模擬玩家。
+- T：[功能PR324](https://github.com/casama233/kaleidoscope-tavern-unofficial/pull/324)與[流程PR325](https://github.com/casama233/kaleidoscope-tavern-unofficial/pull/325)，部署來源`b8da0d0b770fbd3e432f88c01fe3a4d7332abd87`。見[T146範圍](../docs/RELEASE-NOTES-0.6.146.md)；流程變更沿用相同runtime的成功CI，不重跑玩法套件。
+- G：[PR191](https://github.com/casama233/kaleidoscope-grilling-unofficial/pull/191)及[PR192](https://github.com/casama233/kaleidoscope-grilling-unofficial/pull/192)，部署來源`d10d3b12b6cbbf922b0e940fbf174c7b24edf223`。見[G125](https://github.com/casama233/kaleidoscope-grilling-unofficial/blob/d10d3b12b6cbbf922b0e940fbf174c7b24edf223/docs/STATUS-A2.8.125.md)。
+- W：[PR105](https://github.com/casama233/kaleidoscope-world-liquor-unofficial/pull/105)，部署來源`2280e740843b89c190645300d5b92d3b2e608807`。見[W123](https://github.com/casama233/kaleidoscope-world-liquor-unofficial/blob/2280e740/docs/RELEASE-NOTES-0.1.123.md)。
+- 本次紀錄`20261011-t146-g125-w123-p32`，reviewed SHA **`ae337f230720fa0204c06e7a9e77129784d131cf4790e1f69d53b677036d8de1`**，政策准入與延期真人登記綁同SHA。完整家族static、一次新鮮停服存檔的first／restart、family_guard／BSM准入及逐檔／順序讀回通過；該保存世界同時供應BDS與存檔證據，未另建新世界重跑。
+- 保存演練的兩次啟動均保留18筆玩家資料、2個容器及非空T原生儲存。冰櫃輸入0樣本，不能當非空投料證據。此次安裝保留LIVE原有DB與`level.dat`，沒有重新執行舊UUID遷移。
+- 保留共用指南的227條目、七入口與三語投影；獨立書及可選Cookery入口共用內容。先前接收證據保留原身份，真人閱讀／排版及操作驗收仍待進行。
+- 當次poststart **409 warnings／0 errors**；既有警告及Java差距仍列明，沒有聲稱效能或完整一比一接受。隔離原生演練皆0玩家／無模擬玩家。
 
 ## 作者與維護
 
 依[java-upstream.json](java-upstream.json)分開追蹤Tavern1.2.0（Forge1.20.1／Neo1.21.1）、Grilling1.1.1兩分支、World Liquor Forge1.1.12／Neo1.21.1的1.1.11；未發布T26來源與W26／1.1.6仍另列。W共享obsidian1000／1800→1、milk識別與高度已承接，magma3僅legacy；customLuck／BlockDrops／註冊等26差異仍待適配，見[原審查與重估](world-liquor-26.1.2-1.1.6-review.json)。
 
-Bedrock作者鎖為Cookery1.6.0、ChineseFood1.0.4、ImmersiveEating1.1.0、Nether1.0.1、End1.0.1；國味1.0.10430是登記相容變體。私有料理及24個preserved包保持當次收據來源；不以私服版號當作者最新。[沉浸進食適配](IMMERSIVE-EATING-110-ADAPTATION.md)。
+本次部署的Bedrock作者鎖為Cookery1.6.0、ChineseFood1.0.4、ImmersiveEating1.1.0、Nether1.0.1、End1.0.1；國味1.0.10432是私有整合1.0.32的登記相容變體。AMW2.6.27保留已核對的外部修補，並非宣稱作者正式最新版。[沉浸進食適配](IMMERSIVE-EATING-110-ADAPTATION.md)。
 
-原CI失敗、遷移宣告RP摘要转录錯誤的拒絕候選及容量預檢保持原證據；修正原包核對後由PR314合併，沒有改寫舊收據或绕過准入。舊進度只保留[release notes](../docs/RELEASE-NOTES-0.6.142.md)／[PR處置](../docs/audit/PR-DISPOSITIONS.md)等來源入口，不複製成新「當前」。
+2026-10-11查到Cookery1.6.1（CF9123386）、ChineseFood1.0.5（CF9123382）、Nether1.0.2（CF9123379）、End1.0.2（CF9123371）；本輪原包下載回覆404，維持待審，尚未安裝或改鎖。已部署版本與作者最新查核分開記錄，不能標成全數最新。
 
-依[MAINTENANCE.md](MAINTENANCE.md)及[UPDATE-WORKFLOW.md](UPDATE-WORKFLOW.md)維持逐候選授權／一致備份／完整家族准入；每5分鐘漂移、每6小時作者唯讀查核、每小時canonical清理。文件整理不改runtime、包身份、原始收據或重啟LIVE。
+依使用者2026-10-11要求，開發部署改為一次停服備份、一次保存世界first／restart及正常部署讀回；清理僅保留最新完整可回退備份，尚在使用或失敗／不完整的現場保留。原CI失敗、舊收據、歷史發版與獨立觀察保持原身份。詳[MAINTENANCE.md](MAINTENANCE.md)及[UPDATE-WORKFLOW.md](UPDATE-WORKFLOW.md)。文件整理不改runtime、包身份或重啟LIVE。
