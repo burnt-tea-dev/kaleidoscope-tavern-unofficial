@@ -115,7 +115,7 @@ def _walk(p, root, mounts, identities=False):
                 names.add(relative)
                 if identities:
                     metadata['file_metadata'][relative] = [s.st_dev, s.st_ino, s.st_size,
-                                                          s.st_mtime_ns, s.st_ctime_ns]
+                                                          s.st_mtime_ns, s.st_ctime_ns, s.st_nlink]
                     metadata['file_allocated_bytes'][relative] = s.st_blocks * 512
             elif identities:
                 metadata['directory_metadata'][child.relative_to(p).as_posix()] = [s.st_dev, s.st_ino, s.st_mode]
