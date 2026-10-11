@@ -210,6 +210,23 @@ class EngineInputCleanup(unittest.TestCase):
         self.assertFalse((db / '000001.ldb').exists())
         self.assertTrue((pack / 'scripts/observer.js').exists())
 
+    def test_explicit_world_retirement_keeps_shared_root_engine_input_links(self):
+        shared = self.root / 'shared-original-inputs'
+        shared.mkdir()
+        (shared / 'original.json').write_text('source stays untouched')
+        for side in ['behavior_packs', 'resource_packs']:
+            (self.engine / side).symlink_to(shared, target_is_directory=True)
+        self.context['protected'] = [shared]
+        db, pack = self.diagnostic_world()
+        plan = cleanup.plan(self.root, self.context, retire_diagnostics=self.retirement_list())
+        self.assertEqual(len(plan['selected']), 1)
+        cleanup.execute(plan, lambda: self.context)
+        self.assertFalse((db / '000001.ldb').exists())
+        self.assertFalse((pack / 'structures/hall.mcstructure').exists())
+        self.assertTrue((self.engine / 'behavior_packs').is_symlink())
+        self.assertTrue((self.engine / 'resource_packs').is_symlink())
+        self.assertEqual((shared / 'original.json').read_text(), 'source stays untouched')
+
     def test_explicit_list_report_or_asset_change_before_execute_preserves_targets(self):
         db, pack = self.diagnostic_world()
         review = self.retirement_list()
