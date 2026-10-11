@@ -4,14 +4,34 @@ on:
     branches: [main]
     paths: ['.github/release-request.json']
   workflow_dispatch:
+    inputs:
+      publish_release:
+        description: Explicitly publish the verified request from this frozen main source
+        type: boolean
+        default: false
 permissions:
   contents: read
 concurrency:
   group: tavern-release-publication
   cancel-in-progress: false
 jobs:
-  publish:
+  request:
     if: github.repository == 'casama233/kaleidoscope-tavern-unofficial' && github.repository_id == '1377171148' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    outputs:
+      publish: ${{ steps.request.outputs.publish }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - id: request
+        env:
+          MANUAL_PUBLICATION: ${{ inputs.publish_release || false }}
+        run: python tools/release_publication.py --event "$GITHUB_EVENT_NAME" --publish-release "$MANUAL_PUBLICATION"
+  publish:
+    needs: request
+    if: github.repository == 'casama233/kaleidoscope-tavern-unofficial' && github.repository_id == '1377171148' && github.ref == 'refs/heads/main' && needs.request.outputs.publish == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
@@ -83,8 +103,14 @@ jobs:
           python - <<'PY'
           import hashlib, json, os, shutil, zipfile
           from pathlib import Path
+          import sys
+          sys.path.insert(0, 'tools')
+          from release_publication import public_notes
           r = json.loads(Path('.github/release-request.json').read_text())
           out = Path('dist')
+          notes = public_notes(Path('.'), r)
+          if notes is not None:
+              shutil.copy2(notes, out / 'RELEASE-NOTES.md')
           archive = out / os.environ['RELEASE_ARCHIVE']
           actual = hashlib.sha256(archive.read_bytes()).hexdigest()
           assert actual == r['expected_archive_sha256'], (actual, r['expected_archive_sha256'])
