@@ -19,7 +19,7 @@ test('slot and progress sprites own finite expiry covering their refresh cadence
  assert.equal(slotSprites.length,51);assert.equal(progressSprites.length,113);
  const groups=[
   {sprites:slotSprites,waitName:'kt_mixology_sprite_wait',fadeName:'kt_mixology_sprite_fade',refresh:HUD_REFRESH_TICKS/20,holdSeconds:0.5,fadeSeconds:0},
-  {sprites:progressSprites,waitName:'kt_mixology_progress_wait',fadeName:'kt_mixology_progress_fade',refresh:1/20,holdSeconds:0.1,fadeSeconds:0}
+  {sprites:progressSprites,waitName:'kt_mixology_progress_wait',fadeName:'kt_mixology_progress_fade',refresh:1/20,holdSeconds:0.2,fadeSeconds:0}
  ];
  for(const {sprites,waitName,fadeName,refresh,holdSeconds,fadeSeconds} of groups){
   for(const sprite of sprites){
@@ -42,14 +42,14 @@ test('slot and progress sprites own finite expiry covering their refresh cadence
  assert.equal(hud.kt_mixology_expire.destroy_at_end,'kt_mixology_packet');
 });
 
-test('progress stays opaque through a delayed refresh then expires at a bounded 100 ms',()=>{
+test('progress stays opaque through a delayed refresh then expires at a bounded 200 ms',()=>{
  const wait=hud.kt_mixology_progress_wait,fade=hud.kt_mixology_progress_fade;
  const alphaAt=seconds=>seconds<wait.duration?1:fade.duration===0?fade.to:
   fade.from+(fade.to-fade.from)*Math.min(1,(seconds-wait.duration)/fade.duration);
  // Structural lifetime samples only: actual packet arrivals and rendering need client QA.
- assert.equal(wait.duration+fade.duration,0.1);
- for(const seconds of [0,0.025,0.049,0.05,0.075,0.099])assert.equal(alphaAt(seconds),1);
- for(const seconds of [0.1,0.15,0.6,1,30,600])assert.equal(alphaAt(seconds),0);
+ assert.equal(wait.duration+fade.duration,0.2);
+ for(const seconds of [0,0.025,0.049,0.05,0.075,0.099,0.1,0.125,0.15,0.175,0.199])assert.equal(alphaAt(seconds),1);
+ for(const seconds of [0.2,0.25,0.6,1,30,600])assert.equal(alphaAt(seconds),0);
  assert.equal(hud.kt_mixology_sprite_wait.duration,HUD_REFRESH_TICKS/20);
 });
 
