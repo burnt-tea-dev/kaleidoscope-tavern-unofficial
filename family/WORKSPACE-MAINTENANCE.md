@@ -34,6 +34,22 @@
 
 清理記錄只保存被刪路徑、原因、保留依據與回收空間，不為刪除產物複製完整內容。每小時清理仍走同一 canonical 入口；出現失敗保留現場，不能讓清理中止健康 LIVE。
 
+使用者2026-10-11另要求退役已結束、被後續修補取代的失敗診斷QA，避免其生成資料永久堆積。
+這是持續清理授權：修補已完成或後續版本已取代、且核實無current／active／source引用時，
+可立即明列退役並清理生成內容；不因failure永久保留全部副本，也不逐項重問使用者刪除許可。
+同一 `cleanup-engine-inputs` 入口可傳 `--retire-diagnostics /local/retired-diagnostics.json`。
+清單留在Git外，格式為 `{"schema":1,"engines":[{"engine":"/absolute/old-qa-engine","reason":"已人工核實結束及退役的具體理由"}]}`；
+不支持glob或整個任務目錄。本機命令先產生計畫，核對精確清单後才加 `--execute`。
+有清單時只處理明列的非部署QA，不掃描或重驗其他部署；沒有清單時仍要求成功正常結束報告。
+
+明列退役可保留失敗或缺報告的原狀，只移除實際複製的引擎執行檔、測試世界的生成LevelDB檔，
+以及BP structures／RP textures和sounds內的常規二進位資產。
+保留DB診斷LOG、observer／scripts、JSON、模型、來源與原始報告／日誌，不刪整個世界或包。
+退休標記另列人工理由及原報告狀態，不將failed改成success。
+正式世界、最新回退、current config／policy／lease引用、任何Git祖先、掛載、symlink與活動程序仍拒絕；
+明列清單不能退役任何有部署祖先的QA。沿用maintenance lock和host process namespace，
+清單、報告及生成檔案stat在刪除邊界重新核對，不重跑遊戲或全盤hash。
+
 ## 避免重複工作
 
 本機只診斷具體失敗；完整套件交必要 CI。版本／檔案完整性核對是部署前提，不是玩法或畫面證據。沒有內容變更就不升包、不建立 QA 世界、不重啟 LIVE；工作區或文件整理只審閱差異。
