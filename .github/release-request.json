@@ -1,15 +1,22 @@
 {
-  "version": "0.6.143",
-  "tag": "v0.6.143-beta.1",
-  "title": "森羅物語：酒館 0.6.143 測試版｜板面容量與家族最新版適配",
+  "version": "0.6.147",
+  "tag": "v0.6.147-beta.1",
+  "title": "森羅物語：酒館 0.6.147 測試版｜HUD200 與公開來源同步",
   "prerelease": true,
-  "validation_evidence": "docs/RELEASE-NOTES-0.6.143.md",
+  "publication_request": false,
+  "validation_evidence": "docs/RELEASE-NOTES-0.6.147.md",
+  "public_notes_path": "docs/PUBLICATION-T147-G128-W124.md",
   "client_acceptance": "pending",
   "full_client_acceptance": "pending",
   "saved_world_migration": "pending",
   "production_ready": false,
   "live_deployment": false,
-  "native_evidence_scope": "T143/W120 retains the merged T142 aura, recorder, board wrapping, shaker and fish support and the complete three-language shared guide. This candidate needs its own actual canonical CI and strict source-bound native first/save/restart results. The scoped single-line board-capacity sibling controller, foreign forms, focus and actual keyboard/touch/gamepad input remain pending human-client verification; formal multiline editing is not implemented. G124 and clean author Immersive Eating 1.1.0 UUID migration require the new complete-family/saved-world candidate. Previous T142/G123/W119 CI/native/full-family/LIVE evidence keeps its original identity. Player/client, saved-world and LIVE acceptance remain separate.",
-  "expected_archive_sha256": "0931c09c25d25aca7a5c73e2769637566722a8414b12c8dd38c7d5a81a7b8e81",
-  "reviewed_runtime_source": "956727d8ed71f4a766f8668b680d3e9720db53be"
+  "native_evidence_scope": "Preparing the merged T147/G128/W124 family; original LIVE remains T146/G125/W123 at this metadata checkpoint. HUD200 recordings belong to the original T146/W123/G125 public diagnostic configuration, and Uses observations to the original G125 diagnostic. Neither establishes combined T147/G128/W124 native, saved-world or client acceptance. Original draft release notes and evidence remain unchanged. Complete-family source-bound gates and installation readback remain required; client=false and production_ready=false.",
+  "expected_archive_sha256": "013295193c5879de20c59ed4ed7aaedab189cd250255159e7c05c091abb8952f",
+  "reviewed_runtime_source": "b0e5351e33ad2d4cde2aeeca91f540b67267a69d",
+  "runtime_ci_run_id": 38125105783,
+  "paired_owned_sources": {
+    "grilling": "ff452251cf62632d88b17237b6ea9e4fa49c4c83",
+    "world-liquor": "63d6f5c11ffe6e3c5579212a51314c24466c49a8"
+  }
 }
