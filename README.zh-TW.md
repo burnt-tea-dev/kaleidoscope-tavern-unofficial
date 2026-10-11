@@ -1,6 +1,10 @@
-## 當前維護基線：0.6.147
+## 當前已合併來源：0.6.147
 
-T147是**草稿來源候選**，精確配對W124。僅將雪克杯進度顯示100ms改為200ms，游標一tick移動維持50ms。HUD200診斷錄影的連續性較佳，但保留末端停住觀察；實體輸入／封包時序及新正式版配對驗收未證實。本輪不合併、發佈或改LIVE。見[草稿範圍](docs/RELEASE-NOTES-0.6.147.md)。
+T147的有界HUD200修補已由[PR331](https://github.com/casama233/kaleidoscope-tavern-unofficial/pull/331)合併。雪克杯進度顯示100ms改為200ms，游標一tick移動維持50ms。目前正以相同canonical自有檔案準備T147／G128／W124公開發版與完整家族LIVE更新。此準備節點的原LIVE仍是T146／G125／W123；實際部署與驗收以[家族現況](family/BASELINE-STATUS.md)為準。
+
+待明確發布後使用：[v0.6.147-beta.1 Release](https://github.com/casama233/kaleidoscope-tavern-unofficial/releases/tag/v0.6.147-beta.1)及[完整酒館BP／RP下載](https://github.com/casama233/kaleidoscope-tavern-unofficial/releases/download/v0.6.147-beta.1/Kaleidoscope_Tavern_Unofficial_0.6.147_baseline1.mcaddon)。[發版準備頁](docs/PUBLICATION-T147-G128-W124.md)列出精確來源、相依及公開Cookery API組裝範圍。
+
+HUD200有限診斷錄影支持連續可見改善，也保留末端停住觀察；實體輸入／封包時序及新正式家族完整驗收尚未證實。[原始診斷範圍](docs/RELEASE-NOTES-0.6.147.md)保持原文與證據身份。
 
 T146在canonical T145上整合板面逆轉換、before-event安全原料快照與雪克杯100ms進度顯示。T146／W123／G125已於2026-10-11通過完整家族准入及一次新鮮存檔的首次啟動／保存／重啟後部署，真人驗收仍待完成。先前五段獨立HUD錄影保留已測範圍；按住換槽不確定，同秒快速重開尚未測。見[範圍與驗證](docs/RELEASE-NOTES-0.6.146.md)。
 
@@ -19,7 +23,7 @@ Java酒館的基岩版移植，包含釀造、調酒、酒架／酒櫃、家具�
 ## 現行來源與需求
 
 - 版本及精確相依以 [baseline.json](baseline.json) 為準；更新見 [CHANGELOG.md](CHANGELOG.md)。
-- 目前已部署開發基線為酒館 **0.6.146**、世界名酒 **0.1.123**、燒烤 **2.8.125**；精確來源、相依及有界驗證見 [家族鎖](family/upstream.lock.json) 與 [當前 baseline](family/BASELINE-STATUS.md)。
+- 此準備節點的原LIVE為酒館 **0.6.146**、世界名酒 **0.1.123**、燒烤 **2.8.125**；[家族鎖](family/upstream.lock.json)選取新T147／G128／W124候選，真正部署與有界驗證見[當前 baseline](family/BASELINE-STATUS.md)。
 - 基岩版1.26.50以上；目前引擎目標為BDS1.26.52.3。BP與RP兩側一起啟用。
 - Cookery可選，家族目前核驗作者1.6.0；世界名酒須搭配其宣告的酒館版本。
 - 升級前備份世界並移除重複舊包。私有料理整合是另一個識別明確的addon，不是私有酒館分支。
