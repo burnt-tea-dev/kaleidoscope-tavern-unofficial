@@ -159,33 +159,25 @@ class BindingTests(unittest.TestCase):
             native.assert_not_called()
             action.assert_not_called()
 
-    def test_preflight_propagates_each_central_validator_failure_without_local_fallback(self):
+    def test_preflight_propagates_static_failure_without_launching_native_or_server_actions(self):
         receipt = {'packs': [{'uuid': 'fixture-pack'}]}
-        for failed in ('static', 'native'):
-            with (
-                self.subTest(failed=failed),
-                patch.object(deploy_live, 'summary', return_value={'status': 'RUNNING'}),
-                patch.object(deploy_live, 'verify_predeploy', return_value=receipt),
-                patch.object(deploy_live, 'verify_candidate_sources', return_value=receipt),
-                patch.object(workflow, 'same_runtime', return_value=False),
-                patch.object(deploy_live, 'sha', return_value='same-reviewed-guard'),
-                patch.object(workflow, 'record_static') as static,
-                patch.object(workflow, 'verify_native') as native,
-                patch.object(deploy_live, 'read', side_effect=AssertionError('Local evidence fallback forbidden')) as local_read,
-                patch.object(deploy_live, 'quality') as quality,
-                patch.object(deploy_live, 'source_state') as sources,
-            ):
-                (static if failed == 'static' else native).side_effect = AssertionError('Central ' + failed + ' rejected')
-                with self.assertRaisesRegex(AssertionError, 'Central ' + failed + ' rejected'):
-                    deploy_live.preflight()
-                static.assert_called_once_with(verified_candidate=receipt)
-                if failed == 'native':
-                    native.assert_called_once_with(verified_candidate=receipt)
-                else:
-                    native.assert_not_called()
-                local_read.assert_not_called()
-                quality.assert_not_called()
-                sources.assert_not_called()
+        with (
+            patch.object(deploy_live, 'summary', return_value={'status': 'RUNNING'}),
+            patch.object(deploy_live, 'verify_predeploy', return_value=receipt),
+            patch.object(deploy_live, 'verify_candidate_sources', return_value=receipt),
+            patch.object(workflow, 'same_runtime', return_value=False),
+            patch.object(deploy_live, 'sha', return_value='same-reviewed-guard'),
+            patch.object(workflow, 'record_static', side_effect=AssertionError('Central static rejected')) as static,
+            patch.object(workflow, 'verify_native') as native,
+            patch.object(deploy_live, 'action') as action,
+            patch.object(deploy_live, 'quality') as quality,
+        ):
+            with self.assertRaisesRegex(AssertionError, 'Central static rejected'):
+                deploy_live.preflight()
+            static.assert_called_once_with(verified_candidate=receipt)
+            native.assert_not_called()
+            action.assert_not_called()
+            quality.assert_not_called()
 
 
 class CIProvenanceTests(unittest.TestCase):

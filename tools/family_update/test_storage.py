@@ -56,11 +56,11 @@ class StorageTests(unittest.TestCase):
   with self.assertRaisesRegex(RuntimeError,'active process'):m.assert_idle(self.engine,proc)
   (fd/'4').unlink();(fd/'4').symlink_to(self.backup/'data');m.assert_idle(self.engine,proc)
  def test_reserve_and_estimated_growth_block_before_allocations(self):
-  with patch.object(m.shutil,'disk_usage',return_value=shutil._ntuple_diskusage(100*m.GIB,90*m.GIB,10*m.GIB)):
-   with self.assertRaisesRegex(RuntimeError,'15 GiB reserve'):m.require_space(self.root,'assemble')
-  with patch.object(m.shutil,'disk_usage',return_value=shutil._ntuple_diskusage(100*m.GIB,80*m.GIB,20*m.GIB)):
+  with patch.object(m.shutil,'disk_usage',return_value=shutil._ntuple_diskusage(100*m.GIB,99*m.GIB,m.GIB)):
+   with self.assertRaisesRegex(RuntimeError,'2 GiB reserve'):m.require_space(self.root,'assemble')
+  with patch.object(m.shutil,'disk_usage',return_value=shutil._ntuple_diskusage(100*m.GIB,94*m.GIB,6*m.GIB)):
    with self.assertRaises(RuntimeError):m.require_space(self.root,'deploy',6*m.GIB)
-   self.assertEqual(m.require_space(self.root,'assemble')['required_bytes'],15*m.GIB)
+   self.assertEqual(m.require_space(self.root,'assemble')['required_bytes'],2*m.GIB)
  def test_allocation_counts_hardlinks_once_and_does_not_follow_symlinks(self):
   p=self.root/'allocation';p.mkdir();f=p/'one';f.write_bytes(b'x'*4096);os.link(f,p/'two');(p/'outside').symlink_to(self.backup,target_is_directory=True)
   expected=f.stat().st_blocks*512+(p/'outside').lstat().st_blocks*512

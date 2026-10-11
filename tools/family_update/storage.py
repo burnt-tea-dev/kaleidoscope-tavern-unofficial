@@ -7,7 +7,9 @@ import shutil
 import stat
 
 GIB = 1024 ** 3
-RESERVE = 15 * GIB
+# Owner 2026-10-11: reserve actual deployment copies plus operating headroom,
+# rather than blocking a small development update on an arbitrary 15 GiB floor.
+RESERVE = 2 * GIB
 
 
 def allocated(root):
@@ -24,11 +26,30 @@ def allocated(root):
     return total
 
 
+def deployment_allocation(world, candidate, *, identity_migration=False, container_recovery=False):
+    """Peak growth: one backup, one saved-world rehearsal, one candidate copy.
+
+    The rehearsal pack copy is pruned before installation staging, and retired
+    live packs move into rollback by rename. Neither needs another full world.
+    UUID migration and container repair keep their actual extra database copies.
+    """
+    world = Path(world)
+    full = allocated(world)
+    pack_bytes = sum(allocated(world / side) for side in ['behavior_packs', 'resource_packs'])
+    data = max(0, full - pack_bytes)
+    additional = full + data + allocated(candidate)
+    if identity_migration:
+        additional += full + allocated(world / 'db')
+    if container_recovery:
+        additional += allocated(world / 'db')
+    return additional
+
+
 def require_space(output, stage, additional=0):
     free = shutil.disk_usage(output).free
     required = RESERVE + additional
     if free < required:
-        raise RuntimeError(f'{stage} needs {required / GIB:.1f} GiB free including a 15 GiB reserve; '
+        raise RuntimeError(f'{stage} needs {required / GIB:.1f} GiB free including a 2 GiB reserve; '
                            f'only {free / GIB:.1f} GiB remains. Delete retired copies with cleanup-copies before retrying; '
                            'live is not stopped by this preflight.')
     return {'stage': stage, 'available_bytes': free, 'required_bytes': required}

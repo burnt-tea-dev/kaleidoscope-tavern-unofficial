@@ -19,7 +19,8 @@ class RetentionTests(unittest.TestCase):
         self.root = Path(self.tmp.name)
         self.lease = self.root / 'lease.json'
         self.write(self.lease, {'state': 'completed'})
-        self.a, self.b, self.c = [self.deployment(name, day) for name, day in [('old', 1), ('middle', 2), ('new', 3)]]
+        self.a, self.b, self.c = [self.deployment(name, day, saved_only=day == 3)
+                                for name, day in [('old', 1), ('previous', 2), ('new', 3)]]
         self.idle = patch.object(m, 'assert_idle')
         self.idle.start()
         self.addCleanup(self.idle.stop)
@@ -31,7 +32,7 @@ class RetentionTests(unittest.TestCase):
         d = json.loads(p.read_text())
         fn(d)
         self.write(p, d)
-    def deployment(self, name, day):
+    def deployment(self, name, day, saved_only=False):
         r = self.root / name
         stamp = f'2026-10-{day:02}T01:00:00+00:00'
         assembled, reviewed, engine = name + '-assembled', name + '-reviewed', 'original-engine'
@@ -67,6 +68,10 @@ class RetentionTests(unittest.TestCase):
                 'build-evidence.json': {'candidate_receipt_sha256': assembled, 'versions': dep['versions'], 'sources': {'tavern': {'canonical_path': str(self.root / 'source')}}},
                 'static-evidence.json': {'ok': True, 'pr_checks_verified': True, 'candidate_receipt_sha256': assembled},
                 'rollback-map.json': rollback, 'production-before/inventory.json': inventory}
+        if saved_only:
+            saved.update(native_acceptance_source='saved_world')
+            del docs['exact-engine/native-report.json']
+            refs[:] = [row for row in refs if not row['path'].endswith('exact-engine/native-report.json')]
         for relative, value in docs.items():
             self.write(r / relative, value)
         for relative in m.COPIES:
@@ -98,10 +103,11 @@ class RetentionTests(unittest.TestCase):
         return next(row for row in plan['outputs'] if row['output'] == str(output))
     def execute(self, planned, **kwargs):
         return m.execute(planned, lease=self.lease, **kwargs)
-    def test_latest_two_original_evidence_retained_with_single_integrity_boundary(self):
+    def test_latest_one_original_evidence_retained_with_single_integrity_boundary(self):
         before = {rel: (self.a / rel).read_bytes() for rel in m.REPORTS}
         p = self.plan()
-        self.assertEqual(p['newest_retained'], [str(self.c), str(self.b)])
+        self.assertEqual(p['retain'], 1)
+        self.assertEqual(p['newest_retained'], [str(self.c)])
         self.assertTrue(p['rollback_retention_ready'])
         self.assertEqual(len(self.row(p, self.a)['delete']), 11)
         self.assertTrue((self.a / 'production-snapshot').exists()) # read-only plan
@@ -109,7 +115,7 @@ class RetentionTests(unittest.TestCase):
         self.assertEqual(result['state'], 'completed')
         for rel in m.COPIES + m.BACKUPS:
             self.assertFalse((self.a / rel).exists())
-            self.assertTrue((self.b / rel).exists())
+            self.assertFalse((self.b / rel).exists())
             self.assertTrue((self.c / rel).exists())
         for rel, data in before.items():
             self.assertEqual((self.a / rel).read_bytes(), data)
@@ -118,10 +124,12 @@ class RetentionTests(unittest.TestCase):
         marker = json.loads((self.a / m.MARKER).read_text())
         self.assertTrue(marker['cannot_resume_or_redeploy'])
         self.assertEqual(marker['state'], 'pruned')
+        self.assertEqual(result['retained_backup_integrity']['hash_boundary_passes'], 1)
+        self.assertFalse((self.c / 'exact-engine/native-report.json').exists())
         self.assertIn('disk_after', result)
     def test_completed_sort_uses_metadata_not_output_name(self):
         self.modify(self.a, 'deployment-result.json', lambda d: d.update(completed_at='2026-10-04T01:00:00+00:00'))
-        self.assertEqual(self.plan()['newest_retained'], [str(self.a), str(self.c)])
+        self.assertEqual(self.plan()['newest_retained'], [str(self.a)])
     def test_latest_missing_snapshot_keeps_every_older_backup(self):
         (self.c / 'production-snapshot/db/data').unlink()
         p = self.plan()
@@ -133,7 +141,7 @@ class RetentionTests(unittest.TestCase):
     def test_latest_incomplete_proof_still_blocks_backup_retirement(self):
         (self.c / 'poststart-verification.json').unlink()
         p = self.plan()
-        self.assertEqual(p['newest_retained'], [str(self.c), str(self.b)])
+        self.assertEqual(p['newest_retained'], [str(self.c)])
         self.assertFalse(p['rollback_retention_ready'])
         self.assertFalse(set(m.BACKUPS) & {x['relative'] for x in self.row(p, self.a)['delete']})
     def test_failed_partial_and_metadata_mismatch_preserved(self):
@@ -148,14 +156,16 @@ class RetentionTests(unittest.TestCase):
                 self.modify(self.a, file, edit)
                 self.assertEqual(self.row(self.plan(), self.a)['delete'], [])
                 p.write_text(original)
+        (self.a / 'exact-engine/native-report.json').unlink()
+        self.assertEqual(self.row(self.plan(), self.a)['delete'], [])
     def test_current_references_preserve_output_but_do_not_hide_latest_horizon(self):
         p = self.plan(protected=[self.c, self.a / 'reviewed-family-receipt.json'])
-        self.assertEqual(p['newest_retained'], [str(self.c), str(self.b)])
+        self.assertEqual(p['newest_retained'], [str(self.c)])
         self.assertEqual(self.row(p, self.a)['delete'], [])
     def test_source_sibling_does_not_hide_deployment(self):
         protected = self.root / 'source-sibling'
         protected.mkdir()
-        self.assertEqual(self.plan(protected=[protected])['newest_retained'], [str(self.c), str(self.b)])
+        self.assertEqual(self.plan(protected=[protected])['newest_retained'], [str(self.c)])
     def test_active_process_and_active_lease_preserve_all(self):
         with patch.object(m, 'assert_idle', side_effect=RuntimeError('active process')):
             self.assertEqual(self.row(self.plan(), self.a)['delete'], [])
@@ -262,7 +272,7 @@ class RetentionTests(unittest.TestCase):
             return real_check(*args)
         def context():
             if (self.a / m.MARKER).exists() and json.loads((self.a / m.MARKER).read_text()).get('state') == 'pruned':
-                (self.b / 'production-snapshot/db/data').write_text('modified after verification')
+                (self.c / 'production-snapshot/db/data').write_text('modified after verification')
             return {'lease': self.lease}
         with patch.object(m, '_retained_integrity', side_effect=verified):
             result = self.execute(p, context=context)
@@ -283,12 +293,12 @@ class RetentionTests(unittest.TestCase):
         self.assertEqual(result['state'], 'completed')
         self.assertTrue((self.root / 'unrelated-native-report.json').exists())
         self.assertFalse((self.a / 'production-snapshot').exists())
-        self.assertTrue((self.b / 'production-snapshot/db/data').exists())
+        self.assertFalse((self.b / 'production-snapshot/db/data').exists())
         self.assertTrue((self.c / 'production-snapshot/db/data').exists())
     def test_new_protected_deployment_header_refuses_next_backup_group(self):
         older = self.deployment('older', 4)
         self.modify(older, 'deployment-result.json', lambda d: d.update(completed_at='2026-09-30T01:00:00+00:00'))
-        p = self.plan()
+        p = self.plan(protected=[self.b, self.c])
         newest = self.root / 'new-protected-deployment'
         def context():
             if (self.a / m.MARKER).exists() and json.loads((self.a / m.MARKER).read_text()).get('state') == 'pruned':
@@ -339,6 +349,8 @@ class RetentionTests(unittest.TestCase):
         alias.symlink_to(self.root, target_is_directory=True)
         with self.assertRaises(ValueError):
             m.plan(alias)
+        with self.assertRaisesRegex(ValueError, 'at least the newest complete rollback'):
+            self.plan(retain=0)
 
 if __name__ == '__main__':
     unittest.main()
