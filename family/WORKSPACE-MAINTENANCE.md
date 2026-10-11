@@ -61,6 +61,13 @@ cache只存在本次呼叫內；lease、host namespace、掛載、活動程序�
 只記實際unlink的leaf，保留JSON／JS／LOG與群組目錄；中斷保持retiring，重新計畫只選剩餘生成檔，
 前次成功移除紀錄另留 `previous_removed`。明列退休不代表正常QA，`qa_closed=false`及原失敗狀態保留。
 
+同次清理的共用hardlink以記憶體內inode ledger處理，原計畫metadata不刷新。
+每leaf以不跟隨symlink的fd核對既定身份／ctime／nlink；unlink後保持dev／inode／size／mtime／mode／uid／gid，
+且nlink恰減1，才登記精確原→後ctime／nlink鏈。群組和後續leaf只接受此鏈到目前身份的轉換，
+不忽略ctime、不重hash；最後alias移除後不再保留該ledger項。實際unlink立即記錄，事後核對失敗也不漏記。
+外部metadata變更保留該engine剩餘輸入與retiring標記並繼續其他項；來源／Git／掛載／活動／引用異常仍中止。
+fd前後stat沿用既有競態邊界，不宣稱核心提供因果證明；實際空間回收以disk delta確認，不累加hardlink路徑大小。
+
 ## 避免重複工作
 
 本機只診斷具體失敗；完整套件交必要 CI。版本／檔案完整性核對是部署前提，不是玩法或畫面證據。沒有內容變更就不升包、不建立 QA 世界、不重啟 LIVE；工作區或文件整理只審閱差異。
