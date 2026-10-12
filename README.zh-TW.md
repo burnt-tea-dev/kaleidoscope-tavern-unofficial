@@ -1,8 +1,16 @@
 ## 當前維護基線：0.6.149
 
-T149 將導覽／擴充註冊分批準備，雪克杯圖形改經已觀測的可選 title 路由，讓其他 addon 保留共享 Actionbar。配方、物品結算、導覽內容及原圖形時間保持。候選仍待 canonical CI、完整家族存檔／原生准入及真人畫面驗證；目前 LIVE 為 T148／G129／W125／private-integration。見 [T149 修補範圍](docs/RELEASE-NOTES-0.6.149.md)。
+T149 將導覽／擴充註冊分批準備，雪克杯圖形改經已觀測的可選 title 路由，讓其他 addon 保留共享 Actionbar。配方、物品結算、導覽內容及原圖形時間保持。見 [T149 修補範圍](docs/RELEASE-NOTES-0.6.149.md)，原候選說明保留當時狀態。
+
+**[private deployment time]** 已部署 managed-server **T149／G130／W126／private-integration**，完整42包、BDS1.26.52.3 RUNNING。Canonical PR／CI、static、停服存檔副本first／restart、准入及逐檔／順序讀回通過。Poststart **292 warnings／0 errors**，其中 **265 watchdog**，含Spike、Slowdown及2筆High Memory；啟動卡頓仍未全部解決，不算效能驗收。
+
+[下載v0.6.149-beta.1](https://github.com/casama233/kaleidoscope-tavern-unofficial/releases/tag/v0.6.149-beta.1)或[完整酒館BP／RP](https://github.com/casama233/kaleidoscope-tavern-unofficial/releases/download/v0.6.149-beta.1/Kaleidoscope_Tavern_Unofficial_0.6.149_baseline1.mcaddon)。[公開下載與LIVE核對](family/PUBLIC-DOWNLOAD-LIVE-HUD-20261013.md)確認三個公開addon的六份BP／RP共 **9343檔** 與已安裝內容及准入收據完全相同；私有料理與第三方host變體另有canonical來源。
+
+reviewed integration新增指南有界接收，reviewed integration配方快取、reviewed integration renderer及ChineseFood1.0.10432保留。AMW2.6.28、JavaSaturation1.5.5、UIQueue1.6.10034為保全玩法／資產的登記HUD相容變體，不冒充作者新版。來源操作次數及不同啟動採樣窗口不能證明全局效能改善。快開短空條、畫面與任意第三方整份HUD／title寫入仍待[完整家族真人回歸](docs/HUD-COMPAT-CLIENT-HANDOFF-20261012.md)；`client=false`、`production_ready=false`、`pending_client_acceptance`。
 
 ## 歷史修補範圍：0.6.147
+
+[T148／G129／W125核對](family/PUBLIC-DOWNLOAD-LIVE-UI-20261012.md)保留原9339檔收據與驗收範圍；舊影片不挪作T149／G130驗收。
 
 T147的有界HUD200修補已由[PR331](https://github.com/casama233/kaleidoscope-tavern-unofficial/pull/331)合併。雪克杯進度顯示100ms改為200ms，游標一tick移動維持50ms。T147／G128／W124家族已於2026-10-12通過static、一次停服存檔首次載入／重啟、完整准入與讀回後部署managed-server；真人驗收仍待完成。
 
@@ -27,7 +35,7 @@ Java酒館的基岩版移植，包含釀造、調酒、酒架／酒櫃、家具�
 ## 現行來源與需求
 
 - 版本及精確相依以 [baseline.json](baseline.json) 為準；更新見 [CHANGELOG.md](CHANGELOG.md)。
-- 目前已部署開發家族為酒館 **0.6.148**、世界名酒 **0.1.125**、燒烤 **2.8.129**、私有整合 **1.0.33**；精確相依、來源與有界驗證見[家族鎖](family/upstream.lock.json)和[當前 baseline](family/BASELINE-STATUS.md)。
+- 目前已部署開發家族為酒館 **0.6.149**、世界名酒 **0.1.126**、燒烤 **2.8.130**、私有整合 **1.0.34**；精確相依、來源與有界驗證見[家族鎖](family/upstream.lock.json)和[當前 baseline](family/BASELINE-STATUS.md)。
 - 基岩版1.26.50以上；目前引擎目標為BDS1.26.52.3。BP與RP兩側一起啟用。
 - Cookery可選，家族目前核驗作者1.6.0；世界名酒須搭配其宣告的酒館版本。
 - 升級前備份世界並移除重複舊包。私有料理整合是另一個識別明確的addon，不是私有酒館分支。
