@@ -6,6 +6,12 @@
 
 T147 與 G128 把各自圖形及 root modifications 放在同一路徑 `ui/hud_screen.json`，managed-server 的酒館資源包在煙火之上；兩包的原生訊息過濾亦不同。即使單包成功，完整堆疊仍可能漏掉另一側的圖形工廠。本輪把兩個 renderer 移入獨立已登記命名空間，兩包共用同一個可選掛載橋接，並共同排除內部封包。靜態檢查驗了原生 29 個控制、兩個命名空間、缺包空面板及相同橋接，尚未執行客戶端 renderer。
 
+## 先解除上游讀檔與資源包辨認阻塞
+
+Windows SSH 的 DNS／networkDenied 失敗不需要卡住只讀查核：透過 GitHub connector 讀取[本輪 BSM 原檔快照](../family/JAVA-UPSTREAM-READONLY-20261012.md)，按內附 SHA 與查核時間辨認同一份 JSON，再和 `family/java-upstream.json` 一起查核。快照不是永久最新來源；原檔的新版本／適配與 parity pending 狀態保持。
+
+新的 rapid2 空白、取消／進食完成及調酒完成觀察尚未附可核對的候選版本；保留各場景結果，不挪作 T148 的客戶端驗收。先確認實際 LIVE、客戶端 BP／RP UUID／版號、完整堆疊與 GUI profile／比例，優先查資源包快取及載入優先序。正常退出客戶端並重新接受已更新的伺服器資源包後，只重錄下面同一流程；沒有明確新失敗時不再轉入隔離 camera／hold 微調或重跑舊影片。
+
 ## 一次正常玩家流程
 
 1. 重新加入更新完成的 managed-server，正常接受伺服器資源包。保留客戶端 content log，先確認快捷欄、準星、飢餓／血量及 AMW 現有 HUD 均存在。
