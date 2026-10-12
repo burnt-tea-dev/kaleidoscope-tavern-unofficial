@@ -14,23 +14,20 @@ export function digest(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.char
 
 /** JSON data preparation with bounded work between yields. Wire order is unchanged. */
 function* quotedTokens(value){
- let chunk='"';
- for(let i=0;i<value.length;i++){
-  const code=value.charCodeAt(i);
-  if(code===34)chunk+='\\"';
-  else if(code===92)chunk+='\\\\';
-  else if(code===8)chunk+='\\b';
-  else if(code===9)chunk+='\\t';
-  else if(code===10)chunk+='\\n';
-  else if(code===12)chunk+='\\f';
-  else if(code===13)chunk+='\\r';
-  else if(code<32||code>=0xd800&&code<=0xdfff&&!(code<=0xdbff&&value.charCodeAt(i+1)>=0xdc00&&value.charCodeAt(i+1)<=0xdfff))chunk+='\\u'+code.toString(16).padStart(4,'0');
-  else if(code>=0xd800&&code<=0xdbff){chunk+=value.slice(i,i+2);i++;}
-  else chunk+=value[i];
-  if(chunk.length>=1024){yield chunk;chunk='';}
+ let prefix='"';
+ if(value.length===0){yield '""';return;}
+ for(let start=0;start<value.length;){
+  let end=Math.min(value.length,start+1024);
+  if(end<value.length){
+   const left=value.charCodeAt(end-1),right=value.charCodeAt(end);
+   if(left>=0xd800&&left<=0xdbff&&right>=0xdc00&&right<=0xdfff)end--;
+  }
+  const escaped=JSON.stringify(value.slice(start,end)).slice(1,-1);
+  yield prefix+escaped+(end===value.length?'"':'');
+  prefix='';start=end;
  }
- yield chunk+'"';
 }
+
 function* jsonTokens(value,canonicalKeys,arrayMember=false){
  if(typeof value==='string'){yield* quotedTokens(value);return;}
  if(Array.isArray(value)){

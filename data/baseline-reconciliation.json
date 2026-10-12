@@ -4187,6 +4187,12 @@
       "before": null,
       "after": "e5d794e6c56b4a094f6f704eb4dd8a0f1a29277123fcb829fc9dc9bb00494115",
       "reason": "T149 new owned bounded formatting HUD transport; no Actionbar writes or third-party router election. See docs/RELEASE-NOTES-0.6.149.md."
+    },
+    "runtime/BP/scripts/data/legacy-guide-products.js": {
+      "before": null,
+      "after": "bb3e7da59efe2f73b388453a7529880289a3099ac4b6479184c5186e36bcf32e",
+      "reason": "T150 builds the exact legacy API product projection during canonical builds, removing the module-load full guide drain, and retains exact JSON through bounded native quoting. Independent T149 page bytes and current guide/startup checks pass; native startup/client performance remains pending. See docs/RELEASE-NOTES-0.6.150.md.",
+      "release": "0.6.150"
     }
   },
   "reviewedFunctionalDeltas": {
@@ -8351,6 +8357,55 @@
               220,
               221,
               "   itemTags:id=>{try{return new ItemStack(id,1).getTags();}catch{return [];}},\n"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "release": "0.6.150",
+      "files": {
+        "runtime/BP/scripts/core/util.js": {
+          "before": "518e37827bb6ae3d924b7cf231ac00ffc81373e82885603f2e084e4292f09843",
+          "after": "5be8ea93064ca1d7b2298a8b31d6a479aedcf6eeabe4a66bf2c019e1f588e388",
+          "reason": "T150 builds the exact legacy API product projection during canonical builds, removing the module-load full guide drain, and retains exact JSON through bounded native quoting. Independent T149 page bytes and current guide/startup checks pass; native startup/client performance remains pending. See docs/RELEASE-NOTES-0.6.150.md.",
+          "reverseOps": [
+            [
+              24,
+              35,
+              " let chunk='\"';\n for(let i=0;i<value.length;i++){\n  const code=value.charCodeAt(i);\n  if(code===34)chunk+='\\\\\"';\n  else if(code===92)chunk+='\\\\\\\\';\n  else if(code===8)chunk+='\\\\b';\n  else if(code===9)chunk+='\\\\t';\n  else if(code===10)chunk+='\\\\n';\n  else if(code===12)chunk+='\\\\f';\n  else if(code===13)chunk+='\\\\r';\n  else if(code<32||code>=0xd800&&code<=0xdfff&&!(code<=0xdbff&&value.charCodeAt(i+1)>=0xdc00&&value.charCodeAt(i+1)<=0xdfff))chunk+='\\\\u'+code.toString(16).padStart(4,'0');\n  else if(code>=0xd800&&code<=0xdbff){chunk+=value.slice(i,i+2);i++;}\n  else chunk+=value[i];\n  if(chunk.length>=1024){yield chunk;chunk='';}\n"
+            ],
+            [
+              36,
+              36,
+              " yield chunk+'\"';\n"
+            ],
+            [
+              37,
+              38,
+              ""
+            ]
+          ]
+        },
+        "runtime/BP/scripts/data/legacy-guide-projection.js": {
+          "before": "8d5d7bc9262f4f86dbaf98b880d5af5c98d91ec6bead3475f08d096564fe506d",
+          "after": "8ab612882400442e97486f5c558ccfded60e6f6e95cd9184a2a0902ed7f61139",
+          "reason": "T150 builds the exact legacy API product projection during canonical builds, removing the module-load full guide drain, and retains exact JSON through bounded native quoting. Independent T149 page bytes and current guide/startup checks pass; native startup/client performance remains pending. See docs/RELEASE-NOTES-0.6.150.md.",
+          "reverseOps": [
+            [
+              2,
+              3,
+              "import {buildCookeryGuidePayload} from './cookery-guide-payload.js';\nimport {BUILTIN_RECIPES} from './recipes.js';\nimport {SHAKER_RECIPES} from './mixology.js';\nconst recipes=[...BUILTIN_RECIPES,...SHAKER_RECIPES];\nconst payload=buildCookeryGuidePayload({list:()=>[],allPages:()=>[],allRecipes:()=>recipes});\n"
+            ],
+            [
+              5,
+              6,
+              "  const entry=payload.entries.find(e=>e.id==='kaleidoscope_tavern:'+short);\n"
+            ],
+            [
+              13,
+              14,
+              "  recipeIds:recipes.filter(r=>entries.some(e=>e.id===(r.output?.item??r.output?.byQuality?.[0]))).map(r=>r.id)};\n"
             ]
           ]
         }
