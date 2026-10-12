@@ -4,13 +4,14 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {HUD_REFRESH_TICKS} from '../runtime/BP/scripts/core/shaker-hud.js';
 
-const hud=JSON.parse(readFileSync(new URL('../runtime/RP/ui/hud_screen.json',import.meta.url),'utf8'));
+const hud=JSON.parse(readFileSync(new URL('../runtime/RP/ui/kt_tavern_hud.json',import.meta.url),'utf8'));
+const bridge=JSON.parse(readFileSync(new URL('../runtime/RP/ui/hud_screen.json',import.meta.url),'utf8'));
 const packet=hud.kt_mixology_packet;
 const slots=packet.controls.find(row=>row.slots).slots.controls;
 const progress=packet.controls.find(row=>row.progress).progress.controls;
 function resolve(name,value){
  const base=name.split('@')[1];
- return base?{...hud[base.replace(/^hud\./,'')],...value}:value;
+ return base?{...hud[base.replace(/^kaleidoscope_tavern_hud\./,'')],...value}:value;
 }
 const images=rows=>rows.flatMap(row=>Object.entries(row).map(([name,value])=>({name,...resolve(name,value)})));
 const slotSprites=images(slots),progressSprites=images(progress);
@@ -25,13 +26,13 @@ test('slot and progress sprites own finite expiry covering their refresh cadence
   for(const sprite of sprites){
    assert.equal(sprite.type,'image',sprite.name);
    assert.equal(sprite.alpha,1,sprite.name);
-   assert.deepEqual(sprite.anims,[`@hud.${waitName}`],sprite.name);
+   assert.deepEqual(sprite.anims,[`@kaleidoscope_tavern_hud.${waitName}`],sprite.name);
   }
   const wait=hud[waitName],fade=hud[fadeName];
   assert.equal(wait.anim_type,'wait');
   assert.equal(wait.duration,holdSeconds);
   assert(wait.duration>=refresh,'Keep sprites opaque through their next expected refresh');
-  assert.equal(wait.next,`@hud.${fadeName}`);
+  assert.equal(wait.next,`@kaleidoscope_tavern_hud.${fadeName}`);
   assert.deepEqual(fade,{anim_type:'alpha',easing:'linear',duration:fadeSeconds,from:1,to:0});
   assert(wait.duration+fade.duration<=hud.kt_mixology_expire.duration);
   // Independent terminal alpha still hides images if the factory retains the parent.
@@ -63,12 +64,13 @@ test('stopped target slots keep their refresh wait but have no extra fade tail',
 
 test('expiry remains confined to owned images and leaves the native factory protocol intact',()=>{
  assert.equal(hud.kt_mixology_factory.factory.name,'hud_actionbar_text_factory');
- assert.equal(hud.kt_mixology_factory.factory.control_ids.hud_actionbar_text,'kt_mixology_packet@hud.kt_mixology_packet');
+ assert.equal(hud.kt_mixology_factory.factory.control_ids.hud_actionbar_text,'kt_mixology_packet@kaleidoscope_tavern_hud.kt_mixology_packet');
  for(const name of ['hud_actionbar_text','hud_actionbar_text/actionbar_message']){
-  assert.deepEqual(Object.keys(hud[name]).sort(),['$kt_actionbar_text','visible']);
+  assert.deepEqual(Object.keys(bridge[name]).sort(),['$kt_family_actionbar_text','visible']);
  }
  assert(!JSON.stringify(hud.kt_effect_icons).includes('kt_mixology_sprite_'));
  assert(!JSON.stringify(hud.kt_effect_icons).includes('kt_mixology_progress_'));
- assert.deepEqual(Object.keys(hud.root_panel),['modifications']);
+ assert.deepEqual(Object.keys(hud.root),['type','size','controls']);
+ assert(bridge.root_panel.modifications.every(m=>m.operation==='insert_back'));
  assert(!('kt_mixology_sprite_wait' in packet));
 });

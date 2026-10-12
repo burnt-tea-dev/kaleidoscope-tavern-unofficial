@@ -137,7 +137,7 @@ def main(argv=None):
     # Only protocol-scoped visibility may touch native Actionbar controls. Never hide
     # all messages through alpha, bindings, or replacement controls.
     for key in ['hud_actionbar_text','hud_actionbar_text/actionbar_message']:
-        assert set(hud[key])=={'$kt_actionbar_text','visible'}
+        assert set(hud[key])=={'$kt_family_actionbar_text','visible'}
     subprocess.run(['node','tools/check_actionbar_filter.mjs'],cwd=ROOT,check=True)
     assert 'pbr' in docs[RT/'RP/manifest.json'].get('capabilities',[])
     # Custom entity materials must be in the client-discovered entry point, not

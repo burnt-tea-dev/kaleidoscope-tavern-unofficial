@@ -1,3 +1,7 @@
+## Current maintained baseline: 0.6.148
+
+T148 and G129 move their HUD renderers into separate registered namespaces and ship the same minimal bridge, so a higher family UI file mounts both optional ports. The joint native Actionbar filter also excludes Grilling internal frame packets. Original sprites, timing and scripts remain unchanged. See [T148 repair scope](docs/RELEASE-NOTES-0.6.148.md). Full-family deployment and human client acceptance are pending; the currently deployed T147/G128/W124 releases remain listed below.
+
 ## Current merged source: 0.6.147
 
 T147's bounded HUD200 repair is merged in [PR331](https://github.com/casama233/kaleidoscope-tavern-unofficial/pull/331). The shaker progress hold changes from 100 to 200 ms; one-tick cursor motion stays 50 ms. The T147/G128/W124 family was deployed to luosen on 2026-10-12 after static checks, a fresh stopped-save first start/restart and full admission/readback. Human client acceptance remains pending.
