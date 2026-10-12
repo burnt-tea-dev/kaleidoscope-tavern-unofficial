@@ -103,6 +103,23 @@ class PreservedDependencyTests(unittest.TestCase):
    with self.assertRaises(json.JSONDecodeError):read_definition(p,False)
 
 class ReviewedHostExtensionTests(unittest.TestCase):
+ def test_recipe_cache_profile_is_one_exact_registry_after_the_public_api(self):
+  from host_extensions import apply_host_extension,validate_recipe_cache_profile
+  name='scripts/api/extensionRegistry.js';before='db08671267c46ed151836a4bb80dccc10dee5ef486489009f49d8e83ac112ca1';after='5cc512e108df7c3ab3583bb9f48422bf9f013c333bcd04bd2a3098022d70eee7'
+  pin='da12fe6d39d7514aff1de3c963d69899324d771be5ca0fc3da1ccb759c7ad458'
+  # Declaration-only fixture: no synthetic author module or checksum bypass.
+  # Actual source and completed hashes remain required by apply_host_extension.
+  spec={'schema':1,'kind':'cookery-recipe-cache-repair','id':'senluo:cookery-recipe-cache-repair','version':[1,0,1],'host_uuid':'5df753c9-3436-4fba-87f1-a2da3651cfcf','expires':'2099-01-01','feedback':'author reproduction','authorization':'reviewed private source','removal_condition':'author fixes','archive_sha256':pin,'original_files':{name:before},'patched_files':{name:after},'imports':{},'copies':{},'json_updates':[],'insertions':[{'path':name,'anchor':'anchor'+str(i),'position':'before','text':''} for i in range(7)]}
+  source={'owner':'upstream_extended','archive_sha256':pin,'reviewed_extensions':[{'id':'kaleidoscope_grilling:family-api-0.2.10','version':[0,2,10],'patched_files':{name:before}}]}
+  validate_recipe_cache_profile(spec,source)
+  for field,bad in [('host_uuid','wrong'),('archive_sha256','wrong'),('original_files',{'scripts/other.js':before}),('patched_files',{name:'wrong'}),('imports',{name:'import unsafe;'}),('copies',{'scripts/unsafe.js':'scripts/unsafe.js'}),('json_updates',[{'path':'manifest.json'}]),('insertions',spec['insertions'][:-1])]:
+   with self.assertRaises(ValueError):validate_recipe_cache_profile({**spec,field:bad},source)
+  for bad in [{'owner':'upstream','archive_sha256':pin},{**source,'reviewed_extensions':[]},{**source,'archive_sha256':'wrong'}]:
+   with self.assertRaises(ValueError):validate_recipe_cache_profile(spec,bad)
+  with tempfile.TemporaryDirectory() as tmp:
+   root=Path(tmp);(root/'scripts/api').mkdir(parents=True);path=root/name;path.write_text('Unreviewed source must remain untouched.\n')
+   with self.assertRaisesRegex(ValueError,'original host file hash differs'):apply_host_extension(spec,root,root,source)
+   self.assertEqual(path.read_text(),'Unreviewed source must remain untouched.\n')
  def test_exact_insertions_copies_and_immutable_author_identity(self):
   import hashlib
   from host_extensions import apply_host_extension
