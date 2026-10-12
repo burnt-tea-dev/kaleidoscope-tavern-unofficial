@@ -13,6 +13,7 @@ export async function load(url,context,next){
  let source=await fs.readFile(fixture,'utf8');
  source=source.replace('const root=path.dirname(path.dirname(fileURLToPath(import.meta.url)));',"const root=fileURLToPath(new URL('../../../',import.meta.url));");
  source=source.replaceAll('minecraft:consumable','Consume').replaceAll("minecraft:splash'","ThrownSplash'").replaceAll("minecraft:lingering'","ThrownLingering'");
+ source=source.replace('this.onScreenDisplay={setActionBar:m=>this.messages.push(m)};','this.onScreenDisplay={setActionBar:m=>this.messages.push(m),setTitle:(text,options)=>(this.graphicalTitles??=[]).push({text,options})};');
  source+=`
 // Explicit test-only fixture additions for World Liquor and current stable API.
 // Keep the archived fake-server immutable. Its old delivery IDs and missing
@@ -24,6 +25,7 @@ Object.defineProperty(Player.prototype,'isValid',{get(){return !this.removed;}})
 // spawnEntity and setRotation already store this.rotation in the archived double.
 Entity.prototype.getRotation=function(){return {...(this.rotation??{x:0,y:0})};};
 export const EffectTypes={getAll:()=>[]};
+export const EntityTypes={get:()=>undefined}; // This source fixture has no optional UI router.
 export const InputPermissionCategory={Camera:'Camera',Movement:'Movement'};
 export class BlockVolume{constructor(from,to){this.from={...from};this.to={...to};}}
 world.getAbsoluteTime=()=>system.currentTick;

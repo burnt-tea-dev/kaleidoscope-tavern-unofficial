@@ -4177,6 +4177,16 @@
       "release": "0.6.148",
       "reviewedPredecessorCommit": "0be1d05337b4cf8313c06c9bf905320b86eb16ba",
       "reviewDocument": "docs/RELEASE-NOTES-0.6.148.md"
+    },
+    "runtime/BP/scripts/bedrock/shaker-hud-transport.js": {
+      "before": null,
+      "after": "e9aa76edcbbf98cf89f9b6e19e9f7f8aa7aa5c1fa921603e2b44188712b02d7e",
+      "reason": "T149 new owned bounded formatting HUD transport; no Actionbar writes or third-party router election. See docs/RELEASE-NOTES-0.6.149.md."
+    },
+    "runtime/BP/scripts/core/formatting-hud-transport.js": {
+      "before": null,
+      "after": "e5d794e6c56b4a094f6f704eb4dd8a0f1a29277123fcb829fc9dc9bb00494115",
+      "reason": "T149 new owned bounded formatting HUD transport; no Actionbar writes or third-party router election. See docs/RELEASE-NOTES-0.6.149.md."
     }
   },
   "reviewedFunctionalDeltas": {
@@ -4785,7 +4795,7 @@
             [
               64,
               79,
-              " item.setLore(ids.map(x=>({rawtext:[{text:'\u00a77\u25b6 '},{translate:`item.${x}.name`}]})));\n"
+              " item.setLore(ids.map(x=>({rawtext:[{text:'§7▶ '},{translate:`item.${x}.name`}]})));\n"
             ],
             [
               167,
@@ -5090,7 +5100,7 @@
             [
               26,
               29,
-              "    const answer=await new ModalFormData().title(guideText(locale,'language')).dropdown(guideText(locale,'language'),['\u7e41\u9ad4\u4e2d\u6587','\u7b80\u4f53\u4e2d\u6587','English'],{defaultValueIndex:GUIDE_LANGUAGES.indexOf(locale)}).show(player);\n"
+              "    const answer=await new ModalFormData().title(guideText(locale,'language')).dropdown(guideText(locale,'language'),['繁體中文','简体中文','English'],{defaultValueIndex:GUIDE_LANGUAGES.indexOf(locale)}).show(player);\n"
             ],
             [
               30,
@@ -5254,7 +5264,7 @@
             [
               9,
               12,
-              " zh_TW:{back:'\u8fd4\u56de',close:'\u95dc\u9589',language:'\u8a9e\u8a00 / Language',empty:'\u6b64\u5206\u985e\u76ee\u524d\u6c92\u6709\u5df2\u5b89\u88dd\u7684\u5167\u5bb9\u3002',next:'\u4e0b\u4e00\u9801',previous:'\u4e0a\u4e00\u9801',recipe:'\u88fd\u4f5c\u65b9\u6cd5',ingredients:'\u6750\u6599',result:'\u6210\u54c1',time:'\u88fd\u4f5c\u6642\u9593',ticks:'tick',inventory:'\u80cc\u5305\u4f7f\u7528',yes:'\u53ef\u4ee5',placeable:'\u53ef\u64fa\u653e\u5c55\u793a',returns:'\u4f7f\u7528\u5f8c\u5bb9\u5668',stack:'\u5806\u758a\u4e0a\u9650',usedBy:'\u7528\u65bc\u88fd\u4f5c',initializing:'\u9152\u9928\u6307\u5357\u5c1a\u672a\u5b8c\u6210\u521d\u59cb\u5316\uff0c\u8acb\u7a0d\u5f8c\u518d\u8a66\u3002',error:'\u6307\u5357\u958b\u555f\u5931\u6557\uff0c\u8acb\u7a0d\u5f8c\u518d\u8a66\u3002',saveError:'\u8a9e\u8a00\u8a2d\u5b9a\u672a\u80fd\u78ba\u8a8d\u5132\u5b58\uff0c\u8acb\u91cd\u65b0\u958b\u555f\u6307\u5357\u6aa2\u67e5\u3002',craftNote:'\u6750\u6599\u6e05\u55ae\u4e0d\u4ee3\u8868\u5408\u6210\u683c\u4f4d\u7f6e\uff1b\u5be6\u969b\u6392\u5217\u8acb\u67e5\u770b\u539f\u7248\u914d\u65b9\u66f8\u3002',methods:{Barrel:'\u9152\u6876\u91c0\u9020',Shaker:'\u96ea\u514b\u676f\u8abf\u9152','Pressing Tub':'\u58d3\u69a8\u6876','Crafting Table':'\u5de5\u4f5c\u53f0',Freezer:'\u51b0\u6ac3'}},\n zh_CN:{back:'\u8fd4\u56de',close:'\u5173\u95ed',language:'\u8bed\u8a00 / Language',empty:'\u6b64\u5206\u7c7b\u76ee\u524d\u6ca1\u6709\u5df2\u5b89\u88c5\u7684\u5185\u5bb9\u3002',next:'\u4e0b\u4e00\u9875',previous:'\u4e0a\u4e00\u9875',recipe:'\u5236\u4f5c\u65b9\u6cd5',ingredients:'\u6750\u6599',result:'\u6210\u54c1',time:'\u5236\u4f5c\u65f6\u95f4',ticks:'tick',inventory:'\u80cc\u5305\u4f7f\u7528',yes:'\u53ef\u4ee5',placeable:'\u53ef\u6446\u653e\u5c55\u793a',returns:'\u4f7f\u7528\u540e\u5bb9\u5668',stack:'\u5806\u53e0\u4e0a\u9650',usedBy:'\u7528\u4e8e\u5236\u4f5c',initializing:'\u9152\u9986\u6307\u5357\u5c1a\u672a\u5b8c\u6210\u521d\u59cb\u5316\uff0c\u8bf7\u7a0d\u540e\u518d\u8bd5\u3002',error:'\u6307\u5357\u6253\u5f00\u5931\u8d25\uff0c\u8bf7\u7a0d\u540e\u518d\u8bd5\u3002',saveError:'\u8bed\u8a00\u8bbe\u7f6e\u672a\u80fd\u786e\u8ba4\u4fdd\u5b58\uff0c\u8bf7\u91cd\u65b0\u6253\u5f00\u6307\u5357\u68c0\u67e5\u3002',craftNote:'\u6750\u6599\u6e05\u5355\u4e0d\u4ee3\u8868\u5408\u6210\u683c\u4f4d\u7f6e\uff1b\u5b9e\u9645\u6392\u5217\u8bf7\u67e5\u770b\u539f\u7248\u914d\u65b9\u4e66\u3002',methods:{Barrel:'\u9152\u6876\u917f\u9020',Shaker:'\u96ea\u514b\u676f\u8c03\u9152','Pressing Tub':'\u538b\u69a8\u6876','Crafting Table':'\u5de5\u4f5c\u53f0',Freezer:'\u51b0\u67dc'}},\n en_US:{back:'Back',close:'Close',language:'Language / \u8a9e\u8a00',empty:'No installed content in this category yet.',next:'Next page',previous:'Previous page',recipe:'Preparation',ingredients:'Ingredients',result:'Result',time:'Preparation time',ticks:'ticks',inventory:'Use from inventory',yes:'Yes',placeable:'Can be placed for display',returns:'Returned container',stack:'Stack limit',usedBy:'Used to make',initializing:'The Tavern guide is not initialized yet. Please try again shortly.',error:'The guide could not open. Please try again.',saveError:'Could not confirm the language was saved. Reopen the guide to check.',craftNote:'This ingredient list does not specify crafting-grid positions. Check the vanilla recipe book for the actual layout.',methods:{Barrel:'Barrel brewing',Shaker:'Shaker mixing','Pressing Tub':'Pressing tub','Crafting Table':'Crafting table',Freezer:'Freezer'}}\n"
+              " zh_TW:{back:'返回',close:'關閉',language:'語言 / Language',empty:'此分類目前沒有已安裝的內容。',next:'下一頁',previous:'上一頁',recipe:'製作方法',ingredients:'材料',result:'成品',time:'製作時間',ticks:'tick',inventory:'背包使用',yes:'可以',placeable:'可擺放展示',returns:'使用後容器',stack:'堆疊上限',usedBy:'用於製作',initializing:'酒館指南尚未完成初始化，請稍後再試。',error:'指南開啟失敗，請稍後再試。',saveError:'語言設定未能確認儲存，請重新開啟指南檢查。',craftNote:'材料清單不代表合成格位置；實際排列請查看原版配方書。',methods:{Barrel:'酒桶釀造',Shaker:'雪克杯調酒','Pressing Tub':'壓榨桶','Crafting Table':'工作台',Freezer:'冰櫃'}},\n zh_CN:{back:'返回',close:'关闭',language:'语言 / Language',empty:'此分类目前没有已安装的内容。',next:'下一页',previous:'上一页',recipe:'制作方法',ingredients:'材料',result:'成品',time:'制作时间',ticks:'tick',inventory:'背包使用',yes:'可以',placeable:'可摆放展示',returns:'使用后容器',stack:'堆叠上限',usedBy:'用于制作',initializing:'酒馆指南尚未完成初始化，请稍后再试。',error:'指南打开失败，请稍后再试。',saveError:'语言设置未能确认保存，请重新打开指南检查。',craftNote:'材料清单不代表合成格位置；实际排列请查看原版配方书。',methods:{Barrel:'酒桶酿造',Shaker:'雪克杯调酒','Pressing Tub':'压榨桶','Crafting Table':'工作台',Freezer:'冰柜'}},\n en_US:{back:'Back',close:'Close',language:'Language / 語言',empty:'No installed content in this category yet.',next:'Next page',previous:'Previous page',recipe:'Preparation',ingredients:'Ingredients',result:'Result',time:'Preparation time',ticks:'ticks',inventory:'Use from inventory',yes:'Yes',placeable:'Can be placed for display',returns:'Returned container',stack:'Stack limit',usedBy:'Used to make',initializing:'The Tavern guide is not initialized yet. Please try again shortly.',error:'The guide could not open. Please try again.',saveError:'Could not confirm the language was saved. Reopen the guide to check.',craftNote:'This ingredient list does not specify crafting-grid positions. Check the vanilla recipe book for the actual layout.',methods:{Barrel:'Barrel brewing',Shaker:'Shaker mixing','Pressing Tub':'Pressing tub','Crafting Table':'Crafting table',Freezer:'Freezer'}}\n"
             ],
             [
               13,
@@ -5282,32 +5292,32 @@
             [
               4393,
               4394,
-              "        \"\u628a\u96ea\u514b\u676f\u653e\u5728\u65b9\u584a\u8868\u9762\uff0c\u4f9d\u500b\u5225\u96de\u5c3e\u9152\u689d\u76ee\u4f9d\u5e8f\u5c07\u4e09\u7a2e\u6750\u6599\u653e\u9032\u7a7a\u69fd\uff1b\u4f5c\u70ba\u57fa\u9152\u7684\u9152\u6b3e\u9808\u9054\u54c1\u8cea 4\u3002\",\n"
+              "        \"把雪克杯放在方塊表面，依個別雞尾酒條目依序將三種材料放進空槽；作為基酒的酒款須達品質 4。\",\n"
             ],
             [
               4395,
               4396,
-              "        \"\u653e\u7f6e\u7a7a\u73bb\u7483\u676f\u5f8c\uff0c\u624b\u6301\u96ea\u514b\u676f\u5c0d\u7a7a\u676f\u5012\u5165\u6210\u54c1\uff1b\u6f5b\u884c\u4f7f\u7528\u53ef\u53d6\u6d88\u6416\u9152\u3002\"\n"
+              "        \"放置空玻璃杯後，手持雪克杯對空杯倒入成品；潛行使用可取消搖酒。\"\n"
             ],
             [
               4399,
               4400,
-              "          \"\u628a\u96ea\u514b\u676f\u653e\u5728\u65b9\u5757\u8868\u9762\uff0c\u6309\u5404\u9e21\u5c3e\u9152\u6761\u76ee\u6240\u5217\u987a\u5e8f\u5c06\u4e09\u79cd\u6750\u6599\u653e\u5165\u7a7a\u69fd\uff1b\u4f5c\u4e3a\u57fa\u9152\u7684\u9152\u6b3e\u987b\u8fbe\u54c1\u8d28 4\u3002\",\n"
+              "          \"把雪克杯放在方块表面，按各鸡尾酒条目所列顺序将三种材料放入空槽；作为基酒的酒款须达品质 4。\",\n"
             ],
             [
               4401,
               4402,
-              "          \"\u653e\u7f6e\u7a7a\u73bb\u7483\u676f\u540e\uff0c\u624b\u6301\u96ea\u514b\u676f\u5bf9\u7a7a\u676f\u5012\u5165\u6210\u54c1\uff1b\u6f5c\u884c\u4f7f\u7528\u53ef\u53d6\u6d88\u6447\u9152\u3002\"\n"
+              "          \"放置空玻璃杯后，手持雪克杯对空杯倒入成品；潜行使用可取消摇酒。\"\n"
             ],
             [
               4404,
               4405,
-              "          \"\u628a\u96ea\u514b\u676f\u653e\u5728\u65b9\u584a\u8868\u9762\uff0c\u4f9d\u500b\u5225\u96de\u5c3e\u9152\u689d\u76ee\u4f9d\u5e8f\u5c07\u4e09\u7a2e\u6750\u6599\u653e\u9032\u7a7a\u69fd\uff1b\u4f5c\u70ba\u57fa\u9152\u7684\u9152\u6b3e\u9808\u9054\u54c1\u8cea 4\u3002\",\n"
+              "          \"把雪克杯放在方塊表面，依個別雞尾酒條目依序將三種材料放進空槽；作為基酒的酒款須達品質 4。\",\n"
             ],
             [
               4406,
               4407,
-              "          \"\u653e\u7f6e\u7a7a\u73bb\u7483\u676f\u5f8c\uff0c\u624b\u6301\u96ea\u514b\u676f\u5c0d\u7a7a\u676f\u5012\u5165\u6210\u54c1\uff1b\u6f5b\u884c\u4f7f\u7528\u53ef\u53d6\u6d88\u6416\u9152\u3002\"\n"
+              "          \"放置空玻璃杯後，手持雪克杯對空杯倒入成品；潛行使用可取消搖酒。\"\n"
             ],
             [
               4409,
@@ -5334,12 +5344,12 @@
             [
               56,
               59,
-              "   '\u52a0\u5165\u4e09\u79cd\u6709\u6548\u6750\u6599\uff0c\u5728\u7279\u8c03\u65f6\u673a\u677e\u5f00\u96ea\u514b\u676f\uff0c\u518d\u5012\u5165\u653e\u597d\u7684\u7a7a\u73bb\u7483\u676f\u3002\u989c\u8272\u6309\u6709\u6548\u6750\u6599\u989c\u8272\u6df7\u5408\uff0c\u9152\u6548\u968f\u6750\u6599\u800c\u53d8\u3002',\n   '\u52a0\u5165\u4e09\u7a2e\u6709\u6548\u6750\u6599\uff0c\u5728\u7279\u8abf\u6642\u6a5f\u9b06\u958b\u96ea\u514b\u676f\uff0c\u518d\u5012\u5165\u653e\u597d\u7684\u7a7a\u73bb\u7483\u676f\u3002\u984f\u8272\u6309\u6709\u6548\u6750\u6599\u984f\u8272\u6df7\u5408\uff0c\u9152\u6548\u96a8\u6750\u6599\u800c\u8b8a\u3002',\n   'Add three valid ingredients, release the shaker in the signature timing range, then pour into a placed empty glass. Valid ingredient colors are mixed and effects depend on the ingredients.']],\n"
+              "   '加入三种有效材料，在特调时机松开雪克杯，再倒入放好的空玻璃杯。颜色按有效材料颜色混合，酒效随材料而变。',\n   '加入三種有效材料，在特調時機鬆開雪克杯，再倒入放好的空玻璃杯。顏色按有效材料顏色混合，酒效隨材料而變。',\n   'Add three valid ingredients, release the shaker in the signature timing range, then pour into a placed empty glass. Valid ingredient colors are mixed and effects depend on the ingredients.']],\n"
             ],
             [
               60,
               62,
-              "   '\u52a0\u5165\u4e09\u79cd\u6709\u6548\u6750\u6599\u540e\uff0c\u5728\u7279\u8c03\u6216\u914d\u65b9\u65f6\u673a\u4ee5\u5916\u5b8c\u6210\u6447\u9152\u4f1a\u5f97\u5230\u795e\u79d8\u9e21\u5c3e\u9152\uff1b\u6447\u6643\u8fc7\u77ed\u5219\u53d6\u6d88\u3002\u5012\u5165\u7a7a\u73bb\u7483\u676f\u540e\u53d6\u7528\u3002',\n   '\u52a0\u5165\u4e09\u7a2e\u6709\u6548\u6750\u6599\u5f8c\uff0c\u5728\u7279\u8abf\u6216\u914d\u65b9\u6642\u6a5f\u4ee5\u5916\u5b8c\u6210\u6416\u9152\u6703\u5f97\u5230\u795e\u79d8\u96de\u5c3e\u9152\uff1b\u6416\u6643\u904e\u77ed\u5247\u53d6\u6d88\u3002\u5012\u5165\u7a7a\u73bb\u7483\u676f\u5f8c\u53d6\u7528\u3002',\n"
+              "   '加入三种有效材料后，在特调或配方时机以外完成摇酒会得到神秘鸡尾酒；摇晃过短则取消。倒入空玻璃杯后取用。',\n   '加入三種有效材料後，在特調或配方時機以外完成搖酒會得到神秘雞尾酒；搖晃過短則取消。倒入空玻璃杯後取用。',\n"
             ],
             [
               120,
@@ -6431,17 +6441,17 @@
             [
               2,
               5,
-              " zh_TW:{liquid:'\u91c0\u9020\u6db2\u9ad4',buckets:'\u6876',materials:'\u6750\u6599',empty:'\u4e0d\u9700\u984d\u5916\u6750\u6599',slots:'\u96ea\u514b\u676f\u6750\u6599',slot:'\u69fd\u4f4d',result:'\u6210\u54c1',carrier:'\u88dd\u74f6\uff0f\u76db\u88dd\u5bb9\u5668',operation:'\u64cd\u4f5c\u65b9\u6cd5',aging:'\u719f\u6210',seconds:'\u79d2',base:'\u719f\u6210\u57fa\u790e\u6642\u9593',maximum:'\u6700\u9ad8\u54c1\u8cea',barrel:['\u6253\u958b\u9152\u6876\u84cb\uff0c\u52a0\u5165\u6240\u5217\u6db2\u9ad4\u8207\u6750\u6599\u3002','\u95dc\u4e0a\u6876\u84cb\u958b\u59cb\u91c0\u9020\uff1b\u4ee5\u6240\u5217\u7a7a\u5bb9\u5668\u53d6\u51fa\u6210\u54c1\u3002'],quality:'\u95dc\u84cb\u5f8c\u5148\u5f97\u5230\u54c1\u8cea 1\uff1b\u4fdd\u6301\u95dc\u84cb\u53ef\u7e7c\u7e8c\u719f\u6210\uff0c\u4e0b\u4e00\u54c1\u8cea\u6240\u9700\u6642\u9593\u70ba\u57fa\u790e\u6642\u9593\u4e58\u76ee\u524d\u54c1\u8cea\u3002',shaker:['\u6bcf\u500b\u69fd\u4f4d\u5404\u653e\u4e00\u4efd\u7b26\u5408\u689d\u4ef6\u7684\u6750\u6599\u3002','\u6309\u4f4f\u4f7f\u7528\u6416\u9152\uff0c\u5728\u914d\u65b9\u6642\u6a5f\u9b06\u624b\uff0c\u518d\u5012\u5165\u5df2\u64fa\u653e\u7684\u7a7a\u5bb9\u5668\u3002'],press:['\u5c07\u6750\u6599\u653e\u5165\u58d3\u69a8\u6876\uff0c\u8df3\u8e8d\u58d3\u69a8\u81f3\u6db2\u9ad4\u6eff\u4e00\u6876\u3002','\u4f7f\u7528\u7a7a\u6876\u6536\u96c6\u679c\u6c41\u3002']},\n zh_CN:{liquid:'\u917f\u9020\u6db2\u4f53',buckets:'\u6876',materials:'\u6750\u6599',empty:'\u4e0d\u9700\u989d\u5916\u6750\u6599',slots:'\u96ea\u514b\u676f\u6750\u6599',slot:'\u69fd\u4f4d',result:'\u6210\u54c1',carrier:'\u88c5\u74f6\uff0f\u76db\u88c5\u5bb9\u5668',operation:'\u64cd\u4f5c\u65b9\u6cd5',aging:'\u719f\u6210',seconds:'\u79d2',base:'\u719f\u6210\u57fa\u7840\u65f6\u95f4',maximum:'\u6700\u9ad8\u54c1\u8d28',barrel:['\u6253\u5f00\u9152\u6876\u76d6\uff0c\u52a0\u5165\u6240\u5217\u6db2\u4f53\u4e0e\u6750\u6599\u3002','\u5173\u4e0a\u6876\u76d6\u5f00\u59cb\u917f\u9020\uff1b\u4ee5\u6240\u5217\u7a7a\u5bb9\u5668\u53d6\u51fa\u6210\u54c1\u3002'],quality:'\u5173\u76d6\u540e\u5148\u5f97\u5230\u54c1\u8d28 1\uff1b\u4fdd\u6301\u5173\u76d6\u53ef\u7ee7\u7eed\u719f\u6210\uff0c\u4e0b\u4e00\u54c1\u8d28\u6240\u9700\u65f6\u95f4\u4e3a\u57fa\u7840\u65f6\u95f4\u4e58\u5f53\u524d\u54c1\u8d28\u3002',shaker:['\u6bcf\u4e2a\u69fd\u4f4d\u5404\u653e\u4e00\u4efd\u7b26\u5408\u6761\u4ef6\u7684\u6750\u6599\u3002','\u6309\u4f4f\u4f7f\u7528\u6447\u9152\uff0c\u5728\u914d\u65b9\u65f6\u673a\u677e\u624b\uff0c\u518d\u5012\u5165\u5df2\u6446\u653e\u7684\u7a7a\u5bb9\u5668\u3002'],press:['\u5c06\u6750\u6599\u653e\u5165\u538b\u69a8\u6876\uff0c\u8df3\u8dc3\u538b\u69a8\u81f3\u6db2\u4f53\u6ee1\u4e00\u6876\u3002','\u4f7f\u7528\u7a7a\u6876\u6536\u96c6\u679c\u6c41\u3002']},\n en_US:{liquid:'Brewing liquid',buckets:'buckets',materials:'Ingredients',empty:'No additional ingredients',slots:'Shaker ingredients',slot:'Slot',result:'Result',carrier:'Bottling / serving container',operation:'How to prepare',aging:'Aging',seconds:'s',base:'Aging base time',maximum:'Maximum quality',barrel:['Open the barrel lid and add the listed liquid and ingredients.','Close the lid to brew; collect the result with the listed empty container.'],quality:'Closing the lid first produces Quality 1. Keep it closed to age; each next stage takes the base time multiplied by the current quality.',shaker:['Add one matching ingredient to each slot.','Hold use to shake, release at the recipe timing, then pour into a placed empty container.'],press:['Add the ingredients to the pressing tub and jump to press a full bucket of juice.','Use an empty bucket to collect the juice.']}\n"
+              " zh_TW:{liquid:'釀造液體',buckets:'桶',materials:'材料',empty:'不需額外材料',slots:'雪克杯材料',slot:'槽位',result:'成品',carrier:'裝瓶／盛裝容器',operation:'操作方法',aging:'熟成',seconds:'秒',base:'熟成基礎時間',maximum:'最高品質',barrel:['打開酒桶蓋，加入所列液體與材料。','關上桶蓋開始釀造；以所列空容器取出成品。'],quality:'關蓋後先得到品質 1；保持關蓋可繼續熟成，下一品質所需時間為基礎時間乘目前品質。',shaker:['每個槽位各放一份符合條件的材料。','按住使用搖酒，在配方時機鬆手，再倒入已擺放的空容器。'],press:['將材料放入壓榨桶，跳躍壓榨至液體滿一桶。','使用空桶收集果汁。']},\n zh_CN:{liquid:'酿造液体',buckets:'桶',materials:'材料',empty:'不需额外材料',slots:'雪克杯材料',slot:'槽位',result:'成品',carrier:'装瓶／盛装容器',operation:'操作方法',aging:'熟成',seconds:'秒',base:'熟成基础时间',maximum:'最高品质',barrel:['打开酒桶盖，加入所列液体与材料。','关上桶盖开始酿造；以所列空容器取出成品。'],quality:'关盖后先得到品质 1；保持关盖可继续熟成，下一品质所需时间为基础时间乘当前品质。',shaker:['每个槽位各放一份符合条件的材料。','按住使用摇酒，在配方时机松手，再倒入已摆放的空容器。'],press:['将材料放入压榨桶，跳跃压榨至液体满一桶。','使用空桶收集果汁。']},\n en_US:{liquid:'Brewing liquid',buckets:'buckets',materials:'Ingredients',empty:'No additional ingredients',slots:'Shaker ingredients',slot:'Slot',result:'Result',carrier:'Bottling / serving container',operation:'How to prepare',aging:'Aging',seconds:'s',base:'Aging base time',maximum:'Maximum quality',barrel:['Open the barrel lid and add the listed liquid and ingredients.','Close the lid to brew; collect the result with the listed empty container.'],quality:'Closing the lid first produces Quality 1. Keep it closed to age; each next stage takes the base time multiplied by the current quality.',shaker:['Add one matching ingredient to each slot.','Hold use to shake, release at the recipe timing, then pour into a placed empty container.'],press:['Add the ingredients to the pressing tub and jump to press a full bucket of juice.','Use an empty bucket to collect the juice.']}\n"
             ],
             [
               7,
               8,
-              " const t=TEXT[locale]??TEXT.en_US,p=recipe.preparation,sections=[],heading=(label,rows)=>'\u00a7l\u00a76'+label+'\u00a7r\\n'+rows.join('\\n');\n"
+              " const t=TEXT[locale]??TEXT.en_US,p=recipe.preparation,sections=[],heading=(label,rows)=>'§l§6'+label+'§r\\n'+rows.join('\\n');\n"
             ],
             [
               10,
               11,
-              "  sections.push(heading(t.liquid,[name(p.fluid)+' \u2014 '+p.amount+' mB ('+p.amount/1000+' '+t.buckets+')',name(p.fluidItem)+' \u00d7'+p.amount/1000]));\n"
+              "  sections.push(heading(t.liquid,[name(p.fluid)+' — '+p.amount+' mB ('+p.amount/1000+' '+t.buckets+')',name(p.fluidItem)+' ×'+p.amount/1000]));\n"
             ],
             [
               23,
@@ -6463,7 +6473,7 @@
             [
               12,
               13,
-              "    (names[locale]??={})[id]=(names[locale]?.['#'+recipe.ingredientTags[index]]??colors[color]?.[i]??['\u81ea\u5b9a\u989c\u8272','\u81ea\u8a02\u984f\u8272','Custom colour'][i])+['\u8c03\u9152\u6750\u6599\uff08\u9152\u54c1\u54c1\u8d28 \u22654\uff09','\u8abf\u9152\u6750\u6599\uff08\u9152\u54c1\u54c1\u8cea \u22654\uff09',' shaker ingredient (bottled drinks: quality \u22654)'][i];\n"
+              "    (names[locale]??={})[id]=(names[locale]?.['#'+recipe.ingredientTags[index]]??colors[color]?.[i]??['自定颜色','自訂顏色','Custom colour'][i])+['调酒材料（酒品品质 ≥4）','調酒材料（酒品品質 ≥4）',' shaker ingredient (bottled drinks: quality ≥4)'][i];\n"
             ]
           ]
         },
@@ -6475,7 +6485,7 @@
             [
               23,
               24,
-              " barrel:{en_US:'Sneak-use the Tavern barrel to open it. Add the listed fluid FIRST, then the ingredients. Close it to brew and age; open it and use an empty bottle to collect. Higher quality takes more time in the barrel.',zh_CN:'\u6f5c\u884c\u64cd\u4f5c\u9152\u9986\u9152\u6876\u5f00\u76d6\uff0c\u5148\u52a0\u5165\u6240\u5217\u6db2\u4f53\uff0c\u518d\u52a0\u5165\u539f\u6599\uff0c\u5173\u76d6\u917f\u9020\u3001\u719f\u6210\uff1b\u5f00\u76d6\u540e\u7528\u7a7a\u9152\u74f6\u53d6\u9152\u3002\u7ee7\u7eed\u7559\u5728\u6876\u4e2d\u53ef\u63d0\u5347\u54c1\u8d28\u3002',zh_TW:'\u6f5b\u884c\u64cd\u4f5c\u9152\u9928\u9152\u6876\u958b\u84cb\uff0c\u5148\u52a0\u5165\u6240\u5217\u6db2\u9ad4\uff0c\u518d\u52a0\u5165\u539f\u6599\uff0c\u95dc\u84cb\u91c0\u9020\u3001\u719f\u6210\uff1b\u958b\u84cb\u5f8c\u7528\u7a7a\u9152\u74f6\u53d6\u9152\u3002\u7e7c\u7e8c\u7559\u5728\u6876\u4e2d\u53ef\u63d0\u5347\u54c1\u8cea\u3002'},\n"
+              " barrel:{en_US:'Sneak-use the Tavern barrel to open it. Add the listed fluid FIRST, then the ingredients. Close it to brew and age; open it and use an empty bottle to collect. Higher quality takes more time in the barrel.',zh_CN:'潜行操作酒馆酒桶开盖，先加入所列液体，再加入原料，关盖酿造、熟成；开盖后用空酒瓶取酒。继续留在桶中可提升品质。',zh_TW:'潛行操作酒館酒桶開蓋，先加入所列液體，再加入原料，關蓋釀造、熟成；開蓋後用空酒瓶取酒。繼續留在桶中可提升品質。'},\n"
             ]
           ]
         },
@@ -6517,7 +6527,7 @@
             [
               59,
               62,
-              "  if(recipe.time>0)sections.push(heading(text.time,[(recipe.time/20)+' s']));\n  if(recipe.method==='Crafting Table')sections.push(text.craftNote);\n  return {node,title:'\u00a7l'+guideItemName(payload,locale,entry.id)+' \u00b7 '+method,body:sections.join('\\n\\n'),buttons:[back]};\n"
+              "  if(recipe.time>0)sections.push(heading(text.time,[(recipe.time/20)+' s']));\n  if(recipe.method==='Crafting Table')sections.push(text.craftNote);\n  return {node,title:'§l'+guideItemName(payload,locale,entry.id)+' · '+method,body:sections.join('\\n\\n'),buttons:[back]};\n"
             ],
             [
               64,
@@ -6527,7 +6537,7 @@
             [
               71,
               72,
-              " return {node:{...node,page:result.page},title:'\u00a7l'+guideItemName(payload,locale,entry.id),body:lines.join('\\n\\n'),buttons:result.buttons};\n"
+              " return {node:{...node,page:result.page},title:'§l'+guideItemName(payload,locale,entry.id),body:lines.join('\\n\\n'),buttons:result.buttons};\n"
             ]
           ]
         },
@@ -6544,42 +6554,42 @@
             [
               23,
               26,
-              "      \"zh_CN\": \"\u5ef6\u957f\u90e8\u5206\u9152\u9986\u7269\u54c1\u5bf9\u65b9\u5757\u7684\u64cd\u4f5c\u8ddd\u79bb\u3002\",\n      \"zh_TW\": \"\u5ef6\u9577\u90e8\u5206\u9152\u9928\u7269\u54c1\u5c0d\u65b9\u584a\u7684\u64cd\u4f5c\u8ddd\u96e2\u3002\",\n      \"en_US\": \"Extends the block-use reach of supported Tavern items.\"\n"
+              "      \"zh_CN\": \"延长部分酒馆物品对方块的操作距离。\",\n      \"zh_TW\": \"延長部分酒館物品對方塊的操作距離。\",\n      \"en_US\": \"Extends the block-use reach of supported Tavern items.\"\n"
             ],
             [
               35,
               38,
-              "      \"zh_CN\": \"\u51b2\u649e\u53ef\u649e\u788e\u524d\u65b9\u6307\u5b9a\u65b9\u5757\uff0c\u5e76\u6d88\u8017\u4f53\u529b\u3002\u62a4\u7532\u4f1a\u78e8\u635f\uff1b\u6ca1\u6709\u62a4\u7532\u65f6\u4f1a\u53d7\u4f24\u3002\",\n      \"zh_TW\": \"\u885d\u649e\u53ef\u649e\u788e\u524d\u65b9\u6307\u5b9a\u65b9\u584a\uff0c\u4e26\u6d88\u8017\u9ad4\u529b\u3002\u8b77\u7532\u6703\u78e8\u640d\uff1b\u6c92\u6709\u8b77\u7532\u6642\u6703\u53d7\u50b7\u3002\",\n      \"en_US\": \"Charge through eligible blocks in front of you at an exhaustion cost. Armor wears down; charging without armor causes damage.\"\n"
+              "      \"zh_CN\": \"冲撞可撞碎前方指定方块，并消耗体力。护甲会磨损；没有护甲时会受伤。\",\n      \"zh_TW\": \"衝撞可撞碎前方指定方塊，並消耗體力。護甲會磨損；沒有護甲時會受傷。\",\n      \"en_US\": \"Charge through eligible blocks in front of you at an exhaustion cost. Armor wears down; charging without armor causes damage.\"\n"
             ],
             [
               83,
               86,
-              "      \"zh_CN\": \"\u6b64\u7248\u672c\u5c1a\u672a\u63d0\u4f9b\u53ef\u89c1\u7684\u7a7f\u5899\u8f6e\u5ed3\u3002\",\n      \"zh_TW\": \"\u6b64\u7248\u672c\u5c1a\u672a\u63d0\u4f9b\u53ef\u898b\u7684\u7a7f\u7246\u8f2a\u5ed3\u3002\",\n      \"en_US\": \"Visible outlines through walls are not available in this version.\"\n"
+              "      \"zh_CN\": \"此版本尚未提供可见的穿墙轮廓。\",\n      \"zh_TW\": \"此版本尚未提供可見的穿牆輪廓。\",\n      \"en_US\": \"Visible outlines through walls are not available in this version.\"\n"
             ],
             [
               95,
               98,
-              "      \"zh_CN\": \"\u5438\u5f15\u5468\u56f4\u7ecf\u9a8c\u7403\uff1b\u62fe\u53d6\u4ecd\u53d7\u539f\u751f\u62fe\u53d6\u95f4\u9694\u5f71\u54cd\u3002\",\n      \"zh_TW\": \"\u5438\u5f15\u5468\u570d\u7d93\u9a57\u7403\uff1b\u62fe\u53d6\u4ecd\u53d7\u539f\u751f\u62fe\u53d6\u9593\u9694\u5f71\u97ff\u3002\",\n      \"en_US\": \"Pulls nearby experience orbs toward you; collection still follows the native pickup interval.\"\n"
+              "      \"zh_CN\": \"吸引周围经验球；拾取仍受原生拾取间隔影响。\",\n      \"zh_TW\": \"吸引周圍經驗球；拾取仍受原生拾取間隔影響。\",\n      \"en_US\": \"Pulls nearby experience orbs toward you; collection still follows the native pickup interval.\"\n"
             ],
             [
               107,
               110,
-              "      \"zh_CN\": \"\u996e\u7528\u540e\u4ea7\u751f\u5fae\u91ba\u3002\",\n      \"zh_TW\": \"\u98f2\u7528\u5f8c\u7522\u751f\u5fae\u91ba\u3002\",\n      \"en_US\": \"Drinking this cocktail makes you slightly tipsy.\"\n"
+              "      \"zh_CN\": \"饮用后产生微醺。\",\n      \"zh_TW\": \"飲用後產生微醺。\",\n      \"en_US\": \"Drinking this cocktail makes you slightly tipsy.\"\n"
             ],
             [
               119,
               122,
-              "      \"zh_CN\": \"\u51fb\u6740\u76ee\u6807\u65f6\uff0c\u6309\u76ee\u6807\u6700\u5927\u751f\u547d\u503c\u7684\u4e09\u5206\u4e4b\u4e00\u5411\u4e0b\u53d6\u6574\u6062\u590d\u751f\u547d\u3002\",\n      \"zh_TW\": \"\u64ca\u6bba\u76ee\u6a19\u6642\uff0c\u6309\u76ee\u6a19\u6700\u5927\u751f\u547d\u503c\u7684\u4e09\u5206\u4e4b\u4e00\u5411\u4e0b\u53d6\u6574\u6062\u5fa9\u751f\u547d\u3002\",\n      \"en_US\": \"On a credited kill, restores health equal to one third of the target's maximum health, rounded down.\"\n"
+              "      \"zh_CN\": \"击杀目标时，按目标最大生命值的三分之一向下取整恢复生命。\",\n      \"zh_TW\": \"擊殺目標時，按目標最大生命值的三分之一向下取整恢復生命。\",\n      \"en_US\": \"On a credited kill, restores health equal to one third of the target's maximum health, rounded down.\"\n"
             ],
             [
               131,
               134,
-              "      \"zh_CN\": \"\u653b\u51fb\u6307\u5b9a\u602a\u7269\u65f6\uff0c\u670930%\u673a\u4f1a\u5378\u4e0b\u5176\u6b66\u5668\u3002\u6389\u843d\u6b66\u5668\u7684\u5269\u4f59\u8010\u4e45\u4e3a1\uff0c\u77ed\u65f6\u95f4\u540e\u624d\u53ef\u62fe\u53d6\u3002\",\n      \"zh_TW\": \"\u653b\u64ca\u6307\u5b9a\u602a\u7269\u6642\uff0c\u670930%\u6a5f\u6703\u5378\u4e0b\u5176\u6b66\u5668\u3002\u6389\u843d\u6b66\u5668\u7684\u5269\u9918\u8010\u4e45\u70ba1\uff0c\u77ed\u6642\u9593\u5f8c\u624d\u53ef\u62fe\u53d6\u3002\",\n      \"en_US\": \"Attacks against eligible mobs have a 30% chance to disarm them. The dropped weapon has one durability remaining and a short pickup delay.\"\n"
+              "      \"zh_CN\": \"攻击指定怪物时，有30%机会卸下其武器。掉落武器的剩余耐久为1，短时间后才可拾取。\",\n      \"zh_TW\": \"攻擊指定怪物時，有30%機會卸下其武器。掉落武器的剩餘耐久為1，短時間後才可拾取。\",\n      \"en_US\": \"Attacks against eligible mobs have a 30% chance to disarm them. The dropped weapon has one durability remaining and a short pickup delay.\"\n"
             ],
             [
               154,
               154,
-              " const instant=locale==='en_US'?'instant':locale==='zh_CN'?'\u7acb\u5373\u89e6\u53d1':'\u7acb\u5373\u89f8\u767c';\n"
+              " const instant=locale==='en_US'?'instant':locale==='zh_CN'?'立即触发':'立即觸發';\n"
             ],
             [
               157,
@@ -6618,7 +6628,7 @@
             [
               97,
               100,
-              " if(recipes.length)for(const [short,names,usage] of [\n  ['signature_cocktail',['\u7279\u8c03\u9e21\u5c3e\u9152','\u7279\u8abf\u96de\u5c3e\u9152','Signature Cocktail'],[\n    '\u52a0\u5165\u4e09\u4efd\u6709\u6548\u6750\u6599\uff0c\u5728\u7279\u8c03\u65f6\u673a\u677e\u5f00\u96ea\u514b\u676f\uff0c\u518d\u5012\u5165\u653e\u597d\u7684\u7a7a\u73bb\u7483\u676f\u3002\u989c\u8272\u6309\u6709\u6548\u6750\u6599\u989c\u8272\u5e73\u5747\u6df7\u5408\u3002\u540c\u79cd\u9152\u6548\u7684\u65f6\u95f4\u76f8\u52a0\u540e\u4e58\u4ee51.2\uff0c\u7b49\u7ea7\u548c\u6982\u7387\u5404\u53d6\u6700\u9ad8\u503c\uff1b\u60ac\u505c\u67e5\u770b\u8fd9\u676f\u7279\u8c03\u7684\u5fc5\u5b9a\u89e6\u53d1\u6548\u679c\u3002',\n    '\u52a0\u5165\u4e09\u4efd\u6709\u6548\u6750\u6599\uff0c\u5728\u7279\u8abf\u6642\u6a5f\u9b06\u958b\u96ea\u514b\u676f\uff0c\u518d\u5012\u5165\u653e\u597d\u7684\u7a7a\u73bb\u7483\u676f\u3002\u984f\u8272\u6309\u6709\u6548\u6750\u6599\u984f\u8272\u5e73\u5747\u6df7\u5408\u3002\u540c\u7a2e\u9152\u6548\u7684\u6642\u9593\u76f8\u52a0\u5f8c\u4e58\u4ee51.2\uff0c\u7b49\u7d1a\u548c\u6a5f\u7387\u5404\u53d6\u6700\u9ad8\u503c\uff1b\u61f8\u505c\u67e5\u770b\u9019\u676f\u7279\u8abf\u7684\u5fc5\u5b9a\u89f8\u767c\u6548\u679c\u3002',\n    'Add three valid ingredients, release in the signature timing range, then pour into a placed empty glass. Valid ingredient colors are averaged. Durations of matching effects are added and multiplied by 1.2; the highest level and probability are retained. Hover over the finished cup to see its guaranteed effects.']],\n  ['mystery_cocktail',['\u795e\u79d8\u9e21\u5c3e\u9152','\u795e\u79d8\u96de\u5c3e\u9152','Mystery Cocktail'],[\n   '\u52a0\u5165\u4e09\u4efd\u6709\u6548\u6750\u6599\u540e\uff0c\u5728\u7279\u8c03\u6216\u914d\u65b9\u65f6\u673a\u4ee5\u5916\u5b8c\u6210\u6447\u9152\u4f1a\u5f97\u5230\u795e\u79d8\u9e21\u5c3e\u9152\uff1b\u6447\u6643\u8fc7\u77ed\u5219\u53d6\u6d88\u3002\u5012\u5165\u7a7a\u73bb\u7483\u676f\u540e\u53d6\u7528\u3002',\n   '\u52a0\u5165\u4e09\u4efd\u6709\u6548\u6750\u6599\u5f8c\uff0c\u5728\u7279\u8abf\u6216\u914d\u65b9\u6642\u6a5f\u4ee5\u5916\u5b8c\u6210\u6416\u9152\u6703\u5f97\u5230\u795e\u79d8\u96de\u5c3e\u9152\uff1b\u6416\u6643\u904e\u77ed\u5247\u53d6\u6d88\u3002\u5012\u5165\u7a7a\u73bb\u7483\u676f\u5f8c\u53d6\u7528\u3002',\n   'With three valid ingredients, finishing outside the signature/recipe timing range makes a mystery cocktail; releasing too early cancels. Pour into an empty glass to serve.']]\n"
+              " if(recipes.length)for(const [short,names,usage] of [\n  ['signature_cocktail',['特调鸡尾酒','特調雞尾酒','Signature Cocktail'],[\n    '加入三份有效材料，在特调时机松开雪克杯，再倒入放好的空玻璃杯。颜色按有效材料颜色平均混合。同种酒效的时间相加后乘以1.2，等级和概率各取最高值；悬停查看这杯特调的必定触发效果。',\n    '加入三份有效材料，在特調時機鬆開雪克杯，再倒入放好的空玻璃杯。顏色按有效材料顏色平均混合。同種酒效的時間相加後乘以1.2，等級和機率各取最高值；懸停查看這杯特調的必定觸發效果。',\n    'Add three valid ingredients, release in the signature timing range, then pour into a placed empty glass. Valid ingredient colors are averaged. Durations of matching effects are added and multiplied by 1.2; the highest level and probability are retained. Hover over the finished cup to see its guaranteed effects.']],\n  ['mystery_cocktail',['神秘鸡尾酒','神秘雞尾酒','Mystery Cocktail'],[\n   '加入三份有效材料后，在特调或配方时机以外完成摇酒会得到神秘鸡尾酒；摇晃过短则取消。倒入空玻璃杯后取用。',\n   '加入三份有效材料後，在特調或配方時機以外完成搖酒會得到神秘雞尾酒；搖晃過短則取消。倒入空玻璃杯後取用。',\n   'With three valid ingredients, finishing outside the signature/recipe timing range makes a mystery cocktail; releasing too early cancels. Pour into an empty glass to serve.']]\n"
             ],
             [
               104,
@@ -6628,7 +6638,7 @@
             [
               129,
               129,
-              " const molotov=payload.entries.find(e=>e.id==='kaleidoscope_tavern:molotov');\n if(molotov)append(molotov,{mechanicsByLocale:{\n  zh_TW:['\u9019\u662f\u71c3\u71d2\u5f48\uff0c\u4e0d\u80fd\u98f2\u7528\u3002\u5c0d\u7a7a\u6309\u4f4f\u4f7f\u7528\u81f3\u5c11\u534a\u79d2\uff0c\u9b06\u624b\u6295\u64f2\uff1b\u64ca\u4e2d\u5f8c\u6703\u5728\u843d\u9ede\u5468\u570d\u9ede\u706b\u3002','\u9152\u6876\u52a0\u5165 4000 mB \u7194\u5ca9\uff0c\u95dc\u84cb\u91c0\u88fd\uff0c\u4ee5\u7a7a\u9152\u74f6\u53d6\u51fa\uff1b\u4e5f\u53ef\u5728\u88dd\u6709\u7194\u5ca9\u7684\u934b\u4e0a\u63a5\u9152\u5634\uff0c\u65bc\u5634\u4e0b\u64fa\u7a7a\u9152\u74f6\u53d6\u7528\u3002','\u5c0d\u65b9\u584a\u4f7f\u7528\u53ef\u64fa\u653e\uff1b\u7a7a\u624b\u53d6\u56de\u3002\u53ef\u5b58\u5165\u55ae\u74f6\u67b6\u3001\u50be\u659c\u9152\u67b6\u3001\u5713\u5f62\u9152\u67b6\u53ca\u9152\u6ac3\uff0c\u7d05\u77f3\u4e0a\u5347\u6cbf\u6703\u767c\u5c04\u71c3\u71d2\u74f6\u3002'],\n  zh_CN:['\u8fd9\u662f\u71c3\u70e7\u5f39\uff0c\u4e0d\u80fd\u996e\u7528\u3002\u5bf9\u7a7a\u6309\u4f4f\u4f7f\u7528\u81f3\u5c11\u534a\u79d2\uff0c\u677e\u624b\u6295\u63b7\uff1b\u51fb\u4e2d\u540e\u4f1a\u5728\u843d\u70b9\u5468\u56f4\u70b9\u706b\u3002','\u9152\u6876\u52a0\u5165 4000 mB \u7194\u5ca9\uff0c\u5173\u76d6\u917f\u5236\uff0c\u4ee5\u7a7a\u9152\u74f6\u53d6\u51fa\uff1b\u4e5f\u53ef\u5728\u88c5\u6709\u7194\u5ca9\u7684\u70bc\u836f\u9505\u4e0a\u63a5\u9152\u5634\uff0c\u4e8e\u5634\u4e0b\u6446\u7a7a\u9152\u74f6\u53d6\u7528\u3002','\u5bf9\u65b9\u5757\u4f7f\u7528\u53ef\u6446\u653e\uff1b\u7a7a\u624b\u53d6\u56de\u3002\u53ef\u5b58\u5165\u5355\u74f6\u67b6\u3001\u503e\u659c\u9152\u67b6\u3001\u5706\u5f62\u9152\u67b6\u53ca\u9152\u67dc\uff0c\u7ea2\u77f3\u4e0a\u5347\u6cbf\u4f1a\u53d1\u5c04\u71c3\u70e7\u74f6\u3002'],\n  en_US:['An incendiary projectile, not a drink. Hold use while aiming into air for at least half a second, then release to throw. It ignites the area around its impact.','Fill a barrel with 4000 mB of lava, close the lid, then collect the brewed result with empty bottles. Alternatively, fit a tap to a lava cauldron and place an empty bottle below the tap.','Use on a block to place it; collect with an empty hand. Holders, tilted/circular racks and cabinets accept it. A rising redstone edge launches it as an incendiary projectile.']\n }});\n"
+              " const molotov=payload.entries.find(e=>e.id==='kaleidoscope_tavern:molotov');\n if(molotov)append(molotov,{mechanicsByLocale:{\n  zh_TW:['這是燃燒彈，不能飲用。對空按住使用至少半秒，鬆手投擲；擊中後會在落點周圍點火。','酒桶加入 4000 mB 熔岩，關蓋釀製，以空酒瓶取出；也可在裝有熔岩的鍋上接酒嘴，於嘴下擺空酒瓶取用。','對方塊使用可擺放；空手取回。可存入單瓶架、傾斜酒架、圓形酒架及酒櫃，紅石上升沿會發射燃燒瓶。'],\n  zh_CN:['这是燃烧弹，不能饮用。对空按住使用至少半秒，松手投掷；击中后会在落点周围点火。','酒桶加入 4000 mB 熔岩，关盖酿制，以空酒瓶取出；也可在装有熔岩的炼药锅上接酒嘴，于嘴下摆空酒瓶取用。','对方块使用可摆放；空手取回。可存入单瓶架、倾斜酒架、圆形酒架及酒柜，红石上升沿会发射燃烧瓶。'],\n  en_US:['An incendiary projectile, not a drink. Hold use while aiming into air for at least half a second, then release to throw. It ignites the area around its impact.','Fill a barrel with 4000 mB of lava, close the lid, then collect the brewed result with empty bottles. Alternatively, fit a tap to a lava cauldron and place an empty bottle below the tap.','Use on a block to place it; collect with an empty hand. Holders, tilted/circular racks and cabinets accept it. A rising redstone edge launches it as an incendiary projectile.']\n }});\n"
             ],
             [
               143,
@@ -6655,7 +6665,7 @@
             [
               9,
               23,
-              " 'minecraft:cookie':['\u66f2\u5947','\u9905\u4e7e','Cookie']\n"
+              " 'minecraft:cookie':['曲奇','餅乾','Cookie']\n"
             ]
           ]
         },
@@ -6667,7 +6677,7 @@
             [
               85,
               86,
-              " const body=['\u8e72\u4e0b\u4f7f\u7528\u672c\u4e66\u53ef\u67e5\u770b\u5f53\u524d\u9152\u6548\u3002\u9009\u62e9\u9879\u76ee\u67e5\u770b\u7528\u6cd5\u4e0e\u5236\u4f5c\u65b9\u6cd5\uff1b\u591a\u4e2a\u6761\u76ee\u7684\u5206\u7c7b\u4f1a\u5c55\u5f00\u5217\u8868\u3002\u917f\u9152\u548c\u8c03\u9152\u5148\u5217\u9152\u9986\u672c\u4f53\uff0c\u518d\u5217\u9644\u5c5e\u914d\u65b9\u3002','\u8e72\u4e0b\u4f7f\u7528\u672c\u66f8\u53ef\u67e5\u770b\u76ee\u524d\u9152\u6548\u3002\u9078\u64c7\u9805\u76ee\u67e5\u770b\u7528\u6cd5\u8207\u88fd\u4f5c\u65b9\u6cd5\uff1b\u591a\u500b\u689d\u76ee\u7684\u5206\u985e\u6703\u5c55\u958b\u5217\u8868\u3002\u91c0\u9152\u548c\u8abf\u9152\u5148\u5217\u9152\u9928\u672c\u9ad4\uff0c\u518d\u5217\u9644\u5c6c\u914d\u65b9\u3002','Sneak-use this book to view active drink effects. Choose an entry for its use and preparation; groups with several entries open a list. Tavern brewing and cocktail recipes appear before addon recipes.'];\n"
+              " const body=['蹲下使用本书可查看当前酒效。选择项目查看用法与制作方法；多个条目的分类会展开列表。酿酒和调酒先列酒馆本体，再列附属配方。','蹲下使用本書可查看目前酒效。選擇項目查看用法與製作方法；多個條目的分類會展開列表。釀酒和調酒先列酒館本體，再列附屬配方。','Sneak-use this book to view active drink effects. Choose an entry for its use and preparation; groups with several entries open a list. Tavern brewing and cocktail recipes appear before addon recipes.'];\n"
             ]
           ]
         },
@@ -6948,7 +6958,7 @@
             [
               382,
               383,
-              "  beforeOnPlayerPlace:ev=>{try{check(store.raw(machineKey(ev.block.dimension.id,ev.block.location))===undefined,'STORAGE_CONFLICT');}catch(e){ev.cancel=true;system.run(()=>tell(ev.player,'\u00a7e'+(CN[e.code]??e.code)));}},\n"
+              "  beforeOnPlayerPlace:ev=>{try{check(store.raw(machineKey(ev.block.dimension.id,ev.block.location))===undefined,'STORAGE_CONFLICT');}catch(e){ev.cancel=true;system.run(()=>tell(ev.player,'§e'+(CN[e.code]??e.code)));}},\n"
             ],
             [
               394,
@@ -8024,6 +8034,327 @@
           ]
         }
       }
+    },
+    {
+      "release": "0.6.149",
+      "files": {
+        "runtime/BP/scripts/bedrock/shaker-screen.js": {
+          "before": "b6c71c71e69e6a935bdd6f0edf078bf19100e07c9478883185c04b92d4dea092",
+          "after": "410e29a814d83a140d17cd2de9d0ef1116d96b4bda93d1bc04a03d611418c29a",
+          "reason": "T149 preserves recipes, item settlement and guide content while routing graphical HUD away from shared Actionbars and bounding startup preparation; source/scheduler checks are distinct from pending native/client acceptance. See docs/RELEASE-NOTES-0.6.149.md.",
+          "reverseOps": [
+            [
+              0,
+              1,
+              "/** Actionbar-only HUD adapter. Does not own title/subtitle or another pack's UI.\n * Our separate factory expires its graphics locally; no idle clear/off loop.\n * A plain readable actionbar remains usable when another RP replaces our UI.\n */\n"
+            ],
+            [
+              2,
+              5,
+              "import {HUD_PREFIX,slotsPacket,progressPacket,hudSendDue,barrelHudEnabled} from '../core/shaker-hud.js';\nconst last=new Map(),messages=new Map();\n"
+            ],
+            [
+              13,
+              14,
+              "function send(player,key,raw){\n"
+            ],
+            [
+              17,
+              19,
+              "  player.onScreenDisplay.setActionBar(raw);\n"
+            ],
+            [
+              33,
+              34,
+              " const text=slotsPacket(state.slots);send(player,text,text);\n"
+            ],
+            [
+              36,
+              37,
+              " messages.delete(player.id);const text=progressPacket(ticks);send(player,text,text);\n"
+            ],
+            [
+              47,
+              49,
+              " // Native text fades and shaker graphics expire locally. Never clear the shared channel.\n"
+            ],
+            [
+              66,
+              67,
+              " messages.delete(id);last.delete(id);\n"
+            ]
+          ]
+        },
+        "runtime/BP/scripts/core/cookery-guide-publisher.js": {
+          "before": "69c46bb54cb8d06b6f55599590e2dd0610bd3a2501d33f8a5c0a407a32269753",
+          "after": "20b4f91a31c912ed0953c7c09bf44f8921298ae39614ec309819e6a650698858",
+          "reason": "T149 preserves recipes, item settlement and guide content while routing graphical HUD away from shared Actionbars and bounding startup preparation; source/scheduler checks are distinct from pending native/client acceptance. See docs/RELEASE-NOTES-0.6.149.md.",
+          "reverseOps": [
+            [
+              4,
+              5,
+              "import {canonical,digest,utf8Bytes} from './util.js';\n"
+            ],
+            [
+              16,
+              17,
+              ""
+            ],
+            [
+              39,
+              40,
+              "export function cookery106WirePayload(payload){\n"
+            ],
+            [
+              41,
+              43,
+              " const entries=payload.entries.map(entry=>{\n"
+            ],
+            [
+              49,
+              57,
+              "  return {...entry,mechanics:packGuideParagraphs(fallback),\n   mechanicsByLocale:Object.fromEntries(Object.entries(localized).map(([lc,rows])=>[lc,packGuideParagraphs(rows)]))};\n });\n const names=Object.fromEntries(Object.entries(payload.names??{}).map(([lc,rows])=>[lc,Object.fromEntries(Object.entries(rows).filter(([id])=>needed.has(id)))]));\n"
+            ],
+            [
+              59,
+              61,
+              ""
+            ],
+            [
+              66,
+              68,
+              " const wire=cookery106WirePayload(payload);yield;\n const raw=JSON.stringify(wire);yield;\n"
+            ],
+            [
+              115,
+              118,
+              "   const payload=provider();yield;\n   const revision=dynamic?cookeryGuideRevision(payload):COOKERY_GUIDE_REVISION;yield;\n"
+            ]
+          ]
+        },
+        "runtime/BP/scripts/core/shaker-hud.js": {
+          "before": "fcf11ffb58819f3aabc89ff0e9cb3dbc0ff087c7ecebee3cde4f35c7d36e5b29",
+          "after": "b673ac72a34195d458dfb00c6fe06ad68a27d86f7bebe7151313188fdfc88a4d",
+          "reason": "T149 preserves recipes, item settlement and guide content while routing graphical HUD away from shared Actionbars and bounding startup preparation; source/scheduler checks are distinct from pending native/client acceptance. See docs/RELEASE-NOTES-0.6.149.md.",
+          "reverseOps": [
+            [
+              0,
+              1,
+              "/** Readable, finite actionbar packets. Never transport resource paths in HUD text. */\n"
+            ],
+            [
+              2,
+              5,
+              ""
+            ],
+            [
+              13,
+              13,
+              "const CODES=['7','d','9','6','a','e','c','f','0','1','2','3','4','5','7','8','b'];\n"
+            ],
+            [
+              24,
+              25,
+              " return `${index+1}:§${CODES[color]}${color?'■':'-'}§r`;\n"
+            ],
+            [
+              26,
+              27,
+              "export function slotsPacket(slots=[]){return HUD_PREFIX+Array.from({length:3},(_,i)=>slotToken(i,slotColorIndex(slots[i]))).join('  ');}\n"
+            ],
+            [
+              29,
+              30,
+              " return HUD_PREFIX+'§b'+String(n).padStart(3,'0')+' / 111§r';\n"
+            ],
+            [
+              32,
+              33,
+              " // No idle/off packet, including at join/leave. Do not clear another add-on's HUD.\n"
+            ]
+          ]
+        },
+        "runtime/BP/scripts/core/transport.js": {
+          "before": "2e44071804a33d61a48a5ac0f1ccd06fe8e853ad5ffcdd7839c648eea79ae472",
+          "after": "ec36bd87e44237630b445039c7173d91c0b7270273569f14a4c4f1e991ebb0b6",
+          "reason": "T149 preserves recipes, item settlement and guide content while routing graphical HUD away from shared Actionbars and bounding startup preparation; source/scheduler checks are distinct from pending native/client acceptance. See docs/RELEASE-NOTES-0.6.149.md.",
+          "reverseOps": [
+            [
+              0,
+              1,
+              "import {check,integer,text,canonical,utf8Bytes,digest,TavernError} from './util.js';\n"
+            ],
+            [
+              3,
+              17,
+              "export function packetsFor(extension,revision='r1'){\n const data=canonical(extension);check(utf8Bytes(data)<=MAX_DATA_BYTES,'PAYLOAD_TOO_LARGE');\n const parts=[];let part='';for(const c of data){if(utf8Bytes(JSON.stringify(part+c))>1100){parts.push(part);part='';}part+=c;}if(part)parts.push(part);\n"
+            ],
+            [
+              18,
+              26,
+              " const info={api:1,source:extension.source,revision,parts:parts.length,bytes:utf8Bytes(data),digest:digest(data)};\n const packets=[{id:EVENTS.begin,message:JSON.stringify(info)},...parts.map((data,index)=>({id:EVENTS.chunk,message:JSON.stringify({source:info.source,revision,index,data})})),{id:EVENTS.commit,message:JSON.stringify({source:info.source,revision})}];\n for(const p of packets)check(utf8Bytes(p.message)<=MAX_PACKET_BYTES,'PACKET_TOO_LARGE');return packets;\n"
+            ],
+            [
+              27,
+              28,
+              ""
+            ]
+          ]
+        },
+        "runtime/BP/scripts/core/util.js": {
+          "before": "94b1710e50a970dcdff7f86dce3c0ff3db9cd8a829c35c7ff13cacda58047fbb",
+          "after": "518e37827bb6ae3d924b7cf231ac00ffc81373e82885603f2e084e4292f09843",
+          "reason": "T149 preserves recipes, item settlement and guide content while routing graphical HUD away from shared Actionbars and bounding startup preparation; source/scheduler checks are distinct from pending native/client acceptance. See docs/RELEASE-NOTES-0.6.149.md.",
+          "reverseOps": [
+            [
+              21,
+              105,
+              ""
+            ]
+          ]
+        },
+        "runtime/BP/scripts/data/cookery-guide-payload.js": {
+          "before": "6d9cb451b95e4eb58accf2f192c15d612c76a47cbf8fcc02795f0c9edc9ce858",
+          "after": "3fc654cfc575e76bf7802d27bfb6df3a3fc871dc3ca7b25dfd406f45b7b1c778",
+          "reason": "T149 preserves recipes, item settlement and guide content while routing graphical HUD away from shared Actionbars and bounding startup preparation; source/scheduler checks are distinct from pending native/client acceptance. See docs/RELEASE-NOTES-0.6.149.md.",
+          "reverseOps": [
+            [
+              1,
+              3,
+              "import {consolidateGuide} from './guide-catalog.js';\n"
+            ],
+            [
+              5845,
+              5853,
+              "export function buildCookeryGuidePayload(registry){\n const payload=copy(COOKERY_GUIDE_PAYLOAD);\n"
+            ],
+            [
+              5863,
+              5864,
+              ""
+            ],
+            [
+              5872,
+              5873,
+              " if(!registry)return consolidateGuide(payload);\n"
+            ],
+            [
+              5877,
+              5878,
+              " const itemNames=copy(GUIDE_ITEM_NAMES);\n"
+            ],
+            [
+              5883,
+              5884,
+              ""
+            ],
+            [
+              5904,
+              5905,
+              ""
+            ],
+            [
+              5918,
+              5919,
+              ""
+            ],
+            [
+              5942,
+              5943,
+              ""
+            ],
+            [
+              5952,
+              5953,
+              ""
+            ],
+            [
+              5967,
+              5968,
+              " return consolidateGuide(payload,recipes,EFFECT_PAGES,{names:itemNames,icons:GUIDE_ITEM_ICONS});\n"
+            ],
+            [
+              5969,
+              5972,
+              ""
+            ]
+          ]
+        },
+        "runtime/BP/scripts/data/guide-catalog.js": {
+          "before": "ec5ad2b06727b19c87c1cc970072f15383ba248c3cbf12f5e3114a1ddaf0b7f2",
+          "after": "78c7deb2e8215e9cf9f38038517ffaa9f14b26b151ec92eed91bfe61a760075f",
+          "reason": "T149 preserves recipes, item settlement and guide content while routing graphical HUD away from shared Actionbars and bounding startup preparation; source/scheduler checks are distinct from pending native/client acceptance. See docs/RELEASE-NOTES-0.6.149.md.",
+          "reverseOps": [
+            [
+              0,
+              1,
+              ""
+            ],
+            [
+              66,
+              67,
+              "export function consolidateGuide(payload,recipes=[],effectPages=[],items={}){\n"
+            ],
+            [
+              69,
+              70,
+              ""
+            ],
+            [
+              121,
+              122,
+              ""
+            ],
+            [
+              146,
+              149,
+              " const result=applyTavernGuideCopy(organizeGuideNavigation(applyReviewedAddonGuideCopy(payload)));\n"
+            ],
+            [
+              150,
+              151,
+              ""
+            ],
+            [
+              167,
+              169,
+              ""
+            ]
+          ]
+        },
+        "runtime/BP/scripts/main.js": {
+          "before": "ee92d096a15f4ba9613b44a10bb1e3fdde8d61015d7f249f77aa3dccf4803e94",
+          "after": "c98614968fe30c0300edef8dca0394b8beb6ece0fbfc725fe41c37d5a9665578",
+          "reason": "T149 preserves recipes, item settlement and guide content while routing graphical HUD away from shared Actionbars and bounding startup preparation; source/scheduler checks are distinct from pending native/client acceptance. See docs/RELEASE-NOTES-0.6.149.md.",
+          "reverseOps": [
+            [
+              25,
+              26,
+              ""
+            ],
+            [
+              46,
+              47,
+              "import {buildCookeryGuidePayload} from './data/cookery-guide-payload.js';\n"
+            ],
+            [
+              61,
+              62,
+              "const cookeryGuidePublisher=installCookeryGuidePublisher(system,()=>buildCookeryGuidePayload(registry));\n"
+            ],
+            [
+              214,
+              215,
+              ""
+            ],
+            [
+              220,
+              221,
+              "   itemTags:id=>{try{return new ItemStack(id,1).getTags();}catch{return [];}},\n"
+            ]
+          ]
+        }
+      }
     }
   ],
   "reviewedAssetDeltaLayers": [
@@ -8595,6 +8926,23 @@
           "after": "2a08260a6d1d44e88756d23271818000fc782a6665853a157caa2cf57b877661",
           "reason": "T148 exact shared Tavern/Grilling bridge replaces pack-specific native-path renderer; owned renderer moved intact to a registered unique namespace. Original T147 predecessor and all earlier layers retained. See docs/RELEASE-NOTES-0.6.148.md.",
           "beforeGzipBase64": "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"
+        }
+      }
+    },
+    {
+      "release": "0.6.149",
+      "files": {
+        "runtime/RP/ui/hud_screen.json": {
+          "before": "2a08260a6d1d44e88756d23271818000fc782a6665853a157caa2cf57b877661",
+          "after": "515021a954675bbafdbd16be09e9aa40198e1bce4b75128c5efbe8a3e73489d8",
+          "reason": "T149 reads bounded formatting packets through the shared optional title route and retains original sprite, timing and native/foreign controls; exact T148 predecessor remains immutable. Client rendering is pending. See docs/RELEASE-NOTES-0.6.149.md.",
+          "beforeGzipBase64": "H4sIAAAAAAACA+1TS07DMBTc5xTGKkqDQikSq0qVumfLrqosJ3GDqWNHtlsRSs6Te+Rk2G7apF+KhFix8Wc8b97LjLL2AIAcZ0TlOCZwBODrMoGhRRcazXFGWYFIluvCvK0NbB50kTtmjjlhjmtART8sOHU3AIbh9uD2mVlLpyqF0GhTuRPsmVYar4jkyHRHlvKZkDleMt1MNDgcJtxWpiiVlDHK05/WZiKhcxpjTQVXndHXzW4oWEpcIGuP1YoF11IwBcOWIXIinYIlUK6I1CjC8aLLWWG27Hqz38RR2hE3PkxOWGL9KjtlZXiN3tadyUmrjjR355nXRdr8bCWO7RdHWCJN3vV+jk3bIwrsHUBNCiuqaMScv/1+/6wCuAd+Xcm6Gm5WPwBjcJYdAMwT8L3c9PllBh5HdfWLcnUVXaXGhTaS/u3gSfng7hJ9DPybNzXwgyCAF3J4aK/md1Y4Jf/J/HEyXul9AbvXjl9RBQAA"
+        },
+        "runtime/RP/ui/kt_tavern_hud.json": {
+          "before": "fe33ddb32e69234fe53c5c9155b6ec3a9d727be52ce1d4047a24bd1748f6b6d6",
+          "after": "9d1f84558c51719ab89ee023c055faec6f2e129fd03c20792de229b38a585063",
+          "reason": "T149 reads bounded formatting packets through the shared optional title route and retains original sprite, timing and native/foreign controls; exact T148 predecessor remains immutable. Client rendering is pending. See docs/RELEASE-NOTES-0.6.149.md.",
+          "beforeGzipBase64": "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"
         }
       }
     }

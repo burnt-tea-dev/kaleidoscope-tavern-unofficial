@@ -22,7 +22,7 @@ class Contract(unittest.TestCase):
   report=audit();self.assertGreater(report['native_root_controls_preserved'],20);self.assertEqual(report['selected_optional_panel'],'kaleidoscope_tavern_hud.kt_effect_empty')
  def test_family_bridge_rejects_the_live_single_port_mount(self):
   bridge=read(ROOT/'runtime/RP/ui/hud_screen.json');family_bridge(bridge)
-  bridge['root_panel']['modifications'][0]['value'].pop()
+  bridge['root_panel']['modifications'][0]['value'].pop(1)
   with self.assertRaises(AssertionError):family_bridge(bridge)
  def test_effect_images_require_explicit_sibling_cache_resolution(self):
   for cache in ['kt_effect_data','kwl_effect_data']:
