@@ -1,14 +1,16 @@
 ## 當前維護基線：0.6.150
 
-T150 在 canonical 建置時生成舊 API 頁面所需投影，取消模組載入時同步生成完整指南；文字、配方、順序及七個入口保持。JSON 原生分塊轉義保留封包與 revision，原生啟動及真人驗收仍待完成。見 [T150 修補範圍](docs/RELEASE-NOTES-0.6.150.md)。
+T150在建置時產生legacy指南21個product投影，原28個page保全；native字串quote有界處理，W127配對T150与同SDK，G130保持。Ribbits1.0.10036登記structure適配保留來源connection及保守fallback。來源回歸与引擎／真人接受分開；[T150原说明](docs/RELEASE-NOTES-0.6.150.md)保留當時範圍。
 
-**2026-10-13 00:29:50 HKT** 已部署 luosen **T149／G130／W126／private1.0.34**，完整42包、BDS1.26.52.3 RUNNING。Canonical PR／CI、static、停服存檔副本first／restart、准入及逐檔／順序讀回通過。Poststart **292 warnings／0 errors**，其中 **265 watchdog**，含Spike、Slowdown及2筆High Memory；啟動卡頓仍未全部解決，不算效能驗收。
+**2026-10-13 01:54:30 HKT** 已部署luosen **T150／G130／W127／P34／Ribbits1.0.10036**，42包、BDS1.26.52.3 RUNNING。Canonical PR／CI、static、停服存檔first／restart、准入及逐檔／順序讀回通過。Poststart **257 warnings／0 errors**，其中 **230 watchdog（9 Spike、220 Slowdown、1 High Memory）**；啟動仍未全解決，不當效能驗收。
 
-[下載v0.6.149-beta.1](https://github.com/casama233/kaleidoscope-tavern-unofficial/releases/tag/v0.6.149-beta.1)或[完整酒館BP／RP](https://github.com/casama233/kaleidoscope-tavern-unofficial/releases/download/v0.6.149-beta.1/Kaleidoscope_Tavern_Unofficial_0.6.149_baseline1.mcaddon)。[公開下載與LIVE核對](family/PUBLIC-DOWNLOAD-LIVE-HUD-20261013.md)確認三個公開addon的六份BP／RP共 **9343檔** 與已安裝內容及准入收據完全相同；私有料理與第三方host變體另有canonical來源。
+[下載v0.6.150-beta.1](https://github.com/casama233/kaleidoscope-tavern-unofficial/releases/tag/v0.6.150-beta.1)或[完整酒館BP／RP](https://github.com/casama233/kaleidoscope-tavern-unofficial/releases/download/v0.6.150-beta.1/Kaleidoscope_Tavern_Unofficial_0.6.150_baseline1.mcaddon)。[公開下載与LIVE核對](family/PUBLIC-DOWNLOAD-LIVE-STARTUP-20261013.md)確認六自有包 **9344檔** 完全相同；G130沿用原release，私有料理／Ribbits／其他host變體另有canonical來源。
 
-P34新增指南有界接收，P33配方快取、P32 renderer及ChineseFood1.0.10432保留。AMW2.6.28、JavaSaturation1.5.5、UIQueue1.6.10034為保全玩法／資產的登記HUD相容變體，不冒充作者新版。來源操作次數及不同啟動採樣窗口不能證明全局效能改善。快開短空條、畫面與任意第三方整份HUD／title寫入仍待[完整家族真人回歸](docs/HUD-COMPAT-CLIENT-HANDOFF-20261012.md)；`client=false`、`production_ready=false`、`pending_client_acceptance`。
+P34及五份HUD變體內容不變；本輪native保留LIVE明確100／10ms門檻，舊R149 native未設而關閉對應告警，不能与不同窗口作百分比或全局效能比較。快開短空條、聲畫／操作及任意whole-HUD／title仍待[真人回歸](docs/HUD-COMPAT-CLIENT-HANDOFF-20261012.md)；`client=false`、`production_ready=false`、`pending_client_acceptance`。
 
 ## 歷史修補範圍：0.6.147
+
+[T149核對](family/PUBLIC-DOWNLOAD-LIVE-HUD-20261013.md)保留原收據、窗口及native門檻限制。
 
 [T148／G129／W125核對](family/PUBLIC-DOWNLOAD-LIVE-UI-20261012.md)保留原9339檔收據與驗收範圍；舊影片不挪作T149／G130驗收。
 
@@ -35,7 +37,7 @@ Java酒館的基岩版移植，包含釀造、調酒、酒架／酒櫃、家具�
 ## 現行來源與需求
 
 - 版本及精確相依以 [baseline.json](baseline.json) 為準；更新見 [CHANGELOG.md](CHANGELOG.md)。
-- 目前已部署開發家族為酒館 **0.6.149**、世界名酒 **0.1.126**、燒烤 **2.8.130**、私有整合 **1.0.34**；精確相依、來源與有界驗證見[家族鎖](family/upstream.lock.json)和[當前 baseline](family/BASELINE-STATUS.md)。
+- 目前已部署開發家族為酒館 **0.6.150**、世界名酒 **0.1.127**、燒烤 **2.8.130**、私有整合 **1.0.34**；精確相依、來源與有界驗證見[家族鎖](family/upstream.lock.json)和[當前 baseline](family/BASELINE-STATUS.md)。
 - 基岩版1.26.50以上；目前引擎目標為BDS1.26.52.3。BP與RP兩側一起啟用。
 - Cookery可選，家族目前核驗作者1.6.0；世界名酒須搭配其宣告的酒館版本。
 - 升級前備份世界並移除重複舊包。私有料理整合是另一個識別明確的addon，不是私有酒館分支。

@@ -1,4 +1,12 @@
-## 當前部署：T149／G130／W126／private1.0.34
+## 當前部署：T150／G130／W127／P34／Ribbits1.0.10036
+
+2026-10-13 01:54:30 HKT完成42包家族部署，BDS1.26.52.3 RUNNING；canonical PR／CI、static、停服存檔first／restart、准入及逐檔／順序讀回通過。[公開proof](../family/PUBLIC-DOWNLOAD-LIVE-STARTUP-20261013.md)確認六包9344檔完全相同；`client=false`、`production_ready=false`、`pending_client_acceptance`。
+
+T150的21products／28pages、W fixture175registration packets及Ribbits54structures／158connections是各自來源回歸保全；不擴寫为整包bytes相同、LIVE投遞／ACK、任意資料或真人完整玩法。G130／P34／原五份HUD變體不變。
+
+Poststart257 warnings／0 errors、230 watchdog（9 Spike／220 Slowdown／1 High Memory）；T249／288、Ribbits431、W265、G447、Cookery310ms Spike仍在。本輪native已保留100／10ms門檻，旧native未設定而關閉對應告警；不同窗口／條件不能作性能百分比。快開短空條、完整聲畫、第三方whole HUD／title、Java一比一及作者新版適配仍待完成。下列旧parity段／影片原字節与身份保持，不能借用为T150真人接受。
+
+## 歷史部署：T149／G130／W126／private1.0.34
 
 2026-10-13 00:29:50 HKT已部署完整42包家族，BDS1.26.52.3 RUNNING；canonical PR／CI、static、一次新鮮停服存檔first／restart、准入及完整檔案／順序讀回通過。[現行基線](../family/BASELINE-STATUS.md)及[公開下載核對](../family/PUBLIC-DOWNLOAD-LIVE-HUD-20261013.md)記錄自有六包9343檔相等；私有／第三方變體另有来源。`client=false`、`production_ready=false`、`pending_client_acceptance`。
 
