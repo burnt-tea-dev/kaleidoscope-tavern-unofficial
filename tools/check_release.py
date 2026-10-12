@@ -130,7 +130,7 @@ def main(argv=None):
     assert config.get('cookery_optional') is True
     for side in ['BP','RP']:
         assert not any(d.get('uuid') in {'d322809c-a51e-4742-bfc4-16d3c1491c9d','8e2c6318-2f5f-4907-aad0-31d10610e405','5df753c9-3436-4fba-87f1-a2da3651cfcf','f1d333ca-2d6b-4566-8005-e6c309816324'} for d in docs[RT/side/'manifest.json'].get('dependencies',[]))
-    subprocess.run(['node','--test','tools/standalone-guide.test.mjs'],cwd=ROOT,check=True)
+    subprocess.run(['node','--test','tools/standalone-guide.test.mjs','tools/startup-preparation.test.mjs'],cwd=ROOT,check=True)
     assert not (RT/'RP/entity/player.entity.json').exists()
     assert not (RT/'RP/ui/fast_swap_scroll.json').exists()
     hud=docs[RT/'RP/ui/hud_screen.json'];assert 'hud_title_text' not in hud
@@ -210,7 +210,7 @@ def main(argv=None):
     subprocess.run([sys.executable,str(ROOT/'tools/check_motion.py')],cwd=ROOT,check=True)
     subprocess.run(source_checks['launch'],cwd=ROOT,check=True)
     subprocess.run(['node',str(ROOT/'tools/check_hud_compat.mjs')],cwd=ROOT,check=True)
-    subprocess.run(['node','--test','tools/shaker-hud-expiry.test.mjs','tools/shaker-hud-motion.test.mjs','tools/cocktail-tooltip.test.mjs','tools/presentation-settings.test.mjs','tools/immersion-feedback.test.mjs','tools/effect-bar.test.mjs','tools/effect-icons.test.mjs','tools/effect-icon-startup.test.mjs'],cwd=ROOT,check=True)
+    subprocess.run(['node','--test','tools/shaker-hud-expiry.test.mjs','tools/shaker-hud-motion.test.mjs','tools/formatting-hud-transport.test.mjs','tools/cocktail-tooltip.test.mjs','tools/presentation-settings.test.mjs','tools/immersion-feedback.test.mjs','tools/effect-bar.test.mjs','tools/effect-icons.test.mjs','tools/effect-icon-startup.test.mjs'],cwd=ROOT,check=True)
     subprocess.run(['node','tools/build_effect_icon_hud.mjs','--check'],cwd=ROOT,check=True)
     subprocess.run([sys.executable,'tools/test_effect_ui_contract.py'],cwd=ROOT,check=True)
     subprocess.run([sys.executable,'tools/check_effect_ui_contract.py'],cwd=ROOT,check=True)

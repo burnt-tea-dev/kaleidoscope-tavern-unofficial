@@ -1,5 +1,6 @@
 import {preparationRecipes,preparationFood} from '../core/guide-preparation.js';
-import {consolidateGuide} from './guide-catalog.js';
+import {prepareConsolidateGuide} from './guide-catalog.js';
+import {prepareClone,finishPreparation} from '../core/util.js';
 import {GUIDE_NATIVE_NAMES} from './guide-native-names.js';
 import {FLUIDS} from './fluids.js';
 // Tavern-owned chapter for the Cookery Guidebook Extension API v1.
@@ -7,7 +8,7 @@ import { EFFECT_PAGES } from "./effect-pages.js";
 export const COOKERY_GUIDE_PAYLOAD={
   "api": 1,
   "id": "kaleidoscope_tavern:tavern",
-  "version": "0.6.148",
+  "version": "0.6.149",
   "order": 250,
   "icon": "textures/ui/guidebook_icons/kt_tavern",
   "titleKey": "title",
@@ -5842,8 +5843,14 @@ function addLocalizedName(payload,id,map,fallback){
  * family guide. The registry remains Tavern-owned because barrel/shaker semantics
  * are Tavern-specific; only player-facing navigation/rendering is delegated.
  */
-export function buildCookeryGuidePayload(registry){
- const payload=copy(COOKERY_GUIDE_PAYLOAD);
+export function* prepareCookeryGuidePayload(registry){
+ // Capture frozen registry views together before yielding; a later extension
+ // refresh publishes a new generation rather than mixing two registries.
+ if(registry){
+  const sources=registry.list?.()??[],pages=registry.allPages?.()??[],recipes=registry.allRecipes?.()??[],fluids=registry.allFluids?.()??FLUIDS,colors=registry.allIngredientColors?.()??[];
+  registry={list:()=>sources,allPages:()=>pages,allRecipes:()=>recipes,allFluids:()=>fluids,allIngredientColors:()=>colors};
+ }
+ const payload=yield* prepareClone(COOKERY_GUIDE_PAYLOAD);
  for(const lc of GUIDE_LOCALES){
   payload.names[lc]={...GUIDE_NATIVE_NAMES[lc],...payload.names[lc]};
   for(const fluid of registry?.allFluids?.()??FLUIDS){
@@ -5854,6 +5861,7 @@ export function buildCookeryGuidePayload(registry){
   }
  }
  for(const entry of payload.entries){
+  yield;
   if(typeof entry.mechanics==='string')entry.mechanics=[entry.mechanics];
   if(!Array.isArray(entry.mechanics))entry.mechanics=[];
   const localized=entry.mechanicsByLocale&&typeof entry.mechanicsByLocale==='object'?entry.mechanicsByLocale:{};
@@ -5862,17 +5870,18 @@ export function buildCookeryGuidePayload(registry){
    return [lc,Array.isArray(value)?value.filter(x=>typeof x==='string'&&x):typeof value==='string'&&value?[value]:entry.mechanics];
   }));
  }
- if(!registry)return consolidateGuide(payload);
+ if(!registry)return yield* prepareConsolidateGuide(payload);
  const sources=new Set((registry.list?.()??[]).map(x=>x.source));
  const pages=(registry.allPages?.()??[]).filter(x=>sources.has(x.source)&&x.source!=='kaleidoscope_tavern');
  const recipes=(registry.allRecipes?.()??[]).filter(x=>x.source==='kaleidoscope_tavern'||sources.has(x.source));
  // Names are local to this projection. An extension cannot overwrite core labels.
- const itemNames=copy(GUIDE_ITEM_NAMES);
+ const itemNames=yield* prepareClone(GUIDE_ITEM_NAMES);
  for(const color of registry.allIngredientColors?.()??[])for(const lc of GUIDE_LOCALES){
   const label=color.labels?.[lc]??color.labels?.en_US;
   if(label)itemNames[lc]['#'+color.tag]=label;
  }
  for(const page of pages){
+  yield;
   const linked=recipes.find(r=>page.recipeIds?.includes(r.id)),item=page.item??linked?.output?.item??linked?.output?.byQuality?.[0];
   if(!item?.startsWith(page.source+':'))continue;
   const base=item.replace(/_q[1-6]$/,'');
@@ -5893,6 +5902,7 @@ export function buildCookeryGuidePayload(registry){
   payload.text.zh_CN.extensions='酒馆附属';payload.text.zh_TW.extensions='酒館附屬';payload.text.en_US.extensions='Tavern add-ons';
  }
  for(const page of pages){
+  yield;
   const linked=recipes.filter(r=>page.recipeIds?.includes(r.id));
   const item=page.item??linked[0]?.output?.item??linked[0]?.output?.byQuality?.[0]??page.id;
   const category=page.category??(linked[0]?.kind==='barrel'?'barrel':linked[0]?.kind==='shaker'?'cocktail_recipes':'extensions');
@@ -5906,6 +5916,7 @@ export function buildCookeryGuidePayload(registry){
   addLocalizedName(payload,item,page.title,item);
  }
  for(const page of EFFECT_PAGES){
+  yield;
   const mechanicsByLocale=Object.fromEntries(GUIDE_LOCALES.map(lc=>{
    let body=String(page.body?.[lc]??page.body?.en_US??'');
    const names=lc==='en_US'?{
@@ -5929,6 +5940,7 @@ export function buildCookeryGuidePayload(registry){
  }
  const combinedRecipeIds=new Set(pages.flatMap(p=>p.recipeIds??[]));
  for(const recipe of recipes){
+  yield;
   if(combinedRecipeIds.has(recipe.id))continue;
   const mechanicsByLocale=Object.fromEntries(GUIDE_LOCALES.map(lc=>[lc,[]]));
   const category=recipe.kind==='shaker'?'cocktail_recipes':recipe.kind==='pressing'?'press_recipes':'barrel_drinks';
@@ -5938,6 +5950,7 @@ export function buildCookeryGuidePayload(registry){
   addLocalizedName(payload,recipe.id,recipe.title,recipe.id);
  }
  for(const entry of payload.entries){
+  yield;
   if(!entry?.id)continue;
   if(typeof entry.mechanics==='string')entry.mechanics=[entry.mechanics];
   if(!Array.isArray(entry.mechanics))entry.mechanics=[];
@@ -5952,5 +5965,8 @@ export function buildCookeryGuidePayload(registry){
    if(friendly)payload.names[lc][entry.id]=friendly;
   }
  }
- return consolidateGuide(payload,recipes,EFFECT_PAGES,{names:itemNames,icons:GUIDE_ITEM_ICONS});
+ return yield* prepareConsolidateGuide(payload,recipes,EFFECT_PAGES,{names:itemNames,icons:GUIDE_ITEM_ICONS});
 }
+
+/** Immediate view for explicit guide navigation and source tooling. */
+export function buildCookeryGuidePayload(registry){return finishPreparation(prepareCookeryGuidePayload(registry));}

@@ -150,7 +150,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: casama233/kaleidoscope-world-liquor-unofficial
-          ref: aa965e381d2571433dc9764d2613e80b3dc94aa2
+          ref: f6e529a4a315006e0758fac76cb8ce9253190240
           path: world-liquor-src
           persist-credentials: false
       - uses: actions/setup-python@v5
@@ -177,7 +177,7 @@ jobs:
               'world-liquor':{'repository':'casama233/kaleidoscope-world-liquor-unofficial','repository_id':1385218112}}
           assert os.environ['GITHUB_REPOSITORY']==identities['tavern']['repository']
           assert os.environ['GITHUB_REPOSITORY_ID']==str(identities['tavern']['repository_id'])
-          assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=peer,text=True).strip()=='aa965e381d2571433dc9764d2613e80b3dc94aa2'
+          assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=peer,text=True).strip()=='f6e529a4a315006e0758fac76cb8ce9253190240'
           lock=json.loads((root/'family/upstream.lock.json').read_text())
           lock['owned']=[row for row in lock['owned'] if row['key'] in {'tavern','world-liquor'}]
           assert len(lock['owned'])==2 and {row['key'] for row in lock['owned']}=={'tavern','world-liquor'}
@@ -350,13 +350,13 @@ jobs:
           repository: casama233/kaleidoscope-world-liquor-unofficial
           # World Liquor 0.1.125 requires the paired Tavern 0.6.148 runtime.
           # Pin exact peer bytes, not an obsolete release or a moving branch.
-          ref: aa965e381d2571433dc9764d2613e80b3dc94aa2
+          ref: f6e529a4a315006e0758fac76cb8ce9253190240
           path: liquor
           persist-credentials: false
       - uses: actions/checkout@v4
         with:
           repository: casama233/kaleidoscope-grilling-unofficial
-          ref: 23d14fcc7c4d250151becc2ef4fd33048fba1794
+          ref: e1785d7583348fd9eadd587f99373fe2b2b3875c
           path: grilling
           sparse-checkout: projects/grilling/gameplay_core/resource_pack/ui
           persist-credentials: false
