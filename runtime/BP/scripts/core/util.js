@@ -100,3 +100,14 @@ export function cacheItemDefinitionTags(read){
  const values=new Map();
  return id=>{if(values.has(id))return values.get(id);try{const tags=Object.freeze([...read(id)]);values.set(id,tags);return tags;}catch{return [];}};
 }
+
+/** Known native item definitions are fixed for this boot. Retry unknown/error reads. */
+export function cacheNativeItemDefinitionExists(read){
+ const known=new Set();
+ return id=>{
+  if(known.has(id))return true;
+  const exists=!!read(id);
+  if(exists)known.add(id);
+  return exists;
+ };
+}

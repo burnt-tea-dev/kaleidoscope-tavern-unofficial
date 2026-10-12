@@ -8410,6 +8410,50 @@
           ]
         }
       }
+    },
+    {
+      "release": "0.6.151",
+      "files": {
+        "runtime/BP/scripts/main.js": {
+          "before": "c98614968fe30c0300edef8dca0394b8beb6ece0fbfc725fe41c37d5a9665578",
+          "after": "0132970e3d0a72fd6073b8c5db0890e8cecb191ee6596b101af22919ffc4e2b2",
+          "reason": "T151 shares positive-only native item-definition lookup results between the main startup missing-item scan and its registry. Unknown/error reads retry, generic predicates and existing tag cache remain unchanged; no COMMIT staging or timing changes. See docs/RELEASE-NOTES-0.6.151.md.",
+          "reverseOps": [
+            [
+              25,
+              26,
+              "import {cacheItemDefinitionTags} from './core/util.js';\n"
+            ],
+            [
+              206,
+              208,
+              "  const native=id=>id==='minecraft:sugar_cane'&&!ItemTypes.get(id)&&ItemTypes.get('minecraft:reeds')?'minecraft:reeds':id;\n"
+            ],
+            [
+              212,
+              213,
+              "   for(const id of ids)if(!ItemTypes.get(id))missing.push(id);\n"
+            ],
+            [
+              220,
+              221,
+              "   itemExists:id=>!!ItemTypes.get(id),\n"
+            ]
+          ]
+        },
+        "runtime/BP/scripts/core/util.js": {
+          "before": "5be8ea93064ca1d7b2298a8b31d6a479aedcf6eeabe4a66bf2c019e1f588e388",
+          "after": "08f2ec46d7a894013af267d8c456a96ad349e476a2a56dc28fcb2e9fd7215cd6",
+          "reason": "T151 shares positive-only native item-definition lookup results between the main startup missing-item scan and its registry. Unknown/error reads retry, generic predicates and existing tag cache remain unchanged; no COMMIT staging or timing changes. See docs/RELEASE-NOTES-0.6.151.md.",
+          "reverseOps": [
+            [
+              102,
+              113,
+              ""
+            ]
+          ]
+        }
+      }
     }
   ],
   "reviewedAssetDeltaLayers": [
