@@ -38,6 +38,26 @@ class EngineDataTests(unittest.TestCase):
             if p.is_file():self.assertFalse(p.samefile(self.data/p.relative_to(copy)))
         (copy/'bootstrap.json').write_bytes(b'isolated output change')
         self.assertEqual(self.files(self.data),before)
+    def test_qa_preserves_only_explicit_live_watchdog_values_and_keeps_isolation(self):
+        source=self.b/'server.properties'
+        original=source.read_text()
+        explicit={'script-watchdog-enable':'true','script-watchdog-enable-exception-handling':'true',
+                  'script-watchdog-enable-shutdown':'true','script-watchdog-hang-exception':'true',
+                  'script-watchdog-hang-threshold':'10000','script-watchdog-spike-threshold':'100',
+                  'script-watchdog-slow-threshold':'10','script-watchdog-memory-warning':'100',
+                  'script-watchdog-memory-limit':'250','script-watchdog-future-option':'retain=literal'}
+        for suffix,watchdog in [('configured',explicit),('unset',{})]:
+            with self.subTest(source=suffix):
+                raw=original+'# script-watchdog-commented-option=999\n  # script-watchdog-commented-option=888\n'+''.join(f'{key}={value}\n' for key,value in watchdog.items())
+                source.write_text(raw)
+                engine=self.root/('engine-'+suffix)
+                native.setup_engine(engine,'Fixture QA',29124,expected_inputs=common.engine_inputs())
+                props=dict(line.split('=',1) for line in (engine/'server.properties').read_text().splitlines() if '=' in line)
+                self.assertEqual({k:v for k,v in props.items() if k.startswith('script-watchdog-')},watchdog)
+                self.assertEqual({k:props[k] for k in ['level-name','server-port','server-portv6','online-mode','allow-list','enable-lan-visibility']},
+                                 {'level-name':'Fixture QA','server-port':'29124','server-portv6':'29125','online-mode':'true','allow-list':'true','enable-lan-visibility':'false'})
+                self.assertEqual((engine/'allowlist.json').read_text(),'[]\n')
+                self.assertEqual(source.read_text(),raw)
     def test_legacy_distribution_without_data_does_not_get_synthesized_data(self):
         shutil.rmtree(self.data);result=common.engine_inputs();self.assertNotIn('data',result['trees'])
         engine=self.setup(result);self.assertFalse((engine/'data').exists())
