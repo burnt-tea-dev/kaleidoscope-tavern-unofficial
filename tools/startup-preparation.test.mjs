@@ -6,6 +6,7 @@ import {readFileSync} from 'node:fs';
 import {canonical,digest,utf8Bytes,prepareJson,finishPreparation,cacheItemDefinitionTags} from '../runtime/BP/scripts/core/util.js';
 import {packetsFor as corePackets} from '../runtime/BP/scripts/core/transport.js';
 import {EVENTS,preparePacketsFor,packetsFor} from '../sdk/protocol.js';
+import {prepareJson as sdkPrepareJson} from '../sdk/util.js';
 import {registerTavernExtension} from '../sdk/tavern-extension-client.js';
 import {ExtensionRegistry} from '../runtime/BP/scripts/core/registry.js';
 import {BUILTIN_RECIPES} from '../runtime/BP/scripts/data/recipes.js';
@@ -26,6 +27,23 @@ function predecessorPackets(extension,revision,quotedLimit){
  return [{id:EVENTS.begin,message:JSON.stringify(info)},...parts.map((data,index)=>({id:EVENTS.chunk,message:JSON.stringify({source:info.source,revision,index,data})})),{id:EVENTS.commit,message:JSON.stringify({source:info.source,revision})}];
 }
 const finishWithYields=job=>{let result,yields=0;do{result=job.next();if(!result.done)yields++;}while(!result.done);return {value:result.value,yields};};
+
+test('native quote chunks preserve pair boundaries, lone surrogates and long keys within 1024 units',()=>{
+ const pair='x'.repeat(1023)+'🙂'+'y'.repeat(1023)+'🙂';
+ const key='k'.repeat(1023)+'🙂'+'\\"\ud800';
+ const fixture={empty:'',pair,lone:'x'.repeat(1023)+'\ud800x\udfff',controls:'"\\\b\t\n\f\r\u0000\u001f'.repeat(1100),[key]:'value',nested:[pair,'\ud800','\udfff']};
+ const expected=JSON.stringify(fixture),expectedCanonical=canonical(fixture);
+ for(const prepare of [prepareJson,sdkPrepareJson]){
+  const native=JSON.stringify,lengths=[];
+  JSON.stringify=function(value,...args){if(typeof value==='string')lengths.push(value.length);return native(value,...args);};
+  let ordinary,sorted;
+  try{ordinary=finishPreparation(prepare(fixture));sorted=finishPreparation(prepare(fixture,{canonicalKeys:true}));}
+  finally{JSON.stringify=native;}
+  assert.equal(ordinary,expected);assert.equal(sorted,expectedCanonical);
+  assert.ok(lengths.length>20,'the actual native quote work is split');
+  assert.ok(lengths.every(length=>length<=1024),'no native string quote call exceeds the source unit bound');
+ }
+});
 
 test('escaped Unicode/control boundaries preserve every predecessor packet and revision',()=>{
  const fixture={api:1,source:'wire_probe',version:'1.0.0',text:('"\\\b\t\n\f\r\u0000\u001f\u007f中文🙂\ud800x\udfff').repeat(700),nested:{z:[false,null,42],a:'first'}};
