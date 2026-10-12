@@ -102,7 +102,10 @@ def verify_static(receipt, prior):
     assert pr['head']['repo']['id'] == pr['base']['repo']['id'] == REPOSITORY_ID
     assert git(EXTENSION, 'merge-base', pr['merge_commit_sha'], binding['actual_current_source_commit']) == pr['merge_commit_sha']
     current_tree = binding['current_source_tree_oid']
-    checked = pr['head']['sha']
+    # Current canonical source owns the actual functional run. The reviewed PR
+    # head must have the same full tree; no failing check is relabelled/reused.
+    checked = binding['actual_current_source_commit']
+    assert gh_json(f'repos/{REPOSITORY}/git/commits/{pr["head"]["sha"]}')['tree']['sha'] == current_tree, 'Private reviewed source tree differs'
     assert gh_json(f'repos/{REPOSITORY}/git/commits/{checked}')['tree']['sha'] == current_tree, 'Private reviewed full Git tree differs'
     checks, statuses = actual_ci_records(REPOSITORY, checked)
     assert any(c['name'] == 'baseline' and c['app_slug'] == 'github-actions' and c['conclusion'] == 'success' for c in checks), 'Private canonical functional CI missing'
@@ -124,7 +127,8 @@ def verify_static(receipt, prior):
     assert log.parent.resolve() == Path(ref['path']).parent.resolve() and sha(log) == report['test_log']['sha256'] and report['test_exit_code'] == 0
     result = {'schema': 1, 'scope': 'Pure original recipe registry differential and unchanged private gameplay; fresh current-candidate BDS/save is separately mandatory',
               'source': report_ref(path), 'differential': ref, **binding, 'private_pull_request': proof['private_pull_request'],
-              'private_checks': checks, 'private_statuses': statuses, 'candidate_receipt_sha256': sha(C / 'family-receipt.json'),
+              'private_checks': checks, 'private_statuses': statuses, 'checked_canonical_commit': checked,
+              'reviewed_pull_request_head': pr['head']['sha'], 'candidate_receipt_sha256': sha(C / 'family-receipt.json'),
               'packs': proof['packs'], 'spec_sha256': sha(spec_path), 'static_functional': True,
               'native_loading': False, 'saved_world_migration': False, 'client': False, 'production_ready': False}
     atomic(R / 'cookery-cache-static-validation.json', result)
