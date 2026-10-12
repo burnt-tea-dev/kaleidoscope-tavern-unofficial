@@ -8454,6 +8454,38 @@
           ]
         }
       }
+    },
+    {
+      "release": "0.6.152",
+      "files": {
+        "runtime/BP/scripts/core/transport.js": {
+          "before": "ec36bd87e44237630b445039c7173d91c0b7270273569f14a4c4f1e991ebb0b6",
+          "after": "1c0d2f7affb2fd0b7b9ad810ac68d817cdc8d3320c8973c707a9d19c96abddf0",
+          "reason": "T152 computes ordered-prefix UTF16 FNV at chunk receipt (at most two stored parts per event), derives joined UTF8 bytes with exact nonempty boundary surrogate corrections, and retains original checksum fallback for unfinished out-of-order prefixes. Synchronous validation/install/ACK, packet admission side effects and error order remain. See docs/RELEASE-NOTES-0.6.152.md.",
+          "reverseOps": [
+            [
+              28,
+              46,
+              ""
+            ],
+            [
+              59,
+              60,
+              "   this.pending.set(p.source,{...p,tick,partsData:new Map(),actualBytes:0});return null;\n"
+            ],
+            [
+              63,
+              64,
+              "   if(old===undefined){tx.actualBytes+=utf8Bytes(p.data);check(tx.actualBytes<=tx.bytes&&tx.actualBytes<=MAX_DATA_BYTES,'PAYLOAD_TOO_LARGE');tx.partsData.set(p.index,p.data);}return null;\n"
+            ],
+            [
+              67,
+              69,
+              "   check(tx.partsData.size===tx.parts,'MISSING_CHUNKS');const data=Array.from({length:tx.parts},(_,i)=>tx.partsData.get(i)).join('');\n   check(utf8Bytes(data)===tx.bytes&&digest(data)===tx.digest,'DIGEST_MISMATCH');const raw=JSON.parse(data);check(raw.source===p.source,'SOURCE_MISMATCH');\n"
+            ]
+          ]
+        }
+      }
     }
   ],
   "reviewedAssetDeltaLayers": [
