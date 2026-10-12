@@ -10,7 +10,7 @@ RP = ROOT / 'runtime/RP'
 spec = importlib.util.spec_from_file_location('hud_colors', ROOT / 'tools/build_shaker_hud_colors.py')
 colors = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(colors)
-hud = json.loads((RP / 'ui/hud_screen.json').read_text())
+hud = json.loads((RP / 'ui/kt_tavern_hud.json').read_text())
 controls = hud['kt_mixology_packet']['controls'][0]['slots']['controls']
 mask = Image.open(RP / 'textures/ui/kt_mixology/slots/700.png').convert('RGBA').crop((0, 0, 16, 16))
 assert set(mask.getchannel('A').getdata()) == {0, 255}

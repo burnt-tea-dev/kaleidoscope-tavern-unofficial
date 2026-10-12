@@ -16,7 +16,7 @@ COLORS = [0xff55ff, 0x5555ff, 0xffaa00, 0x55ff55, 0xffff55, 0xff5555, 0xffffff,
 CODES = ['7', 'd', '9', '6', 'a', 'e', 'c', 'f', '0', '1', '2', '3', '4', '5', '7', '8', 'b']
 
 def main():
-    path = RP / 'ui/hud_screen.json'
+    path = RP / 'ui/kt_tavern_hud.json'
     hud = json.loads(path.read_text())
     slots = hud['kt_mixology_packet']['controls'][0]['slots']['controls']
     original = {next(iter(control)): next(iter(control.values())) for control in slots}
@@ -24,7 +24,7 @@ def main():
     updated = []
     for slot in range(3):
         for color in range(17):
-            key = f'kt_slot_{slot}_{color}@hud.kt_mixology_slot'
+            key = f'kt_slot_{slot}_{color}@kaleidoscope_tavern_hud.kt_mixology_slot'
             control = original.get(key, {}).copy()
             texture = ['0', '0', '0']
             texture[slot] = str(color) if color < 8 else f'x{color:02d}'

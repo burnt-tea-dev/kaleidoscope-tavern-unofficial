@@ -40,16 +40,17 @@ for(const c of controls){
 assert(updates.length>10);
 for(const suffix of updates){assert(!iconA.includes(suffix)&&!iconB.includes(suffix)&&!EFFECT_ICON_PREFIX.includes(suffix),'Tavern packet must not update AMW caches');}
 assert(!foreign.startsWith(EFFECT_ICON_PREFIX),'AMW cannot update Tavern cache');
-const hud=JSON.parse(readFileSync(new URL('../runtime/RP/ui/hud_screen.json',import.meta.url),'utf8'));
+const bridge=JSON.parse(readFileSync(new URL('../runtime/RP/ui/hud_screen.json',import.meta.url),'utf8'));
+const hud=JSON.parse(readFileSync(new URL('../runtime/RP/ui/kt_tavern_hud.json',import.meta.url),'utf8'));
 assert(!('hud_title_text' in hud)&&!('mob_effects_renderer' in hud));
-assert(hud.root_panel.modifications.every(m=>m.operation==='insert_back'));
+assert(bridge.root_panel.modifications.every(m=>m.operation==='insert_back'));
 const liquor=get('a610b357-ba70-5a2f-bca5-5a7a8a0fb2a8');
 const missingWorldSprites=EFFECT_ICONS.filter(x=>x.id.startsWith('kaleidoscope_world_liquor:')&&!existsSync(liquor.directory+'/'+x.texture+'.png')).map(x=>x.id);
 const worldUI=JSON.parse(read(liquor,'ui/kt_world_liquor_effects.json'));
 assert.equal(worldUI.namespace,'kaleidoscope_world_liquor_effects');assert(!('root_panel' in worldUI));
 assert.equal(worldUI.effect_panel.controls.length,481);assert(!existsSync(liquor.directory+'/ui/hud_screen.json'));
 assert.deepEqual(JSON.parse(read(liquor,'ui/_global_variables.json')),{'$kt_world_liquor_effect_panel':'kaleidoscope_world_liquor_effects.effect_panel'});
-assert.equal(hud.kt_effect_icons['$kt_world_liquor_effect_panel|default'],'hud.kt_effect_empty');assert.equal(hud.kt_effect_empty.type,'panel');
+assert.equal(hud.kt_effect_icons['$kt_world_liquor_effect_panel|default'],'kaleidoscope_tavern_hud.kt_effect_empty');assert.equal(hud.kt_effect_empty.type,'panel');
 assert(hud.kt_effect_icons.controls.slice(1,-1).every(c=>!Object.values(c)[0].texture.includes('world_liquor')));
 // Execute the installed AMW fallback module's legacy public route, with no queue addon.
 const amwBP=get('cd107d2a-333f-4347-ab54-6917142be0d7'),legacyOutput=[],legacyEvents=[];

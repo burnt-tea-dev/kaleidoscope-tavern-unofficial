@@ -4,18 +4,18 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {progressPacket} from '../runtime/BP/scripts/core/shaker-hud.js';
 
-const hud=JSON.parse(readFileSync(new URL('../runtime/RP/ui/hud_screen.json',import.meta.url),'utf8'));
+const hud=JSON.parse(readFileSync(new URL('../runtime/RP/ui/kt_tavern_hud.json',import.meta.url),'utf8'));
 const progress=hud.kt_mixology_packet.controls.find(row=>row.progress).progress;
 const cursors=progress.controls.slice(1);
 
 test('each packet selects a bounded one-tick native cursor animation',()=>{
  const step=hud.kt_mixology_cursor_step;
  assert.deepEqual(step,{anim_type:'offset',easing:'linear',duration:0.05,from:'$kt_cursor_from',to:'$kt_cursor_to'});
- assert.equal(hud.kt_mixology_cursor.offset,'@hud.kt_mixology_cursor_step');
+ assert.equal(hud.kt_mixology_cursor.offset,'@kaleidoscope_tavern_hud.kt_mixology_cursor_step');
  assert.equal(cursors.length,112);
  for(let tick=0;tick<cursors.length;tick++){
   const [key,instance]=Object.entries(cursors[tick])[0];
-  assert.equal(key,`cursor_${tick}@hud.kt_mixology_cursor`);
+  assert.equal(key,`cursor_${tick}@kaleidoscope_tavern_hud.kt_mixology_cursor`);
   assert.equal(instance.visible,`($kt_text = '${progressPacket(tick)}')`);
   assert(!('offset' in instance),'An instance must not override the inherited animation');
   const from=instance.$kt_cursor_from,to=instance.$kt_cursor_to;
