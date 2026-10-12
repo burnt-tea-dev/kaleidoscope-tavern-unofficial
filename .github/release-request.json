@@ -1,22 +1,21 @@
 {
-  "version": "0.6.147",
-  "tag": "v0.6.147-beta.1",
-  "title": "森羅物語：酒館 0.6.147 測試版｜HUD200 與公開來源同步",
+  "version": "0.6.148",
+  "tag": "v0.6.148-beta.1",
+  "title": "\u68ee\u7f85\u7269\u8a9e\uff1a\u9152\u9928 0.6.148 \u6e2c\u8a66\u7248\uff5c\u5171\u7528 HUD \u6a4b\u63a5\u8207\u7368\u7acb\u547d\u540d\u7a7a\u9593",
   "prerelease": true,
   "publication_request": false,
-  "validation_evidence": "docs/RELEASE-NOTES-0.6.147.md",
-  "public_notes_path": "docs/PUBLICATION-T147-G128-W124.md",
+  "validation_evidence": "docs/RELEASE-NOTES-0.6.148.md",
+  "public_notes_path": "docs/RELEASE-NOTES-0.6.148.md",
   "client_acceptance": "pending",
   "full_client_acceptance": "pending",
   "saved_world_migration": "pending",
   "production_ready": false,
   "live_deployment": false,
-  "native_evidence_scope": "Preparing the merged T147/G128/W124 family; original LIVE remains T146/G125/W123 at this metadata checkpoint. HUD200 recordings belong to the original T146/W123/G125 public diagnostic configuration, and Uses observations to the original G125 diagnostic. Neither establishes combined T147/G128/W124 native, saved-world or client acceptance. Original draft release notes and evidence remain unchanged. Complete-family source-bound gates and installation readback remain required; client=false and production_ready=false.",
-  "expected_archive_sha256": "013295193c5879de20c59ed4ed7aaedab189cd250255159e7c05c091abb8952f",
-  "reviewed_runtime_source": "b0e5351e33ad2d4cde2aeeca91f540b67267a69d",
-  "runtime_ci_run_id": 38125105783,
+  "native_evidence_scope": "T148/G129/W125 fixes the owned HUD definition boundary; targeted structure and preserved sprite/packet/timing checks are separate from pending full-family native/saved-world and real-client rendering. Current deployed family remains T147/G128/W124/private1.0.32 until a fresh candidate completes its canonical gates. No automatic publication; the exact archive checksum is required before explicit publication.",
+  "expected_archive_sha256": "97f3efa674c228866969c1b0aa4eb7de540404b6a73a660aecf761abf1c63a08",
+  "reviewed_runtime_source": "5912c8c79d8e4e5ed6074a9f0c58da27ae31f889",
   "paired_owned_sources": {
-    "grilling": "ff452251cf62632d88b17237b6ea9e4fa49c4c83",
-    "world-liquor": "63d6f5c11ffe6e3c5579212a51314c24466c49a8"
+    "grilling": "23d14fcc7c4d250151becc2ef4fd33048fba1794",
+    "world-liquor": "aa965e381d2571433dc9764d2613e80b3dc94aa2"
   }
 }
