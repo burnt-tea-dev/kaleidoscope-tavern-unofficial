@@ -1,21 +1,21 @@
 {
-  "version": "0.6.150",
-  "tag": "v0.6.150-beta.1",
-  "title": "森羅物語：酒館 0.6.150 測試版｜指南啟動生成與有界 JSON",
+  "version": "0.6.151",
+  "tag": "v0.6.151-beta.1",
+  "title": "森羅物語：酒館 0.6.151 測試版｜重用原生物品定義查詢",
   "prerelease": true,
   "publication_request": false,
-  "validation_evidence": "docs/RELEASE-NOTES-0.6.150.md",
-  "public_notes_path": "docs/RELEASE-NOTES-0.6.150.md",
+  "validation_evidence": "docs/RELEASE-NOTES-0.6.151.md",
+  "public_notes_path": "docs/RELEASE-NOTES-0.6.151.md",
   "client_acceptance": "pending",
   "full_client_acceptance": "pending",
   "saved_world_migration": "pending",
   "production_ready": false,
   "live_deployment": false,
-  "native_evidence_scope": "T150 removes synchronous full legacy guide generation on module import; the canonical generated projection preserves all 28 legacy pages. Bounded native JSON string quoting retains complete guide/SDK wire bytes and publication order. W127 pairs these dependencies; G130 and private34 runtime stay unchanged. Conserved Ribbits1.0.10036 startup outputs belong to separately reviewed private compiler sources. Source equivalence is not native watchdog/client acceptance; fresh full-family stopped-save/load/restart/admission/LIVE remain mandatory.",
-  "expected_archive_sha256": "da16d9ad28ff33eac6cfae8f50e25a4103cd5a6190cc3f36f235d36021a71d04",
-  "reviewed_runtime_source": "b1d45e82d6f71e96607282cd98040cbaddd9cdad",
+  "native_evidence_scope": "T151 shares successful native item-definition reads within this boot. Unknown/error reads and generic predicates retain behavior; synchronous registry/transport/storage timing unchanged. W128 pairs the dependency, G130/private34/Ribbits10036 remain unchanged. Source callback counts are not native performance/client acceptance; fresh family saved-load/admission/deployment required.",
+  "expected_archive_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "reviewed_runtime_source": "9339168e4e8fd4295950b0644c51e7dfeb59b51f",
   "paired_owned_sources": {
     "grilling": "a567e17c0316f7f2175dfef07004bb944634ca90",
-    "world-liquor": "c820d8838a6376513ddf789215e3d03c4169da59"
+    "world-liquor": "3613e7a45de8af1ae196fdc8202e52cbc373c832"
   }
 }
