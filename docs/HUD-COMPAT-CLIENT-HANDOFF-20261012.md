@@ -1,10 +1,12 @@
 # Dot：本輪 HUD 實測入口
 
-本輪 **T150／G130／W127／P34／Ribbits1.0.10036** 已於 **2026-10-13 01:54:30 HKT** 完成luosen部署，42包、BDS1.26.52.3 RUNNING；canonical PR／CI、static、停服存檔first／restart、准入及逐檔／順序讀回通過。[公開proof](../family/PUBLIC-DOWNLOAD-LIVE-STARTUP-20261013.md)確認六自有包9344檔与LIVE／准入相同。
+本輪 **T151／G130／W128／P34／Ribbits1.0.10036** 已於 **2026-10-13 02:47:19 HKT** 完成luosen部署，42包、BDS1.26.52.3 RUNNING；canonical PR／CI、static、停服存檔first／restart、准入及逐檔／順序讀回通過。[公開proof](../family/PUBLIC-DOWNLOAD-LIVE-NATIVE-ITEM-20261013.md)確認六自有包9344檔与LIVE／准入相同。
 
-本輪legacy指南／native quote及Ribbitsstructure修補的來源回歸与原生保存分開；G130／P34／原五份HUD變體完全不變，沒有新的HUD接受證據。Dot旧兩次短空條、G126／T147等影片保留原版本範圍。
+本輪native成功ItemTypes lookup重用的來源回歸与原生保存分開，沒有明確native性能收益；G130／P34／原五份HUD變體完全不變，沒有新的HUD接受證據。Dot旧兩次短空條、G126／T147等影片保留原版本範圍。
 
-Poststart **257 warnings／0 errors**、**230 watchdog（9 Spike／220 Slowdown／1 High Memory）**，T249／288、Ribbits431、W265、G447、Cookery310ms Spike仍在。本輪native100／10ms門檻与旧native未設定而告警關閉不可混比performance；來源次數29635→158或既有cache75→7不當client卡頓改善。`client=false`、`production_ready=false`、`pending_client_acceptance`保持。
+Poststart **254 warnings／0 errors**、**227 watchdog（9 Spike／217 Slowdown／1 High Memory）**，T290／282、Ribbits418、W271、G517、Cookery308、AMW307ms Spike仍在。本輪native100／10ms門檻与旧native未設定而告警關閉不可混比performance；來源次數29635→158或既有cache75→7不當client卡頓改善。`client=false`、`production_ready=false`、`pending_client_acceptance`保持。
+
+T／W為新匿名下載，G130如實重用R150匿名archive同FS硬連結而非新下載。下一T152／W129本機freeze但native／LIVE未接受；每chunk byte／digest快取仍留partial reverse整串FNV fallback，不能以本輪151 proof代替152驗收。
 
 ## 本次要分辨的缺陷
 
@@ -14,7 +16,7 @@ T148／G129已把renderer移到獨立命名空間及共用可選掛載，解開�
 
 Windows SSH的DNS／networkDenied失敗不需要卡住此檔案的唯讀查核：透過GitHub connector已能取得[本輪BSM原檔快照](../family/JAVA-UPSTREAM-READONLY-20261012.md)，檢查時間2026-10-12 18:23:03 HKT，按內附SHA辨認同一份JSON，再和 `family/java-upstream.json` 一起查核。本機連線／任務執行狀態仍未知；快照不是永久最新來源，原檔的新版本／適配與parity pending狀態保持。
 
-Dot既有回歸記錄：取消保留物品、完成後進度正常退出、調酒裝料／返瓶／產出通過，但快速重開仍見兩次短暫空條。這些觀察尚未附可核對的候選與客戶端版本；保留各場景結果，不挪作T150／G130驗收。先確認實際LIVE、客戶端BP／RP UUID／版號、完整堆疊與GUI profile／比例，優先查資源包快取及載入優先序。正常退出客戶端並重新接受已更新的伺服器資源包後，只重錄下面同一流程；沒有明確新失敗時不再轉入隔離camera／hold微調或重跑舊影片。
+Dot既有回歸記錄：取消保留物品、完成後進度正常退出、調酒裝料／返瓶／產出通過，但快速重開仍見兩次短暫空條。這些觀察尚未附可核對的候選與客戶端版本；保留各場景結果，不挪作T151／G130驗收。先確認實際LIVE、客戶端BP／RP UUID／版號、完整堆疊與GUI profile／比例，優先查資源包快取及載入優先序。正常退出客戶端並重新接受已更新的伺服器資源包後，只重錄下面同一流程；沒有明確新失敗時不再轉入隔離camera／hold微調或重跑舊影片。
 
 ## 一次正常玩家流程
 
