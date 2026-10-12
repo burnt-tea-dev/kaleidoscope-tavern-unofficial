@@ -4,6 +4,10 @@ from family_update.common import *
 
 def setup_engine(engine, world_name, port, expected_inputs=None):
     properties = dict(line.split('=', 1) for line in (B / 'server.properties').read_text().splitlines() if '=' in line and not line.lstrip().startswith('#'))
+    # Unset spike/slow thresholds disable those warnings. Keep every explicit
+    # live watchdog value so QA observes the same limits, without adding defaults.
+    # https://github.com/MicrosoftDocs/minecraft-creator/blob/main/creator/Documents/BedrockServer/server-properties.md
+    watchdog = ''.join(f'{key.strip()}={value}\n' for key, value in properties.items() if key.strip().startswith('script-watchdog-'))
     live_ports = {int(properties.get('server-port', 19132)), int(properties.get('server-portv6', 19133))}
     assert not {port, port + 1} & live_ports, 'Isolated BDS port overlaps live'
     data_present = (B / 'data').exists()
@@ -26,7 +30,7 @@ def setup_engine(engine, world_name, port, expected_inputs=None):
         assert hashes(engine / 'data') == expected_data, 'Isolated BDS data copy differs from captured input'
         assert hashes(B / 'data') == expected_data, 'BDS data input changed during isolated copy'
     (engine / 'allowlist.json').write_text('[]\n')
-    (engine / 'server.properties').write_text(f'server-name=Parity isolated native QA\nlevel-name={world_name}\nserver-port={port}\nserver-portv6={port+1}\nonline-mode=true\nallow-list=true\nview-distance=5\ntick-distance=4\nmax-threads=2\nenable-lan-visibility=false\ncontent-log-file-enabled=true\ncontent-log-console-output-enabled=true\ntransport=nethernet\n')
+    (engine / 'server.properties').write_text(f'server-name=Parity isolated native QA\nlevel-name={world_name}\nserver-port={port}\nserver-portv6={port+1}\nonline-mode=true\nallow-list=true\nview-distance=5\ntick-distance=4\nmax-threads=2\nenable-lan-visibility=false\ncontent-log-file-enabled=true\ncontent-log-console-output-enabled=true\ntransport=nethernet\n'+watchdog)
 
 def level_metadata(source):
     import nbtlib
