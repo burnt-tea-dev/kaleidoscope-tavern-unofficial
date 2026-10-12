@@ -26,6 +26,24 @@ export function* preparePacketsFor(extension,revision,{quotedLimit=1100}={}){
  return {revision,packets};
 }
 export function packetsFor(extension,revision='r1'){return finishPreparation(preparePacketsFor(extension,revision,{quotedLimit:1098})).packets;}
+/** Joined UTF-8 differs from per-part bytes only at nonempty surrogate boundaries. */
+function joinedUtf8Bytes(parts,bytes){
+ let last=0;
+ for(const part of parts){
+  if(!part.length)continue;
+  const first=part.charCodeAt(0);
+  if(last>=0xd800&&last<=0xdbff&&first>=0xdc00&&first<=0xdfff)bytes-=2;
+  last=part.charCodeAt(part.length-1);
+ }
+ return bytes;
+}
+/** Advance only stored contiguous parts; at most 2800 UTF16 units per chunk event. */
+function advanceDigest(tx){
+ for(let n=0;n<2&&tx.partsData.has(tx.digestParts);n++){
+  const part=tx.partsData.get(tx.digestParts++);
+  for(let i=0;i<part.length;i++){tx.digestState^=part.charCodeAt(i);tx.digestState=Math.imul(tx.digestState,16777619);}
+ }
+}
 export class ExtensionTransport {
  constructor(registry){this.registry=registry;this.pending=new Map();this.usedBytes=0;}
  cleanup(tick){for(const[k,p]of this.pending)if(tick-p.tick>TTL)this.pending.delete(k);}
@@ -39,16 +57,16 @@ export class ExtensionTransport {
   if(eventId===EVENTS.begin){
    check(p.api===1,'API_VERSION_MISMATCH');integer(p.parts,1,512);integer(p.bytes,2,MAX_DATA_BYTES);check(/^[0-9a-f]{8}$/.test(p.digest),'INVALID_DIGEST');
    check(this.pending.has(p.source)||this.pending.size<16,'PENDING_LIMIT');
-   this.pending.set(p.source,{...p,tick,partsData:new Map(),actualBytes:0});return null;
+   this.pending.set(p.source,{...p,tick,partsData:new Map(),actualBytes:0,digestParts:0,digestState:2166136261});return null;
   }
   const tx=this.pending.get(p.source);check(tx&&tx.revision===p.revision,'NO_PENDING_TRANSFER');
   if(eventId===EVENTS.chunk){integer(p.index,0,tx.parts-1);text(p.data,1400);const old=tx.partsData.get(p.index);check(old===undefined||old===p.data,'CONFLICTING_CHUNK');
-   if(old===undefined){tx.actualBytes+=utf8Bytes(p.data);check(tx.actualBytes<=tx.bytes&&tx.actualBytes<=MAX_DATA_BYTES,'PAYLOAD_TOO_LARGE');tx.partsData.set(p.index,p.data);}return null;
+   if(old===undefined){tx.actualBytes+=utf8Bytes(p.data);check(tx.actualBytes<=tx.bytes&&tx.actualBytes<=MAX_DATA_BYTES,'PAYLOAD_TOO_LARGE');tx.partsData.set(p.index,p.data);}advanceDigest(tx);return null;
   }
   check(eventId===EVENTS.commit,'UNKNOWN_EVENT');
   try{
-   check(tx.partsData.size===tx.parts,'MISSING_CHUNKS');const data=Array.from({length:tx.parts},(_,i)=>tx.partsData.get(i)).join('');
-   check(utf8Bytes(data)===tx.bytes&&digest(data)===tx.digest,'DIGEST_MISMATCH');const raw=JSON.parse(data);check(raw.source===p.source,'SOURCE_MISMATCH');
+   check(tx.partsData.size===tx.parts,'MISSING_CHUNKS');const parts=Array.from({length:tx.parts},(_,i)=>tx.partsData.get(i)),data=parts.join('');
+   check(joinedUtf8Bytes(parts,tx.actualBytes)===tx.bytes&&(tx.digestParts===tx.parts?(tx.digestState>>>0).toString(16).padStart(8,'0'):digest(data))===tx.digest,'DIGEST_MISMATCH');const raw=JSON.parse(data);check(raw.source===p.source,'SOURCE_MISMATCH');
    const installed=this.registry.install(raw);
    return {...installed,ok:true,registryRevision:installed.revision,revision:p.revision};
   }finally{this.pending.delete(p.source);}
