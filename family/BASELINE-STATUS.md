@@ -1,34 +1,34 @@
 # 家族現行基線與差距
 
-**2026-10-13 01:54:30 香港時間**：luosen **T150／G130／W127／private1.0.34／Ribbits1.0.10036**，42包（22BP／20RP）、BDS1.26.52.3、RUNNING。Canonical PR／CI、static、一次停服存檔first／restart、完整准入及逐檔／順序讀回通過；`client=false`、`production_ready=false`、`pending_client_acceptance`。
+**2026-10-13 02:47:19 香港時間**：luosen **T151／G130／W128／private1.0.34／Ribbits1.0.10036**，42包（22BP／20RP）、BDS1.26.52.3、RUNNING。Canonical PR／CI、static、一次停服存檔first／restart、完整准入及逐檔／順序讀回通過；`client=false`、`production_ready=false`、`pending_client_acceptance`。
 
-[公開下載核對](PUBLIC-DOWNLOAD-LIVE-STARTUP-20261013.md)確認六自有包9344檔與LIVE／reviewed receipt相同；G130維持原release。私有料理／Ribbits及第三方host變體另有來源。舊[149](PUBLIC-DOWNLOAD-LIVE-HUD-20261013.md)、[148](PUBLIC-DOWNLOAD-LIVE-UI-20261012.md)、[147](PUBLIC-DOWNLOAD-LIVE-20261012.md)及其他歷史proof／parity保持原版本與範圍。
+[公開下載核對](PUBLIC-DOWNLOAD-LIVE-NATIVE-ITEM-20261013.md)確認六自有包9344檔與LIVE／reviewed receipt相同；G130重用R150已核驗匿名archive的同FS硬連結，fresh REST metadata／asset digest仍核對，不稱新下載。私有料理／Ribbits及第三方host變體另有來源。舊[150](PUBLIC-DOWNLOAD-LIVE-STARTUP-20261013.md)、[149](PUBLIC-DOWNLOAD-LIVE-HUD-20261013.md)、[148](PUBLIC-DOWNLOAD-LIVE-UI-20261012.md)、[147](PUBLIC-DOWNLOAD-LIVE-20261012.md)及其他歷史proof／parity保持原版本與範圍。
 
 ## 本輪來源修補與界限
 
 | 範圍 | 已改／保持 | 未完成／證據界限 |
 |---|---|---|
-| T150 | legacy21個product投影移到建置，28個page逐字節保全；native字串quote分批、保留原序列化輸出，指南內容／配方保持。 | page／wire來源回歸不是整包bytes相同、BDS效能或真人完整操作；原黑板、聲畫及Java差距仍在。 |
+| T151 | 同次boot成功的native ItemTypes lookup重用，未知／throw可重試、generic判定保持；配方／指南／transport／storage不變，前輪legacy投影保留。 | API呼叫減少沒有明確native效能收益；原黑板、聲畫及Java差距仍在。 |
 | G130 | 玩法／圖形／配方／結算保持，來源及原公開release不變；不製造G131。 | 快速重開短空條及新家族聲畫／操作仍待真人；旧影片版本未知不當本輪通過。 |
-| W127 | 精確配對T150与同SDK，fixture指定原W125 production的175註冊封包逐字相同，內容／配方保持。 | 175是來源fixture範圍，不是LIVE投遞／ACK、任意輸入或完整原生玩法接受。 |
+| W128 | 只更新三份identity／dependency檔以精確配對T151，其他runtime保持；原175packet fixture保全範圍不變。 | 版本配對與fixture不是LIVE投遞／ACK、任意資料或完整原生玩法接受。 |
 | Ribbits1.0.10036 | 54個來源structure場景29635→158呼叫；158個connection／順序保持；未知ID／size／table／metadata保守fallback，原13BP／4RP差異保留。 | 綁final10036實際source CI及本輪fresh saved-world native，不重用10035歷史CI；真人正常生成／connection／互動待驗。 |
 | P34／原五份HUD變體 | 私有自有內容、P33快取／P32 renderer、ChineseFood1.0.10432及五份HUD變體全部不變，不宣稱P35或新HUD修補。 | Source-operation counts、載入及保存不等於client或全局效能接受。 |
 
 ## 啟動watchdog尚未全解決
 
-Poststart **257 warnings／0 errors**，其中 **230 watchdog（9 Spike、220 Slowdown、1 High Memory）**。當次T初始化249ms／指南COMMIT288ms、Ribbits431ms、W265ms、G447ms、Cookery310ms Spike仍在；不同窗口不作百分比或全局效能比較，不抬門檻／隱藏告警。後續未凍結原型不屬本次已部署候選。
+Poststart **254 warnings／0 errors**，其中 **227 watchdog（9 Spike、217 Slowdown、1 High Memory）**。當次T初始化290ms／指南COMMIT282ms、Ribbits418ms、W271ms、G517ms、Cookery308ms、AMW307ms Spike仍在；本次ItemTypes快取沒有明確native收益，不同窗口不作百分比或全局效能比較，不抬門檻／隱藏告警。下一T152／W129已本機freeze但native／LIVE未接受；per-chunk byte／digest快取仍有partial reverse整串FNV fallback，不稱所有work全面有界，151證據不挪用為152。
 
-本輪native QA已含[工具PR340](https://github.com/casama233/kaleidoscope-tavern-unofficial/pull/340)，保留LIVE明確Spike100／Slowdown10ms門檻。First410／restart365 warnings，各exit0／errors0；旧R149 native未設定值而關閉對應告警，不能混比性能，也不把旧保存成功改成效能通過。
+本輪native QA已含[工具PR340](https://github.com/casama233/kaleidoscope-tavern-unofficial/pull/340)，保留LIVE明確Spike100／Slowdown10ms門檻。First386／restart478 warnings，各exit0／errors0；旧R149 native未設定值而關閉對應告警，不能混比性能，也不把旧保存成功改成效能通過。
 
 真人完整食用／取消／快開、調酒、AMW29通道、飽和度／普通提示及UI profile／scale仍待[回歸](../docs/HUD-COMPAT-CLIENT-HANDOFF-20261012.md)。自有圖形不覆寫Actionbar，但未協調title寫入或第三方整份HUD不能保證相容；完整Java一比一、作者新版UUID／API／保存適配仍未完成。Dot原兩次短空條來源／client版本未知，不重標成本輪通過。
 
 ## 來源與當次證據
 
-- T：[PR342](https://github.com/casama233/kaleidoscope-tavern-unofficial/pull/342)，部署／發布來源 `3f59f984e55fca1ad7ff0a1ee4b7281ecd654daa`。
+- T：[PR343](https://github.com/casama233/kaleidoscope-tavern-unofficial/pull/343)，部署／發布來源 `5c1aa26d9297362d9a7e47671db1258060181d4d`。
 - G：不變[PR198](https://github.com/casama233/kaleidoscope-grilling-unofficial/pull/198)，來源 `a567e17c0316f7f2175dfef07004bb944634ca90`。
-- W：[PR111](https://github.com/casama233/kaleidoscope-world-liquor-unofficial/pull/111)，來源 `eaf1fa03a182f32b98fc04727c399f19b982423c`。私有Ribbits來源经核驗私有遠端／實際必要功能CI合併；付費pre-commit服務unavailable／原error保留，未偽寫成功。
-- 紀錄 `20261013-startup-t150-g130-w127-p34-ribbits10036`，reviewed SHA **`c0d1f1d1c47da8fb53b7c2e6d8ab9c85ad85f73dd0d1e5c5bed0a26b491c92fa`**，政策installed／deferred_client_acceptance綁同SHA；original SHA `285838cbfc8ff22b55b72d312ad3f8bec3bab7721a09a27543804ce9759fa6bb` 分開保留。
-- First／restart保留18筆玩家記錄、2容器及原生儲存；freezer0，不當非空投料證據。正式DB／level.dat在安裝保持，未另建新世界／使用模擬玩家。只保留最新完整回退，6個舊生成根已清理，磁碟可用空間增加1,657,528,320 bytes；unknown／partial及仍引用資料受保護，原失敗JSON／日誌／observer／來源保持。
+- W：[PR112](https://github.com/casama233/kaleidoscope-world-liquor-unofficial/pull/112)，來源 `8d0983dd1c2f16634b393fbed3bd9121d0df78e7`。私有Ribbits來源经核驗私有遠端／實際必要功能CI合併；付費pre-commit服務unavailable／原error保留，未偽寫成功。
+- 紀錄 `20261013-native-item-t151-g130-w128-p34-ribbits10036`，reviewed SHA **`bd059ab13cd6ba38b12f27050c49d130e3db38e2d6a01f5d79391bcd82957ea0`**，政策installed／deferred_client_acceptance綁同SHA；original SHA `7b23d895611702659ed50e5d8cf0485807f898d6aa72d92ecf8ae2c013d7f245` 分開保留。
+- First／restart保留18筆玩家記錄、2容器及原生儲存；freezer0，不當非空投料證據。正式DB／level.dat在安裝保持，未另建新世界／使用模擬玩家。只保留最新完整回退，6個舊生成根已清理，磁碟可用空間增加1,541,312,512 bytes；unknown／partial及仍引用資料受保護，原失敗JSON／日誌／observer／來源保持。
 - 作者料理快取／指南回饋仍prepared/pending，不宣稱已送達。指南七入口及旧修補／錄影身份保持；完整差距見各canonical PARITY-MATRIX。
 
 ## 作者與維護

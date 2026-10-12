@@ -1,4 +1,12 @@
-## 當前部署：T150／G130／W127／P34／Ribbits1.0.10036
+## 當前部署：T151／G130／W128／P34／Ribbits1.0.10036
+
+2026-10-13 02:47:19 HKT完成42包家族部署，BDS1.26.52.3 RUNNING；canonical PR／CI、static、停服存檔first／restart、完整准入及逐檔／順序讀回通過。[新公開proof](../family/PUBLIC-DOWNLOAD-LIVE-NATIVE-ITEM-20261013.md)确认六包9344檔相同；T／W匿名新下載，G130保留R150匿名archive硬連結來源。`client=false`、`production_ready=false`、`pending_client_acceptance`。
+
+T151僅重用native成功ItemTypes lookup，未知／throw／generic原行为保持，未見明確native收益；W128只三份dependency identity配對，G130／P34／Ribbits10036／HUD5不變。Poststart254 warnings／0 errors、227 watchdog（9 Spike／217 Slowdown／1 High Memory），T290／282、Ribbits418、W271、G517、Cookery308、AMW307ms Spike仍在；不同窗口或舊native告警disabled不能比性能百分比。
+
+真人快開短空條、完整聲畫／操作、任意whole HUD／title与Java一比一仍待接受。下一T152／W129仅本機freeze，native／LIVE未接受；每chunk快取不消除partial reverse整串FNV fallback，不称全面有界。151 receipt／proof不能借用为152。以下旧parity正文／數字／影片与proof保持原身份。
+
+## 歷史部署：T150／G130／W127／P34／Ribbits1.0.10036
 
 2026-10-13 01:54:30 HKT完成42包家族部署，BDS1.26.52.3 RUNNING；canonical PR／CI、static、停服存檔first／restart、准入及逐檔／順序讀回通過。[公開proof](../family/PUBLIC-DOWNLOAD-LIVE-STARTUP-20261013.md)確認六包9344檔完全相同；`client=false`、`production_ready=false`、`pending_client_acceptance`。
 
