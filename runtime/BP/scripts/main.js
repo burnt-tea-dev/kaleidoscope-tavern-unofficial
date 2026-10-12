@@ -23,7 +23,7 @@ import {nativeUseDiagnostics} from './bedrock/mixology.js';
 import {immersionDiagnostics} from './bedrock/immersion.js';
 import {system,world,ItemTypes,ItemStack,ScriptEventSource} from '@minecraft/server';
 import {ExtensionRegistry} from './core/registry.js';
-import {cacheItemDefinitionTags} from './core/util.js';
+import {cacheItemDefinitionTags,cacheNativeItemDefinitionExists} from './core/util.js';
 import {BUILTIN_RECIPES} from './data/recipes.js';
 import {FLUIDS} from './data/fluids.js';
 import {GUIDE_PAGES} from './data/guide-pages.js';
@@ -204,12 +204,13 @@ system.afterEvents.scriptEventReceive.subscribe(ev=>{
 system.run(()=>{
  try{
   // Resolve a known historical Java/Bedrock sugar-cane alias against the installed engine, not a guessed ID.
-  const native=id=>id==='minecraft:sugar_cane'&&!ItemTypes.get(id)&&ItemTypes.get('minecraft:reeds')?'minecraft:reeds':id;
+  const nativeItemExists=cacheNativeItemDefinitionExists(id=>ItemTypes.get(id));
+  const native=id=>id==='minecraft:sugar_cane'&&!nativeItemExists(id)&&nativeItemExists('minecraft:reeds')?'minecraft:reeds':id;
   const recipes=[...BUILTIN_RECIPES,...SHAKER_RECIPES].map(r=>r.kind==='barrel'?{...r,ingredients:r.ingredients.map(s=>s.map(native))}:r);
   const missing=[];
   for(const r of recipes){
    const ids=r.kind!=='pressing'?[...r.ingredients.flat(),r.carrier,...(r.output.byQuality??[r.output.item])]:r.input;
-   for(const id of ids)if(!ItemTypes.get(id))missing.push(id);
+   for(const id of ids)if(!nativeItemExists(id))missing.push(id);
   }
   if(missing.length)throw new Error('Missing required runtime items: '+[...new Set(missing)].join(', '));
   const nativeItemTags=cacheItemDefinitionTags(id=>new ItemStack(id,1).getTags());
@@ -217,7 +218,7 @@ system.run(()=>{
    recipes,
    pages:[...GUIDE_PAGES,...EFFECT_PAGES,...MIXOLOGY_PAGES],
    fluids:FLUIDS,
-   itemExists:id=>!!ItemTypes.get(id),
+   itemExists:nativeItemExists,
    itemTags:nativeItemTags,
   });
   registry.subscribe(()=>cookeryGuidePublisher.refresh());
