@@ -12,6 +12,16 @@ def input_refs():
     path=c.CONFIG.get('prospective_preserved_inputs')
     if not path:return {}
     review=c.read(Path(path));recipe,_=recipe_path(review)
+    from family_update import preserved_ribbits_inputs as ribbits
+    if ribbits.is_profile(review):
+        proof=ribbits.checked(review['source_validation'])
+        report=ribbits.checked(proof['differential'])
+        log=Path(proof['differential']['path']).parent/report['test_log']['name']
+        assert log.parent.resolve()==Path(proof['differential']['path']).parent.resolve() and c.sha(log)==report['test_log']['sha256'], 'Ribbits source test log changed'
+        return {'prospective_preserved_inputs':c.sha(Path(path)), 'prospective_recipe':c.sha(recipe),
+                'prospective_source_validation':c.sha(Path(review['source_validation']['path'])),
+                'prospective_ribbits_differential':c.sha(Path(proof['differential']['path'])),
+                'prospective_ribbits_differential_log':c.sha(log)}
     from family_update.preserved_hud_inputs import is_profile, checked
     if is_profile(review):
         proof=checked(review['source_validation'])
@@ -48,6 +58,8 @@ def select(preserved,original):
     if not path:return [Path(p['path']) for p in preserved],None
     assert c.EXTENSION and not any(c.CONFIG.get(key) for key in ['approved_runtime_retention','extension_hold','held_sources','preserved_reconciliation','preserved_additions']), 'Prospective inputs require the current complete source selection without reconciliation'
     path=Path(path);review=c.read(path)
+    from family_update import preserved_ribbits_inputs as ribbits
+    if ribbits.is_profile(review):return ribbits.select(preserved,original,path,review)
     from family_update.preserved_hud_inputs import is_profile, select as select_hud
     if is_profile(review):return select_hud(preserved,original,path,review)
     assert 'profile' not in review, 'Unsupported prospective input profile'
@@ -129,6 +141,8 @@ def select(preserved,original):
 
 def verify_candidate(receipt,evidence):
     if evidence is None:return
+    from family_update import preserved_ribbits_inputs as ribbits
+    if ribbits.is_profile(evidence):return ribbits.verify_candidate(receipt,evidence)
     from family_update.preserved_hud_inputs import is_profile, verify_candidate as verify_hud
     if is_profile(evidence):return verify_hud(receipt,evidence)
     assert 'profile' not in evidence, 'Unsupported prospective candidate profile'

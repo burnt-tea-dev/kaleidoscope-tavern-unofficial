@@ -205,6 +205,24 @@ next deployment's configuration. Conservation reads that retained source's
 Git baseline. Current evidence separately records its configured runtime CI
 references and refuses cached references from a different configuration.
 
+### 固定 Ribbits 啟動來源
+
+`senluo-ribbits-startup-20261013` 只選已准入 Ribbits1.0.10 的完整 BP/RP
+原像及私有 canonical compiler 的配對1.0.10036輸出。只允許既有
+`scripts/main.js` 的已審初始化修正與兩側生成 manifest；所有結構、玩法、
+資產及此前私服差異保留。原混合 module version 按各自原像核對後同步。
+
+private-integration本身輸出不變，不為 companion compiler 來源前進升其包。
+新的實際私有 PR／CI、完整 Git tree、原報告／TAP與固定 recipe 全檔綁定
+仍必須成功；不是重用舊cache或HUD的source報告。設定不要沿用
+`extension_cache_validation`：沒有新的cache改動就不產生或偽造新的cache報告。
+
+本候選仍經完整家族 static、停服一致備份及同一存檔副本 first／restart，
+之後寫獨立 `ribbits-startup-native-validation.json` 才允許安裝。
+來源計數29,635→158及序列相等不代表引擎減時；未知結構／尺寸／連接表維持
+原掃描，外部同名結構替換與真人結果另列。此模式不批准安裝漂移，不放寬
+既有五包HUD或四包native准入規則。
+
 ### 部署中的遠端合併
 
 新部署開始與停服前仍要求 canonical main 等於遠端。取得本候選 maintenance lease

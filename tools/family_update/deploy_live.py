@@ -71,6 +71,9 @@ def finalize_receipt():
         from family_update.preserved_hud_inputs import is_profile
         if is_profile(prospective):
             reports.extend(['hud-coexistence-native-validation.json', prospective['review']['path'], prospective['recipe']['path'], prospective['source_validation']['path'], prospective['hud_differential']['path']])
+        from family_update.preserved_ribbits_inputs import is_profile as is_ribbits
+        if is_ribbits(prospective):
+            reports.extend(['ribbits-startup-native-validation.json', prospective['review']['path'], prospective['recipe']['path'], prospective['source_validation']['path'], prospective['differential']['path']])
     raw['acceptance']={'static':True,'bds':True,'client':False,'saved_world_migration':True}
     raw['production_ready']=False
     raw['assembled_receipt']={'path':str(C/'family-receipt.json'),'sha256':digest}
@@ -90,6 +93,7 @@ def installation_selection(receipt,original):
         verify_candidate(receipt,proof)
         prospective={p['uuid']:p for p in proof['packs'].values()}
         from family_update.preserved_hud_inputs import is_profile, PACKS
+        from family_update import preserved_ribbits_inputs as ribbits
         if is_profile(proof):
             assert len(prospective)==5 and set(prospective)=={row[0] for row in PACKS.values()}, 'Complete five HUD outputs required'
             native=read(R/'hud-coexistence-native-validation.json')
@@ -100,6 +104,8 @@ def installation_selection(receipt,original):
             expected={name:{'uuid':row[0],'side':row[1],'version':row[3],'files':recipe['output_hashes'][name]} for name,row in PACKS.items()}
             assert native['packs']==expected, 'HUD native outputs differ from all five current variants'
             assert native['native_loading'] is True and native['saved_world_migration'] is True and native['client'] is False and native['production_ready'] is False
+        elif ribbits.is_profile(proof):
+            ribbits.verify_installation(receipt,proof)
         else:
             assert len(prospective)==4, 'Complete prospective pairs required'
     prior={p['uuid']:p for p in original['packs']}
