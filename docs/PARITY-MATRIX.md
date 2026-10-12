@@ -1,4 +1,17 @@
-## 當前部署：T146／W123／G125
+## 當前部署：T148／G129／W125／private1.0.33
+
+2026-10-12 21:21:24 HKT已部署完整42包家族，BDS1.26.52.3 RUNNING；static、一次新鮮停服存檔副本first／restart、准入及完整檔案／順序讀回通過。[現行基線](../family/BASELINE-STATUS.md)及[公開下載核對](../family/PUBLIC-DOWNLOAD-LIVE-UI-20261012.md)記錄來源及自有六包9339檔相等。Poststart313 warnings／0 errors，LIVE仍有慢速警告；`client=false`、`production_ready=false`、`pending_client_acceptance`。
+
+| 範圍 | 本輪來源修補／保留 | 未完成／待驗 |
+| --- | --- | --- |
+| T／G HUD掛載 | 兩個renderer各自註冊命名空間，共用相同最小可選掛載及內部封包過濾；原factory、Atlas、動畫、HUD200及玩法時間保持。W125精確配對T148。 | 新家族真人進食／取消／快開、調酒／效果／原生HUD待驗；共享Actionbar競爭及第三方整份HUD覆蓋仍有相容限制。 |
+| Cookery快取 | 私有33唯一新元件按需重建配方快取，原renderer32與ChineseFood1.0.10432保持。來源Node差分六批次／11類作者註冊下75→7次鍋類重建，ACK／排序讀取／動態覆寫相等。 | Node來源模組診斷不是BDS watchdog或客戶端卡頓改善；真人效能與作者Cookery1.6.1的新UUID／API／state／保存適配未完成。 |
+
+Dot既有取消保留物品、完成後退出、調酒裝料／返瓶／產出通過，仍見兩次快開短空條；候選與客戶端版本未知，不能當本輪驗收。[完整家族客戶端流程](HUD-COMPAT-CLIENT-HANDOFF-20261012.md)保留此邊界。Java完整玩法／聲畫與World Liquor26.1.2／1.1.6等差距仍未完成，來源／包／載入相等不等於一比一。
+
+以下歷史段落及parity表保留原版本、來源與證據範圍，不代替當前新家族真人驗收。
+
+## 歷史部署：T146／W123／G125
 
 2026-10-11已部署T146／W123／G125及私有整合1.0.32，來源與當次准入／存檔證據見[當前基線](../family/BASELINE-STATUS.md)。一次新鮮停服存檔的首次啟動／保存／重啟同時供應完整家族BDS與資料保存證據；現服讀回成功，真人驗收仍待進行。
 
