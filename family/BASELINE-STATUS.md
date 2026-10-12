@@ -1,47 +1,35 @@
 # 家族現行基線與差距
 
-**[private deployment time]**：managed-server 已部署 **酒館0.6.149／燒烤2.8.130／世界名酒0.1.126／私有料理1.0.34**；Cookery1.6.0、沉浸進食1.1.0、登記AMW相容變體2.6.28。引擎1.26.52.3，完整 **42包（22BP／20RP）**。Canonical PR／CI、完整家族static、停服存檔副本first／restart、准入、逐檔／順序及啟動讀回通過，當次狀態RUNNING；`client=false`、`production_ready=false`、`pending_client_acceptance`。
+**[private deployment time]**：managed-server **T150／G130／W127／private-integration／Ribbits1.0.10036**，42包（22BP／20RP）、BDS1.26.52.3、RUNNING。Canonical PR／CI、static、一次停服存檔first／restart、完整准入及逐檔／順序讀回通過；`client=false`、`production_ready=false`、`pending_client_acceptance`。
 
-[三個公開下載與LIVE逐檔核對](PUBLIC-DOWNLOAD-LIVE-HUD-20261013.md)已完成；完整自有六包9343檔相等，私有整合及第三方host變體另有canonical來源。舊[T148核對](PUBLIC-DOWNLOAD-LIVE-UI-20261012.md)及[T147核對](PUBLIC-DOWNLOAD-LIVE-20261012.md)保留原收據與版本身份。
+[公開下載核對](PUBLIC-DOWNLOAD-LIVE-STARTUP-20261013.md)確認六自有包9344檔與LIVE／reviewed receipt相同；G130維持原release。私有料理／Ribbits及第三方host變體另有來源。舊[149](PUBLIC-DOWNLOAD-LIVE-HUD-20261013.md)、[148](PUBLIC-DOWNLOAD-LIVE-UI-20261012.md)、[147](PUBLIC-DOWNLOAD-LIVE-20261012.md)及其他歷史proof／parity保持原版本與範圍。
 
-## 本輪修補與真實剩餘範圍
+## 本輪來源修補與界限
 
-| 包 | 已修與保留 | 剩餘差距 |
+| 範圍 | 已改／保持 | 未完成／證據界限 |
 |---|---|---|
-| Tavern T149 | 指南／擴充編碼與傳送前準備分批讓出；成功的原生item tag讀取於本次boot重用，擴充替換仍更新。雪克杯圖形經已觀測可選UI Queue／title路由，保留原圖、HUD200、50ms游標、配方與結算。 | 啟動仍有Spike／Slowdown；現服黑板位置／焦點、投料／搖晃／進度／聲音與快速重開待真人；正式多行、任意裝飾原料、純roll／穿牆輪廓與完整Java聲畫仍有差距。 |
-| Grilling G130 | 食用圖形改用命名空間封包／可選路由，保留獨立最新快照及明確END；原102像素黃綠Atlas、動畫、物品守恆、Uses／Numb與API0.2.10保持。 | 啟動仍有Spike／Slowdown；快速重開短空條、任意秘製串圖示／進食HUD、完整原作姿勢、原生流體／碰撞與真人聲畫仍待實測。 |
-| World Liquor W126 | BP／RP精確配對T149，指南註冊分批準備；原配方／內容、84類含魚、67頁及效果判定保持。 | 啟動仍有Spike／Slowdown；Incoming取消／重入／fallback／marker／causal drops、SkullOwner、Luck loot、Elbow合成、CaptainGift碰撞、automation與26.1.2整分支。 |
-| 私有料理1.0.34及HUD變體 | 新增指南有界接收，reviewed integration快取與renderer32、ChineseFood1.0.10432保留；五份AMW2.6.28／JavaSaturation1.5.5／UIQueue1.6.10034登記變體共3817檔經實際來源CI及本輪fresh saved-world native，原玩法／資產保全。 | Cookery仍有Spike／Slowdown，Node差分75→7次鍋類重建不算引擎效能驗收；新作者Cookery1.6.1另待UUID／API／保存適配。 |
-| Immersive Eating1.1.0 | 保留已適配的作者原包、新UUID／API／相依及四種新增食物；原指南、手部動畫與音效保留。 | 真玩家進食、第一人稱、音效啟停與設定保存待接受；載入成功不等於渲染驗收。 |
-
-詳各canonical [Tavern matrix](../docs/PARITY-MATRIX.md)、[Grilling matrix](https://github.com/casama233/kaleidoscope-grilling-unofficial/blob/main/docs/PARITY-MATRIX.md)、[World Liquor matrix](https://github.com/casama233/kaleidoscope-world-liquor-unofficial/blob/main/docs/PARITY-MATRIX.md)。原始HUD100失敗與HUD200有限診斷、G126/G127指定持握／FOV影片、G125 DIAG1的Uses觀察保留原版本與範圍；近嘴放大、其他視角／操作、Numb原生觸發和新家族完整真人驗收仍待完成。
-
-本輪自有圖形不再覆寫共享Actionbar，但未協調的title寫入、第三方整份HUD覆蓋及真人畫面仍有相容限制，不能推論任意addon已驗收。[本輪客戶端流程](../docs/HUD-COMPAT-CLIENT-HANDOFF-20261012.md)包含完整食用／取消／快開、調酒、AMW29通道、飽和度與普通提示。Dot既有取消保留物品、完成後退出、調酒裝料／返瓶／產出通過及兩次快開短空條，來源與客戶端版本未知，不能當新家族驗收。其缺少的[BSM上游唯讀結果](JAVA-UPSTREAM-READONLY-20261012.md)已能由GitHub讀取，原時間2026-10-12 18:23:03 HKT；本機連線／執行狀態仍未知，快照不是永久最新結果。
+| T150 | legacy21個product投影移到建置，28個page逐字節保全；native字串quote分批、保留原序列化輸出，指南內容／配方保持。 | page／wire來源回歸不是整包bytes相同、BDS效能或真人完整操作；原黑板、聲畫及Java差距仍在。 |
+| G130 | 玩法／圖形／配方／結算保持，來源及原公開release不變；不製造G131。 | 快速重開短空條及新家族聲畫／操作仍待真人；旧影片版本未知不當本輪通過。 |
+| W127 | 精確配對T150与同SDK，fixture指定原W125 production的175註冊封包逐字相同，內容／配方保持。 | 175是來源fixture範圍，不是LIVE投遞／ACK、任意輸入或完整原生玩法接受。 |
+| Ribbits1.0.10036 | 54個來源structure場景29635→158呼叫；158個connection／順序保持；未知ID／size／table／metadata保守fallback，原13BP／4RP差異保留。 | 綁final10036實際source CI及本輪fresh saved-world native，不重用10035歷史CI；真人正常生成／connection／互動待驗。 |
+| reviewed integration／原五份HUD變體 | 私有自有內容、reviewed integration快取／reviewed integration renderer、ChineseFood1.0.10432及五份HUD變體全部不變，不宣稱reviewed integration或新HUD修補。 | Source-operation counts、載入及保存不等於client或全局效能接受。 |
 
 ## 啟動watchdog尚未全解決
 
-當次poststart **292 warnings／0 errors**，其中 **265 watchdog：9 Spike、254 Slowdown、2 High Memory**。以下四包仍有警告，其他addon及全局記憶體另有紀錄，不能以載入成功當效能通過。
+Poststart **257 warnings／0 errors**，其中 **230 watchdog（9 Spike、220 Slowdown、1 High Memory）**。當次T初始化249ms／指南COMMIT288ms、Ribbits431ms、W265ms、G447ms、Cookery310ms Spike仍在；不同窗口不作百分比或全局效能比較，不抬門檻／隱藏告警。後續未凍結原型不屬本次已部署候選。
 
-| 包 | Spike | Slowdown |
-|---|---:|---:|
-| Tavern | 2 | 75 |
-| Grilling | 1 | 39 |
-| World Liquor | 1 | 81 |
-| Cookery | 1 | 20 |
+本輪native QA已含[工具PR340](https://github.com/casama233/kaleidoscope-tavern-unofficial/pull/340)，保留LIVE明確Spike100／Slowdown10ms門檻。First410／restart365 warnings，各exit0／errors0；旧R149 native未設定值而關閉對應告警，不能混比性能，也不把旧保存成功改成效能通過。
 
-W最大Spike由1479ms至284ms是兩次啟動的有限觀察；採樣窗口分別54.892秒與75.552秒，不能比較總告警數而宣稱全局效能改善。High Memory兩筆仍在，後續原生來源profiling尚在進行，不改寫已發布候選狀態。
-
-[QA工具PR340](https://github.com/casama233/kaleidoscope-tavern-unofficial/pull/340)已經實際CI檢查合併：以後隔離引擎保留LIVE明確設定的watchdog值，目前Spike／Slowdown門檻為100／10ms。舊QA未設定這兩值會關閉對應警告，因此其零警告不當效能成功；原載入／保存證據保留原範圍與結果。工具不改runtime、不升包或重啟LIVE。
+真人完整食用／取消／快開、調酒、AMW29通道、飽和度／普通提示及UI profile／scale仍待[回歸](../docs/HUD-COMPAT-CLIENT-HANDOFF-20261012.md)。自有圖形不覆寫Actionbar，但未協調title寫入或第三方整份HUD不能保證相容；完整Java一比一、作者新版UUID／API／保存適配仍未完成。Dot原兩次短空條來源／client版本未知，不重標成本輪通過。
 
 ## 來源與當次證據
 
-- T：[功能PR339](https://github.com/casama233/kaleidoscope-tavern-unofficial/pull/339)已檢查合併；部署／發布來源 `75acd5884fabd09ece2a02fa3384099d325f6f83`。後續純QA工具PR340合併為 `5037c9fa8beb6b68d6832a56703727ffae150e67`，不改本次遊戲輸出。[T149修補範圍](../docs/RELEASE-NOTES-0.6.149.md)及舊T148／T147診斷保持原身份。
-- G：[PR198](https://github.com/casama233/kaleidoscope-grilling-unofficial/pull/198)已檢查合併，部署／發布來源 `a567e17c0316f7f2175dfef07004bb944634ca90`。
-- W：[PR110](https://github.com/casama233/kaleidoscope-world-liquor-unofficial/pull/110)已檢查合併，部署／發布來源 `57f8fef7c56b2811f198c28daed09a5e27ce6a36`。私有料理／變體修正經核驗私有遠端PR及實際必要CI合併，其私人來源與證據另行保留。
-- 本次紀錄 `private-operation-record`，reviewed SHA **`4b8a4746ab253f05da7b3ed10b2b4cf8d624eda652d04b5458fb3673f6c8fefb`**，政策准入與延期真人登記綁同SHA；原組裝SHA `3e84b79a49946880128a8a09836860038775cfbcaa2756e8648f8520ae9d67e6` 分開保留。沿用成功CI，完整家族static、一次新鮮停服存檔first／restart、family_guard／BSM准入及逐檔／順序讀回通過；未另建新世界重跑。
-- 保存演練的兩次啟動均保留玩家記錄（數量未公開）、容器（數量未公開）及非空T原生儲存。冰櫃樣本（數量未公開），不能當非空投料證據。此次安裝保留LIVE原有DB與`level.dat`，沒有重新執行舊UUID遷移。
-- 保留共用指南的227條目、七入口與三語投影；獨立書及可選Cookery入口共用內容。先前接收證據保留原身份，真人閱讀／排版及操作驗收仍待進行。
-- 隔離原生演練皆0玩家／無模擬玩家；載入／資料保存與client／效能验收分開。作者快取／指南回饋已prepared，仍待可用作者通道送達，不宣稱已送出或收到回覆。
+- T：[PR342](https://github.com/casama233/kaleidoscope-tavern-unofficial/pull/342)，部署／發布來源 `3f59f984e55fca1ad7ff0a1ee4b7281ecd654daa`。
+- G：不變[PR198](https://github.com/casama233/kaleidoscope-grilling-unofficial/pull/198)，來源 `a567e17c0316f7f2175dfef07004bb944634ca90`。
+- W：[PR111](https://github.com/casama233/kaleidoscope-world-liquor-unofficial/pull/111)，來源 `eaf1fa03a182f32b98fc04727c399f19b982423c`。私有Ribbits來源经核驗私有遠端／實際必要功能CI合併；付費pre-commit服務unavailable／原error保留，未偽寫成功。
+- 紀錄 `private-operation-record`，reviewed SHA **`c0d1f1d1c47da8fb53b7c2e6d8ab9c85ad85f73dd0d1e5c5bed0a26b491c92fa`**，政策installed／deferred_client_acceptance綁同SHA；original SHA `285838cbfc8ff22b55b72d312ad3f8bec3bab7721a09a27543804ce9759fa6bb` 分開保留。
+- First／restart保留玩家記錄（數量未公開）、容器（數量未公開）及原生儲存；冰櫃樣本（數量未公開），不當非空投料證據。正式DB／level.dat在安裝保持，未另建新世界／使用模擬玩家。只保留最新完整回退，6個舊生成根已清理，磁碟可用空間增加1,657,528,320 bytes；unknown／partial及仍引用資料受保護，原失敗JSON／日誌／observer／來源保持。
+- 作者料理快取／指南回饋仍prepared/pending，不宣稱已送達。指南七入口及旧修補／錄影身份保持；完整差距見各canonical PARITY-MATRIX。
 
 ## 作者與維護
 
