@@ -48,6 +48,8 @@ def verify_native(verified_candidate=None):
         assert run['player_records_unchanged'] and run['custom_container_inventories_retained'] and run['native_freezer_inputs_retained']
         assert run['log_sha256'] == sha(R / 'saved-world-engine' / (run['phase'] + '.log')), 'Native log changed'
     assert evidence['player_records_before'] == evidence['player_records_after']
+    from family_update.cookery_cache_validation import bind_native
+    bind_native(receipt,evidence)
     return evidence
 
 
