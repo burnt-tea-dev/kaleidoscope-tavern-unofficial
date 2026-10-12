@@ -1,3 +1,7 @@
+## 0.6.148
+
+Move the Tavern HUD to its registered namespace and share a minimal optional-root bridge with Grilling; filter both internal frame protocols while retaining ordinary Actionbar messages. See [scope and pending client acceptance](docs/RELEASE-NOTES-0.6.148.md).
+
 ## 0.6.147 draft
 
 - Bound shaker progress visibility at 200 ms while preserving 50 ms cursor interpolation and shared-channel ownership.
