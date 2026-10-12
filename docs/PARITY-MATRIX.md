@@ -1,4 +1,14 @@
-## 當前部署：T151／G130／W128／P34／Ribbits1.0.10036
+## 當前部署：T152／G130／W129／P34／Ribbits1.0.10036
+
+**2026-10-13 03:44:43 HKT**：luosen **T152／G130／W129／P34／Ribbits1.0.10036**，42包（22BP／20RP），BDS1.26.52.3 RUNNING。Canonical PR／必要CI、static、一次停服存檔副本first／restart、完整准入及逐檔／順序讀回通過。`client=false`、`production_ready=false`、`pending_client_acceptance`。
+
+T152在收到chunk時累積digest及bytes，以邊界校正核對UTF8總長；ordered COMMIT避免兩次整串integrity掃描，JSON parse／registry install／ACK仍同步。W129只更新三份identity／dependency檔配對T152；SDK／storage／玩法／指南／圖形保持。G130／P34／Ribbits10036／原五份HUD變體不變。
+
+Poststart **245 warnings／0 errors**，其中 **218 watchdog（8 Spike／209 Slowdown／1 High Memory）**。本次窗口沒有再錄到原指南COMMIT約282ms Spike；初始化Spike仍有AMW309、Cookery306、Nether110、Ribbits424、Villager150、W256、T255、G444ms。不同窗口不作百分比或全面效能接受；partial reverse仍有整串FNV fallback。First401／restart361 warnings，各exit0／errors0，保留LIVE100／10ms門檻。
+
+[本次公開核對](../family/PUBLIC-DOWNLOAD-LIVE-TRANSPORT-20261013.md)確認六包9344檔相同。T152／W129新匿名下載，G130重用R151已核驗匿名archive的同FS硬連結，fresh REST metadata／digest重驗，不稱新G下載。 真人快開短空條與完整聲畫／玩法仍待確認，以下歷史parity不改身份。
+
+## 歷史部署：T151／G130／W128／P34／Ribbits1.0.10036
 
 2026-10-13 02:47:19 HKT完成42包家族部署，BDS1.26.52.3 RUNNING；canonical PR／CI、static、停服存檔first／restart、完整准入及逐檔／順序讀回通過。[新公開proof](../family/PUBLIC-DOWNLOAD-LIVE-NATIVE-ITEM-20261013.md)确认六包9344檔相同；T／W匿名新下載，G130保留R150匿名archive硬連結來源。`client=false`、`production_ready=false`、`pending_client_acceptance`。
 
