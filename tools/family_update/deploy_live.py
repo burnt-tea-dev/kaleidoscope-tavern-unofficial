@@ -54,13 +54,23 @@ def finalize_receipt():
             verify_native_storage(storage['before'],row['rows'])
         reports.append('saved-world-native-storage.json')
     if CONFIG.get('extension_validation'):reports.append(str(Path(CONFIG['extension_validation']).resolve()))
+    if CONFIG.get('extension_cache_validation'):
+        reports.extend([str(Path(CONFIG['extension_cache_validation']).resolve()), 'cookery-cache-static-validation.json', 'cookery-cache-native-validation.json'])
+        cache_static=read(R/'cookery-cache-static-validation.json')
+        reports.append(cache_static['differential']['path'])
+        if cache_static.get('guide_differential'):reports.append(cache_static['guide_differential']['path'])
     if CONFIG.get('container_recovery_plan'):reports.append('saved-world-container-recovery.json')
     if CONFIG.get('identity_migration'):reports.append('saved-world-identity-migration.json')
     if CONFIG.get('startup_reconciliation'):reports.append('startup-reconciliation-check.json')
     if CONFIG.get('translation_reconciliation'):reports.append('translation-reconciliation-check.json')
     if CONFIG.get('preserved_reconciliation'):reports.append('preserved-reconciliation-check.json')
     if CONFIG.get('preserved_additions'):reports.append('preserved-additions-check.json')
-    if CONFIG.get('prospective_preserved_inputs'):reports.append('prospective-preserved-inputs-check.json')
+    if CONFIG.get('prospective_preserved_inputs'):
+        reports.append('prospective-preserved-inputs-check.json')
+        prospective=read(R/'prospective-preserved-inputs-check.json')
+        from family_update.preserved_hud_inputs import is_profile
+        if is_profile(prospective):
+            reports.extend(['hud-coexistence-native-validation.json', prospective['review']['path'], prospective['recipe']['path'], prospective['source_validation']['path'], prospective['hud_differential']['path']])
     raw['acceptance']={'static':True,'bds':True,'client':False,'saved_world_migration':True}
     raw['production_ready']=False
     raw['assembled_receipt']={'path':str(C/'family-receipt.json'),'sha256':digest}
@@ -79,7 +89,19 @@ def installation_selection(receipt,original):
         assert proof['review']==report_ref(Path(CONFIG['prospective_preserved_inputs'])), 'Prospective review changed before installation'
         verify_candidate(receipt,proof)
         prospective={p['uuid']:p for p in proof['packs'].values()}
-        assert len(prospective)==4, 'Complete prospective pairs required'
+        from family_update.preserved_hud_inputs import is_profile, PACKS
+        if is_profile(proof):
+            assert len(prospective)==5 and set(prospective)=={row[0] for row in PACKS.values()}, 'Complete five HUD outputs required'
+            native=read(R/'hud-coexistence-native-validation.json')
+            assert native['candidate_receipt_sha256']==sha(C/'family-receipt.json') and native['version']==[1,0,34] and native['source']==proof['hud_differential'], 'HUD native binding differs from this candidate'
+            assert native['source_commit']==proof['source_commit'] and native['source_tree_oid']==proof['current_source_tree_oid'], 'HUD native source changed'
+            assert native['fresh_native']==report_ref(R/'saved-world-report.json'), 'HUD native evidence changed'
+            recipe=read(Path(proof['recipe']['path']))
+            expected={name:{'uuid':row[0],'side':row[1],'version':row[3],'files':recipe['output_hashes'][name]} for name,row in PACKS.items()}
+            assert native['packs']==expected, 'HUD native outputs differ from all five current variants'
+            assert native['native_loading'] is True and native['saved_world_migration'] is True and native['client'] is False and native['production_ready'] is False
+        else:
+            assert len(prospective)==4, 'Complete prospective pairs required'
     prior={p['uuid']:p for p in original['packs']}
     assert len(prior)==len(original['packs']), 'Original inventory duplicates an identity'
     family=[];unchanged=[]

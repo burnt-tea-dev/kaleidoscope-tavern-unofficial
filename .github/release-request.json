@@ -1,21 +1,21 @@
 {
-  "version": "0.6.148",
-  "tag": "v0.6.148-beta.1",
-  "title": "\u68ee\u7f85\u7269\u8a9e\uff1a\u9152\u9928 0.6.148 \u6e2c\u8a66\u7248\uff5c\u5171\u7528 HUD \u6a4b\u63a5\u8207\u7368\u7acb\u547d\u540d\u7a7a\u9593",
+  "version": "0.6.149",
+  "tag": "v0.6.149-beta.1",
+  "title": "森羅物語：酒館 0.6.149 測試版｜HUD 通道相容與有界啟動",
   "prerelease": true,
   "publication_request": false,
-  "validation_evidence": "docs/RELEASE-NOTES-0.6.148.md",
-  "public_notes_path": "docs/RELEASE-NOTES-0.6.148.md",
+  "validation_evidence": "docs/RELEASE-NOTES-0.6.149.md",
+  "public_notes_path": "docs/RELEASE-NOTES-0.6.149.md",
   "client_acceptance": "pending",
   "full_client_acceptance": "pending",
   "saved_world_migration": "pending",
   "production_ready": false,
   "live_deployment": false,
-  "native_evidence_scope": "T148/G129/W125 fixes the owned HUD definition boundary; targeted structure and preserved sprite/packet/timing checks are separate from pending full-family native/saved-world and real-client rendering. Current deployed family remains T147/G128/W124/private1.0.32 until a fresh candidate completes its canonical gates. No automatic publication; the exact archive checksum is required before explicit publication.",
-  "expected_archive_sha256": "97f3efa674c228866969c1b0aa4eb7de540404b6a73a660aecf761abf1c63a08",
-  "reviewed_runtime_source": "5912c8c79d8e4e5ed6074a9f0c58da27ae31f889",
+  "native_evidence_scope": "T149/G130/W126 sends owned graphical HUD packets through stable queue keys with per-packet snapshots and explicit end frames. Bounded guide preparation/receiver work preserves source registration bytes and semantics. AMW28/JavaSaturation1.5.5/UIQueue1.6.10034 adapters are separately conserved private sources. Fresh complete-family stopped-save/native/LIVE and human rendering remain separate; no inherited T148 acceptance or simulated players. Publication is explicit after family deployment.",
+  "expected_archive_sha256": "77b58c8d3391bc039dcc765f3157a994916480855bc97c933a8c23922cfaf36a",
+  "reviewed_runtime_source": "1018106da11c338f7e8fd5bb03ed7fc8bd6ff13b",
   "paired_owned_sources": {
-    "grilling": "23d14fcc7c4d250151becc2ef4fd33048fba1794",
-    "world-liquor": "aa965e381d2571433dc9764d2613e80b3dc94aa2"
+    "grilling": "e1785d7583348fd9eadd587f99373fe2b2b3875c",
+    "world-liquor": "f6e529a4a315006e0758fac76cb8ce9253190240"
   }
 }

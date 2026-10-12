@@ -6,7 +6,7 @@ import {progressPacket} from '../runtime/BP/scripts/core/shaker-hud.js';
 
 const hud=JSON.parse(readFileSync(new URL('../runtime/RP/ui/kt_tavern_hud.json',import.meta.url),'utf8'));
 const progress=hud.kt_mixology_packet.controls.find(row=>row.progress).progress;
-const cursors=progress.controls.slice(1);
+const cursors=progress.controls.filter(row=>Object.keys(row)[0].startsWith('cursor_'));
 
 test('each packet selects a bounded one-tick native cursor animation',()=>{
  const step=hud.kt_mixology_cursor_step;
@@ -16,7 +16,7 @@ test('each packet selects a bounded one-tick native cursor animation',()=>{
  for(let tick=0;tick<cursors.length;tick++){
   const [key,instance]=Object.entries(cursors[tick])[0];
   assert.equal(key,`cursor_${tick}@kaleidoscope_tavern_hud.kt_mixology_cursor`);
-  assert.equal(instance.visible,`($kt_text = '${progressPacket(tick)}')`);
+  assert(instance.bindings.at(-1).source_property_name.includes(`(#kt_text = '${progressPacket(tick)}')`));
   assert(!('offset' in instance),'An instance must not override the inherited animation');
   const from=instance.$kt_cursor_from,to=instance.$kt_cursor_to;
   assert.deepEqual(from,[tick*1.5,0]);
@@ -39,5 +39,5 @@ test('missing or delayed packets cannot continue the cursor across the timing wi
  const last=Object.values(cursors.at(-1))[0];
  assert.deepEqual(last.$kt_cursor_from,last.$kt_cursor_to);
  // The extra visibility interval holds the endpoint; it does not extend interpolation.
- assert.equal(hud.kt_mixology_progress_wait.duration+hud.kt_mixology_progress_fade.duration,0.2);
+ assert.equal(hud.kt_mixology_progress_wait.duration+hud.kt_mixology_progress_fade.duration,0.3);
 });

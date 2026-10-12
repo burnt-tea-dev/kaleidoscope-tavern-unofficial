@@ -249,6 +249,17 @@ class ResumeTests(unittest.TestCase):
         with self.assertRaises(AssertionError):
             workflow.verify_native()
 
+    def test_hud_binding_only_runs_after_complete_fresh_native_validation(self):
+        with patch('family_update.preserved_hud_inputs.bind_native') as bind:
+            self.assertEqual(workflow.verify_native(verified_candidate=self.receipt), self.native)
+            bind.assert_called_once_with(self.receipt, self.native)
+            bind.reset_mock()
+            self.native['native_acceptance_source'] = 'old_independent_world'
+            self.write(self.r / 'saved-world-report.json', self.native)
+            with self.assertRaisesRegex(AssertionError, 'combined native rehearsal'):
+                workflow.verify_native(verified_candidate=self.receipt)
+            bind.assert_not_called()
+
     def test_native_rejects_failed_start_error_exit_or_player_connection(self):
         for field, invalid in (('started', False), ('family_initialized', False), ('ok', False), ('exit_code', 1), ('errors', ['fixture error']), ('real_player_connections', 1), ('player_records_unchanged', False), ('custom_container_inventories_retained', False), ('native_freezer_inputs_retained', False)):
             with self.subTest(field=field):
