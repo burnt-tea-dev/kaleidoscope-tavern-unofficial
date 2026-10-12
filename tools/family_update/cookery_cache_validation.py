@@ -63,9 +63,44 @@ def conserved_packs(before, after, old_config, config, manifests):
         assert identity_projection(new_manifest, uuids) == old_manifest, 'Private manifest changed beyond paired identity'
 
 
+def classify_private_ci(checks, statuses):
+    """A vendor refusing its paid service is not a completed lint/test result.
+
+    Required actual canonical checks still succeed. Every functional failure or
+    other unavailable service rejects this narrowly scoped private validation.
+    """
+    assert checks and all(c['status'] == 'completed' and c['conclusion'] in ['success', 'skipped', 'neutral'] for c in checks), 'Private CI checks incomplete or failed'
+    assert any(c['name'] == 'baseline' and c['app_slug'] == 'github-actions' and c['conclusion'] == 'success' for c in checks), 'Private canonical functional CI missing'
+    unavailable = []
+    for status in statuses:
+        if status['state'] == 'success': continue
+        if (status['state'] == 'error' and status['context'] in ['pre-commit.ci - push', 'pre-commit.ci - pr']
+                and status['description'] == 'error: private repos require a paid plan'
+                and status['target_url'] == 'https://github.com/marketplace/pre-commit-ci'):
+            unavailable.append(status)
+        else:
+            raise AssertionError('Private commit status failed: ' + status['context'])
+    return unavailable
+
+
+def private_ci_records(repository, head):
+    from family_update.workflow import gh_json
+    response = gh_json(f'repos/{repository}/commits/{head}/check-runs?per_page=100')
+    assert response['total_count'] <= 100, 'Private check pagination needs review'
+    latest = {}
+    for check in response['check_runs']:
+        identity = (check['name'], check['app']['id'])
+        if identity not in latest or latest[identity]['id'] < check['id']: latest[identity] = check
+    checks = [{**{field: row.get(field) for field in ['id', 'name', 'status', 'conclusion', 'html_url', 'completed_at', 'head_sha']},
+               'app_slug': row['app']['slug']} for row in latest.values()]
+    statuses = gh_json(f'repos/{repository}/commits/{head}/status')['statuses']
+    unavailable = classify_private_ci(checks, statuses)
+    return checks, statuses, unavailable
+
+
 def verify_static(receipt, prior):
     from family_update.extension_validation import source_binding
-    from family_update.workflow import gh_json, actual_ci_records
+    from family_update.workflow import gh_json
     path = Path(CONFIG['extension_cache_validation'])
     proof, config = read(path), read(EXTENSION / 'baseline.json')
     assert proof.get('kind') == 'cookery_recipe_cache', 'Unsupported private functional scope'
@@ -107,8 +142,7 @@ def verify_static(receipt, prior):
     checked = binding['actual_current_source_commit']
     assert gh_json(f'repos/{REPOSITORY}/git/commits/{pr["head"]["sha"]}')['tree']['sha'] == current_tree, 'Private reviewed source tree differs'
     assert gh_json(f'repos/{REPOSITORY}/git/commits/{checked}')['tree']['sha'] == current_tree, 'Private reviewed full Git tree differs'
-    checks, statuses = actual_ci_records(REPOSITORY, checked)
-    assert any(c['name'] == 'baseline' and c['app_slug'] == 'github-actions' and c['conclusion'] == 'success' for c in checks), 'Private canonical functional CI missing'
+    checks, statuses, unavailable = private_ci_records(REPOSITORY, checked)
     ref = proof['differential']
     assert sha(ref['path']) == ref['sha256'], 'Private recipe differential evidence changed'
     report = read(Path(ref['path']))
@@ -127,7 +161,7 @@ def verify_static(receipt, prior):
     assert log.parent.resolve() == Path(ref['path']).parent.resolve() and sha(log) == report['test_log']['sha256'] and report['test_exit_code'] == 0
     result = {'schema': 1, 'scope': 'Pure original recipe registry differential and unchanged private gameplay; fresh current-candidate BDS/save is separately mandatory',
               'source': report_ref(path), 'differential': ref, **binding, 'private_pull_request': proof['private_pull_request'],
-              'private_checks': checks, 'private_statuses': statuses, 'checked_canonical_commit': checked,
+              'private_checks': checks, 'private_statuses': statuses, 'unavailable_optional_services': unavailable, 'checked_canonical_commit': checked,
               'reviewed_pull_request_head': pr['head']['sha'], 'candidate_receipt_sha256': sha(C / 'family-receipt.json'),
               'packs': proof['packs'], 'spec_sha256': sha(spec_path), 'static_functional': True,
               'native_loading': False, 'saved_world_migration': False, 'client': False, 'production_ready': False}

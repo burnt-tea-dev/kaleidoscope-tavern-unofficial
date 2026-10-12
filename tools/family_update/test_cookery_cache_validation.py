@@ -39,6 +39,14 @@ class CacheBoundary(unittest.TestCase):
     def test_identity_and_one_cache_declaration_keep_every_old_feature(self):
         self.verify()
 
+    def test_paid_service_refusal_is_preserved_but_a_real_failed_check_rejects(self):
+        checks = [{'name': 'baseline', 'app_slug': 'github-actions', 'status': 'completed', 'conclusion': 'success'}]
+        status = {'state': 'error', 'context': 'pre-commit.ci - push', 'description': 'error: private repos require a paid plan', 'target_url': 'https://github.com/marketplace/pre-commit-ci'}
+        self.assertEqual(m.classify_private_ci(checks, [status]), [status])
+        with self.assertRaises(AssertionError): m.classify_private_ci([{**checks[0], 'conclusion': 'failure'}], [status])
+        for key, value in [('state', 'failure'), ('context', 'functional tests'), ('description', 'lint failed'), ('target_url', 'https://example.org')]:
+            with self.subTest(key=key), self.assertRaises(AssertionError): m.classify_private_ci(checks, [{**status, key: value}])
+
     def test_even_a_new_frozen_tree_cannot_hide_gameplay_or_an_extra_file(self):
         for mode in ['mutate', 'add', 'remove']:
             with self.subTest(mode=mode):
