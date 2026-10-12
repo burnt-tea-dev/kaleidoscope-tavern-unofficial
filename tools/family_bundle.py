@@ -48,6 +48,20 @@ def source_gate_environment(own,identities):
   fail('invalid expected gate repository identity: '+own['key'])
  return {**os.environ,'GITHUB_REPOSITORY':expected['repository'],'GITHUB_REPOSITORY_ID':str(expected['repository_id'])}
 
+def renderer_source_version(config,spec,path):
+ # A cache-only P33 release must not republish unchanged ChineseFood graphics.
+ # This single, immutable retained component is independently checked again
+ # by the cache-only source conservation gate before any live admission.
+ profile=config.get('retained_renderer_profile')
+ if profile is None:return config['version']
+ expected={'source_commit':'8d05a3da291861048dc7e759be3ba96fde45ebb8',
+           'spec_sha256':'292e337a073ea713c22c84c66f85a2c8cb9d2d5c453c308b1569107d2656b703'}
+ if config['repository']!='local/senluo-amw-cuisine' or config['version']!=[1,0,33] or profile!=expected:
+  fail('unsupported retained renderer source profile')
+ if spec.get('owner_version')!=[1,0,32] or hashlib.sha256(path.read_bytes()).hexdigest()!=expected['spec_sha256']:
+  fail('retained renderer component differs from reviewed P32')
+ return [1,0,32]
+
 def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),reviewed_order=None,held_sources=(),source_identities=None):
  from family_update.source_holds import selected,effective
  holds=selected(lock,list(held_sources));lock=effective(lock,list(held_sources))
@@ -126,9 +140,11 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
     from doll_renderer_extension import apply_renderer_extension
     bp=by_uuid.get(spec['behavior_uuid']);rp=by_uuid.get(spec['host_uuid'])
     if not bp or not rp:fail('renderer extension requires complete author pair')
-    try:proof=apply_renderer_extension(spec,out/'behavior_packs'/bp['uuid'],out/'resource_packs'/rp['uuid'],bp['source'],rp['source'],config['version'])
+    renderer_version=renderer_source_version(config,spec,path)
+    try:proof=apply_renderer_extension(spec,out/'behavior_packs'/bp['uuid'],out/'resource_packs'/rp['uuid'],bp['source'],rp['source'],renderer_version)
     except (ValueError,KeyError) as e:fail('renderer extension rejected: '+str(e))
-    proof.update({'repository':config['repository'],'commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip(),'owner_version':config['version'],'spec_sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'working_candidate':working,'official_author_release':False})
+    proof.update({'repository':config['repository'],'commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip(),'source_package_version':config['version'],'spec_sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'working_candidate':working,'official_author_release':False})
+    if renderer_version!=config['version']:proof['retained_renderer_profile']=config['retained_renderer_profile']
     for row in [bp,rp]:
      root=out/(row['side']+'_packs')/row['uuid'];manifest=read(root/'manifest.json')
      row.update(version=manifest['header']['version'],dependencies=manifest.get('dependencies',[]),files=files_hash(root))
