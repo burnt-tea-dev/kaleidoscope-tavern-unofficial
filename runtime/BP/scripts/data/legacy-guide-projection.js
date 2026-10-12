@@ -1,13 +1,9 @@
 // Legacy API page IDs remain stable, but all player instructions come from the
 // same product pages that are published to the Cookery guide.
-import {buildCookeryGuidePayload} from './cookery-guide-payload.js';
-import {BUILTIN_RECIPES} from './recipes.js';
-import {SHAKER_RECIPES} from './mixology.js';
-const recipes=[...BUILTIN_RECIPES,...SHAKER_RECIPES];
-const payload=buildCookeryGuidePayload({list:()=>[],allPages:()=>[],allRecipes:()=>recipes});
+import {LEGACY_GUIDE_PRODUCTS,LEGACY_GUIDE_RECIPE_PRODUCTS} from './legacy-guide-products.js';
 export function legacyGuidePage(id,title,products){
  const entries=products.map(short=>{
-  const entry=payload.entries.find(e=>e.id==='kaleidoscope_tavern:'+short);
+  const entry=Object.hasOwn(LEGACY_GUIDE_PRODUCTS,short)?LEGACY_GUIDE_PRODUCTS[short]:undefined;
   if(!entry)throw Error('Missing canonical guide product: '+short);
   return entry;
  });
@@ -15,5 +11,5 @@ export function legacyGuidePage(id,title,products){
   [...new Set(entries.flatMap(e=>e.mechanicsByLocale?.[lc]??e.mechanics??[]))].join('\n')
  ]));
  return {id:'kaleidoscope_tavern:'+id,source:'kaleidoscope_tavern',title,body,
-  recipeIds:recipes.filter(r=>entries.some(e=>e.id===(r.output?.item??r.output?.byQuality?.[0]))).map(r=>r.id)};
+  recipeIds:LEGACY_GUIDE_RECIPE_PRODUCTS.filter(r=>entries.some(e=>e.id===r.product)).map(r=>r.id)};
 }

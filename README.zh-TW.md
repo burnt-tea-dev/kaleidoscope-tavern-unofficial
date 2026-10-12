@@ -1,6 +1,6 @@
-## 當前維護基線：0.6.149
+## 當前維護基線：0.6.150
 
-T149 將導覽／擴充註冊分批準備，雪克杯圖形改經已觀測的可選 title 路由，讓其他 addon 保留共享 Actionbar。配方、物品結算、導覽內容及原圖形時間保持。見 [T149 修補範圍](docs/RELEASE-NOTES-0.6.149.md)，原候選說明保留當時狀態。
+T150 在 canonical 建置時生成舊 API 頁面所需投影，取消模組載入時同步生成完整指南；文字、配方、順序及七個入口保持。JSON 原生分塊轉義保留封包與 revision，原生啟動及真人驗收仍待完成。見 [T150 修補範圍](docs/RELEASE-NOTES-0.6.150.md)。
 
 **2026-10-13 00:29:50 HKT** 已部署 luosen **T149／G130／W126／private1.0.34**，完整42包、BDS1.26.52.3 RUNNING。Canonical PR／CI、static、停服存檔副本first／restart、准入及逐檔／順序讀回通過。Poststart **292 warnings／0 errors**，其中 **265 watchdog**，含Spike、Slowdown及2筆High Memory；啟動卡頓仍未全部解決，不算效能驗收。
 
