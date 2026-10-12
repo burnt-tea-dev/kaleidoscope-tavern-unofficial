@@ -1,12 +1,12 @@
 # Dot：本輪 HUD 實測入口
 
-本輪 **T151／G130／W128／private-integration／Ribbits1.0.10036** 已於 **[private deployment time]** 完成managed-server部署，42包、BDS1.26.52.3 RUNNING；canonical PR／CI、static、停服存檔first／restart、准入及逐檔／順序讀回通過。[公開proof](../family/PUBLIC-DOWNLOAD-LIVE-NATIVE-ITEM-20261013.md)確認六自有包9344檔与LIVE／准入相同。
+**[private deployment time]**：managed-server **T152／G130／W129／private-integration／Ribbits1.0.10036**，42包（22BP／20RP），BDS1.26.52.3 RUNNING。Canonical PR／必要CI、static、一次停服存檔副本first／restart、完整准入及逐檔／順序讀回通過。`client=false`、`production_ready=false`、`pending_client_acceptance`。
 
-本輪native成功ItemTypes lookup重用的來源回歸与原生保存分開，沒有明確native性能收益；G130／reviewed integration／原五份HUD變體完全不變，沒有新的HUD接受證據。Dot旧兩次短空條、G126／T147等影片保留原版本範圍。
+T152在收到chunk時累積digest及bytes，以邊界校正核對UTF8總長；ordered COMMIT避免兩次整串integrity掃描，JSON parse／registry install／ACK仍同步。W129只更新三份identity／dependency檔配對T152；SDK／storage／玩法／指南／圖形保持。G130／reviewed integration／Ribbits10036／原五份HUD變體不變。
 
-Poststart **254 warnings／0 errors**、**227 watchdog（9 Spike／217 Slowdown／1 High Memory）**，T290／282、Ribbits418、W271、G517、Cookery308、AMW307ms Spike仍在。本輪native100／10ms門檻与旧native未設定而告警關閉不可混比performance；來源次數29635→158或既有cache75→7不當client卡頓改善。`client=false`、`production_ready=false`、`pending_client_acceptance`保持。
+Poststart **245 warnings／0 errors**，其中 **218 watchdog（8 Spike／209 Slowdown／1 High Memory）**。本次窗口沒有再錄到原指南COMMIT約282ms Spike；初始化Spike仍有AMW309、Cookery306、Nether110、Ribbits424、Villager150、W256、T255、G444ms。不同窗口不作百分比或全面效能接受；partial reverse仍有整串FNV fallback。First401／restart361 warnings，各exit0／errors0，保留LIVE100／10ms門檻。
 
-T／W為新匿名下載，G130如實重用R150匿名archive同FS硬連結而非新下載。下一T152／W129本機freeze但native／LIVE未接受；每chunk byte／digest快取仍留partial reverse整串FNV fallback，不能以本輪151 proof代替152驗收。
+[本次公開核對](../family/PUBLIC-DOWNLOAD-LIVE-TRANSPORT-20261013.md)確認六包9344檔相同。T152／W129新匿名下載，G130重用R151已核驗匿名archive的同FS硬連結，fresh REST metadata／digest重驗，不稱新G下載。
 
 ## 本次要分辨的缺陷
 
@@ -14,9 +14,9 @@ T148／G129已把renderer移到獨立命名空間及共用可選掛載，解開�
 
 ## 先解除上游讀檔與資源包辨認阻塞
 
-Windows SSH的DNS／networkDenied失敗不需要卡住此檔案的唯讀查核：透過GitHub connector已能取得[本輪BSM原檔快照](../family/JAVA-UPSTREAM-READONLY-20261012.md)，檢查時間2026-10-12 18:23:03 HKT，按內附SHA辨認同一份JSON，再和 `family/java-upstream.json` 一起查核。本機連線／任務執行狀態仍未知；快照不是永久最新來源，原檔的新版本／適配與parity pending狀態保持。
+已另取到BSM原始JSON的最新唯讀快照，檢查時間 **2026-10-13 00:23:03 HKT**，SHA `af2aae1ad0cbd1efa3e16c7002bedabe2f778570a523ada18a44709fbc1c123a`；沒有下載／自動部署，`all_reference_release_metadata_current=false`、`full_java_parity_verified=false`保持。與 `family/java-upstream.json` 一起判斷新版／適配差距。原[公開歷史快照](../family/JAVA-UPSTREAM-READONLY-20261012.md)仍只屬10/12原查核，不能永久代替最新BSM原檔；本機DNS／任務通道仍未知。
 
-Dot既有回歸記錄：取消保留物品、完成後進度正常退出、調酒裝料／返瓶／產出通過，但快速重開仍見兩次短暫空條。這些觀察尚未附可核對的候選與客戶端版本；保留各場景結果，不挪作T151／G130驗收。先確認實際LIVE、客戶端BP／RP UUID／版號、完整堆疊與GUI profile／比例，優先查資源包快取及載入優先序。正常退出客戶端並重新接受已更新的伺服器資源包後，只重錄下面同一流程；沒有明確新失敗時不再轉入隔離camera／hold微調或重跑舊影片。
+Dot既有回歸記錄：取消保留物品、完成後進度正常退出、調酒裝料／返瓶／產出通過，但快速重開仍見兩次短暫空條。這些觀察尚未附可核對的候選與客戶端版本；保留各場景結果，不挪作T152／G130驗收。先確認實際LIVE、客戶端BP／RP UUID／版號、完整堆疊與GUI profile／比例，優先查資源包快取及載入優先序。正常退出客戶端並重新接受已更新的伺服器資源包後，只重錄下面同一流程；沒有明確新失敗時不再轉入隔離camera／hold微調或重跑舊影片。
 
 ## 一次正常玩家流程
 
