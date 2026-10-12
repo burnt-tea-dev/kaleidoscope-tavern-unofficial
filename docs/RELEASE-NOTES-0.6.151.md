@@ -7,9 +7,10 @@ unknown results are not cached, and lookup errors propagate unchanged and can
 be retried. The wrapper applies only to the native reader selected in `main`.
 Generic registry predicates and the existing native tag cache are unchanged.
 
-This release preserves synchronous registration, recipe validation, guide
-content, packet bytes, revisions, ACKs, listener order, gameplay timing and saved
-state. It does not add asynchronous COMMIT staging or change storage readiness.
+For identical inputs, the cache change preserves synchronous registration,
+recipe validation, guide content, packet bytes, revisions, ACKs, listener order,
+gameplay timing and saved state. The release identity advances separately to
+0.6.151. It does not add asynchronous COMMIT staging or change storage readiness.
 Initial registry construction and rebuild still run synchronously, so this
 repair does not establish that the observed startup spike is resolved.
 
