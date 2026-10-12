@@ -1,4 +1,14 @@
-## 當前部署：T148／G129／W125／private1.0.33
+## 當前部署：T149／G130／W126／private1.0.34
+
+2026-10-13 00:29:50 HKT已部署完整42包家族，BDS1.26.52.3 RUNNING；canonical PR／CI、static、一次新鮮停服存檔first／restart、准入及完整檔案／順序讀回通過。[現行基線](../family/BASELINE-STATUS.md)及[公開下載核對](../family/PUBLIC-DOWNLOAD-LIVE-HUD-20261013.md)記錄自有六包9343檔相等；私有／第三方變體另有来源。`client=false`、`production_ready=false`、`pending_client_acceptance`。
+
+T149分批準備指南／擴充，T／G圖形改命名空間封包、可選UI Queue／獨立快照與明確END，保持共享Actionbar；W126配對T149且指南註冊分批準備。P34有界指南接收，P33快取／P32 renderer保持；五份登記HUD變體經原玩法／資產保全、來源CI及本輪fresh saved-world native，不冒充作者新版。
+
+Poststart292 warnings／0 errors，包含265 watchdog（9 Spike／254 Slowdown／2 High Memory）：T仍2／75、G1／39、W1／81、Cookery1／20筆Spike／Slowdown。W最大Spike1479→284ms但採樣54.892／75.552秒，不足以宣稱全局效能改善。[QA PR340](https://github.com/casama233/kaleidoscope-tavern-unofficial/pull/340)讓未來隔離引擎保留LIVE已設定100／10ms門檻；舊QA未設定值會關閉相應告警，不作效能成功。
+
+真人快速重開短空條、完整聲畫／操作、第三方整份HUD及未協調title寫入仍待[新家族回歸](HUD-COMPAT-CLIENT-HANDOFF-20261012.md)。Dot原結果版本未知，沒有改為新版本通過；Java完整一比一及作者新版UUID／API／保存適配仍未完成。以下舊parity表與觀察保留原身份。
+
+## 歷史部署：T148／G129／W125／private1.0.33
 
 2026-10-12 21:21:24 HKT已部署完整42包家族，BDS1.26.52.3 RUNNING；static、一次新鮮停服存檔副本first／restart、准入及完整檔案／順序讀回通過。[現行基線](../family/BASELINE-STATUS.md)及[公開下載核對](../family/PUBLIC-DOWNLOAD-LIVE-UI-20261012.md)記錄來源及自有六包9339檔相等。Poststart313 warnings／0 errors，LIVE仍有慢速警告；`client=false`、`production_ready=false`、`pending_client_acceptance`。
 
