@@ -1,6 +1,6 @@
-## Current maintained baseline: 0.6.151
+## Current maintained baseline: 0.6.152
 
-T151 reuses successful native item-definition lookups within one registry boot. Unknown items and lookup errors remain retryable, and generic registry predicates retain their original behavior. Recipes, guide content, transport and saved state are unchanged. This reduces repeated source API calls; native startup performance and client acceptance remain pending. See [T151 repair scope](docs/RELEASE-NOTES-0.6.151.md).
+T152 distributes extension transfer checksum work across received chunks and checks joined UTF-8 bytes from chunk boundaries. Ordered transfers avoid two complete-string integrity scans at COMMIT; unfinished out-of-order checksums retain the original fallback. Validation, registration and ACK remain synchronous. Source equivalence does not establish native startup performance. See [T152 repair scope](docs/RELEASE-NOTES-0.6.152.md).
 
 T150 generates the 21-product legacy guide projection at build time, preserving the 28 page objects. Bounded native string quoting retains reviewed wire output; W127 pairs with T150, while G130 remains unchanged. The Ribbits1.0.10036 structure adapter preserves the reviewed connections and conservative fallbacks. These source comparisons are separate from engine performance and client acceptance. [Original T150 notes](docs/RELEASE-NOTES-0.6.150.md) retain their point-in-time scope.
 
