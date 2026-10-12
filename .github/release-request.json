@@ -11,5 +11,11 @@
   "saved_world_migration": "pending",
   "production_ready": false,
   "live_deployment": false,
-  "native_evidence_scope": "T148/G129/W125 fixes the owned HUD definition boundary; targeted structure and preserved sprite/packet/timing checks are separate from pending full-family native/saved-world and real-client rendering. Current deployed family remains T147/G128/W124/private1.0.32 until a fresh candidate completes its canonical gates. No automatic publication; the exact archive checksum is required before explicit publication."
+  "native_evidence_scope": "T148/G129/W125 fixes the owned HUD definition boundary; targeted structure and preserved sprite/packet/timing checks are separate from pending full-family native/saved-world and real-client rendering. Current deployed family remains T147/G128/W124/private1.0.32 until a fresh candidate completes its canonical gates. No automatic publication; the exact archive checksum is required before explicit publication.",
+  "expected_archive_sha256": "97f3efa674c228866969c1b0aa4eb7de540404b6a73a660aecf761abf1c63a08",
+  "reviewed_runtime_source": "5912c8c79d8e4e5ed6074a9f0c58da27ae31f889",
+  "paired_owned_sources": {
+    "grilling": "23d14fcc7c4d250151becc2ef4fd33048fba1794",
+    "world-liquor": "aa965e381d2571433dc9764d2613e80b3dc94aa2"
+  }
 }
