@@ -52,6 +52,8 @@ def verify_native(verified_candidate=None):
     bind_native(receipt,evidence)
     from family_update.preserved_hud_inputs import bind_native as bind_hud_native
     bind_hud_native(receipt,evidence)
+    from family_update.preserved_ribbits_inputs import bind_native as bind_ribbits_native
+    bind_ribbits_native(receipt,evidence)
     return evidence
 
 
@@ -274,6 +276,8 @@ def record_static(verified_candidate=None):
         evidence['reports'].extend([report_ref(Path(CONFIG['prospective_preserved_inputs'])), report_ref(R/'prospective-preserved-inputs-check.json'), selected['recipe']])
         from family_update.preserved_hud_inputs import is_profile
         if is_profile(selected):evidence['reports'].extend([selected['source_validation'], selected['hud_differential']])
+        from family_update.preserved_ribbits_inputs import is_profile as is_ribbits
+        if is_ribbits(selected):evidence['reports'].extend([selected['source_validation'], selected['differential']])
     if CONFIG.get('preserved_additions'):
         evidence['reports'].extend([report_ref(Path(CONFIG['preserved_additions'])),report_ref(R/'preserved-additions-check.json')])
     if CONFIG.get('preserved_reconciliation'):

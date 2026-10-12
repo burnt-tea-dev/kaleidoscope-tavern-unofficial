@@ -1,6 +1,6 @@
-## Current maintained baseline: 0.6.149
+## Current maintained baseline: 0.6.150
 
-T149 prepares guide and extension registration over bounded work slices and sends shaker graphics through the observed optional title router, keeping shared Actionbars available to other addons. Recipes, item settlement, guide content and original graphical timing remain unchanged. See [T149 repair scope](docs/RELEASE-NOTES-0.6.149.md); its original candidate notes retain their point-in-time scope.
+T150 builds the legacy API page projection from the canonical guide before release, avoiding a full synchronous guide build during module loading. Guide entries, recipes and text remain unchanged. Bounded native string quoting retains all wire packets and revisions; native startup and client validation remain pending.
 
 The complete T149/G130/W126/private1.0.34 family was deployed to luosen on **2026-10-13 at 00:29:50 HKT**, with 42 packs and BDS1.26.52.3 RUNNING. Canonical PR/CI, static checks, the fresh stopped-save first start/restart, admission and full file/order readback passed. Poststart recorded **292 warnings, including 265 watchdog records, and zero errors**. Watchdog spikes, slowdowns and two High Memory records remain; this is not performance acceptance.
 
