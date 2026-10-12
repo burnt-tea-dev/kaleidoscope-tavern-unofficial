@@ -12,7 +12,7 @@
   "production_ready": false,
   "live_deployment": false,
   "native_evidence_scope": "T151 shares successful native item-definition reads within this boot. Unknown/error reads and generic predicates retain behavior; synchronous registry/transport/storage timing unchanged. W128 pairs the dependency, G130/private34/Ribbits10036 remain unchanged. Source callback counts are not native performance/client acceptance; fresh family saved-load/admission/deployment required.",
-  "expected_archive_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "expected_archive_sha256": "6e1ebafc77fcce9a13ebe7e0bdd8f427bcb46e1fb432e6903b9451613e48a29f",
   "reviewed_runtime_source": "9339168e4e8fd4295950b0644c51e7dfeb59b51f",
   "paired_owned_sources": {
     "grilling": "a567e17c0316f7f2175dfef07004bb944634ca90",
