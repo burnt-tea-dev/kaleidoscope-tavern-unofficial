@@ -442,3 +442,8 @@ Bedrock：`runtime/BP/scripts/bedrock/custom-effects.js:130–141`：有glowing�
 ## 本輪修補：T0.6.127
 
 已從現行T126新鮮移植PR247主手握持位置与PR167保留第三人稱手臂Y朝向；其他姿態、模型及波形維持原作。數值／分派檢查通過，未稱完成全客戶端矩陣。實測先使用空／滿杯，觀察第一人稱idle→shake→release及第三人稱front/back，保持同皮肤、FOV及音量，再比較Java。
+
+
+## Startup source registration and an unstarted full barrel
+
+A source-level W128 vodka counterexample shows that a full, closed Tavern barrel without a saved batch falls back to vinegar when its extension recipe has not registered. `runtime/BP/scripts/core/machines.js` clears the original fluid/slots in this path, and the Bedrock adapter persists the result. Existing batches use their saved recipe snapshot. This is a source counterexample, not evidence that LIVE data was damaged. T152 keeps synchronous registration and does not extend the window with queued COMMIT; a source-readiness repair remains pending.
