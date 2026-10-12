@@ -78,5 +78,18 @@ class FinalizerPrivateProofRefTests(unittest.TestCase):
             os.chdir(self.private.parent);reports=self.finalize()['evidence']['reports']
         finally:os.chdir(before)
         self.assertEqual(reports.count(report_ref(self.private)),1)
+    def test_p34_source_and_fresh_native_refs_are_formal_and_deduplicated(self):
+        from family_update.preserved_hud_inputs import PROFILE
+        paths={name:self.root/'proofs'/(name+'.json') for name in ['recipe','review','cache','guide','hud']}
+        for path in paths.values():atomic(path,{'synthetic_fixture_only':True})
+        self.config.update(extension_cache_validation=str(self.private),prospective_preserved_inputs=str(paths['review']))
+        atomic(self.root/'cookery-cache-static-validation.json',{'differential':report_ref(paths['cache']),'guide_differential':report_ref(paths['guide'])})
+        atomic(self.root/'cookery-cache-native-validation.json',{'synthetic_fixture_only':True})
+        atomic(self.root/'hud-coexistence-native-validation.json',{'synthetic_fixture_only':True})
+        atomic(self.root/'prospective-preserved-inputs-check.json',{'profile':PROFILE,'review':report_ref(paths['review']),
+            'recipe':report_ref(paths['recipe']),'source_validation':report_ref(self.private),'hud_differential':report_ref(paths['hud'])})
+        reports=self.finalize()['evidence']['reports']
+        for path in [self.private,*paths.values(),self.root/'cookery-cache-native-validation.json',self.root/'hud-coexistence-native-validation.json',self.root/'saved-world-report.json']:
+            self.assertEqual(reports.count(report_ref(path)),1)
 
 if __name__=='__main__':unittest.main()

@@ -2,7 +2,7 @@
  * Publishes Tavern content into the existing Cookery guide without importing
  * or overwriting Cookery scripts. Protocol verified against Cookery v1.0.6.
  */
-import {canonical,digest,utf8Bytes} from './util.js';
+import {canonical,digest,utf8Bytes,prepareJson,prepareDigest,finishPreparation} from './util.js';
 export const COOKERY_GUIDE_EVENTS=Object.freeze({
  ready:'kaleidoscope_cookery:guidebook_ready',
  ping:'kaleidoscope_cookery:guidebook_ping',
@@ -14,6 +14,7 @@ export const COOKERY_GUIDE_SOURCE='kt_tavern';
 export const COOKERY_GUIDE_REVISION='c6_guide_1';
 export const COOKERY_GUIDE_CHUNK_SIZE=1900;
 export const cookeryGuideRevision=payload=>'c6_'+digest(canonical(payload));
+export function* prepareCookeryGuideRevision(payload){return 'c6_'+(yield* prepareDigest(yield* prepareJson(payload,{canonicalKeys:true})));}
 
 /** The public 1.0.6 host keeps at most eight 512-character steps. Pack
  * paragraphs before transport, never slice away the recipe or Q4–Q6 effects.
@@ -36,28 +37,35 @@ export function packGuideParagraphs(rows){
  if(chunks.length>8)throw new RangeError('Guide entry exceeds the host text budget; shorten its source instructions.');
  return chunks;
 }
-export function cookery106WirePayload(payload){
+export function* prepareCookeryWirePayload(payload){
  const needed=new Set();
- const entries=payload.entries.map(entry=>{
+ const entries=[];
+ for(const entry of payload.entries){
   needed.add(entry.id);
   for(const id of entry.usedBy??[])needed.add(id);
   for(const recipe of entry.recipes??[]){for(const id of recipe.ingredients??[])needed.add(id);if(recipe.result)needed.add(recipe.result);for(const id of [recipe.preparation?.fluid,recipe.preparation?.fluidItem,recipe.preparation?.carrier])if(id)needed.add(id);}
   const localized=entry.mechanicsByLocale??{};
   const zh=localized.zh_TW??entry.mechanics??[],en=localized.en_US??[];
   const fallback=[...new Set([...zh,...en])];
-  return {...entry,mechanics:packGuideParagraphs(fallback),
-   mechanicsByLocale:Object.fromEntries(Object.entries(localized).map(([lc,rows])=>[lc,packGuideParagraphs(rows)]))};
- });
- const names=Object.fromEntries(Object.entries(payload.names??{}).map(([lc,rows])=>[lc,Object.fromEntries(Object.entries(rows).filter(([id])=>needed.has(id)))]));
+  entries.push({...entry,mechanics:packGuideParagraphs(fallback),
+   mechanicsByLocale:Object.fromEntries(Object.entries(localized).map(([lc,rows])=>[lc,packGuideParagraphs(rows)]))});yield;
+ }
+ const names={};let rowsPrepared=0;
+ for(const [lc,rows]of Object.entries(payload.names??{})){
+  names[lc]={};
+  for(const [id,name]of Object.entries(rows)){if(needed.has(id))names[lc][id]=name;if(++rowsPrepared%64===0)yield;}
+ }
  return {...payload,entries,names};
 }
+
+export function cookery106WirePayload(payload){return finishPreparation(prepareCookeryWirePayload(payload));}
 
 export function* prepareCookeryGuideMessages(payload,{source=COOKERY_GUIDE_SOURCE,revision=COOKERY_GUIDE_REVISION}={}){
  if(!payload||payload.api!==1||payload.id!=='kaleidoscope_tavern:tavern')throw new TypeError('Invalid Tavern guide payload.');
  if(typeof source!=='string'||!/^[a-zA-Z0-9_.-]+$/.test(source)||typeof revision!=='string'||!/^[a-zA-Z0-9_.-]+$/.test(revision))throw new TypeError('Invalid Cookery guide envelope.');
  // Keep expensive stages apart and slice once per packet, not once per character.
- const wire=cookery106WirePayload(payload);yield;
- const raw=JSON.stringify(wire);yield;
+ const wire=yield* prepareCookeryWirePayload(payload);
+ const raw=yield* prepareJson(wire);
  const chunks=[];let start=0,bytes=0;
  for(let i=0;i<raw.length;){
   const code=raw.codePointAt(i),size=code<128?1:code<2048?2:code<65536?3:4;
@@ -105,8 +113,9 @@ export function installCookeryGuidePublisher(system,payloadOrProvider,warn=conso
   function* prepare(){
    if(prepared?.generation===buildGeneration)return prepared;
    preparationBuilds++;
-   const payload=provider();yield;
-   const revision=dynamic?cookeryGuideRevision(payload):COOKERY_GUIDE_REVISION;yield;
+   const provided=provider();
+   const payload=provided&&typeof provided.next==='function'?yield* provided:provided;yield;
+   const revision=dynamic?yield* prepareCookeryGuideRevision(payload):COOKERY_GUIDE_REVISION;yield;
    const messages=yield* prepareCookeryGuideMessages(payload,{revision});
    return {generation:buildGeneration,revision,messages};
   }

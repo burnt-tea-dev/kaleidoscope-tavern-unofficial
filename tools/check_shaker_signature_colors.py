@@ -11,7 +11,7 @@ spec = importlib.util.spec_from_file_location('hud_colors', ROOT / 'tools/build_
 colors = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(colors)
 hud = json.loads((RP / 'ui/kt_tavern_hud.json').read_text())
-controls = hud['kt_mixology_packet']['controls'][0]['slots']['controls']
+controls = [row for row in hud['kt_mixology_packet']['controls'][0]['slots']['controls'] if '@kaleidoscope_tavern_hud.kt_mixology_slot' in next(iter(row))]
 mask = Image.open(RP / 'textures/ui/kt_mixology/slots/700.png').convert('RGBA').crop((0, 0, 16, 16))
 assert set(mask.getchannel('A').getdata()) == {0, 255}
 assert sum(a == 255 for a in mask.getchannel('A').getdata()) == 60

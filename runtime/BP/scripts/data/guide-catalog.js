@@ -1,3 +1,4 @@
+import {finishPreparation} from '../core/util.js';
 import {GUIDE_ENTRY_ICONS} from './guide-icons.js';
 import {organizeGuideNavigation} from './guide-navigation.js';
 import {applyTavernGuideCopy,applyReviewedAddonGuideCopy} from './guide-copy.js';
@@ -63,9 +64,10 @@ function append(target,source){
  const recipes=[...(target.recipes??[]),...(source.recipes??[])];
  if(recipes.length)target.recipes=[...new Map(recipes.map(r=>[JSON.stringify(r),r])).values()];
 }
-export function consolidateGuide(payload,recipes=[],effectPages=[],items={}){
+export function* prepareConsolidateGuide(payload,recipes=[],effectPages=[],items={}){
  const aliases=new Map(),removed=new Set();
  for(const recipe of recipes){
+  yield;
   const page=payload.entries.find(e=>e.id===recipe.id);
   if(!page)continue;
   // Preserve distinct pressing outputs; quality variants share their recipe.
@@ -117,6 +119,7 @@ export function consolidateGuide(payload,recipes=[],effectPages=[],items={}){
  if(cocktailGuide&&shaker){append(shaker,cocktailGuide);removed.add(cocktailGuide.id);}
  payload.entries=payload.entries.filter(e=>!removed.has(e.id));
  for(const e of payload.entries){
+  yield;
   e.category=CATEGORY[e.category]??e.category;
   if(GUIDE_ENTRY_ICONS[e.id])e.icon=GUIDE_ENTRY_ICONS[e.id];
   delete e.usedBy;
@@ -141,8 +144,11 @@ export function consolidateGuide(payload,recipes=[],effectPages=[],items={}){
   const id='kaleidoscope_tavern:pressing/'+fruit+'_bucket';
   if(payload.entries.some(e=>e.id===id))LOCALES.forEach((lc,i)=>payload.names[lc][id]=labels[i]);
  }
- const result=applyTavernGuideCopy(organizeGuideNavigation(applyReviewedAddonGuideCopy(payload)));
+ const reviewed=applyReviewedAddonGuideCopy(payload);yield;
+ const organized=organizeGuideNavigation(reviewed);yield;
+ const result=applyTavernGuideCopy(organized);yield;
  for(const entry of result.entries){
+  yield;
   // Workbench recipes already belong to the native crafting book. Guide entries
   // explain use; preparation recipes belong to the resulting drink/food.
   if(!entry.food&&entry.recipes)entry.recipes=entry.recipes.filter(r=>r.method!=='Crafting Table');
@@ -159,3 +165,5 @@ export function consolidateGuide(payload,recipes=[],effectPages=[],items={}){
  for(const [key,labels] of Object.entries({method_barrel:['酒桶','酒桶','Barrel'],method_shaker:['雪克杯','雪克杯','Shaker'],method_pressing_tub:['压榨桶','壓榨桶','Pressing Tub'],method_freezer:['冷冻柜','冷凍櫃','Freezer']}))LOCALES.forEach((lc,i)=>result.text[lc][key]=labels[i]);
  return result;
 }
+
+export function consolidateGuide(payload,recipes=[],effectPages=[],items={}){return finishPreparation(prepareConsolidateGuide(payload,recipes,effectPages,items));}

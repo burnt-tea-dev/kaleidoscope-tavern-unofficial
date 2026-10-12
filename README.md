@@ -1,6 +1,6 @@
-## Current maintained baseline: 0.6.148
+## Current maintained baseline: 0.6.149
 
-T148 and G129 move their HUD renderers into separate registered namespaces and ship the same minimal bridge, so a higher family UI file mounts both optional ports. The joint native Actionbar filter also excludes Grilling internal frame packets. Original sprites, timing and gameplay scripts remain unchanged. See [T148 repair scope](docs/RELEASE-NOTES-0.6.148.md).
+T149 prepares guide and extension registration over bounded work slices and sends shaker graphics through the observed optional title router, keeping shared Actionbars available to other addons. Recipes, item settlement, guide content and original graphical timing remain unchanged. This candidate awaits canonical CI and full-family saved-world/native admission; real-client rendering is still pending. See [T149 repair scope](docs/RELEASE-NOTES-0.6.149.md).
 
 The complete T148/G129/W125/private-integration family was deployed to managed-server on **[private deployment time] at [private deployment time]**, with 42 packs and BDS1.26.52.3 RUNNING. Static checks, the fresh stopped-save first start/restart, admission and full file/order readback passed. Poststart recorded 313 warnings and zero errors; slow-script warnings remain. Human client acceptance is pending.
 

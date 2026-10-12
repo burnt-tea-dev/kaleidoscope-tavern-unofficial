@@ -1,10 +1,8 @@
-/** Actionbar-only HUD adapter. Does not own title/subtitle or another pack's UI.
- * Our separate factory expires its graphics locally; no idle clear/off loop.
- * A plain readable actionbar remains usable when another RP replaces our UI.
- */
+/** Graphical state uses an optional title router; Java messages use the native Actionbar. */
 import {system} from '@minecraft/server';
-import {HUD_PREFIX,slotsPacket,progressPacket,hudSendDue,barrelHudEnabled} from '../core/shaker-hud.js';
-const last=new Map(),messages=new Map();
+import {HUD_PREFIX,GRAPHICAL_HUD_END,slotsPacket,progressPacket,hudSendDue,barrelHudEnabled} from '../core/shaker-hud.js';
+import {sendFormattingHud,forgetFormattingHud} from './shaker-hud-transport.js';
+const last=new Map(),messages=new Map(),graphical=new Set();
 export const shakerHudDiagnostics={sent:0,failures:0,lastError:''};
 const KEYS={
  NEED_THREE_INGREDIENTS:'message.kaleidoscope_tavern.shaker.amount_too_low',
@@ -13,11 +11,12 @@ const KEYS={
  CUP_STATE_MISMATCH:'kt.mixology.cup_state_mismatch',CUP_SCHEMA:'kt.mixology.cup_state_mismatch',COCKTAIL_SCHEMA:'kt.mixology.cup_state_mismatch',
  SPACE_NOT_CLEAR:'kt.mixology.no_space',INVENTORY_FULL:'kt.mixology.inventory_full',ERROR:'kt.mixology.error'
 };
-function send(player,key,raw){
+function send(player,key,raw,graphic=false){
  const tick=system.currentTick,previous=last.get(player.id);
  if(!hudSendDue(previous,key,tick))return;
  try{
-  player.onScreenDisplay.setActionBar(raw);
+  if(graphic){sendFormattingHud(player,raw);graphical.add(player.id);}
+  else player.onScreenDisplay.setActionBar(raw);
   last.set(player.id,{key,tick});shakerHudDiagnostics.sent++;
  }catch(error){
   shakerHudDiagnostics.failures++;shakerHudDiagnostics.lastError=String(error).slice(0,300);
@@ -32,10 +31,10 @@ function messageActive(player){
 }
 export function showShakerSlots(player,state){
  if(messageActive(player))return;
- const text=slotsPacket(state.slots);send(player,text,text);
+ const text=slotsPacket(state.slots);send(player,text,text,true);
 }
 export function showShakerProgress(player,ticks){
- messages.delete(player.id);const text=progressPacket(ticks);send(player,text,text);
+ messages.delete(player.id);const text=progressPacket(ticks);send(player,text,text,true);
 }
 export function showBarrelHud(player,rawtext){
  if(!barrelHudEnabled(player))return;
@@ -46,7 +45,8 @@ export function showBarrelHud(player,rawtext){
 export function hideShakerHud(player){
  if(messageActive(player))return;
  last.delete(player.id);
- // Native text fades and shaker graphics expire locally. Never clear the shared channel.
+ // One bounded owned stop replaces this key in the queue, never a native clear.
+ if(graphical.delete(player.id))try{sendFormattingHud(player,GRAPHICAL_HUD_END);}catch{}
 }
 export function showShakerMessage(player,code){
  if(code==='READY')return;
@@ -64,7 +64,7 @@ export function showShakerMessage(player,code){
 }
 export function clearShakerPlayer(player){
  const id=typeof player==='string'?player:player.id;
- messages.delete(id);last.delete(id);
+ messages.delete(id);last.delete(id);graphical.delete(id);forgetFormattingHud(id);
 }
 
 /** Read-only foreground ownership for the simple effect bar, not a second writer. */

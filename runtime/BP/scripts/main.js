@@ -23,6 +23,7 @@ import {nativeUseDiagnostics} from './bedrock/mixology.js';
 import {immersionDiagnostics} from './bedrock/immersion.js';
 import {system,world,ItemTypes,ItemStack,ScriptEventSource} from '@minecraft/server';
 import {ExtensionRegistry} from './core/registry.js';
+import {cacheItemDefinitionTags} from './core/util.js';
 import {BUILTIN_RECIPES} from './data/recipes.js';
 import {FLUIDS} from './data/fluids.js';
 import {GUIDE_PAGES} from './data/guide-pages.js';
@@ -43,7 +44,7 @@ import {SHAKER_RECIPES} from './data/mixology.js';
 import {MIXOLOGY_PAGES} from './data/mixology-pages.js';
 import {setMixologyRegistry,registerMixologyComponents,installMixologyEvents,mixologyDiagnostics} from './bedrock/mixology.js';
 import {installCookeryGuidePublisher} from './core/cookery-guide-publisher.js';
-import {buildCookeryGuidePayload} from './data/cookery-guide-payload.js';
+import {buildCookeryGuidePayload,prepareCookeryGuidePayload} from './data/cookery-guide-payload.js';
 import {installJavaItemUseOnEvents} from './bedrock/java-placement-router.js';
 import {registerTapSourceComponents,installTapSourceEvents} from './bedrock/tap-sources.js';
 import {installVanillaBottleDisplayEvents} from './bedrock/vanilla-bottle-displays.js';
@@ -58,7 +59,7 @@ import {installQualityTooltipEvents,qualityTooltipDiagnostics} from './bedrock/q
 let registry;let cookeryReady=false,cookeryCapabilities=[];
 installNativeStoragePinning(()=>registry);
 const LEGACY_GUIDES=new Set(['kaleidoscope_tavern:guidebook','kaleidoscope_tavern:recipe_book']);
-const cookeryGuidePublisher=installCookeryGuidePublisher(system,()=>buildCookeryGuidePayload(registry));
+const cookeryGuidePublisher=installCookeryGuidePublisher(system,()=>prepareCookeryGuidePayload(registry));
 installCookeryGuideEntry({system,world,
  available:player=>!!registry&&!hasStandaloneGuideSession(player.id),
  show:(player,options)=>showStandaloneGuide(player,()=>registry?buildCookeryGuidePayload(registry):null,options),
@@ -211,12 +212,13 @@ system.run(()=>{
    for(const id of ids)if(!ItemTypes.get(id))missing.push(id);
   }
   if(missing.length)throw new Error('Missing required runtime items: '+[...new Set(missing)].join(', '));
+  const nativeItemTags=cacheItemDefinitionTags(id=>new ItemStack(id,1).getTags());
   registry=new ExtensionRegistry({
    recipes,
    pages:[...GUIDE_PAGES,...EFFECT_PAGES,...MIXOLOGY_PAGES],
    fluids:FLUIDS,
    itemExists:id=>!!ItemTypes.get(id),
-   itemTags:id=>{try{return new ItemStack(id,1).getTags();}catch{return [];}},
+   itemTags:nativeItemTags,
   });
   registry.subscribe(()=>cookeryGuidePublisher.refresh());
   setRegistry(registry);setMixologyRegistry(registry);

@@ -50,6 +50,8 @@ def verify_native(verified_candidate=None):
     assert evidence['player_records_before'] == evidence['player_records_after']
     from family_update.cookery_cache_validation import bind_native
     bind_native(receipt,evidence)
+    from family_update.preserved_hud_inputs import bind_native as bind_hud_native
+    bind_hud_native(receipt,evidence)
     return evidence
 
 
@@ -267,6 +269,11 @@ def record_static(verified_candidate=None):
     if retention:
         evidence['approved_runtime_retention'] = retention
         evidence['reports'].extend([retention['control'], retention['approved_receipt'], retention['approved_build'], retention['approved_static'], retention['approved_ci']])
+    if CONFIG.get('prospective_preserved_inputs'):
+        selected=read(R/'prospective-preserved-inputs-check.json')
+        evidence['reports'].extend([report_ref(Path(CONFIG['prospective_preserved_inputs'])), report_ref(R/'prospective-preserved-inputs-check.json'), selected['recipe']])
+        from family_update.preserved_hud_inputs import is_profile
+        if is_profile(selected):evidence['reports'].extend([selected['source_validation'], selected['hud_differential']])
     if CONFIG.get('preserved_additions'):
         evidence['reports'].extend([report_ref(Path(CONFIG['preserved_additions'])),report_ref(R/'preserved-additions-check.json')])
     if CONFIG.get('preserved_reconciliation'):

@@ -49,14 +49,14 @@ def source_gate_environment(own,identities):
  return {**os.environ,'GITHUB_REPOSITORY':expected['repository'],'GITHUB_REPOSITORY_ID':str(expected['repository_id'])}
 
 def renderer_source_version(config,spec,path):
- # A cache-only reviewed integration release must not republish unchanged ChineseFood graphics.
+ # The fixed reviewed integration cache / reviewed integration guide repairs retain unchanged ChineseFood graphics.
  # This single, immutable retained component is independently checked again
  # by the cache-only source conservation gate before any live admission.
  profile=config.get('retained_renderer_profile')
  if profile is None:return config['version']
  expected={'source_commit':'8d05a3da291861048dc7e759be3ba96fde45ebb8',
            'spec_sha256':'292e337a073ea713c22c84c66f85a2c8cb9d2d5c453c308b1569107d2656b703'}
- if config['repository']!='local/senluo-amw-cuisine' or config['version']!=[1,0,33] or profile!=expected:
+ if config['repository']!='local/senluo-amw-cuisine' or config['version'] not in [[1,0,33],[1,0,34]] or profile!=expected:
   fail('unsupported retained renderer source profile')
  if spec.get('owner_version')!=[1,0,32] or hashlib.sha256(path.read_bytes()).hexdigest()!=expected['spec_sha256']:
   fail('retained renderer component differs from reviewed reviewed integration')
@@ -134,7 +134,7 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
  # Spec and module bytes are in that runtime's versioned baseline, never a BSM hook.
  for own in lock['owned']:
   repo=sources[own['key']];config=read(repo/'baseline.json');owned_root=repo/config['runtime']['BP']
-  for path in sorted((owned_root/'host-extensions').glob('*.json'),key=lambda p:(read(p).get('kind')=='chinesefood-doll-renderer-cleanup',p.name)):
+  for path in sorted((owned_root/'host-extensions').glob('*.json'),key=lambda p:(read(p).get('kind')=='chinesefood-doll-renderer-cleanup',read(p).get('kind')=='cookery-guide-startup-repair',p.name)):
    spec=read(path)
    if spec.get('kind')=='chinesefood-doll-renderer-cleanup':
     from doll_renderer_extension import apply_renderer_extension

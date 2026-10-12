@@ -120,6 +120,20 @@ class ReviewedHostExtensionTests(unittest.TestCase):
    root=Path(tmp);(root/'scripts/api').mkdir(parents=True);path=root/name;path.write_text('Unreviewed source must remain untouched.\n')
    with self.assertRaisesRegex(ValueError,'original host file hash differs'):apply_host_extension(spec,root,root,source)
    self.assertEqual(path.read_text(),'Unreviewed source must remain untouched.\n')
+ def test_guide_profile_rejects_arbitrary_insertions_imports_and_helper_copies(self):
+  from host_extensions import validate_guide_startup_profile,GUIDE_HOST_FILE,GUIDE_PREIMAGE,GUIDE_POSTIMAGE,GUIDE_HELPER_SOURCE,GUIDE_HELPER_TARGET,GUIDE_HELPER_SHA
+  pin='da12fe6d39d7514aff1de3c963d69899324d771be5ca0fc3da1ccb759c7ad458'
+  # A declaration-shaped fixture is insufficient: exact private insertion bytes
+  # remain cryptographically pinned, and no author/private module is copied here.
+  spec={'id':'senluo:cookery-guide-startup-repair','version':[1,0,1],'host_uuid':'5df753c9-3436-4fba-87f1-a2da3651cfcf','archive_sha256':pin,
+        'original_files':{GUIDE_HOST_FILE:GUIDE_PREIMAGE},'patched_files':{GUIDE_HOST_FILE:GUIDE_POSTIMAGE},
+        'imports':{GUIDE_HOST_FILE:'import {createCookeryGuideWorkQueue} from "./senluo_guide_startup.js";\n'},
+        'copies':{GUIDE_HELPER_SOURCE:GUIDE_HELPER_TARGET},'helper_sha256':GUIDE_HELPER_SHA,'slice_units':24,'json_updates':[],
+        'insertions':[{'path':GUIDE_HOST_FILE,'anchor':'unreviewed'+str(i),'position':'after','text':''} for i in range(16)]}
+  source={'owner':'upstream_extended','archive_sha256':pin,'reviewed_extensions':[]}
+  with self.assertRaisesRegex(ValueError,'exact sixteen'):validate_guide_startup_profile(spec,source)
+  for key,value in [('imports',{}),('copies',{'scripts/other.js':GUIDE_HELPER_TARGET}),('helper_sha256','wrong'),('slice_units',25),('patched_files',{GUIDE_HOST_FILE:'changed'})]:
+   with self.subTest(key=key),self.assertRaisesRegex(ValueError,'pinned normalization'):validate_guide_startup_profile({**spec,key:value},source)
  def test_exact_insertions_copies_and_immutable_author_identity(self):
   import hashlib
   from host_extensions import apply_host_extension
