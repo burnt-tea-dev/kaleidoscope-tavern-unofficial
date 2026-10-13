@@ -1,6 +1,6 @@
-## Current maintained baseline: 0.6.158
+## Current maintained baseline: 0.6.159
 
-T158 restores Java zero-thickness incense cutouts and uses culled front/back materials for all eight variants, open/closed blocks and held items. [Scope](docs/RELEASE-NOTES-0.6.158.md). Client rendering remains pending; shaker insertion and eating/mixology UI remain unresolved.
+T159 restores Java zero-thickness incense cutouts and uses culled front/back materials for all eight variants, open/closed blocks and held items. [Scope](docs/RELEASE-NOTES-0.6.159.md). Client rendering remains pending; shaker insertion and eating/mixology UI remain unresolved.
 
 T155/G133 repair the missing shaker/eating UI receivers with permanent panels and independent channel caches; the obsolete shaker progress-parent gate is removed. [Repair scope](docs/RELEASE-NOTES-0.6.155.md). Client-rendered recovery remains unconfirmed.
 
