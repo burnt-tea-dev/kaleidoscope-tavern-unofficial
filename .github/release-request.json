@@ -13,5 +13,11 @@
   "live_deployment": false,
   "native_evidence_scope": "Persistent HUD receiver candidate. Targeted source diagnostics only so far; exact canonical CI, complete-family saved-world/load/admission/live evidence and rendered-client results remain separate. No rendered-client acceptance claimed.",
   "client": false,
-  "status": "awaiting_source_ci_family_save_admission_and_live_readback"
+  "status": "awaiting_source_ci_family_save_admission_and_live_readback",
+  "expected_archive_sha256": "d11b70f2ca98901311825094f14573339388c8eb9aa8cec887940789959de2a0",
+  "reviewed_runtime_source": "0827809b322cb88191e99eacbd3724187c87b36b",
+  "paired_owned_sources": {
+    "grilling": "72fa0d98be0cbd1c645716b1fd4b70a723ad382d",
+    "world-liquor": "cc900cfe9efda373873da85a0b0c7cbf83dfd841"
+  }
 }
