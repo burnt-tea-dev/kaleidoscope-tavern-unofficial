@@ -226,6 +226,7 @@ def main(argv=None):
     subprocess.run([sys.executable,str(ROOT/'tools/check_vibrant_contract.py')],cwd=ROOT,check=True)
 
     subprocess.run(['node',str(ROOT/'tools/check_incense_sampling.mjs')],cwd=ROOT,check=True)
+    subprocess.run([sys.executable,str(ROOT/'tools/check_incense_surfaces.py')],cwd=ROOT,check=True)
     subprocess.run([sys.executable,str(ROOT/'tools/check_animated_hands.py')],cwd=ROOT,check=True)
 
     subprocess.run(['node',str(ROOT/'tools/check_surface_repairs.mjs')],cwd=ROOT,check=True)

@@ -1,19 +1,19 @@
 {
-  "version": "0.6.157",
-  "tag": "v0.6.157-beta.1",
-  "title": "森羅雪克杯持酒事件診斷 0.6.157",
+  "version": "0.6.159",
+  "tag": "v0.6.159-beta.1",
+  "title": "森羅全部香薰交叉面修復 0.6.159",
   "prerelease": true,
   "publication_request": false,
-  "validation_evidence": "docs/RELEASE-NOTES-0.6.157.md",
-  "public_notes_path": "docs/RELEASE-NOTES-0.6.157.md",
+  "validation_evidence": "docs/RELEASE-NOTES-0.6.159.md",
+  "public_notes_path": "docs/RELEASE-NOTES-0.6.159.md",
   "client_acceptance": "pending",
   "full_client_acceptance": "pending",
   "saved_world_migration": "pending",
   "production_ready": false,
   "live_deployment": false,
-  "native_evidence_scope": "Bounded operator-only shaker event diagnostics; insertion and rendered eating/mixology HUD remain under investigation. Required CI and complete-family saved-world/admission are separate.",
+  "native_evidence_scope": "Eight incense variants, open/closed and item material coverage. Source geometry and culling checks are not rendered-client acceptance. Full-family saved-world and live readback remain separate.",
   "client": false,
   "status": "awaiting_source_ci_family_save_admission_and_live_readback",
-  "expected_archive_sha256": "9484f1ad2d353528586e235a5c8b8603a611e325899052b123f01b5f09bbbb21",
-  "reviewed_runtime_source": "56b2d7b31b834774900e10a905103b0d3a597a3d"
+  "expected_archive_sha256": "3cfc28376988f094da9a65b57db348c523b004df1dc5cf0d7c4df23b62bfcf71",
+  "reviewed_runtime_source": "cba8821c861ebf6dd891e588037e893ff0d8c017"
 }
