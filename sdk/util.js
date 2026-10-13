@@ -8,7 +8,19 @@ export function canonical(value){
  if(value&&typeof value==='object')return '{'+Object.keys(value).sort().map(k=>JSON.stringify(k)+':'+canonical(value[k])).join(',')+'}';
  return JSON.stringify(value);
 }
-export function utf8Bytes(s){let n=0;for(const c of s){const v=c.codePointAt(0);n+=v<128?1:v<2048?2:v<65536?3:4;}return n;}
+export function utf8Bytes(s) {
+ // Keep the public iterable fallback; wire strings need no per-codepoint string.
+ if(typeof s!=='string'){let n=0;for(const c of s){const v=c.codePointAt(0);n+=v<128?1:v<2048?2:v<65536?3:4;}return n;}
+ let n=0;
+ for(let i=0;i<s.length;i++){
+  const v=s.charCodeAt(i);
+  if(v<128)n++;
+  else if(v<2048)n+=2;
+  else if(v>=0xd800&&v<=0xdbff&&i+1<s.length&&s.charCodeAt(i+1)>=0xdc00&&s.charCodeAt(i+1)<=0xdfff){n+=4;i++;}
+  else n+=3;
+ }
+ return n;
+}
 /** Integrity checksum, NOT a signature/authentication mechanism. */
 export function digest(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return(h>>>0).toString(16).padStart(8,'0');}
 

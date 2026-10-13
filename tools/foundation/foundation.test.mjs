@@ -138,6 +138,39 @@ test('old host lacking foundation capability is refused by SDK',()=>{
  const sent=[],callbacks=[];const s={afterEvents:{scriptEventReceive:{subscribe:f=>callbacks.push(f),unsubscribe(){}}},run:f=>f(),sendScriptEvent:(...x)=>sent.push(x)};
  registerTavernExtension(s,bundle,{log:()=>{}});callbacks[0]({id:KT+':api_ready',sourceType:'Server',message:JSON.stringify({api:1,capabilities:['shaker_recipes','external_shaker_inputs','native_potion_inputs']})});assert.equal(sent.length,1);assert.equal(sent[0][0],KT+':api_ping');
 });
+function isolatedFoundationClient(pack){
+ let receive;const intervals=[],sent=[],logs=[];
+ const clock={get currentTick(){return system.currentTick;},afterEvents:{scriptEventReceive:{subscribe(fn){receive=fn;}}},runInterval(fn,ticks){intervals.push({fn,ticks});},sendScriptEvent(id,message){sent.push({id,message});}};
+ const client=createFoundationClient(clock,pack,bundle,()=>true,{log:message=>logs.push(message)});
+ return {client,sent,logs,receive:event=>receive(event),pump:()=>intervals.find(row=>row.ticks===1).fn()};
+}
+test('foundation listener rejects unrelated channels before reading or parsing their payload',()=>{
+ const {pack}=packWorld(),fixture=isolatedFoundationClient(pack);let reads=0,parses=0;
+ const parse=JSON.parse;JSON.parse=(...args)=>{parses++;return parse(...args);};
+ try{
+  for(const id of ['extension_begin','extension_chunk','extension_commit','api_ready','foundation_chunk','unknown']){
+   fixture.receive({id:KT+':'+id,sourceType:'Server',get message(){reads++;throw Error('unrelated payload read');}});
+   fixture.receive({id:KT+':'+id,sourceType:'Server',message:'{malformed'});
+  }
+ }finally{JSON.parse=parse;}
+ assert.equal(reads,0);assert.equal(parses,0);assert.deepEqual(fixture.logs,[]);assert.deepEqual(fixture.sent,[]);
+});
+test('foundation ID filtering preserves cabinet request, matching ACK and effect snapshot',()=>{
+ const {pack}=packWorld(),fixture=isolatedFoundationClient(pack),position={x:++serial*3,y:2,z:0},b=d.getBlock(position);b.setType(def().block);
+ const store=new ExtensionCabinetStore(world,def(),d.id,position),raw=legacy(def(),regular.items[4]);pack.setDynamicProperty(store.legacy,raw);
+ const receive=(id,row)=>fixture.receive({id:KT+':'+id,sourceType:'Server',message:JSON.stringify({source:NS,...row})});
+ receive('foundation_request',{kind:'cabinet',type:def().block,dimension:d.id,position});
+ fixture.pump();
+ const begin=fixture.sent.find(row=>row.id===KT+':foundation_begin');assert(begin,'request queues the original owner snapshot');
+ const {revision}=JSON.parse(begin.message);assert.equal(pack.getDynamicProperty(store.legacy),raw);
+ receive('foundation_ack',{revision:'wrong',ok:true});assert.equal(pack.getDynamicProperty(store.legacy),raw);
+ receive('foundation_ack',{revision,ok:true});assert.equal(pack.getDynamicProperty(store.legacy),undefined,'only matching successful ACK clears the retained owner copy');
+ const entity={id:'filter-snapshot-'+(++serial)};
+ receive('effect_snapshot',{entity:entity.id,sequence:system.currentTick,parts:1,part:0,rows:[{id:NS+':double_damage',ticks:200,amplifier:1}]});
+ assert.deepEqual(fixture.client.read(entity).double_damage,{id:NS+':double_damage',ticks:200,amplifier:1});
+ fixture.receive({id:KT+':effect_snapshot',sourceType:'Entity',get message(){throw Error('non-server payload read');}});
+ fixture.receive({id:KT+':effect_snapshot',sourceType:'Server',message:'{malformed'});assert.equal(fixture.logs.length,1,'malformed handled channel still reports its existing error');
+});
 test('cross-pack handoff: only addon sees legacy; host commits, ACK then removes owner copy',()=>{
  const {pack}=packWorld(),client=createFoundationClient(system,pack,bundle,()=>true),position={x:++serial*3,y:2,z:0},b=d.getBlock(position);b.setType(def().block);const store=new ExtensionCabinetStore(world,def(),d.id,position),raw=legacy(def(),regular.items[4]);pack.setDynamicProperty(store.legacy,raw);assert.equal(world.getDynamicProperty(store.legacy),undefined);
  client.cabinet({type:def().block,dimension:d.id,position});assert.equal(pack.getDynamicProperty(store.legacy),raw);system.advance(15);assert.equal(store.load(store.key).left,regular.items[4]);assert.equal(pack.getDynamicProperty(store.legacy),undefined);
