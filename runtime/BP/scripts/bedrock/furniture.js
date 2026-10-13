@@ -65,12 +65,10 @@ export function useGlasswareHolder(player,block,faceLocation){
  });
 }
 export const glasswareHitDiagnostics={corrections:0,errors:0,last:null};
-/** Resolve which of the four glass slots the player aimed at. Java reads the world X/Z
- * quadrant of the true hit; the engine reports that hit in the clicked face's own basis,
- * which on the bottom face slotted the aimed cup's mirror neighbour (diagonal with the
- * raw event, left-right with the script raycast). Mouse and gamepad aim through the
- * script raycast, touch keeps its event hit, and both are converted back with the
- * measured face basis; faces without a measurement keep the raw engine value. */
+/** Restore the pre-T131 selection contract: intersect the player's captured eye
+ * ray with the existing holder selection box before using legacy native-hit
+ * fallbacks. The old Down-face table is not a universal event coordinate basis.
+ * Keep the existing saved-state/render mapping; this changes no stored slot IDs. */
 export function resolveGlasswareHit(player,block,face,point){
  const fallback={face,faceLocation:point?{...point}:undefined};
  let mode,crosshair=false;
@@ -82,9 +80,9 @@ export function resolveGlasswareHit(player,block,face,point){
    if(ray){source='ray';hit=ray.faceLocation;sourceFace=ray.face??face;}
   }
   const nativePoint=hit&&['x','y','z'].every(axis=>Number.isFinite(hit[axis])&&hit[axis]>=0&&hit[axis]<=1)?worldFromHit(sourceFace,hit,source)??hit:undefined;
-  // Direct touch selects the finger's event hit, even when the eye ray reaches
-  // a different cup. Keep the measured holder basis and saved slot compensation.
-  const aimed=crosshair||!nativePoint?aimPointFor(player,block):undefined;
+  // T131 accidentally re-enabled the old face-table path for Touch. Restore
+  // the prior aim preference for every input mode without another axis flip.
+  const aimed=aimPointFor(player,block);
   const corrected=aimed??nativePoint;
   if(corrected){
    glasswareHitDiagnostics.corrections++;
