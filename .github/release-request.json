@@ -14,6 +14,6 @@
   "native_evidence_scope": "Eight incense variants, open/closed and item material coverage. Source geometry and culling checks are not rendered-client acceptance. Full-family saved-world and live readback remain separate.",
   "client": false,
   "status": "awaiting_source_ci_family_save_admission_and_live_readback",
-  "expected_archive_sha256": "31e7e21c46044397513a1b1b2fc393256dcd701341b5b5999578084bf5a36341",
-  "reviewed_runtime_source": "4d7d7570e0d085c1e038e7ba92722498e8a56fe1"
+  "expected_archive_sha256": "3cfc28376988f094da9a65b57db348c523b004df1dc5cf0d7c4df23b62bfcf71",
+  "reviewed_runtime_source": "cba8821c861ebf6dd891e588037e893ff0d8c017"
 }
