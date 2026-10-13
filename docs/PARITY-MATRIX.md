@@ -1,12 +1,12 @@
-## 當前部署：T152／G130／W129／P34／Ribbits1.0.10036
+## 當前部署：T153／G132／W130／P34／Ribbits1.0.10036
 
-**2026-10-13 03:44:43 HKT**：luosen **T152／G130／W129／P34／Ribbits1.0.10036**，42包（22BP／20RP），BDS1.26.52.3 RUNNING。Canonical PR／必要CI、static、一次停服存檔副本first／restart、完整准入及逐檔／順序讀回通過。`client=false`、`production_ready=false`、`pending_client_acceptance`。
+**2026-10-13 11:42:56 HKT**：luosen **T153／G132／W130／P34／Ribbits1.0.10036**，42包（22BP／20RP），BDS1.26.52.3 RUNNING。Canonical PR／必要CI、static、一次停服存檔副本first／restart、完整准入及逐檔／順序讀回通過。`client=false`、`production_ready=false`、`pending_client_acceptance`。
 
-T152在收到chunk時累積digest及bytes，以邊界校正核對UTF8總長；ordered COMMIT避免兩次整串integrity掃描，JSON parse／registry install／ACK仍同步。W129只更新三份identity／dependency檔配對T152；SDK／storage／玩法／指南／圖形保持。G130／P34／Ribbits10036／原五份HUD變體不變。
+T153保留世界名酒註冊完成前滿且關蓋的未成批酒桶，避免先按未匹配配方開始釀醋；既有批次與酒館配方優先順序保持。字型資料改為等值JSON解析，指南重用不可變配方連結。G132移除啟動時未使用的診斷資料，先保存進度獎勵領取狀態再發XP，避免保存失敗／不確定回應造成重領；不確定結果仍可能保留待處理且尚未發放的獎勵，不能宣稱原子性的恰好一次發放。W130移除兩套啟動正弦表及縮減重生碰撞資料，原Java量化數值與查詢結果保全。
 
-Poststart **245 warnings／0 errors**，其中 **218 watchdog（8 Spike／209 Slowdown／1 High Memory）**。本次窗口沒有再錄到原指南COMMIT約282ms Spike；初始化Spike仍有AMW309、Cookery306、Nether110、Ribbits424、Villager150、W256、T255、G444ms。不同窗口不作百分比或全面效能接受；partial reverse仍有整串FNV fallback。First401／restart361 warnings，各exit0／errors0，保留LIVE100／10ms門檻。
+Poststart **197 warnings／0 errors**，其中 **170 watchdog（8 Spike／162 Slowdown／0 High Memory）**。初始化Spike仍有AMW328、Cookery313、Nether112、Ribbits425、Villager155、W124、T231、G316ms。First356／restart404 warnings，各exit0／errors0；保留LIVE100／10ms門檻。這些是當次觀測窗口，不能作全局效能百分比或宣稱watchdog已解決。
 
-[本次公開核對](../family/PUBLIC-DOWNLOAD-LIVE-TRANSPORT-20261013.md)確認六包9344檔相同。T152／W129新匿名下載，G130重用R151已核驗匿名archive的同FS硬連結，fresh REST metadata／digest重驗，不稱新G下載。 真人快開短空條與完整聲畫／玩法仍待確認，以下歷史parity不改身份。
+[本次公開核對](../family/PUBLIC-DOWNLOAD-LIVE-JAVA-STARTUP-20261013.md)於11:52:05 HKT確認三個新匿名下載的archive、六自有BP／RP共9346檔與LIVE及reviewed receipt相同。 真人快開短空條與完整聲畫／玩法仍待確認；[T152紀錄](../family/PUBLIC-DOWNLOAD-LIVE-TRANSPORT-20261013.md)及以下歷史parity保留原身份。
 
 ## 歷史部署：T151／G130／W128／P34／Ribbits1.0.10036
 

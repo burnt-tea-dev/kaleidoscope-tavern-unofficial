@@ -2,11 +2,11 @@
 
 T153 preserves full closed barrels while an installed World Liquor source is still registering, retaining existing batch snapshots and builtin recipe priority. Font metrics use parsed JSON with identical glyph data, and each guide projection reuses immutable page recipe links while dynamic views keep their reads. These source repairs do not establish native startup performance or human acceptance. See [T153 scope](docs/RELEASE-NOTES-0.6.153.md).
 
-The complete T152/G130/W129/P34/Ribbits10036 family was deployed at **2026-10-13 03:44:43 HKT**: 42 packs, BDS1.26.52.3 RUNNING. Required source CI, static, stopped-save first/restart, admission and full readback passed. **245 warnings / zero errors**, including **218 watchdog records (8 spikes, 209 slowdowns, 1 High Memory)** remain. The previous guide COMMIT spike was not recorded in this window; startup/client acceptance remains incomplete.
+The complete T153/G132/W130/P34/Ribbits10036 family passed deployment readback at **2026-10-13 11:42:56 HKT**: 42 packs, BDS1.26.52.3 RUNNING. Canonical source CI, static checks, one stopped-save first/restart, admission and full readback passed. **197 warnings / zero errors**, including **170 watchdog records (8 spikes, 162 slowdowns, no High Memory)** remain; startup performance is still unresolved.
 
-[Download v0.6.152-beta.1](https://github.com/casama233/kaleidoscope-tavern-unofficial/releases/tag/v0.6.152-beta.1). The [public/LIVE proof](family/PUBLIC-DOWNLOAD-LIVE-TRANSPORT-20261013.md) confirms all **9344 files** in six public packs match LIVE and the reviewed receipt. T152/W129 were freshly downloaded anonymously; unchanged G130 reused the verified R151 archive by same-filesystem hardlink, with fresh metadata/digest checks.
+[Download v0.6.153-beta.1](https://github.com/casama233/kaleidoscope-tavern-unofficial/releases/tag/v0.6.153-beta.1). The [public/LIVE comparison](family/PUBLIC-DOWNLOAD-LIVE-JAVA-STARTUP-20261013.md), recorded at 11:52:05 HKT, confirms all **9346 files** in six owned packs match LIVE and the reviewed receipt. All three archives were newly downloaded anonymously.
 
-G130/P34/Ribbits10036/HUD variants retain their content. ACK/registry/storage remain synchronous; incomplete reverse transfers retain the full digest fallback. Rapid reopen, client graphics and arbitrary whole-HUD/title writers remain pending. `client=false`, `production_ready=false`, `pending_client_acceptance`.
+G132 reduces unused startup data and prevents repeated advancement XP attempts after uncertain failures. W130 reduces startup tables while preserving Java motion values and respawn collision queries. Private integration and Ribbits retain their content. Rapid reopen, client graphics, arbitrary whole-HUD/title writers and complete Java parity remain unverified. `client=false`, `production_ready=false`, `pending_client_acceptance`.
 
 ## Historical repair scopes
 
@@ -34,7 +34,7 @@ A Bedrock port of [Kaleidoscope Tavern](https://github.com/KaleidoscopeMods/Kale
 
 - [T140 guide revision](docs/RELEASE-NOTES-0.6.140.md) retains all three languages and preparation details on demand, adds four reviewed AMW pages and shares the view through the optional Cookery entrance. T141 preserves this published guide and T139's native clock/reload, machine ingredient, Mob selection and immersion repairs.
 - [T132 repairs](docs/RELEASE-NOTES-0.6.132.md) share instant splash dispatch and source immunity, repair shaker input echoes and storage rollback, preserve Vision's living recipients and query order, and add scoped guide flipbooks, board escaping and shorter HUD expiry. [Current PR disposition](docs/audit/PR-DISPOSITIONS.md) is the single backlog index; native/client/live acceptance remains separate.
-- The deployed development family is Tavern **0.6.152**, World Liquor **0.1.129** and Grilling **2.8.130**, with private integration **1.0.34**. The [family lock](family/upstream.lock.json) and [current baseline index](family/BASELINE-STATUS.md) record exact dependencies, deployed sources and verification.
+- The deployed development family is Tavern **0.6.153**, World Liquor **0.1.130** and Grilling **2.8.132**, with private integration **1.0.34**. The [family lock](family/upstream.lock.json) and [current baseline index](family/BASELINE-STATUS.md) record exact dependencies, deployed sources and verification.
 - [baseline.json](baseline.json) owns package identity and exact dependencies; [CHANGELOG.md](CHANGELOG.md) records changes.
 - Bedrock 1.26.50 or newer; current load target BDS 1.26.52.3.
 - Enable both Tavern BP and RP. Cookery is optional; the reviewed family target is author Cookery1.6.0. World Liquor uses its exact paired Tavern version.
