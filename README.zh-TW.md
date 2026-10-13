@@ -1,6 +1,6 @@
-## 當前維護基線：0.6.153
+## 當前維護基線：0.6.154
 
-T153 在已安裝世界名酒仍註冊中時保留滿且關蓋的未成批酒桶原料，維持既有批次快照與酒館配方優先順序。字型資料改用等值JSON解析，指南單次投影重用不可變配方連結；動態資料維持原讀取。來源修補不代表原生啟動效能或真人验收通過。見 [T153 範圍](docs/RELEASE-NOTES-0.6.153.md)。
+T154 的 foundation SDK 先排除無關酒館事件，UTF-8 位元組計數直接讀取 UTF-16，省去逐碼點字串建立。協定、限額、ACK 與排程保持。配對候選仍待 CI／原生／真人驗證；下列 T153 部署證據保留原範圍。見 [T154 範圍](docs/RELEASE-NOTES-0.6.154.md)。
 
 **2026-10-13 11:42:56 HKT**：luosen **T153／G132／W130／P34／Ribbits1.0.10036**，42包（22BP／20RP），BDS1.26.52.3 RUNNING。Canonical PR／必要CI、static、一次停服存檔副本first／restart、完整准入及逐檔／順序讀回通過。`client=false`、`production_ready=false`、`pending_client_acceptance`。
 
