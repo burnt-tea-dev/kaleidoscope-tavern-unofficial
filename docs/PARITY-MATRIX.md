@@ -1,12 +1,12 @@
-## 當前部署：T153／G132／W130／private-integration／Ribbits1.0.10036
+## 當前部署：T154／G132／W131／private-integration／Ribbits1.0.10036
 
-**[private deployment time]**：managed-server **T153／G132／W130／private-integration／Ribbits1.0.10036**，42包（22BP／20RP），BDS1.26.52.3 RUNNING。Canonical PR／必要CI、static、一次停服存檔副本first／restart、完整准入及逐檔／順序讀回通過。`client=false`、`production_ready=false`、`pending_client_acceptance`。
+**[private deployment time]**：managed-server **T154／G132／W131／private-integration／Ribbits1.0.10036**，42包，BDS1.26.52.3 RUNNING。Canonical PR／必要CI、static、一次停服存檔副本first／restart、完整准入及逐檔／順序讀回通過。`client=false`、`production_ready=false`、`pending_client_acceptance`。
 
-T153保留世界名酒註冊完成前滿且關蓋的未成批酒桶，避免先按未匹配配方開始釀醋；既有批次與酒館配方優先順序保持。字型資料改為等值JSON解析，指南重用不可變配方連結。G132移除啟動時未使用的診斷資料，先保存進度獎勵領取狀態再發XP，避免保存失敗／不確定回應造成重領；不確定結果仍可能保留待處理且尚未發放的獎勵，不能宣稱原子性的恰好一次發放。W130移除兩套啟動正弦表及縮減重生碰撞資料，原Java量化數值與查詢結果保全。
+T154／W131讓foundation接收器先篩選三個支援事件ID，無關封包在讀取message、計算UTF-8長度與JSON解析前退出。UTF-8計數直接讀取UTF-16，避免逐codepoint建立字串；配對／孤立surrogate與非字串iterable fallback保持原值。支援通道的驗證、封包、ACK、排程與保存保持；G132、private-integration及Ribbits10036沒有內容更新。
 
-Poststart **197 warnings／0 errors**，其中 **170 watchdog（8 Spike／162 Slowdown／0 High Memory）**。初始化Spike仍有AMW328、Cookery313、Nether112、Ribbits425、Villager155、W124、T231、G316ms。First356／restart404 warnings，各exit0／errors0；保留LIVE100／10ms門檻。這些是當次觀測窗口，不能作全局效能百分比或宣稱watchdog已解決。
+本次poststart **208 warnings／0 errors**；watchdog **181（8 Spike／173 Slowdown／0 High Memory）**。這是本候選的觀測窗口，不作整體效能百分比或完整watchdog驗收。原profile只捕捉啟動後傳輸工作，未捕捉首次初始化尖峰。
 
-[本次公開核對](../family/PUBLIC-DOWNLOAD-LIVE-JAVA-STARTUP-20261013.md)於11:52:05 HKT確認三個新匿名下載的archive、六自有BP／RP共9346檔與LIVE及reviewed receipt相同。 真人快開短空條與完整聲畫／玩法仍待確認；[T152紀錄](../family/PUBLIC-DOWNLOAD-LIVE-TRANSPORT-20261013.md)及以下歷史parity保留原身份。
+[本次公開核對](../family/PUBLIC-DOWNLOAD-LIVE-TRANSPORT-CPU-20261013.md)：2026-10-13 15:03:22 HKT，T154／W131本次匿名下載；G132沿用前次已匿名核對的不可變archive並以同檔案系統hardlink重用，沒有重新下載。三個release metadata／digest均已重新核對；六自有BP／RP共9346檔與archive／LIVE／reviewed receipt完全相同。 真人快開短空條與完整聲畫／玩法仍待確認；[T153紀錄](../family/PUBLIC-DOWNLOAD-LIVE-JAVA-STARTUP-20261013.md)及以下歷史parity保留原身份。
 
 ## 歷史部署：T151／G130／W128／private-integration／Ribbits1.0.10036
 
