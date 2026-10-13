@@ -1,19 +1,19 @@
 {
-  "version": "0.6.156",
-  "tag": "v0.6.156-beta.1",
-  "title": "森羅物語：酒館 0.6.156 測試版｜恢復酒杯架瞄準選格",
+  "version": "0.6.157",
+  "tag": "v0.6.157-beta.1",
+  "title": "森羅雪克杯持酒事件診斷 0.6.157",
   "prerelease": true,
   "publication_request": false,
-  "validation_evidence": "docs/RELEASE-NOTES-0.6.156.md",
-  "public_notes_path": "docs/RELEASE-NOTES-0.6.156.md",
+  "validation_evidence": "docs/RELEASE-NOTES-0.6.157.md",
+  "public_notes_path": "docs/RELEASE-NOTES-0.6.157.md",
   "client_acceptance": "pending",
   "full_client_acceptance": "pending",
   "saved_world_migration": "pending",
   "production_ready": false,
   "live_deployment": false,
-  "native_evidence_scope": "Glassware aim restoration candidate; targeted script regressions only. Required canonical CI, complete-family save/admission and LIVE evidence remain separate; UI regression and human pickup are not claimed resolved.",
+  "native_evidence_scope": "Bounded operator-only shaker event diagnostics; insertion and rendered eating/mixology HUD remain under investigation. Required CI and complete-family saved-world/admission are separate.",
   "client": false,
   "status": "awaiting_source_ci_family_save_admission_and_live_readback",
-  "expected_archive_sha256": "1dc13509744a3060fa4af4c2870f9571362a11981a14508f9c99611475a24239",
-  "reviewed_runtime_source": "92551a0322fda1fb9c636834b1ed4446cd07f94c"
+  "expected_archive_sha256": "9484f1ad2d353528586e235a5c8b8603a611e325899052b123f01b5f09bbbb21",
+  "reviewed_runtime_source": "56b2d7b31b834774900e10a905103b0d3a597a3d"
 }

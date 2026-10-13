@@ -150,7 +150,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: casama233/kaleidoscope-world-liquor-unofficial
-          ref: 95dca7e68247294e7f2508cc33acf8749641fe15
+          ref: 13c973eb00aa0047b5e5e2c9acee1be980b9ac2b
           path: world-liquor-src
           persist-credentials: false
       - uses: actions/setup-python@v5
@@ -177,7 +177,7 @@ jobs:
               'world-liquor':{'repository':'casama233/kaleidoscope-world-liquor-unofficial','repository_id':1385218112}}
           assert os.environ['GITHUB_REPOSITORY']==identities['tavern']['repository']
           assert os.environ['GITHUB_REPOSITORY_ID']==str(identities['tavern']['repository_id'])
-          assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=peer,text=True).strip()=='95dca7e68247294e7f2508cc33acf8749641fe15'
+          assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=peer,text=True).strip()=='13c973eb00aa0047b5e5e2c9acee1be980b9ac2b'
           lock=json.loads((root/'family/upstream.lock.json').read_text())
           lock['owned']=[row for row in lock['owned'] if row['key'] in {'tavern','world-liquor'}]
           assert len(lock['owned'])==2 and {row['key'] for row in lock['owned']}=={'tavern','world-liquor'}
@@ -348,9 +348,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: casama233/kaleidoscope-world-liquor-unofficial
-          # World Liquor 0.1.133 requires the paired Tavern 0.6.156 runtime.
+          # World Liquor 0.1.134 requires the paired Tavern 0.6.157 runtime.
           # Pin exact peer bytes, not an obsolete release or a moving branch.
-          ref: 95dca7e68247294e7f2508cc33acf8749641fe15
+          ref: 13c973eb00aa0047b5e5e2c9acee1be980b9ac2b
           path: liquor
           persist-credentials: false
       - uses: actions/checkout@v4

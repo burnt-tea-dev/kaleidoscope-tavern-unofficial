@@ -77,7 +77,7 @@ assert 'if(event?.cancel||!player||!block)return false;' in native_use
 assert 'if(current===undefined)return false;' in native_use
 assert native_use.index('if(completedMixologyEcho(player,block,current))return false;') < native_use.index('return nativeBlockUse(event);')
 block_use=source.split('registerJavaBlockUseHandler(event=>{',1)[1].split('registerJavaOffhandUseOnHandler(',1)[0]
-assert 'if(javaSecondaryBypass(event.player,held))return;' in block_use
+assert "if(javaSecondaryBypass(event.player,held)){event._shakerUseReason='SECONDARY_USE';return;}" in block_use
 assert 'if(block.typeId!==STATION&&held)return;' in block_use
 assert 'if(id!==STATION)return takeCup(event.player,current);' in block_use
 assert "locks.with([key,player.id]" in source
