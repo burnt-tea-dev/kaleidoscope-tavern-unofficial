@@ -1,24 +1,26 @@
 # 家族現行基線與差距
 
-**[private deployment time]**：managed-server **T152／G130／W129／private-integration／Ribbits1.0.10036**，42包（22BP／20RP），BDS1.26.52.3 RUNNING。Canonical PR／必要CI、static、一次停服存檔副本first／restart、完整准入及逐檔／順序讀回通過。`client=false`、`production_ready=false`、`pending_client_acceptance`。
+**[private deployment time]**：managed-server **T153／G132／W130／private-integration／Ribbits1.0.10036**，42包（22BP／20RP），BDS1.26.52.3 RUNNING。Canonical PR／必要CI、static、一次停服存檔副本first／restart、完整准入及逐檔／順序讀回通過。`client=false`、`production_ready=false`、`pending_client_acceptance`。
 
-[本次公開核對](PUBLIC-DOWNLOAD-LIVE-TRANSPORT-20261013.md)確認六包9344檔相同。T152／W129新匿名下載，G130重用R151已核驗匿名archive的同FS硬連結，fresh REST metadata／digest重驗，不稱新G下載。 [151歷史proof](PUBLIC-DOWNLOAD-LIVE-NATIVE-ITEM-20261013.md)與其他原收據保持原身份。
+[本次公開核對](PUBLIC-DOWNLOAD-LIVE-JAVA-STARTUP-20261013.md)於11:52:05 HKT確認三個新匿名下載的archive、六自有BP／RP共9346檔與LIVE及reviewed receipt相同。 [T152歷史核對](PUBLIC-DOWNLOAD-LIVE-TRANSPORT-20261013.md)及其他原收據保持原身份。
 
 ## 本輪修補與界限
 
-T152在收到chunk時累積digest及bytes，以邊界校正核對UTF8總長；ordered COMMIT避免兩次整串integrity掃描，JSON parse／registry install／ACK仍同步。W129只更新三份identity／dependency檔配對T152；SDK／storage／玩法／指南／圖形保持。G130／reviewed integration／Ribbits10036／原五份HUD變體不變。
+T153保留世界名酒註冊完成前滿且關蓋的未成批酒桶，避免先按未匹配配方開始釀醋；既有批次與酒館配方優先順序保持。字型資料改為等值JSON解析，指南重用不可變配方連結。G132移除啟動時未使用的診斷資料，先保存進度獎勵領取狀態再發XP，避免保存失敗／不確定回應造成重領；不確定結果仍可能保留待處理且尚未發放的獎勵，不能宣稱原子性的恰好一次發放。W130移除兩套啟動正弦表及縮減重生碰撞資料，原Java量化數值與查詢結果保全。
 
-Poststart **245 warnings／0 errors**，其中 **218 watchdog（8 Spike／209 Slowdown／1 High Memory）**。本次窗口沒有再錄到原指南COMMIT約282ms Spike；初始化Spike仍有AMW309、Cookery306、Nether110、Ribbits424、Villager150、W256、T255、G444ms。不同窗口不作百分比或全面效能接受；partial reverse仍有整串FNV fallback。First401／restart361 warnings，各exit0／errors0，保留LIVE100／10ms門檻。
+Poststart **197 warnings／0 errors**，其中 **170 watchdog（8 Spike／162 Slowdown／0 High Memory）**。初始化Spike仍有AMW328、Cookery313、Nether112、Ribbits425、Villager155、W124、T231、G316ms。First356／restart404 warnings，各exit0／errors0；保留LIVE100／10ms門檻。這些是當次觀測窗口，不能作全局效能百分比或宣稱watchdog已解決。
 
 真人食用／取消／快開、調酒、AMW29通道、飽和度／普通提示及UI profile／scale仍待[回歸](../docs/HUD-COMPAT-CLIENT-HANDOFF-20261012.md)。任意第三方whole HUD／title與完整Java一比一未保證。
 
 ## 來源與當次證據
 
-T[PR344](https://github.com/casama233/kaleidoscope-tavern-unofficial/pull/344)13項必要CI／pre-commit通過（38298429025），發布来源 `f929cd4fcc7a588d6ff8fb23e7ec5af0409dc79d`；W[PR113](https://github.com/casama233/kaleidoscope-world-liquor-unofficial/pull/113)4項必要CI／pre-commit通過（38298439399），來源 `7edcb3589b849ac54533cd78b8c17d9e1d6a4b1b`。T發布38299743225／W38299753605成功；G130沿用[PR198](https://github.com/casama233/kaleidoscope-grilling-unofficial/pull/198)／來源 `a567e17c0316f7f2175dfef07004bb944634ca90`。private-integration／Ribbits10036內容及原source CI範圍保持，付費pre-commit unavailable不偽寫成功。
+T[PR346](https://github.com/casama233/kaleidoscope-tavern-unofficial/pull/346)、G[PR199](https://github.com/casama233/kaleidoscope-grilling-unofficial/pull/199)、W[PR114](https://github.com/casama233/kaleidoscope-world-liquor-unofficial/pull/114)及必要CI已完成並合併；實際來源、CI及發布commit見[公開核對](PUBLIC-DOWNLOAD-LIVE-JAVA-STARTUP-20261013.md)。private-integration／Ribbits10036內容及原source CI範圍保持，未將不可用的付費pre-commit寫成成功。
 
-紀錄 `private-operation-record`；reviewed SHA `34a50a536dff22ca4e202b35f93fd68457b26464833c086057a57efcf1cb2415`，raw SHA `17b31fc666a57ae3bf3efafd509726554dfb2870bc4792acc24c5e97bc2883f3`。政策installed／deferred_client_acceptance綁同reviewedSHA。玩家記錄（數量未公開）及容器（數量未公開）保留，冰櫃樣本（數量未公開）不當非空投料證據；未另建新世界或使用模擬玩家。只保留最新完整回退，清理6個舊生成根，磁碟可用空間增加1,608,294,400 bytes。來源、失敗JSON／日誌及活動工作保留。
+紀錄 `private-operation-record`；reviewed SHA `4af54b4cdbf7009e99bf802712f2f09b78790952c97144c0a345f867a8607244`，raw SHA `475217a0219d9e55f275a00101c42909def8822830a004ddd9503735895f0f04`。政策installed／deferred_client_acceptance綁同reviewed SHA。玩家記錄（數量未公開）及容器（數量未公開）保留，冰櫃樣本（數量未公開）不當非空投料證據；未另建新世界或使用模擬玩家。只保留最新完整回退，清理6個舊生成根，磁碟可用空間實際增加1,607,970,816 bytes。來源、失敗JSON／日誌及活動工作保留。
 
 ## 作者與維護
+
+本輪讀取的BSM Java唯讀查核時間為 **2026-10-13 06:23:03 HKT**；`all_reference_release_metadata_current=false`、`full_java_parity_verified=false`仍保持，不能標成全分支最新或完整一比一。
 
 依[java-upstream.json](java-upstream.json)分開追蹤Tavern1.2.0（Forge1.20.1／Neo1.21.1）、Grilling1.1.1兩分支、World Liquor Forge1.1.12／Neo1.21.1的1.1.11；未發布T26來源與W26／1.1.6仍另列。W共享obsidian1000／1800→1、milk識別與高度已承接，magma3僅legacy；customLuck／BlockDrops／註冊等26差異仍待適配，見[原審查與重估](world-liquor-26.1.2-1.1.6-review.json)。
 

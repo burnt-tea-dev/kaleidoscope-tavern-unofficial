@@ -2,15 +2,15 @@
 
 T153 在已安裝世界名酒仍註冊中時保留滿且關蓋的未成批酒桶原料，維持既有批次快照與酒館配方優先順序。字型資料改用等值JSON解析，指南單次投影重用不可變配方連結；動態資料維持原讀取。來源修補不代表原生啟動效能或真人验收通過。見 [T153 範圍](docs/RELEASE-NOTES-0.6.153.md)。
 
-**[private deployment time]**：managed-server **T152／G130／W129／private-integration／Ribbits1.0.10036**，42包（22BP／20RP），BDS1.26.52.3 RUNNING。Canonical PR／必要CI、static、一次停服存檔副本first／restart、完整准入及逐檔／順序讀回通過。`client=false`、`production_ready=false`、`pending_client_acceptance`。
+**[private deployment time]**：managed-server **T153／G132／W130／private-integration／Ribbits1.0.10036**，42包（22BP／20RP），BDS1.26.52.3 RUNNING。Canonical PR／必要CI、static、一次停服存檔副本first／restart、完整准入及逐檔／順序讀回通過。`client=false`、`production_ready=false`、`pending_client_acceptance`。
 
-T152在收到chunk時累積digest及bytes，以邊界校正核對UTF8總長；ordered COMMIT避免兩次整串integrity掃描，JSON parse／registry install／ACK仍同步。W129只更新三份identity／dependency檔配對T152；SDK／storage／玩法／指南／圖形保持。G130／reviewed integration／Ribbits10036／原五份HUD變體不變。
+G132移除未使用的啟動診斷資料，並避免進度獎勵在保存失敗或XP回應不確定後重複發放；不確定時可能保留待處理獎勵。W130移除啟動正弦表並縮減重生碰撞資料，保持Java數值與查詢結果。private-integration及Ribbits10036內容保持。
 
-Poststart **245 warnings／0 errors**，其中 **218 watchdog（8 Spike／209 Slowdown／1 High Memory）**。本次窗口沒有再錄到原指南COMMIT約282ms Spike；初始化Spike仍有AMW309、Cookery306、Nether110、Ribbits424、Villager150、W256、T255、G444ms。不同窗口不作百分比或全面效能接受；partial reverse仍有整串FNV fallback。First401／restart361 warnings，各exit0／errors0，保留LIVE100／10ms門檻。
+Poststart **197 warnings／0 errors**，其中 **170 watchdog（8 Spike／162 Slowdown／0 High Memory）**。初始化Spike仍有AMW328、Cookery313、Nether112、Ribbits425、Villager155、W124、T231、G316ms。First356／restart404 warnings，各exit0／errors0；保留LIVE100／10ms門檻。這些是當次觀測窗口，不能作全局效能百分比或宣稱watchdog已解決。
 
-[本次公開核對](family/PUBLIC-DOWNLOAD-LIVE-TRANSPORT-20261013.md)確認六包9344檔相同。T152／W129新匿名下載，G130重用R151已核驗匿名archive的同FS硬連結，fresh REST metadata／digest重驗，不稱新G下載。 [下載v0.6.152-beta.1](https://github.com/casama233/kaleidoscope-tavern-unofficial/releases/tag/v0.6.152-beta.1)。
+[本次公開核對](family/PUBLIC-DOWNLOAD-LIVE-JAVA-STARTUP-20261013.md)於11:52:05 HKT確認三個新匿名下載的archive、六自有BP／RP共9346檔與LIVE及reviewed receipt相同。 [下載v0.6.153-beta.1](https://github.com/casama233/kaleidoscope-tavern-unofficial/releases/tag/v0.6.153-beta.1)。
 
-真人快開短空條、聲畫／操作及任意whole HUD／title仍待接受；不借舊影片或151收據為本候選驗收。
+真人快開短空條、聲畫／操作及任意whole HUD／title仍待接受；完整Java一比一未完成。
 
 ## 歷史修補範圍：0.6.147
 
@@ -43,7 +43,7 @@ Java酒館的基岩版移植，包含釀造、調酒、酒架／酒櫃、家具�
 ## 現行來源與需求
 
 - 版本及精確相依以 [baseline.json](baseline.json) 為準；更新見 [CHANGELOG.md](CHANGELOG.md)。
-- 目前已部署開發家族為酒館 **0.6.152**、世界名酒 **0.1.129**、燒烤 **2.8.130**、私有整合 **1.0.34**；精確相依、來源與有界驗證見[家族鎖](family/upstream.lock.json)和[當前 baseline](family/BASELINE-STATUS.md)。
+- 目前已部署開發家族為酒館 **0.6.153**、世界名酒 **0.1.130**、燒烤 **2.8.132**、私有整合 **1.0.34**；精確相依、來源與有界驗證見[家族鎖](family/upstream.lock.json)和[當前 baseline](family/BASELINE-STATUS.md)。
 - 基岩版1.26.50以上；目前引擎目標為BDS1.26.52.3。BP與RP兩側一起啟用。
 - Cookery可選，家族目前核驗作者1.6.0；世界名酒須搭配其宣告的酒館版本。
 - 升級前備份世界並移除重複舊包。私有料理整合是另一個識別明確的addon，不是私有酒館分支。
