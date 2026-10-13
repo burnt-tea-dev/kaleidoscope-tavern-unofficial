@@ -1,4 +1,6 @@
-## Current maintained baseline: 0.6.154
+## Current maintained baseline: 0.6.155
+
+T155 repairs the shaker UI receiver, paired with G133's eating receiver and W132 dependencies. The obsolete progress-parent text gate is removed; both graphical channels use persistent local caches and owned terminal events. [Candidate scope and client limitations](docs/RELEASE-NOTES-0.6.155.md). Source checks do not establish rendered-client recovery. The preceding LIVE deployment evidence below remains T154/G132/W131 until this candidate is admitted.
 
 At **2026-10-13 16:00:25 HKT**, T154/G132/W131/P34/Ribbits10037 completed canonical PR/CI, full-family static admission, one stopped-save first/restart and exact live readback: 42 packs, BDS1.26.52.3 RUNNING.
 
