@@ -8676,6 +8676,73 @@
           ]
         }
       }
+    },
+    {
+      "release": "0.6.157",
+      "files": {
+        "runtime/BP/scripts/bedrock/mixology.js": {
+          "before": "b67480856db0756bb08b51c6c14086f965091976ecbc5939baeef34bc58de71f",
+          "after": "61170d1ea2f3be8f0655665c3ba016c3210c654b97525601ef80c1712fecfc13",
+          "reason": "Bounded primitive shaker event trace and server-only read-only snapshot identify silent no-op branches. No transaction rule or HUD resource change; reported insertion/UI failures remain unresolved. See docs/RELEASE-NOTES-0.6.157.md.",
+          "reverseOps": [
+            [
+              9,
+              10,
+              "import {world,system,BlockPermutation,ItemStack,ItemTypes,EntitySwingSource} from '@minecraft/server';\n"
+            ],
+            [
+              32,
+              33,
+              "import {registerJavaBlockUseHandler,registerJavaOffhandUseOnHandler,registerJavaBlockUseFallback,registerJavaBlockUseWitness,registerJavaItemUseOnRoute,nativeBlockUse,settleJavaBlockUse} from './java-placement-router.js';\n"
+            ],
+            [
+              34,
+              35,
+              "import {showShakerSlots,showShakerProgress,hideShakerHud,showShakerMessage,clearShakerPlayer,showBarrelHud} from './shaker-screen.js';\n"
+            ],
+            [
+              50,
+              69,
+              ""
+            ],
+            [
+              461,
+              462,
+              " }catch{/* A failed native read cannot authorize a debit or release an echo. */}\n"
+            ],
+            [
+              572,
+              573,
+              ""
+            ],
+            [
+              575,
+              578,
+              ""
+            ],
+            [
+              604,
+              612,
+              ""
+            ],
+            [
+              622,
+              624,
+              "  if(javaSecondaryBypass(event.player,held))return;\n  if(block.typeId===STATION&&held&&!candidate(held))return;\n"
+            ],
+            [
+              626,
+              627,
+              ""
+            ],
+            [
+              650,
+              656,
+              ""
+            ]
+          ]
+        }
+      }
     }
   ],
   "reviewedAssetDeltaLayers": [

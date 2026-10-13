@@ -7,7 +7,7 @@ import {cupBlock,cupItem,isCupBlock} from '../core/extension-content.js';
  * station. UI and animation observe that session and never mutate recipes.
  * Existing world/item storage schemas are retained for lossless migration.
  */
-import {world,system,BlockPermutation,ItemStack,ItemTypes,EntitySwingSource} from '@minecraft/server';
+import {world,system,BlockPermutation,ItemStack,ItemTypes,EntitySwingSource,ScriptEventSource} from '@minecraft/server';
 import {check,clone,canonical} from '../core/util.js';
 import {Locks} from '../core/storage.js';
 import {planInventory,commitInventory,isPlainIngredient} from '../core/inventory.js';
@@ -30,9 +30,9 @@ import {dispatchInstantHealth} from './instant-effects.js';
 import {faceOffset} from '../core/furniture.js';
 import {javaSecondaryBypass} from '../core/java-use-order.js';
 import {registerProtectedBreakRoute} from './protected-break-router.js';
-import {registerJavaBlockUseHandler,registerJavaOffhandUseOnHandler,registerJavaBlockUseFallback,registerJavaBlockUseWitness,registerJavaItemUseOnRoute,nativeBlockUse,settleJavaBlockUse} from './java-placement-router.js';
+import {registerJavaBlockUseHandler,registerJavaBlockUseObserver,registerJavaOffhandUseOnHandler,registerJavaBlockUseFallback,registerJavaBlockUseWitness,registerJavaItemUseOnRoute,nativeBlockUse,settleJavaBlockUse} from './java-placement-router.js';
 import {shakerPut,syncShakerVisual,repairShakerPutVisual,installImmersionCleanup,shakeAudio,finished,feedback,startShakerHands,stopShakerHands,cocktailEffect} from './immersion.js';
-import {showShakerSlots,showShakerProgress,hideShakerHud,showShakerMessage,clearShakerPlayer,showBarrelHud} from './shaker-screen.js';
+import {showShakerSlots,showShakerProgress,hideShakerHud,showShakerMessage,clearShakerPlayer,showBarrelHud,shakerHudDiagnostics} from './shaker-screen.js';
 import {lookedAtBarrelStatus} from './machines.js';
 import {barrelHudEnabled} from '../core/shaker-hud.js';
 import {signaturePaletteIndex} from '../data/signature-palette.js';
@@ -48,6 +48,25 @@ let registry,sequence=0;
 export const MIX_BLOCKS=new Set([STATION,...['empty_glassware',...Object.values(COCKTAILS).map(x=>x.name)].map(x=>NS+':cup_'+x)]);
 export const mixologyDiagnostics={implementation:'java_lifecycle_v22',completed:0,cancelled:0,errors:[],effectErrors:[],unsupportedEffects:{}};
 export const nativeUseDiagnostics={starts:0,releases:0,cancelled:0,errors:[]};
+// Keep only primitive event facts. An operator can inspect a failed real click
+// without guessing from a successful script double or logging every HUD tick.
+const shakerEventTrace=[];
+function traceShakerEvent(row){
+ shakerEventTrace.push({tick:system.currentTick,...row});
+ if(shakerEventTrace.length>24)shakerEventTrace.shift();
+}
+export function snapshotShakerDiagnostics(){
+ const players=world.getAllPlayers().map(player=>{
+  const row={player:player.id};
+  try{
+   const snapshot=itemSnapshot(player),hit=player.getBlockFromViewDirection({maxDistance:6})?.block;
+   Object.assign(row,{hand:snapshot.basic,sneaking:player.isSneaking===true,accepted:candidate(snapshot.basic.id),readable:snapshot.readable,readError:snapshot.readError??null,target:hit?.typeId??null});
+   if(hit?.typeId===STATION)row.slots=station(hit).slots.length;
+  }catch(error){row.error=String(error).slice(0,240);}
+  return row;
+ });
+ return {schema:1,registryReady:!!registry,players,events:shakerEventTrace.map(row=>({...row})),errors:[...mixologyDiagnostics.errors],hud:{...shakerHudDiagnostics},client:false};
+}
 export function setMixologyRegistry(value){registry=value;configureBottleCategories(item=>registry.ingredientColor(item),item=>registry.previousIngredientColors(item));}
 function log(error){const code=error.code??String(error);mixologyDiagnostics.errors.push(code);if(mixologyDiagnostics.errors.length>12)mixologyDiagnostics.errors.shift();console.warn('[Tavern Mixology] '+code);}
 function safely(player,fn){try{return fn();}catch(error){log(error);if(player)showShakerMessage(player,error.code??'ERROR');}}
@@ -440,7 +459,7 @@ function itemSnapshot(player){
    if(item.maxAmount>1)check(snapshot.comparable,'STALE_HAND');
   }
   snapshot.readable=true;
- }catch{/* A failed native read cannot authorize a debit or release an echo. */}
+ }catch(error){snapshot.readError=String(error.code??error).slice(0,240);/* A failed read cannot authorize a debit. */}
  return snapshot;
 }
 function completeItemSnapshot(snapshot){
@@ -551,8 +570,12 @@ function queueMixologyBlockUse(event,signature,work,{echoTarget,snapshot}={}){
   try{
    const beforeHand=nativeEchoHand(event.player);
    const result=work();succeeded=true;
+   if(event.block.typeId===STATION)traceShakerEvent({stage:'settlement',player:event.player.id,result:result===false?'NO_CHANGE':'COMPLETED'});
    try{rememberNativeMixologyUse(event,[event.block,echoTarget?.()],beforeHand);}catch(error){log(error);}
    return result;
+  }catch(error){
+   if(event.block.typeId===STATION)traceShakerEvent({stage:'settlement',player:event.player.id,result:'REJECTED',error:String(error.code??error).slice(0,240)});
+   throw error;
   }
   finally{if(pendingBlockUses.get(key)===pending)pendingBlockUses.delete(key);settleJavaBlockUse(event,succeeded);}
  }));
@@ -579,6 +602,14 @@ export function offhandShakerUseOn(event){
  },{echoTarget:()=>placement});
 }
 export function installMixologyEvents(){
+ registerJavaBlockUseObserver((event,context)=>{
+  if(event.block?.typeId!==STATION)return;
+  traceShakerEvent({stage:event._javaNativeAfter?'nativeBlock':'beforeBlock',player:event.player.id,item:context.itemId,sneaking:event.player.isSneaking===true,cancelled:context.cancelled,reason:event._shakerUseReason??context.rejection,first:event._javaRawFirstEvent??null});
+ });
+ system.afterEvents.scriptEventReceive.subscribe(event=>{
+  if(event.id!==NS+':shaker_diagnostics'||event.sourceType!==ScriptEventSource.Server||event.message!=='snapshot')return;
+  console.warn('[Tavern shaker diagnostics] '+JSON.stringify(snapshotShakerDiagnostics()));
+ },{namespaces:[NS]});
  registerJavaBlockUseFallback(candidate);
  registerJavaBlockUseWitness({matches:(block,itemId)=>block?.typeId===STATION&&candidate(itemId),
   capture:itemSnapshot,compare:(left,right,{exactAmount=false}={})=>compareItemSnapshot(left,right,{ignoreAmount:!exactAmount})});
@@ -589,10 +620,11 @@ export function installMixologyEvents(){
    if(completed){event.cancel=true;event._javaUseClaim=completed.event._javaUseClaim;return;}
   }
   const snapshot=itemSnapshot(event.player),held=snapshot.basic.id;
-  if(javaSecondaryBypass(event.player,held))return;
-  if(block.typeId===STATION&&held&&!candidate(held))return;
+  if(javaSecondaryBypass(event.player,held)){event._shakerUseReason='SECONDARY_USE';return;}
+  if(block.typeId===STATION&&held&&!candidate(held)){event._shakerUseReason='NOT_INGREDIENT';return;}
   if(block.typeId!==STATION&&held)return;
   const dimension=block.dimension,location={...block.location},id=block.typeId;
+  event._shakerUseReason=snapshot.readable?'QUEUED':'UNREADABLE_HAND:'+snapshot.readError;
   queueMixologyBlockUse(event,'main/'+snapshotSignature(snapshot),()=>{
    check(event.player.dimension.id===dimension.id,'DIMENSION_CHANGED');verifySnapshot(event.player,snapshot);const current=blockAt(dimension,location);check(current?.typeId===id,'BLOCK_CHANGED');
    if(id!==STATION)return takeCup(event.player,current);
@@ -616,6 +648,12 @@ export function installMixologyEvents(){
  world.afterEvents.playerLeave.subscribe(({playerId})=>{uses.delete(playerId);releaseGuards.delete(playerId);for(const [key,row]of completedBlockUses)if(row.playerId===playerId)completedBlockUses.delete(key);clearShakerPlayer(playerId);});
  world.afterEvents.entityDie.subscribe(({deadEntity})=>cancelUse(deadEntity.id));
  world.beforeEvents.itemUse.subscribe(beforeShakerUse);
+ world.beforeEvents.itemUse.subscribe(event=>{
+  try{
+   const item=event.itemStack?.typeId;if(!item||!candidate(item))return;
+   traceShakerEvent({stage:'beforeItem',player:event.source.id,item,cancelled:event.cancel===true,sneaking:event.source.isSneaking===true});
+  }catch{/* Observing an invalid event must never alter its gameplay route. */}
+ });
  installImmersionCleanup();system.runInterval(tick,1);
  system.run(()=>{for(const player of world.getAllPlayers()){clearShakerPlayer(player);migrateShakerInventory(player);}});
 }
