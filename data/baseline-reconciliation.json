@@ -8654,6 +8654,28 @@
           ]
         }
       }
+    },
+    {
+      "release": "0.6.156",
+      "files": {
+        "runtime/BP/scripts/bedrock/furniture.js": {
+          "before": "546857f32f9cc60eac52c81e72e16c2becbc8c94e4a55aeaf054c0e64d885f50",
+          "after": "cc1141b2315b4ed9f1aba51f56c47abba0ef9a9426485d52d81d261a6997bfad",
+          "reason": "Restore pre-T131 glassware eye/selection-box aim preference for Touch; no slot-ID, mirror, geometry, item-storage or other furniture change. Current user reports reversed pickup; live logs confirm Touch took the re-enabled legacy Down event path. UI remains unresolved and unchanged. See docs/RELEASE-NOTES-0.6.156.md.",
+          "reverseOps": [
+            [
+              67,
+              71,
+              "/** Resolve which of the four glass slots the player aimed at. Java reads the world X/Z\n * quadrant of the true hit; the engine reports that hit in the clicked face's own basis,\n * which on the bottom face slotted the aimed cup's mirror neighbour (diagonal with the\n * raw event, left-right with the script raycast). Mouse and gamepad aim through the\n * script raycast, touch keeps its event hit, and both are converted back with the\n * measured face basis; faces without a measurement keep the raw engine value. */\n"
+            ],
+            [
+              82,
+              85,
+              "  // Direct touch selects the finger's event hit, even when the eye ray reaches\n  // a different cup. Keep the measured holder basis and saved slot compensation.\n  const aimed=crosshair||!nativePoint?aimPointFor(player,block):undefined;\n"
+            ]
+          ]
+        }
+      }
     }
   ],
   "reviewedAssetDeltaLayers": [
