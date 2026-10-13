@@ -1,22 +1,22 @@
 # 家族現行基線與差距
 
-**2026-10-13 14:48:14 HKT**：luosen **T154／G132／W131／P34／Ribbits1.0.10036**，42包，BDS1.26.52.3 RUNNING。Canonical PR／必要CI、static、一次停服存檔副本first／restart、完整准入及逐檔／順序讀回通過。`client=false`、`production_ready=false`、`pending_client_acceptance`。
+**2026-10-13 16:00:25 HKT**：luosen **T154／G132／W131／P34／Ribbits1.0.10037**，42包，BDS1.26.52.3 RUNNING。Canonical PR／必要CI、static、一次停服存檔副本first／restart、完整准入及逐檔／順序讀回通過。`client=false`、`production_ready=false`、`pending_client_acceptance`。
 
-[本次公開核對](PUBLIC-DOWNLOAD-LIVE-TRANSPORT-CPU-20261013.md)：2026-10-13 15:03:22 HKT，T154／W131本次匿名下載；G132沿用前次已匿名核對的不可變archive並以同檔案系統hardlink重用，沒有重新下載。三個release metadata／digest均已重新核對；六自有BP／RP共9346檔與archive／LIVE／reviewed receipt完全相同。 [T153歷史核對](PUBLIC-DOWNLOAD-LIVE-JAVA-STARTUP-20261013.md)及其他原收據保持原身份。
+[本次Ribbits修補與證據](RIBBITS-FP-DECODE-LIVE-20261013.md)。六個公開自有BP／RP共9346檔與前次已匿名核對的輸出逐檔相等，本次完整LIVE讀回亦通過；沿用[15:03:22公開下載證據](PUBLIC-DOWNLOAD-LIVE-TRANSPORT-CPU-20261013.md)，本輪没有重新下載或發行T／G／W。
 
 ## 本輪修補與界限
 
-T154／W131讓foundation接收器先篩選三個支援事件ID，無關封包在讀取message、計算UTF-8長度與JSON解析前退出。UTF-8計數直接讀取UTF-16，避免逐codepoint建立字串；配對／孤立surrogate與非字串iterable fallback保持原值。支援通道的驗證、封包、ACK、排程與保存保持；G132、私有34及Ribbits10036沒有內容更新。
+Ribbits1.0.10037只替換FP存檔載入的一處同步Base64解壓呼叫，六位元緩衝解碼保留原UTF16字典結果；異常／非標準輸入交回原方法。保存格式、序列化、property keys、回呼、既有connection修補及其餘資產保留；配對manifest由canonical compiler生成。T154／G132／W131及P34輸出不變。
 
-本次poststart **208 warnings／0 errors**；watchdog **181（8 Spike／173 Slowdown／0 High Memory）**。這是本候選的觀測窗口，不作整體效能百分比或完整watchdog驗收。原profile只捕捉啟動後傳輸工作，未捕捉首次初始化尖峰。
+本次poststart **172 warnings／0 errors**；watchdog **145（8 Spike／137 Slowdown／0 High Memory）**，其中Ribbits啟動Spike **253ms**。存檔first／restart的Ribbits為261／267ms。這些是不同啟動窗口的觀察，不作整體效能百分比或完整watchdog驗收。
 
 真人食用／取消／快開、調酒、AMW29通道、飽和度／普通提示及UI profile／scale仍待[回歸](../docs/HUD-COMPAT-CLIENT-HANDOFF-20261012.md)。任意第三方whole HUD／title與完整Java一比一未保證。
 
 ## 來源與當次證據
 
-T[PR348](https://github.com/casama233/kaleidoscope-tavern-unofficial/pull/348)、W[PR115](https://github.com/casama233/kaleidoscope-world-liquor-unofficial/pull/115)及必要CI已完成並合併；G132沿用[PR199](https://github.com/casama233/kaleidoscope-grilling-unofficial/pull/199)。實際來源、CI及發布commit見[公開核對](PUBLIC-DOWNLOAD-LIVE-TRANSPORT-CPU-20261013.md)。私有34／Ribbits10036內容及原source CI範圍保持，未將不可用的付費pre-commit寫成成功。
+私有canonical [PR21](https://github.com/casama233/senluo-family-integration-private/pull/21)及CI38364423686已完成，merge `be7cf5287be8d6982052e409de6f9efc28d5cc0c`；准入工具[PR351](https://github.com/casama233/kaleidoscope-tavern-unofficial/pull/351)與CI38364584448通過，merge `831c9dfa`。來源CI核對UTF16全域、原作者roundtrip與異常輸入；必要baseline成功，私有付費pre-commit不可用沒有冒充通過。T154功能來源PR348、G132 PR199、W131 PR115保持。
 
-紀錄 `20261013-foundation-routing-t154-g132-w131-p34-ribbits10036`；reviewed SHA `9df9645c0ca8d87ea4f9685196b6af11652adaace6242ee150713f4c085fbdbe`，raw SHA `71f1746a31a738199a7313eefb644eb272320d633c8f232bab9cd737e97468c5`。政策installed／deferred_client_acceptance綁同reviewed SHA。18筆玩家記錄及2容器保留，freezer0；零投料樣本不當非空保存驗收。只保留最新完整回退；本次清理6個舊生成根，磁碟可用空間實際增加1,604,538,368 bytes。來源、失敗JSON／日誌及活動工作保留。
+紀錄 `20261013-ribbits-fp-decode-t154-g132-w131-p34-ribbits10037-ci351`；reviewed SHA `0181b52f8fd0f948502517c664a633ee62914064163de3a0dffe852d2c9d1938`，raw SHA `36f86ac26f9394010a2d9618dcd7a13e06c351a510f494cc0697a3e733a0cd61`。政策installed／deferred_client_acceptance綁同reviewed SHA。18筆玩家記錄及2容器保留；freezer输入0，不當非空投料驗收。首次錯誤CI引用設定在停服前被拒，原失敗紀錄保留；修正設定後使用同一不可變包內容，未改寫失敗或原收據。
 
 ## 作者與維護
 
