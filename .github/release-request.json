@@ -1,21 +1,21 @@
 {
-  "version": "0.6.153",
-  "tag": "v0.6.153-beta.1",
-  "title": "森羅物語：酒館 0.6.153 測試版｜註冊前保全酒桶與啟動資料修補",
+  "version": "0.6.154",
+  "tag": "v0.6.154-beta.1",
+  "title": "森羅物語：酒館 0.6.154 測試版｜減少無關事件與傳輸掃描",
   "prerelease": true,
   "publication_request": false,
-  "validation_evidence": "docs/RELEASE-NOTES-0.6.153.md",
-  "public_notes_path": "docs/RELEASE-NOTES-0.6.153.md",
+  "validation_evidence": "docs/RELEASE-NOTES-0.6.154.md",
+  "public_notes_path": "docs/RELEASE-NOTES-0.6.154.md",
   "client_acceptance": "pending",
   "full_client_acceptance": "pending",
-  "saved_world_migration": "pending",
+  "saved_world_migration": "passed",
   "production_ready": false,
-  "live_deployment": false,
-  "native_evidence_scope": "T153 preserves full closed unbatched barrels while detected installed recipe sources complete registration; builtin priority and saved batch cadence stay unchanged. Board font JSON encoding keeps all glyph values/prototypes/mutability; immutable guide links reuse one matching scan and dynamic views keep their reads. Original T152 integrity transport, synchronous registry/ACK and SDK remain unchanged. The exact G132 and W130 sources are paired for full-family validation. Source equivalence is not native performance or client acceptance; fresh full-family saved-load/admission/live checks remain required.",
-  "expected_archive_sha256": "eda4f114c7fba03702f7c06c963c23d5a06530ac478794f645719ed6725e5d9e",
-  "reviewed_runtime_source": "076b8de0d842a5c31dd6efd358e54c3df5f149c7",
+  "live_deployment": true,
+  "native_evidence_scope": "T154 filters unrelated foundation event IDs before message reads and JSON parsing, and counts UTF-8 bytes from UTF-16 without per-codepoint strings. Packet bytes, limits, checksums, source validation, ACKs and scheduling are unchanged. The exact T154/G132/W131/reviewed integration/Ribbits10036 family passed canonical source CI, static admission, one stopped-save first load/restart and 42-pack LIVE readback at 2026-10-13T06:48:14Z. This saved-world and deployment evidence does not establish native performance improvement, resolution of all watchdog warnings, rendered-client acceptance or complete Java parity. Client acceptance remains pending; production_ready remains false.",
+  "expected_archive_sha256": "7de139af65edb3e60b37c046b082453ab2b00f4296ac26dcd00048ec712d7269",
+  "reviewed_runtime_source": "fbfe4be4aa8beaf0e735ddd27189bc1e4cd37a9b",
   "paired_owned_sources": {
-    "grilling": "5ce756f4ab339b5ec6dc05def1bd04c8e3973a83",
-    "world-liquor": "31850c96616d8287355201dc9b160a40119e470b"
+    "grilling": "da1cfc0ef5ef4f3b3972580cc863a715813fe348",
+    "world-liquor": "1c11561da290f9babbaecb7e26d89cc21d75215b"
   }
 }
