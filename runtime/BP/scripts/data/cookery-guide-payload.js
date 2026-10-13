@@ -5843,6 +5843,19 @@ function addLocalizedName(payload,id,map,fallback){
  * family guide. The registry remains Tavern-owned because barrel/shaker semantics
  * are Tavern-specific; only player-facing navigation/rendering is delegated.
  */
+// Reuse links only for immutable plain registry data; dynamic tooling views keep their reads.
+function immutablePageRecipeIds(page){
+ try{
+  if(!Object.isFrozen(page))return;
+  const ids=Object.getOwnPropertyDescriptor(page,'recipeIds')?.value;
+  if(!Array.isArray(ids)||!Object.isFrozen(ids)||Object.getPrototypeOf(ids)!==Array.prototype||Object.hasOwn(ids,'includes'))return;
+  for(let i=0;i<ids.length;i++){
+   const property=Object.getOwnPropertyDescriptor(ids,String(i));
+   if(property&&typeof property.value!=='string')return;
+  }
+  return ids;
+ }catch{/* Opaque tooling views retain the original matching path. */}
+}
 export function* prepareCookeryGuidePayload(registry){
  // Capture frozen registry views together before yielding; a later extension
  // refresh publishes a new generation rather than mixing two registries.
@@ -5876,13 +5889,18 @@ export function* prepareCookeryGuidePayload(registry){
  const recipes=(registry.allRecipes?.()??[]).filter(x=>x.source==='kaleidoscope_tavern'||sources.has(x.source));
  // Names are local to this projection. An extension cannot overwrite core labels.
  const itemNames=yield* prepareClone(GUIDE_ITEM_NAMES);
+ const immutableRecipes=recipes.every(recipe=>{try{return Object.isFrozen(recipe)&&typeof Object.getOwnPropertyDescriptor(recipe,'id')?.value==='string';}catch{return false;}});
+ const linkedByPage=new Map();
  for(const color of registry.allIngredientColors?.()??[])for(const lc of GUIDE_LOCALES){
   const label=color.labels?.[lc]??color.labels?.en_US;
   if(label)itemNames[lc]['#'+color.tag]=label;
  }
  for(const page of pages){
   yield;
-  const linked=recipes.find(r=>page.recipeIds?.includes(r.id)),item=page.item??linked?.output?.item??linked?.output?.byQuality?.[0];
+  const ids=immutableRecipes?immutablePageRecipeIds(page):undefined;
+  const matches=ids?recipes.filter(recipe=>ids.includes(recipe.id)):undefined;
+  if(matches)linkedByPage.set(page,matches);
+  const linked=matches?matches[0]:recipes.find(r=>page.recipeIds?.includes(r.id)),item=page.item??linked?.output?.item??linked?.output?.byQuality?.[0];
   if(!item?.startsWith(page.source+':'))continue;
   const base=item.replace(/_q[1-6]$/,'');
   for(const key of new Set([item,base,...(linked?.output?.byQuality??[])])){
@@ -5903,7 +5921,7 @@ export function* prepareCookeryGuidePayload(registry){
  }
  for(const page of pages){
   yield;
-  const linked=recipes.filter(r=>page.recipeIds?.includes(r.id));
+  const linked=linkedByPage.get(page)??recipes.filter(r=>page.recipeIds?.includes(r.id));
   const item=page.item??linked[0]?.output?.item??linked[0]?.output?.byQuality?.[0]??page.id;
   const category=page.category??(linked[0]?.kind==='barrel'?'barrel':linked[0]?.kind==='shaker'?'cocktail_recipes':'extensions');
   const mechanicsByLocale=Object.fromEntries(GUIDE_LOCALES.map(lc=>{

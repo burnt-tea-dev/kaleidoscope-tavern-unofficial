@@ -108,3 +108,30 @@ test('native item definition caching preserves dynamic extension tag replacement
  assert.ok(registry.ingredientCategories(item).includes('probe:native'));assert.ok(!registry.ingredientCategories(item).includes('probe:dynamic'));
  registry.remove('tag_probe');assert.ok(!registry.ingredientCategories(item).includes('probe:replacement'));assert.equal(reads.get(item),1);
 });
+
+
+function guideLinkProbe(){
+ const source='link_probe',recipe=short=>({id:source+':barrel/'+short,kind:'barrel',title:{en_US:short},fluid:'minecraft:water',ingredients:[['minecraft:sugar']],carrier:'kaleidoscope_tavern:empty_bottle',unitTime:2400,output:{byQuality:Array.from({length:6},(_,i)=>source+':'+short+'_q'+(i+1))}}),recipes=[recipe('first'),recipe('second')];
+ const page={id:source+':combined',title:{en_US:'Combined products'},body:{en_US:'Source page'},category:'barrel',recipeIds:[recipes[1].id,recipes[0].id]};
+ return {source,recipes,page};
+}
+const guideProjectionHash=payload=>createHash('sha256').update(JSON.stringify({...payload,version:'0.6.152'})).digest('hex');
+
+test('immutable guide page links retain recipe order and the complete predecessor projection',()=>{
+ const {source,recipes,page}=guideLinkProbe(),registry=new ExtensionRegistry({fluids:FLUIDS,itemExists:()=>true,itemTags:()=>[]});
+ registry.install({api:1,source,version:'1.0.0',recipes,pages:[page]});
+ const book=finishPreparation(prepareCookeryGuidePayload(registry));
+ assert.equal(guideProjectionHash(book),'497e4476674c932060335cf74e6b02023e0bf04c5b96ad321effca97484c1e04','independent T152 complete projection, including reversed recipeIds, names and preparation order');
+});
+
+test('dynamic and frozen accessor guide views retain the original recipe ID reads',()=>{
+ for(const frozen of [false,true]){
+  const {source,recipes,page}=guideLinkProbe();let reads=0;
+  const linked=recipes.map(row=>({...row,source}));if(frozen)linked.forEach(Object.freeze);
+  Object.defineProperty(page,'recipeIds',{enumerable:true,configurable:true,get(){reads++;return [linked[(reads-1)%2].id];}});page.source=source;if(frozen)Object.freeze(page);
+  const registry={list:()=>[{source,version:'1.0.0'}],allRecipes:()=>linked,allPages:()=>[page],allFluids:()=>FLUIDS};
+  const book=finishPreparation(prepareCookeryGuidePayload(registry));
+  assert.equal(reads,4,'dynamic matching and the final recipe-ID projection retain their original observations');
+  assert.equal(guideProjectionHash(book),'30fb8b4c4bde617150d9d8e9f6d3640f3ed39a15429c1c386db4ac0c2890d25b','independent T152 dynamic-view projection');
+ }
+});
