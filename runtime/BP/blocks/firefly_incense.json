@@ -31,6 +31,12 @@
           "render_method": "alpha_test",
           "ambient_occlusion": 0.0,
           "face_dimming": true
+        },
+        "foliage": {
+          "texture": "kt_assets_a13_block_deco_incense_firefly_incense",
+          "render_method": "alpha_test_single_sided",
+          "ambient_occlusion": 0.0,
+          "face_dimming": true
         }
       },
       "minecraft:collision_box": {
@@ -85,6 +91,10 @@
           "*": {
             "texture": "kt_assets_a13_block_deco_incense_firefly_incense",
             "render_method": "alpha_test"
+          },
+          "foliage": {
+            "texture": "kt_assets_a13_block_deco_incense_firefly_incense",
+            "render_method": "alpha_test_single_sided"
           }
         }
       },
@@ -117,6 +127,12 @@
               "render_method": "alpha_test",
               "ambient_occlusion": 0.0,
               "face_dimming": false
+            },
+            "foliage": {
+              "texture": "kt_assets_a13_block_deco_incense_firefly_incense",
+              "render_method": "alpha_test_single_sided",
+              "ambient_occlusion": 0.0,
+              "face_dimming": true
             }
           }
         }

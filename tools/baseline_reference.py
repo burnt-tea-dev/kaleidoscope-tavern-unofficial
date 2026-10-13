@@ -58,6 +58,12 @@ COCKTAIL_ASSET_PATHS=frozenset({
    'runtime/BP/functions/kt_tipsy_motion_off.mcfunction',
    'runtime/BP/functions/kt_tipsy_motion_on.mcfunction'})
 
+# T158: exact eight incense blocks and their two shared geometries.
+INCENSE_ASSET_PATHS=frozenset({'runtime/BP/blocks/'+kind+'_incense.json'
+ for kind in ('butterfly','catnip','firefly','ginkgo','pine','sakura','snow','spore')}
+ |{'runtime/RP/models/entity/incense_closed.geo.json',
+   'runtime/RP/models/entity/incense_open.geo.json'})
+
 @lru_cache(maxsize=4)
 def rows(root):
  p=Path(root)/'data/baseline-reconciliation.json'
@@ -90,7 +96,7 @@ def asset_layers(root):
  for layer in layers:
   assert isinstance(layer.get('release'),str) and layer['release'].strip()
   assert isinstance(layer.get('files'),dict) and layer['files']
-  assert set(layer['files'])<=COCKTAIL_ASSET_PATHS,'Unsupported reviewed asset path'
+  assert set(layer['files'])<=(COCKTAIL_ASSET_PATHS|INCENSE_ASSET_PATHS),'Unsupported reviewed asset path'
  return layers
 def asset_projection(root,name,data):
  # Minified HUD JSON is one large line. Preserve its exact compressed prior
