@@ -1,12 +1,12 @@
 # Dot：本輪 HUD 實測入口
 
-**2026-10-13 11:42:56 HKT**：luosen **T153／G132／W130／P34／Ribbits1.0.10036**，42包（22BP／20RP），BDS1.26.52.3 RUNNING。Canonical PR／必要CI、static、一次停服存檔副本first／restart、完整准入及逐檔／順序讀回通過。`client=false`、`production_ready=false`、`pending_client_acceptance`。
+**2026-10-13 14:48:14 HKT**：luosen **T154／G132／W131／P34／Ribbits1.0.10036**，42包，BDS1.26.52.3 RUNNING。Canonical PR／必要CI、static、一次停服存檔副本first／restart、完整准入及逐檔／順序讀回通過。`client=false`、`production_ready=false`、`pending_client_acceptance`。
 
-T153保留世界名酒註冊前的未成批酒桶原料並減少字型／指南初始化工作；G132修復進度XP失敗重領，W130減少啟動正弦／碰撞表。來源修補不代表客戶端畫面或完整玩法驗收。
+T154／W131讓foundation接收器先篩選三個支援事件ID，無關封包在讀取message、計算UTF-8長度與JSON解析前退出。UTF-8計數直接讀取UTF-16，避免逐codepoint建立字串；配對／孤立surrogate與非字串iterable fallback保持原值。支援通道的驗證、封包、ACK、排程與保存保持；G132、私有34及Ribbits10036沒有內容更新。
 
-Poststart **197 warnings／0 errors**，其中 **170 watchdog（8 Spike／162 Slowdown／0 High Memory）**。初始化Spike仍有AMW328、Cookery313、Nether112、Ribbits425、Villager155、W124、T231、G316ms。First356／restart404 warnings，各exit0／errors0；保留LIVE100／10ms門檻。這些是當次觀測窗口，不能作全局效能百分比或宣稱watchdog已解決。
+本次poststart **208 warnings／0 errors**；watchdog **181（8 Spike／173 Slowdown／0 High Memory）**。這是本候選的觀測窗口，不作整體效能百分比或完整watchdog驗收。原profile只捕捉啟動後傳輸工作，未捕捉首次初始化尖峰。
 
-[本次公開核對](../family/PUBLIC-DOWNLOAD-LIVE-JAVA-STARTUP-20261013.md)於11:52:05 HKT確認三個新匿名下載的archive、六自有BP／RP共9346檔與LIVE及reviewed receipt相同。
+[本次公開核對](../family/PUBLIC-DOWNLOAD-LIVE-TRANSPORT-CPU-20261013.md)：2026-10-13 15:03:22 HKT，T154／W131本次匿名下載；G132沿用前次已匿名核對的不可變archive並以同檔案系統hardlink重用，沒有重新下載。三個release metadata／digest均已重新核對；六自有BP／RP共9346檔與archive／LIVE／reviewed receipt完全相同。
 
 ## 本次要分辨的缺陷
 
@@ -14,9 +14,9 @@ T148／G129已把renderer移到獨立命名空間及共用可選掛載，解開�
 
 ## 先解除上游讀檔與資源包辨認阻塞
 
-本輪已讀取BSM原始JSON，檢查時間 **2026-10-13 06:23:03 HKT**；`all_reference_release_metadata_current=false`、`full_java_parity_verified=false`保持。正式修補仍須讀BSM的 `addon_quality/senluo-java-upstream-status.json` 與 `family/java-upstream.json`，過期時重新查核。原[公開歷史快照](../family/JAVA-UPSTREAM-READONLY-20261012.md)只屬10/12原查核；取得伺服器端資料不代表Dot本機DNS／任務通道已修復。
+本輪已讀取BSM原始JSON，檢查時間 **2026-10-13 12:23:03 HKT**；`all_reference_release_metadata_current=false`、`full_java_parity_verified=false`保持。正式修補仍須讀BSM的 `addon_quality/senluo-java-upstream-status.json` 與 `family/java-upstream.json`，過期時重新查核。原[公開歷史快照](../family/JAVA-UPSTREAM-READONLY-20261012.md)只屬10/12原查核；取得伺服器端資料不代表Dot本機DNS／任務通道已修復。
 
-Dot既有回歸記錄：取消保留物品、完成後進度正常退出、調酒裝料／返瓶／產出通過，但快速重開仍見兩次短暫空條。這些觀察尚未附可核對的候選與客戶端版本；保留各場景結果，不挪作T153／G132驗收。先確認實際LIVE、客戶端BP／RP UUID／版號、完整堆疊與GUI profile／比例，優先查資源包快取及載入優先序。正常退出客戶端並重新接受已更新的伺服器資源包後，只重錄下面同一流程；沒有明確新失敗時不再轉入隔離camera／hold微調或重跑舊影片。
+Dot既有回歸記錄：取消保留物品、完成後進度正常退出、調酒裝料／返瓶／產出通過，但快速重開仍見兩次短暫空條。這些觀察尚未附可核對的候選與客戶端版本；保留各場景結果，不挪作T154／G132驗收。先確認實際LIVE、客戶端BP／RP UUID／版號、完整堆疊與GUI profile／比例，優先查資源包快取及載入優先序。正常退出客戶端並重新接受已更新的伺服器資源包後，只重錄下面同一流程；沒有明確新失敗時不再轉入隔離camera／hold微調或重跑舊影片。
 
 ## 一次正常玩家流程
 

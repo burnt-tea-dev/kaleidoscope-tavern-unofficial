@@ -1,26 +1,26 @@
 # 家族現行基線與差距
 
-**2026-10-13 11:42:56 HKT**：luosen **T153／G132／W130／P34／Ribbits1.0.10036**，42包（22BP／20RP），BDS1.26.52.3 RUNNING。Canonical PR／必要CI、static、一次停服存檔副本first／restart、完整准入及逐檔／順序讀回通過。`client=false`、`production_ready=false`、`pending_client_acceptance`。
+**2026-10-13 14:48:14 HKT**：luosen **T154／G132／W131／P34／Ribbits1.0.10036**，42包，BDS1.26.52.3 RUNNING。Canonical PR／必要CI、static、一次停服存檔副本first／restart、完整准入及逐檔／順序讀回通過。`client=false`、`production_ready=false`、`pending_client_acceptance`。
 
-[本次公開核對](PUBLIC-DOWNLOAD-LIVE-JAVA-STARTUP-20261013.md)於11:52:05 HKT確認三個新匿名下載的archive、六自有BP／RP共9346檔與LIVE及reviewed receipt相同。 [T152歷史核對](PUBLIC-DOWNLOAD-LIVE-TRANSPORT-20261013.md)及其他原收據保持原身份。
+[本次公開核對](PUBLIC-DOWNLOAD-LIVE-TRANSPORT-CPU-20261013.md)：2026-10-13 15:03:22 HKT，T154／W131本次匿名下載；G132沿用前次已匿名核對的不可變archive並以同檔案系統hardlink重用，沒有重新下載。三個release metadata／digest均已重新核對；六自有BP／RP共9346檔與archive／LIVE／reviewed receipt完全相同。 [T153歷史核對](PUBLIC-DOWNLOAD-LIVE-JAVA-STARTUP-20261013.md)及其他原收據保持原身份。
 
 ## 本輪修補與界限
 
-T153保留世界名酒註冊完成前滿且關蓋的未成批酒桶，避免先按未匹配配方開始釀醋；既有批次與酒館配方優先順序保持。字型資料改為等值JSON解析，指南重用不可變配方連結。G132移除啟動時未使用的診斷資料，先保存進度獎勵領取狀態再發XP，避免保存失敗／不確定回應造成重領；不確定結果仍可能保留待處理且尚未發放的獎勵，不能宣稱原子性的恰好一次發放。W130移除兩套啟動正弦表及縮減重生碰撞資料，原Java量化數值與查詢結果保全。
+T154／W131讓foundation接收器先篩選三個支援事件ID，無關封包在讀取message、計算UTF-8長度與JSON解析前退出。UTF-8計數直接讀取UTF-16，避免逐codepoint建立字串；配對／孤立surrogate與非字串iterable fallback保持原值。支援通道的驗證、封包、ACK、排程與保存保持；G132、私有34及Ribbits10036沒有內容更新。
 
-Poststart **197 warnings／0 errors**，其中 **170 watchdog（8 Spike／162 Slowdown／0 High Memory）**。初始化Spike仍有AMW328、Cookery313、Nether112、Ribbits425、Villager155、W124、T231、G316ms。First356／restart404 warnings，各exit0／errors0；保留LIVE100／10ms門檻。這些是當次觀測窗口，不能作全局效能百分比或宣稱watchdog已解決。
+本次poststart **208 warnings／0 errors**；watchdog **181（8 Spike／173 Slowdown／0 High Memory）**。這是本候選的觀測窗口，不作整體效能百分比或完整watchdog驗收。原profile只捕捉啟動後傳輸工作，未捕捉首次初始化尖峰。
 
 真人食用／取消／快開、調酒、AMW29通道、飽和度／普通提示及UI profile／scale仍待[回歸](../docs/HUD-COMPAT-CLIENT-HANDOFF-20261012.md)。任意第三方whole HUD／title與完整Java一比一未保證。
 
 ## 來源與當次證據
 
-T[PR346](https://github.com/casama233/kaleidoscope-tavern-unofficial/pull/346)、G[PR199](https://github.com/casama233/kaleidoscope-grilling-unofficial/pull/199)、W[PR114](https://github.com/casama233/kaleidoscope-world-liquor-unofficial/pull/114)及必要CI已完成並合併；實際來源、CI及發布commit見[公開核對](PUBLIC-DOWNLOAD-LIVE-JAVA-STARTUP-20261013.md)。私有34／Ribbits10036內容及原source CI範圍保持，未將不可用的付費pre-commit寫成成功。
+T[PR348](https://github.com/casama233/kaleidoscope-tavern-unofficial/pull/348)、W[PR115](https://github.com/casama233/kaleidoscope-world-liquor-unofficial/pull/115)及必要CI已完成並合併；G132沿用[PR199](https://github.com/casama233/kaleidoscope-grilling-unofficial/pull/199)。實際來源、CI及發布commit見[公開核對](PUBLIC-DOWNLOAD-LIVE-TRANSPORT-CPU-20261013.md)。私有34／Ribbits10036內容及原source CI範圍保持，未將不可用的付費pre-commit寫成成功。
 
-紀錄 `20261013-java-startup-t153-g132-w130-p34-ribbits10036`；reviewed SHA `4af54b4cdbf7009e99bf802712f2f09b78790952c97144c0a345f867a8607244`，raw SHA `475217a0219d9e55f275a00101c42909def8822830a004ddd9503735895f0f04`。政策installed／deferred_client_acceptance綁同reviewed SHA。18筆玩家記錄及2容器保留，freezer0不當非空投料證據；未另建新世界或使用模擬玩家。只保留最新完整回退，清理6個舊生成根，磁碟可用空間實際增加1,607,970,816 bytes。來源、失敗JSON／日誌及活動工作保留。
+紀錄 `20261013-foundation-routing-t154-g132-w131-p34-ribbits10036`；reviewed SHA `9df9645c0ca8d87ea4f9685196b6af11652adaace6242ee150713f4c085fbdbe`，raw SHA `71f1746a31a738199a7313eefb644eb272320d633c8f232bab9cd737e97468c5`。政策installed／deferred_client_acceptance綁同reviewed SHA。18筆玩家記錄及2容器保留，freezer0；零投料樣本不當非空保存驗收。只保留最新完整回退；本次清理6個舊生成根，磁碟可用空間實際增加1,604,538,368 bytes。來源、失敗JSON／日誌及活動工作保留。
 
 ## 作者與維護
 
-本輪讀取的BSM Java唯讀查核時間為 **2026-10-13 06:23:03 HKT**；`all_reference_release_metadata_current=false`、`full_java_parity_verified=false`仍保持，不能標成全分支最新或完整一比一。
+本輪讀取的BSM Java唯讀查核時間為 **2026-10-13 12:23:03 HKT**；`all_reference_release_metadata_current=false`、`full_java_parity_verified=false`仍保持，不能標成全分支最新或完整一比一。
 
 依[java-upstream.json](java-upstream.json)分開追蹤Tavern1.2.0（Forge1.20.1／Neo1.21.1）、Grilling1.1.1兩分支、World Liquor Forge1.1.12／Neo1.21.1的1.1.11；未發布T26來源與W26／1.1.6仍另列。W共享obsidian1000／1800→1、milk識別與高度已承接，magma3僅legacy；customLuck／BlockDrops／註冊等26差異仍待適配，見[原審查與重估](world-liquor-26.1.2-1.1.6-review.json)。
 
