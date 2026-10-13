@@ -13,5 +13,7 @@
   "live_deployment": false,
   "native_evidence_scope": "Glassware aim restoration candidate; targeted script regressions only. Required canonical CI, complete-family save/admission and LIVE evidence remain separate; UI regression and human pickup are not claimed resolved.",
   "client": false,
-  "status": "awaiting_source_ci_family_save_admission_and_live_readback"
+  "status": "awaiting_source_ci_family_save_admission_and_live_readback",
+  "expected_archive_sha256": "1dc13509744a3060fa4af4c2870f9571362a11981a14508f9c99611475a24239",
+  "reviewed_runtime_source": "92551a0322fda1fb9c636834b1ed4446cd07f94c"
 }
