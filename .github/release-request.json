@@ -13,5 +13,7 @@
   "live_deployment": false,
   "native_evidence_scope": "Optional HUD provider scope correction; local shadows removed, same graphical receivers and gameplay. Actual rendered-client recovery remains pending.",
   "client": false,
-  "status": "awaiting_source_ci_family_save_admission_and_live_readback"
+  "status": "awaiting_source_ci_family_save_admission_and_live_readback",
+  "expected_archive_sha256": "2b36647e3e617353ad157f555a0d875c2f4e61b88524d120f9de61fc2f07d887",
+  "reviewed_runtime_source": "5c2026ff686a6b7ceeffa8453f465d1e6df021d9"
 }
