@@ -1,14 +1,10 @@
-## 當前部署：T154／G132／W131／private-integration／Ribbits1.0.10037
+## 當前部署：T155／G133／W132／private-integration／Ribbits1.0.10037
 
-2026-10-13 UI repair candidate: permanent channel receivers replace the zero-duration title factory snapshots; original assets and gameplay retained. [Scope and pending client result](RELEASE-NOTES-0.6.155.md).
+[private deployment time]完成42包家族部署，BDS1.26.52.3 RUNNING；來源PR／必要CI、static、一次停服存檔first／restart、准入與完整讀回通過。[本次來源、限制與公開比對](../family/PUBLIC-DOWNLOAD-LIVE-PERSISTENT-HUD-20261013.md)：三公開archive均匿名下載，六自有包9346檔與LIVE及准入收據相等。
 
-**[private deployment time]**：managed-server **T154／G132／W131／private-integration／Ribbits1.0.10037**，42包，BDS1.26.52.3 RUNNING。Canonical PR／必要CI、static、一次停服存檔副本first／restart、完整准入及逐檔／順序讀回通過。`client=false`、`production_ready=false`、`pending_client_acceptance`。
+進食／調酒已改常駐通道接收器，移除調酒progress父層舊文字條件，原圖及玩法保留；[修補範圍](RELEASE-NOTES-0.6.155.md)。來源可見條件測試不等於客戶端渲染，真人恢復與游標partial-tick插值仍待完成。`client=false`、`production_ready=false`、`pending_client_acceptance`。
 
-Ribbits1.0.10037只替換FP存檔載入的一處同步Base64解壓呼叫，六位元緩衝解碼保留原UTF16字典結果；異常／非標準輸入交回原方法。保存格式、序列化、property keys、回呼、既有connection修補及其餘資產保留；配對manifest由canonical compiler生成。T154／G132／W131及reviewed integration輸出不變。
-
-本次poststart **172 warnings／0 errors**；watchdog **145（8 Spike／137 Slowdown／0 High Memory）**，其中Ribbits啟動Spike **253ms**。存檔first／restart的Ribbits為261／267ms。這些是不同啟動窗口的觀察，不作整體效能百分比或完整watchdog驗收。
-
-[本次來源與保存證據](../family/RIBBITS-FP-DECODE-LIVE-20261013.md)。公開六包9346檔保留前次匿名核對內容；沒有借用腳本／BDS通過宣稱真人或完整Java一比一。以下歷史紀錄保持原版本與範圍。
+Poststart165 warnings／0 errors，watchdog138（9 Spike／129 Slowdown），Ribbits252ms仍有尖峰。保存玩家記錄（數量未公開）與容器（數量未公開）通過。未宣稱整體效能或完整Java一比一；以下歷史紀錄保留原版本與範圍。
 
 ## 歷史部署：T151／G130／W128／private-integration／Ribbits1.0.10036
 
