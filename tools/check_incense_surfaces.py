@@ -55,6 +55,7 @@ def check():
         contexts.append(components['minecraft:item_visual'])
         for context in contexts:
             materials = context.get('minecraft:material_instances', context.get('material_instances'))
+            assert {v['render_method'] for v in materials.values()} == {'alpha_test_single_sided'}, (kind, 'Mixed render methods')
             foliage = materials['foliage']
             assert foliage['render_method'] == 'alpha_test_single_sided', (kind, 'Both cutout faces would render together')
             assert foliage['texture'] == materials['*']['texture']
