@@ -14,6 +14,6 @@
   "native_evidence_scope": "Four animated item side meshes aligned with their front/back sprite UVs; source-pixel boundary checks and unchanged native use components. Rendered-client acceptance remains pending; full-family saved-world/admission/live readback is separate.",
   "client": false,
   "status": "awaiting_source_ci_family_save_admission_and_live_readback",
-  "expected_archive_sha256": "3cfc28376988f094da9a65b57db348c523b004df1dc5cf0d7c4df23b62bfcf71",
-  "reviewed_runtime_source": "cba8821c861ebf6dd891e588037e893ff0d8c017"
+  "expected_archive_sha256": "ec01ca8849bf87e5b09f3ab8b36df72974f5742441b447b8870a033feabe245c",
+  "reviewed_runtime_source": "bc8f7b7e581cfa452c90e8caf69fd93c549d2ca6"
 }
