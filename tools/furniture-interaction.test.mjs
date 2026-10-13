@@ -64,11 +64,12 @@ function belowHolder(p,b,mode='Touch',hotbar=false){
 
 test('glassware restores the pre-T131 aim selection when a Down event disagrees',()=>{
  const {p,b}=setup(NS+'glassware_holder',{[FACING]:0});belowHolder(p,b);hold(p,NS+'empty_glassware',2);
+ // Raw event selects slot 0; legacy Down correction selects 3; eye ray selects 1.
  let gazeCalls=0;p.getBlockFromViewDirection=()=>{gazeCalls++;throw Error('native ray unavailable');};p.getViewDirection=()=>{gazeCalls++;return {x:0,y:1,z:0};};
- capture(()=>{assert.equal(interact(p,b,{face:'Down',point:{x:.25,y:.6875,z:.25}}).cancel,true);system.advance(1);});
- assert.equal(gazeCalls,1,'use the independent eye/selection-box intersection');assert.equal(b.permutation.getState(GLASSWARE_SLOTS[1]),1);assert.notEqual(b.permutation.getState(GLASSWARE_SLOTS[2]),1);
+ capture(()=>{assert.equal(interact(p,b,{face:'Down',point:{x:.75,y:.6875,z:.25}}).cancel,true);system.advance(1);});
+ assert.equal(gazeCalls,1,'use the independent eye/selection-box intersection');assert.equal(b.permutation.getState(GLASSWARE_SLOTS[1]),1);for(const index of [0,2,3])assert.notEqual(b.permutation.getState(GLASSWARE_SLOTS[index]),1,'only the eye-target cup changes');
  assert.equal(p.inventory.getItem(2).amount,1);
- hold(p);capture(()=>{interact(p,b,{face:'Down',point:{x:.25,y:.6875,z:.25}});system.advance(1);});
+ hold(p);capture(()=>{interact(p,b,{face:'Down',point:{x:.75,y:.6875,z:.25}});system.advance(1);});
  assert.equal(b.permutation.getState(GLASSWARE_SLOTS[1]),0);assert.equal(p.inventory.getItem(2).typeId,NS+'empty_glassware');
 });
 
