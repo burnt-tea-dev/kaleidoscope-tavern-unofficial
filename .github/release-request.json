@@ -13,5 +13,7 @@
   "live_deployment": false,
   "native_evidence_scope": "Bounded operator-only shaker event diagnostics; insertion and rendered eating/mixology HUD remain under investigation. Required CI and complete-family saved-world/admission are separate.",
   "client": false,
-  "status": "awaiting_source_ci_family_save_admission_and_live_readback"
+  "status": "awaiting_source_ci_family_save_admission_and_live_readback",
+  "expected_archive_sha256": "9484f1ad2d353528586e235a5c8b8603a611e325899052b123f01b5f09bbbb21",
+  "reviewed_runtime_source": "56b2d7b31b834774900e10a905103b0d3a597a3d"
 }
