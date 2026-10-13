@@ -1,23 +1,17 @@
 {
-  "version": "0.6.155",
-  "tag": "v0.6.155-beta.1",
-  "title": "森羅物語：酒館 0.6.155 測試版｜常駐調酒 UI 接收器",
+  "version": "0.6.156",
+  "tag": "v0.6.156-beta.1",
+  "title": "森羅物語：酒館 0.6.156 測試版｜恢復酒杯架瞄準選格",
   "prerelease": true,
   "publication_request": false,
-  "validation_evidence": "docs/RELEASE-NOTES-0.6.155.md",
-  "public_notes_path": "docs/RELEASE-NOTES-0.6.155.md",
+  "validation_evidence": "docs/RELEASE-NOTES-0.6.156.md",
+  "public_notes_path": "docs/RELEASE-NOTES-0.6.156.md",
   "client_acceptance": "pending",
   "full_client_acceptance": "pending",
   "saved_world_migration": "pending",
   "production_ready": false,
   "live_deployment": false,
-  "native_evidence_scope": "Persistent HUD receiver candidate. Targeted source diagnostics only so far; exact canonical CI, complete-family saved-world/load/admission/live evidence and rendered-client results remain separate. No rendered-client acceptance claimed.",
+  "native_evidence_scope": "Glassware aim restoration candidate; targeted script regressions only. Required canonical CI, complete-family save/admission and LIVE evidence remain separate; UI regression and human pickup are not claimed resolved.",
   "client": false,
-  "status": "awaiting_source_ci_family_save_admission_and_live_readback",
-  "expected_archive_sha256": "d11b70f2ca98901311825094f14573339388c8eb9aa8cec887940789959de2a0",
-  "reviewed_runtime_source": "0827809b322cb88191e99eacbd3724187c87b36b",
-  "paired_owned_sources": {
-    "grilling": "72fa0d98be0cbd1c645716b1fd4b70a723ad382d",
-    "world-liquor": "cc900cfe9efda373873da85a0b0c7cbf83dfd841"
-  }
+  "status": "awaiting_source_ci_family_save_admission_and_live_readback"
 }
