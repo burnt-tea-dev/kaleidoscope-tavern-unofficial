@@ -1,5 +1,7 @@
 ## 當前部署：T154／G132／W131／P34／Ribbits1.0.10037
 
+2026-10-13 UI repair candidate: permanent channel receivers replace the zero-duration title factory snapshots; original assets and gameplay retained. [Scope and pending client result](RELEASE-NOTES-0.6.155.md).
+
 **2026-10-13 16:00:25 HKT**：luosen **T154／G132／W131／P34／Ribbits1.0.10037**，42包，BDS1.26.52.3 RUNNING。Canonical PR／必要CI、static、一次停服存檔副本first／restart、完整准入及逐檔／順序讀回通過。`client=false`、`production_ready=false`、`pending_client_acceptance`。
 
 Ribbits1.0.10037只替換FP存檔載入的一處同步Base64解壓呼叫，六位元緩衝解碼保留原UTF16字典結果；異常／非標準輸入交回原方法。保存格式、序列化、property keys、回呼、既有connection修補及其餘資產保留；配對manifest由canonical compiler生成。T154／G132／W131及P34輸出不變。

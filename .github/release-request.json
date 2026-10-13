@@ -1,21 +1,23 @@
 {
-  "version": "0.6.154",
-  "tag": "v0.6.154-beta.1",
-  "title": "森羅物語：酒館 0.6.154 測試版｜減少無關事件與傳輸掃描",
+  "version": "0.6.155",
+  "tag": "v0.6.155-beta.1",
+  "title": "森羅物語：酒館 0.6.155 測試版｜常駐調酒 UI 接收器",
   "prerelease": true,
   "publication_request": false,
-  "validation_evidence": "docs/RELEASE-NOTES-0.6.154.md",
-  "public_notes_path": "docs/RELEASE-NOTES-0.6.154.md",
+  "validation_evidence": "docs/RELEASE-NOTES-0.6.155.md",
+  "public_notes_path": "docs/RELEASE-NOTES-0.6.155.md",
   "client_acceptance": "pending",
   "full_client_acceptance": "pending",
-  "saved_world_migration": "passed",
+  "saved_world_migration": "pending",
   "production_ready": false,
-  "live_deployment": true,
-  "native_evidence_scope": "T154 filters unrelated foundation event IDs before message reads and JSON parsing, and counts UTF-8 bytes from UTF-16 without per-codepoint strings. Packet bytes, limits, checksums, source validation, ACKs and scheduling are unchanged. The exact T154/G132/W131/P34/Ribbits10036 family passed canonical source CI, static admission, one stopped-save first load/restart and 42-pack LIVE readback at 2026-10-13T06:48:14Z. This saved-world and deployment evidence does not establish native performance improvement, resolution of all watchdog warnings, rendered-client acceptance or complete Java parity. Client acceptance remains pending; production_ready remains false.",
-  "expected_archive_sha256": "7de139af65edb3e60b37c046b082453ab2b00f4296ac26dcd00048ec712d7269",
-  "reviewed_runtime_source": "fbfe4be4aa8beaf0e735ddd27189bc1e4cd37a9b",
+  "live_deployment": false,
+  "native_evidence_scope": "Persistent HUD receiver candidate. Targeted source diagnostics only so far; exact canonical CI, complete-family saved-world/load/admission/live evidence and rendered-client results remain separate. No rendered-client acceptance claimed.",
+  "client": false,
+  "status": "awaiting_source_ci_family_save_admission_and_live_readback",
+  "expected_archive_sha256": "d11b70f2ca98901311825094f14573339388c8eb9aa8cec887940789959de2a0",
+  "reviewed_runtime_source": "0827809b322cb88191e99eacbd3724187c87b36b",
   "paired_owned_sources": {
-    "grilling": "da1cfc0ef5ef4f3b3972580cc863a715813fe348",
-    "world-liquor": "1c11561da290f9babbaecb7e26d89cc21d75215b"
+    "grilling": "72fa0d98be0cbd1c645716b1fd4b70a723ad382d",
+    "world-liquor": "cc900cfe9efda373873da85a0b0c7cbf83dfd841"
   }
 }

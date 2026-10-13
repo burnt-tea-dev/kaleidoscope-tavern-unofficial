@@ -1,76 +1,34 @@
-/** Structural UI animation checks only, not native rendering or player tests. */
+/** Production transport lifetime checks; not a Minecraft client renderer. */
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {HUD_REFRESH_TICKS} from '../runtime/BP/scripts/core/shaker-hud.js';
-
-const hud=JSON.parse(readFileSync(new URL('../runtime/RP/ui/kt_tavern_hud.json',import.meta.url),'utf8'));
-const bridge=JSON.parse(readFileSync(new URL('../runtime/RP/ui/hud_screen.json',import.meta.url),'utf8'));
-const packet=hud.kt_mixology_packet;
-const slots=packet.controls.find(row=>row.slots).slots.controls.filter(row=>Object.keys(row)[0].includes('@kaleidoscope_tavern_hud.kt_mixology_slot'));
-const progress=packet.controls.find(row=>row.progress).progress.controls.filter(row=>!['kt_progress_frame','kt_progress_channel'].includes(Object.keys(row)[0]));
-function resolve(name,value){
- const base=name.split('@')[1];
- return base?{...hud[base.replace(/^kaleidoscope_tavern_hud\./,'')],...value}:value;
+import {createFormattingHudTransport} from '../runtime/BP/scripts/core/formatting-hud-transport.js';
+import {GRAPHICAL_HUD_PREFIX,GRAPHICAL_HUD_END,slotsPacket,progressPacket} from '../runtime/BP/scripts/core/shaker-hud.js';
+function fixture(){
+ let clock=0,next=1;const pending=new Map(),calls=[];
+ const sender=createFormattingHudTransport({prefix:GRAPHICAL_HUD_PREFIX,maxLength:60,
+  queueAvailable:()=>true,embeddedAvailable:()=>false,queueSend:(p,packet)=>calls.push([clock,p.id,packet]),
+  schedule:(fn,ticks)=>{const id=next++;pending.set(id,{fn,at:clock+ticks});return id;},cancel:id=>pending.delete(id),idleTicks:12});
+ const advance=n=>{for(let i=0;i<n;i++){clock++;for(const [id,row]of [...pending])if(row.at<=clock){pending.delete(id);row.fn();}}};
+ return {sender,advance,pending,calls};
 }
-const images=rows=>rows.flatMap(row=>Object.entries(row).map(([name,value])=>({name,...resolve(name,value)})));
-const slotSprites=images(slots),progressSprites=images(progress);
-
-test('slot and progress sprites own finite expiry covering their refresh cadence',()=>{
- assert.equal(slotSprites.length,51);assert.equal(progressSprites.length,113);
- const groups=[
-  {sprites:slotSprites,waitName:'kt_mixology_sprite_wait',fadeName:'kt_mixology_sprite_fade',refresh:HUD_REFRESH_TICKS/20,holdSeconds:0.5,fadeSeconds:0},
-  {sprites:progressSprites,waitName:'kt_mixology_progress_wait',fadeName:'kt_mixology_progress_fade',refresh:1/20,holdSeconds:0.3,fadeSeconds:0}
- ];
- for(const {sprites,waitName,fadeName,refresh,holdSeconds,fadeSeconds} of groups){
-  for(const sprite of sprites){
-   assert.equal(sprite.type,'image',sprite.name);
-   assert.equal(sprite.alpha,1,sprite.name);
-   assert.deepEqual(sprite.anims,[`@kaleidoscope_tavern_hud.${waitName}`],sprite.name);
-  }
-  const wait=hud[waitName],fade=hud[fadeName];
-  assert.equal(wait.anim_type,'wait');
-  assert.equal(wait.duration,holdSeconds);
-  assert(wait.duration>=refresh,'Keep sprites opaque through their next expected refresh');
-  assert.equal(wait.next,`@kaleidoscope_tavern_hud.${fadeName}`);
-  assert.deepEqual(fade,{anim_type:'alpha',easing:'linear',duration:fadeSeconds,from:1,to:0});
-  assert(wait.duration+fade.duration<=hud.kt_mixology_expire.duration);
-  // Independent terminal alpha still hides images if the factory retains the parent.
-  assert(!('destroy_at_end' in wait));assert(!('destroy_at_end' in fade));
-  assert(!('next' in fade));assert(!('loop' in wait));assert(!('loop' in fade));
- }
- assert.equal(hud.kt_mixology_expire.duration,0.6);
- assert.equal(hud.kt_mixology_expire.destroy_at_end,'kt_mixology_packet');
+test('refresh keeps current state and missed refresh emits exactly one owned stop',()=>{
+ const f=fixture(),p={id:'a'};f.sender.send(p,slotsPacket([]));f.advance(10);f.sender.send(p,progressPacket(25));
+ f.advance(11);assert.equal(f.calls.length,2);f.advance(1);
+ assert.deepEqual(f.calls.at(-1),[22,'a',GRAPHICAL_HUD_END]);assert.equal(f.pending.size,0);
+ f.advance(100);assert.equal(f.calls.length,3);
 });
-
-test('progress stays opaque through a delayed refresh then expires at a bounded queue fallback',()=>{
- const wait=hud.kt_mixology_progress_wait,fade=hud.kt_mixology_progress_fade;
- const alphaAt=seconds=>seconds<wait.duration?1:fade.duration===0?fade.to:
-  fade.from+(fade.to-fade.from)*Math.min(1,(seconds-wait.duration)/fade.duration);
- // Structural lifetime samples only: actual packet arrivals and rendering need client QA.
- assert.equal(wait.duration+fade.duration,0.3);
- for(const seconds of [0,0.025,0.049,0.05,0.075,0.099,0.1,0.125,0.15,0.175,0.199])assert.equal(alphaAt(seconds),1);
- for(const seconds of [0.3,0.35,0.6,1,30,600])assert.equal(alphaAt(seconds),0);
- assert.equal(hud.kt_mixology_sprite_wait.duration,HUD_REFRESH_TICKS/20);
+test('cancel and disconnect retire only the matching player timeout',()=>{
+ const f=fixture(),a={id:'a'},b={id:'b'};f.sender.send(a,progressPacket(0));f.sender.send(b,progressPacket(1));
+ f.sender.send(a,GRAPHICAL_HUD_END);f.sender.forget(b.id);assert.equal(f.pending.size,0);
+ f.advance(100);assert.equal(f.calls.length,3);assert.equal(f.calls.at(-1)[2],GRAPHICAL_HUD_END);
 });
-
-test('stopped target slots keep their refresh wait but have no extra fade tail',()=>{
- assert.equal(hud.kt_mixology_sprite_wait.duration,0.5);
- assert.equal(hud.kt_mixology_sprite_fade.duration,0);
- assert.equal(hud.kt_mixology_sprite_fade.to,0);
- // This is a bounded half-second expiry, not a client-local hit-result query.
- assert.equal(hud.kt_mixology_sprite_wait.duration+hud.kt_mixology_sprite_fade.duration,0.5);
-});
-
-test('expiry remains confined to owned images and leaves the native factory protocol intact',()=>{
- assert.equal(hud.kt_mixology_factory.factory.name,'hud_title_text_factory');
- assert.equal(hud.kt_mixology_factory.factory.control_ids.hud_title_text,'kt_mixology_packet@kaleidoscope_tavern_hud.kt_mixology_packet');
- for(const name of ['hud_actionbar_text','hud_actionbar_text/actionbar_message']){
-  assert.deepEqual(Object.keys(bridge[name]).sort(),['$kt_family_actionbar_text','visible']);
- }
- assert(!JSON.stringify(hud.kt_effect_icons).includes('kt_mixology_sprite_'));
- assert(!JSON.stringify(hud.kt_effect_icons).includes('kt_mixology_progress_'));
- assert.deepEqual(Object.keys(hud.root),['type','size','controls']);
- assert(bridge.root_panel.modifications.every(m=>m.operation==='insert_back'));
- assert(!('kt_mixology_sprite_wait' in packet));
+test('persistent receivers have no once snapshot or expiring factory ancestry',()=>{
+ const hud=JSON.parse(readFileSync(new URL('../runtime/RP/ui/kt_tavern_hud.json',import.meta.url)));
+ assert.deepEqual(hud.root.controls[0],{'kt_mixology@kaleidoscope_tavern_hud.kt_mixology_packet':{}});
+ const {kt_effect_icons,...owned}=hud;
+ assert(!/"factory"|"once"|"destroy_at_end"|"anims"/.test(JSON.stringify(owned)));
+ const progress=hud.kt_mixology_packet.controls[1].progress;
+ assert.equal(progress.visible,undefined,'Old / 111 text gate hides every new formatting packet');
+ assert(!/\$kt_text|#kt_text_latest/.test(JSON.stringify(owned)),'No unbound legacy snapshot variables');
 });

@@ -14,12 +14,10 @@ for(const key of ['hud_actionbar_text','hud_actionbar_text/actionbar_message'])
 assert.equal(hud.namespace,'kaleidoscope_tavern_hud');
 assert.equal(hud.root.type,'panel');
 assert.equal(bridge.root_panel.modifications[0].operation,'insert_back');
-assert.equal(hud.kt_mixology_factory.factory.name,'hud_title_text_factory');
-assert.equal(hud.kt_mixology_expire.duration,0.6);
-assert.equal(hud.kt_mixology_expire.destroy_at_end,'kt_mixology_packet');
+assert.deepEqual(hud.root.controls[0],{'kt_mixology@kaleidoscope_tavern_hud.kt_mixology_packet':{}});
 const raw=JSON.stringify(hud);
 assert(!/#stored_text|#texture/.test(raw));
-assert(hud.kt_mixology_packet.bindings.some(b=>b.binding_name==='#hud_title_text_string'&&b.binding_condition==='once'));
+assert.equal(hud.kt_mixology_packet.bindings,undefined);
 let textures=0;
 function walk(value){
  if(!value||typeof value!=='object')return;
