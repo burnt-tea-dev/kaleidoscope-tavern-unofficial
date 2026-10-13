@@ -150,7 +150,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: casama233/kaleidoscope-world-liquor-unofficial
-          ref: a73a5ec2525acc30bf71244d28f75ebd58128caa
+          ref: 31850c96616d8287355201dc9b160a40119e470b
           path: world-liquor-src
           persist-credentials: false
       - uses: actions/setup-python@v5
@@ -177,7 +177,7 @@ jobs:
               'world-liquor':{'repository':'casama233/kaleidoscope-world-liquor-unofficial','repository_id':1385218112}}
           assert os.environ['GITHUB_REPOSITORY']==identities['tavern']['repository']
           assert os.environ['GITHUB_REPOSITORY_ID']==str(identities['tavern']['repository_id'])
-          assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=peer,text=True).strip()=='a73a5ec2525acc30bf71244d28f75ebd58128caa'
+          assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=peer,text=True).strip()=='31850c96616d8287355201dc9b160a40119e470b'
           lock=json.loads((root/'family/upstream.lock.json').read_text())
           lock['owned']=[row for row in lock['owned'] if row['key'] in {'tavern','world-liquor'}]
           assert len(lock['owned'])==2 and {row['key'] for row in lock['owned']}=={'tavern','world-liquor'}
@@ -348,15 +348,15 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: casama233/kaleidoscope-world-liquor-unofficial
-          # World Liquor 0.1.125 requires the paired Tavern 0.6.148 runtime.
+          # World Liquor 0.1.130 requires the paired Tavern 0.6.153 runtime.
           # Pin exact peer bytes, not an obsolete release or a moving branch.
-          ref: a73a5ec2525acc30bf71244d28f75ebd58128caa
+          ref: 31850c96616d8287355201dc9b160a40119e470b
           path: liquor
           persist-credentials: false
       - uses: actions/checkout@v4
         with:
           repository: casama233/kaleidoscope-grilling-unofficial
-          ref: e1785d7583348fd9eadd587f99373fe2b2b3875c
+          ref: 5ce756f4ab339b5ec6dc05def1bd04c8e3973a83
           path: grilling
           sparse-checkout: projects/grilling/gameplay_core/resource_pack/ui
           persist-credentials: false

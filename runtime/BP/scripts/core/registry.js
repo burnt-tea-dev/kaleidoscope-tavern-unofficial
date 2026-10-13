@@ -107,7 +107,9 @@ export function matchIngredients(required,stacks){
  return visit(0,0);
 }
 export class ExtensionRegistry {
- constructor({recipes=[],pages=[],fluids=[],itemExists=()=>true,itemTags=()=>[]}={}){
+ constructor({recipes=[],pages=[],fluids=[],itemExists=()=>true,itemTags=()=>[],expectedBarrelRecipeSources=[]}={}){
+  check(Array.isArray(expectedBarrelRecipeSources)&&expectedBarrelRecipeSources.length<=64&&expectedBarrelRecipeSources.every(source=>typeof source==='string'&&/^[a-z][a-z0-9_]{1,47}$/.test(source)),'INVALID_EXPECTED_RECIPE_SOURCES');
+  this.expectedBarrelRecipeSources=new Set(expectedBarrelRecipeSources);
   this.itemTags=itemTags;this.baseFluids=fluids.map(x=>typeof x==='string'?{id:x}:clone(x));this.itemExists=itemExists;this.fluids=new Set(fluids.map(x=>typeof x==='string'?x:x.id));this.extensions=new Map();this.listeners=new Set();this.revision=0;
   this.builtins=freeze(recipes.map(x=>({...clone(x),source:CORE})));this.pages=freeze(pages.map(x=>({...clone(x),source:CORE})));
   this.rebuild();
@@ -126,7 +128,7 @@ export class ExtensionRegistry {
    const predicates=recipe.ingredientPredicates??recipe.ingredients.map((items,index)=>recipe.ingredientTags?.[index]?[{tag:recipe.ingredientTags[index]}]:items.map(item=>({item})));
    for(const rule of predicates.flat())if(rule.item)this.shakerRecipeItems.add(rule.item);else this.shakerRecipeTags.add(rule.tag);
   }
-  this.pageCache=freeze([...this.pages,...ext.flatMap(x=>sorted(x.pages))]);this.shakerInputCache=new Map(ext.flatMap(x=>x.shakerInputs).map(x=>[x.item,x]));this.furnitureCache=new Map(ext.flatMap(x=>x.furniture??[]).map(x=>[x.block,x]));this.revision++;
+  this.pageCache=freeze([...this.pages,...ext.flatMap(x=>sorted(x.pages))]);this.shakerInputCache=new Map(ext.flatMap(x=>x.shakerInputs).map(x=>[x.item,x]));this.furnitureCache=new Map(ext.flatMap(x=>x.furniture??[]).map(x=>[x.block,x]));this.readyRecipeSources=new Set(ext.map(x=>x.source));this.revision++;
   for(const listener of [...this.listeners]){try{listener(this);}catch{}}
  }
  install(raw){
@@ -170,6 +172,8 @@ export class ExtensionRegistry {
  allFurniture(){return [...this.furnitureCache.values()];}
  allFluids(){return this.fluidCache;}
  allRecipes(){return this.recipeCache;}
+ pendingBarrelRecipeSources(){return [...this.expectedBarrelRecipeSources].filter(source=>!this.extensions.has(source)||!this.readyRecipeSources.has(source));}
+ barrelRecipesReady(){for(const source of this.expectedBarrelRecipeSources)if(!this.extensions.has(source)||!this.readyRecipeSources.has(source))return false;return true;}
  allPages(){return this.pageCache;}
  list(){return sorted([...this.extensions.values()],x=>x.source).map(x=>({source:x.source,version:x.version,recipes:x.recipes.length,pages:x.pages.length,shakerInputs:x.shakerInputs.length}));}
  recipe(recipeId){return this.recipeCache.find(x=>x.id===recipeId);}

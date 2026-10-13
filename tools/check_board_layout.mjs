@@ -1,6 +1,13 @@
 import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import {FONT_ADVANCES,FONT_BOLD_OFFSETS} from '../runtime/BP/scripts/data/board-font.js';
 import {encodeBoardInput,decodeBoardInput,boardLayoutOptions,splitBoardLines,boardGlyphOffsets,boardAdvance,boardVerticalOffset} from '../runtime/BP/scripts/core/board-layout.js';
 import {sameRecentBlockUse} from '../runtime/BP/scripts/core/interaction-claim.js';
+// Independent T152 glyph metrics oracle; a representation change must preserve all BMP entries.
+for(const [values,expected] of [[FONT_ADVANCES,'b81659beb5e91329a24a05b785f91a23320a7fee7349f3644db0c875284f417a'],[FONT_BOLD_OFFSETS,'4dbb867d1f38afcb6464185eee1c2f6ba4c7f92e5c11b2e4559c1f0c3fc637e6']]){
+ assert.equal(values.length,65536);assert.equal(Object.getPrototypeOf(values),Array.prototype);assert.equal(Object.isFrozen(values),false);
+ assert.equal(createHash('sha256').update(JSON.stringify(values)).digest('hex'),expected,'all glyph values/order must retain the reviewed T152 metrics');
+}
 const small=boardLayoutOptions('chalk',false),lines=s=>splitBoardLines(s,small);
 assert.equal(lines('ABCDEFGHIJ').lineCount,1);
 assert.equal(lines('ABCDEFGHIJK').lineCount,2);
