@@ -64,6 +64,9 @@ INCENSE_ASSET_PATHS=frozenset({'runtime/BP/blocks/'+kind+'_incense.json'
  |{'runtime/RP/models/entity/incense_closed.geo.json',
    'runtime/RP/models/entity/incense_open.geo.json'})
 
+ANIMATED_SPRITE_ASSET_PATHS=frozenset('runtime/RP/models/entity/item_sprite_'+name+'.geo.json'
+ for name in ('depth_charge','mystery_cocktail','nether_special','ice_grape'))
+
 @lru_cache(maxsize=4)
 def rows(root):
  p=Path(root)/'data/baseline-reconciliation.json'
@@ -96,7 +99,7 @@ def asset_layers(root):
  for layer in layers:
   assert isinstance(layer.get('release'),str) and layer['release'].strip()
   assert isinstance(layer.get('files'),dict) and layer['files']
-  assert set(layer['files'])<=(COCKTAIL_ASSET_PATHS|INCENSE_ASSET_PATHS),'Unsupported reviewed asset path'
+  assert set(layer['files'])<=(COCKTAIL_ASSET_PATHS|INCENSE_ASSET_PATHS|ANIMATED_SPRITE_ASSET_PATHS),'Unsupported reviewed asset path'
  return layers
 def asset_projection(root,name,data):
  # Minified HUD JSON is one large line. Preserve its exact compressed prior
