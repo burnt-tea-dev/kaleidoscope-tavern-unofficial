@@ -33,7 +33,7 @@ if(extension){
  panel.offset=[0,0];
  hud.effect_panel=JSON.parse(JSON.stringify(panel).replaceAll('kt_effect_data','kwl_effect_data').replaceAll('kt_effect_packet','kwl_effect_packet').replaceAll('"kt_effect_','"kwl_effect_'));
 }else{
- panel['$kt_world_liquor_effect_panel|default']='kaleidoscope_tavern_hud.kt_effect_empty';
+ // The absent-addon fallback lives in the global catalog, not this local scope.
  panel.controls.push({'kt_optional_world_icons@$kt_world_liquor_effect_panel':{}});
  hud.kt_effect_empty={type:'panel',size:[0,0]};
  hud.kt_effect_icons=panel;

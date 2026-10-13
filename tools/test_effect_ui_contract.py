@@ -2,6 +2,7 @@
 import json,tempfile,unittest
 from pathlib import Path
 from check_effect_ui_contract import ROOT,read,audit,registered_definitions,typed_controls,effect_icon_bindings,family_bridge
+from hud_mount_contract import reject_local_provider_defaults
 class Contract(unittest.TestCase):
  def test_actual_failure_shape_is_rejected(self):
   with tempfile.TemporaryDirectory() as tmp:
@@ -19,7 +20,17 @@ class Contract(unittest.TestCase):
   with self.assertRaises(ValueError):typed_controls({'controls':[]})
   with self.assertRaises(ValueError):typed_controls({'type':'panel','modifications':[]})
  def test_native_controls_and_standalone_empty_base_survive(self):
-  report=audit();self.assertGreater(report['native_root_controls_preserved'],20);self.assertEqual(report['selected_optional_panel'],'kaleidoscope_tavern_hud.kt_effect_empty')
+  report=audit();self.assertGreater(report['native_root_controls_preserved'],20);self.assertEqual(report['selected_optional_panel'],'hud.kt_family_empty')
+ def test_global_provider_cannot_be_shadowed_by_local_empty_default(self):
+  # This is the old live failure shape, overlooked by globals.get(...,default).
+  bridge=read(ROOT/'runtime/RP/ui/hud_screen.json')
+  for key in ('$kt_tavern_hud_root','$kg_grilling_hud_root'):
+   bridge['root_panel'][key+'|default']='hud.kt_family_empty'
+   with self.assertRaisesRegex(AssertionError,'shadows global provider'):family_bridge(bridge)
+   del bridge['root_panel'][key+'|default']
+  foreign=read(ROOT/'runtime/RP/ui/kt_tavern_hud.json')
+  foreign['kt_effect_icons']['$kt_world_liquor_effect_panel|default']='kaleidoscope_tavern_hud.kt_effect_empty'
+  with self.assertRaisesRegex(AssertionError,'shadows global provider'):reject_local_provider_defaults(foreign)
  def test_family_bridge_rejects_the_live_single_port_mount(self):
   bridge=read(ROOT/'runtime/RP/ui/hud_screen.json');family_bridge(bridge)
   bridge['root_panel']['modifications'][0]['value'].pop(1)

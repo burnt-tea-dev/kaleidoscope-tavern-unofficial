@@ -1,19 +1,19 @@
 {
-  "version": "0.6.160",
-  "tag": "v0.6.160-beta.1",
-  "title": "森羅動態手持物品厚度修復 0.6.160",
+  "version": "0.6.161",
+  "tag": "v0.6.161-beta.1",
+  "title": "Tavern 0.6.161 — HUD provider scope",
   "prerelease": true,
   "publication_request": false,
-  "validation_evidence": "docs/RELEASE-NOTES-0.6.160.md",
-  "public_notes_path": "docs/RELEASE-NOTES-0.6.160.md",
+  "validation_evidence": "docs/RELEASE-NOTES-0.6.161.md",
+  "public_notes_path": "docs/RELEASE-NOTES-0.6.161.md",
   "client_acceptance": "pending",
   "full_client_acceptance": "pending",
   "saved_world_migration": "pending",
   "production_ready": false,
   "live_deployment": false,
-  "native_evidence_scope": "Four animated item side meshes aligned with their front/back sprite UVs; source-pixel boundary checks and unchanged native use components. Rendered-client acceptance remains pending; full-family saved-world/admission/live readback is separate.",
+  "native_evidence_scope": "Optional HUD provider scope correction; local shadows removed, same graphical receivers and gameplay. Actual rendered-client recovery remains pending.",
   "client": false,
   "status": "awaiting_source_ci_family_save_admission_and_live_readback",
-  "expected_archive_sha256": "ec01ca8849bf87e5b09f3ab8b36df72974f5742441b447b8870a033feabe245c",
-  "reviewed_runtime_source": "bc8f7b7e581cfa452c90e8caf69fd93c549d2ca6"
+  "expected_archive_sha256": "2b36647e3e617353ad157f555a0d875c2f4e61b88524d120f9de61fc2f07d887",
+  "reviewed_runtime_source": "5c2026ff686a6b7ceeffa8453f465d1e6df021d9"
 }
