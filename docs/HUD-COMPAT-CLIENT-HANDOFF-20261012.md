@@ -1,22 +1,16 @@
 # Dot：本輪 HUD 實測入口
 
-**[private deployment time]**：managed-server **T154／G132／W131／private-integration／Ribbits1.0.10037**，42包，BDS1.26.52.3 RUNNING。Canonical PR／必要CI、static、一次停服存檔副本first／restart、完整准入及逐檔／順序讀回通過。`client=false`、`production_ready=false`、`pending_client_acceptance`。
+**2026-10-13 17:05:52 HKT**：managed-server **T155／G133／W132／private-integration／Ribbits1.0.10037**，42包正常運行。來源CI、完整家族static、停服存檔first／restart及安裝讀回均通過；[本次公開下載與LIVE證據](../family/PUBLIC-DOWNLOAD-LIVE-PERSISTENT-HUD-20261013.md)。`client=false`、`production_ready=false`。
 
-Ribbits1.0.10037只替換FP存檔載入的一處同步Base64解壓呼叫，六位元緩衝解碼保留原UTF16字典結果；異常／非標準輸入交回原方法。保存格式、序列化、property keys、回呼、既有connection修補及其餘資產保留；配對manifest由canonical compiler生成。T154／G132／W131及reviewed integration輸出不變。
+使用者已明確回報進食與調酒圖形全無、原版與AMW正常。新版本移除調酒progress父層舊` / 111`條件，兩套圖形改常駐獨立快取，正常結束或漏更新送自己的END。進食缺失的實際引擎原因仍未由客戶端證實；不要把來源條件測試或BDS當圖形已恢復。
 
-本次poststart **172 warnings／0 errors**；watchdog **145（8 Spike／137 Slowdown／0 High Memory）**，其中Ribbits啟動Spike **253ms**。存檔first／restart的Ribbits為261／267ms。這些是不同啟動窗口的觀察，不作整體效能百分比或完整watchdog驗收。
-
-[本次部署證據](../family/RIBBITS-FP-DECODE-LIVE-20261013.md)；本輪沒有更新T／G／W或HUD輸出，既有快開短空條回報仍待候選明確的真人複驗。
-
-## 本次要分辨的缺陷
-
-T148／G129已把renderer移到獨立命名空間及共用可選掛載，解開原同路徑factory覆蓋。已部署的T149／G130修補进一步把圖形移出共享Actionbar，使用命名空間封包／已觀測可選UI Queue或title路由、獨立最新快照及明確END。原圖、游標、時間與食物結算保持；新來源CI及BDS不等於已執行客戶端renderer，任意未協調title寫入與第三方完整HUD覆蓋仍待確認。
+先重連接受新資源包，記錄T155／G133／W132與GUI profile／比例，確認首次進食及首次調酒是否顯示；之後測完成、取消、連續使用及AMW同時顯示。進食時間與材質保留；調酒游標按server tick更新，partial-tick插值待完成。Poststart165 warnings／0 errors，watchdog仍138條，不宣稱整體效能修好。
 
 ## 先解除上游讀檔與資源包辨認阻塞
 
 本輪已讀取BSM原始JSON，檢查時間 **2026-10-13 12:23:03 HKT**；`all_reference_release_metadata_current=false`、`full_java_parity_verified=false`保持。正式修補仍須讀BSM的 `addon_quality/senluo-java-upstream-status.json` 與 `family/java-upstream.json`，過期時重新查核。原[公開歷史快照](../family/JAVA-UPSTREAM-READONLY-20261012.md)只屬10/12原查核；取得伺服器端資料不代表Dot本機DNS／任務通道已修復。
 
-Dot既有回歸記錄：取消保留物品、完成後進度正常退出、調酒裝料／返瓶／產出通過，但快速重開仍見兩次短暫空條。這些觀察尚未附可核對的候選與客戶端版本；保留各場景結果，不挪作T154／G132驗收。先確認實際LIVE、客戶端BP／RP UUID／版號、完整堆疊與GUI profile／比例，優先查資源包快取及載入優先序。正常退出客戶端並重新接受已更新的伺服器資源包後，只重錄下面同一流程；沒有明確新失敗時不再轉入隔離camera／hold微調或重跑舊影片。
+Dot既有回歸記錄：取消保留物品、完成後進度正常退出、調酒裝料／返瓶／產出通過，但快速重開仍見兩次短暫空條。這些觀察尚未附可核對的候選與客戶端版本；保留各場景結果，不挪作T155／G133驗收。先確認實際LIVE、客戶端BP／RP UUID／版號、完整堆疊與GUI profile／比例，優先查資源包快取及載入優先序。正常退出客戶端並重新接受已更新的伺服器資源包後，只重錄下面同一流程；沒有明確新失敗時不再轉入隔離camera／hold微調或重跑舊影片。
 
 ## 一次正常玩家流程
 
