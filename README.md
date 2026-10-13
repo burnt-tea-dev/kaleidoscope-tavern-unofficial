@@ -1,12 +1,12 @@
 ## Current maintained baseline: 0.6.154
 
-T154/W131 admit the three supported foundation event IDs before reading, scanning or parsing a message. UTF-8 byte counting reads UTF-16 units directly and preserves paired/lone-surrogate byte counts. Protocol limits, ACKs, scheduling and storage remain unchanged. See [T154 scope](docs/RELEASE-NOTES-0.6.154.md).
+At **[private deployment time]**, T154/G132/W131/private-integration/Ribbits10037 completed canonical PR/CI, full-family static admission, one stopped-save first/restart and exact live readback: 42 packs, BDS1.26.52.3 RUNNING.
 
-At **[private deployment time]**, the complete T154/G132/W131/private-integration/Ribbits10036 family completed canonical source CI, static checks, one stopped-save first/restart, admission and full readback: 42 packs, BDS1.26.52.3 RUNNING. The poststart window contains **208 warnings / 0 errors**, including **181 watchdog records (8 spikes, 173 slowdowns, 0 High Memory)**. The diagnostic profile captured later transport work and missed the first initialization spikes; complete watchdog resolution remains unverified.
+Ribbits10037 reduces synchronous FP Base64 decoding work while preserving the original fallback, saved format, callbacks and prior connection repair. T154/G132/W131 and private reviewed integration outputs remain unchanged. See the [source, diagnostics and live scope](family/RIBBITS-FP-DECODE-LIVE-20261013.md). Poststart has **172 warnings / 0 errors**, including **145 watchdog records (8 spikes, 137 slowdowns)**; Ribbits still records a **253 ms** startup spike. Complete watchdog resolution remains unverified.
 
-[Download v0.6.154-beta.1](https://github.com/casama233/kaleidoscope-tavern-unofficial/releases/tag/v0.6.154-beta.1). The [public/LIVE comparison](family/PUBLIC-DOWNLOAD-LIVE-TRANSPORT-CPU-20261013.md), recorded at 2026-10-13 15:03:22 HKT, confirms all **9346 files** in six owned packs match the public archives, LIVE and the reviewed receipt. T154/W131 were newly downloaded anonymously. G132 reuses its previously verified anonymous archive through a same-filesystem hardlink; all three release metadata and digests were freshly checked.
+[Download v0.6.154-beta.1](https://github.com/casama233/kaleidoscope-tavern-unofficial/releases/tag/v0.6.154-beta.1). The six public owned packs retain all **9346 files** from the [previous anonymous-download comparison](family/PUBLIC-DOWNLOAD-LIVE-TRANSPORT-CPU-20261013.md); current receipt conservation and complete live readback confirm those same bytes. This Ribbits-only update makes no new public download or release claim.
 
-G132, private integration and Ribbits retain their content. Rapid reopen, client graphics, arbitrary whole-HUD/title writers and complete Java parity remain unverified. `client=false`, `production_ready=false`, `pending_client_acceptance`.
+Rapid reopen, client graphics, Ribbits generation/interactions and complete Java parity remain unverified. `client=false`, `production_ready=false`, `pending_client_acceptance`.
 
 ## Historical repair scopes
 
