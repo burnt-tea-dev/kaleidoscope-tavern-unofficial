@@ -53,6 +53,9 @@ export function createFoundationClient(system,world,payload,ready,{log=console.w
  }
  const effectAcks=new Map();
  system.afterEvents.scriptEventReceive.subscribe(ev=>{
+  // Other Tavern channels include large extension transfers; they cannot affect
+  // foundation state and must not pay its byte scan or JSON parse.
+  if(ev.id!==NS+'foundation_request'&&ev.id!==NS+'foundation_ack'&&ev.id!==NS+'effect_snapshot')return;
   if(ev.sourceType!=='Server'||utf8Bytes(ev.message)>1900)return;
   try{
    const row=JSON.parse(ev.message);if(row.source!==source)return;

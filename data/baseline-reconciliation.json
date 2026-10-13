@@ -8598,6 +8598,23 @@
           ]
         }
       }
+    },
+    {
+      "release": "0.6.154",
+      "files": {
+        "runtime/BP/scripts/core/util.js": {
+          "before": "08f2ec46d7a894013af267d8c456a96ad349e476a2a56dc28fcb2e9fd7215cd6",
+          "after": "26a2ccd1b6edc5e25af0c355012bbfa61be3d8939c41ed30d5b0e90c13dbb0c2",
+          "reason": "T154 counts wire UTF-8 bytes from UTF-16 units without per-codepoint strings while preserving pair/lone-surrogate sizes and the legacy non-string iterable path. Independent Node Buffer oracle and unchanged transport limits/wire regressions retain byte validation. Native speed and complete watchdog resolution remain unverified. See docs/RELEASE-NOTES-0.6.154.md.",
+          "reverseOps": [
+            [
+              15,
+              28,
+              "export function utf8Bytes(s) { let n=0;for(const c of s){const v=c.codePointAt(0);n+=v<128?1:v<2048?2:v<65536?3:4;}return n; }\n"
+            ]
+          ]
+        }
+      }
     }
   ],
   "reviewedAssetDeltaLayers": [

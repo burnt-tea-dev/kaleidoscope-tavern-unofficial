@@ -6,7 +6,7 @@ import {readFileSync} from 'node:fs';
 import {canonical,digest,utf8Bytes,prepareJson,finishPreparation,cacheItemDefinitionTags} from '../runtime/BP/scripts/core/util.js';
 import {packetsFor as corePackets} from '../runtime/BP/scripts/core/transport.js';
 import {EVENTS,preparePacketsFor,packetsFor} from '../sdk/protocol.js';
-import {prepareJson as sdkPrepareJson} from '../sdk/util.js';
+import {prepareJson as sdkPrepareJson,utf8Bytes as sdkUtf8Bytes} from '../sdk/util.js';
 import {registerTavernExtension} from '../sdk/tavern-extension-client.js';
 import {ExtensionRegistry} from '../runtime/BP/scripts/core/registry.js';
 import {BUILTIN_RECIPES} from '../runtime/BP/scripts/data/recipes.js';
@@ -27,6 +27,23 @@ function predecessorPackets(extension,revision,quotedLimit){
  return [{id:EVENTS.begin,message:JSON.stringify(info)},...parts.map((data,index)=>({id:EVENTS.chunk,message:JSON.stringify({source:info.source,revision,index,data})})),{id:EVENTS.commit,message:JSON.stringify({source:info.source,revision})}];
 }
 const finishWithYields=job=>{let result,yields=0;do{result=job.next();if(!result.done)yields++;}while(!result.done);return {value:result.value,yields};};
+
+test('wire byte counters match the Node Buffer oracle for every code unit and surrogate boundaries',()=>{
+ const counters=[utf8Bytes,sdkUtf8Bytes];
+ const compare=value=>{const expected=Buffer.byteLength(value,'utf8');for(const count of counters)assert.equal(count(value),expected);};
+ compare('');
+ for(let unit=0;unit<=0xffff;unit++)compare(String.fromCharCode(unit));
+ const boundary=[0,0x7f,0x80,0x7ff,0x800,0xd7ff,0xd800,0xdbff,0xdc00,0xdfff,0xe000,0xffff];
+ for(const a of boundary)for(const b of boundary)compare(String.fromCharCode(a,b));
+ for(const scalar of [0x10000,0x1f642,0x10ffff])compare(String.fromCodePoint(scalar));
+ compare(('中文 café 🙂\ud800x\udfff\ud800\ud800\udfff\udfff\u0000').repeat(512));
+ for(const count of counters){
+  assert.equal(count(new String('中文🙂')),10,'boxed-string iterable contract remains');
+  assert.equal(count(['a','🙂','\ud800']),8,'legacy iterable contract remains');
+  assert.throws(()=>count(null),TypeError);
+  assert.throws(()=>count(42),TypeError);
+ }
+});
 
 test('native quote chunks preserve pair boundaries, lone surrogates and long keys within 1024 units',()=>{
  const pair='x'.repeat(1023)+'🙂'+'y'.repeat(1023)+'🙂';
@@ -95,7 +112,7 @@ test('yielding full guide retains the complete T148 product projection and wire 
  const messages=finishWithYields(prepareCookeryGuideMessages(payload,{revision:revision.value}));assert.ok(messages.yields>100);
  const raw=messages.value.filter(row=>row.id.endsWith(':guidebook_chunk')).map(row=>row.message.split('\n').slice(4).join('\n')).join('');
  assert.equal(raw,JSON.stringify(cookery106WirePayload(payload)));
- assert.ok(messages.value.every(row=>Buffer.byteLength(row.message)<=2048));
+ for(const row of messages.value){const bytes=Buffer.byteLength(row.message);assert.ok(bytes<=2048);assert.equal(utf8Bytes(row.message),bytes);assert.equal(sdkUtf8Bytes(row.message),bytes);}
 });
 
 test('native item definition caching preserves dynamic extension tag replacement/removal',()=>{

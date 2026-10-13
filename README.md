@@ -1,6 +1,6 @@
-## Current maintained baseline: 0.6.153
+## Current maintained baseline: 0.6.154
 
-T153 preserves full closed barrels while an installed World Liquor source is still registering, retaining existing batch snapshots and builtin recipe priority. Font metrics use parsed JSON with identical glyph data, and each guide projection reuses immutable page recipe links while dynamic views keep their reads. These source repairs do not establish native startup performance or human acceptance. See [T153 scope](docs/RELEASE-NOTES-0.6.153.md).
+T154 avoids scanning unrelated Tavern event payloads in the foundation SDK and counts wire UTF-8 bytes directly from UTF-16 units without constructing per-codepoint strings. Protocol, byte limits, ACKs and scheduling remain unchanged. The paired candidate is pending CI/native/client verification; the deployed T153 evidence below retains its original scope. See [T154 scope](docs/RELEASE-NOTES-0.6.154.md).
 
 The complete T153/G132/W130/P34/Ribbits10036 family passed deployment readback at **2026-10-13 11:42:56 HKT**: 42 packs, BDS1.26.52.3 RUNNING. Canonical source CI, static checks, one stopped-save first/restart, admission and full readback passed. **197 warnings / zero errors**, including **170 watchdog records (8 spikes, 162 slowdowns, no High Memory)** remain; startup performance is still unresolved.
 
