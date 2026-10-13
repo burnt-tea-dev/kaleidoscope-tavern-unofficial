@@ -1,21 +1,21 @@
 {
-  "version": "0.6.152",
-  "tag": "v0.6.152-beta.1",
-  "title": "森羅物語：酒館 0.6.152 測試版｜同步分包校驗避免整串重算",
+  "version": "0.6.153",
+  "tag": "v0.6.153-beta.1",
+  "title": "森羅物語：酒館 0.6.153 測試版｜註冊前保全酒桶與啟動資料修補",
   "prerelease": true,
   "publication_request": false,
-  "validation_evidence": "docs/RELEASE-NOTES-0.6.152.md",
-  "public_notes_path": "docs/RELEASE-NOTES-0.6.152.md",
+  "validation_evidence": "docs/RELEASE-NOTES-0.6.153.md",
+  "public_notes_path": "docs/RELEASE-NOTES-0.6.153.md",
   "client_acceptance": "pending",
   "full_client_acceptance": "pending",
   "saved_world_migration": "pending",
   "production_ready": false,
   "live_deployment": false,
-  "native_evidence_scope": "T152 reuses exact received-part UTF8 byte lengths with surrogate boundary correction and a bounded per-chunk FNV prefix. Ordered COMMIT avoids whole-string integrity rescans; reverse receipt keeps the original digest fallback. Registry/JSON parse/install/ACK remain synchronous; producer SDK, storage, gameplay timing and T151 cache unchanged. W129 pairs the dependency, G130/private34/Ribbits10036 unchanged. Source equivalence is not native/client acceptance; fresh complete family admission/save/live required.",
-  "expected_archive_sha256": "35adbf2f3ee1e5282c0f07fd6c0dc2897f9d9c9148a084319bfdcc3f4e374914",
-  "reviewed_runtime_source": "cf52c8fc677c7a11be9fc03619ecfe758b320ec6",
+  "native_evidence_scope": "T153 preserves full closed unbatched barrels while detected installed recipe sources complete registration; builtin priority and saved batch cadence stay unchanged. Board font JSON encoding keeps all glyph values/prototypes/mutability; immutable guide links reuse one matching scan and dynamic views keep their reads. Original T152 integrity transport, synchronous registry/ACK and SDK remain unchanged. The exact G132 and W130 sources are paired for full-family validation. Source equivalence is not native performance or client acceptance; fresh full-family saved-load/admission/live checks remain required.",
+  "expected_archive_sha256": "eda4f114c7fba03702f7c06c963c23d5a06530ac478794f645719ed6725e5d9e",
+  "reviewed_runtime_source": "076b8de0d842a5c31dd6efd358e54c3df5f149c7",
   "paired_owned_sources": {
-    "grilling": "a567e17c0316f7f2175dfef07004bb944634ca90",
-    "world-liquor": "a73a5ec2525acc30bf71244d28f75ebd58128caa"
+    "grilling": "5ce756f4ab339b5ec6dc05def1bd04c8e3973a83",
+    "world-liquor": "31850c96616d8287355201dc9b160a40119e470b"
   }
 }
