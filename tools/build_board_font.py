@@ -6,6 +6,10 @@ The world transforms and the renderer's 16x16 glyph cells are unchanged.
 import gzip,json
 from pathlib import Path
 from PIL import Image,ImageDraw
+def json_data(value):
+    # Keep the data value and mutability while avoiding one JS AST node per glyph.
+    return 'JSON.parse('+json.dumps(json.dumps(value,separators=(',',':')))+')'
+
 ROOT=Path(__file__).resolve().parents[1];RT=ROOT/'runtime'
 glyphs={};advances={};bold={}
 # Preserve full width for East Asian ranges used by the original board layout.
@@ -26,5 +30,5 @@ for page in range(256):
     alpha=Image.new('L',(256,256))
     for low in range(256):alpha.paste(glyphs.get(page*256+low,missing),((low%16)*16,(low//16)*16))
     out=Image.new('RGBA',(256,256),(255,255,255,0));out.putalpha(alpha);out.save(RT/f'RP/textures/board_font/glyph_{page:02X}.png',optimize=True)
-(RT/'BP/scripts/data/board-font.js').write_text('// Tavern Board Font: GNU Unifont 15.0.06 derived advances, in Java font-pixel units.\nexport const FONT_ADVANCES='+json.dumps([advances.get(cp,6) for cp in range(65536)],separators=(',',':'))+';\nexport const FONT_BOLD_OFFSETS='+json.dumps([bold.get(cp,.5) for cp in range(65536)],separators=(',',':'))+';\n')
+(RT/'BP/scripts/data/board-font.js').write_text('// Tavern Board Font: GNU Unifont 15.0.06 derived advances, in Java font-pixel units.\nexport const FONT_ADVANCES='+json_data([advances.get(cp,6) for cp in range(65536)])+';\nexport const FONT_BOLD_OFFSETS='+json_data([bold.get(cp,.5) for cp in range(65536)])+';\n')
 print('256 GNU Unifont board atlases generated; no Minecraft bitmap-provider glyphs.')
