@@ -50,7 +50,7 @@ const worldUI=JSON.parse(read(liquor,'ui/kt_world_liquor_effects.json'));
 assert.equal(worldUI.namespace,'kaleidoscope_world_liquor_effects');assert(!('root_panel' in worldUI));
 assert.equal(worldUI.effect_panel.controls.length,481);assert(!existsSync(liquor.directory+'/ui/hud_screen.json'));
 assert.deepEqual(JSON.parse(read(liquor,'ui/_global_variables.json')),{'$kt_world_liquor_effect_panel':'kaleidoscope_world_liquor_effects.effect_panel'});
-assert.equal(hud.kt_effect_icons['$kt_world_liquor_effect_panel|default'],'kaleidoscope_tavern_hud.kt_effect_empty');assert.equal(hud.kt_effect_empty.type,'panel');
+assert(!Object.hasOwn(hud.kt_effect_icons,'$kt_world_liquor_effect_panel|default'));assert.equal(hud.kt_effect_empty.type,'panel');
 assert(hud.kt_effect_icons.controls.slice(1,-1).every(c=>!Object.values(c)[0].texture.includes('world_liquor')));
 // Execute the installed AMW fallback module's legacy public route, with no queue addon.
 const amwBP=get('cd107d2a-333f-4347-ab54-6917142be0d7'),legacyOutput=[],legacyEvents=[];

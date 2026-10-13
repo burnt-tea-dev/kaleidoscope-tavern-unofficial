@@ -1,6 +1,7 @@
 """Structural JSON UI contract. This is not a client renderer."""
 from pathlib import Path
 import argparse,copy,json
+from hud_mount_contract import EMPTY,global_catalog,reject_local_provider_defaults,resolve_global_catalog
 ROOT=Path(__file__).resolve().parents[1]
 def read(path):return json.loads(Path(path).read_text())
 def registered_definitions(rp):
@@ -48,10 +49,12 @@ def audit(root=ROOT,liquor=None,grilling=None):
  assert tavern['namespace']=='kaleidoscope_tavern_hud'
  typed_controls(tavern['root'])
  assert tavern['root']['controls']==[{'kt_mixology@kaleidoscope_tavern_hud.kt_mixology_packet':{}},{'kt_effect_icons@kaleidoscope_tavern_hud.kt_effect_icons':{}}]
- assert read(root/'runtime/RP/ui/_global_variables.json')=={'$kt_tavern_hud_root':'kaleidoscope_tavern_hud.root'}
+ host_globals=read(root/'runtime/RP/ui/_global_variables.json')
+ assert host_globals==global_catalog('tavern')
+ reject_local_provider_defaults(tavern)
  assert 'kaleidoscope_tavern_hud.root' in own
  panel=tavern['kt_effect_icons'];typed_controls(panel);effect_icon_bindings(panel,'kt_effect_data')
- variable='$kt_world_liquor_effect_panel';default=panel[variable+'|default'];assert default=='kaleidoscope_tavern_hud.kt_effect_empty'
+ variable='$kt_world_liquor_effect_panel';default=resolve_global_catalog(host_globals)[variable];assert default==EMPTY
  assert panel['controls'][-1]=={'kt_optional_world_icons@'+variable:{}}
  assert own[default]['type']=='panel' and own[default]['size']==[0,0]
  selected=default
@@ -60,8 +63,8 @@ def audit(root=ROOT,liquor=None,grilling=None):
   assert set(globals)=={variable};selected=globals[variable];assert selected in addon
   assert selected=='kaleidoscope_world_liquor_effects.effect_panel'
   typed_controls(addon[selected]);effect_icon_bindings(addon[selected],'kwl_effect_data');assert addon[selected]['offset']==[0,0]
-  # The two resource orders have disjoint definitions and the host has only a
-  # local default. Optional global selection is therefore independent of order.
+  # Provider and fallback are in the same scope. No local empty value may
+  # shadow the optional global provider before its control is instantiated.
   assert not (set(addon)&set(own))
   for definitions in [{**own,**addon},{**addon,**own}]:assert definitions[selected]==addon[selected]
  paired=False
@@ -70,7 +73,7 @@ def audit(root=ROOT,liquor=None,grilling=None):
   assert (root/'runtime/RP/ui/hud_screen.json').read_bytes()==(peer/'ui/hud_screen.json').read_bytes(),'Family HUD bridges differ'
   peer_defs=registered_definitions(peer);peer_globals=read(peer/'ui/_global_variables.json')
   assert not (set(peer_defs)&set(own)),'Family registered namespaces collide'
-  assert peer_globals=={'$kg_grilling_hud_root':'kaleidoscope_grilling_hud.root'}
+  assert peer_globals==global_catalog('grilling')
   assert 'kaleidoscope_grilling_hud.root' in peer_defs
   typed_controls(peer_defs['kaleidoscope_grilling_hud.root'])
   pairs=[(own,read(root/'runtime/RP/ui/_global_variables.json')),(peer_defs,peer_globals)]
@@ -88,7 +91,8 @@ def optional_mounts(hud,definitions,globals):
  result=[]
  for instance in hud['root_panel']['modifications'][0]['value']:
   variable=next(iter(instance)).split('@',1)[1]
-  selected=globals.get(variable,hud['root_panel'][variable+'|default'])
+  reject_local_provider_defaults(hud)
+  selected=resolve_global_catalog(globals)[variable]
   assert selected in definitions,'Unresolved optional HUD root: '+selected
   typed_controls(definitions[selected]);result.append(selected)
  return result
@@ -100,17 +104,15 @@ def family_bridge(hud):
  highest-priority family bridge cannot omit the other port's renderer.
  """
  assert hud['namespace']=='hud'
+ reject_local_provider_defaults(hud)
  assert set(hud)=={'namespace','kt_family_empty','root_panel','hud_actionbar_text','hud_actionbar_text/actionbar_message','not_centered_gui_elements','centered_gui_elements_at_bottom_middle','centered_gui_elements_at_bottom_middle_touch'}
  assert hud['kt_family_empty']=={'type':'panel','size':[0,0]}
  patch=hud['root_panel']
- assert set(patch)=={'$kt_tavern_hud_root|default','$kg_grilling_hud_root|default','$senluo_amw_hud_root|default','$senluo_amw_boss_root|default','modifications'}
- assert patch['$kt_tavern_hud_root|default']==patch['$kg_grilling_hud_root|default']=='hud.kt_family_empty'
+ assert set(patch)=={'modifications'}
  assert patch['modifications']==[{'array_name':'controls','operation':'insert_back','value':[{'kt_family_tavern@$kt_tavern_hud_root':{}},{'kt_family_grilling@$kg_grilling_hud_root':{}},{'kt_optional_amw@$senluo_amw_hud_root':{}},{'kt_optional_amw_boss@$senluo_amw_boss_root':{}}]}]
- for variable in ['$senluo_amw_hud_root','$senluo_amw_boss_root']:
-  assert patch[variable+'|default']=='hud.kt_family_empty'
  for leaf,var in [('not_centered_gui_elements','$senluo_saturation_non_centered'),('centered_gui_elements_at_bottom_middle','$senluo_saturation_centered'),('centered_gui_elements_at_bottom_middle_touch','$senluo_saturation_touch')]:
   append=hud[leaf]['modifications'];assert len(append)==1 and append[0]['operation']=='insert_back'
-  wrapper=next(iter(append[0]['value'][0].values()));assert wrapper[var+'|default']=='hud.kt_family_empty'
+  wrapper=next(iter(append[0]['value'][0].values()))
   typed_controls(wrapper)
  for key in ['hud_actionbar_text','hud_actionbar_text/actionbar_message']:
   assert set(hud[key])=={'$kt_family_actionbar_text','visible'}
