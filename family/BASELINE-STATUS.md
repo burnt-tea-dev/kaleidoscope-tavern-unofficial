@@ -1,22 +1,10 @@
 # 家族現行基線與差距
 
-**2026-10-13 16:00:25 HKT**：luosen **T154／G132／W131／P34／Ribbits1.0.10037**，42包，BDS1.26.52.3 RUNNING。Canonical PR／必要CI、static、一次停服存檔副本first／restart、完整准入及逐檔／順序讀回通過。`client=false`、`production_ready=false`、`pending_client_acceptance`。
+**2026-10-13 17:05:52 HKT**：luosen **T155／G133／W132／P34／Ribbits1.0.10037**，42包，BDS1.26.52.3 RUNNING。PR／必要CI、static、一次停服存檔副本first／restart、完整准入及逐檔／順序讀回通過。`client=false`、`production_ready=false`、`pending_client_acceptance`。
 
-[本次Ribbits修補與證據](RIBBITS-FP-DECODE-LIVE-20261013.md)。六個公開自有BP／RP共9346檔與前次已匿名核對的輸出逐檔相等，本次完整LIVE讀回亦通過；沿用[15:03:22公開下載證據](PUBLIC-DOWNLOAD-LIVE-TRANSPORT-CPU-20261013.md)，本輪没有重新下載或發行T／G／W。
+[本次修補、來源及公開下載證據](PUBLIC-DOWNLOAD-LIVE-PERSISTENT-HUD-20261013.md)：進食／調酒常駐接收器與舊progress父條件修正已部署；真人畫面是否恢復仍待確認。三個公開archive已匿名下載，六自有BP／RP的9346檔均與LIVE及准入收據相等。
 
-## 本輪修補與界限
-
-Ribbits1.0.10037只替換FP存檔載入的一處同步Base64解壓呼叫，六位元緩衝解碼保留原UTF16字典結果；異常／非標準輸入交回原方法。保存格式、序列化、property keys、回呼、既有connection修補及其餘資產保留；配對manifest由canonical compiler生成。T154／G132／W131及P34輸出不變。
-
-本次poststart **172 warnings／0 errors**；watchdog **145（8 Spike／137 Slowdown／0 High Memory）**，其中Ribbits啟動Spike **253ms**。存檔first／restart的Ribbits為261／267ms。這些是不同啟動窗口的觀察，不作整體效能百分比或完整watchdog驗收。
-
-真人食用／取消／快開、調酒、AMW29通道、飽和度／普通提示及UI profile／scale仍待[回歸](../docs/HUD-COMPAT-CLIENT-HANDOFF-20261012.md)。任意第三方whole HUD／title與完整Java一比一未保證。
-
-## 來源與當次證據
-
-私有canonical [PR21](https://github.com/casama233/senluo-family-integration-private/pull/21)及CI38364423686已完成，merge `be7cf5287be8d6982052e409de6f9efc28d5cc0c`；准入工具[PR351](https://github.com/casama233/kaleidoscope-tavern-unofficial/pull/351)與CI38364584448通過，merge `831c9dfa`。來源CI核對UTF16全域、原作者roundtrip與異常輸入；必要baseline成功，私有付費pre-commit不可用沒有冒充通過。T154功能來源PR348、G132 PR199、W131 PR115保持。
-
-紀錄 `20261013-ribbits-fp-decode-t154-g132-w131-p34-ribbits10037-ci351`；reviewed SHA `0181b52f8fd0f948502517c664a633ee62914064163de3a0dffe852d2c9d1938`，raw SHA `36f86ac26f9394010a2d9618dcd7a13e06c351a510f494cc0697a3e733a0cd61`。政策installed／deferred_client_acceptance綁同reviewed SHA。18筆玩家記錄及2容器保留；freezer输入0，不當非空投料驗收。首次錯誤CI引用設定在停服前被拒，原失敗紀錄保留；修正設定後使用同一不可變包內容，未改寫失敗或原收據。
+Poststart165 warnings／0 errors，watchdog138（9 Spike／129 Slowdown），Ribbits252ms仍有尖峰。存檔首次／重啟均零錯誤，18玩家記錄及2容器保存。這不是client渲染或整體效能驗收。真人首次顯示、完成／取消／快開、AMW29通道、飽和度／普通提示、UI比例及聲畫仍待[回歸](../docs/HUD-COMPAT-CLIENT-HANDOFF-20261012.md)。調酒游標partial-tick插值與完整Java一比一未完成。
 
 ## 作者與維護
 
