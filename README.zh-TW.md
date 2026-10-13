@@ -1,4 +1,6 @@
-## 當前維護基線：0.6.154
+## 當前維護基線：0.6.155
+
+T155／G133／W132 為本次 UI 修補候選：進食與調酒改用常駐通道接收器，移除調酒進度父面板的舊文字條件。[來源修補與待驗範圍](docs/RELEASE-NOTES-0.6.155.md)。目前尚未以真人畫面確認恢復；此前 LIVE 證據仍屬 T154／G132／W131。
 
 T154／W131讓foundation接收器先篩選三個支援事件ID，無關封包在讀取message、計算UTF-8長度與JSON解析前退出。UTF-8計數直接讀取UTF-16，避免逐codepoint建立字串；配對／孤立surrogate與非字串iterable fallback保持原值。支援通道的驗證、封包、ACK、排程與保存保持；G132、private-integration及Ribbits10036沒有內容更新。 見[T154範圍](docs/RELEASE-NOTES-0.6.154.md)。
 

@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Complete literal Java color controls without changing progress or expiry keys.
+"""Emit persistent graphical shaker controls from the owned packet protocol.
 
 The checked-in white slot sprite is the original Java rhombus mask. Generated
 RGB texels multiply that source and retain its alpha, as ShakerOverlay does.
 """
 import json
 from pathlib import Path
-from formatting_hud_ui import snapshot_panel
+from formatting_hud_ui import bind_channel
 from PIL import Image, ImageChops
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -44,7 +44,32 @@ def main():
                 image.paste(icon, (slot * 20, 0))
                 image.save(RP / f'textures/ui/kt_mixology/slots/{name}.png')
     panel['controls'] = updated
-    snapshot_panel(panel,'kt_slot','§r§0§r§2','§r§0§r§2§r§f§f§r','kt_text')
+    bind_channel(panel,'kt_slot','§r§0§r§2','§r§0§r§2§r§f§f§r','kt_text')
+    # A permanent receiver cannot inherit animations that faded/destroyed a
+    # factory instance. Progress is already sent each server tick.
+    for key in list(hud):
+        if key.startswith('kt_mixology_') and ('anim_type' in hud[key] or key == 'kt_mixology_factory'):
+            del hud[key]
+    for key in ['kt_mixology_slot', 'kt_mixology_cursor']:
+        hud[key].pop('anims', None)
+    hud['kt_mixology_cursor'].pop('offset', None)
+    packet = hud['kt_mixology_packet']
+    for key in ['alpha', 'propagate_alpha', 'bindings', 'property_bag', 'visible', '$kt_text']:
+        packet.pop(key, None)
+    progress = packet['controls'][1]['progress']
+    progress.pop('visible', None) # Remove the obsolete text-only / 111 gate.
+    bar = progress['controls'][0]['bar']
+    for key in ['anims', 'bindings', 'property_bag']:
+        bar.pop(key, None)
+    bar['visible'] = "(not (($kt_text - '§r§0§r§2§r§2') = $kt_text))"
+    rows = [{'bar': bar}]
+    for tick in range(112):
+        rows.append({f'cursor_{tick}@kaleidoscope_tavern_hud.kt_mixology_cursor': {
+            'offset': [tick * 1.5, 0],
+            'visible': f"($kt_text = '§r§0§r§2§r§2{code(tick)}§r')"}})
+    progress['controls'] = rows
+    bind_channel(progress, 'kt_progress', '§r§0§r§2', '§r§0§r§2§r§f§f§r', 'kt_text')
+    hud['root']['controls'][0] = {'kt_mixology@kaleidoscope_tavern_hud.kt_mixology_packet': {}}
     path.write_text(json.dumps(hud, ensure_ascii=False, separators=(',', ':')) + '\n')
     print('Generated 51 literal controls: three slots, all 16 Java colors and empty')
 

@@ -47,7 +47,7 @@ def audit(root=ROOT,liquor=None,grilling=None):
  own=registered_definitions(root/'runtime/RP');own.update({'hud.'+k:v for k,v in hud.items() if k not in ['namespace','root_panel']})
  assert tavern['namespace']=='kaleidoscope_tavern_hud'
  typed_controls(tavern['root'])
- assert tavern['root']['controls']==[{'kt_mixology@kaleidoscope_tavern_hud.kt_mixology_factory':{}},{'kt_effect_icons@kaleidoscope_tavern_hud.kt_effect_icons':{}}]
+ assert tavern['root']['controls']==[{'kt_mixology@kaleidoscope_tavern_hud.kt_mixology_packet':{}},{'kt_effect_icons@kaleidoscope_tavern_hud.kt_effect_icons':{}}]
  assert read(root/'runtime/RP/ui/_global_variables.json')=={'$kt_tavern_hud_root':'kaleidoscope_tavern_hud.root'}
  assert 'kaleidoscope_tavern_hud.root' in own
  panel=tavern['kt_effect_icons'];typed_controls(panel);effect_icon_bindings(panel,'kt_effect_data')
