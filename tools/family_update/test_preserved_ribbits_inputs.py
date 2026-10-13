@@ -100,6 +100,40 @@ class RibbitsInputBoundaries(unittest.TestCase):
     def select(self):
         with self.context(): return prospective.select(self.preserved, self.original)
 
+    def test_fp_pair_admission_and_fresh_save_keep_exact_identity_boundaries(self):
+        recipe = c.read(self.recipe)
+        recipe['profile'] = ribbits.FP_PROFILE
+        for index, (name, (uid, side)) in enumerate(ribbits.PACKS.items()):
+            prior = copy.deepcopy(self.manifests[name])
+            output = copy.deepcopy(prior)
+            output['header'].update(name=name + ' [Senluo FP decode 1.0.10037]', version=[1, 0, 10037])
+            for module in output['modules']: module['version'] = [1, 0, 10037]
+            output['dependencies'][0]['version'] = [1, 0, 10037]
+            ribbits.validate_manifest(name, output, prior, ribbits.FP_PROFILE)
+            wrong = copy.deepcopy(output); wrong['modules'][0]['uuid'] = 'replacement'
+            with self.assertRaises(AssertionError): ribbits.validate_manifest(name, wrong, prior, ribbits.FP_PROFILE)
+            old_root, new_root = Path(self.preserved[index]['path']), Path(self.outputs[name]['path'])
+            self.write_json(old_root / 'manifest.json', prior)
+            self.write_json(new_root / 'manifest.json', output)
+            before, after = hashes(old_root), hashes(new_root)
+            self.preserved[index].update(version=ribbits.VERSION, files=before)
+            self.candidate[index].update(version=[1, 0, 10037], files=after)
+            recipe['before_versions'][name], recipe['versions'][name] = ribbits.VERSION, [1, 0, 10037]
+            recipe['input_hashes'][name], recipe['output_hashes'][name] = before, after
+            recipe['changed'][name] = {p: {'before': before[p], 'after': after[p]} for p in ribbits.PATCH_PATHS[name]}
+        self.original = {'packs': copy.deepcopy(self.preserved)}
+        self.write_json(self.root / 'admitted.json', self.original)
+        recipe['approved_input_receipt_sha256'] = c.sha(self.root / 'admitted.json')
+        self.recipe = self.ext / ribbits.FP_RECIPE
+        self.write_json(self.recipe, recipe)
+        self.review.update(profile=ribbits.FP_PROFILE, recipe={'path': ribbits.FP_RECIPE, 'sha256': c.sha(self.recipe)})
+        self.write_json(self.review_path, self.review)
+        self.write_json(self.run / 'release-candidate/family-receipt.json', self.receipt)
+        self.test_conserved_pair_keeps_other_addons_and_binds_source_inputs()
+        self.test_native_is_this_candidates_first_and_restart_before_install()
+        self.preserved[0]['files']['assets/retained.txt'] = 'drift'
+        with self.assertRaises(AssertionError): self.select()
+
     def test_conserved_pair_keeps_other_addons_and_binds_source_inputs(self):
         before = copy.deepcopy(self.original)
         roots, selected = self.select()
