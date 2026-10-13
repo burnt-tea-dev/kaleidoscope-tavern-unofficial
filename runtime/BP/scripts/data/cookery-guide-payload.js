@@ -8,7 +8,7 @@ import { EFFECT_PAGES } from "./effect-pages.js";
 export const COOKERY_GUIDE_PAYLOAD={
   "api": 1,
   "id": "kaleidoscope_tavern:tavern",
-  "version": "0.6.160",
+  "version": "0.6.161",
   "order": 250,
   "icon": "textures/ui/guidebook_icons/kt_tavern",
   "titleKey": "title",

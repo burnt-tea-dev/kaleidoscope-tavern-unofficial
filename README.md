@@ -1,6 +1,6 @@
-## Current maintained baseline: 0.6.160
+## Current maintained baseline: 0.6.161
 
-T160 aligns the four animated item side meshes with their unchanged front/back sprite UVs. Java thickness, face count, animation and native use poses are preserved. Rendered-client acceptance remains pending. [Scope](docs/RELEASE-NOTES-0.6.160.md).
+T161 moves optional HUD fallbacks out of local controls so installed Tavern, Grilling and addon providers are not shadowed by empty panels. Graphical packets, Java assets and gameplay are preserved. Client confirmation remains pending. [Scope](docs/RELEASE-NOTES-0.6.161.md).
 
 T155/G133 repair the missing shaker/eating UI receivers with permanent panels and independent channel caches; the obsolete shaker progress-parent gate is removed. [Repair scope](docs/RELEASE-NOTES-0.6.155.md). Client-rendered recovery remains unconfirmed.
 
