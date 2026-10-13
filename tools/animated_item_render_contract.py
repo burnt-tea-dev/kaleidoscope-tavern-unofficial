@@ -50,14 +50,22 @@ def sprite_geometry(name,frames,display):
             'uv':{'north':face([16,0,0,16]),'south':face([0,0,16,16])}}]
     for (direction,anchor),(low,high) in spans(frames).items():
         if direction in ('up','down'):
-            origin=[8-(high+1),16-anchor-(direction=='down'),-.5];size=[high-low+1,0,1]
+            origin=[low-8,16-anchor-(direction=='down'),-.5];size=[high-low+1,0,1]
             uv=[low,anchor,high+1,anchor+1]
         else:
-            origin=[8-anchor-(direction=='west'),15-high,-.5];size=[0,high-low+1,1]
+            origin=[anchor+(direction=='west')-8,15-high,-.5];size=[0,high-low+1,1]
             # Java vertical spans have reversed Y bounds. Normalize their V
             # endpoints together with the positive Bedrock cube dimensions.
             uv=[anchor,low,anchor+1,high+1]
-        cubes.append({'origin':origin,'size':size,'uv':{direction:face(uv,direction in ('up','down'))}})
+        # The retained front maps U to +X in Bedrock. Java span conversion
+        # previously reflected X only on the sides, disconnecting the shell.
+        # Up and down also have opposite U origins in Bedrock's UV schema.
+        surface=face(uv,direction in ('up','down'))
+        if direction=='up':
+            surface['uv'][0]+=surface['uv_size'][0]
+            surface['uv_size'][0]*=-1
+        facing={'east':'west','west':'east'}.get(direction,direction)
+        cubes.append({'origin':origin,'size':size,'uv':{facing:surface}})
     transforms={}
     for context in CONTEXTS:
         pose=display.get(context,display.get(context.replace('_lefthand','_righthand'),{}) if context.endswith('_lefthand') else {})
