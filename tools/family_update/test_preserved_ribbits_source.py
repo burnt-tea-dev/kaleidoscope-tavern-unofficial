@@ -159,6 +159,39 @@ class RibbitsSourceBoundaries(unittest.TestCase):
             context.enter_context(patch.object(workflow, 'gh_json', side_effect=self.github))
             return ribbits.source_evidence(self.review, self.recipe)
 
+    def test_fp_decoder_profile_requires_original_output_and_actual_decoder_results(self):
+        previous_recipe = {'output_hashes': copy.deepcopy(self.recipe['input_hashes'])}
+        self.write_json(self.ext / ribbits.RECIPE, previous_recipe)
+        self.recipe['profile'] = ribbits.FP_PROFILE
+        self.recipe['prior_recipe_sha256'] = c.sha(self.ext / ribbits.RECIPE)
+        self.recipe_path = self.ext / ribbits.FP_RECIPE
+        self.write_json(self.recipe_path, self.recipe)
+        self.git('add', '.')
+        self.git('commit', '--quiet', '-m', 'Synthetic FP compiler source')
+        self.head, self.tree = self.git('rev-parse', 'HEAD'), self.git('rev-parse', 'HEAD^{tree}')
+        self.remote_trees = {self.pr_head: self.tree, self.checked_commit: self.tree}
+        self.checks[0]['head_sha'] = self.head
+        self.proof.update(kind='ribbits_fp_decode', source_commit=self.head)
+        self.review.update(profile=ribbits.FP_PROFILE, source_commit=self.head,
+                           recipe={'path': ribbits.FP_RECIPE, 'sha256': c.sha(self.recipe_path)})
+        self.report.update(kind='ribbits_fp_decode', profile=ribbits.FP_PROFILE,
+                           git_tree=self.tree, recipe_sha256=c.sha(self.recipe_path),
+                           prior_recipe_sha256=self.recipe['prior_recipe_sha256'],
+                           facts={key: True for key in ribbits.FP_FACTS},
+                           test_command=['node', 'tools/check_ribbits_base64.mjs'],
+                           decoder_result={'ok': True, 'full_utf16_domain': True,
+                               'valid_author_roundtrips': 75,
+                               'malformed_or_noncanonical_equivalence': 714, 'private_saved_samples': 0})
+        self.save_report()
+        self.admit()
+        self.report['decoder_result']['full_utf16_domain'] = False
+        self.save_report()
+        with self.assertRaises(AssertionError): self.admit()
+        self.report['decoder_result']['full_utf16_domain'] = True
+        self.report['prior_recipe_sha256'] = 'f' * 64
+        self.save_report()
+        with self.assertRaises(AssertionError): self.admit()
+
     def test_original_nested_report_shape_runs_real_binding_and_ci_classifier(self):
         before = self.report_path.read_bytes()
         differential, binding, ci = self.admit()

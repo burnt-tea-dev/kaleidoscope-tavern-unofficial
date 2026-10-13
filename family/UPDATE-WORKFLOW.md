@@ -229,3 +229,11 @@ references and refuses cached references from a different configuration.
 後，內部 saved-world／verify-live 入口核對已捕獲的精確 source、runner 與 config；
 另一個遠端 PR 的合併不再使已安裝的健康候選回退。沒有本候選的 active lease、
 本機來源／工具／設定變動仍拒絕；完整候選、保存、准入與實際啟動檢查保持不變。
+
+### Ribbits FP 解壓接續修補
+
+`senluo-ribbits-fp-decode-20261013` 從已准入1.0.10036完整輸出生成
+1.0.10037配對。只改同步FP解壓呼叫與配對manifest，保留存檔格式、
+原解壓fallback及所有其他內容。准入另核對上一版recipe與輸入逐檔相等、
+新私有PR完整tree／實際CI、UTF16與異常輸入差分報告；舊啟動profile
+繼續按原規則驗證。P34不升包，完整家族停服存檔演練與安裝門檻維持。
