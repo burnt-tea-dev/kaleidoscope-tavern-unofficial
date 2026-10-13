@@ -77,7 +77,11 @@ export function advanceBarrel(state,registry,elapsed=BARREL_CHECK_INTERVAL){
  const s=clone(state);
  if(!s.batch){
   if(s.amount!==4000)return state;
-  const r=registry.findBarrel(s.fluid,s.slots);const count=r?(s.slots.some(Boolean)?Math.min(...s.slots.filter(Boolean).map(x=>x.count)):r.noIngredientCount):16;
+  const r=registry.findBarrel(s.fluid,s.slots);
+  // Builtins always precede extensions. Otherwise preserve ingredients until
+  // installed sources register; existing batch snapshots keep ageing.
+  if(r?.source!==NS&&registry.barrelRecipesReady?.()===false)return state;
+  const count=r?(s.slots.some(Boolean)?Math.min(...s.slots.filter(Boolean).map(x=>x.count)):r.noIngredientCount):16;
   s.batch={recipeId:r?.id??`${NS}:vinegar_fallback`,carrier:r?.carrier??`${NS}:empty_bottle`,output:clone(r?.output??{byQuality:Array.from({length:6},(_,i)=>`${NS}:vinegar_q${i+1}`)}),remaining:count,quality:1,unitTime:r?.unitTime??2400,ticksRemaining:r?.unitTime??2400};
   s.fluid='';s.amount=0;s.slots.fill(null);delete s.nativeItems;
  }else if(s.batch.ticksRemaining>0)s.batch.ticksRemaining-=elapsed;
