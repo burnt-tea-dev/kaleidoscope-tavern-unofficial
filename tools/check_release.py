@@ -2,6 +2,7 @@
 """Static release validation only: no player mocks or game interactions."""
 import argparse,hashlib,json,re,subprocess,sys
 from pathlib import Path
+from baseline_reference import asset_projection
 ROOT=Path(__file__).resolve().parents[1];RT=ROOT/'runtime'
 def read(p):return json.loads(p.read_text(encoding='utf-8-sig'))
 
@@ -47,7 +48,13 @@ def check_combined_geometry_budget(inventory,tavern_root=ROOT):
         assert row['before'] is None and row['release']=='0.6.131',('Unreviewed geometry allocation',name)
         assert row['reviewedSourceCommit']=='f08714307ea331be52a9240d8aa6473752325d1c',('Geometry allocation source changed',name)
         assert [Path(p).resolve() for p in inventory.get(identifier,[])]==[path],('Reviewed geometry must have one exact Tavern owner/path',identifier)
-        assert hashlib.sha256(path.read_bytes()).hexdigest()==row['after'],('Reviewed item geometry changed',name)
+        # Preserve the original allocation witness through exact, reversible
+        # asset reviews; the current mesh still obeys the same shape budget.
+        try:
+            original=asset_projection(tavern_root,name,path.read_bytes())
+        except AssertionError as error:
+            raise AssertionError(('Reviewed item geometry changed',name)) from error
+        assert hashlib.sha256(original).hexdigest()==row['after'],('Reviewed item geometry changed',name)
         geometries=read(path)['minecraft:geometry'];assert len(geometries)==1
         geometry=geometries[0];assert geometry['description']['identifier']==identifier
         bones=geometry['bones'];assert len(bones)==1 and bones[0]['name']=='root'

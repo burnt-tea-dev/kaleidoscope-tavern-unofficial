@@ -64,7 +64,9 @@ class GeometryBudgetTests(unittest.TestCase):
         witnesses.update({name:{'before':None,'after':hashlib.sha256((ROOT/name).read_bytes()).hexdigest(),
                                'release':REVIEWED_VISUAL_RELEASE,'reviewedSourceCommit':REVIEWED_VISUAL_SOURCE} for name in REVIEWED_VISUAL_GEOMETRIES.values()})
         for name,value in {
-            'data/baseline-reconciliation.json':{'files':witnesses},
+            'data/baseline-reconciliation.json':{'schema':1,'testOnly':True,'files':witnesses,
+                'reviewedAssetDeltaLayers':[{**layer,'files':{name:row for name,row in layer['files'].items() if name in allocation_files}}
+                    for layer in ledger.get('reviewedAssetDeltaLayers',[]) if set(layer['files'])&allocation_files]},
             'art/interfaces/animated-item-java-reference.json':json.loads((ROOT/'art/interfaces/animated-item-java-reference.json').read_text()),
         }.items():
             path=self.root/name;path.parent.mkdir(parents=True,exist_ok=True);path.write_text(json.dumps(value))
