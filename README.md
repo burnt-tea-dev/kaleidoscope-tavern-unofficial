@@ -1,6 +1,6 @@
-## Current maintained baseline: 0.6.152
+## Current maintained baseline: 0.6.153
 
-T152 distributes extension transfer checksum work across received chunks and checks joined UTF-8 bytes from chunk boundaries. Ordered transfers avoid two complete-string integrity scans at COMMIT; unfinished out-of-order checksums retain the original fallback. Validation, registration and ACK remain synchronous. Source equivalence does not establish native startup performance. See [T152 repair scope](docs/RELEASE-NOTES-0.6.152.md).
+T153 preserves full closed barrels while an installed World Liquor source is still registering, retaining existing batch snapshots and builtin recipe priority. Font metrics use parsed JSON with identical glyph data, and each guide projection reuses immutable page recipe links while dynamic views keep their reads. These source repairs do not establish native startup performance or human acceptance. See [T153 scope](docs/RELEASE-NOTES-0.6.153.md).
 
 The complete T152/G130/W129/P34/Ribbits10036 family was deployed at **2026-10-13 03:44:43 HKT**: 42 packs, BDS1.26.52.3 RUNNING. Required source CI, static, stopped-save first/restart, admission and full readback passed. **245 warnings / zero errors**, including **218 watchdog records (8 spikes, 209 slowdowns, 1 High Memory)** remain. The previous guide COMMIT spike was not recorded in this window; startup/client acceptance remains incomplete.
 
