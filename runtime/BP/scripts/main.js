@@ -23,6 +23,7 @@ import {nativeUseDiagnostics} from './bedrock/mixology.js';
 import {immersionDiagnostics} from './bedrock/immersion.js';
 import {system,world,ItemTypes,ItemStack,ScriptEventSource} from '@minecraft/server';
 import {ExtensionRegistry} from './core/registry.js';
+import {installedBarrelRecipeSources} from './core/installed-recipe-sources.js';
 import {cacheItemDefinitionTags,cacheNativeItemDefinitionExists} from './core/util.js';
 import {BUILTIN_RECIPES} from './data/recipes.js';
 import {FLUIDS} from './data/fluids.js';
@@ -163,6 +164,7 @@ export function diagnosticSnapshot(){
   extensions:registry?.list()??[],
   recipes:registry?.allRecipes().length??0,
   recentMachineErrors:machineDiagnostics.errors,
+  pendingBarrelRecipeSources:registry?.pendingBarrelRecipeSources()??[],
   engineAcceptance:'NOT_RUN_BY_AUTHOR',
  };
 }
@@ -220,6 +222,7 @@ system.run(()=>{
    fluids:FLUIDS,
    itemExists:nativeItemExists,
    itemTags:nativeItemTags,
+   expectedBarrelRecipeSources:installedBarrelRecipeSources(nativeItemExists),
   });
   registry.subscribe(()=>cookeryGuidePublisher.refresh());
   setRegistry(registry);setMixologyRegistry(registry);
