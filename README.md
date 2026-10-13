@@ -1,6 +1,6 @@
-## Current maintained baseline: 0.6.156
+## Current maintained baseline: 0.6.157
 
-T156 restores the pre-T131 hanging-glass aim-selection preference after the reported reversed pickup. [Scope](docs/RELEASE-NOTES-0.6.156.md). The UI regression is still unresolved and this candidate makes no UI change. Prior LIVE evidence below retains its original T155/G133/W132 identity.
+T157 adds a bounded server-only shaker interaction trace to diagnose no-response wine insertion. [Scope](docs/RELEASE-NOTES-0.6.157.md). Insertion and eating/mixology UI remain unresolved; prior deployment evidence retains its original identity.
 
 T155/G133 repair the missing shaker/eating UI receivers with permanent panels and independent channel caches; the obsolete shaker progress-parent gate is removed. [Repair scope](docs/RELEASE-NOTES-0.6.155.md). Client-rendered recovery remains unconfirmed.
 

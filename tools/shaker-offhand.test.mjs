@@ -3,8 +3,8 @@
  */
 import test,{after} from 'node:test';
 import assert from 'node:assert/strict';
-import {world,system,Player,ItemStack,BlockPermutation,EquipmentSlot,Potions} from '@minecraft/server';
-import {nativeStart,nativeStop,placeShaker,pourHeldShakerNow,clearHeldShaker,beforeShakerUse,installMixologyEvents,setMixologyRegistry,readPortableItem,registerMixologyComponents} from '../runtime/BP/scripts/bedrock/mixology.js';
+import {world,system,Player,ItemStack,BlockPermutation,EquipmentSlot,Potions,ScriptEventSource} from '@minecraft/server';
+import {nativeStart,nativeStop,placeShaker,pourHeldShakerNow,clearHeldShaker,beforeShakerUse,installMixologyEvents,setMixologyRegistry,readPortableItem,registerMixologyComponents,snapshotShakerDiagnostics} from '../runtime/BP/scripts/bedrock/mixology.js';
 import {installJavaItemUseOnEvents} from '../runtime/BP/scripts/bedrock/java-placement-router.js';
 import {ExtensionRegistry} from '../runtime/BP/scripts/core/registry.js';
 import {emptyShaker,addInput,cupKey,shakerKey} from '../runtime/BP/scripts/core/mixology.js';
@@ -196,6 +196,26 @@ test('restricted before-event captures an unchanged input and defers its exact o
  assert.equal(f.click().cancel,true);assert.deepEqual(f.main(),before);assert.equal(f.state(),null);assert.equal(f.player.inventory.writes,writes);
  const logs=captureWarnings(()=>system.advance(1));
  assert.deepEqual(logs,[]);assert.equal(f.state().slots.length,1);assert.equal(f.main().amount,1);
+});
+test('server-only diagnostics distinguish bypass, unrecognized item and settled insertion without writing inventory',()=>{
+ const f=stationFixture(2);
+ f.player.isSneaking=true;f.click();
+ f.player.isSneaking=false;f.player.inventory.setItem(0,new ItemStack('minecraft:stick',2));f.click();
+ f.player.inventory.setItem(0,new ItemStack('kaleidoscope_tavern:wine_q6',2));f.click();system.advance(1);
+ const before=f.player.inventory.items.map(item=>item?.clone()),writes=f.player.inventory.writes,state=f.state();
+ const report=snapshotShakerDiagnostics(),events=report.events.filter(row=>row.player===f.player.id);
+ assert(events.some(row=>row.reason==='SECONDARY_USE'));
+ assert(events.some(row=>row.reason==='NOT_INGREDIENT'));
+ assert(events.some(row=>row.stage==='settlement'&&row.result==='COMPLETED'));
+ assert.equal(state.slots[0].item,'kaleidoscope_tavern:wine_q6');
+ const send=(sourceType,message='snapshot')=>system.afterEvents.scriptEventReceive.emit({id:'kaleidoscope_tavern:shaker_diagnostics',sourceType,message});
+ assert.deepEqual(captureWarnings(()=>send(ScriptEventSource.Entity)),[]);
+ assert.deepEqual(captureWarnings(()=>send(ScriptEventSource.Server,'other')),[]);
+ const logs=captureWarnings(()=>send(ScriptEventSource.Server));
+ assert.equal(logs.length,1);assert(logs[0].startsWith('[Tavern shaker diagnostics] '));
+ assert.deepEqual(f.player.inventory.items,before);assert.equal(f.player.inventory.writes,writes);assert.deepEqual(f.state(),state);
+ for(let i=0;i<40;i++){f.player.isSneaking=true;f.click();}
+ assert.equal(snapshotShakerDiagnostics().events.length,24);
 });
 test('deferred station verification rejects slot, item and quantity changes without inventory writes',()=>{
  for(const change of [f=>{f.player.selectedSlotIndex=1;},f=>f.player.inventory.setItem(0,new ItemStack('minecraft:sugar',2)),f=>f.player.inventory.setItem(0,new ItemStack('kaleidoscope_tavern:plum_wine_q4',3))]){
