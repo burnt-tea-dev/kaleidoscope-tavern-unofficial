@@ -356,7 +356,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: casama233/kaleidoscope-grilling-unofficial
-          ref: e6633349bedcd4fa73d667cee343f4d5e19a40a6
+          ref: 333ee5b2201556362a32c65604b97ffe53be96c2
           path: grilling
           sparse-checkout: projects/grilling/gameplay_core/resource_pack/ui
           persist-credentials: false
