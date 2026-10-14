@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Static release validation only: no player mocks or game interactions."""
+import copy
 import argparse,hashlib,json,re,subprocess,sys
 from pathlib import Path
 from baseline_reference import asset_projection
@@ -141,7 +142,12 @@ def main(argv=None):
     subprocess.run(['node','--test','tools/legacy-guide-projection.test.mjs','tools/standalone-guide.test.mjs','tools/startup-preparation.test.mjs','tools/native-item-definition-cache.test.mjs','tools/transport-integrity.test.mjs','tools/barrel-recipe-readiness.test.mjs'],cwd=ROOT,check=True)
     assert not (RT/'RP/entity/player.entity.json').exists()
     assert not (RT/'RP/ui/fast_swap_scroll.json').exists()
-    hud=docs[RT/'RP/ui/hud_screen.json'];assert 'hud_title_text' not in hud
+    hud=docs[RT/'RP/ui/hud_screen.json']
+    # The readable data carrier needs only the exact owned-prefix guard; never
+    # replace native title children, animations or foreign title visibility.
+    from hud_channel_probe import install_bridge_probe
+    expected_hud=copy.deepcopy(hud);install_bridge_probe(expected_hud)
+    assert hud['hud_title_text']==expected_hud['hud_title_text']
     # Only protocol-scoped visibility may touch native Actionbar controls. Never hide
     # all messages through alpha, bindings, or replacement controls.
     for key in ['hud_actionbar_text','hud_actionbar_text/actionbar_message']:
