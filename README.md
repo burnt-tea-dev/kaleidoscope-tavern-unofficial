@@ -1,6 +1,6 @@
-## Current maintained baseline: 0.6.164
+## Current maintained baseline: 0.6.165
 
-Tavern 0.6.164 corrects shaker graphic positions and clears native touch controls. The shared HUD hides owned graphical packets while preserving ordinary messages and existing addon controls. Device acceptance remains pending.
+Tavern 0.6.165 restores the maintained Java shaker overlay below the screen centre and removes the unsupported top placement and extra touch shift introduced in 0.6.164. Gameplay, assets and existing addon controls are preserved. Device acceptance remains pending.
 
 T155/G133 repair the missing shaker/eating UI receivers with permanent panels and independent channel caches; the obsolete shaker progress-parent gate is removed. [Repair scope](docs/RELEASE-NOTES-0.6.155.md). Client-rendered recovery remains unconfirmed.
 

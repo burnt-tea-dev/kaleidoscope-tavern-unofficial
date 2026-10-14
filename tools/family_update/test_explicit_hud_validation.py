@@ -9,6 +9,69 @@ from family_update.explicit_hud_validation import conserved_scope, PROVIDERS
 
 
 class ConservedHudScope(unittest.TestCase):
+    def dependency_fixture(self, side='RP'):
+        previous = self.stable_fixture(side)
+        old = previous[1]
+        new = {**old, 'manifest.json': 'next'}
+        manifest = previous[3]
+        changed = copy.deepcopy(manifest)
+        changed['header'].update(version=[1, 0, 38], name='Owned 1.0.38')
+        changed['modules'][0]['version'] = [1, 0, 38]
+        changed['dependencies'][0]['version'] = [1, 0, 38]
+        for dependency in changed['dependencies']:
+            if dependency['uuid'] in module.DEPENDENCY_ONLY_PROVIDER_VERSIONS:
+                dependency['version'] = copy.deepcopy(module.DEPENDENCY_ONLY_PROVIDER_VERSIONS[dependency['uuid']][1])
+        hud = previous[-1]
+        return old, new, manifest, changed, side, {'paired'}, [1, 0, 38], hud, copy.deepcopy(hud)
+
+    def test_p38_admits_only_paired_identity_and_exact_provider_versions(self):
+        conserved_scope(*self.dependency_fixture())
+        conserved_scope(*self.dependency_fixture('BP'))
+        self.assertEqual(module.PROFILES[(1, 0, 38)],
+                         ('ef4a55dfc0d7b6ca6e2974950fe3685f695e7d53', [1, 0, 37]))
+
+    def test_p38_rejects_any_hud_gameplay_asset_or_manifest_change(self):
+        for side in ['BP', 'RP']:
+            for label in ['gameplay', 'texture', 'addition', 'removal', 'manifest'] + (['native-hud', 'global'] if side == 'RP' else []):
+                with self.subTest(side=side, change=label):
+                    args = self.dependency_fixture(side)
+                    if label in ['native-hud', 'global', 'gameplay', 'texture']:
+                        key = {'native-hud': 'ui/hud_screen.json', 'global': 'ui/_global_variables.json',
+                               'gameplay': 'scripts/owned.js', 'texture': 'textures/owned.png'}[label]
+                        args[1][key] = 'changed'
+                    elif label == 'addition':
+                        args[1]['ui/foreign.json'] = 'new'
+                    elif label == 'removal':
+                        args[1].pop('textures/owned.png')
+                    else:
+                        args[3]['header']['description'] = 'changed'
+                    with self.assertRaises(AssertionError):
+                        conserved_scope(*args)
+
+    def test_p38_rejects_wrong_unchanged_missing_duplicate_and_foreign_provider_versions(self):
+        for uid in module.DEPENDENCY_ONLY_PROVIDER_VERSIONS:
+            for label in ['wrong-owned', 'unchanged-owned', 'changed-foreign', 'missing', 'duplicate', 'extra', 'paired']:
+                with self.subTest(provider=uid, change=label):
+                    args = self.dependency_fixture()
+                    dependencies = args[3]['dependencies']
+                    owned = next(row for row in dependencies if row['uuid'] == uid)
+                    if label == 'wrong-owned':
+                        owned['version'] = [9, 0, 0]
+                    elif label == 'unchanged-owned':
+                        owned['version'] = module.DEPENDENCY_ONLY_PROVIDER_VERSIONS[uid][0]
+                    elif label == 'changed-foreign':
+                        next(row for row in dependencies if row['uuid'] in PROVIDERS - module.DEPENDENCY_ONLY_PROVIDER_VERSIONS.keys())['version'] = [9, 0, 0]
+                    elif label == 'missing':
+                        dependencies.remove(owned)
+                    elif label == 'duplicate':
+                        dependencies.append(copy.deepcopy(owned))
+                    elif label == 'extra':
+                        dependencies.append({'uuid': 'foreign', 'version': [1, 0, 1]})
+                    else:
+                        dependencies[0]['version'] = [1, 0, 37]
+                    with self.assertRaises(AssertionError):
+                        conserved_scope(*args)
+
     def stable_fixture(self, side='RP'):
         old = {'manifest.json': 'old', 'scripts/owned.js': 'kept', 'textures/owned.png': 'kept'}
         if side == 'RP':
@@ -166,7 +229,7 @@ class ConservedHudScope(unittest.TestCase):
             path = root / 'synthetic.json'
             path.write_text(json.dumps(proof))
             pull = {'merged_at': 'synthetic-time', 'state': 'closed', 'base': {'ref': 'main'}, 'head': {'sha': 'synthetic-head'}}
-            for version in [module.VERSION, [1, 0, 36], [1, 0, 37]]:
+            for version in [module.VERSION, [1, 0, 36], [1, 0, 37], [1, 0, 38]]:
                 with self.subTest(version=version):
                     (root / 'baseline.json').write_text(json.dumps({'repository': module.PRIVATE, 'version': version}))
                     proof.update(typed_empty_fallback=True, fallback_base='hud.kt_family_empty')
