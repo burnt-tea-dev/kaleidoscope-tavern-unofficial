@@ -1,7 +1,7 @@
 {
   "version": "0.6.163",
   "tag": "v0.6.163-beta.1",
-  "title": "Tavern 0.6.163 — restore original graphical HUD events",
+  "title": "Tavern 0.6.163 \u2014 restore original graphical HUD events",
   "prerelease": true,
   "publication_request": false,
   "validation_evidence": "docs/RELEASE-NOTES-0.6.163.md",
@@ -13,5 +13,7 @@
   "live_deployment": false,
   "native_evidence_scope": "Restore original actionbar factory event for Senluo shaker/eating graphics after owner-reported loss; retire manual probes/title cache conversion. Assets/gameplay preserved. Actual client recovery unverified.",
   "client": false,
-  "status": "awaiting_source_ci_family_save_admission_and_live_readback"
+  "status": "awaiting_source_ci_family_save_admission_and_live_readback",
+  "expected_archive_sha256": "2dd837570729de3cd4e03ef170874fcd94e52af932cf01ce12b6b9a88d90a14a",
+  "reviewed_runtime_source": "1479e896a2b4ff0ed781143d6b93aa390acff914"
 }
