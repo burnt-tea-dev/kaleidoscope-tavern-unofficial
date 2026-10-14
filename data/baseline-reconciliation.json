@@ -4199,6 +4199,11 @@
       "after": "6bae644a08b453f9098e9d0a96c36ea7d951245a36a10c0e0f5b143344929685",
       "release": "0.6.153",
       "reason": "T153 preserves unbatched barrel ingredients until detected optional recipe sources complete rebuild, without changing saved batch/builtin timing; encodes unchanged board font metrics as parsed JSON and reuses immutable guide page links within one projection. Dynamic views retain their original matching reads. Native/client performance remains pending. See docs/RELEASE-NOTES-0.6.153.md."
+    },
+    "runtime/BP/scripts/core/graphical-actionbar-transport.js": {
+      "before": null,
+      "after": "080b15e6043c39b7943dd0f052f1e44cb5dcc1948473b3ac76d1be985606b181",
+      "reason": "T163 owned graphical actionbar adapter, separated from the unchanged effect-title router. Validates only bounded owned packets and emits the original native graphical factory event; never blanks titles, subtitles or the actionbar. See RELEASE-NOTES-0.6.163.md."
     }
   },
   "reviewedFunctionalDeltas": {
