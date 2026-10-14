@@ -13,5 +13,7 @@
   "live_deployment": false,
   "native_evidence_scope": "Owner confirmed previous custom UI absent. Bounded readable HUD tokens, owned-title suppression and manual mount/catalog/cache probes. Exact failure stage and actual client recovery remain unverified.",
   "client": false,
-  "status": "awaiting_source_ci_family_save_admission_and_live_readback"
+  "status": "awaiting_source_ci_family_save_admission_and_live_readback",
+  "expected_archive_sha256": "a98e4e672f586765ee99b86b8a023a7263e24de98d26841f705aa07744e5e7fc",
+  "reviewed_runtime_source": "0f2f4abaa437a4fc9d540e31c97a698cad252999"
 }
