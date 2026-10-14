@@ -1,7 +1,7 @@
 {
-  "version": "0.6.164",
-  "tag": "v0.6.164",
-  "title": "Tavern 0.6.164 — integrated HUD release",
+  "version": "0.6.165",
+  "tag": "v0.6.165",
+  "title": "Tavern 0.6.165 — restore Java shaker overlay position",
   "prerelease": false,
   "publication_request": false,
   "validation_evidence": "CHANGELOG.md",
@@ -11,10 +11,9 @@
   "saved_world_migration": "pending",
   "production_ready": false,
   "live_deployment": false,
-  "native_evidence_scope": "Correct source-backed parent/self anchors; native touch-only graphical offset; shared owned-token Actionbar masking; preserve bounded original graphical event and all gameplay/assets. Exact client rendering acceptance pending.",
+  "native_evidence_scope": "Restore maintained Forge/NeoForge ShakerOverlay centre-relative top-left coordinates for slots, bar and cursor; remove unsupported touch offset. Odd GUI dimensions may differ by up to half a logical pixel because Java uses integer division. No universal native touch-layout or rendered-client acceptance claimed.",
   "client": false,
   "status": "awaiting_source_ci_family_save_admission_and_live_readback",
-  "public_notes_inline": "Corrects shaker graphics placement and touch control overlap, and conceals internal graphical packets. Original gameplay, assets and other addon HUD controls are preserved.\n\nRendered device acceptance remains pending.",
-  "expected_archive_sha256": "7d99c200a2846cc4006b94c272572e101b5de8c3edf40f90d3844ff86c8df474",
-  "reviewed_runtime_source": "8df3cc2646a4530098d4d610f4a7990549fbfca6"
+  "public_notes_inline": "Restores shaker ingredients and progress graphics below the screen centre, matching the maintained Java overlay coordinates. Removes the unsupported top placement and extra touch-only shift introduced in 0.6.164. Gameplay, assets and other HUD controls are preserved.\n\nRendered device acceptance and complete Java parity remain pending.",
+  "expected_archive_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
 }

@@ -32,33 +32,54 @@ function walk(value){
 const {kt_effect_icons,...shakerHud}=hud;
 walk(shakerHud);assert.equal(textures,53); // 51 fixed slot sprites + bar + cursor template
 const controls=hud.kt_mixology_packet.controls;
+// Maintained Forge ShakerOverlay.java c4ec1880: lines54/58 and79-95;
+// NeoForge a1afba34: lines57/61 and82-98. Both draw BELOW the screen centre.
+// https://github.com/KaleidoscopeMods/KaleidoscopeTavern/blob/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/gui/overlay/ShakerOverlay.java
 // anchor_from selects the parent point; anchor_to selects this control's point.
-// Project the actual controls across viewport sizes rather than assuming that
-// swapping these fields preserves the position (the old graphics sat below centre).
-const points={top_middle:[.5,0],center:[.5,.5]};
-function projectedCenter(panel,width,height){
- const parent=points[panel.anchor_from],self=points[panel.anchor_to];
- assert(parent&&self,'Expected source-backed parent/control anchors');
- return [parent[0]*width+panel.offset[0]+(.5-self[0])*panel.size[0],
-         parent[1]*height+panel.offset[1]+(.5-self[1])*panel.size[1]];
+const points={top_left:[0,0],top_middle:[.5,0],left_middle:[0,.5],center:[.5,.5]};
+function projectedBox(panel,parentBox){
+ const from=points[panel.anchor_from],to=points[panel.anchor_to];
+ assert(from&&to,'Expected source-backed parent/control anchors');
+ const [x,y,width,height]=parentBox,[w,h]=panel.size,[dx,dy]=panel.offset??[0,0];
+ return [x+from[0]*width+dx-to[0]*w,y+from[1]*height+dy-to[1]*h,w,h];
 }
 const packet=hud.kt_mixology_packet;
-assert.deepEqual(packet['$kt_graphical_offset|default'],[0,0]);
-assert.equal(packet.offset,'$kt_graphical_offset');
-const touchShift=packet.variables.filter(row=>row.requires==='$touch');
-assert.equal(touchShift.length,1);
-assert.deepEqual(touchShift[0].$kt_graphical_offset,[0,16]);
-for(const [name,y] of [['slots',32],['progress',26]]){
- const panel=controls.find(row=>name in row)[name];
- for(const [width,height] of [[320,180],[640,360],[426,240]]){
-  assert.deepEqual(projectedCenter(panel,width,height),[width/2,y],name+' must stay at the Java top position');
-  const previous={...panel,anchor_from:'center',anchor_to:'top_middle'};
-  assert.notDeepEqual(projectedCenter(previous,width,height),[width/2,y],'Reject the previous inverted anchors');
-  const offset=touchShift[0].$kt_graphical_offset;
-  const touchCenter=projectedCenter(panel,width,height).map((value,index)=>value+offset[index]);
-  assert.deepEqual(touchCenter,[width/2,y+16]);
-  assert(touchCenter[1]-panel.size[1]/2>24,'Touch graphics must clear the native top controls');
+assert(!('offset' in packet)&&!('$kt_graphical_offset|default' in packet));
+assert(!packet.variables.some(row=>row.requires.includes('$touch')),'Touch must not add an unsupported downward displacement');
+for(const [width,height] of [[320,180],[640,360],[426,240]]){
+ const screen=[0,0,width,height],slotsPanel=controls[0].slots,progressPanel=controls[1].progress;
+ const slotsBox=projectedBox(slotsPanel,screen),progressBox=projectedBox(progressPanel,screen);
+ assert.deepEqual(slotsBox,[Math.floor(width/2)-28,Math.floor(height/2)+32,56,16]);
+ assert.deepEqual(progressBox,[Math.floor(width/2)-91,Math.floor(height/2)+26,181,23]);
+ for(let slot=0;slot<3;slot++){
+  const instance=Object.values(slotsPanel.controls[slot*17+1])[0];
+  assert.deepEqual(projectedBox({...hud.kt_mixology_slot,...instance},slotsBox),
+                   [Math.floor(width/2)-28+slot*20,Math.floor(height/2)+32,16,16]);
  }
+ const bar=progressPanel.controls[0].bar;
+ assert.deepEqual(projectedBox(bar,progressBox),[Math.floor(width/2)-91,Math.floor(height/2)+32,181,17]);
+ for(const tick of [0,1,74,111]){
+  const cursor=Object.values(progressPanel.controls[tick+1])[0];
+  const box=projectedBox({...hud.kt_mixology_cursor,...cursor},progressBox);
+  assert.equal(box[1],Math.floor(height/2)+26);
+  assert.deepEqual(box.slice(2),[11,13]);
+  // Existing Bedrock half-pixel cursor steps approximate Java's rounded int
+  // at partialTick=0; correcting that sampling is outside this layout repair.
+  assert(Math.abs(box[0]-(Math.floor(width/2)-91+Math.round(tick*1.5)))<=.5);
+ }
+ // Reject T164's top-anchored panel; y=32 is an offset from centre, not top.
+ assert.notDeepEqual(projectedBox({...slotsPanel,anchor_from:'top_middle',anchor_to:'center',offset:[0,32]},screen),slotsBox);
+}
+// Java divides integer GUI dimensions; Bedrock centres may retain a half pixel.
+// Keep that bounded platform difference explicit instead of asserting exact
+// raster parity for odd viewports.
+const oddScreen=[0,0,427,241],oddSlots=projectedBox(controls[0].slots,oddScreen);
+const oddProgress=projectedBox(controls[1].progress,oddScreen);
+for(const [actual,java] of [[oddSlots,[Math.floor(427/2)-28,Math.floor(241/2)+32,56,16]],
+                          [oddProgress,[Math.floor(427/2)-91,Math.floor(241/2)+26,181,23]],
+                          [projectedBox(controls[1].progress.controls[0].bar,oddProgress),[Math.floor(427/2)-91,Math.floor(241/2)+32,181,17]]]){
+ assert.deepEqual(actual.slice(2),java.slice(2));
+ for(const axis of [0,1])assert(Math.abs(actual[axis]-java[axis])<=.5,'Odd viewport differs by more than the known half-pixel centre rounding');
 }
 const slots=controls[0].slots.controls.filter(row=>Object.keys(row)[0].includes('@kaleidoscope_tavern_hud.kt_mixology_slot'));assert.equal(slots.length,51);
 for(let i=0;i<3;i++)for(let c=0;c<17;c++)assert(JSON.stringify(slots[i*17+c]).includes(slotToken(i,c)));

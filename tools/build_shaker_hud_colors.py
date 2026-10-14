@@ -21,9 +21,9 @@ def main():
     path = RP / 'ui/kt_tavern_hud.json'
     hud = json.loads(path.read_text())
     panel = hud['kt_mixology_packet']['controls'][0]['slots']
-    # Bedrock anchors from the parent to this control, unlike the reversed
-    # projection that placed these top graphics below the screen centre.
-    panel.update(anchor_from='top_middle', anchor_to='center')
+    # ShakerOverlay draws at (screenWidth / 2 - 28, screenHeight / 2 + 32).
+    # anchor_from is the parent point; anchor_to is this control's top-left.
+    panel.update(anchor_from='center', anchor_to='top_left', offset=[-28,32])
     slots = panel['controls']
     original = {next(iter(control)): next(iter(control.values())) for control in slots if '@kaleidoscope_tavern_hud.kt_mixology_slot' in next(iter(control))}
     mask = Image.open(RP / 'textures/ui/kt_mixology/slots/700.png').convert('RGBA').crop((0, 0, 16, 16))
@@ -61,7 +61,9 @@ def main():
     for key in ['alpha', 'propagate_alpha', 'bindings', 'property_bag', 'visible', '$kt_text']:
         packet.pop(key, None)
     progress = packet['controls'][1]['progress']
-    progress.update(anchor_from='top_middle', anchor_to='center')
+    # The bar is six pixels below this source cursor origin. Its 181px width
+    # must not turn Java's -91 left edge into a centred -90.5 offset.
+    progress.update(anchor_from='center', anchor_to='top_left', offset=[-91,26])
     progress.pop('visible', None) # Remove the obsolete text-only / 111 gate.
     bar = progress['controls'][0]['bar']
     for key in ['anims', 'bindings', 'property_bag']:
@@ -79,10 +81,9 @@ def main():
     # engine formatting surrounds them. Stop packets must use that same gate.
     packet['visible']="(not (($kt_text - 'KT_HUD!') = $kt_text) and (($kt_text - 'KT_HUD!END;') = $kt_text))"
     packet['$kt_lifetime|default']=.6
-    packet['$kt_graphical_offset|default']=[0,0]
-    packet['offset']='$kt_graphical_offset'
-    packet['variables']=[{'requires':'$touch','$kt_graphical_offset':[0,16]},
-                         {'requires':"(not (($kt_text - 'KT_HUD!P:') = $kt_text))",'$kt_lifetime':.2}]
+    packet.pop('$kt_graphical_offset|default',None)
+    packet.pop('offset',None)
+    packet['variables']=[{'requires':"(not (($kt_text - 'KT_HUD!P:') = $kt_text))",'$kt_lifetime':.2}]
     # Keep the committed key order when replacing factory-managed fields.
     # Existing packet fields remain byte-stable across regeneration; new fields
     # are appended in the generator's declared order.
