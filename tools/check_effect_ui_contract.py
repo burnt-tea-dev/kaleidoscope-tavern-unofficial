@@ -1,6 +1,7 @@
 """Structural JSON UI contract. This is not a client renderer."""
 from pathlib import Path
 import argparse,copy,json
+from hud_channel_probe import install_bridge_probe
 from hud_mount_contract import EMPTY,global_catalog,reject_local_provider_defaults,resolve_global_catalog
 ROOT=Path(__file__).resolve().parents[1]
 def read(path):return json.loads(Path(path).read_text())
@@ -48,7 +49,7 @@ def audit(root=ROOT,liquor=None,grilling=None):
  own=registered_definitions(root/'runtime/RP');own.update({'hud.'+k:v for k,v in hud.items() if k not in ['namespace','root_panel']})
  assert tavern['namespace']=='kaleidoscope_tavern_hud'
  typed_controls(tavern['root'])
- assert tavern['root']['controls']==[{'kt_mixology@kaleidoscope_tavern_hud.kt_mixology_packet':{}},{'kt_effect_icons@kaleidoscope_tavern_hud.kt_effect_icons':{}}]
+ assert tavern['root']['controls'][:2]==[{'kt_mixology@kaleidoscope_tavern_hud.kt_mixology_packet':{}},{'kt_effect_icons@kaleidoscope_tavern_hud.kt_effect_icons':{}}]
  host_globals=read(root/'runtime/RP/ui/_global_variables.json')
  assert host_globals==global_catalog('tavern')
  reject_local_provider_defaults(tavern)
@@ -83,7 +84,7 @@ def audit(root=ROOT,liquor=None,grilling=None):
    assert optional_mounts(hud,definitions,globals)==['kaleidoscope_tavern_hud.root','kaleidoscope_grilling_hud.root','hud.kt_family_empty','hud.kt_family_empty']
   # A missing port must resolve to a typed empty panel, never an unknown base.
   assert optional_mounts(hud,own,read(root/'runtime/RP/ui/_global_variables.json'))==['kaleidoscope_tavern_hud.root','hud.kt_family_empty','hud.kt_family_empty','hud.kt_family_empty']
-  assert optional_mounts(hud,{'hud.kt_family_empty':hud['kt_family_empty'],**peer_defs},peer_globals)==['hud.kt_family_empty','kaleidoscope_grilling_hud.root','hud.kt_family_empty','hud.kt_family_empty']
+  assert optional_mounts(hud,{'hud.kt_family_empty':hud['kt_family_empty'],'hud.kt_family_probe':hud['kt_family_probe'],**peer_defs},peer_globals)==['hud.kt_family_empty','kaleidoscope_grilling_hud.root','hud.kt_family_empty','hud.kt_family_empty']
   paired=True
  return {'ok':True,'native_root_type_preserved':True,'native_root_controls_preserved':len(native['controls']),'selected_optional_panel':selected,'registered_native_root_redefinitions':0,'family_optional_roots':2,'paired_grilling_bridge_verified':paired,'resource_order_independent':True,'client':False,'scope':'Pinned Mojang root preservation, optional-control and matching family-bridge catalog resolution; no rendered-client claim.'}
 
@@ -91,6 +92,8 @@ def optional_mounts(hud,definitions,globals):
  result=[]
  for instance in hud['root_panel']['modifications'][0]['value']:
   variable=next(iter(instance)).split('@',1)[1]
+  if not variable.startswith('$'):
+   typed_controls(definitions[variable]);continue
   reject_local_provider_defaults(hud)
   selected=resolve_global_catalog(globals)[variable]
   assert selected in definitions,'Unresolved optional HUD root: '+selected
@@ -105,11 +108,13 @@ def family_bridge(hud):
  """
  assert hud['namespace']=='hud'
  reject_local_provider_defaults(hud)
- assert set(hud)=={'namespace','kt_family_empty','root_panel','hud_actionbar_text','hud_actionbar_text/actionbar_message','not_centered_gui_elements','centered_gui_elements_at_bottom_middle','centered_gui_elements_at_bottom_middle_touch'}
+ assert set(hud)=={'namespace','kt_family_empty','root_panel','hud_actionbar_text','hud_actionbar_text/actionbar_message','not_centered_gui_elements','centered_gui_elements_at_bottom_middle','centered_gui_elements_at_bottom_middle_touch','kt_family_probe','hud_title_text'}
  assert hud['kt_family_empty']=={'type':'panel','size':[0,0]}
  patch=hud['root_panel']
  assert set(patch)=={'modifications'}
- assert patch['modifications']==[{'array_name':'controls','operation':'insert_back','value':[{'kt_family_tavern@$kt_tavern_hud_root':{}},{'kt_family_grilling@$kg_grilling_hud_root':{}},{'kt_optional_amw@$senluo_amw_hud_root':{}},{'kt_optional_amw_boss@$senluo_amw_boss_root':{}}]}]
+ assert patch['modifications']==[{'array_name':'controls','operation':'insert_back','value':[{'kt_family_tavern@$kt_tavern_hud_root':{}},{'kt_family_grilling@$kg_grilling_hud_root':{}},{'kt_optional_amw@$senluo_amw_hud_root':{}},{'kt_optional_amw_boss@$senluo_amw_boss_root':{}},{'kt_family_probe@hud.kt_family_probe':{}}]}]
+ typed_controls(hud['kt_family_probe'])
+ for marker in ['KT_HUD!','KG_HUD!']:assert marker in hud['hud_title_text']['bindings'][-1]['source_property_name']
  for leaf,var in [('not_centered_gui_elements','$senluo_saturation_non_centered'),('centered_gui_elements_at_bottom_middle','$senluo_saturation_centered'),('centered_gui_elements_at_bottom_middle_touch','$senluo_saturation_touch')]:
   append=hud[leaf]['modifications'];assert len(append)==1 and append[0]['operation']=='insert_back'
   wrapper=next(iter(append[0]['value'][0].values()))
