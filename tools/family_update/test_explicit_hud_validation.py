@@ -1,5 +1,10 @@
 import copy
+import json
+import tempfile
 import unittest
+from pathlib import Path
+from unittest.mock import patch
+from family_update import explicit_hud_validation as module
 from family_update.explicit_hud_validation import conserved_scope, PROVIDERS
 
 
@@ -28,6 +33,33 @@ class ConservedHudScope(unittest.TestCase):
         args[1]['scripts/owned.js'] = 'changed'
         with self.assertRaises(AssertionError):
             conserved_scope(*args)
+
+    def test_static_source_validation_calls_the_real_ci_adapter_signature(self):
+        # Synthetic source context stops at the CI boundary; this catches an
+        # integration error that the manifest-only tests cannot exercise.
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / 'baseline.json').write_text(json.dumps({'repository': module.PRIVATE, 'version': module.VERSION}))
+            log = root / 'synthetic.log'
+            log.write_text('synthetic source fixture only')
+            proof = {'kind': 'explicit_family_hud', 'canonical_repository': module.REPOSITORY,
+                     'canonical_repository_id': 1406868911, 'git_tree': 'synthetic-tree',
+                     'test_exit_code': 0, 'test_command': ['python', 'tools/test_family_hud_host.py'],
+                     'native_controls': 29, 'literal_owned_roots': 2,
+                     'native_and_amw_conserved': True, 'dependency_bound': True,
+                     'native_loading': False, 'client': False, 'simulated_players': False, 'production_ready': False,
+                     'test_log': {'name': log.name, 'sha256': module.c.sha(log)}}
+            path = root / 'synthetic.json'
+            path.write_text(json.dumps(proof))
+            pull = {'merged_at': 'synthetic-time', 'state': 'closed', 'base': {'ref': 'main'}, 'head': {'sha': 'synthetic-head'}}
+            with patch.multiple(module.c, CONFIG={'extension_hud_validation': str(path), 'extension_hud_pull_request': 22}, EXTENSION=root), \
+                 patch.object(module.c, 'git', return_value='synthetic-tree'), \
+                 patch('family_update.extension_validation.source_binding', return_value={'current_source_tree_oid': 'synthetic-tree'}), \
+                 patch('family_update.workflow.gh_json', return_value=pull), \
+                 patch('family_update.cookery_cache_validation.private_ci_records', autospec=True, side_effect=RuntimeError('CI boundary reached')) as ci:
+                with self.assertRaisesRegex(RuntimeError, 'CI boundary reached'):
+                    module.verify_static({}, {})
+                self.assertEqual(ci.call_args.args[1], 'synthetic-head')
         args = self.fixture()
         args[3]['dependencies'].pop()
         with self.assertRaises(AssertionError):
