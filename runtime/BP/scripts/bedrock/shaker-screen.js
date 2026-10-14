@@ -33,6 +33,10 @@ export function showShakerSlots(player,state){
  if(messageActive(player))return;
  const text=slotsPacket(state.slots);send(player,text,text,true);
 }
+export function showShakerSlotsPacket(player,text){
+ if(messageActive(player))return;
+ send(player,text,text,true);
+}
 export function showShakerProgress(player,ticks){
  messages.delete(player.id);const text=progressPacket(ticks);send(player,text,text,true);
 }

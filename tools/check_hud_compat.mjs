@@ -100,14 +100,63 @@ const cursorTokens=cursors.map(row=>predicateToken(Object.values(row)[0].visible
 const shownCursors=text=>cursorTokens.flatMap((token,index)=>text.replaceAll(token,'')!==text?[index]:[]);
 assert.equal(packet.visible,"(not (($kt_text - 'KT_HUD!') = $kt_text) and (($kt_text - 'KT_HUD!END;') = $kt_text))");
 const packetVisible=text=>text.replaceAll('KT_HUD!','')!==text&&text.replaceAll('KT_HUD!END;','')===text;
+// Project the actual shipped tree with and without creation-time pruning.
+// This checks selected controls and output conservation, not engine allocation
+// counts, frame times, or rendered-client acceptance.
+const predicates=new Map();
+function predicate(expression,text){
+ if(expression===undefined)return true;
+ if(!predicates.has(expression)){
+  const fragments=[];
+  let body=expression.replace(/\(\(\$kt_text - '([^']*)'\) = \$kt_text\)/g,(_,fragment)=>{
+   fragments.push(fragment);return `values[${fragments.length-1}]`;
+  }).replace(/\bnot\b/g,'!').replace(/\band\b/g,'&&');
+  assert(/^[()\s!&\[\]0-9values]+$/.test(body),'Unexpected factory predicate');
+  const evaluate=Function('values','return '+body);
+  predicates.set(expression,text=>evaluate(fragments.map(fragment=>!text.includes(fragment))));
+ }
+ return predicates.get(expression)(text);
+}
+function projectedPacket(text,prune){
+ const images=[],retained=[];
+ function visit(control,path,parentVisible=true){
+  if(prune&&control.ignored!==undefined&&predicate(control.ignored,text))return;
+  retained.push(path);
+  const visible=parentVisible&&predicate(control.visible,text);
+  if(control.type==='image'&&visible)images.push(path);
+  for(const row of control.controls??[])for(const [name,instance] of Object.entries(row)){
+   const base=name.includes('@')?hud[name.split('@')[1].split('.').at(-1)]:{};
+   visit({...base,...instance},path+'/'+name,visible);
+  }
+ }
+ visit(packet,'packet');return {images,retained};
+}
+assert(!('ignored' in packet),'Keep the outer expiry instance alive');
+for(const row of controls){
+ const branch=Object.values(row)[0];assert.equal(branch.ignored,`(not ${branch.visible})`);
+ for(const child of branch.controls){
+  const image=Object.values(child)[0];assert.equal(image.ignored,`(not ${image.visible})`);
+ }
+}
+assert(!JSON.stringify(hud.kt_effect_icons).includes('"ignored"'),'Persistent effect controls must keep receiving later title changes');
+let pruningCases=0,maxSelectedControls=0;
+function conservedProjection(text,expectedImages,maxControls){
+ const before=projectedPacket(text,false),after=projectedPacket(text,true);
+ assert.deepEqual(after.images,before.images,'Creation pruning changed visible output for '+text);
+ assert.equal(after.images.length,expectedImages);
+ assert(after.retained.length<=maxControls,'Unselected heavy branches survived for '+text);
+ maxSelectedControls=Math.max(maxSelectedControls,after.retained.length);pruningCases++;
+}
 let formattedProgressCases=0;
 for(const lead of ['','§r','§r§f','§a§r','§r§0§r§0']){
  for(let n=0;n<112;n++){
   const text=lead+progressPacket(n)+'§r';
   assert(packetVisible(text));assert.deepEqual(shownCursors(text),[n]);formattedProgressCases++;
+  conservedProjection(text,2,4);
  }
  const end=lead+'KT_HUD!END;§r';
  assert(!packetVisible(end));assert.deepEqual(shownCursors(end),[]);
+ conservedProjection(end,0,1);
 }
 for(const text of ['普通提示','§r其他模組提示','KG_HUD!END;',slotsPacket([null,null,null])])
  assert.deepEqual(shownCursors(text),[]);
@@ -119,8 +168,11 @@ for(let a=0;a<17;a++)for(let b=0;b<17;b++)for(let c=0;c<17;c++){
  const indices=[a,b,c],packet=slotsPacket(indices.map(n=>n?{color:colors[n-1]}:null));
  assert.equal(packet,GRAPHICAL_HUD_PREFIX+'S:'+indices.map((n,i)=>slotToken(i,n)).join(''));
  assert.equal(packet.replace(/§[0-9a-fr]/g,''),packet);
- assert(!/textures\/|ktmix:/.test(packet));cases++;
+ assert(!/textures\/|ktmix:/.test(packet));
+ for(const lead of ['','§r','§r§f','§a§r','§r§0§r§0'])conservedProjection(lead+packet+'§r',3,5);
+ cases++;
 }
+for(const text of ['', '普通提示', '§r其他模組提示', 'KG_HUD!F:661I:5a011;', 'KG_HUD!END;'])conservedProjection(text,0,1);
 assert(hudSendDue(undefined,'active',0));assert(!hudSendDue({key:'active',tick:0},'active',9));
 assert(hudSendDue({key:'active',tick:0},'active',10));
 for(let tick=0;tick<256;tick++)assert(!hudSendDue({key:'active',tick:0},undefined,tick));
@@ -134,6 +186,6 @@ assert(!barrel.includes('HUD_PREFIX'));
 assert(barrel.includes("send(player,'barrel/'+JSON.stringify(rawtext),{rawtext})"));
 assert(barrel.includes('if(!barrelHudEnabled(player))return;'));
 assert(read('runtime/BP/scripts/bedrock/mixology.js').includes('clearShakerPlayer(playerId)'));
-console.log(JSON.stringify({hudStaticChecks:'passed',slotCases:cases,progressStates:112,formattedProgressCases,idleSamples:256,literalImageReferences:textures,clientTested:false}));
+console.log(JSON.stringify({hudStaticChecks:'passed',slotCases:cases,progressStates:112,formattedProgressCases,pruningCases,packetDefinitionControls:167,maxSelectedControls,idleSamples:256,literalImageReferences:textures,clientTested:false}));
 
 assert(!controls.some(c=>c.status),'Barrel text must use only the native actionbar, not an expiring duplicate label');
