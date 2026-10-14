@@ -15,5 +15,6 @@
   "client": false,
   "status": "awaiting_source_ci_family_save_admission_and_live_readback",
   "public_notes_inline": "Restores shaker ingredients and progress graphics below the screen centre, matching the maintained Java overlay coordinates. Removes the unsupported top placement and extra touch-only shift introduced in 0.6.164. Gameplay, assets and other HUD controls are preserved.\n\nRendered device acceptance and complete Java parity remain pending.",
-  "expected_archive_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+  "expected_archive_sha256": "3dab63563733fc576ce10b1e9fdbfe65cab36f7c94bb1ef93e7973d1204adaf9",
+  "reviewed_runtime_source": "9e0ba08669cbd76c888c6abd0159e1bed153deac"
 }
