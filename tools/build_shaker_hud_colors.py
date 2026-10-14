@@ -21,6 +21,9 @@ def main():
     path = RP / 'ui/kt_tavern_hud.json'
     hud = json.loads(path.read_text())
     panel = hud['kt_mixology_packet']['controls'][0]['slots']
+    # Bedrock anchors from the parent to this control, unlike the reversed
+    # projection that placed these top graphics below the screen centre.
+    panel.update(anchor_from='top_middle', anchor_to='center')
     slots = panel['controls']
     original = {next(iter(control)): next(iter(control.values())) for control in slots if '@kaleidoscope_tavern_hud.kt_mixology_slot' in next(iter(control))}
     mask = Image.open(RP / 'textures/ui/kt_mixology/slots/700.png').convert('RGBA').crop((0, 0, 16, 16))
@@ -54,9 +57,11 @@ def main():
         hud[key].pop('anims', None)
     hud['kt_mixology_cursor'].pop('offset', None)
     packet = hud['kt_mixology_packet']
+    packet_order = list(packet)
     for key in ['alpha', 'propagate_alpha', 'bindings', 'property_bag', 'visible', '$kt_text']:
         packet.pop(key, None)
     progress = packet['controls'][1]['progress']
+    progress.update(anchor_from='top_middle', anchor_to='center')
     progress.pop('visible', None) # Remove the obsolete text-only / 111 gate.
     bar = progress['controls'][0]['bar']
     for key in ['anims', 'bindings', 'property_bag']:
@@ -66,12 +71,23 @@ def main():
     for tick in range(112):
         rows.append({f'cursor_{tick}@kaleidoscope_tavern_hud.kt_mixology_cursor': {
             'offset': [tick * 1.5, 0],
-            'visible': f"($kt_text = 'KT_HUD!P:{code(tick)};')"}})
+            'visible': f"(not (($kt_text - 'KT_HUD!P:{code(tick)};') = $kt_text))"}})
     progress['controls'] = rows
     progress['visible']="(not (($kt_text - 'KT_HUD!P:') = $kt_text))"
     install_actionbar_factory(hud,'tavern','kt_text','KT_HUD!','KT_HUD!END;','$kt_lifetime')
+    # The receiver and native mask use contained owned tokens, including when
+    # engine formatting surrounds them. Stop packets must use that same gate.
+    packet['visible']="(not (($kt_text - 'KT_HUD!') = $kt_text) and (($kt_text - 'KT_HUD!END;') = $kt_text))"
     packet['$kt_lifetime|default']=.6
-    packet['variables']=[{'requires':"(not (($kt_text - 'KT_HUD!P:') = $kt_text))",'$kt_lifetime':.2}]
+    packet['$kt_graphical_offset|default']=[0,0]
+    packet['offset']='$kt_graphical_offset'
+    packet['variables']=[{'requires':'$touch','$kt_graphical_offset':[0,16]},
+                         {'requires':"(not (($kt_text - 'KT_HUD!P:') = $kt_text))",'$kt_lifetime':.2}]
+    # Keep the committed key order when replacing factory-managed fields.
+    # Existing packet fields remain byte-stable across regeneration; new fields
+    # are appended in the generator's declared order.
+    hud['kt_mixology_packet'] = {**{key: packet[key] for key in packet_order if key in packet},
+                                **{key: value for key, value in packet.items() if key not in packet_order}}
     path.write_text(json.dumps(hud, ensure_ascii=False, separators=(',', ':')) + '\n')
     print('Generated 51 literal controls: three slots, all 16 Java colors and empty')
 

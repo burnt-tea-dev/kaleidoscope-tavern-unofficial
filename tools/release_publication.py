@@ -2,6 +2,7 @@
 import argparse
 import json
 import os
+import re
 from pathlib import Path, PurePosixPath
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -24,14 +25,24 @@ def public_notes(root, request):
         raise ValueError('Public notes must name a Markdown document')
     relative = PurePosixPath(name)
     if (relative.is_absolute() or '..' in relative.parts or '\\' in name or
-            not relative.parts or relative.parts[0] != 'docs' or relative.suffix != '.md'):
-        raise ValueError('Public notes must remain under docs')
+            not relative.parts or (relative.parts[0] != 'docs' and name != 'CHANGELOG.md') or relative.suffix != '.md'):
+        raise ValueError('Public notes must remain under docs or use the existing CHANGELOG.md')
     root = Path(root).resolve()
     path = root / str(relative)
     if (not path.is_file() or not path.resolve().is_relative_to(root) or
             any(p.is_symlink() for p in [path, *path.parents] if p == root or root in p.parents)):
         raise ValueError('Public notes must be an existing regular source document')
     return path
+
+def public_notes_text(root, request):
+    inline = request.get('public_notes_inline')
+    if inline is not None:
+        if (not isinstance(inline, str) or not inline.strip() or len(inline) > 4096 or
+                '\x00' in inline or re.search(r'/root/|/var/|file://', inline)):
+            raise ValueError('Inline public notes must be short public text without private filesystem paths')
+        return inline.strip() + '\n'
+    path = public_notes(root, request)
+    return path.read_text(encoding='utf-8') if path else None
 
 
 def main():

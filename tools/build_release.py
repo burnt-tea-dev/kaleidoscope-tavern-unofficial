@@ -43,6 +43,14 @@ def main():
         staged.unlink(missing_ok=True)
     sha=hashlib.sha256(target.read_bytes()).hexdigest()
     (out/'SHA256SUMS').write_text(f'{sha}  {name}\n')
-    shutil.copy2(ROOT/f"docs/RELEASE-NOTES-{config['version']}.md",out/'RELEASE-NOTES.md')
+    request=json.loads((ROOT/'.github/release-request.json').read_text())
+    if request.get('prerelease') is False:
+        from release_publication import public_notes_text
+        notes=public_notes_text(ROOT,request)
+        if notes is None:raise SystemExit('Stable release requires an existing public notes source')
+        (out/'RELEASE-NOTES.md').write_text(notes,encoding='utf-8')
+    else:
+        notes=ROOT/f"docs/RELEASE-NOTES-{config['version']}.md"
+        shutil.copy2(notes,out/'RELEASE-NOTES.md')
     print(json.dumps({'archive':str(target),'sha256':sha,'bytes':target.stat().st_size,'vibrant_manifest_export_checked':True,'release_identity_enforced':True}))
 if __name__=='__main__':main()
