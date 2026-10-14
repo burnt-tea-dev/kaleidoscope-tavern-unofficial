@@ -69,11 +69,14 @@ jobs:
           r = json.loads(Path('.github/release-request.json').read_text())
           assert r['version'] == c['version']
           assert re.fullmatch(r'\d+\.\d+\.\d+', c['version'])
-          assert r['tag'] == f"v{c['version']}-beta.1"
-          assert c['artifact_suffix'] in ('beta1','baseline1') and r['prerelease'] is True
+          prerelease = r['prerelease']
+          assert type(prerelease) is bool
+          assert r['tag'] == f"v{c['version']}" + ('-beta.1' if prerelease else '')
+          assert c['artifact_suffix'] in ('beta1','baseline1')
+          assert prerelease or c['artifact_suffix'] == 'baseline1'
           assert re.fullmatch(r'[a-f0-9]{64}', r['expected_archive_sha256'])
           assert isinstance(r['title'], str) and '\n' not in r['title'] and '\r' not in r['title']
-          values = {'RELEASE_TAG': r['tag'], 'RELEASE_TITLE': r['title'], 'RELEASE_VERSION': c['version'], 'RELEASE_ARCHIVE': f"Kaleidoscope_Tavern_Unofficial_{c['version']}_{c['artifact_suffix']}.mcaddon"}
+          values = {'RELEASE_TAG': r['tag'], 'RELEASE_TITLE': r['title'], 'RELEASE_VERSION': c['version'], 'RELEASE_PRERELEASE': str(prerelease).lower(), 'RELEASE_ARCHIVE': f"Kaleidoscope_Tavern_Unofficial_{c['version']}_{c['artifact_suffix']}.mcaddon"}
           with open(os.environ['GITHUB_ENV'], 'a', encoding='utf-8') as f:
               for key, value in values.items():
                   f.write(f'{key}={value}\n')
@@ -105,12 +108,12 @@ jobs:
           from pathlib import Path
           import sys
           sys.path.insert(0, 'tools')
-          from release_publication import public_notes
+          from release_publication import public_notes_text
           r = json.loads(Path('.github/release-request.json').read_text())
           out = Path('dist')
-          notes = public_notes(Path('.'), r)
+          notes = public_notes_text(Path('.'), r)
           if notes is not None:
-              shutil.copy2(notes, out / 'RELEASE-NOTES.md')
+              (out / 'RELEASE-NOTES.md').write_text(notes, encoding='utf-8')
           archive = out / os.environ['RELEASE_ARCHIVE']
           actual = hashlib.sha256(archive.read_bytes()).hexdigest()
           assert actual == r['expected_archive_sha256'], (actual, r['expected_archive_sha256'])
@@ -152,7 +155,7 @@ jobs:
           gh release create "$RELEASE_TAG" dist/* \
             --repo "$GITHUB_REPOSITORY" --target "$SOURCE_SHA" \
             --title "$RELEASE_TITLE" --notes-file dist/RELEASE-NOTES.md \
-            --draft --prerelease
+            --draft --prerelease="$RELEASE_PRERELEASE" --latest=false
           verify_dir="$RUNNER_TEMP/tavern-release-readback"
           mkdir -p "$verify_dir"
           gh release download "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --dir "$verify_dir"
@@ -165,15 +168,16 @@ jobs:
           assert local == remote, 'Release upload does not exactly match the verified build'
           print(f'All {len(local)} uploaded assets match the build byte-for-byte.')
           PY
-          gh release edit "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --draft=false --prerelease --latest=false
+          gh release edit "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --draft=false --prerelease="$RELEASE_PRERELEASE" --latest=false
           test "$(gh api "repos/$GITHUB_REPOSITORY/git/ref/tags/$RELEASE_TAG" --jq '.object.sha')" = "$SOURCE_SHA"
           gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" \
             --json url,tagName,isDraft,isPrerelease,publishedAt,assets > published-release.json
           python - <<'PY'
-          import json
+          import json, os
           from pathlib import Path
           r = json.loads(Path('published-release.json').read_text())
-          assert r['isDraft'] is False and r['isPrerelease'] is True and r['publishedAt']
+          assert r['tagName'] == os.environ['RELEASE_TAG']
+          assert r['isDraft'] is False and r['isPrerelease'] is (os.environ['RELEASE_PRERELEASE'] == 'true') and r['publishedAt']
           print(r['url'])
           PY
       - uses: actions/upload-artifact@v4

@@ -1,4 +1,4 @@
-"""Admit the exact P35 host or P36 typed fallback, conserving the prior gameplay/assets."""
+"""Admit the exact versioned HUD repair, conserving prior gameplay/assets."""
 import copy
 import hashlib
 import json
@@ -12,8 +12,16 @@ VERSION = [1, 0, 35]
 PROFILES = {
     (1, 0, 35): (PREVIOUS, [1, 0, 34]),
     (1, 0, 36): ('45ccf212681fcf429cb6b512ad6f09400eefc180', [1, 0, 35]),
+    (1, 0, 37): ('aaeaacf28883d1aeb4a21cdde0dd0aa9e4ab5f56', [1, 0, 36]),
 }
 EMPTY_CONTROL = {'type': 'panel', 'size': [0, 0]}
+ACTIONBAR_LEAVES = ('hud_actionbar_text', 'hud_actionbar_text/actionbar_message')
+STABLE_ACTIONBAR_FILTER = "((($kt_family_actionbar_text - 'KT_HUD!') = $kt_family_actionbar_text) and (($kt_family_actionbar_text - 'KG_HUD!') = $kt_family_actionbar_text) and (not (('%.4s' * $kt_family_actionbar_text) = '!js.')))"
+STABLE_PROVIDER_VERSIONS = {
+    'c2990d50-2cf7-59f7-886a-0f2d0240d156': ([0, 6, 163], [0, 6, 164]),
+    'bbbd2d60-52e5-53a6-8b9a-c09b0f516389': ([2, 8, 138], [2, 8, 140]),
+    'a610b357-ba70-5a2f-bca5-5a7a8a0fb2a8': ([0, 1, 141], [0, 1, 142]),
+}
 PROVIDERS = {'c2990d50-2cf7-59f7-886a-0f2d0240d156', 'bbbd2d60-52e5-53a6-8b9a-c09b0f516389',
              'a610b357-ba70-5a2f-bca5-5a7a8a0fb2a8', '994f73a2-05ec-41ce-876c-d388a526d9f5',
              '9071b6bc-915d-4d26-8486-05bb8db48762'}
@@ -22,8 +30,9 @@ PROVIDERS = {'c2990d50-2cf7-59f7-886a-0f2d0240d156', 'bbbd2d60-52e5-53a6-8b9a-c0
 def conserved_scope(old, new, old_manifest, new_manifest, side, own_uuids, version=VERSION, old_hud=None, new_hud=None):
     _, previous_version = PROFILES[tuple(version)]
     fallback_repair = version == [1, 0, 36]
+    stable_filter_repair = version == [1, 0, 37]
     before, after = dict(old), dict(new)
-    additions = {'ui/hud_screen.json', 'ui/_global_variables.json'} if side == 'RP' and not fallback_repair else set()
+    additions = {'ui/hud_screen.json', 'ui/_global_variables.json'} if side == 'RP' and version == VERSION else set()
     assert set(after) - set(before) == additions and not set(before) - set(after), 'Unexpected private runtime addition/removal'
     for name in additions:
         after.pop(name)
@@ -32,6 +41,14 @@ def conserved_scope(old, new, old_manifest, new_manifest, side, own_uuids, versi
         projected_hud = copy.deepcopy(new_hud)
         assert projected_hud.pop('kt_family_empty') == EMPTY_CONTROL, 'Private HUD fallback differs'
         assert projected_hud == old_hud and 'kt_family_empty' not in old_hud, 'Private HUD changes beyond the missing fallback'
+        allowed.add('ui/hud_screen.json')
+    if side == 'RP' and stable_filter_repair:
+        assert old_hud['kt_family_empty'] == new_hud['kt_family_empty'] == EMPTY_CONTROL, 'Private HUD fallback changed'
+        projected_hud = copy.deepcopy(new_hud)
+        for leaf in ACTIONBAR_LEAVES:
+            assert projected_hud[leaf]['visible'] == STABLE_ACTIONBAR_FILTER, 'Private native actionbar filter differs'
+            projected_hud[leaf]['visible'] = old_hud[leaf]['visible']
+        assert projected_hud == old_hud, 'Private HUD changes beyond the two native filters'
         allowed.add('ui/hud_screen.json')
     assert all(before[name] == after[name] for name in before if name not in allowed), 'Private gameplay/storage/assets changed'
     projected = copy.deepcopy(new_manifest)
@@ -44,8 +61,14 @@ def conserved_scope(old, new, old_manifest, new_manifest, side, own_uuids, versi
     if side == 'RP':
         companions = [row for row in projected['dependencies'] if row.get('uuid') in PROVIDERS]
         assert len(companions) == len(PROVIDERS) and {row['uuid'] for row in companions} == PROVIDERS
-        if not fallback_repair:
+        if version == VERSION:
             projected['dependencies'] = [row for row in projected['dependencies'] if row.get('uuid') not in PROVIDERS]
+        elif stable_filter_repair:
+            for dependency in companions:
+                if dependency['uuid'] in STABLE_PROVIDER_VERSIONS:
+                    old_version, new_version = STABLE_PROVIDER_VERSIONS[dependency['uuid']]
+                    assert dependency['version'] == new_version, 'Private owned HUD provider version differs'
+                    dependency['version'] = old_version
     for dependency in projected['dependencies']:
         if dependency.get('uuid') in own_uuids:
             assert dependency['version'] == version
@@ -69,7 +92,7 @@ def verify_static(receipt, prior):
     assert proof['test_exit_code'] == 0 and proof['test_command'] == ['python', 'tools/test_family_hud_host.py']
     assert proof['native_controls'] == 29 and proof['literal_owned_roots'] == 2
     assert proof['native_and_amw_conserved'] and proof['dependency_bound']
-    if version == [1, 0, 36]:
+    if version in [[1, 0, 36], [1, 0, 37]]:
         assert proof['typed_empty_fallback'] and proof['fallback_base'] == 'hud.kt_family_empty'
     assert all(proof[key] is False for key in ['native_loading', 'client', 'simulated_players', 'production_ready'])
     log = path.parent / proof['test_log']['name']
@@ -96,7 +119,7 @@ def verify_static(receipt, prior):
         old_manifest = json.loads(c.git(c.EXTENSION, 'show', previous + ':' + relative))
         new_manifest = c.read(c.EXTENSION / relative)
         old_hud = new_hud = None
-        if side == 'RP' and version == [1, 0, 36]:
+        if side == 'RP' and version in [[1, 0, 36], [1, 0, 37]]:
             hud_relative = baseline['runtime'][side] + '/ui/hud_screen.json'
             old_hud = json.loads(c.git(c.EXTENSION, 'show', previous + ':' + hud_relative))
             new_hud = c.read(c.EXTENSION / hud_relative)
