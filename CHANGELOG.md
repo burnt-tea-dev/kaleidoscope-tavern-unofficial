@@ -1,3 +1,7 @@
+## 0.6.166
+
+Exclude inactive shaker image children from HUD layout using their existing visibility selectors. Cache one unchanged placed-shaker display projection per player with bounded storage and immediate raw-data, target, dimension and hand invalidation. Preserve each-tick targeting, ten-tick slot refresh, native start/release timing, coordinates, graphic lifetime, textures, effects and gameplay. Device latency and rendered-client acceptance remain pending.
+
 ## 0.6.165
 
 Restore the maintained Forge/NeoForge ShakerOverlay screen-centre-relative top-left coordinates: slots (-28,+32), progress origin (-91,+26), bar (+0,+6). Remove T164's unsupported top placement and extra touch shift; retain graphics transport, packet filters, lifetime, assets and gameplay. Odd GUI dimensions have a bounded half-pixel centring difference; actual device rendering remains unverified.
