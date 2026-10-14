@@ -57,6 +57,7 @@ def main():
         hud[key].pop('anims', None)
     hud['kt_mixology_cursor'].pop('offset', None)
     packet = hud['kt_mixology_packet']
+    packet_order = list(packet)
     for key in ['alpha', 'propagate_alpha', 'bindings', 'property_bag', 'visible', '$kt_text']:
         packet.pop(key, None)
     progress = packet['controls'][1]['progress']
@@ -82,6 +83,11 @@ def main():
     packet['offset']='$kt_graphical_offset'
     packet['variables']=[{'requires':'$touch','$kt_graphical_offset':[0,16]},
                          {'requires':"(not (($kt_text - 'KT_HUD!P:') = $kt_text))",'$kt_lifetime':.2}]
+    # Keep the committed key order when replacing factory-managed fields.
+    # Existing packet fields remain byte-stable across regeneration; new fields
+    # are appended in the generator's declared order.
+    hud['kt_mixology_packet'] = {**{key: packet[key] for key in packet_order if key in packet},
+                                **{key: value for key, value in packet.items() if key not in packet_order}}
     path.write_text(json.dumps(hud, ensure_ascii=False, separators=(',', ':')) + '\n')
     print('Generated 51 literal controls: three slots, all 16 Java colors and empty')
 
