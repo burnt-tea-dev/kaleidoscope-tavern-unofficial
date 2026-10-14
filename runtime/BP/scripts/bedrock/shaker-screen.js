@@ -1,4 +1,4 @@
-/** Graphical state uses an optional title router; Java messages use the native Actionbar. */
+/** Graphical state uses the original actionbar event; effect titles keep their own router. */
 import {system} from '@minecraft/server';
 import {HUD_PREFIX,GRAPHICAL_HUD_END,slotsPacket,progressPacket,hudSendDue,barrelHudEnabled} from '../core/shaker-hud.js';
 import {sendFormattingHud,forgetFormattingHud} from './shaker-hud-transport.js';
@@ -45,7 +45,7 @@ export function showBarrelHud(player,rawtext){
 export function hideShakerHud(player){
  if(messageActive(player))return;
  last.delete(player.id);
- // One bounded owned stop replaces this key in the queue, never a native clear.
+ // One owned stop replaces only the graphical instance; never send a blank native clear.
  if(graphical.delete(player.id))try{sendFormattingHud(player,GRAPHICAL_HUD_END);}catch{}
 }
 export function showShakerMessage(player,code){

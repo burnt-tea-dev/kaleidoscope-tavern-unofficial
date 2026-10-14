@@ -18,8 +18,8 @@ function evaluate(source,values){
  const result=or();assert.equal(i,tokens.length);return result;
 }
 function visible(panel,text){
- const values={'#kt_text':text};if(panel.visible!==undefined&&!evaluate(panel.visible,values))return [];
- return panel.controls.flatMap(row=>Object.entries(row)).filter(([name,sprite])=>(sprite.type==='image'||name.includes('@'))&&evaluate(sprite.bindings.at(-1).source_property_name,values));
+ const values={'$kt_text':text};if(panel.visible!==undefined&&!evaluate(panel.visible,values))return [];
+ return panel.controls.flatMap(row=>Object.entries(row)).filter(([name,sprite])=>(sprite.type==='image'||name.includes('@'))&&evaluate(sprite.visible,values));
 }
 const slots=packet.controls[0].slots,progress=packet.controls[1].progress;
 test('actual initial, slots, progress and stop gates select the expected graphics',()=>{
@@ -35,29 +35,14 @@ test('actual initial, slots, progress and stop gates select the expected graphic
  }
  assert.equal(visible(slots,GRAPHICAL_HUD_END).length,0);assert.equal(visible(progress,GRAPHICAL_HUD_END).length,0);
 });
-test('declared channel gate accepts late own data and ignores interleaved foreign titles',()=>{
- const channel=slots.controls.at(-1).kt_slot_channel;let text='';
- for(const [incoming,expected]of [[slotsPacket([]),slotsPacket([])],['AMW_CH!magic_main!foo',slotsPacket([])],['§r§0§r§0§0§1§0§0',slotsPacket([])],[progressPacket(25),progressPacket(25)],[GRAPHICAL_HUD_END,GRAPHICAL_HUD_END]]){
-  const values={'#kt_text':text,'#hud_title_text_string':incoming};
-  if(evaluate(channel.bindings.at(-1).source_property_name,values))text=incoming;
-  assert.equal(text,expected);
- }
-});
-
-test('manual probes distinguish native mount, owned catalog and retained cache; gameplay stays silent',()=>{
+test('native factory supplies local event text and replaces only its own bounded instance',()=>{
+ const factory=hud.kt_mixology_factory.factory;
+ assert.equal(factory.name,'hud_actionbar_text_factory');assert.equal(factory.max_children_size,1);
+ assert.deepEqual(factory.control_ids,{'hud_actionbar_text':'kt_mixology_packet@kaleidoscope_tavern_hud.kt_mixology_packet'});
+ assert.equal(packet.$kt_text,'$actionbar_text');
+ for(const text of ['', 'Ordinary message', 'AMW_CH!magic_main!foo',GRAPHICAL_HUD_END])assert.equal(evaluate(packet.visible,{'$kt_text':text}),false);
+ for(const text of [slotsPacket([]),progressPacket(25)])assert(evaluate(packet.visible,{'$kt_text':text}));
  const bridge=JSON.parse(readFileSync(new URL('../runtime/RP/ui/hud_screen.json',import.meta.url)));
- const mount=bridge.kt_family_probe.bindings.at(-1).source_property_name;
- const root=hud.root.controls.at(-1).channel_root_probe.bindings.at(-1).source_property_name;
- const cache=slots.controls.at(-2).channel_cache_probe.bindings.at(-1).source_property_name;
- const nativeTitle=bridge.hud_title_text.bindings.at(-1).source_property_name;
- for(const incoming of ['', 'Welcome', 'AMW_CH!magic_main!test',slotsPacket([]),progressPacket(25),GRAPHICAL_HUD_END]){
-  assert.equal(evaluate(mount,{'#hud_title_text_string':incoming}),false);
-  assert.equal(evaluate(root,{'#hud_title_text_string':incoming}),false);
-  assert.equal(evaluate(cache,{'#kt_text':incoming}),false);
-  assert.equal(evaluate(nativeTitle,{'#hud_title_text_string':incoming}),!incoming.startsWith('KT_HUD!'));
- }
- assert(evaluate(mount,{'#hud_title_text_string':'KT_HUD!D;'}));
- assert(evaluate(root,{'#hud_title_text_string':'KT_HUD!D;'}));
- assert(evaluate(cache,{'#kt_text':'KT_HUD!D;'}));
- assert.equal(evaluate(cache,{'#kt_text':'KG_HUD!D;'}),false);
+ assert(!('hud_title_text' in bridge));assert(!('kt_family_probe' in bridge));
+ assert(!/channel_root_probe|channel_cache_probe|#hud_title_text_string/.test(JSON.stringify({...hud,kt_effect_icons:undefined})));
 });
