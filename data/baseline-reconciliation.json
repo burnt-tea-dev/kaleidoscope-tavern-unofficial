@@ -4204,6 +4204,12 @@
       "before": null,
       "after": "080b15e6043c39b7943dd0f052f1e44cb5dcc1948473b3ac76d1be985606b181",
       "reason": "T163 owned graphical actionbar adapter, separated from the unchanged effect-title router. Validates only bounded owned packets and emits the original native graphical factory event; never blanks titles, subtitles or the actionbar. See RELEASE-NOTES-0.6.163.md."
+    },
+    "runtime/BP/scripts/core/shaker-preview.js": {
+      "before": null,
+      "after": "4532c65dd507125f3f94f156295cef2a80b20ea07128a681a253ba65fecf6389",
+      "release": "0.6.166",
+      "reason": "Bounded read-only placed-shaker display projection cache. It never authorizes transactions or changes saved state; unchanged raw inputs reuse one packet per player and changed target, dimension, hand or raw bytes invalidate immediately. See tools/immersion-feedback.test.mjs; device latency remains unverified."
     }
   },
   "reviewedFunctionalDeltas": {
