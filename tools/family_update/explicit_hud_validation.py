@@ -59,7 +59,7 @@ def verify_static(receipt, prior):
     pr = gh_json(f'repos/{REPOSITORY}/pulls/{c.CONFIG["extension_hud_pull_request"]}')
     assert pr['merged_at'] and pr['state'] == 'closed' and pr['base']['ref'] == 'main'
     assert c.git(c.EXTENSION, 'rev-parse', pr['head']['sha'] + '^{tree}') == binding['current_source_tree_oid']
-    checks, statuses, unavailable = private_ci_records(gh_json, REPOSITORY, pr['head']['sha'])
+    checks, statuses, unavailable = private_ci_records(REPOSITORY, pr['head']['sha'])
     assert proof['previous_commit'] == PREVIOUS
     old_baseline = json.loads(c.git(c.EXTENSION, 'show', PREVIOUS + ':baseline.json'))
     assert old_baseline['version'] == [1, 0, 34]
