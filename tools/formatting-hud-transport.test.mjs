@@ -19,18 +19,18 @@ test('graphical packets route without touching the shared Actionbar or subtitle'
   assert.equal(calls.length,count);
  }
 });
-test('permanent receivers share one channel cache for each group of sprites',()=>{
+test('production graphics use bounded local actionbar events while effect titles stay separate',()=>{
  const hud=JSON.parse(read('runtime/RP/ui/kt_tavern_hud.json'));
- for(const [kind,panel] of [['kt_slot',hud.kt_mixology_packet.controls[0].slots],['kt_progress',hud.kt_mixology_packet.controls[1].progress]]){
-  const controls=Object.fromEntries(panel.controls.flatMap(row=>Object.entries(row))),channel=controls[kind+'_channel'];
-  assert.equal(channel.visible,false);
-  assert(channel.bindings.some(b=>b.binding_name==='#hud_title_text_string'&&b.binding_condition==='always'));
-  assert(channel.bindings.some(b=>b.binding_name_override==='#kt_text'&&b.binding_condition==='visibility_changed'));
-  for(const [name,sprite] of Object.entries(controls))if(name.includes('@')||sprite.type==='image'){
-   assert.equal(sprite.bindings[0].source_control_name,kind+'_channel');assert.equal(sprite.bindings[0].resolve_sibling_scope,true);
-   assert(!sprite.bindings.some(b=>b.binding_name==='#hud_title_text_string'));
-   assert(sprite.bindings.at(-1).source_property_name.includes(GRAPHICAL_HUD_END));
+ assert.equal(hud.kt_mixology_packet.$kt_text,'$actionbar_text');
+ assert.equal(hud.kt_mixology_factory.factory.name,'hud_actionbar_text_factory');
+ assert.equal(hud.kt_mixology_factory.factory.max_children_size,1);
+ for(const panel of [hud.kt_mixology_packet.controls[0].slots,hud.kt_mixology_packet.controls[1].progress]){
+  for(const [name,sprite] of panel.controls.flatMap(row=>Object.entries(row)))if(name.includes('@')||sprite.type==='image'){
+   assert.equal(sprite.bindings,undefined);assert(sprite.visible.includes('$kt_text'));
   }
  }
+ assert(read('runtime/BP/scripts/bedrock/shaker-hud-transport.js').includes('createGraphicalActionbarTransport'));
+ assert(!/ui_load|setTitle/.test(read('runtime/BP/scripts/bedrock/shaker-hud-transport.js')));
+ assert(read('runtime/BP/scripts/bedrock/effect-icons.js').includes('createEffectIconTransport'));
  assert(read('runtime/BP/scripts/bedrock/shaker-screen.js').includes('if(graphical.delete(player.id))try{sendFormattingHud(player,GRAPHICAL_HUD_END)'));
 });
