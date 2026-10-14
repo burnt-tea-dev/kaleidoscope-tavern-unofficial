@@ -1,3 +1,7 @@
+## 0.6.164
+
+Correct parent/control HUD anchors, move touch graphics below native top controls, and conceal owned graphical packets consistently. Preserve assets, gameplay, normal messages and other addon HUDs. Client acceptance pending.
+
 ## 0.6.148
 
 Move the Tavern HUD to its registered namespace and share a minimal optional-root bridge with Grilling; filter both internal frame protocols while retaining ordinary Actionbar messages. See [scope and pending client acceptance](docs/RELEASE-NOTES-0.6.148.md).

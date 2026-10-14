@@ -3,10 +3,17 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from release_publication import publication_enabled, public_notes
+from release_publication import publication_enabled, public_notes, public_notes_text
 
 
 class ReleasePublication(unittest.TestCase):
+    def test_inline_notes_are_short_public_text_and_preserve_path_mode(self):
+        self.assertEqual(public_notes_text(Path('.'), {'public_notes_inline': 'Current repair.\n\nClient confirmation pending.'}),
+                         'Current repair.\n\nClient confirmation pending.\n')
+        for text in ['', '/root/private/source', 'file:///world', '\x00', 'x' * 4097, False]:
+            with self.subTest(text=text), self.assertRaises(ValueError):
+                public_notes_text(Path('.'), {'public_notes_inline': text})
+
     def test_new_request_requires_explicit_manual_publication(self):
         request = {'publication_request': False}
         self.assertFalse(publication_enabled(request, 'push'))
@@ -35,6 +42,9 @@ class ReleasePublication(unittest.TestCase):
             public.write_text('Current bounded public release explanation')
             self.assertIsNone(public_notes(root, {}))
             self.assertEqual(public_notes(root, {'public_notes_path': 'docs/PUBLICATION-T147.md'}), public)
+            changelog = root / 'CHANGELOG.md'
+            changelog.write_text('Current release entry')
+            self.assertEqual(public_notes(root, {'public_notes_path': 'CHANGELOG.md'}), changelog)
             self.assertEqual(original.read_text(), 'Immutable diagnostic draft evidence')
             for name in ('../outside.md', 'docs/../outside.md', str(public), 'runtime/RP/notes.md',
                          'docs\\PUBLICATION-T147.md', 'docs/missing.md'):
