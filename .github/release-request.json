@@ -14,5 +14,7 @@
   "native_evidence_scope": "Exclude inactive graphical children from layout using unchanged visibility selectors and cache unchanged placed-shaker display projections. Preserve original timing, coordinates, ingredients, recipes, assets, native controls and other addon HUDs. No measured device-latency improvement or rendered-client acceptance claimed.",
   "client": false,
   "status": "awaiting_source_ci_family_save_admission_and_live_readback",
-  "public_notes_inline": "Reduces processing of inactive shaker HUD images and avoids repeatedly parsing unchanged shaker contents. Preserves the Java overlay position, progress timing, ingredients, recipes, assets and other addon HUDs.\n\nActual device latency, rendered acceptance and complete Java parity remain pending."
+  "public_notes_inline": "Reduces processing of inactive shaker HUD images and avoids repeatedly parsing unchanged shaker contents. Preserves the Java overlay position, progress timing, ingredients, recipes, assets and other addon HUDs.\n\nActual device latency, rendered acceptance and complete Java parity remain pending.",
+  "expected_archive_sha256": "d0d1b6553b351a08d39ca5a159aba0ce6e6f47230497800d4c5f0e51734dfd22",
+  "reviewed_runtime_source": "efc59ff467a2f3accd1090bdcce3dc9d5f4b56df"
 }
