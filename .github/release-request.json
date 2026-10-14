@@ -1,19 +1,17 @@
 {
-  "version": "0.6.162",
-  "tag": "v0.6.162-beta.1",
-  "title": "Tavern 0.6.162 — readable HUD transport and renderer probes",
+  "version": "0.6.163",
+  "tag": "v0.6.163-beta.1",
+  "title": "Tavern 0.6.163 — restore original graphical HUD events",
   "prerelease": true,
   "publication_request": false,
-  "validation_evidence": "docs/RELEASE-NOTES-0.6.162.md",
-  "public_notes_path": "docs/RELEASE-NOTES-0.6.162.md",
+  "validation_evidence": "docs/RELEASE-NOTES-0.6.163.md",
+  "public_notes_path": "docs/RELEASE-NOTES-0.6.163.md",
   "client_acceptance": "pending",
   "full_client_acceptance": "pending",
   "saved_world_migration": "pending",
   "production_ready": false,
   "live_deployment": false,
-  "native_evidence_scope": "Owner confirmed previous custom UI absent. Bounded readable HUD tokens, owned-title suppression and manual mount/catalog/cache probes. Exact failure stage and actual client recovery remain unverified.",
+  "native_evidence_scope": "Restore original actionbar factory event for Senluo shaker/eating graphics after owner-reported loss; retire manual probes/title cache conversion. Assets/gameplay preserved. Actual client recovery unverified.",
   "client": false,
-  "status": "awaiting_source_ci_family_save_admission_and_live_readback",
-  "expected_archive_sha256": "a98e4e672f586765ee99b86b8a023a7263e24de98d26841f705aa07744e5e7fc",
-  "reviewed_runtime_source": "0f2f4abaa437a4fc9d540e31c97a698cad252999"
+  "status": "awaiting_source_ci_family_save_admission_and_live_readback"
 }

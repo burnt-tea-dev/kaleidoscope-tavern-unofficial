@@ -14,10 +14,12 @@ for(const key of ['hud_actionbar_text','hud_actionbar_text/actionbar_message'])
 assert.equal(hud.namespace,'kaleidoscope_tavern_hud');
 assert.equal(hud.root.type,'panel');
 assert.equal(bridge.root_panel.modifications[0].operation,'insert_back');
-assert.deepEqual(hud.root.controls[0],{'kt_mixology@kaleidoscope_tavern_hud.kt_mixology_packet':{}});
+assert.deepEqual(hud.root.controls[0],{'kt_mixology@kaleidoscope_tavern_hud.kt_mixology_factory':{}});
 const raw=JSON.stringify(hud);
 assert(!/#stored_text|#texture/.test(raw));
-assert.equal(hud.kt_mixology_packet.bindings,undefined);
+assert.equal(hud.kt_mixology_packet.$kt_text,'$actionbar_text');
+assert.equal(hud.kt_mixology_factory.factory.name,'hud_actionbar_text_factory');
+assert.equal(hud.kt_mixology_factory.factory.max_children_size,1);
 let textures=0;
 function walk(value){
  if(!value||typeof value!=='object')return;
@@ -34,7 +36,7 @@ const slots=controls[0].slots.controls.filter(row=>Object.keys(row)[0].includes(
 for(let i=0;i<3;i++)for(let c=0;c<17;c++)assert(JSON.stringify(slots[i*17+c]).includes(slotToken(i,c)));
 const cursors=controls[1].progress.controls.filter(row=>Object.keys(row)[0].startsWith('cursor_'));assert.equal(cursors.length,112);
 for(let n=0;n<112;n++){
- const cursor=Object.values(cursors[n])[0];assert(cursor.bindings.at(-1).source_property_name.includes(`(#kt_text = '${progressPacket(n)}')`));
+ const cursor=Object.values(cursors[n])[0];assert(cursor.visible.includes(`($kt_text = '${progressPacket(n)}')`));
 }
 assert.equal(progressPacket(-10),progressPacket(0));assert.equal(progressPacket(Infinity),progressPacket(0));
 assert.equal(progressPacket(200),progressPacket(111));

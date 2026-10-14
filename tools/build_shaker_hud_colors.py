@@ -6,8 +6,7 @@ RGB texels multiply that source and retain its alpha, as ShakerOverlay does.
 """
 import json
 from pathlib import Path
-from formatting_hud_ui import bind_channel
-from hud_channel_probe import install_catalog_probe
+from actionbar_hud_ui import install_actionbar_factory
 from PIL import Image, ImageChops
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -45,7 +44,7 @@ def main():
                 image.paste(icon, (slot * 20, 0))
                 image.save(RP / f'textures/ui/kt_mixology/slots/{name}.png')
     panel['controls'] = updated
-    bind_channel(panel,'kt_slot','KT_HUD!','KT_HUD!END;','kt_text')
+    panel['visible']="(not (($kt_text - 'KT_HUD!S:') = $kt_text))"
     # A permanent receiver cannot inherit animations that faded/destroyed a
     # factory instance. Progress is already sent each server tick.
     for key in list(hud):
@@ -69,9 +68,10 @@ def main():
             'offset': [tick * 1.5, 0],
             'visible': f"($kt_text = 'KT_HUD!P:{code(tick)};')"}})
     progress['controls'] = rows
-    bind_channel(progress, 'kt_progress', 'KT_HUD!', 'KT_HUD!END;', 'kt_text')
-    hud['root']['controls'][0] = {'kt_mixology@kaleidoscope_tavern_hud.kt_mixology_packet': {}}
-    install_catalog_probe(hud,'tavern',panel,'kt_slot_channel','#kt_text')
+    progress['visible']="(not (($kt_text - 'KT_HUD!P:') = $kt_text))"
+    install_actionbar_factory(hud,'tavern','kt_text','KT_HUD!','KT_HUD!END;','$kt_lifetime')
+    packet['$kt_lifetime|default']=.6
+    packet['variables']=[{'requires':"(not (($kt_text - 'KT_HUD!P:') = $kt_text))",'$kt_lifetime':.2}]
     path.write_text(json.dumps(hud, ensure_ascii=False, separators=(',', ':')) + '\n')
     print('Generated 51 literal controls: three slots, all 16 Java colors and empty')
 

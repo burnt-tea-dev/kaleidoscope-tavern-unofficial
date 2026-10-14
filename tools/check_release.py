@@ -143,11 +143,7 @@ def main(argv=None):
     assert not (RT/'RP/entity/player.entity.json').exists()
     assert not (RT/'RP/ui/fast_swap_scroll.json').exists()
     hud=docs[RT/'RP/ui/hud_screen.json']
-    # The readable data carrier needs only the exact owned-prefix guard; never
-    # replace native title children, animations or foreign title visibility.
-    from hud_channel_probe import install_bridge_probe
-    expected_hud=copy.deepcopy(hud);install_bridge_probe(expected_hud)
-    assert hud['hud_title_text']==expected_hud['hud_title_text']
+    assert 'hud_title_text' not in hud, 'Graphical actionbar must not change native titles'
     # Only protocol-scoped visibility may touch native Actionbar controls. Never hide
     # all messages through alpha, bindings, or replacement controls.
     for key in ['hud_actionbar_text','hud_actionbar_text/actionbar_message']:

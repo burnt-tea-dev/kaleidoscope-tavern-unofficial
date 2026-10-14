@@ -23,12 +23,13 @@ test('cancel and disconnect retire only the matching player timeout',()=>{
  f.sender.send(a,GRAPHICAL_HUD_END);f.sender.forget(b.id);assert.equal(f.pending.size,0);
  f.advance(100);assert.equal(f.calls.length,3);assert.equal(f.calls.at(-1)[2],GRAPHICAL_HUD_END);
 });
-test('persistent receivers have no once snapshot or expiring factory ancestry',()=>{
+test('original event factory has bounded slots/progress lifetime and no title cache ancestry',()=>{
  const hud=JSON.parse(readFileSync(new URL('../runtime/RP/ui/kt_tavern_hud.json',import.meta.url)));
- assert.deepEqual(hud.root.controls[0],{'kt_mixology@kaleidoscope_tavern_hud.kt_mixology_packet':{}});
+ assert.deepEqual(hud.root.controls[0],{'kt_mixology@kaleidoscope_tavern_hud.kt_mixology_factory':{}});
+ assert.equal(hud.kt_mixology_expire.destroy_at_end,'kt_mixology_packet');
+ assert.equal(hud.kt_mixology_expire.duration,'$kt_lifetime');
+ assert.equal(hud.kt_mixology_packet['$kt_lifetime|default'],.6);
+ assert.equal(hud.kt_mixology_packet.variables[0].$kt_lifetime,.2);
  const {kt_effect_icons,...owned}=hud;
- assert(!/"factory"|"once"|"destroy_at_end"|"anims"/.test(JSON.stringify(owned)));
- const progress=hud.kt_mixology_packet.controls[1].progress;
- assert.equal(progress.visible,undefined,'Old / 111 text gate hides every new formatting packet');
- assert(!/\$kt_text|#kt_text_latest/.test(JSON.stringify(owned)),'No unbound legacy snapshot variables');
+ assert(!/#hud_title_text_string|#kt_text_latest|channel_cache_probe/.test(JSON.stringify(owned)));
 });
