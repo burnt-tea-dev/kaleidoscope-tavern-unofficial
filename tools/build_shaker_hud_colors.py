@@ -38,6 +38,9 @@ def main():
             control.update(offset=[slot * 20, 0], uv=[slot * 20, 0],
                            texture=f'textures/ui/kt_mixology/slots/{name}',
                            visible=f"(not (($kt_text - '{slot}{code(color)};') = $kt_text))")
+            # Factory text is fixed for this instance. Do not construct the
+            # other sixteen color images only to hide them afterwards.
+            control['ignored'] = f"(not {control['visible']})"
             control.pop('bindings',None);control.pop('property_bag',None)
             updated.append({key: control})
             if color >= 8:
@@ -48,6 +51,7 @@ def main():
                 image.save(RP / f'textures/ui/kt_mixology/slots/{name}.png')
     panel['controls'] = updated
     panel['visible']="(not (($kt_text - 'KT_HUD!S:') = $kt_text))"
+    panel['ignored'] = f"(not {panel['visible']})"
     # A permanent receiver cannot inherit animations that faded/destroyed a
     # factory instance. Progress is already sent each server tick.
     for key in list(hud):
@@ -64,18 +68,22 @@ def main():
     # The bar is six pixels below this source cursor origin. Its 181px width
     # must not turn Java's -91 left edge into a centred -90.5 offset.
     progress.update(anchor_from='center', anchor_to='top_left', offset=[-91,26])
-    progress.pop('visible', None) # Remove the obsolete text-only / 111 gate.
+    # Replace the obsolete text-only / 111 gate below without deleting its key;
+    # deletion would reorder visible after ignored on every regeneration.
     bar = progress['controls'][0]['bar']
     for key in ['anims', 'bindings', 'property_bag']:
         bar.pop(key, None)
     bar['visible'] = "(not (($kt_text - 'KT_HUD!P:') = $kt_text))"
+    bar['ignored'] = f"(not {bar['visible']})"
     rows = [{'bar': bar}]
     for tick in range(112):
+        visible = f"(not (($kt_text - 'KT_HUD!P:{code(tick)};') = $kt_text))"
         rows.append({f'cursor_{tick}@kaleidoscope_tavern_hud.kt_mixology_cursor': {
             'offset': [tick * 1.5, 0],
-            'visible': f"(not (($kt_text - 'KT_HUD!P:{code(tick)};') = $kt_text))"}})
+            'visible': visible, 'ignored': f'(not {visible})'}})
     progress['controls'] = rows
     progress['visible']="(not (($kt_text - 'KT_HUD!P:') = $kt_text))"
+    progress['ignored'] = f"(not {progress['visible']})"
     install_actionbar_factory(hud,'tavern','kt_text','KT_HUD!','KT_HUD!END;','$kt_lifetime')
     # The receiver and native mask use contained owned tokens, including when
     # engine formatting surrounds them. Stop packets must use that same gate.

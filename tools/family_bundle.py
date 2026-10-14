@@ -56,7 +56,7 @@ def renderer_source_version(config,spec,path):
  if profile is None:return config['version']
  expected={'source_commit':'8d05a3da291861048dc7e759be3ba96fde45ebb8',
            'spec_sha256':'292e337a073ea713c22c84c66f85a2c8cb9d2d5c453c308b1569107d2656b703'}
- if config['repository']!='local/senluo-amw-cuisine' or config['version'] not in [[1,0,33],[1,0,34],[1,0,35],[1,0,36],[1,0,37],[1,0,38]] or profile!=expected:
+ if config['repository']!='local/senluo-amw-cuisine' or config['version'] not in [[1,0,33],[1,0,34],[1,0,35],[1,0,36],[1,0,37],[1,0,38],[1,0,39]] or profile!=expected:
   fail('unsupported retained renderer source profile')
  if spec.get('owner_version')!=[1,0,32] or hashlib.sha256(path.read_bytes()).hexdigest()!=expected['spec_sha256']:
   fail('retained renderer component differs from reviewed reviewed integration')

@@ -32,18 +32,20 @@ import {javaSecondaryBypass} from '../core/java-use-order.js';
 import {registerProtectedBreakRoute} from './protected-break-router.js';
 import {registerJavaBlockUseHandler,registerJavaBlockUseObserver,registerJavaOffhandUseOnHandler,registerJavaBlockUseFallback,registerJavaBlockUseWitness,registerJavaItemUseOnRoute,nativeBlockUse,settleJavaBlockUse} from './java-placement-router.js';
 import {shakerPut,syncShakerVisual,repairShakerPutVisual,installImmersionCleanup,shakeAudio,finished,feedback,startShakerHands,stopShakerHands,cocktailEffect} from './immersion.js';
-import {showShakerSlots,showShakerProgress,hideShakerHud,showShakerMessage,clearShakerPlayer,showBarrelHud,shakerHudDiagnostics} from './shaker-screen.js';
+import {showShakerSlots,showShakerSlotsPacket,showShakerProgress,hideShakerHud,showShakerMessage,clearShakerPlayer,showBarrelHud,shakerHudDiagnostics} from './shaker-screen.js';
 import {lookedAtBarrelStatus} from './machines.js';
 import {barrelHudEnabled} from '../core/shaker-hud.js';
 import {signaturePaletteIndex} from '../data/signature-palette.js';
 import {nativeShakerState,portableShakerState,readPlacedShaker,planPlacedShaker} from './shaker-storage.js';
 import {migrateLegacyShakerSlot} from '../core/legacy-shaker-migration.js';
 import {mainShakerHand,shakerHandItem,liveShakerStack,reportedShakerData,captureShakerHand,verifyShakerHand,shakerHandContainer} from './shaker-hands.js';
+import {createShakerPreviewCache} from '../core/shaker-preview.js';
 
 const SHAKER=SHAKER_ID,STATION=NS+':shaker_station',FACING=NS+':facing';
 const CUP_HELPER=NS+':signature_cup_visual',CUP_ANCHOR=NS+':cup_anchor';
 const shakerStore=new MixStore(world,validateShaker),cupStore=new MixStore(world,validateCup);
 const locks=new Locks(),uses=new Map(),releaseGuards=new Map(),pendingBlockUses=new Map(),completedBlockUses=new Map();
+const shakerPreviews=createShakerPreviewCache();
 let registry,sequence=0;
 export const MIX_BLOCKS=new Set([STATION,...['empty_glassware',...Object.values(COCKTAILS).map(x=>x.name)].map(x=>NS+':cup_'+x)]);
 export const mixologyDiagnostics={implementation:'java_lifecycle_v22',completed:0,cancelled:0,errors:[],effectErrors:[],unsupportedEffects:{}};
@@ -221,6 +223,7 @@ export function nativeStart(event){
   if(carried.state.result||carried.state.slots.length===0)return;
   check(carried.state.slots.length===3,'NEED_THREE_INGREDIENTS');
   uses.set(player.id,{player,reference,dimension:player.dimension.id,raw:item.getDynamicProperty(PORTABLE_DATA),start:system.currentTick,remaining:event.useDuration,carried,recipe:registry.findShaker(carried.state.slots)});
+  shakerPreviews.forget(player.id);
   nativeUseDiagnostics.starts++;startShakerHands(player,reference.side);showShakerProgress(player,0);
  });
 }
@@ -231,6 +234,7 @@ function sameUse(player,use){
  }catch{return false;}
 }
 function cancelUse(id){
+ shakerPreviews.forget(id);
  const use=uses.get(id);if(!use)return;uses.delete(id);mixologyDiagnostics.cancelled++;
  stopShakerHands(use.player,use.reference.side);hideShakerHud(use.player);
 }
@@ -420,6 +424,7 @@ function tick(){
    if(guard){const guarded=shakerHandItem(player,guard.reference);if((guard.reference.side==='main'&&guard.reference.slot!==player.selectedSlotIndex)||system.currentTick-guard.tick>120||guarded?.typeId!==SHAKER||guarded.getDynamicProperty(PORTABLE_DATA)!==(guard.afterRaw??guard.raw))releaseGuards.delete(player.id);}
   const use=uses.get(player.id);
   if(use){
+   shakerPreviews.forget(player.id);
    if(!sameUse(player,use)){cancelUse(player.id);return;}
    const elapsed=system.currentTick-use.start;
    if(elapsed>110){finishUse(player,elapsed,true);return;}
@@ -428,15 +433,21 @@ function tick(){
   // A single view query each tick avoids the former four-tick clear/one-tick
   // show cycle. Dedicated HUD state persists across other add-ons' title data.
   const hit=player.getBlockFromViewDirection({maxDistance:6});
-  if(hit?.block?.typeId===STATION){showShakerSlots(player,station(hit.block));hudUpdated=true;}
-  else if(barrelHudEnabled(player)){
-   const barrel=lookedAtBarrelStatus(player,hit?.block);
-   if(barrel){showBarrelHud(player,barrel);hudUpdated=true;}
+  if(hit?.block?.typeId===STATION){
+   const key=shakerKey(hit.block.dimension.id,hit.block.location),source=key+'/'+player.selectedSlotIndex+'/'+(held?.typeId??'');
+   const packet=shakerPreviews.packet(player.id,source,shakerStore.raw(key),held?.typeId===SHAKER?held.getDynamicProperty(PORTABLE_DATA):undefined);
+   showShakerSlotsPacket(player,packet);hudUpdated=true;
+  }else{
+   shakerPreviews.forget(player.id);
+   if(barrelHudEnabled(player)){
+    const barrel=lookedAtBarrelStatus(player,hit?.block);
+    if(barrel){showBarrelHud(player,barrel);hudUpdated=true;}
+   }
   }
   }finally{
    // Unloaded targets, stale held items and cancelled uses must clear the HUD
    // as well. An exception previously skipped the only clearing path.
-   if(!hudUpdated)hideShakerHud(player);
+   if(!hudUpdated){shakerPreviews.forget(player.id);hideShakerHud(player);}
   }
  });
 }
@@ -644,8 +655,8 @@ export function installMixologyEvents(){
  world.afterEvents.itemReleaseUse.subscribe(nativeStop);
  world.afterEvents.itemStopUse.subscribe(nativeStop);
  world.afterEvents.playerSwingStart.subscribe(clearShakerOnSwing,{swingSource:EntitySwingSource.Attack});
- world.afterEvents.playerSpawn.subscribe(({player})=>system.run(()=>{cancelUse(player.id);releaseGuards.delete(player.id);clearShakerPlayer(player);migrateShakerInventory(player);}));
- world.afterEvents.playerLeave.subscribe(({playerId})=>{uses.delete(playerId);releaseGuards.delete(playerId);for(const [key,row]of completedBlockUses)if(row.playerId===playerId)completedBlockUses.delete(key);clearShakerPlayer(playerId);});
+ world.afterEvents.playerSpawn.subscribe(({player})=>system.run(()=>{shakerPreviews.forget(player.id);cancelUse(player.id);releaseGuards.delete(player.id);clearShakerPlayer(player);migrateShakerInventory(player);}));
+ world.afterEvents.playerLeave.subscribe(({playerId})=>{shakerPreviews.forget(playerId);uses.delete(playerId);releaseGuards.delete(playerId);for(const [key,row]of completedBlockUses)if(row.playerId===playerId)completedBlockUses.delete(key);clearShakerPlayer(playerId);});
  world.afterEvents.entityDie.subscribe(({deadEntity})=>cancelUse(deadEntity.id));
  world.beforeEvents.itemUse.subscribe(beforeShakerUse);
  world.beforeEvents.itemUse.subscribe(event=>{
