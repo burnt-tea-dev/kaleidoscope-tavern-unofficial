@@ -23,6 +23,9 @@ def verify_extension(receipt,prior):
     changed=[p for p in receipt['packs'] if p['source']['owner']=='owned' and p['source'].get('repository')=='local/senluo-amw-cuisine' and
              (p['uuid'] not in prior or any(p[k]!=prior[p['uuid']][k] for k in ['files','version']))]
     if not changed:return []
+    if CONFIG.get('extension_hud_validation'):
+        from family_update.explicit_hud_validation import verify_static
+        return verify_static(receipt,prior)
     if CONFIG.get('extension_cache_validation'):
         from family_update.cookery_cache_validation import verify_static
         return verify_static(receipt,prior)
