@@ -43,3 +43,21 @@ test('declared channel gate accepts late own data and ignores interleaved foreig
   assert.equal(text,expected);
  }
 });
+
+test('manual probes distinguish native mount, owned catalog and retained cache; gameplay stays silent',()=>{
+ const bridge=JSON.parse(readFileSync(new URL('../runtime/RP/ui/hud_screen.json',import.meta.url)));
+ const mount=bridge.kt_family_probe.bindings.at(-1).source_property_name;
+ const root=hud.root.controls.at(-1).channel_root_probe.bindings.at(-1).source_property_name;
+ const cache=slots.controls.at(-2).channel_cache_probe.bindings.at(-1).source_property_name;
+ const nativeTitle=bridge.hud_title_text.bindings.at(-1).source_property_name;
+ for(const incoming of ['', 'Welcome', 'AMW_CH!magic_main!test',slotsPacket([]),progressPacket(25),GRAPHICAL_HUD_END]){
+  assert.equal(evaluate(mount,{'#hud_title_text_string':incoming}),false);
+  assert.equal(evaluate(root,{'#hud_title_text_string':incoming}),false);
+  assert.equal(evaluate(cache,{'#kt_text':incoming}),false);
+  assert.equal(evaluate(nativeTitle,{'#hud_title_text_string':incoming}),!incoming.startsWith('KT_HUD!'));
+ }
+ assert(evaluate(mount,{'#hud_title_text_string':'KT_HUD!D;'}));
+ assert(evaluate(root,{'#hud_title_text_string':'KT_HUD!D;'}));
+ assert(evaluate(cache,{'#kt_text':'KT_HUD!D;'}));
+ assert.equal(evaluate(cache,{'#kt_text':'KG_HUD!D;'}),false);
+});

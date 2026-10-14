@@ -3,14 +3,14 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createFormattingHudTransport} from '../runtime/BP/scripts/core/formatting-hud-transport.js';
-import {GRAPHICAL_HUD_PREFIX,GRAPHICAL_HUD_END,slotsPacket,progressPacket} from '../runtime/BP/scripts/core/shaker-hud.js';
+import {GRAPHICAL_HUD_PREFIX,GRAPHICAL_HUD_END,validShakerHudPacket,slotsPacket,progressPacket} from '../runtime/BP/scripts/core/shaker-hud.js';
 const read=p=>readFileSync(new URL('../'+p,import.meta.url),'utf8');
 test('graphical packets route without touching the shared Actionbar or subtitle',()=>{
  for(const mode of ['ui_queue','embedded_queue','standalone']){
   const calls=[],player={onScreenDisplay:{setTitle:(...args)=>calls.push(['title',...args]),setActionBar(){throw Error('Foreign Actionbar overwritten');},updateSubtitle(){throw Error('Foreign subtitle overwritten');}}};
-  const sender=createFormattingHudTransport({prefix:GRAPHICAL_HUD_PREFIX,maxLength:60,queueAvailable:()=>mode==='ui_queue',embeddedAvailable:()=>mode==='embedded_queue',queueSend:(p,packet)=>calls.push(['queue',packet]),legacySend:(p,packet)=>calls.push(['embedded',packet])});
+  const sender=createFormattingHudTransport({prefix:GRAPHICAL_HUD_PREFIX,endPacket:GRAPHICAL_HUD_END,validatePacket:validShakerHudPacket,maxLength:60,queueAvailable:()=>mode==='ui_queue',embeddedAvailable:()=>mode==='embedded_queue',queueSend:(p,packet)=>calls.push(['queue',packet]),legacySend:(p,packet)=>calls.push(['embedded',packet])});
   for(const packet of [slotsPacket([]),progressPacket(0),progressPacket(25),GRAPHICAL_HUD_END]){
-   assert.equal(sender.send(player,packet),mode);assert.equal(packet.replace(/§[0-9a-fr]/g,''),'');
+   assert.equal(sender.send(player,packet),mode);assert.equal(packet.replace(/§[0-9a-fr]/g,''),packet);
   }
   assert.equal(calls.length,4);
   if(mode==='standalone')for(const [,packet,options] of calls)assert.deepEqual(options,{fadeInDuration:0,fadeOutDuration:0,stayDuration:0});

@@ -1,19 +1,19 @@
 {
-  "version": "0.6.161",
-  "tag": "v0.6.161-beta.1",
-  "title": "Tavern 0.6.161 — HUD provider scope",
+  "version": "0.6.162",
+  "tag": "v0.6.162-beta.1",
+  "title": "Tavern 0.6.162 — readable HUD transport and renderer probes",
   "prerelease": true,
   "publication_request": false,
-  "validation_evidence": "docs/RELEASE-NOTES-0.6.161.md",
-  "public_notes_path": "docs/RELEASE-NOTES-0.6.161.md",
+  "validation_evidence": "docs/RELEASE-NOTES-0.6.162.md",
+  "public_notes_path": "docs/RELEASE-NOTES-0.6.162.md",
   "client_acceptance": "pending",
   "full_client_acceptance": "pending",
   "saved_world_migration": "pending",
   "production_ready": false,
   "live_deployment": false,
-  "native_evidence_scope": "Optional HUD provider scope correction; local shadows removed, same graphical receivers and gameplay. Actual rendered-client recovery remains pending.",
+  "native_evidence_scope": "Owner confirmed previous custom UI absent. Bounded readable HUD tokens, owned-title suppression and manual mount/catalog/cache probes. Exact failure stage and actual client recovery remain unverified.",
   "client": false,
   "status": "awaiting_source_ci_family_save_admission_and_live_readback",
-  "expected_archive_sha256": "2b36647e3e617353ad157f555a0d875c2f4e61b88524d120f9de61fc2f07d887",
-  "reviewed_runtime_source": "5c2026ff686a6b7ceeffa8453f465d1e6df021d9"
+  "expected_archive_sha256": "a98e4e672f586765ee99b86b8a023a7263e24de98d26841f705aa07744e5e7fc",
+  "reviewed_runtime_source": "0f2f4abaa437a4fc9d540e31c97a698cad252999"
 }

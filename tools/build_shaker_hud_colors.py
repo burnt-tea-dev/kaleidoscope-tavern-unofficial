@@ -7,6 +7,7 @@ RGB texels multiply that source and retain its alpha, as ShakerOverlay does.
 import json
 from pathlib import Path
 from formatting_hud_ui import bind_channel
+from hud_channel_probe import install_catalog_probe
 from PIL import Image, ImageChops
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -15,7 +16,7 @@ COLORS = [0xff55ff, 0x5555ff, 0xffaa00, 0x55ff55, 0xffff55, 0xff5555, 0xffffff,
           0x000000, 0x0000aa, 0x00aa00, 0x00aaaa, 0xaa0000, 0xaa00aa, 0xaaaaaa,
           0x555555, 0x55ffff]
 
-def code(n):return ''.join('§'+c for c in f'{n:02x}')
+def code(n):return f'{n:02x}'
 
 def main():
     path = RP / 'ui/kt_tavern_hud.json'
@@ -34,7 +35,7 @@ def main():
             name = ''.join(texture)
             control.update(offset=[slot * 20, 0], uv=[slot * 20, 0],
                            texture=f'textures/ui/kt_mixology/slots/{name}',
-                           visible=f"(not (($kt_text - '§r§1{code(slot)}{code(color)}§r') = $kt_text))")
+                           visible=f"(not (($kt_text - '{slot}{code(color)};') = $kt_text))")
             control.pop('bindings',None);control.pop('property_bag',None)
             updated.append({key: control})
             if color >= 8:
@@ -44,7 +45,7 @@ def main():
                 image.paste(icon, (slot * 20, 0))
                 image.save(RP / f'textures/ui/kt_mixology/slots/{name}.png')
     panel['controls'] = updated
-    bind_channel(panel,'kt_slot','§r§0§r§2','§r§0§r§2§r§f§f§r','kt_text')
+    bind_channel(panel,'kt_slot','KT_HUD!','KT_HUD!END;','kt_text')
     # A permanent receiver cannot inherit animations that faded/destroyed a
     # factory instance. Progress is already sent each server tick.
     for key in list(hud):
@@ -61,15 +62,16 @@ def main():
     bar = progress['controls'][0]['bar']
     for key in ['anims', 'bindings', 'property_bag']:
         bar.pop(key, None)
-    bar['visible'] = "(not (($kt_text - '§r§0§r§2§r§2') = $kt_text))"
+    bar['visible'] = "(not (($kt_text - 'KT_HUD!P:') = $kt_text))"
     rows = [{'bar': bar}]
     for tick in range(112):
         rows.append({f'cursor_{tick}@kaleidoscope_tavern_hud.kt_mixology_cursor': {
             'offset': [tick * 1.5, 0],
-            'visible': f"($kt_text = '§r§0§r§2§r§2{code(tick)}§r')"}})
+            'visible': f"($kt_text = 'KT_HUD!P:{code(tick)};')"}})
     progress['controls'] = rows
-    bind_channel(progress, 'kt_progress', '§r§0§r§2', '§r§0§r§2§r§f§f§r', 'kt_text')
+    bind_channel(progress, 'kt_progress', 'KT_HUD!', 'KT_HUD!END;', 'kt_text')
     hud['root']['controls'][0] = {'kt_mixology@kaleidoscope_tavern_hud.kt_mixology_packet': {}}
+    install_catalog_probe(hud,'tavern',panel,'kt_slot_channel','#kt_text')
     path.write_text(json.dumps(hud, ensure_ascii=False, separators=(',', ':')) + '\n')
     print('Generated 51 literal controls: three slots, all 16 Java colors and empty')
 

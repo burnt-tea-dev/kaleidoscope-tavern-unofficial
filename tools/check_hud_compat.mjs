@@ -42,8 +42,8 @@ const colors=SHAKER_HUD_COLORS;
 let cases=0;
 for(let a=0;a<17;a++)for(let b=0;b<17;b++)for(let c=0;c<17;c++){
  const indices=[a,b,c],packet=slotsPacket(indices.map(n=>n?{color:colors[n-1]}:null));
- assert.equal(packet,GRAPHICAL_HUD_PREFIX+'§r§0'+indices.map((n,i)=>slotToken(i,n)).join(''));
- assert.equal(packet.replace(/§[0-9a-fr]/g,''),'');
+ assert.equal(packet,GRAPHICAL_HUD_PREFIX+'S:'+indices.map((n,i)=>slotToken(i,n)).join(''));
+ assert.equal(packet.replace(/§[0-9a-fr]/g,''),packet);
  assert(!/textures\/|ktmix:/.test(packet));cases++;
 }
 assert(hudSendDue(undefined,'active',0));assert(!hudSendDue({key:'active',tick:0},'active',9));
