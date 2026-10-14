@@ -69,7 +69,7 @@ test('Standalone sprites and additive root controls have no optional asset depen
  const root=new URL('../',import.meta.url),hud=JSON.parse(readFileSync(new URL('runtime/RP/ui/kt_tavern_hud.json',root),'utf8'));
  assert(!('hud_title_text' in hud));assert(!('hud_subtitle_text' in hud));assert(!('mob_effects_renderer' in hud));
  assert.equal(hud.namespace,'kaleidoscope_tavern_hud');
- assert.equal(hud.root.type,'panel');assert.equal(hud.root.controls.length,3);assert.equal(hud.root.controls.at(-1).channel_root_probe.type,'label');
+ assert.equal(hud.root.type,'panel');assert.equal(hud.root.controls.length,2);assert.deepEqual(hud.root.controls.at(-1),{'kt_effect_icons@kaleidoscope_tavern_hud.kt_effect_icons':{}});
  const panel=hud.kt_effect_icons;assert.equal(panel.controls.length,2+EFFECT_ICON_SLOTS*9);
  assert(!Object.hasOwn(panel,'$kt_world_liquor_effect_panel|default'),'Local empty default shadows the addon provider');
  const globals=JSON.parse(readFileSync(new URL('runtime/RP/ui/_global_variables.json',root),'utf8'));

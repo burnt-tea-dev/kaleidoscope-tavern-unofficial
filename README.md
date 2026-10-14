@@ -1,6 +1,6 @@
-## Current maintained baseline: 0.6.162
+## Current maintained baseline: 0.6.163
 
-T162 replaces formatting-only shaker data with bounded ASCII tokens and hides only owned transport titles. Manual-only probes distinguish native mount, catalog and cache. T161 did not restore the reported UI; actual client recovery remains unverified. [Scope](docs/RELEASE-NOTES-0.6.162.md).
+T163 restores the original bounded graphical actionbar event route for the shaker and retires the title-cache/probe conversion. Original assets and gameplay are preserved; actual client recovery remains unverified. [Scope](docs/RELEASE-NOTES-0.6.163.md).
 
 T155/G133 repair the missing shaker/eating UI receivers with permanent panels and independent channel caches; the obsolete shaker progress-parent gate is removed. [Repair scope](docs/RELEASE-NOTES-0.6.155.md). Client-rendered recovery remains unconfirmed.
 
