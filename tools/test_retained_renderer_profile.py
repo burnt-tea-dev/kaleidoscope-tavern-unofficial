@@ -8,7 +8,7 @@ from family_bundle import renderer_source_version
 
 
 class RetainedRenderer(unittest.TestCase):
-    def test_p35_and_p36_require_the_same_frozen_component_and_reject_other_versions(self):
+    def test_p35_p36_and_p37_require_the_same_frozen_component_and_reject_other_versions(self):
         config = {'repository': 'local/senluo-amw-cuisine', 'version': [1, 0, 35],
                   'retained_renderer_profile': {'source_commit': '8d05a3da291861048dc7e759be3ba96fde45ebb8',
                                                'spec_sha256': '292e337a073ea713c22c84c66f85a2c8cb9d2d5c453c308b1569107d2656b703'}}
@@ -19,11 +19,11 @@ class RetainedRenderer(unittest.TestCase):
             # hashes the actual committed private file without this test stub.
             with patch('family_bundle.hashlib.sha256') as digest:
                 digest.return_value.hexdigest.return_value = config['retained_renderer_profile']['spec_sha256']
-                for version in [[1, 0, 35], [1, 0, 36]]:
+                for version in [[1, 0, 35], [1, 0, 36], [1, 0, 37]]:
                     config['version'] = version
                     self.assertEqual(renderer_source_version(config, {'owner_version': [1, 0, 32]}, path), [1, 0, 32])
                 wrong = copy.deepcopy(config)
-                wrong['version'] = [1, 0, 37]
+                wrong['version'] = [1, 0, 38]
                 with self.assertRaises(SystemExit):
                     renderer_source_version(wrong, {'owner_version': [1, 0, 32]}, path)
                 with self.assertRaises(SystemExit):

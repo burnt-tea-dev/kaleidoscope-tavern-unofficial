@@ -1,6 +1,6 @@
-## Current maintained baseline: 0.6.163
+## Current maintained baseline: 0.6.164
 
-T163 restores the original bounded graphical actionbar event route for the shaker and retires the title-cache/probe conversion. Original assets and gameplay are preserved; actual client recovery remains unverified. [Scope](docs/RELEASE-NOTES-0.6.163.md).
+Tavern 0.6.164 corrects shaker graphic positions and clears native touch controls. The shared HUD hides owned graphical packets while preserving ordinary messages and existing addon controls. Device acceptance remains pending.
 
 T155/G133 repair the missing shaker/eating UI receivers with permanent panels and independent channel caches; the obsolete shaker progress-parent gate is removed. [Repair scope](docs/RELEASE-NOTES-0.6.155.md). Client-rendered recovery remains unconfirmed.
 

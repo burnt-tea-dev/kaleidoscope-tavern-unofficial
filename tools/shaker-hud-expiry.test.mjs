@@ -29,7 +29,8 @@ test('original event factory has bounded slots/progress lifetime and no title ca
  assert.equal(hud.kt_mixology_expire.destroy_at_end,'kt_mixology_packet');
  assert.equal(hud.kt_mixology_expire.duration,'$kt_lifetime');
  assert.equal(hud.kt_mixology_packet['$kt_lifetime|default'],.6);
- assert.equal(hud.kt_mixology_packet.variables[0].$kt_lifetime,.2);
+ const lifetimeRows=hud.kt_mixology_packet.variables.filter(row=>Object.hasOwn(row,'$kt_lifetime'));
+ assert.deepEqual(lifetimeRows,[{requires:"(not (($kt_text - 'KT_HUD!P:') = $kt_text))",$kt_lifetime:.2}]);
  const {kt_effect_icons,...owned}=hud;
  assert(!/#hud_title_text_string|#kt_text_latest|channel_cache_probe/.test(JSON.stringify(owned)));
 });
