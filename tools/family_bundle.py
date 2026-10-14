@@ -49,14 +49,14 @@ def source_gate_environment(own,identities):
  return {**os.environ,'GITHUB_REPOSITORY':expected['repository'],'GITHUB_REPOSITORY_ID':str(expected['repository_id'])}
 
 def renderer_source_version(config,spec,path):
- # The fixed P33 cache / P34 guide / P35/P36/P37 UI repairs retain unchanged ChineseFood graphics.
+ # The fixed cache/guide and later HUD/dependency updates retain unchanged ChineseFood graphics.
  # This single, immutable retained component is independently checked again
  # by the version-specific private source conservation gate before live admission.
  profile=config.get('retained_renderer_profile')
  if profile is None:return config['version']
  expected={'source_commit':'8d05a3da291861048dc7e759be3ba96fde45ebb8',
            'spec_sha256':'292e337a073ea713c22c84c66f85a2c8cb9d2d5c453c308b1569107d2656b703'}
- if config['repository']!='local/senluo-amw-cuisine' or config['version'] not in [[1,0,33],[1,0,34],[1,0,35],[1,0,36],[1,0,37]] or profile!=expected:
+ if config['repository']!='local/senluo-amw-cuisine' or config['version'] not in [[1,0,33],[1,0,34],[1,0,35],[1,0,36],[1,0,37],[1,0,38]] or profile!=expected:
   fail('unsupported retained renderer source profile')
  if spec.get('owner_version')!=[1,0,32] or hashlib.sha256(path.read_bytes()).hexdigest()!=expected['spec_sha256']:
   fail('retained renderer component differs from reviewed P32')
