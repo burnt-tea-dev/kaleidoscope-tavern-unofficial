@@ -50,6 +50,8 @@ def verify_native(verified_candidate=None):
     assert evidence['player_records_before'] == evidence['player_records_after']
     from family_update.cookery_cache_validation import bind_native
     bind_native(receipt,evidence)
+    from family_update.explicit_hud_validation import bind_native as bind_explicit_hud
+    bind_explicit_hud(receipt,evidence)
     from family_update.preserved_hud_inputs import bind_native as bind_hud_native
     bind_hud_native(receipt,evidence)
     from family_update.preserved_ribbits_inputs import bind_native as bind_ribbits_native
