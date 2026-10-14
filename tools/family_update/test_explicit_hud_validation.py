@@ -9,6 +9,40 @@ from family_update.explicit_hud_validation import conserved_scope, PROVIDERS
 
 
 class ConservedHudScope(unittest.TestCase):
+    def fallback_fixture(self):
+        old = {'manifest.json': 'old', 'scripts/owned.js': 'kept',
+               'ui/hud_screen.json': 'old-host', 'ui/_global_variables.json': 'kept'}
+        new = {**old, 'manifest.json': 'new', 'ui/hud_screen.json': 'new-host'}
+        manifest = {'header': {'version': [1, 0, 35], 'name': 'Owned 1.0.35'},
+                    'modules': [{'version': [1, 0, 35]}],
+                    'dependencies': [{'uuid': 'paired', 'version': [1, 0, 35]}] +
+                                    [{'uuid': uid, 'version': [1, 0, 1]} for uid in PROVIDERS]}
+        changed = copy.deepcopy(manifest)
+        changed['header'].update(version=[1, 0, 36], name='Owned 1.0.36')
+        changed['modules'][0]['version'] = [1, 0, 36]
+        changed['dependencies'][0]['version'] = [1, 0, 36]
+        hud = {'namespace': 'hud', 'root_panel': {'type': 'panel', 'controls': []}}
+        repaired = copy.deepcopy(hud)
+        repaired['kt_family_empty'] = module.EMPTY_CONTROL
+        return old, new, manifest, changed, 'RP', {'paired'}, [1, 0, 36], hud, repaired
+
+    def test_p36_admits_only_the_fallback_and_paired_identity(self):
+        conserved_scope(*self.fallback_fixture())
+
+    def test_p36_rejects_other_ui_gameplay_or_dependency_changes(self):
+        args = self.fallback_fixture()
+        args[-1]['root_panel']['type'] = 'image'
+        with self.assertRaises(AssertionError):
+            conserved_scope(*args)
+        args = self.fallback_fixture()
+        args[1]['scripts/owned.js'] = 'changed'
+        with self.assertRaises(AssertionError):
+            conserved_scope(*args)
+        args = self.fallback_fixture()
+        args[3]['dependencies'][-1]['version'] = [9, 0, 0]
+        with self.assertRaises(AssertionError):
+            conserved_scope(*args)
+
     def fixture(self, side='RP'):
         old = {'manifest.json': 'old', 'scripts/owned.js': 'kept'}
         new = {**old, 'manifest.json': 'new'}
