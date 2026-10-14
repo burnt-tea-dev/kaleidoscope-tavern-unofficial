@@ -68,7 +68,8 @@ def main():
     # The bar is six pixels below this source cursor origin. Its 181px width
     # must not turn Java's -91 left edge into a centred -90.5 offset.
     progress.update(anchor_from='center', anchor_to='top_left', offset=[-91,26])
-    progress.pop('visible', None) # Remove the obsolete text-only / 111 gate.
+    # Replace the obsolete text-only / 111 gate below without deleting its key;
+    # deletion would reorder visible after ignored on every regeneration.
     bar = progress['controls'][0]['bar']
     for key in ['anims', 'bindings', 'property_bag']:
         bar.pop(key, None)
