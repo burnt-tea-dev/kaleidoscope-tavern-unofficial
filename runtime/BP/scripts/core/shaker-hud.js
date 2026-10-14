@@ -1,8 +1,9 @@
-/** Fixed graphical formatting packets; Java messages retain their original channel. */
+/** Bounded ASCII data packets; the RP suppresses only their native title text. */
 export const HUD_PREFIX='§r[KT] ';
-export const GRAPHICAL_HUD_PREFIX='§r§0§r§2';
-export const GRAPHICAL_HUD_END=GRAPHICAL_HUD_PREFIX+'§r§f§f§r';
-const code=n=>[...n.toString(16).padStart(2,'0')].map(c=>'§'+c).join('');
+export const GRAPHICAL_HUD_PREFIX='KT_HUD!';
+export const GRAPHICAL_HUD_END=GRAPHICAL_HUD_PREFIX+'END;';
+const code=n=>n.toString(16).padStart(2,'0');
+export const validShakerHudPacket=packet=>/^(?:KT_HUD!S:0(?:0[0-9a-f]|10);1(?:0[0-9a-f]|10);2(?:0[0-9a-f]|10);|KT_HUD!P:(?:[0-5][0-9a-f]|6[0-9a-f]);|KT_HUD!END;)$/.test(packet);
 export const HUD_REFRESH_TICKS=10;
 // Java exposes barrel status through optional Jade, not the base shaker overlay.
 export const BARREL_HUD_SHOW_TAG='kaleidoscope_tavern:show_barrel_hud';
@@ -22,12 +23,12 @@ export function slotColorIndex(slot){
 }
 export function slotToken(index,color){
  if(!Number.isInteger(index)||index<0||index>2||!Number.isInteger(color)||color<0||color>SHAKER_HUD_COLORS.length)throw new RangeError('Invalid HUD slot');
- return '§r§1'+code(index)+code(color)+'§r';
+ return index+code(color)+';';
 }
-export function slotsPacket(slots=[]){return GRAPHICAL_HUD_PREFIX+'§r§0'+Array.from({length:3},(_,i)=>slotToken(i,slotColorIndex(slots[i]))).join('');}
+export function slotsPacket(slots=[]){return GRAPHICAL_HUD_PREFIX+'S:'+Array.from({length:3},(_,i)=>slotToken(i,slotColorIndex(slots[i]))).join('');}
 export function progressPacket(ticks){
  const n=Number.isFinite(ticks)?Math.max(0,Math.min(111,Math.floor(ticks))):0;
- return GRAPHICAL_HUD_PREFIX+'§r§2'+code(n)+'§r';
+ return GRAPHICAL_HUD_PREFIX+'P:'+code(n)+';';
 }
 export function hudSendDue(previous,key,tick){
  // Repeated idle polls never send; one owned terminal packet is event-driven.
