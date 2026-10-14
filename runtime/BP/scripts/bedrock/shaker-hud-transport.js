@@ -1,10 +1,11 @@
 import {EntityTypes,system,world} from '@minecraft/server';
+import {GRAPHICAL_HUD_PREFIX,GRAPHICAL_HUD_END,validShakerHudPacket} from '../core/shaker-hud.js';
 import {createFormattingHudTransport} from '../core/formatting-hud-transport.js';
 // Observe an existing embedded router; never participate in its election.
 const peers=new Set(),pending=new Map();let ready=false,queue=false,embedded=false;
 const observe=e=>{if(e.id==='ui_queue_module:setup')peers.add(e.message);};
 system.afterEvents.scriptEventReceive.subscribe(observe,{namespaces:['ui_queue_module']});
-const transport=createFormattingHudTransport({prefix:'§r§0§r§2',maxLength:60,
+const transport=createFormattingHudTransport({prefix:GRAPHICAL_HUD_PREFIX,endPacket:GRAPHICAL_HUD_END,validatePacket:validShakerHudPacket,maxLength:60,
  schedule:(callback,ticks)=>system.runTimeout(callback,ticks),cancel:handle=>system.clearRun(handle),idleTicks:12,
  queueAvailable:()=>queue,embeddedAvailable:()=>embedded,
  queueSend:(player,packet)=>system.sendScriptEvent('ui_load_script:kt_shaker_hud',player.id+'|'+packet),
