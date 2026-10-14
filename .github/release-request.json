@@ -14,5 +14,7 @@
   "native_evidence_scope": "Correct source-backed parent/self anchors; native touch-only graphical offset; shared owned-token Actionbar masking; preserve bounded original graphical event and all gameplay/assets. Exact client rendering acceptance pending.",
   "client": false,
   "status": "awaiting_source_ci_family_save_admission_and_live_readback",
-  "public_notes_inline": "Corrects shaker graphics placement and touch control overlap, and conceals internal graphical packets. Original gameplay, assets and other addon HUD controls are preserved.\n\nRendered device acceptance remains pending."
+  "public_notes_inline": "Corrects shaker graphics placement and touch control overlap, and conceals internal graphical packets. Original gameplay, assets and other addon HUD controls are preserved.\n\nRendered device acceptance remains pending.",
+  "expected_archive_sha256": "7d99c200a2846cc4006b94c272572e101b5de8c3edf40f90d3844ff86c8df474",
+  "reviewed_runtime_source": "8df3cc2646a4530098d4d610f4a7990549fbfca6"
 }
