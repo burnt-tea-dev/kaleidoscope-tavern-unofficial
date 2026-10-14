@@ -19,11 +19,11 @@ class RetainedRenderer(unittest.TestCase):
             # hashes the actual committed private file without this test stub.
             with patch('family_bundle.hashlib.sha256') as digest:
                 digest.return_value.hexdigest.return_value = config['retained_renderer_profile']['spec_sha256']
-                for version in [[1, 0, 34], [1, 0, 35], [1, 0, 36], [1, 0, 37], [1, 0, 38]]:
+                for version in [[1, 0, 34], [1, 0, 35], [1, 0, 36], [1, 0, 37], [1, 0, 38], [1, 0, 39]]:
                     config['version'] = version
                     self.assertEqual(renderer_source_version(config, {'owner_version': [1, 0, 32]}, path), [1, 0, 32])
                 wrong = copy.deepcopy(config)
-                wrong['version'] = [1, 0, 39]
+                wrong['version'] = [1, 0, 40]
                 with self.assertRaises(SystemExit):
                     renderer_source_version(wrong, {'owner_version': [1, 0, 32]}, path)
                 with self.assertRaises(SystemExit):

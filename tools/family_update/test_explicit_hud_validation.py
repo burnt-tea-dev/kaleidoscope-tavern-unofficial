@@ -229,7 +229,7 @@ class ConservedHudScope(unittest.TestCase):
             path = root / 'synthetic.json'
             path.write_text(json.dumps(proof))
             pull = {'merged_at': 'synthetic-time', 'state': 'closed', 'base': {'ref': 'main'}, 'head': {'sha': 'synthetic-head'}}
-            for version in [module.VERSION, [1, 0, 36], [1, 0, 37], [1, 0, 38]]:
+            for version in [module.VERSION, [1, 0, 36], [1, 0, 37], [1, 0, 38], [1, 0, 39]]:
                 with self.subTest(version=version):
                     (root / 'baseline.json').write_text(json.dumps({'repository': module.PRIVATE, 'version': version}))
                     proof.update(typed_empty_fallback=True, fallback_base='hud.kt_family_empty')
@@ -253,6 +253,82 @@ class ConservedHudScope(unittest.TestCase):
         args[3]['dependencies'].pop()
         with self.assertRaises(AssertionError):
             conserved_scope(*args)
+
+
+class ConservedDependency39Scope(unittest.TestCase):
+    def fixture(self, side='RP'):
+        previous = ConservedHudScope().dependency_fixture(side)
+        old = previous[1]
+        new = {**old, 'manifest.json': 'private39'}
+        manifest = previous[3]
+        changed = copy.deepcopy(manifest)
+        changed['header'].update(version=[1, 0, 39], name='Owned 1.0.39')
+        for row in changed['modules']:
+            row['version'] = [1, 0, 39]
+        for row in changed['dependencies']:
+            if row['uuid'] == 'paired':
+                row['version'] = [1, 0, 39]
+            elif row['uuid'] in module.PRUNING_PROVIDER_VERSIONS:
+                row['version'] = copy.deepcopy(module.PRUNING_PROVIDER_VERSIONS[row['uuid']][1])
+        hud = previous[-1]
+        return old, new, manifest, changed, side, {'paired'}, [1, 0, 39], hud, copy.deepcopy(hud)
+
+    def test_admits_exact_previous38_identity_and_three_owned_provider_updates(self):
+        for side in ['BP', 'RP']:
+            with self.subTest(side=side):
+                conserved_scope(*self.fixture(side))
+        self.assertEqual(module.PROFILES[(1, 0, 39)],
+                         ('323470dfe1f20f2c31df20edebb77dce960bf18a', [1, 0, 38]))
+
+    def test_rejects_every_nonmanifest_payload_change_addition_or_removal(self):
+        for side in ['BP', 'RP']:
+            for name in self.fixture(side)[0]:
+                if name == 'manifest.json':
+                    continue
+                for action in ['change', 'remove']:
+                    with self.subTest(side=side, name=name, action=action):
+                        args = self.fixture(side)
+                        if action == 'change':
+                            args[1][name] = 'unexpected'
+                        else:
+                            del args[1][name]
+                        with self.assertRaises(AssertionError):
+                            conserved_scope(*args)
+            args = self.fixture(side)
+            args[1]['ui/foreign.json'] = 'new'
+            with self.assertRaises(AssertionError):
+                conserved_scope(*args)
+
+    def test_rejects_wrong_pair_preimage_provider_foreign_and_manifest_changes(self):
+        for uid in module.PRUNING_PROVIDER_VERSIONS:
+            for action in ['wrong', 'unchanged', 'wrong-preimage', 'missing', 'duplicate', 'extra',
+                           'foreign', 'paired', 'module', 'description']:
+                with self.subTest(provider=uid, action=action):
+                    args = self.fixture()
+                    dependencies = args[3]['dependencies']
+                    row = next(row for row in dependencies if row['uuid'] == uid)
+                    if action == 'wrong':
+                        row['version'] = [9, 0, 0]
+                    elif action == 'unchanged':
+                        row['version'] = copy.deepcopy(module.PRUNING_PROVIDER_VERSIONS[uid][0])
+                    elif action == 'wrong-preimage':
+                        next(row for row in args[2]['dependencies'] if row['uuid'] == uid)['version'] = [0, 0, 1]
+                    elif action == 'missing':
+                        dependencies.remove(row)
+                    elif action == 'duplicate':
+                        dependencies.append(copy.deepcopy(row))
+                    elif action == 'extra':
+                        dependencies.append({'uuid': 'foreign', 'version': [1, 0, 1]})
+                    elif action == 'foreign':
+                        next(row for row in dependencies if row['uuid'] in PROVIDERS - module.PRUNING_PROVIDER_VERSIONS.keys())['version'] = [9, 0, 0]
+                    elif action == 'paired':
+                        dependencies[0]['version'] = [1, 0, 38]
+                    elif action == 'module':
+                        args[3]['modules'][0]['version'] = [1, 0, 38]
+                    else:
+                        args[3]['header']['description'] = 'changed'
+                    with self.assertRaises(AssertionError):
+                        conserved_scope(*args)
 
 
 if __name__ == '__main__':
