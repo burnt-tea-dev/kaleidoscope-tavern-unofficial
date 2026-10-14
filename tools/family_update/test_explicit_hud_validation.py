@@ -59,7 +59,7 @@ class ConservedHudScope(unittest.TestCase):
                  patch('family_update.cookery_cache_validation.private_ci_records', autospec=True, side_effect=RuntimeError('CI boundary reached')) as ci:
                 with self.assertRaisesRegex(RuntimeError, 'CI boundary reached'):
                     module.verify_static({}, {})
-                self.assertEqual(ci.call_args.args[1], 'synthetic-head')
+                ci.assert_called_once_with(module.REPOSITORY, 'synthetic-head')
         args = self.fixture()
         args[3]['dependencies'].pop()
         with self.assertRaises(AssertionError):
