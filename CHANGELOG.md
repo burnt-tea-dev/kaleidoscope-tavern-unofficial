@@ -1,3 +1,7 @@
+## 0.6.165
+
+Restore the maintained Forge/NeoForge ShakerOverlay screen-centre-relative top-left coordinates: slots (-28,+32), progress origin (-91,+26), bar (+0,+6). Remove T164's unsupported top placement and extra touch shift; retain graphics transport, packet filters, lifetime, assets and gameplay. Odd GUI dimensions have a bounded half-pixel centring difference; actual device rendering remains unverified.
+
 ## 0.6.164
 
 Correct parent/control HUD anchors, move touch graphics below native top controls, and conceal owned graphical packets consistently. Preserve assets, gameplay, normal messages and other addon HUDs. Client acceptance pending.
