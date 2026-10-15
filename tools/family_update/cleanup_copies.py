@@ -158,6 +158,9 @@ def perform(*, execute=False, retire_outputs=None):
     context = provider()
     planned = retention.plan(Path(root), retire_outputs=retire_outputs, **context)
     if not execute:
+        if retire_outputs is not None:
+            return {**planned, 'read_only_summary_not_executable_plan': True,
+                    'outputs': retention.reviewed_output_summaries(planned['outputs'])}
         return planned
     result = retention.execute(planned, **context, context=provider)
     c.R.mkdir(parents=True, exist_ok=True)

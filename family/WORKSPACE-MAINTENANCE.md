@@ -88,10 +88,13 @@ RC 只退原 family receipt 登記的普通複本，未知額外檔保留；舊 
 共用引擎 symlink 拒絕而不遍歷。
 
 這個 opt-in 不要求已缺失或不一致的歷史 snapshot 假裝完整，也不將原 failed 收據改成 success。
-必須仍有原 deployment／build 記錄，綁清單和原報告 metadata、精確目標身份；
+必須仍有原 deployment／build 記錄；只有完整 pack／逐檔 hash／來源及 order 綁定的原 RC build receipt 時，僅可退 RC packs，不能退 QA／引擎／BACKUPS。
+綁清單和原報告 metadata、精確目標身份；
 最新一份成功部署及完整 snapshot／rollback 仍按既有收據完整性邊界核對一次。
 current config／policy／來源／驗證傳遞引用、maintenance lock、host namespace、活動程序／argv、
 掛載、symlink／Git 和每次刪除邊界檢查保持；變更則拒絕重用計畫。
 只有明列的歷史 client_failure_reports／client_hud_observations 作保存 leaf，
 不把其過去修復 deployment 所引用的舊 rollback 當現行依賴；同一 leaf 若也被當前證據引用，仍完整遞迴保護。
 正常 cleanup-copies 的成功部署保留規則不變。此工具／文件更新不升包、不建立候選、不重啟 LIVE。
+
+明列退役的 CLI 乾跑只回傳標記為不可執行計畫的摘要；完整檔案 metadata 留在同次執行記憶體，結果只保存 scope／數量／配置量／binding 與實際刪除葉檔，避免重複巨型清單。
