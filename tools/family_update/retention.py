@@ -9,6 +9,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import re
 import shutil
 import stat
 import tempfile
@@ -322,6 +323,51 @@ def _discover(root, guards, mounts, directories=None):
     return sorted(rows)
 
 
+def _candidate_build_receipt(receipt):
+    """Recognize source-bound bundle metadata without treating it as deployment proof."""
+    def digest(value, length=64):
+        return isinstance(value, str) and re.fullmatch('[0-9a-f]{%d}' % length, value) is not None
+    def git_source(value):
+        return (isinstance(value.get('repository'), str) and bool(value['repository']) and
+                digest(value.get('commit'), 40) and value.get('working_candidate') is False)
+    _require(isinstance(receipt, dict) and receipt.get('schema') == 1 and digest(receipt.get('lock_sha256')) and
+             isinstance(receipt.get('packs'), list) and bool(receipt['packs']) and
+             isinstance(receipt.get('order'), dict) and set(receipt['order']) == {'behavior', 'resource'},
+             'Candidate build receipt requires complete bundle metadata')
+    identities = {'behavior': set(), 'resource': set()}
+    for pack in receipt['packs']:
+        _require(isinstance(pack, dict) and pack.get('side') in identities and isinstance(pack.get('uuid'), str) and
+                 re.fullmatch('[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}', pack['uuid']) and
+                 pack['uuid'] not in identities['behavior'] | identities['resource'], 'Candidate build receipt has invalid pack identity')
+        identities[pack['side']].add(pack['uuid'])
+        _require(isinstance(pack.get('version'), list) and len(pack['version']) == 3 and
+                 all(type(v) is int and v >= 0 for v in pack['version']) and isinstance(pack.get('dependencies'), list),
+                 'Candidate build receipt requires pack version/dependencies')
+        files = pack.get('files')
+        _require(isinstance(files, dict) and 'manifest.json' in files and all(
+            isinstance(name, str) and name and '\\' not in name and '\x00' not in name and
+            not Path(name).is_absolute() and '..' not in Path(name).parts and Path(name).as_posix() == name and digest(value)
+            for name, value in files.items()), 'Candidate build receipt requires complete safe file hashes')
+        source = pack.get('source')
+        _require(isinstance(source, dict), 'Candidate build receipt requires source binding')
+        owner = source.get('owner')
+        valid = owner == 'owned' and git_source(source)
+        if owner in {'upstream', 'upstream_extended'}:
+            valid = (all(type(source.get(k)) is int and source[k] > 0 for k in ('project_id', 'file_id')) and
+                     digest(source.get('archive_sha256')))
+            if owner == 'upstream_extended':
+                extensions = source.get('reviewed_extensions')
+                valid = valid and isinstance(extensions, list) and bool(extensions) and all(
+                    isinstance(e, dict) and git_source(e) and digest(e.get('spec_sha256')) for e in extensions)
+        if owner == 'preserved':
+            valid = source.get('role') == 'unchanged_external_dependency'
+        _require(valid, 'Candidate build receipt requires source binding')
+    for side, expected in identities.items():
+        order = receipt['order'][side]
+        _require(isinstance(order, list) and all(isinstance(uid, str) for uid in order) and
+                 len(order) == len(set(order)) and set(order) == expected, 'Candidate build receipt pack order differs')
+
+
 def _reviewed_binding(output, root, mounts, manifest):
     _safe_path(output, root, mounts)
     _require(output != root and not any((p / '.git').exists() for p in [output, *output.parents] if p == root or root in p.parents),
@@ -332,10 +378,14 @@ def _reviewed_binding(output, root, mounts, manifest):
         if path.exists():
             _read(path, root, mounts)
             reports[name] = [*_stat(path), path.lstat().st_ctime_ns]
-    _require('deployment-result.json' in reports or 'build-evidence.json' in reports,
-             'Explicit output requires an existing deployment/build record')
-    return {'output': str(output), 'reviewed_retirement': manifest,
-            'original_report_metadata': reports}
+    binding = {'output': str(output), 'reviewed_retirement': manifest,
+               'original_report_metadata': reports}
+    if 'deployment-result.json' not in reports and 'build-evidence.json' not in reports:
+        _require('release-candidate/family-receipt.json' in reports,
+                 'Explicit output requires an existing deployment/build record')
+        _candidate_build_receipt(_read(output / 'release-candidate/family-receipt.json', root, mounts))
+        binding['candidate_only'] = True
+    return binding
 
 
 def _reviewed_target(target, relative, output, root, mounts):
@@ -393,6 +443,8 @@ def _reviewed_plan(result, path, root, mounts, protected, references, historical
                  'Targets must be exact canonical generated copies/engine inputs')
         _require(not any(_overlap(output, g) for g in hard), 'Current source/evidence/configuration reference')
         binding = _reviewed_binding(output, root, mounts, manifest)
+        _require(not binding.get('candidate_only') or all(rel in COPIES[:2] for rel in targets),
+                 'Receipt-only candidate permits only release-candidate pack copies')
         source_paths = list(_paths(_read(output / 'build-evidence.json', root, mounts).get('sources', {}))) if (output / 'build-evidence.json').exists() else []
         _assert_idle(output, proc_root)
         selected = []
@@ -615,6 +667,16 @@ def _selection(planned):
             for row in planned['outputs'] if row['state'] == 'eligible'}
 
 
+def reviewed_output_summaries(outputs):
+    """Keep full target identities in memory, not in repeated JSON reports."""
+    return [{**{key: row[key] for key in ('output', 'state', 'reason', 'binding', 'retirement_targets') if key in row},
+             'retained': row.get('retained', []),
+             'delete': [{**{key: target[key] for key in ('relative', 'path', 'allocated_bytes')},
+                         'selected_file_count': (len(target['metadata'].get('selected_files', []))
+                                                 if target.get('metadata', {}).get('files') is not None else 1)}
+                        for target in row['delete']]} for row in outputs]
+
+
 def execute(planned, *, protected=(), lease=None, references=(), historical_records=(), context=None, proc_root=Path('/proc')):
     """Caller holds maintenance lock. Replan/compare before any destructive action.
 
@@ -622,6 +684,7 @@ def execute(planned, *, protected=(), lease=None, references=(), historical_reco
     A partially removed target can resume only under its original metadata binding.
     """
     _require(planned.get('schema') == 1 and planned.get('execute') is False, 'A read-only canonical retention plan is required')
+    _require(not planned.get('read_only_summary_not_executable_plan'), 'CLI summary is not an executable retention plan')
     root = _absolute(planned['root'])
     def current():
         values = {'protected': protected, 'lease': lease, 'references': references, 'historical_records': historical_records}
@@ -639,7 +702,8 @@ def execute(planned, *, protected=(), lease=None, references=(), historical_reco
     _require(all(value == now_selected.get(output) for output, value in selected.items()),
              'Retention plan changed; inspect a fresh read-only plan')
     result = {'schema': 1, 'execute': True, 'root': str(root), 'state': 'completed',
-              'disk_before': _disk(root), 'deleted': [], 'retained': fresh['outputs'], 'errors': [],
+              'disk_before': _disk(root), 'deleted': [],
+              'retained': reviewed_output_summaries(fresh['outputs']) if fresh.get('reviewed_retirements') else fresh['outputs'], 'errors': [],
               'newly_eligible_deferred': sorted(set(now_selected) - set(selected))}
     integrity = None
     # Reuse the existing exact unlink ledger for shared QA executables.
