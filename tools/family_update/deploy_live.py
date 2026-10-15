@@ -57,6 +57,9 @@ def finalize_receipt():
     if CONFIG.get('extension_performance_validation'):
         from family_update.freezer_performance_validation import evidence_paths
         reports.extend(map(str,evidence_paths()))
+    if CONFIG.get('extension_hud_validation') and not CONFIG.get('extension_performance_validation'):
+        from family_update.explicit_hud_validation import evidence_paths
+        reports.extend(map(str,evidence_paths()))
     if CONFIG.get('extension_cache_validation'):
         reports.extend([str(Path(CONFIG['extension_cache_validation']).resolve()), 'cookery-cache-static-validation.json', 'cookery-cache-native-validation.json'])
         cache_static=read(R/'cookery-cache-static-validation.json')
@@ -93,6 +96,9 @@ def installation_selection(receipt,original):
     """Reviewed future preserved inputs join the same install/rollback transaction."""
     if CONFIG.get('extension_performance_validation'):
         from family_update.freezer_performance_validation import verify_installation
+        verify_installation(receipt)
+    if CONFIG.get('extension_hud_validation') and not CONFIG.get('extension_performance_validation'):
+        from family_update.explicit_hud_validation import verify_installation
         verify_installation(receipt)
     prospective={}
     if CONFIG.get('prospective_preserved_inputs'):
