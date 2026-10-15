@@ -1,7 +1,7 @@
 {
-  "version": "0.6.167",
-  "tag": "v0.6.167",
-  "title": "Tavern0.6.167 — cursor and original fluid animation",
+  "version": "0.6.168",
+  "tag": "v0.6.168",
+  "title": "Tavern0.6.168 — bounded idle snapshots and clear retries",
   "prerelease": false,
   "publication_request": false,
   "validation_evidence": "CHANGELOG.md",
@@ -11,10 +11,10 @@
   "saved_world_migration": "pending",
   "production_ready": false,
   "live_deployment": false,
-  "native_evidence_scope": "Restores Java integer cursor movement inside each tick and animated water/lava surfaces in barrels and pressing tubs, including original sprite alpha. Preserves recipes, storage, model geometry and native/companion controls.\n\nActual client latency, rendering and full Java parity remain pending.",
+  "native_evidence_scope": "Reduces redundant empty effect snapshots, preserves active effect timing and retries failed clear delivery. Preserves Java mechanics, saved ownership, graphics and prior fixes. Actual client RTT/rendering acceptance remains pending.",
   "client": false,
   "status": "awaiting_source_ci_family_save_admission_and_live_readback",
-  "public_notes_inline": "Restores Java integer cursor movement inside each tick and animated water/lava surfaces in barrels and pressing tubs, including original sprite alpha. Preserves recipes, storage, model geometry and native/companion controls.\n\nActual client latency, rendering and full Java parity remain pending.",
-  "expected_archive_sha256": "690fe609cd28849657b9f8f64c4b58966ae147470d5ab80ef36a21c074487561",
-  "reviewed_runtime_source": "b888e031e1ce6cf1d1a8d4288b7b6326bc3ad2d6"
+  "public_notes_inline": "Reduces redundant empty effect snapshots, preserves active effect timing and retries failed clear delivery. Preserves Java mechanics, saved ownership, graphics and prior fixes. Actual client RTT/rendering acceptance remains pending.",
+  "expected_archive_sha256": "9d51f9f03028a6c20fbdbb2cb5fd822c2dc7d41bdcd576c6a48d854b2264d335",
+  "reviewed_runtime_source": "4e549925509f3ab3e8521485a0e14b5d66f218a9"
 }
