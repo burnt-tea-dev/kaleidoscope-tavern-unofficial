@@ -15,5 +15,6 @@
   "client": false,
   "status": "awaiting_source_ci_family_save_admission_and_live_readback",
   "public_notes_inline": "Align shaker progress lifetime with the unchanged-value refresh heartbeat and keep received graphical animations from fast-forwarding. Preserve Java clock, cursor steps, coordinates, texels, active cadence and the original event route. Actual restored client rendering remains pending.",
-  "reviewed_runtime_source": "08ccd47b93dc60dd0b935a8d5e812d4195858e9d"
+  "reviewed_runtime_source": "08ccd47b93dc60dd0b935a8d5e812d4195858e9d",
+  "expected_archive_sha256": "716254da0deaeec76ec3244b26c6e6ccddfcd509a4855177194ec85be82adc3a"
 }
