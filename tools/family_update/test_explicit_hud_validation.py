@@ -229,7 +229,7 @@ class ConservedHudScope(unittest.TestCase):
             path = root / 'synthetic.json'
             path.write_text(json.dumps(proof))
             pull = {'merged_at': 'synthetic-time', 'state': 'closed', 'base': {'ref': 'main'}, 'head': {'sha': 'synthetic-head'}}
-            for version in [module.VERSION, [1, 0, 36], [1, 0, 37], [1, 0, 38], [1, 0, 39], [1, 0, 40]]:
+            for version in [module.VERSION, [1, 0, 36], [1, 0, 37], [1, 0, 38], [1, 0, 39], [1, 0, 40], module.PAIR_VERSION]:
                 with self.subTest(version=version):
                     (root / 'baseline.json').write_text(json.dumps({'repository': module.PRIVATE, 'version': version}))
                     proof.update(typed_empty_fallback=True, fallback_base='hud.kt_family_empty')
@@ -353,6 +353,200 @@ class ConservedDependency39Scope(unittest.TestCase):
                         args[3]['header']['description'] = 'changed'
                     with self.assertRaises(AssertionError):
                         conserved_scope(*args)
+
+
+class ConservedPair42Scope(unittest.TestCase):
+    def fixture(self, side='RP'):
+        from family_update import freezer_performance_validation as p41
+        old = {'manifest.json': 'old', 'scripts/owned.js': 'same', 'textures/owned.png': 'same'}
+        if side == 'BP':
+            old.update({p41.HELPER: p41.HELPER_AFTER, p41.FREEZER: 'same-freezer', p41.RENDERER: 'old-renderer'})
+        else:
+            old.update({'ui/hud_screen.json': 'same-host', 'ui/_global_variables.json': 'same-providers'})
+        new = {**old, 'manifest.json': 'new'}
+        manifest = {'header': {'version': [1, 0, 41], 'name': 'Owned 1.0.41'},
+                    'modules': [{'version': [1, 0, 41]}], 'dependencies': [{'uuid': 'paired', 'version': [1, 0, 41]}]}
+        if side == 'RP':
+            unchanged = {'bbbd2d60-52e5-53a6-8b9a-c09b0f516389': [2, 8, 144],
+                         '9071b6bc-915d-4d26-8486-05bb8db48762': [1, 5, 6],
+                         '994f73a2-05ec-41ce-876c-d388a526d9f5': [2, 6, 28]}
+            manifest['dependencies'] += [{'uuid': uid, 'version': copy.deepcopy(module.PAIR_PROVIDER_VERSIONS[uid][0]
+                                         if uid in module.PAIR_PROVIDER_VERSIONS else unchanged[uid])} for uid in sorted(PROVIDERS)]
+        changed = copy.deepcopy(manifest)
+        changed['header'].update(version=module.PAIR_VERSION, name='Owned 1.0.42')
+        for row in changed['modules']:
+            row['version'] = module.PAIR_VERSION
+        for row in changed['dependencies']:
+            if row['uuid'] == 'paired':
+                row['version'] = module.PAIR_VERSION
+            elif row['uuid'] in module.PAIR_PROVIDER_VERSIONS:
+                row['version'] = module.PAIR_PROVIDER_VERSIONS[row['uuid']][1]
+        renderer = {'owner_version': [1, 0, 41], 'local_pack_version': p41.LOCAL,
+                    'original_files': dict(p41.AUTHOR_FILES), 'patched_files': dict(p41.RENDERED_FILES), 'policy': 'unchanged'}
+        repaired = {**copy.deepcopy(renderer), 'owner_version': module.PAIR_VERSION,
+                    'local_pack_version': module.PAIR_LOCAL, 'patched_files': dict(module.PAIR_RENDERED_FILES)}
+        if side == 'BP':
+            new[p41.RENDERER] = 'new-renderer'
+        return [old, new, manifest, changed, side, {'paired'}, module.PAIR_VERSION, None, None, renderer, repaired]
+
+    def test_exact_p41_preimage_and_identity_only_p42_scope(self):
+        self.assertEqual(module.PROFILES[(1, 0, 42)], ('dd8a0070231b9cac1a436f897bf41d036612f186', [1, 0, 41]))
+        self.assertNotIn((1, 0, 41), module.PROFILES)
+        for side in ['BP', 'RP']:
+            conserved_scope(*self.fixture(side))
+
+    def test_every_nonmanifest_file_including_ui_helper_and_freezer_spec_is_conserved(self):
+        for side in ['BP', 'RP']:
+            original = self.fixture(side)
+            permitted = {'manifest.json', 'host-extensions/chinesefood-doll-renderer.json'}
+            for name in set(original[0]) - permitted:
+                args = self.fixture(side)
+                args[1][name] = 'unreviewed delta'
+                with self.subTest(side=side, path=name), self.assertRaises(AssertionError):
+                    conserved_scope(*args)
+            for mutation in ['addition', 'removal']:
+                args = self.fixture(side)
+                if mutation == 'addition':
+                    args[1]['scripts/foreign.js'] = 'new'
+                else:
+                    del args[1]['textures/owned.png']
+                with self.subTest(side=side, change=mutation), self.assertRaises(AssertionError):
+                    conserved_scope(*args)
+
+    def test_provider_manifest_and_renderer_changes_cannot_widen_pair_scope(self):
+        for uid in PROVIDERS:
+            args = self.fixture()
+            next(row for row in args[3]['dependencies'] if row['uuid'] == uid)['version'] = [99, 0, 0]
+            with self.subTest(provider=uid), self.assertRaises(AssertionError):
+                conserved_scope(*args)
+
+        for change in ['extra-provider', 'duplicate-provider', 'module', 'description', 'renderer-policy', 'renderer-owner', 'renderer-assets', 'renderer-manifest']:
+            args = self.fixture('BP' if change.startswith('renderer') else 'RP')
+            if change == 'extra-provider':
+                args[3]['dependencies'].append({'uuid': 'foreign', 'version': [1, 0, 0]})
+            elif change == 'duplicate-provider':
+                args[3]['dependencies'].append(copy.deepcopy(args[3]['dependencies'][-1]))
+            elif change == 'module':
+                args[3]['modules'][0]['type'] = 'foreign'
+            elif change == 'description':
+                args[3]['header']['description'] = 'new'
+            elif change == 'renderer-policy':
+                args[-1]['policy'] = 'different'
+            elif change == 'renderer-owner':
+                args[-1]['owner_version'] = [1, 0, 41]
+            else:
+                args[-1]['patched_files']['RP/blocks.json' if change == 'renderer-assets' else 'BP/manifest.json'] = 'different'
+            with self.subTest(change=change), self.assertRaises(AssertionError):
+                conserved_scope(*args)
+
+    def test_baseline_allows_only_version_trees_and_projected_dependency_lists(self):
+        old = {'repository': module.PRIVATE, 'version': [1, 0, 41], 'source_trees': {'BP': 'before'},
+               'runtime': {'BP': 'runtime/BP', 'RP': 'runtime/RP'},
+               'packs': {side: {'uuid': side, 'dependencies': self.fixture(side)[2]['dependencies']} for side in ['BP', 'RP']}}
+        new = copy.deepcopy(old)
+        new.update(version=module.PAIR_VERSION, source_trees={'BP': 'after'})
+        for side in ['BP', 'RP']:
+            new['packs'][side]['dependencies'] = self.fixture(side)[3]['dependencies']
+        module.conserved_pair_baseline(old, new)
+        new['runtime']['BP'] = 'unreviewed/runtime'
+        with self.assertRaises(AssertionError):
+            module.conserved_pair_baseline(old, new)
+
+    def host_fixture(self):
+        from family_update import freezer_performance_validation as p41
+        renderer = {'id': 'renderer'}
+        freezer = {'id': 'freezer', 'version': [1, 0, 1], 'original_files': {'author.js': 'original'},
+                   'patched_files': {'author.js': 'patched'}, 'copies': {p41.HELPER: p41.TARGET}}
+        hashes = {p41.RENDERER: module.PAIR_RENDERER_SHA256, p41.FREEZER: 'same-freezer'}
+        commit = 'a' * 40
+        repair = {'id': renderer['id'], 'owner_version': module.PAIR_VERSION, 'source_package_version': module.PAIR_VERSION,
+                  'local_pack_version': module.PAIR_LOCAL, 'spec_sha256': hashes[p41.RENDERER], 'commit': commit,
+                  'repository': module.PRIVATE, 'working_candidate': False, 'official_author_release': False,
+                  'original_files': dict(p41.AUTHOR_FILES), 'patched_files': dict(module.PAIR_RENDERED_FILES)}
+        storage = {**copy.deepcopy(freezer), 'owner_version': module.PAIR_VERSION, 'spec_sha256': hashes[p41.FREEZER],
+                   'commit': commit, 'repository': module.PRIVATE, 'working_candidate': False,
+                   'copies': {p41.TARGET: {'source': p41.HELPER, 'sha256': p41.HELPER_AFTER}}}
+        prior, packs = {}, []
+        for side, uid in [('BP', p41.HOST_BP), ('RP', p41.HOST_RP)]:
+            files = {'manifest.json': p41.RENDERED_FILES[side + '/manifest.json'], 'asset': 'same'}
+            if side == 'BP':
+                files.update({p41.TARGET: p41.HELPER_AFTER, 'author.js': 'patched'})
+            else:
+                files['blocks.json'] = p41.RENDERED_FILES['RP/blocks.json']
+            prior[uid] = {'version': p41.LOCAL, 'side': 'behavior' if side == 'BP' else 'resource', 'files': files}
+            packs.append({'uuid': uid, 'version': module.PAIR_LOCAL, 'side': prior[uid]['side'],
+                          'files': {**files, 'manifest.json': module.PAIR_RENDERED_FILES[side + '/manifest.json']},
+                          'source': {'owner': 'upstream_extended', 'archive_sha256': p41.ARCHIVE,
+                                     'reviewed_extensions': [copy.deepcopy(repair)] + ([copy.deepcopy(storage)] if side == 'BP' else [])}})
+        return [{'packs': packs}, prior, renderer, freezer, hashes, commit, {p41.HELPER: p41.HELPER_AFTER}]
+
+    def test_chinesefood_only_paired_manifests_change_with_exact_current_source(self):
+        module.conserved_pair_hosts(*self.host_fixture())
+        for change in ['gameplay', 'helper', 'addition', 'removal', 'manifest', 'source', 'owner', 'freezer-version']:
+            args = self.host_fixture()
+            host = args[0]['packs'][0]
+            if change == 'gameplay':
+                host['files']['author.js'] = 'different'
+            elif change == 'helper':
+                host['files']['scripts/_senluo/native-freezer-storage.js'] = 'different'
+            elif change == 'addition':
+                host['files']['foreign.js'] = 'new'
+            elif change == 'removal':
+                del host['files']['asset']
+            elif change == 'manifest':
+                host['files']['manifest.json'] = 'not-reviewed'
+            elif change == 'source':
+                host['source']['reviewed_extensions'][0]['commit'] = 'b' * 40
+            elif change == 'owner':
+                host['source']['reviewed_extensions'][0]['owner_version'] = [1, 0, 41]
+            else:
+                host['source']['reviewed_extensions'][1]['version'] = [1, 0, 2]
+            with self.subTest(change=change), self.assertRaises(AssertionError):
+                module.conserved_pair_hosts(*args)
+
+    def test_current_native_receipt_binds_all_four_packs_before_installation(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            candidate = root / 'candidate'
+            candidate.mkdir()
+            (candidate / 'family-receipt.json').write_text('synthetic exact candidate')
+            (root / 'baseline.json').write_text(json.dumps({'version': module.PAIR_VERSION,
+                'packs': {side: {'uuid': 'own-' + side} for side in ['BP', 'RP']}}))
+            (root / 'saved-world-report.json').write_text('synthetic first/restart evidence')
+            log = root / 'source.log'
+            log.write_text('synthetic source CI, not Minecraft')
+            proof = root / 'source.json'
+            proof.write_text(json.dumps({'test_log': {'name': log.name, 'sha256': module.c.sha(log)}}))
+            receipt = self.host_fixture()[0]
+            receipt['packs'] += [{'uuid': 'own-' + side, 'files': {'manifest.json': side}} for side in ['BP', 'RP']]
+            with patch.multiple(module.c, CONFIG={'extension_hud_validation': str(proof)}, EXTENSION=root, C=candidate, R=root), \
+                 patch.object(module.c, 'atomic', side_effect=lambda path, value: Path(path).write_text(json.dumps(value))):
+                files = module.pair_pack_files(receipt)
+                static = {'version': module.PAIR_VERSION, 'paired_host_identity_only': True, 'packs': files,
+                          'source': module.c.report_ref(proof), 'candidate_receipt_sha256': module.c.sha(candidate / 'family-receipt.json')}
+                (root / 'explicit-hud-static-validation.json').write_text(json.dumps(static))
+                evidence = {'candidate_receipt_sha256': static['candidate_receipt_sha256'], 'fresh_stopped_backup': True,
+                            'exact_files_checked': True, 'bds': True, 'saved_world_migration': True, 'client': False,
+                            'simulated_players': False, 'runs': [{'phase': phase, 'ok': True, 'errors': []} for phase in ['first', 'restart']]}
+                module.bind_native(receipt, evidence)
+                module.verify_installation(receipt)
+                self.assertEqual(len(module.evidence_paths()), 4)
+                native_path = root / 'explicit-hud-native-validation.json'
+                native = json.loads(native_path.read_text())
+                for change in ['receipt', 'client', 'missing-host', 'native-world']:
+                    changed = copy.deepcopy(native)
+                    selected = copy.deepcopy(receipt)
+                    if change == 'receipt':
+                        changed['candidate_receipt_sha256'] = 'old-candidate'
+                    elif change == 'client':
+                        changed['client'] = True
+                    elif change == 'missing-host':
+                        selected['packs'].pop(0)
+                    else:
+                        changed['fresh_native']['sha256'] = 'old-stopped-world'
+                    native_path.write_text(json.dumps(changed))
+                    with self.subTest(change=change), self.assertRaises(AssertionError):
+                        module.verify_installation(selected)
 
 
 if __name__ == '__main__':
