@@ -239,3 +239,10 @@ references and refuses cached references from a different configuration.
 原解壓fallback及所有其他內容。准入另核對上一版recipe與輸入逐檔相等、
 新私有PR完整tree／實際CI、UTF16與異常輸入差分報告；舊啟動profile
 繼續按原規則驗證。P34不升包，完整家族停服存檔演練與安裝門檻維持。
+
+### P41 性能修補准入
+
+P40→P41 freezer helper 與 Saturation1.5.5→1.5.6 使用各自的精確來源
+profile；設定、三個 CI artifact、作者檔案邊界及同次存檔原生綁定見
+[性能來源 profiles](PERFORMANCE-SOURCE-PROFILES-20261015.md)。舊 HUD 與
+Ribbits profile 規則保持；來源測試不計為真人驗收。

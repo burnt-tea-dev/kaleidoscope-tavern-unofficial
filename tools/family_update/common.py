@@ -288,7 +288,7 @@ def check_live_against_policy(inventory):
 
 
 def external_input_hashes():
-    result={key: sha(Path(CONFIG[key])) for key in ['startup_reconciliation','identity_migration','translation_reconciliation', 'container_recovery_plan','extension_validation','preserved_reconciliation','preserved_additions','approved_runtime_retention','native_storage_reanchor_plan'] if CONFIG.get(key)}
+    result={key: sha(Path(CONFIG[key])) for key in ['startup_reconciliation','identity_migration','translation_reconciliation', 'container_recovery_plan','extension_validation','extension_hud_validation','extension_performance_validation','preserved_reconciliation','preserved_additions','approved_runtime_retention','native_storage_reanchor_plan'] if CONFIG.get(key)}
     if CONFIG.get('extension_hold_source'):
         path=Path(CONFIG['extension_hold_source'])
         if path.exists():result['extension_hold_source']=sha(path)
