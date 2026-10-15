@@ -5,6 +5,11 @@
       "+defines": [
         "USE_UV_ANIM"
       ]
+    },
+    "kt_liquid_animated:entity_alphablend": {
+      "+defines": [
+        "USE_UV_ANIM"
+      ]
     }
   }
 }

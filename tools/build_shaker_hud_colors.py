@@ -52,8 +52,7 @@ def main():
     panel['controls'] = updated
     panel['visible']="(not (($kt_text - 'KT_HUD!S:') = $kt_text))"
     panel['ignored'] = f"(not {panel['visible']})"
-    # A permanent receiver cannot inherit animations that faded/destroyed a
-    # factory instance. Progress is already sent each server tick.
+    # Rebuild only our generated animations with the packet controls below.
     for key in list(hud):
         if key.startswith('kt_mixology_') and ('anim_type' in hud[key] or key == 'kt_mixology_factory'):
             del hud[key]
@@ -78,12 +77,26 @@ def main():
     rows = [{'bar': bar}]
     for tick in range(112):
         visible = f"(not (($kt_text - 'KT_HUD!P:{code(tick)};') = $kt_text))"
+        # Java rounds (ticksUsingItem + partialTick) * 1.5 to an integer.
+        # Within one tick this advances at partialTick=1/3 (even tick) or
+        # 2/3 (odd tick). Hold after that one step: a delayed/missing packet
+        # must not animate onward through unobserved server progress.
+        start = (tick * 3 + 1) // 2
         rows.append({f'cursor_{tick}@kaleidoscope_tavern_hud.kt_mixology_cursor': {
-            'offset': [tick * 1.5, 0],
+            '$kt_cursor_from': [start, 0], '$kt_cursor_to': [start + 1, 0],
+            '$kt_cursor_delay': (1 if tick % 2 == 0 else 2) / 60,
+            'offset': '@kaleidoscope_tavern_hud.kt_mixology_cursor_tick',
             'visible': visible, 'ignored': f'(not {visible})'}})
     progress['controls'] = rows
     progress['visible']="(not (($kt_text - 'KT_HUD!P:') = $kt_text))"
     progress['ignored'] = f"(not {progress['visible']})"
+    hud['kt_mixology_cursor_tick'] = {
+        'anim_type': 'offset', 'easing': 'linear', 'duration': '$kt_cursor_delay',
+        'from': '$kt_cursor_from', 'to': '$kt_cursor_from',
+        'next': '@kaleidoscope_tavern_hud.kt_mixology_cursor_after_tick'}
+    hud['kt_mixology_cursor_after_tick'] = {
+        'anim_type': 'offset', 'easing': 'linear', 'duration': .2,
+        'from': '$kt_cursor_to', 'to': '$kt_cursor_to'}
     install_actionbar_factory(hud,'tavern','kt_text','KT_HUD!','KT_HUD!END;','$kt_lifetime')
     # The receiver and native mask use contained owned tokens, including when
     # engine formatting surrounds them. Stop packets must use that same gate.

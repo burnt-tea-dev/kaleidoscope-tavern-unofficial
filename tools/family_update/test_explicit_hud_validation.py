@@ -229,7 +229,7 @@ class ConservedHudScope(unittest.TestCase):
             path = root / 'synthetic.json'
             path.write_text(json.dumps(proof))
             pull = {'merged_at': 'synthetic-time', 'state': 'closed', 'base': {'ref': 'main'}, 'head': {'sha': 'synthetic-head'}}
-            for version in [module.VERSION, [1, 0, 36], [1, 0, 37], [1, 0, 38], [1, 0, 39]]:
+            for version in [module.VERSION, [1, 0, 36], [1, 0, 37], [1, 0, 38], [1, 0, 39], [1, 0, 40]]:
                 with self.subTest(version=version):
                     (root / 'baseline.json').write_text(json.dumps({'repository': module.PRIVATE, 'version': version}))
                     proof.update(typed_empty_fallback=True, fallback_base='hud.kt_family_empty')
@@ -279,6 +279,30 @@ class ConservedDependency39Scope(unittest.TestCase):
                 conserved_scope(*self.fixture(side))
         self.assertEqual(module.PROFILES[(1, 0, 39)],
                          ('323470dfe1f20f2c31df20edebb77dce960bf18a', [1, 0, 38]))
+
+    def test_p40_provider_pair_still_rejects_changed_hud_and_foreign_dependency(self):
+        old39 = self.fixture()
+        manifest = copy.deepcopy(old39[3])
+        current = copy.deepcopy(manifest)
+        current['header'].update(version=[1, 0, 40], name='Owned 1.0.40')
+        current['modules'][0]['version'] = [1, 0, 40]
+        for dependency in current['dependencies']:
+            if dependency['uuid'] == 'paired':
+                dependency['version'] = [1, 0, 40]
+            elif dependency['uuid'] in module.VISIBLE_REPAIR_PROVIDER_VERSIONS:
+                dependency['version'] = copy.deepcopy(module.VISIBLE_REPAIR_PROVIDER_VERSIONS[dependency['uuid']][1])
+        old = old39[1]
+        new = {**old, 'manifest.json': 'private40'}
+        args = [old, new, manifest, current, 'RP', {'paired'}, [1, 0, 40]]
+        conserved_scope(*args)
+        new['ui/hud_screen.json'] = 'unrelated-renderer-change'
+        with self.assertRaises(AssertionError):
+            conserved_scope(*args)
+        new['ui/hud_screen.json'] = old['ui/hud_screen.json']
+        foreign = next(row for row in current['dependencies'] if row['uuid'] in PROVIDERS - module.VISIBLE_REPAIR_PROVIDER_VERSIONS.keys())
+        foreign['version'] = [99, 0, 0]
+        with self.assertRaises(AssertionError):
+            conserved_scope(*args)
 
     def test_rejects_every_nonmanifest_payload_change_addition_or_removal(self):
         for side in ['BP', 'RP']:
