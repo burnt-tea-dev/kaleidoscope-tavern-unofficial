@@ -59,6 +59,9 @@ def main():
     for key in ['kt_mixology_slot', 'kt_mixology_cursor']:
         hud[key].pop('anims', None)
     hud['kt_mixology_cursor'].pop('offset', None)
+    # Native HUD/store/game-tip animated controls opt out of fast-forward.
+    # Keep this packet's local lifetime and cursor step relative to receipt.
+    hud['kt_mixology_cursor']['disable_anim_fast_forward'] = True
     packet = hud['kt_mixology_packet']
     packet_order = list(packet)
     for key in ['alpha', 'propagate_alpha', 'bindings', 'property_bag', 'visible', '$kt_text']:
@@ -102,9 +105,13 @@ def main():
     # engine formatting surrounds them. Stop packets must use that same gate.
     packet['visible']="(not (($kt_text - 'KT_HUD!') = $kt_text) and (($kt_text - 'KT_HUD!END;') = $kt_text))"
     packet['$kt_lifetime|default']=.6
+    packet['disable_anim_fast_forward']=True
     packet.pop('$kt_graphical_offset|default',None)
     packet.pop('offset',None)
-    packet['variables']=[{'requires':"(not (($kt_text - 'KT_HUD!P:') = $kt_text))",'$kt_lifetime':.2}]
+    # A repeated value is refreshed after ten ticks. The graphical packet must
+    # survive that heartbeat, including four-to-nine-tick delivery gaps; cursor
+    # motion still advances only its one observed Java pixel and then holds.
+    packet['variables']=[{'requires':"(not (($kt_text - 'KT_HUD!P:') = $kt_text))",'$kt_lifetime':.6}]
     # Keep the committed key order when replacing factory-managed fields.
     # Existing packet fields remain byte-stable across regeneration; new fields
     # are appended in the generator's declared order.

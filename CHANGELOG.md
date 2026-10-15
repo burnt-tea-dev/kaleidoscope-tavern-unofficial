@@ -1,3 +1,9 @@
+## 0.6.169
+
+- Keep shaker progress graphics for 600 ms, matching the slots and existing ten-tick unchanged-value heartbeat; retain one observed cursor step and then hold.
+- Explicitly disable animation fast-forward on the packet and cursor without changing Java timing, sprites, coordinates, pruning or the native HUD channel.
+- Source regressions cover the previous four-to-nine-tick visibility gap and actual generator output. Client rendering and the native cause of the reported missing bar remain unverified.
+
 ## 0.6.168
 
 - Stop repeating empty cross-pack effect snapshots; keep active timing and retry failed clear delivery.
