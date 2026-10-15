@@ -19,7 +19,8 @@ MATH = SimpleNamespace(floor=math.floor, mod=lambda a, b: a % b, max=max, abs=ab
 def check_liquid_surfaces(root):
     """Check the shipped UV expressions against original Mojang mcmeta order."""
     rp = root / 'runtime/RP'
-    sources = read(root / 'data/liquid-surface-source.json')['textures']
+    reference = read(root / 'data/liquid-surface-source.json')
+    sources = reference['textures']
     material = read(rp / 'materials/entity.material')['materials']['kt_liquid_animated:entity_alphablend']
     assert material == {'+defines': ['USE_UV_ANIM']}
     samples = 0
@@ -32,6 +33,8 @@ def check_liquid_surfaces(root):
         metadata = read(root / source['animation_metadata'])['animation']
         order = metadata.get('frames', list(range(frames)))
         controller = read(rp / f'render_controllers/liquid_{kind}.json')['render_controllers'][f'controller.render.kt_repair.{kind}']
+        if kind == 'water':
+            assert controller['color']['a'] == reference['water_vertex_alpha']['value'] == 1, 'Apply original sprite alpha once, without an extra opacity reduction'
         assert controller['uv_anim']['scale'] == [1, 1], 'Geometry already measures UVs against the full source strip'
         assert controller['uv_anim']['offset'][0] == 0
         expression = controller['uv_anim']['offset'][1]
