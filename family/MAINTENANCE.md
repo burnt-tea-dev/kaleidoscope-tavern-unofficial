@@ -4,6 +4,10 @@
 
 自移植的酒館、燒烤、世界名酒以各自 Git 為唯一功能來源；官方第三方包以 `upstream.lock.json` 的作者檔案為來源。私服 UUID、AMW 名稱及較大的本地版本號不代表官方更新。
 
+## 動畫、物品顯示與手持修復
+
+酒館、煙火、世界名酒與已授權家族整合的後續相關修復，統一遵循[官方來源優先修復流程與收據模板](https://github.com/casama233/kaleidoscope-grilling-unofficial/blob/main/docs/ANIMATION-ITEM-REPAIR-WORKFLOW.md)（導入版本：[Grilling PR216](https://github.com/casama233/kaleidoscope-grilling-unofficial/pull/216)）。先核對匹配版本的官方推薦／範例，再獨立重現社群或開發者論壇方案；不可用猜測位移掩蓋 binding、scope 或 controller 問題。流程包含原生 Blockbench player／attachable、鏡頭重設、固定 selected／locked clips、preview-only 差異及分層證據。Editor 預覽不等於遊戲驗收；既有 canonical、CI、家族部署與 pending client 門檻保持不變。完整方法僅維護一份，本頁不複製其版本細節。
+
 ## 發佈與套用
 
 ```mermaid
