@@ -1,6 +1,6 @@
-## Current maintained baseline: 0.6.167
+## Current maintained baseline: 0.6.168
 
-Tavern 0.6.167 restores Java integer cursor steps within each HUD tick and animates original water/lava sprites in barrels and pressing tubs, including the source opacity. Existing source-backed interaction/model fixes remain; actual current client latency, rendering and full parity are pending.
+Tavern 0.6.168 suppresses redundant empty cross-pack effect heartbeats and retries failed clears without changing active effect timing. Existing graphical HUD, Java interaction, animation and storage repairs remain; actual current client latency, rendering and full parity are pending.
 
 Last deployment recorded before this source batch: At **2026-10-14 21:41:21 HKT**, T166/G142/W144/private39/Ribbits10037 completed canonical PR/CI, full-family static admission, one stopped-save first/restart and exact live readback: 42 packs, BDS1.26.52.3 RUNNING. [Current sources and deployment evidence](family/BASELINE-STATUS.md).
 
