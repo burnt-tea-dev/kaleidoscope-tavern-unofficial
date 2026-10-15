@@ -153,7 +153,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: casama233/kaleidoscope-world-liquor-unofficial
-          ref: 6bc779243fa7c46f2b33561a52387231ad21dbce
+          ref: 69a07c08e6ea3631304ceac145893c3a370e8d71
           path: world-liquor-src
           persist-credentials: false
       - uses: actions/setup-python@v5
@@ -180,7 +180,7 @@ jobs:
               'world-liquor':{'repository':'casama233/kaleidoscope-world-liquor-unofficial','repository_id':1385218112}}
           assert os.environ['GITHUB_REPOSITORY']==identities['tavern']['repository']
           assert os.environ['GITHUB_REPOSITORY_ID']==str(identities['tavern']['repository_id'])
-          assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=peer,text=True).strip()=='6bc779243fa7c46f2b33561a52387231ad21dbce'
+          assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=peer,text=True).strip()=='69a07c08e6ea3631304ceac145893c3a370e8d71'
           lock=json.loads((root/'family/upstream.lock.json').read_text())
           lock['owned']=[row for row in lock['owned'] if row['key'] in {'tavern','world-liquor'}]
           assert len(lock['owned'])==2 and {row['key'] for row in lock['owned']}=={'tavern','world-liquor'}
@@ -237,7 +237,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: casama233/kaleidoscope-world-liquor-unofficial
-          ref: 6bc779243fa7c46f2b33561a52387231ad21dbce
+          ref: 69a07c08e6ea3631304ceac145893c3a370e8d71
           path: world-liquor
           persist-credentials: false
       - uses: actions/setup-node@v4
@@ -351,9 +351,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: casama233/kaleidoscope-world-liquor-unofficial
-          # World Liquor 0.1.146 requires the paired Tavern 0.6.168 runtime.
+          # World Liquor 0.1.147 requires the paired Tavern 0.6.169 runtime.
           # Pin exact peer bytes, not an obsolete release or a moving branch.
-          ref: 6bc779243fa7c46f2b33561a52387231ad21dbce
+          ref: 69a07c08e6ea3631304ceac145893c3a370e8d71
           path: liquor
           persist-credentials: false
       - uses: actions/checkout@v4
@@ -414,7 +414,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: casama233/kaleidoscope-world-liquor-unofficial
-          ref: 6bc779243fa7c46f2b33561a52387231ad21dbce
+          ref: 69a07c08e6ea3631304ceac145893c3a370e8d71
           path: liquor
           persist-credentials: false
       - uses: actions/setup-node@v4
@@ -497,7 +497,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: casama233/kaleidoscope-world-liquor-unofficial
-          ref: 6bc779243fa7c46f2b33561a52387231ad21dbce
+          ref: 69a07c08e6ea3631304ceac145893c3a370e8d71
           path: .source-check/world-liquor-native
           persist-credentials: false
       - name: Reject incomplete or relabeled native evidence

@@ -1,6 +1,6 @@
-## Current maintained baseline: 0.6.168
+## Current maintained baseline: 0.6.169
 
-Tavern 0.6.168 suppresses redundant empty cross-pack effect heartbeats and retries failed clears without changing active effect timing. Existing graphical HUD, Java interaction, animation and storage repairs remain; actual current client latency, rendering and full parity are pending.
+Tavern 0.6.169 keeps shaker progress graphics alive across the existing ten-tick refresh window and explicitly disables animation fast-forward for each packet and cursor. Java timing, cursor steps, sprites and the native HUD route remain unchanged. This addresses a source-level expiry gap; the reported missing progress bar still requires rendered-client confirmation. See [repair scope](docs/evidence/shaker-progress-20261015.md).
 
 Last deployment recorded before this source batch: At **[private deployment time]**, T166/G142/W144/private-integration/Ribbits10037 completed canonical PR/CI, full-family static admission, one stopped-save first/restart and exact live readback: 42 packs, BDS1.26.52.3 RUNNING. [Current sources and deployment evidence](family/BASELINE-STATUS.md).
 

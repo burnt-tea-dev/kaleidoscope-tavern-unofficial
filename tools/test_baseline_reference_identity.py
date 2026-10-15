@@ -187,4 +187,29 @@ class T168ImmutableTests(unittest.TestCase):
    elif kind=='ops':row['reverseOps'][0][2]='forged();\n'
    else:name='runtime/BP/scripts/bedrock/unrelated.js'
    with self.subTest(kind=kind),self.assertRaises(AssertionError):reference.reverse_t168_delta(self.root,name,self.after,row)
+class T169ImmutableTests(unittest.TestCase):
+ def setUp(self):
+  self.root=Path(__file__).resolve().parents[1]
+  ledger=json.loads((self.root/'data/baseline-reconciliation.json').read_text())
+  layer=next(row for row in ledger['reviewedAssetDeltaLayers'] if row['release']=='0.6.169')
+  self.assertEqual(set(layer['files']),{reference.T169_PATH})
+  self.row=layer['files'][reference.T169_PATH]
+  self.before=reference.t169_source(str(self.root),reference.T169_BEFORE)
+  self.after=reference.t169_source(str(self.root),reference.T169_AFTER)
+ def test_frozen_ui_reverses_to_t168_and_keeps_all_earlier_guards(self):
+  self.assertEqual(reference.reverse_t169_delta(self.root,reference.T169_PATH,self.after,self.row),self.before)
+  historical=reference.rows(str(self.root))[reference.T169_PATH]
+  self.assertEqual(hashlib.sha256(previous_bytes(self.root,self.root/reference.T169_PATH)).hexdigest(),historical['before'] or historical['after'])
+ def test_extra_ui_field_cannot_be_admitted_by_synchronizing_ledger_hash(self):
+  changed=json.loads(self.after);changed['kt_mixology_packet']['unreviewed']=True
+  changed=(json.dumps(changed,separators=(',',':'))+'\n').encode()
+  row={**self.row,'after':hashlib.sha256(changed).hexdigest()}
+  with self.assertRaisesRegex(AssertionError,'immutable postimage'):reference.reverse_t169_delta(self.root,reference.T169_PATH,changed,row)
+ def test_forged_predecessor_and_other_ui_paths_cannot_expand_review(self):
+  for kind in ['before','gzip','path']:
+   row={**self.row};name=reference.T169_PATH
+   if kind=='before':row['before']=hashlib.sha256(b'forged UI').hexdigest()
+   elif kind=='gzip':row['beforeGzipBase64']=base64.b64encode(gzip.compress(b'forged UI',mtime=0)).decode()
+   else:name='runtime/RP/ui/hud_screen.json'
+   with self.subTest(kind=kind),self.assertRaises(AssertionError):reference.reverse_t169_delta(self.root,name,self.after,row)
 if __name__=='__main__':unittest.main()
