@@ -1,6 +1,7 @@
 """Historical views may normalize only bound, explicitly reviewed identities."""
 import base64,gzip,hashlib,json,tempfile,unittest
 from pathlib import Path
+import baseline_reference as reference
 from baseline_reference import previous_bytes,rows,functional_rows,functional_layers,asset_layers
 class IdentityTests(unittest.TestCase):
  def setUp(self):
@@ -166,4 +167,24 @@ class IdentityTests(unittest.TestCase):
   self.p.write_bytes(latest)
   self.ledger['reviewedFunctionalDeltaLayers'][0]['files'][name]['reverseOps'][0][2]='wrong predecessor\n';self.write_functional_ledger()
   with self.assertRaisesRegex(AssertionError,'Functional predecessor mismatch'):previous_bytes(self.r,self.p)
+class T168ImmutableTests(unittest.TestCase):
+ def setUp(self):
+  self.root=Path(__file__).resolve().parents[1]
+  self.row=json.loads((self.root/'data/baseline-reconciliation.json').read_text())['reviewedFunctionalDeltaLayers'][-1]['files'][reference.T168_PATH]
+  self.before=reference.t168_source(str(self.root),reference.T168_BEFORE)
+  self.after=reference.t168_source(str(self.root),reference.T168_AFTER)
+ def test_exact_frozen_bridge_reverses_only_to_immutable_t167_source(self):
+  self.assertEqual(reference.reverse_t168_delta(self.root,reference.T168_PATH,self.after,self.row),self.before)
+  original=reference.subprocess.check_output(['git','show','cedfaedf6140bae61b24afb658869b1d0e6ea1a9:'+reference.T168_PATH],cwd=self.root)
+  self.assertEqual(previous_bytes(self.root,self.root/reference.T168_PATH),original)
+ def test_extra_line_cannot_be_admitted_by_synchronizing_ledger_hash(self):
+  changed=self.after+b'unreviewed();\n';row={**self.row,'after':hashlib.sha256(changed).hexdigest()}
+  with self.assertRaisesRegex(AssertionError,'immutable postimage'):reference.reverse_t168_delta(self.root,reference.T168_PATH,changed,row)
+ def test_forged_before_hash_reverse_ops_or_other_path_cannot_expand_review(self):
+  for kind in ['before','ops','path']:
+   row=json.loads(json.dumps(self.row));name=reference.T168_PATH
+   if kind=='before':row['before']=hashlib.sha256(b'forged();\n').hexdigest()
+   elif kind=='ops':row['reverseOps'][0][2]='forged();\n'
+   else:name='runtime/BP/scripts/bedrock/unrelated.js'
+   with self.subTest(kind=kind),self.assertRaises(AssertionError):reference.reverse_t168_delta(self.root,name,self.after,row)
 if __name__=='__main__':unittest.main()
