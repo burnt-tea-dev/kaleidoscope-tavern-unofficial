@@ -1,28 +1,23 @@
-# Dot：本輪 HUD 實測入口
+# HUD客戶端回饋與驗收邊界
 
-**2026-10-13 17:05:52 HKT**：managed-server **T155／G133／W132／private-integration／Ribbits1.0.10037**，42包正常運行。來源CI、完整家族static、停服存檔first／restart及安裝讀回均通過；[本次公開下載與LIVE證據](../family/PUBLIC-DOWNLOAD-LIVE-PERSISTENT-HUD-20261013.md)。`client=false`、`production_ready=false`。
+最後部署為2026-10-14 21:41:21 HKT的T166／G142／W144／private-integration／Ribbits1.0.10037，42包。來源、CI、原生保存與正式公開下載核對見[現行基線](../family/BASELINE-STATUS.md)；實際回饋與對應修補集中在[BUGS.md](BUGS.md)。`client=false`、`production_ready=false`、`pending_client_acceptance`。
 
-使用者已明確回報進食與調酒圖形全無、原版與AMW正常。新版本移除調酒progress父層舊` / 111`條件，兩套圖形改常駐獨立快取，正常結束或漏更新送自己的END。進食缺失的實際引擎原因仍未由客戶端證實；不要把來源條件測試或BDS當圖形已恢復。
+使用者已要求停止反覆畫面探針。掛載／快取指示、普通標題對照與人工封包探針均已停止；本頁不要求重連、重錄或再次回覆版本。沒有使用模擬玩家，也不以隔離世界成功代替LIVE畫面。未知客戶端堆疊或傳輸時序繼續標未知，不用原生HUD／AMW能顯示推論森羅也已恢復。
 
-先重連接受新資源包，記錄T155／G133／W132與GUI profile／比例，確認首次進食及首次調酒是否顯示；之後測完成、取消、連續使用及AMW同時顯示。進食時間與材質保留；調酒游標按server tick更新，partial-tick插值待完成。Poststart165 warnings／0 errors，watchdog仍138條，不宣稱整體效能修好。
+76196／76197及76210的森羅HUD缺失／原始KT碼是實際失敗；後續76211見圖形與原始碼並存，76212／76213見進食姿勢和串數下降。76251已見調酒色塊且未見內部碼，但使用者仍回報位置過高與進食條延遲；之後又回報雪克杯長按很久才顯示。有限正向觀察與失敗同時保留，不能改成完整驗收。
 
-## 先解除上游讀檔與資源包辨認阻塞
+T165修正Java中央相對錨點，G141修正剩餘use ticks和同步首幀，T166／G142減少重複閒置解析與未用圖形處理。沒有新版實際端到端延遲／FPS證據。Poststart的214 warnings／0 errors、187 watchdog僅屬該次啟動窗口；取樣中的native API等待時間也不等於獨立CPU成本。
 
-本輪已讀取BSM原始JSON，檢查時間 **2026-10-13 12:23:03 HKT**；`all_reference_release_metadata_current=false`、`full_java_parity_verified=false`保持。正式修補仍須讀BSM的 `addon_quality/senluo-java-upstream-status.json` 與 `family/java-upstream.json`，過期時重新查核。原[公開歷史快照](../family/JAVA-UPSTREAM-READONLY-20261012.md)只屬10/12原查核；取得伺服器端資料不代表Dot本機DNS／任務通道已修復。
+## 尚未取得當前候選真人證據的範圍
 
-Dot既有回歸記錄：取消保留物品、完成後進度正常退出、調酒裝料／返瓶／產出通過，但快速重開仍見兩次短暫空條。這些觀察尚未附可核對的候選與客戶端版本；保留各場景結果，不挪作T155／G133驗收。先確認實際LIVE、客戶端BP／RP UUID／版號、完整堆疊與GUI profile／比例，優先查資源包快取及載入優先序。正常退出客戶端並重新接受已更新的伺服器資源包後，只重錄下面同一流程；沒有明確新失敗時不再轉入隔離camera／hold微調或重跑舊影片。
+- 首次進食／調酒、完成／取消／換槽與快速重開；原作進度材質、圖示、自然消失、聲音及游標位置。
+- 原生HUD、JavaSaturation、AMW既有29通道、酒館／世界名酒效果與普通Actionbar同時存在；不同GUI比例、輸入方式與資源包堆疊。
+- Ribbits自然生成、connection及互動；沒有以人工connection或模擬玩家代替。
 
-## 一次正常玩家流程
+Dot早先取消保留物品、完成後退出、裝料／返瓶／產出的正向結果，以及兩次快開短空條，缺少可核對的候選與客戶端版本，保持原場景，不挪作T166驗收。調酒游標partial-tick插值及完整Java一比一仍未完成。
 
-1. 重新加入更新完成的managed-server，正常接受伺服器資源包。保留客戶端content log，先確認快捷欄、準星、飢餓／血量、JavaSaturation及AMW現有29通道HUD均存在。
-2. 以正常玩家實際食用煙火食物，完整吃一份，再重吃並中途放開／換槽，接著快速重新開始。錄下102像素原圖進度條、黃轉綠、物品圖示、停止後自然消失及是否短暫空條；不可用人工封包播放代替自然食用。
-3. 正常開始調酒，核對槽位、游標及進度；停止後回到煙火食用。另以正常飲用帶出酒館／世界名酒效果圖示，確認它們不使原生與 AMW 控件消失。
-4. 在圖形活動與結束後觸發其他addon的普通Actionbar提示，核對它仍顯示且不被END清空；同時檢查AMW與飽和度。若只在另一addon寫title時缺幀，記錄具體addon、時間和來源，與資源包掛載／快取問題分開處理。
+## 來源與相容邊界
 
-另以正常玩家觀察Ribbits自然生成／connection／周邊互動，保留同期內容日誌；不可用模擬玩家／人工connection播放、另建LIVE世界或改正式實驗功能代替。
+現行調酒／進食圖形使用原生Actionbar factory及各實例捕獲的封包文字；效果圖示維持獨立title路由。Actionbar／title共享邊界、未協調第三方寫入與完整HUD覆蓋仍需實際相容證據。原生、AMW與Saturation既有控制保留的來源／BDS證據不能當所有裝置渲染通過。
 
-最小回報包含實際 LIVE 版本、客戶端版本／裝置、GUI 比例／輸入方式，以及一次上述流程的影片和同期 UI 錯誤原文。先確認完整堆疊下兩個圖形都能掛載，再針對真實失敗縮小來源；不反覆用隔離成功影片代替 LIVE 驗證。
-
-## 保留的邊界
-
-Minecraft的Actionbar／title各有共享邊界；本輪自有圖形不覆寫Actionbar，但任意title寫入與第三方完整替換HUD仍不能保證相容。登記第三方HUD變體的來源CI／保全與fresh native不算客户端聲畫驗收。圖形時序、食用結算與普通訊息保持；`client=false`、`production_ready=false`及`pending_client_acceptance`保留，真人回報須另記原始候選／場景。作者料理快取／指南回饋尚待送達，不能當作者已接收修正。
+本次Git狀態同步讀到的Java唯讀查核為2026-10-15 06:23:03 HKT，`all_reference_release_metadata_current=false`、`full_java_parity_verified=false`。料理作者新版UUID／API／保存適配及作者回饋送達狀態仍分開記錄；本次沒有更新作者包或遊戲runtime。
