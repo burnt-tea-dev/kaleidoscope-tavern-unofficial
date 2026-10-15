@@ -29,6 +29,8 @@ SKIP = {'.git', 'release-candidate', 'exact-engine', 'saved-world-engine',
         'production-snapshot', 'production-rollback', 'production-staged',
         'production-original-db', 'node_modules', 'venv', '__pycache__',
         'db', 'behavior_packs', 'resource_packs'}
+EXPLICIT_MARKER = 'reviewed-retirement.json'
+ENGINE_INPUTS = ('exact-engine/bedrock_server', 'saved-world-engine/bedrock_server')
 REPORTS = ('deployment-result.json', 'poststart-verification.json',
            'saved-world-report.json', 'exact-engine/native-report.json',
            'production-before/backup-receipt.json', 'admission-report.json',
@@ -320,12 +322,109 @@ def _discover(root, guards, mounts, directories=None):
     return sorted(rows)
 
 
+def _reviewed_binding(output, root, mounts, manifest):
+    _safe_path(output, root, mounts)
+    _require(output != root and not any((p / '.git').exists() for p in [output, *output.parents] if p == root or root in p.parents),
+             'Reviewed output must not be a Git/source ancestor')
+    reports = {}
+    for name in dict.fromkeys((*REPORTS, 'release-candidate/family-receipt.json', 'report.json', 'native-report.json', 'prelaunch-failure.json', 'launcher-failure.json')):
+        path = output / name
+        if path.exists():
+            _read(path, root, mounts)
+            reports[name] = [*_stat(path), path.lstat().st_ctime_ns]
+    _require('deployment-result.json' in reports or 'build-evidence.json' in reports,
+             'Explicit output requires an existing deployment/build record')
+    return {'output': str(output), 'reviewed_retirement': manifest,
+            'original_report_metadata': reports}
+
+
+def _reviewed_target(target, relative, output, root, mounts):
+    from .cleanup_engine_inputs import target_metadata, leaf_identity, database_file, pack_asset_file
+    metadata = target_metadata(target, root, mounts, generated_file=True)
+    if metadata is None:
+        return None
+    if target.is_file():
+        metadata['leaf_identity'] = leaf_identity(target.lstat())
+        return metadata
+    names = metadata['files']
+    if relative.endswith('/db'):
+        names = [name for name in names if len(Path(name).parts) == 1 and database_file(Path(name))]
+    elif relative.startswith('release-candidate/'):
+        receipt = _read(output / 'release-candidate/family-receipt.json', root, mounts)
+        side = 'behavior' if relative.endswith('behavior_packs') else 'resource'
+        expected = _expected_pack_files(receipt, side)
+        names = [name for name in names if name in expected]
+    elif relative not in BACKUPS:
+        side = 'behavior_packs' if relative.endswith('behavior_packs') else 'resource_packs'
+        names = [name for name in names if pack_asset_file((side, *Path(name).parts))]
+    metadata['selected_files'] = names
+    seen, selected_bytes = set(), 0
+    for name in names:
+        identity = tuple(metadata['file_metadata'][name][:2])
+        if identity not in seen:
+            seen.add(identity)
+            selected_bytes += metadata['file_allocated_bytes'][name]
+    metadata['selected_allocated_bytes'] = selected_bytes
+    return metadata
+
+
+def _reviewed_plan(result, path, root, mounts, protected, references, historical_records, proc_root):
+    path = _absolute(path)
+    _require(not any((p / '.git').is_file() or (p / '.git/HEAD').exists() for p in path.parents), 'Retirement list must be outside Git')
+    value = _read(path, path.parent, mounts)
+    _require(isinstance(value, dict) and set(value) == {'schema', 'outputs'} and value['schema'] == 1 and
+             isinstance(value['outputs'], list), 'Expected schema 1 and explicit outputs')
+    manifest = {'path': str(path), 'metadata': [*_stat(path), path.lstat().st_ctime_ns]}
+    _require(result['rollback_retention_ready'], 'A complete newest rollback is required')
+    latest = set(result['newest_retained'])
+    rows = [row for row in result['outputs'] if row['output'] in latest]
+    seen = set()
+    guards, lease = _context(protected, result['lease'], references)
+    hard = set(guards) - set(map(Path, historical_records))
+    _require(lease.get('state') != 'active', 'Active maintenance lease')
+    for entry in value['outputs']:
+        _require(isinstance(entry, dict) and set(entry) == {'output', 'reason', 'targets'}, 'Each output requires output/reason/targets')
+        output = _absolute(entry['output'])
+        _require(str(output) not in seen and str(output) not in latest, 'Duplicate or newest retained output')
+        _require(isinstance(entry['reason'], str) and bool(entry['reason'].strip()), 'Specific retirement reason required')
+        targets = entry['targets']
+        _require(isinstance(targets, list) and targets and len(set(targets)) == len(targets) and
+                 all(isinstance(rel, str) and rel in COPIES + BACKUPS + ENGINE_INPUTS for rel in targets),
+                 'Targets must be exact canonical generated copies/engine inputs')
+        _require(not any(_overlap(output, g) for g in hard), 'Current source/evidence/configuration reference')
+        binding = _reviewed_binding(output, root, mounts, manifest)
+        source_paths = list(_paths(_read(output / 'build-evidence.json', root, mounts).get('sources', {}))) if (output / 'build-evidence.json').exists() else []
+        _assert_idle(output, proc_root)
+        selected = []
+        for rel in targets:
+            target = output / rel
+            _require(not any(_overlap(target, g) for g in guards + source_paths + [path]), 'Target overlaps preserved evidence/source/retirement list')
+            _safe_path(target, root, mounts)
+            if not target.exists():
+                continue
+            if target.is_file():
+                _require(target.name == 'bedrock_server' and rel in ENGINE_INPUTS, 'Only an isolated executable is a file target')
+            metadata = _reviewed_target(target, rel, output, root, mounts)
+            if metadata is not None and (target.is_file() or metadata['selected_files']):
+                selected.append({'relative': rel, 'path': str(target),
+                                 'allocated_bytes': metadata.get('selected_allocated_bytes', metadata['allocated_bytes']), 'metadata': metadata})
+        rows.append({'output': str(output), 'retained': [], 'delete': selected,
+                     'retirement_targets': targets, 'binding': binding,
+                     'explicit_retirement': {'reason': entry['reason'], 'manifest': manifest},
+                     'state': 'eligible' if selected else 'no_remaining_copies',
+                     'reason': 'Explicitly retired superseded output; original failure/evidence retained'})
+        seen.add(str(output))
+    result.update(outputs=rows, reviewed_retirements=manifest,
+                  estimated_allocated_bytes=sum(t['allocated_bytes'] for row in rows for t in row['delete']))
+    return result
+
+
 def _disk(root):
     d = shutil.disk_usage(root)
     return {'total_bytes': d.total, 'used_bytes': d.used, 'free_bytes': d.free}
 
 
-def plan(root, *, protected=(), lease=None, references=(), retain=1, proc_root=Path('/proc')):
+def plan(root, *, protected=(), lease=None, references=(), historical_records=(), retire_outputs=None, retain=1, proc_root=Path('/proc')):
     """Read-only metadata-bound plan; only explicitly configured roots are eligible."""
     root = _absolute(root)
     if retain < 1:
@@ -414,13 +513,16 @@ def plan(root, *, protected=(), lease=None, references=(), retain=1, proc_root=P
         except (OSError, ValueError, RuntimeError, KeyError, TypeError) as error:
             row['delete'] = []
             row['reason'] = 'Unsafe, active or unknown copies preserved: ' + str(error)
-    return {'schema': 1, 'execute': False, 'root': str(root), 'retain': retain,
+    result = {'schema': 1, 'execute': False, 'root': str(root), 'retain': retain,
             'protected': [str(p) for p in guards], 'lease': str(lease) if not isinstance(lease, dict) and lease is not None else lease,
             'active_lease': lease_state.get('state') == 'active',
             'horizon_metadata': {'directories': directories, 'deployment_headers': headers}, 'rollback_retention_ready': rollback_ready,
             'newest_retained': latest, 'rollback_checks': rollback_checks, 'outputs': outputs,
             'disk_before': _disk(root), 'estimated_allocated_bytes': sum(p['allocated_bytes'] for row in outputs for p in row['delete']),
             'estimate_note': 'Allocated metadata estimate; shared hardlinks may not free these bytes. Actual filesystem free space is recorded after execution.'}
+    if retire_outputs is not None:
+        return _reviewed_plan(result, retire_outputs, root, mounts, protected, references, historical_records, proc_root)
+    return result
 
 
 def _verify_horizon(planned):
@@ -507,11 +609,13 @@ def _save(path, data):
 
 
 def _selection(planned):
-    return {row['output']: {'binding': row['binding'], 'targets': row['retirement_targets']}
+    return {row['output']: {'binding': row['binding'], 'targets': row['retirement_targets'],
+                          'explicit_retirement': row.get('explicit_retirement'),
+                          'target_metadata': {t['relative']: t.get('metadata') for t in row['delete']}}
             for row in planned['outputs'] if row['state'] == 'eligible'}
 
 
-def execute(planned, *, protected=(), lease=None, references=(), context=None, proc_root=Path('/proc')):
+def execute(planned, *, protected=(), lease=None, references=(), historical_records=(), context=None, proc_root=Path('/proc')):
     """Caller holds maintenance lock. Replan/compare before any destructive action.
 
     context() refreshes external guards and lease before planning and every target.
@@ -520,12 +624,13 @@ def execute(planned, *, protected=(), lease=None, references=(), context=None, p
     _require(planned.get('schema') == 1 and planned.get('execute') is False, 'A read-only canonical retention plan is required')
     root = _absolute(planned['root'])
     def current():
-        values = {'protected': protected, 'lease': lease, 'references': references}
+        values = {'protected': protected, 'lease': lease, 'references': references, 'historical_records': historical_records}
         if context is not None:
             values.update(context())
         return values
     values = current()
-    fresh = plan(root, retain=planned['retain'], proc_root=proc_root, **values)
+    fresh = plan(root, retain=planned['retain'], proc_root=proc_root,
+                 retire_outputs=planned.get('reviewed_retirements', {}).get('path'), **values)
     _require(not fresh['active_lease'], 'Maintenance lease became active before cleanup')
     selected, now_selected = _selection(planned), _selection(fresh)
     # A job becoming idle may make another output eligible. It was not in the
@@ -537,32 +642,57 @@ def execute(planned, *, protected=(), lease=None, references=(), context=None, p
               'disk_before': _disk(root), 'deleted': [], 'retained': fresh['outputs'], 'errors': [],
               'newly_eligible_deferred': sorted(set(now_selected) - set(selected))}
     integrity = None
+    # Reuse the existing exact unlink ledger for shared QA executables.
+    from .cleanup_engine_inputs import UnlinkLedger
+    unlink_ledger = UnlinkLedger()
     for output, row in selected.items():
         r, mounts = Path(output), _mount_paths()
-        marker_path = r / MARKER
+        explicit = row.get('explicit_retirement')
+        marker_path = r / (EXPLICIT_MARKER if explicit else MARKER)
         marker, owned_marker = None, False
         backup_group_checked = False
+        removed_leaves = set()
         try:
             marker = _read(marker_path, root, mounts) if marker_path.exists() else {
                 'schema': 1, 'state': 'pruning', 'created_at': _now(),
                 'candidate_closed': True, 'cannot_resume_or_redeploy': True,
-                'metadata_binding': row['binding'], 'targets': row['targets'], 'removed': []}
+                'metadata_binding': row['binding'], 'targets': row['targets'], 'removed': [],
+                **({'retired_scopes': []} if explicit else {}),
+                **({'reviewed_retirement': explicit} if explicit else {})}
             _require(marker['metadata_binding'] == row['binding'] and marker['targets'] == row['targets'], 'Retirement marker changed')
             _save(marker_path, marker)
             owned_marker = True
+            removed_leaves = set(marker['removed'])
             for rel in row['targets']:
                 values = current()
                 guards, lease_state = _context(values.get('protected', ()), values.get('lease'), values.get('references', ()))
                 _require(lease_state.get('state') != 'active', 'Maintenance lease became active during cleanup')
-                _require(not any(_overlap(r, g) for g in guards), 'Cleanup output became externally referenced')
+                hard = set(guards) - set(map(Path, values.get('historical_records', ()))) if explicit else set(guards)
+                _require(not any(_overlap(r, g) for g in hard), 'Cleanup output became externally referenced')
                 mounts = _mount_paths()
-                proof = _proof(r, root, mounts)
-                _require(proof['identity'] == row['binding'], 'Deployment metadata changed during cleanup')
+                binding = (_reviewed_binding(r, root, mounts, explicit['manifest']) if explicit else _proof(r, root, mounts)['identity'])
+                if explicit:
+                    manifest = Path(explicit['manifest']['path'])
+                    _require([*_stat(manifest), manifest.lstat().st_ctime_ns] == explicit['manifest']['metadata'], 'Retirement list changed')
+                _require(binding == row['binding'], 'Deployment metadata changed during cleanup')
                 _assert_idle(r, proc_root)
                 target = r / rel
-                _require(rel in COPIES + BACKUPS, 'Target outside canonical deletion scope')
-                _walk(target, root, mounts)
-                if rel in BACKUPS and target.exists() and not backup_group_checked:
+                _require(rel in COPIES + BACKUPS + (ENGINE_INPUTS if explicit else ()), 'Target outside canonical deletion scope')
+                _require(not any(_overlap(target, g) for g in guards), 'Target became externally referenced')
+                _safe_path(target, root, mounts)
+                metadata = None
+                if target.exists() and explicit:
+                    from .cleanup_engine_inputs import matching_target
+                    metadata = _reviewed_target(target, rel, r, root, mounts)
+                    expected = row['target_metadata'].get(rel)
+                    _require(expected is not None, 'Unplanned target appeared')
+                    if target.is_file():
+                        unlink_ledger.verify(expected['leaf_identity'], target.lstat(), target)
+                    else:
+                        _require(matching_target(metadata, expected, unlink_ledger), 'Selected generated files changed')
+                if not explicit:
+                    _walk(target, root, mounts)
+                if (rel in BACKUPS or explicit) and target.exists() and not backup_group_checked:
                     if integrity is None:
                         integrity = _retained_integrity(fresh, root, mounts)
                         result['retained_backup_integrity'] = {key: value for key, value in integrity.items() if key != 'files'}
@@ -570,12 +700,37 @@ def execute(planned, *, protected=(), lease=None, references=(), context=None, p
                     else:
                         _recheck_retained(fresh, integrity, root, mounts)
                     backup_group_checked = True
-                if target.exists():
-                    shutil.rmtree(target)
-                if rel not in marker['removed']:
-                    marker['removed'].append(rel)
+                existed = target.exists()
+                if existed:
+                    if explicit:
+                        from .cleanup_engine_inputs import unlink_selected
+                        def removed(leaf):
+                            result['deleted'].append(leaf)
+                            relative = str(Path(leaf).relative_to(r))
+                            if relative not in removed_leaves:
+                                marker['removed'].append(relative)
+                                removed_leaves.add(relative)
+                        if target.is_file():
+                            descriptor = os.open(target, os.O_RDONLY | os.O_NOFOLLOW)
+                            try:
+                                before = os.fstat(descriptor)
+                                unlink_ledger.verify(expected['leaf_identity'], before, target)
+                                _require([*_stat(target), target.lstat().st_ctime_ns, target.lstat().st_nlink] == [before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns, before.st_ctime_ns, before.st_nlink], 'Selected executable name changed')
+                                target.unlink()
+                                removed(str(target))
+                                unlink_ledger.record(before, os.fstat(descriptor), target)
+                            finally:
+                                os.close(descriptor)
+                        else:
+                            unlink_selected(metadata, root, unlink_ledger, removed)
+                        if rel not in marker['retired_scopes']:
+                            marker['retired_scopes'].append(rel)
+                    else:
+                        shutil.rmtree(target)
+                        result['deleted'].append(str(target))
+                        if rel not in marker['removed']:
+                            marker['removed'].append(rel)
                 _save(marker_path, marker)
-                result['deleted'].append(str(target))
             marker.update(state='pruned', completed_at=_now())
             _save(marker_path, marker)
         except (OSError, ValueError, RuntimeError, KeyError, TypeError) as error:
