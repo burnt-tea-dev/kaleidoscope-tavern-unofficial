@@ -9,6 +9,7 @@ from unittest.mock import patch
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from family_update import retention as m
 from family_update import common
+from family_update import cleanup_copies
 from family_update import test_retention as fixtures
 
 
@@ -130,6 +131,67 @@ class ReviewedRetirementTests(unittest.TestCase):
         self.assertFalse(left.exists())
         self.assertFalse(right.exists())
         self.assertEqual(integrity.call_count, 1)
+
+    def test_receipt_only_candidate_requires_complete_binding_and_cannot_retire_backups_or_qa(self):
+        for name in ('deployment-result.json', 'build-evidence.json'):
+            (self.old / name).unlink()
+        packs = json.loads((self.old / 'release-candidate/family-receipt.json').read_text())['packs']
+        for index, pack in enumerate(packs, 1):
+            uid = f'{index:08x}-0000-4000-8000-000000000000'
+            (self.old / 'release-candidate' / (pack['side'] + '_packs') / pack['uuid']).rename(
+                self.old / 'release-candidate' / (pack['side'] + '_packs') / uid)
+            pack.update(uuid=uid, version=[1, 0, 1], dependencies=[],
+                        source={'owner': 'owned', 'repository': 'example/source', 'commit': 'a' * 40, 'working_candidate': False})
+        receipt = {'schema': 1, 'lock_sha256': 'b' * 64, 'packs': packs,
+                   'order': {side: [p['uuid'] for p in packs if p['side'] == side] for side in ('behavior', 'resource')}}
+        path = self.old / 'release-candidate/family-receipt.json'
+        self.fixture.write(path, receipt)
+        self.review([self.entry(targets=list(m.COPIES[:2]))])
+        planned = self.plan()
+        row = next(row for row in planned['outputs'] if row['output'] == str(self.old))
+        self.assertTrue(row['binding']['candidate_only'])
+        self.assertEqual([t['relative'] for t in row['delete']], list(m.COPIES[:2]))
+        for target in (*m.BACKUPS, *m.COPIES[2:], *m.ENGINE_INPUTS):
+            with self.subTest(target=target):
+                self.review([self.entry(targets=[target])])
+                with self.assertRaisesRegex(ValueError, 'Receipt-only candidate permits only'):
+                    self.plan()
+        self.review([self.entry(targets=list(m.COPIES[:2]))])
+        del packs[0]['source']['commit']
+        self.fixture.write(path, receipt)
+        with self.assertRaisesRegex(ValueError, 'requires source binding'):
+            self.plan()
+        path.unlink()
+        with self.assertRaisesRegex(ValueError, 'existing deployment/build record'):
+            self.plan()
+        self.assertTrue((self.old / 'production-snapshot/db/data').exists())
+
+    def test_explicit_reports_omit_full_metadata_for_dry_run_partial_and_success(self):
+        self.review([self.entry()])
+        planned = self.plan()
+        self.assertIn('file_metadata', json.dumps(planned))
+        with patch.object(cleanup_copies.c, 'CONFIG', {'retention_root': str(self.root)}), \
+                patch.object(cleanup_copies, 'cleanup_context', return_value={}), \
+                patch.object(m, 'plan', return_value=planned):
+            summary = cleanup_copies.perform(retire_outputs=self.manifest)
+            self.assertIs(cleanup_copies.perform(), planned)  # normal output contract stays intact
+        self.assertTrue(summary['read_only_summary_not_executable_plan'])
+        self.assertNotIn('file_metadata', json.dumps(summary))
+        with self.assertRaisesRegex(ValueError, 'summary is not an executable'):
+            m.execute(summary, lease=self.fixture.lease)
+        with patch('family_update.cleanup_engine_inputs.unlink_selected', side_effect=RuntimeError('forced leaf failure')):
+            partial = m.execute(planned, lease=self.fixture.lease)
+        self.assertEqual(partial['state'], 'partial')
+        success = m.execute(planned, lease=self.fixture.lease)
+        self.assertEqual(success['state'], 'completed')
+        for result in (partial, success):
+            self.assertNotIn('file_metadata', json.dumps(result))
+            row = next(row for row in result['retained'] if row['output'] == str(self.old))
+            self.assertIn('original_report_metadata', row['binding'])
+            self.assertEqual(row['delete'][0]['selected_file_count'], 4)
+            self.assertIn('allocated_bytes', row['delete'][0])
+        self.assertTrue(success['deleted'])
+        self.assertIn('file_metadata', json.dumps(planned))  # validation plan was not mutated
 
 
 if __name__ == '__main__':
