@@ -31,22 +31,27 @@ export function installFoundationBridge(registry,furniture){
  const publish=()=>{
   const seen=new Set();
   const definitions=externalEffectMigrations();
-  for(const p of effectSnapshotEntities()){
+  // No registered consumer needs a world/recipient scan. Old entries still
+  // take the revocation path below if a descriptor was removed.
+  for(const p of definitions.length?effectSnapshotEntities():[]){
    let state;
-   if(!definitions.length)continue;
    try{state=statusNow(p);}catch(e){console.warn('[Tavern effect snapshot] '+e);continue;}
    for(const def of definitions)try{
    const key=def.source+'/'+p.id;seen.add(key);const rows=state.entries.filter(x=>x.id.startsWith(def.source+':'));
    const data=canonical(rows),old=snapshotCache.get(key);
-   if(old?.data===data&&system.currentTick-old.tick<10)continue;
-   snapshotCache.set(key,{data,tick:system.currentTick});
+   // Empty state has no effect lease to renew. Keep one initial/transition
+   // clear; active rows retain the existing timing and heartbeat window.
+   if(old?.data===data&&(!rows.length||system.currentTick-old.tick<10))continue;
    const groups=[];let group=[];
    for(const row of rows){if(utf8Bytes(JSON.stringify([...group,row]))>1400){groups.push(group);group=[];}group.push(row);}
    groups.push(group);
    groups.forEach((rows,part)=>system.sendScriptEvent(PREFIX+'effect_snapshot',JSON.stringify({source:def.source,entity:p.id,sequence:system.currentTick,part,parts:groups.length,rows})));
+   // A rejected send must not cache a clear that no consumer received.
+   snapshotCache.set(key,{data,tick:system.currentTick});
   }catch(e){console.warn('[Tavern effect snapshot] '+e);}
   }
   for(const key of snapshotCache.keys())if(!seen.has(key)){
+   if(snapshotCache.get(key).data==='[]'){snapshotCache.delete(key);continue;}
    // A cleared/unloaded nonplayer no longer occurs in the active track index.
    // Revoke its prior rows explicitly rather than leaving a 20-tick cached buff.
    const split=key.indexOf('/');
