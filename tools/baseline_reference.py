@@ -5,7 +5,7 @@ baseline gate and functional regressions check the reconciled runtime separately
 Never use this projection in packaging or deployment.
 """
 from pathlib import Path
-import base64,gzip,hashlib,json
+import base64,gzip,hashlib,json,subprocess
 from functools import lru_cache
 
 # Only exact reviewed non-script assets and opt-in command entry points.
@@ -93,6 +93,25 @@ LIQUID_SURFACE_ASSET_PATHS=frozenset(
  for family in ('barrel','pressing_tub')
 )|frozenset({'runtime/RP/materials/entity.material'})
 
+T168_PATH='runtime/BP/scripts/bedrock/foundation-bridge.js'
+T168_BEFORE='ec856cca4186220e2acf5741e7e0dc8ca4363b0f'
+T168_AFTER='4e549925509f3ab3e8521485a0e14b5d66f218a9'
+
+@lru_cache(maxsize=4)
+def t168_source(root,commit):
+ assert commit in (T168_BEFORE,T168_AFTER)
+ return subprocess.check_output(['git','show',commit+':'+T168_PATH],cwd=root)
+
+def reverse_t168_delta(root,name,data,row):
+ """The new ledger cannot enlarge the immutable reviewed bridge repair."""
+ assert name==T168_PATH
+ before,after=(t168_source(str(root),commit) for commit in (T168_BEFORE,T168_AFTER))
+ assert data==after,('T168 immutable postimage differs',name)
+ assert row['before']==hashlib.sha256(before).hexdigest() and row['after']==hashlib.sha256(after).hexdigest(), 'T168 immutable source identities differ'
+ restored=reverse_functional_delta(name,data,row)
+ assert restored==before,('T168 immutable predecessor differs',name)
+ return restored
+
 @lru_cache(maxsize=4)
 def rows(root):
  p=Path(root)/'data/baseline-reconciliation.json'
@@ -114,6 +133,7 @@ def functional_layers(root):
  for layer in layers:
   assert isinstance(layer.get('release'),str) and layer['release'].strip()
   assert isinstance(layer.get('files'),dict) and layer['files']
+  if layer['release']=='0.6.168':assert set(layer['files'])=={T168_PATH},'T168 review scope differs'
  return layers
 @lru_cache(maxsize=4)
 def asset_layers(root):
@@ -164,7 +184,7 @@ def functional_projection(root,name,data):
  # any earlier review, then apply the original functional and baseline guards.
  for layer in reversed(functional_layers(root)):
   row=layer['files'].get(name)
-  if row:data=reverse_functional_delta(name,data,row)
+  if row:data=reverse_t168_delta(root,name,data,row) if layer['release']=='0.6.168' else reverse_functional_delta(name,data,row)
  row=functional_rows(root).get(name)
  return reverse_functional_delta(name,data,row) if row else data
 def version_projection(root,name,data,spec):
