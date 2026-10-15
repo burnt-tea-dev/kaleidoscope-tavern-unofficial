@@ -398,7 +398,7 @@ def _reviewed_plan(result, path, root, mounts, protected, references, historical
         selected = []
         for rel in targets:
             target = output / rel
-            _require(not any(_overlap(target, g) for g in guards + source_paths), 'Target overlaps preserved evidence/source')
+            _require(not any(_overlap(target, g) for g in guards + source_paths + [path]), 'Target overlaps preserved evidence/source/retirement list')
             _safe_path(target, root, mounts)
             if not target.exists():
                 continue

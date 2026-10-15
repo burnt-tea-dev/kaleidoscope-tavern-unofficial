@@ -427,7 +427,7 @@ def select_approved_runtime_retention(original, states):
 
 
 def verify_candidate_sources():
-    assert not (R / 'retired-copies.json').exists(), 'Retired output cannot resume or redeploy; use a new candidate'
+    assert not any((R / name).exists() for name in ('retired-copies.json', 'reviewed-retirement.json')), 'Retired output cannot resume or redeploy; use a new candidate'
     evidence = read(R / 'build-evidence.json')
     assert sha(CONFIG_PATH) == evidence['config_sha256'], 'Update configuration changed; use a new output directory'
     assert orchestration_hashes() == evidence['orchestration_sha256'], 'Update runner changed; rebuild with reviewed tools'
