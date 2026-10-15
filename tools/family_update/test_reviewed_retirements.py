@@ -8,6 +8,7 @@ from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from family_update import retention as m
+from family_update import common
 from family_update import test_retention as fixtures
 
 
@@ -65,6 +66,9 @@ class ReviewedRetirementTests(unittest.TestCase):
         self.assertEqual(json.loads((self.old / 'report.json').read_text()), {'ok': False, 'exit_code': 1})
         self.assertTrue((self.old / 'release-candidate/behavior_packs').exists())
         self.assertTrue((self.latest / 'production-snapshot').exists())
+        with patch.object(common, 'R', self.old):
+            with self.assertRaisesRegex(AssertionError, 'Retired output cannot resume'):
+                common.verify_candidate_sources()
 
     def test_current_reference_mount_symlink_and_process_guards_reject_explicit_selection(self):
         self.review([self.entry(self.latest)])
@@ -79,6 +83,12 @@ class ReviewedRetirementTests(unittest.TestCase):
         with patch.object(m, '_assert_idle', side_effect=RuntimeError('active process')):
             with self.assertRaisesRegex(RuntimeError, 'active process'):
                 self.plan()
+        self.manifest = self.old / 'production-snapshot/reviewed.json'
+        self.review([self.entry()])
+        with self.assertRaisesRegex(ValueError, 'Target overlaps'):
+            self.plan()
+        self.manifest = self.root / 'reviewed.json'
+        self.review([self.entry()])
         original = self.old / 'production-snapshot'
         renamed = self.old / 'snapshot-elsewhere'
         original.rename(renamed)
