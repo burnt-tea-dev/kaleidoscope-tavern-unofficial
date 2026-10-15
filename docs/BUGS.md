@@ -1,4 +1,21 @@
-## T146 deployed development baseline: human acceptance pending
+# 玩家回饋、已部署修補與待確認效果
+
+截至[private deployment time]，最新已部署家族為T166／G142／W144／private-integration；[來源、CI、正式下載及收據](../family/BASELINE-STATUS.md)是現行入口。原始失敗與有限正向觀察各自保留，`client=false`、`production_ready=false`。
+
+| 客戶端回饋／觀察 | 已進canonical並部署的處理 | 目前效果邊界 |
+| --- | --- | --- |
+| 原生HUD、Java Saturation及AMW正常，只有森羅圖形全無；多次標題／掛載探針均未見。 | T163／G137恢復原生Actionbar圖形factory，後續共享宿主／錨點與資料碼過濾修補已承接。 | 76196／76197與76210證實T163／G137、G138／private-integration仍失敗；失敗不改標。使用者要求停止探針，已停止。 |
+| 畫面直接顯示`KT_HUD!S:000;100;200;`及`KT_HUD!END;`；76211後來同時看到色塊與原始碼。 | T164及配套圖形宿主修正掛載、錨點和內部資料碼遮蔽。 | 76251在T164／G140／private-integration已見色塊且未見內部碼；單張截圖不證明所有情境正常。 |
+| 燒烤串按住完全沒有進食動作；76210有「使用物品」按鈕但不足以證明恢復。 | G138新增原生觸控使用入口；G140／141承接圖形位置、原生剩餘時間與立即首幀修正。 | 後續76212／76213可見進食姿勢與串數下降；完整進食／取消／換槽及各裝置仍未驗收。 |
+| 76251詢問調酒圖形是否過高。 | T165按維護中的Forge／NeoForge原作恢復`floor(guiHeight/2)+32`槽位座標，移除T164額外觸控位移。 | 來源修正已部署；奇數GUI尺寸至多半個邏輯像素差異，最新實際畫面待確認。 |
+| 食物進度條明顯延遲。 | G141使用itemStartUse的剩餘ticks並同步發開始首幀；G142裁剪未選圖形。 | 剩餘時間反例已覆蓋；沒有客戶端捕獲證明全部延遲由此造成或已消除。 |
+| T165時雪克杯長按很久才出UI，性能不佳。 | [T166／PR369](https://github.com/casama233/kaleidoscope-tavern-unofficial/pull/369)快取未變的閒置預覽，每玩家一筆、全局上限128；T/G用ignored跳過未用圖形，保留同步首幀、targeting與玩法結算。 | 實際客戶端延遲／FPS仍未確認；原生profiler已停止，native API取樣權重不作根因或改善百分比。 |
+| 掛杯架選取／拿取反向，香薰重疊、動態手持圖標側面異常。 | T156恢復原有視線選取；T159恢復香薰交叉花葉／單面材質；T160修正動態圖標側邊座標與UV。 | 修補已合併並由後續版本保留；最新真人選取與多視角渲染未驗收。 |
+| 更早板面四個輸入框／板外文字、原生手持資料缺失，以及Dot快開兩次短空條。 | T144板面控制、T145實際手持辨識及後續修補保留。 | Dot舊結果缺候選／客戶端版本，不挪作T166通過；完整多行editor、快開與游標partial-tick插值仍有未完成項。 |
+
+以下歷史段落保持原候選與證據身份；「當前」只表示該段原記錄時間，不取代上方現行狀態。
+
+## T146 historical deployed baseline: human acceptance pending
 
 T146/W123/G125 passed complete-family admission and fresh stopped-world first start and restart, then deployed on [private deployment time]; see [current baseline](../family/BASELINE-STATUS.md). T146 retains restricted-safe shaker snapshots, board signature 62 inverse and 100 ms HUD visibility. Five earlier standalone recordings show no missing HUD in 259 active captured frames; finished/empty repeat and short-release retained ingredients are positive. While-held slot switching is INCONCLUSIVE and same-second rapid restart is NOT_TESTED. W122/T146 remains a rejected negative control. Actual LIVE input, board placement, HUD and audio acceptance remain pending. See [original scope](RELEASE-NOTES-0.6.146.md).
 
