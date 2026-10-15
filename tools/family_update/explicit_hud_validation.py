@@ -161,7 +161,7 @@ def verify_static(receipt, prior):
 
 
 def bind_native(receipt, evidence):
-    if not c.CONFIG.get('extension_hud_validation'):
+    if not c.CONFIG.get('extension_hud_validation') or c.CONFIG.get('extension_performance_validation'):
         return
     static = c.read(c.R / 'explicit-hud-static-validation.json')
     assert static['candidate_receipt_sha256'] == evidence['candidate_receipt_sha256'] == c.sha(c.C / 'family-receipt.json')

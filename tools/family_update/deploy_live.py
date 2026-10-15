@@ -54,6 +54,9 @@ def finalize_receipt():
             verify_native_storage(storage['before'],row['rows'])
         reports.append('saved-world-native-storage.json')
     if CONFIG.get('extension_validation'):reports.append(str(Path(CONFIG['extension_validation']).resolve()))
+    if CONFIG.get('extension_performance_validation'):
+        from family_update.freezer_performance_validation import evidence_paths
+        reports.extend(map(str,evidence_paths()))
     if CONFIG.get('extension_cache_validation'):
         reports.extend([str(Path(CONFIG['extension_cache_validation']).resolve()), 'cookery-cache-static-validation.json', 'cookery-cache-native-validation.json'])
         cache_static=read(R/'cookery-cache-static-validation.json')
@@ -74,6 +77,9 @@ def finalize_receipt():
         from family_update.preserved_ribbits_inputs import is_profile as is_ribbits
         if is_ribbits(prospective):
             reports.extend(['ribbits-startup-native-validation.json', prospective['review']['path'], prospective['recipe']['path'], prospective['source_validation']['path'], prospective['differential']['path']])
+        from family_update.preserved_saturation_inputs import is_profile as is_saturation
+        if is_saturation(prospective):
+            reports.extend(['saturation-scheduling-native-validation.json', prospective['review']['path'], prospective['recipe']['path'], prospective['source_validation']['path'], prospective['source_log']['path'], prospective['source_diagnosis']['path'], prospective['author_file_boundary']['path']])
     raw['acceptance']={'static':True,'bds':True,'client':False,'saved_world_migration':True}
     raw['production_ready']=False
     raw['assembled_receipt']={'path':str(C/'family-receipt.json'),'sha256':digest}
@@ -85,6 +91,9 @@ def finalize_receipt():
 
 def installation_selection(receipt,original):
     """Reviewed future preserved inputs join the same install/rollback transaction."""
+    if CONFIG.get('extension_performance_validation'):
+        from family_update.freezer_performance_validation import verify_installation
+        verify_installation(receipt)
     prospective={}
     if CONFIG.get('prospective_preserved_inputs'):
         from family_update.prospective_preserved_inputs import verify_candidate
@@ -94,6 +103,7 @@ def installation_selection(receipt,original):
         prospective={p['uuid']:p for p in proof['packs'].values()}
         from family_update.preserved_hud_inputs import is_profile, PACKS
         from family_update import preserved_ribbits_inputs as ribbits
+        from family_update import preserved_saturation_inputs as saturation
         if is_profile(proof):
             assert len(prospective)==5 and set(prospective)=={row[0] for row in PACKS.values()}, 'Complete five HUD outputs required'
             native=read(R/'hud-coexistence-native-validation.json')
@@ -106,6 +116,9 @@ def installation_selection(receipt,original):
             assert native['native_loading'] is True and native['saved_world_migration'] is True and native['client'] is False and native['production_ready'] is False
         elif ribbits.is_profile(proof):
             ribbits.verify_installation(receipt,proof)
+        elif saturation.is_profile(proof):
+            assert len(prospective)==2 and set(prospective)=={row[0] for row in saturation.PACKS.values()}
+            saturation.verify_installation(receipt,proof)
         else:
             assert len(prospective)==4, 'Complete prospective pairs required'
     prior={p['uuid']:p for p in original['packs']}
