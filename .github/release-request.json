@@ -15,6 +15,6 @@
   "client": false,
   "status": "awaiting_source_ci_family_save_admission_and_live_readback",
   "public_notes_inline": "Restores Java integer cursor movement inside each tick and animated water/lava surfaces in barrels and pressing tubs, including original sprite alpha. Preserves recipes, storage, model geometry and native/companion controls.\n\nActual client latency, rendering and full Java parity remain pending.",
-  "expected_archive_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
-  "reviewed_runtime_source": "efc59ff467a2f3accd1090bdcce3dc9d5f4b56df"
+  "expected_archive_sha256": "690fe609cd28849657b9f8f64c4b58966ae147470d5ab80ef36a21c074487561",
+  "reviewed_runtime_source": "b888e031e1ce6cf1d1a8d4288b7b6326bc3ad2d6"
 }
