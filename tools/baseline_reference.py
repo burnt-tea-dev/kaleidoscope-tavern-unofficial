@@ -96,6 +96,9 @@ LIQUID_SURFACE_ASSET_PATHS=frozenset(
 T168_PATH='runtime/BP/scripts/bedrock/foundation-bridge.js'
 T168_BEFORE='ec856cca4186220e2acf5741e7e0dc8ca4363b0f'
 T168_AFTER='4e549925509f3ab3e8521485a0e14b5d66f218a9'
+T169_PATH='runtime/RP/ui/kt_tavern_hud.json'
+T169_BEFORE='1c09a9735eba14b03137ebbb852fcf54ec9c4e04'
+T169_AFTER='08ccd47b93dc60dd0b935a8d5e812d4195858e9d'
 
 @lru_cache(maxsize=4)
 def t168_source(root,commit):
@@ -110,6 +113,21 @@ def reverse_t168_delta(root,name,data,row):
  assert row['before']==hashlib.sha256(before).hexdigest() and row['after']==hashlib.sha256(after).hexdigest(), 'T168 immutable source identities differ'
  restored=reverse_functional_delta(name,data,row)
  assert restored==before,('T168 immutable predecessor differs',name)
+ return restored
+
+@lru_cache(maxsize=4)
+def t169_source(root,commit):
+ assert commit in (T169_BEFORE,T169_AFTER)
+ return subprocess.check_output(['git','show',commit+':'+T169_PATH],cwd=root)
+
+def reverse_t169_delta(root,name,data,row):
+ """Only the frozen three-field HUD repair may cross this historical edge."""
+ assert name==T169_PATH
+ before,after=(t169_source(str(root),commit) for commit in (T169_BEFORE,T169_AFTER))
+ assert data==after,('T169 immutable postimage differs',name)
+ assert row['before']==hashlib.sha256(before).hexdigest() and row['after']==hashlib.sha256(after).hexdigest(), 'T169 immutable source identities differ'
+ restored=gzip.decompress(base64.b64decode(row['beforeGzipBase64'],validate=True))
+ assert restored==before,('T169 immutable predecessor differs',name)
  return restored
 
 @lru_cache(maxsize=4)
@@ -146,6 +164,9 @@ def asset_layers(root):
   assert isinstance(layer.get('release'),str) and layer['release'].strip()
   assert isinstance(layer.get('files'),dict) and layer['files']
   assert set(layer['files'])<=(COCKTAIL_ASSET_PATHS|INCENSE_ASSET_PATHS|ANIMATED_SPRITE_ASSET_PATHS|FREEZER_SURFACE_ASSET_PATHS|LIQUID_SURFACE_ASSET_PATHS),'Unsupported reviewed asset path'
+  if layer['release']=='0.6.169':
+   assert set(layer['files'])=={T169_PATH},'T169 review scope differs'
+   assert layer['reviewedPredecessorCommit']==T169_BEFORE and layer['reviewedSourceCommit']==T169_AFTER,'T169 immutable review commits differ'
  return layers
 def asset_projection(root,name,data):
  # Minified HUD JSON is one large line. Preserve its exact compressed prior
@@ -155,6 +176,9 @@ def asset_projection(root,name,data):
   if not row:continue
   assert isinstance(row['reason'],str) and row['reason'].strip()
   assert row['before'] is not None and row['before']!=row['after']
+  if layer['release']=='0.6.169':
+   data=reverse_t169_delta(root,name,data,row)
+   continue
   assert hashlib.sha256(data).hexdigest()==row['after'],('Reviewed asset source mutated',name)
   restored=gzip.decompress(base64.b64decode(row['beforeGzipBase64'],validate=True))
   assert hashlib.sha256(restored).hexdigest()==row['before'],('Asset predecessor mismatch',name)
