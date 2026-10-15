@@ -40,7 +40,13 @@ const points={top_left:[0,0],top_middle:[.5,0],left_middle:[0,.5],center:[.5,.5]
 function projectedBox(panel,parentBox){
  const from=points[panel.anchor_from],to=points[panel.anchor_to];
  assert(from&&to,'Expected source-backed parent/control anchors');
- const [x,y,width,height]=parentBox,[w,h]=panel.size,[dx,dy]=panel.offset??[0,0];
+ let offset=panel.offset??[0,0];
+ if(typeof offset==='string'){
+  const animation=hud[offset.split('.').at(-1)];
+  assert.equal(animation.anim_type,'offset');
+  offset=panel[animation.from];
+ }
+ const [x,y,width,height]=parentBox,[w,h]=panel.size,[dx,dy]=offset;
  return [x+from[0]*width+dx-to[0]*w,y+from[1]*height+dy-to[1]*h,w,h];
 }
 const packet=hud.kt_mixology_packet;
@@ -63,9 +69,7 @@ for(const [width,height] of [[320,180],[640,360],[426,240]]){
   const box=projectedBox({...hud.kt_mixology_cursor,...cursor},progressBox);
   assert.equal(box[1],Math.floor(height/2)+26);
   assert.deepEqual(box.slice(2),[11,13]);
-  // Existing Bedrock half-pixel cursor steps approximate Java's rounded int
-  // at partialTick=0; correcting that sampling is outside this layout repair.
-  assert(Math.abs(box[0]-(Math.floor(width/2)-91+Math.round(tick*1.5)))<=.5);
+  assert.equal(box[0],Math.floor(width/2)-91+Math.round(tick*1.5));
  }
  // Reject T164's top-anchored panel; y=32 is an offset from centre, not top.
  assert.notDeepEqual(projectedBox({...slotsPanel,anchor_from:'top_middle',anchor_to:'center',offset:[0,32]},screen),slotsBox);
