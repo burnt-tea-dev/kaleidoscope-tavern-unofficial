@@ -1,3 +1,8 @@
+## 0.6.168
+
+- Stop repeating empty cross-pack effect snapshots; keep active timing and retry failed clear delivery.
+- Preserve Java effects, graphics, recipes and saved ownership; current BDS/client/latency acceptance remains separately recorded.
+
 ## 0.6.166
 
 Exclude inactive shaker image children from HUD layout using their existing visibility selectors. Cache one unchanged placed-shaker display projection per player with bounded storage and immediate raw-data, target, dimension and hand invalidation. Preserve each-tick targeting, ten-tick slot refresh, native start/release timing, coordinates, graphic lifetime, textures, effects and gameplay. Device latency and rendered-client acceptance remain pending.

@@ -8930,6 +8930,43 @@
           ]
         }
       }
+    },
+    {
+      "release": "0.6.168",
+      "files": {
+        "runtime/BP/scripts/bedrock/foundation-bridge.js": {
+          "before": "b44ec83eea85f02ae3f6bc056492a753b1499b8476828678bbf459836574da58",
+          "after": "c46704ee7d42500829777d6964af9ee1d994c2e5855f9d2594390ff6a64e0d41",
+          "reason": "Reviewed T168 empty-snapshot suppression, post-success cache update and unchanged active cadence; exact immutable T167/T168 bridge pre/postimages. Source tests are not client/native acceptance.",
+          "reverseOps": [
+            [
+              33,
+              36,
+              "  for(const p of effectSnapshotEntities()){\n"
+            ],
+            [
+              37,
+              37,
+              "   if(!definitions.length)continue;\n"
+            ],
+            [
+              41,
+              44,
+              "   if(old?.data===data&&system.currentTick-old.tick<10)continue;\n   snapshotCache.set(key,{data,tick:system.currentTick});\n"
+            ],
+            [
+              48,
+              50,
+              ""
+            ],
+            [
+              53,
+              54,
+              ""
+            ]
+          ]
+        }
+      }
     }
   ],
   "reviewedAssetDeltaLayers": [

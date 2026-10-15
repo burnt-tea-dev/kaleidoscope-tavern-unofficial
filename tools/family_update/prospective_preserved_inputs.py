@@ -12,6 +12,8 @@ def input_refs():
     path=c.CONFIG.get('prospective_preserved_inputs')
     if not path:return {}
     review=c.read(Path(path));recipe,_=recipe_path(review)
+    from family_update import preserved_saturation_inputs as saturation
+    if saturation.is_profile(review):return saturation.input_refs(review,Path(path),recipe)
     from family_update import preserved_ribbits_inputs as ribbits
     if ribbits.is_profile(review):
         proof=ribbits.checked(review['source_validation'])
@@ -58,6 +60,8 @@ def select(preserved,original):
     if not path:return [Path(p['path']) for p in preserved],None
     assert c.EXTENSION and not any(c.CONFIG.get(key) for key in ['approved_runtime_retention','extension_hold','held_sources','preserved_reconciliation','preserved_additions']), 'Prospective inputs require the current complete source selection without reconciliation'
     path=Path(path);review=c.read(path)
+    from family_update import preserved_saturation_inputs as saturation
+    if saturation.is_profile(review):return saturation.select(preserved,original,path,review)
     from family_update import preserved_ribbits_inputs as ribbits
     if ribbits.is_profile(review):return ribbits.select(preserved,original,path,review)
     from family_update.preserved_hud_inputs import is_profile, select as select_hud
@@ -141,6 +145,8 @@ def select(preserved,original):
 
 def verify_candidate(receipt,evidence):
     if evidence is None:return
+    from family_update import preserved_saturation_inputs as saturation
+    if saturation.is_profile(evidence):return saturation.verify_candidate(receipt,evidence)
     from family_update import preserved_ribbits_inputs as ribbits
     if ribbits.is_profile(evidence):return ribbits.verify_candidate(receipt,evidence)
     from family_update.preserved_hud_inputs import is_profile, verify_candidate as verify_hud

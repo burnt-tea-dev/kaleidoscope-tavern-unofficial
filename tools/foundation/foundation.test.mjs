@@ -42,6 +42,35 @@ const createBlock=(definition=def(),item=null)=>{const position={x:++serial*3,y:
 const near=(p,b)=>{p.location={...b.location,z:b.location.z-1};};
 const act=(p,b,point={x:.8,y:.8,z:0})=>host.interact({player:p,block:b,held:handSnapshot(p),face:'north',faceLocation:point,revision:host.load(b).old?.revision??-1});
 
+test('idle effect snapshots stop after one clear while active changes and failed sends remain live',()=>{
+ const previousPlayers=players,p=makePlayer(),sent=[],send=system.sendScriptEvent,warn=console.warn;
+ players=[p];let failNext=false;
+ system.sendScriptEvent=(id,message)=>{
+  if(id===KT+':effect_snapshot'){
+   const row=JSON.parse(message);
+   if(row.entity===p.id&&row.source===NS){
+    if(failNext){failNext=false;throw Error('temporary delivery failure');}
+    sent.push(row);
+   }
+  }
+  return send.call(system,id,message);
+ };
+ console.warn=()=>{};
+ try{
+  bus.publish();assert.equal(sent.length,1);assert.deepEqual(sent[0].rows,[]);
+  for(let i=0;i<20;i++){system.currentTick+=5;bus.publish();}
+  assert.equal(sent.length,1,'100 idle ticks must not broadcast empty heartbeats');
+  applyCustomEffect(p,{effect:NS+':double_damage',duration:10,amplifier:0});
+  bus.publish();assert.equal(sent.length,2);assert.equal(sent.at(-1).rows[0].ticks,200);
+  system.currentTick+=5;bus.publish();assert.equal(sent.length,3);assert.equal(sent.at(-1).rows[0].ticks,195);
+  clearCustomEffects(p);failNext=true;bus.publish();assert.equal(sent.length,3);
+  system.currentTick+=5;bus.publish();assert.equal(sent.length,4,'failed clear must retry before becoming cached');assert.deepEqual(sent.at(-1).rows,[]);
+  for(let i=0;i<20;i++){system.currentTick+=5;bus.publish();}
+  assert.equal(sent.length,4,'successful clear suppresses later idle heartbeats');
+  players=[];bus.publish();assert.equal(sent.length,4,'unloading an already cleared recipient adds no second revoke');
+ }finally{system.sendScriptEvent=send;console.warn=warn;players=previousPlayers;}
+});
+
 // Independent storage namespaces: wrappers share physical entities/inventory but NOT DP.
 function packWorld(){
  const pack=new Properties(),scoped=new Map();
