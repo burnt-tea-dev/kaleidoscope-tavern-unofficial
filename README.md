@@ -2,13 +2,13 @@
 
 Tavern 0.6.166 excludes inactive shaker graphics from layout work and caches unchanged placed-shaker display data. Screen-centre coordinates, graphic lifetimes, progress timing, ingredients, recipes and other addon controls are preserved. Device latency and rendered acceptance remain pending.
 
-T155/G133 repair the missing shaker/eating UI receivers with permanent panels and independent channel caches; the obsolete shaker progress-parent gate is removed. [Repair scope](docs/RELEASE-NOTES-0.6.155.md). Client-rendered recovery remains unconfirmed.
+At **2026-10-14 21:41:21 HKT**, T166/G142/W144/private39/Ribbits10037 completed canonical PR/CI, full-family static admission, one stopped-save first/restart and exact live readback: 42 packs, BDS1.26.52.3 RUNNING. [Current sources and deployment evidence](family/BASELINE-STATUS.md).
 
-At **2026-10-13 17:05:52 HKT**, T155/G133/W132/P34/Ribbits10037 completed canonical PR/CI, full-family static admission, one stopped-save first/restart and exact live readback: 42 packs, BDS1.26.52.3 RUNNING.
+[Download v0.6.166](https://github.com/casama233/kaleidoscope-tavern-unofficial/releases/tag/v0.6.166). All three formal public releases have prerelease=false; their six owned packs and **9349 files** matched LIVE and the admitted receipt. Private integration is not published in these releases.
 
-[Download v0.6.155-beta.1](https://github.com/casama233/kaleidoscope-tavern-unofficial/releases/tag/v0.6.155-beta.1). At 17:08:50 HKT, all three public archives were anonymously downloaded; their six owned packs and **9346 files** matched LIVE and the admitted receipt. [Current deployment and public comparison](family/PUBLIC-DOWNLOAD-LIVE-PERSISTENT-HUD-20261013.md).
+The [client feedback and repair status](docs/BUGS.md) records missing graphics/raw packet failures, absent eating motion, later visible graphics, incorrect vertical position and eating/shaker delay. T164's visible graphics did not establish correct positioning or timing; T165 restores Java centre-relative placement, and T166 reduces repeated preview/UI processing. Actual post-repair device latency remains unverified.
 
-Poststart has **165 warnings / 0 errors**, including **138 watchdog records (9 spikes, 129 slowdowns)**; Ribbits still records a **252 ms** startup spike. UI visibility, rapid reopen, Java cursor interpolation, client sound and complete parity remain unverified. `client=false`, `production_ready=false`, `pending_client_acceptance`.
+Poststart has **214 warnings / 0 errors**, including **187 watchdog records (9 spikes, 178 slowdowns)**. These are startup observations, not an FPS or latency comparison. `client=false`, `production_ready=false`, `pending_client_acceptance`.
 
 ## Historical repair scopes
 
@@ -36,7 +36,7 @@ A Bedrock port of [Kaleidoscope Tavern](https://github.com/KaleidoscopeMods/Kale
 
 - [T140 guide revision](docs/RELEASE-NOTES-0.6.140.md) retains all three languages and preparation details on demand, adds four reviewed AMW pages and shares the view through the optional Cookery entrance. T141 preserves this published guide and T139's native clock/reload, machine ingredient, Mob selection and immersion repairs.
 - [T132 repairs](docs/RELEASE-NOTES-0.6.132.md) share instant splash dispatch and source immunity, repair shaker input echoes and storage rollback, preserve Vision's living recipients and query order, and add scoped guide flipbooks, board escaping and shorter HUD expiry. [Current PR disposition](docs/audit/PR-DISPOSITIONS.md) is the single backlog index; native/client/live acceptance remains separate.
-- The deployed development family is Tavern **0.6.155**, World Liquor **0.1.132** and Grilling **2.8.133**, with private integration **1.0.34**. The [family lock](family/upstream.lock.json) and [current baseline index](family/BASELINE-STATUS.md) record exact dependencies, deployed sources and verification.
+- The deployed development family is Tavern **0.6.166**, World Liquor **0.1.144** and Grilling **2.8.142**, with private integration **1.0.39**. The [family lock](family/upstream.lock.json) and [current baseline index](family/BASELINE-STATUS.md) record exact dependencies, deployed sources and verification.
 - [baseline.json](baseline.json) owns package identity and exact dependencies; [CHANGELOG.md](CHANGELOG.md) records changes.
 - Bedrock 1.26.50 or newer; current load target BDS 1.26.52.3.
 - Enable both Tavern BP and RP. Cookery is optional; the reviewed family target is author Cookery1.6.0. World Liquor uses its exact paired Tavern version.
