@@ -48,7 +48,9 @@ def cleanup_context(track=None):
     protected = {c.R, c.B, c.W, c.Q, *c.SOURCES.values(), c.CONFIG_PATH}
     if c.EXTENSION:
         protected.add(c.EXTENSION)
-    pending = [c.Q / 'senluo-policy.json', c.T / 'family/upstream.lock.json']
+    policy_path = c.Q / 'senluo-policy.json'
+    historical = set()
+    pending = [policy_path, c.T / 'family/upstream.lock.json']
     pending += [Path(current[key]) for key in ['extension_validation', 'preserved_reconciliation', 'preserved_additions', 'identity_migration', 'container_recovery_plan', 'translation_reconciliation'] if current.get(key)]
     # Follow actual JSON evidence references, including the private validation's
     # still-used source snapshot. Do not traverse arbitrary source/archive dirs.
@@ -61,13 +63,23 @@ def cleanup_context(track=None):
             raise RuntimeError('Too many cleanup evidence references; review explicitly')
         seen.add(path)
         value = read(path)
+        if path == policy_path:
+            # Historical client records stay as leaves, not a live dependency
+            # chain through an obsolete repair deployment and its rollback.
+            history = {key: value[key] for key in ('client_failure_reports', 'client_hud_observations') if key in value}
+            leaves = set(absolute_paths(history))
+            leaves.update(resolve(ref) for ref in tuple(leaves))
+            historical.update(leaves)
+            protected.update(leaves)
+            value = {key: child for key, child in value.items() if key not in history}
         refs = set(absolute_paths(value))
         refs.update(resolve(ref) for ref in tuple(refs))
         paths.update(refs)
         # Missing transitive evidence cannot silently discard the snapshot it
         # used to reference. Every JSON reference must be readable before prune.
         pending.extend(ref for ref in refs if ref not in seen and ref.suffix == '.json')
-    return {'protected': sorted(protected), 'references': sorted(paths), 'lease': c.LEASE}
+    return {'protected': sorted(protected), 'references': sorted(paths), 'lease': c.LEASE,
+            'historical_records': sorted(historical - paths)}
 
 
 def context_path_identity(paths, documents=()):
@@ -138,13 +150,13 @@ def execution_context(reader=None):
     return (reader or cleanup_context)()
 
 
-def perform(*, execute=False):
+def perform(*, execute=False, retire_outputs=None):
     root = c.CONFIG.get('retention_root')
     if not root:
         raise ValueError('Set retention_root explicitly before cleanup-copies')
     provider = execution_context_provider() if execute else cleanup_context
     context = provider()
-    planned = retention.plan(Path(root), **context)
+    planned = retention.plan(Path(root), retire_outputs=retire_outputs, **context)
     if not execute:
         return planned
     result = retention.execute(planned, **context, context=provider)
@@ -158,14 +170,15 @@ def perform(*, execute=False):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--execute', action='store_true')
+    parser.add_argument('--retire-outputs', type=Path)
     args = parser.parse_args(argv)
     if not args.execute:
-        return perform()
+        return perform(retire_outputs=args.retire_outputs)
     # The same lock and visible lease exclude deployment while cleanup runs.
     with c.LOCK.open('a+') as lock:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         c.lease_available()
-        return perform(execute=True)
+        return perform(execute=True, retire_outputs=args.retire_outputs)
 
 
 def after_deployment():
