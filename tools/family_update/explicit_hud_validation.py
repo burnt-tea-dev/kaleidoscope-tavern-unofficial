@@ -15,6 +15,7 @@ PROFILES = {
     (1, 0, 37): ('aaeaacf28883d1aeb4a21cdde0dd0aa9e4ab5f56', [1, 0, 36]),
     (1, 0, 38): ('ef4a55dfc0d7b6ca6e2974950fe3685f695e7d53', [1, 0, 37]),
     (1, 0, 39): ('323470dfe1f20f2c31df20edebb77dce960bf18a', [1, 0, 38]),
+    (1, 0, 40): ('fe9eef1cbf9a8bf4f73ace503b76160cb3e6dfc3', [1, 0, 39]),
 }
 EMPTY_CONTROL = {'type': 'panel', 'size': [0, 0]}
 ACTIONBAR_LEAVES = ('hud_actionbar_text', 'hud_actionbar_text/actionbar_message')
@@ -34,6 +35,11 @@ PRUNING_PROVIDER_VERSIONS = {
     'bbbd2d60-52e5-53a6-8b9a-c09b0f516389': ([2, 8, 141], [2, 8, 142]),
     'a610b357-ba70-5a2f-bca5-5a7a8a0fb2a8': ([0, 1, 143], [0, 1, 144]),
 }
+VISIBLE_REPAIR_PROVIDER_VERSIONS = {
+    'c2990d50-2cf7-59f7-886a-0f2d0240d156': ([0, 6, 166], [0, 6, 167]),
+    'bbbd2d60-52e5-53a6-8b9a-c09b0f516389': ([2, 8, 142], [2, 8, 143]),
+    'a610b357-ba70-5a2f-bca5-5a7a8a0fb2a8': ([0, 1, 144], [0, 1, 145]),
+}
 PROVIDERS = {'c2990d50-2cf7-59f7-886a-0f2d0240d156', 'bbbd2d60-52e5-53a6-8b9a-c09b0f516389',
              'a610b357-ba70-5a2f-bca5-5a7a8a0fb2a8', '994f73a2-05ec-41ce-876c-d388a526d9f5',
              '9071b6bc-915d-4d26-8486-05bb8db48762'}
@@ -43,7 +49,7 @@ def conserved_scope(old, new, old_manifest, new_manifest, side, own_uuids, versi
     _, previous_version = PROFILES[tuple(version)]
     fallback_repair = version == [1, 0, 36]
     stable_filter_repair = version == [1, 0, 37]
-    dependency_only_update = version in [[1, 0, 38], [1, 0, 39]]
+    dependency_only_update = version in [[1, 0, 38], [1, 0, 39], [1, 0, 40]]
     before, after = dict(old), dict(new)
     additions = {'ui/hud_screen.json', 'ui/_global_variables.json'} if side == 'RP' and version == VERSION else set()
     assert set(after) - set(before) == additions and not set(before) - set(after), 'Unexpected private runtime addition/removal'
@@ -80,6 +86,8 @@ def conserved_scope(old, new, old_manifest, new_manifest, side, own_uuids, versi
             provider_versions = DEPENDENCY_ONLY_PROVIDER_VERSIONS if dependency_only_update else STABLE_PROVIDER_VERSIONS
             if version == [1, 0, 39]:
                 provider_versions = PRUNING_PROVIDER_VERSIONS
+            elif version == [1, 0, 40]:
+                provider_versions = VISIBLE_REPAIR_PROVIDER_VERSIONS
             for dependency in companions:
                 if dependency['uuid'] in provider_versions:
                     old_version, new_version = provider_versions[dependency['uuid']]
@@ -108,7 +116,7 @@ def verify_static(receipt, prior):
     assert proof['test_exit_code'] == 0 and proof['test_command'] == ['python', 'tools/test_family_hud_host.py']
     assert proof['native_controls'] == 29 and proof['literal_owned_roots'] == 2
     assert proof['native_and_amw_conserved'] and proof['dependency_bound']
-    if version in [[1, 0, 36], [1, 0, 37], [1, 0, 38], [1, 0, 39]]:
+    if version in [[1, 0, 36], [1, 0, 37], [1, 0, 38], [1, 0, 39], [1, 0, 40]]:
         assert proof['typed_empty_fallback'] and proof['fallback_base'] == 'hud.kt_family_empty'
     assert all(proof[key] is False for key in ['native_loading', 'client', 'simulated_players', 'production_ready'])
     log = path.parent / proof['test_log']['name']
