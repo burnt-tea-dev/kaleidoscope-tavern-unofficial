@@ -68,6 +68,31 @@ INCENSE_ASSET_PATHS=frozenset({'runtime/BP/blocks/'+kind+'_incense.json'
 ANIMATED_SPRITE_ASSET_PATHS=frozenset('runtime/RP/models/entity/item_sprite_'+name+'.geo.json'
  for name in ('depth_charge','mystery_cocktail','nether_special','ice_grape'))
 
+# W145: four exact source-backed freezer sprite routes. Only frame selection,
+# material binding and strip dimensions change; PNG changes are bound to the
+# selected original Java water/lava sources. No wildcard admits other assets.
+FREEZER_SURFACE_ASSET_PATHS=frozenset(
+ 'runtime/RP/'+pattern.format(kind=kind)
+ for kind in ('water','lava','milk_still','magma')
+ for pattern in ('entity/freezer_{kind}.entity.json',
+                 'render_controllers/freezer_{kind}.json',
+                 'models/entity/freezer_{kind}.geo.json')
+)|frozenset('runtime/RP/textures/repair/freezer_'+kind+'.png'
+ for kind in ('water','lava'))
+
+# Tavern's four known liquid helpers use the original Java water/lava strips.
+# Lava's source strip has twenty frames; only its two exact UV descriptions
+# change height. Preserve all surface geometry, tint and level animation.
+LIQUID_SURFACE_ASSET_PATHS=frozenset(
+ 'runtime/RP/entity/liquid_'+family+'_'+kind+'.entity.json'
+ for family in ('barrel','pressing_tub') for kind in ('water','lava')
+)|frozenset('runtime/RP/'+pattern.format(kind=kind)
+ for kind in ('water','lava')
+ for pattern in ('render_controllers/liquid_{kind}.json','textures/repair/{kind}.png')
+)|frozenset('runtime/RP/models/entity/liquid_'+family+'_lava.geo.json'
+ for family in ('barrel','pressing_tub')
+)|frozenset({'runtime/RP/materials/entity.material'})
+
 @lru_cache(maxsize=4)
 def rows(root):
  p=Path(root)/'data/baseline-reconciliation.json'
@@ -100,7 +125,7 @@ def asset_layers(root):
  for layer in layers:
   assert isinstance(layer.get('release'),str) and layer['release'].strip()
   assert isinstance(layer.get('files'),dict) and layer['files']
-  assert set(layer['files'])<=(COCKTAIL_ASSET_PATHS|INCENSE_ASSET_PATHS|ANIMATED_SPRITE_ASSET_PATHS),'Unsupported reviewed asset path'
+  assert set(layer['files'])<=(COCKTAIL_ASSET_PATHS|INCENSE_ASSET_PATHS|ANIMATED_SPRITE_ASSET_PATHS|FREEZER_SURFACE_ASSET_PATHS|LIQUID_SURFACE_ASSET_PATHS),'Unsupported reviewed asset path'
  return layers
 def asset_projection(root,name,data):
  # Minified HUD JSON is one large line. Preserve its exact compressed prior
