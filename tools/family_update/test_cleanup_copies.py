@@ -72,6 +72,22 @@ class ContextTests(unittest.TestCase):
         self.assertNotEqual(first['references'], second['references'])
         self.assertIn(newer, second['references'])
 
+    def test_historical_client_record_is_a_leaf_but_current_validation_still_follows_it(self):
+        history = self.root / 'history/deployment-result.json'
+        old_backup = self.root / 'history/production-rollback'
+        self.write(history, {'rollback': str(old_backup)})
+        self.write(self.quality / 'senluo-policy.json', {
+            'approved_receipt': str(self.root / 'live/reviewed-family-receipt.json'),
+            'client_failure_reports': [{'repair_deployment_report': str(history)}]})
+        context = m.cleanup_context()
+        self.assertIn(history, context['protected'])
+        self.assertIn(history, context['historical_records'])
+        self.assertNotIn(old_backup, context['references'])
+        self.write(self.report, {'actual_validation_source': str(history)})
+        context = m.cleanup_context()
+        self.assertIn(old_backup, context['references'])
+        self.assertNotIn(history, context['historical_records'])
+
     def test_changed_config_and_missing_referenced_json_abort(self):
         self.write(self.config_path, {**m.c.CONFIG, 'retention_root': str(self.root / 'different')})
         with self.assertRaisesRegex(RuntimeError, 'configuration changed'):
