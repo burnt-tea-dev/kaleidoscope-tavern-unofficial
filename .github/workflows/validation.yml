@@ -89,6 +89,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/checkout@v4
         with:
           repository: KaleidoscopeMods/KaleidoscopeTavern
@@ -151,7 +153,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: casama233/kaleidoscope-world-liquor-unofficial
-          ref: 7f0e749c15eea165f2a1a4fce06723493d9510ee
+          ref: 6bc779243fa7c46f2b33561a52387231ad21dbce
           path: world-liquor-src
           persist-credentials: false
       - uses: actions/setup-python@v5
@@ -178,7 +180,7 @@ jobs:
               'world-liquor':{'repository':'casama233/kaleidoscope-world-liquor-unofficial','repository_id':1385218112}}
           assert os.environ['GITHUB_REPOSITORY']==identities['tavern']['repository']
           assert os.environ['GITHUB_REPOSITORY_ID']==str(identities['tavern']['repository_id'])
-          assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=peer,text=True).strip()=='7f0e749c15eea165f2a1a4fce06723493d9510ee'
+          assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=peer,text=True).strip()=='6bc779243fa7c46f2b33561a52387231ad21dbce'
           lock=json.loads((root/'family/upstream.lock.json').read_text())
           lock['owned']=[row for row in lock['owned'] if row['key'] in {'tavern','world-liquor'}]
           assert len(lock['owned'])==2 and {row['key'] for row in lock['owned']}=={'tavern','world-liquor'}
@@ -235,7 +237,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: casama233/kaleidoscope-world-liquor-unofficial
-          ref: 7f0e749c15eea165f2a1a4fce06723493d9510ee
+          ref: 6bc779243fa7c46f2b33561a52387231ad21dbce
           path: world-liquor
           persist-credentials: false
       - uses: actions/setup-node@v4
@@ -349,15 +351,15 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: casama233/kaleidoscope-world-liquor-unofficial
-          # World Liquor 0.1.145 requires the paired Tavern 0.6.167 runtime.
+          # World Liquor 0.1.146 requires the paired Tavern 0.6.168 runtime.
           # Pin exact peer bytes, not an obsolete release or a moving branch.
-          ref: 7f0e749c15eea165f2a1a4fce06723493d9510ee
+          ref: 6bc779243fa7c46f2b33561a52387231ad21dbce
           path: liquor
           persist-credentials: false
       - uses: actions/checkout@v4
         with:
           repository: casama233/kaleidoscope-grilling-unofficial
-          ref: 361e4b1594b2713912095485bf20c8b194fd117c
+          ref: b0267c295305a1bc6a0c1e6a0c01e3f812b149f1
           path: grilling
           sparse-checkout: projects/grilling/gameplay_core/resource_pack/ui
           persist-credentials: false
@@ -412,7 +414,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: casama233/kaleidoscope-world-liquor-unofficial
-          ref: 7f0e749c15eea165f2a1a4fce06723493d9510ee
+          ref: 6bc779243fa7c46f2b33561a52387231ad21dbce
           path: liquor
           persist-credentials: false
       - uses: actions/setup-node@v4
@@ -495,7 +497,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: casama233/kaleidoscope-world-liquor-unofficial
-          ref: 7f0e749c15eea165f2a1a4fce06723493d9510ee
+          ref: 6bc779243fa7c46f2b33561a52387231ad21dbce
           path: .source-check/world-liquor-native
           persist-credentials: false
       - name: Reject incomplete or relabeled native evidence
