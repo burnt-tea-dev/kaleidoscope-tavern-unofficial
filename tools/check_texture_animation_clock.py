@@ -4,14 +4,54 @@ Evaluates the committed frame/atlas expressions, not a copy of the generator.
 Molang syntax and native clock behavior remain separate client acceptance.
 """
 import json
+import hashlib
 import math
 import re
 from pathlib import Path
 from types import SimpleNamespace
+from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
 read = lambda path: json.loads(path.read_text())
-MATH = SimpleNamespace(floor=math.floor, mod=lambda a, b: a % b, max=max)
+MATH = SimpleNamespace(floor=math.floor, mod=lambda a, b: a % b, max=max, abs=abs)
+
+
+def check_liquid_surfaces(root):
+    """Check the shipped UV expressions against original Mojang mcmeta order."""
+    rp = root / 'runtime/RP'
+    sources = read(root / 'data/liquid-surface-source.json')['textures']
+    material = read(rp / 'materials/entity.material')['materials']['kt_liquid_animated:entity_alphablend']
+    assert material == {'+defines': ['USE_UV_ANIM']}
+    samples = 0
+    for kind, source in sources.items():
+        texture = root / source['runtime_texture']
+        assert hashlib.sha256(texture.read_bytes()).hexdigest() == source['sha256'], 'Original Java liquid pixels changed'
+        with Image.open(texture) as image:
+            assert list(image.size) == source['dimensions']
+            frames = image.height // image.width
+        metadata = read(root / source['animation_metadata'])['animation']
+        order = metadata.get('frames', list(range(frames)))
+        controller = read(rp / f'render_controllers/liquid_{kind}.json')['render_controllers'][f'controller.render.kt_repair.{kind}']
+        assert controller['uv_anim']['scale'] == [1, 1], 'Geometry already measures UVs against the full source strip'
+        assert controller['uv_anim']['offset'][0] == 0
+        expression = controller['uv_anim']['offset'][1]
+        assert 'q.time_stamp' in expression and 'life_time' not in expression
+        for tick in range(len(order) * metadata['frametime'] * 2):
+            actual = eval(expression, {'__builtins__': {}, 'q': SimpleNamespace(time_stamp=tick), 'math': MATH})
+            expected = order[(tick // metadata['frametime']) % len(order)] / frames
+            assert math.isclose(actual, expected, abs_tol=1e-12), (kind, tick, actual, expected)
+            samples += 1
+        for family in ('barrel', 'pressing_tub'):
+            entity = read(rp / f'entity/liquid_{family}_{kind}.entity.json')['minecraft:client_entity']['description']
+            assert entity['materials']['default'] == 'kt_liquid_animated'
+            assert entity['textures']['default'] == f'textures/repair/{kind}'
+            assert entity['render_controllers'] == [f'controller.render.kt_repair.{kind}']
+            geometry = read(rp / f'models/entity/liquid_{family}_{kind}.geo.json')['minecraft:geometry'][0]
+            assert geometry['description']['texture_height'] == source['dimensions'][1]
+            assert geometry['description']['texture_width'] == source['dimensions'][0]
+            size = 16 if family == 'barrel' else 12
+            assert geometry['bones'][0]['cubes'][0]['uv']['up'] == {'uv': [0, 0], 'uv_size': [size, size]}
+    return samples
 
 
 def check(root=ROOT):
@@ -45,8 +85,10 @@ def check(root=ROOT):
                 expression = text.split(' : ', 1)[1].replace("query.property('kt_art:palette')", str(palette))
                 actual = eval(expression, {'__builtins__': {}, 'q': SimpleNamespace(time_stamp=tick), 'math': MATH})
                 assert math.isclose(actual, wanted, abs_tol=1e-12), (text, tick, palette)
+    liquid_samples = check_liquid_surfaces(root)
     return {'shared_frame_selectors': len(selectors), 'staggered_helper_cases': samples,
-            'atlas_phase_cases': 96 * 3 * 2, 'source_clock': 'level ticks', 'native_client_verified': False}
+            'atlas_phase_cases': 96 * 3 * 2, 'liquid_source_samples': liquid_samples,
+            'source_clock': 'level ticks', 'native_client_verified': False}
 
 
 if __name__ == '__main__':
