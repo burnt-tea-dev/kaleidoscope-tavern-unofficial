@@ -4,7 +4,7 @@
     "description": {
       "identifier": "kaleidoscope_tavern:rig_liquid_barrel_water_visual",
       "materials": {
-        "default": "entity_alphablend"
+        "default": "kt_liquid_animated"
       },
       "textures": {
         "default": "textures/repair/water"

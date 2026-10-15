@@ -1,8 +1,8 @@
-## 當前維護基線：0.6.166
+## 當前維護基線：0.6.167
 
-酒館0.6.166排除未使用調酒圖形的版面工作，並快取未變更的放置雪克杯顯示資料。保留中央相對座標、圖形壽命、進度時間、原料／配方及其他模組控制；真人裝置延遲與畫面驗收仍待完成。
+酒館0.6.167修復調酒游標tick內整數像素步進，以及酒桶／榨汁盆原作水、熔岩動畫與透明度。保留既有互動／模型修補；最新真人延遲、畫面及完整一比一仍待確認。
 
-**2026-10-14 21:41:21 HKT**：managed-server **T166／G142／W144／private-integration／Ribbits1.0.10037**，42包，BDS1.26.52.3正常啟動。PR／完整CI、家族static、一次停服存檔副本first／restart、准入及逐檔／順序讀回通過。[現行來源與部署證據](family/BASELINE-STATUS.md)。
+本批來源完成前最後部署記錄：**2026-10-14 21:41:21 HKT**：managed-server **T166／G142／W144／private-integration／Ribbits1.0.10037**，42包，BDS1.26.52.3正常啟動。PR／完整CI、家族static、一次停服存檔副本first／restart、准入及逐檔／順序讀回通過。[現行來源與部署證據](family/BASELINE-STATUS.md)。
 
 [下載v0.6.166](https://github.com/casama233/kaleidoscope-tavern-unofficial/releases/tag/v0.6.166)。三個公開正式版均為prerelease=false，六個自有BP／RP共**9349檔**與LIVE及准入收據相同；私有整合未公開。
 

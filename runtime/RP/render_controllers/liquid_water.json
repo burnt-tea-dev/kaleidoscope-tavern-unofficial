@@ -15,7 +15,17 @@
         "r": 0.247,
         "g": 0.463,
         "b": 0.894,
-        "a": 0.82
+        "a": 1
+      },
+      "uv_anim": {
+        "offset": [
+          0,
+          "math.mod(math.floor(q.time_stamp / 2), 32) / 32"
+        ],
+        "scale": [
+          1,
+          1
+        ]
       }
     }
   }

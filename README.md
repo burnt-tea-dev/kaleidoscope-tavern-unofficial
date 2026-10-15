@@ -1,8 +1,8 @@
-## Current maintained baseline: 0.6.166
+## Current maintained baseline: 0.6.167
 
-Tavern 0.6.166 excludes inactive shaker graphics from layout work and caches unchanged placed-shaker display data. Screen-centre coordinates, graphic lifetimes, progress timing, ingredients, recipes and other addon controls are preserved. Device latency and rendered acceptance remain pending.
+Tavern 0.6.167 restores Java integer cursor steps within each HUD tick and animates original water/lava sprites in barrels and pressing tubs, including the source opacity. Existing source-backed interaction/model fixes remain; actual current client latency, rendering and full parity are pending.
 
-At **[private deployment time]**, T166/G142/W144/private-integration/Ribbits10037 completed canonical PR/CI, full-family static admission, one stopped-save first/restart and exact live readback: 42 packs, BDS1.26.52.3 RUNNING. [Current sources and deployment evidence](family/BASELINE-STATUS.md).
+Last deployment recorded before this source batch: At **[private deployment time]**, T166/G142/W144/private-integration/Ribbits10037 completed canonical PR/CI, full-family static admission, one stopped-save first/restart and exact live readback: 42 packs, BDS1.26.52.3 RUNNING. [Current sources and deployment evidence](family/BASELINE-STATUS.md).
 
 [Download v0.6.166](https://github.com/casama233/kaleidoscope-tavern-unofficial/releases/tag/v0.6.166). All three formal public releases have prerelease=false; their six owned packs and **9349 files** matched LIVE and the admitted receipt. Private integration is not published in these releases.
 
