@@ -23,9 +23,12 @@ def main(argv=None):
     parser.add_argument('command', nargs='?', default='plan', choices=['plan', 'status', 'prepare', 'record-ci', 'deploy', 'update', 'saved-world', 'verify-live', 'cleanup-copies', 'cleanup-engine-inputs'])
     parser.add_argument('--execute', action='store_true')
     parser.add_argument('--retire-diagnostics', type=Path)
+    parser.add_argument('--retire-outputs', type=Path)
     args = parser.parse_args(argv)
     if args.retire_diagnostics and args.command != 'cleanup-engine-inputs':
         parser.error('--retire-diagnostics is only valid for cleanup-engine-inputs')
+    if args.retire_outputs and args.command != 'cleanup-copies':
+        parser.error('--retire-outputs is only valid for cleanup-copies')
     common.configure(args.config)
     if args.command in ['cleanup-copies', 'cleanup-engine-inputs']:
         if args.execute:
@@ -35,6 +38,8 @@ def main(argv=None):
         cleanup_args = ['--execute'] if args.execute else []
         if args.retire_diagnostics:
             cleanup_args += ['--retire-diagnostics', str(args.retire_diagnostics)]
+        if args.retire_outputs:
+            cleanup_args += ['--retire-outputs', str(args.retire_outputs)]
         result = module.main(cleanup_args)
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return 0

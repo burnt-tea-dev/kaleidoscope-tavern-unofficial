@@ -5,7 +5,7 @@
 
 ## 固定入口
 
-- 三個公開 canonical main 與已核驗的私有 main 是來源；開發只增加正在修補的 worktree。
+- 每庫只保留一個 canonical main，加最多一個實際活動的開發 worktree；不按歷史修復線永久保留 checkout。
 - 一份本機當前工作索引指向 LIVE 收據、目前工作、未完成差距與下一步；不要複製歷史時間線。
 - 一份本機部署設定指標指向本次不可變設定，使用 `tools/family_update.py`。每次有新 runtime 才建立新的輸出目錄。
 - 新部署資料集中於現有證據根目錄的 `runs/<日期-配套版本>/`；舊證據保持原路徑，避免破壞引用。
@@ -26,7 +26,7 @@
 
 已完成部署的舊候選、QA DB／packs及多餘回退，先用 `cleanup-copies` 產生計畫，再用 `--execute` 執行。沿用 maintenance lock、host process namespace、掛載／symlink 拒絕、政策引用與保留副本核對；不得另寫通用刪除器绕過家族保護。
 
-已合併且乾淨的開發 checkout 可退役，但先核對 canonical／遠端已保留其提交、沒有程序使用、沒有現行來源或證據引用、沒有外部 worktree 依賴。未合併、dirty或仍被引用的 checkout 保留；不要以強制刪除掩蓋差異。
+已合併且乾淨的開發 checkout 可退役，但先核對 canonical／遠端已保留其提交、沒有程序使用、沒有現行來源或證據引用、沒有外部 worktree 依賴。待審或已結束的唯一差異先整理為可核對的 Git commit／branch，確認已保存至正確公開或私有遠端，再核對 tree／diff 與來源引用後退役 checkout；原 branch／commit 保留。dirty 尚未保存或仍有實際來源／驗證引用時保留現場，先完成 checkpoint 或把依賴改為精確來源提交／小型驗證證據，不強制刪除。不能把私有來源或憑證推到公開遠端。
 
 非部署的舊開發測試副本必須逐項辨認用途。只清理已結束、可重建、沒有活動程序或現行引用的生成內容，保留原始來源及診斷日誌／JSON。不得把正式世界、原包或未知目錄加入批次刪除。
 
@@ -73,3 +73,25 @@ fd前後stat沿用既有競態邊界，不宣稱核心提供因果證明；實�
 本機只診斷具體失敗；完整套件交必要 CI。版本／檔案完整性核對是部署前提，不是玩法或畫面證據。沒有內容變更就不升包、不建立 QA 世界、不重啟 LIVE；工作區或文件整理只審閱差異。
 
 QA共用的引擎symlink不刪、不遍歷。已完成且未引用QA的RP複製textures／sounds目錄，以及BP structures內僅含.mcstructure的資產目錄，只有所有檔案都逐檔等於目前已准入候選相同side／UUID的保留資產才可退役；不匹配的直接檔案保留，子目錄各自比對。structures內的JSON與其他非.mcstructure檔案、世界DB、observer與其他腳本、manifest、模型、特殊診斷資產及日誌仍保留。比較證據只在同一次不可變清理階段、完整檔案stat相同時重用，不重複掃描未變來源。
+
+
+## 明列已被取代的失敗部署輸出
+
+`cleanup-copies --retire-outputs /local/retired-outputs.json` 只處理人工明列的舊輸出，
+格式為 `{"schema":1,"outputs":[{"output":"/absolute/old-output","reason":"已結束且被目前版本取代的具體理由","targets":["release-candidate/resource_packs","production-snapshot"]}]}`。
+清單必須在 Git 外；不接受 glob、整個任務目錄或任意相對路徑。
+允許的目標仍是既有 COPIES／BACKUPS，加明列 exact-engine／saved-world-engine 的複製引擎執行檔。
+正式存檔、production-before、production-original-db、Git／來源、原始 report JSON／日誌與 observer 不在目標範圍。
+QA db 目標只刪生成 LevelDB 葉檔，保留診斷 LOG／JSON；QA pack 僅刪既有生成二進位 selector，保留 JS／JSON／模型／observer。
+RC 只退原 family receipt 登記的普通複本，未知額外檔保留；舊 BACKUPS 可退全部生成副本內容。
+完整相對檔名／stat／ctime 與 directory namespace 在刪除邊界重核，沿用 inode ledger 處理自己的 hardlink unlink；空目錄可保留。
+共用引擎 symlink 拒絕而不遍歷。
+
+這個 opt-in 不要求已缺失或不一致的歷史 snapshot 假裝完整，也不將原 failed 收據改成 success。
+必須仍有原 deployment／build 記錄，綁清單和原報告 metadata、精確目標身份；
+最新一份成功部署及完整 snapshot／rollback 仍按既有收據完整性邊界核對一次。
+current config／policy／來源／驗證傳遞引用、maintenance lock、host namespace、活動程序／argv、
+掛載、symlink／Git 和每次刪除邊界檢查保持；變更則拒絕重用計畫。
+只有明列的歷史 client_failure_reports／client_hud_observations 作保存 leaf，
+不把其過去修復 deployment 所引用的舊 rollback 當現行依賴；同一 leaf 若也被當前證據引用，仍完整遞迴保護。
+正常 cleanup-copies 的成功部署保留規則不變。此工具／文件更新不升包、不建立候選、不重啟 LIVE。
