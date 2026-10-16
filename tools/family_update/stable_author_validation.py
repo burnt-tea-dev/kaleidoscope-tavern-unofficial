@@ -364,7 +364,7 @@ def select_inputs(preserved, original, path, review):
         row = review['packs'][side]
         assert set(row) == {'path', 'uuid'} and row['uuid'] == uid
         prior = old[uid]
-        assert prior['source']['owner'] == 'preserved' and prior['version'] == [1, 5, 6]
+        assert admitted[uid]['source']['owner'] == 'preserved' and prior['version'] == [1, 5, 6]
         assert all(current[uid][key] == prior[key] for key in ['side', 'version', 'files']), 'Stable Saturation cannot approve installed drift'
         root = separate(Path(row['path']), protected)
         assert all(root != other and root not in other.parents and other not in root.parents for other in roots)
