@@ -68,13 +68,21 @@ class AuthorStateMigrationTests(unittest.TestCase):
    self.assertIs(type(state['kaleidoscope_cookery:oil_high']),nbtlib.Int);self.assertEqual(state['kaleidoscope_cookery:has_lid'],lid)
    self.assertNotIn('kaleidoscope_cookery:oil_full',state)
  def test_board_progress_and_nested_item_data_survive_owner_move(self):
-  board=self.block('board_presence',board_has_food=nbtlib.Byte(1),board_model=nbtlib.Int(12),cut_stage=nbtlib.Int(4),extension_board_model=nbtlib.Int(2),extension_board_recovery=nbtlib.Int(13))
+  board=self.block('board_mode',board_has_food=nbtlib.Byte(1),board_model=nbtlib.Int(12),cut_stage=nbtlib.Int(4),extension_board_model=nbtlib.Int(2),extension_board_recovery=nbtlib.Int(13))
   item=nbtlib.Compound({'Name':nbtlib.String('kaleidoscope_cookery:chopping_board'),'Count':nbtlib.Byte(1),'Block':nbtlib.Compound(board),'tag':nbtlib.Compound({'DynamicProperties':nbtlib.Compound({'old':nbtlib.Compound({'quality':nbtlib.Double(1.25)})})})})
   raw,owners,states=transform(encode(nbtlib.File({'Inventory':nbtlib.List[nbtlib.Compound]([item])})),{'old':'new'},state_rules=self.rules)
   new=nbtlib.File.parse(io.BytesIO(raw),byteorder='little')['Inventory'][0]
   self.assertEqual((owners,states),(1,1));self.assertEqual(new['Count'],1);self.assertEqual(new['tag']['DynamicProperties']['new']['quality'],1.25)
-  for key in ('board_model','cut_stage','extension_board_model','extension_board_recovery'):self.assertEqual(new['Block']['states']['kaleidoscope_cookery:'+key],board['states']['kaleidoscope_cookery:'+key])
+  for key in ('board_model','cut_stage','extension_board_recovery'):self.assertEqual(new['Block']['states']['kaleidoscope_cookery:'+key],board['states']['kaleidoscope_cookery:'+key])
+  self.assertEqual(new['Block']['states']['kaleidoscope_cookery:extension_board_model'],3)
   self.assertNotIn('kaleidoscope_cookery:board_has_food',new['Block']['states'])
+ def test_board_empty_builtin_and_native_slots_keep_their_recovery_route(self):
+  from author_state_migration import convert_block
+  for present,old_mode,expected in [(0,0,0),(0,1,0),(0,2,0),(1,0,1),(1,1,2),(1,2,3)]:
+   tag=self.block('board_mode',board_has_food=nbtlib.Byte(present),extension_board_model=nbtlib.Int(old_mode),board_model=nbtlib.Int(12),cut_stage=nbtlib.Int(4),extension_board_recovery=nbtlib.Int(13))
+   convert_block(tag,self.rules);state=tag['states'];self.assertEqual(state['kaleidoscope_cookery:extension_board_model'],expected)
+   self.assertEqual(state['kaleidoscope_cookery:board_model'],12);self.assertEqual(state['kaleidoscope_cookery:extension_board_recovery'],13);self.assertEqual(state['kaleidoscope_cookery:cut_stage'],4)
+   self.assertEqual(convert_block(tag,self.rules),0)
  def test_subchunk_preserves_packed_indices_other_layer_and_nbt_bytes(self):
   from author_state_migration import transform_subchunk
   old=self.block('chair_carpet',has_carpet=nbtlib.Byte(1),carpet_color=nbtlib.String('black'))
