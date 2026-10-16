@@ -170,7 +170,10 @@ class IdentityTests(unittest.TestCase):
 class T168ImmutableTests(unittest.TestCase):
  def setUp(self):
   self.root=Path(__file__).resolve().parents[1]
-  self.row=json.loads((self.root/'data/baseline-reconciliation.json').read_text())['reviewedFunctionalDeltaLayers'][-1]['files'][reference.T168_PATH]
+  layers=json.loads((self.root/'data/baseline-reconciliation.json').read_text())['reviewedFunctionalDeltaLayers']
+  matching=[layer for layer in layers if layer['release']=='0.6.168']
+  self.assertEqual(len(matching),1,'Exactly one immutable T168 review is required')
+  self.row=matching[0]['files'][reference.T168_PATH]
   self.before=reference.t168_source(str(self.root),reference.T168_BEFORE)
   self.after=reference.t168_source(str(self.root),reference.T168_AFTER)
  def test_exact_frozen_bridge_reverses_only_to_immutable_t167_source(self):
