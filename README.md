@@ -1,4 +1,6 @@
-## Current maintained baseline: 0.6.169
+## Current maintained baseline: 0.6.170
+
+Tavern 0.6.170 is a local editor-compatibility candidate: normalize one offhand shaker coefficient spelling while preserving the expression values and all motion/camera/clock behavior. Native warning-removal, paired-family admission and human client acceptance remain separate gates. See [scope and limitations](docs/RELEASE-NOTES-0.6.170.md).
 
 Tavern 0.6.169 keeps shaker progress graphics alive across the existing ten-tick refresh window and explicitly disables animation fast-forward for each packet and cursor. Java timing, cursor steps, sprites and the native HUD route remain unchanged. This addresses a source-level expiry gap; the reported missing progress bar still requires rendered-client confirmation. See [repair scope](docs/evidence/shaker-progress-20261015.md).
 

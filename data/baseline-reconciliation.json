@@ -8967,6 +8967,26 @@
           ]
         }
       }
+    },
+    {
+      "release": "0.6.170",
+      "reviewedPredecessorCommit": "4584618e94332068749046be73d766f883b49eb6",
+      "regressionTest": "tools/test_shaker_held_frames.py",
+      "reviewDocument": "docs/RELEASE-NOTES-0.6.170.md",
+      "files": {
+        "runtime/RP/animations/runtime_shaker.animation.json": {
+          "before": "01e9ebc9e822f4d6c3826dd2a04e3abff963956f176f9dea5a35862e8a3844fa",
+          "after": "2740cf7f4bc4a05c432e98e591d964169b992bf8cb1553ecb4425be91f54fb06",
+          "reason": "Normalize only the negative offhand shaker affine-wave coefficient spelling for official editor inversion and adjacent-operator validation. Algebra and pinned parser values are preserved; no gameplay, camera, socket, this, clock or final Java pose claim.",
+          "reverseOps": [
+            [
+              122,
+              123,
+              "            \"4.50451374 + -1.53805532 * math.sin(q.life_time * 1718.87338539247)\",\n"
+            ]
+          ]
+        }
+      }
     }
   ],
   "reviewedAssetDeltaLayers": [

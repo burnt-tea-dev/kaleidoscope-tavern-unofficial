@@ -1,3 +1,8 @@
+## 0.6.170
+
+- Normalize the negative offhand shaker coefficient spelling for editor conversion and adjacent-operator validation; preserve sampled values and all existing poses, gates, clocks, resources and gameplay.
+- Retain the exact earlier review chain and all immutable source witnesses. Full Java rendering parity and paired-family/client acceptance are not established by this change.
+
 ## 0.6.169
 
 - Keep shaker progress graphics for 600 ms, matching the slots and existing ten-tick unchanged-value heartbeat; retain one observed cursor step and then hold.
