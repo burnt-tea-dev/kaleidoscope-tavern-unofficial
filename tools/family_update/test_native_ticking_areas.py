@@ -7,14 +7,15 @@ from family_update import native_common as m
 
 
 COMMANDS = [
-    'execute in overworld run tickingarea add circle 12 66 -18 1 author_state_0 true',
+    'execute in overworld run tickingarea add circle 31 66 -22 1 native_storage_reanchor_0',
     'execute in nether run tickingarea add circle 24 70 32 1 author_state_1 true',
 ]
 
 
 class ConsoleProcess:
-    def __init__(self, output, fatal):
+    def __init__(self, output, fatal, foreign_ack=None):
         self.output = output;self.fatal = fatal;self.returncode = None
+        self.foreign_ack = foreign_ack
         self.stdin = self;self.pending = '';self.executed = []
         self.areas = {('overworld', 'player_keep'), ('nether', 'author_state_0')}
         self.line('ERROR' if fatal else 'INFO', 'original schema failure' if fatal else 'Server started.')
@@ -32,14 +33,19 @@ class ConsoleProcess:
             self.executed.append(command)
             if command in COMMANDS:
                 index = COMMANDS.index(command)
-                dimension, name, center = [('overworld', 'author_state_0', '12, 0, -18'),
-                                           ('nether', 'author_state_1', '24, 0, 32')][index]
+                if index == 0 and self.foreign_ack is not None:
+                    center, radius = self.foreign_ack
+                    self.areas.add(('overworld', 'foreign_external'))
+                    self.line('INFO', 'Added ticking area centered at '+center+' with a radius of '+str(radius)+' chunks.')
+                    continue
+                dimension, name, center = [('overworld', 'native_storage_reanchor_0', '24, 0, -24'),
+                                           ('nether', 'author_state_1', '24, 0, 40')][index]
                 if (dimension, name) in self.areas:
                     self.line('ERROR', 'A ticking area with this name already exists.')
                 else:
                     self.areas.add((dimension, name))
-                    # Exact successful acknowledgement format from the saved
-                    # approved-stack BDS log; it does not contain the area name.
+                    # Synthetic translated regression preserves BDS chunk
+                    # quantization, including negative Z; the reply has no name.
                     self.line('INFO', 'Added ticking area centered at '+center+' with a radius of 1 chunks.')
             elif command.startswith('execute in ') and ' run tickingarea remove ' in command:
                 words = command.split();key = (words[2], words[-1])
@@ -60,12 +66,12 @@ class ConsoleProcess:
 
 
 class NativeTickingAreaTests(unittest.TestCase):
-    def run_native(self, fatal):
+    def run_native(self, fatal, foreign_ack=None):
         temporary = tempfile.TemporaryDirectory();self.addCleanup(temporary.cleanup)
         engine = Path(temporary.name) / 'engine';engine.mkdir()
         processes = []
         def launch(*args, **kwargs):
-            process = ConsoleProcess(kwargs['stdout'], fatal);processes.append(process);return process
+            process = ConsoleProcess(kwargs['stdout'], fatal, foreign_ack);processes.append(process);return process
         with patch.object(m.subprocess, 'Popen', side_effect=launch), patch.object(m.time, 'sleep'), \
                 patch.object(m, 'STARTUP_MARKERS', ['Server started.', 'family ready']):
             result = m.native_run(engine, 'first', minimum_seconds=0, commands=COMMANDS,
@@ -89,14 +95,27 @@ class NativeTickingAreaTests(unittest.TestCase):
         self.assertTrue(result['ok']);self.assertTrue(result['commands_completed'])
         self.assertTrue(result['delayed_commands_sent'])
         self.assertEqual(result['ticking_areas_created'], [
-            {'dimension': 'overworld', 'name': 'author_state_0'},
+            {'dimension': 'overworld', 'name': 'native_storage_reanchor_0'},
             {'dimension': 'nether', 'name': 'author_state_1'}])
         self.assertEqual(result['ticking_area_cleanup_commands'], [
             'execute in nether run tickingarea remove author_state_1',
-            'execute in overworld run tickingarea remove author_state_0'])
+            'execute in overworld run tickingarea remove native_storage_reanchor_0'])
         self.assertNotIn('tickingarea remove_all', process.executed)
         self.assertEqual(process.areas, {('overworld', 'player_keep'), ('nether', 'author_state_0')})
         self.assertEqual(result['errors'], [])
+
+    def test_foreign_chunk_or_radius_ack_cannot_complete_or_clean_the_pending_name(self):
+        for acknowledgement in [('40, 0, -24', 1), ('24, 0, -24', 2)]:
+            with self.subTest(acknowledgement=acknowledgement):
+                result, process = self.run_native(False, acknowledgement)
+                self.assertFalse(result['ok']);self.assertFalse(result['commands_completed'])
+                self.assertFalse(result['delayed_commands_sent'])
+                self.assertEqual(result['stop_reason'], 'timeout')
+                self.assertEqual(result['ticking_areas_created'], [])
+                self.assertEqual(result['ticking_area_cleanup_commands'], [])
+                self.assertEqual(process.executed, [COMMANDS[0], 'stop'])
+                self.assertEqual(process.areas, {('overworld', 'player_keep'), ('nether', 'author_state_0'),
+                                                ('overworld', 'foreign_external')})
 
 
 if __name__ == '__main__':unittest.main()
