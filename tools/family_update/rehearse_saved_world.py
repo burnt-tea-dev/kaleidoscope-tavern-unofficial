@@ -61,7 +61,7 @@ def main(argv=None):
         commands=[f'tickingarea add circle {x} {y} {z} 1 freezer_recovery_{i}' for i,(x,y,z) in enumerate(sorted(points))]
         if storage_plan:commands+=native_storage_commands(storage_plan)
         commands+=state_commands
-        record=native_run(engine,phase,commands=commands,delayed_commands=state_delayed)
+        record=native_run(engine,phase,commands=commands,delayed_commands=state_delayed,cpu_profile=CONFIG.get('native_cpu_profile',False))
         after=player_hashes(world); audit_candidate(world, receipt)
         containers_after=inventory_world(world)
         freezer_after=inspect_freezer_storage(world,freezer_uuid)
