@@ -2,6 +2,7 @@
 """Adversarial release tests in disposable Git repositories, never a game world."""
 import copy,importlib.util,json,os,subprocess,tempfile,unittest,zipfile
 from pathlib import Path
+from unittest.mock import patch
 spec=importlib.util.spec_from_file_location('gate',Path(__file__).with_name('baseline_gate.py'))
 gate=importlib.util.module_from_spec(spec);spec.loader.exec_module(gate)
 class BaselineGateTests(unittest.TestCase):
@@ -27,6 +28,39 @@ class BaselineGateTests(unittest.TestCase):
  def test_metadata_version_rejected(self):
   (self.root/'package.json').write_text('{"version":"0.0.1"}')
   self.reject('package.json version',lambda:gate.validate(self.config))
+ def tavern_identity_fixture(self):
+  self.config['repository']='casama233/kaleidoscope-tavern-unofficial'
+  (self.root/'baseline.json').write_text(json.dumps(self.config))
+  for name in ['package.json','release.json']:(self.root/name).write_text('{"version":"1.0.0"}')
+  specs={
+   'runtime/BP/manifest.json':{'kind':'owned_manifest','reviewedVersion':[0,9,0],'ownedUuids':['bp','rp']},
+   'runtime/RP/manifest.json':{'kind':'owned_manifest','reviewedVersion':[0,9,0],'ownedUuids':['bp','rp']},
+   'runtime/BP/scripts/data/cookery-guide-payload.js':{'kind':'payload_version','reviewedVersion':'0.9.0'},
+   'runtime/BP/scripts/data/build-version.js':{'kind':'build_identity','reviewedVersion':'0.9.0'},
+  }
+  scripts=self.root/'runtime/BP/scripts/data';scripts.mkdir(parents=True)
+  (scripts/'cookery-guide-payload.js').write_text('export const payload={"version": "1.0.0"};\n')
+  (scripts/'build-version.js').write_text("export const BUILD_VERSION='1.0.0-baseline.1';\n")
+  (self.root/'data').mkdir()
+  (self.root/'data/baseline-reconciliation.json').write_text(json.dumps({'files':{name:{'versionProjection':spec} for name,spec in specs.items()}}))
+ def test_tavern_bound_payload_and_diagnostic_pass_before_freeze(self):
+  self.tavern_identity_fixture();gate.validate(self.config)
+ def test_stale_diagnostic_or_payload_rejected_before_claim_and_history_write(self):
+  self.tavern_identity_fixture()
+  before={name:(self.root/name).read_bytes() for name in ['baseline.json','release-history.json']}
+  for name in ['build-version.js','cookery-guide-payload.js']:
+   path=self.root/'runtime/BP/scripts/data'/name;original=path.read_text();path.write_text(original.replace('1.0.0','0.9.0'))
+   try:
+    with patch.object(gate.sys,'argv',['baseline_gate.py','freeze']),patch('release_claim.claim_release') as claim:
+     self.reject('Tavern release version projection invalid: runtime/BP/scripts/data/'+name,gate.main)
+     claim.assert_not_called()
+    for filename,raw in before.items():self.assertEqual((self.root/filename).read_bytes(),raw)
+   finally:path.write_text(original)
+ def test_missing_projection_cannot_disable_tavern_release_identity_guard(self):
+  self.tavern_identity_fixture()
+  path=self.root/'data/baseline-reconciliation.json';ledger=json.loads(path.read_text())
+  del ledger['files']['runtime/BP/scripts/data/build-version.js'];path.write_text(json.dumps(ledger))
+  self.reject('Tavern release version projection invalid',lambda:gate.validate(self.config))
  def test_readme_version_rejected(self):
   (self.root/'README.md').write_text('## Current maintained baseline: 0.0.1\n')
   self.reject('maintained version',lambda:gate.validate(self.config))

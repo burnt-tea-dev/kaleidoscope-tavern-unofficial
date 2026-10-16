@@ -54,13 +54,20 @@ def immutable_before(root, commit, name):
 
 
 def collision_preimage(root, name, data):
-    if name == PREFIX + 'barrel_part.json':
+    if name != PREFIX + 'barrel_part.json' and name not in WORLD_PATHS:
+        return data
+    root = Path(root).resolve()
+    # Paired catalog guards call this helper for both repositories. A shared
+    # relative filename never authorizes using the other repository's history.
+    baseline = root / 'baseline.json'
+    repository = json.loads(baseline.read_text()).get('repository') if baseline.is_file() else None
+    if name == PREFIX + 'barrel_part.json' and repository == 'casama233/kaleidoscope-tavern-unofficial':
         commit = TAVERN_PREVIOUS
-    elif name in WORLD_PATHS:
+    elif name in WORLD_PATHS and repository == 'casama233/kaleidoscope-world-liquor-unofficial':
         commit = WORLD_PREVIOUS
     else:
         return data
-    before = immutable_before(str(Path(root).resolve()), commit, name)
+    before = immutable_before(str(root), commit, name)
     # Unchanged predecessors remain readable by historical test contexts.
     if data == before:
         return data

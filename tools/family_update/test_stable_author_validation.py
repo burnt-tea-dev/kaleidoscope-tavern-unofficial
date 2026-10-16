@@ -63,7 +63,7 @@ class StableAuthorValidationTests(unittest.TestCase):
             with self.subTest(name=name), self.assertRaises(AssertionError):m.sibling(path, name, m.c.sha(log))
         with self.assertRaises(AssertionError):m.sibling(path, log.name, 'forged')
 
-    def test_prior_p43_artifact_cannot_admit_new_paired_source(self):
+    def test_prior_p43_or_p44_artifact_cannot_admit_new_paired_source(self):
         from family_update import workflow
         # Import before rebinding common so this module cannot retain fixture
         # globals if this focused test runs before its own test module.
@@ -78,7 +78,8 @@ class StableAuthorValidationTests(unittest.TestCase):
                  'previous_commit': m.PREVIOUS, 'test_command': ['python', 'tools/build_stable_author_evidence.py'],
                  'test_exit_code': 0, 'client': False, 'native_loading': False,
                  'simulated_players': False, 'production_ready': False}
-        for change in [{'profile': 'senluo-stable-author-20261016'}, {'version': [1, 0, 43]}]:
+        for change in [{'profile': 'senluo-stable-author-20261016'}, {'version': [1, 0, 43]},
+                       {'profile': 'senluo-stable-author-20261016-p44'}, {'version': [1, 0, 44]}]:
             with self.subTest(change=change), \
                     patch.multiple(m.c, CONFIG={'extension_stable_validation': str(self.root / 'proof.json')}, EXTENSION=self.root), \
                     patch.object(m, 'local_report', return_value={**proof, **change}), \

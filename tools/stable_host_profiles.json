@@ -493,6 +493,38 @@
         0,
         44
       ]
+    },
+    "chinesefood-doll-renderer-p45": {
+      "spec_sha256": "d6d7b483ff7939426fe7d629120fbcbdbcbde2fb3343d1d4f8e4bc4ba23a70d5",
+      "id": "senluo:chinesefood-doll-renderer-cleanup",
+      "version": [
+        1,
+        0,
+        10545
+      ],
+      "host_uuid": "fdb6b8c4-6fe3-44bb-af7a-08bcb976377c",
+      "archive_sha256": "6e424b1df6d933e4aa699023208d05e6a702431ed4c33dcca439c2cd0c2c9251",
+      "original_files": {
+        "BP/manifest.json": "be5fdf74df79a32e120ba9c701b7c06adb6e955a6e9a723fce90490f593effa7",
+        "RP/manifest.json": "9e86ad5c017b462e5d0f47206d5279a3ca3e37e90d4b038c1f3f19f6fafe8ba4",
+        "RP/blocks.json": "a66b3053dfbb173ce12a7bd53beb9827bdd1d952c6b92a83d37d2d15387c0fe4"
+      },
+      "patched_files": {
+        "BP/manifest.json": "8099854f5c6e1e6ce1b4bb20ceb27e125a2b61354be09338300047aed6209346",
+        "RP/manifest.json": "0f40e4134772b017624f07ca75403433cc8ed5de3ba19dc98adf4132117394f5",
+        "RP/blocks.json": "51756e55a09a2896a801fcfce599ee53272e1722821fb447c54de8e744dd1fc3"
+      },
+      "copies": {},
+      "required_extensions": [
+        "chinesefood-freezer-storage",
+        "chinesefood-reviewed-repairs"
+      ],
+      "source_owner": "upstream_extended",
+      "owner_version": [
+        1,
+        0,
+        45
+      ]
     }
   },
   "public_api_profile": {
