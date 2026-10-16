@@ -77,7 +77,7 @@ class NativeTickingAreaTests(unittest.TestCase):
         with patch.object(m.subprocess, 'Popen', side_effect=launch), patch.object(m.time, 'sleep'), \
                 patch.object(m, 'STARTUP_MARKERS', ['Server started.', 'family ready']):
             result = m.native_run(engine, 'first', minimum_seconds=0, commands=COMMANDS,
-                                  delayed_commands=['say [Author state QA] PASS 0 end'])
+                                  delayed_commands=['say SENLUO_AUTHOR_STATE_QA_PASS_0_END'])
         return result, processes[0]
 
     def test_early_fatal_sends_no_add_or_area_cleanup_and_retains_original_error(self):

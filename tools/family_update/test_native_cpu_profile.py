@@ -52,7 +52,7 @@ class NativeCpuProfileTests(unittest.TestCase):
         with patch.object(m.subprocess, 'Popen', side_effect=launch), patch.object(m.time, 'sleep'), \
                 patch.object(m, 'STARTUP_MARKERS', ['Server started.', 'family ready']):
             result = m.native_run(engine, 'first', minimum_seconds=0, commands=COMMANDS,
-                                  delayed_commands=['say [Author state QA] PASS synthetic'], cpu_profile=enabled)
+                                  delayed_commands=['say SENLUO_AUTHOR_STATE_QA_PASS_0_END'], cpu_profile=enabled)
         return result, processes[0]
 
     def test_disabled_keeps_commands_and_ignores_profiles_path(self):
@@ -62,7 +62,7 @@ class NativeCpuProfileTests(unittest.TestCase):
             result, process = self.run_native(engine, enabled=False)
         self.assertTrue(result['ok']);self.assertNotIn('cpu_profile', result);self.assertNotIn('profiled', result)
         self.assertFalse(any(command.startswith('script profiler') for command in process.executed))
-        self.assertEqual(process.executed, [*COMMANDS, 'say [Author state QA] PASS synthetic',
+        self.assertEqual(process.executed, [*COMMANDS, 'say SENLUO_AUTHOR_STATE_QA_PASS_0_END',
                                           'execute in nether run tickingarea remove author_state_1',
                                           'execute in overworld run tickingarea remove native_storage_reanchor_0', 'stop'])
 
