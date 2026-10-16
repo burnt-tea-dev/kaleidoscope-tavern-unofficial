@@ -127,9 +127,32 @@ class AuthorStateMigrationTests(unittest.TestCase):
    with patch.dict('sys.modules',{'leveldb':SimpleNamespace(LevelDB=lambda _:DB(data))}):return inspect_world(Path('/unit-only'),self.profile)
   before=inspect(raw());after=inspect(raw(True));self.assertEqual(before['position_state_signatures'],after['position_state_signatures']);self.assertEqual(before['blocks'],2048)
   start,delayed,markers=probe_commands(before);self.assertEqual(len(start),1);self.assertEqual(len(markers),1);self.assertIn('"kaleidoscope_cookery:chair_carpet_bank"=1',delayed[0])
-  self.assertTrue(verify(before,after,markers[0],markers)['ok'])
-  self.assertFalse(verify(before,after,'[Author state QA] PASS 10 end',markers)['ok'])
+  message='[2026-10-17 00:00:00:000 INFO] [Server] '+markers[0]+'\n'
+  self.assertTrue(verify(before,after,message,markers)['ok'])
+  self.assertFalse(verify(before,after,'[2026-10-17 00:00:00:000 INFO] SENLUO_AUTHOR_STATE_QA_PASS_10_END',markers)['ok'])
   tag['states']['kaleidoscope_cookery:chair_carpet_slot']=nbtlib.Int(1)
-  self.assertFalse(verify(before,inspect(raw()),markers[0],markers)['ok'])
+  self.assertFalse(verify(before,inspect(raw()),message,markers)['ok'])
+ def test_generated_native_probe_markers_require_complete_info_messages(self):
+  from family_update.author_state_preservation import probe_commands,verify
+  inspection={'position_state_signatures':{'synthetic':'preserved'},'blocks':11,'probes':[
+   {'dimension':0,'position':[i,64,-1],'identifier':'kaleidoscope_cookery:oak_chair',
+    'states':{'kaleidoscope_cookery:chair_carpet_bank':(3,1)}} for i in range(11)]}
+  start,commands,markers=probe_commands(inspection)
+  self.assertEqual(len(start),1);self.assertTrue(start[0].endswith(' true'))
+  self.assertEqual(markers[0],'SENLUO_AUTHOR_STATE_QA_PASS_0_END');self.assertEqual(markers[10],'SENLUO_AUTHOR_STATE_QA_PASS_10_END')
+  for command,marker in zip(commands,markers):
+   self.assertTrue(command.endswith(' run say '+marker))
+   self.assertIn('"kaleidoscope_cookery:chair_carpet_bank"=1',command)
+   self.assertRegex(marker,r'^[A-Z0-9_]+$')
+  def info(marker):return '[2026-10-17 00:00:00:000 INFO] [Server] '+marker+'\n'
+  complete=''.join(map(info,markers))
+  self.assertTrue(verify(inspection,inspection,complete,markers)['ok'])
+  missing=verify(inspection,inspection,''.join(map(info,markers[1:])),markers)
+  self.assertFalse(missing['ok']);self.assertEqual(missing['console_probes_passed'],10)
+  for log in [info(markers[10]),info(markers[0]+'_EXTRA'),markers[0],
+              '[2026-10-17 00:00:00:000 ERROR] '+markers[0],
+              '[2026-10-17 00:00:00:000 WARN] '+markers[0],
+              '[2026-10-17 00:00:00:000 INFO] '+commands[0]]:
+   with self.subTest(log=log):self.assertFalse(verify(inspection,inspection,log,[markers[0]])['ok'])
 
 if __name__=='__main__':unittest.main()
