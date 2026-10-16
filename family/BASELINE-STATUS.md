@@ -2,7 +2,7 @@
 
 ## 現行工作批次（2026-10-16）
 
-T172／G150／W150／private-integration已完成來源修補及新身份凍結，正經canonical PR／CI準備完整家族部署。Cookery1.6.1、ChineseFood1.0.5、Nether／End1.0.2與Saturation1.6同步適配；詳見[範圍與存檔保留](../docs/STABLE-FAMILY-20261016.md)。
+T173／G150／W151／private-integration已完成來源修補及新身份凍結，正經canonical PR／CI準備完整家族部署。Cookery1.6.1、ChineseFood1.0.5、Nether／End1.0.2與Saturation1.6同步適配；詳見[範圍與存檔保留](../docs/STABLE-FAMILY-20261016.md)。
 
 此批開始時直接核驗的實際LIVE仍為2026-10-15 22:40:27 HKT部署的T169／G144／W147／private-integration，42包；reviewed receipt SHA256為`c563149cea7e4413e67da2a37777ed583aa1ed0d739b3160b7e9130bc9f91bd3`。本批尚未部署，不能將舊存檔或畫面證據移作新候選通過。`client=false`、`production_ready=false`維持。
 

@@ -1,14 +1,14 @@
 # Stable author adaptation and collision repair — 2026-10-16
 
-Candidate: Tavern 0.6.172, Grilling 2.8.150, World Liquor 0.1.150 and private integration 1.0.44. Source/CI admission and the stopped-save rehearsal precede LIVE installation. This source document does not assert that installation or human acceptance has completed.
+Candidate: Tavern 0.6.173, Grilling 2.8.150, World Liquor 0.1.151 and private integration 1.0.45. Source/CI admission and the stopped-save rehearsal precede LIVE installation. This source document does not assert that installation or human acceptance has completed.
 
 | Author package | Reviewed stable source | Treatment |
 | --- | --- | --- |
 | Cookery | 1.6.1 / CurseForge file 9123386 | Public family API 0.2.11, exact private hooks and new author identities |
-| ChineseFood | 1.0.5 / 9123382 | Retain reviewed repairs; paired local identity 1.0.10544 |
+| ChineseFood | 1.0.5 / 9123382 | Retain reviewed repairs; paired local identity 1.0.10545 |
 | Nether | 1.0.2 / 9123379 | New author identities and furniture state conversion |
 | End | 1.0.2 / 9123371 | New author identities |
-| Java Saturation | 1.6 / 9071891 | Build local 1.6.10044 from the complete clean author input; preserve admitted HUD/scheduling repairs |
+| Java Saturation | 1.6 / 9071891 | Build local 1.6.10045 from the complete clean author input; preserve admitted HUD/scheduling repairs |
 
 ImmersiveEating 1.1.0 remains current. Existing Essentials, Farmer's Delight and Ribbits maintenance variants retain their admitted repairs and identities. A larger local version is not a newer author release. Farmer's Delight Plus is a different project and is not substituted. Marketplace products without a verifiable version feed remain explicitly unverified for latest-version status. BDS 1.26.52.3 is the stable target; preview channels and new experiments are excluded.
 
@@ -22,4 +22,6 @@ Stable Saturation's clean HUD still contains global native-alpha overrides. The 
 
 Targeted source/data regression checks precede canonical PR CI. This candidate retains `client=false`, `production_ready=false` and pending human acceptance. BDS/source success cannot verify rendered HUD, audio/animation alignment, physical contact feel, touch precision or actual high-latency recovery. The original missing shaker-progress report and earlier failures are not relabeled as passed.
 
-The initial frozen T171/W149 candidates retained stale internal version labels and were not deployed. Their original frozen hashes and the failed W149 CI remain recorded. T172/W150 use fresh identities with matching manifests, modules, dependencies, payload labels and release-history entries.
+The initial frozen T171/W149 candidates retained stale internal version labels and were not deployed. Their original frozen hashes and the failed W149 CI remain recorded. T173/W151 use fresh identities with matching manifests, modules, dependencies, payload labels and release-history entries.
+
+T172/W150 also remained undeployed: the old diagnostic BUILD_VERSION was exposed by package/peer CI, and shallow CI checkout lacked the fixed collision predecessor. T173/W151 include the diagnostic identity and a bounded pre-freeze check of all existing identity guards; the history lookup fetches fixed sources and remains repository-bound. reviewed integration successful source CI retains its original T172/W150 pairing; new reviewed integration source/main proof is required for this final family.

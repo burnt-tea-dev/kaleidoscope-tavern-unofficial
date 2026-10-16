@@ -54,7 +54,7 @@ class StableRendererManifestTests(unittest.TestCase):
  def pair(self):
   return [{'header':{'uuid':uid,'version':[1,0,5],'name':'pack.name'},'modules':[{'uuid':uid+'-module','version':[1,0,5]}],'dependencies':[{'uuid':other,'version':[1,0,5]},{'module_name':'@minecraft/server','version':'2.7.0'}]} for uid,other in [(STABLE_BP,STABLE_RP),(STABLE_RP,STABLE_BP)]]
  def test_stable_author_pair_preserves_modules_and_api_while_advancing_only_owned_cache_identity(self):
-  for owner,local in [([1,0,43],[1,0,10543]),([1,0,44],[1,0,10544])]:
+  for owner,local in [([1,0,43],[1,0,10543]),([1,0,44],[1,0,10544]),([1,0,45],[1,0,10545])]:
    original=self.pair();patched=patch_manifests(*original,local,owner)
    for old,new in zip(original,patched):
     self.assertEqual(new['header']['uuid'],old['header']['uuid']);self.assertEqual(new['header']['version'],local);self.assertIn('作者原版 1.0.5',new['header']['name'])
@@ -68,7 +68,7 @@ class StableRendererManifestTests(unittest.TestCase):
    else:pair[0]['dependencies'][0]['uuid']=RP
    with self.subTest(field=field),self.assertRaises(ValueError):patch_manifests(*pair,[1,0,10543],[1,0,43])
   with self.assertRaisesRegex(ValueError,'exact owner'):patch_manifests(*self.pair(),[1,0,10443],[1,0,43])
-  with self.assertRaisesRegex(ValueError,'exact owner'):patch_manifests(*self.pair(),[1,0,10545],[1,0,45])
+  with self.assertRaisesRegex(ValueError,'exact owner'):patch_manifests(*self.pair(),[1,0,10546],[1,0,46])
   with self.assertRaisesRegex(ValueError,'exact owner'):patch_manifests(*self.pair(),[1,0,10543],[1,0,44])
 
 if __name__=='__main__':unittest.main()

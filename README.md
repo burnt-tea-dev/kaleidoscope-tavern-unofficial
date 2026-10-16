@@ -1,6 +1,6 @@
-## Current maintained baseline: 0.6.172
+## Current maintained baseline: 0.6.173
 
-Tavern 0.6.172 restores the source-proven barrel edge collision and introduces reviewed stable-author identity/state migration for the coupled G150/W150/private-integration family. [Scope, stable versions and data preservation](docs/STABLE-FAMILY-20261016.md). PR/native/saved-world gates and human acceptance remain distinct.
+Tavern 0.6.173 restores the source-proven barrel edge collision and introduces reviewed stable-author identity/state migration for the coupled G150/W151/private-integration family. [Scope, stable versions and data preservation](docs/STABLE-FAMILY-20261016.md). PR/native/saved-world gates and human acceptance remain distinct.
 
 Tavern 0.6.170 is a local editor-compatibility candidate: normalize one offhand shaker coefficient spelling while preserving the expression values and all motion/camera/clock behavior. Native warning-removal, paired-family admission and human client acceptance remain separate gates. See [scope and limitations](docs/RELEASE-NOTES-0.6.170.md).
 

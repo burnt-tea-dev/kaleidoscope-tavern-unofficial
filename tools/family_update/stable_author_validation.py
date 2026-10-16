@@ -16,16 +16,16 @@ from family_update.cookery_cache_validation import tree
 REPOSITORY = 'casama233/senluo-family-integration-private'
 REPOSITORY_ID = 1406868911
 LOGICAL = 'local/senluo-amw-cuisine'
-PROFILE = 'senluo-stable-author-20261016-p44'
-SAT_PROFILE = 'senluo-stable-saturation-20261016-p44'
+PROFILE = 'senluo-stable-author-20261016-p45'
+SAT_PROFILE = 'senluo-stable-saturation-20261016-p45'
 PREVIOUS = 'f86bea4d747c30e295a409f61c639ef056796943'
-VERSION = [1, 0, 44]
-HOST_PROFILE = 'companion-sources/stable-author-20261016-p44/host-profiles.json'
-HOST_PROFILE_SHA = '6a9f3bb02969326824d914f2129fe9b53baa93c1d8f518603cea349502698876'
-RECIPE = 'companion-sources/stable-author-20261016-p44/saturation-recipe.json'
-RECIPE_SHA = '260d65fcf3580faa357834b11a66f28131ef9b652c93fa8ea41ee60aa1249ab8'
+VERSION = [1, 0, 45]
+HOST_PROFILE = 'companion-sources/stable-author-20261016-p45/host-profiles.json'
+HOST_PROFILE_SHA = '1f71220f8a8ea7db87091f53b4a687419476ef61c41f9f79bdeffd211534f0b7'
+RECIPE = 'companion-sources/stable-author-20261016-p45/saturation-recipe.json'
+RECIPE_SHA = 'a73fc5b499e19819831a15ba5742c7609a071b03ee6bfcef0ac6ffa36b0acb1f'
 SAT_UUIDS = {'BP': 'f65e943a-2128-4da8-9196-e9bf5b86739d', 'RP': '9071b6bc-915d-4d26-8486-05bb8db48762'}
-SAT_VERSION = [1, 6, 10044]
+SAT_VERSION = [1, 6, 10045]
 SPEC_HOSTS = {
     'cookery-mooncake-dough-repair.json': 'Cookery',
     'cookery-recipe-cache-repair.json': 'Cookery',
