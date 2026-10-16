@@ -5,6 +5,7 @@ freezer/native report or establish rendered-client or performance acceptance.
 """
 from functools import lru_cache
 from pathlib import Path
+import copy
 import hashlib
 import io
 import json
@@ -16,25 +17,33 @@ from family_update.cookery_cache_validation import tree
 REPOSITORY = 'casama233/senluo-family-integration-private'
 REPOSITORY_ID = 1406868911
 LOGICAL = 'local/senluo-amw-cuisine'
-PROFILE = 'senluo-stable-author-20261017-p46'
-SAT_PROFILE = 'senluo-stable-saturation-20261017-p46'
+PROFILE = 'senluo-stable-author-20261017-p47'
+SAT_PROFILE = 'senluo-stable-saturation-20261017-p47'
 PREVIOUS = 'f86bea4d747c30e295a409f61c639ef056796943'
-VERSION = [1, 0, 46]
-HOST_PROFILE = 'companion-sources/stable-author-20261017-p46/host-profiles.json'
-HOST_PROFILE_SHA = 'bfe64e00171c69acb0bc7f976180dfa970db99f94d891788dd4c2aef6140a47c'
-RECIPE = 'companion-sources/stable-author-20261017-p46/saturation-recipe.json'
-RECIPE_SHA = 'f7f22b3314d901ae068e56c4fda53ef65bdb07626cb4a8b48af0a6b6a609e383'
+VERSION = [1, 0, 47]
+HOST_PROFILE = 'companion-sources/stable-author-20261017-p47/host-profiles.json'
+HOST_PROFILE_SHA = '66921b4567a3f0540c6df3e8ca9df72b3e1b95cd7c841c62b2b39245f8db33dc'
+RECIPE = 'companion-sources/stable-author-20261017-p47/saturation-recipe.json'
+RECIPE_SHA = '8426ee0103490aebc398b9482caa57ab6c581725dcce9f439d9e013f38023dac'
 SAT_UUIDS = {'BP': 'f65e943a-2128-4da8-9196-e9bf5b86739d', 'RP': '9071b6bc-915d-4d26-8486-05bb8db48762'}
-SAT_VERSION = [1, 6, 10046]
-SAT_MANIFEST_COMPATIBILITY = {
-    'resource_capabilities': ['pbr'],
-    'admitted_manifest': {
-        'path': 'companion-sources/stable-author-20261017-p46/admitted-rp-manifest.json',
-        'sha256': 'e1cd222cece4fc328cba1c76962820fc3de8e6f46bff56d570541809754d77b7',
-        'uuid': SAT_UUIDS['RP'], 'version': [1, 5, 6],
-    },
-    'author_resource_capabilities': [],
-}
+SAT_VERSION = [1, 6, 10047]
+SAT_MANIFEST_COMPATIBILITY = {'resource_capabilities': ['pbr'],
+ 'resource_min_engine_version': [1, 21, 120],
+ 'resource_manifest_metadata': {'format_version': 2,
+                                'header': {'description': 'By Raiyon',
+                                           'uuid': '9071b6bc-915d-4d26-8486-05bb8db48762',
+                                           'min_engine_version': [1, 21, 120]},
+                                'metadata': {'product_type': 'addon'},
+                                'dependencies': [{'uuid': 'f65e943a-2128-4da8-9196-e9bf5b86739d'}],
+                                'modules': [{'type': 'resources',
+                                             'uuid': '7fe0bd9a-633e-4ded-88e7-64508079b881'}],
+                                'capabilities': ['pbr']},
+ 'admitted_manifest': {'path': 'companion-sources/stable-author-20261017-p47/admitted-rp-manifest.json',
+                       'sha256': 'e1cd222cece4fc328cba1c76962820fc3de8e6f46bff56d570541809754d77b7',
+                       'uuid': '9071b6bc-915d-4d26-8486-05bb8db48762',
+                       'version': [1, 5, 6]},
+ 'author_resource_capabilities': [],
+ 'author_resource_min_engine_version': [1, 21, 10]}
 SPEC_HOSTS = {
     'cookery-mooncake-dough-repair.json': 'Cookery',
     'cookery-recipe-cache-repair.json': 'Cookery',
@@ -47,6 +56,14 @@ SPEC_HOSTS = {
 
 def digest(raw):
     return hashlib.sha256(raw).hexdigest()
+
+
+def resource_manifest_metadata(manifest):
+    """Retain the full admitted RP metadata apart from fresh name/versions."""
+    result = copy.deepcopy(manifest)
+    for key in ['name', 'version']:result['header'].pop(key, None)
+    for row in [*result.get('modules', []), *result.get('dependencies', [])]:row.pop('version', None)
+    return result
 
 
 def committed_json(relative, expected):
@@ -71,6 +88,8 @@ def reviewed_profiles():
     manifest = committed_json(retained['path'], retained['sha256'])
     assert manifest['header']['uuid'] == retained['uuid'] and manifest['header']['version'] == retained['version']
     assert manifest['capabilities'] == recipe['manifest_compatibility']['resource_capabilities']
+    assert manifest['header']['min_engine_version'] == recipe['manifest_compatibility']['resource_min_engine_version']
+    assert resource_manifest_metadata(manifest) == recipe['manifest_compatibility']['resource_manifest_metadata']
     assert all(recipe[k] is False for k in ['client', 'native_loading', 'production_ready'])
     return profile, recipe
 
@@ -395,6 +414,7 @@ def select_inputs(preserved, original, path, review):
             assert recipe['manifest_compatibility'] == SAT_MANIFEST_COMPATIBILITY
             assert c.sha(old_path) == recipe['manifest_compatibility']['admitted_manifest']['sha256']
             assert capabilities == recipe['manifest_compatibility']['resource_capabilities'], 'Stable Saturation resource output must retain admitted PBR compatibility'
+            assert resource_manifest_metadata(manifest) == resource_manifest_metadata(previous) == recipe['manifest_compatibility']['resource_manifest_metadata'], 'Stable Saturation must preserve admitted resource manifest metadata'
         assert manifest['header']['uuid'] == uid and manifest['header']['version'] == SAT_VERSION
         assert [(m['uuid'], m['type']) for m in manifest['modules']] == [(m['uuid'], m['type']) for m in previous['modules']]
         assert all(m['version'] == SAT_VERSION for m in manifest['modules'])
