@@ -106,7 +106,7 @@ def native_run(engine, phase, minimum_seconds=30, commands=(), delayed_commands=
     # BDS reports the containing chunk's center, not the requested block X/Z.
     # For example 31,-22 is acknowledged as 24,-24 (including negative Z).
     # Serialize adds so a success can be bound to exactly one dispatched name.
-    acknowledgement = re.compile(r'(?m)^\[[^\n\]]+ INFO\] Added ticking area centered at (-?\d+), -?\d+, (-?\d+) with a radius of (\d+) chunks?\.\r?$')
+    acknowledgement = re.compile(r'(?m)^\[[^\n\]]+ INFO\] Added ticking area centered at (-?\d+), -?\d+, (-?\d+) with a radius of (\d+) chunks?(?: marked for preload)?\.\r?$')
     created = []; pending = None; cursor = 0; dispatched = 0
     sent = delayed_sent = False; sent_tick = None; stop_reason = 'timeout'; cleanup = []
     with log.open('w') as output:
