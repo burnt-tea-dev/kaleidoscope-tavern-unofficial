@@ -57,7 +57,7 @@ def expected():
   base,camera=calibration(hand);frame=mul(rigid_inverse(base),camera)
   origin=point(frame,[0,0,0]);peak=point(frame,[0,-2.4,0])
   delta=[-(peak[0]-origin[0]),peak[1]-origin[1],peak[2]-origin[2]]
-  active['position']=[f'{value:.8f} + {delta[i]:.8f} * {WAVE}' for i,value in enumerate(active['position'])]
+  active['position']=[f"{value:.8f} {'-' if delta[i] < 0 else '+'} {abs(delta[i]):.8f} * {WAVE}" for i,value in enumerate(active['position'])]
   for name,value in [('hold_first',idle),('hold_third',third),('shake_first',active)]:
    result['animation.kt_mixology.'+name+suffix]={'loop':True,'bones':{'grip':value}}
  return result

@@ -2,6 +2,7 @@
 import ast,copy,itertools,json,math,re,unittest
 from pathlib import Path
 from held_frame_math import chain,translate,rotate,xyz,scale,point,bone_matrix,calibration
+from shaker_held_frames import expected
 ROOT=Path(__file__).resolve().parents[1]
 ANIM=json.loads((ROOT/'runtime/RP/animations/runtime_shaker.animation.json').read_text())['animations']
 GEO=json.loads((ROOT/'runtime/RP/models/entity/runtime_shaker_held.geo.json').read_text())['minecraft:geometry'][0]
@@ -24,6 +25,39 @@ def selected_animations(animate,first,remaining,maximum,slot='main_hand',off_rem
  return selected
 
 class ShakerJavaFrames(unittest.TestCase):
+ def assertEditorCoefficientSpelling(self,animations):
+  # This is an editor conversion contract, not a Bedrock grammar verdict.
+  target=animations['animation.kt_mixology.shake_first_left']['bones']['grip']['position'][0]
+  self.assertEqual(target,'4.50451374 - 1.53805532 * math.sin(q.life_time * 1718.87338539247)')
+  for name in expected():
+   for values in animations[name]['bones']['grip'].values():
+    for value in values if isinstance(values,list) else [values]:
+     if isinstance(value,str):self.assertNotRegex(value,r'\+\s*-|-\s*\+')
+ def test_generated_and_shipped_editor_coefficient_spelling(self):
+  generated=expected()
+  self.assertEditorCoefficientSpelling(generated)
+  self.assertEditorCoefficientSpelling(ANIM)
+  for name,value in generated.items():self.assertEqual(ANIM[name],value,name)
+ def test_adjacent_operator_and_wrong_sign_mutations_are_rejected(self):
+  for replacement in (' + -1.53805532',' + 1.53805532'):
+   mutated=copy.deepcopy(ANIM)
+   position=mutated['animation.kt_mixology.shake_first_left']['bones']['grip']['position']
+   position[0]=position[0].replace(' - 1.53805532',replacement)
+   with self.subTest(replacement=replacement),self.assertRaises(AssertionError):
+    self.assertEditorCoefficientSpelling(mutated)
+ def test_normalized_negative_coefficient_preserves_sampled_values(self):
+  # Algebraically a + (-b)*s == a - b*s for every real sine value s.
+  # Finite sampling checks the retained coefficients/units, not runtime epochs.
+  expression=ANIM['animation.kt_mixology.shake_first_left']['bones']['grip']['position'][0]
+  expression=expression.replace('math.sin(q.life_time * 1718.87338539247)','wave')
+  times={0,.05,.10,.15,110.99/20,111/20,111.01/20,3594.44,3594.45,3594.46}
+  times.update(i/80 for i in range(445))
+  times.update(i*(2*math.pi/30)/4096 for i in range(4097))
+  times.update(t+f for t in (1,10,100,1000,3600,72000,1000000) for f in (0,.05,.1,.15,111/20))
+  for time in times:
+   wave=math.sin(time*1718.87338539247*math.pi/180)
+   actual=eval(expression,{'__builtins__':{}},{'wave':wave})
+   self.assertEqual(actual,4.50451374 + -1.53805532*wave,time)
  def vertices(self):
   for b in GEO['bones']:
    for cube in b.get('cubes',[]):
