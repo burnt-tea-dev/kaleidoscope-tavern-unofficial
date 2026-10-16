@@ -79,21 +79,37 @@ class StableAuthorValidationTests(unittest.TestCase):
             with self.subTest(record=record, declaration=declaration), self.assertRaises((AssertionError, KeyError)):
                 m.private_receipt_version(record, declaration)
 
-    def test_actual_renderer47_declaration_requires_its_exact_owner_and_postimages(self):
+    def test_actual_renderer48_declaration_requires_its_exact_owner_and_postimages(self):
         from stable_host_profiles import PROFILES, match_stable_profile
-        path = Path(__file__).resolve().parents[2] / 'data/stable-author-20261017-p47/chinesefood-renderer47-declaration.json'
-        self.assertEqual(m.c.sha(path), 'f3d93e8b7b5251430754b3196fdc760db9aee2d2aff4758a8dad5774d44a93d0')
+        path = Path(__file__).resolve().parents[2] / 'data/stable-author-20261017-p48/chinesefood-renderer48-declaration.json'
+        self.assertEqual(m.c.sha(path), '90ed99beb102576fb364009abaa9a3247f1ad081d6804a92a612169eaa12b48e')
         declaration = json.loads(path.read_text())
-        self.assertIs(match_stable_profile(declaration), PROFILES['chinesefood-doll-renderer-p47'])
-        for change in [{'owner_version': [1, 0, 46]}, {'local_pack_version': [1, 0, 10546]},
-                       {'owner_version': [1, 0, 48], 'local_pack_version': [1, 0, 10548]},
+        self.assertIs(match_stable_profile(declaration), PROFILES['chinesefood-doll-renderer-p48'])
+        for change in [{'owner_version': [1, 0, 47]}, {'local_pack_version': [1, 0, 10547]},
+                       {'owner_version': [1, 0, 49], 'local_pack_version': [1, 0, 10549]},
                        {'patched_files': {**declaration['patched_files'], 'RP/manifest.json': 'unreviewed'}}]:
             with self.subTest(change=change), self.assertRaisesRegex(ValueError, 'exact reviewed profile'):
                 match_stable_profile({**declaration, **change})
 
+    def test_nether48_receipt_keeps_its_local_variant_and_exact_owner_contract(self):
+        from stable_host_profiles import PROFILES, match_stable_profile
+        path = Path(__file__).resolve().parents[2] / 'data/stable-author-20261017-p48/nether-placeable48-declaration.json'
+        self.assertEqual(m.c.sha(path), '7509850c5c728af344ca2a5f563296aa885cf3e571d784a558f0c6dd424de204')
+        declared = json.loads(path.read_text())
+        self.assertIs(match_stable_profile(declared), PROFILES['nether-placeable-drinks-schema-repair-p48'])
+        extension = {key: copy.deepcopy(declared[key]) for key in [
+            'owner_version', 'local_pack_version', 'version', 'official_author_release']}
+        extension['source_package_version'] = m.VERSION
+        m.private_receipt_version(extension, declared)
+        for change in [{'owner_version': [1, 0, 47]}, {'local_pack_version': [1, 0, 2]},
+                       {'source_package_version': [1, 0, 47]}, {'version': [1, 0, 0]},
+                       {'official_author_release': True}]:
+            with self.subTest(change=change), self.assertRaises(AssertionError):
+                m.private_receipt_version({**extension, **change}, declared)
+
     def test_resource_renderer_binds_its_behavior_prerequisites_and_identical_pair_receipt(self):
         from stable_host_profiles import PROFILES, receipt, validate_stable_source
-        profile = PROFILES['chinesefood-doll-renderer-p47']
+        profile = PROFILES['chinesefood-doll-renderer-p48']
         declared = {'kind': 'chinesefood-doll-renderer-cleanup'}
         extension = {'id': profile['id'], 'owner_version': m.VERSION, 'source_package_version': m.VERSION}
         prefix = {'owner': 'upstream', 'archive_sha256': profile['archive_sha256'], 'reviewed_extensions': []}
@@ -117,7 +133,7 @@ class StableAuthorValidationTests(unittest.TestCase):
             with self.subTest(mode=mode), self.assertRaises((AssertionError, KeyError, ValueError)):
                 verify(changed, resource)
 
-    def test_prior_p43_to_p46_artifact_cannot_admit_new_paired_source(self):
+    def test_prior_p43_to_p47_artifact_cannot_admit_new_paired_source(self):
         from family_update import workflow
         # Import before rebinding common so this module cannot retain fixture
         # globals if this focused test runs before its own test module.
@@ -135,7 +151,8 @@ class StableAuthorValidationTests(unittest.TestCase):
         for change in [{'profile': 'senluo-stable-author-20261016'}, {'version': [1, 0, 43]},
                        {'profile': 'senluo-stable-author-20261016-p44'}, {'version': [1, 0, 44]},
                        {'profile': 'senluo-stable-author-20261016-p45'}, {'version': [1, 0, 45]},
-                       {'profile': 'senluo-stable-author-20261017-p46'}, {'version': [1, 0, 46]}]:
+                       {'profile': 'senluo-stable-author-20261017-p46'}, {'version': [1, 0, 46]},
+                       {'profile': 'senluo-stable-author-20261017-p47'}, {'version': [1, 0, 47]}]:
             with self.subTest(change=change), \
                     patch.multiple(m.c, CONFIG={'extension_stable_validation': str(self.root / 'proof.json')}, EXTENSION=self.root), \
                     patch.object(m, 'local_report', return_value={**proof, **change}), \
@@ -202,13 +219,13 @@ class StableAuthorValidationTests(unittest.TestCase):
                 else:chosen['source_validation']['sha256'] = 'old-reviewed integration-native-report'
                 with self.subTest(kind=kind), self.assertRaises(AssertionError):prospective.verify_candidate(value, chosen)
 
-    def test_actual_saturation47_pair_passes_real_vibrant_validator_and_prior_pairs_fail(self):
+    def test_actual_saturation48_pair_passes_real_vibrant_validator_and_prior_pairs_fail(self):
         from vibrant_audit import audit, record
-        path = Path(__file__).resolve().parents[2] / 'data/stable-author-20261017-p47/saturation-manifest-materials.json'
+        path = Path(__file__).resolve().parents[2] / 'data/stable-author-20261017-p48/saturation-manifest-materials.json'
         materials = json.loads(path.read_text())['manifests']
         for key, expected in [('failed_p45', 'missing PBR declaration'),
                               ('failed_p46', 'pbr requires min_engine_version'),
-                              ('prospective_p47', None)]:
+                              ('prospective_p48', None)]:
             rows = []
             for name in [key + '_bp', key]:
                 material = materials[name]
@@ -226,7 +243,7 @@ class StableAuthorValidationTests(unittest.TestCase):
 
     def test_saturation_select_reads_ownership_from_admission_not_plain_live_capture(self):
         from family_guard import hashes
-        material_path = Path(__file__).resolve().parents[2] / 'data/stable-author-20261017-p47/saturation-manifest-materials.json'
+        material_path = Path(__file__).resolve().parents[2] / 'data/stable-author-20261017-p48/saturation-manifest-materials.json'
         materials = json.loads(material_path.read_text())['manifests']
         parsed = {}
         for name, row in materials.items():
@@ -238,8 +255,8 @@ class StableAuthorValidationTests(unittest.TestCase):
         self.assertEqual(admitted_rp['capabilities'], ['pbr'])
         self.assertNotIn('capabilities', parsed['clean_author'])
         self.assertNotIn('capabilities', parsed['failed_p45'])
-        self.assertEqual(parsed['prospective_p47']['capabilities'], admitted_rp['capabilities'])
-        self.assertEqual(parsed['prospective_p47']['header']['min_engine_version'], admitted_rp['header']['min_engine_version'])
+        self.assertEqual(parsed['prospective_p48']['capabilities'], admitted_rp['capabilities'])
+        self.assertEqual(parsed['prospective_p48']['header']['min_engine_version'], admitted_rp['header']['min_engine_version'])
         source = self.root / 'source';source.mkdir()
         output = self.root / 'run';(output / 'production-before').mkdir(parents=True)
         live = self.root / 'live';live.mkdir()
@@ -251,7 +268,7 @@ class StableAuthorValidationTests(unittest.TestCase):
             for root, version in [(old_root, [1, 5, 6]), (new_root, m.SAT_VERSION)]:
                 # Preserve both actual BP/RP byte sequences, with no reconstructed
                 # identity or display formula in the fixture.
-                key = 'admitted_live' if version == [1, 5, 6] else 'prospective_p47'
+                key = 'admitted_live' if version == [1, 5, 6] else 'prospective_p48'
                 if side == 'BP':key += '_bp'
                 raw = materials[key]['raw']
                 (root / 'manifest.json').write_text(raw)
