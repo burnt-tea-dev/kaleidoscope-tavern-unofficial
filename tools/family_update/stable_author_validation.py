@@ -16,16 +16,25 @@ from family_update.cookery_cache_validation import tree
 REPOSITORY = 'casama233/senluo-family-integration-private'
 REPOSITORY_ID = 1406868911
 LOGICAL = 'local/senluo-amw-cuisine'
-PROFILE = 'senluo-stable-author-20261016-p45'
-SAT_PROFILE = 'senluo-stable-saturation-20261016-p45'
+PROFILE = 'senluo-stable-author-20261017-p46'
+SAT_PROFILE = 'senluo-stable-saturation-20261017-p46'
 PREVIOUS = 'f86bea4d747c30e295a409f61c639ef056796943'
-VERSION = [1, 0, 45]
-HOST_PROFILE = 'companion-sources/stable-author-20261016-p45/host-profiles.json'
-HOST_PROFILE_SHA = '1f71220f8a8ea7db87091f53b4a687419476ef61c41f9f79bdeffd211534f0b7'
-RECIPE = 'companion-sources/stable-author-20261016-p45/saturation-recipe.json'
-RECIPE_SHA = 'a73fc5b499e19819831a15ba5742c7609a071b03ee6bfcef0ac6ffa36b0acb1f'
+VERSION = [1, 0, 46]
+HOST_PROFILE = 'companion-sources/stable-author-20261017-p46/host-profiles.json'
+HOST_PROFILE_SHA = 'bfe64e00171c69acb0bc7f976180dfa970db99f94d891788dd4c2aef6140a47c'
+RECIPE = 'companion-sources/stable-author-20261017-p46/saturation-recipe.json'
+RECIPE_SHA = 'f7f22b3314d901ae068e56c4fda53ef65bdb07626cb4a8b48af0a6b6a609e383'
 SAT_UUIDS = {'BP': 'f65e943a-2128-4da8-9196-e9bf5b86739d', 'RP': '9071b6bc-915d-4d26-8486-05bb8db48762'}
-SAT_VERSION = [1, 6, 10045]
+SAT_VERSION = [1, 6, 10046]
+SAT_MANIFEST_COMPATIBILITY = {
+    'resource_capabilities': ['pbr'],
+    'admitted_manifest': {
+        'path': 'companion-sources/stable-author-20261017-p46/admitted-rp-manifest.json',
+        'sha256': 'e1cd222cece4fc328cba1c76962820fc3de8e6f46bff56d570541809754d77b7',
+        'uuid': SAT_UUIDS['RP'], 'version': [1, 5, 6],
+    },
+    'author_resource_capabilities': [],
+}
 SPEC_HOSTS = {
     'cookery-mooncake-dough-repair.json': 'Cookery',
     'cookery-recipe-cache-repair.json': 'Cookery',
@@ -57,6 +66,11 @@ def reviewed_profiles():
     assert recipe['profile'] == SAT_PROFILE and recipe['source_package_version'] == VERSION
     assert recipe['file_id'] == 9071891 and recipe['archive_sha256'] == '42084b762ef1508a1918dcd9d39f17fb418fd02887e589d47c6e3cc8936d3434'
     assert recipe['uuids'] == SAT_UUIDS and all(v == SAT_VERSION for v in recipe['versions'].values())
+    assert recipe['manifest_compatibility'] == SAT_MANIFEST_COMPATIBILITY
+    retained = recipe['manifest_compatibility']['admitted_manifest']
+    manifest = committed_json(retained['path'], retained['sha256'])
+    assert manifest['header']['uuid'] == retained['uuid'] and manifest['header']['version'] == retained['version']
+    assert manifest['capabilities'] == recipe['manifest_compatibility']['resource_capabilities']
     assert all(recipe[k] is False for k in ['client', 'native_loading', 'production_ready'])
     return profile, recipe
 
@@ -374,6 +388,13 @@ def select_inputs(preserved, original, path, review):
         manifest = c.read(root / 'manifest.json');old_path = Path(current[uid]['path']) / 'manifest.json'
         assert c.sha(old_path) == current[uid]['files']['manifest.json']
         previous = c.read(old_path)
+        capabilities = manifest.get('capabilities', [])
+        assert isinstance(capabilities, list) and all(isinstance(value, str) for value in capabilities)
+        assert capabilities == previous.get('capabilities', []), 'Stable Saturation must preserve admitted manifest capabilities'
+        if side == 'RP':
+            assert recipe['manifest_compatibility'] == SAT_MANIFEST_COMPATIBILITY
+            assert c.sha(old_path) == recipe['manifest_compatibility']['admitted_manifest']['sha256']
+            assert capabilities == recipe['manifest_compatibility']['resource_capabilities'], 'Stable Saturation resource output must retain admitted PBR compatibility'
         assert manifest['header']['uuid'] == uid and manifest['header']['version'] == SAT_VERSION
         assert [(m['uuid'], m['type']) for m in manifest['modules']] == [(m['uuid'], m['type']) for m in previous['modules']]
         assert all(m['version'] == SAT_VERSION for m in manifest['modules'])
