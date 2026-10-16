@@ -17,16 +17,17 @@ from family_update.cookery_cache_validation import tree
 REPOSITORY = 'casama233/senluo-family-integration-private'
 REPOSITORY_ID = 1406868911
 LOGICAL = 'local/senluo-amw-cuisine'
-PROFILE = 'senluo-stable-author-20261017-p47'
-SAT_PROFILE = 'senluo-stable-saturation-20261017-p47'
+PROFILE = 'senluo-stable-author-20261017-p48'
+SAT_PROFILE = 'senluo-stable-saturation-20261017-p48'
 PREVIOUS = 'f86bea4d747c30e295a409f61c639ef056796943'
-VERSION = [1, 0, 47]
-HOST_PROFILE = 'companion-sources/stable-author-20261017-p47/host-profiles.json'
-HOST_PROFILE_SHA = '66921b4567a3f0540c6df3e8ca9df72b3e1b95cd7c841c62b2b39245f8db33dc'
-RECIPE = 'companion-sources/stable-author-20261017-p47/saturation-recipe.json'
-RECIPE_SHA = '8426ee0103490aebc398b9482caa57ab6c581725dcce9f439d9e013f38023dac'
+VERSION = [1, 0, 48]
+HOST_PROFILE = 'companion-sources/stable-author-20261017-p48/host-profiles.json'
+HOST_PROFILE_SHA = 'eaee5c8858e5e0b913ca642effec264de5678fb2f6277b35cad7d83c6af0692c'
+RECIPE = 'companion-sources/stable-author-20261017-p48/saturation-recipe.json'
+RECIPE_SHA = '82f399fff69222ffea7236e24e247a2f542bdb0c2fbfdcd250e8c33cfa88b623'
 SAT_UUIDS = {'BP': 'f65e943a-2128-4da8-9196-e9bf5b86739d', 'RP': '9071b6bc-915d-4d26-8486-05bb8db48762'}
-SAT_VERSION = [1, 6, 10047]
+SAT_VERSION = [1, 6, 10048]
+NETHER_VERSION = [1, 0, 10248]
 SAT_MANIFEST_COMPATIBILITY = {'resource_capabilities': ['pbr'],
  'resource_min_engine_version': [1, 21, 120],
  'resource_manifest_metadata': {'format_version': 2,
@@ -38,7 +39,7 @@ SAT_MANIFEST_COMPATIBILITY = {'resource_capabilities': ['pbr'],
                                 'modules': [{'type': 'resources',
                                              'uuid': '7fe0bd9a-633e-4ded-88e7-64508079b881'}],
                                 'capabilities': ['pbr']},
- 'admitted_manifest': {'path': 'companion-sources/stable-author-20261017-p47/admitted-rp-manifest.json',
+ 'admitted_manifest': {'path': 'companion-sources/stable-author-20261017-p48/admitted-rp-manifest.json',
                        'sha256': 'e1cd222cece4fc328cba1c76962820fc3de8e6f46bff56d570541809754d77b7',
                        'uuid': '9071b6bc-915d-4d26-8486-05bb8db48762',
                        'version': [1, 5, 6]},
@@ -51,6 +52,7 @@ SPEC_HOSTS = {
     'chinesefood-freezer-storage.json': 'ChineseFood',
     'chinesefood-reviewed-repairs.json': 'ChineseFood',
     'chinesefood-doll-renderer.json': 'ChineseFood',
+    'nether-placeable-drinks-schema-repair.json': 'Nether',
 }
 
 
@@ -171,7 +173,7 @@ def source_proof():
     assert proof['author_inputs'] == profile['authors']
     assert proof['host_profiles'] == {'path': HOST_PROFILE, 'sha256': HOST_PROFILE_SHA, 'spec_sha256': profile['host_spec_sha256'],
                                       'imports_resolved': proof['host_profiles']['imports_resolved'], 'private_copied_helpers_byte_preserved': True}
-    assert set(proof['host_profiles']['imports_resolved']) == {'Cookery', 'ChineseFood'}
+    assert set(proof['host_profiles']['imports_resolved']) == {'Cookery', 'ChineseFood', 'Nether'}
     assert all(type(n) is int and n > 0 for n in proof['host_profiles']['imports_resolved'].values())
     assert proof['saturation_recipe'] == {'path': RECIPE, 'sha256': RECIPE_SHA, 'recipe': recipe}
     assert set(proof['source_tests']) == {'cache', 'guide', 'saturation'}
@@ -212,6 +214,10 @@ def private_receipt_version(extension, declared):
     assert extension['owner_version'] == VERSION
     if declared.get('kind') == 'chinesefood-doll-renderer-cleanup' or 'source_package_version' in extension:
         assert extension['source_package_version'] == VERSION
+    if declared.get('kind') == 'nether-placeable-drinks-schema-repair':
+        assert extension['local_pack_version'] == declared['local_pack_version'] == NETHER_VERSION
+        assert extension['version'] == declared['version']
+        assert extension['official_author_release'] is declared['official_author_release'] is False
 
 
 def private_receipt_source(extension, declared, author, rows, side, prefix_source):
@@ -264,6 +270,7 @@ def verify_static(receipt, prior):
         for side, key in [('behavior', 'behavior_uuid'), ('resource', 'resource_uuid')]:
             host = rows[author[key]];source = host['source']
             assert host['side'] == side and source['owner'] in ['upstream', 'upstream_extended'] and source['archive_sha256'] == author['archive_sha256']
+            if name == 'Nether':assert host['version'] == NETHER_VERSION
             assert source.get('file_id', author['file_id']) == author['file_id']
             final = {}
             extensions = source.get('reviewed_extensions', [])
@@ -314,7 +321,7 @@ def verify_static(receipt, prior):
                     assert extension.get('copies', {}) == copies
                     final.update({target: item['sha256'] for target, item in copies.items()})
             assert all(host['files'].get(target) == value for target, value in final.items()), 'Stable host final bytes/copies differ'
-    assert found == set(specs), 'One of the six private host profiles was omitted'
+    assert found == set(specs), 'One of the seven private host profiles was omitted'
     for side, uid in SAT_UUIDS.items():
         assert rows[uid]['source']['owner'] == 'preserved' and rows[uid]['version'] == SAT_VERSION and rows[uid]['files'] == recipe['output_hashes'][side]
     target = c.R / 'stable-author-static-validation.json'
