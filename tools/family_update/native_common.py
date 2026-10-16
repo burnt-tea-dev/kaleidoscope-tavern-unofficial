@@ -50,9 +50,43 @@ def blank_level(target, name):
     output = io.BytesIO(); data.write(output, byteorder='little'); body = output.getvalue()
     (target / 'level.dat').write_bytes(struct.pack('<II', 10, len(body)) + body)
 
-def native_run(engine, phase, minimum_seconds=30, commands=(), delayed_commands=()):
+def _cpu_profile_files(engine):
+    directory = engine / 'profiles'
+    if directory.is_symlink():raise ValueError('QA profiles directory must not be a symlink')
+    if not directory.exists():return []
+    if not directory.is_dir():raise ValueError('QA profiles path must be a directory')
+    files = []
+    for path in sorted(directory.glob('*.cpuprofile')):
+        if path.is_symlink() or not path.is_file():
+            raise ValueError('QA CPU profile must be a regular file: '+path.name)
+        raw = path.read_bytes()
+        files.append((path, raw, {'path': str(path.relative_to(engine)),
+                                 'sha256': hashlib.sha256(raw).hexdigest(), 'bytes': len(raw)}))
+    return files
+
+def _collect_cpu_profiles(engine, previous):
+    files = []; errors = []
+    try:
+        for path, raw, metadata in _cpu_profile_files(engine):
+            if previous.get(metadata['path']) == metadata:continue
+            try:
+                data = json.loads(raw)
+                if not (isinstance(data, dict) and isinstance(data.get('nodes'), list) and data['nodes']
+                        and isinstance(data.get('samples'), list) and data['samples']):
+                    raise ValueError('CPU profile requires nonempty nodes and samples')
+                files.append(metadata)
+            except (ValueError, UnicodeError) as error:
+                errors.append(path.name+': '+str(error))
+    except (OSError, ValueError) as error:errors.append(str(error))
+    if not files:errors.append('No new or changed nonempty valid QA CPU profile')
+    return files, errors
+
+def native_run(engine, phase, minimum_seconds=30, commands=(), delayed_commands=(), cpu_profile=False):
     assert not (engine.parent / 'retired-copies.json').exists(), 'Retired QA output cannot restart; prepare a new isolated world'
     assert not (engine / "packs-pruned.json").exists(), "Completed QA engines with removed redundant packs cannot restart; prepare a new isolated world"
+    assert type(cpu_profile) is bool, 'QA CPU profiling must be explicitly boolean'
+    previous_profiles = {metadata['path']: metadata for _, _, metadata in _cpu_profile_files(engine)} if cpu_profile else {}
+    profile = {'enabled': True, 'started_at': None, 'stopped_at': None, 'files': [], 'errors': [], 'ok': False}
     log = engine / (phase + '.log')
     markers = STARTUP_MARKERS
     commands = tuple(commands)
@@ -90,6 +124,9 @@ def native_run(engine, phase, minimum_seconds=30, commands=(), delayed_commands=
                     stop_reason = 'process_exit';break
                 if ' ERROR]' in text or '[error]' in text.lower():
                     stop_reason = 'error';break
+                if cpu_profile and profile['started_at'] is None and 'Server started.' in text:
+                    process.stdin.write('script profiler start\n');process.stdin.flush()
+                    profile['started_at'] = now()
                 if not sent and 'Server started.' in text:
                     if pending is None and cursor < len(commands):
                         area = areas[cursor]
@@ -104,6 +141,12 @@ def native_run(engine, phase, minimum_seconds=30, commands=(), delayed_commands=
                 if sent and all(marker in text for marker in markers) and tick >= minimum_seconds and (not delayed_commands or delayed_sent):
                     stop_reason = 'ready';break
             if process.poll() is None:
+                if profile['started_at'] is not None:
+                    process.stdin.write('script profiler stop\n');process.stdin.flush()
+                    profile['stopped_at'] = now()
+                    # Native profile output can flush after the command response.
+                    # Stay within this same QA process; never start another cycle.
+                    time.sleep(2)
                 cleanup = [f'execute in {area["dimension"]} run tickingarea remove {area["name"]}' for area in reversed(created)]
                 process.communicate('\n'.join([*cleanup, 'stop'])+'\n', timeout=30)
         finally:
@@ -117,6 +160,11 @@ def native_run(engine, phase, minimum_seconds=30, commands=(), delayed_commands=
                   ticking_areas_created=[{key: area[key] for key in ['dimension', 'name']} for area in created],
                   ticking_area_cleanup_commands=cleanup)
     result['ok'] = result['family_initialized'] and not errors and not connections and process.returncode == 0 and sent and (not delayed_commands or delayed_sent)
+    if cpu_profile:
+        profile['files'], profile['errors'] = _collect_cpu_profiles(engine, previous_profiles)
+        profile['ok'] = profile['started_at'] is not None and profile['stopped_at'] is not None and bool(profile['files']) and not profile['errors']
+        result.update(profiled=profile['started_at'] is not None, cpu_profile=profile)
+        result['ok'] = result['ok'] and profile['ok']
     return result
 
 def player_hashes(world):
