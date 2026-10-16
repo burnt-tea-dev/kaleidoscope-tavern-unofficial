@@ -589,6 +589,69 @@
         0,
         47
       ]
+    },
+    "nether-placeable-drinks-schema-repair-p48": {
+      "id": "senluo:nether-placeable-drinks-schema-repair",
+      "version": [
+        1,
+        0,
+        1
+      ],
+      "host_uuid": "36cbd4fe-5677-495e-9caf-c267a83d116d",
+      "archive_sha256": "85533af5fe733b1943e8058bb665a6b2bca4f3259c458496e624272e4e7d3733",
+      "original_files": {
+        "BP/manifest.json": "3f765d50ffdbde863f0dec37bbfd854f8c142d7cbe9bf1ce8c89a04d4425fb1a",
+        "RP/manifest.json": "8e8928c93680ad893b22ff814cc72836a7c188e0ed944cba03d30378529e9910",
+        "BP/blocks/placeable/soul_brandy.json": "bd2f804a008f19cd1fb7a8d92d3617fdadb310040fd58f04e09a4bcf784c74f6",
+        "BP/blocks/placeable/warped_conny.json": "a25cabd26bc559ec5360b65187a818e2fc032f509d8e2875e26a0ca6d0cf9baa"
+      },
+      "patched_files": {
+        "BP/manifest.json": "b14c5553a421120008b405375c998bb3193cdb96e4d82447f73727b81d19c36f",
+        "RP/manifest.json": "9e694e27840525b022d2d893f6dd36209a631bd55c8f5c2f35a53e35f5351486",
+        "BP/blocks/placeable/soul_brandy.json": "69b9ed34eac99d7aa96fffd86b5f83680e68c24856cc31c11b8a7006823fef24",
+        "BP/blocks/placeable/warped_conny.json": "897ae82503e0428c8a5e23f7975ef0359e5b8f1dc1e2b33e31942c1e39dc2496"
+      },
+      "copies": {},
+      "owner_version": [
+        1,
+        0,
+        48
+      ],
+      "spec_sha256": "7db04ba4df6514ed5bab47b88fb93ba55693ba016761c76803ad9cea0015fd3c",
+      "required_extensions": [],
+      "source_owner": "upstream"
+    },
+    "chinesefood-doll-renderer-p48": {
+      "spec_sha256": "245350dc3d621d64767c8bfebbedd3e4ce03959c6d17930246387bb998f995b4",
+      "id": "senluo:chinesefood-doll-renderer-cleanup",
+      "version": [
+        1,
+        0,
+        10548
+      ],
+      "host_uuid": "fdb6b8c4-6fe3-44bb-af7a-08bcb976377c",
+      "archive_sha256": "6e424b1df6d933e4aa699023208d05e6a702431ed4c33dcca439c2cd0c2c9251",
+      "original_files": {
+        "BP/manifest.json": "be5fdf74df79a32e120ba9c701b7c06adb6e955a6e9a723fce90490f593effa7",
+        "RP/manifest.json": "9e86ad5c017b462e5d0f47206d5279a3ca3e37e90d4b038c1f3f19f6fafe8ba4",
+        "RP/blocks.json": "a66b3053dfbb173ce12a7bd53beb9827bdd1d952c6b92a83d37d2d15387c0fe4"
+      },
+      "patched_files": {
+        "BP/manifest.json": "43716b5b10d15651ceab7addbab220a81c95ad55ae41131da411f174bc45a544",
+        "RP/manifest.json": "0a3fc735bf4258be7c24f031242919ee0abbd79bbef4583d9f9f038d2d65aaf2",
+        "RP/blocks.json": "51756e55a09a2896a801fcfce599ee53272e1722821fb447c54de8e744dd1fc3"
+      },
+      "copies": {},
+      "required_extensions": [
+        "chinesefood-freezer-storage",
+        "chinesefood-reviewed-repairs"
+      ],
+      "source_owner": "upstream_extended",
+      "owner_version": [
+        1,
+        0,
+        48
+      ]
     }
   },
   "public_api_profile": {
