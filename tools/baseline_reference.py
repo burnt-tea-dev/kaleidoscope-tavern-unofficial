@@ -7,6 +7,7 @@ Never use this projection in packaging or deployment.
 from pathlib import Path
 import base64,gzip,hashlib,json,subprocess
 from functools import lru_cache
+from collision_shape_projection import collision_preimage
 
 # Only exact reviewed non-script assets and opt-in command entry points.
 # T134 visual semantics are checked by the board, source-texel and animation
@@ -238,6 +239,7 @@ def version_projection(root,name,data,spec):
 
 def previous_bytes(root,path):
  root=Path(root).resolve();path=Path(path).resolve();name=path.relative_to(root).as_posix();data=path.read_bytes();row=rows(root).get(name)
+ data=collision_preimage(root,name,data)
  # Bind and normalize the current release identity before any body delta.
  # This keeps a reviewed guide-body change separate from later pure version
  # bumps while retaining all existing version/dependency assertions.

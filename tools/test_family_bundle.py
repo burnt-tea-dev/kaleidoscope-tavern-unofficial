@@ -215,4 +215,34 @@ class RecoveryCapabilityTests(unittest.TestCase):
   with tempfile.TemporaryDirectory() as tmp:
    with self.assertRaisesRegex(ValueError,'unexpected file inventory'):apply_host_extension(spec,Path(tmp),Path(tmp),{'owner':'upstream_extended','archive_sha256':pin})
 
+class StableAuthorSourceChainTests(unittest.TestCase):
+ def test_stable_source_requires_complete_exact_preceding_api_and_private_receipts(self):
+  import copy
+  from stable_host_profiles import CATALOG,PROFILES,receipt,validate_stable_source
+  for name,profile in {**PROFILES,'public-api':CATALOG['public_api_profile']}.items():
+   prior=[copy.deepcopy(CATALOG['public_api'] if key=='public-api' else receipt(PROFILES[key])) for key in profile['required_extensions']]
+   source={'owner':profile['source_owner'],'archive_sha256':profile['archive_sha256'],'reviewed_extensions':prior}
+   validate_stable_source(profile,source)
+   for field,value in [('owner','preserved'),('archive_sha256','unreviewed')]:
+    with self.subTest(profile=name,field=field),self.assertRaisesRegex(ValueError,'exact preceding author'):validate_stable_source(profile,{**source,field:value})
+   if not prior:continue
+   for index in range(len(prior)):
+    missing=copy.deepcopy(source);missing['reviewed_extensions'].pop(index)
+    with self.subTest(profile=name,missing=index),self.assertRaisesRegex(ValueError,'exact preceding receipt'):validate_stable_source(profile,missing)
+    for field in ['version','original_files','patched_files','copies']:
+     bad=copy.deepcopy(source);bad['reviewed_extensions'][index][field]=[] if field=='version' else ({'foreign':'unreviewed'} if not prior[index][field] else {})
+     with self.subTest(profile=name,changed=field),self.assertRaisesRegex(ValueError,'exact preceding receipt'):validate_stable_source(profile,bad)
+ def test_new_author_identity_cannot_admit_an_unknown_or_coordinated_forged_declaration(self):
+  from stable_host_profiles import PROFILES,match_stable_profile
+  profile=PROFILES['cookery-recipe-cache-repair']
+  with self.assertRaisesRegex(ValueError,'unregistered'):match_stable_profile({'id':'foreign:hook','host_uuid':profile['host_uuid'],'archive_sha256':profile['archive_sha256']})
+  # Supplying plausible IDs and matched before/after claims cannot substitute
+  # for the reviewed full declaration, including its exact operation bodies.
+  forged={key:profile[key] for key in ['id','host_uuid','archive_sha256','version','original_files','patched_files']}
+  forged.update(imports={},insertions=[],copies={},json_updates=[])
+  with self.assertRaisesRegex(ValueError,'exact reviewed profile'):match_stable_profile(forged)
+ def test_old_author_profiles_still_use_their_original_validators(self):
+  from stable_host_profiles import match_stable_profile
+  self.assertIsNone(match_stable_profile({'host_uuid':'5df753c9-3436-4fba-87f1-a2da3651cfcf','archive_sha256':'da12fe6d39d7514aff1de3c963d69899324d771be5ca0fc3da1ccb759c7ad458'}))
+
 if __name__=='__main__':unittest.main()

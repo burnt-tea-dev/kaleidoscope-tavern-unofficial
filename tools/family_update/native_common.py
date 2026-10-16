@@ -50,7 +50,7 @@ def blank_level(target, name):
     output = io.BytesIO(); data.write(output, byteorder='little'); body = output.getvalue()
     (target / 'level.dat').write_bytes(struct.pack('<II', 10, len(body)) + body)
 
-def native_run(engine, phase, minimum_seconds=30, commands=()):
+def native_run(engine, phase, minimum_seconds=30, commands=(), delayed_commands=()):
     assert not (engine.parent / 'retired-copies.json').exists(), 'Retired QA output cannot restart; prepare a new isolated world'
     assert not (engine / "packs-pruned.json").exists(), "Completed QA engines with removed redundant packs cannot restart; prepare a new isolated world"
     log = engine / (phase + '.log')
@@ -58,16 +58,19 @@ def native_run(engine, phase, minimum_seconds=30, commands=()):
     with log.open('w') as output:
         process = subprocess.Popen(['./bedrock_server'], cwd=engine, env={**os.environ, 'LD_LIBRARY_PATH': str(engine)}, stdin=subprocess.PIPE, stdout=output, stderr=subprocess.STDOUT, text=True)
         try:
-            sent=False
+            sent=False;delayed_sent=False;sent_tick=None
             for tick in range(90):
                 time.sleep(1)
                 text = log.read_text(errors='replace')
                 if not sent and 'Server started.' in text:
                     for command in commands:
                         process.stdin.write(command+'\n')
-                    process.stdin.flush();sent=True
+                    process.stdin.flush();sent=True;sent_tick=tick
+                if sent and not delayed_sent and tick-sent_tick>=5:
+                    for command in delayed_commands:process.stdin.write(command+'\n')
+                    process.stdin.flush();delayed_sent=True
                 if process.poll() is not None or ' ERROR]' in text or '[error]' in text.lower(): break
-                if all(marker in text for marker in markers) and tick >= minimum_seconds: break
+                if all(marker in text for marker in markers) and tick >= minimum_seconds and (not delayed_commands or delayed_sent): break
             if process.poll() is None: process.communicate(('tickingarea remove_all\n' if commands else '')+'stop\n', timeout=30)
         finally:
             if process.poll() is None: process.kill(); process.wait()

@@ -43,6 +43,13 @@ def main(argv=None):
     storage_uuid=read(SOURCES['tavern']/'baseline.json')['packs']['BP']['uuid']
     storage_before=inspect_native_storage(world,storage_plan,storage_uuid) if storage_plan else []
     storage_runs=[]
+    state_profile=migration.get('block_state_profile') if migration else None
+    if state_profile:
+        from family_update.author_state_preservation import inspect_world as inspect_author_states,probe_commands,verify as verify_author_states
+        states_before=inspect_author_states(world,state_profile)
+        state_commands,state_delayed,state_markers=probe_commands(states_before)
+    else:state_commands=state_delayed=state_markers=[]
+    state_runs=[]
     for side in ['behavior', 'resource']:
         shutil.copytree(C / (side + '_packs'), world / (side + '_packs'))
         shutil.copy2(C / ('world_' + side + '_packs.json'), world / ('world_' + side + '_packs.json'))
@@ -53,7 +60,8 @@ def main(argv=None):
         points={tuple(row['position']) for row in (recovery or {}).get('restored',[])}
         commands=[f'tickingarea add circle {x} {y} {z} 1 freezer_recovery_{i}' for i,(x,y,z) in enumerate(sorted(points))]
         if storage_plan:commands+=native_storage_commands(storage_plan)
-        record=native_run(engine,phase,commands=commands)
+        commands+=state_commands
+        record=native_run(engine,phase,commands=commands,delayed_commands=state_delayed)
         after=player_hashes(world); audit_candidate(world, receipt)
         containers_after=inventory_world(world)
         freezer_after=inspect_freezer_storage(world,freezer_uuid)
@@ -63,6 +71,12 @@ def main(argv=None):
         record.update(custom_container_inventories_retained=retained,custom_container_count=len(containers_before))
         record.update(native_freezer_inputs_retained=freezer_retained,native_freezer_input_containers=len(freezer_before))
         record.update(player_records_unchanged=before==after, player_records=len(before))
+        if state_profile:
+            states_after=inspect_author_states(world,state_profile)
+            state_result=verify_author_states(states_before,states_after,(engine/(phase+'.log')).read_text(errors='replace'),state_markers)
+            state_runs.append({'phase':phase,**state_result})
+            record['author_states_preserved']=state_result['ok']
+            record['ok']=record['ok'] and state_result['ok']
         if storage_plan:
             storage_after=inspect_native_storage(world,storage_plan,storage_uuid)
             restored=verify_native_storage(storage_before,storage_after)
@@ -79,6 +93,8 @@ def main(argv=None):
     atomic(R/'saved-world-report.json',report)
     atomic(R/'saved-world-container-inventories.json',{'before':containers_before,'after':containers_after,'recovery':recovery,'retained':retained,'native_loaded_recovery_positions':bool(points)})
     atomic(R/'saved-world-freezer-inputs.json',{'uuid':freezer_uuid,'before':freezer_before,'runs':freezer_runs,'ok':success and all(row['complete_native_items_and_identity_retained']for row in freezer_runs),'scope':'Original actor identity/owner binding and complete typed item NBT in stopped rehearsal copies; no player/client equivalence'})
+    if state_profile:
+        atomic(R/'saved-world-author-states.json',{'schema':1,'identity_spec':migration['identity_spec'],'before':states_before,'runs':state_runs,'ok':success and len(state_runs)==2 and all(row['ok'] for row in state_runs),'client':False,'test_world_only':True,'simulated_players':False})
     if storage_plan:
         atomic(R/'saved-world-native-storage.json',{'schema':1,'plan':report_ref(Path(CONFIG['native_storage_reanchor_plan'])),'uuid':storage_uuid,'before':storage_before,'runs':storage_runs,'ok':success and len(storage_runs)==2,'only_qa_world_loaded':True,'client':False})
     if success:
