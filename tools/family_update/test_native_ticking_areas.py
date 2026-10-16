@@ -10,6 +10,7 @@ COMMANDS = [
     'execute in overworld run tickingarea add circle 31 66 -22 1 native_storage_reanchor_0',
     'execute in nether run tickingarea add circle 24 70 32 1 author_state_1 true',
 ]
+PROBE_COMMAND = 'execute in nether run testforblock 24 70 32 minecraft:stone []'
 
 
 class ConsoleProcess:
@@ -55,7 +56,7 @@ class ConsoleProcess:
                 else:self.areas.remove(key);self.line('INFO', 'Removed ticking area(s)')
             elif command == 'tickingarea remove_all':
                 self.areas.clear();self.line('ERROR', 'No ticking areas exist in the current dimension.')
-            elif command.startswith('say '):self.line('INFO', command[4:])
+            elif command == PROBE_COMMAND:self.line('INFO', 'Successfully found the block at 24,70,32.')
             elif command == 'stop':
                 if self.fatal:self.line('INFO', 'Server started.')
                 self.line('INFO', 'Server stop requested.');self.returncode = 0
@@ -77,7 +78,7 @@ class NativeTickingAreaTests(unittest.TestCase):
         with patch.object(m.subprocess, 'Popen', side_effect=launch), patch.object(m.time, 'sleep'), \
                 patch.object(m, 'STARTUP_MARKERS', ['Server started.', 'family ready']):
             result = m.native_run(engine, 'first', minimum_seconds=0, commands=COMMANDS,
-                                  delayed_commands=['say SENLUO_AUTHOR_STATE_QA_PASS_0_END'])
+                                  delayed_commands=[PROBE_COMMAND])
         return result, processes[0]
 
     def test_early_fatal_sends_no_add_or_area_cleanup_and_retains_original_error(self):
