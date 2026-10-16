@@ -166,9 +166,31 @@ def installation_selection(receipt,original):
     assert set(prospective)<={p['uuid'] for p in family}, 'Prospective pair omitted from installation'
     return family,unchanged
 
+def installation_sources(family,original,migration):
+    """Resolve every retired header before policy, staging or package moves."""
+    from family_update.identity_migration import plan_swaps
+    swaps=plan_swaps(migration) if migration else []
+    reverse={row['new_uuid']:row['old_uuid'] for row in swaps}
+    assert len(reverse)==len(swaps), 'Migration duplicates a replacement identity'
+    prior={p['uuid']:p for p in original['packs']}
+    assert len(prior)==len(original['packs']), 'Original inventory duplicates an identity'
+    targets=set();sources=set();paths=set();resolved=[]
+    for pack in family:
+        uid=pack['uuid'];old_uuid=reverse.get(uid,uid)
+        assert uid not in targets, 'Installation duplicates a target identity'
+        assert old_uuid in prior, 'Installation source is missing from original inventory: '+old_uuid
+        old=prior[old_uuid];path=str(Path(old['path']).resolve())
+        assert old['side']==pack['side'], 'Installation source side differs from target'
+        assert old_uuid not in sources and path not in paths, 'Installation reuses an original source'
+        targets.add(uid);sources.add(old_uuid);paths.add(path);resolved.append(old)
+    return resolved
+
 def prepare_admission(receipt,original):
     policy=read(Q/'senluo-policy.json')
     approved=R/'reviewed-family-receipt.json'; family,_=installation_selection(receipt,original)
+    from family_update.identity_migration import candidate_plan
+    migration=candidate_plan(receipt,original)
+    sources=installation_sources(family,original,migration)
     policy['approved_receipt']=str(approved)
     policy['deferred_client_acceptance']={'source':'explicit_user_instruction','instruction':read(R/'handoff-authorization.json')['instruction'],'recorded_at':now(),'receipt_sha256':sha(approved),'authorization_source':str(AUTHORIZATION),'authorization_sha256':sha(str(AUTHORIZATION))}
     policy['managed_uuids']=sorted(set(policy['managed_uuids'])|{p['uuid'] for p in family})
@@ -179,7 +201,7 @@ def prepare_admission(receipt,original):
     incoming=[{'uuid':p['uuid'],'version':p['version'],'path':str(C/(p['side']+'_packs')/p['uuid'])} for p in receipt['packs']]
     G['validate_incoming'](incoming,R/'admission-policy.json')
     atomic(R/'admission-report.json',{'ok':True,'candidate_receipt_sha256':sha(C/'family-receipt.json'),'reviewed_receipt_sha256':sha(approved),'complete_packs':len(incoming),'client':False,'production_ready':False,'authorization':report_ref(R/'handoff-authorization.json')})
-    return policy,incoming,family
+    return policy,incoming,family,sources
 
 def restore_packs(original,retired,installed):
     for dest in installed:
@@ -232,10 +254,7 @@ def install(receipt,original):
     assert_lease(); assert summary()['status']=='STOPPED'; verify_predeploy()
     verify_server_binding()
     verify_candidate_sources()
-    policy,incoming,family=prepare_admission(receipt,original)
-    from family_update.identity_migration import candidate_plan
-    migration=candidate_plan(receipt,original)
-    reverse={row['new_uuid']:row['old_uuid'] for row in (migration or {}).get('packs',[])}
+    policy,incoming,family,sources=prepare_admission(receipt,original)
     prior={p['uuid']:p for p in original['packs']}
     foreign={p['uuid']:p for p in receipt['packs'] if p['source']['owner']=='preserved' and p['uuid'] not in {row['uuid'] for row in family}}
     index=read(Q.parent/'addon_localizations/index.json')
@@ -246,8 +265,8 @@ def install(receipt,original):
     try:
         atomic(Q/'senluo-policy.json',policy)
         runpy.run_path(str(Q/'policy.py'))['validate_incoming'](incoming,set(prior),True)
-        for p in family:
-            old=prior[reverse.get(p['uuid'],p['uuid'])]; source=Path(old['path']); target=rollback/(old['side']+'_packs')/source.name; target.parent.mkdir(parents=True,exist_ok=True)
+        for old in sources:
+            source=Path(old['path']); target=rollback/(old['side']+'_packs')/source.name; target.parent.mkdir(parents=True,exist_ok=True)
             os.replace(source,target); retired.append((target,source))
         for p in family:
             source=staged/(p['side']+'_packs')/p['uuid']; target=W/(p['side']+'_packs')/p['uuid']; assert not target.exists(); os.replace(source,target); installed.append(target)
