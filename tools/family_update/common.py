@@ -212,7 +212,8 @@ def source_state(verify_remote=False):
                 assert target.get('private') is True and target.get('logical_runtime_repository')==config['repository'], 'Private extension remote identity must be reviewed'
                 expected='https://github.com/'+target['repository']
                 assert git(path,'remote','get-url','origin').removesuffix('.git')==expected, 'Private extension remote differs'
-                profile=json.loads(subprocess.check_output(['gh','api','repos/'+target['repository']],text=True))
+                from family_update.github_reads import api_json
+                profile=api_json('repos/'+target['repository'])
                 assert profile['private'] is True and profile['id']==target['repository_id'] and profile['full_name']==target['repository'], 'Private remote must retain its identity and visibility'
                 row['remote_repository']=target['repository']
             remote_head = git(path, 'ls-remote', 'origin', 'refs/heads/main').split()[0]
