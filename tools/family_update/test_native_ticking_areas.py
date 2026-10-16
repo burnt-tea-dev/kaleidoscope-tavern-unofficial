@@ -34,9 +34,10 @@ class ConsoleProcess:
             if command in COMMANDS:
                 index = COMMANDS.index(command)
                 if index == 0 and self.foreign_ack is not None:
-                    center, radius = self.foreign_ack
+                    center, radius = self.foreign_ack[:2]
+                    suffix = self.foreign_ack[2] if len(self.foreign_ack) == 3 else ''
                     self.areas.add(('overworld', 'foreign_external'))
-                    self.line('INFO', 'Added ticking area centered at '+center+' with a radius of '+str(radius)+' chunks.')
+                    self.line('INFO', 'Added ticking area centered at '+center+' with a radius of '+str(radius)+' chunks'+suffix+'.')
                     continue
                 dimension, name, center = [('overworld', 'native_storage_reanchor_0', '24, 0, -24'),
                                            ('nether', 'author_state_1', '24, 0, 40')][index]
@@ -46,7 +47,8 @@ class ConsoleProcess:
                     self.areas.add((dimension, name))
                     # Synthetic translated regression preserves BDS chunk
                     # quantization, including negative Z; the reply has no name.
-                    self.line('INFO', 'Added ticking area centered at '+center+' with a radius of 1 chunks.')
+                    suffix = ' marked for preload' if command.endswith(' true') else ''
+                    self.line('INFO', 'Added ticking area centered at '+center+' with a radius of 1 chunks'+suffix+'.')
             elif command.startswith('execute in ') and ' run tickingarea remove ' in command:
                 words = command.split();key = (words[2], words[-1])
                 if key not in self.areas:self.line('ERROR', 'No ticking areas exist in the current dimension.')
@@ -90,7 +92,7 @@ class NativeTickingAreaTests(unittest.TestCase):
         self.assertIn('original schema failure', result['errors'][0])
         self.assertEqual(result['missing_startup_markers'], ['family ready'])
 
-    def test_only_acknowledged_named_areas_are_cleaned_in_their_own_dimensions(self):
+    def test_plain_and_preload_acknowledged_areas_are_cleaned_in_their_own_dimensions(self):
         result, process = self.run_native(False)
         self.assertTrue(result['ok']);self.assertTrue(result['commands_completed'])
         self.assertTrue(result['delayed_commands_sent'])
@@ -104,8 +106,13 @@ class NativeTickingAreaTests(unittest.TestCase):
         self.assertEqual(process.areas, {('overworld', 'player_keep'), ('nether', 'author_state_0')})
         self.assertEqual(result['errors'], [])
 
-    def test_foreign_chunk_or_radius_ack_cannot_complete_or_clean_the_pending_name(self):
-        for acknowledgement in [('40, 0, -24', 1), ('24, 0, -24', 2)]:
+    def test_foreign_chunk_radius_or_unknown_suffix_cannot_complete_or_clean_pending_name(self):
+        for acknowledgement in [('40, 0, -24', 1), ('24, 0, -24', 2),
+                                ('40, 0, -24', 1, ' marked for preload'),
+                                ('24, 0, -24', 2, ' marked for preload'),
+                                ('24, 0, -24', 1, ' marked for preloaded'),
+                                ('24, 0, -24', 1, ' marked for preload extra'),
+                                ('24, 0, -24', 1, ' unknown')]:
             with self.subTest(acknowledgement=acknowledgement):
                 result, process = self.run_native(False, acknowledgement)
                 self.assertFalse(result['ok']);self.assertFalse(result['commands_completed'])
