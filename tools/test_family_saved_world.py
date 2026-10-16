@@ -127,32 +127,52 @@ class AuthorStateMigrationTests(unittest.TestCase):
    with patch.dict('sys.modules',{'leveldb':SimpleNamespace(LevelDB=lambda _:DB(data))}):return inspect_world(Path('/unit-only'),self.profile)
   before=inspect(raw());after=inspect(raw(True));self.assertEqual(before['position_state_signatures'],after['position_state_signatures']);self.assertEqual(before['blocks'],2048)
   start,delayed,markers=probe_commands(before);self.assertEqual(len(start),1);self.assertEqual(len(markers),1);self.assertIn('"kaleidoscope_cookery:chair_carpet_bank"=1',delayed[0])
-  message='[2026-10-17 00:00:00:000 INFO] [Server] '+markers[0]+'\n'
+  message='[2026-10-17 00:00:00:000 INFO] Successfully found the block at '+','.join(map(str,markers[0]['position']))+'.\n'
   self.assertTrue(verify(before,after,message,markers)['ok'])
-  self.assertFalse(verify(before,after,'[2026-10-17 00:00:00:000 INFO] SENLUO_AUTHOR_STATE_QA_PASS_10_END',markers)['ok'])
+  self.assertFalse(verify(before,after,'[2026-10-17 00:00:00:000 INFO] Successfully found the block at 10,64,-1.',markers)['ok'])
   tag['states']['kaleidoscope_cookery:chair_carpet_slot']=nbtlib.Int(1)
   self.assertFalse(verify(before,inspect(raw()),message,markers)['ok'])
- def test_generated_native_probe_markers_require_complete_info_messages(self):
+ def test_generated_testforblock_probes_require_exact_native_info_reply_counts(self):
   from family_update.author_state_preservation import probe_commands,verify
   inspection={'position_state_signatures':{'synthetic':'preserved'},'blocks':11,'probes':[
    {'dimension':0,'position':[i,64,-1],'identifier':'kaleidoscope_cookery:oak_chair',
     'states':{'kaleidoscope_cookery:chair_carpet_bank':(3,1)}} for i in range(11)]}
-  start,commands,markers=probe_commands(inspection)
+  start,commands,expected=probe_commands(inspection)
   self.assertEqual(len(start),1);self.assertTrue(start[0].endswith(' true'))
-  self.assertEqual(markers[0],'SENLUO_AUTHOR_STATE_QA_PASS_0_END');self.assertEqual(markers[10],'SENLUO_AUTHOR_STATE_QA_PASS_10_END')
-  for command,marker in zip(commands,markers):
-   self.assertTrue(command.endswith(' run say '+marker))
+  self.assertEqual(expected[0],{'dimension':'overworld','position':[0,64,-1]})
+  self.assertEqual(expected[10],{'dimension':'overworld','position':[10,64,-1]})
+  for command,probe in zip(commands,expected):
+   self.assertTrue(command.startswith('execute in '+probe['dimension']+' run testforblock '+ ' '.join(map(str,probe['position']))+' '))
    self.assertIn('"kaleidoscope_cookery:chair_carpet_bank"=1',command)
-   self.assertRegex(marker,r'^[A-Z0-9_]+$')
-  def info(marker):return '[2026-10-17 00:00:00:000 INFO] [Server] '+marker+'\n'
-  complete=''.join(map(info,markers))
-  self.assertTrue(verify(inspection,inspection,complete,markers)['ok'])
-  missing=verify(inspection,inspection,''.join(map(info,markers[1:])),markers)
+   self.assertNotIn('run say',command)
+  def info(probe):return '[2026-10-17 00:00:00:000 INFO] Successfully found the block at '+','.join(map(str,probe['position']))+'.\n'
+  complete=''.join(map(info,expected))
+  self.assertTrue(verify(inspection,inspection,complete,expected)['ok'])
+  missing=verify(inspection,inspection,''.join(map(info,expected[1:])),expected)
   self.assertFalse(missing['ok']);self.assertEqual(missing['console_probes_passed'],10)
-  for log in [info(markers[10]),info(markers[0]+'_EXTRA'),markers[0],
-              '[2026-10-17 00:00:00:000 ERROR] '+markers[0],
-              '[2026-10-17 00:00:00:000 WARN] '+markers[0],
+  for log in [info(expected[10]),info(expected[0]).replace('.\n','. EXTRA\n'),
+              info(expected[0]).split(' INFO] ')[1],
+              info(expected[0]).replace(' INFO] ',' ERROR] '),
+              info(expected[0]).replace(' INFO] ',' WARN] '),
               '[2026-10-17 00:00:00:000 INFO] '+commands[0]]:
-   with self.subTest(log=log):self.assertFalse(verify(inspection,inspection,log,[markers[0]])['ok'])
+   with self.subTest(log=log):self.assertFalse(verify(inspection,inspection,log,[expected[0]])['ok'])
+  wrong_state='[2026-10-17 00:00:00:000 ERROR] The block at 0,64,-1 did not match the expected block state.\n'
+  self.assertFalse(verify(inspection,inspection,complete+wrong_state,expected)['ok'])
+  self.assertFalse(verify(inspection,inspection,complete+info(expected[0]),expected)['ok'])
+  self.assertFalse(verify(inspection,inspection,complete+info({'position':[20,64,-1]}),expected)['ok'])
+ def test_equal_coordinates_in_different_dimensions_require_each_native_reply(self):
+  from family_update.author_state_preservation import probe_commands,verify
+  inspection={'position_state_signatures':{'synthetic':'preserved'},'blocks':2,'probes':[
+   {'dimension':dimension,'position':[1,64,-1],'identifier':'kaleidoscope_cookery:oak_chair',
+    'states':{'kaleidoscope_cookery:chair_carpet_bank':(3,1)}} for dimension in [0,1]]}
+  _,commands,expected=probe_commands(inspection)
+  self.assertEqual({probe['dimension']for probe in expected},{'overworld','nether'})
+  self.assertTrue(commands[0].startswith('execute in overworld run testforblock '))
+  self.assertTrue(commands[1].startswith('execute in nether run testforblock '))
+  reply='[2026-10-17 00:00:00:000 INFO] Successfully found the block at 1,64,-1.\n'
+  partial=verify(inspection,inspection,reply,expected)
+  self.assertFalse(partial['ok']);self.assertEqual(partial['console_probes_passed'],0)
+  self.assertTrue(verify(inspection,inspection,reply*2,expected)['ok'])
+  self.assertFalse(verify(inspection,inspection,reply*3,expected)['ok'])
 
 if __name__=='__main__':unittest.main()

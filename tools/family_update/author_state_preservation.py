@@ -8,6 +8,7 @@ import hashlib
 import json
 import re
 import struct
+from collections import Counter
 from author_state_migration import validate_profile, transform_subchunk
 
 
@@ -78,18 +79,22 @@ def probe_commands(inspection, limit=8):
             for name, (tag_id, value) in row['states'].items():
                 literal = json.dumps(bool(value)) if tag_id == 1 else json.dumps(value)
                 values.append(json.dumps(name) + '=' + literal)
-            marker = 'SENLUO_AUTHOR_STATE_QA_PASS_' + str(len(expected)) + '_END'
-            expected.append(marker)
-            delayed.append(f'execute in {dimension} if block {x} {y} {z} {row["identifier"]} [{",".join(values)}] run say {marker}')
+            expected.append({'dimension': dimension, 'position': [x, y, z]})
+            delayed.append(f'execute in {dimension} run testforblock {x} {y} {z} {row["identifier"]} [{",".join(values)}]')
     return start, delayed, expected
 
 
 def verify(before, after, log, expected):
     retained = before['position_state_signatures'] == after['position_state_signatures'] and before['blocks'] == after['blocks']
-    # Accept complete INFO messages, optionally prefixed by the console sender.
-    # A diagnostic quoting a command or marker 10 must not satisfy marker 0.
-    messages = set(re.findall(r'(?m)^\[[^\]\r\n]+ INFO\][ \t]+(?:\[[^\]\r\n]+\][ \t]+)?(SENLUO_AUTHOR_STATE_QA_PASS_[0-9]+_END)[ \t]*\r?$', log))
-    observed = all(marker in messages for marker in expected)
+    # Each zero-player native testforblock command emits one coordinate reply.
+    # Equal coordinates in different dimensions require separate replies; a
+    # partially observed group cannot identify which dimension passed.
+    required = Counter(tuple(probe['position']) for probe in expected)
+    messages = Counter(tuple(map(int, match)) for match in re.findall(r'(?m)^\[[^\]\r\n]+ INFO\][ \t]+Successfully found the block at (-?\d+),(-?\d+),(-?\d+)\.[ \t]*\r?$', log))
+    errors = any(' ERROR]' in line or '[error]' in line.lower() for line in log.splitlines())
+    observed = messages == required and not errors
+    passed = sum(count for position, count in required.items() if messages[position] == count)
     return {'complete_existing_position_states_retained': retained, 'console_probes_expected': len(expected),
-            'console_probes_passed': sum(marker in messages for marker in expected), 'console_probe_passed': observed,
+            'console_probes_passed': passed, 'console_probe_passed': observed,
+            'console_probe_response_count': sum(messages.values()), 'console_probe_errors_present': errors,
             'blocks': after['blocks'], 'chunk_records': len(after['position_state_signatures']), 'ok': retained and observed}
