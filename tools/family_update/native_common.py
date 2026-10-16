@@ -69,7 +69,8 @@ def native_run(engine, phase, minimum_seconds=30, commands=(), delayed_commands=
         key = (area['dimension'], name)
         if key in names:raise ValueError('Duplicate QA ticking-area name')
         names.add(key);areas.append(area)
-    # BDS acknowledges successful circle creation by center/radius, not name.
+    # BDS reports the containing chunk's center, not the requested block X/Z.
+    # For example 31,-22 is acknowledged as 24,-24 (including negative Z).
     # Serialize adds so a success can be bound to exactly one dispatched name.
     acknowledgement = re.compile(r'(?m)^\[[^\n\]]+ INFO\] Added ticking area centered at (-?\d+), -?\d+, (-?\d+) with a radius of (\d+) chunks?\.\r?$')
     created = []; pending = None; cursor = 0; dispatched = 0
@@ -82,7 +83,7 @@ def native_run(engine, phase, minimum_seconds=30, commands=(), delayed_commands=
                 text = log.read_text(errors='replace')
                 if pending is not None:
                     area, offset = pending
-                    if any(tuple(map(int, match.groups())) == (area['x'], area['z'], area['radius'])
+                    if any((int(match[1]) // 16, int(match[2]) // 16, int(match[3])) == (area['x'] // 16, area['z'] // 16, area['radius'])
                            for match in acknowledgement.finditer(text[offset:])):
                         created.append(area);pending = None;cursor += 1
                 if process.poll() is not None:
