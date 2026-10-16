@@ -180,6 +180,21 @@ def private_receipt_version(extension, declared):
         assert extension['source_package_version'] == VERSION
 
 
+def private_receipt_source(extension, declared, author, rows, side, prefix_source):
+    """The atomic renderer's prerequisites belong to its behavior pair."""
+    if declared.get('kind') != 'chinesefood-doll-renderer-cleanup' or side != 'resource':
+        return prefix_source
+    assert prefix_source['owner'] == 'upstream' and not prefix_source.get('reviewed_extensions', []), 'Renderer resource input must be the clean paired author'
+    behavior = rows[author['behavior_uuid']]
+    assert behavior['side'] == 'behavior'
+    source = behavior['source'];prior = source.get('reviewed_extensions', [])
+    indices = [i for i, row in enumerate(prior) if row['id'] == extension['id']]
+    assert len(indices) == 1 and prior[indices[0]] == extension, 'Renderer receipts differ across the author pair'
+    index = indices[0]
+    return {**source, 'owner': 'upstream' if index == 0 else 'upstream_extended',
+            'reviewed_extensions': prior[:index]}
+
+
 def verify_static(receipt, prior):
     from stable_host_profiles import match_stable_profile, validate_stable_source
     path, proof, baseline, binding, profile, recipe, ci = source_proof()
@@ -240,7 +255,7 @@ def verify_static(receipt, prior):
                     declared, expected = specs[eid];found.add(eid)
                     stable_profile = match_stable_profile(declared)
                     assert stable_profile is not None, 'Host declaration is outside the reviewed stable catalog'
-                    validate_stable_source(stable_profile, prefix_source)
+                    validate_stable_source(stable_profile, private_receipt_source(extension, declared, author, rows, side, prefix_source))
                     assert extension['spec_sha256'] == expected and extension['repository'] == LOGICAL
                     assert extension['commit'] == binding['actual_current_source_commit'] and extension['working_candidate'] is False
                     private_receipt_version(extension, declared)

@@ -79,6 +79,32 @@ class StableAuthorValidationTests(unittest.TestCase):
             with self.subTest(record=record, declaration=declaration), self.assertRaises((AssertionError, KeyError)):
                 m.private_receipt_version(record, declaration)
 
+    def test_resource_renderer_binds_its_behavior_prerequisites_and_identical_pair_receipt(self):
+        from stable_host_profiles import PROFILES, receipt, validate_stable_source
+        profile = PROFILES['chinesefood-doll-renderer-p45']
+        declared = {'kind': 'chinesefood-doll-renderer-cleanup'}
+        extension = {'id': profile['id'], 'owner_version': m.VERSION, 'source_package_version': m.VERSION}
+        prefix = {'owner': 'upstream', 'archive_sha256': profile['archive_sha256'], 'reviewed_extensions': []}
+        behavior_source = {**prefix, 'owner': 'upstream_extended', 'reviewed_extensions': [
+            receipt(PROFILES['chinesefood-freezer-storage']), receipt(PROFILES['chinesefood-reviewed-repairs']), extension]}
+        rows = {'author-bp': {'side': 'behavior', 'source': behavior_source}}
+        author = {'behavior_uuid': 'author-bp'}
+        # The original RP has no BP script receipts; this reproduces the old
+        # consumer rejection through the actual canonical source validator.
+        with self.assertRaises(ValueError):validate_stable_source(profile, prefix)
+        def verify(candidate_rows=rows, resource_prefix=prefix):
+            source = m.private_receipt_source(extension, declared, author, candidate_rows, 'resource', resource_prefix)
+            validate_stable_source(profile, source)
+        verify()
+        for mode in ['missing_behavior', 'mismatched_pair', 'missing_prerequisite', 'changed_resource_prefix']:
+            changed = copy.deepcopy(rows);resource = copy.deepcopy(prefix)
+            if mode == 'missing_behavior':changed.clear()
+            elif mode == 'mismatched_pair':changed['author-bp']['source']['reviewed_extensions'][-1]['owner_version'] = [1, 0, 44]
+            elif mode == 'missing_prerequisite':changed['author-bp']['source']['reviewed_extensions'].pop(0)
+            else:resource['owner'] = 'upstream_extended'
+            with self.subTest(mode=mode), self.assertRaises((AssertionError, KeyError, ValueError)):
+                verify(changed, resource)
+
     def test_prior_p43_or_p44_artifact_cannot_admit_new_paired_source(self):
         from family_update import workflow
         # Import before rebinding common so this module cannot retain fixture
