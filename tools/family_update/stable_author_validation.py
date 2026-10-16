@@ -125,7 +125,8 @@ def artifact_members(run_id, artifact_id, source, full_tree):
     artifact = gh_json(f'repos/{REPOSITORY}/actions/artifacts/{artifact_id}')
     assert artifact['name'] == 'stable-author-functional' and artifact['expired'] is False
     assert artifact['workflow_run']['id'] == run_id and artifact['workflow_run']['head_sha'] == source
-    raw = subprocess.check_output(['gh', 'api', f'repos/{REPOSITORY}/actions/artifacts/{artifact_id}/zip'])
+    from family_update.github_reads import api_bytes
+    raw = api_bytes(f'repos/{REPOSITORY}/actions/artifacts/{artifact_id}/zip')
     assert artifact['digest'] == 'sha256:' + digest(raw), 'Original CI artifact ZIP changed'
     with zipfile.ZipFile(io.BytesIO(raw)) as archive:
         names = archive.namelist()
