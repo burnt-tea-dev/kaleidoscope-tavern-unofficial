@@ -173,6 +173,13 @@ def affected_packs(receipt):
     return {p['uuid']: {'side': p['side'], 'version': p['version'], 'files': tree(p['files'])} for p in receipt['packs'] if p['uuid'] in uuids}
 
 
+def private_receipt_version(extension, declared):
+    """Regular host receipts bind owner_version; the renderer also records its package."""
+    assert extension['owner_version'] == VERSION
+    if declared.get('kind') == 'chinesefood-doll-renderer-cleanup' or 'source_package_version' in extension:
+        assert extension['source_package_version'] == VERSION
+
+
 def verify_static(receipt, prior):
     from stable_host_profiles import match_stable_profile, validate_stable_source
     path, proof, baseline, binding, profile, recipe, ci = source_proof()
@@ -236,7 +243,7 @@ def verify_static(receipt, prior):
                     validate_stable_source(stable_profile, prefix_source)
                     assert extension['spec_sha256'] == expected and extension['repository'] == LOGICAL
                     assert extension['commit'] == binding['actual_current_source_commit'] and extension['working_candidate'] is False
-                    assert extension['source_package_version'] == VERSION and extension['owner_version'] == VERSION
+                    private_receipt_version(extension, declared)
                     assert extension['original_files'] == declared['original_files'] and extension['patched_files'] == declared['patched_files']
                 else:
                     raise AssertionError('Unexpected stable-author host extension: ' + eid)

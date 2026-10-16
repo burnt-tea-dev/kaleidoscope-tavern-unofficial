@@ -63,6 +63,22 @@ class StableAuthorValidationTests(unittest.TestCase):
             with self.subTest(name=name), self.assertRaises(AssertionError):m.sibling(path, name, m.c.sha(log))
         with self.assertRaises(AssertionError):m.sibling(path, log.name, 'forged')
 
+    def test_regular_host_receipt_owner_and_extra_renderer_package_are_distinct(self):
+        # family_bundle regular branch adds owner_version; its renderer branch
+        # separately adds source_package_version to apply_renderer_extension.
+        regular = {'owner_version': m.VERSION}
+        renderer = {**regular, 'source_package_version': m.VERSION}
+        m.private_receipt_version(regular, {'kind': 'cookery-guide-startup-repair'})
+        m.private_receipt_version(renderer, {'kind': 'chinesefood-doll-renderer-cleanup'})
+        for record, declaration in [
+            ({'owner_version': [1, 0, 44]}, {'kind': 'cookery-guide-startup-repair'}),
+            (regular, {'kind': 'chinesefood-doll-renderer-cleanup'}),
+            ({**renderer, 'source_package_version': [1, 0, 44]}, {'kind': 'chinesefood-doll-renderer-cleanup'}),
+            ({**renderer, 'source_package_version': [1, 0, 44]}, {'kind': 'cookery-guide-startup-repair'}),
+        ]:
+            with self.subTest(record=record, declaration=declaration), self.assertRaises((AssertionError, KeyError)):
+                m.private_receipt_version(record, declaration)
+
     def test_prior_p43_or_p44_artifact_cannot_admit_new_paired_source(self):
         from family_update import workflow
         # Import before rebinding common so this module cannot retain fixture
