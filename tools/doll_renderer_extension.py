@@ -7,24 +7,32 @@ reported as an official author release.
 import copy,hashlib,json
 from datetime import date
 from pathlib import Path
+from stable_host_profiles import CATALOG,match_stable_profile,validate_stable_source
 BP='b3c9db76-4ae6-4986-a380-90a4025d95a9'
 RP='b20a91d2-f099-4293-8a7f-46bf7fbc6017'
 ARCHIVE='63bd2eb2ee2819c985d7c484df633c913cbb995abf3162aa68c997c24ef607f2'
+STABLE_BP='d7aa2725-a2a2-4e82-9a6e-192d2e04617c'
+STABLE_RP='fdb6b8c4-6fe3-44bb-af7a-08bcb976377c'
+STABLE_ARCHIVE='6e424b1df6d933e4aa699023208d05e6a702431ed4c33dcca439c2cd0c2c9251'
 
 def patch_manifests(bp,rp,version,owner_version):
+    stable=(bp['header']['uuid'],rp['header']['uuid'])==(STABLE_BP,STABLE_RP)
+    expected=[1,0,5] if stable else [1,0,4]
+    bp_id,rp_id=(STABLE_BP,STABLE_RP) if stable else (BP,RP)
+    if stable and {(1,0,43):(1,0,10543),(1,0,44):(1,0,10544)}.get(tuple(owner_version))!=tuple(version):raise ValueError('stable renderer manifest identity differs from the exact owner release')
     result=[]
-    for original,uid,other in [(bp,BP,RP),(rp,RP,BP)]:
+    for original,uid,other in [(bp,bp_id,rp_id),(rp,rp_id,bp_id)]:
         value=copy.deepcopy(original)
-        if value['header']['uuid']!=uid or value['header']['version']!=[1,0,4]:raise ValueError('renderer cleanup requires original author identities')
+        if value['header']['uuid']!=uid or value['header']['version']!=expected:raise ValueError('renderer cleanup requires original author identities')
         value['header']['version']=version
         if owner_version>=[1,0,18] and value['header']['name']=='pack.name':
-            value['header']['name']='森羅廚房：國味'+(' 行為包' if uid==BP else ' 資源包')
-        value['header']['name']+=' [相容修補 '+'.'.join(map(str,owner_version))+'；作者原版 1.0.4]'
+            value['header']['name']='森羅廚房：國味'+(' 行為包' if uid==bp_id else ' 資源包')
+        value['header']['name']+=' [相容修補 '+'.'.join(map(str,owner_version))+'；作者原版 '+'.'.join(map(str,expected))+']'
         for module in value['modules']:
-            if module['version']!=[1,0,4]:raise ValueError('original author module version differs')
+            if module['version']!=expected:raise ValueError('original author module version differs')
             module['version']=version
         paired=[d for d in value.get('dependencies',[]) if d.get('uuid')==other]
-        if len(paired)!=1 or paired[0]['version']!=[1,0,4]:raise ValueError('original author pair dependency differs')
+        if len(paired)!=1 or paired[0]['version']!=expected:raise ValueError('original author pair dependency differs')
         paired[0]['version']=version;result.append(value)
     return result
 
@@ -40,15 +48,20 @@ def cleanup_blocks(original):
 
 def apply_renderer_extension(spec,bp_root,rp_root,bp_source,rp_source,owner_version):
     if spec.get('schema')!=1 or spec.get('kind')!='chinesefood-doll-renderer-cleanup':raise ValueError('unknown renderer extension')
-    if spec.get('host_uuid')!=RP or spec.get('behavior_uuid')!=BP:raise ValueError('renderer extension target differs')
+    stable=match_stable_profile(spec)
+    bp_id,rp_id,pin=(STABLE_BP,STABLE_RP,STABLE_ARCHIVE) if stable else (BP,RP,ARCHIVE)
+    if spec.get('host_uuid')!=rp_id or spec.get('behavior_uuid')!=bp_id:raise ValueError('renderer extension target differs')
     if owner_version[:2]!=[1,0] or spec['owner_version']!=owner_version:raise ValueError('renderer extension release is not paired with owner')
-    version=[1,0,10400+owner_version[2]]
+    version=[1,0,(10500 if stable else 10400)+owner_version[2]]
     if spec['local_pack_version']!=version:raise ValueError('renderer variant must advance with its canonical owner')
     if date.fromisoformat(spec['expires'])<date.today():raise ValueError('renderer extension expired')
     for key in ['removal_condition','feedback','authorization']:
         if not spec.get(key):raise ValueError('renderer review metadata missing '+key)
     for source in [bp_source,rp_source]:
-        if source['owner'] not in ['upstream','upstream_extended'] or source['archive_sha256']!=ARCHIVE or spec['archive_sha256']!=ARCHIVE:raise ValueError('renderer cleanup requires the pinned clean author archive')
+        if source['owner'] not in ['upstream','upstream_extended'] or source['archive_sha256']!=pin or spec['archive_sha256']!=pin:raise ValueError('renderer cleanup requires the pinned clean author archive')
+    if stable:
+        if owner_version!=stable.get('owner_version',CATALOG['owner_version']):raise ValueError('stable renderer requires its exact reviewed owner')
+        validate_stable_source(stable,bp_source)
     originals={'BP/manifest.json':bp_root/'manifest.json','RP/manifest.json':rp_root/'manifest.json','RP/blocks.json':rp_root/'blocks.json'}
     if set(spec['original_files'])!=set(originals) or set(spec['patched_files'])!=set(originals):raise ValueError('renderer file inventory differs')
     for name,path in originals.items():

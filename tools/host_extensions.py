@@ -2,6 +2,7 @@
 from datetime import date
 from pathlib import PurePosixPath
 import hashlib,json
+from stable_host_profiles import match_stable_profile
 
 def validate_recipe_cache_profile(spec,source):
  """Admit only the reviewed cache delta after the pinned public Cookery API.
@@ -78,11 +79,12 @@ def apply_host_extension(spec,owned_root,host_root,source):
  dough=spec.get('kind')=='cookery-mooncake-dough-repair'
  cache=spec.get('kind')=='cookery-recipe-cache-repair'
  guide=spec.get('kind')=='cookery-guide-startup-repair'
- if cache:validate_recipe_cache_profile(spec,source)
- if guide:validate_guide_startup_profile(spec,source)
- if dough and (spec.get('host_uuid'),spec['archive_sha256']) not in {('d322809c-a51e-4742-bfc4-16d3c1491c9d','9e5b617cc4c7a08ecd429fb9e42ec10e8d40a1ed5fc1f6f6687c3aff8a45a5d5'),('5df753c9-3436-4fba-87f1-a2da3651cfcf','da12fe6d39d7514aff1de3c963d69899324d771be5ca0fc3da1ccb759c7ad458')}:raise ValueError('dough repair requires the pinned Cookery host')
- if recovery and (spec.get('host_uuid')!='b3c9db76-4ae6-4986-a380-90a4025d95a9' or spec['archive_sha256']!='63bd2eb2ee2819c985d7c484df633c913cbb995abf3162aa68c997c24ef607f2'):raise ValueError('repair recovery requires the pinned ChineseFood host')
- if source['owner'] not in (['upstream','upstream_extended'] if recovery or dough or cache or guide else ['upstream']) or source['archive_sha256']!=spec['archive_sha256']:raise ValueError('extension requires pinned original author archive')
+ stable=match_stable_profile(spec,owned_root,source)
+ if cache and not stable:validate_recipe_cache_profile(spec,source)
+ if guide and not stable:validate_guide_startup_profile(spec,source)
+ if dough and not stable and (spec.get('host_uuid'),spec['archive_sha256']) not in {('d322809c-a51e-4742-bfc4-16d3c1491c9d','9e5b617cc4c7a08ecd429fb9e42ec10e8d40a1ed5fc1f6f6687c3aff8a45a5d5'),('5df753c9-3436-4fba-87f1-a2da3651cfcf','da12fe6d39d7514aff1de3c963d69899324d771be5ca0fc3da1ccb759c7ad458')}:raise ValueError('dough repair requires the pinned Cookery host')
+ if recovery and not stable and (spec.get('host_uuid')!='b3c9db76-4ae6-4986-a380-90a4025d95a9' or spec['archive_sha256']!='63bd2eb2ee2819c985d7c484df633c913cbb995abf3162aa68c997c24ef607f2'):raise ValueError('repair recovery requires the pinned ChineseFood host')
+ if not stable and (source['owner'] not in (['upstream','upstream_extended'] if recovery or dough or cache or guide else ['upstream']) or source['archive_sha256']!=spec['archive_sha256']):raise ValueError('extension requires pinned original author archive')
  if dough and set(spec['original_files'])!={'items/stuffed_dough_food.json'}:raise ValueError('dough repair has an unexpected file inventory')
  if set(spec['original_files'])!=set(spec['patched_files']) or set(spec['imports'])-set(spec['original_files']):raise ValueError('extension file inventory differs')
  for name,expected in spec['original_files'].items():

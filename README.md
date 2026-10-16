@@ -1,4 +1,6 @@
-## Current maintained baseline: 0.6.170
+## Current maintained baseline: 0.6.172
+
+Tavern 0.6.172 restores the source-proven barrel edge collision and introduces reviewed stable-author identity/state migration for the coupled G150/W150/private44 family. [Scope, stable versions and data preservation](docs/STABLE-FAMILY-20261016.md). PR/native/saved-world gates and human acceptance remain distinct.
 
 Tavern 0.6.170 is a local editor-compatibility candidate: normalize one offhand shaker coefficient spelling while preserving the expression values and all motion/camera/clock behavior. Native warning-removal, paired-family admission and human client acceptance remain separate gates. See [scope and limitations](docs/RELEASE-NOTES-0.6.170.md).
 
@@ -41,7 +43,7 @@ A Bedrock port of [Kaleidoscope Tavern](https://github.com/KaleidoscopeMods/Kale
 - The deployed development family is Tavern **0.6.166**, World Liquor **0.1.144** and Grilling **2.8.142**, with private integration **1.0.39**. The [family lock](family/upstream.lock.json) and [current baseline index](family/BASELINE-STATUS.md) record exact dependencies, deployed sources and verification.
 - [baseline.json](baseline.json) owns package identity and exact dependencies; [CHANGELOG.md](CHANGELOG.md) records changes.
 - Bedrock 1.26.50 or newer; current load target BDS 1.26.52.3.
-- Enable both Tavern BP and RP. Cookery is optional; the reviewed family target is author Cookery1.6.0. World Liquor uses its exact paired Tavern version.
+- Enable both Tavern BP and RP. Cookery is optional; the reviewed family target is author Cookery1.6.1. World Liquor uses its exact paired Tavern version.
 - Use canonical source/releases, keep a world backup and remove duplicate older Tavern packs before an upgrade. Private integration is a separately identified addon; it is not a different Tavern runtime.
 
 ## Build
