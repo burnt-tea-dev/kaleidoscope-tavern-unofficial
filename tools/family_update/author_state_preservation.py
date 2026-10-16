@@ -6,6 +6,7 @@ players, gameplay modules or experiments are introduced.
 """
 import hashlib
 import json
+import re
 import struct
 from author_state_migration import validate_profile, transform_subchunk
 
@@ -77,7 +78,7 @@ def probe_commands(inspection, limit=8):
             for name, (tag_id, value) in row['states'].items():
                 literal = json.dumps(bool(value)) if tag_id == 1 else json.dumps(value)
                 values.append(json.dumps(name) + '=' + literal)
-            marker = '[Author state QA] PASS ' + str(len(expected)) + ' end'
+            marker = 'SENLUO_AUTHOR_STATE_QA_PASS_' + str(len(expected)) + '_END'
             expected.append(marker)
             delayed.append(f'execute in {dimension} if block {x} {y} {z} {row["identifier"]} [{",".join(values)}] run say {marker}')
     return start, delayed, expected
@@ -85,7 +86,10 @@ def probe_commands(inspection, limit=8):
 
 def verify(before, after, log, expected):
     retained = before['position_state_signatures'] == after['position_state_signatures'] and before['blocks'] == after['blocks']
-    observed = all(marker in log for marker in expected)
+    # Accept complete INFO messages, optionally prefixed by the console sender.
+    # A diagnostic quoting a command or marker 10 must not satisfy marker 0.
+    messages = set(re.findall(r'(?m)^\[[^\]\r\n]+ INFO\][ \t]+(?:\[[^\]\r\n]+\][ \t]+)?(SENLUO_AUTHOR_STATE_QA_PASS_[0-9]+_END)[ \t]*\r?$', log))
+    observed = all(marker in messages for marker in expected)
     return {'complete_existing_position_states_retained': retained, 'console_probes_expected': len(expected),
-            'console_probes_passed': sum(marker in log for marker in expected), 'console_probe_passed': observed,
+            'console_probes_passed': sum(marker in messages for marker in expected), 'console_probe_passed': observed,
             'blocks': after['blocks'], 'chunk_records': len(after['position_state_signatures']), 'ok': retained and observed}
