@@ -38,7 +38,7 @@ class StableAuthorValidationTests(unittest.TestCase):
         m.artifact_members.cache_clear()
         with patch.object(workflow, 'gh_json', side_effect=lambda endpoint: records[endpoint]), \
                 patch.object(cookery_cache_validation, 'private_ci_records', return_value=(['canonical'], [], [])), \
-                patch.object(m.subprocess, 'check_output', return_value=data):
+                patch('family_update.github_reads.api_bytes', return_value=data):
             return m.artifact_members(7, 8, 'source', 'whole-tree')
 
     def test_original_artifact_requires_main_success_source_tree_and_exact_digest(self):

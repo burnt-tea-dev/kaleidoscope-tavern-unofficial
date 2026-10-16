@@ -73,8 +73,8 @@ def verify_native(verified_candidate=None):
 def gh_json(endpoint):
     # Credentials remain in gh's normal authenticated environment. No token or
     # private BSM adapter content is printed or copied into a public repository.
-    raw = subprocess.check_output(['gh', 'api', endpoint], text=True)
-    return json.loads(raw)
+    from family_update.github_reads import api_json
+    return api_json(endpoint)
 
 
 def required_ci_checks(key):
