@@ -188,6 +188,56 @@ class StableAuthorValidationTests(unittest.TestCase):
                 else:chosen['source_validation']['sha256'] = 'old-reviewed integration-native-report'
                 with self.subTest(kind=kind), self.assertRaises(AssertionError):prospective.verify_candidate(value, chosen)
 
+    def test_saturation_select_reads_ownership_from_admission_not_plain_live_capture(self):
+        from family_guard import hashes
+        source = self.root / 'source';source.mkdir()
+        output = self.root / 'run';(output / 'production-before').mkdir(parents=True)
+        live = self.root / 'live';live.mkdir()
+        proof = self.root / 'source-proof.json';proof.write_text('{}')
+        preserved = [];new_roots = {};recipe = {'output_hashes': {}}
+        for side, uid in m.SAT_UUIDS.items():
+            old_root = live / side;old_root.mkdir()
+            new_root = self.root / 'prospective' / side;new_root.mkdir(parents=True)
+            peer = m.SAT_UUIDS['RP' if side == 'BP' else 'BP']
+            for root, version in [(old_root, [1, 5, 6]), (new_root, m.SAT_VERSION)]:
+                manifest = {'header': {'uuid': uid, 'version': version},
+                            'modules': [{'uuid': 'module-' + side, 'type': 'data' if side == 'BP' else 'resources', 'version': version}],
+                            'dependencies': [{'uuid': peer, 'version': version}]}
+                (root / 'manifest.json').write_text(json.dumps(manifest))
+                (root / 'unchanged-hud.txt').write_text('identical preserved bytes')
+            preserved.append({'uuid': uid, 'side': 'behavior' if side == 'BP' else 'resource',
+                              'version': [1, 5, 6], 'path': str(old_root), 'files': hashes(old_root)})
+            new_roots[side] = {'uuid': uid, 'path': str(new_root)}
+            recipe['output_hashes'][side] = hashes(new_root)
+        # live_inventory/capture_predeploy deliberately has no provenance.
+        original = {'packs': copy.deepcopy(preserved), 'refs': {}}
+        self.assertTrue(all('source' not in p for p in original['packs']))
+        approved = {'packs': [{**p, 'source': {'owner': 'preserved'}} for p in preserved]}
+        approved_path = self.root / 'approved.json'
+        approved_path.write_text(json.dumps(approved))
+        (output / 'production-before/senluo-policy.json').write_text(json.dumps({'approved_receipt': str(approved_path)}))
+        recipe_path = source / m.RECIPE;recipe_path.parent.mkdir(parents=True);recipe_path.write_text(json.dumps(recipe))
+        review = {'schema': 1, 'profile': m.SAT_PROFILE, 'source_commit': 'actual-source',
+                  'recipe': {'path': m.RECIPE, 'sha256': m.c.sha(recipe_path)},
+                  'source_validation': m.c.report_ref(proof), 'packs': new_roots}
+        review_path = self.root / 'review.json';review_path.write_text(json.dumps(review))
+        before = copy.deepcopy(original)
+        with patch.multiple(m.c, CONFIG={'extension_stable_validation': str(proof)}, EXTENSION=source,
+                            R=output, C=output / 'candidate', B=self.root / 'server', W=live,
+                            Q=self.root / 'quality', SOURCES={'tavern': self.root / 'public-source'}), \
+                patch.object(m.c, 'git', return_value=''), patch.object(m.c, 'hashes', side_effect=hashes), \
+                patch.object(m, 'RECIPE_SHA', m.c.sha(recipe_path)), \
+                patch.object(m, 'source_proof', return_value=(proof, {}, {}, {'actual_current_source_commit': 'actual-source'}, {}, recipe, {})):
+            roots, selected = m.select_inputs(preserved, original, review_path, review)
+            self.assertEqual(set(roots), {Path(p['path']) for p in new_roots.values()})
+            self.assertFalse(selected['current_live_reconciled'])
+            self.assertEqual(original, before)
+            changed = copy.deepcopy(original);changed['packs'][0]['files']['unchanged-hud.txt'] = 'unapproved drift'
+            with self.assertRaisesRegex(AssertionError, 'Captured family differs'):
+                m.select_inputs(preserved, changed, review_path, review)
+            approved['packs'][0]['source']['owner'] = 'owned';approved_path.write_text(json.dumps(approved))
+            with self.assertRaises(AssertionError):m.select_inputs(preserved, original, review_path, review)
+
 
 if __name__ == '__main__':
     unittest.main()
