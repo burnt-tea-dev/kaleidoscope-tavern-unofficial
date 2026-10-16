@@ -29,7 +29,7 @@ def validate_profile(profile):
     if len(rules) != 28 or len({r['identifier'] for r in rules}) != 28:
         raise ValueError('author state migration requires all 28 reviewed definitions')
     for row in rules:
-        if row['conversion'] not in ('chair_carpet', 'table_carpet', 'basin_oil', 'board_presence'):
+        if row['conversion'] not in ('chair_carpet', 'table_carpet', 'basin_oil', 'board_mode'):
             raise ValueError('unsupported author state conversion')
         for key in ('before_sha256', 'after_sha256'):
             value = row[key]
@@ -76,8 +76,12 @@ def convert_block(node, rules):
         amount = 32 if states[PREFIX + 'oil_full'] else int(states[PREFIX + 'oil_low']) + (16 if states[PREFIX + 'oil_high'] else 0)
         states[PREFIX + 'oil_low'] = nbtlib.Int(amount % 11)
         states[PREFIX + 'oil_high'] = nbtlib.Int(amount // 11)
-    # board_has_food was redundant presence state; board model, progress,
-    # extension model/recovery and block-entity contents remain unmodified.
+    elif kind == 'board_mode':
+        # 1.6.1 folds presence into this existing state's meaning: zero empty,
+        # one builtin, two/three native extension slots one/two. The builtin
+        # item index, cutting progress and recovery token retain their meaning.
+        states[PREFIX + 'extension_board_model'] = nbtlib.Int(
+            int(states[PREFIX + 'extension_board_model']) + 1 if states[PREFIX + 'board_has_food'] else 0)
     for key in removed:
         del states[key]
     validate_states(states, after)

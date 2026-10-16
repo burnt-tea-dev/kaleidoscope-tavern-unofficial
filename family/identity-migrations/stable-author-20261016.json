@@ -1926,7 +1926,7 @@
         "project_id": 1673664,
         "old_archive_sha256": "da12fe6d39d7514aff1de3c963d69899324d771be5ca0fc3da1ccb759c7ad458",
         "new_archive_sha256": "5b01865d4dd9a455cd80dae4ddc94dc45964e074025f7d24c6f0c5e35f0fbe52",
-        "conversion": "board_presence"
+        "conversion": "board_mode"
       },
       {
         "path": "BP/blocks/kitchen/enamel_basin.json",
