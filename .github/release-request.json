@@ -1,19 +1,18 @@
 {
-  "version": "0.6.170",
-  "tag": "v0.6.170",
-  "title": "Tavern 0.6.170: normalize shaker editor arithmetic",
+  "version": "0.6.173",
+  "tag": "v0.6.173",
+  "title": "Tavern 0.6.173: stable author migration and barrel collision",
   "prerelease": false,
-  "publication_request": true,
-  "validation_evidence": "docs/RELEASE-NOTES-0.6.170.md",
-  "public_notes_path": "docs/RELEASE-NOTES-0.6.170.md",
+  "publication_request": false,
+  "validation_evidence": "docs/STABLE-FAMILY-20261016.md",
+  "public_notes_path": "docs/STABLE-FAMILY-20261016.md",
   "client_acceptance": "pending",
   "full_client_acceptance": "pending",
   "saved_world_migration": "pending",
   "production_ready": false,
   "live_deployment": false,
-  "native_evidence_scope": "Pinned official conversion/parser/validator evidence for a single arithmetic spelling change. Actual recovered native warning-removal observation remains pending; no full Java/client parity claim.",
+  "native_evidence_scope": "Source-specific collision and stable-author adaptation checks; full-family stopped-save first/restart and human acceptance are separate. No old runtime evidence is relabeled.",
   "client": false,
-  "status": "stable_publication_requested_pending_final_ci",
-  "public_notes_inline": "Normalize one negative offhand shaker coefficient into explicit subtraction for editor compatibility, preserving its numerical values and other motion/gameplay fields. Pair this source release with World Liquor 0.1.148 and the exact Grilling 2.8.149 source/lock.\n\nKnown family issue: World Liquor Treasure Guide's mob bonus can copy unrelated newly dropped items; overlapping death callbacks can multiply bonus drops. W148 retains this behavior without a fix. It was reproduced against W148 source in an isolated mocked scheduler, not a native server.\n\nThe stable release uses source/editor, strict CI and exact package evidence; it does not claim complete Java parity. Additional real-client, install/upgrade/restart/rollback, saved-world and soak acceptance remain unverified and are not gates for this publication. Existing strict CI, including its native-persistence checks, remains required. Client acceptance, production readiness and live deployment remain false. Earlier runtime evidence is not reassigned to this family.",
-  "expected_archive_sha256": "6759b27f040bb1b5cd4610d7c7d80313b7feb885df358929b9b0b057af827d0c"
+  "status": "stable_development_candidate_pending_family_gates",
+  "expected_archive_sha256": "710f4abca161b771b6765a14e119955732b3137dca1004842651f638553c47a1"
 }

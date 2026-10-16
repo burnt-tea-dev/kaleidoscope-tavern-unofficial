@@ -48,6 +48,13 @@ def verify_native(verified_candidate=None):
         assert run['player_records_unchanged'] and run['custom_container_inventories_retained'] and run['native_freezer_inputs_retained']
         assert run['log_sha256'] == sha(R / 'saved-world-engine' / (run['phase'] + '.log')), 'Native log changed'
     assert evidence['player_records_before'] == evidence['player_records_after']
+    if CONFIG.get('identity_migration') and read(Path(CONFIG['identity_migration'])).get('block_states'):
+        states=read(R/'saved-world-author-states.json')
+        assert states['ok'] and states['identity_spec']==report_ref(Path(CONFIG['identity_migration']))
+        assert states['client'] is False and states['simulated_players'] is False and states['test_world_only'] is True
+        assert [row['phase'] for row in states['runs']]==['first','restart'] and all(row['ok'] and row['complete_existing_position_states_retained'] and row['console_probe_passed'] for row in states['runs'])
+    from family_update.stable_author_validation import bind_native as bind_stable_author
+    bind_stable_author(receipt,evidence)
     from family_update.cookery_cache_validation import bind_native
     bind_native(receipt,evidence)
     from family_update.explicit_hud_validation import bind_native as bind_explicit_hud

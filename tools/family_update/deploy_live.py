@@ -5,6 +5,19 @@ from family_update.common import *
 class RecoveryRequired(RuntimeError):
     """A failed rollback must retain the stopped server and active lease."""
 
+def deployment_authorized(agents):
+    """Recognize only the reviewed standing instructions, without broadening scope."""
+    if all(text in agents for text in [
+        '使用者已持續授權', '供使用者直接測試開發效果', '`deferred_client_acceptance`',
+    ]):
+        return True
+    lines = set(agents.splitlines())
+    return {
+        '# Senluo maintenance',
+        "Scope: Senluo family work on this host. These are the owner's standing requirements (2026-09-30 through 2026-10-11), consolidated on 2026-10-16. Later explicit user instructions take precedence.",
+        "- The owner's 2026-10-03 standing authorization requires deployment of every completed functional candidate after canonical PR/checks/merge and full-family static, BDS and saved-world gates. Backups, normal stop/start and policy registration are authorized. Do not wait for client acceptance or request the same permission again. Before deployment read `/var/lib/docker/volumes/bsm_data/_data/plugins/addon_quality/senluo-policy.json`; use canonical family_bundle/family_guard without bypass or receipt rewriting. Register authorization provenance/time and this candidate's exact reviewed receipt SHA256 in deferred_client_acceptance. Keep client=false, production_ready=false and pending_client_acceptance until human verification. Never claim BDS/script success proves rendered gameplay; no simulated players or experimental features on LIVE.",
+    }.issubset(lines)
+
 def preflight():
     initial_status = summary()['status']
     original = verify_predeploy()
@@ -23,7 +36,7 @@ def preflight():
     candidate_plan(receipt, original)
     source_state(verify_remote=True)
     agents = Path(str(AUTHORIZATION)).read_text()
-    assert '使用者已持續授權' in agents and '供使用者直接測試開發效果' in agents and '`deferred_client_acceptance`' in agents, 'Re-read current deployment authorization'
+    assert deployment_authorized(agents), 'Re-read current deployment authorization'
     from family_update.storage import deployment_allocation, require_space
     require_space(R, "Stopped backup and saved-world rehearsal", deployment_allocation(W, C,
         identity_migration=bool(CONFIG.get('identity_migration')),
@@ -54,6 +67,9 @@ def finalize_receipt():
             verify_native_storage(storage['before'],row['rows'])
         reports.append('saved-world-native-storage.json')
     if CONFIG.get('extension_validation'):reports.append(str(Path(CONFIG['extension_validation']).resolve()))
+    if CONFIG.get('extension_stable_validation'):
+        from family_update.stable_author_validation import evidence_paths
+        reports.extend(ref['path'] for ref in evidence_paths())
     if CONFIG.get('extension_performance_validation'):
         from family_update.freezer_performance_validation import evidence_paths
         reports.extend(map(str,evidence_paths()))
@@ -67,6 +83,7 @@ def finalize_receipt():
         if cache_static.get('guide_differential'):reports.append(cache_static['guide_differential']['path'])
     if CONFIG.get('container_recovery_plan'):reports.append('saved-world-container-recovery.json')
     if CONFIG.get('identity_migration'):reports.append('saved-world-identity-migration.json')
+    if (R/'saved-world-author-states.json').is_file():reports.append('saved-world-author-states.json')
     if CONFIG.get('startup_reconciliation'):reports.append('startup-reconciliation-check.json')
     if CONFIG.get('translation_reconciliation'):reports.append('translation-reconciliation-check.json')
     if CONFIG.get('preserved_reconciliation'):reports.append('preserved-reconciliation-check.json')
@@ -94,6 +111,9 @@ def finalize_receipt():
 
 def installation_selection(receipt,original):
     """Reviewed future preserved inputs join the same install/rollback transaction."""
+    if CONFIG.get('extension_stable_validation'):
+        from family_update.stable_author_validation import verify_installation
+        verify_installation(receipt)
     if CONFIG.get('extension_performance_validation'):
         from family_update.freezer_performance_validation import verify_installation
         verify_installation(receipt)
@@ -110,6 +130,7 @@ def installation_selection(receipt,original):
         from family_update.preserved_hud_inputs import is_profile, PACKS
         from family_update import preserved_ribbits_inputs as ribbits
         from family_update import preserved_saturation_inputs as saturation
+        from family_update import stable_author_validation as stable
         if is_profile(proof):
             assert len(prospective)==5 and set(prospective)=={row[0] for row in PACKS.values()}, 'Complete five HUD outputs required'
             native=read(R/'hud-coexistence-native-validation.json')
@@ -125,6 +146,9 @@ def installation_selection(receipt,original):
         elif saturation.is_profile(proof):
             assert len(prospective)==2 and set(prospective)=={row[0] for row in saturation.PACKS.values()}
             saturation.verify_installation(receipt,proof)
+        elif stable.is_preserved_profile(proof):
+            assert len(prospective)==2 and set(prospective)==set(stable.SAT_UUIDS.values())
+            stable.verify_installation(receipt)
         else:
             assert len(prospective)==4, 'Complete prospective pairs required'
     prior={p['uuid']:p for p in original['packs']}

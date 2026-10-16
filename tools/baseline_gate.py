@@ -30,6 +30,28 @@ def fingerprint(root):
  digest=hashlib.sha256(json.dumps(rows,sort_keys=True,separators=(',',':')).encode()).hexdigest()
  return {'sha256':digest,'files':len(rows)},rows
 
+def validate_release_projections(config):
+ # These four existing Tavern guards bind every authored release token. Run
+ # them before hashing or claiming an identity; generic fixture packs keep
+ # their original manifest-only contract.
+ if config.get('repository')!='casama233/kaleidoscope-tavern-unofficial':return
+ from baseline_reference import version_projection
+ expected={
+  'runtime/BP/manifest.json':'owned_manifest',
+  'runtime/RP/manifest.json':'owned_manifest',
+  'runtime/BP/scripts/data/cookery-guide-payload.js':'payload_version',
+  'runtime/BP/scripts/data/build-version.js':'build_identity',
+ }
+ try:rows=read(ROOT/'data/baseline-reconciliation.json')['files']
+ except (OSError,KeyError,ValueError) as error:fail('Tavern release version projections missing: '+str(error))
+ for name,kind in expected.items():
+  try:
+   spec=rows[name]['versionProjection']
+   if spec['kind']!=kind:fail('Tavern release version projection kind differs: '+name)
+   version_projection(ROOT,name,(ROOT/name).read_bytes(),spec)
+  except (OSError,KeyError,ValueError,AssertionError) as error:
+   fail('Tavern release version projection invalid: '+name+': '+str(error))
+
 def validate(config):
  if not isinstance(config.get('version'),list) or len(config['version'])!=3 or any(type(x) is not int or x<0 for x in config['version']):fail('invalid release version')
  for name in ['package.json','release.json']:
@@ -41,6 +63,7 @@ def validate(config):
    for line in path.read_text(encoding='utf-8').splitlines():
     for prefix in ['## Current maintained baseline: ','## 當前維護基線：']:
      if line.startswith(prefix) and line[len(prefix):]!='.'.join(map(str,config['version'])):fail(name+' maintained version differs from release version')
+ validate_release_projections(config)
  manifests={};trees={};files={}
  for side,relative in config['runtime'].items():
   root=ROOT/relative;manifests[side]=m=read(root/'manifest.json')

@@ -238,6 +238,11 @@ def main(argv=None):
     subprocess.run([sys.executable,str(ROOT/'tools/check_incense_surfaces.py')],cwd=ROOT,check=True)
     subprocess.run([sys.executable,str(ROOT/'tools/check_animated_hands.py')],cwd=ROOT,check=True)
 
+    barrel_check=[sys.executable,str(ROOT/'tools/check_barrel_collision.py')]
+    if args.java_source is not None:
+        barrel_check.extend(['--java-source',str(args.java_source.resolve())])
+    subprocess.run(barrel_check,cwd=ROOT,check=True)
+    subprocess.run([sys.executable,str(ROOT/'tools/test_collision_shape_projection.py')],cwd=ROOT,check=True)
     subprocess.run(['node',str(ROOT/'tools/check_surface_repairs.mjs')],cwd=ROOT,check=True)
 
     subprocess.run(['node',str(ROOT/'tools/check_board_layout.mjs')],cwd=ROOT,check=True)
