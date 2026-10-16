@@ -19,7 +19,7 @@ def patch_manifests(bp,rp,version,owner_version):
     stable=(bp['header']['uuid'],rp['header']['uuid'])==(STABLE_BP,STABLE_RP)
     expected=[1,0,5] if stable else [1,0,4]
     bp_id,rp_id=(STABLE_BP,STABLE_RP) if stable else (BP,RP)
-    if stable and {(1,0,43):(1,0,10543),(1,0,44):(1,0,10544),(1,0,45):(1,0,10545)}.get(tuple(owner_version))!=tuple(version):raise ValueError('stable renderer manifest identity differs from the exact owner release')
+    if stable and {(1,0,43):(1,0,10543),(1,0,44):(1,0,10544),(1,0,45):(1,0,10545),(1,0,46):(1,0,10546)}.get(tuple(owner_version))!=tuple(version):raise ValueError('stable renderer manifest identity differs from the exact owner release')
     result=[]
     for original,uid,other in [(bp,bp_id,rp_id),(rp,rp_id,bp_id)]:
         value=copy.deepcopy(original)

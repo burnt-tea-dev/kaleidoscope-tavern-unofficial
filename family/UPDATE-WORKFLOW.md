@@ -254,3 +254,14 @@ P40→P41 freezer helper 與 Saturation1.5.5→1.5.6 使用各自的精確來源
 profile；設定、三個 CI artifact、作者檔案邊界及同次存檔原生綁定見
 [性能來源 profiles](PERFORMANCE-SOURCE-PROFILES-20261015.md)。舊 HUD 與
 Ribbits profile 規則保持；來源測試不計為真人驗收。
+
+### P46 穩定作者與飽和度相容宣告
+
+`extension_stable_validation` 使用 `senluo-stable-author-20261017-p46`，綁定
+私有 P46 完整來源樹、已合併來源 PR 及該 main 的原始八份功能 CI 檔案。
+新的 Sat `1.6.10046` 配對由 `senluo-stable-saturation-20261017-p46` recipe
+核對；除了既有 HUD／程式逐檔守恆，還須保留已准入 `1.5.6` RP 的 `pbr`
+capability。乾淨作者 `1.6` 沒有此宣告，不能直接當成本機 stack 的相容輸出。
+准入在實際新舊 manifest 邊界核對已提交的原始 manifest、capabilities 與
+兩側版本／相依；缺少宣告的 P45 靜態失敗與原證據保留，不改政策或舊輸出。
+P46 仍須通過完整家族靜態門檻及同次停服副本的首次／重啟，真人驗收另記。
