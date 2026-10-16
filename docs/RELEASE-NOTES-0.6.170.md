@@ -1,6 +1,6 @@
 # Tavern 0.6.170: shaker editor arithmetic normalization
 
-Status: local source candidate; publication is disabled. Native warning-removal, paired-family admission, saved-world and human client acceptance remain separate gates. This is not a gameplay-fix or complete Java-parity claim.
+Status: stable publication requested, subject to the existing strict CI and exact package checks. Additional real-client, saved-world and soak acceptance remain unverified and are not gates for this publication. This is not a gameplay-fix or complete Java-parity claim.
 
 ## Exact change
 
@@ -23,8 +23,18 @@ Before versioning, the exact unchanged animation candidate was independently che
 
 The original source operator sequence is not established here as a Bedrock content error. Camera adaptations, native `this` coordinates, clock epoch alignment, and later Java arm-pose layers are outside this change. Intended oscillation frequency does not establish a runtime phase-reset contract.
 
-## Admission boundaries
+## Exact-family integration and known risk
 
-World Liquor 0.1.147 still declares exact Tavern 0.6.169 dependencies. Its preserved manifest/baseline equality checks do not admit Tavern 0.6.170 as that frozen pair. Existing family pins remain untouched and require a separately reviewed paired update. This is a static contract statement, not an observed engine-resolution result.
+Use World Liquor 0.1.148 with Tavern 0.6.170: W148 declares both exact Tavern BP/RP dependencies. The owned family lock now records Tavern 0.6.170, World Liquor 0.1.148 and Grilling 2.8.149. The Grilling source-check peer is `82a396721103ae3dc7962e6ed57e10837cb5ba6d`; pinned upstream archives, UUIDs, dependency order and deployment admission rules are unchanged. Grilling's own Cookery 1.6.0 and stable Script API requirements still apply.
 
-Publication remains disabled. No earlier runtime/client/deployment receipt is reassigned to this candidate. Use the canonical regression, clean freeze/identity and package gates; a generated archive alone does not establish native/client or full-family acceptance.
+Known family issue: World Liquor Treasure Guide's mob bonus can copy unrelated newly dropped items; overlapping death callbacks can multiply bonus drops. W148 retains the existing behavior; no fix is included. Reproduced against W148 source in an isolated mocked scheduler, not a native-server reproduction.
+
+已知家族風險：World Liquor 的淘金熱（Treasure Guide）生物掉落加成可能誤複製無關的新物品，重疊死亡回呼可能放大額外掉落。W148 保留現有行為，未修補；目前證據來自隔離模擬，尚非原生伺服器實測。
+
+## Publication evidence and remaining limitations
+
+The stable publication scope is source/editor, existing strict CI and exact package verification. Clean frozen identity, source preservation, paired dependency/guide checks and deterministic archive verification remain mandatory. Existing CI jobs, including native-persistence smoke checks, are unchanged. A source or package check does not establish complete Java parity or native client acceptance.
+
+Additional real-client, install/upgrade/restart/rollback, saved-world persistence and long-running soak acceptance have not been established for this exact family and are not gates for this publication. No earlier runtime/client/deployment receipt is reassigned to this candidate. Source/parser evidence above retains its stated scope; camera adaptation, clock and render-controller behavior remain distinct limitations.
+
+Publication is requested through the existing push-to-main workflow. Merging the reviewed request into main triggers publication, so all required checks and the paired release order must be satisfied before merge. Client, production-ready and live-deployment flags remain false. Deployment admission rules are untouched, and no live deployment is part of this release.
