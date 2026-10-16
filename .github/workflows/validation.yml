@@ -149,12 +149,14 @@ jobs:
       - uses: actions/checkout@v4
         with:
           path: tavern-src
+          fetch-depth: 0
           persist-credentials: false
       - uses: actions/checkout@v4
         with:
           repository: casama233/kaleidoscope-world-liquor-unofficial
-          ref: c1815968b487e93f4e1ecd770125f5a6acc449b3
+          ref: 3e27340b2e5e84a07cc7156b336cadb0991125af
           path: world-liquor-src
+          fetch-depth: 0
           persist-credentials: false
       - uses: actions/setup-python@v5
         with:
@@ -180,7 +182,7 @@ jobs:
               'world-liquor':{'repository':'casama233/kaleidoscope-world-liquor-unofficial','repository_id':1385218112}}
           assert os.environ['GITHUB_REPOSITORY']==identities['tavern']['repository']
           assert os.environ['GITHUB_REPOSITORY_ID']==str(identities['tavern']['repository_id'])
-          assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=peer,text=True).strip()=='c1815968b487e93f4e1ecd770125f5a6acc449b3'
+          assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=peer,text=True).strip()=='3e27340b2e5e84a07cc7156b336cadb0991125af'
           lock=json.loads((root/'family/upstream.lock.json').read_text())
           lock['owned']=[row for row in lock['owned'] if row['key'] in {'tavern','world-liquor'}]
           assert len(lock['owned'])==2 and {row['key'] for row in lock['owned']}=={'tavern','world-liquor'}

@@ -22,17 +22,16 @@ def move_owners(compound,mapping):
             target=compound[new]
             if not isinstance(target,nbtlib.Compound):raise ValueError('invalid target owner compound')
             for key,value in source.items():
-                if key in target and target[key]!=value:raise ValueError('target owner has conflicting property '+key)
+                if key in target and encode(nbtlib.File({'value':target[key]}))!=encode(nbtlib.File({'value':value})):raise ValueError('target owner has conflicting typed property '+key)
                 target[key]=value
         else:compound[new]=source
         del compound[old];changes+=1
     return changes
 
-def transform(raw,mapping,world_properties=False):
+def transform(raw,mapping,world_properties=False,*,sequence=False,state_rules=None):
     import nbtlib
-    stream=io.BytesIO(raw);tag=nbtlib.File.parse(stream,byteorder='little')
-    if stream.tell()!=len(raw):raise ValueError('record contains unparsed NBT suffix')
-    changes=move_owners(tag,mapping) if world_properties else 0
+    from author_state_migration import StrictNBTStream
+    stream=StrictNBTStream(raw);changes=0;state_changes=0;parts=[]
     def visit(node):
         nonlocal changes
         if isinstance(node,nbtlib.Compound):
@@ -41,8 +40,20 @@ def transform(raw,mapping,world_properties=False):
                 visit(value)
         elif isinstance(node,nbtlib.List):
             for value in node:visit(value)
-    visit(tag)
-    return encode(tag) if changes else raw,changes
+    while stream.tell()<len(raw):
+        start=stream.tell();tag=nbtlib.File.parse(stream,byteorder='little');end=stream.tell()
+        if not sequence and end!=len(raw):raise ValueError('record contains unparsed NBT suffix')
+        previous=changes
+        if world_properties:changes+=move_owners(tag,mapping)
+        visit(tag)
+        converted=0
+        if state_rules:
+            from author_state_migration import visit_blocks
+            converted=visit_blocks(tag,state_rules);state_changes+=converted
+        parts.append(encode(tag) if changes!=previous or converted else raw[start:end])
+    if not parts:raise ValueError('empty NBT record')
+    result=(b''.join(parts) if changes or state_changes else raw,changes)
+    return (*result,state_changes) if state_rules is not None else result
 
 def fingerprint(db):
     digest=hashlib.sha256();count=0
@@ -62,18 +73,23 @@ def has_inventory_items(tag):
             if int(item.get('Count',0))!=0 or str(item.get('Name','')):return True
     return False
 
-def migrate(source,output,mapping,retire_empty=()):
+def migrate(source,output,mapping,retire_empty=(),*,state_profile=None):
     from leveldb import LevelDB
     import nbtlib
     source=Path(source).resolve();output=Path(output).resolve()
     if output.exists() or output==source or source in output.parents:raise ValueError('use a new independent world copy')
     if not mapping or len(set(mapping.values()))!=len(mapping) or set(mapping)&set(mapping.values()):raise ValueError('invalid/chained UUID mapping')
+    state_rules=None
+    if state_profile is not None:
+        from author_state_migration import validate_profile,transform_subchunk
+        state_rules=validate_profile(state_profile)
     shutil.copytree(source,output)
     db=LevelDB(str(output/'db'));records=[];retired=[];pointers=[]
     try:
         before=fingerprint(db)
         original_hashes={key:hashlib.sha256(value).digest() for key,value in db.items()}
         markers=[uid.encode() for uid in mapping]
+        state_markers=[name.encode() for name in state_rules] if state_rules else []
         updates={};deletes=[]
         for key,raw in db.items():
             if key.startswith(b'actorprefix') and any(name.encode() in raw for name in retire_empty):
@@ -82,10 +98,17 @@ def migrate(source,output,mapping,retire_empty=()):
                     if has_inventory_items(tag):raise ValueError('refusing to retire a nonempty legacy inventory')
                     retired.append({'key_hex':key.hex(),'identifier':str(tag['identifier']),'items':0})
                     deletes.append(key);pointers.append(key[len(b'actorprefix'):]);continue
-            if any(uid in raw for uid in markers):
-                changed,count=transform(raw,mapping,key==b'DynamicProperties')
-                if count:
-                    updates[key]=changed;records.append({'key_hex':key.hex(),'owner_compounds':count,'before_sha256':hashlib.sha256(raw).hexdigest(),'after_sha256':hashlib.sha256(changed).hexdigest()})
+            count=converted=0;changed=raw
+            has_states=any(name in raw for name in state_markers)
+            if has_states and len(key) in (10,14) and key[-2]==0x2f:
+                changed,converted=transform_subchunk(raw,state_rules)
+            elif any(uid in raw for uid in markers) or has_states:
+                block_actors=len(key) in (9,13) and key[-1]==0x31
+                result=transform(raw,mapping,key==b'DynamicProperties',sequence=block_actors,state_rules=state_rules)
+                changed,count=result[:2]
+                if state_rules is not None:converted=result[2]
+            if count or converted:
+                updates[key]=changed;records.append({'key_hex':key.hex(),'owner_compounds':count,'block_states':converted,'before_sha256':hashlib.sha256(raw).hexdigest(),'after_sha256':hashlib.sha256(changed).hexdigest()})
         for key,raw in db.items():
             if key.startswith(b'digp') and any(pointer in raw for pointer in pointers):
                 if len(raw)%8:raise ValueError('invalid entity index record')
@@ -103,6 +126,7 @@ def migrate(source,output,mapping,retire_empty=()):
             if hashlib.sha256(db.get(key)).digest()!=expected:raise ValueError('unrelated database record changed')
         return {'schema':1,'source':str(source),'output':str(output),'uuid_mapping':mapping,
             'before':before,'after':after,'changed_records':records,'retired_empty_entities':retired,
+            'block_state_profile':state_profile,'block_states_migrated':sum(r['block_states'] for r in records),
             'entity_index_records_changed':len(updates)-len(records),'unrelated_records_preserved':True,
             'client':False,'native_loading':False,'saved_world_migration':False}
     finally:db.close()

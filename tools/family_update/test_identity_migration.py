@@ -8,6 +8,12 @@ from family_update import deploy_live
 class IdentityTests(unittest.TestCase):
  def setUp(self):
   target=patch.object(m,'T',Path(__file__).resolve().parents[2]);target.start();self.addCleanup(target.stop)
+  historical=[]
+  for name in ('cookery-108-to-160','immersive-eating-100-to-110'):
+   row=json.loads((m.T/f'family/identity-migrations/{name}.json').read_text())
+   historical.append({'project_id':row['project_id'],'file_id':row['new_file_id'],'sha256':row['new_archive_sha256'],'packs':[{'uuid':p['new_uuid']} for p in row['packs']]})
+  original_read=m.read
+  fixture=patch.object(m,'read',side_effect=lambda p:{'upstream':historical} if p==m.T/'family/upstream.lock.json' else original_read(p));fixture.start();self.addCleanup(fixture.stop)
   self.spec=json.loads((Path(__file__).resolve().parents[2]/'family/identity-migrations/cookery-108-to-160.json').read_text());self.old={'packs':[]};self.new={'packs':[]}
   for row in self.spec['packs']:
    self.old['packs'].append({'uuid':row['old_uuid'],'side':row['side'],'version':row['old_version'],'files':{'manifest.json':row['old_manifest_sha256']},'source':{'owner':'upstream_extended','project_id':self.spec['project_id'],'file_id':self.spec['old_file_id'],'archive_sha256':self.spec['old_archive_sha256']}})
@@ -88,4 +94,40 @@ class IdentityTests(unittest.TestCase):
     self.assertFalse(deploy_live.recover_after_failure(case.original,True,[],[]))
    self.assertEqual(case.actions,['stop']);self.assertEqual(case.status,'STOPPED');case.restore.assert_not_called()
   finally:case.doCleanups()
+class FamilyIdentityTests(unittest.TestCase):
+ def setUp(self):
+  target=patch.object(m,'T',Path(__file__).resolve().parents[2]);target.start();self.addCleanup(target.stop)
+  self.spec=json.loads((m.T/'family/identity-migrations/stable-author-20261016.json').read_text());self.old={'packs':[]};self.new={'packs':[]}
+  for project in self.spec['projects']:
+   for row in project['packs']:
+    for container,prefix in ((self.old,'old'),(self.new,'new')):
+     container['packs'].append({'uuid':row[prefix+'_uuid'],'side':row['side'],'version':row[prefix+'_version'],'files':{'manifest.json':row['old_manifest_sha256'] if prefix=='old' else 'reviewed-new'},'source':{'owner':'upstream_extended','project_id':project['project_id'],'file_id':project[prefix+'_file_id'],'archive_sha256':project[prefix+'_archive_sha256']}})
+  for container in (self.old,self.new):container['packs'].append({'uuid':'unrelated-owned'})
+  for row in self.spec['block_states']['blocks']:
+   for container,key in ((self.old,'before_sha256'),(self.new,'after_sha256')):
+    pack=next(p for p in container['packs'] if p.get('side')=='behavior' and p['source']['project_id']==row['project_id']);pack['files'][row['path'][3:]]=row[key]
+ def check(self):return m.validate_plan(self.spec,self.new,self.old)
+ def test_four_author_pairs_and_28_state_definitions(self):self.assertEqual(self.check(),self.spec)
+ def test_missing_project_or_undeclared_identity_rejected(self):
+  self.spec['projects'].pop()
+  with self.assertRaises(AssertionError):self.check()
+ def test_cross_project_archive_swap_rejected(self):
+  self.new['packs'][2]['source']['archive_sha256']=self.spec['projects'][0]['new_archive_sha256']
+  with self.assertRaises(AssertionError):self.check()
+ def test_rp_owner_and_unrelated_pack_removal_rejected(self):
+  row=self.spec['projects'][0]['packs'][1];self.spec['dynamic_property_owners'][row['old_uuid']]=row['new_uuid']
+  with self.assertRaises(AssertionError):self.check()
+  del self.spec['dynamic_property_owners'][row['old_uuid']];self.new['packs'].pop()
+  with self.assertRaises(AssertionError):self.check()
+ def test_all_pairs_keep_original_world_order_positions(self):
+  original={'refs':{side:[{'pack_id':p['uuid']} for p in self.old['packs'] if p.get('side')==side] for side in ('behavior','resource')}}
+  with patch.object(m,'CONFIG',{'identity_migration':str(m.T/'family/identity-migrations/stable-author-20261016.json')}):order=m.assembly_order(original)
+  for side in order:self.assertEqual(order[side],[p['uuid'] for p in self.new['packs'] if p.get('side')==side])
+ def test_state_definition_cannot_belong_to_another_author_archive(self):
+  self.spec['block_states']['blocks'][0]['new_archive_sha256']='f'*64
+  with self.assertRaises(AssertionError):self.check()
+ def test_actual_block_definition_drift_rejects_even_with_matching_archive_label(self):
+  row=self.spec['block_states']['blocks'][0];pack=next(p for p in self.new['packs'] if p.get('side')=='behavior' and p['source']['project_id']==row['project_id']);pack['files'][row['path'][3:]]='f'*64
+  with self.assertRaisesRegex(AssertionError,'block-state definition'):self.check()
+
 if __name__=='__main__':unittest.main()
