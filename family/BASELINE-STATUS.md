@@ -5,7 +5,7 @@
 本次候選鎖定 **T175／G153／W152／私有 P53**。下文舊來源、下載及部署表保留為前次核對記錄，不代表新候選已公開發布或已部署。
 
 - Tavern 來源錨點：[a67c7968](https://github.com/casama233/kaleidoscope-tavern-unofficial/commit/a67c796810d338e473bd09460373f802a8bce92b)，[draft PR400](https://github.com/casama233/kaleidoscope-tavern-unofficial/pull/400)。本次工具／鎖更新不改動其凍結 T175 runtime。
-- Grilling 凍結來源：[9e27ec70](https://github.com/casama233/kaleidoscope-grilling-unofficial/commit/9e27ec700eea5a56e4dea277e4535cf46f238db0)，[draft PR232](https://github.com/casama233/kaleidoscope-grilling-unofficial/pull/232)；family API 0.2.12，BP 790、RP 3762 檔案。
+- Grilling 凍結來源：[686cde55](https://github.com/casama233/kaleidoscope-grilling-unofficial/commit/686cde5578ae5ddc66632b8e0d24fa9d6d89b656)，[draft PR232](https://github.com/casama233/kaleidoscope-grilling-unofficial/pull/232)；family API 0.2.12，BP 790、RP 3762 檔案。
 - World Liquor 凍結來源：[5efa46e8](https://github.com/casama233/kaleidoscope-world-liquor-unofficial/commit/5efa46e85cf2449cd1d0f7be105546119374368d)，[draft PR138](https://github.com/casama233/kaleidoscope-world-liquor-unofficial/pull/138)；W152 精確依賴 T175。後續 CI 來源鎖更新不改動 W152 runtime。
 - [家族鎖](upstream.lock.json)保存三個公開包的精確版本及 BP／RP 雜湊；公開工具接受 P53 保留的原 P48／P49／P50 修補聲明，私有實作仍留在私有倉庫。
 - 本機嚴格公開 16 包組裝已通過，並保留 23 項定義重疊報告；這不是完整私有／保留包組合、存檔遷移或玩家驗收。完整候選仍須後續來源／CI／配套 gate，`publication_request=false`、`client=false`、`production_ready=false`、`live_deployment=false`。
