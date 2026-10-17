@@ -485,7 +485,7 @@ def plan(root, *, protected=(), lease=None, references=(), historical_records=()
     _safe_path(root, root, mounts)
     _require(root.is_dir() and not root.is_symlink(), 'Configured retention root must be a real directory')
     guards, lease_state = _context(protected, lease, references)
-    outputs, proofs, finished = [], {}, []
+    outputs, candidates, finished = [], set(), []
     directories, headers = {}, {}
     for r in _discover(root, guards, mounts, directories):
         headers[str(r / "deployment-result.json")] = _stat(r / "deployment-result.json")
@@ -495,25 +495,44 @@ def plan(root, *, protected=(), lease=None, references=(), historical_records=()
             dep = _read(r / 'deployment-result.json', root, mounts, allow_mount=True)
             if dep.get('state') == 'deployed_running':
                 finished.append((_date(dep['completed_at']), str(r)))
-            proofs[str(r)] = _proof(r, root, mounts)
-            row['binding'] = proofs[str(r)]['identity']
+            candidates.add(str(r))
         except (OSError, ValueError, KeyError, TypeError) as error:
             row['reason'] = 'Incomplete, failed or mismatched deployment metadata: ' + str(error)
     finished.sort(reverse=True)
     latest = [name for _, name in finished[:retain]]
     rollback_ready = len(latest) >= retain
     rollback_checks = []
+    rows = {row['output']: row for row in outputs}
+    # Full proofs contain entire pack inventories and backup receipts. Discover
+    # the retention horizon from small headers first, then consume one proof at
+    # a time instead of retaining every historical document until planning ends.
+    proof = None
     for name in latest:
-        proof = proofs.get(name)
+        proof = None
+        try:
+            proof = _proof(Path(name), root, mounts)
+            rows[name]['binding'] = proof['identity']
+        except (OSError, ValueError, KeyError, TypeError) as error:
+            rows[name]['reason'] = 'Incomplete, failed or mismatched deployment metadata: ' + str(error)
         ok, why = _backup_complete(proof, Path(name), root, mounts) if proof else (False, 'Complete bound deployment evidence missing')
         rollback_ready = rollback_ready and ok
         rollback_checks.append({'output': name, 'complete': ok, 'reason': why})
+    proof = None
     for row in outputs:
+        # Release the previous document graph before loading the next proof.
+        proof = None
         r = Path(row['output'])
-        if row['output'] not in proofs:
+        if row['output'] not in candidates:
             continue
         if row['output'] in latest:
-            row['reason'] = 'Newest retained successful deployment'
+            if 'binding' in row:
+                row['reason'] = 'Newest retained successful deployment'
+            continue
+        try:
+            proof = _proof(r, root, mounts)
+            row['binding'] = proof['identity']
+        except (OSError, ValueError, KeyError, TypeError) as error:
+            row['reason'] = 'Incomplete, failed or mismatched deployment metadata: ' + str(error)
             continue
         if lease_state.get('state') == 'active':
             row['reason'] = 'Active maintenance lease; cleanup is read-only'
@@ -521,7 +540,6 @@ def plan(root, *, protected=(), lease=None, references=(), historical_records=()
         if any(_overlap(r, g) for g in guards):
             row['reason'] = 'Referenced by current live/source/policy/config/archive/lease context'
             continue
-        proof = proofs[row['output']]
         marker = None
         try:
             _assert_idle(r, proc_root)
@@ -565,6 +583,7 @@ def plan(root, *, protected=(), lease=None, references=(), historical_records=()
         except (OSError, ValueError, RuntimeError, KeyError, TypeError) as error:
             row['delete'] = []
             row['reason'] = 'Unsafe, active or unknown copies preserved: ' + str(error)
+    proof = None
     result = {'schema': 1, 'execute': False, 'root': str(root), 'retain': retain,
             'protected': [str(p) for p in guards], 'lease': str(lease) if not isinstance(lease, dict) and lease is not None else lease,
             'active_lease': lease_state.get('state') == 'active',
