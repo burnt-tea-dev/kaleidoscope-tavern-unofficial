@@ -22,7 +22,7 @@
 
 ### 部署紀錄的邊界
 
-[整理前的家族紀錄](https://github.com/casama233/kaleidoscope-tavern-unofficial/blob/115942e55e9946cfd257fbcdc41c849f75b77509/family/BASELINE-STATUS.md)頂段記錄：**2026-10-15 22:40:27 HKT** 直接核驗 T169／G144／W147／私有42，共42包；reviewed receipt SHA256 為 `c563149cea7e4413e67da2a37777ed583aa1ed0d739b3160b7e9130bc9f91bd3`。這是倉庫的最後已記錄核驗，本次沒有直接確認服務器此刻狀態。舊 T166、T167 段落與各自收據都是歷史證據。
+[整理前的家族紀錄](https://github.com/casama233/kaleidoscope-tavern-unofficial/blob/115942e55e9946cfd257fbcdc41c849f75b77509/family/BASELINE-STATUS.md)頂段記錄：該工作批開始時直接核驗到的LIVE，是於 **2026-10-15 22:40:27 HKT部署** 的T169／G144／W147／私有42，共42包；reviewed receipt SHA256 為 `c563149cea7e4413e67da2a37777ed583aa1ed0d739b3160b7e9130bc9f91bd3`。這是倉庫的最後已記錄核驗，本次沒有直接確認服務器此刻狀態。舊 T166、T167 段落與各自收據都是歷史證據。
 
 T173／G150／W151 的 stable-author 來源已合併，完整家族同批次的存檔／准入／部署證據仍需接續。私有配套不能只改一個版本標籤便視為完成：[穩定作者原範圍](../docs/STABLE-FAMILY-20261016.md)以私有45起步，後來有 P46／P48／P49 的有限修補；最新 [T PR397](https://github.com/casama233/kaleidoscope-tavern-unofficial/pull/397)只合併 P49 搪瓷盆蓋 consumer，明確沒有接觸 production host、保存世界或 client。其 T／W 隔離 native 回歸不能代替這項 Cookery 修補的整套驗收。完整私有來源及收據繼續在私有維護入口管理，不複製到公開 Git。
 
@@ -122,7 +122,7 @@ World Liquor目前0個open issue；未完成工作仍在其矩陣與BUGS，不�
 ## 8. 接續方式
 
 1. 維護者先讀本頁，確定要改／要驗的是公開release、當前source還是倉庫記錄的已部署批次；只讀該行為所需的矩陣與原作來源。
-2. 可平行分工：一人負責整套作者相依／保存准入，一人整理全物品顯示及動作，一人審查G214等未吸收交易差異。共同HUD、投影生成器與家族鎖指定單一整合者，禁止整份舊工作樹覆蓋。
+2. 可平行分工：一人負責整套作者相依／保存准入，一人整理全物品顯示及動作，一人審查Grilling PR #214等未吸收交易差異。共同HUD、投影生成器與家族鎖指定單一整合者，禁止整份舊工作樹覆蓋。
 3. 同一玩法的相依修補完成後再凍結一次新身份，沿用必要PR／CI與家族流程。純文件修改不升包、不建立遊戲候選、不重啟LIVE，也不新增測試。
 4. 每次交付只更新本頁現況、所屬模組矩陣／Issue和一個具辨別力的場景結果；歷史證據保持原版本。未取得新證據的欄位保持待驗收。
 

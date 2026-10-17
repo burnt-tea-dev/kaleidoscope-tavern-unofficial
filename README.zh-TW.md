@@ -4,7 +4,7 @@
 
 **公開下載：[酒館v0.6.170](https://github.com/casama233/kaleidoscope-tavern-unofficial/releases/tag/v0.6.170)**，配世界名酒0.1.148及可選G149來源檢查配套。G149公開包使用Cookery1.6.0；G150目前來源使用1.6.1。安裝時依選定版本的相依讀取。
 
-**倉庫最後記錄直接核驗的部署：T169／G144／W147／私有42，2026-10-15 22:40:27 HKT。** 本次文件核對沒有連線服務器。來源、下載及部署的詳細證據只維護在[家族現況與修復主線](family/BASELINE-STATUS.md)。
+**倉庫最後記錄的LIVE批次：T169／G144／W147／私有42，部署於2026-10-15 22:40:27 HKT，下一來源批次開始時記錄核驗。** 本次文件核對沒有連線服務器。來源、下載及部署的詳細證據只維護在[家族現況與修復主線](family/BASELINE-STATUS.md)。
 
 目前仍需完整家族同批准入、**全部物品Blockbench第一人稱／側面貼圖檢查**及具體玩法、聲畫驗收。T160側面、T167游標與T169圖形過期修補已保留；詳見[差距矩陣](docs/PARITY-MATRIX.md)和[玩家回饋](docs/BUGS.md)。`client=false`、`production_ready=false`、`pending_client_acceptance`。
 
