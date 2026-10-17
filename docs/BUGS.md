@@ -1,6 +1,14 @@
-# 玩家回饋、已部署修補與待確認效果
+# 玩家回饋、修補與待驗收場景
 
-截至[private deployment time]，最新已部署家族為T166／G142／W144／private-integration；[來源、CI、正式下載及收據](../family/BASELINE-STATUS.md)是現行入口。原始失敗與有限正向觀察各自保留，`client=false`、`production_ready=false`。
+## 當前入口（2026-10-17）
+
+目前來源 **T173**，固定[115942e5](https://github.com/casama233/kaleidoscope-tavern-unofficial/commit/115942e55e9946cfd257fbcdc41c849f75b77509)。交付位置只由[家族主索引](../family/BASELINE-STATUS.md)維護；每項目前是否已實作及剩餘差距只由[PARITY-MATRIX](PARITY-MATRIX.md)與其原Issue承接。本頁保存回報、版本與可辨別場景。
+
+目前回饋的接續重點是全物品第一人稱／側面、雪克杯進度／快開／取消／換槽／取出和實際延遲。T160側面、RGB source texel、T167游標與T169過期窗口已有後續修補，下面舊版本的「未修／待插值」不能再當目前實作狀態。缺當前真人結果的項目維持待驗收，舊失敗保留原候選。`client=false`、`production_ready=false`。
+
+## 2026-10-14／15 原始回報與當時修補（歷史證據）
+
+下表保留當時T166等候選身份；其「待插值」等描述不代替上方已承接T167／T169的現況。
 
 | 客戶端回饋／觀察 | 已進canonical並部署的處理 | 目前效果邊界 |
 | --- | --- | --- |
@@ -150,7 +158,7 @@ HUD 即時隱藏及現有原生效果邊界。新 RGB 多遮罩方案因 mip 破
 缺口已由實際引擎確認；摸金卸裝仍不可宣稱完成，見
 [效果能力紀錄](COCKTAIL-EFFECTS-API-20261008.md)。
 
-T130 舊杯跨 ID 轉換保存当前 BP scope 可讀寫欄位，不等於另一 BP UUID
+T130 舊杯跨 ID 轉換保存當前 BP scope 可讀寫欄位，不等於另一 BP UUID
 私有資料或任意 NBT 的無損轉換。舊 ID 堆疊如帶有不支援的可變元件會保留。
 
 

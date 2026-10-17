@@ -1,4 +1,26 @@
-## 當前部署：T166／G142／W144／private-integration／Ribbits1.0.10037
+# Tavern Java／Bedrock 差距矩陣
+
+## 2026-10-17 現行修復狀態
+
+目前來源為 **T173**（[115942e5](https://github.com/casama233/kaleidoscope-tavern-unofficial/commit/115942e55e9946cfd257fbcdc41c849f75b77509)）；來源／下載／倉庫部署／驗收分別見[唯一家族現況](../family/BASELINE-STATUS.md)。完整Java一比一與當前真人驗收未完成。
+
+| 行為 | 已保留的來源修補 | 目前未閉合的部分 |
+| --- | --- | --- |
+| 動態物品側面／全物品手持 | T160側邊座標、面法線與UV；T170只正規化一條副手雪克杯算式 | [#288](https://github.com/casama233/kaleidoscope-tavern-unofficial/issues/288)：全物品逐項Blockbench FP／側面、各手與contexts；副手framing、掉落3D及實際材質／光照 |
+| 特調RGB | source texel × cupRGB、六幀與10組render controllers已在目前source | [#287](https://github.com/casama233/kaleidoscope-tavern-unofficial/issues/287)：原生材質、透明、濾波／PBR與各視圖；舊flat-only說法只屬歷史 |
+| 雪克杯HUD／手感 | T165座標、T166快取、T167游標插值、T169過期窗口已承接 | 最新進度條、快開／取消／換槽／取出、聲音與延遲仍需同候選正常操作結果 |
+| HUD共存 | 既有三transport、自有namespace、原生root保存 | [#285](https://github.com/casama233/kaleidoscope-tavern-unofficial/issues/285)：跨維度重建refresh、長title ownership與foreign writer完整共存 |
+| Tipsy／時計 | yaw只明確opt-in；其他scheduler／cleanup修補保留 | [#286](https://github.com/casama233/kaleidoscope-tavern-unofficial/issues/286)：保留瞄準與原生手臂的純roll、首次online clock anchor |
+| 原生語義／儲存／板面 | 多輪item保存、dispatch、類別與source adapters保留 | [#98](https://github.com/casama233/kaleidoscope-tavern-unofficial/issues/98)：reach、清仇恨、step、XP、outline；任意三份裝飾非堆疊原料、多行editor、部分event／drop語義仍不完整 |
+| 杯架／香薰／酒桶 | T156選取、T159交叉花葉／cutout、T173碰撞形狀已有來源修補 | 真實四向點選、原生接觸、透明／粒子、保存與聲畫仍按場景驗收 |
+
+現有來源修補與「當前已經重现舊BUG」分開記錄。舊影片、失敗、native片段保持原候選；`client=false`、`production_ready=false`。調料瓶的runtime主線由Grilling [#168](https://github.com/casama233/kaleidoscope-grilling-unofficial/issues/168)持有。
+
+## 歷史批次及詳細來源證據
+
+下列各段保留其原版本與觀察範圍；所有「當前／本批」均指當時記錄，後續承接以本頁上方與家族索引為準。
+
+## 歷史部署：T166／G142／W144／private-integration／Ribbits1.0.10037
 
 2026-10-14 21:41:21 HKT完成42包家族部署。來源PR／完整CI、一次停服副本first／restart、准入與逐檔／順序讀回通過；六個公開包9349檔與本次收據及LIVE一致。正式版與精確來源見[現行基線](../family/BASELINE-STATUS.md)。`client=false`、`production_ready=false`、`pending_client_acceptance`。
 
@@ -25,7 +47,7 @@ Poststart165 warnings／0 errors，watchdog138（9 Spike／129 Slowdown），Rib
 
 T151僅重用native成功ItemTypes lookup，未知／throw／generic原行为保持，未見明確native收益；W128只三份dependency identity配對，G130／reviewed integration／Ribbits10036／HUD5不變。Poststart254 warnings／0 errors、227 watchdog（9 Spike／217 Slowdown／1 High Memory），T290／282、Ribbits418、W271、G517、Cookery308、AMW307ms Spike仍在；不同窗口或舊native告警disabled不能比性能百分比。
 
-真人快開短空條、完整聲畫／操作、任意whole HUD／title与Java一比一仍待接受。下一T152／W129仅本機freeze，native／LIVE未接受；每chunk快取不消除partial reverse整串FNV fallback，不称全面有界。151 receipt／proof不能借用为152。以下旧parity正文／數字／影片与proof保持原身份。
+真人快開短空條、完整聲畫／操作、任意whole HUD／title与Java一比一仍待接受。下一T152／W129仅本機freeze，native／LIVE未接受；每chunk快取不消除partial reverse整串FNV fallback，不称全面有界。151 receipt／proof不能借用为152。以下舊parity正文／數字／影片与proof保持原身份。
 
 ## 歷史部署：T150／G130／W127／private-integration／Ribbits1.0.10036
 
@@ -33,7 +55,7 @@ T151僅重用native成功ItemTypes lookup，未知／throw／generic原行为保
 
 T150的21products／28pages、W fixture175registration packets及Ribbits54structures／158connections是各自來源回歸保全；不擴寫为整包bytes相同、LIVE投遞／ACK、任意資料或真人完整玩法。G130／reviewed integration／原五份HUD變體不變。
 
-Poststart257 warnings／0 errors、230 watchdog（9 Spike／220 Slowdown／1 High Memory）；T249／288、Ribbits431、W265、G447、Cookery310ms Spike仍在。本輪native已保留100／10ms門檻，旧native未設定而關閉對應告警；不同窗口／條件不能作性能百分比。快開短空條、完整聲畫、第三方whole HUD／title、Java一比一及作者新版適配仍待完成。下列旧parity段／影片原字節与身份保持，不能借用为T150真人接受。
+Poststart257 warnings／0 errors、230 watchdog（9 Spike／220 Slowdown／1 High Memory）；T249／288、Ribbits431、W265、G447、Cookery310ms Spike仍在。本輪native已保留100／10ms門檻，舊native未設定而關閉對應告警；不同窗口／條件不能作性能百分比。快開短空條、完整聲畫、第三方whole HUD／title、Java一比一及作者新版適配仍待完成。下列舊parity段／影片原字節与身份保持，不能借用为T150真人接受。
 
 ## 歷史部署：T149／G130／W126／private-integration
 

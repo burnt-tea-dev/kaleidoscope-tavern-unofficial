@@ -1,4 +1,10 @@
-## 當前整合：T142／W119
+# 歷史 PR 承接索引
+
+**2026-10-17：本頁保存歷史來源處置。** 現行來源T173／G150／W151、下載、部署及修復順序以[家族現況](../../family/BASELINE-STATUS.md)為唯一入口；Tavern行為差距見[PARITY-MATRIX](../PARITY-MATRIX.md)，回報與場景見[BUGS](../BUGS.md)。
+
+Tavern本次核對無開放功能PR，仍有[#98](https://github.com/casama233/kaleidoscope-tavern-unofficial/issues/98)、[#285](https://github.com/casama233/kaleidoscope-tavern-unofficial/issues/285)、[#286](https://github.com/casama233/kaleidoscope-tavern-unofficial/issues/286)、[#287](https://github.com/casama233/kaleidoscope-tavern-unofficial/issues/287)、[#288](https://github.com/casama233/kaleidoscope-tavern-unofficial/issues/288)。它們保留原issue ID，由現行scope承接T128以後的修補；以下舊「未合併／候選／LIVE」不代表今天的GitHub狀態。Grilling四個仍開放草稿的當前承接見[家族PR表](https://github.com/casama233/kaleidoscope-tavern-unofficial/blob/main/family/BASELINE-STATUS.md#5-舊-pr-的實際承接)。
+
+## 歷史整合：T142／W119
 
 基底為 Tavern canonical `ebca0bbf6efc5459ed30a9a4a1c264477c274453` 與 World Liquor canonical `bd022a205a317a0fe813041dcc5b99152d07bdf5`；保留新主線指南、板面換行、雪克杯 clone／手勢與 LivingEntity 魚類入口。光效與 recorder 修補承接 [PR310](https://github.com/casama233/kaleidoscope-tavern-unofficial/pull/310) 舊 head `e831804…`，其完整 CI、原生首次 20／重啟 21 項成功只屬原身份；不合併舊 PR 的同版本內容覆蓋新主線。本輪完整 PR／CI 與首次 21／重啟 22 項原生結果另行確認，舊 PR 收束依實際處置，不預先稱已合併或關閉。
 
@@ -12,14 +18,14 @@ G123 family-lock 候選保留；W 檢查仍固定 G122 的相同 entity definiti
 
 以 af25ecf9／787e0774 為前身，審查並行 71e5c372／f73f6e71，整合 native-clock 與 reload 修復，保留所有 Mob／anchor／素材變更。舊衝突版本歷史不改寫；新 candidate PR/CI 與發布另行確認，不宣稱舊 PR 已合併。
 
-# 森羅家族：當前修補與 PR 處置
+# 森羅家族：歷史修補與 PR 處置
 
 ## 歷史 T137／W114：修復原生重啟光效
 
 [本版說明](../RELEASE-NOTES-0.6.137.md) 保留 T136/W113 exact source 與首次通過／重啟失敗證據。新增同 entityLoad tick 的一次原生 EffectAdd 載入見證；PR302 後續完整 observer recorder 一起承接。最終 CI／發布依實際結果，不改寫舊失敗。
 
 
-更新：2026-10-09。本頁是本輪家族修補與舊 PR 承接的當前入口，版本及內容身分仍由各庫 baseline 和 [family lock](../../family/upstream.lock.json) 決定。歷史 PR 的來源保留為固定證據，不作新包輸入；真正 GitHub 狀態以各 PR 的合併／收束紀錄為準。
+歷史更新：2026-10-09。以下是該輪家族修補與舊PR承接的快照，版本及內容身分仍由各庫 baseline 和 [family lock](../../family/upstream.lock.json) 決定。歷史 PR 的來源保留為固定證據，不作新包輸入；真正 GitHub 狀態以各 PR 的合併／收束紀錄為準。
 
 ## 歷史指南候選與保留來源
 
