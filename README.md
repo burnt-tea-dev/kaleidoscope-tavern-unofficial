@@ -1,10 +1,10 @@
 ## Current maintained source: 0.6.173
 
-Source snapshot reviewed on **2026-10-17**: [115942e5](https://github.com/casama233/kaleidoscope-tavern-unofficial/commit/115942e55e9946cfd257fbcdc41c849f75b77509). The public source family is **T173 / G150 / W151**. Stable-author identity/state adaptation and the later reviewed integration/reviewed integration consumer repairs have separate source and full-family acceptance records.
+Source snapshot reviewed on **2026-10-17**: [115942e5](https://github.com/casama233/kaleidoscope-tavern-unofficial/commit/115942e55e9946cfd257fbcdc41c849f75b77509). The public source family is **T173 / G150 / W151**. Stable-author identity/state adaptation and the later reviewed integration/reviewed integration consumer repairs have source evidence. Full-family acceptance is separate and remains incomplete for the current batch.
 
 **Public download:** [Tavern v0.6.170](https://github.com/casama233/kaleidoscope-tavern-unofficial/releases/tag/v0.6.170), paired with **World Liquor 0.1.148** and the optional **Grilling 2.8.149** source-check family. The G149 public package uses Cookery **1.6.0**; current G150 source uses **1.6.1**. Main-source requirements and published-package requirements must be read for their own version.
 
-**Last repository-recorded verified deployment:** **T169 / G144 / W147 / private-integration**, 2026-10-15 22:40:27 HKT. This documentation audit did not connect to the server. Current source, downloads and that deployment have separate identities; see [family/BASELINE-STATUS.md](family/BASELINE-STATUS.md).
+**Deployment records:** Actual server identities, private integration versions, deployment times and production receipts are kept in private maintenance records. Public versions and acceptance limits remain in the family status index.
 
 **Remaining work:** complete the current full-family evidence, the owner's all-item Blockbench first-person/side-texture inspection, and the specific gameplay/client scenes in [PARITY-MATRIX](docs/PARITY-MATRIX.md) and [BUGS](docs/BUGS.md). T160 side faces, T167 cursor work and T169 progress expiry repairs are retained. `client=false`, `production_ready=false`, `pending_client_acceptance`.
 
