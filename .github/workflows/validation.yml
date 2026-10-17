@@ -47,7 +47,11 @@ jobs:
       - run: python tools/test_doll_renderer_extension.py
       - run: python tools/test_nether_placeable_extension.py
       - run: python tools/test_enamel_basin_extension.py
+      - run: python tools/test_millstone_extension.py
+      - run: python tools/test_held_geometry_extension.py
       - run: python tools/test_retained_host_profiles.py
+      - run: python tools/test_p51_retention.py
+      - run: python tools/test_tilted_rack_lift.py
       - run: python tools/test_family_archive_index.py
       - run: python -m pip install nbtlib==2.0.4
       - run: python tools/test_family_saved_world.py

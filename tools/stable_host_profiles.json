@@ -679,6 +679,62 @@
       "required_extensions": [
         "public-api"
       ]
+    },
+    "cookery-millstone-extension-admission-p50": {
+      "id": "senluo:cookery-millstone-extension-admission",
+      "version": [
+        1,
+        0,
+        1
+      ],
+      "host_uuid": "d0ca7a68-2877-4bd5-bc82-6c7b325cccf2",
+      "archive_sha256": "5b01865d4dd9a455cd80dae4ddc94dc45964e074025f7d24c6f0c5e35f0fbe52",
+      "owner_version": [
+        1,
+        0,
+        50
+      ],
+      "original_files": {
+        "scripts/custom_components/blocks/millstone.js": "56a991ed57479f12d9700f9bcdb7811b072bf205f5851c7c5cbb7428188f598c"
+      },
+      "patched_files": {
+        "scripts/custom_components/blocks/millstone.js": "f15034d22998ca38155b24358e8f9ba1da952fe5d219b4ce9e577bb5fbc9e91a"
+      },
+      "copies": {},
+      "spec_sha256": "544db50adb3ddae712ce82b4a53d03059153651aa7e48fb33900067e8fedfe74",
+      "source_owner": "upstream_extended",
+      "required_extensions": [
+        "public-api"
+      ]
+    },
+    "cookery-held-geometry-canonicalization-p50": {
+      "id": "senluo:cookery-held-geometry-canonicalization",
+      "version": [
+        1,
+        0,
+        1
+      ],
+      "host_uuid": "c9df2982-d72e-4bbf-a72c-b77de4ea915b",
+      "archive_sha256": "5b01865d4dd9a455cd80dae4ddc94dc45964e074025f7d24c6f0c5e35f0fbe52",
+      "owner_version": [
+        1,
+        0,
+        50
+      ],
+      "original_files": {
+        "models/blocks/java16/red_lantern.geo.json": "f08af9dd73bea109cac446e7d4677895e1073ced30a1c48e01758d449b6ba13c",
+        "models/blocks/java16/bamboo_tray_base.geo.json": "07e50759d745d47f759ce2132c3e40a87e5bbf22c06969da252116f2be0ecda9",
+        "models/blocks/java16/bamboo_tray_stand.geo.json": "964239f06be1871dc8498cbe7f0ba8bc699f337204145fff34f9cb582245c6de"
+      },
+      "patched_files": {
+        "models/blocks/java16/red_lantern.geo.json": "8c5e5f9b5560a445db192a78ba6edc7986c07800fc2928259b9bf769d023127f",
+        "models/blocks/java16/bamboo_tray_base.geo.json": "7a730724b6da34ba40e3d55cb9d7fec5670f8dd5ee329f6ac2de357b139b0c50",
+        "models/blocks/java16/bamboo_tray_stand.geo.json": "332acdf52c4ea72ab556f209079780aa629fe70b73c73c0d8284b4e69822fe31"
+      },
+      "copies": {},
+      "spec_sha256": "a53c61dba1f76c2aae34e1e96bf4602c562fddb14eb8c4a07a96cca0191623c0",
+      "source_owner": "upstream",
+      "required_extensions": []
     }
   },
   "public_api_profile": {
@@ -765,5 +821,114 @@
     },
     "required_extensions": [],
     "source_owner": "upstream"
+  },
+  "public_api_profiles": {
+    "public-api-0.2.12": {
+      "spec_sha256": "4fdd5f8a6dba18fc0bf20399df3723ec540013a95f2d6e32a46cfe2bc8b7c6fd",
+      "id": "kaleidoscope_grilling:family-api-0.2.12",
+      "version": [
+        0,
+        2,
+        12
+      ],
+      "host_uuid": "d0ca7a68-2877-4bd5-bc82-6c7b325cccf2",
+      "archive_sha256": "5b01865d4dd9a455cd80dae4ddc94dc45964e074025f7d24c6f0c5e35f0fbe52",
+      "original_files": {
+        "scripts/api/extensionRegistry.js": "ca75ba7f51fa47c67958185248c3ce7bb98b15c8c4c4d490ee762d884837f369",
+        "scripts/custom_components/blocks/directStation.js": "630d3587c43240256a3f89575b197e2f76ffc738b25a700a5352f78c9de94f15",
+        "scripts/custom_components/blocks/oilPot.js": "c34d1cb0c6f125db7ebbe4e7dc1d251efd92a261dac964e4bf9d09d6e981222c",
+        "items/kitchen/oil_pot.json": "f881cc3144f2b46fe075339a0713af8f627dbdb80c31a33a32cea3e7a4010b17",
+        "items/kitchen/oil_pot_filled.json": "12eacddb8ad48c8f8d3510f78f0e6489244e7bc1d4ff7ca4aa0d73c44776f1f2",
+        "scripts/events/guidebook.js": "aae402d3fc7ed52db9cda72459fbd8207f86689adc86c379cc79ccca6b9cf169",
+        "scripts/events/foodItemReturns.js": "8b3943e96b0f2eb76bb0ab1a589927ac9485f28fbd2d61f01de0dbcc900228fc",
+        "scripts/data/foodEffects.js": "f0a1750a2f22ee9335e15ef17a0d0f5791435564aad8e85aea69cfbc764b2149",
+        "scripts/api/guidebookExtensionRegistry.js": "a273bc82dc64c6899957ab51a52a08f0177292a334c8b5bbf81e823360135cd9"
+      },
+      "patched_files": {
+        "scripts/api/extensionRegistry.js": "16e8370fb1f4608f0a74b3896d6fba05cb7c4fff2abbd78dfaa11c572f87b45d",
+        "scripts/custom_components/blocks/directStation.js": "40d0df00a3a4d05f91904d850b1da1742c05a6dabdcae8c84d600d426686cb7f",
+        "scripts/custom_components/blocks/oilPot.js": "f36453d75f87d0d4e1af424df40751134d905645ac476c62b5f16247dc117c27",
+        "items/kitchen/oil_pot.json": "fba383920613d0e153bfd1438eaf2825b97bbce2c26486995448b14d35b83f0f",
+        "items/kitchen/oil_pot_filled.json": "0296061e7db00b0979303f6800f829daf628cab4929e7e0825125a3a470ff7f3",
+        "scripts/events/guidebook.js": "f4043c895c276b77a49016a633bfd73f329a6fddd770608b11adba79148ea67a",
+        "scripts/events/foodItemReturns.js": "152cb6fd5af0a025c723c9370cbc0cb0759bfbf09f7bf695498b1d3ca5d20b37",
+        "scripts/data/foodEffects.js": "5c43d22512262e288f88e752903fc88ea46c50d6f575ebac312422abd903cf35",
+        "scripts/api/guidebookExtensionRegistry.js": "a273bc82dc64c6899957ab51a52a08f0177292a334c8b5bbf81e823360135cd9"
+      },
+      "copies": {
+        "scripts/api/board_api_core.js": {
+          "source": "scripts/host_api/board_api_core.js",
+          "sha256": "bc7298ec2843f9eb0948da6dc99e52fe71ae9ffcb1afd313b85bd8cf91717017"
+        },
+        "scripts/api/board_api_runtime.js": {
+          "source": "scripts/host_api/board_api_runtime.js",
+          "sha256": "0fe132a47fff74c7ae54d94f7a010231405ad40117c68e477c995a46a9ea0de1"
+        },
+        "scripts/api/oil_api_core.js": {
+          "source": "scripts/host_api/oil_api_core.js",
+          "sha256": "26fb0d08566314fe5d0644eb371ce1f6694c85d291ed69b482045a5b194f362c"
+        },
+        "scripts/api/oil_api_host.js": {
+          "source": "scripts/host_api/oil_api_host.js",
+          "sha256": "61534e7a8001676fcbea23647887f5b0cd2f8eaa2ee659a3308f6c29e45d9cfe"
+        },
+        "scripts/api/food_api_core.js": {
+          "source": "scripts/host_api/food_api_core.js",
+          "sha256": "63794a5c86263a058f1424119cd3a5445db7a70fc64bb9d32c6a11fc9a160542"
+        },
+        "scripts/api/cuisine_api_host.js": {
+          "source": "scripts/host_api/cuisine_api_host.js",
+          "sha256": "4f1c9119490bd03bb99ddf3d2f073addae89d8518e8c76d8aed34909f4785939"
+        },
+        "scripts/api/guide_labels_core.js": {
+          "source": "scripts/host_api/guide_labels_core.js",
+          "sha256": "d859c745e40359b869d3174d8ebd301bce2c738b5728c87be4f93e4a19c6a6d7"
+        },
+        "scripts/api/ingredient_api_host.js": {
+          "source": "scripts/host_api/ingredient_api_host.js",
+          "sha256": "e5d0c7e3dc20b0aa896d55ef1f5a68403e5f87207f297a6c2915aaa25b763907"
+        },
+        "scripts/a2750_wok_food_core.js": {
+          "source": "scripts/a2750_wok_food_core.js",
+          "sha256": "0b99b672acce389f3831107bcea4f6cfbf4cd66770cd1e8bf4528224c9aceffe"
+        },
+        "scripts/api/pot_api_core.js": {
+          "source": "scripts/host_api/pot_api_core.js",
+          "sha256": "177d343ae463b0751ca3a4d75b50f9581a9da0ce99bea22c943e7784e91df4fa"
+        },
+        "scripts/api/pot_api_host.js": {
+          "source": "scripts/host_api/pot_api_host.js",
+          "sha256": "594539e9f0b69f18c07b04b6e978447739eece9d9182d301071fdd1e809d331a"
+        },
+        "scripts/api/cuisine_quality_core.js": {
+          "source": "scripts/host_api/cuisine_quality_core.js",
+          "sha256": "5819297f2c64d238cd34cf6c8ba04b35fb2ac7daefd445b4ea7b58219b7ccda2"
+        }
+      },
+      "required_extensions": [],
+      "source_owner": "upstream"
+    }
+  },
+  "public_api_predecessors": {
+    "cookery-guide-startup-repair": [
+      "public-api",
+      "public-api-0.2.12"
+    ],
+    "cookery-mooncake-dough-repair": [
+      "public-api",
+      "public-api-0.2.12"
+    ],
+    "cookery-recipe-cache-repair": [
+      "public-api",
+      "public-api-0.2.12"
+    ],
+    "cookery-enamel-basin-lid-repair-p49": [
+      "public-api",
+      "public-api-0.2.12"
+    ],
+    "cookery-millstone-extension-admission-p50": [
+      "public-api",
+      "public-api-0.2.12"
+    ]
   }
 }
