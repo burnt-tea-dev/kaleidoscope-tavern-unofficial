@@ -1,5 +1,7 @@
 """Direct deletion counterexamples; temp fixtures only, no native/live operations."""
 import copy
+from collections import Counter
+import gc
 import hashlib
 import json
 import os
@@ -8,6 +10,7 @@ import shutil
 import sys
 import tempfile
 import unittest
+import weakref
 from unittest.mock import patch
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from family_update import retention as m
@@ -130,6 +133,55 @@ class RetentionTests(unittest.TestCase):
     def test_completed_sort_uses_metadata_not_output_name(self):
         self.modify(self.a, 'deployment-result.json', lambda d: d.update(completed_at='2026-10-04T01:00:00+00:00'))
         self.assertEqual(self.plan()['newest_retained'], [str(self.a)])
+    def test_many_histories_validate_once_without_retaining_full_proof_documents(self):
+        histories = [self.a, self.b, self.c]
+        histories += [self.deployment(f'history-{day}', day) for day in range(4, 25)]
+        class Documents(dict):
+            pass
+        original_proof, original_read = m._proof, m._read
+        documents, proof_calls, report_reads = [], Counter(), Counter()
+        peak = 0
+        def observed_proof(output, *args):
+            nonlocal peak
+            proof_calls[output] += 1
+            proof = original_proof(output, *args)
+            proof['docs'] = Documents(proof['docs'])
+            documents.append(weakref.ref(proof['docs']))
+            gc.collect()
+            peak = max(peak, sum(reference() is not None for reference in documents))
+            return proof
+        def observed_read(path, *args, **kwargs):
+            report_reads[path] += 1
+            return original_read(path, *args, **kwargs)
+        with patch.object(m, '_proof', side_effect=observed_proof), patch.object(m, '_read', side_effect=observed_read):
+            planned = self.plan(retain=2)
+        self.assertEqual(proof_calls, Counter({output: 1 for output in histories}))
+        self.assertEqual(planned['newest_retained'], [str(histories[-1]), str(histories[-2])])
+        self.assertTrue(planned['rollback_retention_ready'])
+        self.assertTrue(all('binding' in self.row(planned, output) for output in histories))
+        self.assertEqual(sum(self.row(planned, output)['state'] == 'eligible' for output in histories), len(histories) - 2)
+        for output in histories:
+            for name in ['reviewed-family-receipt.json', 'production-before/inventory.json', 'production-before/backup-receipt.json']:
+                self.assertEqual(report_reads[output / name], 1, str(output / name))
+        self.assertLessEqual(peak, 3, 'full proof reachability must stay bounded by retained rollbacks plus one history')
+        gc.collect()
+        self.assertFalse(any(reference() is not None for reference in documents), 'returned plan must not retain full proof documents')
+    def test_report_changed_after_header_discovery_is_still_validated_and_preserved(self):
+        original_proof = m._proof
+        calls = Counter()
+        def changed_report(output, *args):
+            calls[output] += 1
+            if output == self.c:
+                self.modify(self.a, 'poststart-verification.json', lambda d: d.update(receipt_sha256='changed-after-headers'))
+            return original_proof(output, *args)
+        with patch.object(m, '_proof', side_effect=changed_report):
+            planned = self.plan()
+        self.assertEqual(calls, Counter({output: 1 for output in [self.a, self.b, self.c]}))
+        self.assertEqual(self.row(planned, self.a)['delete'], [])
+        self.assertIn('Reviewed receipt binding differs', self.row(planned, self.a)['reason'])
+        self.assertTrue((self.a / m.COPIES[0]).exists())
+        self.assertTrue(self.row(planned, self.b)['delete'])
+        self.assertTrue(planned['rollback_retention_ready'])
     def test_latest_missing_snapshot_keeps_every_older_backup(self):
         (self.c / 'production-snapshot/db/data').unlink()
         p = self.plan()
