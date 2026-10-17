@@ -1,8 +1,8 @@
 """Exact approved stable-author host declarations, without private implementation.
 
-Existing profiles are unchanged. New author identities are admitted only with
-the six reviewed declaration digests, original/output hashes, helper hashes and
-their preceding public/private source receipts.
+Existing profiles are unchanged. New author identities and public API versions
+are admitted only with reviewed declaration digests, original/output hashes,
+helper hashes and their explicitly compatible preceding source receipts.
 """
 import hashlib
 import json
@@ -20,6 +20,20 @@ def receipt(profile):
     return {key: profile[key] for key in ['id', 'version', 'original_files', 'patched_files', 'copies']}
 
 
+def public_profiles():
+    return {'public-api': CATALOG['public_api_profile'], **CATALOG.get('public_api_profiles', {})}
+
+
+def public_predecessors(profile):
+    # The original receipt remains the default. Only the named, unchanged
+    # private declarations may use another reviewed public API predecessor.
+    for name, accepted in CATALOG.get('public_api_predecessors', {}).items():
+        if PROFILES.get(name) == profile:
+            profiles = public_profiles()
+            return [receipt(profiles[key]) for key in accepted]
+    return [CATALOG['public_api']]
+
+
 def validate_stable_source(profile, source):
     if source.get('owner') != profile['source_owner'] or source.get('archive_sha256') != profile['archive_sha256']:
         raise ValueError('stable host requires its exact preceding author source')
@@ -27,17 +41,26 @@ def validate_stable_source(profile, source):
     if not isinstance(prior, list):
         raise ValueError('stable host preceding receipts must be a list')
     for name in profile['required_extensions']:
-        expected = CATALOG['public_api'] if name == 'public-api' else receipt(PROFILES[name])
-        if not any(isinstance(row, dict) and all(row.get(key) == value for key, value in expected.items()) for row in prior):
+        expected = public_predecessors(profile) if name == 'public-api' else [receipt(PROFILES[name])]
+        preceding = prior
+        if name == 'public-api':
+            public_ids = {p['id'] for p in public_profiles().values()} | {p['id'] for p in expected}
+            preceding = [row for row in prior if isinstance(row, dict) and row.get('id') in public_ids]
+            # A host has one public API source, not two sequential installations
+            # or a mixture of a new identity and old helper hashes.
+            if len(preceding) != 1:
+                raise ValueError('stable host lacks exact preceding receipt: ' + name)
+        if not any(isinstance(row, dict) and all(row.get(key) == value for key, value in option.items())
+                   for row in preceding for option in expected):
             raise ValueError('stable host lacks exact preceding receipt: ' + name)
 
 
 def match_stable_profile(spec, owned_root=None, source=None):
-    new_hosts = {p['host_uuid'] for p in PROFILES.values()}
-    new_archives = {p['archive_sha256'] for p in PROFILES.values()}
+    candidates = {**PROFILES, **public_profiles()}
+    new_hosts = {p['host_uuid'] for p in candidates.values()}
+    new_archives = {p.get('archive_sha256') for p in candidates.values()} - {None}
     if spec.get('host_uuid') not in new_hosts and spec.get('archive_sha256') not in new_archives:
         return None
-    candidates = {**PROFILES, 'public-api': CATALOG['public_api_profile']}
     found = [(name, p) for name, p in candidates.items()
              if p['id'] == spec.get('id') and p['host_uuid'] == spec.get('host_uuid')]
     if not found:
