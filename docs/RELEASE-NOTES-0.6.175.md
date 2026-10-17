@@ -3,7 +3,7 @@
 - User-approved usability adjustment: add 6 model units to tilted-rack first-person translation Y in both hands. Geometry, texture, source rotations/scales, world placement and every other display context remain unchanged.
 - Native Blockbench 5.2.2 comparison tested Y lifts 0, 1, 2, 3, 4, 5, 6, 8 and 10. Six is the smallest tested whole-unit lift retaining the complete silhouette in both hands; five still clips a right-hand support. See [before/after](evidence/t175-rack-lift/before-after.png). This is editor evidence, not Minecraft client acceptance.
 - Preserve T174 animated-sprite shell and hidden XP-bottle material repairs. T174 release-history entry is unchanged; T175 has a fresh paired BP/RP identity.
-- Public build tools admit exact retained P50 host repairs in private P51 and P52. Private P50 remains pinned to T174; final family synchronization requires separately frozen successor packages and their exact dependency pins. No LIVE deployment.
+- Public build tools admit exact retained P50 host repairs in private P51, P52 and P53. Private P50 remains pinned to T174; final family synchronization requires separately frozen successor packages and their exact dependency pins. No LIVE deployment.
 - Cookery BP and RP must both be installed for shared food/seasoning textures; see [installation guide](../family/COOKERY-RP-INSTALLATION.md).
 
 ## Java source and preview limits

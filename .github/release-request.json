@@ -15,6 +15,6 @@
   "client": false,
   "status": "stable_development_candidate_pending_family_gates",
   "expected_archive_sha256": "46fd33fa8a0c7220d7ac341b6cc4512c60f311434e359f3c3d65842db77411ea",
-  "peer_pins_status": "provisional_source_anchor_pending_final_T175_G153_W152_P53_family_gates",
+  "peer_pins_status": "frozen_T175_G153_W152_sources_pending_final_CI_and_full_family_gates",
   "family_ready": false
 }
