@@ -3,6 +3,7 @@
 from pathlib import Path,PurePosixPath
 import argparse,hashlib,io,json,os,re,shutil,subprocess,zipfile
 from host_extensions import apply_host_extension
+from retained_host_profiles import retained_host_source
 ROOT=Path(__file__).resolve().parents[1]
 def fail(message):raise SystemExit('FAMILY: '+message)
 def read(path):return json.loads(path.read_text(encoding='utf-8-sig'))
@@ -144,16 +145,23 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
      from nether_placeable_extension import apply_nether_extension as apply_pair
     bp=by_uuid.get(spec['behavior_uuid']);rp=by_uuid.get(spec['host_uuid'] if renderer else spec['resource_uuid'])
     if not bp or not rp:fail('paired host extension requires complete author pair')
-    extension_version=renderer_source_version(config,spec,path) if renderer else config['version']
+    try:retained=retained_host_source(config,spec,path)
+    except ValueError as e:fail('paired host retention rejected: '+str(e))
+    extension_version=retained['owner_version'] if retained else (renderer_source_version(config,spec,path) if renderer else config['version'])
     try:proof=apply_pair(spec,out/'behavior_packs'/bp['uuid'],out/'resource_packs'/rp['uuid'],bp['source'],rp['source'],extension_version)
     except (ValueError,KeyError) as e:fail('paired host extension rejected: '+str(e))
     proof.update({'repository':config['repository'],'commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip(),'source_package_version':config['version'],'spec_sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'working_candidate':working,'official_author_release':False})
-    if renderer and extension_version!=config['version']:proof['retained_renderer_profile']=config['retained_renderer_profile']
+    if retained:proof['retained_host_profile']=retained
+    elif renderer and extension_version!=config['version']:proof['retained_renderer_profile']=config['retained_renderer_profile']
     for row in [bp,rp]:
      root=out/(row['side']+'_packs')/row['uuid'];manifest=read(root/'manifest.json')
      row.update(version=manifest['header']['version'],dependencies=manifest.get('dependencies',[]),files=files_hash(root))
      row['source']={**row['source'],'owner':'upstream_extended','reviewed_extensions':[*row['source'].get('reviewed_extensions',[]),proof]}
     continue
+   if spec.get('kind')=='cookery-enamel-basin-lid-repair':
+    from enamel_basin_extension import validate_enamel_basin_owner
+    try:validate_enamel_basin_owner(config,spec)
+    except ValueError as e:fail('host extension owner rejected: '+str(e))
    host=by_uuid.get(spec['host_uuid'])
    if host is None:fail('host extension target missing')
    host_root=out/(host['side']+'_packs')/host['uuid']

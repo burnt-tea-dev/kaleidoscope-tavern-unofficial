@@ -652,6 +652,33 @@
         0,
         48
       ]
+    },
+    "cookery-enamel-basin-lid-repair-p49": {
+      "id": "senluo:cookery-enamel-basin-lid-repair",
+      "version": [
+        1,
+        0,
+        1
+      ],
+      "host_uuid": "d0ca7a68-2877-4bd5-bc82-6c7b325cccf2",
+      "archive_sha256": "5b01865d4dd9a455cd80dae4ddc94dc45964e074025f7d24c6f0c5e35f0fbe52",
+      "owner_version": [
+        1,
+        0,
+        49
+      ],
+      "original_files": {
+        "blocks/kitchen/enamel_basin.json": "c8d09a76dc06316c61010568539a4e791c1d20e2d92e11e79d425a988458faab"
+      },
+      "patched_files": {
+        "blocks/kitchen/enamel_basin.json": "fe86d6cec01398f9ef9d02ad0e48212e2a31a11a2aed974464b26c6fc10cdf30"
+      },
+      "copies": {},
+      "spec_sha256": "067c9dad99a72eef99533c0891c40a32cba12c45d840ca7b7dcf8a33af3293a9",
+      "source_owner": "upstream_extended",
+      "required_extensions": [
+        "public-api"
+      ]
     }
   },
   "public_api_profile": {
