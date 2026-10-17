@@ -182,6 +182,83 @@ class RetentionTests(unittest.TestCase):
         self.assertTrue((self.a / m.COPIES[0]).exists())
         self.assertTrue(self.row(planned, self.b)['delete'])
         self.assertTrue(planned['rollback_retention_ready'])
+    def reviewed_plan(self, targets):
+        receipt = json.loads((self.a / 'reviewed-family-receipt.json').read_text())
+        self.write(self.a / 'release-candidate/family-receipt.json', {'packs': receipt['packs']})
+        manifest = self.root / 'reviewed.json'
+        self.write(manifest, {'schema': 1, 'outputs': [
+            {'output': str(self.a), 'reason': 'Superseded test fixture; preserve original reports', 'targets': targets}]})
+        return self.plan(retire_outputs=manifest)
+    def test_explicit_empty_directory_scope_is_bound_and_resumes_after_partial_cleanup(self):
+        empty = self.a / 'production-rollback'
+        shutil.rmtree(empty)
+        for side in ['behavior_packs', 'resource_packs']:
+            (empty / side).mkdir(parents=True)
+        planned = self.reviewed_plan(['production-snapshot', 'production-rollback'])
+        row = self.row(planned, self.a)
+        self.assertEqual([target['relative'] for target in row['delete']], ['production-snapshot', 'production-rollback'])
+        self.assertEqual(row['delete'][1]['metadata']['selected_files'], [])
+        from family_update import cleanup_engine_inputs
+        original_unlink = cleanup_engine_inputs.unlink_selected
+        def interrupted(metadata, *args):
+            if metadata['path'] == str(empty):
+                raise RuntimeError('interrupted before empty scope completion')
+            return original_unlink(metadata, *args)
+        with patch.object(cleanup_engine_inputs, 'unlink_selected', side_effect=interrupted):
+            partial = self.execute(planned)
+        self.assertEqual(partial['state'], 'partial')
+        marker = json.loads((self.a / m.EXPLICIT_MARKER).read_text())
+        self.assertEqual(marker['retired_scopes'], ['production-snapshot'])
+        self.assertEqual(marker['state'], 'partial')
+        # Both scopes now contain only directories. A fresh plan must still
+        # bind them and let the original partial marker close without a delete.
+        resumed = self.execute(self.plan(retire_outputs=self.root / 'reviewed.json'))
+        self.assertEqual(resumed['state'], 'completed', resumed['errors'])
+        self.assertEqual(resumed['deleted'], [])
+        marker = json.loads((self.a / m.EXPLICIT_MARKER).read_text())
+        self.assertEqual(marker['state'], 'pruned')
+        self.assertEqual(marker['retired_scopes'], ['production-snapshot', 'production-rollback'])
+        self.assertTrue((empty / 'behavior_packs').is_dir())
+        self.assertTrue((self.c / 'production-snapshot/db/data').exists())
+        closed_marker = (self.a / m.EXPLICIT_MARKER).read_bytes()
+        closed = self.plan(retire_outputs=self.root / 'reviewed.json')
+        self.assertEqual(self.row(closed, self.a)['state'], 'no_remaining_copies')
+        self.assertEqual(self.row(closed, self.a)['delete'], [])
+        with patch.object(m, '_retained_integrity', side_effect=AssertionError('no leaf remains to delete')):
+            self.assertEqual(self.execute(closed)['state'], 'completed')
+        self.assertEqual((self.a / m.EXPLICIT_MARKER).read_bytes(), closed_marker)
+    def test_explicit_unselected_scope_preserves_diagnostics_and_closes_with_no_unlinks(self):
+        relative = 'exact-engine/worlds/Family QA/db'
+        diagnostic = self.a / relative / 'LOG'
+        diagnostic.write_text('original diagnostic')
+        planned = self.reviewed_plan([relative])
+        self.assertEqual(self.row(planned, self.a)['delete'][0]['metadata']['selected_files'], [])
+        result = self.execute(planned)
+        self.assertEqual(result['state'], 'completed', result['errors'])
+        self.assertEqual(result['deleted'], [])
+        self.assertEqual(diagnostic.read_text(), 'original diagnostic')
+        self.assertEqual((diagnostic.parent / 'data').read_text(), 'qa db')
+        self.assertEqual(json.loads((self.a / m.EXPLICIT_MARKER).read_text())['retired_scopes'], [relative])
+    def assert_unselected_scope_leaf_race(self, relative, leaf):
+        planned = self.reviewed_plan([relative])
+        self.assertEqual(self.row(planned, self.a)['delete'][0]['metadata']['selected_files'], [])
+        added = self.a / relative / leaf
+        calls = 0
+        def context():
+            nonlocal calls
+            calls += 1
+            if calls == 2:
+                added.write_text('unplanned selected leaf')
+            return {'lease': self.lease}
+        result = self.execute(planned, context=context)
+        self.assertEqual(result['state'], 'partial')
+        self.assertIn('Selected generated files changed', result['errors'][0]['error'])
+        self.assertEqual(result['deleted'], [])
+        self.assertEqual(added.read_text(), 'unplanned selected leaf')
+    def test_empty_scope_gaining_selected_leaf_rejects_at_execution_boundary(self):
+        self.assert_unselected_scope_leaf_race('production-staged', 'new-copy.bin')
+    def test_unselected_scope_gaining_selected_database_leaf_rejects_at_execution_boundary(self):
+        self.assert_unselected_scope_leaf_race('exact-engine/worlds/Family QA/db', '000002.ldb')
     def test_latest_missing_snapshot_keeps_every_older_backup(self):
         (self.c / 'production-snapshot/db/data').unlink()
         p = self.plan()
