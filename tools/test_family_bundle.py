@@ -219,7 +219,7 @@ class StableAuthorSourceChainTests(unittest.TestCase):
  def test_stable_source_requires_complete_exact_preceding_api_and_private_receipts(self):
   import copy
   from stable_host_profiles import CATALOG,PROFILES,receipt,validate_stable_source
-  for name,profile in {**PROFILES,'public-api':CATALOG['public_api_profile']}.items():
+  for name,profile in {**PROFILES,'public-api':CATALOG['public_api_profile'],**CATALOG.get('public_api_profiles',{})}.items():
    prior=[copy.deepcopy(CATALOG['public_api'] if key=='public-api' else receipt(PROFILES[key])) for key in profile['required_extensions']]
    source={'owner':profile['source_owner'],'archive_sha256':profile['archive_sha256'],'reviewed_extensions':prior}
    validate_stable_source(profile,source)
@@ -244,5 +244,92 @@ class StableAuthorSourceChainTests(unittest.TestCase):
  def test_old_author_profiles_still_use_their_original_validators(self):
   from stable_host_profiles import match_stable_profile
   self.assertIsNone(match_stable_profile({'host_uuid':'5df753c9-3436-4fba-87f1-a2da3651cfcf','archive_sha256':'da12fe6d39d7514aff1de3c963d69899324d771be5ca0fc3da1ccb759c7ad458'}))
+
+class PublicApiPredecessorTests(unittest.TestCase):
+ def test_previous_public_and_private_profiles_are_retained_exactly(self):
+  from stable_host_profiles import CATALOG,declaration_sha
+  self.assertEqual(declaration_sha(CATALOG['profiles']),'fb34f46ab2d3e107fb104c27b6987b2567d0e422ff4d1382d28ae2ae254c01e7')
+  self.assertEqual(declaration_sha(CATALOG['public_api']),'5041cab6e01b97dec00794cb9d9fb69842fd930d86f21d1a5a6ae6c5e371207c')
+  self.assertEqual(declaration_sha(CATALOG['public_api_profile']),'a0c4a77c65b4faca822ae01f71020bb5553ee57bc5029eb5027b880cb80c3939')
+ def sources(self):
+  import copy
+  from stable_host_profiles import CATALOG,PROFILES,receipt
+  for name in CATALOG['public_api_predecessors']:
+   profile=PROFILES[name]
+   for public in [CATALOG['public_api'],receipt(CATALOG['public_api_profiles']['public-api-0.2.12'])]:
+    prior=[copy.deepcopy(public if key=='public-api' else receipt(PROFILES[key])) for key in profile['required_extensions']]
+    yield name,profile,{'owner':profile['source_owner'],'archive_sha256':profile['archive_sha256'],'reviewed_extensions':prior}
+ def test_each_named_private_profile_accepts_either_complete_public_source(self):
+  from stable_host_profiles import validate_stable_source
+  for name,profile,source in self.sources():
+   with self.subTest(profile=name,public=source['reviewed_extensions'][0]['id']):validate_stable_source(profile,source)
+ def test_new_public_source_keeps_every_private_prerequisite(self):
+  import copy
+  from stable_host_profiles import validate_stable_source
+  for name,profile,source in self.sources():
+   for index in range(len(source['reviewed_extensions'])):
+    missing=copy.deepcopy(source);missing['reviewed_extensions'].pop(index)
+    with self.subTest(profile=name,missing=index),self.assertRaisesRegex(ValueError,'exact preceding receipt'):
+     validate_stable_source(profile,missing)
+ def test_public_identity_cannot_mix_old_helpers_or_drifted_host_bytes(self):
+  import copy
+  from stable_host_profiles import CATALOG,PROFILES,receipt,validate_stable_source
+  profile=PROFILES['cookery-recipe-cache-repair'];public=receipt(CATALOG['public_api_profiles']['public-api-0.2.12'])
+  for field in ['id','version','original_files','patched_files','copies']:
+   changed=copy.deepcopy(public)
+   changed[field]=copy.deepcopy(CATALOG['public_api'][field]) if field in ['id','version','copies'] else {'unreviewed':'bytes'}
+   source={'owner':'upstream_extended','archive_sha256':profile['archive_sha256'],'reviewed_extensions':[changed]}
+   with self.subTest(field=field),self.assertRaisesRegex(ValueError,'exact preceding receipt'):validate_stable_source(profile,source)
+ def test_two_public_installations_cannot_substitute_for_one_predecessor(self):
+  import copy
+  from stable_host_profiles import CATALOG,PROFILES,receipt,validate_stable_source
+  profile=PROFILES['cookery-recipe-cache-repair']
+  old=copy.deepcopy(CATALOG['public_api']);new=receipt(CATALOG['public_api_profiles']['public-api-0.2.12'])
+  for prior in [[old,new],[new,old],[new,new]]:
+   with self.subTest(ids=[p['id'] for p in prior]),self.assertRaisesRegex(ValueError,'exact preceding receipt'):
+    validate_stable_source(profile,{'owner':'upstream_extended','archive_sha256':profile['archive_sha256'],'reviewed_extensions':prior})
+ def test_new_public_receipt_does_not_extend_an_unlisted_private_declaration(self):
+  import copy
+  from stable_host_profiles import CATALOG,PROFILES,receipt,validate_stable_source
+  profile=copy.deepcopy(PROFILES['cookery-recipe-cache-repair']);profile['spec_sha256']='unreviewed'
+  source={'owner':'upstream_extended','archive_sha256':profile['archive_sha256'],
+          'reviewed_extensions':[receipt(CATALOG['public_api_profiles']['public-api-0.2.12'])]}
+  with self.assertRaisesRegex(ValueError,'exact preceding receipt'):validate_stable_source(profile,source)
+ def test_public_declarations_require_full_digest_and_owned_helper_bytes(self):
+  import copy,hashlib
+  from unittest.mock import patch
+  import stable_host_profiles as m
+  raw=b'owned reviewed helper'
+  def declared(version):
+   return {'id':'owned:public-'+str(version),'version':[version],'host_uuid':'author-host','archive_sha256':'author-archive',
+           'original_files':{},'patched_files':{},'copies':{'source.js':'api.js'},'insertions':[{'before':'exact-hook'}]}
+  old,new=declared(11),declared(12)
+  def profile(spec):
+   return {**spec,'spec_sha256':m.declaration_sha(spec),'source_owner':'upstream','required_extensions':[],
+           'copies':{'api.js':{'source':'source.js','sha256':hashlib.sha256(raw).hexdigest()}}}
+  pold,pnew=profile(old),profile(new)
+  catalog={'public_api_profile':pold,'public_api':m.receipt(pold),'public_api_profiles':{'public-api-0.2.12':pnew}}
+  with tempfile.TemporaryDirectory() as tmp,patch.object(m,'CATALOG',catalog),patch.object(m,'PROFILES',{}):
+   root=Path(tmp);(root/'source.js').write_bytes(raw)
+   source={'owner':'upstream','archive_sha256':'author-archive'}
+   self.assertIs(m.match_stable_profile(old,root,source),pold)
+   self.assertIs(m.match_stable_profile(new,root,source),pnew)
+   changed=copy.deepcopy(new);changed['insertions'][0]['before']='different-hook'
+   with self.assertRaisesRegex(ValueError,'exact reviewed profile'):m.match_stable_profile(changed,root,source)
+   (root/'source.js').write_bytes(b'old or changed helper')
+   with self.assertRaisesRegex(ValueError,'exact reviewed source'):m.match_stable_profile(new,root,source)
+ def test_actual_grilling151_declaration_and_twelve_owned_copies(self):
+  import copy,os
+  from stable_host_profiles import CATALOG,match_stable_profile
+  configured=os.environ.get('GRILLING151_BP')
+  if not configured:self.skipTest('set GRILLING151_BP for the actual public source check')
+  root=Path(configured);spec=json.loads((root/'host-extensions/board-api.json').read_text())
+  source={'owner':'upstream','archive_sha256':'5b01865d4dd9a455cd80dae4ddc94dc45964e074025f7d24c6f0c5e35f0fbe52'}
+  self.assertIs(match_stable_profile(spec,root,source),CATALOG['public_api_profiles']['public-api-0.2.12'])
+  self.assertEqual(len(spec['copies']),12)
+  for field,value in [('version',[0,2,13]),('archive_sha256','unreviewed'),('insertions',[])]:
+   changed=copy.deepcopy(spec);changed[field]=value
+   with self.subTest(field=field),self.assertRaisesRegex(ValueError,'exact reviewed profile'):
+    match_stable_profile(changed,root,source)
 
 if __name__=='__main__':unittest.main()
