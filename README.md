@@ -1,36 +1,14 @@
-## Current maintained baseline: 0.6.173
+## Current maintained source: 0.6.173
 
-Tavern 0.6.173 restores the source-proven barrel edge collision and introduces reviewed stable-author identity/state migration for the coupled G150/W151/private-integration family. [Scope, stable versions and data preservation](docs/STABLE-FAMILY-20261016.md). PR/native/saved-world gates and human acceptance remain distinct.
+Source snapshot reviewed on **2026-10-17**: [115942e5](https://github.com/casama233/kaleidoscope-tavern-unofficial/commit/115942e55e9946cfd257fbcdc41c849f75b77509). The public source family is **T173 / G150 / W151**. Stable-author identity/state adaptation and the later reviewed integration/reviewed integration consumer repairs have separate source and full-family acceptance records.
 
-Tavern 0.6.170 is a local editor-compatibility candidate: normalize one offhand shaker coefficient spelling while preserving the expression values and all motion/camera/clock behavior. Native warning-removal, paired-family admission and human client acceptance remain separate gates. See [scope and limitations](docs/RELEASE-NOTES-0.6.170.md).
+**Public download:** [Tavern v0.6.170](https://github.com/casama233/kaleidoscope-tavern-unofficial/releases/tag/v0.6.170), paired with **World Liquor 0.1.148** and the optional **Grilling 2.8.149** source-check family. The G149 public package uses Cookery **1.6.0**; current G150 source uses **1.6.1**. Main-source requirements and published-package requirements must be read for their own version.
 
-Tavern 0.6.169 keeps shaker progress graphics alive across the existing ten-tick refresh window and explicitly disables animation fast-forward for each packet and cursor. Java timing, cursor steps, sprites and the native HUD route remain unchanged. This addresses a source-level expiry gap; the reported missing progress bar still requires rendered-client confirmation. See [repair scope](docs/evidence/shaker-progress-20261015.md).
+**Last repository-recorded verified deployment:** **T169 / G144 / W147 / private-integration**, 2026-10-15 22:40:27 HKT. This documentation audit did not connect to the server. Current source, downloads and that deployment have separate identities; see [family/BASELINE-STATUS.md](family/BASELINE-STATUS.md).
 
-Last deployment recorded before this source batch: At **[private deployment time]**, T166/G142/W144/private-integration/Ribbits10037 completed canonical PR/CI, full-family static admission, one stopped-save first/restart and exact live readback: 42 packs, BDS1.26.52.3 RUNNING. [Current sources and deployment evidence](family/BASELINE-STATUS.md).
+**Remaining work:** complete the current full-family evidence, the owner's all-item Blockbench first-person/side-texture inspection, and the specific gameplay/client scenes in [PARITY-MATRIX](docs/PARITY-MATRIX.md) and [BUGS](docs/BUGS.md). T160 side faces, T167 cursor work and T169 progress expiry repairs are retained. `client=false`, `production_ready=false`, `pending_client_acceptance`.
 
-[Download v0.6.166](https://github.com/casama233/kaleidoscope-tavern-unofficial/releases/tag/v0.6.166). All three formal public releases have prerelease=false; their six owned packs and **9349 files** matched LIVE and the admitted receipt. Private integration is not published in these releases.
-
-The [client feedback and repair status](docs/BUGS.md) records missing graphics/raw packet failures, absent eating motion, later visible graphics, incorrect vertical position and eating/shaker delay. T164's visible graphics did not establish correct positioning or timing; T165 restores Java centre-relative placement, and T166 reduces repeated preview/UI processing. Actual post-repair device latency remains unverified.
-
-Poststart has **214 warnings / 0 errors**, including **187 watchdog records (9 spikes, 178 slowdowns)**. These are startup observations, not an FPS or latency comparison. `client=false`, `production_ready=false`, `pending_client_acceptance`.
-
-## Historical repair scopes
-
-The [T150/G130/W127 proof](family/PUBLIC-DOWNLOAD-LIVE-STARTUP-20261013.md) retains its original receipt, thresholds and observation scope.
-
-The [T149/G130/W126 proof](family/PUBLIC-DOWNLOAD-LIVE-HUD-20261013.md) retains its original receipt, observation windows and native QA threshold limitations.
-
-The [T148/G129/W125 comparison](family/PUBLIC-DOWNLOAD-LIVE-UI-20261012.md) retains its original 9339-file receipt and acceptance scope. Historical client recordings are not reassigned to T149/G130.
-
-T147's bounded HUD200 repair is merged in [PR331](https://github.com/casama233/kaleidoscope-tavern-unofficial/pull/331). The shaker progress hold changes from 100 to 200 ms; one-tick cursor motion stays 50 ms. Its [original publication comparison](family/PUBLIC-DOWNLOAD-LIVE-20261012.md) and [publication preparation](docs/PUBLICATION-T147-G128-W124.md) retain their point-in-time scope and public Cookery API assembly instructions.
-
-Limited HUD200 diagnostic recordings support improved continuity, with stationary end holds retained. They do not establish physical input/packet timing or complete acceptance of the newly versioned formal family. The [original diagnostic scope](docs/RELEASE-NOTES-0.6.147.md) stays unchanged.
-
-T146 combines the native board inverse, restricted-safe ingredient snapshots and bounded 100 ms shaker HUD hold on canonical T145. T146/W123/G125 was deployed on [private deployment time] after complete-family admission and a fresh saved-world first start and restart. Human client acceptance remains pending. Five earlier standalone HUD recordings retain their stated scope; while-held slot switching is inconclusive and same-second rapid restart remains untested. See [scope and validation](docs/RELEASE-NOTES-0.6.146.md).
-
-The actual deployed family and its source, CI, native and saved-world evidence are indexed in [family/BASELINE-STATUS.md](family/BASELINE-STATUS.md). Human client acceptance remains pending; the release notes preserve their original draft-review scope and point-in-time status.
-
-T144 addresses the client's four duplicate board input boxes and reported board-text displacement (deployed [private deployment time]); rendered input, focus and placement still require human confirmation. T145 identifies the held shaker from the live hand when a native use event copy omits its dynamic-property value. See [the repair scope](docs/RELEASE-NOTES-0.6.145.md); real-client shaking still requires human confirmation.
+The T170/G149/W148 stable-channel publication followed the owner's source/editor/CI/package decision; this audit does not add a new client gate to that publication. [Earlier README evidence](https://github.com/casama233/kaleidoscope-tavern-unofficial/blob/115942e55e9946cfd257fbcdc41c849f75b77509/README.md) and versioned release notes retain their original scope.
 
 # Kaleidoscope Tavern (Unofficial)
 
@@ -38,9 +16,7 @@ A Bedrock port of [Kaleidoscope Tavern](https://github.com/KaleidoscopeMods/Kale
 
 ## Current source and requirements
 
-- [T140 guide revision](docs/RELEASE-NOTES-0.6.140.md) retains all three languages and preparation details on demand, adds four reviewed AMW pages and shares the view through the optional Cookery entrance. T141 preserves this published guide and T139's native clock/reload, machine ingredient, Mob selection and immersion repairs.
-- [T132 repairs](docs/RELEASE-NOTES-0.6.132.md) share instant splash dispatch and source immunity, repair shaker input echoes and storage rollback, preserve Vision's living recipients and query order, and add scoped guide flipbooks, board escaping and shorter HUD expiry. [Current PR disposition](docs/audit/PR-DISPOSITIONS.md) is the single backlog index; native/client/live acceptance remains separate.
-- The deployed development family is Tavern **0.6.166**, World Liquor **0.1.144** and Grilling **2.8.142**, with private integration **1.0.39**. The [family lock](family/upstream.lock.json) and [current baseline index](family/BASELINE-STATUS.md) record exact dependencies, deployed sources and verification.
+- Current work, public downloads, repository-recorded deployment and acceptance are maintained in [one family status index](family/BASELINE-STATUS.md). [PR dispositions](docs/audit/PR-DISPOSITIONS.md) retain historical source decisions.
 - [baseline.json](baseline.json) owns package identity and exact dependencies; [CHANGELOG.md](CHANGELOG.md) records changes.
 - Bedrock 1.26.50 or newer; current load target BDS 1.26.52.3.
 - Enable both Tavern BP and RP. Cookery is optional; the reviewed family target is author Cookery1.6.1. World Liquor uses its exact paired Tavern version.
