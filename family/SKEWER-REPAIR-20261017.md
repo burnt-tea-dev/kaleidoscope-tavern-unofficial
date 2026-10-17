@@ -1,4 +1,4 @@
-# G151 串流程修補的家族配套
+# G152 串流程修補的家族配套
 
 2026-10-17 玩家回報串配方匹配、已穿食材不顯示與空內容進食。本批由三代理修補 [Grilling PR231](https://github.com/casama233/kaleidoscope-grilling-unofficial/pull/231)，Tavern 承接完整家族組裝所需的精確 public API 准入。Grilling 的[完整來源修補](https://github.com/casama233/kaleidoscope-grilling-unofficial/blob/main/docs/evidence/skewer-repair-20261017.md)和[原料生產證據](https://github.com/casama233/kaleidoscope-grilling-unofficial/blob/main/docs/evidence/skewer-input-repair-20261017.md)持有玩法細節。
 
@@ -6,13 +6,16 @@
 
 | 項目 | 本批來源 |
 | --- | --- |
-| Grilling | G151／2.8.151，配對 BP/RP 與凍結 source trees 由家族鎖和 G baseline 精確綁定 |
+| Grilling | G152／2.8.152，配對 BP/RP 與凍結 source trees 由家族鎖和 G baseline 精確綁定 |
+| 指南 | payload 0.3.63；繁中、簡中、英文的牛肉／雞皮原料與配方頁均按 Cookery 1.6.1 實際產出更新 |
 | 作者 Cookery | 1.6.1，file 9123386；兩側 UUID 和 archive SHA 保持現行核對值 |
 | Public family API | 0.2.12；砧板保存 schema 仍為 0.1.0 |
 | Tavern／World Liquor | T173／W151；本次配套未修改兩者 runtime |
 | 私有整合 | 本次沒有新的 private runtime 或准入結果；不能由公開配套推定其版本或依賴已完成更新 |
 
 G150 對 Cookery 1.6.1 的砧板前置契約仍期待兩份單一產出；作者實際已改為牛肉內臟三份、雞肉三份肉塊加一骨頭。因此註冊成功仍選不到 Grilling 的牛肉塊／雞皮流程。G151 的 copied board modules 支援精確的多產出聲明，保留作者雞肉／骨頭、既有雞皮補充、牛肉塊替換及交易回滾。
+
+G151 核心修補已封存；同批交叉檢查發現實際遊戲指南仍寫旧砧板產出，因此 G152 接續更正四個條目的三語說明與 payload，並使用新配對身份。牛肉最後取得兩塊牛肉；雞肉保留三份生肉塊、一根骨頭，再補一至三片雞皮。兩者切四次後須再持刀使用一次取出。G152 保留 G151 的全部玩法與渲染內容、0.2.12 copied helpers 及原始版本歷史。
 
 ## Tavern 的有限改動
 
