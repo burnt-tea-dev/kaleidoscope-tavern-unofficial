@@ -457,9 +457,21 @@ def _reviewed_plan(result, path, root, mounts, protected, references, historical
             if target.is_file():
                 _require(target.name == 'bedrock_server' and rel in ENGINE_INPUTS, 'Only an isolated executable is a file target')
             metadata = _reviewed_target(target, rel, output, root, mounts)
-            if metadata is not None and (target.is_file() or metadata['selected_files']):
+            # Empty/unselected directories are still existing declared scopes.
+            # Bind their namespace and full metadata so execution can finish a
+            # no-op scope without accepting a leaf that appeared after planning.
+            if metadata is not None:
                 selected.append({'relative': rel, 'path': str(target),
                                  'allocated_bytes': metadata.get('selected_allocated_bytes', metadata['allocated_bytes']), 'metadata': metadata})
+        # Completed zero-leaf scopes need no further retirement. A partial or
+        # absent marker still needs execution to close its bound empty scopes.
+        if selected and not any(target['metadata'].get('files') is None or target['metadata']['selected_files'] for target in selected):
+            marker_path = output / EXPLICIT_MARKER
+            if marker_path.exists():
+                marker = _read(marker_path, root, mounts)
+                _require(marker.get('metadata_binding') == binding and marker.get('targets') == targets, 'Retirement marker changed')
+                if marker.get('state') == 'pruned' and marker.get('candidate_closed') is True and set(targets) <= set(marker.get('retired_scopes', [])):
+                    selected = []
         rows.append({'output': str(output), 'retained': [], 'delete': selected,
                      'retirement_targets': targets, 'binding': binding,
                      'explicit_retirement': {'reason': entry['reason'], 'manifest': manifest},
