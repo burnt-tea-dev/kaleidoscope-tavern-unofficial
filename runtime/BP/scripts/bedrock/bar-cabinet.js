@@ -42,7 +42,7 @@ export function installBarCabinetEvents(){
   },
   interact:({player,block,held,faceLocation,revision})=>{
    if(!held.id||barCabinetItem(held.id))return useBarCabinet(player,block,faceLocation,{expectedRevision:revision});
-   tell(player,'§e[Tavern] 酒櫃只接受空酒瓶或品質酒瓶；空手取瓶，潛行空手回收。');
+   tell(player,'§e[Tavern] 酒櫃只接受空瓶子或品質酒瓶；空手取瓶，潛行空手回收。');
   },
   recover:({player,block,revision})=>recoverBarCabinet(player,block,{expectedRevision:revision})
  });

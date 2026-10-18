@@ -53,9 +53,9 @@ export function installTiltedRackEvents(){
   },
   interact:({player,block,held,faceLocation,revision})=>{
    if(!held.id)return takeTiltedRackBottle(player,block,faceLocation,{expectedRevision:revision});
-   if(tiltedRackBlockedItem(held.id)){tell(player,'§e[Tavern] 此瓶型在 Java tilted_rack_blocklist 中，斜酒架拒收。');return;}
+   if(tiltedRackBlockedItem(held.id)){tell(player,'§e[Tavern] 此瓶型在 Java tilted_rack_blocklist 中，傾斜酒架拒收。');return;}
    if(tiltedRackItem(held.id))return putTiltedRackBottle(player,block,faceLocation,{expectedRevision:revision});
-   tell(player,'§e[Tavern] 斜酒架只接受空酒瓶或來源允許的品質酒瓶；空手取指定槽。');
+   tell(player,'§e[Tavern] 傾斜酒架只接受空瓶子或來源允許的品質酒瓶；空手取指定槽。');
   },
   recover:({player,block,revision})=>recoverTiltedRack(player,block,{expectedRevision:revision})
  });

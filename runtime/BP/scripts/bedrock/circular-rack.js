@@ -56,7 +56,7 @@ export function installCircularRackEvents(){
   interact:({player,block,held,faceLocation,revision})=>{
    if(!held.id)return takeCircularRackBottle(player,block,faceLocation,{expectedRevision:revision});
    if(circularRackItem(held.id))return putCircularRackBottle(player,block,faceLocation,{expectedRevision:revision});
-   tell(player,'§e[Tavern] 圓形酒架只接受空酒瓶或品質酒瓶；空手取指定槽。');
+   tell(player,'§e[Tavern] 圓周酒架只接受空瓶子或品質酒瓶；空手取指定槽。');
   },
   recover:({player,block,revision})=>recoverCircularRack(player,block,{expectedRevision:revision})
  });

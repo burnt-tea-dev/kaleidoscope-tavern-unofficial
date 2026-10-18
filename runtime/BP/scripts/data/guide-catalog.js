@@ -27,13 +27,13 @@ const WINE_EFFECT_PURPOSE={
  'minecraft:strength':['获得力量，提高近战攻击力。','獲得力量，提高近戰攻擊力。','Strength increases melee attack damage.']
 };
 const WINE_HANDLING=[
- '按制作方法酿造，品质 1 即可用酒嘴装瓶；留在桶里可继续熟成，取走后品质不再提高。低品质可能带来恶心或微醺。',
- '按製作方法釀造，品質 1 即可用酒嘴裝瓶；留在桶裡可繼續熟成，取走後品質不再提高。低品質可能帶來噁心或微醺。',
+ '按制作方法酿造，品质 1 即可用龙头装瓶；留在桶里可继续熟成，取走后品质不再提高。低品质可能带来恶心或微醺。',
+ '按製作方法釀造，品質 1 即可用龍頭裝瓶；留在桶裡可繼續熟成，取走後品質不再提高。低品質可能帶來噁心或微醺。',
  'Follow the preparation to brew it. Bottle it from Quality 1, or leave it in the barrel to keep aging; bottled drinks stop aging. Low qualities can cause nausea or tipsiness.'
 ];
 const COCKTAIL_PREPARATION=[
- '按制作方法的三槽条件各加一份材料，顺序不限；有品质等级的瓶装酒须达品质 4。依提示摇酒，倒入摆好的空鸡尾酒杯后取用。',
- '按製作方法的三槽條件各加一份材料，順序不限；有品質等級的瓶裝酒須達品質 4。依提示搖酒，倒入擺好的空雞尾酒杯後取用。',
+ '按制作方法的三槽条件各加一份材料，顺序不限；有品质等级的瓶装酒须达品质 4。依提示摇酒，倒入摆好的空酒杯后取用。',
+ '按製作方法的三槽條件各加一份材料，順序不限；有品質等級的瓶裝酒須達品質 4。依提示搖酒，倒入擺好的空酒杯後取用。',
  'Add one ingredient for each of the preparation’s three conditions, in any order. Bottled drinks with quality stages must be Quality 4 or higher. Shake at the prompt, then pour into a placed empty glass to serve.'
 ];
 function wineGuideNotes(item,locale){
@@ -42,7 +42,7 @@ function wineGuideNotes(item,locale){
  const index=LOCALES.indexOf(locale);
  if(base==='vinegar')return [
   ['满桶的液体与原料不匹配已知配方时，关盖会酿成醋；继续熟成也不会变成另一款酒。','滿桶的液體與原料不匹配已知配方時，關蓋會釀成醋；繼續熟成也不會變成另一款酒。','Closing a full barrel with no matching recipe makes vinegar. Aging it will not turn it into a different drink.'][index],
-  ['以酒嘴和空酒瓶取用。熟成后的酒效有好有坏：可能改变移动与挖掘，也可能造成失明或挖掘疲劳。','以酒嘴和空酒瓶取用。熟成後的酒效有好有壞：可能改變移動與挖掘，也可能造成失明或挖掘疲勞。','Collect it through a tap with empty bottles. Aged vinegar can alter movement and mining, but can also cause blindness or mining fatigue.'][index]
+  ['以龙头和空瓶子取用。熟成后的酒效有好有坏：可能改变移动与挖掘，也可能造成失明或挖掘疲劳。','以龍頭和空瓶子取用。熟成後的酒效有好有壞：可能改變移動與挖掘，也可能造成失明或挖掘疲勞。','Collect it through a tap with empty bottles. Aged vinegar can alter movement and mining, but can also cause blindness or mining fatigue.'][index]
  ];
  const primary=[...new Set(qualities.flat().map(effect=>effect.effect))].filter(effect=>WINE_EFFECT_PURPOSE[effect]);
  const notes=primary.map(effect=>{
@@ -91,15 +91,15 @@ export function* prepareConsolidateGuide(payload,recipes=[],effectPages=[],items
  const vinegar=payload.entries.find(e=>e.id==='kaleidoscope_tavern:effects/vinegar');
  if(vinegar){
   const old=vinegar.id;vinegar.id='kaleidoscope_tavern:vinegar_q1';aliases.set(old,vinegar.id);
-  const usage={zh_CN:['酒桶原料不匹配已知酿造配方时，会产出醋；使用空酒瓶取酒。'],
-   zh_TW:['酒桶原料不匹配已知釀造配方時，會產出醋；使用空酒瓶取酒。'],
+  const usage={zh_CN:['酒桶原料不匹配已知酿造配方时，会产出醋；使用空瓶子取酒。'],
+   zh_TW:['酒桶原料不匹配已知釀造配方時，會產出醋；使用空瓶子取酒。'],
    en_US:['A barrel batch that does not match a brewing recipe produces vinegar. Collect it with an empty bottle.']};
   append(vinegar,{mechanicsByLocale:usage});
   for(const lc of LOCALES)payload.names[lc][vinegar.id]=items.names?.[lc]?.[vinegar.id]??({zh_CN:'醋',zh_TW:'醋',en_US:'Vinegar'})[lc];
  }
  if(recipes.length)for(const [short,names] of [
   ['signature_cocktail',['特调鸡尾酒','特調雞尾酒','Signature Cocktail']],
-  ['mystery_cocktail',['神秘鸡尾酒','神秘雞尾酒','Mystery Cocktail']]
+  ['mystery_cocktail',['谜之鸡尾酒','謎之雞尾酒','Mystery Cocktail']]
  ]){
   const id='kaleidoscope_tavern:'+short;
   if(payload.entries.some(e=>e.id===id))continue;
@@ -109,7 +109,7 @@ export function* prepareConsolidateGuide(payload,recipes=[],effectPages=[],items
  }
  if(!payload.entries.some(e=>e.id==='kaleidoscope_tavern:watermelon_juice')){
   const id='kaleidoscope_tavern:watermelon_juice';
-  const details={zh_CN:'对西瓜安装酒嘴，并在酒嘴下放置空酒瓶，即可接取西瓜汁。西瓜汁不经过酒桶熟成，也没有酒的品质等级；饮用后返回空酒瓶。',zh_TW:'對西瓜安裝酒嘴，並在酒嘴下放置空酒瓶，即可接取西瓜汁。西瓜汁不經過酒桶熟成，也沒有酒的品質等級；飲用後歸還空酒瓶。',en_US:'Fit a tap to a melon and put an empty bottle beneath it to collect watermelon juice. It is not barrel aged and has no wine quality level. Drinking it returns an empty bottle.'};
+  const details={zh_CN:'对西瓜安装龙头，并在龙头下放置空瓶子，即可接取西瓜汁。西瓜汁不经过酒桶熟成，也没有酒的品质等级；饮用后返回空瓶子。',zh_TW:'對西瓜安裝龍頭，並在龍頭下放置空瓶子，即可接取西瓜汁。西瓜汁不經過酒桶熟成，也沒有酒的品質等級；飲用後歸還空瓶子。',en_US:'Fit a tap to a melon and put an empty bottle beneath it to collect watermelon juice. It is not barrel aged and has no wine quality level. Drinking it returns an empty bottle.'};
   payload.entries.push({id,category:'cultivation',icon:items.icons?.[id],kinds:[],mechanics:[details.zh_TW],mechanicsByLocale:Object.fromEntries(LOCALES.map(lc=>[lc,[details[lc]]]))});
   for(const lc of LOCALES)payload.names[lc][id]=({zh_CN:'西瓜汁',zh_TW:'西瓜汁',en_US:'Watermelon Juice'})[lc];
  }
@@ -137,10 +137,10 @@ export function* prepareConsolidateGuide(payload,recipes=[],effectPages=[],items
   if(source&&target){append(target,source);payload.entries=payload.entries.filter(e=>e!==source);}
   else if(source&&targetId==='empty_bottle'){
    source.id='kaleidoscope_tavern:empty_bottle';source.icon=GUIDE_ENTRY_ICONS[source.id];
-   LOCALES.forEach((lc,i)=>payload.names[lc][source.id]=['空酒瓶','空酒瓶','Empty Bottle'][i]);
+   LOCALES.forEach((lc,i)=>payload.names[lc][source.id]=['空瓶子','空瓶子','Empty Bottle'][i]);
   }
  }
- for(const [fruit,labels] of Object.entries({grape:['葡萄汁','葡萄汁','Grape Juice'],ice_grape:['冰葡萄汁','冰葡萄汁','Ice Grape Juice'],gold_grape:['金葡萄汁','金葡萄汁','Gold Grape Juice'],green_grape:['青提汁','青提汁','Green Grape Juice'],glow_berries:['荧光莓汁','螢光莓汁','Glow Berry Juice'],sweet_berries:['甜莓汁','甜莓汁','Sweet Berry Juice']})){
+ for(const [fruit,labels] of Object.entries({grape:['葡萄汁','葡萄汁','Grape Juice'],ice_grape:['冰葡萄汁','冰葡萄汁','Ice Grape Juice'],gold_grape:['黄金葡萄汁','黃金葡萄汁','Gold Grape Juice'],green_grape:['青提葡萄汁','青提葡萄汁','Green Grape Juice'],glow_berries:['荧光莓汁','螢光莓汁','Glow Berries Juice'],sweet_berries:['甜浆果汁','甜漿果汁','Sweet Berries Juice']})){
   const id='kaleidoscope_tavern:pressing/'+fruit+'_bucket';
   if(payload.entries.some(e=>e.id===id))LOCALES.forEach((lc,i)=>payload.names[lc][id]=labels[i]);
  }
@@ -162,7 +162,7 @@ export function* prepareConsolidateGuide(payload,recipes=[],effectPages=[],items
   }
   entry.mechanics=entry.mechanicsByLocale.zh_TW;
  }
- for(const [key,labels] of Object.entries({method_barrel:['酒桶','酒桶','Barrel'],method_shaker:['雪克杯','雪克杯','Shaker'],method_pressing_tub:['压榨桶','壓榨桶','Pressing Tub'],method_freezer:['冷冻柜','冷凍櫃','Freezer']}))LOCALES.forEach((lc,i)=>result.text[lc][key]=labels[i]);
+ for(const [key,labels] of Object.entries({method_barrel:['酒桶','酒桶','Barrel'],method_shaker:['雪克杯','雪克杯','Shaker'],method_pressing_tub:['果盆','果盆','Pressing Tub'],method_freezer:['冰柜','冰櫃','Freezer']}))LOCALES.forEach((lc,i)=>result.text[lc][key]=labels[i]);
  return result;
 }
 

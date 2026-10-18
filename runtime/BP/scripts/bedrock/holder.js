@@ -81,9 +81,9 @@ export function installHolderEvents(){
   },
   interact:({player,block,held,revision})=>{
    if(!held.id)return takeHolderBottle(player,block,{expectedRevision:revision});
-   if(holderBlockedItem(held.id)){tell(player,'§e[Tavern] 此瓶型在 Java holder_blocklist 中，單瓶架拒收。');return;}
+   if(holderBlockedItem(held.id)){tell(player,'§e[Tavern] 此瓶型在 Java holder_blocklist 中，單體酒架拒收。');return;}
    if(holderItem(held.id))return putHolderBottle(player,block,{expectedRevision:revision});
-   tell(player,'§e[Tavern] 單瓶架只接受空酒瓶或來源允許的品質酒瓶；空手取出。');
+   tell(player,'§e[Tavern] 單體酒架只接受空瓶子或來源允許的品質酒瓶；空手取出。');
   },
   recover:({player,block,revision})=>recoverHolder(player,block,{expectedRevision:revision})
  });

@@ -91,6 +91,6 @@ export function advanceBarrel(state,registry,elapsed=BARREL_CHECK_INTERVAL){
 export function machineEmpty(s){return !s.batch&&s.amount===0&&s.slots.every(x=>!x);}
 export function statusText(s){
  if(s.batch)return `品質 ${s.batch.quality}/6 ｜餘 ${s.batch.remaining} 瓶｜${s.batch.quality===6?'已達最高品質':`下級約 ${Math.max(0,Math.ceil(s.batch.ticksRemaining/20))} 秒`}`;
- return `${s.kind==='barrel'?'酒桶':'壓榨桶'}｜${s.open?'開啟':'關閉'}｜${s.amount}/${s.kind==='barrel'?4000:1000} mB｜原料 ${s.slots.filter(Boolean).map(x=>x.id.split(':')[1]+'×'+x.count).join('、')||'無'}`;
+ return `${s.kind==='barrel'?'酒桶':'果盆'}｜${s.open?'開啟':'關閉'}｜${s.amount}/${s.kind==='barrel'?4000:1000} mB｜原料 ${s.slots.filter(Boolean).map(x=>x.id.split(':')[1]+'×'+x.count).join('、')||'無'}`;
 }
 export function barrelCells(origin){const out=[];for(let y=0;y<3;y++)for(let z=-1;z<=1;z++)for(let x=-1;x<=1;x++)out.push({x:origin.x+x,y:origin.y+y,z:origin.z+z,dx:x,dy:y,dz:z,core:x===0&&y===0&&z===0});return out;}

@@ -27,7 +27,7 @@ export const FLUIDS = [
     "empty": "minecraft:bucket",
     "rigSuffix": "gold_grape",
     "title": {
-      "zh_TW": "黄金葡萄汁",
+      "zh_TW": "黃金葡萄汁",
       "zh_CN": "黄金葡萄汁",
       "en_US": "Gold Grape Juice"
     }
@@ -49,7 +49,7 @@ export const FLUIDS = [
     "empty": "minecraft:bucket",
     "rigSuffix": "sweet_berries",
     "title": {
-      "zh_TW": "甜浆果汁",
+      "zh_TW": "甜漿果汁",
       "zh_CN": "甜浆果汁",
       "en_US": "Sweet Berries Juice"
     }
@@ -60,8 +60,8 @@ export const FLUIDS = [
     "empty": "minecraft:bucket",
     "rigSuffix": "glow_berries",
     "title": {
-      "zh_TW": "发光浆果汁",
-      "zh_CN": "发光浆果汁",
+      "zh_TW": "螢光莓汁",
+      "zh_CN": "荧光莓汁",
       "en_US": "Glow Berries Juice"
     }
   },
