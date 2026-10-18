@@ -100,10 +100,62 @@ class PhasedMemoryBudgetTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 m.assess_phase(self.config, 'update', 'MemAvailable: 99999999 kB', member, 0, maximum, swap)
 
+    def test_only_resident_anon_reduces_remaining_budget_with_accounting_pad(self):
+        anon = 96 * m.MIB
+        credit = 64 * m.MIB
+        needed = 2 * GIB + self.native - credit
+        records = [m.assess_phase(self.config, 'saved-world', f'MemAvailable: {needed // 1024} kB',
+                                 self.member, current, str(self.light), '0', resident_anon=anon)
+                   for current in [100 * m.MIB, 1500 * m.MIB]]
+        for record in records:
+            self.assertTrue(record['ok'])
+            self.assertEqual(record['resident_anon_bytes'], anon)
+            self.assertEqual(record['current_headroom_credit_bytes'], credit)
+            self.assertEqual(record['required_available_bytes'], needed)
+            self.assertEqual(record['reserve_bytes'], 2 * GIB)
+        # Higher total charge from cache, shmem or kernel cannot enlarge credit.
+        denied = m.assess_phase(self.config, 'saved-world', f'MemAvailable: {needed // 1024 - 1} kB',
+                                self.member, 1500 * m.MIB, str(self.light), '0', resident_anon=anon)
+        self.assertFalse(denied['ok'])
+
+    def test_resident_credit_is_bounded_by_current_and_never_credits_pad(self):
+        for current, anon, expected in [(50 * m.MIB, 100 * m.MIB, 18 * m.MIB),
+                                        (100 * m.MIB, 32 * m.MIB, 0), (100 * m.MIB, 0, 0)]:
+            record = m.assess_phase(self.config, 'update', 'MemAvailable: 99999999 kB', self.member,
+                                    current, str(self.light), '0', resident_anon=anon)
+            self.assertEqual(record['current_headroom_credit_bytes'], expected)
+        for value in [-1, True, '100']:
+            with self.assertRaisesRegex(ValueError, 'resident anonymous'):
+                m.assess_phase(self.config, 'update', 'MemAvailable: 99999999 kB', self.member,
+                                100, str(self.light), '0', resident_anon=value)
+
+    def test_missing_invalid_or_duplicate_anon_stat_fails_before_cap_change(self):
+        for text in ['file 999999999\n', 'anon -1\n', 'anon invalid\n', 'anon 1\nanon 2\n', 'anon\n']:
+            self.write('memory.stat', text)
+            with self.assertRaisesRegex(ValueError, 'memory.stat anonymous'):
+                m.require('update')
+        (self.group / 'memory.stat').unlink()
+        with self.assertRaisesRegex(ValueError, 'memory.stat anonymous'):
+            m.require('update')
+        self.set_cap.assert_not_called()
+
     def test_light_phase_already_bounded_does_not_touch_systemd_or_server(self):
         record = m.require('update')
         self.assertTrue(record['ok'])
         self.set_cap.assert_not_called(); self.lease.assert_not_called(); self.server.assert_not_called()
+
+    def test_preinstall_recovery_preserves_original_failure_history_bytes(self):
+        m.c.R.mkdir()
+        original = m.c.R / 'memory-admissions.json'
+        raw = b'{"schema":1,"observations":[{"phase":"saved-world","ok":false,"reason":"original failure"}]}\n'
+        original.write_bytes(raw)
+        record = m.require('recover-preinstall')
+        self.assertTrue(record['ok'])
+        self.assertEqual(original.read_bytes(), raw)
+        recovery = json.loads((m.c.R / 'preinstall-recovery-memory-admissions.json').read_text())
+        self.assertEqual(recovery['observations'], [record])
+        self.assertEqual(record['phase'], 'recover-preinstall')
+        self.set_cap.assert_not_called()
 
     def test_native_raise_requires_owned_stopped_server_and_exact_readback(self):
         record = m.require('saved-world')

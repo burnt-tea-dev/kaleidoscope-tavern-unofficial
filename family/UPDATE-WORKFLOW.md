@@ -119,6 +119,18 @@ cache 重用只適用於同一份不可變候選。不是只看版號、mtime、
 且正式服已正常停止後才提高至 native 上限。首次載入／重啟共用該上限；完成後
 先有界回收測試留下的 file cache，再確認較低上限生效，才能啟動 LIVE。
 缺餘量、無法安全收縮或任何身分／限制讀回不符都停止流程，不能調低餘量放行。
+分階段預算只抵扣 `memory.stat anon` 中已由本 unit 佔用的 resident 記憶體，
+最多抵扣 `memory.current`，並另扣除 32 MiB 計帳餘量；file cache、shmem 與
+kernel 不抵扣。所需空間仍是剩餘受限預算加至少 2 GiB，不把同一匿名頁重複預留。
+
+正常停服後，若原生記憶體准入失敗且尚未建立 snapshot、演練、安裝或遷移，
+可用 `recover-preinstall --execute` 關閉這一次未改包／DB 的自有失敗交易。
+恢復專用設定與原 immutable 設定只能差在 memory unit 及 `recovery_original_config`。
+入口核對原始失敗、正常 stop、完整 inventory／policy／來源及缺席的後繼標記，
+追加 `preinstall-abort.json` 後關閉本次 lease；不啟動或還原任何 runtime／DB。
+新候選可用 `preinstall_recovery_output` 引用該交易，驗證精確 closed lease、
+目前 STOPPED 狀態與未變的包／policy／停服 DB，接續正常整批流程。
+原失敗與收據不改寫，原 idle-owner 的 hash 也不重設來掩蓋維護來源。
 
 一般更新要求 UUID 不變。已提交的 Cookery 1.0.8→1.6.0 作者身份遷移可用 `identity_migration` 指向 canonical `family/identity-migrations/cookery-108-to-160.json`；工具限制原／新作者 UUID、版本、archive 與原 manifest，先在本次停服副本逐筆搬移所有權並演練，再採用未受 QA 引擎修改的資料庫。其他身份遷移仍須另行設計與審查。
 私人 extension 如果有 runtime 變動，也須補它自己的功能證據，不能用三個公開 PR 代替。
