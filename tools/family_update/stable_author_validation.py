@@ -13,6 +13,7 @@ import subprocess
 import zipfile
 from family_update import common as c
 from family_update.cookery_cache_validation import tree
+from family_update.repository_identity import current_name, verify_record, verify_remote
 
 REPOSITORY = 'casama233/senluo-family-integration-private'
 REPOSITORY_ID = 1406868911
@@ -116,19 +117,21 @@ def sibling(path, name, expected):
 def artifact_members(run_id, artifact_id, source, full_tree):
     from family_update.workflow import gh_json
     from family_update.cookery_cache_validation import private_ci_records
-    repo = gh_json('repos/' + REPOSITORY)
-    assert repo['id'] == REPOSITORY_ID and repo['full_name'] == REPOSITORY and repo['private'] is True
-    run = gh_json(f'repos/{REPOSITORY}/actions/runs/{run_id}')
-    assert run['repository']['id'] == REPOSITORY_ID and run['status'] == 'completed' and run['conclusion'] == 'success'
+    remote = current_name(REPOSITORY)
+    repo = gh_json('repos/' + remote)
+    verify_remote(repo, REPOSITORY)
+    run = gh_json(f'repos/{remote}/actions/runs/{run_id}')
+    verify_record(run['repository'], REPOSITORY)
+    assert run['status'] == 'completed' and run['conclusion'] == 'success'
     assert run['head_sha'] == source and run['event'] in ['push', 'workflow_dispatch'] and run['head_branch'] == 'main', 'Require actual canonical main CI'
     assert run['path'] == '.github/workflows/canonical.yml'
-    assert gh_json(f'repos/{REPOSITORY}/git/commits/{source}')['tree']['sha'] == full_tree
-    checks, statuses, unavailable = private_ci_records(REPOSITORY, source)
-    artifact = gh_json(f'repos/{REPOSITORY}/actions/artifacts/{artifact_id}')
+    assert gh_json(f'repos/{remote}/git/commits/{source}')['tree']['sha'] == full_tree
+    checks, statuses, unavailable = private_ci_records(remote, source)
+    artifact = gh_json(f'repos/{remote}/actions/artifacts/{artifact_id}')
     assert artifact['name'] == 'stable-author-functional' and artifact['expired'] is False
     assert artifact['workflow_run']['id'] == run_id and artifact['workflow_run']['head_sha'] == source
     from family_update.github_reads import api_bytes
-    raw = api_bytes(f'repos/{REPOSITORY}/actions/artifacts/{artifact_id}/zip')
+    raw = api_bytes(f'repos/{remote}/actions/artifacts/{artifact_id}/zip')
     assert artifact['digest'] == 'sha256:' + digest(raw), 'Original CI artifact ZIP changed'
     with zipfile.ZipFile(io.BytesIO(raw)) as archive:
         names = archive.namelist()
@@ -160,8 +163,10 @@ def source_proof():
     binding = source_binding(proof, baseline)
     assert proof['git_tree'] == binding['current_source_tree_oid']
     c.git(c.EXTENSION, 'merge-base', '--is-ancestor', PREVIOUS, binding['actual_current_source_commit'])
-    pr = gh_json(f'repos/{REPOSITORY}/pulls/{c.CONFIG["extension_stable_pull_request"]}')
-    assert pr['merged'] is True and pr['base']['ref'] == 'main' and pr['head']['repo']['id'] == pr['base']['repo']['id'] == REPOSITORY_ID
+    pr = gh_json(f'repos/{current_name(REPOSITORY)}/pulls/{c.CONFIG["extension_stable_pull_request"]}')
+    verify_record(pr['head']['repo'], REPOSITORY)
+    verify_record(pr['base']['repo'], REPOSITORY)
+    assert pr['merged'] is True and pr['base']['ref'] == 'main'
     c.git(c.EXTENSION, 'merge-base', '--is-ancestor', pr['merge_commit_sha'], binding['actual_current_source_commit'])
     assert c.git(c.EXTENSION, 'rev-parse', pr['head']['sha'] + '^{tree}') == proof['git_tree'], 'PR source whole tree differs'
     members, ci = artifact_members(int(c.CONFIG['extension_stable_run_id']), int(c.CONFIG['extension_stable_artifact_id']), proof['source_commit'], proof['git_tree'])

@@ -18,6 +18,7 @@ class StableAuthorValidationTests(unittest.TestCase):
         m.artifact_members.cache_clear();self.addCleanup(m.artifact_members.cache_clear)
 
     def artifact(self, mutation=None):
+        remote = m.current_name(m.REPOSITORY)
         names = ['stable-author-functional.json', 'stable-author-functional.log',
                  'cookery-cache-functional.json', 'cookery-cache-functional.tap',
                  'cookery-guide-functional.json', 'cookery-guide-functional.tap',
@@ -27,11 +28,12 @@ class StableAuthorValidationTests(unittest.TestCase):
             for name in names:archive.writestr(name, b'exact original source evidence')
         data = raw.getvalue()
         records = {
-            'repos/' + m.REPOSITORY: {'id': m.REPOSITORY_ID, 'full_name': m.REPOSITORY, 'private': True},
-            f'repos/{m.REPOSITORY}/actions/runs/7': {'repository': {'id': m.REPOSITORY_ID}, 'status': 'completed', 'conclusion': 'success',
+            'repos/' + remote: {'id': m.REPOSITORY_ID, 'full_name': remote, 'private': True,
+                'owner': {'login': 'burnt-tea-dev', 'id': 344456559, 'type': 'Organization'}},
+            f'repos/{remote}/actions/runs/7': {'repository': {'id': m.REPOSITORY_ID, 'full_name': remote}, 'status': 'completed', 'conclusion': 'success',
                 'head_sha': 'source', 'event': 'push', 'head_branch': 'main', 'path': '.github/workflows/canonical.yml'},
-            f'repos/{m.REPOSITORY}/git/commits/source': {'tree': {'sha': 'whole-tree'}},
-            f'repos/{m.REPOSITORY}/actions/artifacts/8': {'name': 'stable-author-functional', 'expired': False,
+            f'repos/{remote}/git/commits/source': {'tree': {'sha': 'whole-tree'}},
+            f'repos/{remote}/actions/artifacts/8': {'name': 'stable-author-functional', 'expired': False,
                 'workflow_run': {'id': 7, 'head_sha': 'source'}, 'digest': 'sha256:' + m.digest(data)},
         }
         if mutation:mutation(records)
@@ -45,9 +47,10 @@ class StableAuthorValidationTests(unittest.TestCase):
         members, identity = self.artifact()
         self.assertEqual(len(members), 8)
         self.assertEqual(identity['artifact_id'], 8)
-        run = f'repos/{m.REPOSITORY}/actions/runs/7'
-        artifact = f'repos/{m.REPOSITORY}/actions/artifacts/8'
-        commit = f'repos/{m.REPOSITORY}/git/commits/source'
+        remote = m.current_name(m.REPOSITORY)
+        run = f'repos/{remote}/actions/runs/7'
+        artifact = f'repos/{remote}/actions/artifacts/8'
+        commit = f'repos/{remote}/git/commits/source'
         for endpoint, change in [(run, {'conclusion': 'failure'}), (run, {'event': 'pull_request'}),
                                  (run, {'head_sha': 'another'}), (run, {'head_branch': 'feature'}),
                                  (artifact, {'digest': 'sha256:forged'}), (artifact, {'workflow_run': {'id': 9, 'head_sha': 'source'}}),
