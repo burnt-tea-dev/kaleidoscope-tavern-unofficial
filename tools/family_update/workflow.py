@@ -68,6 +68,8 @@ def verify_native(verified_candidate=None):
     bind_hud_native(receipt,evidence)
     from family_update.preserved_ribbits_inputs import bind_native as bind_ribbits_native
     bind_ribbits_native(receipt,evidence)
+    from family_update.preserved_client_assets_inputs import bind_native as bind_client_assets_native
+    bind_client_assets_native(receipt,evidence)
     from family_update.preserved_saturation_inputs import bind_native as bind_saturation_native
     bind_saturation_native(receipt,evidence)
     return evidence
@@ -294,6 +296,8 @@ def record_static(verified_candidate=None):
         if is_profile(selected):evidence['reports'].extend([selected['source_validation'], selected['hud_differential']])
         from family_update.preserved_ribbits_inputs import is_profile as is_ribbits
         if is_ribbits(selected):evidence['reports'].extend([selected['source_validation'], selected['differential']])
+        from family_update.preserved_client_assets_inputs import is_profile as is_client_assets
+        if is_client_assets(selected):evidence['reports'].extend([selected['source_validation'], selected['differential'], selected['source_log']])
         from family_update.preserved_saturation_inputs import is_profile as is_saturation
         if is_saturation(selected):evidence['reports'].extend([selected['source_validation'], selected['source_log'], selected['source_diagnosis'], selected['author_file_boundary']])
     if CONFIG.get('preserved_additions'):

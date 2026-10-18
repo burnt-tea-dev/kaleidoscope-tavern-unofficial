@@ -23,10 +23,12 @@ CATALOG_KEY='current_author_p55'
 CHECKS={'current-source-api','native-freezer-performance.json','saturation-scheduling-functional.json','hud-coexistence-functional.json','ribbits-startup-functional.json','ribbits-fp-decode-functional.json'}
 
 def selected():
-    return c.CONFIG.get('extension_stable_profile') in ('current-author-p55','current-author-p56','current-author-p57')
+    return c.CONFIG.get('extension_stable_profile') in ('current-author-p55','current-author-p56','current-author-p57','current-author-p58')
 
 def settings():
     selected_profile=c.CONFIG.get('extension_stable_profile')
+    if selected_profile=='current-author-p58':
+        return [1,0,58], 'senluo-stable-author-20261019-p58', 'current_author_p58'
     if selected_profile in ('current-author-p56','current-author-p57'):
         release={'current-author-p56':56,'current-author-p57':57}[selected_profile]
         return [1,0,release], 'senluo-stable-author-20261018-p'+str(release), 'current_author_p'+str(release)
@@ -139,11 +141,25 @@ def validate_owned_conservation(owned,catalog):
         assert catalog['added_paths']==added==[],'P57 cannot add unreviewed runtime content'
         assert retired==reviewed_paths('retired_paths') and retired,'P57 retired content differs from the exact reviewed scope'
         assert changed==reviewed_paths('exact_changed_paths'),'P57 changed content differs from the exact reviewed scope'
+    if VERSION==[1,0,58]:
+        for key,actual in [('exact_changed_paths',changed),('added_paths',added),('retired_paths',retired)]:
+            expected=catalog[key]
+            assert isinstance(expected,list) and all(isinstance(path,str) for path in expected) and expected==sorted(set(expected))
+            assert actual==expected,'P58 conservation differs from the exact reviewed '+key
+            for value in expected:
+                path=Path(value)
+                assert len(path.parts)>=3 and path.parts[:2] in [('runtime','BP'),('runtime','RP')] and '..' not in path.parts and path.as_posix()==value
+        assert retired==[],'P58 cannot retire additional content'
+        from family_update.preserved_client_assets_inputs import HELPER
+        allowed_added={'runtime/BP/'+HELPER,'runtime/BP/client-repairs/repair-plan.json'}
+        normals=[name for name in added if name.startswith('runtime/RP/textures/integration/fishing-normal/') and name.endswith('_normal.png')]
+        assert len(normals)==156 and set(added)==allowed_added|set(normals),'P58 additions exceed client helper/plan/normals'
+        assert set(changed)=={'runtime/BP/manifest.json','runtime/RP/manifest.json',*['runtime/BP/host-extensions/'+name for name in catalog['host_specs']]},'P58 runtime changes exceed paired identity/host declarations'
 
 def validate_candidate(receipt,proof,baseline,binding,catalog):
     """Validate every output and the exact ordered chain, not just changed paths."""
     VERSION,PROFILE,CATALOG_KEY=settings()
-    variant={55:[1,0,10655],56:[1,0,10656],57:[1,0,10657]}[VERSION[-1]]
+    variant={55:[1,0,10655],56:[1,0,10656],57:[1,0,10657],58:[1,0,10658]}[VERSION[-1]]
     rows={row['uuid']:row for row in receipt['packs']};assert len(rows)==len(receipt['packs'])
     assert {row['uuid'] for row in rows.values() if row['source'].get('repository')==LOGICAL}=={p['uuid'] for p in baseline['packs'].values()},'Current private pair inventory differs'
     owned=proof['owned_runtime'];assert set(owned['files'])=={'BP','RP'}

@@ -66,12 +66,12 @@ class P57Admission(unittest.TestCase):
         with patch.object(current.c, 'CONFIG', {'extension_stable_profile': 'current-author-p' + str(version)}):
             current.validate_owned_conservation(owned, catalog)
 
-    def test_explicit_settings_keep55_and56_and_admit57_but_never58(self):
+    def test_explicit_settings_keep55_and56_and_admit57_but_never59(self):
         for version in [55, 56, 57]:
             with self.subTest(version=version), patch.object(current.c, 'CONFIG', {'extension_stable_profile': 'current-author-p' + str(version)}):
                 self.assertTrue(current.selected())
                 self.assertEqual(current.settings(), ([1, 0, version], 'senluo-stable-author-20261018-p' + str(version), 'current_author_p' + str(version)))
-        with patch.object(current.c, 'CONFIG', {'extension_stable_profile': 'current-author-p58'}):
+        with patch.object(current.c, 'CONFIG', {'extension_stable_profile': 'current-author-p59'}):
             self.assertFalse(current.selected())
             with self.assertRaisesRegex(AssertionError, 'Unsupported'):
                 current.settings()
@@ -132,7 +132,7 @@ class P57Admission(unittest.TestCase):
     def test_current_profile_requires_exact57_catalog_not_future_admission(self):
         with patch.object(stable, 'match_stable_profile', return_value={'admission': 'current-author-p57'}):
             self.assertIsNotNone(stable.current_author_profile({}))
-        with patch.object(stable, 'match_stable_profile', return_value={'admission': 'current-author-p58'}):
+        with patch.object(stable, 'match_stable_profile', return_value={'admission': 'current-author-p59'}):
             self.assertIsNone(stable.current_author_profile({}))
 
     def test_geometry_and_enamel_owners_match_exact57_profile(self):
@@ -176,12 +176,37 @@ class P57Admission(unittest.TestCase):
             with patch.object(host_extensions, 'REVIEWED_SALT_REMOVAL', removal):
                 self.assertEqual(host_extensions.validate_recipe_removals(spec, owned, host, {'admission': 'current-author-p57'}), removal)
                 with self.assertRaisesRegex(ValueError, 'exact reviewed'):
-                    host_extensions.validate_recipe_removals(spec, owned, host, {'admission': 'current-author-p58'})
+                    host_extensions.validate_recipe_removals(spec, owned, host, {'admission': 'current-author-p59'})
                 manifest['header']['version'] = [1, 0, 56]
                 (owned / 'manifest.json').write_text(json.dumps(manifest))
                 with self.assertRaisesRegex(ValueError, 'companion'):
                     host_extensions.validate_recipe_removals(spec, owned, host, {'admission': 'current-author-p57'})
             self.assertEqual(recipe.read_bytes(), b'synthetic recipe')
+
+    def test_salt_removal58_requires_new_fishing_pair_and_keeps57_contract(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            owned, host = root / 'owned', root / 'host'
+            owned.mkdir()
+            recipe = host / 'recipes/vanilla_cooking/salt_smelting.json'
+            recipe.parent.mkdir(parents=True)
+            recipe.write_bytes(b'synthetic unchanged coexistence recipe')
+            removal = {'recipes/vanilla_cooking/salt_smelting.json': hashlib.sha256(recipe.read_bytes()).hexdigest()}
+            spec = {'kind': 'chinesefood-reviewed-repairs', 'archive_sha256': 'dea708dd6443ea30d23e5791860a50181e8eeb560dcd7ec5a8e80fe22743e659', 'removed_files': removal}
+            manifest = {'header': {'version': [1, 0, 58]}, 'dependencies': [{'uuid': '5e121bf2-1d2d-4da4-be15-cffc5f216d94', 'version': [1, 2, 10058]}]}
+            with patch.object(host_extensions, 'REVIEWED_SALT_REMOVAL', removal):
+                (owned / 'manifest.json').write_text(json.dumps(manifest))
+                self.assertEqual(host_extensions.validate_recipe_removals(spec, owned, host, {'admission': 'current-author-p58'}), removal)
+                manifest['dependencies'][0]['version'] = [1, 2, 0]
+                (owned / 'manifest.json').write_text(json.dumps(manifest))
+                with self.assertRaisesRegex(ValueError, 'exact Fishing companion'):
+                    host_extensions.validate_recipe_removals(spec, owned, host, {'admission': 'current-author-p58'})
+                manifest['header']['version'] = [1, 0, 57]
+                manifest['dependencies'][0]['version'] = [1, 2, 10058]
+                (owned / 'manifest.json').write_text(json.dumps(manifest))
+                with self.assertRaisesRegex(ValueError, 'exact Fishing companion'):
+                    host_extensions.validate_recipe_removals(spec, owned, host, {'admission': 'current-author-p57'})
+            self.assertEqual(recipe.read_bytes(), b'synthetic unchanged coexistence recipe')
 
 
 if __name__ == '__main__':
