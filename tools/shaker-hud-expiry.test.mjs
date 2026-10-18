@@ -5,26 +5,18 @@ import {readFileSync} from 'node:fs';
 import {spawnSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
-import {createFormattingHudTransport} from '../runtime/BP/scripts/core/formatting-hud-transport.js';
-import {GRAPHICAL_HUD_PREFIX,GRAPHICAL_HUD_END,HUD_REFRESH_TICKS,hudSendDue,validShakerHudPacket,slotsPacket,progressPacket} from '../runtime/BP/scripts/core/shaker-hud.js';
-function fixture(){
- let clock=0,next=1;const pending=new Map(),calls=[];
- const sender=createFormattingHudTransport({prefix:GRAPHICAL_HUD_PREFIX,endPacket:GRAPHICAL_HUD_END,validatePacket:validShakerHudPacket,maxLength:60,
-  queueAvailable:()=>true,embeddedAvailable:()=>false,queueSend:(p,packet)=>calls.push([clock,p.id,packet]),
-  schedule:(fn,ticks)=>{const id=next++;pending.set(id,{fn,at:clock+ticks});return id;},cancel:id=>pending.delete(id),idleTicks:12});
- const advance=n=>{for(let i=0;i<n;i++){clock++;for(const [id,row]of [...pending])if(row.at<=clock){pending.delete(id);row.fn();}}};
- return {sender,advance,pending,calls};
-}
-test('refresh keeps current state and missed refresh emits exactly one owned stop',()=>{
- const f=fixture(),p={id:'a'};f.sender.send(p,slotsPacket([]));f.advance(10);f.sender.send(p,progressPacket(25));
- f.advance(11);assert.equal(f.calls.length,2);f.advance(1);
- assert.deepEqual(f.calls.at(-1),[22,'a',GRAPHICAL_HUD_END]);assert.equal(f.pending.size,0);
- f.advance(100);assert.equal(f.calls.length,3);
-});
-test('cancel and disconnect retire only the matching player timeout',()=>{
- const f=fixture(),a={id:'a'},b={id:'b'};f.sender.send(a,progressPacket(0));f.sender.send(b,progressPacket(1));
- f.sender.send(a,GRAPHICAL_HUD_END);f.sender.forget(b.id);assert.equal(f.pending.size,0);
- f.advance(100);assert.equal(f.calls.length,3);assert.equal(f.calls.at(-1)[2],GRAPHICAL_HUD_END);
+import {sendFormattingHud,forgetFormattingHud} from '../runtime/BP/scripts/bedrock/shaker-hud-transport.js';
+import {GRAPHICAL_HUD_END,HUD_REFRESH_TICKS,hudSendDue,progressPacket} from '../runtime/BP/scripts/core/shaker-hud.js';
+test('disconnect and owned stop never clear another player or the shared actionbar',()=>{
+ const calls=[],player=id=>({id,onScreenDisplay:{setActionBar:packet=>calls.push([id,packet])}});
+ const a=player('a'),b=player('b');
+ sendFormattingHud(a,progressPacket(0));sendFormattingHud(b,progressPacket(1));
+ const sent=calls.map(row=>[...row]);
+ forgetFormattingHud(a.id);forgetFormattingHud(b.id);forgetFormattingHud('unknown');
+ assert.deepEqual(calls,sent,'Forgetting a player must not clear a shared display channel');
+ sendFormattingHud(a,GRAPHICAL_HUD_END);
+ assert.deepEqual(calls,[...sent,['a',GRAPHICAL_HUD_END]]);
+ assert(calls.every(([,packet])=>packet!==''),'An owned stop is a packet, never a global clear');
 });
 test('original event factory has bounded slots/progress lifetime and no title cache ancestry',()=>{
  const hud=JSON.parse(readFileSync(new URL('../runtime/RP/ui/kt_tavern_hud.json',import.meta.url)));
