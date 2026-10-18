@@ -1,7 +1,7 @@
 """Apply reviewed, pinned host insertions; algorithms remain in canonical owned runtime."""
 from datetime import date
-from pathlib import PurePosixPath
-import hashlib,json
+from pathlib import Path,PurePosixPath
+import hashlib,json,subprocess
 from stable_host_profiles import match_stable_profile
 
 def validate_recipe_cache_profile(spec,source):
@@ -66,7 +66,37 @@ def validate_guide_startup_profile(spec,source):
 REVIEWED_SALT_REMOVAL = {'recipes/vanilla_cooking/salt_smelting.json': '80bb1ab58d48ac9233e86b25c8405d7ec0bffd0411ba30f15829ba5278c1d0cb'}
 
 
-def validate_recipe_removals(spec, owned_root, host_root, stable):
+def retained_owner_version(context, owned_root, component_version):
+ """Recheck complete retention; caller metadata alone never admits an owner."""
+ from family_bundle import retained_component_config
+ try:
+  if type(context) is not dict or set(context)!={'source_root','source_commit','sources'}:
+   raise ValueError('unexpected retained owner context')
+  root=Path(context['source_root'])
+  if not root.is_absolute() or any(path.is_symlink() for path in [root,*root.parents]):
+   raise ValueError('retained owner source is linked or relative')
+  sources=context['sources']
+  if not isinstance(sources,dict) or not all(isinstance(key,str) and isinstance(value,str) and Path(value).is_absolute() for key,value in sources.items()):
+   raise ValueError('retained owner peer sources differ')
+  def git(*args):return subprocess.check_output(['git',*args],cwd=root,text=True).strip()
+  if git('rev-parse','HEAD')!=context['source_commit'] or git('status','--porcelain'):
+   raise ValueError('retained owner source changed')
+  if (root/'baseline.json').is_symlink():raise ValueError('retained owner baseline is linked')
+  raw=(root/'baseline.json').read_bytes()
+  if raw!=subprocess.check_output(['git','show','HEAD:baseline.json'],cwd=root):
+   raise ValueError('retained owner baseline is uncommitted')
+  config=json.loads(raw)
+  if (root/config['runtime']['BP']).resolve()!=owned_root.resolve():
+   raise ValueError('retained owner pack root differs')
+  component,anchor=retained_component_config(root,config,{key:Path(value)for key,value in sources.items()})
+  if not anchor or component['version']!=component_version:
+   raise ValueError('retained owner component differs')
+  return config['version']
+ except (AssertionError,KeyError,TypeError,OSError,subprocess.CalledProcessError,SystemExit,ValueError) as error:
+  raise ValueError('retained salt owner validation failed: '+str(error)) from error
+
+
+def validate_recipe_removals(spec, owned_root, host_root, stable, *, retained_owner=None):
  removed = spec.get('removed_files', {})
  if not removed:
   return {}
@@ -79,7 +109,9 @@ def validate_recipe_removals(spec, owned_root, host_root, stable):
   raise ValueError('recipe removal is outside the exact reviewed coexistence profile')
  manifest = json.loads((owned_root / 'manifest.json').read_text())
  dependency = {'uuid': '5e121bf2-1d2d-4da4-be15-cffc5f216d94', 'version': [1, 2, 10058] if stable['admission']=='current-author-p58' else [1, 2, 0]}
- if manifest['header']['version'] != admissions[stable['admission']] or dependency not in manifest.get('dependencies', []):
+ owner=admissions[stable['admission']]
+ if retained_owner is not None:owner=retained_owner_version(retained_owner,owned_root,owner)
+ if manifest['header']['version'] != owner or dependency not in manifest.get('dependencies', []):
   raise ValueError('salt coexistence requires the exact Fishing companion dependency')
  for name, expected in removed.items():
   path = host_root / name
@@ -88,7 +120,7 @@ def validate_recipe_removals(spec, owned_root, host_root, stable):
  return removed
 
 
-def apply_host_extension(spec,owned_root,host_root,source):
+def apply_host_extension(spec,owned_root,host_root,source,*,retained_owner=None):
  if spec.get('kind')=='cookery-held-geometry-canonicalization':
   from held_geometry_extension import apply_held_geometry_extension
   return apply_held_geometry_extension(spec,owned_root,host_root,source)
@@ -114,7 +146,7 @@ def apply_host_extension(spec,owned_root,host_root,source):
  cache=spec.get('kind')=='cookery-recipe-cache-repair'
  guide=spec.get('kind')=='cookery-guide-startup-repair'
  stable=match_stable_profile(spec,owned_root,source)
- removed=validate_recipe_removals(spec,owned_root,host_root,stable)
+ removed=validate_recipe_removals(spec,owned_root,host_root,stable,retained_owner=retained_owner)
  if cache and not stable:validate_recipe_cache_profile(spec,source)
  if guide and not stable:validate_guide_startup_profile(spec,source)
  if dough and not stable and (spec.get('host_uuid'),spec['archive_sha256']) not in {('d322809c-a51e-4742-bfc4-16d3c1491c9d','9e5b617cc4c7a08ecd429fb9e42ec10e8d40a1ed5fc1f6f6687c3aff8a45a5d5'),('5df753c9-3436-4fba-87f1-a2da3651cfcf','da12fe6d39d7514aff1de3c963d69899324d771be5ca0fc3da1ccb759c7ad458')}:raise ValueError('dough repair requires the pinned Cookery host')
