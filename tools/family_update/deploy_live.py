@@ -5,6 +5,14 @@ from family_update.common import *
 class RecoveryRequired(RuntimeError):
     """A failed rollback must retain the stopped server and active lease."""
 
+def retain_stopped_on_failure():
+    """A stricter managed recovery policy never installs an incompatible rollback."""
+    policy = CONFIG.get('managed_drift_failure_policy')
+    assert policy in [None, 'retain_stopped'], 'Unknown managed drift failure policy'
+    if policy is not None:
+        assert CONFIG.get('managed_drift_recovery'), 'Stopped drift recovery requires a reviewed managed repair'
+    return policy == 'retain_stopped'
+
 def deployment_authorized(agents):
     """Recognize only the reviewed standing instructions, without broadening scope."""
     if all(text in agents for text in [
@@ -19,6 +27,7 @@ def deployment_authorized(agents):
     }.issubset(lines)
 
 def preflight():
+    retain_stopped_on_failure()
     initial = summary()
     initial_status = initial['status']
     original = verify_predeploy()
@@ -264,6 +273,11 @@ def recover_after_failure(original,changed,retired,installed,rollback_failed=Fal
     phase='inspect_failure'
     try:
         assert_lease()
+        if retain_stopped_on_failure():
+            phase='retain_stopped_without_package_or_database_restore'
+            if summary()['status']!='STOPPED': action('stop')
+            assert summary()['status']=='STOPPED', 'Failed managed repair must remain stopped'
+            raise RecoveryRequired('The reviewed failure policy retains current packages, displaced inputs and the newest database for operator recovery; no rollback runtime may start')
         if (R/'production-container-recovery.json').exists() or (R/'production-identity-migration.json').exists():
             if summary()['status']!='STOPPED':action('stop')
             assert summary()['status']=='STOPPED', 'Recovered containers must remain stopped after a failed deployment'
@@ -297,6 +311,16 @@ def recover_after_failure(original,changed,retired,installed,rollback_failed=Fal
         assert_lease()
         lease=read(LEASE); lease.update(state='active',failure_at=now(),status='needs_operator_recovery',recovery_report=str(R/'deployment-recovery.json')); atomic(LEASE,lease)
         return False
+
+def retain_failed_installation(original,retired,installed,install_error):
+    """Persist partial renames before refusing automatic package rollback."""
+    if not retain_stopped_on_failure():
+        return
+    assert_lease()
+    assert summary()['status']=='STOPPED', 'Installation recovery must remain stopped'
+    atomic(R/'rollback-map.json',{'retired':[[str(a),str(b)] for a,b in retired],'installed':[str(p) for p in installed],'original_inventory':str(R/'production-before/inventory.json'),'backup':str(R/'production-snapshot'),'incomplete_installation':True,'automatic_package_restore':False})
+    atomic(R/'deployment-result.json',{'state':'needs_operator_recovery','stage':'installation_retained_stopped','install_error':str(install_error),'automatic_package_restore':False,'save_database_restored':False,'client':False,'production_ready':False})
+    raise RecoveryRequired('Installation failed; preserve partial package moves and the newest database without installing or starting a rollback runtime') from install_error
 
 def install(receipt,original):
     assert_lease(); assert summary()['status']=='STOPPED'; verify_predeploy()
@@ -349,6 +373,7 @@ def install(receipt,original):
         atomic(R/'deployment-result.json',{'schema':1,'state':'installed_stopped','versions':versions(receipt),'family_packs':len(family),'preserved_packs':len(foreign),'receipt_sha256':sha(R/'reviewed-family-receipt.json'),'assembled_receipt_sha256':sha(C/'family-receipt.json'),'guard_admission_passed':True,'original_database_untouched_during_install':not bool(CONFIG.get('container_recovery_plan') or CONFIG.get('identity_migration')),'reviewed_identity_migration':bool(CONFIG.get('identity_migration')),'reviewed_container_recovery':bool(CONFIG.get('container_recovery_plan')),'original_level_dat_untouched_during_install':True,'rollback':str(rollback),'client':False,'production_ready':False})
         return retired,installed
     except BaseException as install_error:
+        retain_failed_installation(original,retired,installed,install_error)
         if (R/'production-container-recovery.json').exists() or (R/'production-identity-migration.json').exists():
             raise RecoveryRequired('Container recovery has begun; keep the compatible candidate stopped for recovery') from install_error
         try:
@@ -401,12 +426,18 @@ def main(argv=None):
             if not CONFIG.get('managed_drift_recovery') or summary()['status']!='STOPPED':
                 action('stop')
             assert summary()['status']=='STOPPED'; verify_predeploy()
+            # Admit the larger native ceiling only after normal production stop.
+            from family_update.memory_budget import require as require_memory
+            require_memory('saved-world')
             snapshot=R/'production-snapshot'; assert not snapshot.exists(); shutil.copytree(W,snapshot)
             before=hashes(W); copied=hashes(snapshot); assert before==copied, 'Stopped snapshot copy mismatch'
             atomic(R/'production-before/backup-receipt.json',{'recorded_at':now(),'world':str(W),'consistent_stopped_snapshot':str(snapshot),'files':copied,'packs':len(original['packs']),'status':'consistent_stopped_backup','lease_owner':OWNER,'level_dat_sha256':sha(W/'level.dat'),'live_status':'STOPPED'})
             command([PY,ENTRY,'--config',CONFIG_PATH,'saved-world','--execute'],R/'saved-world-summary.log')
             receipt=finalize_receipt(); retired,installed=install(receipt,original); changed=True
             shutil.copy2(B/'server_output.txt',R/'production-before/server-output-before-start.txt')
+            # Release the native ceiling and its file cache before production
+            # starts competing for memory. The child verifier rechecks this cap.
+            require_memory('verify-live')
             action('start')
             command([PY,ENTRY,'--config',CONFIG_PATH,'verify-live','--execute'],R/'poststart-summary.log')
             result=read(R/'deployment-result.json'); result.update(state='deployed_running',poststart_report=str(R/'poststart-verification.json'),completed_at=now()); atomic(R/'deployment-result.json',result)
