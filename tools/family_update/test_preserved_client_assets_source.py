@@ -98,6 +98,22 @@ class ClientSourceBoundaries(unittest.TestCase):
         self.assertEqual(ci['source_ci']['run_id'],100);self.assertEqual(ci['source_ci']['checks'][0]['head_sha'],self.head)
         self.assertEqual(before,self.report_path.read_bytes())
 
+    def test_successor_owner_uses_current_ci_and_requires_retained_component_proof(self):
+        from family_update import current_author_validation as current
+        self.baseline['version']=[1,0,59];self.baseline['retained_runtime']={'schema':1}
+        self.write(self.ext/'baseline.json',self.baseline)
+        self.proof['version']=[1,0,59];self.report['version']=[1,0,59]
+        self.report['component_version']=[1,0,58];self.report['retained_runtime']={'synthetic':'reviewed conservation'};self.save()
+        with patch.object(current,'validate_retained_runtime',return_value=self.report['retained_runtime']) as validate:
+            self.admit();validate.assert_called_once()
+            self.assertEqual(validate.call_args.args[1],self.baseline)
+        self.report['component_version']=[1,0,59];self.save()
+        with patch.object(current,'validate_retained_runtime'),self.assertRaises(AssertionError):self.admit()
+        self.report['component_version']=[1,0,58];self.proof['version']=[1,0,58];self.save()
+        with patch.object(current,'validate_retained_runtime'),self.assertRaisesRegex(AssertionError,'baseline differs'):self.admit()
+        self.proof['version']=[1,0,59];self.save()
+        with patch.object(current,'validate_retained_runtime',side_effect=AssertionError('payload drift')),self.assertRaisesRegex(AssertionError,'payload drift'):self.admit()
+
     def test_main_success_exact_digest_and_completed_checks_required(self):
         checks=copy.deepcopy(self.checks)
         for field,value in [('head_branch','feature'),('conclusion','failure'),('head_sha','0'*40),('path','other.yml')]:

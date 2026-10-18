@@ -527,12 +527,6 @@
       "after": "6ad64976071affd75dfaf00e3f2e1b68e2d1e95166c4546256441c25b5f826c1",
       "reason": "0.6.46 reviewed guide transport/shared usage, deployed icon preservation, and finite incense visibility repair. 0.6.54: correct barrel/tap/aging instructions; derive legacy pages from the canonical Cookery chapter; expose feedback failures and truthful guide delivery state."
     },
-    "runtime/BP/scripts/core/guide.js": {
-      "before": "d03156670d828f25d62c5932572eabd67579b9c1764e0fe6a7a22ae98c73ea9a",
-      "beforeProjected": "d03156670d828f25d62c5932572eabd67579b9c1764e0fe6a7a22ae98c73ea9a",
-      "after": "2b22bae4d6ece690462cbf56eff81f1ceafae5160f4ae78e1c6b4c431e2d94a2",
-      "reason": "0.6.46 reviewed guide transport/shared usage, deployed icon preservation, and finite incense visibility repair."
-    },
     "runtime/BP/scripts/data/cookery-guide-payload.js": {
       "before": "a13261efa6e2e85e6566686a1d8e95525be190fc2ce52f32623d7c62d1820bca",
       "beforeProjected": "a13261efa6e2e85e6566686a1d8e95525be190fc2ce52f32623d7c62d1820bca",
@@ -2572,6 +2566,40 @@
       "before": "963a3cef2ffdb34bc3dc0710a6c53f6ee772cfc2d1db2104121712f3eeecb4ee",
       "beforeProjected": "963a3cef2ffdb34bc3dc0710a6c53f6ee772cfc2d1db2104121712f3eeecb4ee",
       "reason": "0.6.81: remove the bespoke pouring-arm gesture absent from pinned Java ShakerItem.pourResult; preserve cup replacement, particles and bottle-fill sound."
+    },
+    "runtime/BP/scripts/bedrock/block-gesture.js": {
+      "before": "a64207bd43c0c9f62e86a1eec6c91f779764376c5bdc05f68814ba21b2328cf7",
+      "beforeProjected": "a64207bd43c0c9f62e86a1eec6c91f779764376c5bdc05f68814ba21b2328cf7",
+      "reason": "Retire unreachable owned module; current consumers and retained production coverage reviewed in the 2026-10-19 runtime retirement evidence. Historical baseline/preimages remain unchanged.",
+      "retiredSourceCommit": "a5c1e0093c8f14a755d5ea403a4c547744c04c25",
+      "retiredSourceSha256": "a64207bd43c0c9f62e86a1eec6c91f779764376c5bdc05f68814ba21b2328cf7"
+    },
+    "runtime/BP/scripts/core/guide.js": {
+      "before": "d03156670d828f25d62c5932572eabd67579b9c1764e0fe6a7a22ae98c73ea9a",
+      "beforeProjected": "d03156670d828f25d62c5932572eabd67579b9c1764e0fe6a7a22ae98c73ea9a",
+      "reason": "Retire unreachable owned module; current consumers and retained production coverage reviewed in the 2026-10-19 runtime retirement evidence. Historical baseline/preimages remain unchanged.",
+      "retiredSourceCommit": "a5c1e0093c8f14a755d5ea403a4c547744c04c25",
+      "retiredSourceSha256": "11903b683205602bbe2d55edde752b8756fa0dbf6411c7fb076db5a8453196b8",
+      "previousReviewedChange": {
+        "before": "d03156670d828f25d62c5932572eabd67579b9c1764e0fe6a7a22ae98c73ea9a",
+        "beforeProjected": "d03156670d828f25d62c5932572eabd67579b9c1764e0fe6a7a22ae98c73ea9a",
+        "after": "2b22bae4d6ece690462cbf56eff81f1ceafae5160f4ae78e1c6b4c431e2d94a2",
+        "reason": "0.6.46 reviewed guide transport/shared usage, deployed icon preservation, and finite incense visibility repair."
+      }
+    },
+    "runtime/BP/scripts/data/names.js": {
+      "before": "83b31851c3e243df702a1dc5a21c389e3221ac4e96ede079659d1d0b14783001",
+      "beforeProjected": "83b31851c3e243df702a1dc5a21c389e3221ac4e96ede079659d1d0b14783001",
+      "reason": "Retire unreachable owned module; current consumers and retained production coverage reviewed in the 2026-10-19 runtime retirement evidence. Historical baseline/preimages remain unchanged.",
+      "retiredSourceCommit": "a5c1e0093c8f14a755d5ea403a4c547744c04c25",
+      "retiredSourceSha256": "83b31851c3e243df702a1dc5a21c389e3221ac4e96ede079659d1d0b14783001"
+    },
+    "runtime/BP/scripts/core/formatting-hud-transport.js": {
+      "before": null,
+      "beforeProjected": null,
+      "reason": "Retire unreachable owned module; current consumers and retained production coverage reviewed in the 2026-10-19 runtime retirement evidence. Historical baseline/preimages remain unchanged.",
+      "retiredSourceCommit": "a5c1e0093c8f14a755d5ea403a4c547744c04c25",
+      "retiredSourceSha256": "cfbda3933582450867542f470406517383363e2c11b213017ea05c8c82530fc9"
     }
   }
 }

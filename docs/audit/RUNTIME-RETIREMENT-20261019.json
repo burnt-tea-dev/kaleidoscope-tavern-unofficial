@@ -1,0 +1,146 @@
+{
+  "schema": 1,
+  "state": "release_candidate_source_retirement",
+  "written_before_patch_utc": "2026-10-18T18:22:14.237947+00:00",
+  "source_commit": "a5c1e0093c8f14a755d5ea403a4c547744c04c25",
+  "historical_baseline_commit": "cedfaedf6140bae61b24afb658869b1d0e6ea1a9",
+  "deletions": [
+    {
+      "path": "runtime/BP/scripts/bedrock/block-gesture.js",
+      "sha256": "a64207bd43c0c9f62e86a1eec6c91f779764376c5bdc05f68814ba21b2328cf7",
+      "bytes": 752,
+      "reason": "No current module/JSON/host-copy caller; no documented SDK export. No need to preserve two-tick old helper as an oracle.",
+      "replacement": [
+        "runtime/BP/scripts/bedrock/java-placement-router.js",
+        "runtime/BP/scripts/bedrock/machines.js:206 tapGesture"
+      ],
+      "existing_coverage": [
+        "tools/shared-interaction-echo.test.mjs: current production router and mixed callback regressions",
+        "tools/furniture-interaction.test.mjs: current furniture callbacks"
+      ],
+      "historical_baseline_exists": true,
+      "baseline_before_sha256": "a64207bd43c0c9f62e86a1eec6c91f779764376c5bdc05f68814ba21b2328cf7",
+      "baseline_before_projected_sha256": "a64207bd43c0c9f62e86a1eec6c91f779764376c5bdc05f68814ba21b2328cf7",
+      "current_git_blob": "929e3c70b783db8ff34d4fc38cd3931baa7fdd47"
+    },
+    {
+      "path": "runtime/BP/scripts/core/guide.js",
+      "sha256": "11903b683205602bbe2d55edde752b8756fa0dbf6411c7fb076db5a8453196b8",
+      "bytes": 4142,
+      "reason": "Old recipePage/guideEntries/searchEntries/paginate/workstationUsage have no current callers. Current seven-entry/native guide is covered. check_launch still binds historical file bytes; retirement needs an exact reviewed removal boundary, not deletion of preservation checks.",
+      "replacement": [
+        "runtime/BP/scripts/core/standalone-guide-model.js",
+        "runtime/BP/scripts/data/cookery-guide-payload.js",
+        "runtime/BP/scripts/core/guide-preparation.js"
+      ],
+      "existing_coverage": [
+        "tools/standalone-guide.test.mjs",
+        "tools/check_guide.mjs",
+        "tools/guide_contract.mjs"
+      ],
+      "historical_baseline_exists": true,
+      "baseline_before_sha256": "d03156670d828f25d62c5932572eabd67579b9c1764e0fe6a7a22ae98c73ea9a",
+      "baseline_before_projected_sha256": "d03156670d828f25d62c5932572eabd67579b9c1764e0fe6a7a22ae98c73ea9a",
+      "current_git_blob": "d0a870effc6fa790d39be8a4649362e9975de32b",
+      "previous_reviewed_change": {
+        "before": "d03156670d828f25d62c5932572eabd67579b9c1764e0fe6a7a22ae98c73ea9a",
+        "beforeProjected": "d03156670d828f25d62c5932572eabd67579b9c1764e0fe6a7a22ae98c73ea9a",
+        "after": "2b22bae4d6ece690462cbf56eff81f1ceafae5160f4ae78e1c6b4c431e2d94a2",
+        "reason": "0.6.46 reviewed guide transport/shared usage, deployed icon preservation, and finite incense visibility repair."
+      }
+    },
+    {
+      "path": "runtime/BP/scripts/data/names.js",
+      "sha256": "83b31851c3e243df702a1dc5a21c389e3221ac4e96ede079659d1d0b14783001",
+      "bytes": 54269,
+      "reason": "No exact current basename or exported NAMES import consumer identified in runtime/tools/SDK. Substring matches in guide-native-names.js are different files. Retain corrected current localization catalog.",
+      "replacement": [
+        "runtime/BP/scripts/data/guide-native-names.js",
+        "runtime/BP/scripts/data/cookery-guide-payload.js:4"
+      ],
+      "existing_coverage": [
+        "tools/standalone-guide.test.mjs: real localized names/recipe projection",
+        "tools/check_guide.mjs: actual data projection and unresolved label checks"
+      ],
+      "historical_baseline_exists": true,
+      "baseline_before_sha256": "83b31851c3e243df702a1dc5a21c389e3221ac4e96ede079659d1d0b14783001",
+      "baseline_before_projected_sha256": "83b31851c3e243df702a1dc5a21c389e3221ac4e96ede079659d1d0b14783001",
+      "current_git_blob": "2d68e61f465daabf61985b7c0384ed8c220bfde7"
+    },
+    {
+      "path": "runtime/BP/scripts/core/formatting-hud-transport.js",
+      "sha256": "cfbda3933582450867542f470406517383363e2c11b213017ea05c8c82530fc9",
+      "bytes": 1420,
+      "reason": "Merged PR412 migrated all useful packet rejection and isolation assertions to the actual sender. The former Title/queue helper now has no current runtime, test or documented SDK consumer.",
+      "replacement": [
+        "runtime/BP/scripts/core/graphical-actionbar-transport.js",
+        "runtime/BP/scripts/bedrock/shaker-hud-transport.js"
+      ],
+      "existing_coverage": [
+        "tools/formatting-hud-transport.test.mjs directly executes sendFormattingHud and malformed/oversized no-write rejection",
+        "tools/shaker-hud-expiry.test.mjs retains actual UI/generator/heartbeat checks and actual disconnect/owned-stop isolation"
+      ],
+      "historical_baseline_exists": false,
+      "baseline_before_sha256": null,
+      "baseline_before_projected_sha256": null,
+      "current_git_blob": "cbe69a7541dc35019b341d17dbaf34e6b7555d39"
+    }
+  ],
+  "guard_changes": {
+    "data/launch-repair-reference.json": "Move guide current reviewedChanges record to explicit removedRuntimeFiles without changing before/beforeProjected; retain former entire record in previousReviewedChange. Add other three exact removals; formatting has null historical preimages because it did not exist in baseline.",
+    "tools/check_launch.py": "Existing explicit removal mechanism validates present-before files against old baseline hashes and added-then-retired files against old-baseline absence. Exclude explicit removals from current baseline additions before reading missing files.",
+    "tools/reviewed_changes.py": "Existing removal-aware historical views preserve original hashes for retired baseline files, exclude retired additions from reconstructed old tree, and reject reintroduced files. A null historical preimage is allowed only for an immutable baseline-reconciliation addition."
+  },
+  "historical_data_unchanged": [
+    "data/baseline-reconciliation.json (including all original preimages and delta layers)",
+    "data/main-guide-integration-20261009.json (historical reviewed composition)",
+    "data/efficiency-repair-reference.json",
+    "data/launch-repair-reference.json.baselineCommit and existing removal records",
+    "Old docs/LAUNCH-VALIDATION-* results and release receipts"
+  ],
+  "baseline_reference_additions": "Keep function and ledger unchanged: it describes historical additions. Its two current file-reading consumers filter explicit retirements; creative/test_catalog only processes relevant item/block prefixes.",
+  "current_coverage_pr": "https://github.com/burnt-tea-dev/kaleidoscope-tavern-unofficial/pull/412",
+  "current_coverage": "Actual sendFormattingHud delivery/rejection/player isolation, UI lifetime, generator and heartbeat tests passed in PR412 and after retirement; current standalone guide, catalog and interaction coverage retained.",
+  "runtime_release_identity_updated": true,
+  "paired_release_frozen": true,
+  "canonical_checks_run": false,
+  "family_candidate_built": false,
+  "bds": false,
+  "saved_world": false,
+  "admission": false,
+  "live_deployed": false,
+  "limitations": [
+    "Four runtime exports are retired in candidate source. Fresh paired0.6.177 identity is frozen; canonical PR/CI and full-family native/saved-world/admission/deployment remain required.",
+    "Integrated local launch/history/behavior checks and exact package passed. Existing successful receipts keep their original scope; this candidate still requires its own full-family evidence.",
+    "No new version projection layer, no runtime reconstruction, no author/private content copied."
+  ],
+  "candidate_version": "0.6.177",
+  "limits": "This source patch changes exported bytes and identity. Canonical PR/CI, full-family admission, native/saved-world validation and deployment are still required. Existing historical release/client evidence remains unchanged.",
+  "canonical_checks_scope": "Initial PR413 run39154493790 passed12 jobs; catalog correctly rejected stale family lock/exact W153 dependency. Corrected full source remains pending its own canonical CI.",
+  "dependency_pairing": {
+    "tavern": [
+      0,
+      6,
+      177
+    ],
+    "grilling": [
+      2,
+      8,
+      155
+    ],
+    "world_liquor": [
+      0,
+      1,
+      154
+    ],
+    "world_source_pin": "2517ee85ba9d258369a474c55ef43aa0fb83a7b9",
+    "private_dependency_successor_required": true,
+    "private_owner_component_contract": "Current package identity follows its frozen baseline; original reviewed P58 component retains all370 non-manifest files and exact host profiles. Public validators independently check full inventories/manifests, peer deltas and canonical source evidence; actual assembler passes retained component58 to reviewed adapters while recording current package identity.",
+    "tooling_targeted_tests": {
+      "run": 108,
+      "passed": 107,
+      "unchanged_optional_external_source_skipped": 1
+    },
+    "full_family_or_native_claim": false
+  }
+}

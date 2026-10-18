@@ -69,6 +69,21 @@ def renderer_source_version(config,spec,path):
   fail('retained renderer component differs from reviewed P32')
  return [1,0,32]
 
+def retained_component_config(repo,config,sources):
+ # The private producer emits only the existing conservation metadata. Public
+ # validation independently checks its complete hashes and exact manifests.
+ if config.get('retained_runtime') is None:return config,None
+ from family_update.current_author_validation import validate_retained_runtime
+ current=subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip()
+ raw=subprocess.check_output(['python3',str(repo/'tools/current_release.py')],cwd=repo)
+ proof=json.loads(raw)
+ validate_retained_runtime(proof,config,{'actual_current_source_commit':current},source_root=repo,sources=sources)
+ for side,relative in config['runtime'].items():
+  if files_hash(repo/relative)!=proof['files'][side]:fail('retained current source payload differs from proof')
+ anchor=config['retained_runtime']
+ component=json.loads(subprocess.check_output(['git','show',anchor['source_commit']+':baseline.json'],cwd=repo))
+ return component,{'schema':1,'source_commit':anchor['source_commit'],'source_tree':anchor['source_tree'],'source_version':anchor['source_version']}
+
 def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),reviewed_order=None,held_sources=(),source_identities=None):
  from family_update.source_holds import selected,effective
  holds=selected(lock,list(held_sources));lock=effective(lock,list(held_sources))
@@ -96,7 +111,7 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
    fail('expected gate repository identities must cover exactly the selected owned sources')
   for own in lock['owned']:source_gate_environment(own,source_identities)
  if out.exists():fail('output exists; never replace another candidate')
- out.mkdir(parents=True);records=[];by_uuid={}
+ out.mkdir(parents=True);records=[];by_uuid={};components={}
  # Index every candidate archive once. Read and recheck the selected bytes at
  # use time so a concurrent file replacement cannot exploit the index.
  archive_index={}
@@ -121,6 +136,8 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
   if own.get('version')!=config['version'] or own.get('source_trees')!=config['source_trees']:fail('owned source differs from family lock')
   if not working:subprocess.run(['python3',str(repo/'tools/baseline_gate.py'),'check','--release'],check=True,env=source_gate_environment(own,source_identities,repo))
   if config['repository']!=own['repository']:fail('wrong owned repository')
+  try:components[own['key']]=retained_component_config(repo,config,sources)
+  except (AssertionError,ValueError,KeyError) as error:fail('retained runtime rejected: '+str(error))
   for side,relative in config['runtime'].items():
    root=repo/relative;m=read(root/'manifest.json');source={'owner':'owned','repository':config['repository'],'commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip(),'working_candidate':working}
    if own['key'] in holds:
@@ -141,6 +158,7 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
  # Spec and module bytes are in that runtime's versioned baseline, never a BSM hook.
  for own in lock['owned']:
   repo=sources[own['key']];config=read(repo/'baseline.json');owned_root=repo/config['runtime']['BP']
+  source_component,retained_runtime=components[own['key']]
   for path in sorted((owned_root/'host-extensions').glob('*.json'),key=lambda p:(read(p).get('kind')=='chinesefood-doll-renderer-cleanup',read(p).get('kind')=='cookery-guide-startup-repair',p.name)):
    spec=read(path)
    if spec.get('kind') in ['chinesefood-doll-renderer-cleanup','nether-placeable-drinks-schema-repair']:
@@ -151,14 +169,15 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
      from nether_placeable_extension import apply_nether_extension as apply_pair
     bp=by_uuid.get(spec['behavior_uuid']);rp=by_uuid.get(spec['host_uuid'] if renderer else spec['resource_uuid'])
     if not bp or not rp:fail('paired host extension requires complete author pair')
-    try:retained=retained_host_source(config,spec,path)
+    try:retained=retained_host_source(source_component,spec,path)
     except ValueError as e:fail('paired host retention rejected: '+str(e))
-    extension_version=retained['owner_version'] if retained else (renderer_source_version(config,spec,path) if renderer else config['version'])
+    extension_version=retained['owner_version'] if retained else (renderer_source_version(source_component,spec,path) if renderer else source_component['version'])
     try:proof=apply_pair(spec,out/'behavior_packs'/bp['uuid'],out/'resource_packs'/rp['uuid'],bp['source'],rp['source'],extension_version)
     except (ValueError,KeyError) as e:fail('paired host extension rejected: '+str(e))
     proof.update({'repository':config['repository'],'commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip(),'source_package_version':config['version'],'spec_sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'working_candidate':working,'official_author_release':False})
+    if retained_runtime:proof.update(component_version=source_component['version'],retained_runtime_profile=retained_runtime)
     if retained:proof['retained_host_profile']=retained
-    elif renderer and extension_version!=config['version']:proof['retained_renderer_profile']=config['retained_renderer_profile']
+    elif renderer and extension_version!=source_component['version']:proof['retained_renderer_profile']=config['retained_renderer_profile']
     for row in [bp,rp]:
      root=out/(row['side']+'_packs')/row['uuid'];manifest=read(root/'manifest.json')
      row.update(version=manifest['header']['version'],dependencies=manifest.get('dependencies',[]),files=files_hash(root))
@@ -166,9 +185,9 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
     continue
    retained=None
    if config.get('version') in ([1,0,51],[1,0,52],[1,0,53],[1,0,54]) and spec.get('kind') in ('cookery-held-geometry-canonicalization','cookery-millstone-extension-admission'):
-    try:retained=retained_host_source(config,spec,path)
+    try:retained=retained_host_source(source_component,spec,path)
     except ValueError as e:fail('host retention rejected: '+str(e))
-   component_config={**config,'version':retained['owner_version']} if retained else config
+   component_config={**source_component,'version':retained['owner_version']} if retained else source_component
    if spec.get('kind')=='cookery-held-geometry-canonicalization':
     from held_geometry_extension import validate_held_geometry_owner
     try:validate_held_geometry_owner(component_config,spec)
@@ -180,15 +199,16 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
    if spec.get('kind')=='cookery-enamel-basin-lid-repair':
     from enamel_basin_extension import validate_enamel_basin_owner
     try:
-     retained=retained_host_source(config,spec,path) if config.get('version') in ([1,0,50],[1,0,51],[1,0,52],[1,0,53],[1,0,54]) else None
-     validate_enamel_basin_owner({**config,'version':retained['owner_version']} if retained else config,spec)
+     retained=retained_host_source(source_component,spec,path) if config.get('version') in ([1,0,50],[1,0,51],[1,0,52],[1,0,53],[1,0,54]) else None
+     validate_enamel_basin_owner({**source_component,'version':retained['owner_version']} if retained else source_component,spec)
     except ValueError as e:fail('host extension owner rejected: '+str(e))
    host=by_uuid.get(spec['host_uuid'])
    if host is None:fail('host extension target missing')
    host_root=out/(host['side']+'_packs')/host['uuid']
    try:proof=apply_host_extension(spec,owned_root,host_root,host['source'])
    except (ValueError,KeyError) as e:fail('host extension rejected: '+str(e))
-   proof.update({'repository':config['repository'],'commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip(),'owner_version':config['version'],'spec_sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'working_candidate':working})
+   proof.update({'repository':config['repository'],'commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip(),'owner_version':source_component['version'],'spec_sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'working_candidate':working})
+   if retained_runtime:proof.update(source_package_version=config['version'],component_version=source_component['version'],retained_runtime_profile=retained_runtime)
    if retained:
     proof.update(owner_version=retained['owner_version'],source_package_version=config['version'],retained_host_profile=retained)
    host['source']={**host['source'],'owner':'upstream_extended','reviewed_extensions':[*host['source'].get('reviewed_extensions',[]),proof]};host['files']=files_hash(host_root)
