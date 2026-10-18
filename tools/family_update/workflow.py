@@ -146,11 +146,13 @@ def actual_ci_records(repository, head):
 
 
 def runtime_ci_result(key, number, source):
+    from family_update.repository_identity import current_name, verify_record
     assert key in {'tavern', 'grilling', 'world-liquor'} and type(number) is int and number > 0
     repository = source['repository']
-    pr = gh_json(f'repos/{repository}/pulls/{number}')
-    assert pr['merged'] is True and pr['base']['repo']['full_name'] == repository and pr['base']['ref'] == 'main', 'Runtime CI PR must be merged on canonical main'
-    assert pr['head']['repo']['full_name'] == repository, 'Unexpected runtime CI repository'
+    pr = gh_json(f'repos/{current_name(repository)}/pulls/{number}')
+    assert pr['merged'] is True and pr['base']['ref'] == 'main', 'Runtime CI PR must be merged on canonical main'
+    verify_record(pr['base']['repo'],repository)
+    verify_record(pr['head']['repo'],repository)
     merge = pr['merge_commit_sha']
     conservation = runtime_ci_conservation(key, source, merge)
     tree = git(SOURCES[key], 'rev-parse', merge+'^{tree}')
@@ -238,10 +240,12 @@ def verify_ci():
         assert type(number) is int and number > 0
         source = build['sources'][key]
         repository = source['repository']
-        pr = gh_json(f'repos/{repository}/pulls/{number}')
+        from family_update.repository_identity import current_name, verify_record
+        pr = gh_json(f'repos/{current_name(repository)}/pulls/{number}')
         assert pr['merged'] is True, f'{key} PR #{number} has not merged'
-        assert pr['base']['repo']['full_name'] == repository and pr['base']['ref'] == 'main'
-        assert pr['head']['repo']['full_name'] == repository, 'Unexpected PR source repository'
+        assert pr['base']['ref'] == 'main'
+        verify_record(pr['base']['repo'],repository)
+        verify_record(pr['head']['repo'],repository)
         reviewed_head=pr['head']['sha']
         head,revision_kind=ci_revision(source,{**pr,'_source':key})
         ancestor = subprocess.run(['git', '-C', str(SOURCES[key]), 'merge-base', '--is-ancestor', pr['merge_commit_sha'], source['commit']], capture_output=True)
