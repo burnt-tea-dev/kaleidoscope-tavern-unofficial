@@ -52,11 +52,9 @@ jobs:
       - run: python tools/test_current_host_profiles.py
       - run: python tools/test_public_grilling_profile.py
       - run: python tools/test_retained_host_profiles.py
-      - run: python tools/test_p51_retention.py
-      - run: python tools/test_p54_retention.py
+      - run: python tools/test_later_retained_host_profiles.py
       - run: python tools/test_tilted_rack_lift.py
       - run: python tools/test_family_archive_index.py
-      - run: python -m pip install nbtlib==2.0.4
       - run: python tools/test_family_saved_world.py
       - run: python tools/test_container_recovery.py
       - run: python tools/test_family_upstream_watch.py
@@ -64,7 +62,7 @@ jobs:
       - run: python tools/test_release_publication.py
       - run: python tools/test_bridge_project.py
   bridge:
-    needs: impact
+    needs: [impact, baseline]
     if: needs.impact.outputs.runtime == 'true'
     runs-on: windows-latest
     timeout-minutes: 15
@@ -94,7 +92,7 @@ jobs:
           python tools/baseline_gate.py check --release
           git diff --exit-code
   package:
-    needs: impact
+    needs: [impact, baseline]
     if: needs.impact.outputs.runtime == 'true'
     runs-on: ubuntu-latest
     steps:
@@ -152,7 +150,7 @@ jobs:
           name: Tavern-public-beta
           path: dist/
   catalog:
-    needs: impact
+    needs: [impact, baseline]
     if: needs.impact.outputs.runtime == 'true'
     runs-on: ubuntu-latest
     steps:
@@ -231,7 +229,7 @@ jobs:
           path: evidence/
           retention-days: 14
   audit:
-    needs: impact
+    needs: [impact, baseline]
     if: needs.impact.outputs.runtime == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -260,8 +258,6 @@ jobs:
           python-version: '3.12'
       - name: Install pinned image validation dependency
         run: python -m pip install Pillow==11.3.0
-      - name: Collect hash-verified constructor references locally
-        run: python bedrock/tools/effects/collect_reference.py vanilla-reference
       - name: Record source revisions
         run: |
           mkdir -p evidence
@@ -305,7 +301,6 @@ jobs:
         if: always()
         run: |
           mkdir -p evidence
-          test ! -f vanilla-reference/PROVENANCE.json || cp vanilla-reference/PROVENANCE.json evidence/
           for report in bedrock/docs/EFFECTS-REPORT-FOLLOWUP-20260928.md bedrock/docs/EFFECTS-PARITY-AUDIT-20260928.md; do
             test ! -f "$report" || cp "$report" evidence/
           done
@@ -316,7 +311,7 @@ jobs:
           path: evidence/
           retention-days: 14
   efficiency:
-    needs: impact
+    needs: [impact, baseline]
     if: needs.impact.outputs.runtime == 'true'
     runs-on: ubuntu-latest
     steps:
@@ -354,7 +349,7 @@ jobs:
           name: efficiency-api-counts
           path: efficiency-evidence/
   foundation:
-    needs: impact
+    needs: [impact, baseline]
     if: needs.impact.outputs.runtime == 'true'
     runs-on: ubuntu-latest
     steps:
@@ -418,7 +413,7 @@ jobs:
           path: evidence/
           retention-days: 14
   glassware-hit-basis:
-    needs: impact
+    needs: [impact, baseline]
     if: needs.impact.outputs.runtime == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -466,7 +461,7 @@ jobs:
           path: evidence/
           retention-days: 14
   mechanics:
-    needs: impact
+    needs: [impact, baseline]
     if: needs.impact.outputs.runtime == 'true'
     runs-on: ubuntu-latest
     steps:
@@ -488,7 +483,7 @@ jobs:
           path: test-results/
           retention-days: 14
   scripts:
-    needs: impact
+    needs: [impact, baseline]
     if: needs.impact.outputs.runtime == 'true'
     runs-on: ubuntu-latest
     steps:
@@ -503,7 +498,7 @@ jobs:
       - name: Verify pinned sound content
         run: python tools/pickup/check_audio.py
   native-persistence:
-    needs: impact
+    needs: [impact, baseline]
     if: needs.impact.outputs.runtime == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 12
@@ -550,7 +545,7 @@ jobs:
             ${{ runner.temp }}/t133-paired-native/native-shaker-migration-evidence.json
             ${{ runner.temp }}/t133-paired-native/native-shaker-migration-evidence.log
   tap-carriers:
-    needs: impact
+    needs: [impact, baseline]
     if: needs.impact.outputs.runtime == 'true'
     runs-on: ubuntu-latest
     steps:
