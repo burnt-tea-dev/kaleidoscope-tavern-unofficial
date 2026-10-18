@@ -679,6 +679,1042 @@
       "required_extensions": [
         "public-api"
       ]
+    },
+    "cookery-millstone-extension-admission-p50": {
+      "id": "senluo:cookery-millstone-extension-admission",
+      "version": [
+        1,
+        0,
+        1
+      ],
+      "host_uuid": "d0ca7a68-2877-4bd5-bc82-6c7b325cccf2",
+      "archive_sha256": "5b01865d4dd9a455cd80dae4ddc94dc45964e074025f7d24c6f0c5e35f0fbe52",
+      "owner_version": [
+        1,
+        0,
+        50
+      ],
+      "original_files": {
+        "scripts/custom_components/blocks/millstone.js": "56a991ed57479f12d9700f9bcdb7811b072bf205f5851c7c5cbb7428188f598c"
+      },
+      "patched_files": {
+        "scripts/custom_components/blocks/millstone.js": "f15034d22998ca38155b24358e8f9ba1da952fe5d219b4ce9e577bb5fbc9e91a"
+      },
+      "copies": {},
+      "spec_sha256": "544db50adb3ddae712ce82b4a53d03059153651aa7e48fb33900067e8fedfe74",
+      "source_owner": "upstream_extended",
+      "required_extensions": [
+        "public-api"
+      ]
+    },
+    "cookery-held-geometry-canonicalization-p50": {
+      "id": "senluo:cookery-held-geometry-canonicalization",
+      "version": [
+        1,
+        0,
+        1
+      ],
+      "host_uuid": "c9df2982-d72e-4bbf-a72c-b77de4ea915b",
+      "archive_sha256": "5b01865d4dd9a455cd80dae4ddc94dc45964e074025f7d24c6f0c5e35f0fbe52",
+      "owner_version": [
+        1,
+        0,
+        50
+      ],
+      "original_files": {
+        "models/blocks/java16/red_lantern.geo.json": "f08af9dd73bea109cac446e7d4677895e1073ced30a1c48e01758d449b6ba13c",
+        "models/blocks/java16/bamboo_tray_base.geo.json": "07e50759d745d47f759ce2132c3e40a87e5bbf22c06969da252116f2be0ecda9",
+        "models/blocks/java16/bamboo_tray_stand.geo.json": "964239f06be1871dc8498cbe7f0ba8bc699f337204145fff34f9cb582245c6de"
+      },
+      "patched_files": {
+        "models/blocks/java16/red_lantern.geo.json": "8c5e5f9b5560a445db192a78ba6edc7986c07800fc2928259b9bf769d023127f",
+        "models/blocks/java16/bamboo_tray_base.geo.json": "7a730724b6da34ba40e3d55cb9d7fec5670f8dd5ee329f6ac2de357b139b0c50",
+        "models/blocks/java16/bamboo_tray_stand.geo.json": "332acdf52c4ea72ab556f209079780aa629fe70b73c73c0d8284b4e69822fe31"
+      },
+      "copies": {},
+      "spec_sha256": "a53c61dba1f76c2aae34e1e96bf4602c562fddb14eb8c4a07a96cca0191623c0",
+      "source_owner": "upstream",
+      "required_extensions": []
+    },
+    "chinesefood-doll-renderer-p55": {
+      "id": "senluo:chinesefood-doll-renderer-cleanup",
+      "version": [
+        1,
+        0,
+        10655
+      ],
+      "host_uuid": "c170e749-0953-4dff-aef8-39e4934dc802",
+      "archive_sha256": "dea708dd6443ea30d23e5791860a50181e8eeb560dcd7ec5a8e80fe22743e659",
+      "spec_sha256": "5f31fd0bab25c713c63fe153143c15c82d6190acd363a4d498763d153994c406",
+      "original_files": {
+        "BP/manifest.json": "8c9e6391d46b1348545ebf5b78a4d5c7dbd30d629fae74bd8a0500c7f103ef43",
+        "RP/manifest.json": "fa877e65a761f4e9796b43037c9cf1a73e6f1b9942b031197bb91c18e1b81eae",
+        "RP/blocks.json": "a66b3053dfbb173ce12a7bd53beb9827bdd1d952c6b92a83d37d2d15387c0fe4"
+      },
+      "patched_files": {
+        "BP/manifest.json": "29eb295c7f614d344c09c94b69ec141ae682d176a39b53bfa15c0fd305381c4c",
+        "RP/manifest.json": "207490a6654ff2df5cb891f9be19c8a94f80f22105c003719b7549c79c096c51",
+        "RP/blocks.json": "51756e55a09a2896a801fcfce599ee53272e1722821fb447c54de8e744dd1fc3"
+      },
+      "copies": {},
+      "required_extensions": [
+        "chinesefood-freezer-storage-p55",
+        "chinesefood-reviewed-repairs-p55"
+      ],
+      "source_owner": "upstream_extended",
+      "owner_version": [
+        1,
+        0,
+        55
+      ],
+      "admission": "current-author-p55",
+      "behavior_uuid": "aa73502b-f806-4c11-8ef0-3f139bfc604a",
+      "author_version": [
+        1,
+        0,
+        6
+      ],
+      "manifest_names": {
+        "BP": "森羅廚房：國味 BP [相容修補 1.0.55；作者原版 1.0.6]",
+        "RP": "森羅廚房：國味 RP [相容修補 1.0.55；作者原版 1.0.6]"
+      }
+    },
+    "chinesefood-freezer-storage-p55": {
+      "id": "senluo:chinesefood-native-freezer-storage",
+      "version": [
+        1,
+        0,
+        3
+      ],
+      "host_uuid": "aa73502b-f806-4c11-8ef0-3f139bfc604a",
+      "archive_sha256": "dea708dd6443ea30d23e5791860a50181e8eeb560dcd7ec5a8e80fe22743e659",
+      "spec_sha256": "f2a878792c59b79849cf9b300c09c232c261af8709a2ef215f7f5fdc11abf9bb",
+      "original_files": {
+        "scripts/custom_components/blocks/freezer.js": "6efa3003edd3d30a5bfaaa4071cb8fea95638ad88c468f1f9a55eda8e1c7d38c",
+        "blocks/kitchen/freezer.json": "6f5b5877ff866978662dc7f0966bc8995c0f53372072ad1d1134f2f086fd41ed",
+        "blocks/kitchen/freezer_green.json": "99453b0191ed18a70ec39f09fd2008b6be1a39fb67a644467efb3b135a495c98",
+        "blocks/kitchen/freezer_light_blue.json": "73fcadf9b1917dc805e8dde0b80d13e872eb53275766700d5405f23c27e9f0ab",
+        "blocks/kitchen/freezer_orange.json": "0e2e9715f385adb7128bb4f338a7091125b1f7bcfd140a016350930c03cd940f",
+        "blocks/kitchen/freezer_pink.json": "bde53da7c2e3d28a5666212869c455a36ab4d611265cb6e23c61157f769b5d76",
+        "blocks/kitchen/freezer_yellow.json": "4d715b5a13456680a9895ed088c79ea5f9fe8117876158a90e798ed60e18c389"
+      },
+      "patched_files": {
+        "scripts/custom_components/blocks/freezer.js": "afb3541be35f21e2e9bd73f76fd95aa71b863752f18d0e1fe1258c44c11f0744",
+        "blocks/kitchen/freezer.json": "a661098395759ca45cb385c5e9720625171d016b0e789d6c3721bc91dcdeeb83",
+        "blocks/kitchen/freezer_green.json": "383c277819f328b2c7775600655e41ed9470ad44c9f516a9c37b8db1a6872891",
+        "blocks/kitchen/freezer_light_blue.json": "4b8d6d75651eddc1e6bdc1a1a55ff466cd89bf8471f8e21a08414bc7b51a310c",
+        "blocks/kitchen/freezer_orange.json": "c33de29db78bb3a0691964a2c0c026053f78325b70b5514dfb2ce8bcd4a2b635",
+        "blocks/kitchen/freezer_pink.json": "8fb08fefe53610084258c79692fcefd33d55b774745b56c2448d17e8af509f8f",
+        "blocks/kitchen/freezer_yellow.json": "883badb2a0f397cbffec8d11092268eb5c7f76d89ccf4e73cf7418fec69549e7"
+      },
+      "copies": {
+        "scripts/_senluo/native-freezer-storage.js": {
+          "source": "scripts/compat/native-freezer-storage.js",
+          "sha256": "8f5893e07eecc8252d4008bbe0e8aa46b817e7ccf77885b77e4de383591723f0"
+        },
+        "loot_tables/senluo_native/freezer_empty.json": {
+          "source": "loot_tables/senluo_native/freezer_empty.json",
+          "sha256": "4b26570bb8729e26aed2b988e1ac9dcc40fc27cd92f2460b640c4b112edecb59"
+        }
+      },
+      "required_extensions": [],
+      "source_owner": "upstream",
+      "owner_version": [
+        1,
+        0,
+        55
+      ],
+      "admission": "current-author-p55"
+    },
+    "chinesefood-reviewed-repairs-p55": {
+      "id": "senluo:chinesefood-reviewed-repairs",
+      "version": [
+        1,
+        0,
+        5
+      ],
+      "host_uuid": "aa73502b-f806-4c11-8ef0-3f139bfc604a",
+      "archive_sha256": "dea708dd6443ea30d23e5791860a50181e8eeb560dcd7ec5a8e80fe22743e659",
+      "spec_sha256": "f2db8d9d0dc63efd20e5279c242b94d09ae8f9d93b2693702735d09f79f3473f",
+      "original_files": {
+        "scripts/custom_components/index.js": "c2744a07ff8a86c8def133d98431ff8c982c80807597901930e0b3cd6c240ad8",
+        "scripts/events/mooncakeBehavior.js": "89364f3b0ef4acbc8cfb22e8e6c920367e654712ec874485f353f244d5589ccc",
+        "scripts/events/yellowCroakerDrop.js": "deb6ac33209e369d0d7bc2fabb7957d14ecf8f76125b6a473f3a214ba2263182",
+        "scripts/events/kongmingLanternFlight.js": "ec379f2a049205ece1682c0b3ba5e6f0750ef70eb3eccbb7b8d8605ac3168461",
+        "scripts/data/recipes/stationRecipes.js": "b61e49a1d3d6b1285d29367431e9a46b420b55f9d3a84ed78d333412f3f57295",
+        "scripts/data/guidebook/guidebookData.js": "aa39cc1d2f7ef590557a2c021ba042850f5faae2ecd57964833db9ce388339b4",
+        "scripts/data/guidebook/guidebookDetails.js": "d4ffee128c45cfd5103553884db34219e876389d9af5c417a1891ba68a60a209",
+        "blocks/decor/bowl_stack.json": "e91d65510a040ba588f083a237855b831b643081b40aeac4dc0e9a4167467580",
+        "blocks/decor/firecracker.json": "07e117d660d23e987416a202d2c334421fdadec1d50956052f334fb56ee149c7",
+        "blocks/kitchen/pickle_jar.json": "9326d87cde2c9640e699587e02130c78bd4c5374ee0e7400b3dc1352f765f585",
+        "blocks/misc/salt.json": "10ed9d15f1ba25e97e23de5d85567ea62b9222b58339dadc588afc83993fa5fb",
+        "blocks/placeable_food/mooncake.json": "1b8acfa465f02cf127db264e17db3677f6f03b853a623632fc273da7c91532c0",
+        "blocks/placeable_food/red_rice_roll.json": "4c733378abf3d0f6b492d6fff7e30a7cc03aa5098c1f31699e9f5e4babe2d46d",
+        "blocks/placeable_food/sichuan_boiled_fish.json": "a60e1965d121a44e1ae8a7fa456359f0f390cb93c229e0f8982d4087dabbe862",
+        "blocks/placeable_food/sichuan_boiled_pork_slices.json": "3c0e418cd5ef4ddf0ee2e20cd578b0bda20b98589ed515bb4c07df604b9dbea5",
+        "blocks/placeable_food/yellow_croaker_soup.json": "6b178ad5d2ee8d096708df07b92c699797e9145a6fe3fe1d12a05bdc4cced771",
+        "blocks/placeable_food/yellow_croaker_tofu_soup.json": "1e3927d3bd66571f370ca949cf060f7e7b3d81d97e7c4dd19d65dfec3b2d0d38",
+        "items/decor/firecracker.json": "ca1fea6b57e34a46760394ae17b693a6fdbd352cc29dada2fe194959701b49d5",
+        "items/drinks/douzhi.json": "59a55119f511a43f7d32accd8392a0f628a09c464aa7fe7ceb144720b04352e3",
+        "items/drinks/hk_milk_tea.json": "749f313ab2ee28ebf34a1b867ca6440f35531ca95f221ba2187c019f5fc336ff",
+        "items/drinks/lapsang.json": "2215f29fff6468797f6c9fd7e576e333b094173dc8cf2999317a93203ae2bff0",
+        "items/foods/beef_with_scrambled_eggs.json": "52766243e1a5f6fdd815765ef57dbae362f9438907a1ad96cc7bd5f7782377a8",
+        "items/foods/beef_with_scrambled_eggs_rice.json": "da559a731f3b9851c19d8d4ad1318e8e5239f24d993450c9e41fe093fb85f2c9",
+        "items/foods/big_plate_chicken.json": "2fa8b40f5753990c034f2676a9ee03aea596f6ba8a3d5238da1e9465256e6ae0",
+        "items/foods/big_plate_chicken_noodles.json": "75ee55c6b37932927b3ec051227b2f5caac275376e0280fa03b2bb943e9a7c2d",
+        "items/foods/century_egg_congee.json": "5d2d54dd6d2c92833b4f53683fb72e3c872aac4b22c1846296399d9b26a08f53",
+        "items/foods/dry_pot_chicken.json": "a2d9f37585ed1652ffa81c946c184d8f2087a8551015bd35d804e13ee4e42398",
+        "items/foods/dry_pot_potatoes.json": "a28756a8fd2e98ead515abfb35c6ca7221928e3e0193851ee7380617139e0389",
+        "items/foods/dry_pot_spare_ribs.json": "9206be5245adc2aa9e9d80ca923d0cb677e55c62d6ba573452953c6979a825a3",
+        "items/foods/four_joy_meatballs.json": "bc409e3f18ef7fab09af0e167fc2fda6a145c6f0a16f6eaa423143c29bde4b31",
+        "items/foods/frozen_bun.json": "194589d577f8cbbd4e3dbd85ff2ccca3565416ba9948926ab54e00531b7de1fe",
+        "items/foods/lamb_pilaf.json": "18ab40522f1f885ba0950a2743543cc49d5791eaaa7358fa4de238b764709f5b",
+        "items/foods/maocai.json": "715f54cabb641b43c408ed08c45e71a864ce01c84cc3b88fcd8c3e59330fef41",
+        "items/foods/pork_chili_noodles.json": "470ba706d8c35fd716efaf05e48fce6aee39bbeb68462bf273fa63b7cd842718",
+        "items/foods/pumpkin_porridge.json": "dc1e794347a5bcef16e45efa6d47cf15499bfbff1f05cd93e78e520eba4d590d",
+        "items/foods/sauerkraut_beef_noodles.json": "da922515bf802221c24bce9f0bdfb72f4f0021c8b56021a545eda2bd369ac6de",
+        "items/foods/seaweed_egg_drop_soup.json": "7bdb0721c2f2ea66aad0d1311366b394fa94d28a4d0a62217bfb947360872005",
+        "items/foods/sichuan_wonton.json": "d5993ff3119256ffaf4630c444070c8d9b79402d6828db0271bdfdf2c02ab5e8",
+        "items/foods/steamed_rice_rolls.json": "ae975a5b55741b0123f30e51a94df1b2adc86e46cfd24ec328370d0eb25d438d",
+        "items/foods/stir_fried_three_fresh_vegetables.json": "04799f17ccb0dc41c8141326ee5a0869de57b6b1cca20f22cb1d0bfabdcf2e32",
+        "items/foods/stir_fried_three_fresh_vegetables_rice.json": "d46bcd4b56cbcb5e45f306366b1cfbcb208bcca9ed8b22c12d5bf36e07213d90",
+        "items/foods/stir_fried_yellow_beef.json": "a9cd9b30e0a9e1d0a9492960eeddcefee8c2a6a6a19720e92bb52afaedf92d69",
+        "items/foods/stir_fried_yellow_beef_rice.json": "6a875dd327a9b239ac0f054481e3f978dc5e7bfa2d771550725b5a0a7bd40c93",
+        "items/foods/stuffed_eggplant.json": "6df066d8612aeca302ef81aa0c8a8e75a7f5dbfa1d822bb9d755628fac678b88",
+        "items/foods/tomato_egg_drop_soup.json": "386ceab60ab6e0649b2ea6d019cdc81741cdcae0e5019cb2c379627ea3771940",
+        "items/foods/tomato_egg_noodles.json": "d74bb28f2dd84ed69658721fb71aa38ada32cebc8b297e917acb3ec2a849ade6",
+        "items/foods/twice_cooked_pork.json": "ede625a43f2e358fded17e1ae0c925f9245260365a4601ed36bca40577ab0e9c",
+        "items/foods/twice_cooked_pork_rice.json": "76b6f05c9caf79e7ceda801f1348b075c67a3a96734c46eeba6d9ffc3ac18b05",
+        "items/foods/wonton_noodles.json": "184448fe9f8f31d063fbce7e27cc0b21a5328583da6c5d971fcbfca9a56a54b1",
+        "items/foods/yangrou_paomo.json": "b4ab1634237bbea5982ed2479f503ada397e435e702d5829b07e619a4279d290",
+        "items/foods/yangzhou_fried_rice.json": "fe4f978a9fe98935fb9ecfc8f99f6adfbba29db2f05c672ffb59e5574db5e675",
+        "items/ingredients/century_egg.json": "97ba61dc13e91277b1df78fa2115a1f4ac232bd37b9e059be9b0af009cf14904",
+        "items/ingredients/chinese_sauerkraut.json": "594ae1f3027a10fbd491db85eed3d77ec26783883d250fd6e17a56c1cd10ba81",
+        "items/ingredients/eggplant.json": "2f21588b541f5de6b2eccf4911f1d46d5d269176651494b4b05f685ce419631f",
+        "items/ingredients/salted_egg.json": "9823de9a06051a096e5175013b1a095b8bc56992eb9c86c3e18c772f0d923a4c",
+        "items/ingredients/yellow_croaker.json": "1029d7bc11d92762ba6187f0a89200aabbb76ae71f24d1d56b0eabf08c0f1b15",
+        "items/kitchen/mooncake_mold.json": "f8939c01cfad8344c2256f73e72011db705c7bc9a3fbb84f30c0d4c163a4ff7e",
+        "items/placeable_food/mooncake.json": "e0af9937729b74ba23114794b524a4d4a8e4420c68b62f269f142c35012574a4",
+        "scripts/events/index.js": "ffe0c6ed095a7b42573986fe6f5f1ff28497858a9bf7ca7e8edd7de0e022f7f8"
+      },
+      "patched_files": {
+        "scripts/custom_components/index.js": "d0de3f4c8b1b4175aa430fe6806e628fcbeb83ab85533a9f66e868e64feb8e4f",
+        "scripts/events/mooncakeBehavior.js": "42db79871afe4aded55e19896af4cbdc5b7e6ba315eb2ff1dc775313668a927f",
+        "scripts/events/yellowCroakerDrop.js": "07c448345197deba26770e61b6373d07a3ffd738969c32cb8dec02463d7f6eed",
+        "scripts/events/kongmingLanternFlight.js": "1db80e8a3ee3a38ecb1468d477646552314e59987d6d60bfe4de84fae329392f",
+        "scripts/data/recipes/stationRecipes.js": "bbae7b7c972b2f47bf30274c3f48bdf870b49d59b791eceb8d39602fea3fdf3b",
+        "scripts/data/guidebook/guidebookData.js": "0fdb068408ce898993a3399532c3c872ba26328114e2ec117c67be36f21fb4f5",
+        "scripts/data/guidebook/guidebookDetails.js": "4c70008003c75ca7880ffc43d92088f79f1e6b2770caa78ced5ff5b1c52816eb",
+        "blocks/decor/bowl_stack.json": "fba266ddd801a54246eb016c41af11ed8d63b2bd0e12766e3a86dbf283459bb4",
+        "blocks/decor/firecracker.json": "0d14fc5852de33f010200f3e91b2576b70e9a48e9bd060481e633915e409ba8a",
+        "blocks/kitchen/pickle_jar.json": "6fe0f577f9e9da5a6c377a27e8c39670988b26c45ce3ff497163a6b97a036085",
+        "blocks/misc/salt.json": "469878efeea221f6aa21b6efd3626b7b8d6cd83b331fcd75e0d4e303d89410c1",
+        "blocks/placeable_food/mooncake.json": "d7228b4ec74fc3a710e3c8fdc162847ec6daaecaa3c3df76a984d5769d75a947",
+        "blocks/placeable_food/red_rice_roll.json": "10f92351779edb3949c0177b367bf626da746ee38b957fba7d729572db46a379",
+        "blocks/placeable_food/sichuan_boiled_fish.json": "54f1f49e65725c3f9f008a37f7c8899dd99caff59d4d2fb2d7bf67b615249c42",
+        "blocks/placeable_food/sichuan_boiled_pork_slices.json": "9eec0c9a39871d9aceadbf1de2c3cd13b224475cf733ab57c3907c6b56a3e902",
+        "blocks/placeable_food/yellow_croaker_soup.json": "d0afad2c201cc02fcaabd54268b21c8bf9d77197bff046a0018026416e1d0ed7",
+        "blocks/placeable_food/yellow_croaker_tofu_soup.json": "18f53ef2326634831236872908ba24b2d0815bc7c0a4a5a432634d403ec56544",
+        "items/decor/firecracker.json": "66e8dcb1996f6fc4f924d9e248adb93e8d02d0c76fca431804707107f43f8c28",
+        "items/drinks/douzhi.json": "173d0a6dde8a0337d420311e526bfa9c9ff5550dc2ca1e7e4acd917f2cb97607",
+        "items/drinks/hk_milk_tea.json": "325b66531d664fae56b08dd225ea9b996d4acbc8d33bdb9f756a9d9f019b8d14",
+        "items/drinks/lapsang.json": "f23b02f0ffea5e8b53960d45849a6df6962ac2d66c7d45325c06e51534fdccb3",
+        "items/foods/beef_with_scrambled_eggs.json": "ed4353bde3b355e69dfb8bad8722165c1acb191b65dcb60038f672cbfed82dd1",
+        "items/foods/beef_with_scrambled_eggs_rice.json": "2745cfe54b6cc258b0b6bce81906e401c990ff15e78404a7e0857381cbee22b5",
+        "items/foods/big_plate_chicken.json": "69ae5bb10b5dde2770ce2c1207ee5c17ae7162996614f4645bce082f751f4222",
+        "items/foods/big_plate_chicken_noodles.json": "00d23ae4c97aabe4ab79a760a0476ec344eacb8d32875b7c75b7ea76248b5ad7",
+        "items/foods/century_egg_congee.json": "685520a8a71942abb81464efb9999f69580d644d8dd03e7209e394f7f3e28905",
+        "items/foods/dry_pot_chicken.json": "4861607055ffbbd60aedc4eefe0877c3a6e6d6e0337086fb009f3cdda3c4efb3",
+        "items/foods/dry_pot_potatoes.json": "87200ba4a46ede902f32df24e697dd3e91dfcf8c33c4dc0debafaaa4d49022d2",
+        "items/foods/dry_pot_spare_ribs.json": "ef5439577b75635ce0c980bfcc2eed1baf473c6f4dec142f640bdbd2bc12a0f9",
+        "items/foods/four_joy_meatballs.json": "7741e7070e5f442daed30cffaa9634143639dd7bceb30e76eb701acb4676c5b2",
+        "items/foods/frozen_bun.json": "04668b4f1c84a7e116a7323c4c2d08c402bf4fd951378c2c0e59d5f19aef39fc",
+        "items/foods/lamb_pilaf.json": "b01ce3b436f488f2d2c8f77b157bf5d301720e728dd325f365d39bda0a3a201e",
+        "items/foods/maocai.json": "6e0e6f8e1c628de1e8ac0a940c88ed3920e42397ea8f04118a989a82d1506321",
+        "items/foods/pork_chili_noodles.json": "406d06a8aa83eeaf25bc46364c3a9ee905faef9ee6f462b55b2b5780a7885bfc",
+        "items/foods/pumpkin_porridge.json": "e012115efc2c807722cdd2135f00691c64bc2bbe08b8faf7e4d2cf0e6a413f4d",
+        "items/foods/sauerkraut_beef_noodles.json": "69a97a30333497a926165a2adeead764ac743de93776a9b47e69e228f56cb2ba",
+        "items/foods/seaweed_egg_drop_soup.json": "1a6a14185cb6668a2b2dddf1a0ffa092d2cd9f9a7e37a20a8bf44cf6dcce784e",
+        "items/foods/sichuan_wonton.json": "14203ceb976804d640e2d6c697910ca4c11fe9290756c709bdf146d4a72b962b",
+        "items/foods/steamed_rice_rolls.json": "aa4a950ea599b4d519b8786ed69423ab6250fda7cc44ee4c038f8a76233de84f",
+        "items/foods/stir_fried_three_fresh_vegetables.json": "069d099e655f45ab51a15f84df44b00020436b1b5f64c2bce3cc251ee296b1dc",
+        "items/foods/stir_fried_three_fresh_vegetables_rice.json": "cbc8bbbf6664030d0f7cba029b03195bd7c199c4b7954a7f7e2a652a472096f2",
+        "items/foods/stir_fried_yellow_beef.json": "5c8d30c3fae19b636d39123e02ebfa0c07621efefd75497ebce2dce01adcb052",
+        "items/foods/stir_fried_yellow_beef_rice.json": "53d77f4919c46ef8ed5043c4e72cfb9b7f43c14a012b3b92054bcce4bb52f465",
+        "items/foods/stuffed_eggplant.json": "7b68a3a5e8eea89c62678c4f295f5f9b38fd96e1c0593de952dcaf14f9c77597",
+        "items/foods/tomato_egg_drop_soup.json": "bf2e57a78a40a9e73baab5a84d4209bf22569c31e1c3e251b561f2c12c081ec9",
+        "items/foods/tomato_egg_noodles.json": "ea87650160fcef05f453c30b7357eb843a399b0cb5860da6e5946be424de1666",
+        "items/foods/twice_cooked_pork.json": "b3689d173231b30f2b93ab2e631d4d0b60749ce4b43356ebd000f9d1e48ef678",
+        "items/foods/twice_cooked_pork_rice.json": "3e5b074e3de6fc40836a85480d2537a7c9795913496be7d7b8a4aa0c4d6f3d43",
+        "items/foods/wonton_noodles.json": "85f41da682102b27d6a06b25aa04b81ffa30f64c2d2f4941db3169da9d0621f3",
+        "items/foods/yangrou_paomo.json": "2ae64fed5ebb126152c0ec83786e570a78ff9dc22daf7dd742a010b9667369c3",
+        "items/foods/yangzhou_fried_rice.json": "b62afbec438e957b93d7b339472c815eb5be9641b1da2e3adb4a09dd41ca59f2",
+        "items/ingredients/century_egg.json": "9fa1c50908e87f448163219eb33ec76318d0940313aa08f2cabbd249073143b6",
+        "items/ingredients/chinese_sauerkraut.json": "1451d148e6a01d28fab7ed44165416c7484e66cb6ddd6ed99d5952cd58d9af27",
+        "items/ingredients/eggplant.json": "913493e1b5da4c2352de177aa85d5ee61bc67ccab9b18c53e57dad9b2750fc8c",
+        "items/ingredients/salted_egg.json": "6671f0a972e6023171471a4be89057d4a71491f9e450d0208ceb44999d59437d",
+        "items/ingredients/yellow_croaker.json": "46eeb587742c033b2d2aec0fe7845c4311425be2f36bd332507e4289bf375082",
+        "items/kitchen/mooncake_mold.json": "3c3dffa653eaf835545f560668bb47753809a22fa1da39eda001511d49347913",
+        "items/placeable_food/mooncake.json": "0a3cc565fbf917e9dcdc03858af18f32298a7cfe40eedf1b00870f0bbabafba1",
+        "scripts/events/index.js": "20c3dbb1cce2c4f59969f27b9a3bc3b8358f8d1291eeb125dc7701a01b136872"
+      },
+      "copies": {
+        "scripts/_senluo/recovered/utils/blockData.js": {
+          "source": "scripts/compat/chinesefood-recovered/utils/blockData.js",
+          "sha256": "424cf884452dff3e2e5a2e0cc08ed40961911f3b30da2f5455fe4b693bd9d3b8"
+        },
+        "scripts/_senluo/recovered/utils/playerItems.js": {
+          "source": "scripts/compat/chinesefood-recovered/utils/playerItems.js",
+          "sha256": "37faf8885c4b275e17e7b66800957f1c0b6ba5574e11f1c1b49a4da78b69ef3e"
+        },
+        "scripts/_senluo/recovered/utils/blockPlacement.js": {
+          "source": "scripts/compat/chinesefood-recovered/utils/blockPlacement.js",
+          "sha256": "ee09e3305b4e551245265e0334b41ee0329db4decada8450fe5c40d71575f840"
+        },
+        "scripts/_senluo/recovered/constants.js": {
+          "source": "scripts/compat/chinesefood-recovered/constants.js",
+          "sha256": "19ad468b99de6318a31c582f8437e6c7030690d393c8d16d6d1a84539a6ffb55"
+        },
+        "scripts/_senluo/recovered/events/cookeryStationCompat.js": {
+          "source": "scripts/compat/chinesefood-recovered/events/cookeryStationCompat.js",
+          "sha256": "9c6709741a65690076c7a7011480a455c6edbf45e53f65c7795400974db45dc7"
+        },
+        "scripts/_senluo/recovered/custom_components/blocks/cropGrowth.js": {
+          "source": "scripts/compat/chinesefood-recovered/custom_components/blocks/cropGrowth.js",
+          "sha256": "0bd76d53daa88d479fe7070646063e5b70677a9c423f849c644394c0a4d517ab"
+        },
+        "scripts/_senluo/recovered/custom_components/blocks/bowlStack.js": {
+          "source": "scripts/compat/chinesefood-recovered/custom_components/blocks/bowlStack.js",
+          "sha256": "623f87529bb1cb43f9c2e3ff750d5650f4ccca7197bf5c3f113844c58475b09f"
+        },
+        "scripts/_senluo/recovered/custom_components/blocks/couplet.js": {
+          "source": "scripts/compat/chinesefood-recovered/custom_components/blocks/couplet.js",
+          "sha256": "9800d0ff39c53351b81a6564ecbb1007414e29a534d5cc27a00385aae1b95ef1"
+        },
+        "scripts/_senluo/recovered/custom_components/blocks/horizontalBanner.js": {
+          "source": "scripts/compat/chinesefood-recovered/custom_components/blocks/horizontalBanner.js",
+          "sha256": "0926f034be0e920b06a6d5efcb9d353486d210c700428373293585e52741c88d"
+        },
+        "scripts/_senluo/recovered/custom_components/blocks/firecracker.js": {
+          "source": "scripts/compat/chinesefood-recovered/custom_components/blocks/firecracker.js",
+          "sha256": "7ed7c7f1948c234c23fa0e313ff8412c1e566cd653845777a94dc99a5646e8e5"
+        },
+        "scripts/_senluo/recovered/custom_components/blocks/foodBite.js": {
+          "source": "scripts/compat/chinesefood-recovered/custom_components/blocks/foodBite.js",
+          "sha256": "78f9e78f9b13cdfece1289349afafa530e60106113e7fe9693f0ca11f621ba83"
+        },
+        "scripts/_senluo/recovered/custom_components/blocks/mooncakeStack.js": {
+          "source": "scripts/compat/chinesefood-recovered/custom_components/blocks/mooncakeStack.js",
+          "sha256": "84e04cb6b9c04f968e3dfb3f71e3b262e2eab8d88f816f530935455cc167a485"
+        },
+        "scripts/_senluo/recovered/custom_components/blocks/pickleJar.js": {
+          "source": "scripts/compat/chinesefood-recovered/custom_components/blocks/pickleJar.js",
+          "sha256": "2768bbd04a8838ffbc8b0b3d41964a7b39fb1fd762cd43901db0bfd318ff8c16"
+        },
+        "scripts/_senluo/recovered/custom_components/blocks/saltStack.js": {
+          "source": "scripts/compat/chinesefood-recovered/custom_components/blocks/saltStack.js",
+          "sha256": "72be55a14c059f8f4a649447d2c8d7c30fa55971d166772505ddbbc72b3134a6"
+        },
+        "scripts/_senluo/recovered/events/kongmingLanternFlight.js": {
+          "source": "scripts/compat/chinesefood-recovered/events/kongmingLanternFlight.js",
+          "sha256": "c061748f2aa4dedaf652911fdf3a59a3bf3ca48f676659811d4124665a75c457"
+        },
+        "scripts/_senluo/recovered/events/mooncakeBehavior.js": {
+          "source": "scripts/compat/chinesefood-recovered/events/mooncakeBehavior.js",
+          "sha256": "ece6b8a474927453f7590467fb97130fd6906b7a2a50a19f2c8c74406e8ba794"
+        },
+        "scripts/_senluo/recovered/events/yellowCroakerDrop.js": {
+          "source": "scripts/compat/chinesefood-recovered/events/yellowCroakerDrop.js",
+          "sha256": "525b2e7bac4f8c79081ef9bc4f5df97988f4ff039e6ce0e1258e471c4e842c8b"
+        },
+        "scripts/_senluo/recovered/data/recipes/pickleRecipes.js": {
+          "source": "scripts/compat/chinesefood-recovered/data/recipes/pickleRecipes.js",
+          "sha256": "9eb0ca805beb62f082ebd9c6b60caff764ec5330db412a25541799e3e4d30deb"
+        },
+        "scripts/_senluo/recovered/events/teaCupReturn.js": {
+          "source": "scripts/compat/chinesefood-recovered/events/teaCupReturn.js",
+          "sha256": "1e08c0e4c8162f1efb56a5f9c5107caceae95e503f7f3a90d4c7911bfb14fdbd"
+        },
+        "scripts/_senluo/recovered/data/station-recipes.js": {
+          "source": "scripts/compat/chinesefood-recovered/data/station-recipes.js",
+          "sha256": "ce90840ca510a83471b5c31fc9140d5f18047a9fb82f09e3477292eed28586a5"
+        },
+        "scripts/_senluo/recovered/data/guidebookData.js": {
+          "source": "scripts/compat/chinesefood-recovered/data/guidebookData.js",
+          "sha256": "8f698ab0f75cf9168fd1d51b2c01f74eca546ea18cdfa06d14f901dfd4937f3b"
+        },
+        "scripts/_senluo/recovered/data/guidebookDetails.js": {
+          "source": "scripts/compat/chinesefood-recovered/data/guidebookDetails.js",
+          "sha256": "127084b20ff767a76023c9f1ee0e4d1235113e791fdf442bb6eaff42fbe51a54"
+        },
+        "scripts/_senluo/recovered/data/orphaned-storage.js": {
+          "source": "scripts/compat/chinesefood-recovered/data/orphaned-storage.js",
+          "sha256": "70ca8804e23456ccd98b3d5f2f7b39956f4e6d99ee3a1240cc1b30c6b5f12596"
+        },
+        "scripts/_senluo/recovered/utils/pickleUse.js": {
+          "source": "scripts/compat/chinesefood-recovered/utils/pickleUse.js",
+          "sha256": "4640390d77951fabd2894ba739aa610aa8c004d0a36d7149bfb1664042327629"
+        }
+      },
+      "required_extensions": [
+        "chinesefood-freezer-storage-p55"
+      ],
+      "source_owner": "upstream_extended",
+      "owner_version": [
+        1,
+        0,
+        55
+      ],
+      "admission": "current-author-p55",
+      "removed_files": {
+        "recipes/vanilla_cooking/salt_smelting.json": "80bb1ab58d48ac9233e86b25c8405d7ec0bffd0411ba30f15829ba5278c1d0cb"
+      }
+    },
+    "cookery-enamel-basin-lid-repair-p55": {
+      "id": "senluo:cookery-enamel-basin-lid-repair",
+      "version": [
+        1,
+        0,
+        2
+      ],
+      "host_uuid": "439d9798-118a-43ad-8a91-aab3161d9cb5",
+      "archive_sha256": "f994f8aa3b3aa4ab323c021f871f05291a827e7957aa265e17e91a085ba85b81",
+      "spec_sha256": "2cead8c8e97bee63920ca8f53ef3c4af7216d94fc3509c31d9cedc37903bc9b7",
+      "original_files": {
+        "blocks/kitchen/enamel_basin.json": "c8d09a76dc06316c61010568539a4e791c1d20e2d92e11e79d425a988458faab"
+      },
+      "patched_files": {
+        "blocks/kitchen/enamel_basin.json": "fe86d6cec01398f9ef9d02ad0e48212e2a31a11a2aed974464b26c6fc10cdf30"
+      },
+      "copies": {},
+      "required_extensions": [
+        "public-api"
+      ],
+      "source_owner": "upstream_extended",
+      "owner_version": [
+        1,
+        0,
+        55
+      ],
+      "admission": "current-author-p55"
+    },
+    "cookery-guide-startup-repair-p55": {
+      "id": "senluo:cookery-guide-startup-repair",
+      "version": [
+        1,
+        0,
+        3
+      ],
+      "host_uuid": "439d9798-118a-43ad-8a91-aab3161d9cb5",
+      "archive_sha256": "f994f8aa3b3aa4ab323c021f871f05291a827e7957aa265e17e91a085ba85b81",
+      "spec_sha256": "0a101e40ea593a009ceb438431f2e3d7638874d867fa4f63a20e7c4fba64182c",
+      "original_files": {
+        "scripts/api/guidebookExtensionRegistry.js": "a273bc82dc64c6899957ab51a52a08f0177292a334c8b5bbf81e823360135cd9"
+      },
+      "patched_files": {
+        "scripts/api/guidebookExtensionRegistry.js": "cd6ce5190e5858fe377399806e33380d48bd161b5d520e65539947841594a004"
+      },
+      "copies": {
+        "scripts/api/senluo_guide_startup.js": {
+          "source": "scripts/host_api/cookery-guide-startup.js",
+          "sha256": "a00afc8f42e6fb268e56e2ee64dd66369d80a379f2e77cc4c7019457762db2c4"
+        }
+      },
+      "required_extensions": [
+        "public-api"
+      ],
+      "source_owner": "upstream_extended",
+      "owner_version": [
+        1,
+        0,
+        55
+      ],
+      "admission": "current-author-p55"
+    },
+    "cookery-held-geometry-canonicalization-p55": {
+      "id": "senluo:cookery-held-geometry-canonicalization",
+      "version": [
+        1,
+        0,
+        2
+      ],
+      "host_uuid": "01ba9a7f-877e-46c7-8583-6c0441366b55",
+      "archive_sha256": "f994f8aa3b3aa4ab323c021f871f05291a827e7957aa265e17e91a085ba85b81",
+      "spec_sha256": "02721e0b6666222fb724ee5305da0686aebd5725eaabc8290ebc6cef62007a00",
+      "original_files": {
+        "models/blocks/java16/red_lantern.geo.json": "f08af9dd73bea109cac446e7d4677895e1073ced30a1c48e01758d449b6ba13c",
+        "models/blocks/java16/bamboo_tray_base.geo.json": "07e50759d745d47f759ce2132c3e40a87e5bbf22c06969da252116f2be0ecda9",
+        "models/blocks/java16/bamboo_tray_stand.geo.json": "964239f06be1871dc8498cbe7f0ba8bc699f337204145fff34f9cb582245c6de"
+      },
+      "patched_files": {
+        "models/blocks/java16/red_lantern.geo.json": "8c5e5f9b5560a445db192a78ba6edc7986c07800fc2928259b9bf769d023127f",
+        "models/blocks/java16/bamboo_tray_base.geo.json": "7a730724b6da34ba40e3d55cb9d7fec5670f8dd5ee329f6ac2de357b139b0c50",
+        "models/blocks/java16/bamboo_tray_stand.geo.json": "332acdf52c4ea72ab556f209079780aa629fe70b73c73c0d8284b4e69822fe31"
+      },
+      "copies": {},
+      "required_extensions": [],
+      "source_owner": "upstream",
+      "owner_version": [
+        1,
+        0,
+        55
+      ],
+      "admission": "current-author-p55"
+    },
+    "cookery-mooncake-dough-repair-p55": {
+      "id": "senluo:cookery-mooncake-dough-repair",
+      "version": [
+        1,
+        0,
+        3
+      ],
+      "host_uuid": "439d9798-118a-43ad-8a91-aab3161d9cb5",
+      "archive_sha256": "f994f8aa3b3aa4ab323c021f871f05291a827e7957aa265e17e91a085ba85b81",
+      "spec_sha256": "820dedb52fff6ee8a9bc35177d06fd6fa242c5902e751d32d09dc711e0bc59e3",
+      "original_files": {
+        "items/stuffed_dough_food.json": "c7055f8df7a53012f713fb3d004c2bc5c37aaec2412ea106852832e8bf4f6b3a"
+      },
+      "patched_files": {
+        "items/stuffed_dough_food.json": "640f5bf12062aef8138e848a1b35e20b4b138cfa0c1cb2d826ec87d314f1b47e"
+      },
+      "copies": {},
+      "required_extensions": [
+        "public-api"
+      ],
+      "source_owner": "upstream_extended",
+      "owner_version": [
+        1,
+        0,
+        55
+      ],
+      "admission": "current-author-p55"
+    },
+    "orchard-tavern-bridge-adapter-p55": {
+      "id": "senluo:orchard-tavern-bridge-adapter",
+      "version": [
+        1,
+        0,
+        1
+      ],
+      "host_uuid": "dd3c6676-43dd-46b7-9d48-03bfabf7284e",
+      "archive_sha256": "bd1d339c6afe73ba8bf1b7de3f1962c7e064a2d8e077f2b4276902cdc796cc9c",
+      "spec_sha256": "a34e2390ce23b1997e05b0a6cbadd9463b424dd44414139feedf318c3efc215c",
+      "original_files": {
+        "scripts/integrations/tavernBridge.js": "a01cf3d828bde169fa8919c4d5a9a03168e97f5e59370789a4b10cfc196bb717",
+        "scripts/data/tavern-extension.js": "bd2390a367532de7e079e97181e202d28f727fadcd403a34c09bafe9cff9c293",
+        "scripts/data/guidebook.js": "23f85fd3975075628d272530c52c08d7938ae0887a30bd95b6407cc62dcb3614",
+        "scripts/integrations/contracts.js": "b0f95dafab2989af61a7f27df39505f72d263e70c957567919f7c618e4371998"
+      },
+      "patched_files": {
+        "scripts/integrations/tavernBridge.js": "d64ea95e421d9bf49cc5c79d9445aa15724a950e2dfaa8d0ef6810bd2807a79c",
+        "scripts/data/tavern-extension.js": "bd2390a367532de7e079e97181e202d28f727fadcd403a34c09bafe9cff9c293",
+        "scripts/data/guidebook.js": "23f85fd3975075628d272530c52c08d7938ae0887a30bd95b6407cc62dcb3614",
+        "scripts/integrations/contracts.js": "b0f95dafab2989af61a7f27df39505f72d263e70c957567919f7c618e4371998"
+      },
+      "copies": {
+        "scripts/integrations/senluo_orchard_tavern_adapter.js": {
+          "source": "scripts/compat/orchard-tavern-adapter.js",
+          "sha256": "f8adbcc47367ceb57a38d18d0b82c64da5a60381217b50d09155dab75b4ad7d9"
+        }
+      },
+      "required_extensions": [],
+      "source_owner": "upstream",
+      "owner_version": [
+        1,
+        0,
+        55
+      ],
+      "admission": "current-author-p55"
+    },
+    "chinesefood-doll-renderer-p56": {
+      "id": "senluo:chinesefood-doll-renderer-cleanup",
+      "version": [
+        1,
+        0,
+        10656
+      ],
+      "host_uuid": "c170e749-0953-4dff-aef8-39e4934dc802",
+      "archive_sha256": "dea708dd6443ea30d23e5791860a50181e8eeb560dcd7ec5a8e80fe22743e659",
+      "spec_sha256": "f493ec1efc95eacd9a776ac4513be68760c91a824f6a20410dd272f30c3c633b",
+      "original_files": {
+        "BP/manifest.json": "8c9e6391d46b1348545ebf5b78a4d5c7dbd30d629fae74bd8a0500c7f103ef43",
+        "RP/manifest.json": "fa877e65a761f4e9796b43037c9cf1a73e6f1b9942b031197bb91c18e1b81eae",
+        "RP/blocks.json": "a66b3053dfbb173ce12a7bd53beb9827bdd1d952c6b92a83d37d2d15387c0fe4"
+      },
+      "patched_files": {
+        "BP/manifest.json": "9d25c8417843496eedea4dddc3f384e35c90bd031fca507ed4821bf972afce8b",
+        "RP/manifest.json": "0f49287465a76418f86ac3861dcbf3e1cd9db24dceca0e19edafb321c9195ff6",
+        "RP/blocks.json": "51756e55a09a2896a801fcfce599ee53272e1722821fb447c54de8e744dd1fc3"
+      },
+      "copies": {},
+      "required_extensions": [
+        "chinesefood-freezer-storage-p56",
+        "chinesefood-reviewed-repairs-p56"
+      ],
+      "source_owner": "upstream_extended",
+      "owner_version": [
+        1,
+        0,
+        56
+      ],
+      "admission": "current-author-p56",
+      "behavior_uuid": "aa73502b-f806-4c11-8ef0-3f139bfc604a",
+      "author_version": [
+        1,
+        0,
+        6
+      ],
+      "manifest_names": {
+        "BP": "森羅廚房：國味 BP [相容修補 1.0.55；作者原版 1.0.6]",
+        "RP": "森羅廚房：國味 RP [相容修補 1.0.55；作者原版 1.0.6]"
+      }
+    },
+    "chinesefood-freezer-storage-p56": {
+      "id": "senluo:chinesefood-native-freezer-storage",
+      "version": [
+        1,
+        0,
+        4
+      ],
+      "host_uuid": "aa73502b-f806-4c11-8ef0-3f139bfc604a",
+      "archive_sha256": "dea708dd6443ea30d23e5791860a50181e8eeb560dcd7ec5a8e80fe22743e659",
+      "spec_sha256": "7daef2c8203c893eee9ccc05ebda7f876c377d0d0450e2f84926adb5b18c2f7c",
+      "original_files": {
+        "scripts/custom_components/blocks/freezer.js": "6efa3003edd3d30a5bfaaa4071cb8fea95638ad88c468f1f9a55eda8e1c7d38c",
+        "blocks/kitchen/freezer.json": "6f5b5877ff866978662dc7f0966bc8995c0f53372072ad1d1134f2f086fd41ed",
+        "blocks/kitchen/freezer_green.json": "99453b0191ed18a70ec39f09fd2008b6be1a39fb67a644467efb3b135a495c98",
+        "blocks/kitchen/freezer_light_blue.json": "73fcadf9b1917dc805e8dde0b80d13e872eb53275766700d5405f23c27e9f0ab",
+        "blocks/kitchen/freezer_orange.json": "0e2e9715f385adb7128bb4f338a7091125b1f7bcfd140a016350930c03cd940f",
+        "blocks/kitchen/freezer_pink.json": "bde53da7c2e3d28a5666212869c455a36ab4d611265cb6e23c61157f769b5d76",
+        "blocks/kitchen/freezer_yellow.json": "4d715b5a13456680a9895ed088c79ea5f9fe8117876158a90e798ed60e18c389"
+      },
+      "patched_files": {
+        "scripts/custom_components/blocks/freezer.js": "afb3541be35f21e2e9bd73f76fd95aa71b863752f18d0e1fe1258c44c11f0744",
+        "blocks/kitchen/freezer.json": "a661098395759ca45cb385c5e9720625171d016b0e789d6c3721bc91dcdeeb83",
+        "blocks/kitchen/freezer_green.json": "383c277819f328b2c7775600655e41ed9470ad44c9f516a9c37b8db1a6872891",
+        "blocks/kitchen/freezer_light_blue.json": "4b8d6d75651eddc1e6bdc1a1a55ff466cd89bf8471f8e21a08414bc7b51a310c",
+        "blocks/kitchen/freezer_orange.json": "c33de29db78bb3a0691964a2c0c026053f78325b70b5514dfb2ce8bcd4a2b635",
+        "blocks/kitchen/freezer_pink.json": "8fb08fefe53610084258c79692fcefd33d55b774745b56c2448d17e8af509f8f",
+        "blocks/kitchen/freezer_yellow.json": "883badb2a0f397cbffec8d11092268eb5c7f76d89ccf4e73cf7418fec69549e7"
+      },
+      "copies": {
+        "scripts/_senluo/native-freezer-storage.js": {
+          "source": "scripts/compat/native-freezer-storage.js",
+          "sha256": "8f5893e07eecc8252d4008bbe0e8aa46b817e7ccf77885b77e4de383591723f0"
+        },
+        "loot_tables/senluo_native/freezer_empty.json": {
+          "source": "loot_tables/senluo_native/freezer_empty.json",
+          "sha256": "4b26570bb8729e26aed2b988e1ac9dcc40fc27cd92f2460b640c4b112edecb59"
+        }
+      },
+      "required_extensions": [],
+      "source_owner": "upstream",
+      "owner_version": [
+        1,
+        0,
+        56
+      ],
+      "admission": "current-author-p56"
+    },
+    "chinesefood-reviewed-repairs-p56": {
+      "id": "senluo:chinesefood-reviewed-repairs",
+      "version": [
+        1,
+        0,
+        6
+      ],
+      "host_uuid": "aa73502b-f806-4c11-8ef0-3f139bfc604a",
+      "archive_sha256": "dea708dd6443ea30d23e5791860a50181e8eeb560dcd7ec5a8e80fe22743e659",
+      "spec_sha256": "0f0cc2a53c524cf626b3d64a515fdea00052187991bb86c4fcdb81c6e4c2739e",
+      "original_files": {
+        "scripts/custom_components/index.js": "c2744a07ff8a86c8def133d98431ff8c982c80807597901930e0b3cd6c240ad8",
+        "scripts/events/mooncakeBehavior.js": "89364f3b0ef4acbc8cfb22e8e6c920367e654712ec874485f353f244d5589ccc",
+        "scripts/events/yellowCroakerDrop.js": "deb6ac33209e369d0d7bc2fabb7957d14ecf8f76125b6a473f3a214ba2263182",
+        "scripts/events/kongmingLanternFlight.js": "ec379f2a049205ece1682c0b3ba5e6f0750ef70eb3eccbb7b8d8605ac3168461",
+        "scripts/data/recipes/stationRecipes.js": "b61e49a1d3d6b1285d29367431e9a46b420b55f9d3a84ed78d333412f3f57295",
+        "scripts/data/guidebook/guidebookData.js": "aa39cc1d2f7ef590557a2c021ba042850f5faae2ecd57964833db9ce388339b4",
+        "scripts/data/guidebook/guidebookDetails.js": "d4ffee128c45cfd5103553884db34219e876389d9af5c417a1891ba68a60a209",
+        "blocks/decor/bowl_stack.json": "e91d65510a040ba588f083a237855b831b643081b40aeac4dc0e9a4167467580",
+        "blocks/decor/firecracker.json": "07e117d660d23e987416a202d2c334421fdadec1d50956052f334fb56ee149c7",
+        "blocks/kitchen/pickle_jar.json": "9326d87cde2c9640e699587e02130c78bd4c5374ee0e7400b3dc1352f765f585",
+        "blocks/misc/salt.json": "10ed9d15f1ba25e97e23de5d85567ea62b9222b58339dadc588afc83993fa5fb",
+        "blocks/placeable_food/mooncake.json": "1b8acfa465f02cf127db264e17db3677f6f03b853a623632fc273da7c91532c0",
+        "blocks/placeable_food/red_rice_roll.json": "4c733378abf3d0f6b492d6fff7e30a7cc03aa5098c1f31699e9f5e4babe2d46d",
+        "blocks/placeable_food/sichuan_boiled_fish.json": "a60e1965d121a44e1ae8a7fa456359f0f390cb93c229e0f8982d4087dabbe862",
+        "blocks/placeable_food/sichuan_boiled_pork_slices.json": "3c0e418cd5ef4ddf0ee2e20cd578b0bda20b98589ed515bb4c07df604b9dbea5",
+        "blocks/placeable_food/yellow_croaker_soup.json": "6b178ad5d2ee8d096708df07b92c699797e9145a6fe3fe1d12a05bdc4cced771",
+        "blocks/placeable_food/yellow_croaker_tofu_soup.json": "1e3927d3bd66571f370ca949cf060f7e7b3d81d97e7c4dd19d65dfec3b2d0d38",
+        "items/decor/firecracker.json": "ca1fea6b57e34a46760394ae17b693a6fdbd352cc29dada2fe194959701b49d5",
+        "items/drinks/douzhi.json": "59a55119f511a43f7d32accd8392a0f628a09c464aa7fe7ceb144720b04352e3",
+        "items/drinks/hk_milk_tea.json": "749f313ab2ee28ebf34a1b867ca6440f35531ca95f221ba2187c019f5fc336ff",
+        "items/drinks/lapsang.json": "2215f29fff6468797f6c9fd7e576e333b094173dc8cf2999317a93203ae2bff0",
+        "items/foods/beef_with_scrambled_eggs.json": "52766243e1a5f6fdd815765ef57dbae362f9438907a1ad96cc7bd5f7782377a8",
+        "items/foods/beef_with_scrambled_eggs_rice.json": "da559a731f3b9851c19d8d4ad1318e8e5239f24d993450c9e41fe093fb85f2c9",
+        "items/foods/big_plate_chicken.json": "2fa8b40f5753990c034f2676a9ee03aea596f6ba8a3d5238da1e9465256e6ae0",
+        "items/foods/big_plate_chicken_noodles.json": "75ee55c6b37932927b3ec051227b2f5caac275376e0280fa03b2bb943e9a7c2d",
+        "items/foods/century_egg_congee.json": "5d2d54dd6d2c92833b4f53683fb72e3c872aac4b22c1846296399d9b26a08f53",
+        "items/foods/dry_pot_chicken.json": "a2d9f37585ed1652ffa81c946c184d8f2087a8551015bd35d804e13ee4e42398",
+        "items/foods/dry_pot_potatoes.json": "a28756a8fd2e98ead515abfb35c6ca7221928e3e0193851ee7380617139e0389",
+        "items/foods/dry_pot_spare_ribs.json": "9206be5245adc2aa9e9d80ca923d0cb677e55c62d6ba573452953c6979a825a3",
+        "items/foods/four_joy_meatballs.json": "bc409e3f18ef7fab09af0e167fc2fda6a145c6f0a16f6eaa423143c29bde4b31",
+        "items/foods/frozen_bun.json": "194589d577f8cbbd4e3dbd85ff2ccca3565416ba9948926ab54e00531b7de1fe",
+        "items/foods/lamb_pilaf.json": "18ab40522f1f885ba0950a2743543cc49d5791eaaa7358fa4de238b764709f5b",
+        "items/foods/maocai.json": "715f54cabb641b43c408ed08c45e71a864ce01c84cc3b88fcd8c3e59330fef41",
+        "items/foods/pork_chili_noodles.json": "470ba706d8c35fd716efaf05e48fce6aee39bbeb68462bf273fa63b7cd842718",
+        "items/foods/pumpkin_porridge.json": "dc1e794347a5bcef16e45efa6d47cf15499bfbff1f05cd93e78e520eba4d590d",
+        "items/foods/sauerkraut_beef_noodles.json": "da922515bf802221c24bce9f0bdfb72f4f0021c8b56021a545eda2bd369ac6de",
+        "items/foods/seaweed_egg_drop_soup.json": "7bdb0721c2f2ea66aad0d1311366b394fa94d28a4d0a62217bfb947360872005",
+        "items/foods/sichuan_wonton.json": "d5993ff3119256ffaf4630c444070c8d9b79402d6828db0271bdfdf2c02ab5e8",
+        "items/foods/steamed_rice_rolls.json": "ae975a5b55741b0123f30e51a94df1b2adc86e46cfd24ec328370d0eb25d438d",
+        "items/foods/stir_fried_three_fresh_vegetables.json": "04799f17ccb0dc41c8141326ee5a0869de57b6b1cca20f22cb1d0bfabdcf2e32",
+        "items/foods/stir_fried_three_fresh_vegetables_rice.json": "d46bcd4b56cbcb5e45f306366b1cfbcb208bcca9ed8b22c12d5bf36e07213d90",
+        "items/foods/stir_fried_yellow_beef.json": "a9cd9b30e0a9e1d0a9492960eeddcefee8c2a6a6a19720e92bb52afaedf92d69",
+        "items/foods/stir_fried_yellow_beef_rice.json": "6a875dd327a9b239ac0f054481e3f978dc5e7bfa2d771550725b5a0a7bd40c93",
+        "items/foods/stuffed_eggplant.json": "6df066d8612aeca302ef81aa0c8a8e75a7f5dbfa1d822bb9d755628fac678b88",
+        "items/foods/tomato_egg_drop_soup.json": "386ceab60ab6e0649b2ea6d019cdc81741cdcae0e5019cb2c379627ea3771940",
+        "items/foods/tomato_egg_noodles.json": "d74bb28f2dd84ed69658721fb71aa38ada32cebc8b297e917acb3ec2a849ade6",
+        "items/foods/twice_cooked_pork.json": "ede625a43f2e358fded17e1ae0c925f9245260365a4601ed36bca40577ab0e9c",
+        "items/foods/twice_cooked_pork_rice.json": "76b6f05c9caf79e7ceda801f1348b075c67a3a96734c46eeba6d9ffc3ac18b05",
+        "items/foods/wonton_noodles.json": "184448fe9f8f31d063fbce7e27cc0b21a5328583da6c5d971fcbfca9a56a54b1",
+        "items/foods/yangrou_paomo.json": "b4ab1634237bbea5982ed2479f503ada397e435e702d5829b07e619a4279d290",
+        "items/foods/yangzhou_fried_rice.json": "fe4f978a9fe98935fb9ecfc8f99f6adfbba29db2f05c672ffb59e5574db5e675",
+        "items/ingredients/century_egg.json": "97ba61dc13e91277b1df78fa2115a1f4ac232bd37b9e059be9b0af009cf14904",
+        "items/ingredients/chinese_sauerkraut.json": "594ae1f3027a10fbd491db85eed3d77ec26783883d250fd6e17a56c1cd10ba81",
+        "items/ingredients/eggplant.json": "2f21588b541f5de6b2eccf4911f1d46d5d269176651494b4b05f685ce419631f",
+        "items/ingredients/salted_egg.json": "9823de9a06051a096e5175013b1a095b8bc56992eb9c86c3e18c772f0d923a4c",
+        "items/ingredients/yellow_croaker.json": "1029d7bc11d92762ba6187f0a89200aabbb76ae71f24d1d56b0eabf08c0f1b15",
+        "items/kitchen/mooncake_mold.json": "f8939c01cfad8344c2256f73e72011db705c7bc9a3fbb84f30c0d4c163a4ff7e",
+        "items/placeable_food/mooncake.json": "e0af9937729b74ba23114794b524a4d4a8e4420c68b62f269f142c35012574a4",
+        "scripts/events/index.js": "ffe0c6ed095a7b42573986fe6f5f1ff28497858a9bf7ca7e8edd7de0e022f7f8"
+      },
+      "patched_files": {
+        "scripts/custom_components/index.js": "d0de3f4c8b1b4175aa430fe6806e628fcbeb83ab85533a9f66e868e64feb8e4f",
+        "scripts/events/mooncakeBehavior.js": "42db79871afe4aded55e19896af4cbdc5b7e6ba315eb2ff1dc775313668a927f",
+        "scripts/events/yellowCroakerDrop.js": "07c448345197deba26770e61b6373d07a3ffd738969c32cb8dec02463d7f6eed",
+        "scripts/events/kongmingLanternFlight.js": "1db80e8a3ee3a38ecb1468d477646552314e59987d6d60bfe4de84fae329392f",
+        "scripts/data/recipes/stationRecipes.js": "bbae7b7c972b2f47bf30274c3f48bdf870b49d59b791eceb8d39602fea3fdf3b",
+        "scripts/data/guidebook/guidebookData.js": "0fdb068408ce898993a3399532c3c872ba26328114e2ec117c67be36f21fb4f5",
+        "scripts/data/guidebook/guidebookDetails.js": "4c70008003c75ca7880ffc43d92088f79f1e6b2770caa78ced5ff5b1c52816eb",
+        "blocks/decor/bowl_stack.json": "fba266ddd801a54246eb016c41af11ed8d63b2bd0e12766e3a86dbf283459bb4",
+        "blocks/decor/firecracker.json": "0d14fc5852de33f010200f3e91b2576b70e9a48e9bd060481e633915e409ba8a",
+        "blocks/kitchen/pickle_jar.json": "6fe0f577f9e9da5a6c377a27e8c39670988b26c45ce3ff497163a6b97a036085",
+        "blocks/misc/salt.json": "469878efeea221f6aa21b6efd3626b7b8d6cd83b331fcd75e0d4e303d89410c1",
+        "blocks/placeable_food/mooncake.json": "d7228b4ec74fc3a710e3c8fdc162847ec6daaecaa3c3df76a984d5769d75a947",
+        "blocks/placeable_food/red_rice_roll.json": "10f92351779edb3949c0177b367bf626da746ee38b957fba7d729572db46a379",
+        "blocks/placeable_food/sichuan_boiled_fish.json": "54f1f49e65725c3f9f008a37f7c8899dd99caff59d4d2fb2d7bf67b615249c42",
+        "blocks/placeable_food/sichuan_boiled_pork_slices.json": "9eec0c9a39871d9aceadbf1de2c3cd13b224475cf733ab57c3907c6b56a3e902",
+        "blocks/placeable_food/yellow_croaker_soup.json": "d0afad2c201cc02fcaabd54268b21c8bf9d77197bff046a0018026416e1d0ed7",
+        "blocks/placeable_food/yellow_croaker_tofu_soup.json": "18f53ef2326634831236872908ba24b2d0815bc7c0a4a5a432634d403ec56544",
+        "items/decor/firecracker.json": "66e8dcb1996f6fc4f924d9e248adb93e8d02d0c76fca431804707107f43f8c28",
+        "items/drinks/douzhi.json": "173d0a6dde8a0337d420311e526bfa9c9ff5550dc2ca1e7e4acd917f2cb97607",
+        "items/drinks/hk_milk_tea.json": "325b66531d664fae56b08dd225ea9b996d4acbc8d33bdb9f756a9d9f019b8d14",
+        "items/drinks/lapsang.json": "f23b02f0ffea5e8b53960d45849a6df6962ac2d66c7d45325c06e51534fdccb3",
+        "items/foods/beef_with_scrambled_eggs.json": "ed4353bde3b355e69dfb8bad8722165c1acb191b65dcb60038f672cbfed82dd1",
+        "items/foods/beef_with_scrambled_eggs_rice.json": "2745cfe54b6cc258b0b6bce81906e401c990ff15e78404a7e0857381cbee22b5",
+        "items/foods/big_plate_chicken.json": "69ae5bb10b5dde2770ce2c1207ee5c17ae7162996614f4645bce082f751f4222",
+        "items/foods/big_plate_chicken_noodles.json": "00d23ae4c97aabe4ab79a760a0476ec344eacb8d32875b7c75b7ea76248b5ad7",
+        "items/foods/century_egg_congee.json": "685520a8a71942abb81464efb9999f69580d644d8dd03e7209e394f7f3e28905",
+        "items/foods/dry_pot_chicken.json": "4861607055ffbbd60aedc4eefe0877c3a6e6d6e0337086fb009f3cdda3c4efb3",
+        "items/foods/dry_pot_potatoes.json": "87200ba4a46ede902f32df24e697dd3e91dfcf8c33c4dc0debafaaa4d49022d2",
+        "items/foods/dry_pot_spare_ribs.json": "ef5439577b75635ce0c980bfcc2eed1baf473c6f4dec142f640bdbd2bc12a0f9",
+        "items/foods/four_joy_meatballs.json": "7741e7070e5f442daed30cffaa9634143639dd7bceb30e76eb701acb4676c5b2",
+        "items/foods/frozen_bun.json": "04668b4f1c84a7e116a7323c4c2d08c402bf4fd951378c2c0e59d5f19aef39fc",
+        "items/foods/lamb_pilaf.json": "b01ce3b436f488f2d2c8f77b157bf5d301720e728dd325f365d39bda0a3a201e",
+        "items/foods/maocai.json": "6e0e6f8e1c628de1e8ac0a940c88ed3920e42397ea8f04118a989a82d1506321",
+        "items/foods/pork_chili_noodles.json": "406d06a8aa83eeaf25bc46364c3a9ee905faef9ee6f462b55b2b5780a7885bfc",
+        "items/foods/pumpkin_porridge.json": "e012115efc2c807722cdd2135f00691c64bc2bbe08b8faf7e4d2cf0e6a413f4d",
+        "items/foods/sauerkraut_beef_noodles.json": "69a97a30333497a926165a2adeead764ac743de93776a9b47e69e228f56cb2ba",
+        "items/foods/seaweed_egg_drop_soup.json": "1a6a14185cb6668a2b2dddf1a0ffa092d2cd9f9a7e37a20a8bf44cf6dcce784e",
+        "items/foods/sichuan_wonton.json": "14203ceb976804d640e2d6c697910ca4c11fe9290756c709bdf146d4a72b962b",
+        "items/foods/steamed_rice_rolls.json": "aa4a950ea599b4d519b8786ed69423ab6250fda7cc44ee4c038f8a76233de84f",
+        "items/foods/stir_fried_three_fresh_vegetables.json": "069d099e655f45ab51a15f84df44b00020436b1b5f64c2bce3cc251ee296b1dc",
+        "items/foods/stir_fried_three_fresh_vegetables_rice.json": "cbc8bbbf6664030d0f7cba029b03195bd7c199c4b7954a7f7e2a652a472096f2",
+        "items/foods/stir_fried_yellow_beef.json": "5c8d30c3fae19b636d39123e02ebfa0c07621efefd75497ebce2dce01adcb052",
+        "items/foods/stir_fried_yellow_beef_rice.json": "53d77f4919c46ef8ed5043c4e72cfb9b7f43c14a012b3b92054bcce4bb52f465",
+        "items/foods/stuffed_eggplant.json": "7b68a3a5e8eea89c62678c4f295f5f9b38fd96e1c0593de952dcaf14f9c77597",
+        "items/foods/tomato_egg_drop_soup.json": "bf2e57a78a40a9e73baab5a84d4209bf22569c31e1c3e251b561f2c12c081ec9",
+        "items/foods/tomato_egg_noodles.json": "ea87650160fcef05f453c30b7357eb843a399b0cb5860da6e5946be424de1666",
+        "items/foods/twice_cooked_pork.json": "b3689d173231b30f2b93ab2e631d4d0b60749ce4b43356ebd000f9d1e48ef678",
+        "items/foods/twice_cooked_pork_rice.json": "3e5b074e3de6fc40836a85480d2537a7c9795913496be7d7b8a4aa0c4d6f3d43",
+        "items/foods/wonton_noodles.json": "85f41da682102b27d6a06b25aa04b81ffa30f64c2d2f4941db3169da9d0621f3",
+        "items/foods/yangrou_paomo.json": "2ae64fed5ebb126152c0ec83786e570a78ff9dc22daf7dd742a010b9667369c3",
+        "items/foods/yangzhou_fried_rice.json": "b62afbec438e957b93d7b339472c815eb5be9641b1da2e3adb4a09dd41ca59f2",
+        "items/ingredients/century_egg.json": "9fa1c50908e87f448163219eb33ec76318d0940313aa08f2cabbd249073143b6",
+        "items/ingredients/chinese_sauerkraut.json": "1451d148e6a01d28fab7ed44165416c7484e66cb6ddd6ed99d5952cd58d9af27",
+        "items/ingredients/eggplant.json": "913493e1b5da4c2352de177aa85d5ee61bc67ccab9b18c53e57dad9b2750fc8c",
+        "items/ingredients/salted_egg.json": "6671f0a972e6023171471a4be89057d4a71491f9e450d0208ceb44999d59437d",
+        "items/ingredients/yellow_croaker.json": "46eeb587742c033b2d2aec0fe7845c4311425be2f36bd332507e4289bf375082",
+        "items/kitchen/mooncake_mold.json": "3c3dffa653eaf835545f560668bb47753809a22fa1da39eda001511d49347913",
+        "items/placeable_food/mooncake.json": "0a3cc565fbf917e9dcdc03858af18f32298a7cfe40eedf1b00870f0bbabafba1",
+        "scripts/events/index.js": "20c3dbb1cce2c4f59969f27b9a3bc3b8358f8d1291eeb125dc7701a01b136872"
+      },
+      "copies": {
+        "scripts/_senluo/recovered/utils/blockData.js": {
+          "source": "scripts/compat/chinesefood-recovered/utils/blockData.js",
+          "sha256": "424cf884452dff3e2e5a2e0cc08ed40961911f3b30da2f5455fe4b693bd9d3b8"
+        },
+        "scripts/_senluo/recovered/utils/playerItems.js": {
+          "source": "scripts/compat/chinesefood-recovered/utils/playerItems.js",
+          "sha256": "37faf8885c4b275e17e7b66800957f1c0b6ba5574e11f1c1b49a4da78b69ef3e"
+        },
+        "scripts/_senluo/recovered/utils/blockPlacement.js": {
+          "source": "scripts/compat/chinesefood-recovered/utils/blockPlacement.js",
+          "sha256": "ee09e3305b4e551245265e0334b41ee0329db4decada8450fe5c40d71575f840"
+        },
+        "scripts/_senluo/recovered/constants.js": {
+          "source": "scripts/compat/chinesefood-recovered/constants.js",
+          "sha256": "19ad468b99de6318a31c582f8437e6c7030690d393c8d16d6d1a84539a6ffb55"
+        },
+        "scripts/_senluo/recovered/events/cookeryStationCompat.js": {
+          "source": "scripts/compat/chinesefood-recovered/events/cookeryStationCompat.js",
+          "sha256": "9c6709741a65690076c7a7011480a455c6edbf45e53f65c7795400974db45dc7"
+        },
+        "scripts/_senluo/recovered/custom_components/blocks/cropGrowth.js": {
+          "source": "scripts/compat/chinesefood-recovered/custom_components/blocks/cropGrowth.js",
+          "sha256": "0bd76d53daa88d479fe7070646063e5b70677a9c423f849c644394c0a4d517ab"
+        },
+        "scripts/_senluo/recovered/custom_components/blocks/bowlStack.js": {
+          "source": "scripts/compat/chinesefood-recovered/custom_components/blocks/bowlStack.js",
+          "sha256": "623f87529bb1cb43f9c2e3ff750d5650f4ccca7197bf5c3f113844c58475b09f"
+        },
+        "scripts/_senluo/recovered/custom_components/blocks/couplet.js": {
+          "source": "scripts/compat/chinesefood-recovered/custom_components/blocks/couplet.js",
+          "sha256": "9800d0ff39c53351b81a6564ecbb1007414e29a534d5cc27a00385aae1b95ef1"
+        },
+        "scripts/_senluo/recovered/custom_components/blocks/horizontalBanner.js": {
+          "source": "scripts/compat/chinesefood-recovered/custom_components/blocks/horizontalBanner.js",
+          "sha256": "0926f034be0e920b06a6d5efcb9d353486d210c700428373293585e52741c88d"
+        },
+        "scripts/_senluo/recovered/custom_components/blocks/firecracker.js": {
+          "source": "scripts/compat/chinesefood-recovered/custom_components/blocks/firecracker.js",
+          "sha256": "7ed7c7f1948c234c23fa0e313ff8412c1e566cd653845777a94dc99a5646e8e5"
+        },
+        "scripts/_senluo/recovered/custom_components/blocks/foodBite.js": {
+          "source": "scripts/compat/chinesefood-recovered/custom_components/blocks/foodBite.js",
+          "sha256": "78f9e78f9b13cdfece1289349afafa530e60106113e7fe9693f0ca11f621ba83"
+        },
+        "scripts/_senluo/recovered/custom_components/blocks/mooncakeStack.js": {
+          "source": "scripts/compat/chinesefood-recovered/custom_components/blocks/mooncakeStack.js",
+          "sha256": "84e04cb6b9c04f968e3dfb3f71e3b262e2eab8d88f816f530935455cc167a485"
+        },
+        "scripts/_senluo/recovered/custom_components/blocks/pickleJar.js": {
+          "source": "scripts/compat/chinesefood-recovered/custom_components/blocks/pickleJar.js",
+          "sha256": "2768bbd04a8838ffbc8b0b3d41964a7b39fb1fd762cd43901db0bfd318ff8c16"
+        },
+        "scripts/_senluo/recovered/custom_components/blocks/saltStack.js": {
+          "source": "scripts/compat/chinesefood-recovered/custom_components/blocks/saltStack.js",
+          "sha256": "72be55a14c059f8f4a649447d2c8d7c30fa55971d166772505ddbbc72b3134a6"
+        },
+        "scripts/_senluo/recovered/events/kongmingLanternFlight.js": {
+          "source": "scripts/compat/chinesefood-recovered/events/kongmingLanternFlight.js",
+          "sha256": "c061748f2aa4dedaf652911fdf3a59a3bf3ca48f676659811d4124665a75c457"
+        },
+        "scripts/_senluo/recovered/events/mooncakeBehavior.js": {
+          "source": "scripts/compat/chinesefood-recovered/events/mooncakeBehavior.js",
+          "sha256": "ece6b8a474927453f7590467fb97130fd6906b7a2a50a19f2c8c74406e8ba794"
+        },
+        "scripts/_senluo/recovered/events/yellowCroakerDrop.js": {
+          "source": "scripts/compat/chinesefood-recovered/events/yellowCroakerDrop.js",
+          "sha256": "525b2e7bac4f8c79081ef9bc4f5df97988f4ff039e6ce0e1258e471c4e842c8b"
+        },
+        "scripts/_senluo/recovered/data/recipes/pickleRecipes.js": {
+          "source": "scripts/compat/chinesefood-recovered/data/recipes/pickleRecipes.js",
+          "sha256": "9eb0ca805beb62f082ebd9c6b60caff764ec5330db412a25541799e3e4d30deb"
+        },
+        "scripts/_senluo/recovered/events/teaCupReturn.js": {
+          "source": "scripts/compat/chinesefood-recovered/events/teaCupReturn.js",
+          "sha256": "1e08c0e4c8162f1efb56a5f9c5107caceae95e503f7f3a90d4c7911bfb14fdbd"
+        },
+        "scripts/_senluo/recovered/data/station-recipes.js": {
+          "source": "scripts/compat/chinesefood-recovered/data/station-recipes.js",
+          "sha256": "ce90840ca510a83471b5c31fc9140d5f18047a9fb82f09e3477292eed28586a5"
+        },
+        "scripts/_senluo/recovered/data/guidebookData.js": {
+          "source": "scripts/compat/chinesefood-recovered/data/guidebookData.js",
+          "sha256": "8f698ab0f75cf9168fd1d51b2c01f74eca546ea18cdfa06d14f901dfd4937f3b"
+        },
+        "scripts/_senluo/recovered/data/guidebookDetails.js": {
+          "source": "scripts/compat/chinesefood-recovered/data/guidebookDetails.js",
+          "sha256": "127084b20ff767a76023c9f1ee0e4d1235113e791fdf442bb6eaff42fbe51a54"
+        },
+        "scripts/_senluo/recovered/data/orphaned-storage.js": {
+          "source": "scripts/compat/chinesefood-recovered/data/orphaned-storage.js",
+          "sha256": "70ca8804e23456ccd98b3d5f2f7b39956f4e6d99ee3a1240cc1b30c6b5f12596"
+        },
+        "scripts/_senluo/recovered/utils/pickleUse.js": {
+          "source": "scripts/compat/chinesefood-recovered/utils/pickleUse.js",
+          "sha256": "4640390d77951fabd2894ba739aa610aa8c004d0a36d7149bfb1664042327629"
+        }
+      },
+      "required_extensions": [
+        "chinesefood-freezer-storage-p56"
+      ],
+      "source_owner": "upstream_extended",
+      "owner_version": [
+        1,
+        0,
+        56
+      ],
+      "admission": "current-author-p56",
+      "removed_files": {
+        "recipes/vanilla_cooking/salt_smelting.json": "80bb1ab58d48ac9233e86b25c8405d7ec0bffd0411ba30f15829ba5278c1d0cb"
+      }
+    },
+    "cookery-enamel-basin-lid-repair-p56": {
+      "id": "senluo:cookery-enamel-basin-lid-repair",
+      "version": [
+        1,
+        0,
+        3
+      ],
+      "host_uuid": "439d9798-118a-43ad-8a91-aab3161d9cb5",
+      "archive_sha256": "f994f8aa3b3aa4ab323c021f871f05291a827e7957aa265e17e91a085ba85b81",
+      "spec_sha256": "edfed9fb7e0c59e35b5a43f54e0a083212146493d0e9578386a78e4a421e5828",
+      "original_files": {
+        "blocks/kitchen/enamel_basin.json": "c8d09a76dc06316c61010568539a4e791c1d20e2d92e11e79d425a988458faab"
+      },
+      "patched_files": {
+        "blocks/kitchen/enamel_basin.json": "fe86d6cec01398f9ef9d02ad0e48212e2a31a11a2aed974464b26c6fc10cdf30"
+      },
+      "copies": {},
+      "required_extensions": [
+        "public-api"
+      ],
+      "source_owner": "upstream_extended",
+      "owner_version": [
+        1,
+        0,
+        56
+      ],
+      "admission": "current-author-p56"
+    },
+    "cookery-guide-startup-repair-p56": {
+      "id": "senluo:cookery-guide-startup-repair",
+      "version": [
+        1,
+        0,
+        4
+      ],
+      "host_uuid": "439d9798-118a-43ad-8a91-aab3161d9cb5",
+      "archive_sha256": "f994f8aa3b3aa4ab323c021f871f05291a827e7957aa265e17e91a085ba85b81",
+      "spec_sha256": "d66b03853c714cda61a0e54631e6d9cefc83577a2960e043e0f0bc7ad8a31ec1",
+      "original_files": {
+        "scripts/api/guidebookExtensionRegistry.js": "a273bc82dc64c6899957ab51a52a08f0177292a334c8b5bbf81e823360135cd9"
+      },
+      "patched_files": {
+        "scripts/api/guidebookExtensionRegistry.js": "cd6ce5190e5858fe377399806e33380d48bd161b5d520e65539947841594a004"
+      },
+      "copies": {
+        "scripts/api/senluo_guide_startup.js": {
+          "source": "scripts/host_api/cookery-guide-startup.js",
+          "sha256": "a00afc8f42e6fb268e56e2ee64dd66369d80a379f2e77cc4c7019457762db2c4"
+        }
+      },
+      "required_extensions": [
+        "public-api"
+      ],
+      "source_owner": "upstream_extended",
+      "owner_version": [
+        1,
+        0,
+        56
+      ],
+      "admission": "current-author-p56"
+    },
+    "cookery-held-geometry-canonicalization-p56": {
+      "id": "senluo:cookery-held-geometry-canonicalization",
+      "version": [
+        1,
+        0,
+        3
+      ],
+      "host_uuid": "01ba9a7f-877e-46c7-8583-6c0441366b55",
+      "archive_sha256": "f994f8aa3b3aa4ab323c021f871f05291a827e7957aa265e17e91a085ba85b81",
+      "spec_sha256": "61c2a409342173ee84c781a8c55f51410c884019ab14cf5778e43a7b8e7792e2",
+      "original_files": {
+        "models/blocks/java16/red_lantern.geo.json": "f08af9dd73bea109cac446e7d4677895e1073ced30a1c48e01758d449b6ba13c",
+        "models/blocks/java16/bamboo_tray_base.geo.json": "07e50759d745d47f759ce2132c3e40a87e5bbf22c06969da252116f2be0ecda9",
+        "models/blocks/java16/bamboo_tray_stand.geo.json": "964239f06be1871dc8498cbe7f0ba8bc699f337204145fff34f9cb582245c6de"
+      },
+      "patched_files": {
+        "models/blocks/java16/red_lantern.geo.json": "8c5e5f9b5560a445db192a78ba6edc7986c07800fc2928259b9bf769d023127f",
+        "models/blocks/java16/bamboo_tray_base.geo.json": "7a730724b6da34ba40e3d55cb9d7fec5670f8dd5ee329f6ac2de357b139b0c50",
+        "models/blocks/java16/bamboo_tray_stand.geo.json": "332acdf52c4ea72ab556f209079780aa629fe70b73c73c0d8284b4e69822fe31"
+      },
+      "copies": {},
+      "required_extensions": [],
+      "source_owner": "upstream",
+      "owner_version": [
+        1,
+        0,
+        56
+      ],
+      "admission": "current-author-p56"
+    },
+    "cookery-mooncake-dough-repair-p56": {
+      "id": "senluo:cookery-mooncake-dough-repair",
+      "version": [
+        1,
+        0,
+        4
+      ],
+      "host_uuid": "439d9798-118a-43ad-8a91-aab3161d9cb5",
+      "archive_sha256": "f994f8aa3b3aa4ab323c021f871f05291a827e7957aa265e17e91a085ba85b81",
+      "spec_sha256": "8c17379d90590680b23387a4abf9568b252886e98db18148705f7a44664085fa",
+      "original_files": {
+        "items/stuffed_dough_food.json": "c7055f8df7a53012f713fb3d004c2bc5c37aaec2412ea106852832e8bf4f6b3a"
+      },
+      "patched_files": {
+        "items/stuffed_dough_food.json": "640f5bf12062aef8138e848a1b35e20b4b138cfa0c1cb2d826ec87d314f1b47e"
+      },
+      "copies": {},
+      "required_extensions": [
+        "public-api"
+      ],
+      "source_owner": "upstream_extended",
+      "owner_version": [
+        1,
+        0,
+        56
+      ],
+      "admission": "current-author-p56"
+    },
+    "orchard-tavern-bridge-adapter-p56": {
+      "id": "senluo:orchard-tavern-bridge-adapter",
+      "version": [
+        1,
+        0,
+        2
+      ],
+      "host_uuid": "dd3c6676-43dd-46b7-9d48-03bfabf7284e",
+      "archive_sha256": "bd1d339c6afe73ba8bf1b7de3f1962c7e064a2d8e077f2b4276902cdc796cc9c",
+      "spec_sha256": "6b6d5e8c4f082405522359d3117c48eba7af33dd7d61c8ac1e8645f5fc05888b",
+      "original_files": {
+        "scripts/integrations/tavernBridge.js": "a01cf3d828bde169fa8919c4d5a9a03168e97f5e59370789a4b10cfc196bb717",
+        "scripts/data/tavern-extension.js": "bd2390a367532de7e079e97181e202d28f727fadcd403a34c09bafe9cff9c293",
+        "scripts/data/guidebook.js": "23f85fd3975075628d272530c52c08d7938ae0887a30bd95b6407cc62dcb3614",
+        "scripts/integrations/contracts.js": "b0f95dafab2989af61a7f27df39505f72d263e70c957567919f7c618e4371998"
+      },
+      "patched_files": {
+        "scripts/integrations/tavernBridge.js": "d64ea95e421d9bf49cc5c79d9445aa15724a950e2dfaa8d0ef6810bd2807a79c",
+        "scripts/data/tavern-extension.js": "bd2390a367532de7e079e97181e202d28f727fadcd403a34c09bafe9cff9c293",
+        "scripts/data/guidebook.js": "23f85fd3975075628d272530c52c08d7938ae0887a30bd95b6407cc62dcb3614",
+        "scripts/integrations/contracts.js": "b0f95dafab2989af61a7f27df39505f72d263e70c957567919f7c618e4371998"
+      },
+      "copies": {
+        "scripts/integrations/senluo_orchard_tavern_adapter.js": {
+          "source": "scripts/compat/orchard-tavern-adapter.js",
+          "sha256": "f8adbcc47367ceb57a38d18d0b82c64da5a60381217b50d09155dab75b4ad7d9"
+        }
+      },
+      "required_extensions": [],
+      "source_owner": "upstream",
+      "owner_version": [
+        1,
+        0,
+        56
+      ],
+      "admission": "current-author-p56"
     }
   },
   "public_api_profile": {
@@ -851,6 +1887,97 @@
       },
       "required_extensions": [],
       "source_owner": "upstream"
+    },
+    "public-api-0.2.13": {
+      "id": "kaleidoscope_grilling:family-api-0.2.13",
+      "version": [
+        0,
+        2,
+        13
+      ],
+      "host_uuid": "439d9798-118a-43ad-8a91-aab3161d9cb5",
+      "archive_sha256": "f994f8aa3b3aa4ab323c021f871f05291a827e7957aa265e17e91a085ba85b81",
+      "spec_sha256": "93fe81686984d3dd2a5192a714a7740f2df8ba674b1cdaa0ecb7f5313cb59b87",
+      "original_files": {
+        "scripts/api/extensionRegistry.js": "edeecd66d82d8bab6299717d8424133971bb47f26aacda0892d5e7ae9261b497",
+        "scripts/custom_components/blocks/directStation.js": "d107c42f21b394e1273f0e8dcf3701fb97a97a7775d26da0010a447a9c085c57",
+        "scripts/custom_components/blocks/oilPot.js": "c34d1cb0c6f125db7ebbe4e7dc1d251efd92a261dac964e4bf9d09d6e981222c",
+        "items/kitchen/oil_pot.json": "f881cc3144f2b46fe075339a0713af8f627dbdb80c31a33a32cea3e7a4010b17",
+        "items/kitchen/oil_pot_filled.json": "12eacddb8ad48c8f8d3510f78f0e6489244e7bc1d4ff7ca4aa0d73c44776f1f2",
+        "scripts/events/guidebook.js": "aae402d3fc7ed52db9cda72459fbd8207f86689adc86c379cc79ccca6b9cf169",
+        "scripts/events/foodItemReturns.js": "4b02c6ba37e41a311ebfc9fbac3dbbbbb6c36c33658ab2588e169e63ff1604fe",
+        "scripts/data/foodEffects.js": "f0a1750a2f22ee9335e15ef17a0d0f5791435564aad8e85aea69cfbc764b2149",
+        "scripts/api/guidebookExtensionRegistry.js": "a273bc82dc64c6899957ab51a52a08f0177292a334c8b5bbf81e823360135cd9",
+        "scripts/custom_components/blocks/millstone.js": "5922c65c0c9b945371a560b97ee774c6c97b2ebc7b019a484ca00241cf297a5f"
+      },
+      "patched_files": {
+        "scripts/api/extensionRegistry.js": "e1541b3f71a49c49af4adc3ec88507d24643188fb2cda532b84668c1550ee48b",
+        "scripts/custom_components/blocks/directStation.js": "1de0db1ca1f59d055c01133fb7f7481a675ef480f6b48a4bc984f39a4db0b7c4",
+        "scripts/custom_components/blocks/oilPot.js": "09a82c98f105472f7e4c1d12fe0e561d7185ff3e707b3c701367427d90a4a582",
+        "items/kitchen/oil_pot.json": "fba383920613d0e153bfd1438eaf2825b97bbce2c26486995448b14d35b83f0f",
+        "items/kitchen/oil_pot_filled.json": "0296061e7db00b0979303f6800f829daf628cab4929e7e0825125a3a470ff7f3",
+        "scripts/events/guidebook.js": "f4043c895c276b77a49016a633bfd73f329a6fddd770608b11adba79148ea67a",
+        "scripts/events/foodItemReturns.js": "54d25ce087ea2c502023072ea6f3b9fa800bd35189cd0db7addb4a82abe4d087",
+        "scripts/data/foodEffects.js": "5c43d22512262e288f88e752903fc88ea46c50d6f575ebac312422abd903cf35",
+        "scripts/api/guidebookExtensionRegistry.js": "a273bc82dc64c6899957ab51a52a08f0177292a334c8b5bbf81e823360135cd9",
+        "scripts/custom_components/blocks/millstone.js": "7e87f4ecfcc3a64bdd046a8138e21ba368d8a8069d3047eee920e2532acd4776"
+      },
+      "copies": {
+        "scripts/api/board_api_core.js": {
+          "source": "scripts/host_api/board_api_core.js",
+          "sha256": "bc7298ec2843f9eb0948da6dc99e52fe71ae9ffcb1afd313b85bd8cf91717017"
+        },
+        "scripts/api/board_api_runtime.js": {
+          "source": "scripts/host_api/board_api_runtime.js",
+          "sha256": "0fe132a47fff74c7ae54d94f7a010231405ad40117c68e477c995a46a9ea0de1"
+        },
+        "scripts/api/oil_api_core.js": {
+          "source": "scripts/host_api/oil_api_core.js",
+          "sha256": "26fb0d08566314fe5d0644eb371ce1f6694c85d291ed69b482045a5b194f362c"
+        },
+        "scripts/api/oil_api_host.js": {
+          "source": "scripts/host_api/oil_api_host.js",
+          "sha256": "777c5579c6ace4b202f781d18c055d0f14635f6966faa5c777d2fb65a6279bf0"
+        },
+        "scripts/api/food_api_core.js": {
+          "source": "scripts/host_api/food_api_core.js",
+          "sha256": "63794a5c86263a058f1424119cd3a5445db7a70fc64bb9d32c6a11fc9a160542"
+        },
+        "scripts/api/cuisine_api_host.js": {
+          "source": "scripts/host_api/cuisine_api_host.js",
+          "sha256": "4f1c9119490bd03bb99ddf3d2f073addae89d8518e8c76d8aed34909f4785939"
+        },
+        "scripts/api/guide_labels_core.js": {
+          "source": "scripts/host_api/guide_labels_core.js",
+          "sha256": "d859c745e40359b869d3174d8ebd301bce2c738b5728c87be4f93e4a19c6a6d7"
+        },
+        "scripts/api/ingredient_api_host.js": {
+          "source": "scripts/host_api/ingredient_api_host.js",
+          "sha256": "e5d0c7e3dc20b0aa896d55ef1f5a68403e5f87207f297a6c2915aaa25b763907"
+        },
+        "scripts/a2750_wok_food_core.js": {
+          "source": "scripts/a2750_wok_food_core.js",
+          "sha256": "0b99b672acce389f3831107bcea4f6cfbf4cd66770cd1e8bf4528224c9aceffe"
+        },
+        "scripts/api/pot_api_core.js": {
+          "source": "scripts/host_api/pot_api_core.js",
+          "sha256": "177d343ae463b0751ca3a4d75b50f9581a9da0ce99bea22c943e7784e91df4fa"
+        },
+        "scripts/api/pot_api_host.js": {
+          "source": "scripts/host_api/pot_api_host.js",
+          "sha256": "594539e9f0b69f18c07b04b6e978447739eece9d9182d301071fdd1e809d331a"
+        },
+        "scripts/api/cuisine_quality_core.js": {
+          "source": "scripts/host_api/cuisine_quality_core.js",
+          "sha256": "5819297f2c64d238cd34cf6c8ba04b35fb2ac7daefd445b4ea7b58219b7ccda2"
+        },
+        "scripts/api/millstone_api_core.js": {
+          "source": "scripts/host_api/millstone_api_core.js",
+          "sha256": "bb43b3a7fd9c172171fac83c3821787fb53e4a8e0047da5c4bd77d2718b4009b"
+        }
+      },
+      "required_extensions": [],
+      "source_owner": "upstream"
     }
   },
   "public_api_predecessors": {
@@ -869,6 +1996,352 @@
     "cookery-enamel-basin-lid-repair-p49": [
       "public-api",
       "public-api-0.2.12"
+    ],
+    "cookery-millstone-extension-admission-p50": [
+      "public-api",
+      "public-api-0.2.12"
+    ],
+    "cookery-enamel-basin-lid-repair-p55": [
+      "public-api-0.2.13"
+    ],
+    "cookery-guide-startup-repair-p55": [
+      "public-api-0.2.13"
+    ],
+    "cookery-mooncake-dough-repair-p55": [
+      "public-api-0.2.13"
+    ],
+    "cookery-enamel-basin-lid-repair-p56": [
+      "public-api-0.2.13"
+    ],
+    "cookery-guide-startup-repair-p56": [
+      "public-api-0.2.13"
+    ],
+    "cookery-mooncake-dough-repair-p56": [
+      "public-api-0.2.13"
     ]
+  },
+  "current_author_p55": {
+    "profile": "senluo-stable-author-20261018-p55",
+    "version": [
+      1,
+      0,
+      55
+    ],
+    "previous_commit": "5ad8ee4468eeced423dc909601fc59c137bf710f",
+    "authors_path": "companion-sources/stable-author-20261018-p55/authors.json",
+    "authors_sha256": "e2d10aff3c82b98de0a8e822049c5417f9320164921e9aafe3fa9c89d5add2af",
+    "authors": {
+      "Cookery": {
+        "project_id": 1673664,
+        "file_id": 9227406,
+        "official_download_url": "https://edge.forgecdn.net/files/9227/406/Kaleidoscope%20Cookery%20v1.6.2.mcaddon",
+        "sha256": "f994f8aa3b3aa4ab323c021f871f05291a827e7957aa265e17e91a085ba85b81",
+        "bytes": 5293303,
+        "filename": "cf-1673664-9227406-cookery-162.mcaddon",
+        "behavior_uuid": "439d9798-118a-43ad-8a91-aab3161d9cb5",
+        "resource_uuid": "01ba9a7f-877e-46c7-8583-6c0441366b55",
+        "author_version": [
+          1,
+          6,
+          2
+        ]
+      },
+      "ChineseFood": {
+        "project_id": 1683300,
+        "file_id": 9227399,
+        "official_download_url": "https://edge.forgecdn.net/files/9227/399/Kaleidoscope%20Chinese%20Food%20v1.0.6.mcaddon",
+        "sha256": "dea708dd6443ea30d23e5791860a50181e8eeb560dcd7ec5a8e80fe22743e659",
+        "bytes": 1328682,
+        "filename": "cf-1683300-9227399-chinesefood-106.mcaddon",
+        "behavior_uuid": "aa73502b-f806-4c11-8ef0-3f139bfc604a",
+        "resource_uuid": "c170e749-0953-4dff-aef8-39e4934dc802",
+        "author_version": [
+          1,
+          0,
+          6
+        ]
+      },
+      "Nether": {
+        "project_id": 1710501,
+        "file_id": 9227368,
+        "official_download_url": "https://edge.forgecdn.net/files/9227/368/Kaleidoscope%20Nether%20v1.0.3.mcaddon",
+        "sha256": "62b8e598780d60c909d3bc3448c31a77327d8b43419ad034529bc257c364ff24",
+        "bytes": 1169131,
+        "filename": "cf-1710501-9227368-nether-103.mcaddon",
+        "behavior_uuid": "6f8ef0e5-d29e-48b4-b7a0-9a80194d4dd7",
+        "resource_uuid": "e993d0f6-1447-4faa-b8c3-9ded60879a1c",
+        "author_version": [
+          1,
+          0,
+          3
+        ]
+      },
+      "End": {
+        "project_id": 1710505,
+        "file_id": 9227361,
+        "official_download_url": "https://edge.forgecdn.net/files/9227/361/Kaleidoscope%20End%20v1.0.3.mcaddon",
+        "sha256": "5cb77a000ed0f42c820602c50b67c208e85e99634d3454fb969aa39d5c2d903a",
+        "bytes": 632197,
+        "filename": "cf-1710505-9227361-end-103.mcaddon",
+        "behavior_uuid": "9c8422ab-e9b9-49eb-baf5-abdaf585e41d",
+        "resource_uuid": "859d9e9f-4834-4ad0-bb4c-35eb8eb44630",
+        "author_version": [
+          1,
+          0,
+          3
+        ]
+      },
+      "Orchard": {
+        "project_id": 1724297,
+        "file_id": 9227353,
+        "official_download_url": "https://edge.forgecdn.net/files/9227/353/Kaleidoscope%20Orchard%20v1.0.1.mcaddon",
+        "sha256": "bd1d339c6afe73ba8bf1b7de3f1962c7e064a2d8e077f2b4276902cdc796cc9c",
+        "bytes": 797318,
+        "filename": "cf-1724297-9227353-orchard-101.mcaddon",
+        "behavior_uuid": "dd3c6676-43dd-46b7-9d48-03bfabf7284e",
+        "resource_uuid": "290da070-9e60-4ec4-89bc-00fd10a8ecb3",
+        "author_version": [
+          1,
+          0,
+          1
+        ]
+      },
+      "PresenceFootsteps": {
+        "project_id": 1745463,
+        "file_id": 9202070,
+        "official_download_url": "https://edge.forgecdn.net/files/9202/70/Presence%20Footsteps%20v1.0.1.mcaddon",
+        "sha256": "21fe002340f5c5ad79f408205cc7582ed5915a24a4e98abdd7c308000e4eb2bb",
+        "bytes": 3114563,
+        "filename": "cf-1745463-9202070-presence-footsteps-101.mcaddon",
+        "behavior_uuid": "b6552bad-e030-4083-9225-e47b08cfd860",
+        "resource_uuid": "40321040-66de-448c-8071-ca694b9ea420",
+        "author_version": [
+          1,
+          0,
+          1
+        ]
+      },
+      "Deco": {
+        "project_id": 1702981,
+        "file_id": 8931626,
+        "official_download_url": "https://edge.forgecdn.net/files/8931/626/Kaleidoscope%20Deco%20v1.0.1.mcaddon",
+        "sha256": "a554e13edd83012a0e621a98b5ddcf065514ba1fbed6e941019ebe45628adee6",
+        "bytes": 1765989,
+        "filename": "cf-1702981-8931626-deco-101.mcaddon",
+        "behavior_uuid": "d6636182-2ca5-4ec4-9814-40dc1191c026",
+        "resource_uuid": "f2c4c5f1-7abd-4c36-bb0c-7705a4d93aa5",
+        "author_version": [
+          1,
+          0,
+          1
+        ]
+      }
+    },
+    "host_specs": {
+      "chinesefood-doll-renderer.json": {
+        "profile": "chinesefood-doll-renderer-p55",
+        "sha256": "de7be32f43dde99c9587b3f975a5660528d3e24692b9c7b7c4904ecbf06e3ef9",
+        "declaration_sha256": "5f31fd0bab25c713c63fe153143c15c82d6190acd363a4d498763d153994c406"
+      },
+      "chinesefood-freezer-storage.json": {
+        "profile": "chinesefood-freezer-storage-p55",
+        "sha256": "d853b88160d2862a465e5ab88825ae91cca191def47698523f3a072dc9e32eed",
+        "declaration_sha256": "f2a878792c59b79849cf9b300c09c232c261af8709a2ef215f7f5fdc11abf9bb"
+      },
+      "chinesefood-reviewed-repairs.json": {
+        "profile": "chinesefood-reviewed-repairs-p55",
+        "sha256": "41d6711f0c8fab4ede6e40260a7ea3b7d00e46a40406f02a2de8c80a316d4b5b",
+        "declaration_sha256": "f2db8d9d0dc63efd20e5279c242b94d09ae8f9d93b2693702735d09f79f3473f"
+      },
+      "cookery-enamel-basin-lid-repair.json": {
+        "profile": "cookery-enamel-basin-lid-repair-p55",
+        "sha256": "e0e803d256188caef7616b154d5efa1d973d90f1b2ff8b5a96462b4877764116",
+        "declaration_sha256": "2cead8c8e97bee63920ca8f53ef3c4af7216d94fc3509c31d9cedc37903bc9b7"
+      },
+      "cookery-guide-startup-repair.json": {
+        "profile": "cookery-guide-startup-repair-p55",
+        "sha256": "eb98ff6b0a3a99c51939d5f5d626a95be6176401edd43cf363adeee9434fa174",
+        "declaration_sha256": "0a101e40ea593a009ceb438431f2e3d7638874d867fa4f63a20e7c4fba64182c"
+      },
+      "cookery-held-geometry-canonicalization.json": {
+        "profile": "cookery-held-geometry-canonicalization-p55",
+        "sha256": "65726487b700906e75929666add364efa1c47ae3573a203b65d7d85aad16c21b",
+        "declaration_sha256": "02721e0b6666222fb724ee5305da0686aebd5725eaabc8290ebc6cef62007a00"
+      },
+      "cookery-mooncake-dough-repair.json": {
+        "profile": "cookery-mooncake-dough-repair-p55",
+        "sha256": "f13f57cf64c5532a78efc39e46d47c5a2614119cbbc086c51e24d94d75327440",
+        "declaration_sha256": "820dedb52fff6ee8a9bc35177d06fd6fa242c5902e751d32d09dc711e0bc59e3"
+      },
+      "orchard-tavern-bridge-adapter.json": {
+        "profile": "orchard-tavern-bridge-adapter-p55",
+        "sha256": "8c0d2d78aebfc7920a527e69ffc6c5ebbbbdfe174e80355c0724e207ccad2fc6",
+        "declaration_sha256": "a34e2390ce23b1997e05b0a6cbadd9463b424dd44414139feedf318c3efc215c"
+      }
+    },
+    "public_api_spec_sha256": "1c2fb96a176cbb394f9ddef213a50cebf016c2e683b1f25edc66058c3fd82325",
+    "public_api_profile": "public-api-0.2.13"
+  },
+  "current_author_p56": {
+    "profile": "senluo-stable-author-20261018-p56",
+    "version": [
+      1,
+      0,
+      56
+    ],
+    "previous_commit": "170ee35b1af5f3e09abae5035f74cb526a7143bb",
+    "authors_path": "companion-sources/stable-author-20261018-p56/authors.json",
+    "authors_sha256": "10834b35b30a18f9395eaa871a13b69b7e416ac34fd3f3ebe01cb424b68916d3",
+    "authors": {
+      "Cookery": {
+        "project_id": 1673664,
+        "file_id": 9227406,
+        "official_download_url": "https://edge.forgecdn.net/files/9227/406/Kaleidoscope%20Cookery%20v1.6.2.mcaddon",
+        "sha256": "f994f8aa3b3aa4ab323c021f871f05291a827e7957aa265e17e91a085ba85b81",
+        "bytes": 5293303,
+        "filename": "cf-1673664-9227406-cookery-162.mcaddon",
+        "behavior_uuid": "439d9798-118a-43ad-8a91-aab3161d9cb5",
+        "resource_uuid": "01ba9a7f-877e-46c7-8583-6c0441366b55",
+        "author_version": [
+          1,
+          6,
+          2
+        ]
+      },
+      "ChineseFood": {
+        "project_id": 1683300,
+        "file_id": 9227399,
+        "official_download_url": "https://edge.forgecdn.net/files/9227/399/Kaleidoscope%20Chinese%20Food%20v1.0.6.mcaddon",
+        "sha256": "dea708dd6443ea30d23e5791860a50181e8eeb560dcd7ec5a8e80fe22743e659",
+        "bytes": 1328682,
+        "filename": "cf-1683300-9227399-chinesefood-106.mcaddon",
+        "behavior_uuid": "aa73502b-f806-4c11-8ef0-3f139bfc604a",
+        "resource_uuid": "c170e749-0953-4dff-aef8-39e4934dc802",
+        "author_version": [
+          1,
+          0,
+          6
+        ]
+      },
+      "Nether": {
+        "project_id": 1710501,
+        "file_id": 9227368,
+        "official_download_url": "https://edge.forgecdn.net/files/9227/368/Kaleidoscope%20Nether%20v1.0.3.mcaddon",
+        "sha256": "62b8e598780d60c909d3bc3448c31a77327d8b43419ad034529bc257c364ff24",
+        "bytes": 1169131,
+        "filename": "cf-1710501-9227368-nether-103.mcaddon",
+        "behavior_uuid": "6f8ef0e5-d29e-48b4-b7a0-9a80194d4dd7",
+        "resource_uuid": "e993d0f6-1447-4faa-b8c3-9ded60879a1c",
+        "author_version": [
+          1,
+          0,
+          3
+        ]
+      },
+      "End": {
+        "project_id": 1710505,
+        "file_id": 9227361,
+        "official_download_url": "https://edge.forgecdn.net/files/9227/361/Kaleidoscope%20End%20v1.0.3.mcaddon",
+        "sha256": "5cb77a000ed0f42c820602c50b67c208e85e99634d3454fb969aa39d5c2d903a",
+        "bytes": 632197,
+        "filename": "cf-1710505-9227361-end-103.mcaddon",
+        "behavior_uuid": "9c8422ab-e9b9-49eb-baf5-abdaf585e41d",
+        "resource_uuid": "859d9e9f-4834-4ad0-bb4c-35eb8eb44630",
+        "author_version": [
+          1,
+          0,
+          3
+        ]
+      },
+      "Orchard": {
+        "project_id": 1724297,
+        "file_id": 9227353,
+        "official_download_url": "https://edge.forgecdn.net/files/9227/353/Kaleidoscope%20Orchard%20v1.0.1.mcaddon",
+        "sha256": "bd1d339c6afe73ba8bf1b7de3f1962c7e064a2d8e077f2b4276902cdc796cc9c",
+        "bytes": 797318,
+        "filename": "cf-1724297-9227353-orchard-101.mcaddon",
+        "behavior_uuid": "dd3c6676-43dd-46b7-9d48-03bfabf7284e",
+        "resource_uuid": "290da070-9e60-4ec4-89bc-00fd10a8ecb3",
+        "author_version": [
+          1,
+          0,
+          1
+        ]
+      },
+      "PresenceFootsteps": {
+        "project_id": 1745463,
+        "file_id": 9202070,
+        "official_download_url": "https://edge.forgecdn.net/files/9202/70/Presence%20Footsteps%20v1.0.1.mcaddon",
+        "sha256": "21fe002340f5c5ad79f408205cc7582ed5915a24a4e98abdd7c308000e4eb2bb",
+        "bytes": 3114563,
+        "filename": "cf-1745463-9202070-presence-footsteps-101.mcaddon",
+        "behavior_uuid": "b6552bad-e030-4083-9225-e47b08cfd860",
+        "resource_uuid": "40321040-66de-448c-8071-ca694b9ea420",
+        "author_version": [
+          1,
+          0,
+          1
+        ]
+      },
+      "Deco": {
+        "project_id": 1702981,
+        "file_id": 8931626,
+        "official_download_url": "https://edge.forgecdn.net/files/8931/626/Kaleidoscope%20Deco%20v1.0.1.mcaddon",
+        "sha256": "a554e13edd83012a0e621a98b5ddcf065514ba1fbed6e941019ebe45628adee6",
+        "bytes": 1765989,
+        "filename": "cf-1702981-8931626-deco-101.mcaddon",
+        "behavior_uuid": "d6636182-2ca5-4ec4-9814-40dc1191c026",
+        "resource_uuid": "f2c4c5f1-7abd-4c36-bb0c-7705a4d93aa5",
+        "author_version": [
+          1,
+          0,
+          1
+        ]
+      }
+    },
+    "host_specs": {
+      "chinesefood-doll-renderer.json": {
+        "profile": "chinesefood-doll-renderer-p56",
+        "sha256": "8d4b689d2bdb53830f73e9bb105e499b9194769c91ac071c39a14fd45a5d942b",
+        "declaration_sha256": "f493ec1efc95eacd9a776ac4513be68760c91a824f6a20410dd272f30c3c633b"
+      },
+      "chinesefood-freezer-storage.json": {
+        "profile": "chinesefood-freezer-storage-p56",
+        "sha256": "1062a1f923bc6d0367f4c5d6b243cb69471ef94e7a64580f46f7548e599479ec",
+        "declaration_sha256": "7daef2c8203c893eee9ccc05ebda7f876c377d0d0450e2f84926adb5b18c2f7c"
+      },
+      "chinesefood-reviewed-repairs.json": {
+        "profile": "chinesefood-reviewed-repairs-p56",
+        "sha256": "66fc575bbf0607b9ad0668d86147aa9249d47c8f04515d2ceb61e0c04d33fd44",
+        "declaration_sha256": "0f0cc2a53c524cf626b3d64a515fdea00052187991bb86c4fcdb81c6e4c2739e"
+      },
+      "cookery-enamel-basin-lid-repair.json": {
+        "profile": "cookery-enamel-basin-lid-repair-p56",
+        "sha256": "712a98a7e4c701ee8a2ebac4b1ad93d40340ad22fd9c23c0740bccbb5c2e43f1",
+        "declaration_sha256": "edfed9fb7e0c59e35b5a43f54e0a083212146493d0e9578386a78e4a421e5828"
+      },
+      "cookery-guide-startup-repair.json": {
+        "profile": "cookery-guide-startup-repair-p56",
+        "sha256": "849a541634d81910badadcdbf0d9df756b732f62112ad2a30a1a1034c65278ef",
+        "declaration_sha256": "d66b03853c714cda61a0e54631e6d9cefc83577a2960e043e0f0bc7ad8a31ec1"
+      },
+      "cookery-held-geometry-canonicalization.json": {
+        "profile": "cookery-held-geometry-canonicalization-p56",
+        "sha256": "e541c5fd4f6341921a324fcda1b5b89e4af19b4b241319bec25a94768ab3bbc2",
+        "declaration_sha256": "61c2a409342173ee84c781a8c55f51410c884019ab14cf5778e43a7b8e7792e2"
+      },
+      "cookery-mooncake-dough-repair.json": {
+        "profile": "cookery-mooncake-dough-repair-p56",
+        "sha256": "dc74333b31288f21c4f075662b0a44274511a8173673e7aa29c796c45f63eb0a",
+        "declaration_sha256": "8c17379d90590680b23387a4abf9568b252886e98db18148705f7a44664085fa"
+      },
+      "orchard-tavern-bridge-adapter.json": {
+        "profile": "orchard-tavern-bridge-adapter-p56",
+        "sha256": "8dfd0dbbbaadfcb1d68bee9e4f1ca021e2d600bca4b939dd9ef1fc49d32e7c38",
+        "declaration_sha256": "6b6d5e8c4f082405522359d3117c48eba7af33dd7d61c8ac1e8645f5fc05888b"
+      }
+    },
+    "public_api_spec_sha256": "1c2fb96a176cbb394f9ddef213a50cebf016c2e683b1f25edc66058c3fd82325",
+    "public_api_profile": "public-api-0.2.13"
   }
 }

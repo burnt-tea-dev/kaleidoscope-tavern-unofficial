@@ -218,9 +218,10 @@ class RecoveryCapabilityTests(unittest.TestCase):
 class StableAuthorSourceChainTests(unittest.TestCase):
  def test_stable_source_requires_complete_exact_preceding_api_and_private_receipts(self):
   import copy
-  from stable_host_profiles import CATALOG,PROFILES,receipt,validate_stable_source
+  from stable_host_profiles import CATALOG,PROFILES,public_profiles,receipt,validate_stable_source
   for name,profile in {**PROFILES,'public-api':CATALOG['public_api_profile'],**CATALOG.get('public_api_profiles',{})}.items():
-   prior=[copy.deepcopy(CATALOG['public_api'] if key=='public-api' else receipt(PROFILES[key])) for key in profile['required_extensions']]
+   public=CATALOG.get('public_api_predecessors',{}).get(name,['public-api'])[0]
+   prior=[copy.deepcopy(receipt(public_profiles()[public]) if key=='public-api' else receipt(PROFILES[key])) for key in profile['required_extensions']]
    source={'owner':profile['source_owner'],'archive_sha256':profile['archive_sha256'],'reviewed_extensions':prior}
    validate_stable_source(profile,source)
    for field,value in [('owner','preserved'),('archive_sha256','unreviewed')]:
@@ -248,21 +249,44 @@ class StableAuthorSourceChainTests(unittest.TestCase):
 class PublicApiPredecessorTests(unittest.TestCase):
  def test_previous_public_and_private_profiles_are_retained_exactly(self):
   from stable_host_profiles import CATALOG,declaration_sha
-  self.assertEqual(declaration_sha(CATALOG['profiles']),'fb34f46ab2d3e107fb104c27b6987b2567d0e422ff4d1382d28ae2ae254c01e7')
+  historical=('chinesefood-doll-renderer','chinesefood-freezer-storage','chinesefood-reviewed-repairs',
+   'cookery-guide-startup-repair','cookery-mooncake-dough-repair','cookery-recipe-cache-repair',
+   'chinesefood-doll-renderer-p44','chinesefood-doll-renderer-p45','chinesefood-doll-renderer-p46',
+   'chinesefood-doll-renderer-p47','nether-placeable-drinks-schema-repair-p48',
+   'chinesefood-doll-renderer-p48','cookery-enamel-basin-lid-repair-p49')
+  self.assertEqual(declaration_sha({name:CATALOG['profiles'][name] for name in historical}),'fb34f46ab2d3e107fb104c27b6987b2567d0e422ff4d1382d28ae2ae254c01e7')
   self.assertEqual(declaration_sha(CATALOG['public_api']),'5041cab6e01b97dec00794cb9d9fb69842fd930d86f21d1a5a6ae6c5e371207c')
   self.assertEqual(declaration_sha(CATALOG['public_api_profile']),'a0c4a77c65b4faca822ae01f71020bb5553ee57bc5029eb5027b880cb80c3939')
+  self.assertEqual(declaration_sha(CATALOG['profiles']['cookery-millstone-extension-admission-p50']),'5e29bfc8058016d58d3751ed579743104bbfe0d67c685d028a186a4a723d51d6')
+  self.assertEqual(declaration_sha(CATALOG['profiles']['cookery-held-geometry-canonicalization-p50']),'acbb312e00c509e1c5a8b8eefecd98081830cf8563e777c76155dc174ef7ec56')
+ def test_millstone_predecessor_has_disjoint_host_writes(self):
+  from stable_host_profiles import CATALOG
+  mill=CATALOG['profiles']['cookery-millstone-extension-admission-p50']
+  api=CATALOG['public_api_profiles']['public-api-0.2.12']
+  self.assertFalse(set(mill['original_files']) & (set(api['original_files']) | set(api['patched_files']) | set(api['copies'])))
  def sources(self):
   import copy
-  from stable_host_profiles import CATALOG,PROFILES,receipt
-  for name in CATALOG['public_api_predecessors']:
+  from stable_host_profiles import CATALOG,PROFILES,public_profiles,receipt
+  for name,accepted in CATALOG['public_api_predecessors'].items():
    profile=PROFILES[name]
-   for public in [CATALOG['public_api'],receipt(CATALOG['public_api_profiles']['public-api-0.2.12'])]:
+   for public_name in accepted:
+    public=receipt(public_profiles()[public_name])
     prior=[copy.deepcopy(public if key=='public-api' else receipt(PROFILES[key])) for key in profile['required_extensions']]
     yield name,profile,{'owner':profile['source_owner'],'archive_sha256':profile['archive_sha256'],'reviewed_extensions':prior}
- def test_each_named_private_profile_accepts_either_complete_public_source(self):
+ def test_each_named_private_profile_accepts_its_declared_complete_public_sources(self):
   from stable_host_profiles import validate_stable_source
   for name,profile,source in self.sources():
    with self.subTest(profile=name,public=source['reviewed_extensions'][0]['id']):validate_stable_source(profile,source)
+ def test_unlisted_public_versions_cannot_cross_old_or_current_profile_boundaries(self):
+  import copy
+  from stable_host_profiles import CATALOG,PROFILES,public_profiles,receipt,validate_stable_source
+  for name,accepted in CATALOG['public_api_predecessors'].items():
+   profile=PROFILES[name]
+   for public_name,public in public_profiles().items():
+    if public_name in accepted:continue
+    prior=[copy.deepcopy(receipt(public) if key=='public-api' else receipt(PROFILES[key])) for key in profile['required_extensions']]
+    source={'owner':profile['source_owner'],'archive_sha256':profile['archive_sha256'],'reviewed_extensions':prior}
+    with self.subTest(profile=name,public=public_name),self.assertRaisesRegex(ValueError,'exact preceding receipt'):validate_stable_source(profile,source)
  def test_new_public_source_keeps_every_private_prerequisite(self):
   import copy
   from stable_host_profiles import validate_stable_source

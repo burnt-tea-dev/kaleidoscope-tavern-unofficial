@@ -98,6 +98,9 @@ class FamilyIdentityTests(unittest.TestCase):
  def setUp(self):
   target=patch.object(m,'T',Path(__file__).resolve().parents[2]);target.start();self.addCleanup(target.stop)
   self.spec=json.loads((m.T/'family/identity-migrations/stable-author-20261016.json').read_text());self.old={'packs':[]};self.new={'packs':[]}
+  historical=[{'project_id':p['project_id'],'file_id':p['new_file_id'],'sha256':p['new_archive_sha256'],'packs':[{'uuid':s['new_uuid']} for s in p['packs']]} for p in self.spec['projects']]
+  original_read=m.read
+  fixture=patch.object(m,'read',side_effect=lambda p:{'upstream':historical} if p==m.T/'family/upstream.lock.json' else original_read(p));fixture.start();self.addCleanup(fixture.stop)
   for project in self.spec['projects']:
    for row in project['packs']:
     for container,prefix in ((self.old,'old'),(self.new,'new')):

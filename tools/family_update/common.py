@@ -234,10 +234,17 @@ def live_inventory():
     for side in ['behavior', 'resource']:
         refs[side] = read(W / ('world_' + side + '_packs.json'))
         roots = {}
-        for root in (W / (side + '_packs')).iterdir():
-            if (root / 'manifest.json').is_file():
-                uid = read(root / 'manifest.json')['header']['uuid']
-                roots.setdefault(uid, []).append(root)
+        # World references can resolve to BDS-global packs. Resolve the complete
+        # identity once; a world/global collision is ambiguous, never priority.
+        searched = set()
+        for directory in [W / (side + '_packs'), B / (side + '_packs')]:
+            if directory.resolve() in searched or not directory.is_dir():
+                continue
+            searched.add(directory.resolve())
+            for root in directory.iterdir():
+                if (root / 'manifest.json').is_file():
+                    uid = read(root / 'manifest.json')['header']['uuid']
+                    roots.setdefault(uid, []).append(root)
         for ref in refs[side]:
             matches = roots.get(ref['pack_id'], [])
             assert len(matches) == 1, ('Missing or ambiguous live UUID', ref)
@@ -250,6 +257,13 @@ def check_live_against_policy(inventory):
     policy = read(Q / 'senluo-policy.json')
     receipt = read(policy['approved_receipt'])
     expected = {pack['uuid']: pack for pack in receipt['packs']}
+    if CONFIG.get('managed_drift_recovery'):
+        from family_update.managed_drift_recovery import matches_receipt, check_observed
+        if matches_receipt(inventory, receipt):
+            assert G['audit'](W, policy)['ok'], 'Approved inventory failed family audit'
+        else:
+            check_observed(inventory)
+        return policy
     if CONFIG.get('startup_reconciliation'):
         # The reconciliation describes the pre-deployment drift. Once the new
         # receipt is approved, readback must compare against that receipt, not
@@ -308,6 +322,8 @@ def external_input_hashes():
             result['preserved_archive:'+uid]=sha(row['artifact']['path'])
     from family_update.prospective_preserved_inputs import input_refs
     result.update(input_refs())
+    from family_update.managed_drift_recovery import input_refs as managed_drift_inputs
+    result.update(managed_drift_inputs())
     return result
 
 

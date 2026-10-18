@@ -30,6 +30,9 @@ def main(argv=None):
     if args.retire_outputs and args.command != 'cleanup-copies':
         parser.error('--retire-outputs is only valid for cleanup-copies')
     common.configure(args.config)
+    if args.execute and args.command not in {'plan', 'status'}:
+        from family_update.memory_budget import require
+        require(args.command)
     if args.command in ['cleanup-copies', 'cleanup-engine-inputs']:
         if args.execute:
             common.verify_canonical_runner()

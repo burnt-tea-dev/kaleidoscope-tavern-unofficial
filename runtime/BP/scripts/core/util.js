@@ -29,7 +29,7 @@ export function utf8Bytes(s) {
 /** Integrity checksum, NOT a signature/authentication mechanism. */
 export function digest(s) { let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return (h>>>0).toString(16).padStart(8,'0'); }
 export function localeText(value,locale='zh_TW') { if(typeof value==='string')return value;return value?.[locale]??value?.en_US??value?.zh_TW??value?.zh_CN??''; }
-export function localeMap(value) { check(value&&typeof value==='object'&&!Array.isArray(value),'INVALID_LOCALE_MAP');const result={};for(const [k,v]of Object.entries(value)){check(['zh_TW','zh_CN','en_US'].includes(k),'UNSUPPORTED_LOCALE');result[k]=text(v,8192);}check(Object.keys(result).length>0,'EMPTY_LOCALE_MAP');return result; }
+export function localeMap(value) { check(value&&typeof value==='object'&&!Array.isArray(value),'INVALID_LOCALE_MAP');const rows=Object.entries(value);check(rows.length<=64,'LOCALE_LIMIT');const result={};for(const [k,v]of rows){check(/^[a-z]{2,3}_[A-Z]{2}$/.test(k),'UNSUPPORTED_LOCALE');result[k]=text(v,8192);}check(rows.length>0,'EMPTY_LOCALE_MAP');return result; }
 export function sorted(items,fn=x=>x.id) { return [...items].sort((a,b)=>fn(a)<fn(b)?-1:fn(a)>fn(b)?1:0); }
 
 /** JSON data preparation with bounded work between yields. Wire order is unchanged. */

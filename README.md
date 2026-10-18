@@ -1,8 +1,8 @@
-## Current maintained source: 0.6.173
+## Current maintained source: 0.6.176
 
-Source snapshot reviewed on **2026-10-17**: [115942e5](https://github.com/casama233/kaleidoscope-tavern-unofficial/commit/115942e55e9946cfd257fbcdc41c849f75b77509). The public source family is **T173 / G150 / W151**. Stable-author identity/state adaptation and the later P48/P49 consumer repairs have source evidence. Full-family acceptance is separate and remains incomplete for the current batch.
+Current source candidate: **T176 / G155 / W153**, targeting clean stable Cookery **1.6.2** and the current reviewed author family. It preserves the complete T175 repair line and repairs unloaded projectile reads, Orchard guide/bottle integration and native quality-bottle handoff. Canonical checks, full-family native/saved-world gates and client acceptance retain separate evidence; see [T176 scope](docs/RELEASE-NOTES-0.6.176.md).
 
-**Public download:** [Tavern v0.6.170](https://github.com/casama233/kaleidoscope-tavern-unofficial/releases/tag/v0.6.170), paired with **World Liquor 0.1.148** and the optional **Grilling 2.8.149** source-check family. The G149 public package uses Cookery **1.6.0**; current G150 source uses **1.6.1**. Main-source requirements and published-package requirements must be read for their own version.
+**Public download:** [Tavern v0.6.170](https://github.com/casama233/kaleidoscope-tavern-unofficial/releases/tag/v0.6.170), paired with **World Liquor 0.1.148** and the optional **Grilling 2.8.149** source-check family. The G149 public package uses Cookery **1.6.0**; current G155 source uses **1.6.2**. Main-source requirements and published-package requirements must be read for their own version.
 
 **Last LIVE batch recorded in the repository:** **T169 / G144 / W147 / private42**, deployed **2026-10-15 22:40:27 HKT** and reported checked at the start of the following source batch. This documentation audit did not connect to the server. Current source, downloads and that deployment have separate identities; see [family/BASELINE-STATUS.md](family/BASELINE-STATUS.md).
 
@@ -19,8 +19,9 @@ A Bedrock port of [Kaleidoscope Tavern](https://github.com/KaleidoscopeMods/Kale
 - Current work, public downloads, repository-recorded deployment and acceptance are maintained in [one family status index](family/BASELINE-STATUS.md). [PR dispositions](docs/audit/PR-DISPOSITIONS.md) retain historical source decisions.
 - [baseline.json](baseline.json) owns package identity and exact dependencies; [CHANGELOG.md](CHANGELOG.md) records changes.
 - Bedrock 1.26.50 or newer; current load target BDS 1.26.52.3.
-- Enable both Tavern BP and RP. Cookery is optional; the reviewed family target is author Cookery1.6.1. World Liquor uses its exact paired Tavern version.
+- Enable both Tavern BP and RP. Cookery is optional; the reviewed family target is author Cookery1.6.2. World Liquor uses its exact paired Tavern version.
 - Use canonical source/releases, keep a world backup and remove duplicate older Tavern packs before an upgrade. Private integration is a separately identified addon; it is not a different Tavern runtime.
+- For a family candidate with the P50 Cookery RP repair, a clean resource-pack installation or targeted removal of the older Cookery RP is a prerequisite for client acceptance. Server replacement alone does not prove a client refresh; see [Cookery RP installation](family/COOKERY-RP-INSTALLATION.md).
 
 ## Build
 

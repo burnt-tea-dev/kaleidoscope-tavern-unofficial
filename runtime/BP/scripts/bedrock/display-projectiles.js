@@ -38,12 +38,12 @@ function applyCloud(dimension,at,itemId){
  }catch(e){error(e);}
 }
 export function handleDisplayProjectileHit(e){
+ try{
  const block=blockHit(e),projectile=e?.projectile;if(!block||!projectile)return false;
  const id=block.typeId,isCup=isCupBlock(id);if(!isBottleBlock(id)&&!GLASS_BLOCKS.has(id)&&!isCup)return false;
  // Java Projectile.mayInteract is the gate; Bedrock exposes projectile owner but not a
  // per-block griefing query on this event. Require a live, non-spectator owner.
  if(!ownerCanInteract(projectile))return false;
- try{
   const p={x:block.location.x,y:block.location.y,z:block.location.z},isDrink=isBottleBlock(id),isVanillaPotion=id===NS+':potion_bottle',vanillaKey=isVanillaPotion?bottleDisplayKey(block):undefined,k=isDrink?bottleKey(block.dimension.id,p):isCup?cupKey(block.dimension.id,p):undefined,s=isDrink?readBottleDisplay(block):undefined,raw=k?(isDrink?store.raw(k):cupStore.raw(k)):undefined,vanillaRaw=vanillaKey?world.getDynamicProperty(vanillaKey):undefined,old=waterSnapshot(block);
   const native=isDrink&&s?nativeStoragePlan(block,k,s,undefined):isVanillaPotion?potionDisplayRemoval(block):undefined;
   let highest,thrown;

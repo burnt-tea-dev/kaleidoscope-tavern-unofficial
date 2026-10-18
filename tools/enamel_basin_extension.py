@@ -9,7 +9,7 @@ import hashlib
 import json
 from pathlib import Path
 
-from stable_host_profiles import match_stable_profile
+from stable_host_profiles import match_stable_profile,current_author_profile
 
 KIND = 'cookery-enamel-basin-lid-repair'
 IDENTIFIER = 'kaleidoscope_cookery:enamel_basin'
@@ -48,17 +48,29 @@ def repair_condition(raw):
 
 
 def validate_enamel_basin_owner(config, spec):
+    owner=OWNER_VERSION
+    if spec.get('owner_version') in ([1,0,55],[1,0,56]):
+        profile=current_author_profile(spec)
+        if not profile or profile.get('owner_version')!=spec['owner_version']:raise ValueError('enamel basin requires its exact current author profile')
+        owner=profile['owner_version']
     if (config.get('repository') != 'local/senluo-amw-cuisine'
-            or config.get('version') != OWNER_VERSION or spec.get('owner_version') != OWNER_VERSION):
+            or config.get('version') != owner or spec.get('owner_version') != owner):
         raise ValueError('enamel basin repair requires canonical private owner P49')
 
 
 def apply_enamel_basin_extension(spec, owned_root, host_root, source):
     """Validate the exact declaration, source and output before the sole write."""
+    current=current_author_profile(spec,owned_root,source) if spec.get('owner_version') in ([1,0,55],[1,0,56]) else None
+    owner=current['owner_version'] if current else OWNER_VERSION
+    version=current['version'] if current else [1,0,1]
+    host=current['host_uuid'] if current else HOST
+    archive=current['archive_sha256'] if current else ARCHIVE
+    preimage=current['original_files'].get(PATH) if current else PREIMAGE
+    postimage=current['patched_files'].get(PATH) if current else POSTIMAGE
     if (type(spec.get('schema')) is not int or spec['schema'] != 1
             or spec.get('kind') != KIND or spec.get('id') != 'senluo:' + KIND
-            or spec.get('version') != [1, 0, 1] or spec.get('owner_version') != OWNER_VERSION
-            or spec.get('host_uuid') != HOST or spec.get('archive_sha256') != ARCHIVE):
+            or spec.get('version') != version or spec.get('owner_version') != owner
+            or spec.get('host_uuid') != host or spec.get('archive_sha256') != archive):
         raise ValueError('enamel basin declaration identity differs')
     try:
         expires = date.fromisoformat(spec['expires'])
@@ -69,14 +81,14 @@ def apply_enamel_basin_extension(spec, owned_root, host_root, source):
     for key in ('removal_condition', 'feedback', 'authorization'):
         if not isinstance(spec.get(key), str) or not spec[key].strip():
             raise ValueError('enamel basin review metadata missing ' + key)
-    if (spec.get('original_files') != {PATH: PREIMAGE}
-            or spec.get('patched_files') != {PATH: POSTIMAGE}
+    if (spec.get('original_files') != {PATH: preimage}
+            or spec.get('patched_files') != {PATH: postimage}
             or spec.get('imports') != {} or spec.get('insertions') != []
             or spec.get('copies') != {} or spec.get('json_updates') != []
             or spec.get('text_replacements') != [dict(path=PATH, before=BEFORE, after=AFTER)]):
         raise ValueError('enamel basin repair permits only the exact middle-range replacement')
     profile = match_stable_profile(spec, owned_root, source)
-    if profile is None or profile.get('owner_version') != OWNER_VERSION:
+    if profile is None or profile.get('owner_version') != owner:
         raise ValueError('enamel basin repair requires its exact reviewed private owner')
     root = Path(host_root)
     path = root / PATH
@@ -84,10 +96,10 @@ def apply_enamel_basin_extension(spec, owned_root, host_root, source):
     if any(part.is_symlink() for part in chain) or not path.is_file() or not path.resolve().is_relative_to(root.resolve()):
         raise ValueError('enamel basin source missing or outside pack')
     original = path.read_bytes()
-    if hashlib.sha256(original).hexdigest() != PREIMAGE:
+    if hashlib.sha256(original).hexdigest() != preimage:
         raise ValueError('enamel basin original host hash differs')
     result = repair_condition(original)
-    if hashlib.sha256(result).hexdigest() != POSTIMAGE:
+    if hashlib.sha256(result).hexdigest() != postimage:
         raise ValueError('enamel basin patched host hash differs')
     path.write_bytes(result)
     return {key: copy.deepcopy(spec[key]) for key in (
