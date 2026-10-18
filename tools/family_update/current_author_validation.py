@@ -23,11 +23,14 @@ CATALOG_KEY='current_author_p55'
 CHECKS={'current-source-api','native-freezer-performance.json','saturation-scheduling-functional.json','hud-coexistence-functional.json','ribbits-startup-functional.json','ribbits-fp-decode-functional.json'}
 
 def selected():
-    return c.CONFIG.get('extension_stable_profile') in ('current-author-p55','current-author-p56')
+    return c.CONFIG.get('extension_stable_profile') in ('current-author-p55','current-author-p56','current-author-p57')
 
 def settings():
-    if c.CONFIG.get('extension_stable_profile')=='current-author-p56':
-        return [1,0,56], 'senluo-stable-author-20261018-p56', 'current_author_p56'
+    selected_profile=c.CONFIG.get('extension_stable_profile')
+    if selected_profile in ('current-author-p56','current-author-p57'):
+        release={'current-author-p56':56,'current-author-p57':57}[selected_profile]
+        return [1,0,release], 'senluo-stable-author-20261018-p'+str(release), 'current_author_p'+str(release)
+    assert selected_profile in (None,'current-author-p55'),'Unsupported current author profile'
     return VERSION, PROFILE, CATALOG_KEY
 
 def digest(raw):return hashlib.sha256(raw).hexdigest()
@@ -115,10 +118,32 @@ def affected_packs(receipt,catalog=None):
     uuids={pin[key] for pin in catalog['authors'].values() for key in ['behavior_uuid','resource_uuid']}
     return {p['uuid']:{'side':p['side'],'version':p['version'],'files':tree(p['files'])} for p in receipt['packs'] if p['uuid'] in uuids or p['source'].get('repository')==LOGICAL}
 
+def validate_owned_conservation(owned,catalog):
+    """Retain historical deltas; P57 additionally admits only its exact removal."""
+    VERSION,_,_=settings()
+    changed=sorted('runtime/'+side+'/'+name for side in ['BP','RP'] for name in owned['files'][side].keys()&owned['previous_files'][side].keys() if owned['files'][side][name]!=owned['previous_files'][side][name])
+    added=sorted('runtime/'+side+'/'+name for side in ['BP','RP'] for name in owned['files'][side].keys()-owned['previous_files'][side].keys())
+    retired=sorted('runtime/'+side+'/'+name for side in ['BP','RP'] for name in owned['previous_files'][side].keys()-owned['files'][side].keys())
+    assert changed==owned['exact_changed_paths'],'Current author conservation changed paths differ'
+    assert added==owned['added_paths'],'Current author conservation added paths differ'
+    assert retired==owned['retired_paths'],'Current author conservation retired paths differ'
+    if VERSION==[1,0,57]:
+        def reviewed_paths(key):
+            paths=catalog[key]
+            assert isinstance(paths,list) and all(isinstance(path,str) for path in paths),'P57 conservation catalog paths must be a list'
+            assert paths==sorted(set(paths)),'P57 conservation catalog paths must be sorted and unique'
+            for value in paths:
+                path=Path(value)
+                assert len(path.parts)>=3 and path.parts[:2] in [('runtime','BP'),('runtime','RP')] and '..' not in path.parts and path.as_posix()==value,'Unsafe P57 conservation catalog path'
+            return paths
+        assert catalog['added_paths']==added==[],'P57 cannot add unreviewed runtime content'
+        assert retired==reviewed_paths('retired_paths') and retired,'P57 retired content differs from the exact reviewed scope'
+        assert changed==reviewed_paths('exact_changed_paths'),'P57 changed content differs from the exact reviewed scope'
+
 def validate_candidate(receipt,proof,baseline,binding,catalog):
     """Validate every output and the exact ordered chain, not just changed paths."""
     VERSION,PROFILE,CATALOG_KEY=settings()
-    variant={55:[1,0,10655],56:[1,0,10656]}[VERSION[-1]]
+    variant={55:[1,0,10655],56:[1,0,10656],57:[1,0,10657]}[VERSION[-1]]
     rows={row['uuid']:row for row in receipt['packs']};assert len(rows)==len(receipt['packs'])
     assert {row['uuid'] for row in rows.values() if row['source'].get('repository')==LOGICAL}=={p['uuid'] for p in baseline['packs'].values()},'Current private pair inventory differs'
     owned=proof['owned_runtime'];assert set(owned['files'])=={'BP','RP'}
@@ -129,12 +154,7 @@ def validate_candidate(receipt,proof,baseline,binding,catalog):
         assert pack['source']['commit']==binding['actual_current_source_commit'] and pack['source']['working_candidate'] is False
         assert pack['files']==owned['files'][side] and tree(pack['files'])==baseline['source_trees'][side]
         assert tree(owned['previous_files'][side])==previous['source_trees'][side]
-    changed=sorted('runtime/'+side+'/'+name for side in ['BP','RP'] for name in owned['files'][side].keys()&owned['previous_files'][side].keys() if owned['files'][side][name]!=owned['previous_files'][side][name])
-    added=sorted('runtime/'+side+'/'+name for side in ['BP','RP'] for name in owned['files'][side].keys()-owned['previous_files'][side].keys())
-    retired=sorted('runtime/'+side+'/'+name for side in ['BP','RP'] for name in owned['previous_files'][side].keys()-owned['files'][side].keys())
-    assert changed==owned['exact_changed_paths'],'Current author conservation changed paths differ'
-    assert added==owned['added_paths'],'Current author conservation added paths differ'
-    assert retired==owned['retired_paths'],'Current author conservation retired paths differ'
+    validate_owned_conservation(owned,catalog)
     assert set(proof['authors'])==set(proof['resolved_host_files'])==set(catalog['authors'])
     specs={}
     assert set(proof['host_specs'])==set(catalog['host_specs'])
