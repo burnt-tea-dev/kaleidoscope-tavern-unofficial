@@ -4,21 +4,29 @@ from datetime import date
 import hashlib
 import json
 from pathlib import Path
-from stable_host_profiles import match_stable_profile
+from stable_host_profiles import match_stable_profile,current_author_profile
 KIND='cookery-held-geometry-canonicalization'
 OWNER_VERSION=[1,0,50]
 NAMES=('red_lantern','bamboo_tray_base','bamboo_tray_stand')
 PATHS={f'models/blocks/java16/{name}.geo.json':f'models/blocks/decor/{name}.geo.json' for name in NAMES}
 
 def validate_held_geometry_owner(config,spec):
-    if (config.get('repository')!='local/senluo-amw-cuisine' or config.get('version')!=OWNER_VERSION
-            or spec.get('owner_version')!=OWNER_VERSION):
+    owner=OWNER_VERSION
+    if spec.get('owner_version')==[1,0,55]:
+        profile=current_author_profile(spec)
+        if not profile or profile.get('owner_version')!=[1,0,55]:raise ValueError('held geometry requires its exact current author profile')
+        owner=profile['owner_version']
+    if (config.get('repository')!='local/senluo-amw-cuisine' or config.get('version')!=owner
+            or spec.get('owner_version')!=owner):
         raise ValueError('held geometry repair requires canonical private owner P50')
 
 def apply_held_geometry_extension(spec,owned_root,host_root,source):
+    current=current_author_profile(spec,owned_root,source) if spec.get('owner_version')==[1,0,55] else None
+    owner=current['owner_version'] if current else OWNER_VERSION
+    version=current['version'] if current else [1,0,1]
     if (type(spec.get('schema')) is not int or spec['schema']!=1 or spec.get('kind')!=KIND
-            or spec.get('id')!='senluo:'+KIND or spec.get('version')!=[1,0,1]
-            or spec.get('owner_version')!=OWNER_VERSION or spec.get('official_author_release') is not False):
+            or spec.get('id')!='senluo:'+KIND or spec.get('version')!=version
+            or spec.get('owner_version')!=owner or spec.get('official_author_release') is not False):
         raise ValueError('held geometry declaration identity differs')
     try:expires=date.fromisoformat(spec['expires'])
     except (KeyError,TypeError,ValueError) as exc:raise ValueError('held geometry expiry invalid') from exc
@@ -28,7 +36,7 @@ def apply_held_geometry_extension(spec,owned_root,host_root,source):
     if any(spec.get(k)!=v for k,v in [('imports',{}),('copies',{}),('insertions',[]),('text_replacements',[]),('json_updates',[])]):
         raise ValueError('held geometry repair permits same-host copies only')
     profile=match_stable_profile(spec,owned_root,source)
-    if profile is None or profile.get('owner_version')!=OWNER_VERSION:raise ValueError('unreviewed held geometry profile')
+    if profile is None or profile.get('owner_version')!=owner:raise ValueError('unreviewed held geometry profile')
     if (set(spec.get('original_files',{}))!=set(PATHS) or set(spec.get('patched_files',{}))!=set(PATHS)
             or set(spec.get('host_copies',{}))!=set(PATHS)):
         raise ValueError('held geometry copy inventory differs')

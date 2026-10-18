@@ -236,6 +236,9 @@ def private_receipt_source(extension, declared, author, rows, side, prefix_sourc
 
 
 def verify_static(receipt, prior):
+    if c.CONFIG.get('extension_stable_profile')=='current-author-p55':
+        from family_update.current_author_validation import verify_static as verify_current
+        return verify_current(receipt,prior)
     from stable_host_profiles import match_stable_profile, validate_stable_source
     path, proof, baseline, binding, profile, recipe, ci = source_proof()
     rows = {p['uuid']: p for p in receipt['packs']}
@@ -333,6 +336,9 @@ def verify_static(receipt, prior):
 
 
 def evidence_paths(include_native=True):
+    if c.CONFIG.get('extension_stable_profile')=='current-author-p55':
+        from family_update.current_author_validation import evidence_paths as current_paths
+        return current_paths(include_native)
     path = Path(c.CONFIG['extension_stable_validation']);proof = c.read(path)
     paths = [path, sibling(path, proof['test_log']['name'], proof['test_log']['sha256'])]
     for ref in proof['source_tests'].values():
@@ -344,6 +350,9 @@ def evidence_paths(include_native=True):
 
 def bind_native(receipt, evidence):
     if not c.CONFIG.get('extension_stable_validation'):return
+    if c.CONFIG.get('extension_stable_profile')=='current-author-p55':
+        from family_update.current_author_validation import bind_native as bind_current
+        return bind_current(receipt,evidence)
     static = c.read(c.R / 'stable-author-static-validation.json')
     assert static['profile'] == PROFILE and static['version'] == VERSION
     assert static['candidate_receipt_sha256'] == evidence['candidate_receipt_sha256'] == c.sha(c.C / 'family-receipt.json')
@@ -360,6 +369,9 @@ def bind_native(receipt, evidence):
 
 def verify_installation(receipt):
     if not c.CONFIG.get('extension_stable_validation'):return
+    if c.CONFIG.get('extension_stable_profile')=='current-author-p55':
+        from family_update.current_author_validation import verify_installation as verify_current
+        return verify_current(receipt)
     static = c.read(c.R / 'stable-author-static-validation.json');native = c.read(c.R / 'stable-author-native-validation.json')
     assert static['source'] == c.report_ref(Path(c.CONFIG['extension_stable_validation']))
     assert static['profile'] == native['profile'] == PROFILE and static['version'] == native['version'] == VERSION

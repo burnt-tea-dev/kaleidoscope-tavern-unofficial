@@ -17,7 +17,10 @@ def declaration_sha(spec):
 
 
 def receipt(profile):
-    return {key: profile[key] for key in ['id', 'version', 'original_files', 'patched_files', 'copies']}
+    result = {key: profile[key] for key in ['id', 'version', 'original_files', 'patched_files', 'copies']}
+    if profile.get('removed_files'):
+        result['removed_files'] = profile['removed_files']
+    return result
 
 
 def public_profiles():
@@ -81,3 +84,9 @@ def match_stable_profile(spec, owned_root=None, source=None):
             if hashlib.sha256(path.read_bytes()).hexdigest() != record['sha256']:
                 raise ValueError('stable host helper differs from the exact reviewed source')
     return profile
+
+
+def current_author_profile(spec, owned_root=None, source=None):
+    """A fresh owner uses one exact declaration, never an owner-version range."""
+    profile = match_stable_profile(spec, owned_root, source)
+    return profile if profile and profile.get('admission') == 'current-author-p55' else None
