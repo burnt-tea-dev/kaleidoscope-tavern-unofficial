@@ -144,9 +144,10 @@ def verify_handoff(summary, *, lease_bound=False):
     assert CURRENT_CONFIG.is_symlink() and CURRENT_CONFIG.resolve(strict=True) == Path(review['previous_config']['path']), 'Current deployment selector changed'
     assert c.sha(CURRENT_CONFIG) == review['previous_config']['sha256']
     state, _ = _document(Path(idle['state_file']))
-    # The existing timer may observe our held maintenance lock. That only
-    # changes this diagnostic status, never the confirmed sleep identity.
-    assert state['status'] in ['sleeping', 'maintenance_lock_busy'], 'Stopped state was not confirmed by the normal idle owner'
+    # Lock contention can replace sleeping with maintenance_lock_busy; the next
+    # stopped poll then labels it server_not_running. These diagnostic labels
+    # still require the exact reviewed sleep and every ownership check below.
+    assert state['status'] in ['sleeping', 'maintenance_lock_busy', 'server_not_running'], 'Stopped state was not confirmed by the normal idle owner'
     assert not state.get('error') and normalized_sleep(state) == review['sleep'], 'Normal idle stop identity changed'
     age = (_timestamp(c.now()) - _timestamp(state['checked_at_utc'])).total_seconds()
     assert 0 <= age <= idle['max_check_gap_seconds'], 'Idle owner observation is stale'
