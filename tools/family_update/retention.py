@@ -243,10 +243,131 @@ def _proof(r, root, mounts):
     source_paths = list(_paths(build.get('sources', {})))
     for p in source_paths:
         _require(not any(_overlap(p, r / rel) for rel in COPIES + BACKUPS), 'Recorded source overlaps a copy target')
+    proof = {'docs': docs}
+    managed = _managed_rollback(proof, r, root, mounts)
     identity = {'output': str(r), 'completed_at': dep['completed_at'], 'reviewed_receipt_sha256': digest,
                 'assembled_receipt_sha256': assembled, 'backup_receipt': saved['backup_receipt'],
                 'report_metadata': {name: _stat(r / name) for name in report_names}}
-    return {'identity': identity, 'docs': docs}
+    if managed:
+        identity['managed_report_metadata'] = managed.pop('metadata')
+        proof['managed_rollback'] = managed
+    return {'identity': identity, **proof}
+
+
+def _managed_rollback(proof, r, root, mounts):
+    """Bind the additional retained copies to the original accepted sources.
+
+    Never consult LIVE or reclassify the observed drift as an approved backup.
+    These inputs already belong to the reviewed deployment's evidence chain.
+    """
+    from .managed_drift_recovery import projection, receipt_inventory, inventory_sha256, files_sha256
+    docs = proof['docs']
+    refs = docs['reviewed-family-receipt.json'].get('evidence', {}).get('reports', [])
+    record_path = r / 'trusted-pack-rollback.json'
+    if not any((r / name).exists() or (r / name).is_symlink() for name in ('trusted-pack-rollback.json', 'trusted-pack-rollback', 'observed-global-displaced')) and not any(row.get('path') == str(record_path) for row in refs):
+        return None
+    bound = {row['path']: row for row in refs}
+    _require(len(bound) == len(refs), 'Managed rollback has duplicate report references')
+    metadata = {}
+
+    def document(path, digest=None):
+        path = _absolute(path)
+        if digest is None:
+            _require(str(path) in bound, 'Managed rollback lacks a reviewed report: ' + str(path))
+            digest = bound[str(path)]['sha256']
+        _require(isinstance(digest, str) and re.fullmatch('[0-9a-f]{64}', digest), 'Managed report digest is invalid')
+        # External evidence is explicitly hash-bound, never a deletion target.
+        boundary = root if path == root or root in path.parents else path.parent
+        _safe_path(path, boundary, mounts)
+        _require(stat.S_ISREG(path.lstat().st_mode), 'Managed report must be a regular file')
+        before = _stat(path)
+        raw = path.read_bytes()
+        _require(hashlib.sha256(raw).hexdigest() == digest, 'Managed rollback report bytes differ: ' + str(path))
+        _require(_stat(path) == before, 'Managed report changed while reading: ' + str(path))
+        metadata[str(path)] = before
+        return json.loads(raw)
+
+    record = document(record_path)
+    binding = record['review']
+    _require(bound.get(binding['path']) == binding, 'Managed review reference differs')
+    review = document(binding['path'])
+    _require(review.get('schema') == 1 and review.get('kind') == 'managed_drift_recovery' and
+             review.get('profile') == 'reviewed-managed-drift-repair-v1', 'Unsupported managed rollback review')
+    _require(review['rollback'] == {key: review['approved'][key] for key in ('receipt_sha256', 'assembled_receipt_sha256')},
+             'Managed rollback must retain the original approved stack')
+    policy = document(r / 'production-before/senluo-policy.json', review['approved']['policy_sha256'])
+    approved_path = _absolute(policy['approved_receipt'])
+    approved = document(approved_path, review['approved']['receipt_sha256'])
+    assembled_ref = approved['assembled_receipt']
+    _require(assembled_ref['sha256'] == review['approved']['assembled_receipt_sha256'], 'Original assembled rollback binding differs')
+    assembled = document(assembled_ref['path'], assembled_ref['sha256'])
+    original = docs['production-before/inventory.json']
+    try:
+        expected = receipt_inventory(approved)
+        _require(expected == receipt_inventory(assembled) == projection(record), 'Trusted rollback differs from original approved payload')
+        _require(inventory_sha256(original) == record['observed_inventory_sha256'] == review['observed']['inventory_sha256'] and
+                 inventory_sha256(record) == record['trusted_inventory_sha256'], 'Managed rollback inventory binding differs')
+    except (AssertionError, KeyError, TypeError) as error:
+        raise ValueError('Invalid managed rollback inventory: ' + str(error)) from error
+    _require(len(expected['packs']) == review['approved']['pack_count'] and record.get('schema') == 1 and
+             record.get('state') == 'prepared' and record.get('database_copied') is False and
+             record['receipt_sha256'] == review['rollback']['receipt_sha256'] and
+             record['policy_sha256'] == review['approved']['policy_sha256'], 'Trusted rollback source identity differs')
+    trusted = {'senluo-policy.json': review['approved']['policy_sha256']}
+    for row in expected['packs']:
+        trusted.update({str(Path(row['side'] + '_packs') / row['uuid'] / name): digest for name, digest in row['files'].items()})
+    for side, rows in expected['refs'].items():
+        name = 'world_' + side + '_packs.json'
+        value = _read(r / 'trusted-pack-rollback' / name, root, mounts)
+        _require(value == rows, 'Trusted rollback references differ')
+        trusted[name] = hashlib.sha256((r / 'trusted-pack-rollback' / name).read_bytes()).hexdigest()
+
+    aliases, displaced = {}, {}
+    preserved = review.get('preserved_existing_inputs')
+    if preserved is not None:
+        _require({k: v for k, v in preserved.items() if k != 'packs'} == {
+            'schema': 1, 'kind': 'existing_unattributed_paired_input', 'origin_status': 'unverified_existing_input',
+            'original_archive_verified': False, 'latest_stable_verified': False, 'action': 'retain_exact_bytes',
+            'definition_namespace': 'kaleidoscope_fishing', 'installation_location': 'world'}, 'Unsupported retained global input')
+        pins = preserved['packs']
+        _require(len(pins) == 2 and {x['side'] for x in pins.values()} == {'behavior', 'resource'} and
+                 set(pins) == set(review['observed']['added_uuids']), 'Retained global pair identity differs')
+        observed = {row['uuid']: row for row in original['packs']}
+        global_roots = set()
+        for uid, pin in pins.items():
+            row = observed[uid]
+            source = _absolute(pin['global_path'])
+            _require(row['side'] == pin['side'] and row['version'] == pin['version'] and row['path'] == str(source) and
+                     source.parent.name == pin['side'] + '_packs' and
+                     row['files']['manifest.json'] == pin['manifest_sha256'] and files_sha256(row['files']) == pin['files_sha256'],
+                     'Retained global pair differs from captured full inventory')
+            global_roots.add(source.parent.parent)
+            target = r / 'observed-global-displaced' / (pin['side'] + '_packs') / source.name
+            aliases[str(target)] = str(source)
+            displaced.update({str(target.relative_to(r / 'observed-global-displaced') / name): digest for name, digest in row['files'].items()})
+        _require(len(global_roots) == 1 and not any(_overlap(p, r) for p in global_roots), 'Global input root differs')
+    inventories = {'trusted-pack-rollback': trusted}
+    if aliases:
+        inventories['observed-global-displaced'] = displaced
+    _require(not docs['deployment-result.json'].get('reviewed_container_recovery'), 'Managed container recovery needs its own retained closure')
+    adopted = docs['deployment-result.json'].get('reviewed_identity_migration') is True
+    migration_path = r / 'production-identity-migration.json'
+    _require((migration_path.exists() or migration_path.is_symlink()) == adopted and
+             ((r / 'production-original-db').exists() or (r / 'production-original-db').is_symlink()) == adopted,
+             'Managed original database/adoption record differs')
+    if adopted:
+        migration = _read(migration_path, root, mounts)
+        metadata[str(migration_path)] = _stat(migration_path)
+        rehearsal_path = r / 'saved-world-identity-migration.json'
+        rehearsal = document(rehearsal_path)
+        _require(migration.get('state') == 'adopted_stopped' and migration.get('original_database') == str(r / 'production-original-db') and
+                 migration.get('proof') == bound[str(rehearsal_path)] and migration.get('database_files') == rehearsal.get('database_files') and
+                 rehearsal.get('candidate_receipt_sha256') == docs['deployment-result.json']['assembled_receipt_sha256'],
+                 'Managed identity adoption proof differs')
+        database = {name[3:]: digest for name, digest in docs['production-before/backup-receipt.json']['files'].items() if name.startswith('db/')}
+        _require(bool(database), 'Current original database inventory is empty')
+        inventories['production-original-db'] = database
+    return {'aliases': aliases, 'inventories': inventories, 'metadata': metadata}
 
 
 def _expected_pack_files(reviewed, side):
@@ -256,15 +377,29 @@ def _expected_pack_files(reviewed, side):
 def _rollback_files(proof, r):
     inventory = proof['docs']['production-before/inventory.json']
     prior = {pack['path']: pack for pack in inventory.get('packs', [])}
-    expected = {}
+    expected, seen, aliases = {}, set(), proof.get('managed_rollback', {}).get('aliases', {})
+    observed_aliases = set()
     for source, destination in proof['docs']['rollback-map.json'].get('retired', []):
         src, dst = _absolute(source), _absolute(destination)
+        _require(str(dst) not in seen, 'Duplicate retired pack destination')
+        seen.add(str(dst))
+        if str(src) in aliases:
+            _require(str(dst) == aliases[str(src)], 'Retained global destination differs')
+            observed_aliases.add(str(src))
+            continue
         _require(r / 'production-rollback' in src.parents and str(dst) in prior, 'Retired pack path differs from original inventory')
         row = prior[str(dst)]
         _require(src == r / 'production-rollback' / (row['side'] + '_packs') / dst.name, 'Retired pack canonical layout differs')
         expected.update({str(src.relative_to(r / 'production-rollback') / rel): digest for rel, digest in row['files'].items()})
-    _require(bool(expected), 'Rollback inventory is empty')
+    _require(observed_aliases == set(aliases), 'Retained global rollback mapping is incomplete')
+    _require(bool(expected) or bool(aliases), 'Rollback inventory is empty')
     return expected
+
+
+def _rollback_inventories(proof, r):
+    return {'production-snapshot': proof['docs']['production-before/backup-receipt.json']['files'],
+            'production-rollback': _rollback_files(proof, r),
+            **proof.get('managed_rollback', {}).get('inventories', {})}
 
 
 def _expected_rollback(proof, r):
@@ -292,10 +427,9 @@ def _assert_idle(output, proc_root):
 
 def _backup_complete(proof, r, root, mounts):
     try:
-        snapshot = _walk(r / 'production-snapshot', root, mounts)
-        rollback = _walk(r / 'production-rollback', root, mounts)
-        _require(snapshot['present'] and snapshot['files'] == set(proof['docs']['production-before/backup-receipt.json']['files']), 'Stopped backup file set incomplete')
-        _require(rollback['present'] and rollback['files'] == _expected_rollback(proof, r), 'Rollback pack file set incomplete')
+        for relative, files in _rollback_inventories(proof, r).items():
+            actual = _walk(r / relative, root, mounts)
+            _require(actual['present'] and actual['files'] == set(files), 'Retained rollback file set incomplete: ' + relative)
         return True, None
     except (OSError, ValueError) as error:
         return False, str(error)
@@ -633,9 +767,7 @@ def _retained_integrity(planned, root, mounts):
         _require(proof['identity'] == rows[value].get('binding'), 'Retained deployment metadata changed')
         ok, reason = _backup_complete(proof, r, root, mounts)
         _require(ok, 'Retained rollback is incomplete: ' + str(reason))
-        inventories = [('production-snapshot', proof['docs']['production-before/backup-receipt.json']['files']),
-                       ('production-rollback', _rollback_files(proof, r))]
-        for relative, expected in inventories:
+        for relative, expected in _rollback_inventories(proof, r).items():
             for name, digest in expected.items():
                 file = r / relative / name
                 before = _stat(file)
