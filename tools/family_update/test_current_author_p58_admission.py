@@ -100,7 +100,7 @@ class RetainedPayloadAdmission(unittest.TestCase):
             old={'header':{'uuid':'private-'+side,'version':[1,0,58],'name':'retained58','min_engine_version':[1,26,50]},
                  'modules':[{'uuid':'module-'+side,'type':'script' if side=='BP' else 'resources','version':[1,0,58]}],
                  'dependencies':[{'uuid':'private-'+other,'version':[1,0,58]}]}
-            if side=='BP':old['dependencies'] += [{'uuid':'G-RP','version':[2,8,155]}]+ [{'uuid':uid,'version':[0,0,1]}for uid in self.peers]+[{'module_name':'@minecraft/server','version':'2.7.0'}]
+            if side=='BP':old['dependencies'] += [{'uuid':'G-RP','version':[2,8,155]}]+ [{'uuid':uid,'version':[0,0,1]}for uid in self.peers]+[{'uuid':'5e121bf2-1d2d-4da4-be15-cffc5f216d94','version':[1,2,10058]},{'module_name':'@minecraft/server','version':'2.7.0'}]
             relative='runtime/'+side+'/manifest.json';self.raw[self.commit+':'+relative]=json.dumps(old).encode()+b'\n'
             component['files'][side]['manifest.json']=m.digest(self.raw[self.commit+':'+relative])
             current=copy.deepcopy(old);current['header']['version']=[1,0,59]
@@ -199,6 +199,75 @@ class RetainedPayloadAdmission(unittest.TestCase):
             else:self.owned['retained_component_conservation']['added_paths']=[]
             with self.subTest(mutation=mutation),self.assertRaises(AssertionError):self.validate()
             self.owned=before;self.baseline=baseline
+
+    def host_fixture(self):
+        """Materialize the existing370 opaque fixture, never private scripts."""
+        import host_extensions
+        candidates=['before','before-rp','before-spec','after','after-rp','after-spec','same','helper','plan','normal',*[f'unchanged-{n}'for n in range(209)]]
+        raw_by_hash={m.digest(raw.encode()):raw.encode() for raw in candidates}
+        for side,files in self.owned['files'].items():
+            for name,digest in files.items():
+                if name=='manifest.json':continue
+                target=self.root/'runtime'/side/name;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(raw_by_hash[digest])
+        (self.root/'baseline.json').write_text(json.dumps(self.baseline))
+        host=self.root/'host';recipe=host/'recipes/vanilla_cooking/salt_smelting.json';recipe.parent.mkdir(parents=True);recipe.write_bytes(b'synthetic salt recipe')
+        removed={'recipes/vanilla_cooking/salt_smelting.json':m.digest(recipe.read_bytes())}
+        spec={'schema':1,'id':'fixture:salt','version':[1,0,4],'kind':'chinesefood-reviewed-repairs',
+              'host_uuid':'fixture:author','archive_sha256':'dea708dd6443ea30d23e5791860a50181e8eeb560dcd7ec5a8e80fe22743e659',
+              'expires':'2099-12-31','removal_condition':'fixture','feedback':'fixture','authorization':'fixture',
+              'original_files':{},'patched_files':{},'imports':{},'copies':{},'insertions':[],'removed_files':removed}
+        def output(args,cwd=None,**kwargs):
+            if args[0]=='python3':return json.dumps(self.owned).encode()
+            if args==['git','rev-parse','HEAD']:value='d'*40
+            elif args==['git','status','--porcelain']:value=''
+            elif args==['git','show','HEAD:baseline.json']:return (self.root/'baseline.json').read_bytes()
+            elif args==['git','show',self.commit+':baseline.json']:return json.dumps(self.old).encode()
+            else:return self.raw[args[-1]]
+            return value if kwargs.get('text') else value.encode()
+        for target in [patch.object(host_extensions,'REVIEWED_SALT_REMOVAL',removed),
+                       patch.object(host_extensions,'match_stable_profile',return_value={'admission':'current-author-p58'}),
+                       patch.object(m.subprocess,'check_output',side_effect=output)]:
+            target.start();self.addCleanup(target.stop)
+        context={'source_root':str(self.root),'source_commit':'d'*40,'sources':{key:str(self.root/key) for key in ['tavern','grilling','world-liquor']}}
+        return host_extensions,spec,host,recipe,context
+
+    def test_formal_host_guard_accepts_verified59_owner_with58_companion_contract(self):
+        guard,spec,host,recipe,context=self.host_fixture()
+        # The original implementation rejects this valid owning manifest59.
+        with self.assertRaisesRegex(ValueError,'companion'):
+            guard.apply_host_extension(spec,self.root/'runtime/BP',host,{})
+        proof=guard.apply_host_extension(spec,self.root/'runtime/BP',host,{},retained_owner=context)
+        self.assertFalse(recipe.exists());self.assertEqual(proof['removed_files'],spec['removed_files'])
+        self.assertEqual(json.loads((self.root/'runtime/BP/manifest.json').read_text())['header']['version'],[1,0,59])
+
+    def test_formal_host_guard_rejects_forged_context_and_nonconserved_runtime_before_removal(self):
+        guard,spec,host,recipe,context=self.host_fixture()
+        for forged in [{**context,'source_commit':'e'*40},{**context,'owner_version':[1,0,59]},
+                       {**context,'source_root':str(self.root/'elsewhere')},
+                       {**context,'sources':{**context['sources'],'tavern':'relative-peer'}}]:
+            with self.subTest(forged=forged),self.assertRaisesRegex(ValueError,'retained salt owner'):
+                guard.apply_host_extension(spec,self.root/'runtime/BP',host,{},retained_owner=forged)
+            self.assertTrue(recipe.exists())
+        helper=self.root/'runtime/BP/scripts/kept-000.js';helper.write_bytes(b'unreviewed payload')
+        with self.assertRaisesRegex(ValueError,'current source payload differs'):
+            guard.apply_host_extension(spec,self.root/'runtime/BP',host,{},retained_owner=context)
+        self.assertTrue(recipe.exists())
+
+    def test_formal_host_guard_keeps_wrong_fishing_and_corrupt_inner_conservation_closed(self):
+        guard,spec,host,recipe,context=self.host_fixture()
+        for row in self.manifests['BP']['dependencies']:
+            if row.get('uuid')=='5e121bf2-1d2d-4da4-be15-cffc5f216d94':row['version']=[1,2,0]
+        self.refresh();(self.root/'baseline.json').write_text(json.dumps(self.baseline))
+        with self.assertRaisesRegex(ValueError,'retained salt owner'):
+            guard.apply_host_extension(spec,self.root/'runtime/BP',host,{},retained_owner=context)
+        self.assertTrue(recipe.exists())
+        for row in self.manifests['BP']['dependencies']:
+            if row.get('uuid')=='5e121bf2-1d2d-4da4-be15-cffc5f216d94':row['version']=[1,2,10058]
+        self.refresh();(self.root/'baseline.json').write_text(json.dumps(self.baseline))
+        self.owned['retained_component_conservation']['added_paths']=[]
+        with self.assertRaisesRegex(ValueError,'retained salt owner'):
+            guard.apply_host_extension(spec,self.root/'runtime/BP',host,{},retained_owner=context)
+        self.assertTrue(recipe.exists())
 
 
 if __name__=='__main__':unittest.main()
