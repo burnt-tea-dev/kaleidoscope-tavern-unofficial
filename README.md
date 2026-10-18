@@ -1,8 +1,8 @@
 ## Current maintained source: 0.6.176
 
-Current source candidate: **T176 / G154 / W153**, targeting clean stable Cookery **1.6.2** and the current reviewed author family. It preserves the complete T175 repair line and repairs unloaded projectile reads, Orchard guide/bottle integration and native quality-bottle handoff. Canonical checks, full-family native/saved-world gates and client acceptance retain separate evidence; see [T176 scope](docs/RELEASE-NOTES-0.6.176.md).
+Current source candidate: **T176 / G155 / W153**, targeting clean stable Cookery **1.6.2** and the current reviewed author family. It preserves the complete T175 repair line and repairs unloaded projectile reads, Orchard guide/bottle integration and native quality-bottle handoff. Canonical checks, full-family native/saved-world gates and client acceptance retain separate evidence; see [T176 scope](docs/RELEASE-NOTES-0.6.176.md).
 
-**Public download:** [Tavern v0.6.170](https://github.com/casama233/kaleidoscope-tavern-unofficial/releases/tag/v0.6.170), paired with **World Liquor 0.1.148** and the optional **Grilling 2.8.149** source-check family. The G149 public package uses Cookery **1.6.0**; current G154 source uses **1.6.2**. Main-source requirements and published-package requirements must be read for their own version.
+**Public download:** [Tavern v0.6.170](https://github.com/casama233/kaleidoscope-tavern-unofficial/releases/tag/v0.6.170), paired with **World Liquor 0.1.148** and the optional **Grilling 2.8.149** source-check family. The G149 public package uses Cookery **1.6.0**; current G155 source uses **1.6.2**. Main-source requirements and published-package requirements must be read for their own version.
 
 **Deployment records:** Actual server identities, private integration versions, deployment times and production receipts are kept in private maintenance records. Public versions and acceptance limits remain in the family status index.
 

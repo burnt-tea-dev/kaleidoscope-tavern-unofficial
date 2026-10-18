@@ -12,16 +12,16 @@ PATHS={f'models/blocks/java16/{name}.geo.json':f'models/blocks/decor/{name}.geo.
 
 def validate_held_geometry_owner(config,spec):
     owner=OWNER_VERSION
-    if spec.get('owner_version')==[1,0,55]:
+    if spec.get('owner_version') in ([1,0,55],[1,0,56]):
         profile=current_author_profile(spec)
-        if not profile or profile.get('owner_version')!=[1,0,55]:raise ValueError('held geometry requires its exact current author profile')
+        if not profile or profile.get('owner_version')!=spec['owner_version']:raise ValueError('held geometry requires its exact current author profile')
         owner=profile['owner_version']
     if (config.get('repository')!='local/senluo-amw-cuisine' or config.get('version')!=owner
             or spec.get('owner_version')!=owner):
         raise ValueError('held geometry repair requires canonical private owner reviewed integration')
 
 def apply_held_geometry_extension(spec,owned_root,host_root,source):
-    current=current_author_profile(spec,owned_root,source) if spec.get('owner_version')==[1,0,55] else None
+    current=current_author_profile(spec,owned_root,source) if spec.get('owner_version') in ([1,0,55],[1,0,56]) else None
     owner=current['owner_version'] if current else OWNER_VERSION
     version=current['version'] if current else [1,0,1]
     if (type(spec.get('schema')) is not int or spec['schema']!=1 or spec.get('kind')!=KIND

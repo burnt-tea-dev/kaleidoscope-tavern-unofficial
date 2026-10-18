@@ -1,8 +1,8 @@
 ## 當前維護來源：0.6.176
 
-**目前來源候選T176／G154／W153，配乾淨作者Cookery1.6.2及本輪受審查家族。** 保留完整T175修復，補上卸載區塊投射物防護、Orchard指南／瓶狀態交接。canonical檢查、完整家族原生／存檔門檻及真人驗收各自記錄，見[T176範圍](docs/RELEASE-NOTES-0.6.176.md)。
+**目前來源候選T176／G155／W153，配乾淨作者Cookery1.6.2及本輪受審查家族。** 保留完整T175修復，補上卸載區塊投射物防護、Orchard指南／瓶狀態交接。canonical檢查、完整家族原生／存檔門檻及真人驗收各自記錄，見[T176範圍](docs/RELEASE-NOTES-0.6.176.md)。
 
-**公開下載：[酒館v0.6.170](https://github.com/casama233/kaleidoscope-tavern-unofficial/releases/tag/v0.6.170)**，配世界名酒0.1.148及可選G149來源檢查配套。G149公開包使用Cookery1.6.0；G154目前來源使用1.6.2。安裝時依選定版本的相依讀取。
+**公開下載：[酒館v0.6.170](https://github.com/casama233/kaleidoscope-tavern-unofficial/releases/tag/v0.6.170)**，配世界名酒0.1.148及可選G149來源檢查配套。G149公開包使用Cookery1.6.0；G155目前來源使用1.6.2。安裝時依選定版本的相依讀取。
 
 **倉庫最後記錄的LIVE批次：T169／G144／W147／private-integration，部署於2026-10-15 22:40:27 HKT，下一來源批次開始時記錄核驗。** 本次文件核對沒有連線服務器。來源、下載及部署的詳細證據只維護在[家族現況與修復主線](family/BASELINE-STATUS.md)。
 

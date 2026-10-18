@@ -89,4 +89,4 @@ def match_stable_profile(spec, owned_root=None, source=None):
 def current_author_profile(spec, owned_root=None, source=None):
     """A fresh owner uses one exact declaration, never an owner-version range."""
     profile = match_stable_profile(spec, owned_root, source)
-    return profile if profile and profile.get('admission') == 'current-author-p55' else None
+    return profile if profile and profile.get('admission') in ('current-author-p55', 'current-author-p56') else None
