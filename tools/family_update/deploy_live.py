@@ -9,11 +9,16 @@ class RecoveryRequired(RuntimeError):
     """A failed rollback must retain the stopped server and active lease."""
 
 def retain_stopped_on_failure():
-    """A stricter managed recovery policy never installs an incompatible rollback."""
+    """Explicit recovery and normal-idle handoffs never restart an old stack."""
     policy = CONFIG.get('managed_drift_failure_policy')
     assert policy in [None, 'retain_stopped'], 'Unknown managed drift failure policy'
     if policy is not None:
         assert CONFIG.get('managed_drift_recovery'), 'Stopped drift recovery requires a reviewed managed repair'
+    idle = CONFIG.get('normal_idle_update')
+    if idle is not None:
+        assert isinstance(idle, str) and Path(idle).is_absolute(), 'Normal idle update needs its reviewed input'
+        assert not CONFIG.get('managed_drift_recovery') and not CONFIG.get('preinstall_recovery_output'), 'Normal idle update cannot borrow recovery exceptions'
+        return True
     return policy == 'retain_stopped'
 
 def deployment_authorized(agents):
@@ -32,7 +37,10 @@ def preflight():
     from family_update.workflow import same_runtime
     if same_runtime(receipt, original):
         return original, receipt
-    if CONFIG.get('managed_drift_recovery'):
+    if CONFIG.get('normal_idle_update'):
+        from family_update.normal_idle_update import validate_initial_status
+        validate_initial_status(initial)
+    elif CONFIG.get('managed_drift_recovery'):
         from family_update.managed_drift_recovery import validate_initial_status
         validate_initial_status(initial)
     else:
@@ -113,6 +121,8 @@ def finalize_receipt():
         reports.extend(str(EXTENSION / row['path']) for row in review['proofs'])
         if review.get('allow_initially_stopped'):
             reports.append(str(EXTENSION / review['stopped_server_review']['evidence']['path']))
+    if CONFIG.get('normal_idle_update'):
+        reports.extend([CONFIG['normal_idle_update'], 'deployment-initial-state.json'])
     if CONFIG.get('prospective_preserved_inputs'):
         reports.append('prospective-preserved-inputs-check.json')
         prospective=read(R/'prospective-preserved-inputs-check.json')
@@ -280,7 +290,7 @@ def recover_after_failure(original,changed,retired,installed,rollback_failed=Fal
         if retain_stopped_on_failure():
             phase='retain_stopped_without_package_or_database_restore'
             if summary()['status']!='STOPPED': action('stop')
-            assert summary()['status']=='STOPPED', 'Failed managed repair must remain stopped'
+            assert summary()['status']=='STOPPED', 'Failed stopped-state update must remain stopped'
             raise RecoveryRequired('The reviewed failure policy retains current packages, displaced inputs and the newest database for operator recovery; no rollback runtime may start')
         if (R/'production-container-recovery.json').exists() or (R/'production-identity-migration.json').exists():
             if summary()['status']!='STOPPED':action('stop')
@@ -408,7 +418,7 @@ def main(argv=None):
         if same_runtime(receipt, original):
             print('NO_RUNTIME_CHANGES: full live bytes and order already match; no restart', flush=True)
             return {'state': 'no_runtime_changes', 'live_mutated': False, 'client': False}
-        for path in [R/name for name in ['previous-maintenance.json','handoff-authorization.json','live-authorization-AGENTS.md','reviewed-family-receipt.json','admission-policy.json','admission-report.json','deployment-result.json','deployment-recovery.json','rollback-map.json','production-snapshot','production-staged','production-rollback','saved-world-engine','saved-world-report.json']]:
+        for path in [R/name for name in ['previous-maintenance.json','handoff-authorization.json','live-authorization-AGENTS.md','reviewed-family-receipt.json','admission-policy.json','admission-report.json','deployment-result.json','deployment-recovery.json','rollback-map.json','production-snapshot','production-staged','production-rollback','saved-world-engine','saved-world-report.json','deployment-initial-state.json']]:
             assert not path.exists(), 'Existing report or deployment state must be preserved: ' + str(path)
         if CONFIG.get('managed_drift_recovery'):
             for name in ['trusted-pack-rollback','trusted-pack-rollback.json','managed-drift-displaced','managed-drift-pack-recovery.json','deployment-initial-state.json','observed-global-displaced']:
@@ -416,7 +426,10 @@ def main(argv=None):
         acquire_lease(receipt)
         changed=False; retired=[]; installed=[]
         try:
-            if CONFIG.get('managed_drift_recovery'):
+            if CONFIG.get('normal_idle_update'):
+                from family_update.normal_idle_update import record_initial_status
+                record_initial_status()
+            elif CONFIG.get('managed_drift_recovery'):
                 from family_update.managed_drift_recovery import record_initial_status
                 record_initial_status()
             verify_predeploy()
@@ -427,7 +440,7 @@ def main(argv=None):
                 from family_update.managed_drift_recovery import prepare_rollback
                 prepare_rollback(original)
             print(f'Preparing {SERVER} for a fresh stopped backup and saved-world rehearsal',flush=True)
-            if not CONFIG.get('managed_drift_recovery') or summary()['status']!='STOPPED':
+            if not (CONFIG.get('managed_drift_recovery') or CONFIG.get('normal_idle_update')) or summary()['status']!='STOPPED':
                 action('stop')
             assert summary()['status']=='STOPPED'; verify_predeploy()
             # Admit the larger native ceiling only after normal production stop.

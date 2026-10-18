@@ -67,6 +67,8 @@ def main(argv=None):
     elif args.command == 'deploy':
         result = workflow.deploy()
     elif args.command == 'update':
+        from family_update.native_capacity_wait import wait_if_configured
+        wait_if_configured()
         if (common.R / 'deployment-result.json').exists():
             result = workflow.verify_deployed()
         else:
