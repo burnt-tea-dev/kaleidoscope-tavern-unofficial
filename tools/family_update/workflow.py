@@ -37,7 +37,7 @@ def verify_native(verified_candidate=None):
     assert evidence['native_acceptance_source'] == 'saved_world', 'Require this deployment\'s combined native rehearsal'
     assert evidence['candidate_receipt_sha256'] == sha(C / 'family-receipt.json')
     assert evidence['engine_sha256'] == sha(B / 'bedrock_server'), 'Native engine changed'
-    assert evidence['engine_inputs'] == engine_inputs(), 'Native engine builtin packs or configuration changed'
+    assert evidence['engine_inputs'] == engine_inputs(world_receipt=receipt), 'Native engine builtin packs or configuration changed'
     assert evidence['backup_receipt'] == report_ref(R / 'production-before/backup-receipt.json'), 'Fresh stopped backup evidence changed'
     assert evidence['snapshot_source'] == str(R / 'production-snapshot'), 'Rehearsal used a different snapshot'
     assert evidence['fresh_stopped_backup'] and evidence['existing_world_loaded'] and evidence['saved_world_migration']

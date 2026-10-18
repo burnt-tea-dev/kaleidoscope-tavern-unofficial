@@ -2,7 +2,7 @@
 import io, re, shutil, struct
 from family_update.common import *
 
-def setup_engine(engine, world_name, port, expected_inputs=None):
+def setup_engine(engine, world_name, port, expected_inputs=None, world_receipt=None):
     properties = dict(line.split('=', 1) for line in (B / 'server.properties').read_text().splitlines() if '=' in line and not line.lstrip().startswith('#'))
     # Unset spike/slow thresholds disable those warnings. Keep every explicit
     # live watchdog value so QA observes the same limits, without adding defaults.
@@ -17,9 +17,22 @@ def setup_engine(engine, world_name, port, expected_inputs=None):
     if expected_inputs is not None:
         captured_data = expected_inputs['trees'].get('data')
         assert data_present == ('data' in expected_inputs['trees']) and expected_data == captured_data, 'BDS data input differs from captured engine inventory'
+    projected = engine_inputs(world_receipt=world_receipt) if world_receipt is not None else None
+    if projected is not None:
+        assert expected_inputs is not None and projected == expected_inputs, 'Projected engine inputs differ from captured inputs'
     engine.mkdir()
-    for name in ['bedrock_server', 'definitions', 'behavior_packs', 'resource_packs']:
+    for name in ['bedrock_server', 'definitions']:
         (engine / name).symlink_to((B / name).resolve(), target_is_directory=(B / name).is_dir())
+    aliases = (projected or {}).get('global_pack_projection', {}).get('aliases', [])
+    for name in ['behavior_packs', 'resource_packs']:
+        if world_receipt is None:
+            (engine / name).symlink_to((B / name).resolve(), target_is_directory=True)
+            continue
+        (engine / name).mkdir()
+        excluded = {Path(row['global_path']) for row in aliases if row['side'] + '_packs' == name}
+        for child in sorted((B / name).iterdir()):
+            if child not in excluded:
+                (engine / name / child.name).symlink_to(child.resolve(), target_is_directory=child.is_dir())
     for name in ['config', 'minecraftpe', 'treatments']:
         if name=='minecraftpe':
             cache=client_pack_cache()
@@ -29,6 +42,9 @@ def setup_engine(engine, world_name, port, expected_inputs=None):
         shutil.copytree(B / 'data', engine / 'data')
         assert hashes(engine / 'data') == expected_data, 'Isolated BDS data copy differs from captured input'
         assert hashes(B / 'data') == expected_data, 'BDS data input changed during isolated copy'
+    if projected is not None:
+        assert engine_inputs(world_receipt=world_receipt) == projected, 'Projected engine inputs changed during setup'
+        (engine / 'global-pack-projection.json').write_text(json.dumps(projected.get('global_pack_projection'), indent=2) + '\n')
     (engine / 'allowlist.json').write_text('[]\n')
     (engine / 'server.properties').write_text(f'server-name=Parity isolated native QA\nlevel-name={world_name}\nserver-port={port}\nserver-portv6={port+1}\nonline-mode=true\nallow-list=true\nview-distance=5\ntick-distance=4\nmax-threads=2\nenable-lan-visibility=false\ncontent-log-file-enabled=true\ncontent-log-console-output-enabled=true\ntransport=nethernet\n'+watchdog)
 
