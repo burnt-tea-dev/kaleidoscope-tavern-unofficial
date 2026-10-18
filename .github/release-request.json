@@ -1,11 +1,11 @@
 {
-  "version": "0.6.175",
-  "tag": "v0.6.175",
+  "version": "0.6.176",
+  "tag": "v0.6.176",
   "title": "Tavern 0.6.175: held-item repairs and rack usability",
   "prerelease": false,
   "publication_request": false,
   "validation_evidence": "docs/RELEASE-NOTES-0.6.175.md",
-  "public_notes_path": "docs/RELEASE-NOTES-0.6.175.md",
+  "public_notes_path": "docs/RELEASE-NOTES-0.6.176.md",
   "client_acceptance": "pending",
   "full_client_acceptance": "pending",
   "saved_world_migration": "pending",
@@ -13,7 +13,7 @@
   "live_deployment": false,
   "native_evidence_scope": "Native Blockbench animated-shell, XP material and both-hand rack editor previews plus independent source checks; no Minecraft client or LIVE deployment acceptance.",
   "client": false,
-  "status": "stable_development_candidate_pending_family_gates",
+  "status": "current_author_and_gameplay_candidate_pending_canonical_ci_and_family_admission",
   "expected_archive_sha256": "46fd33fa8a0c7220d7ac341b6cc4512c60f311434e359f3c3d65842db77411ea",
   "peer_pins_status": "frozen_T175_G153_W152_sources_pending_final_CI_and_full_family_gates",
   "family_ready": false

@@ -1,5 +1,5 @@
 import {nativeStoragePlan,nativeItems} from './native-item-storage.js';
-import {bottlePermutationStates,bottleDisplayMatches,legacyBottleDisplay} from '../core/bottle-display-schema.js';
+import {bottlePermutationBlock,bottlePermutationStates,bottleDisplayMatches,legacyBottleDisplay} from '../core/bottle-display-schema.js';
 import {bottleBlock,bottleBase,isBottleBlock} from '../core/extension-content.js';
 import {nativeEmptyHandBlockUse} from './java-placement-router.js';
 import {registerJavaBlockUseHandler} from './java-placement-router.js';
@@ -19,7 +19,7 @@ export const DISPLAY_IDS=new Set(Object.keys(BOTTLES).map(b=>`${NS}:bottle_${b}`
 const FACE_OFFSET=Object.freeze({Up:{x:0,y:1,z:0},Down:{x:0,y:-1,z:0},North:{x:0,y:0,z:-1},South:{x:0,y:0,z:1},West:{x:-1,y:0,z:0},East:{x:1,y:0,z:0}});
 const store=new BottleStore(world),locks=new Locks();
 function placementTarget(clicked,face){const offset=FACE_OFFSET[face];check(offset,'BAD_BLOCK_FACE');return plus(clicked,offset);}
-function permutation(s){return BlockPermutation.resolve(bottleBlock(s.base),bottlePermutationStates(s));}
+function permutation(s){return BlockPermutation.resolve(bottlePermutationBlock(s),bottlePermutationStates(s));}
 const intact=bottleDisplayMatches;
 export function readBottleDisplay(block){return store.load(bottleKey(block.dimension.id,block.location))??legacyBottleDisplay(block);}
 export function bottleFacingForYaw(yaw){check(Number.isFinite(yaw),'INVALID_ROTATION');return Math.floor(((((yaw+45)%360)+360)%360)/90);}
@@ -62,7 +62,16 @@ export function takeBottles(player,b,{all=false,expectedRevision}={}){
   pickupFeedback(player,b,plan,{drink:true});return tx;
  });
 }
-export function registerBottleComponents({blockComponentRegistry:r}){r.registerCustomComponent(NS+':bottle_display',{onPlayerInteract:nativeEmptyHandBlockUse,
+export function registerBottleComponents({blockComponentRegistry:r}){
+ r.registerCustomComponent(NS+':placeable_drink_placement_guard',{beforeOnPlayerPlace:ev=>{
+  // Native block-item placement must not overwrite a saved bottle transaction.
+  try{
+   const key=bottleKey(ev.block.dimension.id,ev.block.location);
+   check(store.raw(key)===undefined,'STORAGE_CONFLICT');
+   check(nativeItems.readAdopted({key,dimension:ev.block.dimension,position:ev.block.location})===undefined,'STORAGE_CONFLICT');
+  }catch{ev.cancel=true;}
+ }});
+ r.registerCustomComponent(NS+':bottle_display',{onPlayerInteract:nativeEmptyHandBlockUse,
  onPlace:ev=>{
   const d=ev.block.dimension,p={...ev.block.location},id=ev.block.typeId;
   const base=bottleBase(id);
