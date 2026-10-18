@@ -70,6 +70,34 @@ class CurrentAuthorCandidate(unittest.TestCase):
   p=patch.object(m.c,'git',side_effect=git);p.start();self.addCleanup(p.stop)
  def verify(self):m.validate_candidate(self.receipt,self.proof,self.baseline,{'actual_current_source_commit':'p-current'},self.catalog)
  def test_full_seven_author_pairs_and_same_owned_source_are_accepted(self):self.verify()
+ def test_retained_candidate_checks_current_owner_and_component_receipt_separately(self):
+  component_files=copy.deepcopy(self.proof['owned_runtime']['files'])
+  self.baseline.update(version=[1,0,59],retained_runtime={'source_commit':'component58','source_tree':'component-tree'})
+  self.proof.update(component_version=[1,0,58]);self.proof['owned_runtime']['previous_files']=component_files
+  anchor={'schema':1,'source_commit':'component58','source_tree':'component-tree','source_version':[1,0,58]}
+  for filename,spec in self.specs.items():
+   profile=self.profiles[filename.removesuffix('.json')+'-p55'];profile.update(owner_version=[1,0,58],admission='current-author-p58')
+   if 'owner_version' in spec:spec.update(owner_version=[1,0,58],local_pack_version=[1,0,10658]);profile['version']=[1,0,10658]
+   profile['spec_sha256']=stable.declaration_sha(spec);self.spec_records[filename]['declaration_sha256']=profile['spec_sha256']
+  for row in self.receipt['packs']:
+   if row['uuid'].startswith('private-'):row['version']=[1,0,59]
+   elif row['uuid'].startswith('ChineseFood-'):row['version']=[1,0,10658]
+   for extension in row['source'].get('reviewed_extensions',[]):
+    if extension['repository']!=m.LOGICAL:continue
+    extension.update(source_package_version=[1,0,59],component_version=[1,0,58],retained_runtime_profile=copy.deepcopy(anchor))
+    if 'owner_version' in extension:extension.update(owner_version=[1,0,58],local_pack_version=[1,0,10658])
+  original_git=m.c.git
+  def git(root,*args):
+   if args==('show','component58:baseline.json'):return json.dumps({'source_trees':{side:m.tree(files)for side,files in component_files.items()}})
+   return original_git(root,*args)
+  with patch.object(m.c,'CONFIG',{'extension_stable_profile':'current-author-retained'}),patch.object(m,'validate_retained_runtime'),patch.object(m.c,'git',side_effect=git):
+   self.verify()
+   extension=next(row for row in self.receipt['packs']if row['uuid']=='Orchard-BP')['source']['reviewed_extensions'][0]
+   for key,value in [('source_package_version',[1,0,58]),('component_version',[1,0,59]),('retained_runtime_profile',{**anchor,'source_commit':'wrong-anchor'})]:
+    old=extension[key];extension[key]=value
+    with self.subTest(key=key),self.assertRaises(AssertionError):self.verify()
+    extension[key]=old
+
  def test_successor_profile_cannot_relabel_the_previous_owned_pair(self):
   with patch.object(m.c,'CONFIG',{'extension_stable_profile':'current-author-p56'}),self.assertRaises(AssertionError):self.verify()
  def test_added_runtime_paths_cannot_be_omitted_or_misreported(self):
@@ -126,6 +154,14 @@ class FreshNativeBinding(unittest.TestCase):
   phase=lambda name:{'phase':name,'ok':True,'errors':[],'real_player_connections':0,'player_records_unchanged':True,'custom_container_inventories_retained':True,'native_freezer_inputs_retained':True}
   self.evidence={'candidate_receipt_sha256':self.digest,'fresh_stopped_backup':True,'existing_world_loaded':True,'exact_files_checked':True,'bds':True,'saved_world_migration':True,'client':False,'simulated_players':False,'test_only_overlays':[],'runs':[phase('first'),phase('restart')]}
   for p in [patch.object(m.c,'R',self.root),patch.object(m.c,'C',candidate),patch.object(m.c,'atomic',side_effect=lambda path,value:path.write_text(json.dumps(value)))]:p.start();self.addCleanup(p.stop)
+ def test_retained_component58_requires_fresh_owner59_native_binding(self):
+  path=self.root/'current-author-static-validation.json';static=json.loads(path.read_text());static.update(profile='senluo-stable-author-20261019-p58',version=[1,0,59],component_version=[1,0,58]);path.write_text(json.dumps(static))
+  with patch.object(m.c,'CONFIG',{'extension_stable_profile':'current-author-retained'}),patch.object(m,'owner_version',return_value=[1,0,59]):
+   m.bind_native(self.receipt,self.evidence);native=json.loads((self.root/'current-author-native-validation.json').read_text())
+   self.assertEqual(native['version'],[1,0,59]);self.assertEqual(native['component_version'],[1,0,58])
+   static['version']=[1,0,58];path.write_text(json.dumps(static))
+   with self.assertRaises(AssertionError):m.bind_native(self.receipt,self.evidence)
+
  def test_only_this_exact_candidate_and_both_fresh_loads_can_bind_native(self):
   for change in [{'candidate_receipt_sha256':'old-candidate'},{'fresh_stopped_backup':False},{'runs':self.evidence['runs'][:1]},{'client':True},{'test_only_overlays':['probe']}]:
    with self.subTest(change=change),self.assertRaises(AssertionError):m.bind_native(self.receipt,{**self.evidence,**change})

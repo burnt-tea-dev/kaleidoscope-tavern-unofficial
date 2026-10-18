@@ -116,5 +116,31 @@
   ],
   "candidate_version": "0.6.177",
   "limits": "This source patch changes exported bytes and identity. Canonical PR/CI, full-family admission, native/saved-world validation and deployment are still required. Existing historical release/client evidence remains unchanged.",
-  "canonical_checks_scope": "Remote PR checks pending; local frozen identity, exact archive and targeted behavior/history checks passed."
+  "canonical_checks_scope": "Initial PR413 run39154493790 passed12 jobs; catalog correctly rejected stale family lock/exact W153 dependency. Corrected full source remains pending its own canonical CI.",
+  "dependency_pairing": {
+    "tavern": [
+      0,
+      6,
+      177
+    ],
+    "grilling": [
+      2,
+      8,
+      155
+    ],
+    "world_liquor": [
+      0,
+      1,
+      154
+    ],
+    "world_source_pin": "2517ee85ba9d258369a474c55ef43aa0fb83a7b9",
+    "private_dependency_successor_required": true,
+    "private_owner_component_contract": "Current package identity follows its frozen baseline; original reviewed P58 component retains all370 non-manifest files and exact host profiles. Public validators independently check full inventories/manifests, peer deltas and canonical source evidence; actual assembler passes retained component58 to reviewed adapters while recording current package identity.",
+    "tooling_targeted_tests": {
+      "run": 108,
+      "passed": 107,
+      "unchanged_optional_external_source_skipped": 1
+    },
+    "full_family_or_native_claim": false
+  }
 }

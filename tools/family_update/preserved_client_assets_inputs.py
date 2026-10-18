@@ -119,7 +119,9 @@ def source_evidence(review, recipe):
     from family_update.prospective_preserved_inputs import committed
     proof = checked(review['source_validation'])
     baseline = c.read(c.EXTENSION / 'baseline.json')
-    assert baseline['repository'] == PRIVATE and baseline['version'] == VERSION
+    assert baseline['repository'] == PRIVATE
+    retained=baseline.get('retained_runtime') is not None
+    if not retained:assert baseline['version'] == VERSION
     target = c.EXTENSION / '.repo-target.json'
     committed(target, '.repo-target.json')
     metadata = c.read(target)
@@ -145,6 +147,10 @@ def source_evidence(review, recipe):
     assert report['schema'] == 1 and report['kind'] == 'client_assets_functional' and report['profile'] == PROFILE
     assert report['repository'] == PRIVATE and report['canonical_repository'] == remote and report['canonical_repository_id'] == REPOSITORY_ID
     assert report['version'] == baseline['version'] and report['source_trees'] == baseline['source_trees']
+    if retained:
+        from family_update.current_author_validation import validate_retained_runtime
+        assert report['component_version']==VERSION
+        validate_retained_runtime(report['retained_runtime'],baseline,binding)
     assert report['source_commit'] == proof['source_commit'] and report['git_tree'] == proof['git_tree']
     assert report['recipe_sha256'] == review['recipe']['sha256']
     for key in ['approved_input_receipt_sha256', 'patch_source_sha256', 'uuids', 'input_hashes',
