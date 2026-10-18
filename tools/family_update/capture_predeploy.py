@@ -31,6 +31,9 @@ def main(argv=None):
     preserved = {p['uuid'] for p in read(policy['approved_receipt'])['packs'] if p['source']['owner'] == 'preserved'}
     if CONFIG.get('preserved_additions'):
         preserved.update(read(Path(CONFIG['preserved_additions']))['packs'])
+    if CONFIG.get('managed_drift_recovery'):
+        from family_update.managed_drift_recovery import captured_addition_ids
+        preserved.update(captured_addition_ids())
     atomic(out / 'preserved-packs.json', [p for p in inventory['packs'] if p['uuid'] in preserved])
     capture = {'recorded_at': now(), 'read_only_live': True, 'previous_lease': previous, 'policy_sha256': original_policy, 'engine_sha256': sha(B / 'bedrock_server'), 'level_metadata': report_ref(out / 'level-metadata.dat'), 'agent_instructions': report_ref(out / 'ROOT-AGENTS.md'), 'inventory': report_ref(out / 'inventory.json'), 'note': 'No live LevelDB copy. Fresh stopped snapshot is created only during authorized deployment.'}
     atomic(out / 'capture.json', capture)

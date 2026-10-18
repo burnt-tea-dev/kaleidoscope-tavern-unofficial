@@ -1,5 +1,4 @@
-import {bottleBlock} from '../core/extension-content.js';
-import {bottlePermutationStates} from '../core/bottle-display-schema.js';
+import {bottlePermutationBlock,bottlePermutationStates} from '../core/bottle-display-schema.js';
 import {playWorldSound,spawnWorldParticle} from './feedback-diagnostics.js';
 import {emitBurst,tapComplete} from './effect-feedback.js';
 import {TAP_EFFECT_TIMING} from '../core/effect-feedback.js';
@@ -255,7 +254,7 @@ function createTapOutput(tap,itemId,facing=0,replacePlacedCarrier=false){
   const old=below.permutation,raw=bottleStore.raw(key),state=displayAdd(undefined,itemId,facing);
   // Java replaces the placed carrier in situ; script replacement is not a break.
   // Guard BOTH conversion and rollback against queued native onBreak callbacks.
-  try{replaceBlockWithoutNaturalDrops(below,BlockPermutation.resolve(bottleBlock(parsed.base),bottlePermutationStates(state)));bottleStore.save(key,state,-1);}
+  try{replaceBlockWithoutNaturalDrops(below,BlockPermutation.resolve(bottlePermutationBlock(state),bottlePermutationStates(state)));bottleStore.save(key,state,-1);}
   catch(e){try{replaceBlockWithoutNaturalDrops(below,old);}catch{}try{bottleStore.restore(key,raw);}catch{}throw e;}
   return ()=>{try{replaceBlockWithoutNaturalDrops(below,old);}catch{}try{bottleStore.restore(key,raw);}catch{}};
  }

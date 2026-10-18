@@ -65,7 +65,11 @@ def validate_family_plan(spec, receipt, original):
     before = {p['old_uuid'] for p in swaps}; after = {p['new_uuid'] for p in swaps}
     assert len(before) == len(after) == 8 and not before & after
     assert len(old) == len(original['packs']) and len(new) == len(receipt['packs'])
-    assert set(old) - before == set(new) - after, 'Unreviewed identity additions/removals'
+    additions = set()
+    if CONFIG.get('managed_drift_recovery'):
+        from family_update.managed_drift_recovery import validate_target
+        additions = validate_target(receipt, original, spec)
+    assert (set(old) - before) | additions == set(new) - after, 'Unreviewed identity additions/removals'
     for project in spec['projects']:
         pin = pins[project['project_id']]
         assert pin['file_id'] == project['new_file_id'] and pin['sha256'] == project['new_archive_sha256']
@@ -115,6 +119,9 @@ def admitted_original(original):
     path = Path(policy['approved_receipt'])
     assert str(path) == policy['installed']['receipt'] and sha(path) == policy['installed']['receipt_sha256'], 'Original admitted receipt identity changed'
     approved = read(path)
+    if CONFIG.get('managed_drift_recovery'):
+        from family_update.managed_drift_recovery import provenance_original
+        return provenance_original(original, approved)
     rows = {p['uuid']: p for p in approved['packs']}
     assert len(rows) == len(approved['packs']) and set(rows) == {p['uuid'] for p in original['packs']}, 'Original inventory differs from admitted identities'
     packs = []
@@ -138,6 +145,9 @@ def assembly_order(original):
     path = Path(location).resolve()
     assert path.parent == (T / 'family/identity-migrations').resolve(), 'Migration declaration must belong to canonical Git'
     spec = read(path)
+    if CONFIG.get('managed_drift_recovery'):
+        from family_update.managed_drift_recovery import reviewed_order
+        return reviewed_order(original, spec)
     swaps = plan_swaps(spec)
     assert {row['side'] for row in swaps} == {'behavior', 'resource'}
     for row in swaps:

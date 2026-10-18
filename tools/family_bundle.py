@@ -158,9 +158,24 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
      row.update(version=manifest['header']['version'],dependencies=manifest.get('dependencies',[]),files=files_hash(root))
      row['source']={**row['source'],'owner':'upstream_extended','reviewed_extensions':[*row['source'].get('reviewed_extensions',[]),proof]}
     continue
+   retained=None
+   if config.get('version') in ([1,0,51],[1,0,52],[1,0,53],[1,0,54]) and spec.get('kind') in ('cookery-held-geometry-canonicalization','cookery-millstone-extension-admission'):
+    try:retained=retained_host_source(config,spec,path)
+    except ValueError as e:fail('host retention rejected: '+str(e))
+   component_config={**config,'version':retained['owner_version']} if retained else config
+   if spec.get('kind')=='cookery-held-geometry-canonicalization':
+    from held_geometry_extension import validate_held_geometry_owner
+    try:validate_held_geometry_owner(component_config,spec)
+    except ValueError as e:fail('host extension owner rejected: '+str(e))
+   if spec.get('kind')=='cookery-millstone-extension-admission':
+    from millstone_extension import validate_millstone_owner
+    try:validate_millstone_owner(component_config,spec)
+    except ValueError as e:fail('host extension owner rejected: '+str(e))
    if spec.get('kind')=='cookery-enamel-basin-lid-repair':
     from enamel_basin_extension import validate_enamel_basin_owner
-    try:validate_enamel_basin_owner(config,spec)
+    try:
+     retained=retained_host_source(config,spec,path) if config.get('version') in ([1,0,50],[1,0,51],[1,0,52],[1,0,53],[1,0,54]) else None
+     validate_enamel_basin_owner({**config,'version':retained['owner_version']} if retained else config,spec)
     except ValueError as e:fail('host extension owner rejected: '+str(e))
    host=by_uuid.get(spec['host_uuid'])
    if host is None:fail('host extension target missing')
@@ -168,6 +183,8 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
    try:proof=apply_host_extension(spec,owned_root,host_root,host['source'])
    except (ValueError,KeyError) as e:fail('host extension rejected: '+str(e))
    proof.update({'repository':config['repository'],'commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip(),'owner_version':config['version'],'spec_sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'working_candidate':working})
+   if retained:
+    proof.update(owner_version=retained['owner_version'],source_package_version=config['version'],retained_host_profile=retained)
    host['source']={**host['source'],'owner':'upstream_extended','reviewed_extensions':[*host['source'].get('reviewed_extensions',[]),proof]};host['files']=files_hash(host_root)
  for root in preserved:
   manifest=read(root/'manifest.json');uid=manifest['header']['uuid']
@@ -222,9 +239,17 @@ def main():
  p=argparse.ArgumentParser(description=__doc__);sub=p.add_subparsers(dest='command',required=True)
  b=sub.add_parser('build');b.add_argument('--tavern',type=Path,default=ROOT);b.add_argument('--grilling',type=Path,required=True);b.add_argument('--world-liquor',type=Path,required=True);b.add_argument('--archives',type=Path,action='append',required=True);b.add_argument('--output',type=Path,required=True);b.add_argument('--extension',type=Path,action='append',default=[],help='Committed local integration with the same canonical baseline gate and release history');b.add_argument('--working-candidate',action='store_true',help='isolated BDS development only; receipt never authorizes production')
  b.add_argument('--preserved-pack',type=Path,action='append',default=[],help='Unchanged external dependency copied with an exact per-file receipt')
+ g=sub.add_parser('build-public-grilling',help='Build a local public Grilling/Cookery bundle from one legal clean author archive')
+ g.add_argument('--grilling',type=Path,required=True);g.add_argument('--tavern',type=Path);g.add_argument('--archives',type=Path,action='append',required=True);g.add_argument('--output',type=Path,required=True)
  a=sub.add_parser('audit');a.add_argument('--world',type=Path,required=True);a.add_argument('--receipt',type=Path,required=True)
  args=p.parse_args()
  if args.command=='audit':audit(args.world,read(args.receipt));return
+ if args.command=='build-public-grilling':
+  from public_grilling_profile import build_public_grilling
+  sources={'grilling':args.grilling}
+  if args.tavern is not None:sources['tavern']=args.tavern
+  build_public_grilling(read(ROOT/'family/upstream.lock.json'),sources,args.archives,args.output,assemble_family=assemble,read_author_packs=packs)
+  return
  paths=[]
  for root in args.archives:paths.extend(root.rglob('*.mcaddon') if root.is_dir() else [root])
  assemble(read(ROOT/'family/upstream.lock.json'),{'tavern':args.tavern,'grilling':args.grilling,'world-liquor':args.world_liquor},paths,args.output,args.working_candidate,args.extension,args.preserved_pack)

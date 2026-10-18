@@ -167,6 +167,28 @@ class IdentityTests(unittest.TestCase):
   self.p.write_bytes(latest)
   self.ledger['reviewedFunctionalDeltaLayers'][0]['files'][name]['reverseOps'][0][2]='wrong predecessor\n';self.write_functional_ledger()
   with self.assertRaisesRegex(AssertionError,'Functional predecessor mismatch'):previous_bytes(self.r,self.p)
+class T176ImmutableTests(unittest.TestCase):
+ def test_current_orchard_and_projectile_source_reaches_historical_guards(self):
+  root=Path(__file__).resolve().parents[1]
+  for name in ['runtime/BP/scripts/core/registry.js','runtime/BP/scripts/bedrock/machines.js','runtime/BP/scripts/bedrock/bottles.js']:
+   with self.subTest(name=name):self.assertTrue(previous_bytes(root,root/name))
+ def test_complete_immutable_endpoints_and_mutation_rejection(self):
+  root=Path(__file__).resolve().parents[1]
+  for name in reference.T176_PATHS:
+   before=reference.t176_source(str(root),reference.T176_BEFORE,name)
+   after=reference.t176_source(str(root),reference.T176_AFTER,name)
+   with self.subTest(name=name):
+    self.assertNotEqual(before,after)
+    self.assertEqual((root/name).read_bytes(),after)
+    self.assertEqual(reference.t176_preimage(root,name,after),before)
+    self.assertEqual(reference.t176_preimage(root,name,before),before)
+    for changed in [before+b'runUnreviewed();\n',after+b'runUnreviewed();\n']:
+     with self.assertRaisesRegex(AssertionError,'Unreviewed T176 source postimage'):reference.t176_preimage(root,name,changed)
+ def test_scope_cannot_read_an_unrelated_path_or_commit(self):
+  root=Path(__file__).resolve().parents[1]
+  for commit,name in [(reference.T176_AFTER,'runtime/BP/scripts/bedrock/mixology.js'),('HEAD',next(iter(reference.T176_PATHS)))]:
+   with self.subTest(commit=commit,name=name),self.assertRaisesRegex(AssertionError,'Outside the T176'):reference.t176_source(str(root),commit,name)
+
 class T168ImmutableTests(unittest.TestCase):
  def setUp(self):
   self.root=Path(__file__).resolve().parents[1]

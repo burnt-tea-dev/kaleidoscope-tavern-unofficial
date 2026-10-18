@@ -5,6 +5,9 @@ from ci_impact import classify_path
 
 
 def run_stage(name, argv=None):
+    if name in {'build_candidate', 'rehearse_saved_world'}:
+        from family_update.memory_budget import require
+        require(name)
     module = importlib.import_module('family_update.' + name)
     result = module.main(argv or ['--execute'])
     if result not in [None, 0] and not isinstance(result, dict):

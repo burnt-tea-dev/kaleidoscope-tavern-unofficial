@@ -1,8 +1,8 @@
-## 當前維護來源：0.6.173
+## 當前維護來源：0.6.176
 
-**2026-10-17核對來源：[115942e5](https://github.com/casama233/kaleidoscope-tavern-unofficial/commit/115942e55e9946cfd257fbcdc41c849f75b77509)；公開來源配套T173／G150／W151。** 穩定作者身份／存檔適配與後續reviewed integration／private-integration窄修各自保留來源及整套驗收邊界。
+**目前來源候選T176／G155／W153，配乾淨作者Cookery1.6.2及本輪受審查家族。** 保留完整T175修復，補上卸載區塊投射物防護、Orchard指南／瓶狀態交接。canonical檢查、完整家族原生／存檔門檻及真人驗收各自記錄，見[T176範圍](docs/RELEASE-NOTES-0.6.176.md)。
 
-**公開下載：[酒館v0.6.170](https://github.com/casama233/kaleidoscope-tavern-unofficial/releases/tag/v0.6.170)**，配世界名酒0.1.148及可選G149來源檢查配套。G149公開包使用Cookery1.6.0；G150目前來源使用1.6.1。安裝時依選定版本的相依讀取。
+**公開下載：[酒館v0.6.170](https://github.com/casama233/kaleidoscope-tavern-unofficial/releases/tag/v0.6.170)**，配世界名酒0.1.148及可選G149來源檢查配套。G149公開包使用Cookery1.6.0；G155目前來源使用1.6.2。安裝時依選定版本的相依讀取。
 
 **倉庫最後記錄的LIVE批次：T169／G144／W147／private-integration，部署於2026-10-15 22:40:27 HKT，下一來源批次開始時記錄核驗。** 本次文件核對沒有連線服務器。來源、下載及部署的詳細證據只維護在[家族現況與修復主線](family/BASELINE-STATUS.md)。
 
@@ -19,8 +19,9 @@ Java酒館的基岩版移植，包含釀造、調酒、酒架／酒櫃、家具�
 - 版本及精確相依以 [baseline.json](baseline.json) 為準；更新見 [CHANGELOG.md](CHANGELOG.md)。
 - 來源、公開下載、倉庫最後記錄的部署與驗收統一見[家族現況](family/BASELINE-STATUS.md)；[PR處置](docs/audit/PR-DISPOSITIONS.md)保留歷史來源。
 - 基岩版1.26.50以上；目前引擎目標為BDS1.26.52.3。BP與RP兩側一起啟用。
-- Cookery可選，家族目前核驗作者1.6.1；世界名酒須搭配其宣告的酒館版本。
+- Cookery可選，家族本輪目標作者1.6.2；世界名酒須搭配其宣告的酒館版本。
 - 升級前備份世界並移除重複舊包。私有料理整合是另一個識別明確的addon，不是私有酒館分支。
+- 使用含reviewed integration Cookery RP修補的家族候選時，真人驗收前須乾淨安裝資源包，或只移除舊Cookery RP後重新安裝／下載。替換伺服器檔案不能證明客戶端已刷新；見[Cookery RP安裝前提](family/COOKERY-RP-INSTALLATION.md)。
 
 ## 建置
 

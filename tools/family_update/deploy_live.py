@@ -16,13 +16,18 @@ def deployment_authorized(agents):
     return {'# Senluo maintenance', "Scope: Senluo family work on this host. These are the owner's standing requirements (2026-09-30 through 2026-10-11), consolidated on 2026-10-16. Later explicit user instructions take precedence."}.issubset(lines) and any((hashlib.sha256(line.encode('utf-8', 'surrogatepass')).hexdigest() == CONSOLIDATED_AUTHORIZATION_LINE_SHA256 for line in lines))
 
 def preflight():
-    initial_status = summary()['status']
+    initial = summary()
+    initial_status = initial['status']
     original = verify_predeploy()
     receipt = verify_candidate_sources()
     from family_update.workflow import same_runtime
     if same_runtime(receipt, original):
         return original, receipt
-    assert initial_status == 'RUNNING', 'Live must initially be RUNNING; never start an intentionally stopped server during recovery'
+    if CONFIG.get('managed_drift_recovery'):
+        from family_update.managed_drift_recovery import validate_initial_status
+        validate_initial_status(initial)
+    else:
+        assert initial_status == 'RUNNING', 'Live must initially be RUNNING; never start an intentionally stopped server during recovery'
     assert sha(Q / 'family_guard.py') == sha(T / 'tools/family_guard.py'), 'BSM guard differs from canonical; investigate, never silently replace'
     # Every entry point uses the same evidence validator; share the already
     # verified immutable candidate within this preflight instead of rescanning.
@@ -35,9 +40,16 @@ def preflight():
     agents = Path(str(AUTHORIZATION)).read_text()
     assert deployment_authorized(agents), 'Re-read current deployment authorization'
     from family_update.storage import deployment_allocation, require_space
-    require_space(R, "Stopped backup and saved-world rehearsal", deployment_allocation(W, C,
+    allocation = deployment_allocation(W, C,
         identity_migration=bool(CONFIG.get('identity_migration')),
-        container_recovery=bool(CONFIG.get('container_recovery_plan'))))
+        container_recovery=bool(CONFIG.get('container_recovery_plan')))
+    if CONFIG.get('managed_drift_recovery'):
+        from family_update.managed_drift_recovery import check_observed, rollback_metadata
+        from family_update.storage import allocated
+        review, _ = check_observed(original)
+        trusted, _ = rollback_metadata(review)
+        allocation += allocated(trusted)
+    require_space(R, "Stopped backup and saved-world rehearsal", allocation)
     return original,receipt
 
 def acquire_lease(receipt):
@@ -85,6 +97,13 @@ def finalize_receipt():
     if CONFIG.get('translation_reconciliation'):reports.append('translation-reconciliation-check.json')
     if CONFIG.get('preserved_reconciliation'):reports.append('preserved-reconciliation-check.json')
     if CONFIG.get('preserved_additions'):reports.append('preserved-additions-check.json')
+    if CONFIG.get('managed_drift_recovery'):
+        from family_update.managed_drift_recovery import load_review
+        review, binding = load_review()
+        reports.extend([binding['path'], 'trusted-pack-rollback.json', 'deployment-initial-state.json'])
+        reports.extend(str(EXTENSION / row['path']) for row in review['proofs'])
+        if review.get('allow_initially_stopped'):
+            reports.append(str(EXTENSION / review['stopped_server_review']['evidence']['path']))
     if CONFIG.get('prospective_preserved_inputs'):
         reports.append('prospective-preserved-inputs-check.json')
         prospective=read(R/'prospective-preserved-inputs-check.json')
@@ -150,20 +169,27 @@ def installation_selection(receipt,original):
             assert len(prospective)==4, 'Complete prospective pairs required'
     prior={p['uuid']:p for p in original['packs']}
     assert len(prior)==len(original['packs']), 'Original inventory duplicates an identity'
+    relocations={}
+    if CONFIG.get('managed_drift_recovery'):
+        from family_update.managed_drift_recovery import global_relocations
+        relocations=global_relocations(original)
     family=[];unchanged=[]
     for p in receipt['packs']:
         if p['source']['owner']!='preserved':family.append(p);continue
         old=prior.get(p['uuid']);assert old and old['side']==p['side'], 'Preserved identity or side changed'
         assert hashes(old['path'])==old['files'], 'Installed preserved pack drifted from its captured original'
-        if p['uuid'] in prospective:
+        if p['uuid'] in prospective or p['uuid'] in relocations:
+            if p['uuid'] in relocations:
+                assert p['files']==old['files'] and p['version']==old['version'], 'Relocation cannot alter existing global input'
             family.append(p)
         else:
             assert p['files']==old['files'] and p['version']==old['version'], 'Unreviewed preserved pack changed'
             unchanged.append(p)
     assert set(prospective)<={p['uuid'] for p in family}, 'Prospective pair omitted from installation'
+    assert set(relocations)<={p['uuid'] for p in family}, 'Reviewed global pair omitted from installation'
     return family,unchanged
 
-def installation_sources(family,original,migration):
+def installation_sources(family,original,migration,additions=None):
     """Resolve every retired header before policy, staging or package moves."""
     from family_update.identity_migration import plan_swaps
     swaps=plan_swaps(migration) if migration else []
@@ -171,15 +197,22 @@ def installation_sources(family,original,migration):
     assert len(reverse)==len(swaps), 'Migration duplicates a replacement identity'
     prior={p['uuid']:p for p in original['packs']}
     assert len(prior)==len(original['packs']), 'Original inventory duplicates an identity'
-    targets=set();sources=set();paths=set();resolved=[]
+    additions=set(additions or [])
+    targets=set();sources=set();paths=set();resolved=[];seen_additions=set()
     for pack in family:
         uid=pack['uuid'];old_uuid=reverse.get(uid,uid)
         assert uid not in targets, 'Installation duplicates a target identity'
+        targets.add(uid)
+        if uid in additions:
+            assert old_uuid==uid and uid not in prior, 'Addition overlaps a retired source'
+            seen_additions.add(uid)
+            continue
         assert old_uuid in prior, 'Installation source is missing from original inventory: '+old_uuid
         old=prior[old_uuid];path=str(Path(old['path']).resolve())
         assert old['side']==pack['side'], 'Installation source side differs from target'
         assert old_uuid not in sources and path not in paths, 'Installation reuses an original source'
-        targets.add(uid);sources.add(old_uuid);paths.add(path);resolved.append(old)
+        sources.add(old_uuid);paths.add(path);resolved.append(old)
+    assert seen_additions==additions, 'Reviewed addition is absent from installation'
     return resolved
 
 def prepare_admission(receipt,original):
@@ -187,7 +220,11 @@ def prepare_admission(receipt,original):
     approved=R/'reviewed-family-receipt.json'; family,_=installation_selection(receipt,original)
     from family_update.identity_migration import candidate_plan
     migration=candidate_plan(receipt,original)
-    sources=installation_sources(family,original,migration)
+    additions=None
+    if CONFIG.get('managed_drift_recovery'):
+        from family_update.managed_drift_recovery import validate_target
+        additions=validate_target(receipt,original,migration)
+    sources=installation_sources(family,original,migration,additions)
     policy['approved_receipt']=str(approved)
     policy['deferred_client_acceptance']={'source':'explicit_user_instruction','instruction':read(R/'handoff-authorization.json')['instruction'],'recorded_at':now(),'receipt_sha256':sha(approved),'authorization_source':str(AUTHORIZATION),'authorization_sha256':sha(str(AUTHORIZATION))}
     policy['managed_uuids']=sorted(set(policy['managed_uuids'])|{p['uuid'] for p in family})
@@ -201,6 +238,9 @@ def prepare_admission(receipt,original):
     return policy,incoming,family,sources
 
 def restore_packs(original,retired,installed):
+    if CONFIG.get('managed_drift_recovery'):
+        from family_update.managed_drift_recovery import restore
+        return restore(original,retired,installed)
     for dest in installed:
         if dest.exists(): shutil.rmtree(dest)
     for src,dest in reversed(retired):
@@ -210,6 +250,9 @@ def restore_packs(original,retired,installed):
     check_live_against_policy(original)
 
 def verify_original_before_restart(original):
+    if CONFIG.get('managed_drift_recovery'):
+        from family_update.managed_drift_recovery import verify_restored
+        return verify_restored(original)
     assert live_inventory()==original, 'Original complete pack inventory/order not restored; do not start'
     assert sha(Q/'senluo-policy.json')==sha(R/'production-before/senluo-policy.json'), 'Original policy not restored; do not start'
 
@@ -224,7 +267,7 @@ def recover_after_failure(original,changed,retired,installed,rollback_failed=Fal
             raise RecoveryRequired('Migrated owners or recovered inventories require the compatible runtime; retain stopped state instead of restarting an incompatible rollback')
         if rollback_failed:
             raise RecoveryRequired('The installation rollback failed; operator recovery is required before any restart')
-        if changed:
+        if changed or CONFIG.get('managed_drift_recovery'):
             phase='stop_candidate'
             if summary()['status']!='STOPPED': action('stop')
             assert summary()['status']=='STOPPED', 'Candidate must stop before rollback'
@@ -232,11 +275,16 @@ def recover_after_failure(original,changed,retired,installed,rollback_failed=Fal
             restore_packs(original,retired,installed)
         phase='verify_complete_original_stack'
         verify_original_before_restart(original)
+        if CONFIG.get('managed_drift_recovery'):
+            from family_update.managed_drift_recovery import restart_original_allowed
+            if not restart_original_allowed():
+                raise RecoveryRequired('The server was initially stopped or its owner evidence is incomplete; retain stopped state and active lease after trusted pack-only recovery')
         phase='restart_verified_original_stack'
         if summary()['status']=='STOPPED': action('start')
         assert summary()['status']=='RUNNING', 'Original stack restart is not confirmed'
-        atomic(R/'deployment-recovery.json',{'state':'original_stack_running_after_failure','recorded_at':now(),'original_inventory_verified':True,'original_policy_verified':True,'save_database_restored':False,'client':False,'production_ready':False})
-        lease=read(LEASE); lease.update(state='failed',failed_at=now(),status='original_stack_running_after_failure'); atomic(LEASE,lease)
+        state='trusted_approved_stack_running_after_failure' if CONFIG.get('managed_drift_recovery') else 'original_stack_running_after_failure'
+        atomic(R/'deployment-recovery.json',{'state':state,'recorded_at':now(),'original_inventory_verified':not bool(CONFIG.get('managed_drift_recovery')),'trusted_approved_inventory_verified':bool(CONFIG.get('managed_drift_recovery')),'original_policy_verified':True,'save_database_restored':False,'original_drift_approved':False,'client':False,'production_ready':False})
+        lease=read(LEASE); lease.update(state='failed',failed_at=now(),status=state); atomic(LEASE,lease)
         return True
     except BaseException as error:
         try: current_status=summary()['status']
@@ -262,8 +310,17 @@ def install(receipt,original):
     try:
         atomic(Q/'senluo-policy.json',policy)
         runpy.run_path(str(Q/'policy.py'))['validate_incoming'](incoming,set(prior),True)
+        relocations={}
+        if CONFIG.get('managed_drift_recovery'):
+            from family_update.managed_drift_recovery import global_relocations
+            relocations=global_relocations(original)
         for old in sources:
-            source=Path(old['path']); target=rollback/(old['side']+'_packs')/source.name; target.parent.mkdir(parents=True,exist_ok=True)
+            source=Path(old['path']); target=rollback/(old['side']+'_packs')/source.name
+            if CONFIG.get('managed_drift_recovery'):
+                from family_update.managed_drift_recovery import retirement_target
+                target=retirement_target(old,rollback,relocations)
+            target.parent.mkdir(parents=True,exist_ok=True)
+            assert not target.exists(), 'Preserve previously displaced pack bytes'
             os.replace(source,target); retired.append((target,source))
         for p in family:
             source=staged/(p['side']+'_packs')/p['uuid']; target=W/(p['side']+'_packs')/p['uuid']; assert not target.exists(); os.replace(source,target); installed.append(target)
@@ -301,7 +358,7 @@ def install(receipt,original):
                 # Even a full disk while recording the rollback failure cannot
                 # erase the signal which prohibits an automatic restart.
                 raise RecoveryRequired('Installation rollback failed: '+str(rollback_error)) from rollback_error
-        atomic(R/'deployment-result.json',{'state':'rolled_back_before_restart','client':False,'production_ready':False})
+        atomic(R/'deployment-result.json',{'state':'trusted_packs_restored_before_restart' if CONFIG.get('managed_drift_recovery') else 'rolled_back_before_restart','save_database_restored':False,'client':False,'production_ready':False})
         raise
 
 def main(argv=None):
@@ -321,15 +378,26 @@ def main(argv=None):
             return {'state': 'no_runtime_changes', 'live_mutated': False, 'client': False}
         for path in [R/name for name in ['previous-maintenance.json','handoff-authorization.json','live-authorization-AGENTS.md','reviewed-family-receipt.json','admission-policy.json','admission-report.json','deployment-result.json','deployment-recovery.json','rollback-map.json','production-snapshot','production-staged','production-rollback','saved-world-engine','saved-world-report.json']]:
             assert not path.exists(), 'Existing report or deployment state must be preserved: ' + str(path)
+        if CONFIG.get('managed_drift_recovery'):
+            for name in ['trusted-pack-rollback','trusted-pack-rollback.json','managed-drift-displaced','managed-drift-pack-recovery.json','deployment-initial-state.json','observed-global-displaced']:
+                assert not (R/name).exists(), 'Preserve previous drift recovery state: ' + name
         acquire_lease(receipt)
         changed=False; retired=[]; installed=[]
         try:
+            if CONFIG.get('managed_drift_recovery'):
+                from family_update.managed_drift_recovery import record_initial_status
+                record_initial_status()
             verify_predeploy()
             instruction=Path(str(AUTHORIZATION)).read_text()
             shutil.copy2(str(AUTHORIZATION),R/'live-authorization-AGENTS.md')
             atomic(R/'handoff-authorization.json',{'source':'explicit_user_instruction','instruction':instruction,'recorded_at':now(),'source_file':str(AUTHORIZATION),'source_sha256':sha(str(AUTHORIZATION)),'snapshot':report_ref(R/'live-authorization-AGENTS.md'),'scope':'Continuing authorization for per-candidate live development updates after merged PR/static/BDS/saved-world gates; human client acceptance remains pending.'})
-            print(f'Stopping {SERVER} for a fresh backup and saved-world rehearsal',flush=True)
-            action('stop'); assert summary()['status']=='STOPPED'; verify_predeploy()
+            if CONFIG.get('managed_drift_recovery'):
+                from family_update.managed_drift_recovery import prepare_rollback
+                prepare_rollback(original)
+            print(f'Preparing {SERVER} for a fresh stopped backup and saved-world rehearsal',flush=True)
+            if not CONFIG.get('managed_drift_recovery') or summary()['status']!='STOPPED':
+                action('stop')
+            assert summary()['status']=='STOPPED'; verify_predeploy()
             snapshot=R/'production-snapshot'; assert not snapshot.exists(); shutil.copytree(W,snapshot)
             before=hashes(W); copied=hashes(snapshot); assert before==copied, 'Stopped snapshot copy mismatch'
             atomic(R/'production-before/backup-receipt.json',{'recorded_at':now(),'world':str(W),'consistent_stopped_snapshot':str(snapshot),'files':copied,'packs':len(original['packs']),'status':'consistent_stopped_backup','lease_owner':OWNER,'level_dat_sha256':sha(W/'level.dat'),'live_status':'STOPPED'})
@@ -346,7 +414,7 @@ def main(argv=None):
             try:
                 restored=recover_after_failure(original,changed,retired,installed,rollback_failed=isinstance(failure,RecoveryRequired))
                 if changed and restored:
-                    atomic(R/'deployment-result.json',{'state':'rolled_back_after_candidate_start','save_database_restored':False,'note':'Original package inventory and policy verified before restart. Newest database retained; stopped backup is available for explicit data recovery.','client':False,'production_ready':False})
+                    atomic(R/'deployment-result.json',{'state':'trusted_stack_restored_after_candidate_start' if CONFIG.get('managed_drift_recovery') else 'rolled_back_after_candidate_start','save_database_restored':False,'note':'Verified rollback package inventory and original policy before restart. Newest database retained; stopped backup is available for explicit data recovery.','client':False,'production_ready':False})
             except BaseException:
                 traceback.print_exc()
             raise
