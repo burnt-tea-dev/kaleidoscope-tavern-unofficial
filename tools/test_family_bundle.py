@@ -372,4 +372,57 @@ class PublicApiPredecessorTests(unittest.TestCase):
    with self.subTest(field=field),self.assertRaisesRegex(ValueError,'exact reviewed profile'):
     match_stable_profile(changed,root,source)
 
+class RetainedAssemblyTests(unittest.TestCase):
+ def test_real_assembler_passes_verified58_component_to_adapters_but_records59_source(self):
+  import copy,hashlib,zipfile
+  from unittest.mock import patch
+  import family_bundle as bundle
+  import held_geometry_extension as held,enamel_basin_extension as enamel,doll_renderer_extension as renderer
+  for kind in ['cookery-held-geometry-canonicalization','cookery-enamel-basin-lid-repair','chinesefood-doll-renderer-cleanup']:
+   with self.subTest(kind=kind),tempfile.TemporaryDirectory() as tmp:
+    root=Path(tmp);repo=root/'owned';repo.mkdir();archive=root/'author.mcaddon'
+    spec={'id':'fixture:'+kind,'kind':kind,'owner_version':[1,0,58],'version':[1,0,4],'host_uuid':'host-r' if kind=='chinesefood-doll-renderer-cleanup' else 'host-b','behavior_uuid':'host-b'}
+    for side,module in [('BP','data'),('RP','resources')]:
+     target=repo/'runtime'/side;target.mkdir(parents=True)
+     (target/'manifest.json').write_text(json.dumps({'header':{'uuid':'owned-'+side,'version':[1,0,59]},'modules':[{'type':module}]}))
+    declarations=repo/'runtime/BP/host-extensions';declarations.mkdir();(declarations/'fixture.json').write_text(json.dumps(spec))
+    config={'repository':'local/senluo-amw-cuisine','version':[1,0,59],'runtime':{'BP':'runtime/BP','RP':'runtime/RP'},'source_trees':{side:files_hash(repo/'runtime'/side)for side in ['BP','RP']}}
+    (repo/'baseline.json').write_text(json.dumps(config));component={**config,'version':[1,0,58]}
+    anchor={'schema':1,'source_commit':'a'*40,'source_tree':'b'*40,'source_version':[1,0,58]}
+    with zipfile.ZipFile(archive,'w') as z:
+     for uid,module in [('host-b','data'),('host-r','resources')]:z.writestr(uid+'/manifest.json',json.dumps({'header':{'uuid':uid,'version':[1,0,1]},'modules':[{'type':module}]}))
+    lock={'owned':[{'key':'private','repository':config['repository'],'version':config['version'],'source_trees':config['source_trees']}],
+          'upstream':[{'name':'synthetic','project_id':1,'file_id':2,'sha256':hashlib.sha256(archive.read_bytes()).hexdigest(),'packs':[{'uuid':uid,'version':[1,0,1]}for uid in ['host-b','host-r']]}],
+          'order':{'behavior':['owned-BP','host-b'],'resource':['owned-RP','host-r']}}
+    calls=[]
+    def apply(spec,owned,host,source):
+     calls.append('single');return {'id':spec['id'],'kind':spec['kind'],'version':spec['version'],'owner_version':spec['owner_version']}
+    def apply_pair(spec,bp,rp,bps,rps,owner):
+     self.assertEqual(owner,[1,0,58]);calls.append('paired')
+     return {'id':spec['id'],'kind':spec['kind'],'owner_version':owner,'local_pack_version':[1,0,10658]}
+    def git(args,**kwargs):
+     self.assertEqual(args,['git','rev-parse','HEAD']);return 'd'*40+'\n'
+    with patch.object(bundle,'retained_component_config',return_value=(component,anchor)) as validate,patch.object(bundle,'apply_host_extension',side_effect=apply),patch.object(renderer,'apply_renderer_extension',side_effect=apply_pair),patch.object(held,'current_author_profile',return_value={'owner_version':[1,0,58]}),patch.object(enamel,'current_author_profile',return_value={'owner_version':[1,0,58]}),patch.object(bundle.subprocess,'check_output',side_effect=git),contextlib.redirect_stdout(io.StringIO()):
+     receipt=assemble(lock,{'private':repo},[archive],root/'candidate',working=True)
+    validate.assert_called_once_with(repo,config,{'private':repo});self.assertEqual(len(calls),1)
+    for row in receipt['packs']:
+     if row['uuid'].startswith('owned-'):self.assertEqual(row['version'],[1,0,59])
+     elif row['source'].get('reviewed_extensions'):
+      proof=row['source']['reviewed_extensions'][0];self.assertEqual(proof['owner_version'],[1,0,58]);self.assertEqual(proof['component_version'],[1,0,58]);self.assertEqual(proof['source_package_version'],[1,0,59]);self.assertEqual(proof['retained_runtime_profile'],anchor)
+
+ def test_component_loader_rechecks_actual_payload_after_explicit_contract_validation(self):
+  from unittest.mock import patch
+  import family_bundle as bundle
+  from family_update import current_author_validation as current
+  with tempfile.TemporaryDirectory() as tmp:
+   root=Path(tmp);config={'runtime':{'BP':'runtime/BP','RP':'runtime/RP'},'retained_runtime':{'source_commit':'a'*40,'source_tree':'b'*40,'source_version':[1,0,58]}}
+   for side in ['BP','RP']:
+    target=root/'runtime'/side;target.mkdir(parents=True);(target/'manifest.json').write_text('{}')
+   proof={'files':{side:files_hash(root/'runtime'/side)for side in ['BP','RP']}}
+   (root/'runtime/BP/unreviewed.js').write_text('unreviewed')
+   def output(args,**kwargs):return 'd'*40 if args[0]=='git' else json.dumps(proof).encode()
+   with patch.object(bundle.subprocess,'check_output',side_effect=output),patch.object(current,'validate_retained_runtime') as validate,self.assertRaisesRegex(SystemExit,'current source payload differs'):
+    bundle.retained_component_config(root,config,{'tavern':root})
+   self.assertEqual(validate.call_args.kwargs,{'source_root':root,'sources':{'tavern':root}})
+
 if __name__=='__main__':unittest.main()
