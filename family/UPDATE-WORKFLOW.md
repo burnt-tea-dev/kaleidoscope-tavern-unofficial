@@ -63,6 +63,12 @@ LevelDB Python adapter；`gh` 需已有正常的唯讀 GitHub 認證。缺少依
 `prepare` 完成來源、組裝與 static；`deploy` 從本次停服備份完成一次 BDS／保存演練與 canonical／BSM admission。
 來源必須是乾淨、與遠端相符的 main，執行中的工具 bytes 也必須與 canonical 相符。
 
+主機容量暫不足時，可在不可變設定指定 `native_capacity_wait_seconds`（整數
+1–7200）。僅首次 `update --execute` 在 capture、候選與 lease 前有界等待；
+按完整 native cap、2 GiB 餘量及既有 32 MiB accounting pad 保守投影，不抵扣
+自身匿名記憶體。這不是准入，容量足夠後仍執行新鮮來源及實際 native 門檻；
+超時、OOM、控制或來源變動即停止，保留單一狀態，不自動重試。
+
 私有整合正在更新外部AMW相依而尚未完成完整驗證時，可以canonical家族鎖的
 `extension_deployment_hold`和設定`extension_hold: true`明列保留目前已安裝的兩側。
 `extension`路徑須使用固定私有Git提交的乾淨隔離checkout；最新main／候選保持原狀。
@@ -233,6 +239,22 @@ the original policy and live files remain unchanged until authorized deployment.
 source_state核對宣告／committed門檻文件、held版本／trees／commit、正確canonical remote及main ancestry。完整家族仍由family_bundle組裝，已保留BP/RP的版本及每個檔案必須等於本次live capture，任一側缺失、內容漂移、新UUID或版本不同都拒絕。CI驗證使用該已合併held來源的真實PR；static/BDS/fresh saved-world／准入／備份／回退／readback全部保留。候選收據明列held_revision，latest來源鎖不改成較舊來源。別包完成門檻不因本輪酒館／世界名酒修復而自動撤銷。
 
 ### Reuse unchanged Tavern gameplay CI after a family-only PR
+
+An already stopped server is deployable only with an explicit
+`normal_idle_update: "/absolute/path/to/review.json"` for the
+`canonical-normal-idle-v1` owner contract. This is separate from managed drift
+and preinstall recovery. The review pins the fixed canonical idle implementation,
+its protected configuration, the last completed deployment/config/lease/receipt,
+installed policy, stopped log and normalized successful sleep task. Fresh BSM
+STOPPED/zero-player status, confirmed task success, no matching BDS process and
+unchanged owner inputs are checked before and after acquiring the new lease.
+Routine timer timestamps are excluded from immutable build inputs; the exact
+sleep identity remains pinned. Manual, unknown, stale or failed stops reject.
+The update takes its consistent stopped backup directly, then runs the same
+saved-world first-load/restart, admission and candidate start. It does not start
+the old runtime to satisfy a preflight condition. Any transaction failure keeps
+the newest database, displaced files and active lease stopped for explicit
+recovery, including partial installation; it never restarts the original stack.
 
 When a new Tavern runtime has already passed its complete CI, a later family
 lock/maintenance PR legitimately skips gameplay jobs. The current full source
