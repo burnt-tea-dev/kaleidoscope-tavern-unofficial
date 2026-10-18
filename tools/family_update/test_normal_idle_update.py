@@ -87,13 +87,47 @@ class NormalIdleTests(unittest.TestCase):
         self.assertEqual(c.read(self.output / 'deployment-initial-state.json'), initial)
         self.assertEqual(self.api.call_args.args, ('/api/tasks/status/owned-stop-task',))
 
-    def test_manual_unknown_inhibited_and_stale_stops_reject(self):
-        for status in ['server_not_running', 'inhibited', 'occupied_or_connecting', 'unknown']:
+    def test_lost_sleep_label_after_lock_contention_preserves_exact_handoff(self):
+        self.state['status'] = 'maintenance_lock_busy'
+        write(self.idle / 'state.json', self.state)
+        initial = m.validate_initial_status(self.summary)
+        self.lease_handoff()
+        self.state['status'] = 'server_not_running'
+        self.state['checked_at_utc'] = '2026-01-01T00:10:59Z'
+        write(self.idle / 'state.json', self.state)
+        m.record_initial_status()
+        self.assertEqual(c.read(self.output / 'deployment-initial-state.json'), initial)
+        self.assertEqual(self.api.call_args.args, ('/api/tasks/status/owned-stop-task',))
+
+    def test_lost_sleep_label_cannot_replace_reviewed_stop_provenance(self):
+        original = {**copy.deepcopy(self.state), 'status': 'server_not_running'}
+        for field in ['stop_task', 'last_sleep', 'log']:
+            changed = copy.deepcopy(original)
+            if field == 'stop_task': changed[field] = 'another-stop'
+            elif field == 'last_sleep': changed[field]['task'] = 'another-stop'
+            else: changed[field]['offset'] += 1
+            write(self.idle / 'state.json', changed)
+            with self.subTest(field=field), self.assertRaisesRegex(AssertionError, 'identity changed'):
+                m.verify_handoff(self.summary)
+        write(self.idle / 'state.json', original)
+        for path in [self.bds / 'server_output.txt', self.idle / 'idle_stop.py', self.source / m.SOURCE]:
+            raw = path.read_bytes()
+            try:
+                path.write_bytes(raw + b' ')
+                with self.subTest(path=path), self.assertRaises(AssertionError):
+                    m.verify_handoff(self.summary)
+            finally:
+                path.write_bytes(raw)
+
+    def test_unknown_inhibited_and_stale_stops_reject(self):
+        for status in ['inhibited', 'occupied_or_connecting', 'unknown']:
             write(self.idle / 'state.json', {**self.state, 'status': status})
             with self.subTest(status=status), self.assertRaisesRegex(AssertionError, 'normal idle owner'):
                 m.verify_handoff(self.summary)
-        write(self.idle / 'state.json', {**self.state, 'checked_at_utc': '2026-01-01T00:08:00Z'})
-        with self.assertRaisesRegex(AssertionError, 'stale'): m.verify_handoff(self.summary)
+        for status in ['sleeping', 'server_not_running']:
+            write(self.idle / 'state.json', {**self.state, 'status': status, 'checked_at_utc': '2026-01-01T00:08:00Z'})
+            with self.subTest(status=status), self.assertRaisesRegex(AssertionError, 'stale'):
+                m.verify_handoff(self.summary)
 
     def test_unconfirmed_task_running_server_or_real_process_rejects(self):
         self.task['status'] = 'error'
