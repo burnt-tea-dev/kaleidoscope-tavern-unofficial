@@ -17,7 +17,7 @@ STABLE_ARCHIVE='6e424b1df6d933e4aa699023208d05e6a702431ed4c33dcca439c2cd0c2c9251
 
 def patch_manifests(bp,rp,version,owner_version,profile=None):
     stable=(bp['header']['uuid'],rp['header']['uuid'])==(STABLE_BP,STABLE_RP)
-    current=profile and profile.get('admission') in ('current-author-p55','current-author-p56','current-author-p57')
+    current=profile and profile.get('admission') in ('current-author-p55','current-author-p56','current-author-p57','current-author-p58')
     expected=profile['author_version'] if current else [1,0,5] if stable else [1,0,4]
     bp_id,rp_id=(profile['behavior_uuid'],profile['host_uuid']) if current else (STABLE_BP,STABLE_RP) if stable else (BP,RP)
     if current and (owner_version!=profile['owner_version'] or version!=profile['version']):raise ValueError('current renderer manifest differs from the exact owner release')
@@ -53,7 +53,7 @@ def cleanup_blocks(original):
 def apply_renderer_extension(spec,bp_root,rp_root,bp_source,rp_source,owner_version):
     if spec.get('schema')!=1 or spec.get('kind')!='chinesefood-doll-renderer-cleanup':raise ValueError('unknown renderer extension')
     stable=match_stable_profile(spec)
-    current=stable and stable.get('admission') in ('current-author-p55','current-author-p56','current-author-p57')
+    current=stable and stable.get('admission') in ('current-author-p55','current-author-p56','current-author-p57','current-author-p58')
     bp_id,rp_id,pin=(stable['behavior_uuid'],stable['host_uuid'],stable['archive_sha256']) if current else (STABLE_BP,STABLE_RP,STABLE_ARCHIVE) if stable else (BP,RP,ARCHIVE)
     if spec.get('host_uuid')!=rp_id or spec.get('behavior_uuid')!=bp_id:raise ValueError('renderer extension target differs')
     if owner_version[:2]!=[1,0] or spec['owner_version']!=owner_version:raise ValueError('renderer extension release is not paired with owner')
