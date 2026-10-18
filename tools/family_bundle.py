@@ -159,7 +159,7 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
      row['source']={**row['source'],'owner':'upstream_extended','reviewed_extensions':[*row['source'].get('reviewed_extensions',[]),proof]}
     continue
    retained=None
-   if config.get('version') in ([1,0,51],[1,0,52],[1,0,53]) and spec.get('kind') in ('cookery-held-geometry-canonicalization','cookery-millstone-extension-admission'):
+   if config.get('version') in ([1,0,51],[1,0,52],[1,0,53],[1,0,54]) and spec.get('kind') in ('cookery-held-geometry-canonicalization','cookery-millstone-extension-admission'):
     try:retained=retained_host_source(config,spec,path)
     except ValueError as e:fail('host retention rejected: '+str(e))
    component_config={**config,'version':retained['owner_version']} if retained else config
@@ -174,7 +174,7 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
    if spec.get('kind')=='cookery-enamel-basin-lid-repair':
     from enamel_basin_extension import validate_enamel_basin_owner
     try:
-     retained=retained_host_source(config,spec,path) if config.get('version') in ([1,0,50],[1,0,51],[1,0,52],[1,0,53]) else None
+     retained=retained_host_source(config,spec,path) if config.get('version') in ([1,0,50],[1,0,51],[1,0,52],[1,0,53],[1,0,54]) else None
      validate_enamel_basin_owner({**config,'version':retained['owner_version']} if retained else config,spec)
     except ValueError as e:fail('host extension owner rejected: '+str(e))
    host=by_uuid.get(spec['host_uuid'])

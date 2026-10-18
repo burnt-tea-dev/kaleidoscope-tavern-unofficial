@@ -51,6 +51,7 @@ jobs:
       - run: python tools/test_held_geometry_extension.py
       - run: python tools/test_retained_host_profiles.py
       - run: python tools/test_p51_retention.py
+      - run: python tools/test_p54_retention.py
       - run: python tools/test_tilted_rack_lift.py
       - run: python tools/test_family_archive_index.py
       - run: python -m pip install nbtlib==2.0.4
