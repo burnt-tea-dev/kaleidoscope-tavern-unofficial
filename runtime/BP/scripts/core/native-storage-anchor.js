@@ -1,7 +1,7 @@
 /** Native carriers are pack-owned block inventories, never free-moving mobs. */
 import {check,id} from './util.js';
 import {validateDisplay} from './bottles.js';
-import {bottleBlock} from './extension-content.js';
+import {bottlePermutationBlock} from './bottle-display-schema.js';
 import {BOTTLES} from '../data/bottles.js';
 import {validateMachine} from './machines.js';
 const NS='kaleidoscope_tavern',D='(overworld|nether|the_end)',P='(-?\\d+)_(-?\\d+)_(-?\\d+)';
@@ -29,7 +29,7 @@ export function nativeStorageAnchor(key,registry,readState){
  }else if((m=bottles.exec(key))){
   const raw=readState?.(key);check(typeof raw==='string'&&raw.length<=1024,'NATIVE_STORAGE_UNKNOWN_ANCHOR');
   let state;try{state=validateDisplay(JSON.parse(raw));}catch{check(false,'NATIVE_STORAGE_UNKNOWN_ANCHOR');}
-  type=bottleBlock(state.base);dimension=m[1];p=position(m.slice(2));capacity=BOTTLES[state.base].maxCount;
+  type=bottlePermutationBlock(state);dimension=m[1];p=position(m.slice(2));capacity=BOTTLES[state.base].maxCount;
   return {key,type,dimension:'minecraft:'+dimension,position:p,capacity,displayIds:state.items.slice(),center:{x:p.x+.5,y:p.y+.5,z:p.z+.5}};
  }else check(false,'NATIVE_STORAGE_UNKNOWN_ANCHOR');
  return {key,type,dimension:'minecraft:'+dimension,position:p,capacity,center:{x:p.x+.5,y:p.y+.5,z:p.z+.5}};

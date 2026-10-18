@@ -61,13 +61,24 @@ function normalizeContent(raw,source,itemExists){
  if(raw.kind==='bottle'){
   d.base=own(raw.base,source);d.maxCount=integer(raw.maxCount,1,4);d.compact=raw.compact===true;d.visualKind=integer(raw.visualKind,1000,65535);
   check(Array.isArray(raw.items)&&raw.items.length===6,'INVALID_QUALITY_OUTPUT');d.items=raw.items.map(x=>{own(x,source);check(itemExists(x),'UNKNOWN_ITEM',x);return x;});
+  if(raw.qualityBlocks!==undefined){
+   check(Array.isArray(raw.qualityBlocks)&&raw.qualityBlocks.length===6,'INVALID_QUALITY_BLOCKS');d.qualityBlocks=raw.qualityBlocks.map(x=>own(x,source));
+   check(new Set(d.qualityBlocks).size===6&&!d.qualityBlocks.includes(d.block),'INVALID_QUALITY_BLOCKS');
+  }
   check(Array.isArray(raw.effects)&&raw.effects.length===6,'INVALID_QUALITY_EFFECTS');d.effects=raw.effects.map(effectRows);
   d.groundOnly=raw.groundOnly===true;
   if(raw.displayStates){
    check(raw.displayStates&&typeof raw.displayStates==='object','INVALID_DISPLAY_STATES');
-   d.displayStates={};for(const key of ['count','facing','quality'])d.displayStates[key]=own(raw.displayStates[key],source);
-   check(new Set(Object.values(d.displayStates)).size===3,'INVALID_DISPLAY_STATES');
+   d.displayStates={};
+   for(const key of ['count','facing']){
+    const state=raw.displayStates[key],shared=d.qualityBlocks&&(key==='count'&&state===CORE+':count'||key==='facing'&&state==='minecraft:cardinal_direction');
+    d.displayStates[key]=shared?state:own(state,source);
+   }
+   if(raw.displayStates.quality!==undefined)d.displayStates.quality=own(raw.displayStates.quality,source);
+   check(d.qualityBlocks||d.displayStates.quality,'INVALID_DISPLAY_STATES');
+   check(Object.keys(raw.displayStates).every(key=>['count','facing','quality'].includes(key))&&new Set(Object.values(d.displayStates)).size===Object.keys(d.displayStates).length,'INVALID_DISPLAY_STATES');
   }
+  check(!d.qualityBlocks||d.displayStates,'INVALID_DISPLAY_STATES');
   if(raw.color!==undefined){if(typeof raw.color==='string')colorTag(raw.color);else integer(raw.color,0,0xffffff,'bottle RGB');d.color=raw.color;}
   if(raw.container!==undefined){d.container=id(raw.container);check(itemExists(d.container),'UNKNOWN_ITEM',d.container);}
   d.visuals={};for(const [key,value] of Object.entries(raw.visuals??{})){check(['holder_bottle_visual','tilted_rack_bottle_visual','circular_rack_bottle_visual','cellar_cabinet_bottle_visual','bar_cabinet_bottle_visual','thrown_drink'].includes(key),'INVALID_VISUAL');d.visuals[key]=own(value,source);}
@@ -138,6 +149,7 @@ export class ExtensionRegistry {
   check(typeof raw.version==='string'&&/^\d+\.\d+\.\d+$/.test(raw.version),'INVALID_VERSION');
   check(this.extensions.has(source)||this.extensions.size<64,'EXTENSION_LIMIT');
   const rawRecipes=raw.recipes??[],rawPages=raw.pages??[],rawShakerInputs=raw.shakerInputs??[],rawContent=raw.content??[];check(Array.isArray(rawContent)&&rawContent.length<=128,'CONTENT_LIMIT');const content=rawContent.map(x=>normalizeContent(x,source,this.itemExists));check(new Set(content.map(x=>x.block)).size===content.length,'DUPLICATE_CONTENT');
+  const contentBlocks=content.flatMap(x=>[x.block,...x.qualityBlocks??[]]);check(new Set(contentBlocks).size===contentBlocks.length,'DUPLICATE_CONTENT_BLOCK');
   check(Array.isArray(rawRecipes)&&rawRecipes.length<=128,'RECIPE_LIMIT');check(Array.isArray(rawPages)&&rawPages.length<=256,'PAGE_LIMIT');check(Array.isArray(rawShakerInputs)&&rawShakerInputs.length<=128,'SHAKER_INPUT_LIMIT');
   // Normalize everything before changing any registry. Reject an entire bad bundle.
   const fluidRows=raw.fluids??[];check(Array.isArray(fluidRows)&&fluidRows.length<=16,'FLUID_LIMIT');
