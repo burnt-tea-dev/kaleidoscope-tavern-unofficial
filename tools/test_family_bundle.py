@@ -378,10 +378,11 @@ class RetainedAssemblyTests(unittest.TestCase):
   from unittest.mock import patch
   import family_bundle as bundle
   import held_geometry_extension as held,enamel_basin_extension as enamel,doll_renderer_extension as renderer
-  for kind in ['cookery-held-geometry-canonicalization','cookery-enamel-basin-lid-repair','chinesefood-doll-renderer-cleanup']:
+  for kind in ['cookery-held-geometry-canonicalization','cookery-enamel-basin-lid-repair','chinesefood-doll-renderer-cleanup','chinesefood-reviewed-repairs']:
    with self.subTest(kind=kind),tempfile.TemporaryDirectory() as tmp:
     root=Path(tmp);repo=root/'owned';repo.mkdir();archive=root/'author.mcaddon'
     spec={'id':'fixture:'+kind,'kind':kind,'owner_version':[1,0,58],'version':[1,0,4],'host_uuid':'host-r' if kind=='chinesefood-doll-renderer-cleanup' else 'host-b','behavior_uuid':'host-b'}
+    if kind=='chinesefood-reviewed-repairs':spec['removed_files']={'recipes/vanilla_cooking/salt_smelting.json':'synthetic-preimage'}
     for side,module in [('BP','data'),('RP','resources')]:
      target=repo/'runtime'/side;target.mkdir(parents=True)
      (target/'manifest.json').write_text(json.dumps({'header':{'uuid':'owned-'+side,'version':[1,0,59]},'modules':[{'type':module}]}))
@@ -395,7 +396,8 @@ class RetainedAssemblyTests(unittest.TestCase):
           'upstream':[{'name':'synthetic','project_id':1,'file_id':2,'sha256':hashlib.sha256(archive.read_bytes()).hexdigest(),'packs':[{'uuid':uid,'version':[1,0,1]}for uid in ['host-b','host-r']]}],
           'order':{'behavior':['owned-BP','host-b'],'resource':['owned-RP','host-r']}}
     calls=[]
-    def apply(spec,owned,host,source):
+    def apply(spec,owned,host,source,**context):
+     self.assertEqual(context,{'retained_owner':{'source_root':str(repo),'source_commit':'d'*40,'sources':{'private':str(repo)}}} if kind=='chinesefood-reviewed-repairs' else {})
      calls.append('single');return {'id':spec['id'],'kind':spec['kind'],'version':spec['version'],'owner_version':spec['owner_version']}
     def apply_pair(spec,bp,rp,bps,rps,owner):
      self.assertEqual(owner,[1,0,58]);calls.append('paired')

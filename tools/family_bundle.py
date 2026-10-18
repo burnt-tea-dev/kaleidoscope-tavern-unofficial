@@ -205,7 +205,10 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
    host=by_uuid.get(spec['host_uuid'])
    if host is None:fail('host extension target missing')
    host_root=out/(host['side']+'_packs')/host['uuid']
-   try:proof=apply_host_extension(spec,owned_root,host_root,host['source'])
+   context={}
+   if retained_runtime and spec.get('removed_files'):
+    context['retained_owner']={'source_root':str(repo.resolve()),'source_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip(),'sources':{key:str(value.resolve())for key,value in sources.items()}}
+   try:proof=apply_host_extension(spec,owned_root,host_root,host['source'],**context)
    except (ValueError,KeyError) as e:fail('host extension rejected: '+str(e))
    proof.update({'repository':config['repository'],'commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip(),'owner_version':source_component['version'],'spec_sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'working_candidate':working})
    if retained_runtime:proof.update(source_package_version=config['version'],component_version=source_component['version'],retained_runtime_profile=retained_runtime)
