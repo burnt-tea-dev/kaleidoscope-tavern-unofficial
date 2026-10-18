@@ -10,9 +10,10 @@ GIB = 1024 ** 3
 MIB = 1024 ** 2
 LIGHT_PHASES = frozenset({'prepare', 'record-ci', 'deploy', 'update', 'verify-live',
                           'cleanup-copies', 'cleanup-engine-inputs', 'capture_predeploy',
-                          'build_candidate', 'record_static'})
+                          'build_candidate', 'record_static', 'recover-preinstall'})
 NATIVE_PHASES = frozenset({'saved-world', 'rehearse_saved_world', 'saved_world_first', 'saved_world_restart'})
 SHRINK_HEADROOM = 32 * MIB
+RESIDENT_ACCOUNTING_PAD = 32 * MIB
 RECLAIM_ATTEMPTS = 8
 RECLAIM_SECONDS = 2.0
 
@@ -34,17 +35,22 @@ def phase_budget(config, phase):
     return {**{k: v for k, v in config.items() if k != 'phase_limits'}, 'limit_bytes': limits[category]}, category
 
 
-def assess_phase(config, phase, meminfo, membership, current, maximum, swap_maximum):
+def assess_phase(config, phase, meminfo, membership, current, maximum, swap_maximum, resident_anon=0):
     selected, category = phase_budget(config, phase)
     if category is None:
         return assess(selected, meminfo, membership, current, maximum, swap_maximum)
     if maximum not in {str(x) for x in config['phase_limits'].values()} or type(current) is not int or current < 0:
         raise ValueError('Actual phase ceiling is not one of the reviewed limits')
-    # Charged file cache can also contribute to MemAvailable. Give no credit
-    # for memory.current: reserve the entire next ceiling without counting it twice.
-    result = assess(selected, meminfo, membership, 0, str(selected['limit_bytes']), swap_maximum)
+    if type(resident_anon) is not int or resident_anon < 0:
+        raise ValueError('Phased memory requires a valid resident anonymous observation')
+    # Only our already-resident anon can reduce the remaining enforced budget.
+    # File cache/shmem/kernel receive no credit; retain an accounting pad and
+    # cap the observation by memory.current in case counters were sampled apart.
+    credit = max(0, min(current, resident_anon) - RESIDENT_ACCOUNTING_PAD)
+    result = assess(selected, meminfo, membership, credit, str(selected['limit_bytes']), swap_maximum)
     result.update(current_bytes=current, previous_limit_bytes=int(maximum), phase_category=category,
-                  current_headroom_credit_bytes=0)
+                  resident_anon_bytes=resident_anon, resident_accounting_pad_bytes=RESIDENT_ACCOUNTING_PAD,
+                  current_headroom_credit_bytes=credit)
     return result
 
 
@@ -117,9 +123,19 @@ def _group():
 
 
 def _assess_current(config, phase, membership, group):
+    resident_anon = 0
+    if phase_budget(config, phase)[1] is not None:
+        try:
+            rows = [line.split() for line in (group / 'memory.stat').read_text().splitlines()]
+        except OSError as error:
+            raise ValueError('Missing phased memory.stat anonymous observation') from error
+        anon = [row for row in rows if row and row[0] == 'anon']
+        if len(anon) != 1 or len(anon[0]) != 2 or not re.fullmatch('[0-9]+', anon[0][1]):
+            raise ValueError('Missing or invalid phased memory.stat anonymous observation')
+        resident_anon = int(anon[0][1])
     return assess_phase(config, phase, Path('/proc/meminfo').read_text(), membership,
                         int((group / 'memory.current').read_text()), (group / 'memory.max').read_text().strip(),
-                        (group / 'memory.swap.max').read_text().strip())
+                        (group / 'memory.swap.max').read_text().strip(), resident_anon=resident_anon)
 
 
 def _events(group):
@@ -203,7 +219,7 @@ def require(phase):
         record['ok'] = False
         record['reason'] = 'Maintenance cgroup recorded an OOM during this phase'
     c.R.mkdir(parents=True, exist_ok=True)
-    target = c.R / 'memory-admissions.json'
+    target = c.R / ('preinstall-recovery-memory-admissions.json' if phase == 'recover-preinstall' else 'memory-admissions.json')
     history = c.read(target) if target.exists() else {'schema': 1, 'observations': []}
     if len(history['observations']) >= 256:
         raise ValueError('Memory admission history exceeds this transaction budget')
