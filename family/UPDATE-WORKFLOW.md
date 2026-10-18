@@ -164,6 +164,22 @@ family_guard 仍須完成，真人驗收狀態仍保留 pending。
 後代，且**完整 Git tree 完全相同**；只看 runtime 版本或輸出 hash 相同仍拒絕。
 准入記錄分別保存現行提交、實測提交及兩個 tree OID，不重寫原證據冒充新測試。
 
+`senluo-client-assets-20261019-p58` 只接受現行准入的 AMW29／Fishing120
+兩組既有 UUID，輸出配對版本分別為 2.6.10058／1.2.10058。
+private P58 recipe 綁定 R5 收據、四包完整輸入／輸出檔案清單及限定差異：
+AMW 的舊 textures 定義、Fishing 水粒子五個呼叫來源與 helper、魚缸材質、
+156 個既有 item texture set 的 normal 與 156 張新 normal、三份翻譯斷行及配對身份。
+其餘保留包須與原准入完全相同；不恢復退休內容、不核准安裝漂移。
+
+此 profile 的 `source_validation` 指向 `client_assets_source` wrapper，內含
+private merged PR、完整 source tree、`differential` 和 `ci: {run_id, artifact_id}`。
+工具從 canonical main 的成功 CI 下載原始 `client-assets-functional` artifact，
+核對 ZIP digest、report／log 原 bytes、source recipe 與功能事實。
+這份 source-only 證據先允許選取下一版輸入；隨後仍只使用本次正常停服副本的
+first／restart 產生 `client-assets-native-validation.json`，才能安裝。
+`current-author-p58` 同時驗證既有作者與 private P58 的完整輸出鏈；
+source／native 成功均不提升真人畫面驗收或 `production_ready`。
+
 ## 驗證與維護
 
 `python -m unittest discover -s tools/family_update -p 'test_*.py'` 使用隔離暫存目錄

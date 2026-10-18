@@ -125,6 +125,9 @@ def finalize_receipt():
         from family_update.preserved_ribbits_inputs import is_profile as is_ribbits
         if is_ribbits(prospective):
             reports.extend(['ribbits-startup-native-validation.json', prospective['review']['path'], prospective['recipe']['path'], prospective['source_validation']['path'], prospective['differential']['path']])
+        from family_update.preserved_client_assets_inputs import is_profile as is_client_assets, NATIVE as client_assets_native
+        if is_client_assets(prospective):
+            reports.extend([client_assets_native, prospective['review']['path'], prospective['recipe']['path'], prospective['source_validation']['path'], prospective['differential']['path'], prospective['source_log']['path']])
         from family_update.preserved_saturation_inputs import is_profile as is_saturation
         if is_saturation(prospective):
             reports.extend(['saturation-scheduling-native-validation.json', prospective['review']['path'], prospective['recipe']['path'], prospective['source_validation']['path'], prospective['source_log']['path'], prospective['source_diagnosis']['path'], prospective['author_file_boundary']['path']])
@@ -157,6 +160,7 @@ def installation_selection(receipt,original):
         prospective={p['uuid']:p for p in proof['packs'].values()}
         from family_update.preserved_hud_inputs import is_profile, PACKS
         from family_update import preserved_ribbits_inputs as ribbits
+        from family_update import preserved_client_assets_inputs as client_assets
         from family_update import preserved_saturation_inputs as saturation
         from family_update import stable_author_validation as stable
         if is_profile(proof):
@@ -171,6 +175,9 @@ def installation_selection(receipt,original):
             assert native['native_loading'] is True and native['saved_world_migration'] is True and native['client'] is False and native['production_ready'] is False
         elif ribbits.is_profile(proof):
             ribbits.verify_installation(receipt,proof)
+        elif client_assets.is_profile(proof):
+            assert len(prospective)==4 and set(prospective)=={row[0] for row in client_assets.PACKS.values()}
+            client_assets.verify_installation(receipt,proof)
         elif saturation.is_profile(proof):
             assert len(prospective)==2 and set(prospective)=={row[0] for row in saturation.PACKS.values()}
             saturation.verify_installation(receipt,proof)
