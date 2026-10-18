@@ -22,11 +22,11 @@ def main(argv=None):
     assert backup['lease_owner'] == OWNER
     assert hashes(snapshot) == backup['files'], 'Fresh backup changed after capture'
     receipt = verify_candidate_sources()
-    inputs = engine_inputs()
+    inputs = engine_inputs(world_receipt=receipt)
     original = read(R / 'production-before/inventory.json')
     from family_update.identity_migration import prepare_world
     rehearsal_source,migration=prepare_world(snapshot,receipt,original)
-    setup_engine(engine, 'Saved World QA', args.port, expected_inputs=inputs)
+    setup_engine(engine, 'Saved World QA', args.port, expected_inputs=inputs, world_receipt=receipt)
     world = engine / 'worlds/Saved World QA'; world.parent.mkdir(); shutil.copytree(rehearsal_source, world, ignore=lambda directory, names: [n for n in names if Path(directory) == rehearsal_source and n in {"behavior_packs", "resource_packs"}])
     recovery=None
     if CONFIG.get('container_recovery_plan'):
@@ -88,7 +88,7 @@ def main(argv=None):
         runs.append(record); print(json.dumps(record),flush=True)
         if not record['ok']: break
     assert sha(B/'bedrock_server')==engine_hash
-    assert inputs == engine_inputs(), 'Engine inputs changed during saved-world rehearsal'
+    assert inputs == engine_inputs(world_receipt=receipt), 'Engine inputs changed during saved-world rehearsal'
     assert hashes(snapshot)==backup['files'], 'Original backup mutated during rehearsal'
     success=len(runs)==2 and all(row['ok'] for row in runs)
     report={'schema':1,'recorded_at':now(),'native_acceptance_source':'saved_world','exact_files_checked':True,'candidate_receipt_sha256':sha(C/'family-receipt.json'),'engine_sha256':engine_hash,'engine_inputs':inputs,'packs':len(receipt['packs']),'versions':versions(receipt),'identity_mapping':migration['uuid_mapping'] if migration else {},'same_author_and_owned_uuids':migration is None,'snapshot_source':str(snapshot),'backup_receipt':report_ref(R/'production-before/backup-receipt.json'),'fresh_stopped_backup':True,'snapshot_cutoff':backup['recorded_at'],'existing_world_loaded':success,'database_replaced_in_live':False,'saved_world_migration':success,'bds':success,'test_only_overlays':[],'client':False,'simulated_players':False,'players':0,'player_records_before':before,'player_records_after':after,'runs':runs}

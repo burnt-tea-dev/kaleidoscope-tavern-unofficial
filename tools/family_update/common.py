@@ -504,7 +504,7 @@ def archive_paths():
     return list(dict.fromkeys(result))
 
 
-def engine_inputs():
+def engine_inputs(world_receipt=None):
     """Pin everything used by the isolated engine, including builtin packs."""
     roots = ['definitions', 'behavior_packs', 'resource_packs', 'config', 'minecraftpe', 'treatments']
     # Newer BDS builds load profiler/bootstrap inputs from the genuine data tree.
@@ -517,7 +517,13 @@ def engine_inputs():
     # after verifying every byte against the active resource pack, and are not
     # copied into isolated engines. Unknown files remain pinned inputs.
     for name in client_pack_cache():trees['minecraftpe'].pop(name)
-    return {'binary': sha(B / 'bedrock_server'), 'trees': trees}
+    result = {'binary': sha(B / 'bedrock_server'), 'trees': trees}
+    if world_receipt is not None:
+        from family_update.engine_pack_projection import project
+        projection = project(trees, world_receipt)
+        if projection is not None:
+            result['global_pack_projection'] = projection
+    return result
 
 
 def client_pack_cache():
