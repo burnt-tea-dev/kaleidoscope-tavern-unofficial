@@ -71,14 +71,15 @@ def validate_recipe_removals(spec, owned_root, host_root, stable):
  if not removed:
   return {}
  allowed = REVIEWED_SALT_REMOVAL
- if (not stable or stable.get('admission') != 'current-author-p55'
+ admissions={'current-author-p55':[1,0,55], 'current-author-p56':[1,0,56]}
+ if (not stable or stable.get('admission') not in admissions
      or spec.get('kind') != 'chinesefood-reviewed-repairs'
      or spec.get('archive_sha256') != 'dea708dd6443ea30d23e5791860a50181e8eeb560dcd7ec5a8e80fe22743e659'
      or removed != allowed):
   raise ValueError('recipe removal is outside the exact reviewed coexistence profile')
  manifest = json.loads((owned_root / 'manifest.json').read_text())
  dependency = {'uuid': '5e121bf2-1d2d-4da4-be15-cffc5f216d94', 'version': [1, 2, 0]}
- if manifest['header']['version'] != [1, 0, 55] or dependency not in manifest.get('dependencies', []):
+ if manifest['header']['version'] != admissions[stable['admission']] or dependency not in manifest.get('dependencies', []):
   raise ValueError('salt coexistence requires the exact Fishing companion dependency')
  for name, expected in removed.items():
   path = host_root / name

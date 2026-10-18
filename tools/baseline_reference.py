@@ -100,6 +100,26 @@ T168_AFTER='4e549925509f3ab3e8521485a0e14b5d66f218a9'
 T169_PATH='runtime/RP/ui/kt_tavern_hud.json'
 T169_BEFORE='1c09a9735eba14b03137ebbb852fcf54ec9c4e04'
 T169_AFTER='08ccd47b93dc60dd0b935a8d5e812d4195858e9d'
+T176_BEFORE='2810a59c08e52004bb69522a8900a8da1dcc2c16'
+T176_AFTER='fd791c0faa839b4317e7e07ad332b97c34ad9758'
+T176_PATHS=frozenset('runtime/BP/scripts/'+name for name in (
+ 'bedrock/bottles.js','bedrock/display-projectiles.js','bedrock/machines.js',
+ 'core/bottle-display-schema.js','core/extension-content.js',
+ 'core/native-storage-anchor.js','core/registry.js','core/util.js'))
+
+@lru_cache(maxsize=16)
+def t176_source(root,commit,name):
+ assert commit in (T176_BEFORE,T176_AFTER) and name in T176_PATHS,'Outside the T176 reviewed source edge'
+ return subprocess.check_output(['git','show',commit+':'+name],cwd=root)
+
+def t176_preimage(root,name,data):
+ # Exact immutable Orchard quality-block/storage and unloaded-projectile repairs.
+ # Leave the old ledger and all its older preimages intact. Actual T176 behavior
+ # is exercised by current-source tests, never this test-only historical view.
+ if Path(root).resolve()!=Path(__file__).resolve().parents[1] or name not in T176_PATHS:return data
+ before,after=(t176_source(str(root),commit,name) for commit in (T176_BEFORE,T176_AFTER))
+ assert data in (before,after),('Unreviewed T176 source postimage',name)
+ return before
 
 @lru_cache(maxsize=4)
 def t168_source(root,commit):
@@ -239,6 +259,7 @@ def version_projection(root,name,data,spec):
 
 def previous_bytes(root,path):
  root=Path(root).resolve();path=Path(path).resolve();name=path.relative_to(root).as_posix();data=path.read_bytes();row=rows(root).get(name)
+ data=t176_preimage(root,name,data)
  data=collision_preimage(root,name,data)
  # Bind and normalize the current release identity before any body delta.
  # This keeps a reviewed guide-body change separate from later pure version

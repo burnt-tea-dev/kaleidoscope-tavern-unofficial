@@ -49,9 +49,9 @@ def repair_condition(raw):
 
 def validate_enamel_basin_owner(config, spec):
     owner=OWNER_VERSION
-    if spec.get('owner_version')==[1,0,55]:
+    if spec.get('owner_version') in ([1,0,55],[1,0,56]):
         profile=current_author_profile(spec)
-        if not profile or profile.get('owner_version')!=[1,0,55]:raise ValueError('enamel basin requires its exact current author profile')
+        if not profile or profile.get('owner_version')!=spec['owner_version']:raise ValueError('enamel basin requires its exact current author profile')
         owner=profile['owner_version']
     if (config.get('repository') != 'local/senluo-amw-cuisine'
             or config.get('version') != owner or spec.get('owner_version') != owner):
@@ -60,7 +60,7 @@ def validate_enamel_basin_owner(config, spec):
 
 def apply_enamel_basin_extension(spec, owned_root, host_root, source):
     """Validate the exact declaration, source and output before the sole write."""
-    current=current_author_profile(spec,owned_root,source) if spec.get('owner_version')==[1,0,55] else None
+    current=current_author_profile(spec,owned_root,source) if spec.get('owner_version') in ([1,0,55],[1,0,56]) else None
     owner=current['owner_version'] if current else OWNER_VERSION
     version=current['version'] if current else [1,0,1]
     host=current['host_uuid'] if current else HOST

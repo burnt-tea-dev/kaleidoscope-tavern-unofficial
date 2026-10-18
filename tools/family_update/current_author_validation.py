@@ -1,4 +1,4 @@
-"""Exact P55 source proof and fresh stopped-save binding; historical gates remain.
+"""Exact current-author source proof and fresh stopped-save binding.
 
 Only hashes and reviewed contract metadata are public. Original private CI
 artifacts bind the implementation, while native/client acceptance stays distinct.
@@ -23,7 +23,12 @@ CATALOG_KEY='current_author_p55'
 CHECKS={'current-source-api','native-freezer-performance.json','saturation-scheduling-functional.json','hud-coexistence-functional.json','ribbits-startup-functional.json','ribbits-fp-decode-functional.json'}
 
 def selected():
-    return c.CONFIG.get('extension_stable_profile')=='current-author-p55'
+    return c.CONFIG.get('extension_stable_profile') in ('current-author-p55','current-author-p56')
+
+def settings():
+    if c.CONFIG.get('extension_stable_profile')=='current-author-p56':
+        return [1,0,56], 'senluo-stable-author-20261018-p56', 'current_author_p56'
+    return VERSION, PROFILE, CATALOG_KEY
 
 def digest(raw):return hashlib.sha256(raw).hexdigest()
 
@@ -68,6 +73,7 @@ def artifact_members(run_id,artifact_id,source,full_tree):
     return members,{'run_id':run_id,'artifact_id':artifact_id,'artifact_digest':artifact['digest'],'checks':checks,'statuses':statuses,'unavailable_optional_services':unavailable}
 
 def source_proof():
+    VERSION,PROFILE,CATALOG_KEY=settings()
     from family_update.extension_validation import source_binding
     from family_update.workflow import gh_json
     assert selected() and c.CONFIG.get('extension_stable_validation')
@@ -100,16 +106,19 @@ def source_proof():
         member=sibling(path,ref);assert member.read_bytes()==members[ref['name']],'Current author CI log bytes differ'
     assert all(row['exit_code']==0 and isinstance(row['command'],list) and row['command'] for row in checks)
     source_api=next(row for row in checks if row['name']=='current-source-api')
-    assert source_api['command']==['node','--test','tools/current-author-functional.test.mjs']
+    assert source_api['command']==['node','--experimental-vm-modules','tools/current-author-functional.test.mjs']
     return path,proof,baseline,binding,catalog,ci
 
 def affected_packs(receipt,catalog=None):
+    VERSION,PROFILE,CATALOG_KEY=settings()
     catalog=catalog or CATALOG[CATALOG_KEY]
     uuids={pin[key] for pin in catalog['authors'].values() for key in ['behavior_uuid','resource_uuid']}
     return {p['uuid']:{'side':p['side'],'version':p['version'],'files':tree(p['files'])} for p in receipt['packs'] if p['uuid'] in uuids or p['source'].get('repository')==LOGICAL}
 
 def validate_candidate(receipt,proof,baseline,binding,catalog):
     """Validate every output and the exact ordered chain, not just changed paths."""
+    VERSION,PROFILE,CATALOG_KEY=settings()
+    variant={55:[1,0,10655],56:[1,0,10656]}[VERSION[-1]]
     rows={row['uuid']:row for row in receipt['packs']};assert len(rows)==len(receipt['packs'])
     assert {row['uuid'] for row in rows.values() if row['source'].get('repository')==LOGICAL}=={p['uuid'] for p in baseline['packs'].values()},'Current private pair inventory differs'
     owned=proof['owned_runtime'];assert set(owned['files'])=={'BP','RP'}
@@ -156,7 +165,7 @@ def validate_candidate(receipt,proof,baseline,binding,catalog):
             assert pack['side']==label and pack['files']==authored['resolved_files'][side]
             assert source['owner']==('upstream_extended' if extensions else 'upstream') and source['archive_sha256']==pin['sha256']
             assert source['project_id']==pin['project_id'] and source['file_id']==pin['file_id']
-            expected_version=[1,0,10655] if key=='ChineseFood' else pin['author_version']
+            expected_version=variant if key=='ChineseFood' else pin['author_version']
             assert pack['version']==expected_version
             current=dict(authored['original_files'][side])
             for index,extension in enumerate(extensions):
@@ -176,7 +185,7 @@ def validate_candidate(receipt,proof,baseline,binding,catalog):
                 assert extension['original_files']==declared['original_files'] and extension['patched_files']==declared['patched_files']
                 assert extension.get('removed_files',{})==declared.get('removed_files',{}),'Current author removal receipt differs'
                 if 'version' in declared:assert extension['version']==declared['version']
-                else:assert extension['owner_version']==VERSION and extension['local_pack_version']==[1,0,10655]
+                else:assert extension['owner_version']==VERSION and extension['local_pack_version']==variant
                 copies=profile['copies'];assert extension.get('copies',{})==copies
                 for name,value in declared['original_files'].items():
                     if paired:
@@ -197,6 +206,7 @@ def validate_candidate(receipt,proof,baseline,binding,catalog):
     assert seen==set(specs),'Current author host profile omitted'
 
 def verify_static(receipt,prior):
+    VERSION,PROFILE,CATALOG_KEY=settings()
     path,proof,baseline,binding,catalog,ci=source_proof()
     validate_candidate(receipt,proof,baseline,binding,catalog)
     target=c.R/'current-author-static-validation.json'
@@ -210,6 +220,7 @@ def evidence_paths(include_native=True):
     return [c.report_ref(path) for path in dict.fromkeys(paths)]
 
 def bind_native(receipt,evidence):
+    VERSION,PROFILE,CATALOG_KEY=settings()
     static=c.read(c.R/'current-author-static-validation.json')
     assert static['profile']==PROFILE and static['version']==VERSION
     assert static['candidate_receipt_sha256']==evidence['candidate_receipt_sha256']==c.sha(c.C/'family-receipt.json')
@@ -221,6 +232,7 @@ def bind_native(receipt,evidence):
     c.atomic(c.R/'current-author-native-validation.json',{'schema':1,'profile':PROFILE,'version':VERSION,'static':c.report_ref(c.R/'current-author-static-validation.json'),'fresh_native':c.report_ref(c.R/'saved-world-report.json'),'candidate_receipt_sha256':evidence['candidate_receipt_sha256'],'affected_packs':static['affected_packs'],'native_loading':True,'saved_world_migration':True,'client':False,'production_ready':False})
 
 def verify_installation(receipt):
+    VERSION,PROFILE,CATALOG_KEY=settings()
     static=c.read(c.R/'current-author-static-validation.json');native=c.read(c.R/'current-author-native-validation.json')
     assert static['source']==c.report_ref(Path(c.CONFIG['extension_stable_validation']))
     assert static['profile']==native['profile']==PROFILE and static['version']==native['version']==VERSION

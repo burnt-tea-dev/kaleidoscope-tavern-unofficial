@@ -64,7 +64,7 @@
           "new_version": [
             1,
             0,
-            10655
+            10656
           ],
           "old_manifest_sha256": "855266883544d9bda99228b441a0438a321c1de7481efd680f9f1ee5171dbf15"
         },
@@ -80,7 +80,7 @@
           "new_version": [
             1,
             0,
-            10655
+            10656
           ],
           "old_manifest_sha256": "ec13ea8021d4a8d05d12c97143b2d617b11611a7846912f609ec179fd556c7de"
         }

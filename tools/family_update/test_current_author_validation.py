@@ -70,6 +70,8 @@ class CurrentAuthorCandidate(unittest.TestCase):
   p=patch.object(m.c,'git',side_effect=git);p.start();self.addCleanup(p.stop)
  def verify(self):m.validate_candidate(self.receipt,self.proof,self.baseline,{'actual_current_source_commit':'p-current'},self.catalog)
  def test_full_seven_author_pairs_and_same_owned_source_are_accepted(self):self.verify()
+ def test_successor_profile_cannot_relabel_the_previous_owned_pair(self):
+  with patch.object(m.c,'CONFIG',{'extension_stable_profile':'current-author-p56'}),self.assertRaises(AssertionError):self.verify()
  def test_added_runtime_paths_cannot_be_omitted_or_misreported(self):
   owned=self.proof['owned_runtime']
   for paths in [[],['runtime/BP/scripts/compat/owned.js','runtime/BP/scripts/conserved.js']]:
