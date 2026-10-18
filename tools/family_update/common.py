@@ -208,14 +208,26 @@ def source_state(verify_remote=False):
         row = {'path': str(path), 'commit': commit, 'tree': git(path, 'rev-parse', 'HEAD^{tree}'), 'repository': config['repository'], 'version': config['version'], 'baseline_sha256': sha(path / 'baseline.json'), 'source_trees': config['source_trees']}
         if verify_remote:
             if name == 'extension':
+                from family_update.repository_identity import current_name, verify_remote as verify_repository
                 target=read(path/'.repo-target.json')
                 assert target.get('private') is True and target.get('logical_runtime_repository')==config['repository'], 'Private extension remote identity must be reviewed'
+                assert target['repository'] == current_name('casama233/senluo-family-integration-private')
                 expected='https://github.com/'+target['repository']
                 assert git(path,'remote','get-url','origin').removesuffix('.git')==expected, 'Private extension remote differs'
                 from family_update.github_reads import api_json
                 profile=api_json('repos/'+target['repository'])
-                assert profile['private'] is True and profile['id']==target['repository_id'] and profile['full_name']==target['repository'], 'Private remote must retain its identity and visibility'
+                expected_target=verify_repository(profile,target['repository'])
+                assert all(target[k]==expected_target[k] for k in ['repository','repository_id','private','owner']), 'Private target metadata differs from reviewed transfer'
                 row['remote_repository']=target['repository']
+            else:
+                from family_update.repository_identity import current_name, verify_remote as verify_repository
+                from family_update.github_reads import api_json
+                target=read(path/'.repo-target.json')
+                expected_target=verify_repository(api_json('repos/'+current_name(config['repository'])),config['repository'])
+                assert target.get('logical_runtime_repository')==config['repository']
+                assert all(target[k]==expected_target[k] for k in ['repository','repository_id','private','owner']), 'Public target metadata differs from reviewed transfer'
+                assert git(path,'remote','get-url','origin').removesuffix('.git')=='https://github.com/'+expected_target['repository'], 'Public canonical remote differs'
+                row['remote_repository']=expected_target['repository']
             remote_head = git(path, 'ls-remote', 'origin', 'refs/heads/main').split()[0]
             if name=='extension' and extension_hold:
                 verify_extension_source(path,extension_hold,remote_head,git)

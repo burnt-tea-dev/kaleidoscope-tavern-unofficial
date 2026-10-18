@@ -12,6 +12,7 @@ from pathlib import Path
 import hashlib,io,json,subprocess,zipfile
 from family_update import common as c
 from family_update.cookery_cache_validation import tree
+from family_update.repository_identity import current_name,verify_record,verify_remote
 from stable_host_profiles import CATALOG,PROFILES,match_stable_profile,public_profiles,receipt as profile_receipt,validate_stable_source
 
 VERSION=[1,0,55]
@@ -34,6 +35,12 @@ def settings():
         return [1,0,release], 'senluo-stable-author-20261018-p'+str(release), 'current_author_p'+str(release)
     assert selected_profile in (None,'current-author-p55'),'Unsupported current author profile'
     return VERSION, PROFILE, CATALOG_KEY
+
+def source_repository():
+    # Historical source artifacts retain their recorded identity. Only the
+    # fresh reviewed integration producer runs after the reviewed organization transfer.
+    version,_,_=settings()
+    return current_name(REPOSITORY) if version==[1,0,58] else REPOSITORY
 
 def digest(raw):return hashlib.sha256(raw).hexdigest()
 
@@ -58,18 +65,20 @@ def artifact_members(run_id,artifact_id,source,full_tree):
     from family_update.workflow import gh_json
     from family_update.cookery_cache_validation import private_ci_records
     from family_update.github_reads import api_bytes
-    repo=gh_json('repos/'+REPOSITORY)
-    assert repo['id']==REPOSITORY_ID and repo['full_name']==REPOSITORY and repo['private'] is True
-    run=gh_json(f'repos/{REPOSITORY}/actions/runs/{run_id}')
-    assert run['repository']['id']==REPOSITORY_ID and run['status']=='completed' and run['conclusion']=='success'
+    remote=current_name(REPOSITORY)
+    repo=gh_json('repos/'+remote)
+    verify_remote(repo,REPOSITORY)
+    run=gh_json(f'repos/{remote}/actions/runs/{run_id}')
+    verify_record(run['repository'],REPOSITORY)
+    assert run['status']=='completed' and run['conclusion']=='success'
     assert run['head_sha']==source and run['head_branch']=='main' and run['event'] in ('push','workflow_dispatch')
     assert run['path']=='.github/workflows/canonical.yml'
-    assert gh_json(f'repos/{REPOSITORY}/git/commits/{source}')['tree']['sha']==full_tree
-    checks,statuses,unavailable=private_ci_records(REPOSITORY,source)
-    artifact=gh_json(f'repos/{REPOSITORY}/actions/artifacts/{artifact_id}')
+    assert gh_json(f'repos/{remote}/git/commits/{source}')['tree']['sha']==full_tree
+    checks,statuses,unavailable=private_ci_records(remote,source)
+    artifact=gh_json(f'repos/{remote}/actions/artifacts/{artifact_id}')
     assert artifact['name']=='current-author-functional' and artifact['expired'] is False
     assert artifact['workflow_run']['id']==run_id and artifact['workflow_run']['head_sha']==source
-    raw=api_bytes(f'repos/{REPOSITORY}/actions/artifacts/{artifact_id}/zip')
+    raw=api_bytes(f'repos/{remote}/actions/artifacts/{artifact_id}/zip')
     assert len(raw)<=32*1024**2 and artifact['digest']=='sha256:'+digest(raw),'Current author original CI artifact changed'
     with zipfile.ZipFile(io.BytesIO(raw)) as archive:
         names=archive.namelist();assert len(names)<=32 and len(names)==len(set(names)) and all(Path(n).name==n for n in names)
@@ -86,9 +95,10 @@ def source_proof():
     path=Path(c.CONFIG['extension_stable_validation']);raw=local(path);proof=json.loads(raw)
     baseline=c.read(c.EXTENSION/'baseline.json');metadata=committed('.repo-target.json')
     assert baseline['repository']==LOGICAL and baseline['version']==VERSION
-    assert metadata['repository']==REPOSITORY and metadata['repository_id']==REPOSITORY_ID and metadata['private'] is True
+    recorded_repository=source_repository()
+    assert metadata['repository']==recorded_repository and metadata['repository_id']==REPOSITORY_ID and metadata['private'] is True
     assert proof['schema']==1 and proof['kind']=='current_author_functional' and proof['profile']==PROFILE
-    assert proof['canonical_repository']==REPOSITORY and proof['canonical_repository_id']==REPOSITORY_ID
+    assert proof['canonical_repository']==recorded_repository and proof['canonical_repository_id']==REPOSITORY_ID
     assert proof['test_command']==['python','tools/build_current_author_evidence.py'] and proof['test_exit_code']==0
     assert all(proof[key] is False for key in ['client','native_loading','simulated_players','production_ready'])
     binding=source_binding(proof,baseline);assert proof['git_tree']==binding['current_source_tree_oid']
@@ -97,8 +107,9 @@ def source_proof():
     c.git(c.EXTENSION,'merge-base','--is-ancestor',catalog['previous_commit'],binding['actual_current_source_commit'])
     authors=committed(catalog['authors_path'],catalog['authors_sha256'])
     assert authors['profile']==PROFILE and authors['source_package_version']==VERSION and authors['authors']==catalog['authors']
-    pr=gh_json(f'repos/{REPOSITORY}/pulls/{c.CONFIG["extension_stable_pull_request"]}')
-    assert pr['merged'] is True and pr['base']['ref']=='main' and pr['head']['repo']['id']==pr['base']['repo']['id']==REPOSITORY_ID
+    pr=gh_json(f'repos/{current_name(REPOSITORY)}/pulls/{c.CONFIG["extension_stable_pull_request"]}')
+    verify_record(pr['head']['repo'],REPOSITORY);verify_record(pr['base']['repo'],REPOSITORY)
+    assert pr['merged'] is True and pr['base']['ref']=='main'
     c.git(c.EXTENSION,'merge-base','--is-ancestor',pr['merge_commit_sha'],binding['actual_current_source_commit'])
     assert c.git(c.EXTENSION,'rev-parse',pr['head']['sha']+'^{tree}')==proof['git_tree'],'Current author PR whole tree differs'
     members,ci=artifact_members(int(c.CONFIG['extension_stable_run_id']),int(c.CONFIG['extension_stable_artifact_id']),proof['source_commit'],proof['git_tree'])

@@ -94,8 +94,16 @@ def check(config,release=False,archive=None,history_base=None,identity=False):
  # Installable outputs cannot opt out of their version's reviewed bytes. Keep
  # this in the shared gate so family assembly and direct callers are covered.
  identity=identity or release or archive is not None
- if os.getenv('GITHUB_REPOSITORY') and os.environ['GITHUB_REPOSITORY']!=config['repository']:fail('wrong repository')
- if os.getenv('GITHUB_REPOSITORY_ID') and int(os.environ['GITHUB_REPOSITORY_ID'])!=config['repository_id']:fail('wrong repository ID')
+ if (ROOT/'.repo-target.json').exists():
+  from family_update.repository_identity import target,verify_ci
+  expected=target(config['repository']);metadata=read(ROOT/'.repo-target.json')
+  if metadata.get('logical_runtime_repository')!=config['repository'] or expected['repository_id']!=config['repository_id']:fail('wrong logical repository mapping')
+  if any(metadata.get(k)!=v for k,v in expected.items()):fail('wrong current repository target')
+  try:verify_ci(config['repository'],os.environ)
+  except (AssertionError,KeyError,OSError,ValueError) as error:fail('wrong repository identity: '+str(error))
+ else:
+  if os.getenv('GITHUB_REPOSITORY') and os.environ['GITHUB_REPOSITORY']!=config['repository']:fail('wrong repository')
+  if os.getenv('GITHUB_REPOSITORY_ID') and int(os.environ['GITHUB_REPOSITORY_ID'])!=config['repository_id']:fail('wrong repository ID')
  trees,files=validate(config)
  if identity and trees!=config['source_trees']:fail('runtime changed without a reviewed version/hash update')
  history=read(ROOT/'release-history.json')

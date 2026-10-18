@@ -22,6 +22,12 @@ class P58Admission(unittest.TestCase):
             self.assertFalse(m.selected())
             with self.assertRaises(AssertionError):m.settings()
 
+    def test_only58_source_records_use_new_owner_historical_names_stay_exact(self):
+        self.assertEqual(m.REPOSITORY,'casama233/senluo-family-integration-private')
+        for version in [55,56,57,58]:
+            with self.subTest(version=version),patch.object(m.c,'CONFIG',{'extension_stable_profile':'current-author-p'+str(version)}):
+                self.assertEqual(m.source_repository(),m.current_name(m.REPOSITORY) if version==58 else m.REPOSITORY)
+
     def fixture(self):
         before={'BP':{'manifest.json':'before','host-extensions/reviewed.json':'before-spec','scripts/kept.js':'same'},'RP':{'manifest.json':'before-rp','entity/inscription.json':'same'}}
         after=copy.deepcopy(before);after['BP'].update({'manifest.json':'after','host-extensions/reviewed.json':'after-spec',

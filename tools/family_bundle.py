@@ -39,7 +39,7 @@ def packs(z):
   data={x[len(pre):]:z.read(x) for x in names if x.startswith(pre) and not x.endswith('/') and not x.endswith('.mcpack')}
   yield m,data
 
-def source_gate_environment(own,identities):
+def source_gate_environment(own,identities,repo=None):
  # A multi-repository CI caller may supply independently verified identities.
  # Never derive the expected identity from the source config being checked.
  # Default callers retain their original inherited-environment gate semantics.
@@ -47,7 +47,13 @@ def source_gate_environment(own,identities):
  expected=identities.get(own['key']) if isinstance(identities,dict) else None
  if not isinstance(expected,dict) or expected.get('repository')!=own['repository'] or type(expected.get('repository_id')) is not int or expected['repository_id']<=0:
   fail('invalid expected gate repository identity: '+own['key'])
- return {**os.environ,'GITHUB_REPOSITORY':expected['repository'],'GITHUB_REPOSITORY_ID':str(expected['repository_id'])}
+ environment={**os.environ,'GITHUB_REPOSITORY':expected['repository'],'GITHUB_REPOSITORY_ID':str(expected['repository_id'])}
+ if repo is not None and (repo/'.repo-target.json').exists():
+  from family_update.repository_identity import target
+  current=target(expected['repository']);metadata=read(repo/'.repo-target.json')
+  if current['repository_id']!=expected['repository_id'] or metadata.get('logical_runtime_repository')!=own['repository'] or any(metadata.get(k)!=v for k,v in current.items()):fail('invalid reviewed current source target')
+  environment.update(GITHUB_REPOSITORY=current['repository'],SENLUO_SOURCE_GATE='1')
+ return environment
 
 def renderer_source_version(config,spec,path):
  # The fixed cache/guide and later HUD/dependency updates retain unchanged ChineseFood graphics.
@@ -113,7 +119,7 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
   repo=sources[own['key']]
   config=read(repo/'baseline.json')
   if own.get('version')!=config['version'] or own.get('source_trees')!=config['source_trees']:fail('owned source differs from family lock')
-  if not working:subprocess.run(['python3',str(repo/'tools/baseline_gate.py'),'check','--release'],check=True,env=source_gate_environment(own,source_identities))
+  if not working:subprocess.run(['python3',str(repo/'tools/baseline_gate.py'),'check','--release'],check=True,env=source_gate_environment(own,source_identities,repo))
   if config['repository']!=own['repository']:fail('wrong owned repository')
   for side,relative in config['runtime'].items():
    root=repo/relative;m=read(root/'manifest.json');source={'owner':'owned','repository':config['repository'],'commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip(),'working_candidate':working}
