@@ -324,6 +324,9 @@ def external_input_hashes():
     result.update(input_refs())
     from family_update.managed_drift_recovery import input_refs as managed_drift_inputs
     result.update(managed_drift_inputs())
+    if CONFIG.get('preinstall_recovery_output'):
+        from family_update.preinstall_recovery import input_refs as preinstall_inputs
+        result.update(preinstall_inputs())
     return result
 
 
