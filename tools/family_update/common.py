@@ -339,6 +339,8 @@ def external_input_hashes():
     if CONFIG.get('preinstall_recovery_output'):
         from family_update.preinstall_recovery import input_refs as preinstall_inputs
         result.update(preinstall_inputs())
+    from family_update.normal_idle_update import input_refs as normal_idle_inputs
+    result.update(normal_idle_inputs())
     return result
 
 
