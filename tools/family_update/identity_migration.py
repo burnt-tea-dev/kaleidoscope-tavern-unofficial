@@ -79,7 +79,8 @@ def validate_family_plan(spec, receipt, original):
         for swap in project['packs']:
             a, b = old[swap['old_uuid']], new[swap['new_uuid']]
             assert a['side'] == b['side'] == swap['side']
-            assert a['version'] == swap['old_version'] and b['version'] == swap['new_version']
+            assert a['version'] == swap['old_version'], 'Observed author version differs from migration: ' + str(project['project_id']) + '/' + swap['side']
+            assert b['version'] == swap['new_version'], 'Candidate author version differs from migration: ' + str(project['project_id']) + '/' + swap['side'] + '; expected ' + str(swap['new_version']) + ', got ' + str(b['version'])
             assert a['files']['manifest.json'] == swap['old_manifest_sha256']
             for pack, prefix in ((a, 'old'), (b, 'new')):
                 source = pack['source']

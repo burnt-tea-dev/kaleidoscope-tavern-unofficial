@@ -17,6 +17,34 @@ import host_extensions
 
 
 class P57Admission(unittest.TestCase):
+    def test_migration_targets_match_actual_current_renderer_output(self):
+        root = Path(__file__).resolve().parents[2]
+        migration = json.loads((root / 'family/identity-migrations/stable-author-20261018.json').read_text())
+        project = next(row for row in migration['projects'] if row['project_id'] == 1683300)
+        profile = stable.PROFILES['chinesefood-doll-renderer-p57']
+        originals = [{'header': {'uuid': uid, 'name': 'original', 'version': profile['author_version']},
+                      'modules': [{'version': profile['author_version']}],
+                      'dependencies': [{'uuid': other, 'version': profile['author_version']}]}
+                     for uid, other in [(profile['behavior_uuid'], profile['host_uuid']),
+                                        (profile['host_uuid'], profile['behavior_uuid'])]]
+        manifests = renderer.patch_manifests(*originals, profile['version'], profile['owner_version'], profile)
+        for side, manifest in zip(['behavior', 'resource'], manifests):
+            planned = next(row for row in project['packs'] if row['side'] == side)
+            self.assertEqual(planned['new_uuid'], manifest['header']['uuid'])
+            self.assertEqual(planned['new_version'], manifest['header']['version'])
+
+    def test_migration_binds_the_reviewed_enamel_repair_output(self):
+        root = Path(__file__).resolve().parents[2]
+        migration = json.loads((root / 'family/identity-migrations/stable-author-20261018.json').read_text())
+        rule = next(row for row in migration['block_states']['blocks']
+                    if row['identifier'] == 'kaleidoscope_cookery:enamel_basin')
+        profile = stable.PROFILES['cookery-enamel-basin-lid-repair-p57']
+        relative = rule['path'][3:]
+        self.assertEqual(rule['before_sha256'], profile['original_files'][relative])
+        self.assertEqual(rule['after_sha256'], profile['patched_files'][relative])
+        self.assertEqual(rule['conversion'], 'identity')
+        self.assertEqual(rule['before_states'], rule['after_states'])
+
     def fixture(self):
         owned = {
             'previous_files': {
