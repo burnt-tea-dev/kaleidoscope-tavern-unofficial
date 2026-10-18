@@ -35,6 +35,16 @@ class CurrentHostProfiles(unittest.TestCase):
   changed=copy.deepcopy(self.spec);changed['copies']['extra']='scripts/elsewhere.js'
   with self.assertRaisesRegex(ValueError,'exact reviewed profile'):validate_held_geometry_owner(config,changed)
 
+ def test_component58_owner_uses_exact_catalog_for_held_and_enamel(self):
+  from enamel_basin_extension import validate_enamel_basin_owner
+  self.spec['owner_version']=[1,0,58];self.profile.update(owner_version=[1,0,58],admission='current-author-p58',spec_sha256=stable.declaration_sha(self.spec))
+  for validate in [validate_held_geometry_owner,validate_enamel_basin_owner]:
+   with self.subTest(adapter=validate.__name__):
+    validate({'repository':'local/senluo-amw-cuisine','version':[1,0,58]},self.spec)
+    with self.assertRaises(ValueError):validate({'repository':'local/senluo-amw-cuisine','version':[1,0,59]},self.spec)
+    changed=copy.deepcopy(self.spec);changed['version']=[1,0,99]
+    with self.assertRaisesRegex(ValueError,'exact reviewed profile'):validate({'repository':'local/senluo-amw-cuisine','version':[1,0,58]},changed)
+
 class RecipeRemovalBoundary(unittest.TestCase):
  def setUp(self):
   temporary=tempfile.TemporaryDirectory();self.addCleanup(temporary.cleanup);self.root=Path(temporary.name)

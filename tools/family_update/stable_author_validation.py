@@ -241,7 +241,7 @@ def private_receipt_source(extension, declared, author, rows, side, prefix_sourc
 
 
 def verify_static(receipt, prior):
-    if c.CONFIG.get('extension_stable_profile') in ('current-author-p55','current-author-p56','current-author-p57','current-author-p58'):
+    if c.CONFIG.get('extension_stable_profile') in ('current-author-p55','current-author-p56','current-author-p57','current-author-p58','current-author-retained'):
         from family_update.current_author_validation import verify_static as verify_current
         return verify_current(receipt,prior)
     from stable_host_profiles import match_stable_profile, validate_stable_source
@@ -341,7 +341,7 @@ def verify_static(receipt, prior):
 
 
 def evidence_paths(include_native=True):
-    if c.CONFIG.get('extension_stable_profile') in ('current-author-p55','current-author-p56','current-author-p57','current-author-p58'):
+    if c.CONFIG.get('extension_stable_profile') in ('current-author-p55','current-author-p56','current-author-p57','current-author-p58','current-author-retained'):
         from family_update.current_author_validation import evidence_paths as current_paths
         return current_paths(include_native)
     path = Path(c.CONFIG['extension_stable_validation']);proof = c.read(path)
@@ -355,7 +355,7 @@ def evidence_paths(include_native=True):
 
 def bind_native(receipt, evidence):
     if not c.CONFIG.get('extension_stable_validation'):return
-    if c.CONFIG.get('extension_stable_profile') in ('current-author-p55','current-author-p56','current-author-p57','current-author-p58'):
+    if c.CONFIG.get('extension_stable_profile') in ('current-author-p55','current-author-p56','current-author-p57','current-author-p58','current-author-retained'):
         from family_update.current_author_validation import bind_native as bind_current
         return bind_current(receipt,evidence)
     static = c.read(c.R / 'stable-author-static-validation.json')
@@ -374,7 +374,7 @@ def bind_native(receipt, evidence):
 
 def verify_installation(receipt):
     if not c.CONFIG.get('extension_stable_validation'):return
-    if c.CONFIG.get('extension_stable_profile') in ('current-author-p55','current-author-p56','current-author-p57','current-author-p58'):
+    if c.CONFIG.get('extension_stable_profile') in ('current-author-p55','current-author-p56','current-author-p57','current-author-p58','current-author-retained'):
         from family_update.current_author_validation import verify_installation as verify_current
         return verify_current(receipt)
     static = c.read(c.R / 'stable-author-static-validation.json');native = c.read(c.R / 'stable-author-native-validation.json')

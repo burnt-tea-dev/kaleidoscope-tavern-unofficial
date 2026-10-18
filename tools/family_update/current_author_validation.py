@@ -9,7 +9,7 @@ acceptance remains necessary before claiming public rendered usability.
 """
 from functools import lru_cache
 from pathlib import Path
-import hashlib,io,json,subprocess,zipfile
+import copy,hashlib,io,json,re,subprocess,zipfile
 from family_update import common as c
 from family_update.cookery_cache_validation import tree
 from family_update.repository_identity import current_name,verify_record,verify_remote
@@ -24,17 +24,95 @@ CATALOG_KEY='current_author_p55'
 CHECKS={'current-source-api','native-freezer-performance.json','saturation-scheduling-functional.json','hud-coexistence-functional.json','ribbits-startup-functional.json','ribbits-fp-decode-functional.json'}
 
 def selected():
-    return c.CONFIG.get('extension_stable_profile') in ('current-author-p55','current-author-p56','current-author-p57','current-author-p58')
+    return c.CONFIG.get('extension_stable_profile') in ('current-author-p55','current-author-p56','current-author-p57','current-author-p58','current-author-retained')
 
 def settings():
     selected_profile=c.CONFIG.get('extension_stable_profile')
-    if selected_profile=='current-author-p58':
+    if selected_profile in ('current-author-p58','current-author-retained'):
         return [1,0,58], 'senluo-stable-author-20261019-p58', 'current_author_p58'
     if selected_profile in ('current-author-p56','current-author-p57'):
         release={'current-author-p56':56,'current-author-p57':57}[selected_profile]
         return [1,0,release], 'senluo-stable-author-20261018-p'+str(release), 'current_author_p'+str(release)
     assert selected_profile in (None,'current-author-p55'),'Unsupported current author profile'
     return VERSION, PROFILE, CATALOG_KEY
+
+def retained_selected():
+    return c.CONFIG.get('extension_stable_profile')=='current-author-retained'
+
+def owner_version():
+    return committed('baseline.json')['version'] if retained_selected() else settings()[0]
+
+def validate_retained_runtime(owned,baseline,binding,*,source_root=None,sources=None):
+    """Check public hashes/metadata only; never import or copy private runtime."""
+    root=Path(source_root) if source_root is not None else c.EXTENSION
+    selected_sources=sources if sources is not None else c.SOURCES
+    anchor=baseline['retained_runtime']
+    assert set(anchor)=={'schema','kind','source_commit','source_tree','source_version','dependency_versions'}
+    assert anchor['schema']==1 and anchor['kind']=='dependency-only' and anchor['source_version']==[1,0,58]
+    commit=anchor['source_commit'];assert isinstance(commit,str) and re.fullmatch('[0-9a-f]{40}',commit)
+    assert c.git(root,'rev-parse',commit+'^{tree}')==anchor['source_tree']==owned['source_tree']
+    c.git(root,'merge-base','--is-ancestor',commit,binding['actual_current_source_commit'])
+    previous=json.loads(c.git(root,'show',commit+':baseline.json'))
+    assert previous['repository']==baseline['repository']==LOGICAL
+    assert previous['version']==anchor['source_version']==owned['source_version']
+    assert baseline['version']!=previous['version'] and baseline['version'][:2]==[1,0] and baseline['version'][-1]>58
+    assert owned['schema']==1 and owned['kind']=='dependency_only_runtime'
+    assert owned['source_commit']==owned['previous_commit']==commit and owned['version']==baseline['version']
+    assert owned['source_trees']==baseline['source_trees'] and owned['retained_source_trees']==previous['source_trees']
+    assert owned['core_only'] is True and owned['added_paths']==owned['retired_paths']==[]
+    assert owned['exact_changed_paths']==['runtime/BP/manifest.json','runtime/RP/manifest.json']
+    assert baseline['runtime']==previous['runtime']=={'BP':'runtime/BP','RP':'runtime/RP'}
+    assert set(owned['files'])==set(owned['previous_files'])=={'BP','RP'}
+    anchor_manifests={side:subprocess.check_output(['git','show',commit+':runtime/'+side+'/manifest.json'],cwd=root) for side in ['BP','RP']}
+    selected_peers={}
+    for key in ['tavern','grilling','world-liquor']:
+        peer=c.read(selected_sources[key]/'baseline.json')
+        uid=peer['packs']['RP']['uuid'];assert uid not in selected_peers
+        selected_peers[uid]=peer['version']
+    peers={}
+    for raw in anchor_manifests.values():
+        for dependency in json.loads(raw).get('dependencies',[]):
+            uid=dependency.get('uuid')
+            if uid in selected_peers and dependency['version']!=selected_peers[uid]:peers[uid]=selected_peers[uid]
+    assert anchor['dependency_versions']==owned['dependency_versions']==peers,'Retained peer versions differ from selected source pair'
+    uuids={row['uuid'] for row in previous['packs'].values()}
+    assert uuids=={row['uuid'] for row in baseline['packs'].values()}
+    count=0;seen=set()
+    for side in ['BP','RP']:
+        before,after=owned['previous_files'][side],owned['files'][side]
+        assert tree(before)==previous['source_trees'][side] and tree(after)==baseline['source_trees'][side]
+        assert set(before)==set(after) and 'manifest.json' in before,'Retained runtime inventory changed'
+        for name,value in {**before,**after}.items():
+            path=Path(name)
+            assert isinstance(name,str) and not path.is_absolute() and '..' not in path.parts and path.as_posix()==name and '\\' not in name
+            assert isinstance(value,str) and re.fullmatch('[0-9a-f]{64}',value)
+            if name!='manifest.json':assert before[name]==after[name],'Retained non-manifest payload changed'
+        count+=len(before)-1
+        relative=previous['runtime'][side]+'/manifest.json'
+        raw=anchor_manifests[side]
+        old=json.loads(raw);current_raw=local(root/relative)
+        assert current_raw==subprocess.check_output(['git','show','HEAD:'+relative],cwd=root),'Uncommitted retained manifest'
+        assert digest(raw)==before['manifest.json'] and digest(current_raw)==after['manifest.json']
+        expected=copy.deepcopy(old);expected['header']['version']=baseline['version']
+        assert old['header']['uuid']==baseline['packs'][side]['uuid'] and old['header']['version']==previous['version']
+        for module in expected['modules']:
+            assert module['version']==previous['version'];module['version']=baseline['version']
+        for dependency in expected.get('dependencies',[]):
+            uid=dependency.get('uuid')
+            if uid in uuids:dependency['version']=baseline['version']
+            elif uid in peers:dependency['version']=peers[uid];seen.add(uid)
+        assert json.loads(current_raw)==expected,'Retained manifest changed outside reviewed versions'
+        assert baseline['packs'][side]['dependencies']==expected.get('dependencies',[])
+    # 370 is a reviewed reviewed integration component fact, not permission for arbitrary profiles.
+    assert seen==set(peers) and count==owned['conserved_files']==370,'Retained complete payload/profile differs'
+    component=owned['retained_component_conservation'];catalog=CATALOG['current_author_p58']
+    assert component['files']==owned['previous_files'] and component['previous_commit']==catalog['previous_commit']
+    old_component=json.loads(c.git(root,'show',catalog['previous_commit']+':baseline.json'))
+    for side in ['BP','RP']:assert tree(component['previous_files'][side])==old_component['source_trees'][side]
+    # settings() deliberately selects the retained reviewed integration catalog; its original
+    # reviewed add/change boundaries remain mandatory for the immutable anchor.
+    validate_owned_conservation(component,catalog,version=[1,0,58])
+    return owned
 
 def source_repository():
     # Historical source artifacts retain their recorded identity. Only the
@@ -94,7 +172,7 @@ def source_proof():
     assert not any(c.CONFIG.get(key) for key in ['extension_validation','extension_cache_validation','extension_hud_validation','extension_performance_validation'])
     path=Path(c.CONFIG['extension_stable_validation']);raw=local(path);proof=json.loads(raw)
     baseline=c.read(c.EXTENSION/'baseline.json');metadata=committed('.repo-target.json')
-    assert baseline['repository']==LOGICAL and baseline['version']==VERSION
+    assert baseline['repository']==LOGICAL and baseline['version']==(owner_version() if retained_selected() else VERSION)
     recorded_repository=source_repository()
     assert metadata['repository']==recorded_repository and metadata['repository_id']==REPOSITORY_ID and metadata['private'] is True
     assert proof['schema']==1 and proof['kind']=='current_author_functional' and proof['profile']==PROFILE
@@ -103,7 +181,12 @@ def source_proof():
     assert all(proof[key] is False for key in ['client','native_loading','simulated_players','production_ready'])
     binding=source_binding(proof,baseline);assert proof['git_tree']==binding['current_source_tree_oid']
     catalog=CATALOG[CATALOG_KEY];assert catalog['version']==VERSION and catalog['profile']==PROFILE
-    assert proof['owned_runtime']['previous_commit']==catalog['previous_commit']
+    if retained_selected():
+        assert proof['component_version']==VERSION
+        validate_retained_runtime(proof['owned_runtime'],baseline,binding)
+        owned_component=proof['owned_runtime']['retained_component_conservation']
+    else:owned_component=proof['owned_runtime']
+    assert owned_component['previous_commit']==catalog['previous_commit']
     c.git(c.EXTENSION,'merge-base','--is-ancestor',catalog['previous_commit'],binding['actual_current_source_commit'])
     authors=committed(catalog['authors_path'],catalog['authors_sha256'])
     assert authors['profile']==PROFILE and authors['source_package_version']==VERSION and authors['authors']==catalog['authors']
@@ -131,9 +214,9 @@ def affected_packs(receipt,catalog=None):
     uuids={pin[key] for pin in catalog['authors'].values() for key in ['behavior_uuid','resource_uuid']}
     return {p['uuid']:{'side':p['side'],'version':p['version'],'files':tree(p['files'])} for p in receipt['packs'] if p['uuid'] in uuids or p['source'].get('repository')==LOGICAL}
 
-def validate_owned_conservation(owned,catalog):
+def validate_owned_conservation(owned,catalog,version=None):
     """Retain historical deltas; reviewed integration additionally admits only its exact removal."""
-    VERSION,_,_=settings()
+    VERSION=version if version is not None else settings()[0]
     changed=sorted('runtime/'+side+'/'+name for side in ['BP','RP'] for name in owned['files'][side].keys()&owned['previous_files'][side].keys() if owned['files'][side][name]!=owned['previous_files'][side][name])
     added=sorted('runtime/'+side+'/'+name for side in ['BP','RP'] for name in owned['files'][side].keys()-owned['previous_files'][side].keys())
     retired=sorted('runtime/'+side+'/'+name for side in ['BP','RP'] for name in owned['previous_files'][side].keys()-owned['files'][side].keys())
@@ -170,18 +253,24 @@ def validate_owned_conservation(owned,catalog):
 def validate_candidate(receipt,proof,baseline,binding,catalog):
     """Validate every output and the exact ordered chain, not just changed paths."""
     VERSION,PROFILE,CATALOG_KEY=settings()
-    variant={55:[1,0,10655],56:[1,0,10656],57:[1,0,10657],58:[1,0,10658]}[VERSION[-1]]
+    component_version=VERSION
+    if retained_selected():
+        assert proof['component_version']==component_version
+        validate_retained_runtime(proof['owned_runtime'],baseline,binding)
+        VERSION=baseline['version']
+    variant={55:[1,0,10655],56:[1,0,10656],57:[1,0,10657],58:[1,0,10658]}[component_version[-1]]
     rows={row['uuid']:row for row in receipt['packs']};assert len(rows)==len(receipt['packs'])
     assert {row['uuid'] for row in rows.values() if row['source'].get('repository')==LOGICAL}=={p['uuid'] for p in baseline['packs'].values()},'Current private pair inventory differs'
     owned=proof['owned_runtime'];assert set(owned['files'])=={'BP','RP'}
-    previous=json.loads(c.git(c.EXTENSION,'show',catalog['previous_commit']+':baseline.json'))
+    previous_commit=baseline['retained_runtime']['source_commit'] if retained_selected() else catalog['previous_commit']
+    previous=json.loads(c.git(c.EXTENSION,'show',previous_commit+':baseline.json'))
     for side,definition in baseline['packs'].items():
         pack=rows[definition['uuid']]
         assert pack['source']['owner']=='owned' and pack['source']['repository']==LOGICAL and pack['version']==VERSION
         assert pack['source']['commit']==binding['actual_current_source_commit'] and pack['source']['working_candidate'] is False
         assert pack['files']==owned['files'][side] and tree(pack['files'])==baseline['source_trees'][side]
         assert tree(owned['previous_files'][side])==previous['source_trees'][side]
-    validate_owned_conservation(owned,catalog)
+    if not retained_selected():validate_owned_conservation(owned,catalog)
     assert set(proof['authors'])==set(proof['resolved_host_files'])==set(catalog['authors'])
     specs={}
     assert set(proof['host_specs'])==set(catalog['host_specs'])
@@ -222,6 +311,10 @@ def validate_candidate(receipt,proof,baseline,binding,catalog):
                 else:
                     assert extension['id'] in specs,'Unexpected current author host extension'
                     declared,profile,spec_sha=specs[extension['id']];repository=LOGICAL;commit=binding['actual_current_source_commit'];seen.add(extension['id'])
+                if retained_selected() and repository==LOGICAL:
+                    anchor=baseline['retained_runtime']
+                    assert extension['source_package_version']==VERSION and extension['component_version']==component_version
+                    assert extension['retained_runtime_profile']=={'schema':1,'source_commit':anchor['source_commit'],'source_tree':anchor['source_tree'],'source_version':component_version}
                 paired=declared.get('kind')=='chinesefood-doll-renderer-cleanup'
                 if paired and side=='RP':
                     bp_extensions=rows[pin['behavior_uuid']]['source']['reviewed_extensions']
@@ -232,7 +325,7 @@ def validate_candidate(receipt,proof,baseline,binding,catalog):
                 assert extension['original_files']==declared['original_files'] and extension['patched_files']==declared['patched_files']
                 assert extension.get('removed_files',{})==declared.get('removed_files',{}),'Current author removal receipt differs'
                 if 'version' in declared:assert extension['version']==declared['version']
-                else:assert extension['owner_version']==VERSION and extension['local_pack_version']==variant
+                else:assert extension['owner_version']==component_version and extension['local_pack_version']==variant
                 copies=profile['copies'];assert extension.get('copies',{})==copies
                 for name,value in declared['original_files'].items():
                     if paired:
@@ -257,7 +350,7 @@ def verify_static(receipt,prior):
     path,proof,baseline,binding,catalog,ci=source_proof()
     validate_candidate(receipt,proof,baseline,binding,catalog)
     target=c.R/'current-author-static-validation.json'
-    c.atomic(target,{'schema':1,'profile':PROFILE,'version':VERSION,**binding,'source':c.report_ref(path),'ci':ci,'candidate_receipt_sha256':c.sha(c.C/'family-receipt.json'),'affected_packs':affected_packs(receipt,catalog),'client':False,'native_loading':False,'production_ready':False})
+    c.atomic(target,{'schema':1,'profile':PROFILE,'version':baseline['version'],**({'component_version':VERSION} if retained_selected() else {}),**binding,'source':c.report_ref(path),'ci':ci,'candidate_receipt_sha256':c.sha(c.C/'family-receipt.json'),'affected_packs':affected_packs(receipt,catalog),'client':False,'native_loading':False,'production_ready':False})
     return [*evidence_paths(include_native=False),c.report_ref(target)]
 
 def evidence_paths(include_native=True):
@@ -268,21 +361,25 @@ def evidence_paths(include_native=True):
 
 def bind_native(receipt,evidence):
     VERSION,PROFILE,CATALOG_KEY=settings()
+    VERSION=owner_version()
     static=c.read(c.R/'current-author-static-validation.json')
     assert static['profile']==PROFILE and static['version']==VERSION
+    if retained_selected():assert static['component_version']==settings()[0]
     assert static['candidate_receipt_sha256']==evidence['candidate_receipt_sha256']==c.sha(c.C/'family-receipt.json')
     assert static['affected_packs']==affected_packs(receipt)
     assert all(evidence[key] for key in ['fresh_stopped_backup','existing_world_loaded','exact_files_checked','bds','saved_world_migration'])
     assert evidence['client'] is False and evidence['simulated_players'] is False and evidence['test_only_overlays']==[]
     assert [row['phase'] for row in evidence['runs']]==['first','restart']
     assert all(row['ok'] and not row['errors'] and row['real_player_connections']==0 and all(row[key] for key in ['player_records_unchanged','custom_container_inventories_retained','native_freezer_inputs_retained']) for row in evidence['runs'])
-    c.atomic(c.R/'current-author-native-validation.json',{'schema':1,'profile':PROFILE,'version':VERSION,'static':c.report_ref(c.R/'current-author-static-validation.json'),'fresh_native':c.report_ref(c.R/'saved-world-report.json'),'candidate_receipt_sha256':evidence['candidate_receipt_sha256'],'affected_packs':static['affected_packs'],'native_loading':True,'saved_world_migration':True,'client':False,'production_ready':False})
+    c.atomic(c.R/'current-author-native-validation.json',{'schema':1,'profile':PROFILE,'version':VERSION,**({'component_version':settings()[0]} if retained_selected() else {}),'static':c.report_ref(c.R/'current-author-static-validation.json'),'fresh_native':c.report_ref(c.R/'saved-world-report.json'),'candidate_receipt_sha256':evidence['candidate_receipt_sha256'],'affected_packs':static['affected_packs'],'native_loading':True,'saved_world_migration':True,'client':False,'production_ready':False})
 
 def verify_installation(receipt):
     VERSION,PROFILE,CATALOG_KEY=settings()
+    VERSION=owner_version()
     static=c.read(c.R/'current-author-static-validation.json');native=c.read(c.R/'current-author-native-validation.json')
     assert static['source']==c.report_ref(Path(c.CONFIG['extension_stable_validation']))
     assert static['profile']==native['profile']==PROFILE and static['version']==native['version']==VERSION
+    if retained_selected():assert static['component_version']==native['component_version']==settings()[0]
     assert static['candidate_receipt_sha256']==native['candidate_receipt_sha256']==c.sha(c.C/'family-receipt.json')
     assert static['affected_packs']==native['affected_packs']==affected_packs(receipt)
     assert native['static']==c.report_ref(c.R/'current-author-static-validation.json') and native['fresh_native']==c.report_ref(c.R/'saved-world-report.json')

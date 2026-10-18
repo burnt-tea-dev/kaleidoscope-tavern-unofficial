@@ -23,7 +23,9 @@ def projection():return LegacyMenuProjection(ROOT)
 def historical_digest(path,projected=False):
     path=Path(path);name=path.relative_to(ROOT).as_posix()
     removed=reviewed_removals().get(name)
-    if removed:return removed['beforeProjected'] if projected else removed['before']
+    if removed:
+        assert removed['before'] is not None,('Retired addition has no historical file',name)
+        return removed['beforeProjected'] if projected else removed['before']
     actual=hashlib.sha256(previous_bytes(ROOT,path)).hexdigest();row=changes().get(name)
     if row:
         assert actual==row['after'],('Reviewed source changed after audit',name)
@@ -34,17 +36,24 @@ def historical_digest(path,projected=False):
 def reviewed_additions():
     rows=reference()['newRuntimeFiles']
     for name,digest in rows.items():assert hashlib.sha256(previous_bytes(ROOT,ROOT/name)).hexdigest()==digest,('Reviewed addition changed',name)
-    return {**rows,**{name:hashlib.sha256((ROOT/name).read_bytes()).hexdigest() for name in baseline_additions(ROOT)}}
+    removed=reviewed_removals()
+    assert not (set(rows)&set(removed)), 'A file cannot be both a current addition and a removal'
+    return {**rows,**{name:hashlib.sha256((ROOT/name).read_bytes()).hexdigest() for name in baseline_additions(ROOT) if name not in removed}}
 
 @lru_cache(maxsize=1)
 def reviewed_removals():
     rows=reference().get('removedRuntimeFiles',{})
     for name,row in rows.items():
         assert not (ROOT/name).exists(),('Reviewed removed file returned',name)
-        assert row['reason'] and len(row['before'])==64 and len(row['beforeProjected'])==64
+        assert row['reason']
+        if row['before'] is None and row['beforeProjected'] is None:
+            assert name in baseline_additions(ROOT),('Removed addition lacks historical review',name)
+        else:
+            assert isinstance(row['before'],str) and isinstance(row['beforeProjected'],str)
+            assert len(row['before'])==64 and len(row['beforeProjected'])==64
     return rows
 
 def historical_files(prefix):
     paths={p for p in (ROOT/prefix).rglob('*') if p.is_file() and p.relative_to(ROOT).as_posix() not in reviewed_additions()}
-    paths.update(ROOT/name for name in reviewed_removals() if name.startswith(prefix+'/'))
+    paths.update(ROOT/name for name,row in reviewed_removals().items() if row['before'] is not None and name.startswith(prefix+'/'))
     return sorted(paths)
