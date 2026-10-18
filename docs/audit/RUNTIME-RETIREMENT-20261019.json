@@ -101,8 +101,8 @@
   "baseline_reference_additions": "Keep function and ledger unchanged: it describes historical additions. Its two current file-reading consumers filter explicit retirements; creative/test_catalog only processes relevant item/block prefixes.",
   "current_coverage_pr": "https://github.com/burnt-tea-dev/kaleidoscope-tavern-unofficial/pull/412",
   "current_coverage": "Actual sendFormattingHud delivery/rejection/player isolation, UI lifetime, generator and heartbeat tests passed in PR412 and after retirement; current standalone guide, catalog and interaction coverage retained.",
-  "runtime_release_identity_updated": false,
-  "paired_release_frozen": false,
+  "runtime_release_identity_updated": true,
+  "paired_release_frozen": true,
   "canonical_checks_run": false,
   "family_candidate_built": false,
   "bds": false,
@@ -110,10 +110,11 @@
   "admission": false,
   "live_deployed": false,
   "limitations": [
-    "Patch deletes runtime exports but is not applied to any checkout. Fresh paired release/modules/dependencies/baseline/history and canonical CI/full-family pipeline remain required.",
-    "Prepared guard patch must be validated on the integrated candidate; no old successful receipt is relabelled.",
+    "Four runtime exports are retired in candidate source. Fresh paired0.6.177 identity is frozen; canonical PR/CI and full-family native/saved-world/admission/deployment remain required.",
+    "Integrated local launch/history/behavior checks and exact package passed. Existing successful receipts keep their original scope; this candidate still requires its own full-family evidence.",
     "No new version projection layer, no runtime reconstruction, no author/private content copied."
   ],
   "candidate_version": "0.6.177",
-  "limits": "This source patch changes exported bytes and identity. Canonical PR/CI, full-family admission, native/saved-world validation and deployment are still required. Existing historical release/client evidence remains unchanged."
+  "limits": "This source patch changes exported bytes and identity. Canonical PR/CI, full-family admission, native/saved-world validation and deployment are still required. Existing historical release/client evidence remains unchanged.",
+  "canonical_checks_scope": "Remote PR checks pending; local frozen identity, exact archive and targeted behavior/history checks passed."
 }
