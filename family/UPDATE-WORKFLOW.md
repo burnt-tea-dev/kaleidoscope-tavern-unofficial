@@ -106,6 +106,20 @@ cache 重用只適用於同一份不可變候選。不是只看版號、mtime、
 回退失敗或原始包／政策不完整時保持停服及 active `needs_operator_recovery`；
 只有核對完成的原始整套包才可重啟。新資料庫不會被舊快照自動覆蓋。
 
+若已審查的 managed repair 必須保留目前的玩法裁減，而歷史 approved rollback
+含不相容內容，設定 `managed_drift_failure_policy: "retain_stopped"`。
+取得 lease 後任何失敗均正常停服、保留最新 DB、現有包和已移出的包，不自動還原或
+啟動歷史 runtime；安裝中斷另保存精確移動清單及 active recovery lease。
+這個較嚴格的失敗政策不批准原漂移、不替代完整回退，也不允許自動重試。
+
+`memory_budget` 可用同一份 immutable config 加入
+`phase_limits: {"light": 805306368, "native": 2684354560}`，其中 `limit_bytes`
+等於 native 上限。所有階段都核對實際整個 systemd unit 的 memory/swap 上限，
+並保留至少 2 GiB 主機餘量。組裝／來源檢查在 light 上限內運行；只有取得 lease
+且正式服已正常停止後才提高至 native 上限。首次載入／重啟共用該上限；完成後
+先有界回收測試留下的 file cache，再確認較低上限生效，才能啟動 LIVE。
+缺餘量、無法安全收縮或任何身分／限制讀回不符都停止流程，不能調低餘量放行。
+
 一般更新要求 UUID 不變。已提交的 Cookery 1.0.8→1.6.0 作者身份遷移可用 `identity_migration` 指向 canonical `family/identity-migrations/cookery-108-to-160.json`；工具限制原／新作者 UUID、版本、archive 與原 manifest，先在本次停服副本逐筆搬移所有權並演練，再採用未受 QA 引擎修改的資料庫。其他身份遷移仍須另行設計與審查。
 私人 extension 如果有 runtime 變動，也須補它自己的功能證據，不能用三個公開 PR 代替。
 

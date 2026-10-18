@@ -81,4 +81,35 @@ class RecoveryTests(unittest.TestCase):
         self.assertEqual(self.status,'STOPPED')
         self.assertEqual(self.lease['state'],'active')
 
+    def test_stricter_managed_policy_preserves_observed_stack_before_install(self):
+        self.status='RUNNING'
+        with patch.object(module,'CONFIG',{'managed_drift_recovery':'review','managed_drift_failure_policy':'retain_stopped'}):
+            self.assertFalse(module.recover_after_failure(self.original,False,[],[]))
+        self.assertEqual(self.actions,['stop'])
+        self.restore.assert_not_called()
+        self.assertEqual(self.status,'STOPPED')
+        self.assertEqual(self.lease['state'],'active')
+        self.assertFalse(self.result()['restart_attempted'])
+        self.assertEqual(self.result()['phase'],'retain_stopped_without_package_or_database_restore')
+
+    def test_stricter_policy_preserves_partial_install_and_never_starts_rollback(self):
+        moved=[(Path('/retained/old-pack'),Path('/world/old-pack'))]
+        installed=[Path('/world/new-pack')]
+        with patch.object(module,'CONFIG',{'managed_drift_recovery':'review','managed_drift_failure_policy':'retain_stopped'}):
+            with self.assertRaises(module.RecoveryRequired):
+                module.retain_failed_installation(self.original,moved,installed,OSError('injected install failure'))
+            self.assertFalse(module.recover_after_failure(self.original,False,[],[],rollback_failed=True))
+        self.assertEqual(self.actions,[])
+        self.restore.assert_not_called()
+        saved=[row for path,row in self.reports if path.endswith('/rollback-map.json')][-1]
+        self.assertEqual(saved['retired'],[['/retained/old-pack','/world/old-pack']])
+        self.assertEqual(saved['installed'],['/world/new-pack'])
+        self.assertFalse(saved['automatic_package_restore'])
+        self.assertEqual(self.lease['state'],'active')
+
+    def test_unknown_or_unreviewed_failure_policy_is_rejected(self):
+        for config in [{'managed_drift_failure_policy':'restart_observed'}, {'managed_drift_failure_policy':'retain_stopped'}]:
+            with patch.object(module,'CONFIG',config),self.assertRaises(AssertionError):
+                module.retain_stopped_on_failure()
+
 if __name__=='__main__':unittest.main(verbosity=2)
