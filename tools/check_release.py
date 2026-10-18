@@ -122,6 +122,7 @@ def main(argv=None):
     subprocess.run([sys.executable,str(ROOT/'tools/test_p51_retention.py')],cwd=ROOT,check=True)
     subprocess.run([sys.executable,str(ROOT/'tools/test_p52_retention.py')],cwd=ROOT,check=True)
     subprocess.run([sys.executable,str(ROOT/'tools/test_p53_retention.py')],cwd=ROOT,check=True)
+    subprocess.run([sys.executable,str(ROOT/'tools/test_p54_retention.py')],cwd=ROOT,check=True)
     subprocess.run([sys.executable,str(ROOT/'tools/test_animated_item_depth.py')],cwd=ROOT,check=True)
     subprocess.run([sys.executable,str(ROOT/'tools/test_shaker_held_frames.py')],cwd=ROOT,check=True)
     subprocess.run([sys.executable,str(ROOT/'tools/test_shaker_native_frame.py')],cwd=ROOT,check=True)

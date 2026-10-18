@@ -15,7 +15,7 @@ class P52Retention(unittest.TestCase):
      self.assertEqual(retained_host_source(config,spec,p),profile)
     with self.assertRaises(ValueError):retained_host_source(config,spec,p)
    for field in ('repository','version','retained_host_profiles'):
-    bad=copy.deepcopy(config);bad[field]={'repository':'foreign','version':[1,0,54],'retained_host_profiles':{}}[field]
+    bad=copy.deepcopy(config);bad[field]={'repository':'foreign','version':[1,0,55],'retained_host_profiles':{}}[field]
     with self.assertRaises(ValueError):retained_host_source(bad,spec,p)
 
  def test_p52_retains_components_in_actual_assembly(self):

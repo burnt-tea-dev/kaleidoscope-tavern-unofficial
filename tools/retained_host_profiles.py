@@ -41,7 +41,7 @@ def retained_host_source(config, spec, path):
     """Return the frozen component identity and provenance, or no retention."""
     if 'retained_host_profiles' not in config:
         return None
-    profiles = PROFILES if config.get('version') == OWNER_VERSION else P50_PROFILES if config.get('version') == [1, 0, 50] else P51_PROFILES if config.get('version') in ([1, 0, 51], [1, 0, 52], [1, 0, 53]) else None
+    profiles = PROFILES if config.get('version') == OWNER_VERSION else P50_PROFILES if config.get('version') == [1, 0, 50] else P51_PROFILES if config.get('version') in ([1, 0, 51], [1, 0, 52], [1, 0, 53], [1, 0, 54]) else None
     if (config.get('repository') != 'local/senluo-amw-cuisine'
             or profiles is None
             or config['retained_host_profiles'] != profiles):
