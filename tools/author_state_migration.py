@@ -23,13 +23,17 @@ class StrictNBTStream(io.BytesIO):
 
 
 def validate_profile(profile):
-    if profile.get('schema') != 1 or profile.get('kind') != 'cookery161_nether102_states':
+    kind = profile.get('kind')
+    if profile.get('schema') != 1 or kind not in ('cookery161_nether102_states', 'cookery162_nether103_states'):
         raise ValueError('unreviewed author state profile')
     rules = profile.get('blocks', [])
     if len(rules) != 28 or len({r['identifier'] for r in rules}) != 28:
         raise ValueError('author state migration requires all 28 reviewed definitions')
     for row in rules:
-        if row['conversion'] not in ('chair_carpet', 'table_carpet', 'basin_oil', 'board_mode'):
+        if kind == 'cookery162_nether103_states':
+            if row['conversion'] != 'identity' or row['before_states'] != row['after_states']:
+                raise ValueError('current author state profile must preserve reviewed domains')
+        elif row['conversion'] not in ('chair_carpet', 'table_carpet', 'basin_oil', 'board_mode'):
             raise ValueError('unsupported author state conversion')
         for key in ('before_sha256', 'after_sha256'):
             value = row[key]

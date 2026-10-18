@@ -63,6 +63,30 @@ def validate_guide_startup_profile(spec,source):
             and row.get('patched_files',{}).get('scripts/api/extensionRegistry.js')=='5cc512e108df7c3ab3583bb9f48422bf9f013c333bcd04bd2a3098022d70eee7' for row in prior):
   raise ValueError('guide startup repair lacks the unchanged recipe cache receipt')
 
+REVIEWED_SALT_REMOVAL = {'recipes/vanilla_cooking/salt_smelting.json': '80bb1ab58d48ac9233e86b25c8405d7ec0bffd0411ba30f15829ba5278c1d0cb'}
+
+
+def validate_recipe_removals(spec, owned_root, host_root, stable):
+ removed = spec.get('removed_files', {})
+ if not removed:
+  return {}
+ allowed = REVIEWED_SALT_REMOVAL
+ if (not stable or stable.get('admission') != 'current-author-p55'
+     or spec.get('kind') != 'chinesefood-reviewed-repairs'
+     or spec.get('archive_sha256') != 'dea708dd6443ea30d23e5791860a50181e8eeb560dcd7ec5a8e80fe22743e659'
+     or removed != allowed):
+  raise ValueError('recipe removal is outside the exact reviewed coexistence profile')
+ manifest = json.loads((owned_root / 'manifest.json').read_text())
+ dependency = {'uuid': '5e121bf2-1d2d-4da4-be15-cffc5f216d94', 'version': [1, 2, 0]}
+ if manifest['header']['version'] != [1, 0, 55] or dependency not in manifest.get('dependencies', []):
+  raise ValueError('salt coexistence requires the exact Fishing companion dependency')
+ for name, expected in removed.items():
+  path = host_root / name
+  if path.is_symlink() or not path.resolve().is_relative_to(host_root.resolve()) or not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest() != expected:
+   raise ValueError('reviewed recipe removal preimage differs')
+ return removed
+
+
 def apply_host_extension(spec,owned_root,host_root,source):
  if spec.get('kind')=='cookery-held-geometry-canonicalization':
   from held_geometry_extension import apply_held_geometry_extension
@@ -89,6 +113,7 @@ def apply_host_extension(spec,owned_root,host_root,source):
  cache=spec.get('kind')=='cookery-recipe-cache-repair'
  guide=spec.get('kind')=='cookery-guide-startup-repair'
  stable=match_stable_profile(spec,owned_root,source)
+ removed=validate_recipe_removals(spec,owned_root,host_root,stable)
  if cache and not stable:validate_recipe_cache_profile(spec,source)
  if guide and not stable:validate_guide_startup_profile(spec,source)
  if dough and not stable and (spec.get('host_uuid'),spec['archive_sha256']) not in {('d322809c-a51e-4742-bfc4-16d3c1491c9d','9e5b617cc4c7a08ecd429fb9e42ec10e8d40a1ed5fc1f6f6687c3aff8a45a5d5'),('5df753c9-3436-4fba-87f1-a2da3651cfcf','da12fe6d39d7514aff1de3c963d69899324d771be5ca0fc3da1ccb759c7ad458')}:raise ValueError('dough repair requires the pinned Cookery host')
@@ -165,4 +190,7 @@ def apply_host_extension(spec,owned_root,host_root,source):
  copies={}
  for name,target in spec['copies'].items():
   src=safe(owned_root,name);dest=safe(host_root,target);data=src.read_bytes();dest.parent.mkdir(parents=True,exist_ok=True);dest.write_bytes(data);copies[target]={'source':name,'sha256':hashlib.sha256(data).hexdigest()}
- return {'id':spec['id'],'version':spec['version'],'expires':spec['expires'],'original_files':spec['original_files'],'patched_files':spec['patched_files'],'copies':copies,'removal_condition':spec['removal_condition'],'feedback':spec['feedback'],'authorization':spec['authorization']}
+ for name in removed:safe(host_root,name).unlink()
+ proof={'id':spec['id'],'version':spec['version'],'expires':spec['expires'],'original_files':spec['original_files'],'patched_files':spec['patched_files'],'copies':copies,'removal_condition':spec['removal_condition'],'feedback':spec['feedback'],'authorization':spec['authorization']}
+ if removed:proof['removed_files']=removed
+ return proof

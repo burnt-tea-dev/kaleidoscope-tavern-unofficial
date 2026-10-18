@@ -239,9 +239,17 @@ def main():
  p=argparse.ArgumentParser(description=__doc__);sub=p.add_subparsers(dest='command',required=True)
  b=sub.add_parser('build');b.add_argument('--tavern',type=Path,default=ROOT);b.add_argument('--grilling',type=Path,required=True);b.add_argument('--world-liquor',type=Path,required=True);b.add_argument('--archives',type=Path,action='append',required=True);b.add_argument('--output',type=Path,required=True);b.add_argument('--extension',type=Path,action='append',default=[],help='Committed local integration with the same canonical baseline gate and release history');b.add_argument('--working-candidate',action='store_true',help='isolated BDS development only; receipt never authorizes production')
  b.add_argument('--preserved-pack',type=Path,action='append',default=[],help='Unchanged external dependency copied with an exact per-file receipt')
+ g=sub.add_parser('build-public-grilling',help='Build a local public Grilling/Cookery bundle from one legal clean author archive')
+ g.add_argument('--grilling',type=Path,required=True);g.add_argument('--tavern',type=Path);g.add_argument('--archives',type=Path,action='append',required=True);g.add_argument('--output',type=Path,required=True)
  a=sub.add_parser('audit');a.add_argument('--world',type=Path,required=True);a.add_argument('--receipt',type=Path,required=True)
  args=p.parse_args()
  if args.command=='audit':audit(args.world,read(args.receipt));return
+ if args.command=='build-public-grilling':
+  from public_grilling_profile import build_public_grilling
+  sources={'grilling':args.grilling}
+  if args.tavern is not None:sources['tavern']=args.tavern
+  build_public_grilling(read(ROOT/'family/upstream.lock.json'),sources,args.archives,args.output,assemble_family=assemble,read_author_packs=packs)
+  return
  paths=[]
  for root in args.archives:paths.extend(root.rglob('*.mcaddon') if root.is_dir() else [root])
  assemble(read(ROOT/'family/upstream.lock.json'),{'tavern':args.tavern,'grilling':args.grilling,'world-liquor':args.world_liquor},paths,args.output,args.working_candidate,args.extension,args.preserved_pack)

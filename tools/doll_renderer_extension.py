@@ -15,19 +15,23 @@ STABLE_BP='d7aa2725-a2a2-4e82-9a6e-192d2e04617c'
 STABLE_RP='fdb6b8c4-6fe3-44bb-af7a-08bcb976377c'
 STABLE_ARCHIVE='6e424b1df6d933e4aa699023208d05e6a702431ed4c33dcca439c2cd0c2c9251'
 
-def patch_manifests(bp,rp,version,owner_version):
+def patch_manifests(bp,rp,version,owner_version,profile=None):
     stable=(bp['header']['uuid'],rp['header']['uuid'])==(STABLE_BP,STABLE_RP)
-    expected=[1,0,5] if stable else [1,0,4]
-    bp_id,rp_id=(STABLE_BP,STABLE_RP) if stable else (BP,RP)
+    current=profile and profile.get('admission')=='current-author-p55'
+    expected=profile['author_version'] if current else [1,0,5] if stable else [1,0,4]
+    bp_id,rp_id=(profile['behavior_uuid'],profile['host_uuid']) if current else (STABLE_BP,STABLE_RP) if stable else (BP,RP)
+    if current and (owner_version!=profile['owner_version'] or version!=profile['version']):raise ValueError('current renderer manifest differs from the exact owner release')
     if stable and {(1,0,43):(1,0,10543),(1,0,44):(1,0,10544),(1,0,45):(1,0,10545),(1,0,46):(1,0,10546),(1,0,47):(1,0,10547),(1,0,48):(1,0,10548)}.get(tuple(owner_version))!=tuple(version):raise ValueError('stable renderer manifest identity differs from the exact owner release')
     result=[]
     for original,uid,other in [(bp,bp_id,rp_id),(rp,rp_id,bp_id)]:
         value=copy.deepcopy(original)
         if value['header']['uuid']!=uid or value['header']['version']!=expected:raise ValueError('renderer cleanup requires original author identities')
         value['header']['version']=version
-        if owner_version>=[1,0,18] and value['header']['name']=='pack.name':
+        if current:
+            value['header']['name']=profile['manifest_names']['BP' if uid==bp_id else 'RP']
+        elif owner_version>=[1,0,18] and value['header']['name']=='pack.name':
             value['header']['name']='森羅廚房：國味'+(' 行為包' if uid==bp_id else ' 資源包')
-        value['header']['name']+=' [相容修補 '+'.'.join(map(str,owner_version))+'；作者原版 '+'.'.join(map(str,expected))+']'
+        if not current:value['header']['name']+=' [相容修補 '+'.'.join(map(str,owner_version))+'；作者原版 '+'.'.join(map(str,expected))+']'
         for module in value['modules']:
             if module['version']!=expected:raise ValueError('original author module version differs')
             module['version']=version
@@ -49,10 +53,11 @@ def cleanup_blocks(original):
 def apply_renderer_extension(spec,bp_root,rp_root,bp_source,rp_source,owner_version):
     if spec.get('schema')!=1 or spec.get('kind')!='chinesefood-doll-renderer-cleanup':raise ValueError('unknown renderer extension')
     stable=match_stable_profile(spec)
-    bp_id,rp_id,pin=(STABLE_BP,STABLE_RP,STABLE_ARCHIVE) if stable else (BP,RP,ARCHIVE)
+    current=stable and stable.get('admission')=='current-author-p55'
+    bp_id,rp_id,pin=(stable['behavior_uuid'],stable['host_uuid'],stable['archive_sha256']) if current else (STABLE_BP,STABLE_RP,STABLE_ARCHIVE) if stable else (BP,RP,ARCHIVE)
     if spec.get('host_uuid')!=rp_id or spec.get('behavior_uuid')!=bp_id:raise ValueError('renderer extension target differs')
     if owner_version[:2]!=[1,0] or spec['owner_version']!=owner_version:raise ValueError('renderer extension release is not paired with owner')
-    version=[1,0,(10500 if stable else 10400)+owner_version[2]]
+    version=stable['version'] if current else [1,0,(10500 if stable else 10400)+owner_version[2]]
     if spec['local_pack_version']!=version:raise ValueError('renderer variant must advance with its canonical owner')
     if date.fromisoformat(spec['expires'])<date.today():raise ValueError('renderer extension expired')
     for key in ['removal_condition','feedback','authorization']:
@@ -74,7 +79,7 @@ def apply_renderer_extension(spec,bp_root,rp_root,bp_source,rp_source,owner_vers
     for i in range(1,7):
         path=bp_root/('blocks/decor/doll_'+str(i)+'.json');data=json.loads(path.read_text())['minecraft:block'];components=data['components'];alias='kcf_block_doll_'+str(i)
         if data['description']['identifier']!='kaleidoscope_chinesefood:doll_'+str(i) or components['minecraft:material_instances']['*']['texture']!=alias or alias not in terrain or components['minecraft:geometry'] not in models:raise ValueError('author doll geometry/material binding missing')
-    bp,rp=patch_manifests(json.loads(originals['BP/manifest.json'].read_text()),json.loads(originals['RP/manifest.json'].read_text()),version,owner_version)
+    bp,rp=patch_manifests(json.loads(originals['BP/manifest.json'].read_text()),json.loads(originals['RP/manifest.json'].read_text()),version,owner_version,stable)
     blocks=cleanup_blocks(json.loads(originals['RP/blocks.json'].read_text()))
     changes={'BP/manifest.json':bp,'RP/manifest.json':rp,'RP/blocks.json':blocks}
     encoded={name:(json.dumps(value,ensure_ascii=False,indent=2)+'\n').encode() for name,value in changes.items()}

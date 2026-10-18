@@ -57,6 +57,8 @@ def main(argv=None):
     runs=[]; after=before
     engine_hash=sha(B/'bedrock_server')
     for phase in ['first', 'restart']:
+        from family_update.memory_budget import require
+        require('saved_world_' + phase)
         points={tuple(row['position']) for row in (recovery or {}).get('restored',[])}
         commands=[f'tickingarea add circle {x} {y} {z} 1 freezer_recovery_{i}' for i,(x,y,z) in enumerate(sorted(points))]
         if storage_plan:commands+=native_storage_commands(storage_plan)

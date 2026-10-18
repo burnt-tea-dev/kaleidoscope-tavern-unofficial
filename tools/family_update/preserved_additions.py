@@ -13,8 +13,8 @@ import zipfile
 from family_update import common as c
 
 
-def review(inventory, expected, order, managed):
-    path = c.CONFIG.get('preserved_additions')
+def review(inventory, expected, order, managed, *, reviewed_path=None):
+    path = reviewed_path if reviewed_path is not None else c.CONFIG.get('preserved_additions')
     actual = {p['uuid']: p for p in inventory['packs']}
     assert len(actual) == len(inventory['packs']), 'Duplicate live identity'
     added = set(actual) - set(expected)
