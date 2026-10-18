@@ -19,3 +19,7 @@ The second identical nbtlib install in the baseline job is redundant with the un
 ## Validation and limits
 
 Targeted local results and actual PR checks are recorded separately by the host audit. Full required validation belongs to CI. This change does not modify runtime, release identity, dependency lock or LIVE; it cannot certify rendered gameplay or human acceptance. No failing behavior test is deleted to obtain a green result.
+
+## Current HUD coverage follow-up
+
+The [assertion map and preimage hashes](HUD-COVERAGE-20261019.json) show that two production-labelled test files still imported the retired title/queue helper while the real sender uses the graphical Actionbar factory. Route valid packets and malformed/oversized rejection through `bedrock/shaker-hud-transport.js` directly. Replace retired server-timeout cases with actual disconnect/owned-stop isolation, retaining the existing UI lifetime, generator reconstruction and heartbeat assertions unchanged. The old exported helper and all runtime/release bytes remain unchanged; its retirement is a separate payload boundary.
