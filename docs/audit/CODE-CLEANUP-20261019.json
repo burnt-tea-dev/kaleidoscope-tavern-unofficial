@@ -1,0 +1,182 @@
+{
+  "schema": 1,
+  "source_commit": "6f30ad23cbf54433cd2cc0ad2425af8bbc03799b",
+  "scope": "owned tooling and tests; no exported runtime changes",
+  "deletions": [
+    {
+      "path": ".github/workflows/effects-apply.yml",
+      "source_commit": "6f30ad23cbf54433cd2cc0ad2425af8bbc03799b",
+      "git_blob": "a265e668f26c09e4690a0adc032c956e9a395f98",
+      "sha256": "c81d18da425fcce50c4f1b6620fda5d7a5bb20ec4b743b568c56729a2add0aba",
+      "bytes": 3990,
+      "reason": "Retired one-shot branch transfer/snapshot; only the retired workflow consumes the patch payload"
+    },
+    {
+      "path": ".github/workflows/pick-block-snapshot.yml",
+      "source_commit": "6f30ad23cbf54433cd2cc0ad2425af8bbc03799b",
+      "git_blob": "cda574574815076208cc4b2b1602ec5a1a577333",
+      "sha256": "5fc2d1bed3df501845bda2db3794abaeb0e934d0ba0cb952ab8901f7cfcb6537",
+      "bytes": 1125,
+      "reason": "Retired one-shot branch transfer/snapshot; only the retired workflow consumes the patch payload"
+    },
+    {
+      "path": "tools/effects/transfer.part1",
+      "source_commit": "6f30ad23cbf54433cd2cc0ad2425af8bbc03799b",
+      "git_blob": "694d80e303df0d5f34594e34d3577ebc50b348c6",
+      "sha256": "20ebb7b2e18ad61851301d647fb43992873ef517dc965ab495f719bc66f8685f",
+      "bytes": 15001,
+      "reason": "Retired one-shot branch transfer/snapshot; only the retired workflow consumes the patch payload"
+    },
+    {
+      "path": "tools/effects/transfer.part2",
+      "source_commit": "6f30ad23cbf54433cd2cc0ad2425af8bbc03799b",
+      "git_blob": "33769580640e5607b5d4c5cbb0e3947e24be3403",
+      "sha256": "7058e566a7049230c4f0d51813aca7ed69d79e3cf6b61dd606e6be3550705723",
+      "bytes": 15001,
+      "reason": "Retired one-shot branch transfer/snapshot; only the retired workflow consumes the patch payload"
+    },
+    {
+      "path": "tools/effects/transfer.part3",
+      "source_commit": "6f30ad23cbf54433cd2cc0ad2425af8bbc03799b",
+      "git_blob": "ed7781f5468c46132ab18d2314ab5508c37fa065",
+      "sha256": "098e392f0eb0f4e4dd2ef7e8ea4ec3b3b9aaad29f372599ddb0e8201601ed479",
+      "bytes": 13949,
+      "reason": "Retired one-shot branch transfer/snapshot; only the retired workflow consumes the patch payload"
+    },
+    {
+      "path": "tools/test_p51_retention.py",
+      "source_commit": "6f30ad23cbf54433cd2cc0ad2425af8bbc03799b",
+      "git_blob": "4a933780a14ea058d37d7b0e3948207c3e246703",
+      "sha256": "7622e26c870155dfb8d79fb21adaca320b4bf340be5aa8e62333e5237c248d78",
+      "bytes": 5179,
+      "reason": "Version-specialized duplicate replaced by explicit reviewed integration/reviewed integration/reviewed integration/reviewed integration subtests with all old acceptance/rejection/provenance assertions"
+    },
+    {
+      "path": "tools/test_p52_retention.py",
+      "source_commit": "6f30ad23cbf54433cd2cc0ad2425af8bbc03799b",
+      "git_blob": "a2d16cfb8a1bcb008f99848664505b21cc5e3983",
+      "sha256": "160a70e9c01ff62a71030541394a6ad99966b00ee3eb92123c768e1fd4799f8c",
+      "bytes": 5179,
+      "reason": "Version-specialized duplicate replaced by explicit reviewed integration/reviewed integration/reviewed integration/reviewed integration subtests with all old acceptance/rejection/provenance assertions"
+    },
+    {
+      "path": "tools/test_p53_retention.py",
+      "source_commit": "6f30ad23cbf54433cd2cc0ad2425af8bbc03799b",
+      "git_blob": "2aee10f5d4fcdb87bb77dbcffef82ab1c501fba0",
+      "sha256": "2bf0b0e010442455900cb5ff7b92eb3209953c99317d3675c20ee4df761fb829",
+      "bytes": 5657,
+      "reason": "Version-specialized duplicate replaced by explicit reviewed integration/reviewed integration/reviewed integration/reviewed integration subtests with all old acceptance/rejection/provenance assertions"
+    },
+    {
+      "path": "tools/test_p54_retention.py",
+      "source_commit": "6f30ad23cbf54433cd2cc0ad2425af8bbc03799b",
+      "git_blob": "52723e38fcd71be70aa244fef063592f43b6f496",
+      "sha256": "090d95b06af8af087232f8385b3de1cc5abc3056c3f7e0bb7210d661df46a7c0",
+      "bytes": 6435,
+      "reason": "Version-specialized duplicate replaced by explicit reviewed integration/reviewed integration/reviewed integration/reviewed integration subtests with all old acceptance/rejection/provenance assertions"
+    }
+  ],
+  "replacements": {
+    "retired_workflows": "Current effects, foundation, creative-pick and pick-block regression lanes remain; original sources and Git history retained",
+    "retention_tests": "tools/test_later_retained_host_profiles.py; keep existing reviewed integration/reviewed integration coverage in tools/test_retained_host_profiles.py"
+  },
+  "removed_executions": [
+    {
+      "path": ".github/workflows/validation.yml",
+      "step": "Collect hash-verified constructor references locally",
+      "evidence": "Its output directory is not read by any audit test or verifier; only PROVENANCE.json is copied into an artifact. Reference consumers are manual asset regeneration CLIs, not invoked by this workflow. Keep collector and all generators."
+    },
+    {
+      "path": ".github/workflows/validation.yml",
+      "step": "second pip install nbtlib==2.0.4",
+      "evidence": "Same baseline job already installs the exact version before family orchestration; intervening tests do not uninstall it."
+    }
+  ],
+  "retained_boundaries": [
+    "All required CI job names and family evidence consumers",
+    "Source/release/backup/admission checks",
+    "Current runtime BP/RP and version/hash/history",
+    "Standalone source reference regeneration and original asset provenance"
+  ],
+  "ci_change": "Runtime lanes wait for both impact and baseline; a failing baseline is still failure, not relabelled success.",
+  "retired_branch_proofs": [
+    {
+      "branch": "fix/effects-parity-20260928",
+      "local_ref": "refs/remotes/origin/fix/effects-parity-20260928",
+      "tip": "ae09573350f9bad1afc0465786d666f7beaedf83",
+      "ancestor_of_reviewed_main": true
+    },
+    {
+      "branch": "refactor/shared-foundation-20260925",
+      "local_ref": "refs/remotes/origin/refactor/shared-foundation-20260925",
+      "tip": "ea11d5d22dec8e91da0a6e9b735a37c12c4f2bad",
+      "ancestor_of_reviewed_main": true
+    }
+  ],
+  "test_mapping": [
+    {
+      "removed": "tools/test_p51_retention.py",
+      "replacement": "tools/test_later_retained_host_profiles.py",
+      "owner": [
+        1,
+        0,
+        51
+      ],
+      "map_and_drift": "test_reviewed_owner_maps_and_rejected_drift",
+      "assembly": "test_actual_assembly_preserves_each_reviewed_owner",
+      "nonpaired_call_arity_preserved": true,
+      "paired_BP_RP_scope": "all components for each owner, extending reviewed integration/reviewed integration coverage"
+    },
+    {
+      "removed": "tools/test_p52_retention.py",
+      "replacement": "tools/test_later_retained_host_profiles.py",
+      "owner": [
+        1,
+        0,
+        52
+      ],
+      "map_and_drift": "test_reviewed_owner_maps_and_rejected_drift",
+      "assembly": "test_actual_assembly_preserves_each_reviewed_owner",
+      "nonpaired_call_arity_preserved": true,
+      "paired_BP_RP_scope": "all components for each owner, extending reviewed integration/reviewed integration coverage"
+    },
+    {
+      "removed": "tools/test_p53_retention.py",
+      "replacement": "tools/test_later_retained_host_profiles.py",
+      "owner": [
+        1,
+        0,
+        53
+      ],
+      "map_and_drift": "test_reviewed_owner_maps_and_rejected_drift",
+      "assembly": "test_actual_assembly_preserves_each_reviewed_owner",
+      "nonpaired_call_arity_preserved": true,
+      "paired_BP_RP_scope": "all components for each owner, extending reviewed integration/reviewed integration coverage"
+    },
+    {
+      "removed": "tools/test_p54_retention.py",
+      "replacement": "tools/test_later_retained_host_profiles.py",
+      "owner": [
+        1,
+        0,
+        54
+      ],
+      "map_and_drift": "test_reviewed_owner_maps_and_rejected_drift",
+      "assembly": "test_actual_assembly_preserves_each_reviewed_owner",
+      "nonpaired_call_arity_preserved": true,
+      "paired_BP_RP_scope": "all components for each owner, extending reviewed integration/reviewed integration coverage"
+    }
+  ],
+  "independent_review": "All explicit legacy assertions retained; nonpaired mock argument arity restored before final validation.",
+  "local_validation": {
+    "retention_owner_51_54": {
+      "command": "python3 tools/test_later_retained_host_profiles.py",
+      "log": "Host code-audit-20261019/tavern-retention-reviewed.log",
+      "passed": 3
+    },
+    "additional_targeted_checks": "Host code-audit-20261019/tavern-targeted-checks.json",
+    "required_CI": "pending PR; no claim of full validation",
+    "runtime": "unchanged",
+    "client": false
+  }
+}
