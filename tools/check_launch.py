@@ -23,6 +23,7 @@ def main():
             raw=(args.java_source/name).read_bytes().replace(b'\r\n',b'\n')
             assert hashlib.sha256(raw).hexdigest()==digest,('Java source mismatch',name)
             verified+=1
+    removed=ref.get('removedRuntimeFiles',{})
     for name,row in ref['reviewedChanges'].items():
         assert sha(ROOT/name)==row['after'],('Audited source mutated',name)
         assert row['before']!=row['after'] and row['reason']
@@ -31,15 +32,22 @@ def main():
             assert sha(args.baseline/name)==row['before'],('Incorrect before hash',name)
             assert hashlib.sha256(LegacyMenuProjection(args.baseline).read_bytes(args.baseline/name)).hexdigest()==row['beforeProjected'],('Incorrect projected hash',name)
     for name,digest in ref['newRuntimeFiles'].items():assert sha(ROOT/name)==digest,('New runtime file differs',name)
-    for name in baseline_additions(ROOT):ref['newRuntimeFiles'][name]=sha(ROOT/name)
-    removed=ref.get('removedRuntimeFiles',{})
+    for name in baseline_additions(ROOT):
+        if name not in removed:ref['newRuntimeFiles'][name]=sha(ROOT/name)
     for name,row in removed.items():
         assert name not in ref['reviewedChanges'] and name not in ref['newRuntimeFiles']
         assert not (ROOT/name).exists() and row['reason'],('Reviewed removal differs',name)
+        added_then_removed=row['before'] is None and row['beforeProjected'] is None
+        assert added_then_removed or (isinstance(row['before'],str) and isinstance(row['beforeProjected'],str) and len(row['before'])==len(row['beforeProjected'])==64),('Invalid removal preimage',name)
+        if added_then_removed:
+            assert name in baseline_additions(ROOT),('Removed addition lacks historical review',name)
         if args.baseline:
-            from creative.historical import LegacyMenuProjection
-            assert sha(args.baseline/name)==row['before'],('Incorrect removal before hash',name)
-            assert hashlib.sha256(LegacyMenuProjection(args.baseline).read_bytes(args.baseline/name)).hexdigest()==row['beforeProjected']
+            if added_then_removed:
+                assert not (args.baseline/name).exists(),('Removed addition existed in baseline',name)
+            else:
+                from creative.historical import LegacyMenuProjection
+                assert sha(args.baseline/name)==row['before'],('Incorrect removal before hash',name)
+                assert hashlib.sha256(LegacyMenuProjection(args.baseline).read_bytes(args.baseline/name)).hexdigest()==row['beforeProjected']
     unchanged=0
     if args.baseline:
         old_names={p.relative_to(args.baseline).as_posix() for p in (args.baseline/'runtime').rglob('*') if p.is_file()}
