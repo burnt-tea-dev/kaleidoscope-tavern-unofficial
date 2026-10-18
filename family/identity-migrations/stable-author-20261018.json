@@ -64,7 +64,7 @@
           "new_version": [
             1,
             0,
-            10656
+            10657
           ],
           "old_manifest_sha256": "855266883544d9bda99228b441a0438a321c1de7481efd680f9f1ee5171dbf15"
         },
@@ -80,7 +80,7 @@
           "new_version": [
             1,
             0,
-            10656
+            10657
           ],
           "old_manifest_sha256": "ec13ea8021d4a8d05d12c97143b2d617b11611a7846912f609ec179fd556c7de"
         }
@@ -1808,7 +1808,7 @@
           ]
         },
         "before_sha256": "c8d09a76dc06316c61010568539a4e791c1d20e2d92e11e79d425a988458faab",
-        "after_sha256": "c8d09a76dc06316c61010568539a4e791c1d20e2d92e11e79d425a988458faab",
+        "after_sha256": "fe86d6cec01398f9ef9d02ad0e48212e2a31a11a2aed974464b26c6fc10cdf30",
         "identifier": "kaleidoscope_cookery:enamel_basin",
         "project_id": 1673664,
         "old_archive_sha256": "5b01865d4dd9a455cd80dae4ddc94dc45964e074025f7d24c6f0c5e35f0fbe52",
