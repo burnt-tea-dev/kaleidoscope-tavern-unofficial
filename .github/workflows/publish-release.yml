@@ -16,7 +16,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   request:
-    if: github.repository == 'casama233/kaleidoscope-tavern-unofficial' && github.repository_id == '1377171148' && github.ref == 'refs/heads/main'
+    if: github.repository == 'burnt-tea-dev/kaleidoscope-tavern-unofficial' && github.repository_id == '1377171148' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     outputs:
       publish: ${{ steps.request.outputs.publish }}
@@ -31,7 +31,7 @@ jobs:
         run: python tools/release_publication.py --event "$GITHUB_EVENT_NAME" --publish-release "$MANUAL_PUBLICATION"
   publish:
     needs: request
-    if: github.repository == 'casama233/kaleidoscope-tavern-unofficial' && github.repository_id == '1377171148' && github.ref == 'refs/heads/main' && needs.request.outputs.publish == 'true'
+    if: github.repository == 'burnt-tea-dev/kaleidoscope-tavern-unofficial' && github.repository_id == '1377171148' && github.ref == 'refs/heads/main' && needs.request.outputs.publish == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
@@ -50,7 +50,7 @@ jobs:
           persist-credentials: false
       - uses: actions/checkout@v4
         with:
-          repository: casama233/kaleidoscope-tavern-unofficial
+          repository: burnt-tea-dev/kaleidoscope-tavern-unofficial
           ref: cedfaedf6140bae61b24afb658869b1d0e6ea1a9
           path: .source-check/integration-baseline
           persist-credentials: false

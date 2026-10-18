@@ -15,7 +15,7 @@ jobs:
           persist-credentials: false
       - uses: actions/checkout@v4
         with:
-          repository: casama233/kaleidoscope-world-liquor-unofficial
+          repository: burnt-tea-dev/kaleidoscope-world-liquor-unofficial
           ref: e2bab844d9d3fa5521f19612188e04b1acc8cb1e
           path: liquor
           persist-credentials: false

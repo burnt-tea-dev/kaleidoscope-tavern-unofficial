@@ -23,14 +23,17 @@ class ClientSourceBoundaries(unittest.TestCase):
         self.head,self.tree,self.old_tree='a'*40,'b'*40,'c'*40
         self.baseline={'repository':m.PRIVATE,'version':m.VERSION,'source_trees':{'BP':{'sha256':'d'*64,'files':3},'RP':{'sha256':'e'*64,'files':2}}}
         self.write(self.ext/'baseline.json',self.baseline)
-        self.write(self.ext/'.repo-target.json',{'repository':m.REPOSITORY,'repository_id':m.REPOSITORY_ID,'private':True})
+        self.remote=m.current_name(m.REPOSITORY)
+        self.repository={'full_name':self.remote,'id':m.REPOSITORY_ID,'private':True,
+            'owner':{'login':'burnt-tea-dev','id':344456559,'type':'Organization'}}
+        self.write(self.ext/'.repo-target.json',{'repository':self.remote,'repository_id':m.REPOSITORY_ID,'private':True})
         source=self.ext/'tools/client_assets.py';self.write(source,'Synthetic owned recipe producer')
         self.recipe={key:{} for key in ['uuids','input_hashes','output_hashes','changed','before_versions','versions','source_facts']}
         self.recipe.update(approved_input_receipt_sha256=m.APPROVED,patch_source_sha256={'tools/client_assets.py':c.sha(source)})
         self.recipe_path=self.ext/m.RECIPE;self.write(self.recipe_path,self.recipe)
         self.report_path=self.root/'ci'/m.REPORT;self.log=self.report_path.parent/'client-assets.log';self.write(self.log,'Synthetic successful source checks, never native/client.')
         self.report={'schema':1,'kind':'client_assets_functional','profile':m.PROFILE,'repository':m.PRIVATE,
-            'canonical_repository':m.REPOSITORY,'canonical_repository_id':m.REPOSITORY_ID,
+            'canonical_repository':self.remote,'canonical_repository_id':m.REPOSITORY_ID,
             'version':m.VERSION,'source_trees':self.baseline['source_trees'],'source_commit':self.head,'git_tree':self.tree,
             'recipe_sha256':c.sha(self.recipe_path),**copy.deepcopy(self.recipe),'facts':{key:True for key in m.FACTS},
             'test_command':['python','tools/build_client_assets_evidence.py'],'test_exit_code':0,
@@ -41,8 +44,9 @@ class ClientSourceBoundaries(unittest.TestCase):
             'git_tree':self.tree,'private_pull_request':58,'ci':{'run_id':100,'artifact_id':200}}
         self.proof_path=self.root/'proof.json';self.review={'source_commit':self.head,'recipe':{'path':m.RECIPE,'sha256':c.sha(self.recipe_path)}}
         self.checks=[{'id':1,'name':'baseline','status':'completed','conclusion':'success','head_sha':self.head,'html_url':'https://example.invalid/source','completed_at':'2026-10-19T00:00:00Z','app':{'id':1,'slug':'github-actions'}}]
-        self.run={'repository':{'id':m.REPOSITORY_ID},'status':'completed','conclusion':'success','head_sha':self.head,'head_branch':'main','event':'push','path':'.github/workflows/canonical.yml'}
-        self.pr={'merged':True,'merge_commit_sha':self.head,'base':{'ref':'main','repo':{'id':m.REPOSITORY_ID}},'head':{'sha':'f'*40,'repo':{'id':m.REPOSITORY_ID}}}
+        record={'id':m.REPOSITORY_ID,'full_name':self.remote}
+        self.run={'repository':copy.deepcopy(record),'status':'completed','conclusion':'success','head_sha':self.head,'head_branch':'main','event':'push','path':'.github/workflows/canonical.yml'}
+        self.pr={'merged':True,'merge_commit_sha':self.head,'base':{'ref':'main','repo':copy.deepcopy(record)},'head':{'sha':'f'*40,'repo':copy.deepcopy(record)}}
         self.remote_trees={self.head:self.tree,'f'*40:self.tree}
         self.artifact={'name':'client-assets-functional','expired':False,'workflow_run':{'id':100,'head_sha':self.head}}
         self.save()
@@ -67,8 +71,8 @@ class ClientSourceBoundaries(unittest.TestCase):
         raise AssertionError('Unexpected synthetic git '+repr(args))
 
     def github(self,endpoint):
-        prefix='repos/'+m.REPOSITORY
-        if endpoint==prefix:return {'full_name':m.REPOSITORY,'id':m.REPOSITORY_ID,'private':True}
+        prefix='repos/'+self.remote
+        if endpoint==prefix:return self.repository
         if endpoint==prefix+'/pulls/58':return self.pr
         if endpoint.startswith(prefix+'/git/commits/'):return {'tree':{'sha':self.remote_trees[endpoint.rsplit('/',1)[1]]}}
         if endpoint==prefix+'/actions/runs/100':return self.run
@@ -133,6 +137,20 @@ class ClientSourceBoundaries(unittest.TestCase):
         with self.assertRaises(AssertionError):self.admit()
         self.report['test_log']['sha256']=c.sha(self.log);self.save()
         self.write(self.ext/'tools/client_assets.py','changed producer')
+        with self.assertRaises(AssertionError):self.admit()
+
+    def test_transfer_keeps_exact_id_owner_visibility_and_new_recorded_identity(self):
+        self.admit()
+        original=copy.deepcopy(self.repository)
+        for change in [{'id':1},{'full_name':'foreign/senluo-family-integration-private'},{'private':False},
+                       {'owner':{'login':'burnt-tea-dev','id':1,'type':'Organization'}}]:
+            self.repository={**copy.deepcopy(original),**change};m.artifact_members.cache_clear()
+            with self.subTest(change=change),self.assertRaises(AssertionError):self.admit()
+        self.repository=original
+        self.report['canonical_repository']=m.REPOSITORY;self.save()
+        with self.assertRaises(AssertionError):self.admit()
+        self.report['canonical_repository']=self.remote;self.save()
+        self.pr['base']['repo']['full_name']='foreign/senluo-family-integration-private'
         with self.assertRaises(AssertionError):self.admit()
 
 

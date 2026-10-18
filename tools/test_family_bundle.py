@@ -16,6 +16,22 @@ class SourceGateEnvironmentTests(unittest.TestCase):
    self.assertEqual(env,{'GITHUB_REPOSITORY':'owner/peer','GITHUB_REPOSITORY_ID':'20','KEEP':'yes'})
    self.assertEqual(os.environ['GITHUB_REPOSITORY'],'owner/parent')
    self.assertEqual(os.environ['GITHUB_REPOSITORY_ID'],'10')
+ def test_reviewed_current_target_preserves_parent_event_and_rejects_forged_metadata(self):
+  import os
+  from unittest.mock import patch
+  from family_bundle import source_gate_environment
+  from family_update.repository_identity import target
+  own={'key':'tavern','repository':'casama233/kaleidoscope-tavern-unofficial'}
+  expected={'tavern':{'repository':own['repository'],'repository_id':1377171148}}
+  with tempfile.TemporaryDirectory() as tmp,patch.dict(os.environ,{'GITHUB_EVENT_PATH':'original-event'},clear=True):
+   root=Path(tmp);metadata={**target(own['repository']),'logical_runtime_repository':own['repository']}
+   (root/'.repo-target.json').write_text(json.dumps(metadata))
+   env=source_gate_environment(own,expected,root)
+   self.assertEqual(env['GITHUB_REPOSITORY'],'burnt-tea-dev/kaleidoscope-tavern-unofficial')
+   self.assertEqual(env['GITHUB_EVENT_PATH'],'original-event');self.assertEqual(env['SENLUO_SOURCE_GATE'],'1')
+   metadata['repository_id']=1;(root/'.repo-target.json').write_text(json.dumps(metadata))
+   with self.assertRaisesRegex(SystemExit,'reviewed current source target'):source_gate_environment(own,expected,root)
+
  def test_missing_wrong_or_empty_expected_identity_cannot_disable_child_gate(self):
   from family_bundle import source_gate_environment
   own={'key':'peer','repository':'owner/peer'}

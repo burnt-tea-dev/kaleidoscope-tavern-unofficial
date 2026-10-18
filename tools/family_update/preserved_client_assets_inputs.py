@@ -14,6 +14,7 @@ import re
 import zipfile
 
 from family_update import common as c
+from family_update.repository_identity import current_name, verify_record, verify_remote
 
 PROFILE = 'senluo-client-assets-20261019-p58'
 RECIPE = 'companion-sources/client-assets-20261019/recipe.json'
@@ -86,18 +87,20 @@ def artifact_members(run_id, artifact_id, source, full_tree):
     from family_update.workflow import gh_json
     from family_update.cookery_cache_validation import private_ci_records
     from family_update.github_reads import api_bytes
-    repo = gh_json('repos/' + REPOSITORY)
-    assert repo['full_name'] == REPOSITORY and repo['id'] == REPOSITORY_ID and repo['private'] is True
-    run = gh_json(f'repos/{REPOSITORY}/actions/runs/{run_id}')
-    assert run['repository']['id'] == REPOSITORY_ID and run['status'] == 'completed' and run['conclusion'] == 'success'
+    remote = current_name(REPOSITORY)
+    repo = gh_json('repos/' + remote)
+    verify_remote(repo, REPOSITORY)
+    run = gh_json(f'repos/{remote}/actions/runs/{run_id}')
+    verify_record(run['repository'], REPOSITORY)
+    assert run['status'] == 'completed' and run['conclusion'] == 'success'
     assert run['head_sha'] == source and run['head_branch'] == 'main' and run['event'] in ('push', 'workflow_dispatch')
     assert run['path'] == '.github/workflows/canonical.yml'
-    assert gh_json(f'repos/{REPOSITORY}/git/commits/{source}')['tree']['sha'] == full_tree
-    checks, statuses, unavailable = private_ci_records(REPOSITORY, source)
-    artifact = gh_json(f'repos/{REPOSITORY}/actions/artifacts/{artifact_id}')
+    assert gh_json(f'repos/{remote}/git/commits/{source}')['tree']['sha'] == full_tree
+    checks, statuses, unavailable = private_ci_records(remote, source)
+    artifact = gh_json(f'repos/{remote}/actions/artifacts/{artifact_id}')
     assert artifact['name'] == 'client-assets-functional' and artifact['expired'] is False
     assert artifact['workflow_run']['id'] == run_id and artifact['workflow_run']['head_sha'] == source
-    raw = api_bytes(f'repos/{REPOSITORY}/actions/artifacts/{artifact_id}/zip')
+    raw = api_bytes(f'repos/{remote}/actions/artifacts/{artifact_id}/zip')
     assert len(raw) <= 32 * 1024**2 and artifact['digest'] == 'sha256:' + digest(raw)
     with zipfile.ZipFile(io.BytesIO(raw)) as archive:
         names = archive.namelist()
@@ -120,25 +123,27 @@ def source_evidence(review, recipe):
     target = c.EXTENSION / '.repo-target.json'
     committed(target, '.repo-target.json')
     metadata = c.read(target)
-    assert metadata['repository'] == REPOSITORY and metadata['repository_id'] == REPOSITORY_ID and metadata['private'] is True
+    remote = current_name(REPOSITORY)
+    assert metadata['repository'] == remote and metadata['repository_id'] == REPOSITORY_ID and metadata['private'] is True
     assert proof['schema'] == 1 and proof['kind'] == 'client_assets_source' and proof['profile'] == PROFILE
     binding = source_binding(proof, baseline)
     assert binding['actual_current_source_commit'] == review['source_commit']
     assert proof['git_tree'] == binding['current_source_tree_oid']
     assert type(proof['private_pull_request']) is int and proof['private_pull_request'] > 0
-    pr = gh_json(f'repos/{REPOSITORY}/pulls/{proof["private_pull_request"]}')
+    pr = gh_json(f'repos/{remote}/pulls/{proof["private_pull_request"]}')
     assert pr['merged'] is True and pr['base']['ref'] == 'main'
-    assert pr['head']['repo']['id'] == pr['base']['repo']['id'] == REPOSITORY_ID
+    verify_record(pr['head']['repo'], REPOSITORY)
+    verify_record(pr['base']['repo'], REPOSITORY)
     c.git(c.EXTENSION, 'merge-base', '--is-ancestor', pr['merge_commit_sha'], review['source_commit'])
-    pr_tree = gh_json(f'repos/{REPOSITORY}/git/commits/{pr["head"]["sha"]}')['tree']['sha']
+    pr_tree = gh_json(f'repos/{remote}/git/commits/{pr["head"]["sha"]}')['tree']['sha']
     if pr_tree != proof['git_tree']:
         assert pr['merge_commit_sha'] == review['source_commit'], 'Client asset PR whole tree differs'
-        assert gh_json(f'repos/{REPOSITORY}/git/commits/{pr["merge_commit_sha"]}')['tree']['sha'] == proof['git_tree']
+        assert gh_json(f'repos/{remote}/git/commits/{pr["merge_commit_sha"]}')['tree']['sha'] == proof['git_tree']
     report_ref = proof['differential']
     report = checked(report_ref)
     assert Path(report_ref['path']).name == REPORT
     assert report['schema'] == 1 and report['kind'] == 'client_assets_functional' and report['profile'] == PROFILE
-    assert report['repository'] == PRIVATE and report['canonical_repository'] == REPOSITORY and report['canonical_repository_id'] == REPOSITORY_ID
+    assert report['repository'] == PRIVATE and report['canonical_repository'] == remote and report['canonical_repository_id'] == REPOSITORY_ID
     assert report['version'] == baseline['version'] and report['source_trees'] == baseline['source_trees']
     assert report['source_commit'] == proof['source_commit'] and report['git_tree'] == proof['git_tree']
     assert report['recipe_sha256'] == review['recipe']['sha256']

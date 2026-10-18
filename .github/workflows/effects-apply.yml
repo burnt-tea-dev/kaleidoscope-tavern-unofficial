@@ -7,7 +7,7 @@ permissions:
   contents: read
 jobs:
   apply:
-    if: github.repository == 'casama233/kaleidoscope-tavern-unofficial' && github.ref == 'refs/heads/fix/effects-parity-20260928'
+    if: github.repository == 'burnt-tea-dev/kaleidoscope-tavern-unofficial' && github.ref == 'refs/heads/fix/effects-parity-20260928'
     permissions:
       contents: write
     runs-on: ubuntu-latest
