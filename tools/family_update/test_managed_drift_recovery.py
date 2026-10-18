@@ -319,6 +319,21 @@ class DriftTests(unittest.TestCase):
         with patch.object(c, 'summary', return_value={'name': 'test-server', 'status': 'STOPPED', 'player_count': 1}), self.assertRaises(AssertionError):
             m.validate_initial_status(c.summary())
 
+    def test_stopped_preinstall_abort_requires_verified_handoff_without_idle_hash_fallback(self):
+        self.review.update(allow_initially_stopped=True, stopped_server_review={'server_name': 'test-server', 'reason': 'normal_idle_stop', 'lease_sha256': '0' * 64})
+        recovery_output = self.base / 'previous-failed-transaction'
+        binding = {'path': str(recovery_output / 'preinstall-abort.json'), 'sha256': 'b' * 64}
+        with patch.dict(c.CONFIG, preinstall_recovery_output=str(recovery_output)):
+            with patch('family_update.preinstall_recovery.verify_completed', return_value=binding) as verify:
+                state = m.validate_initial_status(c.summary())
+                verify.assert_called_once_with(recovery_output, c.summary())
+            self.assertEqual(state['preinstall_recovery'], binding)
+            self.assertFalse(state['restart_original_after_failure'])
+            self.review['stopped_server_review']['lease_sha256'] = c.sha(self.lease)
+            with patch('family_update.preinstall_recovery.verify_completed', side_effect=AssertionError('invalid abort receipt')):
+                with self.assertRaisesRegex(AssertionError, 'invalid abort receipt'):
+                    m.validate_initial_status(c.summary())
+
     def test_review_must_be_clean_remote_main_and_committed_unchanged(self):
         for row in self.review['proofs']:
             path = self.private / row['path']; write(path, {'proof': row['path']}); row['sha256'] = c.sha(path)

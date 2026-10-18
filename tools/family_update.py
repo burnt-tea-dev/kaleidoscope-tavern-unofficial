@@ -20,7 +20,7 @@ def main(argv=None):
         raise RuntimeError('Release safeguards require Python assertions; do not use -O/PYTHONOPTIMIZE')
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--config', type=Path, required=True)
-    parser.add_argument('command', nargs='?', default='plan', choices=['plan', 'status', 'prepare', 'record-ci', 'deploy', 'update', 'saved-world', 'verify-live', 'cleanup-copies', 'cleanup-engine-inputs'])
+    parser.add_argument('command', nargs='?', default='plan', choices=['plan', 'status', 'prepare', 'record-ci', 'deploy', 'update', 'saved-world', 'verify-live', 'recover-preinstall', 'cleanup-copies', 'cleanup-engine-inputs'])
     parser.add_argument('--execute', action='store_true')
     parser.add_argument('--retire-diagnostics', type=Path)
     parser.add_argument('--retire-outputs', type=Path)
@@ -30,9 +30,18 @@ def main(argv=None):
     if args.retire_outputs and args.command != 'cleanup-copies':
         parser.error('--retire-outputs is only valid for cleanup-copies')
     common.configure(args.config)
+    if common.CONFIG.get('recovery_original_config') and args.command not in {'recover-preinstall', 'plan', 'status'}:
+        raise ValueError('A recovery-only configuration cannot prepare or install a candidate')
     if args.execute and args.command not in {'plan', 'status'}:
         from family_update.memory_budget import require
         require(args.command)
+    if args.command == 'recover-preinstall':
+        if args.execute:
+            common.verify_canonical_runner()
+        from family_update import preinstall_recovery
+        result = preinstall_recovery.main(['--execute'] if args.execute else [])
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return 0
     if args.command in ['cleanup-copies', 'cleanup-engine-inputs']:
         if args.execute:
             common.verify_canonical_runner()

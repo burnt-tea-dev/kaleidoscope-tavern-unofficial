@@ -349,15 +349,22 @@ def reviewed_order(original, migration):
 def validate_initial_status(summary):
     global _INITIAL_STATE
     review, binding = load_review()
+    preinstall_recovery = None
     assert summary['status'] in ['RUNNING', 'STOPPED'], 'Server is not in a stable deployable state'
     if summary['status'] == 'STOPPED':
         assert review.get('allow_initially_stopped') is True, 'Stopped deployment needs its exact owner review'
         assert summary['name'] == c.SERVER and summary['player_count'] == 0, 'Stopped server must be the reviewed empty server'
-        assert c.sha(c.LEASE) == review['stopped_server_review']['lease_sha256'], 'Previous maintenance owner state changed'
+        if c.CONFIG.get('preinstall_recovery_output'):
+            from family_update.preinstall_recovery import verify_completed
+            preinstall_recovery = verify_completed(Path(c.CONFIG['preinstall_recovery_output']), summary)
+        else:
+            assert c.sha(c.LEASE) == review['stopped_server_review']['lease_sha256'], 'Previous maintenance owner state changed'
         c.lease_available()
     _INITIAL_STATE = {'schema': 1, 'server': dict(summary), 'review': binding,
         'previous_lease': c.lease_available(), 'previous_lease_sha256': c.sha(c.LEASE),
         'restart_original_after_failure': summary['status'] == 'RUNNING'}
+    if preinstall_recovery is not None:
+        _INITIAL_STATE['preinstall_recovery'] = preinstall_recovery
     return _INITIAL_STATE
 
 
