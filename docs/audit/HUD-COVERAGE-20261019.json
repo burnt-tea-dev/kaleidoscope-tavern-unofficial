@@ -1,0 +1,54 @@
+{
+  "schema": 1,
+  "source_commit": "391a3ffe23ed3ae21279cae4cd46643aa86ba8ba",
+  "pre_deletion_evidence_written_at": "2026-10-18T18:11:36.951766+00:00",
+  "source_preimages": [
+    {
+      "path": "tools/formatting-hud-transport.test.mjs",
+      "sha256_before": "ae0ab9bf5072dacac63ffe28de51118ca90ddfc5dc6a15154ab5c389b7822e8a",
+      "git_blob_before": "b66b851ee5f27bd0ba02357685da5803ceb0506c"
+    },
+    {
+      "path": "tools/shaker-hud-expiry.test.mjs",
+      "sha256_before": "a480d9cc1ca59b57410cbd63ac643f85001b66793febd155c431382e79b7a418",
+      "git_blob_before": "aba1ec588e8f3bbedcf7bb46292e0715d6002bf2"
+    }
+  ],
+  "current_sender": "runtime/BP/scripts/bedrock/shaker-hud-transport.js",
+  "current_helper": "runtime/BP/scripts/core/graphical-actionbar-transport.js",
+  "retired_helper": "runtime/BP/scripts/core/formatting-hud-transport.js",
+  "runtime_module_sha256": {
+    "runtime/BP/scripts/bedrock/shaker-hud-transport.js": "3df3c953aa86e005f4125a13bfdd0d707a78487f8b868b0f056b700f571becd7",
+    "runtime/BP/scripts/core/graphical-actionbar-transport.js": "080b15e6043c39b7943dd0f052f1e44cb5dcc1948473b3ac76d1be985606b181",
+    "runtime/BP/scripts/core/formatting-hud-transport.js": "cfbda3933582450867542f470406517383363e2c11b213017ea05c8c82530fc9"
+  },
+  "finding": "Both former production-labelled behavior tests imported the retired title/queue helper; production imports the Actionbar helper. No direct current sender behavioral equivalent was found.",
+  "assertion_mapping": [
+    {
+      "retired": "title, UI Queue and embedded queue routing with setActionBar forbidden",
+      "current": "Direct actual sender sends valid slots/progress/end packets through Actionbar; title/subtitle calls fail the test."
+    },
+    {
+      "preserved": "Bad prefix, malformed content, oversized packet and no display write after rejection",
+      "current": "Same negative boundary runs against actual sendFormattingHud; also rejects non-string inputs."
+    },
+    {
+      "retired": "Server timeout rescheduling and missed-refresh timeout",
+      "reason": "Production sender has no server timer. Native UI instance lifetime replaces this behavior.",
+      "preserved": "All existing event-factory lifetime, actual generator reconstruction and heartbeat/cadence checks remain unchanged."
+    },
+    {
+      "preserved": "Disconnect/player isolation intent",
+      "current": "Actual forgetFormattingHud produces no display writes and an explicit owned stop reaches only its target; no empty shared-channel clear."
+    }
+  ],
+  "validation": {
+    "targeted": "Two directly executed Node test files: 2 and 4 cases pass with configured Python venv.",
+    "original_retained_tests_unchanged": true,
+    "runtime_changed": false,
+    "ci": "Required PR checks recorded separately; local checks are not rendered-client evidence."
+  },
+  "retirement_limit": "The old helper file remains exported unchanged. Removing it and other runtime candidates requires a fresh paired identity and the normal family lifecycle; this test-only change does not claim their deletion.",
+  "integration_base": "09ad66ea97ae3c36c0f1795961bfadfd52374719",
+  "integration_boundary": "PR411 tooling preserved; complete runtime, both test preimages and original cleanup document equal reviewed391a3ffe objects."
+}
