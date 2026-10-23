@@ -58,6 +58,20 @@ python tools/ci_impact.py --paths family/upstream.lock.json docs/BASELINE-MAINTE
 python tools/test_ci_impact.py
 ```
 
+The `native-persistence` job may verify an earlier native run instead of creating
+another disposable world when every execution input is unchanged. Selection is
+bounded to recent runs of this canonical repository and workflow. The original
+native job and its actual execution steps must have succeeded, even if an
+unrelated job made that workflow fail. Reuse checks the source checkout identity,
+complete paired runtime and baseline, native runner/observer/validator inputs,
+original artifact digest and complete first/restart logs. The existing recorder
+validators still check the observations. A separately recorded reuse proof binds
+the current source to those unchanged inputs; the original reports, source
+commits and failed workflow outcome are never rewritten. Missing equivalent
+inputs select a fresh run. Invalid selected evidence fails the job rather than
+silently falling back to another run. Reused jobs cannot serve as original native
+runs, and this does not replace a deployment's fresh saved-world rehearsal.
+
 CI results remain scoped to what each suite actually verifies. Script doubles
 and native BDS loading do not provide human-client rendering acceptance. Family
 deployment still requires the canonical candidate receipt, actual native and

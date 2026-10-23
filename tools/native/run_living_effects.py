@@ -98,7 +98,7 @@ def main():
                 'entities/health-helper-probe.json': hashlib.sha256((ROOT/'tools/native/health-helper-entity.json').read_bytes()).hexdigest(),
                 'scripts/main.js': 'Append only the declared disposable observer import after verifying the complete copied runtime.'}
     if args.probe.resolve() == (ROOT/'tools/native/shaker-migration-probe.js').resolve():
-        for support_name in ('machine-ingredients-probe.js', 'status-aura-probe.js'):
+        for support_name in ('machine-ingredients-probe.js', 'status-aura-probe.js', 'potion-bottle-probe.js'):
             support = ROOT/'tools/native'/support_name
             shutil.copy2(support, host/'scripts'/support_name)
             overlays['scripts/'+support_name] = hashlib.sha256(support.read_bytes()).hexdigest()

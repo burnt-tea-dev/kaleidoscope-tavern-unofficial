@@ -3,6 +3,7 @@
 import argparse,hashlib,json,subprocess,sys
 from pathlib import Path
 from baseline_reference import previous_bytes,additions as baseline_additions
+from check_potion_bottle_visual import check as check_potion_visual, runtime_sources as potion_runtime_sources
 ROOT=Path(__file__).resolve().parents[1]
 # These domains are maintained against their current contracts. Their behavior
 # is no longer represented by reversing source changes to the launch baseline.
@@ -20,6 +21,8 @@ def main():
     parser.add_argument('--java-source',type=Path)
     parser.add_argument('--baseline',type=Path)
     args=parser.parse_args()
+    potion_sources=potion_runtime_sources()
+    potion_contract=check_potion_visual(args.java_source)
     ref=read(ROOT/'data/launch-repair-reference.json')
     from efficiency.reference import apply_efficiency_reference
     ref=apply_efficiency_reference(ref,ROOT)
@@ -63,12 +66,12 @@ def main():
     if args.baseline:
         old_names={p.relative_to(args.baseline).as_posix() for p in (args.baseline/'runtime').rglob('*') if p.is_file()}
         new_names={p.relative_to(ROOT).as_posix() for p in (ROOT/'runtime').rglob('*') if p.is_file()}
-        assert new_names==(old_names|set(ref['newRuntimeFiles']))-set(removed),'Unlisted runtime addition or removal'
-        assert (EFFECT_SOURCES|BARREL_SOURCES)<=new_names,'Missing current-contract source'
+        assert new_names==(old_names|set(ref['newRuntimeFiles'])|potion_sources)-set(removed),'Unlisted runtime addition or removal'
+        assert (EFFECT_SOURCES|BARREL_SOURCES|potion_sources)<=new_names,'Missing current-contract source'
         for old in (args.baseline/'runtime').rglob('*'):
             if not old.is_file():continue
             name=old.relative_to(args.baseline).as_posix()
-            if name not in ref['reviewedChanges'] and name not in removed and name not in (EFFECT_SOURCES|BARREL_SOURCES):
+            if name not in ref['reviewedChanges'] and name not in removed and name not in (EFFECT_SOURCES|BARREL_SOURCES|potion_sources):
                 assert previous_bytes(ROOT,ROOT/name)==old.read_bytes(),('Unreviewed existing-runtime change',name)
                 unchanged+=1
     components=read(ROOT/'runtime/BP/items/molotov.json')['minecraft:item']['components']
@@ -135,6 +138,7 @@ def main():
     report={'version':version,'baseline':ref['baselineCommit'],'javaSourceFilesVerified':verified,
         'reviewedChanges':sorted(ref['reviewedChanges']),'reviewedRemovals':sorted(removed),'unchangedExistingRuntimeFiles':unchanged if args.baseline else None,
         'currentContracts':{'barrelResources':{'sources':sorted(BARREL_SOURCES),'generatedResources':'passed','adapterScenarios':'separate foundation CI; not run by this command'},
+                            'potionVisual':{**potion_contract,'sources':sorted(potion_sources),'adapterScenarios':'separate foundation CI; not run by this command'},
                             'customEffects':{'sources':sorted(EFFECT_SOURCES),'behaviorScenarios':'separate efficiency and foundation CI; not run by this command'}},
         'pureRules':pure,'nativeMolotovResources':'source/schema aligned; device acceptance pending',
         'tipsyCameraOnlyRoll':'NOT_RESTORED','tipsyChanges':'diagnostics, immediate status hook and bounded transient-error retry only',

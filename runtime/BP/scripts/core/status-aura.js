@@ -2,6 +2,7 @@
  * Only declared visible effects participate. The caller must not guess the
  * visibility of a native/foreign effect from getEffects(), which omits it.
  */
+import {VANILLA_EFFECT_COLORS} from './effect-colors.js';
 export const TAVERN_AURA_COLORS=Object.freeze({
  'kaleidoscope_tavern:slightly_tipsy':0xffd94a,
  'kaleidoscope_tavern:high_heels':0xe85baa,
@@ -16,15 +17,12 @@ export const TAVERN_AURA_COLORS=Object.freeze({
 /** Source colors for supported timed native drink effects; these are not the
  * older pre-1.20 potion palette. No guessed colors for external custom IDs.
  */
-export const NATIVE_AURA_COLORS=Object.freeze({
- speed:3402751,slowness:9154528,haste:14270531,mining_fatigue:4866583,
- strength:16762624,jump_boost:16646020,nausea:5578058,regeneration:13458603,
- resistance:9520880,fire_resistance:16750848,water_breathing:10017472,
- invisibility:16185078,blindness:2039587,night_vision:12779366,hunger:5797459,
- weakness:4738376,poison:8889187,wither:7561558,health_boost:16284963,
- absorption:2445989,levitation:13565951,slow_falling:15978425,
- bad_omen:745784,village_hero:4521796
-});
+export const NATIVE_AURA_COLORS=Object.freeze(Object.fromEntries([
+ 'speed','slowness','haste','mining_fatigue','strength','jump_boost','nausea',
+ 'regeneration','resistance','fire_resistance','water_breathing','invisibility',
+ 'blindness','night_vision','hunger','weakness','poison','wither','health_boost',
+ 'absorption','levitation','slow_falling','bad_omen','village_hero'
+].map(id=>[id,VANILLA_EFFECT_COLORS[id==='village_hero'?'hero_of_the_village':id]])));
 export const nativeAuraId=id=>typeof id==='string'?id.replace(/^minecraft:/,''):undefined;
 export function customAuraRows(entries){
  const active=new Map();

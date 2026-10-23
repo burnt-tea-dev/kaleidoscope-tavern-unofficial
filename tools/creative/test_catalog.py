@@ -258,8 +258,16 @@ class HistoricalProjectionTests(unittest.TestCase):
                     # not by an unrelated historical asset projection.
                     if Path(name).is_relative_to(Path(prefix)):
                         previous_bytes(root, root/name)
+                # Use the same validated owner handoff as the motion guard.
+                # Current potion behavior/resources no longer belong to its
+                # historical aggregate; unrelated paths retain exact hashes.
+                if root==TAVERN:
+                    from reviewed_changes import historical_files
+                    paths=historical_files(prefix)
+                else:
+                    paths=sorted((root/prefix).rglob('*'))
                 rows = [p.relative_to(root).as_posix()+'\0'+(historical_digest(p,projected=True) if root==TAVERN else liquor_digest(p))+'\n'
-                        for p in sorted((root/prefix).rglob('*')) if p.is_file() and p.relative_to(root).as_posix() not in added]
+                        for p in paths if p.is_file() and p.relative_to(root).as_posix() not in added]
                 self.assertEqual({'files':len(rows), 'sha256':hashlib.sha256(''.join(rows).encode()).hexdigest()}, expected)
 
     def test_projection_changes_only_reviewed_menu_and_native_registration(self):

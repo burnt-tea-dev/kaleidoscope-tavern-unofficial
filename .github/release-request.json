@@ -1,7 +1,7 @@
 {
-  "version": "0.6.179",
-  "tag": "v0.6.179",
-  "title": "Tavern 0.6.179: translucent barrel ice and online effect clocks",
+  "version": "0.6.180",
+  "tag": "v0.6.180",
+  "title": "Tavern 0.6.180: native potion bottle liquid colours",
   "prerelease": false,
   "publication_request": false,
   "validation_evidence": "docs/PARITY-MATRIX.md",
@@ -11,9 +11,9 @@
   "saved_world_migration": "pending",
   "production_ready": false,
   "live_deployment": false,
-  "native_evidence_scope": "Source-backed barrel ice material selection and online countdown regressions; this candidate still requires full-family native, saved-world and client acceptance.",
+  "native_evidence_scope": "Original Minecraft 1.21.1 colour-method execution, Java model/texture contracts and adapter regressions. Original CI40012443439 native job120616254143 passed zero-player first-load/restart (24/27 cases, 47 current mapped potion IDs, metadata/RGB/cleanup). Full-family, existing private saved-world and rendered-client acceptance remain pending.",
   "client": false,
   "status": "candidate_pending_canonical_ci_and_family_admission",
-  "peer_pins_status": "paired_with_world_liquor_0.1.157_exact_reviewed_source",
+  "peer_pins_status": "paired_with_world_liquor_0.1.158_exact_reviewed_source",
   "family_ready": false
 }

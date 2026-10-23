@@ -17,11 +17,10 @@ import argparse
 import copy
 import io
 import json
-import math
-from collections import defaultdict
 from pathlib import Path
 from PIL import Image
 from refresh_visual_compat import profile
+from source_texel_geometry import partition_texels, tint_controller
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = 'runtime/RP/textures/kaleidoscope_tavern_jar/block/mixology/signature_cocktail.png'
@@ -36,79 +35,12 @@ def read(path):
     return json.loads(path.read_text())
 
 
-def face_point(cube, face, s, t):
-    """UV fraction -> original unrotated Bedrock model coordinates."""
-    x, y, z = cube['origin']
-    dx, dy, dz = cube['size']
-    return {'north': [x + s * dx, y + (1-t) * dy, z],
-            'south': [x + (1-s) * dx, y + (1-t) * dy, z + dz],
-            'east': [x, y + (1-t) * dy, z + (1-s) * dz],
-            'west': [x + dx, y + (1-t) * dy, z + s * dz],
-            'up': [x + s * dx, y + dy, z + (1-t) * dz],
-            'down': [x + s * dx, y, z + t * dz]}[face]
-
-
-def boundaries(start, extent):
-    assert extent != 0
-    low, high = sorted((start, start + extent))
-    return sorted({0.0, 1.0, *((pixel-start)/extent
-                            for pixel in range(math.floor(low)+1, math.ceil(high))
-                            if 0 < (pixel-start)/extent < 1)})
-
-
-def rectangles(grid):
-    """Greedy merge only identical source colours within one original face."""
-    seen = set()
-    for y, row in enumerate(grid):
-        for x, color in enumerate(row):
-            if color is None or (x, y) in seen:
-                continue
-            right = x + 1
-            while right < len(row) and grid[y][right] == color and (right, y) not in seen:
-                right += 1
-            bottom = y + 1
-            while bottom < len(grid) and all(grid[bottom][xx] == color and (xx, bottom) not in seen for xx in range(x, right)):
-                bottom += 1
-            seen.update((xx, yy) for yy in range(y, bottom) for xx in range(x, right))
-            yield color, x, y, right, bottom
-
-
 def partition(root=ROOT):
     source = Image.open(root / SOURCE).convert('RGBA')
     assert source.size == (32, 192)
     geometry = read(root / MESH)['minecraft:geometry'][0]
     assert len(geometry['bones']) == 1 and geometry['bones'][0]['name'] == 'tint_root'
-    groups = defaultdict(lambda: [[] for _ in range(6)])
-    for frame in range(6):
-        image = source.crop((0, frame * 32, 32, (frame + 1) * 32))
-        for cube in geometry['bones'][0]['cubes']:
-            assert not cube.get('mirror') and not cube.get('inflate')
-            for face, mapping in cube['uv'].items():
-                assert not mapping.get('uv_rotation')
-                u, v = mapping['uv']
-                du, dv = mapping['uv_size']
-                ss, ts = boundaries(u, du), boundaries(v, dv)
-                grid = []
-                for t0, t1 in zip(ts, ts[1:]):
-                    row = []
-                    for s0, s1 in zip(ss, ss[1:]):
-                        pixel = image.getpixel((min(31, max(0, math.floor(u+du*(s0+s1)/2))),
-                                                min(31, max(0, math.floor(v+dv*(t0+t1)/2)))))
-                        assert pixel[3] in (0, 255), 'Partial-alpha source needs a separately reviewed renderer'
-                        row.append(tuple(pixel[:3]) if pixel[3] else None)
-                    grid.append(row)
-                for color, x0, y0, x1, y1 in rectangles(grid):
-                    points = [face_point(cube, face, s, t) for s in (ss[x0], ss[x1]) for t in (ts[y0], ts[y1])]
-                    low = [round(min(p[a] for p in points), 9) for a in range(3)]
-                    high = [round(max(p[a] for p in points), 9) for a in range(3)]
-                    box = {key: copy.deepcopy(cube[key]) for key in ('pivot', 'rotation') if key in cube}
-                    box.update(origin=low, size=[round(b-a, 9) for a, b in zip(low, high)],
-                               uv={face: {'uv': [.5, .5], 'uv_size': [1, 1]}})
-                    # The explicit face retains its winding even on a 0-thick
-                    # rectangle; no sidewalls turn transparent texels solid.
-                    groups[color][frame].append(box)
-    assert len(groups) <= 16, 'Unexpected source colour expansion would exceed the reviewed draw budget'
-    return geometry, dict(sorted(groups.items()))
+    return geometry, partition_texels(geometry['bones'][0]['cubes'], source, 32, 6)
 
 
 def outputs(root=ROOT):
@@ -122,12 +54,8 @@ def outputs(root=ROOT):
             model['description'].update(identifier=f'geometry.kt_runtime.signature_rgb_{name}_{frame}', texture_width=2, texture_height=2)
             model['bones'][0]['cubes'] = cubes
             models.append(model)
-        controllers[f'controller.render.kt_runtime.signature_rgb_{name}'] = {
-            'arrays': {'geometries': {'Array.frames': [f'Geometry.rgb_{name}_{i}' for i in range(6)]}},
-            'geometry': f'Array.frames[{FRAME}]',
-            'materials': [{'*': 'Material.liquid_rgb'}], 'textures': ['Texture.rgb_opaque'],
-            'overlay_color': {**{key: f"math.floor(query.property('kt_art:{prop}') * {source} / 255) / 255"
-                                  for key, prop, source in zip(('r', 'g', 'b'), ('red', 'green', 'blue'), color)}, 'a': 1}}
+        controllers[f'controller.render.kt_runtime.signature_rgb_{name}'] = tint_controller(
+            [f'Geometry.rgb_{name}_{i}' for i in range(6)], color, FRAME)
     result['runtime/RP/models/entity/signature_rgb_texels.geo.json'] = {'format_version': '1.21.0', 'minecraft:geometry': models}
     result['runtime/RP/render_controllers/signature_rgb_texels.render_controllers.json'] = {'format_version': '1.8.0', 'render_controllers': controllers}
     for name in ('runtime_signature_cup', 'rig_signature_color'):

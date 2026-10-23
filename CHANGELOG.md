@@ -1,3 +1,9 @@
+## 0.6.180
+
+- Tint placed native potion liquid from the saved ItemStack using one shared cosmetic renderer, preserving original glass, alpha holes, texture shades and PBR roughness. Native storage remains the sole item authority.
+- Retire the affected historical inverse guards in favor of current lifecycle and original-Java resource contracts. Keep existing aura behavior and all unrelated guards.
+- Pair with World Liquor 0.1.158. Original 1.21.1 colour-method execution and targeted source regressions pass; full-family native, saved-world and real-client acceptance remain pending.
+
 ## 0.6.179
 
 - Restrict the new initial clock anchor to nonempty saved effects so an expired mob effect stays retired when its status is read again. The existing Bloody Mary regression rejected the frozen T178 candidate; its identity and history are preserved.

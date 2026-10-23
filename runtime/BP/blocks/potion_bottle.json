@@ -14,7 +14,7 @@
     },
     "components": {
       "minecraft:geometry": {
-        "identifier": "geometry.kt_assets_a17.potion_bottle"
+        "identifier": "geometry.kt_runtime.potion_bottle_glass"
       },
       "minecraft:material_instances": {
         "*": {
@@ -76,6 +76,14 @@
       },
       "minecraft:connection_rule": {
         "accepts_connections_from": "none"
+      },
+      "kaleidoscope_tavern:potion_bottle_visual": {},
+      "minecraft:tick": {
+        "interval_range": [
+          20,
+          20
+        ],
+        "looping": true
       }
     },
     "permutations": [

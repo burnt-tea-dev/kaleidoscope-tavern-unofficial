@@ -8,6 +8,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from build_potion_bottle_visual import MODEL, TEXTURE, outputs as potion_outputs
 
 from check_release import ROOT, REVIEWED_ITEM_GEOMETRIES, REVIEWED_VISUAL_GEOMETRIES, REVIEWED_VISUAL_SOURCE, REVIEWED_VISUAL_RELEASE, check_combined_geometry_budget, parse_args, source_check_commands
 
@@ -73,14 +74,25 @@ class GeometryBudgetTests(unittest.TestCase):
         self.inventory={f'geometry.original_{i}':[self.root/f'original_{i}.json'] for i in range(1023)}
         self.inventory.update({identifier:[self.root/name] for identifier,name in REVIEWED_ITEM_GEOMETRIES.items()})
         self.inventory.update({identifier:[self.root/name] for identifier,name in REVIEWED_VISUAL_GEOMETRIES.items()})
+        self.potion_ids={}
+        for name in set(potion_outputs())|{MODEL,TEXTURE,str(Path(TEXTURE).with_suffix('.texture_set.json'))}:
+            path=self.root/name;path.parent.mkdir(parents=True,exist_ok=True)
+            path.write_bytes((ROOT/name).read_bytes())
+        for name,value in potion_outputs().items():
+            if isinstance(value,dict):
+                for geometry in value.get('minecraft:geometry',[]):
+                    self.potion_ids[geometry['description']['identifier']]=self.root/name
+        self.inventory.update({identifier:[path] for identifier,path in self.potion_ids.items()})
 
     def test_exact_source_allocations_preserve_the_original_base_ceiling(self):
         result=check_combined_geometry_budget(self.inventory,self.root)
-        self.assertEqual((result['geometries'],result['base_geometries']),(1343,1023))
+        self.assertEqual((result['geometries'],result['base_geometries']),(1347,1023))
         self.assertEqual(result['reviewed_item_geometries'],4)
         self.assertEqual(result['reviewed_visual_geometries'],316)
         self.assertEqual(result['visual_allocations']['runtime/RP/models/entity/board_glyph_outline.geo.json']['max_allocated_vertices'],384)
         self.assertEqual(result['visual_allocations']['runtime/RP/models/entity/signature_rgb_texels.geo.json']['max_allocated_vertices'],672)
+        self.assertEqual(result['potion_contract_geometries'],4)
+        self.assertEqual(result['potion_allocations']['runtime/RP/models/entity/potion_liquid_texels.geo.json']['max_allocated_vertices'],504)
         self.inventory['geometry.unreviewed_fifth']=[self.root/'fifth.geo.json']
         with self.assertRaisesRegex(AssertionError,'base geometry budget exceeded'):
             check_combined_geometry_budget(self.inventory,self.root)
@@ -88,7 +100,7 @@ class GeometryBudgetTests(unittest.TestCase):
     def test_same_total_cannot_replace_a_reviewed_id_with_an_arbitrary_model(self):
         self.inventory.pop(next(iter(REVIEWED_ITEM_GEOMETRIES)))
         self.inventory['geometry.unreviewed_replacement']=[self.root/'replacement.geo.json']
-        self.assertEqual(len(self.inventory),1343)
+        self.assertEqual(len(self.inventory),1347)
         with self.assertRaisesRegex(AssertionError,'one exact Tavern owner/path'):
             check_combined_geometry_budget(self.inventory,self.root)
 
@@ -137,6 +149,26 @@ class GeometryBudgetTests(unittest.TestCase):
         ledger['files'][name]['after']=hashlib.sha256(path.read_bytes()).hexdigest();ledger_path.write_text(json.dumps(ledger))
         with self.assertRaisesRegex(AssertionError,'Visual allocation cube budget exceeded'):
             check_combined_geometry_budget(self.inventory,self.root)
+
+    def test_potion_contract_rejects_missing_duplicate_or_moved_owner(self):
+        identifier,path=next(iter(self.potion_ids.items()))
+        for paths in [[],[path,self.root/'peer/duplicate.geo.json'],[self.root/'moved.geo.json']]:
+            self.inventory[identifier]=paths
+            with self.assertRaisesRegex(AssertionError,'Potion geometry must have one exact Tavern owner/path'):
+                check_combined_geometry_budget(self.inventory,self.root)
+
+    def test_potion_accounting_cannot_hide_changed_mesh_or_broken_wiring(self):
+        for name,mutate in [
+            ('runtime/RP/models/entity/potion_liquid_texels.geo.json',
+             lambda value:value['minecraft:geometry'][0]['bones'][0]['cubes'].append(copy.deepcopy(value['minecraft:geometry'][0]['bones'][0]['cubes'][0]))),
+            ('runtime/RP/entity/potion_liquid_visual.entity.json',
+             lambda value:value['minecraft:client_entity']['description'].update(render_controllers=[])),
+        ]:
+            path=self.root/name;original=path.read_bytes();value=json.loads(original);mutate(value)
+            path.write_text(json.dumps(value))
+            with self.assertRaisesRegex(AssertionError,'Stale generated potion resource'):
+                check_combined_geometry_budget(self.inventory,self.root)
+            path.write_bytes(original)
 
 
 if __name__ == "__main__":

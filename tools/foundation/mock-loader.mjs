@@ -41,6 +41,7 @@ Object.defineProperty(ItemStack.prototype,'lockMode',{get(){return this.meta.loc
 ItemStack.prototype.setCanDestroy=function(value){this.meta.canDestroy=structuredClone(value);};
 ItemStack.prototype.setCanPlaceOn=function(value){this.meta.canPlaceOn=structuredClone(value);};
 export function registerFixtureItem(id,max=64){itemInfo.set(id,{max});}
+export function registerFixturePotion(id,durationTicks=3600){potionTypes.set(id,{id,durationTicks});}
 export function registerFixturePack(root){
  for(const type of ['items','blocks'])for(const f of fs.readdirSync(root+'/runtime/BP/'+type)){
   if(!f.endsWith('.json'))continue;
