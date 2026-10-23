@@ -7,6 +7,7 @@ The declaration pins the original/new author definitions and encoding sources.
 import io
 import struct
 import nbtlib
+from bedrock_nbt import encode_root, parse_root
 
 PREFIX = 'kaleidoscope_cookery:'
 COLORS = ('white', 'orange', 'magenta', 'light_blue', 'yellow', 'lime', 'pink',
@@ -140,16 +141,14 @@ def transform_subchunk(raw, rules, observer=None):
         output.extend((head, packed, count_bytes))
         for palette_index in range(count):
             start = stream.tell()
-            tag = nbtlib.File.parse(stream, byteorder='little')
+            tag = parse_root(stream)
             end = stream.tell()
             changed = convert_block(tag, rules)
             changes += changed
             if observer is not None:
                 observer(tag, layer, palette_index, bits, packed)
             if changed:
-                encoded = io.BytesIO()
-                tag.write(encoded, byteorder='little')
-                output.append(encoded.getvalue())
+                output.append(encode_root(tag))
             else:
                 output.append(raw[start:end])
     if stream.tell() != len(raw):

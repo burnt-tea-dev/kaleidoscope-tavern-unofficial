@@ -7,9 +7,10 @@ and retain the source backup before adopting the resulting database.
 """
 from pathlib import Path
 import argparse, hashlib, io, json, shutil
+from bedrock_nbt import encode_root, parse_root
 
 def encode(tag):
-    stream=io.BytesIO();tag.write(stream,byteorder='little');return stream.getvalue()
+    return encode_root(tag)
 
 def move_owners(compound,mapping):
     import nbtlib
@@ -41,7 +42,7 @@ def transform(raw,mapping,world_properties=False,*,sequence=False,state_rules=No
         elif isinstance(node,nbtlib.List):
             for value in node:visit(value)
     while stream.tell()<len(raw):
-        start=stream.tell();tag=nbtlib.File.parse(stream,byteorder='little');end=stream.tell()
+        start=stream.tell();tag=parse_root(stream);end=stream.tell()
         if not sequence and end!=len(raw):raise ValueError('record contains unparsed NBT suffix')
         previous=changes
         if world_properties:changes+=move_owners(tag,mapping)

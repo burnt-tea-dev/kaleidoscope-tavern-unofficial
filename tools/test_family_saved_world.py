@@ -3,6 +3,53 @@ from pathlib import Path
 import nbtlib
 from family_saved_world import encode,transform,move_owners,has_inventory_items
 
+def raw_string(value):
+ return struct.pack('<H',len(value))+value
+
+def raw_field(kind,name,payload):
+ return bytes([kind])+raw_string(name)+payload
+
+def opaque_metadata():
+ # Synthetic bytes, including invalid UTF-8, NUL, valid Unicode and literal U+FFFD.
+ binary=b'\x00\x00\xff\x80\x00\x7f\xc2\x81'
+ return (raw_field(8,b'StorageKey',raw_string(binary))+
+         raw_field(8,b'\xfeopaque-name',raw_string('保留\ufffd'.encode()))+
+         raw_field(9,b'opaque-list',b'\x08'+struct.pack('<i',2)+raw_string(b'\xff')+raw_string(b'\xfe')))
+
+class BinaryStringMigrationTests(unittest.TestCase):
+ def fixture(self,owner=b'private',value=b'\xff'):
+  properties=raw_field(10,owner,raw_field(8,b'value',raw_string(value))+b'\0')+b'\0'
+  return b'\x0a'+raw_string(b'\x80root')+raw_field(10,b'DynamicProperties',properties)+opaque_metadata()+b'\0'
+ def test_owner_move_preserves_opaque_names_strings_lists_and_root_name(self):
+  raw=self.fixture();actual,count=transform(raw,{'private':'public'})
+  self.assertEqual(count,1)
+  self.assertEqual(actual,self.fixture(b'public'))
+  self.assertEqual(transform(actual,{'private':'public'}),(actual,0))
+ def test_no_mapping_match_keeps_entire_binary_record(self):
+  raw=self.fixture();self.assertEqual(transform(raw,{'absent':'public'}),(raw,0))
+ def test_nested_items_and_concatenated_roots_preserve_binary_strings(self):
+  item=self.fixture()[3+len(b'\x80root'):]
+  raw=b'\x0a\0\0'+raw_field(9,b'Inventory',b'\x0a'+struct.pack('<i',1)+item)+b'\0'
+  expected=raw.replace(raw_string(b'private'),raw_string(b'public'),1)
+  untouched=self.fixture(b'other')
+  self.assertEqual(transform(raw+untouched,{'private':'public'},sequence=True),(expected+untouched,1))
+ def test_distinct_opaque_values_conflict_instead_of_collapsing_to_replacement(self):
+  value=lambda b:raw_field(8,b'value',raw_string(b))+b'\0'
+  dp=raw_field(10,b'private',value(b'\xff'))+raw_field(10,b'public',value(b'\xfe'))+b'\0'
+  raw=b'\x0a\0\0'+raw_field(10,b'DynamicProperties',dp)+b'\0'
+  with self.assertRaisesRegex(ValueError,'conflicting typed property'):transform(raw,{'private':'public'})
+ def test_malformed_or_lossy_nbt_is_rejected(self):
+  duplicate=raw_field(8,b'a',raw_string(b'1'))+raw_field(8,b'a',raw_string(b'2'))
+  cases=[duplicate,raw_field(9,b'list',b'\x08'+struct.pack('<i',-1)),
+         raw_field(9,b'list',b'\x00'+struct.pack('<i',1)),
+         raw_field(7,b'array',struct.pack('<i',-1)),
+         raw_field(5,b'signalling_nan',struct.pack('<I',0x7f800001))]
+  for payload in cases:
+   with self.subTest(payload=payload),self.assertRaises(ValueError):transform(b'\x0a\0\0'+payload+b'\0',{'private':'public'})
+  raw=self.fixture()
+  for cut in (1,2,6,len(raw)-1):
+   with self.subTest(cut=cut),self.assertRaises(ValueError):transform(raw[:cut],{'private':'public'})
+
 class OwnerMigrationTests(unittest.TestCase):
  def test_world_owner_retains_typed_values(self):
   old=nbtlib.File({'private':nbtlib.Compound({'flag':nbtlib.Byte(1),'lore':nbtlib.String('保留'),'value':nbtlib.Double(1.25)}),'unrelated':nbtlib.Compound({'keep':nbtlib.Int(4)})})
@@ -95,6 +142,16 @@ class AuthorStateMigrationTests(unittest.TestCase):
   self.assertEqual(transform_subchunk(new,self.rules),(new,0))
   with self.assertRaises(ValueError):transform_subchunk(raw+b'junk',self.rules)
   with self.assertRaises(ValueError):transform_subchunk(raw[:-2],self.rules)
+ def test_state_only_and_subchunk_changes_preserve_opaque_metadata(self):
+  from author_state_migration import convert_block,transform_subchunk
+  block=self.block('chair_carpet',has_carpet=nbtlib.Byte(1),carpet_color=nbtlib.String('black'))
+  before=encode(block)[:-1]+opaque_metadata()+b'\0'
+  convert_block(block,self.rules)
+  expected=encode(block)[:-1]+opaque_metadata()+b'\0'
+  self.assertEqual(transform(before,{},state_rules=self.rules),(expected,0,1))
+  prefix=b'\x09\x01\xff\x00'
+  self.assertEqual(transform_subchunk(prefix+before,self.rules),(prefix+expected,1))
+  self.assertEqual(transform_subchunk(prefix+expected,self.rules),(prefix+expected,0))
  def test_uniform_author_palette_and_concatenated_block_actors(self):
   from author_state_migration import transform_subchunk
   raw=b'\x08\x01\x00'+encode(self.block('basin_oil',oil_full=nbtlib.Byte(1)))

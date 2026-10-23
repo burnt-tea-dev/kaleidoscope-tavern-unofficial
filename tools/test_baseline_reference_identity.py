@@ -167,6 +167,19 @@ class IdentityTests(unittest.TestCase):
   self.p.write_bytes(latest)
   self.ledger['reviewedFunctionalDeltaLayers'][0]['files'][name]['reverseOps'][0][2]='wrong predecessor\n';self.write_functional_ledger()
   with self.assertRaisesRegex(AssertionError,'Functional predecessor mismatch'):previous_bytes(self.r,self.p)
+class HistoryAliasTests(unittest.TestCase):
+ def test_alias_rejects_a_different_runtime_tree_before_reading_source(self):
+  from unittest.mock import patch
+  reference.historical_runtime_source.cache_clear()
+  with patch.object(reference.subprocess,'check_output',return_value='unreviewed-tree\n') as git:
+   with self.assertRaisesRegex(AssertionError,'alias tree differs'):
+    reference.historical_runtime_source('/synthetic-only',reference.T168_BEFORE,reference.T168_PATH)
+   self.assertEqual(git.call_count,1)
+ def test_alias_cannot_resolve_arbitrary_commit_or_nonruntime_path(self):
+  for commit,name in [('HEAD',reference.T168_PATH),(reference.T168_BEFORE,'AGENTS.md')]:
+   with self.subTest(commit=commit,name=name),self.assertRaisesRegex(AssertionError,'immutable runtime history'):
+    reference.historical_runtime_source('/synthetic-only',commit,name)
+
 class T176ImmutableTests(unittest.TestCase):
  def test_current_orchard_and_projectile_source_reaches_historical_guards(self):
   root=Path(__file__).resolve().parents[1]
@@ -200,7 +213,7 @@ class T168ImmutableTests(unittest.TestCase):
   self.after=reference.t168_source(str(self.root),reference.T168_AFTER)
  def test_exact_frozen_bridge_reverses_only_to_immutable_t167_source(self):
   self.assertEqual(reference.reverse_t168_delta(self.root,reference.T168_PATH,self.after,self.row),self.before)
-  original=reference.subprocess.check_output(['git','show','cedfaedf6140bae61b24afb658869b1d0e6ea1a9:'+reference.T168_PATH],cwd=self.root)
+  original=reference.historical_runtime_source(str(self.root),'cedfaedf6140bae61b24afb658869b1d0e6ea1a9',reference.T168_PATH)
   self.assertEqual(previous_bytes(self.root,self.root/reference.T168_PATH),original)
  def test_extra_line_cannot_be_admitted_by_synchronizing_ledger_hash(self):
   changed=self.after+b'unreviewed();\n';row={**self.row,'after':hashlib.sha256(changed).hexdigest()}
