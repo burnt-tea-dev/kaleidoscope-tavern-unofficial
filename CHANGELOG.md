@@ -1,7 +1,7 @@
 ## 0.6.179
 
 - Restrict the new initial clock anchor to nonempty saved effects so an expired mob effect stays retired when its status is read again. The existing Bloody Mary regression rejected the frozen T178 candidate; its identity and history are preserved.
-- Retain T178 ordinary-ice translucency and online countdown fixes, paired with W156. Retire the affected effects/material inverse-source ledgers in favor of current behavior and Java resource contracts; see [parity status](docs/PARITY-MATRIX.md).
+- Retain T178 ordinary-ice translucency and online countdown fixes, paired with W157. Retire the affected effects/material inverse-source ledgers in favor of current behavior and Java resource contracts; see [parity status](docs/PARITY-MATRIX.md).
 
 ## 0.6.178
 
