@@ -407,12 +407,6 @@
       "after": "d91b8d4d9768655cbceb2eb2869cd86aaf6b410b82019f052fce095802619b82",
       "reason": "Reviewed reconciliation of PRs #25/#50/#69/#88 and paired version bump; preserves native pick, storage and creative metadata. 0.6.63: glasswareHolderSlot delegates to the shared world-quadrant read in core/hit-basis.js."
     },
-    "runtime/BP/scripts/main.js": {
-      "before": "ecd89afdf06ebb532a270b69a74521061154b880805fcc703bec86b19e1b741e",
-      "beforeProjected": "ecd89afdf06ebb532a270b69a74521061154b880805fcc703bec86b19e1b741e",
-      "after": "dac02cbf0546e25355175f129a871fed8c90f7bf895383ba43ac0f572d6b1463",
-      "reason": "Reviewed reconciliation of PRs #25/#50/#69/#88 and paired version bump; preserves native pick, storage and creative metadata.; 0.6.46: preserve existing behavior while repairing incense, source-owned guide transport or paired manifest version. 0.6.48: reviewed native product preparations, destruction cleanup, Java resistance/selection and native potion delivery IDs as applicable. 0.6.49: remove fixed custom animated-item hand rigs; use native item sprites/use animation and native barrel actionbar without duplicate expiring label. 0.6.50: repair coincident drink faces, sofa corner collision, chalkboard strip ordering, native storage gaze selection and Java tag-based guide ingredients. 0.6.50: repair coincident drink faces, sofa corner collision, chalkboard strip ordering, native storage gaze selection and Java tag-based guide ingredients. 0.6.51: consume transaction-owned script removal callbacks and prohibit display-block fallback drops. 0.6.52: use the actual InputInfo.lastInputModeUsed property so shared native storage ray selection executes; preserve off-crosshair touch input. 0.6.53: remove the unbound plain sandwich-board hand override; use native item icon rendering; record real bar placement direction for unresolved client report. 0.6.54: correct barrel/tap/aging instructions; derive legacy pages from the canonical Cookery chapter; expose feedback failures and truthful guide delivery state. 0.6.55: enforce seven guide roots with native child categories, split grape entries, clarify Java board alignment and use a shared alignment calculation. 0.6.56: remove unsolicited success hints; index live cabinet helper anchors before removal and prune invalid storage maintenance references.; 0.6.57 integrates protocol-scoped HUD filtering and updates release metadata.; 0.6.58 consolidates tested shaker fixes and guide singleton navigation instructions.; 0.6.59 surface repair and version metadata. 0.6.61: match cup visibility to Java world-space hit quadrants at all four holder rotations; localize native seat exit hints; align diagnostic and guide versions. 0.6.62: selected-hand shaker pickup; barrel full-block geometry candidate pending client mining acceptance. 0.6.63: add native water/lava liquid display assets and bindings; tested entity capacity properties, pending client visual acceptance. Pickup parity audit 2026-09-29: native ItemStack persistence, Java storage/main-hand versus Forge inventory delivery, per-block creative handling, exact Java slot boundaries and feedback; details in docs/PICKUP-PARITY-20260929.md. 0.6.64: release version bump (manifests, startup diagnostics and guide payload version strings). 0.6.65: release version bump (manifests, startup diagnostics and guide payload version strings). 0.6.66: release version bump (manifests, startup diagnostics and guide payload version strings). 0.6.67: paired version bump and public Cookery 1.0.8 dependency; preserves current gameplay/runtime fixes."
-    },
     "runtime/RP/manifest.json": {
       "before": "da277b14643b196a0c35cc43ca56e4719b28a3e213a031155e365b3c3686b30c",
       "beforeProjected": "da277b14643b196a0c35cc43ca56e4719b28a3e213a031155e365b3c3686b30c",
@@ -1199,12 +1193,6 @@
       "after": "60ef035dbcbf7e4a22fe581185b52b24a92646255510401f8cbf6c0072fb08a1",
       "reason": "0.6.46: shared Cookery-style creative taxonomy and product guide cleanup; menu metadata/text only, gameplay IDs and mechanics preserved. 0.6.48: reviewed native product preparations, destruction cleanup, Java resistance/selection and native potion delivery IDs as applicable. 0.6.55: enforce seven guide roots with native child categories, split grape entries, clarify Java board alignment and use a shared alignment calculation."
     },
-    "runtime/BP/blocks/potion_bottle.json": {
-      "before": "e22e2dee67d358556f60dae07fb76e59310623c0c0eb348899a9e69646567533",
-      "beforeProjected": "e22e2dee67d358556f60dae07fb76e59310623c0c0eb348899a9e69646567533",
-      "after": "9244472df6b5d6703779c056273daac2239c63acdb4736343ded953af65d57be",
-      "reason": "0.6.48: Java explosion resistance and native destruction cleanup; native Cookery product preparations and circular-rack base hitbox."
-    },
     "runtime/BP/blocks/bottle_watermelon_juice.json": {
       "before": "bdd904684b53c8f6627e1393e5a2dad2fc52631590bc1293f8b92276cd5f2d2a",
       "beforeProjected": "bdd904684b53c8f6627e1393e5a2dad2fc52631590bc1293f8b92276cd5f2d2a",
@@ -1660,12 +1648,6 @@
       "beforeProjected": "a9fb6cb3944dd69fc55d7804f0331a4957fe3252007a832d457ada1c333e1cc2",
       "after": "b4b3ecb29d8fd2e41339043a04365489a38f17a20c5cc90b43dd3d2fb2d9a7b5",
       "reason": "0.6.48: Java explosion resistance and native destruction cleanup; native Cookery product preparations and circular-rack base hitbox. 0.6.62: selected-hand shaker pickup; barrel full-block geometry candidate pending client mining acceptance. 2026-09-28 effects review: Source-derived post-commit feedback, isolated cosmetic failures and real splash lifecycle; preserves PR93 carrier repair. See docs/EFFECTS-REPORT-FOLLOWUP-20260928.md. 0.6.48: Java explosion resistance and native destruction cleanup; native Cookery product preparations and circular-rack base hitbox. 0.6.62: selected-hand shaker pickup; barrel full-block geometry candidate pending client mining acceptance. Pickup parity audit 2026-09-29: native ItemStack persistence, Java storage/main-hand versus Forge inventory delivery, per-block creative handling, exact Java slot boundaries and feedback; details in docs/PICKUP-PARITY-20260929.md."
-    },
-    "runtime/BP/scripts/core/potions.js": {
-      "before": "e60aafa5b1cc4412f85272e0ee88ccc55955d663a9ae69706a381af5d0259800",
-      "beforeProjected": "e60aafa5b1cc4412f85272e0ee88ccc55955d663a9ae69706a381af5d0259800",
-      "after": "244e528c76069f4794bb015b12510467850b3e59a1a79aab4137a140c1b31d6b",
-      "reason": "0.6.48: Java explosion resistance and native destruction cleanup; native Cookery product preparations and circular-rack base hitbox."
     },
     "runtime/BP/scripts/bedrock/bottles.js": {
       "before": "9a8ef42f05d3dd5697809d29df393afcaee8905fff063bebf4be2daa3f8da42a",
@@ -2147,23 +2129,11 @@
       "after": "2c4c1a9ce2c50d3444a6363e679db4b00169db5eb80c31cf873e97caa284fd26",
       "reason": "Reviewed mechanics repair: ordinary barrel inputs and one shared 97-tick cadence. No creative-menu projection applies to this core JS module."
     },
-    "runtime/BP/scripts/bedrock/potions.js": {
-      "before": "6ad7d9b34752ac4c6d83ea384353f5079328ea63bbbd89fe1eb5709deaf587cc",
-      "beforeProjected": "6ad7d9b34752ac4c6d83ea384353f5079328ea63bbbd89fe1eb5709deaf587cc",
-      "after": "eb4745dba9c5a1c58fdc5eabfa2d3b88a02565dad69000c5508188b5c4d6018f",
-      "reason": "Pickup parity audit 2026-09-29: native ItemStack persistence, Java storage/main-hand versus Forge inventory delivery, per-block creative handling, exact Java slot boundaries and feedback; details in docs/PICKUP-PARITY-20260929.md."
-    },
     "runtime/BP/scripts/bedrock/transactions.js": {
       "before": "96f413aa32f637cd0b7c2ab6c0cc8fd0ef9a41ec5d02728eb05176f0a3b44ab3",
       "beforeProjected": "96f413aa32f637cd0b7c2ab6c0cc8fd0ef9a41ec5d02728eb05176f0a3b44ab3",
       "after": "e5c53bc595eb77975e1b484f040aebb2032260a326c27cf9644c60b235e43185",
       "reason": "Pickup parity audit 2026-09-29: native ItemStack persistence, Java storage/main-hand versus Forge inventory delivery, per-block creative handling, exact Java slot boundaries and feedback; details in docs/PICKUP-PARITY-20260929.md. Pickup follow-up: registered external cabinets share native slot persistence, main-hand delivery, Adventure interaction and Java cabinet feedback."
-    },
-    "runtime/BP/scripts/bedrock/vanilla-bottle-displays.js": {
-      "before": "94197cad01cd6040084901547b8ab8fac669dc8fd68ad09c01084c63bb49d868",
-      "beforeProjected": "94197cad01cd6040084901547b8ab8fac669dc8fd68ad09c01084c63bb49d868",
-      "after": "521111e6dca7d90fca05b74c1473340a3127fe4e32514a06e496bd57f1525984",
-      "reason": "Pickup parity audit 2026-09-29: native ItemStack persistence, Java storage/main-hand versus Forge inventory delivery, per-block creative handling, exact Java slot boundaries and feedback; details in docs/PICKUP-PARITY-20260929.md."
     },
     "runtime/BP/scripts/core/cellar-cabinet.js": {
       "before": "73252e69e884a628256a3d2f7220db4fb67edeee746df20254f85bb9ff8ebd8e",

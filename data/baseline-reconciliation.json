@@ -651,12 +651,6 @@
       "reason": "Canonical baseline reconciliation; stable API/connection/public dependencies and reviewed live fixes. See BASELINE-MAINTENANCE.md.",
       "beforeGzipBase64": "H4sIAAAAAAACA+2bW2/bOgyA3/MrDD9sOwedF6dNegH2vB8xDIJiM4lWWfIkuWs29L8f+pJU8iVtcIYaHvTUSqJJSuQnKhD0exYE4UaqjBryAEozKcK7IIyjxSpazsOLcjhjAhJFN+ZuzWVyj+O/sRsHUtCJYrmpP6o7sZulIAzbMFClqnvKgaVSJzIHYigaEXe5zPM90VSkP1myI2tJVVrZqr7PQBQkoQa2Uu0txThk9Ybwo2A5yprjlyiwVbLIh8wyA9mXUiASNIMohUQqWnnfKHg6+qANWtKu8T6VO8o3KPX1KBUE8wurER///3ZxWpOShjYrOazNbizsxqXduLIbS7uxshvXduPGbtw6Rl0XHB9ix4nY8SJ23IiXr16Jn7j0isvtFtLWYmwo12BrNaqAZ72HKM6sWIaJzHIpME3saFo5vQWZgWknmpvDB5no3pDv9IFGx9StM3neTaBnA1k5HUY5YQKzSiTttPrXaWKHgUdTKKiy2BCqNRhNaHzdAqaxXY5naw5paC9MqECkoAi6vZPlMoaU5ztKMKmNK0izNcO5EpkkvGj4n0dOzMMNTYCkLMNJbXG4CsNx/MkKZyH0jqZV3CY9pRPhTCTnrFSKLj+6kZSKbVkb4I8Oc44TH1e9TGj2C1pKWpytXAa7BPT4rYFDYqbnt2FWyanZFAjUAwKlqNi2LS4cTxfzXk+5lHkdd2sDeTbeuykpZvCTpla5dYGJKh0PuXxqM0DLppQt/6JqTHL9CbLc7KPvGvO0b/uQD6WYaxI7oSx9xOzziipM5EbuhHGs1zhfTAKUI+s9wZF6FSzNGouiSDUxklTicl/Bc3OGWnjMudTuoQA/OHYTBZrVW+GLujnDKp+iK6ZOXlflsZuoglf7qp0K9g5UBr1WdVixqso4+0Z1vhAE528oE6SWb3KkJScPw7hORbKrTIfV6ahc0JZwoeEgnXCW5307zvOe00dDX0IKijsqQrBWQFuApErmZx29egtnDior6jOJvbL2aQwzhTVRCX9E1fxJdXL68H7osPT+n+Dz52AevHsXvOKLw6Go+co+6fXW9dfU9v9T31v17pw631vr/1hxPKtAvrZIvlwoO+sxfAb4K6bay2vntDAiIvFYiMQeEY/IJBBZjIXIwiPiEZkEIpdjIXLpEfGITAKRq7EQufKIeEQmgchyLESWHhGPyCQQWY2FyMoj4hGZBCLXYyFy7RHxiEwCkZuxELnxiHhEJoHI7ViI3HpEPCLTuDoc7Xo99vfrHpKJQDLeBbu/YfeQTASS0a7YY3/H7iGZCCSjXbLH/pbdQzIRSEa7Zo/9PbuHZCKQjHbRHvubdg/JW0PyJr/AVYEDGUT1qq85FfdvmOqNdWJbPyvSw8EZcHz4VePwC8HuK8HOS8HWa8HWO7yhV4Pdl4Odt8utB4T2s6lT0xx+BDnNaXZRmx1knmZPs/8AqL/Lp94/AAA="
     },
-    "runtime/BP/blocks/potion_bottle.json": {
-      "before": "9244472df6b5d6703779c056273daac2239c63acdb4736343ded953af65d57be",
-      "after": "7bbfbf30e6be1b42faae6a9a5470e166775b17ef94a610796afcf642250fa5d0",
-      "reason": "Canonical baseline reconciliation; stable API/connection/public dependencies and reviewed live fixes. See BASELINE-MAINTENANCE.md.",
-      "beforeGzipBase64": "H4sIAAAAAAACA81WwW7bMAy95ysCX7INjZe0aLoV6JcMhaDIdKJFFlVJTpsV+fdRttPKipG264D2FER6fCQfKdKPo/E4K9FW3LMtWCdRZ9fjbJ6fL/LLWXYWriupQVhe+uulQrGh+0c6posCnLDS+NaoPaRjWYD2spRgA9WGK5AFOoEGmOfkRF8bDDZsid4raJw0ht5y6V1E1XNuFBdQETUrpAWReG3AoPlSQcGc5x4C0a/otkcmuC2k5iriiqC3ZzHrjlkkwhAxlqUDT8TzH7N89gTaj+LffWudCawMago4TimKYQVYgbe7fsJ99Q6YfOMZd+TbMT6/yvsCHryfHfuguoKVlKfUJIoWkMj7LZXQw4OvLTSVi12y4Zo1NhZ0AZZRoGssgiVXZs0ZlcD3gbxaylBAFELVXa+Rjj1MSVWmqlSUw4quva3hWOeBTKWHim2lq7nqpzgo87uEjgIIIZyWeEDkf5P5DUK/TuoXxH6W+7TwApWSrg36gUhKrhwM4Byo9qV1uKhEaOVK6uS9Ti/iYHuRTy9GA081c/IPJCSL2GzeI1k8c5zIjmYcqUJx02Bhyx2jm1arKHwHAnXhmEfWwHHXiL14Ay08GIUuHWnZ0zGz4GTbXoH71IvHbRiCyRTFbTs6/c40TUcl73AnqBRimHVZ+KXRTWj3HSrjd/lvR5EOWcjVmuYzrwx0Ms0GUXe1LEgrPzDGs6djZmt1NMWTd9RRHdK6D28xfQqCa0YF8lxq1uK7Vk9weLimQtZi3bjOmpUXUknAtYMDWihpzAsP6LjFhvai5jQUaJIsLfBNoopF87p1OriLDNiqbpdYrGjkILSw7KqR3eVN3u0i/TI5tTcnX8c3N+OJRuvXk0il4fWXdAJtfO3az4/jdR4GXrd4j1Z5MhCGD3r/b1832P6fIsCd/1BBpj8/myQO6w9ukil9uH0yUe7ho/vk/Op9mowOmP1oP/oL+dBDQVIMAAA="
-    },
     "runtime/BP/blocks/pressing_tub.json": {
       "before": "0cd100ffd0083491e33cc8573d15fd7eb8ddc1adfd41d08cfb9b83a0ea32013f",
       "after": "8552c0158e7fb822649285402fd96eb93ffeb7fce26c90ee2f40389b43597f13",
@@ -1082,12 +1076,6 @@
       "reason": "Canonical baseline reconciliation; stable API/connection/public dependencies and reviewed live fixes. See BASELINE-MAINTENANCE.md.",
       "beforeGzipBase64": "H4sIAAAAAAACA3WSTW8CIRCG7/6KjecedG211fSmaUwT02jvZIRxJSJDgO32I/3vha0aM+qBC8/LMDwMfjrysZBkQyzelrPVar54EWktZ9P5bPEuXueL6er5p1MU3R0Y1IqCJIciwgd6O648OOyOi/7drYSWKI6p8maqIqNOscHtmEe0p9x9m9tri9LDJo5DgxjFGr3XGBJ/YLwy1JzhIcPgnMllR2x/beAbhaNGoU/48VpVbXcigEz46QoOkSwKVYeYVfV4Ir/d1lWFLe5zXNvT3f2SwW0q/CVpv85wwKD2ZM8Kc12OIkTKhIvyqNqWM+OWQl1B28roGhAS/o9xS80Woe2C+/EUY/rTjcGwzSPSu7Bfo0hDlBlXc9jmUhzIHarjIW5FaZ8bKS+m5/Dikttw+XMdRjB5asph53fS+QPoshMvOAMAAA=="
     },
-    "runtime/BP/scripts/main.js": {
-      "before": "dac02cbf0546e25355175f129a871fed8c90f7bf895383ba43ac0f572d6b1463",
-      "after": "686d97c9aea9255d42f10c93569d2963f84981efc22d8d81b19afcfbbc8d6eec",
-      "reason": "Reviewed compatible active-effect icon HUD and paired release 0.6.86; gameplay retained. See RELEASE-NOTES-0.6.86.md. Reviewed universal mixology 0.6.108; see docs/UNIVERSAL-MIXOLOGY-0.6.108.md and current JS/actual-Java regressions.",
-      "beforeGzipBase64": "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"
-    },
     "runtime/RP/manifest.json": {
       "before": "5da18118d08dc5281980947d6df694ff33a9012ce45dcaa7f30e5b5eab04ea99",
       "after": "d119f90e2cd8c1d454c378208ca2823264e981a791fcb7a59d47309e55dfe99c",
@@ -1198,12 +1186,6 @@
       "after": "189d6b8f87c2089b590c849c859cf5f140b4fb615b4d6ac878ab542944e93e57",
       "reason": "Restore functional destruction feedback after the historical merge discarded it; preserve later metadata and geometry fixes.",
       "beforeGzipBase64": "H4sIAAAAAAACA41UTWvcMBC976+YQGHtsHiblvZinLQhlxz6ASn0UEqiSONY2JZcadyNu/F/70i2yWehl8XMm3nz5s1ot4eH8BHICeOFJG0NiMahUAPYnfHgUNrf6AbYVWhAEwdaDngQoLTvGjHAdWNlna3gEE7PLuAoe/M+e3fELN7Crx57zrXmlClrKK0DL53uAg3XSmzRUA7SGt+3CFQJAima5lrIOhBaIxGYR4ewMZYAW/4W4FmWUaCc7UCUhI5r8dEUskHhUHGpB0+CMCjcrnTbWUew94MnbEconW1h/aHVBqVjpq1Hx/Ou81UQRdChUdrcFAZ38El0SboANQ5FEkffaJUWx1ev9pMRSvNQniVkWo3bJco/IujKbsfLZ7HhhdifUMsMV/kKb6PmsjfTaLN3p6Hgu6bK9vRZUO9Ec8Z++FlVh67tKZKl+xVMqm2jiqkRDR2eq3wFukxCtCgeFESU9d/dHTCWsX+OfGiVrGvRoFbWS9vh5TpNZ90e6et9ffKwee6QxZl8XETUBZs3q2T6dEO2RlPsx3zC49UUs/PZDVJSpycnP37mEci63ldJLEnzJcmHpE3EeUNzn+lUi4S3s58isneOL+4Jd84WHMxQOoud8nUxhzNtFN5+KZe+XKGPi9fpAvNL0BITvTl6xJY1aG6oSpd+ChskDC1HVklu+A/3Rj4IWSXonHXpfpqJz5AqZ3cQo8HZ6Z4z15tvfH98EcmUuXnLfozPTmh+cRfxMaKKz/N+I+fq/mKeLIuhzUv7iVNH4GQZenISSv4nQJ52Wp6vdEnJg/R/WzTXk+sxjPAXZohEg6kEAAA="
-    },
-    "runtime/BP/scripts/bedrock/vanilla-bottle-displays.js": {
-      "before": "521111e6dca7d90fca05b74c1473340a3127fe4e32514a06e496bd57f1525984",
-      "after": "79f4980344d22bcef0b75a95048459edffb745dcb9502cf4c6c521bea54e213c",
-      "reason": "Restore functional destruction feedback after the historical merge discarded it; preserve later metadata and geometry fixes.",
-      "beforeGzipBase64": "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"
     },
     "runtime/BP/scripts/core/break-feedback-engine.js": {
       "before": null,
@@ -3623,15 +3605,6 @@
       "reviewedSourceCommit": "37ff9f12e74c6a4f3bb3a5fc40502d7e70e68c83",
       "reviewDocument": "docs/RELEASE-NOTES-0.6.134.md"
     },
-    "runtime/BP/scripts/core/status-aura.js": {
-      "before": null,
-      "after": "d1db733bc369b64e77e8f90fc7e49dd1520d7f06f1556147eda1f8da4a980a6b",
-      "release": "0.6.134",
-      "reason": "T134 appended exact source review. Add source custom-effect color/float32/probability/SpellParticle emission and conservative durable native appearance leases. Verify effectAdd ownership, save/readback/rollback and unload/foreign-refresh rejection; unknown foreign visibility and rendered-client equality are not inferred.",
-      "reviewedPredecessorCommit": "625ff769f4c656ff224314bba38d26a1ef5dacc0",
-      "reviewedSourceCommit": "37ff9f12e74c6a4f3bb3a5fc40502d7e70e68c83",
-      "reviewDocument": "docs/RELEASE-NOTES-0.6.134.md"
-    },
     "runtime/RP/models/entity/board_glyph_outline.geo.json": {
       "before": null,
       "after": "a4c80b346c1b08684a497fd851b658fbbd35fca0c6dae592d22ee6f6fe5b9aee",
@@ -4431,28 +4404,6 @@
               ""
             ]
           ]
-        },
-        "runtime/BP/scripts/main.js": {
-          "before": "686d97c9aea9255d42f10c93569d2963f84981efc22d8d81b19afcfbbc8d6eec",
-          "after": "69c68b80091867f10588cac652a22f19ec9d11ddb6c347012df27a826c4c0321",
-          "reason": "Controlled owned native storage helper pinning; normal strict reads and all original inventory/ownership checks retained. See RELEASE-NOTES-0.6.121.md and focused/Native regressions.",
-          "reverseOps": [
-            [
-              6,
-              7,
-              ""
-            ],
-            [
-              50,
-              51,
-              ""
-            ],
-            [
-              53,
-              54,
-              "export function diagnosticSnapshot(){return {build:BUILD_VERSION,furniture:furnitureDiagnostics,extensionFurniture:extensionFurnitureDiagnostics,decorations:decorationDiagnostics,writingBoards:WRITING_BOARD_DIAGNOSTICS,sonic:combatDiagnostics,customEffects:customEffectDiagnostics,effectBar:effectBarDiagnostics,effectIcons:effectIconDiagnostics,potions:{...potionDiagnostics,capabilities:potionCapabilities()},nativeInput:nativeUseDiagnostics,immersion:immersionDiagnostics,feedback:feedbackDiagnostics,mixology:mixologyDiagnostics,drinkEffects:effectDiagnostics,storageProjectiles:storageProjectileDiagnostics,molotov:molotovDiagnostics,displayProjectiles:displayProjectileDiagnostics,qualityTooltip:qualityTooltipDiagnostics,creativePick:creativePickDiagnostics,cultivation:true,bottlePlacement:true,holderStorage:holderDiagnostics,tiltedRackStorage:tiltedRackDiagnostics,circularRackStorage:circularRackDiagnostics,barCabinetStorage:barCabinetDiagnostics,cellarCabinetStorage:cellarCabinetDiagnostics,storageHit:storageHitDiagnostics,artBaseline:'A17 (engine review pending)',cookeryManifestBound:false,cookeryHandshakeObserved:cookeryReady,cookeryCapabilities,cookeryGuideChapter:cookeryGuidePublisher.getStatus(),guideAuthority:'kaleidoscope_tavern:guidebook',cookeryGuideIntegration:true,standaloneGuide:standaloneGuideDiagnostics,legacyGuideAliases:true,extensions:registry?.list()??[],recipes:registry?.allRecipes().length??0,recentMachineErrors:machineDiagnostics.errors,engineAcceptance:'NOT_RUN_BY_AUTHOR'};}\n"
-            ]
-          ]
         }
       }
     },
@@ -4460,29 +4411,6 @@
       "release": "0.6.122",
       "reviewDocument": "docs/INSTANT-HEALTH-DISPATCH-PROTOTYPE.md",
       "files": {
-        "runtime/BP/scripts/main.js": {
-          "before": "69c68b80091867f10588cac652a22f19ec9d11ddb6c347012df27a826c4c0321",
-          "after": "ff7b2d82389497b880c3240475dfb642113bdde512c438541bdbb3e659c7e2da",
-          "reason": "Current Java self instantaneous health/harm before subsequent effects and captured container return; source operation/32-bit shift/float semantics, Native self attribution and scoped modifiers. Full Native indirect_magic/event/client parity remains explicit pending. No one-tick instant fallback.",
-          "regressionTest": "tools/instant-drink-completion.test.mjs",
-          "reverseOps": [
-            [
-              37,
-              38,
-              ""
-            ],
-            [
-              54,
-              55,
-              "export function diagnosticSnapshot(){return {build:BUILD_VERSION,furniture:furnitureDiagnostics,extensionFurniture:extensionFurnitureDiagnostics,decorations:decorationDiagnostics,writingBoards:WRITING_BOARD_DIAGNOSTICS,sonic:combatDiagnostics,customEffects:customEffectDiagnostics,effectBar:effectBarDiagnostics,effectIcons:effectIconDiagnostics,potions:{...potionDiagnostics,capabilities:potionCapabilities()},nativeInput:nativeUseDiagnostics,immersion:immersionDiagnostics,feedback:feedbackDiagnostics,mixology:mixologyDiagnostics,drinkEffects:effectDiagnostics,storageProjectiles:storageProjectileDiagnostics,molotov:molotovDiagnostics,displayProjectiles:displayProjectileDiagnostics,qualityTooltip:qualityTooltipDiagnostics,creativePick:creativePickDiagnostics,cultivation:true,bottlePlacement:true,holderStorage:holderDiagnostics,tiltedRackStorage:tiltedRackDiagnostics,circularRackStorage:circularRackDiagnostics,barCabinetStorage:barCabinetDiagnostics,cellarCabinetStorage:cellarCabinetDiagnostics,storageHit:storageHitDiagnostics,nativeStoragePinning:nativeStoragePinningDiagnostics,artBaseline:'A17 (engine review pending)',cookeryManifestBound:false,cookeryHandshakeObserved:cookeryReady,cookeryCapabilities,cookeryGuideChapter:cookeryGuidePublisher.getStatus(),guideAuthority:'kaleidoscope_tavern:guidebook',cookeryGuideIntegration:true,standaloneGuide:standaloneGuideDiagnostics,legacyGuideAliases:true,extensions:registry?.list()??[],recipes:registry?.allRecipes().length??0,recentMachineErrors:machineDiagnostics.errors,engineAcceptance:'NOT_RUN_BY_AUTHOR'};}\n"
-            ],
-            [
-              71,
-              72,
-              "installPickupOverflowEvents();installFurnitureEvents();installDecorationEvents();installWritingBoardEvents();installCustomEffects();installMixologyEvents();installEffectBar();installEffectIcons();installMachineEvents();installCultivation();installStorageProjectileEvents();installMolotovEvents();installTapSourceEvents();installHolderEvents();installTiltedRackEvents();installCircularRackEvents();installBarCabinetEvents();installCellarCabinetEvents();installBottleEvents();installVanillaBottleDisplayEvents();installDisplayProjectileEvents();installQualityTooltipEvents();installCreativePickEvents();installJavaItemUseOnEvents();\n"
-            ]
-          ]
-        },
         "runtime/BP/scripts/bedrock/drink-effects.js": {
           "before": "51cd035157c269263ae559e0dd68ef78319ead8c293afb8b2a1c2def308e6ef1",
           "after": "21bf2568db98e0484219ebd1bc00bc4d60f3f94a4a02695a44e8933439695458",
@@ -4691,76 +4619,6 @@
               75,
               76,
               "            \"v.is_first_person ? 0 : -this\",\n"
-            ]
-          ]
-        }
-      }
-    },
-    {
-      "release": "0.6.128",
-      "reviewedPredecessorCommit": "1afc72e7e8a25ba32f538cc74244925f5c432175",
-      "reviewedSourceCommit": "2a0ef3b3f9a3f6d3dacad019bdb0f8f069fd0280",
-      "files": {
-        "runtime/BP/scripts/main.js": {
-          "before": "ff7b2d82389497b880c3240475dfb642113bdde512c438541bdbb3e659c7e2da",
-          "after": "67e893d3a2891387df6de6c51deb3429819463ad56b4b5d08fe25a811861a66d",
-          "reason": "PR284 entrypoint phase tables preserve the T127 import order, all 16 component registrations, all 25 event installers, original event forwarding and deferred bootstrap. Production-body traces against isolated imported interfaces match both revisions and reject removed, repeated or reordered installers. This test-only historical view does not certify imported module evaluation, native loading or client behavior.",
-          "regressionTest": "tools/effect-bar.test.mjs",
-          "reverseOps": [
-            [
-              50,
-              56,
-              ""
-            ],
-            [
-              60,
-              162,
-              "export function diagnosticSnapshot(){return {build:BUILD_VERSION,furniture:furnitureDiagnostics,extensionFurniture:extensionFurnitureDiagnostics,decorations:decorationDiagnostics,writingBoards:WRITING_BOARD_DIAGNOSTICS,sonic:combatDiagnostics,customEffects:customEffectDiagnostics,effectBar:effectBarDiagnostics,effectIcons:effectIconDiagnostics,potions:{...potionDiagnostics,capabilities:potionCapabilities()},nativeInput:nativeUseDiagnostics,immersion:immersionDiagnostics,feedback:feedbackDiagnostics,mixology:mixologyDiagnostics,drinkEffects:effectDiagnostics,instantEffects:instantEffectDiagnostics,storageProjectiles:storageProjectileDiagnostics,molotov:molotovDiagnostics,displayProjectiles:displayProjectileDiagnostics,qualityTooltip:qualityTooltipDiagnostics,creativePick:creativePickDiagnostics,cultivation:true,bottlePlacement:true,holderStorage:holderDiagnostics,tiltedRackStorage:tiltedRackDiagnostics,circularRackStorage:circularRackDiagnostics,barCabinetStorage:barCabinetDiagnostics,cellarCabinetStorage:cellarCabinetDiagnostics,storageHit:storageHitDiagnostics,nativeStoragePinning:nativeStoragePinningDiagnostics,artBaseline:'A17 (engine review pending)',cookeryManifestBound:false,cookeryHandshakeObserved:cookeryReady,cookeryCapabilities,cookeryGuideChapter:cookeryGuidePublisher.getStatus(),guideAuthority:'kaleidoscope_tavern:guidebook',cookeryGuideIntegration:true,standaloneGuide:standaloneGuideDiagnostics,legacyGuideAliases:true,extensions:registry?.list()??[],recipes:registry?.allRecipes().length??0,recentMachineErrors:machineDiagnostics.errors,engineAcceptance:'NOT_RUN_BY_AUTHOR'};}\n"
-            ],
-            [
-              172,
-              173,
-              ""
-            ],
-            [
-              174,
-              175,
-              ""
-            ],
-            [
-              176,
-              181,
-              " registerNaturalBreak(ev);\n registerExtensionFurnitureComponents(ev);registerFurnitureComponents(ev);registerDecorationComponents(ev);registerWritingBoardComponents(ev);registerMachineComponents(ev);registerMixologyComponents(ev);registerCultivation(ev);registerBottleComponents(ev);registerTapSourceComponents(ev);registerHolderComponents(ev);registerTiltedRackComponents(ev);registerCircularRackComponents(ev);registerBarCabinetComponents(ev);registerCellarCabinetComponents(ev);registerDrinkEffects(ev);\n ev.itemComponentRegistry.registerCustomComponent('kaleidoscope_tavern:legacy_guide',{onUse:e=>{const slot=e.source?.selectedSlotIndex,expectedId=e.itemStack?.typeId;system.run(()=>migrateLegacyGuide(e.source,{slot,expectedId}));}});\n"
-            ],
-            [
-              182,
-              185,
-              "installInstantEffects();installPickupOverflowEvents();installFurnitureEvents();installDecorationEvents();installWritingBoardEvents();installCustomEffects();installMixologyEvents();installEffectBar();installEffectIcons();installMachineEvents();installCultivation();installStorageProjectileEvents();installMolotovEvents();installTapSourceEvents();installHolderEvents();installTiltedRackEvents();installCircularRackEvents();installBarCabinetEvents();installCellarCabinetEvents();installBottleEvents();installVanillaBottleDisplayEvents();installDisplayProjectileEvents();installQualityTooltipEvents();installCreativePickEvents();installJavaItemUseOnEvents();\n"
-            ],
-            [
-              186,
-              194,
-              " if(ev.id==='kaleidoscope_cookery:api_ready'&&ev.sourceType===ScriptEventSource.Server){try{const p=JSON.parse(ev.message);cookeryReady=p.api===1;registerFamilyDisplays(p);cookeryCapabilities=Array.isArray(p.capabilities)?p.capabilities.filter(x=>typeof x==='string').slice(0,32):[];}catch{}}\n"
-            ],
-            [
-              195,
-              196,
-              ""
-            ],
-            [
-              201,
-              206,
-              "  const missing=[];for(const r of recipes){const ids=r.kind!=='pressing'?[...r.ingredients.flat(),r.carrier,...(r.output.byQuality??[r.output.item])]:r.input;for(const id of ids)if(!ItemTypes.get(id))missing.push(id);}\n"
-            ],
-            [
-              207,
-              218,
-              "  registry=new ExtensionRegistry({recipes,pages:[...GUIDE_PAGES,...EFFECT_PAGES,...MIXOLOGY_PAGES],fluids:FLUIDS,itemExists:id=>!!ItemTypes.get(id),itemTags:id=>{try{return new ItemStack(id,1).getTags();}catch{return [];}}});registry.subscribe(()=>cookeryGuidePublisher.refresh());setRegistry(registry);setMixologyRegistry(registry);const extensionFurniture=installExtensionFurniture(registry);\ninstallFoundationBridge(registry,extensionFurniture);installExtensionHost(registry);cookeryGuidePublisher.refresh();\n"
-            ],
-            [
-              222,
-              223,
-              ""
             ]
           ]
         }
@@ -6504,23 +6362,6 @@
               " const body=['蹲下使用本书可查看当前酒效。选择项目查看用法与制作方法；多个条目的分类会展开列表。酿酒和调酒先列酒馆本体，再列附属配方。','蹲下使用本書可查看目前酒效。選擇項目查看用法與製作方法；多個條目的分類會展開列表。釀酒和調酒先列酒館本體，再列附屬配方。','Sneak-use this book to view active drink effects. Choose an entry for its use and preparation; groups with several entries open a list. Tavern brewing and cocktail recipes appear before addon recipes.'];\n"
             ]
           ]
-        },
-        "runtime/BP/scripts/main.js": {
-          "before": "67e893d3a2891387df6de6c51deb3429819463ad56b4b5d08fe25a811861a66d",
-          "after": "ee92d096a15f4ba9613b44a10bb1e3fdde8d61015d7f249f77aa3dccf4803e94",
-          "reason": "Register only the scoped optional Cookery chapter entry controller and shared standalone view; existing gameplay installers and registry data remain unchanged. See docs/GUIDE-EDITORIAL.md and docs/RELEASE-NOTES-0.6.136.md.",
-          "reverseOps": [
-            [
-              0,
-              2,
-              "import {showStandaloneGuide,clearStandaloneGuideSession,standaloneGuideDiagnostics} from './bedrock/standalone-guide.js';\n"
-            ],
-            [
-              61,
-              66,
-              ""
-            ]
-          ]
         }
       }
     },
@@ -7975,38 +7816,6 @@
               ""
             ]
           ]
-        },
-        "runtime/BP/scripts/main.js": {
-          "before": "ee92d096a15f4ba9613b44a10bb1e3fdde8d61015d7f249f77aa3dccf4803e94",
-          "after": "c98614968fe30c0300edef8dca0394b8beb6ece0fbfc725fe41c37d5a9665578",
-          "reason": "T149 preserves recipes, item settlement and guide content while routing graphical HUD away from shared Actionbars and bounding startup preparation; source/scheduler checks are distinct from pending native/client acceptance. See docs/RELEASE-NOTES-0.6.149.md.",
-          "reverseOps": [
-            [
-              25,
-              26,
-              ""
-            ],
-            [
-              46,
-              47,
-              "import {buildCookeryGuidePayload} from './data/cookery-guide-payload.js';\n"
-            ],
-            [
-              61,
-              62,
-              "const cookeryGuidePublisher=installCookeryGuidePublisher(system,()=>buildCookeryGuidePayload(registry));\n"
-            ],
-            [
-              214,
-              215,
-              ""
-            ],
-            [
-              220,
-              221,
-              "   itemTags:id=>{try{return new ItemStack(id,1).getTags();}catch{return [];}},\n"
-            ]
-          ]
         }
       }
     },
@@ -8062,33 +7871,6 @@
     {
       "release": "0.6.151",
       "files": {
-        "runtime/BP/scripts/main.js": {
-          "before": "c98614968fe30c0300edef8dca0394b8beb6ece0fbfc725fe41c37d5a9665578",
-          "after": "0132970e3d0a72fd6073b8c5db0890e8cecb191ee6596b101af22919ffc4e2b2",
-          "reason": "T151 shares positive-only native item-definition lookup results between the main startup missing-item scan and its registry. Unknown/error reads retry, generic predicates and existing tag cache remain unchanged; no COMMIT staging or timing changes. See docs/RELEASE-NOTES-0.6.151.md.",
-          "reverseOps": [
-            [
-              25,
-              26,
-              "import {cacheItemDefinitionTags} from './core/util.js';\n"
-            ],
-            [
-              206,
-              208,
-              "  const native=id=>id==='minecraft:sugar_cane'&&!ItemTypes.get(id)&&ItemTypes.get('minecraft:reeds')?'minecraft:reeds':id;\n"
-            ],
-            [
-              212,
-              213,
-              "   for(const id of ids)if(!ItemTypes.get(id))missing.push(id);\n"
-            ],
-            [
-              220,
-              221,
-              "   itemExists:id=>!!ItemTypes.get(id),\n"
-            ]
-          ]
-        },
         "runtime/BP/scripts/core/util.js": {
           "before": "5be8ea93064ca1d7b2298a8b31d6a479aedcf6eeabe4a66bf2c019e1f588e388",
           "after": "08f2ec46d7a894013af267d8c456a96ad349e476a2a56dc28fcb2e9fd7215cd6",
@@ -8213,28 +7995,6 @@
             [
               174,
               176,
-              ""
-            ]
-          ]
-        },
-        "runtime/BP/scripts/main.js": {
-          "before": "0132970e3d0a72fd6073b8c5db0890e8cecb191ee6596b101af22919ffc4e2b2",
-          "after": "8f55fa0ff86f7d12bfa7c3909777bfe979cad156bde45c2e93e2ec36e68aa954",
-          "reason": "T153 preserves unbatched barrel ingredients until detected optional recipe sources complete rebuild, without changing saved batch/builtin timing; encodes unchanged board font metrics as parsed JSON and reuses immutable guide page links within one projection. Dynamic views retain their original matching reads. Native/client performance remains pending. See docs/RELEASE-NOTES-0.6.153.md.",
-          "reverseOps": [
-            [
-              25,
-              26,
-              ""
-            ],
-            [
-              166,
-              167,
-              ""
-            ],
-            [
-              224,
-              225,
               ""
             ]
           ]

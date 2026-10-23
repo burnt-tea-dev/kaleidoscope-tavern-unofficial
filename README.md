@@ -1,6 +1,6 @@
-## Current maintained source: 0.6.179
+## Current maintained source: 0.6.180
 
-Current source candidate: **T179 / G155 / W157**. Ordinary ice in all four barrel ingredient slots uses alpha blending, and saved custom effects begin counting at the first successful online read. Full-family admission, deployment and client acceptance remain pending; see [T179 scope](docs/PARITY-MATRIX.md).
+Current source candidate: **T180 / G155 / W158**. Placed native potion bottles tint their liquid from the saved native potion identity, preserving the original glass and source texel shades. Full-family admission, deployment and client acceptance remain pending; see [potion rendering scope](docs/POTION-BOTTLE-VISUAL.md).
 
 **Public download:** [Tavern v0.6.170](https://github.com/casama233/kaleidoscope-tavern-unofficial/releases/tag/v0.6.170), paired with **World Liquor 0.1.148** and the optional **Grilling 2.8.149** source-check family. The G149 public package uses Cookery **1.6.0**; current G155 source uses **1.6.2**. Main-source requirements and published-package requirements must be read for their own version.
 

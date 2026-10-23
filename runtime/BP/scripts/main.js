@@ -48,7 +48,7 @@ import {installCookeryGuidePublisher} from './core/cookery-guide-publisher.js';
 import {buildCookeryGuidePayload,prepareCookeryGuidePayload} from './data/cookery-guide-payload.js';
 import {installJavaItemUseOnEvents} from './bedrock/java-placement-router.js';
 import {registerTapSourceComponents,installTapSourceEvents} from './bedrock/tap-sources.js';
-import {installVanillaBottleDisplayEvents} from './bedrock/vanilla-bottle-displays.js';
+import {installVanillaBottleDisplayEvents,registerVanillaBottleDisplayComponents} from './bedrock/vanilla-bottle-displays.js';
 import {installDisplayProjectileEvents,displayProjectileDiagnostics} from './bedrock/display-projectiles.js';
 import {installQualityTooltipEvents,qualityTooltipDiagnostics} from './bedrock/quality-tooltip.js';
 
@@ -81,6 +81,7 @@ const COMPONENT_REGISTRATIONS=[
  registerCultivation,
  registerBottleComponents,
  registerTapSourceComponents,
+ registerVanillaBottleDisplayComponents,
  registerHolderComponents,
  registerTiltedRackComponents,
  registerCircularRackComponents,

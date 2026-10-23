@@ -8,10 +8,5 @@
     "prefixBytes": 22549,
     "prefixSha256": "8da0a3cb0becde083315ef3ba2284d1541110ab40b106760dcc707ed5dccdac3",
     "sha256": "a9fb6cb3944dd69fc55d7804f0331a4957fe3252007a832d457ada1c333e1cc2"
-  },
-  "runtime/BP/scripts/bedrock/vanilla-bottle-displays.js": {
-    "prefixBytes": 5372,
-    "prefixSha256": "2b7a8bf2b8c5a2fc60f88198032092b6e2bf6bc321fe85b08b1c21cbdaacbf80",
-    "sha256": "94197cad01cd6040084901547b8ab8fac669dc8fd68ad09c01084c63bb49d868"
   }
 }

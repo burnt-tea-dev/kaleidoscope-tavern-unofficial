@@ -53,7 +53,16 @@ def reviewed_removals():
             assert len(row['before'])==64 and len(row['beforeProjected'])==64
     return rows
 
+@lru_cache(maxsize=1)
+def current_contract_sources():
+    # Validate this current domain before retiring its exact paths from old
+    # aggregate preservation checks. Other paths keep the historical guards.
+    from check_potion_bottle_visual import check as check_potion_visual, runtime_sources as potion_runtime_sources
+    check_potion_visual()
+    return potion_runtime_sources()
+
 def historical_files(prefix):
-    paths={p for p in (ROOT/prefix).rglob('*') if p.is_file() and p.relative_to(ROOT).as_posix() not in reviewed_additions()}
+    current=current_contract_sources()
+    paths={p for p in (ROOT/prefix).rglob('*') if p.is_file() and p.relative_to(ROOT).as_posix() not in reviewed_additions() and p.relative_to(ROOT).as_posix() not in current}
     paths.update(ROOT/name for name,row in reviewed_removals().items() if row['before'] is not None and name.startswith(prefix+'/'))
     return sorted(paths)

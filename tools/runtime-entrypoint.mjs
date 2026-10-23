@@ -20,6 +20,7 @@ const COMPONENTS=[
  ['registerCultivation','cultivation'],
  ['registerBottleComponents','bottles'],
  ['registerTapSourceComponents','tap-sources'],
+ ['registerVanillaBottleDisplayComponents','vanilla-bottle-displays'],
  ['registerHolderComponents','holder'],
  ['registerTiltedRackComponents','tilted-rack'],
  ['registerCircularRackComponents','circular-rack'],

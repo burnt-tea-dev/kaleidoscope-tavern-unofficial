@@ -217,6 +217,7 @@ def main(argv=None):
     subprocess.run([sys.executable,str(ROOT/'tools/check_visuals.py')],cwd=ROOT,check=True)
     subprocess.run([sys.executable,str(ROOT/'tools/check_repair.py')],cwd=ROOT,check=True)
     subprocess.run(source_checks['storage'],cwd=ROOT,check=True)
+    subprocess.run([sys.executable,str(ROOT/'tools/test_potion_bottle_visual.py')],cwd=ROOT,check=True)
     subprocess.run([sys.executable,str(ROOT/'tools/check_luminous_bride.py')],cwd=ROOT,check=True)
     subprocess.run([sys.executable,str(ROOT/'tools/check_luminous_base.py')],cwd=ROOT,check=True)
     subprocess.run([sys.executable,str(ROOT/'tools/check_motion.py')],cwd=ROOT,check=True)

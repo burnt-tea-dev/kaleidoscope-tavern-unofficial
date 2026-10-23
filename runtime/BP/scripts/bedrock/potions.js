@@ -1,7 +1,7 @@
 /** Native potion intake/return. Never constructs a blank ItemStack('minecraft:potion'). */
 import {Potions} from '@minecraft/server';
 import {check,canonical} from '../core/util.js';
-import {POTION_ITEMS,validatePotionIdentity,potionEffects,POTION_SPECS} from '../core/potions.js';
+import {POTION_ITEMS,validatePotionIdentity,potionEffects,POTION_SPECS,potionDisplayColor} from '../core/potions.js';
 export const potionDiagnostics={accepted:0,restored:0,rejected:0,mode:'native_identity_duration_and_explicit_effect_map'};
 export function potionIdentity(item){
  check(POTION_ITEMS.has(item?.typeId),'NOT_POTION');
@@ -31,7 +31,7 @@ export function potionInput(item){
  }catch(e){potionDiagnostics.rejected++;throw e;}
 }
 
-export function potionCapabilities(){try{return {recognizedEffects:Potions.getAllEffectTypes().map(e=>e.id).filter(id=>Object.hasOwn(POTION_SPECS,id)),unrecognizedEffects:Potions.getAllEffectTypes().map(e=>e.id).filter(id=>!Object.hasOwn(POTION_SPECS,id)),deliveryTypes:Potions.getAllDeliveryTypes().map(d=>d.id)};}catch(e){return {error:String(e)};}}
+export function potionCapabilities(){try{const ids=Potions.getAllEffectTypes().map(e=>e.id);return {recognizedEffects:ids.filter(id=>Object.hasOwn(POTION_SPECS,id)),unrecognizedEffects:ids.filter(id=>!Object.hasOwn(POTION_SPECS,id)),mappedDisplayEffects:ids.filter(id=>potionDisplayColor(id)!==undefined),unmappedDisplayEffects:ids.filter(id=>potionDisplayColor(id)===undefined),deliveryTypes:Potions.getAllDeliveryTypes().map(d=>d.id)};}catch(e){return {error:String(e)};}}
 
 /** Placement stores the native ItemStack; it does not convert it to ingredients. */
 export function potionDisplayInput(item){
