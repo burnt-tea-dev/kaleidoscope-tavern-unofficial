@@ -11,7 +11,7 @@
   "saved_world_migration": "pending",
   "production_ready": false,
   "live_deployment": false,
-  "native_evidence_scope": "Original Minecraft 1.21.1 colour-method execution, original Java model/texture contracts and adapter regressions. Fresh full-family native, saved-world and rendered-client acceptance remain pending.",
+  "native_evidence_scope": "Original Minecraft 1.21.1 colour-method execution, Java model/texture contracts and adapter regressions. Original CI40012443439 native job120616254143 passed zero-player first-load/restart (24/27 cases, 47 current mapped potion IDs, metadata/RGB/cleanup). Full-family, existing private saved-world and rendered-client acceptance remain pending.",
   "client": false,
   "status": "candidate_pending_canonical_ci_and_family_admission",
   "peer_pins_status": "paired_with_world_liquor_0.1.158_exact_reviewed_source",

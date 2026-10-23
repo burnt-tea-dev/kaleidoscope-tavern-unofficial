@@ -55,8 +55,17 @@ Java's no-effect `mundane`. Bedrock Wither uses the original Java Wither effect
 colour, an explicit Bedrock-only adaptation because Java has no Wither potion.
 Unknown native IDs preserve placement/pickup and show untinted white liquid.
 Arbitrary foreign custom colours/effect visibility are not exposed by the
-Bedrock potion identity API and are not claimed restored. Native scene,
-saved-world rendering and real-client acceptance remain pending.
+Bedrock potion identity API and are not claimed restored.
+
+The [original native-persistence job](https://github.com/burnt-tea-dev/kaleidoscope-tavern-unofficial/actions/runs/40012443439/job/120616254143)
+passed on BDS 1.26.52.3 with zero players: 24 first-load and 27 same-world restart
+cases. The actual registry returned 47 mapped potion IDs and no unmapped IDs.
+Healing and Poison used native ItemStacks with metadata, deliberately conflicting
+JSON, independent cosmetic RGB helpers, read-only pick and exact removal/cleanup.
+The original logs and source identities remain unchanged when later CI verifies
+identical execution inputs. This is script/property and synthetic-world evidence;
+rendered colours, real Player interaction, the full family and an existing
+private saved-world migration remain pending.
 
 ## Reproduce the independent numeric oracle
 
