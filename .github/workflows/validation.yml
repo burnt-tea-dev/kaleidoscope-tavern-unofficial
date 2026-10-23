@@ -165,13 +165,15 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: burnt-tea-dev/kaleidoscope-world-liquor-unofficial
-          ref: d66cd8ead79fd2aa941a08cf30d71a28c2a5d7b7
+          ref: aa8e63e95d96382119f4919b1bbdf1c8458e24ad
           path: world-liquor-src
           fetch-depth: 0
           persist-credentials: false
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Current resource contract dependency
+        run: python -m pip install Pillow==11.3.0
       - name: Record exact sources
         run: |
           mkdir -p evidence
@@ -193,7 +195,7 @@ jobs:
               'world-liquor':{'repository':'casama233/kaleidoscope-world-liquor-unofficial','repository_id':1385218112}}
           assert os.environ['GITHUB_REPOSITORY']=='burnt-tea-dev/kaleidoscope-tavern-unofficial'
           assert os.environ['GITHUB_REPOSITORY_ID']==str(identities['tavern']['repository_id'])
-          assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=peer,text=True).strip()=='d66cd8ead79fd2aa941a08cf30d71a28c2a5d7b7'
+          assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=peer,text=True).strip()=='aa8e63e95d96382119f4919b1bbdf1c8458e24ad'
           lock=json.loads((root/'family/upstream.lock.json').read_text())
           lock['owned']=[row for row in lock['owned'] if row['key'] in {'tavern','world-liquor'}]
           assert len(lock['owned'])==2 and {row['key'] for row in lock['owned']}=={'tavern','world-liquor'}
@@ -250,7 +252,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: burnt-tea-dev/kaleidoscope-world-liquor-unofficial
-          ref: d66cd8ead79fd2aa941a08cf30d71a28c2a5d7b7
+          ref: aa8e63e95d96382119f4919b1bbdf1c8458e24ad
           path: world-liquor
           persist-credentials: false
       - uses: actions/setup-node@v4
@@ -363,9 +365,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: burnt-tea-dev/kaleidoscope-world-liquor-unofficial
-          # World Liquor157 requires this paired Tavern179 runtime.
+          # World Liquor158 requires this paired Tavern180 runtime.
           # Pin exact peer bytes, not an obsolete release or a moving branch.
-          ref: d66cd8ead79fd2aa941a08cf30d71a28c2a5d7b7
+          ref: aa8e63e95d96382119f4919b1bbdf1c8458e24ad
           path: liquor
           persist-credentials: false
       - uses: actions/checkout@v4
@@ -426,7 +428,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: burnt-tea-dev/kaleidoscope-world-liquor-unofficial
-          ref: d66cd8ead79fd2aa941a08cf30d71a28c2a5d7b7
+          ref: aa8e63e95d96382119f4919b1bbdf1c8458e24ad
           path: liquor
           persist-credentials: false
       - uses: actions/setup-node@v4
@@ -509,7 +511,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: burnt-tea-dev/kaleidoscope-world-liquor-unofficial
-          ref: d66cd8ead79fd2aa941a08cf30d71a28c2a5d7b7
+          ref: aa8e63e95d96382119f4919b1bbdf1c8458e24ad
           path: .source-check/world-liquor-native
           persist-credentials: false
       - name: Reject incomplete or relabeled native evidence

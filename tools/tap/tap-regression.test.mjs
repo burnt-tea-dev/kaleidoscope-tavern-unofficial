@@ -50,7 +50,8 @@ export async function fixture({synchronous=false}={}){
   'protected-break-router.js':{registerProtectedBreakRoute:no},
   'transactions.js':{inventory:p=>p.getComponent('minecraft:inventory').container,makeStack:(id,count=1)=>new ItemStack(id,count),hand:no,canWrite:no,canInteract:no,handSnapshot:()=>({slot:0,id:'',amount:0}),sameHand:no,placementTake:()=>1,safe:(p,fn)=>fn(),blockAt:no,requireBlockReach:no,pickupOutputs:no,commitPickupInventory:no,pickupFeedback:no},
   'tap-sources.js':{inspectTapSource:no,finishSourceTap:no},
-  'potions.js':{restorePotion:()=>new ItemStack('minecraft:potion'),potionDisplayInput:no,potionDisplayRemoval:no},
+  'potions.js':{restorePotion:()=>new ItemStack('minecraft:potion'),potionDisplayInput:no,potionDisplayRemoval:no,
+   potionIdentity(){throw Error('Potion identity is outside the tap regression fixture');}},
   // Tap cases use real naturalBreak but never destroy a shaker. Match the
   // current export and fail explicitly if a case crosses this fixture boundary.
   'mixology.js':{naturalCupStack:no,naturalShakerRemoval(){throw Error('Shaker removal is outside the tap regression fixture');}}
