@@ -11,6 +11,11 @@ import subprocess
 
 TAVERN_PREVIOUS = '3bd8f6ca285b5ef5f6e9abe962d12873dfae5752'
 WORLD_PREVIOUS = '978c2594040555a668e842f3452d98a07973db34'
+# Public-history replacements retain the exact complete runtime trees.
+HISTORY_ALIASES = {
+    TAVERN_PREVIOUS: ('88e41fe55cb7007870b2475fa041bebfb0edae63', '4aaba28fc583dd4fcfbddb59f1cf50283ab09286'),
+    WORLD_PREVIOUS: ('627d125b729d28770f1631a1f4c43c58279d26a7', '3d6a27256f239324a080dcccbf6942516dc2ecdf'),
+}
 PREFIX = 'runtime/BP/blocks/'
 CUPS = frozenset(('around_the_world', 'gin_tonic', 'highball', 'jerk',
                   'long_island_iced_tea', 'pine_colada', 'shrimp_cocktail'))
@@ -50,7 +55,10 @@ def barrel_permutations():
 
 @lru_cache(maxsize=64)
 def immutable_before(root, commit, name):
-    return subprocess.check_output(['git', 'show', commit + ':' + name], cwd=root)
+    replacement, expected_tree = HISTORY_ALIASES[commit]
+    actual = subprocess.check_output(['git', 'rev-parse', replacement + ':runtime'], cwd=root, text=True).strip()
+    assert actual == expected_tree, 'Historical collision runtime tree differs'
+    return subprocess.check_output(['git', 'show', replacement + ':' + name], cwd=root)
 
 
 def collision_preimage(root, name, data):

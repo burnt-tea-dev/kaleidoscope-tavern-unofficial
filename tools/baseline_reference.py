@@ -107,10 +107,31 @@ T176_PATHS=frozenset('runtime/BP/scripts/'+name for name in (
  'core/bottle-display-schema.js','core/extension-content.js',
  'core/native-storage-anchor.js','core/registry.js','core/util.js'))
 
+# Public history was rewritten without changing these complete runtime trees.
+# Keep the historical review IDs/ledger intact; bind each replacement to the
+# exact original runtime tree instead of accepting a moving branch or HEAD.
+HISTORICAL_RUNTIME_ALIASES = {
+ 'ec856cca4186220e2acf5741e7e0dc8ca4363b0f': ('976ea2628c6a087119a2b405ff398120243942f6', 'e86c0a0c54c49131f5723f3e675feb9721f3496b'),
+ '4e549925509f3ab3e8521485a0e14b5d66f218a9': ('67233de6db8c46acfc8df5b433a25f3093ab2e30', '464000530cfe99e233010fb5da5e3e7a069756c5'),
+ '1c09a9735eba14b03137ebbb852fcf54ec9c4e04': ('b28cbe72dc96d2b8fae3c8a33cb5e1a2fe6cde02', '464000530cfe99e233010fb5da5e3e7a069756c5'),
+ '08ccd47b93dc60dd0b935a8d5e812d4195858e9d': ('bb87a87e1f9061d1f1b0de215f4639739d672fb3', 'b5dbb4b44a63a1e25784227a84e34e6fc5c1faf2'),
+ '2810a59c08e52004bb69522a8900a8da1dcc2c16': ('ac65c09d31fddfc33032a6045f59bb7d62c18819', '6b5cefe874a2bfd8aaf0269944d315549868447b'),
+ 'fd791c0faa839b4317e7e07ad332b97c34ad9758': ('91cf818d62feec806817d4e0c4c17f79573c2d28', 'cbb2be14a78294983cd82de00646de769478ab96'),
+ 'cedfaedf6140bae61b24afb658869b1d0e6ea1a9': ('9a6dffa49fb8765c8b89ded5614103cd3990d6ce', '6aaab92dc8cc6f12fc413b9caeee125de5e11a52'),
+}
+
+@lru_cache(maxsize=24)
+def historical_runtime_source(root,commit,name):
+ assert commit in HISTORICAL_RUNTIME_ALIASES and name in T176_PATHS|{T168_PATH,T169_PATH}, 'Outside the immutable runtime history'
+ replacement,expected_tree=HISTORICAL_RUNTIME_ALIASES[commit]
+ actual=subprocess.check_output(['git','rev-parse',replacement+':runtime'],cwd=root,text=True).strip()
+ assert actual==expected_tree, 'Historical runtime alias tree differs'
+ return subprocess.check_output(['git','show',replacement+':'+name],cwd=root)
+
 @lru_cache(maxsize=16)
 def t176_source(root,commit,name):
  assert commit in (T176_BEFORE,T176_AFTER) and name in T176_PATHS,'Outside the T176 reviewed source edge'
- return subprocess.check_output(['git','show',commit+':'+name],cwd=root)
+ return historical_runtime_source(root,commit,name)
 
 def t176_preimage(root,name,data):
  # Exact immutable Orchard quality-block/storage and unloaded-projectile repairs.
@@ -124,7 +145,7 @@ def t176_preimage(root,name,data):
 @lru_cache(maxsize=4)
 def t168_source(root,commit):
  assert commit in (T168_BEFORE,T168_AFTER)
- return subprocess.check_output(['git','show',commit+':'+T168_PATH],cwd=root)
+ return historical_runtime_source(root,commit,T168_PATH)
 
 def reverse_t168_delta(root,name,data,row):
  """The new ledger cannot enlarge the immutable reviewed bridge repair."""
@@ -139,7 +160,7 @@ def reverse_t168_delta(root,name,data,row):
 @lru_cache(maxsize=4)
 def t169_source(root,commit):
  assert commit in (T169_BEFORE,T169_AFTER)
- return subprocess.check_output(['git','show',commit+':'+T169_PATH],cwd=root)
+ return historical_runtime_source(root,commit,T169_PATH)
 
 def reverse_t169_delta(root,name,data,row):
  """Only the frozen three-field HUD repair may cross this historical edge."""
