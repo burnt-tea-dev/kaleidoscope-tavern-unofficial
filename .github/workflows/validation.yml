@@ -317,9 +317,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          fetch-depth: 0
           persist-credentials: false
-      - name: Fetch immutable T176 source witnesses
-        run: git fetch --no-tags --depth=1 origin 2810a59c08e52004bb69522a8900a8da1dcc2c16 fd791c0faa839b4317e7e07ad332b97c34ad9758
       - uses: actions/checkout@v4
         with:
           repository: burnt-tea-dev/kaleidoscope-tavern-unofficial
@@ -356,10 +355,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           path: tavern
+          fetch-depth: 0
           persist-credentials: false
-      - name: Fetch immutable T176 source witnesses
-        working-directory: tavern
-        run: git fetch --no-tags --depth=1 origin 2810a59c08e52004bb69522a8900a8da1dcc2c16 fd791c0faa839b4317e7e07ad332b97c34ad9758
       - uses: actions/checkout@v4
         with:
           repository: burnt-tea-dev/kaleidoscope-world-liquor-unofficial

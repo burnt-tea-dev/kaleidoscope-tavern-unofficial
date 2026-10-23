@@ -21,6 +21,24 @@ BEFORE = {
     AIM: 'd2e1a00a85c508780acedea80922f8ff2877e0057fc07218b12472c1e0d860b5',
     ROUTER: 'd8cea39e9b6728b0a720ff6f622e49e6875e94b53dbc7bbf649659efae7706bb',
 }
+# Rewritten public commits retain the exact reviewed runtime trees. Preserve the
+# original review IDs and SHA256 assertions below; never read a moving branch.
+SOURCE_ALIASES = {
+    'c34490c06c4c8fb1bc1c0444405181da90bbf932': (
+        'e64d346ab895cd3223a3e74dc94752c6ac9f4fd5',
+        'f08efeb99bc59d45f47bb8a9e58986c38285e877', ROUTER),
+    BASE: ('b50d222cf8281250cd50a0558bd580d3a34853a9',
+           '95dbc2409ca28588bc8913043daf19e82e437a12', AIM),
+}
+
+
+def historical_source(commit, path):
+    replacement, expected_tree, allowed_path = SOURCE_ALIASES[commit]
+    assert path == allowed_path, 'Outside the reviewed counterexample'
+    actual = subprocess.check_output(
+        ['git', 'rev-parse', replacement + ':runtime'], cwd=ROOT, text=True).strip()
+    assert actual == expected_tree, 'Historical counterexample tree differs'
+    return subprocess.check_output(['git', 'show', replacement + ':' + path], cwd=ROOT)
 
 
 def run_suite(label, command, output):
@@ -43,9 +61,9 @@ def main():
     args=parser.parse_args();output=args.evidence.resolve();output.mkdir(parents=True,exist_ok=True)
     assert os.environ.get('LIQUOR_SOURCE'),'LIQUOR_SOURCE must name the pinned companion checkout'
     previous='c34490c06c4c8fb1bc1c0444405181da90bbf932'
-    old_router=subprocess.check_output(['git','show',previous+':'+ROUTER],cwd=ROOT)
+    old_router=historical_source(previous,ROUTER)
     assert hashlib.sha256(old_router).hexdigest()=='251fd95b6b727ecef87349908a539b3a00ab4b40f035e6e6b6fc59bdce8d78ce'
-    old_aim=subprocess.check_output(['git','show',BASE+':'+AIM],cwd=ROOT)
+    old_aim=historical_source(BASE,AIM)
     assert hashlib.sha256(old_aim).hexdigest()==BEFORE[AIM]
     fixed={name:(ROOT/name).read_bytes() for name in (AIM,ROUTER)}
     evidence={'previous':previous,'geometryBaseline':BASE,'clientTested':False,'testsUse':'current production adapters with deterministic API doubles','runs':{}}
