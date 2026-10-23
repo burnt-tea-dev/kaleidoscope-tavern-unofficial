@@ -1,9 +1,16 @@
 #!/usr/bin/env python3
 """Source, native-resource and pure launch-rule checks; no player/world mocks."""
-import argparse,hashlib,json,subprocess
+import argparse,hashlib,json,subprocess,sys
 from pathlib import Path
 from baseline_reference import previous_bytes,additions as baseline_additions
 ROOT=Path(__file__).resolve().parents[1]
+# These domains are maintained against their current contracts. Their behavior
+# is no longer represented by reversing source changes to the launch baseline.
+# The efficiency CI job runs the actual effect adapter, including effect-clock
+# and expiry/recipient scenarios; this static command does not claim that result.
+EFFECT_SOURCES={'runtime/BP/scripts/bedrock/custom-effects.js'}
+BARREL_SOURCES={f'runtime/RP/entity/runtime_barrel_ingredients_{slot}.entity.json' for slot in range(4)}|{
+    'runtime/RP/render_controllers/runtime_barrel_ingredients.render_controllers.json'}
 def read(path):return json.loads(path.read_text(encoding='utf-8-sig'))
 def sha(path):
     path=Path(path).resolve()
@@ -16,6 +23,10 @@ def main():
     ref=read(ROOT/'data/launch-repair-reference.json')
     from efficiency.reference import apply_efficiency_reference
     ref=apply_efficiency_reference(ref,ROOT)
+    # Validate the current catalogue/material/animation outputs once here. The
+    # foundation CI job separately exercises the actual adapter and ice -> sugar
+    # transition with barrel-materials.test.mjs; neither is a client render test.
+    subprocess.run([sys.executable,str(ROOT/'tools/build_barrel_materials.py'),'--check'],cwd=ROOT,check=True)
     assert ref['rules']['tipsy']['visualFixAccepted'] is False
     verified=0
     if args.java_source:
@@ -53,10 +64,11 @@ def main():
         old_names={p.relative_to(args.baseline).as_posix() for p in (args.baseline/'runtime').rglob('*') if p.is_file()}
         new_names={p.relative_to(ROOT).as_posix() for p in (ROOT/'runtime').rglob('*') if p.is_file()}
         assert new_names==(old_names|set(ref['newRuntimeFiles']))-set(removed),'Unlisted runtime addition or removal'
+        assert (EFFECT_SOURCES|BARREL_SOURCES)<=new_names,'Missing current-contract source'
         for old in (args.baseline/'runtime').rglob('*'):
             if not old.is_file():continue
             name=old.relative_to(args.baseline).as_posix()
-            if name not in ref['reviewedChanges'] and name not in removed:
+            if name not in ref['reviewedChanges'] and name not in removed and name not in (EFFECT_SOURCES|BARREL_SOURCES):
                 assert previous_bytes(ROOT,ROOT/name)==old.read_bytes(),('Unreviewed existing-runtime change',name)
                 unchanged+=1
     components=read(ROOT/'runtime/BP/items/molotov.json')['minecraft:item']['components']
@@ -122,6 +134,8 @@ def main():
     version=read(ROOT/'release.json')['version']
     report={'version':version,'baseline':ref['baselineCommit'],'javaSourceFilesVerified':verified,
         'reviewedChanges':sorted(ref['reviewedChanges']),'reviewedRemovals':sorted(removed),'unchangedExistingRuntimeFiles':unchanged if args.baseline else None,
+        'currentContracts':{'barrelResources':{'sources':sorted(BARREL_SOURCES),'generatedResources':'passed','adapterScenarios':'separate foundation CI; not run by this command'},
+                            'customEffects':{'sources':sorted(EFFECT_SOURCES),'behaviorScenarios':'separate efficiency and foundation CI; not run by this command'}},
         'pureRules':pure,'nativeMolotovResources':'source/schema aligned; device acceptance pending',
         'tipsyCameraOnlyRoll':'NOT_RESTORED','tipsyChanges':'diagnostics, immediate status hook and bounded transient-error retry only',
         'bdsTest':'NOT_RUN','clientTest':'NOT_RUN','simulatedPlayerTests':False,'limits':ref['limits']}

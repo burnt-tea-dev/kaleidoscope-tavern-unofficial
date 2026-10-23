@@ -2,9 +2,13 @@
 
 ## 2026-10-24 T179 候選
 
-普通冰在四個酒桶原料槽改用 Java 對應的半透明路由；packed／blue ice、其他原料、原圖與幾何保持。首次成功在線讀取建立效果時計，短時間登入／離線不再漏扣首個 heartbeat 前的在線時間。具體反例與來源見 [T179](RELEASE-NOTES-0.6.179.md)；原生透明排序、光照與本候選完整家族／客戶端驗收仍未閉合。微醺視覺不在本輪範圍。下列日期段保留原有審查範圍。
+普通冰在四個酒桶原料槽改用 Java 對應的半透明路由；packed／blue ice、其他原料、原圖與幾何保持。首次成功在線讀取建立效果時計，短時間登入／離線不再漏扣首個 heartbeat 前的在線時間。原生透明排序、光照與本候選完整家族／客戶端驗收仍未閉合。微醺視覺不在本輪範圍。下列日期段保留原有審查範圍。
 
 T178完整CI曾拒絕空效果生物被重新加入時計索引，T179保留該失敗及凍結身份，僅對有剩餘entries建立新錨；既有Bloody Mary到期測試保持。
+
+Java 的 [BarrelBlockEntityRender](https://github.com/KaleidoscopeMods/KaleidoscopeTavern/blob/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/block/BarrelBlockEntityRender.java#L130) 使用 fixed item renderer；匹配 Minecraft 1.21.1 client（SHA1 `30c73b1c5da787909b2f73340419fdf13b9def88`）的普通冰採 translucent item render，原圖全部像素 alpha=190。四槽材質選擇及 ice→sugar 切換由現行 generator 與 adapter 測試檢查，不再把這五個資源倒推成舊版本才比 hash。
+
+時計的可見反例是：帶100 ticks效果登入，在4 ticks後離線，應保存96而不是100；重新登入不扣離線時間。情境測試從事件入口驗證持久化值、空效果recipient和後續API讀取，不綁內部Map。該效果模組的歷史逆向差異已退役；其他尚未整理的域仍有舊驗證債務，這次不宣稱全庫重構完成。發布包identity、release-history與存檔契約另行保留。
 
 ## 2026-10-17 現行修復狀態
 
