@@ -139,6 +139,8 @@ kernel 不抵扣。所需空間仍是剩餘受限預算加至少 2 GiB，不把�
 原失敗與收據不改寫，原 idle-owner 的 hash 也不重設來掩蓋維護來源。
 
 一般更新要求 UUID 不變。已提交的 Cookery 1.0.8→1.6.0 作者身份遷移可用 `identity_migration` 指向 canonical `family/identity-migrations/cookery-108-to-160.json`；工具限制原／新作者 UUID、版本、archive 與原 manifest，先在本次停服副本逐筆搬移所有權並演練，再採用未受 QA 引擎修改的資料庫。其他身份遷移仍須另行設計與審查。
+
+遷移使用 little-endian NBT 的無損字串編解碼，保留 actor `StorageKey` 等以 TAG_String 儲存的二進位資料。每個 root 在修改前須能逐 byte 往返；重複欄位、截斷資料或無法原樣編碼的值會拒絕，不以替代字元修補。這只保護後續遷移，不會自動恢復既已損壞的 actor 或索引。
 私人 extension 如果有 runtime 變動，也須補它自己的功能證據，不能用三個公開 PR 代替。
 
 ## 保持驗收誠實

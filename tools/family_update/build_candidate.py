@@ -36,7 +36,7 @@ def main(argv=None):
     audit_candidate(C, receipt)
     compatibility = quality(C, receipt)
     atomic(R / 'compatibility-report.json', compatibility)
-    tools = ['family_bundle.py', 'family_guard.py', 'family_saved_world.py', 'author_state_migration.py', 'baseline_gate.py', 'host_extensions.py', 'container_recovery.py']
+    tools = ['family_bundle.py', 'family_guard.py', 'family_saved_world.py', 'author_state_migration.py', 'bedrock_nbt.py', 'baseline_gate.py', 'host_extensions.py', 'container_recovery.py']
     tools = [name for name in tools if (T / 'tools' / name).exists()]
     evidence = {'recorded_at': now(), 'config_sha256': sha(CONFIG_PATH), 'orchestration_sha256': orchestration_hashes(), 'sources': sources, 'candidate_receipt_sha256': sha(C / 'family-receipt.json'), 'upstream_lock_sha256': sha(T / 'family/upstream.lock.json'), 'tool_sha256': {name: sha(T / 'tools' / name) for name in tools}, 'packs': len(receipt['packs']), 'versions': versions(receipt), 'static_family_assembly': True, 'functional_tests_recorded_separately': True, 'client': False, 'production_ready': False}
     if retention is not None:evidence['approved_runtime_retention'] = retention
