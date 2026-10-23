@@ -60,3 +60,13 @@ test('a failed initial property read does not create an online anchor',()=>{
  assert.equal(statusNow(p).entries[0].ticks,100);
  system.currentTick=205;tickCustomEffects();assert.equal(remaining(p),95);
 });
+
+test('reading an empty or retired status does not add countdown work',()=>{
+ const p=restored();p.dp.delete(KEY);
+ assert.equal(statusNow(p).entries.length,0);
+ assert.equal(CUSTOM_TEST.tracks.has(p.id),false);
+ system.currentTick++;
+ p.dp.set(KEY,JSON.stringify({schema:1,entries:[],legacyClosed:true}));
+ assert.equal(statusNow(p).entries.length,0);
+ assert.equal(CUSTOM_TEST.tracks.has(p.id),false);
+});

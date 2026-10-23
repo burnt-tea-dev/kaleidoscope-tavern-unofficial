@@ -9007,6 +9007,26 @@
           "reason": "Anchor the first successful read of a loaded entity handle; later read-only snapshots retain the persisted countdown origin and exclude offline time."
         }
       }
+    },
+    {
+      "release": "0.6.179",
+      "reviewedPredecessorCommit": "fcd029e93272c2a1b8a6f4cc70325fdd234cad1e",
+      "regressionTest": "tools/efficiency/effect-clock.test.mjs; tools/bloody-mary-adapter.test.mjs",
+      "reviewDocument": "docs/RELEASE-NOTES-0.6.179.md",
+      "files": {
+        "runtime/BP/scripts/bedrock/custom-effects.js": {
+          "before": "3805bd9260506a886fd35d163ec3fe2627c0a6565d19c2276f155c47b13ddd52",
+          "after": "bbdedf4c15d6a492d8c772f0e162c0a226b071efe11392217c52ce6abbc7661d",
+          "reverseOps": [
+            [
+              42,
+              43,
+              " if(track!==previous)tracks.set(p.id,track);\n"
+            ]
+          ],
+          "reason": "Establish a fresh online anchor only when the saved status has active entries; reading empty or expired mob status must not recreate retired countdown work."
+        }
+      }
     }
   ],
   "reviewedAssetDeltaLayers": [

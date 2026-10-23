@@ -11,3 +11,7 @@ Five new production-callback counterexamples fail before the clock fix and pass 
 The candidate is paired with World Liquor 0.1.155, including its blue-dye freezer sprite and deferred interaction repairs. Canonical CI, complete-family static validation, a fresh consistent saved-world first load/restart and deployment admission remain required. `client=false`, `production_ready=false`, `pending_client_acceptance` remain in force; this document does not assert deployment or complete Java parity.
 
 The inherited lossless NBT migration tool prevents future binary-string rewriting. Existing damaged storage actors still require a separately reviewed recovery; this release does not clear or replace their bindings.
+
+## Candidate disposition
+
+Required CI39992997445 rejected this frozen candidate: reading an expired mob status could recreate a retired clock track. Its original identity/history and failed evidence are retained. T179 corrects the empty-state boundary and W156 supplies the new exact companion identity; T178 was not merged or deployed.

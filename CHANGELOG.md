@@ -1,3 +1,8 @@
+## 0.6.179
+
+- Restrict the new initial clock anchor to nonempty saved effects so an expired mob effect stays retired when its status is read again. The existing Bloody Mary regression rejected the frozen T178 candidate; its identity and history are preserved.
+- Retain T178 ordinary-ice translucency and online countdown fixes, paired with W156. See [release notes](docs/RELEASE-NOTES-0.6.179.md).
+
 ## 0.6.178
 
 - Render ordinary ice with alpha blending in all four barrel ingredient slots; preserve packed/blue ice, geometry, UVs and animation.

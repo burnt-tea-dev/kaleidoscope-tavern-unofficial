@@ -40,7 +40,7 @@ function statusWindow(p){
  // Anchor the first successful read of this loaded handle. Later read-only
  // snapshots still count from the last persisted value; only write moves it.
  const track=previous?.player===p?previous:{player:p,tick:now,isPlayer:p.typeId==='minecraft:player'};
- if(track!==previous)tracks.set(p.id,track);
+ if(track!==previous&&before.entries.length)tracks.set(p.id,track);
  const state=advanceStatus(before,Math.max(0,now-track.tick));
  const snapshot={player:p,tick:now,raw,before,state,isPlayer:p.typeId==='minecraft:player'};statusSnapshots.set(p.id,snapshot);indexFastPlayer(p,state,before);indexStatusAura(p,state.entries);return snapshot;
 }

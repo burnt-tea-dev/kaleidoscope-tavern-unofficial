@@ -1,11 +1,11 @@
 {
-  "version": "0.6.178",
-  "tag": "v0.6.178",
-  "title": "Tavern 0.6.178: translucent barrel ice and online effect clocks",
+  "version": "0.6.179",
+  "tag": "v0.6.179",
+  "title": "Tavern 0.6.179: translucent barrel ice and online effect clocks",
   "prerelease": false,
   "publication_request": false,
-  "validation_evidence": "docs/RELEASE-NOTES-0.6.178.md",
-  "public_notes_path": "docs/RELEASE-NOTES-0.6.178.md",
+  "validation_evidence": "docs/RELEASE-NOTES-0.6.179.md",
+  "public_notes_path": "docs/RELEASE-NOTES-0.6.179.md",
   "client_acceptance": "pending",
   "full_client_acceptance": "pending",
   "saved_world_migration": "pending",
@@ -14,6 +14,6 @@
   "native_evidence_scope": "Source-backed barrel ice material selection and online countdown regressions; this candidate still requires full-family native, saved-world and client acceptance.",
   "client": false,
   "status": "candidate_pending_canonical_ci_and_family_admission",
-  "peer_pins_status": "paired_with_world_liquor_0.1.155_pending_source_pins",
+  "peer_pins_status": "paired_with_world_liquor_0.1.156_pending_source_pins",
   "family_ready": false
 }

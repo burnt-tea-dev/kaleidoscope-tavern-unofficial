@@ -2,7 +2,9 @@
 
 ## 2026-10-24：可見差異與保存邊界修復候選
 
-來源候選為 **T178／G155／W155**。T178 修復酒桶普通冰半透明與首次在線效果時計；W155 修復冰櫃藍染料錯圖及延遲家具互動的槽位／物品／方塊連續性。Tavern 存檔工具 [PR416](https://github.com/burnt-tea-dev/kaleidoscope-tavern-unofficial/pull/416) 已通過全部13項CI並合併，避免未來 NBT 根重寫損壞二進位字串；既損 actor 不會自動恢復。功能候選仍須精確配對來源CI與完整家族同一份停服存檔 first/restart、准入及部署證據，不能單包安裝。`client=false`、`production_ready=false`、`pending_client_acceptance`；微醺視覺排除本輪。下列日期段保留原範圍。
+來源候選為 **T179／G155／W156**。T179 修復酒桶普通冰半透明與首次在線效果時計；W156 修復冰櫃藍染料錯圖及延遲家具互動的槽位／物品／方塊連續性。Tavern 存檔工具 [PR416](https://github.com/burnt-tea-dev/kaleidoscope-tavern-unofficial/pull/416) 已通過全部13項CI並合併，避免未來 NBT 根重寫損壞二進位字串；既損 actor 不會自動恢復。功能候選仍須精確配對來源CI與完整家族同一份停服存檔 first/restart、准入及部署證據，不能單包安裝。`client=false`、`production_ready=false`、`pending_client_acceptance`；微醺視覺排除本輪。下列日期段保留原範圍。
+
+T178完整CI曾拒絕空效果生物被重新加入時計索引，T179保留該失敗及凍結身份，僅對有剩餘entries建立新錨；既有Bloody Mary到期測試保持。
 
 ## 2026-10-19：runtime退休候選，尚待完整家族准入
 
