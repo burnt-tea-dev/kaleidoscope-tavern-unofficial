@@ -4,7 +4,8 @@
     "description": {
       "identifier": "kaleidoscope_tavern:barrel_ingredients_0_visual",
       "materials": {
-        "default": "entity_alphatest"
+        "default": "entity_alphatest",
+        "translucent": "entity_alphablend"
       },
       "textures": {
         "kind_1": "textures/items/apple",

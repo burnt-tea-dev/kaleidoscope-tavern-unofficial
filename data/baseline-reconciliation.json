@@ -8987,6 +8987,26 @@
           ]
         }
       }
+    },
+    {
+      "release": "0.6.178",
+      "reviewedPredecessorCommit": "43331153e4cbe3e094876e4b100ec8d5ce9c64f6",
+      "regressionTest": "tools/efficiency/effect-clock.test.mjs",
+      "reviewDocument": "docs/RELEASE-NOTES-0.6.178.md",
+      "files": {
+        "runtime/BP/scripts/bedrock/custom-effects.js": {
+          "before": "cee2f07d802e76681a560b2a439468caaa4b49026c8776aca54b347821b94662",
+          "after": "3805bd9260506a886fd35d163ec3fe2627c0a6565d19c2276f155c47b13ddd52",
+          "reverseOps": [
+            [
+              38,
+              44,
+              " const raw=p.getDynamicProperty(CUSTOM_STATUS_KEY),before=readStatus(raw),track=tracks.get(p.id);\n const state=advanceStatus(before,track?Math.max(0,now-track.tick):0);\n"
+            ]
+          ],
+          "reason": "Anchor the first successful read of a loaded entity handle; later read-only snapshots retain the persisted countdown origin and exclude offline time."
+        }
+      }
     }
   ],
   "reviewedAssetDeltaLayers": [
@@ -9982,6 +10002,44 @@
           "after": "93030bd4f8289be846eea898052b36ed81c33626355c8e42fbcac95a73968ff7",
           "beforeGzipBase64": "H4sIAAAAAAACA+1a3XKqMBC+9ykcrmuGBMJPX6XTYVCCZqrESaJtT6fvfsCqB8NyVETEc+TCyibZny+72V2br8FwaKVCLmIdrZlUXGTW89DCiGBkW0/F6IJnbCLjVD9PmVgwLT/zGS/5yHD4tfnM5yRMTSRf6p/lO3I+wBOWaZ5yJgu2OwboTUexUkyrKMY+4potooSr5Tz+jDSfa5ZEMp68beRvGWn2oVeSRe880bOcl0OAwRnj05k2R9dc8fGcRWOxyhK15xDUT9nz8erniDTNDdhD8fPYT6UXjGj51d5/f91++94NW2ORMXXA66u00sriBSvwk0Joq8zTWvK1MJUw1BiWLT1UJFflgNtkNTbUMFXZTBOST3lWmVc8I0NW8VDkOdSh1QEH+YT4oUF/NSdaiv9ioDTsQUztKpEg+6gUGEoAzg2kyHcphQQ5vusGR4VJoeNttAAgEoIA3oAax61arQ8C8o9LCbmJgurQbtELMFJADuFbPF4FY1CjrYCodlM3CNSLGTnnySkhjYPqyu/qOovFSjeAxq5T2WkRGdKSkAawKLFq5DKd4FLvMDVSTjL5nbXrCV4XnjC6xOLVstVDgXZ0KJALTE7Ee/YvGd005Ad/ezeAu7QmGOUhggEyQYS6ttduSYAhBCnqPnnWnguEdHIU4r6mThx0g0xLEVsCJrxR7rytx1wzeeKwE5tHV3AG4tu3SLLE7yjh0D5l2Vtb3bs0C2Q+GxHPhRKti9zAD9zmeZZUeYJx23Lf7SEfNshH4UkG/bXx7nPfXZshMe6iqQgvCP3Wi4JWTbavYXLTfH/P29w039/xNjdL5PUGO10YfEHfeGqB0zTZ3y8y4a0b6jxWiINd6AdxikPPabelDtrO9SPw/wPU9wIP6t1PM+luf2Wv9VDcTdsX3CD13Y3N1wpr91G/P+r3R/3+qN8f9fujfn/U732v3weQs+2oe5HW4eUmGWequG6lDq9JTVfcgLs+0TmG8SNs3q2pv+CzkT+H+RpJ2TmVp5rE8+pe2Sg0tQIptWxTriMtolT+3H1K47liA8BnraksLmSdDJ+Bnt0GdHbL0JEKUBAFdsASMin/YL0Cxr4UmAoKVcJRVGYs7hUo2AV216dnYmNEr/l6gq9IpZdMKpFFsrj9OIubB5VL++g87tNRwlkwzVl6EUptHdx9xEnPuEwau5NPO/CnSq94PlKOXwlcmHQWXmf71X8C16D8t/h8HXwPfgMLP1W3wS4AAA==",
           "reason": "Owner-approved first-person-only usability lift: translation Y +6 for both hands; preserve every other source transform, geometry coordinate and texture."
+        }
+      }
+    },
+    {
+      "release": "0.6.178",
+      "reviewedPredecessorCommit": "43331153e4cbe3e094876e4b100ec8d5ce9c64f6",
+      "regressionTest": "tools/barrel-materials.test.mjs",
+      "reviewDocument": "docs/RELEASE-NOTES-0.6.178.md",
+      "files": {
+        "runtime/RP/entity/runtime_barrel_ingredients_0.entity.json": {
+          "before": "b64369d3c538da5fa5b4618856d5295e3282b5da120487cf08294747a529cd26",
+          "after": "00dd062233773447d1d13acae5c273c7e2698c6cb65798162ab99c2c0faac361",
+          "beforeGzipBase64": "H4sIAAAAAAACA6VYXW+jOhB976+o8rxKMIF89K9cXVkGJsE3xkbGNJtd9b/fMTTZJh7IVn6IWsE5x2PPHI/x75fX18XB2EY4/g62k0Yv3l4XbMmSZbL44d82UkNpxcG9lUqCdhx/0l0Q9htfI6CCrrSydSN3fIiPZeWBBwnWK56EAlmZrjQtcCdwLP1WCGtBcamPFiov3fGEv8uuF2oYepDByMBKobov2sOgB9Er56XHeLhQbY3Yzi0+UR83DQc/XW/hQeIkdcWZV7i+X0kHTbcSbavgFsEVmRLIQolfwFtzrnCWj4Q1QaguVzg/KnMOOBnB8cDOGQ286nF2j5ScohhVcd0fjxDiNxS+1xOT2BLoGmO5lKYpAvSOQEtr9FQsewLfGiecCaAsIbBYNzMrw6jkdv1RhNNkKamO8iGUymt3BnC8AGslEBQqrecaBBEzlU5rnAPNDwq6OmTcJ7RQpjz5Pz1wWYZlzLYUnETuJpC8FeUJqpCwpwiVtOE004SCDrkMsVQaW6lPvAXnN4aAkFLiB7QR2k4oJfsm5KxnOLXpfWhShDQqs4VoChNWcEqltsC6scYQK7SZCWjIrrFlLcMspJRlCwuCgFJ+LXFXpuLZz8RTGqvHf8NdkMw0Noymw33BTz1M4JrNjFUJXYHyzSagkXmvTF8orFklsHd1F4vtRnBn2pA+VwJKqgs3B+5q4O9YQ3AJ+dkM3/VKtpgyoY9hha/zGab5Cdg0KiE7YsjN0xm3Anzl0jPePo3Y+yzkkTtDK11Z+2KwpvXD8c6JI2BLC+hzpWRNFy5QljwN1BIbUsaeLo8fjlyb7C+Kqf8sen7AHhdaJiMLynnfTpglo7aTzrchTreLLH+6MOcaZULi3PZylq6eTMV9zRDnOv6fsEPoq6MVLaFwXz0nTEKPR7gGVkJLf9yr+OfJAVvNILE6WNEAT5JQa/+NaPyhiA4pT74zKcBePKFDtapTyXGjVpL7RIaUlKaMwwzEkLOmOQqc64lOnmez+InAcpqERpsKazPBoE4X+XYajJuWliVxBs93NMmZhjoz5vs5OD3tTUJzzhKrh5zJhv3N2dFPy8nyxJOp6m8ELiueZb98D32xwMhNSEkWI8lIyTRGMiUl1zGSa1Iyi5HMSMk8RjInJTcxkhtSchsjuSUldzGSO1JyHyO5p0s9xj5swj4x/mG0f1iMgRhtIBbjIEY7iMVYiNEWYjEeYrSHWIyJGG0iFuMiRruIxdiI0TZiMT5itI/SGB+ltI/SGB+lE30oxkcp7aM0xkdIDu4Xj2Aa/Iy/3N8v4od05Qe6vl3+GWhJXH0O8C/hln0B36F7eBDZeKLGj+WHu0886Ivh8vQGmJdfjoRAf7z5fRD/PMbjw39uD29j3p78G4hZ0NVwmaCdNfiJbbs7icWfF8sROh/zdahxoI8X//t4+R/13OLk8hYAAA==",
+          "reason": "Select alpha blending only for ordinary ice, whose Java item render route is translucent and whose texture alpha is 190; conserve all other material routes, textures, models and animation."
+        },
+        "runtime/RP/entity/runtime_barrel_ingredients_1.entity.json": {
+          "before": "c2c84b2689ad261184359a60a884cc9992fbe22fc00398977527a0aafd0fe678",
+          "after": "83c206b0b2045805c26725c1ba52c481c54d4ac228d1242ccb5704c34ec92da5",
+          "beforeGzipBase64": "H4sIAAAAAAACA6VYXW+jOhB976+o8rxKMIF89K9cXVkGJsE3xkbGNJtd9b/fMTTZJh7IVn6IWsE5x2PPHI/x75fX18XB2EY4/g62k0Yv3l4XbMmSZbL44d82UkNpxcG9lUqCdhx/0l0Q9htfI6CCrrSydSN3fIiPZeWBBwnWK56EAlmZrjQtcCdwLP1WCGtBcamPFiov3XHG32XXCzUMPchgZGClUN0X7WHQg+iV89JjPFyotkZs5xafqI+bhoOfrrfwIHGSuuLMK1zfr6SDpluJtlVwi+CKTAlkocQv4K05VzjLR8KaIFSXK5wflTkHnIzgeGDnjAZe9Ti7R0pOUYyquO6PRwjxGwrf64lJbAl0jbFcStMUAXpHoKU1eiqWPYFvjRPOBFCWEFism5mVYVRyu/4owmmylFRH+RBK5bU7AzhegLUSCAqV1nMNgoiZSqc1zoHmBwVdHTLuE1ooU578nx64LMMyZlsKTiJ3E0jeivIEVUjYU4RK2nCaaUJBh1yGWCqNrdQn3oLzG0NASCnxA9oIbSeUkn0TctYznNr0PjQpQhqV2UI0hQkrOKVSW2DdWGOIFdrMBDRk19iylmEWUsqyhQVBQCm/lrgrU/HsZ+IpjdXjv+EuSGYaG0bT4b7gpx4mcM1mxqqErkD5ZhPQyLxXpi8U1qwS2Lu6i8V2I7gzbUifKwEl1YWbA3c18HesIbiE/GyG73olW0yZ0Mewwtf5DNP8BGwalZAdMeTm6YxbAb5y6Rlvn0bsfRbyyJ2hla6sfTFY0/rheOfEEbClBfS5UrKmCxcoS54GaokNKWNPl8cPR65N9hfF1H8WPT9gjwstk5EF5bxvJ8ySUdtJ59sQp9tFlj9dmHONMiFxbns5S1dPpuK+ZohzHf9P2CH01dGKllC4r54TJqHHI1wDK6GlP+5V/PPkgK1mkFgdrGiAJ0motf9GNP5QRIeUJ9+ZFGAvntChWtWp5LhRK8l9IkNKSlPGYQZiyFnTHAXO9UQnz7NZ/ERgOU1Co02FtZlgUKeLfDsNxk1Ly5I4g+c7muRMQ50Z8/0cnJ72JqE5Z4nVQ85kw/7m7Oin5WR54slU9TcClxXPsl++h75YYOQmpCSLkWSkZBojmZKS6xjJNSmZxUhmpGQeI5mTkpsYyQ0puY2R3JKSuxjJHSm5j5Hc06UeYx82YZ8Y/zDaPyzGQIw2EItxEKMdxGIsxGgLsRgPMdpDLMZEjDYRi3ERo13EYmzEaBuxGB8x2kdpjI9S2kdpjI/SiT4U46OU9lEa4yMkB/eLRzANfsZf7u8X8UO68gNd3y7/DLQkrj4H+Jdwy76A79A9PIhsPFHjx/LD3Sce9MVweXoDzMsvR0KgP978Poh/HuPx4T+3h7cxb0/+DcQs6Gq4TNDOGvzEtt2dxOLPi+UInY/5OtQ40MeL/328/A92tK808hYAAA==",
+          "reason": "Select alpha blending only for ordinary ice, whose Java item render route is translucent and whose texture alpha is 190; conserve all other material routes, textures, models and animation."
+        },
+        "runtime/RP/entity/runtime_barrel_ingredients_2.entity.json": {
+          "before": "e1886464bbff19e0ec4dee2ce118ac1158580be4b8f6b77753946a237ac1eaf4",
+          "after": "ce41238f4a7234ac3dec994a33a96500666a884a2bc3b7995a4e118c2cd84741",
+          "beforeGzipBase64": "H4sIAAAAAAACA6VYXW+jOhB976+o8rxKMIF89K9cXVkGJsE3xkbGNJtd9b/fMTTZJh7IVn6IWsE5x2PPHI/x75fX18XB2EY4/g62k0Yv3l4XbMmSZbL44d82UkNpxcG9lUqCdhx/0l0Q9htfI6CCrrSydSN3fIiPZeWBBwnWK56EAlmZrjQtcCdwLP1WCGtBcamPFiov3fGUv8uuF2oYepDByMBKobov2sOgB9Er56XHeLhQbY3Yzi0+UR83DQc/XW/hQeIkdcWZV7i+X0kHTbcSbavgFsEVmRLIQolfwFtzrnCWj4Q1QaguVzg/KnMOOBnB8cDOGQ286nF2j5ScohhVcd0fjxDiNxS+1xOT2BLoGmO5lKYpAvSOQEtr9FQsewLfGiecCaAsIbBYNzMrw6jkdv1RhNNkKamO8iGUymt3BnC8AGslEBQqrecaBBEzlU5rnAPNDwq6OmTcJ7RQpjz5Pz1wWYZlzLYUnETuJpC8FeUJqpCwpwiVtOE004SCDrkMsVQaW6lPvAXnN4aAkFLiB7QR2k4oJfsm5KxnOLXpfWhShDQqs4VoChNWcEqltsC6scYQK7SZCWjIrrFlLcMspJRlCwuCgFJ+LXFXpuLZz8RTGqvHf8NdkMw0Noymw33BTz1M4JrNjFUJXYHyzSagkXmvTF8orFklsHd1F4vtRnBn2pA+VwJKqgs3B+5q4O9YQ3AJ+dkM3/VKtpgyoY9hha/zGab5Cdg0KiE7YsjN0xm3Anzl0jPePo3Y+yzkkTtDK11Z+2KwpvXD8c6JI2BLC+hzpWRNFy5QljwN1BIbUsaeLo8fjlyb7C+Kqf8sen7AHhdaJiMLynnfTpglo7aTzrchTreLLH+6MOcaZULi3PZylq6eTMV9zRDnOv6fsEPoq6MVLaFwXz0nTEKPR7gGVkJLf9yr+OfJAVvNILE6WNEAT5JQa/+NaPyhiA4pT74zKcBePKFDtapTyXGjVpL7RIaUlKaMwwzEkLOmOQqc64lOnmez+InAcpqERpsKazPBoE4X+XYajJuWliVxBs93NMmZhjoz5vs5OD3tTUJzzhKrh5zJhv3N2dFPy8nyxJOp6m8ELiueZb98D32xwMhNSEkWI8lIyTRGMiUl1zGSa1Iyi5HMSMk8RjInJTcxkhtSchsjuSUldzGSO1JyHyO5p0s9xj5swj4x/mG0f1iMgRhtIBbjIEY7iMVYiNEWYjEeYrSHWIyJGG0iFuMiRruIxdiI0TZiMT5itI/SGB+ltI/SGB+lE30oxkcp7aM0xkdIDu4Xj2Aa/Iy/3N8v4od05Qe6vl3+GWhJXH0O8C/hln0B36F7eBDZeKLGj+WHu0886Ivh8vQGmJdfjoRAf7z5fRD/PMbjw39uD29j3p78G4hZ0NVwmaCdNfiJbbs7icWfF8sROh/zdahxoI8X//t4+R+yCwmf8hYAAA==",
+          "reason": "Select alpha blending only for ordinary ice, whose Java item render route is translucent and whose texture alpha is 190; conserve all other material routes, textures, models and animation."
+        },
+        "runtime/RP/entity/runtime_barrel_ingredients_3.entity.json": {
+          "before": "0dd247a1a5ba477f796afb9699671e254e59e05e13526fbf89fdab207947994c",
+          "after": "d5fc6629a969cbc99556483bb17849e121b5246603b91100f5e4199b29d51ced",
+          "beforeGzipBase64": "H4sIAAAAAAACA6VYXW+jOhB976+o8rxKMIF89K9cXVkGJsE3xkbGNJtd9b/fMTTZJh7IVn6IWsE5x2PPHI/x75fX18XB2EY4/g62k0Yv3l4XbMmSZbL44d82UkNpxcG9lUqCdhx/0l0Q9htfI6CCrrSydSN3fIiPZeWBBwnWK56EAlmZrjQtcCdwLP1WCGtBcamPFiov3fE1f5ddL9Qw9CCDkYGVQnVftIdBD6JXzkuP8XCh2hqxnVt8oj5uGg5+ut7Cg8RJ6oozr3B9v5IOmm4l2lbBLYIrMiWQhRK/gLfmXOEsHwlrglBdrnB+VOYccDKC44GdMxp41ePsHik5RTGq4ro/HiHEbyh8rycmsSXQNcZyKU1TBOgdgZbW6KlY9gS+NU44E0BZQmCxbmZWhlHJ7fqjCKfJUlId5UMoldfuDOB4AdZKIChUWs81CCJmKp3WOAeaHxR0dci4T2ihTHnyf3rgsgzLmG0pOIncTSB5K8oTVCFhTxEqacNppgkFHXIZYqk0tlKfeAvObwwBIaXED2gjtJ1QSvZNyFnPcGrT+9CkCGlUZgvRFCas4JRKbYF1Y40hVmgzE9CQXWPLWoZZSCnLFhYEAaX8WuKuTMWzn4mnNFaP/4a7IJlpbBhNh/uCn3qYwDWbGasSugLlm01AI/Nemb5QWLNKYO/qLhbbjeDOtCF9rgSUVBduDtzVwN+xhuAS8rMZvuuVbDFlQh/DCl/nM0zzE7BpVEJ2xJCbpzNuBfjKpWe8fRqx91nII3eGVrqy9sVgTeuH450TR8CWFtDnSsmaLlygLHkaqCU2pIw9XR4/HLk22V8UU/9Z9PyAPS60TEYWlPO+nTBLRm0nnW9DnG4XWf50Yc41yoTEue3lLF09mYr7miHOdfw/YYfQV0crWkLhvnpOmIQej3ANrISW/rhX8c+TA7aaQWJ1sKIBniSh1v4b0fhDER1SnnxnUoC9eEKHalWnkuNGrST3iQwpKU0ZhxmIIWdNcxQ41xOdPM9m8ROB5TQJjTYV1maCQZ0u8u00GDctLUviDJ7vaJIzDXVmzPdzcHram4TmnCVWDzmTDfubs6OflpPliSdT1d8IXFY8y375HvpigZGbkJIsRpKRkmmMZEpKrmMk16RkFiOZkZJ5jGROSm5iJDek5DZGcktK7mIkd6TkPkZyT5d6jH3YhH1i/MNo/7AYAzHaQCzGQYx2EIuxEKMtxGI8xGgPsRgTMdpELMZFjHYRi7ERo23EYnzEaB+lMT5KaR+lMT5KJ/pQjI9S2kdpjI+QHNwvHsE0+Bl/ub9fxA/pyg90fbv8M9CSuPoc4F/CLfsCvkP38CCy8USNH8sPd5940BfD5ekNMC+/HAmB/njz+yD+eYzHh//cHt7GvD35NxCzoKvhMkE7a/AT23Z3Eos/L5YjdD7m61DjQB8v/vfx8j8xY0RP8hYAAA==",
+          "reason": "Select alpha blending only for ordinary ice, whose Java item render route is translucent and whose texture alpha is 190; conserve all other material routes, textures, models and animation."
+        },
+        "runtime/RP/render_controllers/runtime_barrel_ingredients.render_controllers.json": {
+          "before": "6dfaee7e16b9d1cec7b6d2208beb207ba29ea02ada022fac1cbc9326c7758cb9",
+          "after": "8d0089b50fa48d3a212b99e5623d49a59d87ac3eee33b4fd2900932e6585636c",
+          "beforeGzipBase64": "H4sIAAAAAAACA5XXTY+aQBgH8LufYsJltbHEeUPWZNv01FNvvRlDUGa3ExHsODY1u373Dq7rS939P3ATnj8PzA+QmeceY9Fj7Va5z/4Yt7F1FU1YxOM0HkXDpuhMVRiXLerKu7osQyYEnkMl1M4749dYvPSZ21berkw8z50zZWarJ2cKayp/PjAc+mTqlfFu15yt/zteu3ptnN/175Z5aWxRbxZhR+bzcFHVZGmr4m7AHh4YT9jLC+uQH3fMpx3z993yYjRgX9n34+DjxXZu2ORiO3fFgf1gFG6KcTYvG7jpcSc7ER4inxq/H8dcXJjHfFv66JTYH3/NTj29+eu3zly3jNoPQKXh+r85l+9iuzDZk8ublF0sN9Nwub/iVV30Dz8ey7p24c42z0K28flqPRgyoQazMN7X45um03Zn/sxn0c1Q8qbL5UN1Pbwrp/MZrwZ+qP18PeZQzfiJ/72qgFUJqwpWNawmsDqG1RRW72GVj3AZa3HMxbEXx2Aci3FMxrEZx2gcqwmsJohnDKsJrCawmsBqAqsJrCawmsBqEqtJrCaJVxOrSawmsZrEahKrSawmsZrCagqrKaymiH80rKawmsJqCqsprKawmsZqGqtprKaxmiY+BFhNYzWN1TRW01gtwWoJjy6qs+Ht9/e/GcPHn+Im2ESyD894SnAyIciEJBOKTGgykZCJMZlIycQ9LdYClVblNCunXTkNy2lZTtNy2pbTuJzWFbSuaPHM0rphInD5ut3M+fenifI6d2F1Zzd2bkvrdx+vJqw3q/DKTegFwaIOq7ywIvjCRherjSFoy7u15S3bim5tRcu2sltb2bKt6tZWtWyru7XVLdsm3domLduOu7Udt2ybdmubvrNK7r1t7Xv73j84JMjdGxEAAA==",
+          "reason": "Select alpha blending only for ordinary ice, whose Java item render route is translucent and whose texture alpha is 190; conserve all other material routes, textures, models and animation."
         }
       }
     }

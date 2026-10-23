@@ -103,6 +103,7 @@
       "id": "minecraft:ice",
       "texture": "textures/blocks/ice",
       "model": "cube",
+      "material": "alpha_blend",
       "source": "existing-reviewed-runtime"
     },
     {

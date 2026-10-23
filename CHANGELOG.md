@@ -1,3 +1,9 @@
+## 0.6.178
+
+- Render ordinary ice with alpha blending in all four barrel ingredient slots; preserve packed/blue ice, geometry, UVs and animation.
+- Anchor saved custom-effect countdowns on the first successful read of each loaded handle, retaining offline pause and persistence semantics.
+- Pair with World Liquor 0.1.155. Source tests do not establish full-family deployment or client rendering; see [release notes](docs/RELEASE-NOTES-0.6.178.md).
+
 ## 0.6.175
 
 - Apply the approved tilted-rack first-person-only +6 Y usability adjustment; preserve its geometry, texture and other views. Editor framing does not establish original Java-client clipping.

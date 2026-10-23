@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
+import {runInNewContext} from 'node:vm';
 import {barrelIngredientVisuals,configureBarrelIngredients} from '../runtime/BP/scripts/bedrock/barrel-ingredients.js';
 import {BARREL_INGREDIENT_KINDS as kinds} from '../runtime/BP/scripts/data/barrel-ingredient-visuals.js';
 import {BUILTIN_RECIPES} from '../runtime/BP/scripts/data/recipes.js';
@@ -27,6 +28,22 @@ test('all catalogue IDs have a unique coherent kind, texture and supported model
  for(let slot=0;slot<4;slot++){
   const rp=read(`runtime/RP/entity/runtime_barrel_ingredients_${slot}.entity.json`)['minecraft:client_entity'].description;
   catalog.forEach((row,i)=>{assert.equal(kinds[row.id],i+1);assert.equal(rp.textures[`kind_${i+1}`],row.texture);assert.equal(rc.arrays.textures['Array.kind'][i],`Texture.kind_${i+1}`);assert.ok(rp.geometry[row.model]);});
+ }
+});
+test('only ordinary ice selects the source translucent material in all four barrel slots',()=>{
+ // Official Java 1.21.1 ICE uses RenderType.translucent; its 16x16 texture
+ // and Mojang's Bedrock ice texture both have alpha=190 at every pixel.
+ const rc=read('runtime/RP/render_controllers/runtime_barrel_ingredients.render_controllers.json').render_controllers['controller.render.kt_runtime.barrel_ingredients'];
+ for(let slot=0;slot<4;slot++){
+  const rp=read(`runtime/RP/entity/runtime_barrel_ingredients_${slot}.entity.json`)['minecraft:client_entity'].description,e=entity(slot);
+  // Reuse a configured helper, including ice -> sugar, to catch a sticky
+  // material after inventory changes as well as a blanket blend conversion.
+  for(const row of [...catalog,{id:'minecraft:ice'},{id:'minecraft:sugar'}]){
+   const slots=Array.from({length:4},(_,i)=>i===slot?{id:row.id,count:1}:null);
+   configureBarrelIngredients(e,core,state(slots));
+   const material=runInNewContext(rc.materials[0]['*'],{q:{property:name=>e.values[name]},Material:rp.materials});
+   assert.equal(material,row.id==='minecraft:ice'?'entity_alphablend':'entity_alphatest',`${row.id} in slot ${slot}`);
+  }
  }
 });
 for(const row of catalog)test(row.id+' renders in all four slots, counts 1..16 stay in native property ranges',()=>{

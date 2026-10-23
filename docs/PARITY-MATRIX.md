@@ -1,5 +1,9 @@
 # Tavern Java／Bedrock 差距矩陣
 
+## 2026-10-24 T178 候選
+
+普通冰在四個酒桶原料槽改用 Java 對應的半透明路由；packed／blue ice、其他原料、原圖與幾何保持。首次成功在線讀取建立效果時計，短時間登入／離線不再漏扣首個 heartbeat 前的在線時間。具體反例與來源見 [T178](RELEASE-NOTES-0.6.178.md)；原生透明排序、光照與本候選完整家族／客戶端驗收仍未閉合。微醺視覺不在本輪範圍。下列日期段保留原有審查範圍。
+
 ## 2026-10-17 現行修復狀態
 
 目前來源為 **T173**（[115942e5](https://github.com/casama233/kaleidoscope-tavern-unofficial/commit/115942e55e9946cfd257fbcdc41c849f75b77509)）；來源／下載／倉庫部署／驗收分別見[唯一家族現況](../family/BASELINE-STATUS.md)。完整Java一比一與當前真人驗收未完成。

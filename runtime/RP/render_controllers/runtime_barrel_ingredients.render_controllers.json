@@ -5,7 +5,7 @@
       "geometry": "(q.property('kaleidoscope_tavern:kind') == 16 || q.property('kaleidoscope_tavern:kind') == 17 || q.property('kaleidoscope_tavern:kind') == 18 || q.property('kaleidoscope_tavern:kind') == 19 || q.property('kaleidoscope_tavern:kind') == 20) ? Geometry.cube : Geometry.card",
       "materials": [
         {
-          "*": "Material.default"
+          "*": "(q.property('kaleidoscope_tavern:kind') == 17) ? Material.translucent : Material.default"
         }
       ],
       "textures": [
