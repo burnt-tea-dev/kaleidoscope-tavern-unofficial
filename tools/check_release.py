@@ -82,10 +82,36 @@ def check_combined_geometry_budget(inventory,tavern_root=ROOT):
             # only one UV face is emitted. Never count merely four vertices.
             maximum=max(maximum,len(cubes)*24)
         allocations[name]={'ids':len(models),'max_allocated_vertices':maximum,'max_bones':19 if outline else 1}
-    base=set(inventory)-set(REVIEWED_ITEM_GEOMETRIES)-set(REVIEWED_VISUAL_GEOMETRIES)
+    # Current potion resources are owned by the source-texel contract, not an
+    # additional release/hash exception. Validate all wiring before accounting
+    # for the one glass mesh and three shared liquid meshes separately.
+    from check_potion_bottle_visual import check as check_potion_visual
+    from build_potion_bottle_visual import outputs as potion_outputs
+    check_potion_visual(root=tavern_root)
+    potion_ids=set();potion_allocations={}
+    for name,value in potion_outputs(tavern_root).items():
+        if not isinstance(value,dict) or 'minecraft:geometry' not in value:continue
+        models=value['minecraft:geometry'];glass=name.endswith('potion_bottle_glass.geo.json')
+        assert len(models)==(1 if glass else 3),('Potion source geometry allocation changed',name)
+        maximum=0
+        for geometry in models:
+            identifier=geometry['description']['identifier'];path=tavern_root/name
+            assert identifier not in potion_ids,('Duplicate potion geometry allocation',identifier)
+            assert [Path(p).resolve() for p in inventory.get(identifier,[])]==[path],('Potion geometry must have one exact Tavern owner/path',identifier)
+            bones=geometry['bones'];assert len(bones)==1,('Potion geometry bone budget exceeded',identifier)
+            cubes=bones[0]['cubes']
+            assert (len(cubes)==7 if glass else len(cubes)<=21),('Potion source mesh budget exceeded',identifier)
+            if not glass:
+                assert all(isinstance(c['uv'],dict) and len(c['uv'])==1 and sum(n==0 for n in c['size'])==1 for c in cubes),('Potion liquid must retain source single-face rectangles',identifier)
+            maximum=max(maximum,len(cubes)*24);potion_ids.add(identifier)
+        potion_allocations[name]={'ids':len(models),'max_allocated_vertices':maximum,'max_bones':1}
+    assert len(potion_ids)==4,'Potion source contract must own exactly four shared geometries'
+    base=set(inventory)-set(REVIEWED_ITEM_GEOMETRIES)-set(REVIEWED_VISUAL_GEOMETRIES)-potion_ids
     assert len(base)<1024,('combined Tavern + World Liquor base geometry budget exceeded',len(base))
     return {'geometries':len(inventory),'base_geometries':len(base),'reviewed_item_geometries':len(REVIEWED_ITEM_GEOMETRIES),
-            'reviewed_visual_geometries':len(REVIEWED_VISUAL_GEOMETRIES),'visual_allocations':allocations,'base_limit_exclusive':1024,'client_verified':False}
+            'reviewed_visual_geometries':len(REVIEWED_VISUAL_GEOMETRIES),'visual_allocations':allocations,
+            'potion_contract_geometries':len(potion_ids),'potion_allocations':potion_allocations,
+            'base_limit_exclusive':1024,'client_verified':False}
 
 def parse_args(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)

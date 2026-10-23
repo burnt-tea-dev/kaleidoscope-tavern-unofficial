@@ -13,7 +13,7 @@
   "live_deployment": false,
   "native_evidence_scope": "Original Minecraft 1.21.1 colour-method execution, original Java model/texture contracts and adapter regressions. Fresh full-family native, saved-world and rendered-client acceptance remain pending.",
   "client": false,
-  "status": "source_frozen_pending_companion_pin_and_canonical_ci",
-  "peer_pins_status": "pending_world_liquor_0.1.158_exact_source",
+  "status": "candidate_pending_canonical_ci_and_family_admission",
+  "peer_pins_status": "paired_with_world_liquor_0.1.158_exact_reviewed_source",
   "family_ready": false
 }

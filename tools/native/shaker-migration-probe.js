@@ -13,6 +13,7 @@ import {captureStackableIngredient,restoreStackableIngredient} from './core/ingr
 import {makeStack} from './bedrock/transactions.js';
 import {runMachineIngredientsProbe} from './machine-ingredients-probe.js';
 import {runStatusAuraProbe} from './status-aura-probe.js';
+import {runPotionBottleProbe} from './potion-bottle-probe.js';
 import {applyCustomEffect,pulseVision,customEffectDiagnostics} from './bedrock/custom-effects.js';
 import {declareInstantEntityProfile,instantEffectDiagnostics} from './bedrock/instant-effects.js';
 import {spawnThrownDrink,resolveThrownDrinkImpact,THROWN_EFFECTS,storageProjectileDiagnostics} from './bedrock/storage-projectile.js';
@@ -238,6 +239,7 @@ world.afterEvents.worldLoad.subscribe(()=>system.runTimeout(async()=>{try{
  }
  portableIngredients(container,phase);
  await runMachineIngredientsProbe({phase,dimension:d,container,out});
+ await runPotionBottleProbe({phase,dimension:d,container,out});
  await runStatusAuraProbe({phase,dimension:d,out});
  const station=d.getBlock({x:4,y:300,z:0}),put='kaleidoscope_tavern:put_visual';
  for(let attempt=0;attempt<2;attempt++){

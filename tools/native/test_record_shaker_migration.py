@@ -5,7 +5,7 @@ import pathlib
 import tempfile
 import unittest
 
-from record_shaker_migration import EVIDENCE_NAME, LOG_NAME, MAIN_OVERLAY_NOTE, PREFIX, validate_phase, validate_recorded_inputs, write_evidence
+from record_shaker_migration import EVIDENCE_NAME, LOG_NAME, MAIN_OVERLAY_NOTE, PREFIX, validate_phase, validate_potion_pair, validate_recorded_inputs, write_evidence
 
 VERSION = '0.1.112'
 
@@ -30,6 +30,29 @@ def transcript(phase):
     for kind, counts in (('pressing_tub', [11]), ('barrel', [3, 5, 1, 1])):
         case('native-machine-write' if phase == 'first' else 'native-machine-restart-recovery', machineKind=kind,
              slots=len(counts), counts=counts, schema=2, **({'hostScopeMetadata': True} if phase == 'first' else {'completeNativeSlots': True}))
+    case('native-potion-registry', currentPotionEffectTypes=['minecraft:future_native', 'minecraft:healing', 'minecraft:poison'],
+         mappedDisplayEffects=['minecraft:healing', 'minecraft:poison'], unmappedDisplayEffects=['minecraft:future_native'],
+         deliveryTypes=['Consume', 'ThrownLingering', 'ThrownSplash'], playerUse=False, client=False)
+    for index, (effect, rgb, x, facing, yaw) in enumerate((('healing', 0xf82423, 16, 'north', 0), ('poison', 0x87a363, 20, 'east', 90))):
+        key = 'kt:vanillaBottleDisplays/minecraft:overworld/'+str(x)+'_300_4'
+        position = dict(x=x, y=300, z=4)
+        carrier, helper_id = 'saved-potion-carrier-'+str(index), phase+'-potion-helper-'+str(index)
+        stack = dict(typeId='minecraft:potion', amount=1, nameTag='Native liquid minecraft:'+effect,
+                     rawLore=[dict(text='Retain potion metadata '+str(index))], canDestroy=['minecraft:stone'], canPlaceOn=['minecraft:glass'],
+                     keepOnDeath=True, lockMode='inventory' if index == 0 else 'slot', properties={'potion_probe:payload':'original stack '+str(index)},
+                     potion=dict(effectId='minecraft:'+effect, deliveryId='Consume'))
+        case('native-potion-liquid', fixtureId='native-potion-123', slot=index, position=position, facing=facing, ownerKey=key,
+             displayPayload=dict(item='minecraft:potion', nativeItems=1, potion=dict(effectId='minecraft:'+('poison' if index == 0 else 'healing'), deliveryId='Consume')),
+             nativeCarrier=carrier, nativeRecord=dict(schema=1, key=key, dimension='minecraft:overworld', position=copy.deepcopy(position),
+                                                    ids=['minecraft:potion']+[None]*8, entity=carrier, token='saved-potion-token-'+str(index)),
+             nativeStack=copy.deepcopy(stack), pickedStack=copy.deepcopy(stack), nativeCarrierCount=1, helperCount=1,
+             helper=dict(id=helper_id, type='kaleidoscope_tavern:potion_liquid_visual', anchor=key, rgb=rgb, position=dict(x=x+.5, y=300, z=4.5),
+                         rotation=dict(x=0, y=yaw), inventory=False), waitedTicks=20, playerUse=False, client=False)
+        if phase == 'restart':
+            case('native-potion-cleanup', fixtureId='native-potion-123', slot=index, ownerKey=key, nativeCarrier=carrier, helperId=helper_id,
+                 recoveredSlot=18+index, recoveredStack=copy.deepcopy(stack), ledgerGone=True, nativeRequiredGone=True,
+                 carrierGone=True, helperGone=True, nearbyHelpers=0, remainingNativeCarriers=0, blockType='minecraft:air', displayPayloadGone=True,
+                 playerUse=False, client=False)
     case('native-aura-chunk-readiness', area='status_aura_qa', readableChunks=4, waitedTicks=5, preload=True)
     if phase == 'first':
         case('native-aura-acquisition', duration=597, ownLease=True, nativeParticleFlagsReadable=False)
@@ -94,6 +117,7 @@ class RecorderTests(unittest.TestCase):
         row = transcript('restart')
         mode(row, 'native-splash-cancelled-hurt').update(status='NATIVE_HURT_REJECTED', apiAcknowledgements=0)
         validate_phase(row, raw_log(row), VERSION)
+        validate_potion_pair([transcript('first'), transcript('restart')])
 
     def recorded_inputs(self):
         current = {}
@@ -104,7 +128,7 @@ class RecorderTests(unittest.TestCase):
         overlays = {name: 'b'*64 for name in (
             'scripts/living-effects-probe.js', 'scripts/native-probe-inputs.js',
             'entities/living-probe.json', 'entities/health-helper-probe.json',
-            'scripts/machine-ingredients-probe.js', 'scripts/status-aura-probe.js')}
+            'scripts/machine-ingredients-probe.js', 'scripts/status-aura-probe.js', 'scripts/potion-bottle-probe.js')}
         overlays['scripts/main.js'] = MAIN_OVERLAY_NOTE
         report = dict(sources={label: dict(commit=source['commit'], repository=source['baseline']['repository'],
                                           version=source['baseline']['version'], source_trees=source['source_trees'])
@@ -142,6 +166,10 @@ class RecorderTests(unittest.TestCase):
         del report['test_only_overlays']['scripts/native-probe-inputs.js']
         with self.assertRaises(AssertionError):
             validate_recorded_inputs(report, current, overlays)
+        report, current, overlays = self.recorded_inputs()
+        del report['test_only_overlays']['scripts/potion-bottle-probe.js']
+        with self.assertRaises(AssertionError):
+            validate_recorded_inputs(report, current, overlays)
 
     def test_missing_duplicate_and_unexpected_modes_are_rejected(self):
         for mutation in ('missing', 'duplicate', 'unexpected', 'legacy-only'):
@@ -158,11 +186,76 @@ class RecorderTests(unittest.TestCase):
                 self.reject(row)
 
         for phase in ('first', 'restart'):
-            for missing in ('native-aura-chunk-readiness', 'native-upside-down-mob-class', 'native-liquor-familyless-fall'):
+            for missing in ('native-aura-chunk-readiness', 'native-upside-down-mob-class', 'native-liquor-familyless-fall', 'native-potion-registry', 'native-potion-liquid'):
                 with self.subTest(phase=phase, missing=missing):
                     row = transcript(phase)
                     row['observations'].remove(mode(row, missing))
                     self.reject(row)
+        row = transcript('restart')
+        row['observations'].remove(mode(row, 'native-potion-cleanup'))
+        self.reject(row)
+
+    def test_potion_registry_requires_current_complete_partition_and_explicit_unmapped_ids(self):
+        for key, value in [('currentPotionEffectTypes', []), ('mappedDisplayEffects', ['minecraft:healing']),
+                           ('unmappedDisplayEffects', []), ('deliveryTypes', ['ThrownSplash']),
+                           ('playerUse', True), ('client', True)]:
+            with self.subTest(key=key):
+                row = transcript('first'); mode(row, 'native-potion-registry')[key] = value; self.reject(row)
+        row = transcript('first'); registry = mode(row, 'native-potion-registry')
+        registry['mappedDisplayEffects'] = registry['currentPotionEffectTypes']; registry['unmappedDisplayEffects'] = []
+        self.reject(row)
+
+    def test_potion_liquid_requires_native_authority_complete_metadata_and_observed_properties(self):
+        for target, key, value in [('row', 'ownerKey', 'wrong-owner'), ('row', 'nativeCarrierCount', 2),
+                                  ('row', 'helperCount', 0), ('row', 'helperCount', 2), ('row', 'waitedTicks', 85),
+                                  ('row', 'playerUse', True), ('row', 'client', True),
+                                  ('helper', 'rgb', 0x87a363), ('helper', 'anchor', 'wrong-owner'), ('helper', 'inventory', True),
+                                  ('helper', 'position', dict(x=16, y=300, z=4)), ('helper', 'rotation', dict(x=0, y=90)),
+                                  ('nativeRecord', 'entity', 'replacement'), ('nativeRecord', 'token', ''),
+                                  ('nativeStack', 'nameTag', 'blank'), ('nativeStack', 'properties', {}),
+                                  ('nativeStack', 'rawLore', []), ('nativeStack', 'canDestroy', []),
+                                  ('nativeStack', 'potion', dict(effectId='minecraft:poison', deliveryId='Consume'))]:
+            with self.subTest(target=target, key=key):
+                row = transcript('first'); liquid = mode(row, 'native-potion-liquid')
+                (liquid if target == 'row' else liquid[target])[key] = value
+                self.reject(row)
+        row = transcript('first'); liquid = mode(row, 'native-potion-liquid')
+        liquid['displayPayload']['potion'] = copy.deepcopy(liquid['nativeStack']['potion'])
+        self.reject(row)
+        row = transcript('first'); liquid = mode(row, 'native-potion-liquid')
+        liquid['pickedStack']['properties'] = {}; self.reject(row)
+
+    def test_potion_restart_cleanup_requires_original_receipt_and_no_remaining_owners(self):
+        for key, value in [('fixtureId', 'native-potion-456'), ('nativeCarrier', 'replacement'), ('helperId', 'wrong-helper'),
+                           ('recoveredSlot', 17), ('ledgerGone', False), ('nativeRequiredGone', False), ('carrierGone', False),
+                           ('helperGone', False), ('nearbyHelpers', 1), ('remainingNativeCarriers', 1),
+                           ('blockType', 'kaleidoscope_tavern:potion_bottle'), ('displayPayloadGone', False), ('client', True)]:
+            with self.subTest(key=key):
+                row = transcript('restart'); mode(row, 'native-potion-cleanup')[key] = value; self.reject(row)
+        row = transcript('restart'); mode(row, 'native-potion-cleanup')['recoveredStack']['properties'] = {}; self.reject(row)
+
+    def test_potion_restart_cannot_recreate_equivalent_fixtures_or_change_saved_metadata(self):
+        for mutation in ('fixture', 'carrier', 'token', 'metadata', 'registry'):
+            with self.subTest(mutation=mutation):
+                first, restart = transcript('first'), transcript('restart')
+                liquid, cleanup = mode(restart, 'native-potion-liquid'), mode(restart, 'native-potion-cleanup')
+                if mutation == 'fixture':
+                    for row in restart['observations']:
+                        if row.get('fixtureId'): row['fixtureId'] = 'native-potion-999'
+                elif mutation == 'carrier':
+                    liquid['nativeCarrier'] = liquid['nativeRecord']['entity'] = cleanup['nativeCarrier'] = 'fresh-carrier'
+                elif mutation == 'token':
+                    liquid['nativeRecord']['token'] = 'fresh-token'
+                elif mutation == 'metadata':
+                    for stack in (liquid['nativeStack'], liquid['pickedStack'], cleanup['recoveredStack']):
+                        stack['canDestroy'] = ['minecraft:dirt']
+                else:
+                    registry = mode(restart, 'native-potion-registry')
+                    registry['currentPotionEffectTypes'].remove('minecraft:future_native'); registry['unmappedDisplayEffects'] = []
+                # Each phase looks valid in isolation; only the paired world
+                # binding rejects these fresh equivalents or altered metadata.
+                for row in (first, restart): validate_phase(row, raw_log(row), VERSION)
+                with self.assertRaises(AssertionError): validate_potion_pair([first, restart])
 
     def test_familyless_fall_requires_real_control_damage_and_public_snapshot(self):
         for key, value in [('target', 'minecraft:cow'), ('nativeMobFamily', True),

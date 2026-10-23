@@ -16,6 +16,10 @@ PREFIX='[LIVING_EFFECT_QA] '
 EVIDENCE_NAME='native-shaker-migration-evidence.json'
 LOG_NAME='native-shaker-migration-evidence.log'
 MAIN_OVERLAY_NOTE='Append only the declared disposable observer import after verifying the complete copied runtime.'
+POTION_GOLDEN=json.loads((ROOT/'data/java-parity/potion-colors.json').read_text())
+POTION_COLORS={row['id']:row['rgb'] for row in POTION_GOLDEN['java_potions']}
+POTION_DISPLAY_IDS={'minecraft:'+name.replace('night_vision','nightvision') for name in POTION_COLORS}|{'minecraft:long_mundane','minecraft:wither'}
+POTION_CASES=(('healing',{'x':16,'y':300,'z':4},'north',0),('poison',{'x':20,'y':300,'z':4},'east',90))
 def digest(data):return hashlib.sha256(data).hexdigest()
 
 def fields(row,names):
@@ -46,6 +50,83 @@ def recipient(row,entity_type):
   fields(row['health'],'currentValue effectiveMin effectiveMax')
   for value in row['health'].values():number(value)
 
+def strings(value,nonempty=False):
+ assert isinstance(value,list) and all(isinstance(item,str) and item for item in value),value
+ assert not nonempty or value,value
+ same(value,sorted(set(value)))
+
+def potion_stack(row,index):
+ fields(row,'typeId amount nameTag rawLore canDestroy canPlaceOn keepOnDeath lockMode properties potion')
+ effect='minecraft:'+POTION_CASES[index][0]
+ same(row['typeId'],'minecraft:potion');same(row['amount'],1)
+ same(row['nameTag'],'Native liquid '+effect);same(row['keepOnDeath'],True)
+ same(row['lockMode'],'inventory' if index==0 else 'slot')
+ same(row['properties'],{'potion_probe:payload':'original stack '+str(index)})
+ same(row['potion'],{'effectId':effect,'deliveryId':'Consume'})
+ # Preserve the actual native RawMessage/adventure-list expansion rather than
+ # assuming one engine-specific representation of those ItemStack fields.
+ assert isinstance(row['rawLore'],list) and len(row['rawLore'])==1
+ assert 'Retain potion metadata '+str(index) in json.dumps(row['rawLore'])
+ for key in ('canDestroy','canPlaceOn'):
+  assert isinstance(row[key],list) and row[key] and all(isinstance(value,str) and value for value in row[key])
+
+def potion_observations(case,phase):
+ row=case('native-potion-registry','currentPotionEffectTypes mappedDisplayEffects unmappedDisplayEffects deliveryTypes playerUse client')
+ for key in ('currentPotionEffectTypes','mappedDisplayEffects','unmappedDisplayEffects','deliveryTypes'):strings(row[key],key!='unmappedDisplayEffects')
+ same(row['playerUse'],False);same(row['client'],False)
+ assert 'Consume' in row['deliveryTypes']
+ same(sorted(row['mappedDisplayEffects']+row['unmappedDisplayEffects']),row['currentPotionEffectTypes'])
+ same(row['mappedDisplayEffects'],[effect for effect in row['currentPotionEffectTypes'] if effect in POTION_DISPLAY_IDS])
+ same(row['unmappedDisplayEffects'],[effect for effect in row['currentPotionEffectTypes'] if effect not in POTION_DISPLAY_IDS])
+ for effect,_,_,_ in POTION_CASES:assert 'minecraft:'+effect in row['mappedDisplayEffects']
+ for index,(effect,position,facing,yaw) in enumerate(POTION_CASES):
+  row=case('native-potion-liquid','fixtureId slot position facing ownerKey displayPayload nativeCarrier nativeRecord nativeStack pickedStack nativeCarrierCount helper helperCount waitedTicks playerUse client',index)
+  assert isinstance(row['fixtureId'],str) and re.fullmatch(r'native-potion-\d+',row['fixtureId'])
+  same(row['slot'],index);same(row['position'],position);same(row['facing'],facing)
+  key='kt:vanillaBottleDisplays/minecraft:overworld/'+str(position['x'])+'_300_4'
+  same(row['ownerKey'],key);same(row['playerUse'],False);same(row['client'],False)
+  same(row['nativeCarrierCount'],1);same(row['helperCount'],1)
+  same(row['displayPayload'],{'item':'minecraft:potion','nativeItems':1,'potion':{'effectId':'minecraft:'+POTION_CASES[1-index][0],'deliveryId':'Consume'}})
+  assert isinstance(row['nativeCarrier'],str) and row['nativeCarrier']
+  record=row['nativeRecord'];fields(record,'schema key dimension position ids entity token')
+  same(record['schema'],1);same(record['key'],key);same(record['dimension'],'minecraft:overworld')
+  same(record['position'],position);same(record['ids'],['minecraft:potion']+[None]*8)
+  same(record['entity'],row['nativeCarrier']);assert isinstance(record['token'],str) and record['token']
+  potion_stack(row['nativeStack'],index);same(row['pickedStack'],row['nativeStack'])
+  helper=row['helper'];fields(helper,'id type anchor rgb position rotation inventory')
+  assert isinstance(helper['id'],str) and helper['id'] and helper['id']!=row['nativeCarrier']
+  same(helper['type'],'kaleidoscope_tavern:potion_liquid_visual');same(helper['anchor'],key)
+  same(helper['rgb'],POTION_COLORS[effect]);same(helper['inventory'],False)
+  fields(helper['position'],'x y z');fields(helper['rotation'],'x y')
+  for axis in ('x','y','z'):
+   number(helper['position'][axis]);assert abs(helper['position'][axis]-position[axis]-(0 if axis=='y' else .5))<1e-4
+  number(helper['rotation']['x']);number(helper['rotation']['y'])
+  assert abs(helper['rotation']['x'])<1e-4 and abs(helper['rotation']['y']-yaw)<1e-4
+  number(row['waitedTicks'],0,80,True);same(row['waitedTicks']%5,0)
+  if phase=='restart':
+   cleanup=case('native-potion-cleanup','fixtureId slot ownerKey nativeCarrier helperId recoveredSlot recoveredStack ledgerGone nativeRequiredGone carrierGone helperGone nearbyHelpers remainingNativeCarriers blockType displayPayloadGone playerUse client',index)
+   for name in ('fixtureId','slot','ownerKey','nativeCarrier'):same(cleanup[name],row[name])
+   same(cleanup['helperId'],helper['id']);same(cleanup['recoveredSlot'],18+index);same(cleanup['recoveredStack'],row['nativeStack'])
+   for name in ('ledgerGone','nativeRequiredGone','carrierGone','helperGone','displayPayloadGone'):same(cleanup[name],True)
+   for name in ('nearbyHelpers','remainingNativeCarriers'):same(cleanup[name],0)
+   same(cleanup['blockType'],'minecraft:air');same(cleanup['playerUse'],False);same(cleanup['client'],False)
+
+def validate_potion_pair(reports):
+ """Bind restart observations to the original fixtures, not fresh equivalents."""
+ same([report['phase'] for report in reports],['first','restart'])
+ def rows(report,mode):return [row for row in report['observations'] if row.get('mode')==mode]
+ registries=[rows(report,'native-potion-registry') for report in reports]
+ assert all(len(group)==1 for group in registries)
+ same({k:v for k,v in registries[0][0].items() if k!='phase'},{k:v for k,v in registries[1][0].items() if k!='phase'})
+ first,restart=(rows(report,'native-potion-liquid') for report in reports)
+ assert len(first)==len(restart)==2
+ for index,(before,after) in enumerate(zip(first,restart)):
+  same(before['slot'],index);same(after['slot'],index)
+  for key in ('fixtureId','position','facing','ownerKey','displayPayload','nativeCarrier','nativeRecord','nativeStack','pickedStack'):same(after[key],before[key])
+ same(first[0]['fixtureId'],first[1]['fixtureId'])
+ assert first[0]['nativeCarrier']!=first[1]['nativeCarrier']
+ for group in (first,restart):assert group[0]['helper']['id']!=group[1]['helper']['id']
+
 def validate_observations(observations,phase,version):
  """Accept the complete current observer contract, not an arbitrary case count."""
  assert phase in ('first','restart') and isinstance(observations,list)
@@ -64,9 +145,9 @@ def validate_observations(observations,phase,version):
  expected={name:1 for name in ('addon_registration','portable-stackable-ingredient-metadata',aura,'native-aura-chunk-readiness',
   'native-one-tick-invisibility-expiry','native-outline-registry','native-put-recovery','native-splash-rolled-heal',
   'native-splash-persisted-hook','native-splash-armor-stand-immunity','native-splash-cancelled-hurt',
-  'native-vision-recipient-components','native-vision-living-class','native-upside-down-mob-class','native-liquor-familyless-fall')}
- expected.update({migration:2,machine:2,'native-splash-hurt-source':2})
- if phase=='restart':expected['native-aura-foreign-handoff']=1
+  'native-vision-recipient-components','native-vision-living-class','native-upside-down-mob-class','native-liquor-familyless-fall','native-potion-registry')}
+ expected.update({migration:2,machine:2,'native-splash-hurt-source':2,'native-potion-liquid':2})
+ if phase=='restart':expected.update({'native-aura-foreign-handoff':1,'native-potion-cleanup':2})
  same({mode:len(rows) for mode,rows in groups.items()},expected)
  def case(mode,names,index=0,legacy=False):
   row=groups[mode][index];fields(row,'kind mode '+('' if legacy else 'phase ')+names)
@@ -92,6 +173,7 @@ def validate_observations(observations,phase,version):
   flag='hostScopeMetadata' if phase=='first' else 'completeNativeSlots'
   row=case(machine,'machineKind slots counts schema '+flag,index)
   values(row,machineKind=kind,slots=len(counts),counts=counts,schema=2,**{flag:True})
+ potion_observations(case,phase)
  row=case('native-aura-chunk-readiness','area readableChunks waitedTicks preload')
  values(row,area='status_aura_qa',readableChunks=4,preload=True)
  number(row['waitedTicks'],5,300,True);same(row['waitedTicks']%5,0)
@@ -202,6 +284,7 @@ def main():
     extras={'scripts/living-effects-probe.js':ROOT/'tools/native/shaker-migration-probe.js','entities/living-probe.json':ROOT/'tools/native/living-probe-entity.json',
             'entities/health-helper-probe.json':ROOT/'tools/native/health-helper-entity.json',
             'scripts/machine-ingredients-probe.js':ROOT/'tools/native/machine-ingredients-probe.js',
+            'scripts/potion-bottle-probe.js':ROOT/'tools/native/potion-bottle-probe.js',
             'scripts/status-aura-probe.js':ROOT/'tools/native/status-aura-probe.js'}
    generated={'scripts/native-probe-inputs.js':probe_inputs}if label=='tavern' and kind=='BP'else {}
    actual={f.relative_to(staged).as_posix() for f in staged.rglob('*') if f.is_file()}
@@ -226,10 +309,11 @@ def main():
   summaries.append({**row,'completeLogSHA256':digest(raw),'completeLogBytes':len(raw),'returnCode':0,'completeLogAdditionalChecks':True})
   logs.append('\n'.join(line for line in text.splitlines()if any(marker in line for marker in ['Version:','Build ID:','Commit ID:','Pack Stack','[LIVING_EFFECT_QA]','stop requested','Stopping server','Quit correctly'])))
  same(registrations[0],registrations[1])
+ validate_potion_pair(report['reports'])
  evidence={'schema':1,'bdsVersion':'1.26.52.3','scriptAPI':'2.7.0','versions':versions,'sourceTrees':source_trees,'observerInputsSHA256':inputs,
   'sourcePacksEqualNativeInputsExceptExplicitObserver':True,'nativeServerSaveRestart':True,'nativeCrossIdReadableMetadata':True,'nativePutRecoveryAndRearm':True,
   'playerSessions':0,'client':False,'live':False,'fpsMeasured':False,'idleCallbacksMeasured':False,'crossPackPrivateDataPreservation':False,
-  'scope':'Real chest and machine ItemStacks, script-set PUT permutations, native aura chunk readiness and lease restart, Vision and Upside Down recipient APIs, and public effect-snapshot delivery to familyless cod with native fall-damage control/protection outcomes. Projectile impact envelopes are observer inputs. Host-scope dynamic properties only. Not physical projectile collision, particle pixels, player spawn/use, chunk re-entry or a private existing-world migration.',
+  'scope':'Real chest and machine ItemStacks; two native potion carriers with original metadata, stale JSON counterfactuals, readonly pick, production liquid RGB properties, same-world restart and exact removal/cleanup; current native potion registry coverage; script-set PUT permutations; native aura chunk readiness and lease restart; Vision and Upside Down recipient APIs; public effect-snapshot delivery to familyless cod with native fall-damage control/protection outcomes. Block/storage setup and projectile impact envelopes are observer inputs. Host-scope dynamic properties only. Not client-rendered colours, physical projectile collision, particle pixels, player spawn/use, chunk re-entry or a private existing-world migration.',
   'reports':summaries,'command':'python tools/native/run_living_effects.py --engine <isolated BDS 1.26.52.3> --liquor <paired World Liquor source> --work <new disposable directory> --port <isolated-port> --probe tools/native/shaker-migration-probe.js'}
  target=write_evidence(work,evidence,logs)
  print(json.dumps({'evidence':str(target),'versions':versions,'sourceTrees':source_trees,'nativeSaveRestart':True,'players':0,'client':False}))

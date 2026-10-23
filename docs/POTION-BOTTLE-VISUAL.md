@@ -15,6 +15,12 @@ signature outputs remain byte-identical. Original liquid alpha holes, three
 source shades and PBR roughness 200 are retained. Every potion uses the same
 three geometries and opaque white texture, with three synced RGB properties.
 
+The combined geometry check validates this current resource contract before
+accounting for its four shared meshes. Glass uses seven cubes; each liquid
+shade uses at most 21 single-face rectangles (504 allocated vertices). The
+existing base-model budget remains below 1,024. This is a project budget,
+not a claimed engine-wide geometry-ID limit or rendered-client evidence.
+
 The saved native ItemStack remains the only adopted item authority. Colour
 reads use the same strict native plan as pick/removal. Missing adopted carriers
 remove the cosmetic liquid and never reconstruct a replacement item. Creative
