@@ -17,11 +17,6 @@
       "after": "d06b616619a3294d1b4ad170ac0d3a7b88c7f3370fb2d138988de7edf07efdd5",
       "reason": "One helper query per rack, group sweeps, actual-state delta setters and no ambient registration for empty racks. Preserve pose, pop rules and 1/8 particle test."
     },
-    "runtime/BP/scripts/bedrock/custom-effects.js": {
-      "before": "68facc19e370fca2f1052b3d4b2beedbcdd0261ce3279ba9aa5c4c8cbc976d38",
-      "after": "0d143e4c0e4f344e47e838232deb56b30ed83a925e61ce55ab85f9ba8dc69057",
-      "reason": "Share same-tick status windows; skip unchanged writes and enumerate only active fast-effect players each tick. Preserve 5-tick discovery/persistence, expiry side effects, migration receipts and disconnect semantics."
-    },
     "runtime/BP/scripts/bedrock/extension-furniture.js": {
       "before": "e3ed4b0869cb0a60928d4ce4c3228cb26ce8ac2d9bf48b64022b3c5a482c9177",
       "after": "ceff6646a47417705d55a9fca9ba420549ec3b6baeb7121c6db12dd8358c65d9",

@@ -1,3 +1,14 @@
+## 0.6.179
+
+- Restrict the new initial clock anchor to nonempty saved effects so an expired mob effect stays retired when its status is read again. The existing Bloody Mary regression rejected the frozen T178 candidate; its identity and history are preserved.
+- Retain T178 ordinary-ice translucency and online countdown fixes, paired with W157. Retire the affected effects/material inverse-source ledgers in favor of current behavior and Java resource contracts; see [parity status](docs/PARITY-MATRIX.md).
+
+## 0.6.178
+
+- Render ordinary ice with alpha blending in all four barrel ingredient slots; preserve packed/blue ice, geometry, UVs and animation.
+- Anchor saved custom-effect countdowns on the first successful read of each loaded handle, retaining offline pause and persistence semantics.
+- Pair with World Liquor 0.1.155. Required CI rejected the empty-effect retirement regression; this candidate was not merged or deployed, and its release identity remains preserved.
+
 ## 0.6.175
 
 - Apply the approved tilted-rack first-person-only +6 Y usability adjustment; preserve its geometry, texture and other views. Editor framing does not establish original Java-client clipping.

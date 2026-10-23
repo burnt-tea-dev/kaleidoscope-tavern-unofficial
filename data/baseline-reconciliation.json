@@ -1404,12 +1404,6 @@
       "reason": "Current Java parity repair, tested against independent source inputs; historical preimage remains immutable.",
       "beforeGzipBase64": "H4sIAAAAAAACA51SQW6DMBC88wrkM4pCj/yAc45VhByzpCvMGnmXSFXE32sHQs2lqXLzemfGMyPfszxXnfODluYGntGRqnJVHj6Oh/KoirgekMB43UnlweAIDX/pEdqAu4d1ALTAxuMoC3m5DNfYAgl2CD5K9toCto6NCwqiw2NU8eg8NEgGiEE9eHOxaIq+cqB9PsUeBpCugXqxK/a8YkctEuRSeF3XqtiGUzqEzY7dw3fquk6GGEJgiPZ/S0DqG9ZGrZh5Uz69Yi5xL9Yxu2Hj72J74MnKrsVV5nV/mxHjJooa5U56IutMn5T0Vso3Av5B/eeneLZ0zuJpzn4AQDzFvbYCAAA="
     },
-    "runtime/BP/scripts/bedrock/custom-effects.js": {
-      "before": "0d143e4c0e4f344e47e838232deb56b30ed83a925e61ce55ab85f9ba8dc69057",
-      "after": "59a68b2ddae9959e5208257ac93b07dfc05105ab9bfd825231169f51ecbcc62d",
-      "reason": "Current author instant-effect LivingEntity/shriek/height/audio and fall class repair; synced T116/L83 identity. Original preimage retained; see host docs/JAVA-INSTANT-EFFECTS-0.6.116.md.",
-      "beforeGzipBase64": "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"
-    },
     "runtime/BP/scripts/core/armor-wear.js": {
       "before": null,
       "after": "6df5645c21308027595dabb889b096c6038885278bd40d7ae709b6a8be9cf6fc",
@@ -1454,36 +1448,6 @@
       "before": "806ed6e1887944969779436e28867e22a7d3178c45805e2ec48849342c7486ed",
       "after": "095435125c36e6e455ded886988b79c6ac6dd7a0efac95494bce84a0afeec9b3",
       "beforeGzipBase64": "H4sIAAAAAAACA22STU8DIRCG7/srSM/GutX6UeNB08Y0mh5q74SF6UJKgcBstmr870K1Gsde55mBl2cYDtkKdthFYMYpIyGxpEUExXqDmqEG1oKDKDCXGhEjWJasR6bBBojptIJd8BGZ9C4he7hfLmfPfL54XM6m89lixZ/mi+nL3XvF2GBrHMgo1jgRIVgYTFh98rfeWPEGPPheQcx4RHBrfc+N2/AkZMbnR3BC74CrLmFuuKAN3iruuraFQseUdu7n5kvCdD71Vfptk9kVYSZ693vqNaHBo0CfwQ0B2fE+bNFwRljqWlFi1PUxwKX4GqN+Ug+AvIEYDaTSQA31GkQJWVMz0SOC42sLSRc+/reYDnj+HYVRN99lqiUIuQF1GKJalIn7INTKQcmIKgll7wFQ2PKyUV193Fafv8fvo70CAAA=",
-      "reason": "Reviewed barrel ingredient material coverage; see docs/BARREL-MATERIALS-20261001.md and tools/barrel-materials.test.mjs."
-    },
-    "runtime/RP/entity/runtime_barrel_ingredients_0.entity.json": {
-      "before": "b647d96d3834e0a5037b52dac35a71b0aff80330d7b86c906583acf887ea850c",
-      "after": "614627a8e8e5972dad50b0fe79f3b0284f4991d501c6738ccf3d03bba47dbc45",
-      "beforeGzipBase64": "H4sIAAAAAAACA5WV3Y6jMAyF7/sUFdcrBro/M9NXGa2ikBgaEZIoMdPtjvrum8DCTolbaS8QUvydYxuD+djt90Vr/cCRvYMPypriuC/qsq7KqviSooMyIDxv8Si0AoMsXgovEfuI4QhICMIrh7N2PozHSiawVeCTY881KGmDsA4Y8pjLHBvuPWimTOdBJuvAKvauwsj1lHqyiZWBV1yHT95T0paPGpP1XA/j2p0iG7D4S11XD4RfOHrYWPTKSFYnhyX+pBCG8MSd07BWsJAHgmw0/w3M2bOMXW4FXwmBvCw467Q9Z5pvhCaBAa0BJsfY3VbynZJYLZkZuw5y/gfFj+ZOE88EfYq1XIQdmox+IWjlrblXyyvBO4scbYbWFcHG9+bBk6mp4Yax43mb9YF0j/Y5Ss01nAGQNeC9AkJCjfV8Ak7UTI3TW0QwrNUQTrnidqCNtqJPtxGYEvlrXD9TOEm+3CGZ46IHmQteKYFUPm/zUFHoNMucpcbolOmZA0yLIfveO7ADoL/cfu+Ce5mclmjZI/NjXB4DlMQqmvBPtYixgf+RJzyrjBsVF1rclJtd1GrLp2W2Ao/ty1mQ+c+beGM+e6bi39bDNed68jMz82DSohLWoLdax9/DjUXxL1DO6OOal1RzousuXdfdHzhWoTSCBgAA",
-      "reason": "Reviewed barrel ingredient material coverage; see docs/BARREL-MATERIALS-20261001.md and tools/barrel-materials.test.mjs."
-    },
-    "runtime/RP/entity/runtime_barrel_ingredients_1.entity.json": {
-      "before": "0a33b4b4d7e8807a9ee38a56c2b3e8149cafe9ad27f3f8bb1685f54c99ab9fe0",
-      "after": "34f14c8a8fcbb621cfce5d9daa83fed3aeb13b50e402788081e60c1c3dfe47cf",
-      "beforeGzipBase64": "H4sIAAAAAAACA5WV3Y6jMAyF7/sUFdcrpnR/ZqavMlpFITE0IiRR4ky3O+q7bwILO23cSnuBkOLvHNsYzMdmu60660eO7B18UNZUh23V1M2u3lVfcnRUBoTnHR6EVmCQpUvhOWEfKZwACUF45XDWzofpWMkMdgp8dhy4BiVtENYBQ55ymUPLvQfNlOk9yGwdWMPeVYhcT6knm1QZeMV1+OQ9Je141Jit53oY1+6Y2IDVX+qyeiD8wujhxmJQRrImOyzxJ4UwhifunIa1goXcE2Sr+W9gzp5k6vJW8JUQyPOCs17bU6H5RmgyGNAaYDKm7m4l3ymJ1ZKZ2PdQ8j8oPpo7TTwT9DHVchZ2bAv6haCVt+ZeLa8E7yxytAXa7Ag2vTcPnkxDDTfEnpdtNnvSPdmXKDXXcAJA1oL3CggJNdbTEThRMzVObxHBsE5DOJaK64G22ooh3yIwJcrXuHmmcJJ8uUMyx8UAshS8UgKpfNnmfkeh0yxLlhqjU2ZgDjAvhuJ778GOgP58/b0L7mV2WqL1gMzHtDxGqIlVNOGfahGxhf+RZ7yojBuVFlralDe7qNOWT8tsBR7b17Og8J838Y357JmLf1sP15zryc/CzIPJi0pYg95qnX4PVxbVv0A9o49rXlLNiS6bfF02fwDqfspFggYAAA==",
-      "reason": "Reviewed barrel ingredient material coverage; see docs/BARREL-MATERIALS-20261001.md and tools/barrel-materials.test.mjs."
-    },
-    "runtime/RP/entity/runtime_barrel_ingredients_2.entity.json": {
-      "before": "30241a002d6509ccce6532da5fd5442a174ed28be44d13c8d0a6e428d77a2460",
-      "after": "b57a7603c071f1cd73a0ae03b114ab2d6f578019d9ac4afce073f59be1f689f7",
-      "beforeGzipBase64": "H4sIAAAAAAACA5WV3Y6jMAyF7/sUFdcrpnR/ZqavMlpFITE0IiRR4ky3O+q7bwILO23cSnuBkOLvHNsYzMdmu60660eO7B18UNZUh23V1M2u3lVfcnRUBoTnHR6EVmCQpUvhOWEfKZwACUF45XDWzofpWMkMdgp8dhy4BiVtENYBQ55ymUPLvQfNlOk9yGwd2J69qxC5nlJPNqky8Irr8Ml7StrxqDFbz/Uwrt0xsQGrv9Rl9UD4hdHDjcWgjGRNdljiTwphDE/cOQ1rBQu5J8hW89/AnD3J1OWt4CshkOcFZ722p0LzjdBkMKA1wGRM3d1KvlMSqyUzse+h5H9QfDR3mngm6GOq5Szs2Bb0C0Erb829Wl4J3lnkaAu02RFsem8ePJmGGm6IPS/bbPake7IvUWqu4QSArAXvFRASaqynI3CiZmqc3iKCYZ2GcCwV1wNttRVDvkVgSpSvcfNM4ST5codkjosBZCl4pQRS+bLN/Y5Cp1mWLDVGp8zAHGBeDMX33oMdAf35+nsX3MvstETrAZmPaXmMUBOraMI/1SJiC/8jz3hRGTcqLbS0KW92Uactn5bZCjy2r2dB4T9v4hvz2TMX/7YerjnXk5+FmQeTF5WwBr3VOv0eriyqf4F6Rh/XvKSaE102+bps/gCcB3fWggYAAA==",
-      "reason": "Reviewed barrel ingredient material coverage; see docs/BARREL-MATERIALS-20261001.md and tools/barrel-materials.test.mjs."
-    },
-    "runtime/RP/entity/runtime_barrel_ingredients_3.entity.json": {
-      "before": "0494d770da1bdd2b61fa1a26a0ff1a7cd6ac37072a8ce962a9975d1824875cf9",
-      "after": "05da006e6b1c7d45da1896d293593a68ede4e2e2be7061409b3b884401d016c7",
-      "beforeGzipBase64": "H4sIAAAAAAACA5WV0Y6bMBBF3/MVEc8VG7Jtdze/UlWWsQdiYWzLHm+arvLvtaHQTTyJ1AeE5Dn3zgwDw8dmu60660eO7B18UNZUh23V1M2u3lVfcnRUBoTnHR6EVmCQpUvhOWEfKZwACUF45XDWzofpWMkMdgp8dhy4BiVtENYBQ55ymUPLvQfNlOk9yGwd2DN7VyFyPaWebFJl4BXX4ZP3lLTjUWO2nuthXLtjYgNWf6nL6oHwC6OHG4tBGcma7LDEnxTCGJ64cxrWChZyT5Ct5r+BOXuSqctbwTMhkOcFZ722p0LzldBkMKA1wGRM3d1KvlESqyUzse+h5L9TfDR3mngh6GOq5Szs2Bb0K0Erb829Wt4I3lnkaAu02RFsem8ePJmGGm6IPS/bbPake7IvUWqu4QSArAXvFRASaqynI3CiZmqc3iKCYZ2GcCwV1wNttRVDvkVgSpSvcfNC4ST5eodkjosBZCl4owRS+bLN/Y5Cp1mWLDVGp8zAHGBeDMX33oMdAf35+nsX3MvstETrAZmPaXmMUBOraMI/1SJiC/8jz3hRGTcqLbS0KW92Uactn5bZCjy2r2dB4T9v4hvz2TMX/2M9XHOuJz8LMw8mLyphDXqrdfo9XFlU/wL1jD6ueUk1J7ps8nXZ/AFOLxynggYAAA==",
-      "reason": "Reviewed barrel ingredient material coverage; see docs/BARREL-MATERIALS-20261001.md and tools/barrel-materials.test.mjs."
-    },
-    "runtime/RP/render_controllers/runtime_barrel_ingredients.render_controllers.json": {
-      "before": "42480537c4dd32798f099f0e8bb714d4a086d9b3bb839907d39738742724d4b1",
-      "after": "8309d601a846acf61b2c02f78d2b5fe312049f4725bf8a3a1d1f68ec0dac6c56",
-      "beforeGzipBase64": "H4sIAAAAAAACA5WVX2+CMBTF3/kUDS/q4hqK/9DELXva0972ZgypcjWNCO5alxHlu68whxjdHX2jPae/3h645egw5q5S3EodfgLuVZq4E+YKHnDP7RYiQhIBhss00ZjGsfEYw9EoRrtM8h8b3+gQD4lWW+ALiQhxqJI1QqQg0ZeFZuka0i1ozIrd2h98h+kOUGft1kbGoKJ0vzQToZamqGSyUUnU6rDplIkhO52YhX9k6Q8s/WM7v+912DN7PR+eLw8LYJPaWGJUxl5mZF4KoJJxEdzsPMmqCEvLQ5Hf29nHI1jJQ6zdypGfn+YVU8OXPiBcI90XRJnxosxZs7M8irl7w5YFpf6Wr/e7Kvyy41Ulpfb+s6ZUQ1HlcU/1SbVHqn1SHZDqkFRHpBqQ6phUhUfLdFqCjkvQeQk6MEEnJujIBJ2ZoEMTdGo+nZov3Jo6v+mevPrCdxLNPan2aqFipbO/+1Jp2IZe0Zz/9dMyNfeluRyemFfr2y6BFXZY0RDr22H9htieHbbXENu3w/YbYgd22EFD7NAOO2yIHdlhRw2xgR02uPO/cX5HuZM73/LTbhhlCAAA",
       "reason": "Reviewed barrel ingredient material coverage; see docs/BARREL-MATERIALS-20261001.md and tools/barrel-materials.test.mjs."
     },
     "runtime/BP/scripts/core/cocktail-colors.js": {
@@ -4840,58 +4804,6 @@
       "reviewedSourceCommit": "44ee5de7fa582f2f7f784ad529269e5543b48aab",
       "reviewDocument": "docs/RELEASE-NOTES-0.6.129.md",
       "files": {
-        "runtime/BP/scripts/bedrock/custom-effects.js": {
-          "before": "59a68b2ddae9959e5208257ac93b07dfc05105ab9bfd825231169f51ecbcc62d",
-          "after": "a42702abd25ac1c87851e14ebd258f7691755d7731d6eabf30ddec72a25a95f1",
-          "reason": "Java-whitelisted Ardent Heat destruction delegates to native setblock destroy instead of synthetic drops; slow High Heels movement uses native collision and velocity preservation. Native command evidence does not establish player-attributed destroy events or true step-height parity.",
-          "reverseOps": [
-            [
-              7,
-              8,
-              "import {EquipmentSlot,ItemStack,system,world,ScriptEventSource,GameMode} from '@minecraft/server';\n"
-            ],
-            [
-              12,
-              13,
-              "import {CUSTOM_STATUS_KEY,CUSTOM_IMPLEMENTED,readStatus,addStatus,removeStatus,advanceStatus,activeStatus,killHeal,orbVelocity,inflatedAabbIntersects,countdownPulseCrossed,visionRadius,grassStealthEligible,extendedReachDistance,tombRaiderTarget,tombRaiderProc,ardentHeatBreakable,ardentHeatDrop,ardentFrontBlocks,highHeelsDirection,highHeelsBlocked,highHeelsNearBoundary,highHeelsTarget} from '../core/custom-effects.js';\n"
-            ],
-            [
-              174,
-              175,
-              "function breakArdentBlock(p,block){\n"
-            ],
-            [
-              176,
-              183,
-              " const old=block.permutation,dropId=ardentHeatDrop(block.typeId);let item;\n"
-            ],
-            [
-              184,
-              186,
-              "  block.setType('minecraft:air');\n  item=p.dimension.spawnItem(new ItemStack(dropId,1),{x:block.location.x+.5,y:block.location.y+.5,z:block.location.z+.5});\n  return true;\n"
-            ],
-            [
-              187,
-              189,
-              "  try{item?.remove();}catch{}\n  if(block.isAir)try{block.setPermutation(old);}catch{customEffectDiagnostics.ardentRollbackFailures++;}\n"
-            ],
-            [
-              220,
-              221,
-              " for(const pos of ardentFrontBlocks(base,yaw))try{if(breakArdentBlock(p,p.dimension.getBlock(pos)))broke++;}catch(e){error(e);}\n"
-            ],
-            [
-              238,
-              240,
-              "  const obstacle=d.getBlock(ahead),body=d.getBlock({...ahead,y:ahead.y+1}),head=d.getBlock({...ahead,y:ahead.y+2});\n  if(!obstacle||obstacle.isAir||!body?.isAir||!head?.isAir)return false;\n"
-            ],
-            [
-              242,
-              246,
-              "  if(!p.tryTeleport(target,{checkForBlocks:true})){customEffectDiagnostics.highHeelsRejected++;return false;}\n"
-            ]
-          ]
-        },
         "runtime/BP/scripts/bedrock/immersion.js": {
           "before": "b18ab01e48e3001452b1441828a3ade14cf9abe518cc249ae0c5f06fe7f5203f",
           "after": "8c985a357c146d0274a0531689505f2f498ffeb22efae4d20a036975fd395eb3",
@@ -5453,43 +5365,6 @@
             ]
           ]
         },
-        "runtime/BP/scripts/bedrock/custom-effects.js": {
-          "before": "a42702abd25ac1c87851e14ebd258f7691755d7731d6eabf30ddec72a25a95f1",
-          "after": "8ac6eceadf72c117cd18b546377a1bd488fe44339ba86d43cf5f8fc920664ccd",
-          "reason": "Per-tick Ardent termination with once-only Hunger, preserved longer weaker durations and settled adjacent countdown pulses; native living Bloody Mary kill healing.",
-          "reverseOps": [
-            [
-              18,
-              22,
-              "function indexFastPlayer(p,state){\n if(state.entries.some(row=>row.id==='kaleidoscope_tavern:ardent_heat'||row.id==='kaleidoscope_tavern:high_heels'))fastPlayers.set(p.id,p);\n"
-            ],
-            [
-              37,
-              38,
-              " const snapshot={player:p,tick:now,raw,before,state,isPlayer:p.typeId==='minecraft:player'};statusSnapshots.set(p.id,snapshot);indexFastPlayer(p,state);return snapshot;\n"
-            ],
-            [
-              72,
-              75,
-              " // The remaining own timed behavior still has player-specific adapters.\n if(p?.typeId!=='minecraft:player')return false;\n"
-            ],
-            [
-              229,
-              267,
-              " for(const p of fastPlayers.values())try{if(activeStatus(statusNow(p),'kaleidoscope_tavern:ardent_heat'))pulseArdentHeat(p);}catch(e){error(e);}\n"
-            ],
-            [
-              293,
-              294,
-              "  if(!p||p.typeId!=='minecraft:player'||p.id===victim?.id||deaths.has(victim.id))return;\n"
-            ],
-            [
-              318,
-              322,
-              "  const {before,state}=statusWindow(p),previousVision=activeStatus(before,'kaleidoscope_tavern:vision'),currentVision=activeStatus(state,'kaleidoscope_tavern:vision'),previousArdent=activeStatus(before,'kaleidoscope_tavern:ardent_heat'),currentArdent=activeStatus(state,'kaleidoscope_tavern:ardent_heat');let nextState=state;\n  if(previousVision){const afterTicks=currentVision?.amplifier===previousVision.amplifier?currentVision.ticks:0;if(countdownPulseCrossed(previousVision.ticks,afterTicks,50))pulseVision(p,previousVision.amplifier);}\n  if(previousArdent&&!currentArdent){try{p.addEffect('hunger',600,{amplifier:0,showParticles:true});customEffectDiagnostics.ardentHungerEnds++;}catch(e){error(e);}}\n  const previousGrass=activeStatus(before,'kaleidoscope_tavern:grass_stealth'),currentGrass=activeStatus(state,'kaleidoscope_tavern:grass_stealth');\n  if(previousGrass){const afterTicks=currentGrass?.amplifier===previousGrass.amplifier?currentGrass.ticks:0;if(countdownPulseCrossed(previousGrass.ticks,afterTicks,10))pulseGrassStealth(p);}\n  if(currentArdent){const hunger=p.getComponent?.('minecraft:player.hunger'),saturation=p.getComponent?.('minecraft:player.saturation');if(hunger&&saturation&&hunger.currentValue<=0&&saturation.currentValue<=.01){nextState=removeStatus(nextState,'kaleidoscope_tavern:ardent_heat');try{p.addEffect('hunger',600,{amplifier:0,showParticles:true});customEffectDiagnostics.ardentHungerEnds++;}catch(e){error(e);}}}\n"
-            ]
-          ]
-        },
         "runtime/BP/scripts/bedrock/mixology.js": {
           "before": "f4c8c2455711ee98874ad88f33a0b8ebb2554a02c2e4ab42677dcc670ffe5501",
           "after": "055a274e35c9f24e0630a0a971389d116c41e4c82375ad5c777deb4460254ce6",
@@ -5616,58 +5491,6 @@
               186,
               191,
               "   check(e.player.dimension.id===d.id,'DIMENSION_CHANGED');const b=blockAt(d,p);check(b&&current(b)===sig,'BLOCK_CHANGED');sameHand(e.player,hs);\n   return farmUse(e.player,b);\n"
-            ]
-          ]
-        },
-        "runtime/BP/scripts/bedrock/custom-effects.js": {
-          "before": "8ac6eceadf72c117cd18b546377a1bd488fe44339ba86d43cf5f8fc920664ccd",
-          "after": "9a457431ac90412baddb39c407d9c3171347b01b9f0fd7656a758e130d326e2b",
-          "reason": "Check the actual native effect registry before requesting Glowing, retain bounded per-target Vision sound feedback when unavailable, and state the stable targeting API boundary; rendered outline parity remains pending.",
-          "reverseOps": [
-            [
-              7,
-              9,
-              "import {EquipmentSlot,system,world,ScriptEventSource,GameMode} from '@minecraft/server';\n"
-            ],
-            [
-              15,
-              16,
-              ""
-            ],
-            [
-              18,
-              19,
-              "export const customEffectDiagnostics={applied:0,killHeals:0,orbMoves:0,teleports:0,upsideDownRenames:0,visionPulses:0,visionTargets:0,visionSounds:0,grassStealthPulses:0,grassStealthEligible:0,longReachRays:0,tombAttempts:0,tombDisarms:0,tombRollbackFailures:0,tombPickupBlocks:0,ardentPulses:0,ardentBlocks:0,ardentArmorDamage:0,ardentBareHits:0,ardentHungerEnds:0,ardentRollbackFailures:0,highHeelsChecks:0,highHeelsSteps:0,highHeelsRejected:0,tipsyVisual:tipsyVisualDiagnostics,errors:[],supported:CUSTOM_IMPLEMENTED};\n"
-            ],
-            [
-              127,
-              129,
-              "  // Bedrock Script API exposes no mob-target getter/setter to clear existing targets as Java does.\n"
-            ],
-            [
-              135,
-              145,
-              ""
-            ],
-            [
-              147,
-              148,
-              " let targets=0,newGlow=false;\n"
-            ],
-            [
-              152,
-              159,
-              "  const wasGlowing=!!entity.getEffect?.('glowing');\n  entity.addEffect('glowing',60,{amplifier:0,showParticles:true});if(!wasGlowing)newGlow=true;targets++;\n"
-            ],
-            [
-              161,
-              162,
-              " if(newGlow)try{p.dimension.playSound('kt_assets_a17.effect.vision',p.location);customEffectDiagnostics.visionSounds++;}catch(e){error(e);}\n"
-            ],
-            [
-              379,
-              380,
-              " world.afterEvents.entityRemove?.subscribe(e=>{tracks.delete(e.removedEntityId);statusSnapshots.delete(e.removedEntityId);fastPlayers.delete(e.removedEntityId);heelsSteps.delete(e.removedEntityId);});\n"
             ]
           ]
         },
@@ -6168,28 +5991,6 @@
       "reviewedSourceCommit": "054897478be3c358f8b39317627aace943681a10",
       "reviewDocument": "docs/RELEASE-NOTES-0.6.132.md",
       "files": {
-        "runtime/BP/scripts/bedrock/custom-effects.js": {
-          "before": "9a457431ac90412baddb39c407d9c3171347b01b9f0fd7656a758e130d326e2b",
-          "after": "29c3bc7fa19274fc35d159d4912fb875eaf7445e4ef87c23cda4ecaf17704170",
-          "reason": "Complete Vision living/alive/AABB selection before effect hooks and preserve explicit player alive checks, source clock, sound and unavailable outline boundary.",
-          "reverseOps": [
-            [
-              147,
-              151,
-              " const nativeType=nativeVisionType(),now=system.currentTick;let targets=0,newTarget=false;\n"
-            ],
-            [
-              153,
-              158,
-              "  const health=entity.getComponent?.('minecraft:health');if(!health||health.currentValue<=0)continue;\n"
-            ],
-            [
-              159,
-              163,
-              ""
-            ]
-          ]
-        },
         "runtime/BP/scripts/bedrock/instant-effects.js": {
           "before": "bba018f063314c5fcbe583b1074a1b98a1db5ea2ee49934d6d06692643550f2a",
           "after": "3efc5060395fcaac984a2aa87dd12c65df569e4aaf4e2e0fe74ffe0230b6c5a1",
@@ -6780,106 +6581,6 @@
             ]
           ]
         },
-        "runtime/BP/scripts/bedrock/custom-effects.js": {
-          "before": "29c3bc7fa19274fc35d159d4912fb875eaf7445e4ef87c23cda4ecaf17704170",
-          "after": "2e5d55b8f0157517887e8b8957c98cc0851c772116adac50aa75a9c45341336a",
-          "reason": "T134 appended exact source review. Bind source-owned status aura and per-tick one-tick grass invisibility leases without replacing foreign invisibility; preserve Ardent timing, source Vision recipients and explicit platform limitations.",
-          "reviewedPredecessorCommit": "625ff769f4c656ff224314bba38d26a1ef5dacc0",
-          "reviewedSourceCommit": "37ff9f12e74c6a4f3bb3a5fc40502d7e70e68c83",
-          "reviewDocument": "docs/RELEASE-NOTES-0.6.134.md",
-          "reverseOps": [
-            [
-              6,
-              7,
-              ""
-            ],
-            [
-              19,
-              20,
-              "export const customEffectDiagnostics={applied:0,killHeals:0,orbMoves:0,teleports:0,upsideDownRenames:0,visionPulses:0,visionTargets:0,visionSounds:0,visionOutline:'unchecked',grassStealthPulses:0,grassStealthEligible:0,longReachRays:0,tombAttempts:0,tombDisarms:0,tombRollbackFailures:0,tombPickupBlocks:0,ardentPulses:0,ardentBlocks:0,ardentArmorDamage:0,ardentBareHits:0,ardentHungerEnds:0,ardentRollbackFailures:0,highHeelsChecks:0,highHeelsSteps:0,highHeelsRejected:0,tipsyVisual:tipsyVisualDiagnostics,errors:[],supported:CUSTOM_IMPLEMENTED};\n"
-            ],
-            [
-              24,
-              25,
-              " if(state.entries.some(row=>row.id==='kaleidoscope_tavern:ardent_heat'||row.id==='kaleidoscope_tavern:high_heels')||before.entries.some(row=>row.id==='kaleidoscope_tavern:ardent_heat'))fastPlayers.set(p.id,p);\n"
-            ],
-            [
-              33,
-              34,
-              " statusSnapshots.set(p.id,{player:p,tick:now,raw,before:state,state,isPlayer});indexFastPlayer(p,state);\n"
-            ],
-            [
-              40,
-              41,
-              " const snapshot={player:p,tick:now,raw,before,state,isPlayer:p.typeId==='minecraft:player'};statusSnapshots.set(p.id,snapshot);indexFastPlayer(p,state,before);return snapshot;\n"
-            ],
-            [
-              73,
-              74,
-              "  p.addEffect('hunger',600,{amplifier:0,showParticles:true});customEffectDiagnostics.teleports++;return true;\n"
-            ],
-            [
-              107,
-              108,
-              ""
-            ],
-            [
-              121,
-              128,
-              "export function pulseGrassStealth(p){\n"
-            ],
-            [
-              129,
-              130,
-              "  if(p?.typeId!=='minecraft:player'||p.isSneaking!==true||!activeStatus(statusNow(p),'kaleidoscope_tavern:grass_stealth'))return false;\n"
-            ],
-            [
-              132,
-              143,
-              ""
-            ],
-            [
-              145,
-              145,
-              "  // Native invisibility reduces new mob acquisition while the player is concealed.\n  // Current Entity.target is documented read-only and pre-release, not a stable\n  // setter for clearing existing targets. This remains an invisibility adapter.\n  p.addEffect('invisibility',12,{amplifier:0,showParticles:false});\n"
-            ],
-            [
-              297,
-              298,
-              "function finishArdentHunger(p){try{p.addEffect('hunger',600,{amplifier:0,showParticles:true});customEffectDiagnostics.ardentHungerEnds++;}catch(e){error(e);}}\n"
-            ],
-            [
-              385,
-              386,
-              " for(const [id,snapshot] of statusSnapshots)if(snapshot.isPlayer&&!seen.has(id)){statusSnapshots.delete(id);fastPlayers.delete(id);heelsSteps.delete(id);}\n"
-            ],
-            [
-              389,
-              390,
-              ""
-            ],
-            [
-              406,
-              407,
-              " world.afterEvents.entityRemove?.subscribe(e=>{tracks.delete(e.removedEntityId);statusSnapshots.delete(e.removedEntityId);fastPlayers.delete(e.removedEntityId);heelsSteps.delete(e.removedEntityId);visionFeedback.forget(e.removedEntityId);});\n"
-            ],
-            [
-              410,
-              412,
-              " world.afterEvents.playerSpawn.subscribe(e=>{forgetTipsyVisual(e.player.id);tracks.delete(e.player.id);heelsSteps.delete(e.player.id);statusSnapshots.delete(e.player.id);fastPlayers.delete(e.player.id);try{if(!e.initialSpawn)clearCustomEffects(e.player);else statusNow(e.player);}catch(x){error(x);}});\n world.afterEvents.playerLeave.subscribe(e=>{forgetTipsyVisual(e.playerId);const t=tracks.get(e.playerId);if(t)try{write(t.player,statusNow(t.player));}catch(x){error(x);}tracks.delete(e.playerId);heelsSteps.delete(e.playerId);statusSnapshots.delete(e.playerId);fastPlayers.delete(e.playerId);});\n"
-            ],
-            [
-              414,
-              415,
-              "  for(const p of world.getAllPlayers())try{statusNow(p);}catch(e){error(e);}\n"
-            ],
-            [
-              425,
-              426,
-              ""
-            ]
-          ]
-        },
         "runtime/BP/scripts/bedrock/drink-effects.js": {
           "before": "21bf2568db98e0484219ebd1bc00bc4d60f3f94a4a02695a44e8933439695458",
           "after": "52ef8553a6fab4c907f3390d1d29e46fa10db709f46c165fd4e765bc86c96603",
@@ -7405,36 +7106,6 @@
     {
       "release": "0.6.136",
       "files": {
-        "runtime/BP/scripts/bedrock/custom-effects.js": {
-          "before": "2e5d55b8f0157517887e8b8957c98cc0851c772116adac50aa75a9c45341336a",
-          "after": "8214f8c7acac685fe1e091c297796cfeba59dbc2ecd024197c1b9e502e82cc09",
-          "reason": "T136 appended exact source review. Upside Down snapshots the complete alive source Mob list inside the inflated AABB before any name callback, including source fish and a Mob caster while excluding players and armor stands. The change preserves existing effect routing and does not claim native name-visibility or rendered-client parity. Focused regressions: tools/java-parity-adapter.test.mjs [Upside Down includes alive source fish while excluding players, armor stands and health-only displays; Upside Down keeps the complete alive AABB selection when an earlier name callback changes another target; a living Mob casting Upside Down is itself part of the source Mob list].",
-          "reviewedPredecessorCommit": "6dc43f3bd589a370782f7005c9d672e141de0be3",
-          "reviewedSourceCommit": "721414648d08c17d78db6bb3d5a08f27080acbc4",
-          "reviewDocument": "docs/RELEASE-NOTES-0.6.136.md",
-          "reverseOps": [
-            [
-              12,
-              13,
-              "import {livingEffectEntity} from '../core/living-effect-entity.js';\n"
-            ],
-            [
-              52,
-              60,
-              "  // Java uses user.getBoundingBox().inflate(16) and only living Mob entities.\n  // Bedrock family=mob is the closest class filter; exact AABB overlap is rechecked below.\n  const sourceBox=p.getAABB();let renamed=0;\n  for(const entity of p.dimension.getEntities({families:['mob']}))try{\n   if(entity.typeId==='minecraft:player')continue;\n   const health=entity.getComponent?.('minecraft:health');if(!health||health.currentValue<=0)continue;\n"
-            ],
-            [
-              61,
-              62,
-              "   entity.nameTag='Grumm';renamed++;\n"
-            ],
-            [
-              63,
-              64,
-              ""
-            ]
-          ]
-        },
         "runtime/BP/scripts/core/living-effect-entity.js": {
           "before": "96b59a53f4cd2ed3c62010b3be7f5b669cc9caadc14d179e753ed4a021bbc597",
           "after": "5ffed0483c22af6aa6e56a57ab040bde8a07abcaf963da34a8f30ee55ae32931",
@@ -7532,26 +7203,6 @@
               214,
               215,
               ""
-            ]
-          ]
-        },
-        "runtime/BP/scripts/bedrock/custom-effects.js": {
-          "before": "8214f8c7acac685fe1e091c297796cfeba59dbc2ecd024197c1b9e502e82cc09",
-          "after": "68cc2f9106f535f460d2f4790dd8e3e275a777e583e1f1d529e4858c10e78eca",
-          "reason": "T137 exact source review routes only the actual entityLoad callback through the dedicated saved native appearance restoration entry before the existing custom-effect Mob gate. Generic restoration and playerSpawn do not mint reload acknowledgements. Native-only aura state is forgotten immediately on entityDie. Existing T136 complete Mob selection and all custom effect gameplay remain intact. SDK Player-shaped entry regressions do not claim a tested native Player lifecycle. Focused regressions: tools/status-aura.test.mjs [native entityLoad preserves one exact same-tick saved-effect acknowledgement without reapplying gameplay; repeat restore cannot mint a second reload acknowledgement or hide a same-amplifier foreign refresh; generic restore and playerSpawn do not grant an entityLoad acknowledgement; reload acknowledgement rejects another tick, duration or amplifier and keeps the native effect unchanged; reload still rejects saved rows beyond five ticks or with a different native amplifier; a host write before hydration retires the old reload witness before its own ticket is consumed; reload acknowledgement requires unchanged saved bytes and the current durable ownership fence; native-only death retires the loaded aura before a later same-tick effect acknowledgement].",
-          "reviewedPredecessorCommit": "edc9e464f8ea987fa07927182a2b741720c82430",
-          "reviewedSourceCommit": "e7dc05f621f97758b2fe46886cfc7dd9186cd606",
-          "reviewDocument": "docs/RELEASE-NOTES-0.6.137.md",
-          "reverseOps": [
-            [
-              6,
-              7,
-              "import {applyNativeStatusWithAura,indexStatusAura,restoreStatusAura,forgetStatusAura,noteSyntheticAuraInvisibility,installStatusAura,statusAuraDiagnostics} from './status-aura.js';\n"
-            ],
-            [
-              407,
-              415,
-              " world.afterEvents.entityDie.subscribe(e=>{handleKill(e);if(tracks.has(e.deadEntity?.id)||e.deadEntity?.typeId==='minecraft:player')try{clearCustomEffects(e.deadEntity);}catch(x){error(x);}});\n world.afterEvents.entityLoad?.subscribe(e=>restoreLivingEffectTrack(e.entity));\n"
             ]
           ]
         }
@@ -7888,26 +7539,6 @@
               400,
               401,
               "export const STATUS_AURA_TEST={tracks,pending,syntheticInvisibility,blockedNative};\n"
-            ]
-          ]
-        },
-        "runtime/BP/scripts/bedrock/custom-effects.js": {
-          "before": "68cc2f9106f535f460d2f4790dd8e3e275a777e583e1f1d529e4858c10e78eca",
-          "after": "cee2f07d802e76681a560b2a439468caaa4b49026c8776aca54b347821b94662",
-          "reason": "Route playerSpawn through the bounded status-aura lifecycle reset so a same-tick actual load proof survives initialSpawn without issuing a new permission. InitialSpawn itself and generic restoration cannot authorize rehydration; normal respawn clears ownership. Preserve all T139 effect, death, player leave, native-clock, Mob selection and silent-immersion behavior. Formal registered callback regressions exercise interleavings rather than invoking only an isolated helper. Preserve the canonical T140 guide bytes and existing reconciliation history. The reused 58/58 results cover identical callback-test bytes, not a new native run; actual Player login and rendering remain separate. Preserve canonical T141 board/shaker repairs; the paired World Liquor LivingEntity entry and existing G123 family candidate remain governed by their separate source/family records, not replaced by this two-file aura review. Historical 20-first/21-restart native evidence is not relabeled as the new 21-first/22-restart contract with familyless-fall; the new candidate requires its own native run.",
-          "reviewedPredecessorCommit": "ebca0bbf6efc5459ed30a9a4a1c264477c274453",
-          "reviewedSourceCommit": "717b129cd0a7bd614d0b4bf697c6f309af1a6a02",
-          "reviewDocument": "docs/RELEASE-NOTES-0.6.142.md",
-          "reverseOps": [
-            [
-              6,
-              7,
-              "import {applyNativeStatusWithAura,indexStatusAura,restoreStatusAura,restoreLoadedStatusAura,forgetStatusAura,noteSyntheticAuraInvisibility,installStatusAura,statusAuraDiagnostics} from './status-aura.js';\n"
-            ],
-            [
-              419,
-              420,
-              " world.afterEvents.playerSpawn.subscribe(e=>{forgetTipsyVisual(e.player.id);forgetStatusAura(e.player.id);tracks.delete(e.player.id);heelsSteps.delete(e.player.id);statusSnapshots.delete(e.player.id);fastPlayers.delete(e.player.id);try{if(!e.initialSpawn)clearCustomEffects(e.player);else{restoreStatusAura(e.player);statusNow(e.player);}}catch(x){error(x);}});\n"
             ]
           ]
         }
@@ -9316,42 +8947,6 @@
           "reviewDocument": "docs/RELEASE-NOTES-0.6.134.md",
           "beforeGzipBase64": "H4sIAAAAAAACA42T226DMBBE3/MVEc8RCbmoUn6lqiwXFrKqsZP1UjWK+PeuIZALUesHhOSdMzPCy2U2nyelo1qz+gby6GyynydZmq3SVbII0xot5KRL3ucGwbKSB/kssouMRVCAzwmP3LP9oRxjEYQlAgXHL1bae2CvdPa2J6yUx8pqbghU7oyjLqwDpQsQauPv3LqYUjeGg1nfQGlzPIjWs3IWxK+AYnQRwOCpweIafkvTFkPCC6mi6vOlfX7Qthp6Xql27MvwE4yf6paka1Cr4DcIltKDGjGvYTn2WQ7CxTObxbLZlF3Hsuspu4llN1N2G8tup+wult3dszWOX/8feFRObrACVwPT+fEGKyMbG2yHcfqwxOnjEvfql+sXxV/lk24EtgCS3bNMzhj5R8Xy/RZzG6S99Cnlj4bxKKPlodpH925n4Wlnv91YpVtBBAAA"
         },
-        "runtime/RP/entity/runtime_barrel_ingredients_0.entity.json": {
-          "before": "614627a8e8e5972dad50b0fe79f3b0284f4991d501c6738ccf3d03bba47dbc45",
-          "after": "b64369d3c538da5fa5b4618856d5295e3282b5da120487cf08294747a529cd26",
-          "reason": "T134 appended exact source review. Bind all existing barrel/pressing ice-grape displays to the original twelve-frame/two-tick sprite with Java RGB interpolation/current-frame alpha and a common level clock. Existing catalogue, models and helper counts retained; source pixel and actual selector checks cover the change.",
-          "reviewedPredecessorCommit": "625ff769f4c656ff224314bba38d26a1ef5dacc0",
-          "reviewedSourceCommit": "37ff9f12e74c6a4f3bb3a5fc40502d7e70e68c83",
-          "reviewDocument": "docs/RELEASE-NOTES-0.6.134.md",
-          "beforeGzipBase64": "H4sIAAAAAAACA5VX227iMBB971dUPK8ggQRKf2W1spx4knhx7Mh2Stmq/77jBOiCJ2H7gFo558zFc/XH0/PzojK25Z69gXXS6MXr8yJdpskyWfwIX1upobS88q+lkqA9w5/0J4R94GcECHCllZ0fueMhHksRgJUEGyQeuAIpjCtNB8xz1KVfC24tKCZ1bUEE0Y4l7E26nqtB9SAGLQMruXL/yB6UVrxXPoge7WFcdQ1inV+cUZ9XGR7efW/hTsRBasHSIOHyfSU9tG7Fu07B1YILck0gC8X/AOvMUaCX94QNQRCnC5zVyhwjTkZwAtB5o4GJHr27p+QUxSjBdF/XEOO3FL7XE07sCHSDtpxK0xYR+oVAS2v0lC17At8Zz72JoGlCYDFvZm4mpYLr+prHbqZrUjqKj6FUXN0RwLMCrJVAUKiwHhvghM1UOK3xHjSrFLgmZtwGtFCmPIQ/PTBZxmmc7ig4iXyZQLKOlwcQMWFPEYS0sZvrhIIOsYyxVBg7qQ+sAx8aQ0RYU8IrLCMsO66U7NuYs5nhNKYPpkke06jIFrwtTJzBayq0BeaNNYa4oe2MQUN0jS0bGUdhTZVsYYETUKpeS+zKlD37GXtKY/X4b9wFyUjjwGgd9oXgehzATTqjS3AtQIVhE9HIuAvTFwpzVnGcXe5kcdxw5k0X0+dSQEl1YqZivgH2hjkEp5ifzfB9r2SHIeO6jjN8k88wzTvg0BBcOkLl9qHHHYeQubTHu4cWhzqLeWRn6KQvm5AM1nRBHXOe14AjLaLPpZI1Lr6gLHloqCUaUpY+vJ6gjryb7D+SqT8nPatwxsUlk5EJ5UPdThRLRrUTF8YQo8dFlj+8mGODYmLiXHs5St9MhuI2Z4i9jv3mdjB9VVveERJus+eAQehxhWthxbUM655g580BR80gYlVZ3gJLkljW/hvWhKWINilPvuMU4CyekEONqkPJsFEryUIgY8qapoxqBmLM2dAcBd73xCTPs1n8hGE5TcJCmzJrO8Ggtot8Nw3GpqVlSezg+QtN8qaldsZ8Pwen3d4mNOcoMXtIT7bp5O4YvURqMC0O/NPtSwRHrggyLl+XXzWxJB5JA/wfK8q+gO/QAzyybKw9HKt3ryRsCXx4Zl0B8+KXIyGSP74R74SfCx4Pf14PrzqvJ78iYRa0GNYOjcsTDmPrbkQsvj4sR+i8zRdVo6LPp/D7fPoLn9ICeRwPAAA="
-        },
-        "runtime/RP/entity/runtime_barrel_ingredients_1.entity.json": {
-          "before": "34f14c8a8fcbb621cfce5d9daa83fed3aeb13b50e402788081e60c1c3dfe47cf",
-          "after": "c2c84b2689ad261184359a60a884cc9992fbe22fc00398977527a0aafd0fe678",
-          "reason": "T134 appended exact source review. Bind all existing barrel/pressing ice-grape displays to the original twelve-frame/two-tick sprite with Java RGB interpolation/current-frame alpha and a common level clock. Existing catalogue, models and helper counts retained; source pixel and actual selector checks cover the change.",
-          "reviewedPredecessorCommit": "625ff769f4c656ff224314bba38d26a1ef5dacc0",
-          "reviewedSourceCommit": "37ff9f12e74c6a4f3bb3a5fc40502d7e70e68c83",
-          "reviewDocument": "docs/RELEASE-NOTES-0.6.134.md",
-          "beforeGzipBase64": "H4sIAAAAAAACA5VX227iMBB971dUPK8ggQRKf2W1spx4knhx7Mh2Stmq/77jBOiCJ2H7gFo558zFc/XH0/PzojK25Z69gXXS6MXr8yJdpskyWfwIX1upobS88q+lkqA9w5/0J4R94GcECHCllZ0fueMhHksRgJUEGyQeuAIpjCtNB8xz1KVfC24tKCZ1bUEE0Y6l7E26nqtB9SAGLQMruXL/yB6UVrxXPoge7WFcdQ1inV+cUZ9XGR7efW/hTsRBasHSIOHyfSU9tG7Fu07B1YILck0gC8X/AOvMUaCX94QNQRCnC5zVyhwjTkZwAtB5o4GJHr27p+QUxSjBdF/XEOO3FL7XE07sCHSDtpxK0xYR+oVAS2v0lC17At8Zz72JoGlCYDFvZm4mpYLr+prHbqZrUjqKj6FUXN0RwLMCrJVAUKiwHhvghM1UOK3xHjSrFLgmZtwGtFCmPIQ/PTBZxmmc7ig4iXyZQLKOlwcQMWFPEYS0sZvrhIIOsYyxVBg7qQ+sAx8aQ0RYU8IrLCMsO66U7NuYs5nhNKYPpkke06jIFrwtTJzBayq0BeaNNYa4oe2MQUN0jS0bGUdhTZVsYYETUKpeS+zKlD37GXtKY/X4b9wFyUjjwGgd9oXgehzATTqjS3AtQIVhE9HIuAvTFwpzVnGcXe5kcdxw5k0X0+dSQEl1YqZivgH2hjkEp5ifzfB9r2SHIeO6jjN8k88wzTvg0BBcOkLl9qHHHYeQubTHu4cWhzqLeWRn6KQvm5AM1nRBHXOe14AjLaLPpZI1Lr6gLHloqCUaUpY+vJ6gjryb7D+SqT8nPatwxsUlk5EJ5UPdThRLRrUTF8YQo8dFlj+8mGODYmLiXHs5St9MhuI2Z4i9jv3mdjB9VVveERJus+eAQehxhWthxbUM655g580BR80gYlVZ3gJLkljW/hvWhKWINilPvuMU4CyekEONqkPJsFEryUIgY8qapoxqBmLM2dAcBd73xCTPs1n8hGE5TcJCmzJrO8Ggtot8Nw3GpqVlSezg+QtN8qaldsZ8Pwen3d4mNOcoMXtIT7bp5O4YvURqMC0O/NPtSwRHrggyLl+XXzWxJB5JA/wfK8q+gO/QAzyybKw9HKt3ryRsCXx4Zl0B8+KXIyGSP74R74SfCx4Pf14PrzqvJ78iYRa0GNYOjcsTDmPrbkQsvj4sR+i8zRdVo6LPp/D7fPoLJw5gYRwPAAA="
-        },
-        "runtime/RP/entity/runtime_barrel_ingredients_2.entity.json": {
-          "before": "b57a7603c071f1cd73a0ae03b114ab2d6f578019d9ac4afce073f59be1f689f7",
-          "after": "e1886464bbff19e0ec4dee2ce118ac1158580be4b8f6b77753946a237ac1eaf4",
-          "reason": "T134 appended exact source review. Bind all existing barrel/pressing ice-grape displays to the original twelve-frame/two-tick sprite with Java RGB interpolation/current-frame alpha and a common level clock. Existing catalogue, models and helper counts retained; source pixel and actual selector checks cover the change.",
-          "reviewedPredecessorCommit": "625ff769f4c656ff224314bba38d26a1ef5dacc0",
-          "reviewedSourceCommit": "37ff9f12e74c6a4f3bb3a5fc40502d7e70e68c83",
-          "reviewDocument": "docs/RELEASE-NOTES-0.6.134.md",
-          "beforeGzipBase64": "H4sIAAAAAAACA5VX227iMBB971dUPK8ggQRKf2W1spx4knhx7Mh2Stmq/77jBOiCJ2H7gFo558zFc/XH0/PzojK25Z69gXXS6MXr8yJdpskyWfwIX1upobS88q+lkqA9w5/0J4R94GcECHCllZ0fueMhHksRgJUEGyQeuAIpjCtNB8xz1KVfC24tKCZ1bUEE0Y6t2Zt0PVeD6kEMWgZWcuX+kT0orXivfBA92sO46hrEOr84oz6vMjy8+97CnYiD1IKlQcLl+0p6aN2Kd52CqwUX5JpAFor/AdaZo0Av7wkbgiBOFzirlTlGnIzgBKDzRgMTPXp3T8kpilGC6b6uIcZvKXyvJ5zYEegGbTmVpi0i9AuBltboKVv2BL4znnsTQdOEwGLezNxMSgXX9TWP3UzXpHQUH0OpuLojgGcFWCuBoFBhPTbACZupcFrjPWhWKXBNzLgNaKFMeQh/emCyjNM43VFwEvkygWQdLw8gYsKeIghpYzfXCQUdYhljqTB2Uh9YBz40hoiwpoRXWEZYdlwp2bcxZzPDaUwfTJM8plGRLXhbmDiD11RoC8wbawxxQ9sZg4boGls2Mo7CmirZwgInoFS9ltiVKXv2M/aUxurx37gLkpHGgdE67AvB9TiAm3RGl+BagArDJqKRcRemLxTmrOI4u9zJ4rjhzJsups+lgJLqxEzFfAPsDXMITjE/m+H7XskOQ8Z1HWf4Jp9hmnfAoSG4dITK7UOPOw4hc2mPdw8tDnUW88jO0ElfNiEZrOmCOuY8rwFHWkSfSyVrXHxBWfLQUEs0pCx9eD1BHXk32X8kU39OelbhjItLJiMTyoe6nSiWjGonLowhRo+LLH94MccGxcTEufZylL6ZDMVtzhB7HfvN7WD6qra8IyTcZs8Bg9DjCtfCimsZ1j3BzpsDjppBxKqyvAWWJLGs/TesCUsRbVKefMcpwFk8IYcaVYeSYaNWkoVAxpQ1TRnVDMSYs6E5CrzviUmeZ7P4CcNymoSFNmXWdoJBbRf5bhqMTUvLktjB8xea5E1L7Yz5fg5Ou71NaM5RYvaQnmzTyd0xeonUYFoc+KfblwiOXBFkXL4uv2piSTySBvg/VpR9Ad+hB3hk2Vh7OFbvXknYEvjwzLoC5sUvR0Ikf3wj3gk/Fzwe/rweXnVeT35FwixoMawdGpcnHMbW3YhYfH1YjtB5my+qRkWfT+H3+fQX72vHSRwPAAA="
-        },
-        "runtime/RP/entity/runtime_barrel_ingredients_3.entity.json": {
-          "before": "05da006e6b1c7d45da1896d293593a68ede4e2e2be7061409b3b884401d016c7",
-          "after": "0dd247a1a5ba477f796afb9699671e254e59e05e13526fbf89fdab207947994c",
-          "reason": "T134 appended exact source review. Bind all existing barrel/pressing ice-grape displays to the original twelve-frame/two-tick sprite with Java RGB interpolation/current-frame alpha and a common level clock. Existing catalogue, models and helper counts retained; source pixel and actual selector checks cover the change.",
-          "reviewedPredecessorCommit": "625ff769f4c656ff224314bba38d26a1ef5dacc0",
-          "reviewedSourceCommit": "37ff9f12e74c6a4f3bb3a5fc40502d7e70e68c83",
-          "reviewDocument": "docs/RELEASE-NOTES-0.6.134.md",
-          "beforeGzipBase64": "H4sIAAAAAAACA5VX227iMBB971dUPK8ggQRKf2W1spx4knhx7Mh2Stmq/77jBOiCJ2H7gFo558zFc/XH0/PzojK25Z69gXXS6MXr8yJdpskyWfwIX1upobS88q+lkqA9w5/0J4R94GcECHCllZ0fueMhHksRgJUEGyQeuAIpjCtNB8xz1KVfC24tKCZ1bUEE0Y5t2Jt0PVeD6kEMWgZWcuX+kT0orXivfBA92sO46hrEOr84oz6vMjy8+97CnYiD1IKlQcLl+0p6aN2Kd52CqwUX5JpAFor/AdaZo0Av7wkbgiBOFzirlTlGnIzgBKDzRgMTPXp3T8kpilGC6b6uIcZvKXyvJ5zYEegGbTmVpi0i9AuBltboKVv2BL4znnsTQdOEwGLezNxMSgXX9TWP3UzXpHQUH0OpuLojgGcFWCuBoFBhPTbACZupcFrjPWhWKXBNzLgNaKFMeQh/emCyjNM43VFwEvkygWQdLw8gYsKeIghpYzfXCQUdYhljqTB2Uh9YBz40hoiwpoRXWEZYdlwp2bcxZzPDaUwfTJM8plGRLXhbmDiD11RoC8wbawxxQ9sZg4boGls2Mo7CmirZwgInoFS9ltiVKXv2M/aUxurx37gLkpHGgdE67AvB9TiAm3RGl+BagArDJqKRcRemLxTmrOI4u9zJ4rjhzJsups+lgJLqxEzFfAPsDXMITjE/m+H7XskOQ8Z1HWf4Jp9hmnfAoSG4dITK7UOPOw4hc2mPdw8tDnUW88jO0ElfNiEZrOmCOuY8rwFHWkSfSyVrXHxBWfLQUEs0pCx9eD1BHXk32X8kU39OelbhjItLJiMTyoe6nSiWjGonLowhRo+LLH94MccGxcTEufZylL6ZDMVtzhB7HfvN7WD6qra8IyTcZs8Bg9DjCtfCimsZ1j3BzpsDjppBxKqyvAWWJLGs/TesCUsRbVKefMcpwFk8IYcaVYeSYaNWkoVAxpQ1TRnVDMSYs6E5CrzviUmeZ7P4CcNymoSFNmXWdoJBbRf5bhqMTUvLktjB8xea5E1L7Yz5fg5Ou71NaM5RYvaQnmzTyd0xeonUYFoc+KfblwiOXBFkXL4uv2piSTySBvg/VpR9Ad+hB3hk2Vh7OFbvXknYEvjwzLoC5sUvR0Ikf3wj3gk/Fzwe/rweXnVeT35FwixoMawdGpcnHMbW3YhYfH1YjtB5my+qRkWfT+H3+fQXV7elURwPAAA="
-        },
         "runtime/RP/entity/runtime_pressing_tub_ingredients.entity.json": {
           "before": "5623d0c92a65fad005858f0fd6d3c38ba73fffc45ccca39e3f82d4a689d6e7ba",
           "after": "f6a287e84fbc6a6320fc4420dea49928aac0e4fa0d85281f64052dff8561641a",
@@ -9450,15 +9045,6 @@
           "reviewedSourceCommit": "37ff9f12e74c6a4f3bb3a5fc40502d7e70e68c83",
           "reviewDocument": "docs/RELEASE-NOTES-0.6.134.md",
           "beforeGzipBase64": "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"
-        },
-        "runtime/RP/render_controllers/runtime_barrel_ingredients.render_controllers.json": {
-          "before": "8309d601a846acf61b2c02f78d2b5fe312049f4725bf8a3a1d1f68ec0dac6c56",
-          "after": "6dfaee7e16b9d1cec7b6d2208beb207ba29ea02ada022fac1cbc9326c7758cb9",
-          "reason": "T134 appended exact source review. Bind all existing barrel/pressing ice-grape displays to the original twelve-frame/two-tick sprite with Java RGB interpolation/current-frame alpha and a common level clock. Existing catalogue, models and helper counts retained; source pixel and actual selector checks cover the change.",
-          "reviewedPredecessorCommit": "625ff769f4c656ff224314bba38d26a1ef5dacc0",
-          "reviewedSourceCommit": "37ff9f12e74c6a4f3bb3a5fc40502d7e70e68c83",
-          "reviewDocument": "docs/RELEASE-NOTES-0.6.134.md",
-          "beforeGzipBase64": "H4sIAAAAAAACA5XWS2/aQBQF4D2/YuRNkiodeV7GQUqqrrrqrrsIWQOeRCOMTYahKkr47x071ICSHnt24HN9bD5e93VCSPLUuLX2xW/jtrapkxlJGM1pmty2oTN1aVyxbGrvmqoKM2HgNSQhOx2k72N05Qu3q71dG7rQzpmqsPWzM6U1tT+dGE59Ns3aeLdvr3b9Qjeu2Rjn99dXK10ZWzbbZThQeB1uqp6tbF1e3ZD7e8Iy8vZGIuankfN55Pxd3DxPb8g38uP44ulytzBkdvZcu7Jj74zCm2Kc1VUL93g8SHrCbuRL6/fzOEdL86R3lU/6icPx0bzv9OaP3zlzWZl8d07vaXubj+Ney1c2Tz5067bl/F2+vN7FjZ+ueHEnXfbr/ZwuLVjv8VnKYSpgKmGqYJrBdArTHKZ3MGUpjrEWw1wMezEMxrAYw2QMmzGMxrAax2p84DOG1ThW41iNYzWO1ThW41iNYzWB1QRWEwNfTawmsJrAagKrCawmsJrAahKrSawmsZoc+EXDahKrSawmsZrEahKrKaymsJrCagqrqYE/AqymsJrCagqrKayWYbWMJWfp/MNWcOj/uTfahf3Pbu3CVtbv/79vWG/WRdouHUN7wrIJe2BYeh5IeraP3IJaFlfLRtbyuFo+slbE1YqRtTKuVo6sVXG1amRtFlebjaydxtVOR9bmcbX5J3v05N+zw+Qw+Qv8PII3PQ0AAA=="
         },
         "runtime/RP/render_controllers/runtime_pressing_ingredients.render_controllers.json": {
           "before": "7e4f13400b31cf6eb42e91ef0bf173b3721386f3e65a14d3f6377189aa6897b9",
