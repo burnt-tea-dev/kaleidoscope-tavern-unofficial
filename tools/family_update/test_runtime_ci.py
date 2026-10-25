@@ -102,7 +102,7 @@ class RuntimeConservationTests(unittest.TestCase):
   source={'repository':'owner/repo','tree':'current source tree'}
   row={'source':'grilling','repository':source['repository'],'source_tree':source['tree'],
        'checks':[self.check(name) for name in ['baseline','bridge','validate','candidate']], 'statuses':[]}
-  with patch.object(m,'CONFIG',{}):
+  with patch.object(m,'CONFIG',{}),patch.object(m,'SOURCES',{'grilling':self.root}):
    m.validate_ci_rows([row],{'grilling':source})
    next(check for check in row['checks'] if check['name']=='validate')['name']='canonical'
    with self.assertRaisesRegex(AssertionError,'required checks.*validate'):
