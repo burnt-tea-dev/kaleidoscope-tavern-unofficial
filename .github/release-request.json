@@ -14,6 +14,7 @@
   "native_evidence_scope": "Guide view/controller and existing presentation-setting regressions only. Java gameplay, audio routing, player/world storage keys and host-language precedence are unchanged. Full-family first-load/restart, saved-world migration and actual client acceptance remain pending.",
   "client": false,
   "status": "candidate_pending_canonical_ci_and_family_admission",
-  "peer_pins_status": "pending_world_liquor_companion_source",
-  "family_ready": false
+  "peer_pins_status": "paired_with_world_liquor_0.1.160_exact_reviewed_source",
+  "family_ready": false,
+  "paired_world_liquor_commit": "5da1ee880eb47a08b19e05b69a1f9f5d22f4d998"
 }
