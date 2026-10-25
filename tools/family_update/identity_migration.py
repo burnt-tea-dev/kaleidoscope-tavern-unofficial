@@ -105,6 +105,8 @@ def validate_family_plan(spec, receipt, original):
 
 
 def candidate_plan(receipt, original):
+    if CONFIG.get('fresh_world'):
+        return None
     location = CONFIG.get('identity_migration')
     if not location:
         assert {p['uuid'] for p in original['packs']} == {p['uuid'] for p in receipt['packs']}, 'UUID change needs a canonical reviewed migration'
@@ -139,6 +141,8 @@ def assembly_order(original):
     Full archive/manifest/ownership validation still runs through candidate_plan
     immediately after assembly. This function never changes the world or policy.
     """
+    if CONFIG.get('fresh_world'):
+        return None  # Curated canonical lock order, never the old world's refs.
     order = {side: [ref['pack_id'] for ref in original['refs'][side]] for side in ['behavior', 'resource']}
     location = CONFIG.get('identity_migration')
     if not location:

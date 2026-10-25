@@ -2,7 +2,7 @@
 import io, re, shutil, struct
 from family_update.common import *
 
-def setup_engine(engine, world_name, port, expected_inputs=None, world_receipt=None):
+def setup_engine(engine, world_name, port, expected_inputs=None, world_receipt=None, world_properties=None):
     properties = dict(line.split('=', 1) for line in (B / 'server.properties').read_text().splitlines() if '=' in line and not line.lstrip().startswith('#'))
     # Unset spike/slow thresholds disable those warnings. Keep every explicit
     # live watchdog value so QA observes the same limits, without adding defaults.
@@ -46,7 +46,26 @@ def setup_engine(engine, world_name, port, expected_inputs=None, world_receipt=N
         assert engine_inputs(world_receipt=world_receipt) == projected, 'Projected engine inputs changed during setup'
         (engine / 'global-pack-projection.json').write_text(json.dumps(projected.get('global_pack_projection'), indent=2) + '\n')
     (engine / 'allowlist.json').write_text('[]\n')
-    (engine / 'server.properties').write_text(f'server-name=Parity isolated native QA\nlevel-name={world_name}\nserver-port={port}\nserver-portv6={port+1}\nonline-mode=true\nallow-list=true\nview-distance=5\ntick-distance=4\nmax-threads=2\nenable-lan-visibility=false\ncontent-log-file-enabled=true\ncontent-log-console-output-enabled=true\ntransport=nethernet\n'+watchdog)
+    isolated = f'server-name=Parity isolated native QA\nlevel-name={world_name}\nserver-port={port}\nserver-portv6={port+1}\nonline-mode=true\nallow-list=true\nview-distance=5\ntick-distance=4\nmax-threads=2\nenable-lan-visibility=false\ncontent-log-file-enabled=true\ncontent-log-console-output-enabled=true\ntransport=nethernet\n'+watchdog
+    if world_properties is not None:
+        # Keep the final gameplay settings, then override only QA networking.
+        properties.update(world_properties)
+        properties.update(line.split('=', 1) for line in isolated.splitlines())
+        isolated = ''.join(f'{key}={value}\n' for key, value in properties.items())
+    (engine / 'server.properties').write_text(isolated)
+
+
+def world_data_hashes(world):
+    """Closed world bytes, excluding the separately audited candidate packs."""
+    result = {}
+    for path in sorted(world.iterdir()):
+        if path.name in {'behavior_packs', 'resource_packs'}:
+            continue
+        if path.is_dir():
+            result.update({path.name + '/' + name: digest for name, digest in hashes(path).items()})
+        else:
+            result[path.name] = sha(path)
+    return result
 
 def level_metadata(source):
     import nbtlib

@@ -6,7 +6,7 @@ import {ExtensionRegistry} from '../runtime/BP/scripts/core/registry.js';
 import {placeBottle,takeBottles,registerBottleComponents} from '../runtime/BP/scripts/bedrock/bottles.js';
 import {bottleKey} from '../runtime/BP/scripts/core/bottles.js';
 const source='adapter_fixture',base=source+':wine',items=Array.from({length:6},(_,i)=>base+'_q'+(i+1));
-for(const id of items)registerFixtureItem(id);
+for(const id of [...items,base])registerFixtureItem(id);
 const registry=new ExtensionRegistry({itemExists:()=>true});
 registry.install({api:1,source,version:'1.0.0',content:[{kind:'bottle',base,block:base,items,qualityBlocks:items,maxCount:4,compact:true,visualKind:1101,effects:Array.from({length:6},()=>[]),displayStates:{count:'kaleidoscope_tavern:count',facing:'minecraft:cardinal_direction'}}]});
 const dimension=world.getDimension('overworld');
@@ -34,4 +34,14 @@ test('registered placement guard allows an empty location and preserves saved or
  const orphaned={block,cancel:false};guard.beforeOnPlayerPlace(orphaned);assert.equal(orphaned.cancel,true);assert.equal(world.getDynamicProperty('kt:native_required/'+key),true);
  world.setDynamicProperty('kt:native_required/'+key,undefined);
  const invalid={get block(){throw Error('unloaded');},cancel:false};guard.beforeOnPlayerPlace(invalid);assert.equal(invalid.cancel,true);
+});
+
+test('a generic preview keeps its original native stack when a quality bottle is placed above it and removed',()=>{
+ const position={x:24,y:2,z:0},player=new Player('generic-bottle-pickup',dimension);player.location={...position};
+ const block=dimension.getBlock(position),generic=new ItemStack(base);generic.nameTag='Original preview';generic.setLore(['Original preview lore']);
+ player.inventory.setItem(0,generic);placeBottle(player,position);assert.equal(block.typeId,base);
+ player.inventory.setItem(0,new ItemStack(items[0]));placeBottle(player,position);assert.equal(block.typeId,items[0]);
+ takeBottles(player,block);assert.equal(block.typeId,base);assert.equal(player.inventory.getItem(0).typeId,items[0]);
+ player.inventory.setItem(0,undefined);takeBottles(player,block);assert.equal(block.typeId,'minecraft:air');
+ assert.equal(player.inventory.getItem(0).typeId,base);assert.equal(player.inventory.getItem(0).nameTag,generic.nameTag);assert.deepEqual(player.inventory.getItem(0).getLore(),generic.getLore());
 });

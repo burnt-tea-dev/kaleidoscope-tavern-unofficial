@@ -28,6 +28,14 @@ const AMW_COPY={
 
 export function applyReviewedAddonGuideCopy(payload){
  for(const entry of payload.entries){
+  if(entry.id==='kaleidoscope_dim_wine:rangers_satchel_q1'){
+   const notes=[
+    '这里没有 Java 的发光描边。品质 3–6 的酒仍可正常饮用。生存模式每次消耗一瓶，并归还一个酒馆空瓶；其他酒效照常生效。',
+    '這裡沒有 Java 的發光描邊。品質 3–6 的酒仍可正常飲用。生存模式每次消耗一瓶，並歸還一個酒館空瓶；其他酒效照常生效。',
+    "Java's glowing outline is unavailable here. Qualities 3–6 are still drinkable. In Survival, each use consumes one bottle and returns one empty Tavern bottle. Other effects still work as usual."
+   ];
+   LOCALES.forEach((locale,index)=>{const rows=entry.mechanicsByLocale?.[locale]??entry.mechanics??[];(entry.mechanicsByLocale??={})[locale]=[...rows,notes[index]];});
+  }
   const reviewed=AMW_COPY[entry.id];if(!reviewed)continue;
   entry.category=reviewed.category;
   copyRows(entry,reviewed.rows);

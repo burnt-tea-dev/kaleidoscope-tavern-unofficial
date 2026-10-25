@@ -7,11 +7,18 @@ import {expandShakerTags} from './shaker-tags.js';
 import {normalizeCategoryData,ingredientPredicate,buildCategoryCatalog,matchShakerRecipe,deriveBottleInputs,colorTag,COLOR_TAG_PREFIX} from './mixology-categories.js';
 import {check,id,integer,clone,freeze,localeMap,sorted,TavernError} from './util.js';
 export const API_VERSION=1;
-export const CAPABILITIES=Object.freeze(['barrel_recipes','pressing_recipes','guide_pages','guide_product_pages','recipe_auto_pages','atomic_extension_replace','chunk_transport','acknowledgements','shaker_recipes','shaker_batch_snapshot','native_potion_inputs','external_shaker_inputs','drink_content','furniture_storage','external_effect_lifecycle','custom_fluids','external_fluid_visuals','bottle_display_states','destruction_feedback','shaker_ingredient_tags','drink_source_labels','shaker_color_catalog','java_ingredient_predicates','native_ingredient_tags','automatic_bottle_inputs']);
+export const CAPABILITIES=Object.freeze(['barrel_recipes','pressing_recipes','guide_pages','guide_product_pages','recipe_auto_pages','atomic_extension_replace','chunk_transport','acknowledgements','shaker_recipes','shaker_batch_snapshot','native_potion_inputs','external_shaker_inputs','drink_content','furniture_storage','external_effect_lifecycle','custom_fluids','external_fluid_visuals','bottle_display_states','destruction_feedback','shaker_ingredient_tags','drink_source_labels','shaker_color_catalog','java_ingredient_predicates','native_ingredient_tags','automatic_bottle_inputs','barrel_quality_boosters']);
 const CORE='kaleidoscope_tavern';
 function own(value,source){id(value);check(value.startsWith(source+':'),'FOREIGN_NAMESPACE',value);return value;}
-function options(value){check(Array.isArray(value)&&value.length>0&&value.length<=64,'INVALID_INGREDIENT');return [...new Set(value.map(id))].sort();}
-function normalizeRecipe(raw,source,fluids,itemExists){
+function options(value,groups){
+ check(Array.isArray(value)&&value.length>0&&value.length<=64,'INVALID_INGREDIENT');
+ return [...new Set(value.flatMap(option=>{
+  if(typeof option==='string')return [id(option)];
+  check(option&&typeof option==='object'&&typeof option.group==='string','INVALID_INGREDIENT');
+  const group=groups.get(id(option.group));check(group,'UNKNOWN_ITEM_GROUP',option.group);return group;
+ }))].sort();
+}
+function normalizeRecipe(raw,source,fluids,itemExists,groups){
  check(raw&&typeof raw==='object','INVALID_RECIPE');own(raw.id,source);const kind=raw.kind;
  check(['pressing','barrel','shaker'].includes(kind),'UNSUPPORTED_RECIPE_KIND');
  const r={id:raw.id,kind,source};
@@ -27,12 +34,12 @@ function normalizeRecipe(raw,source,fluids,itemExists){
   check(!['kaleidoscope_tavern:signature_cocktail','kaleidoscope_tavern:empty_glassware','kaleidoscope_tavern:shaker','minecraft:potion','minecraft:splash_potion','minecraft:lingering_potion'].includes(r.output.item),'INVALID_SHAKER_OUTPUT');
   r.carrier=id(raw.carrier??'kaleidoscope_tavern:empty_glassware');check(itemExists(r.carrier),'UNKNOWN_ITEM',r.carrier);
  }else if(kind==='pressing'){
-  r.input=options(raw.input);r.amount=integer(raw.amount??125,1,1000,'pressing.amount');
+  r.input=options(raw.input,groups);r.amount=integer(raw.amount??125,1,1000,'pressing.amount');
   check(1000%r.amount===0,'UNSUPPORTED_PRESSING_QUANTUM');
   for(const item of r.input)check(itemExists(item),'UNKNOWN_ITEM',item);
  }else{
   check(Array.isArray(raw.ingredients)&&raw.ingredients.length<=4,'INVALID_INGREDIENT_SLOTS');
-  r.ingredients=raw.ingredients.map(options);
+  r.ingredients=raw.ingredients.map(slot=>options(slot,groups));
   for(const ids of r.ingredients)for(const item of ids)check(itemExists(item),'UNKNOWN_ITEM',item);
   r.carrier=id(raw.carrier??`${CORE}:empty_bottle`);check(itemExists(r.carrier),'UNKNOWN_ITEM',r.carrier);
   r.unitTime=integer(raw.unitTime??2400,20,72000,'barrel.unitTime');
@@ -54,6 +61,14 @@ function normalizeShakerInput(raw,source,itemExists){
  if(raw.ingredientColor!==undefined)colorTag(raw.ingredientColor);
  return {item,container,...(color!==undefined?{color}:{}),effects:normalized,...(raw.ingredientColor!==undefined?{ingredientColor:raw.ingredientColor}:{}),...(raw.ingredientTags!==undefined?{ingredientTags:[...new Set(ingredientTags.map(id))].sort()}:{} )};
 }
+function normalizeBarrelQualityBooster(raw,source,itemExists){
+ check(raw&&typeof raw==='object','INVALID_BARREL_QUALITY_BOOSTER');
+ const item=own(raw.item,source);check(itemExists(item),'UNKNOWN_ITEM',item);
+ const boost=integer(raw.boost??1,1,6),firstBoost=integer(raw.firstBoost??boost,1,6),maxQuality=integer(raw.maxQuality??6,1,6);
+ const cooldownTicks=integer(raw.cooldownTicks??0,0,72000),damage=integer(raw.damage??0,0,64),consume=raw.consume===true;
+ check(!(consume&&damage),'BARREL_QUALITY_BOOSTER_COST_CONFLICT');
+ return {item,boost,firstBoost,maxQuality,cooldownTicks,damage,consume,source};
+}
 function normalizeContent(raw,source,itemExists){
  check(raw&&['bottle','cocktail'].includes(raw.kind),'INVALID_DRINK_CONTENT');
  const d={kind:raw.kind,block:own(raw.block,source)};
@@ -64,19 +79,23 @@ function normalizeContent(raw,source,itemExists){
   if(raw.qualityBlocks!==undefined){
    check(Array.isArray(raw.qualityBlocks)&&raw.qualityBlocks.length===6,'INVALID_QUALITY_BLOCKS');d.qualityBlocks=raw.qualityBlocks.map(x=>own(x,source));
    check(new Set(d.qualityBlocks).size===6&&!d.qualityBlocks.includes(d.block),'INVALID_QUALITY_BLOCKS');
+   check(itemExists(d.block),'UNKNOWN_ITEM',d.block);d.genericItem=d.block;
   }
   check(Array.isArray(raw.effects)&&raw.effects.length===6,'INVALID_QUALITY_EFFECTS');d.effects=raw.effects.map(effectRows);
   d.groundOnly=raw.groundOnly===true;
-  if(raw.displayStates){
-   check(raw.displayStates&&typeof raw.displayStates==='object','INVALID_DISPLAY_STATES');
+  // Quality-block extensions use the author's shared count/cardinal states.
+  // Explicit state mappings remain available for existing single-block layouts.
+  const displayStates=raw.displayStates===undefined&&d.qualityBlocks?{count:CORE+':count',facing:'minecraft:cardinal_direction'}:raw.displayStates;
+  if(displayStates){
+   check(displayStates&&typeof displayStates==='object','INVALID_DISPLAY_STATES');
    d.displayStates={};
    for(const key of ['count','facing']){
-    const state=raw.displayStates[key],shared=d.qualityBlocks&&(key==='count'&&state===CORE+':count'||key==='facing'&&state==='minecraft:cardinal_direction');
+    const state=displayStates[key],shared=d.qualityBlocks&&(key==='count'&&state===CORE+':count'||key==='facing'&&state==='minecraft:cardinal_direction');
     d.displayStates[key]=shared?state:own(state,source);
    }
-   if(raw.displayStates.quality!==undefined)d.displayStates.quality=own(raw.displayStates.quality,source);
+   if(displayStates.quality!==undefined)d.displayStates.quality=own(displayStates.quality,source);
    check(d.qualityBlocks||d.displayStates.quality,'INVALID_DISPLAY_STATES');
-   check(Object.keys(raw.displayStates).every(key=>['count','facing','quality'].includes(key))&&new Set(Object.values(d.displayStates)).size===Object.keys(d.displayStates).length,'INVALID_DISPLAY_STATES');
+   check(Object.keys(displayStates).every(key=>['count','facing','quality'].includes(key))&&new Set(Object.values(d.displayStates)).size===Object.keys(d.displayStates).length,'INVALID_DISPLAY_STATES');
   }
   check(!d.qualityBlocks||d.displayStates,'INVALID_DISPLAY_STATES');
   if(raw.color!==undefined){if(typeof raw.color==='string')colorTag(raw.color);else integer(raw.color,0,0xffffff,'bottle RGB');d.color=raw.color;}
@@ -85,11 +104,39 @@ function normalizeContent(raw,source,itemExists){
  }else{d.item=own(raw.item,source);check(itemExists(d.item),'UNKNOWN_ITEM',d.item);d.effects=effectRows(raw.effects);}
  return d;
 }
-function normalizePage(raw,source){
+const LEGACY_GUIDE_CATEGORIES=['equipment','barrel','cocktail','ingredients','storage','cultivation','furniture','lighting','incense','art','boards','food'];
+function normalizeGuideCategories(rows){
+ check(Array.isArray(rows)&&rows.length<=32,'GUIDE_CATEGORY_LIMIT');
+ const categories=rows.map(raw=>{
+  check(raw&&typeof raw==='object'&&typeof raw.id==='string'&&/^[a-z0-9_.-]+$/.test(raw.id),'INVALID_GUIDE_CATEGORY');
+  const category={id:raw.id,title:raw.title?localeMap(raw.title):{en_US:raw.id.replaceAll('_',' ')}};
+  if(raw.parent!==undefined){check(typeof raw.parent==='string'&&/^[a-z0-9_.-]+$/.test(raw.parent),'INVALID_GUIDE_CATEGORY_PARENT');category.parent=raw.parent;}
+  if(raw.icon!==undefined){check(typeof raw.icon==='string'&&/^textures\/[a-zA-Z0-9_/-]+$/.test(raw.icon)&&!raw.icon.includes('..'),'INVALID_ICON');category.icon=raw.icon;}
+  return category;
+ });
+ const byId=new Map(categories.map(row=>[row.id,row]));check(byId.size===categories.length,'DUPLICATE_GUIDE_CATEGORY');
+ for(const category of categories){
+  const seen=new Set([category.id]);let parent=category.parent;
+  while(parent){check(byId.has(parent),'UNKNOWN_GUIDE_CATEGORY_PARENT',parent);check(!seen.has(parent),'GUIDE_CATEGORY_CYCLE',category.id);seen.add(parent);parent=byId.get(parent).parent;}
+ }
+ return categories;
+}
+function recipeEnabled(raw,itemExists,fluids){
+ if(raw.when===undefined)return true;
+ const when=raw.when;check(when&&typeof when==='object'&&!Array.isArray(when),'INVALID_RECIPE_CONDITION');
+ const rows=key=>{const values=when[key]??[];check(Array.isArray(values)&&values.length<=64,'RECIPE_CONDITION_LIMIT');return values.map(id);};
+ const all=rows('itemsAll'),any=rows('itemsAny'),requiredFluids=rows('fluidsAll');
+ return all.every(itemExists)&&(!any.length||any.some(itemExists))&&requiredFluids.every(fluid=>fluids.has(fluid));
+}
+function normalizePage(raw,source,guideCategories){
  own(raw.id,source);const page={id:raw.id,source,title:localeMap(raw.title),body:localeMap(raw.body),recipeIds:(raw.recipeIds??[]).map(id)};
  check(page.recipeIds.length<=32,'TOO_MANY_PAGE_RECIPES');
  if(raw.item!==undefined)page.item=own(raw.item,source);
- if(raw.category!==undefined){check(['equipment','barrel','cocktail','ingredients','storage','cultivation','furniture','lighting','incense','art','boards','food'].includes(raw.category),'INVALID_GUIDE_CATEGORY');page.category=raw.category;}
+ const requested=raw.categories??(raw.category===undefined?[]:[raw.category]);
+ check(Array.isArray(requested)&&requested.length<=8,'INVALID_GUIDE_CATEGORY');
+ const categories=[...new Set(requested)];
+ for(const category of categories)check(LEGACY_GUIDE_CATEGORIES.includes(category)||guideCategories.some(row=>row.id===category),'UNKNOWN_GUIDE_CATEGORY',category);
+ if(categories.length){page.category=categories[0];page.categories=categories;}
  if(raw.crafting!==undefined){
   check(page.item&&Array.isArray(raw.crafting)&&raw.crafting.length<=16,'INVALID_GUIDE_CRAFTING');
   page.crafting=raw.crafting.map(r=>{
@@ -140,6 +187,8 @@ export class ExtensionRegistry {
    for(const rule of predicates.flat())if(rule.item)this.shakerRecipeItems.add(rule.item);else this.shakerRecipeTags.add(rule.tag);
   }
   this.pageCache=freeze([...this.pages,...ext.flatMap(x=>sorted(x.pages))]);this.shakerInputCache=new Map(ext.flatMap(x=>x.shakerInputs).map(x=>[x.item,x]));this.furnitureCache=new Map(ext.flatMap(x=>x.furniture??[]).map(x=>[x.block,x]));this.readyRecipeSources=new Set(ext.map(x=>x.source));this.revision++;
+  this.guideCategoryCache=freeze(ext.flatMap(x=>x.guideCategories.map(category=>({...category,source:x.source}))));
+  this.barrelQualityBoosterCache=new Map(ext.flatMap(x=>x.barrelQualityBoosters).map(row=>[row.item,row]));
   for(const listener of [...this.listeners]){try{listener(this);}catch{}}
  }
  install(raw){
@@ -150,11 +199,12 @@ export class ExtensionRegistry {
   check(this.extensions.has(source)||this.extensions.size<64,'EXTENSION_LIMIT');
   const rawRecipes=raw.recipes??[],rawPages=raw.pages??[],rawShakerInputs=raw.shakerInputs??[],rawContent=raw.content??[];check(Array.isArray(rawContent)&&rawContent.length<=128,'CONTENT_LIMIT');const content=rawContent.map(x=>normalizeContent(x,source,this.itemExists));check(new Set(content.map(x=>x.block)).size===content.length,'DUPLICATE_CONTENT');
   const contentBlocks=content.flatMap(x=>[x.block,...x.qualityBlocks??[]]);check(new Set(contentBlocks).size===contentBlocks.length,'DUPLICATE_CONTENT_BLOCK');
-  check(Array.isArray(rawRecipes)&&rawRecipes.length<=128,'RECIPE_LIMIT');check(Array.isArray(rawPages)&&rawPages.length<=256,'PAGE_LIMIT');check(Array.isArray(rawShakerInputs)&&rawShakerInputs.length<=128,'SHAKER_INPUT_LIMIT');
+  check(Array.isArray(rawRecipes)&&rawRecipes.length<=128,'RECIPE_LIMIT');check(Array.isArray(rawPages)&&rawPages.length<=256,'PAGE_LIMIT');check(Array.isArray(rawShakerInputs)&&rawShakerInputs.length<=256,'SHAKER_INPUT_LIMIT');
   // Normalize everything before changing any registry. Reject an entire bad bundle.
   const fluidRows=raw.fluids??[];check(Array.isArray(fluidRows)&&fluidRows.length<=16,'FLUID_LIMIT');
   const customFluids=fluidRows.map(f=>{
-   const fluid={id:own(f.id,source),filled:own(f.filled,source),empty:id(f.empty??'minecraft:bucket'),title:localeMap(f.title)};
+   const fluid={id:own(f.id,source),filled:own(f.filled,source),empty:id(f.empty??'minecraft:bucket')};
+   if(f.title!==undefined)fluid.title=localeMap(f.title);
    check(this.itemExists(fluid.filled)&&this.itemExists(fluid.empty),'UNKNOWN_FLUID_CONTAINER');
    check(fluid.empty==='minecraft:bucket','INVALID_EMPTY_BUCKET');
    const visuals=normalizeFluidVisuals(f.visuals,source);
@@ -164,7 +214,16 @@ export class ExtensionRegistry {
   });
   check(new Set(customFluids.map(f=>f.id)).size===customFluids.length&&new Set(customFluids.map(f=>f.filled)).size===customFluids.length,'DUPLICATE_FLUID');
   const availableFluids=new Set([...this.fluids,...customFluids.map(f=>f.id)]);
-  const recipes=rawRecipes.map(x=>{const r=normalizeRecipe(x,source,availableFluids,this.itemExists);const f=customFluids.find(f=>f.id===r.fluid);if(f)r.fluidItem=f.filled;return r;}),pages=rawPages.map(x=>normalizePage(x,source)),explicitInputs=rawShakerInputs.map(x=>normalizeShakerInput(x,source,this.itemExists)),shakerInputs=deriveBottleInputs(content,explicitInputs);
+  const guideCategories=normalizeGuideCategories(raw.guideCategories??[]);
+  const rawGroups=raw.itemGroups??[];check(Array.isArray(rawGroups)&&rawGroups.length<=64,'ITEM_GROUP_LIMIT');
+  const groups=new Map(rawGroups.map(group=>{
+   const key=own(group.id,source);check(Array.isArray(group.items)&&group.items.length>0&&group.items.length<=128,'INVALID_ITEM_GROUP');
+   const items=[...new Set(group.items.map(id).filter(this.itemExists))].sort();check(items.length,'EMPTY_ITEM_GROUP',key);return [key,items];
+  }));check(groups.size===rawGroups.length,'DUPLICATE_ITEM_GROUP');
+  const rawBoosters=raw.barrelQualityBoosters??[];check(Array.isArray(rawBoosters)&&rawBoosters.length<=64,'BARREL_QUALITY_BOOSTER_LIMIT');
+  const barrelQualityBoosters=rawBoosters.map(row=>normalizeBarrelQualityBooster(row,source,this.itemExists));
+  check(new Set(barrelQualityBoosters.map(row=>row.item)).size===barrelQualityBoosters.length,'DUPLICATE_BARREL_QUALITY_BOOSTER');
+  const recipes=rawRecipes.filter(x=>recipeEnabled(x,this.itemExists,availableFluids)).map(x=>{const r=normalizeRecipe(x,source,availableFluids,this.itemExists,groups);const f=customFluids.find(f=>f.id===r.fluid);if(f)r.fluidItem=f.filled;return r;}),pages=rawPages.map(x=>normalizePage(x,source,guideCategories)),explicitInputs=rawShakerInputs.map(x=>normalizeShakerInput(x,source,this.itemExists)),shakerInputs=deriveBottleInputs(content,explicitInputs);
   const categories=normalizeCategoryData(raw);
   check(new Set(recipes.map(x=>x.id)).size===recipes.length,'DUPLICATE_RECIPE');check(new Set(pages.map(x=>x.id)).size===pages.length,'DUPLICATE_PAGE');check(new Set(shakerInputs.map(x=>x.item)).size===shakerInputs.length,'DUPLICATE_SHAKER_INPUT');
   check(!pages.some(p=>recipes.some(r=>r.id===p.id)),'PAGE_RECIPE_ID_COLLISION');
@@ -174,7 +233,7 @@ export class ExtensionRegistry {
   const total=[...this.extensions.values()].filter(x=>x.source!==source).reduce((n,x)=>n+x.recipes.length+x.pages.length+x.shakerInputs.length+(x.furniture?.length??0)+(x.effects?.length??0)+(x.pickBlocks?.length??0)+(x.breakFeedback?.length??0)+(x.shakerColors?.length??0)+(x.itemTagChanges?.length??0),recipes.length+pages.length+shakerInputs.length+foundation.furniture.length+foundation.effects.length+foundation.pickBlocks.length+foundation.breakFeedback.length+categories.shakerColors.length+categories.itemTagChanges.length);
   check(total<=2048,'GLOBAL_REGISTRY_LIMIT');
   check(foundation.requires.every(x=>CAPABILITIES.includes(x)),'CAPABILITY_MISMATCH');
-  const extension=freeze({...foundation,...categories,api:1,source,version:raw.version,title:raw.title?localeMap(raw.title):{en_US:source},fluids:customFluids,recipes,pages,shakerInputs,content});
+  const extension=freeze({...foundation,...categories,api:1,source,version:raw.version,title:raw.title?localeMap(raw.title):{en_US:source},fluids:customFluids,recipes,pages,guideCategories,barrelQualityBoosters,shakerInputs,content});
   buildCategoryCatalog([],sorted([...this.extensions.values()].filter(row=>row.source!==source).concat(extension),row=>row.source),this.itemTags);
   this.extensions.set(source,extension);installContent(source,content,foundation);this.rebuild();return {source,recipes:recipes.length,pages:pages.length,shakerInputs:shakerInputs.length,revision:this.revision};
  }
@@ -187,6 +246,8 @@ export class ExtensionRegistry {
  pendingBarrelRecipeSources(){return [...this.expectedBarrelRecipeSources].filter(source=>!this.extensions.has(source)||!this.readyRecipeSources.has(source));}
  barrelRecipesReady(){for(const source of this.expectedBarrelRecipeSources)if(!this.extensions.has(source)||!this.readyRecipeSources.has(source))return false;return true;}
  allPages(){return this.pageCache;}
+ allGuideCategories(){return this.guideCategoryCache;}
+ barrelQualityBooster(item){return this.barrelQualityBoosterCache.get(item);}
  list(){return sorted([...this.extensions.values()],x=>x.source).map(x=>({source:x.source,version:x.version,recipes:x.recipes.length,pages:x.pages.length,shakerInputs:x.shakerInputs.length}));}
  recipe(recipeId){return this.recipeCache.find(x=>x.id===recipeId);}
  shakerInput(item){return this.shakerInputCache.get(item);}

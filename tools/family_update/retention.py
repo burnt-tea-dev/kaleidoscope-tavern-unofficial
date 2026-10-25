@@ -14,6 +14,7 @@ import shutil
 import stat
 import tempfile
 from .storage import assert_idle
+from family_guard import world_acceptance
 
 MARKER = 'retired-copies.json'
 COPIES = (
@@ -183,7 +184,8 @@ def _runs(report, saved=False):
 
 def _proof(r, root, mounts):
     saved = _read(r / 'saved-world-report.json', root, mounts)
-    saved_native = saved.get('native_acceptance_source') == 'saved_world'
+    fresh = saved.get('native_acceptance_source') == 'fresh_world'
+    saved_native = fresh or saved.get('native_acceptance_source') == 'saved_world'
     native_report = 'saved-world-report.json' if saved_native else 'exact-engine/native-report.json'
     # Only the explicit new contract reuses the stopped-world rehearsal as BDS
     # evidence. A missing historical fresh-world report remains incomplete.
@@ -212,24 +214,35 @@ def _proof(r, root, mounts):
              post.get('native_started') is True and post.get('family_initialized') is True and
              post.get('errors') == [] and post.get('drift', {}).get('ok') is True, 'Poststart verification did not pass')
     _require(reviewed.get('acceptance', {}).get('static') is True and reviewed['acceptance'].get('bds') is True and
-             reviewed['acceptance'].get('saved_world_migration') is True and static_evidence.get('ok') is True and
+             world_acceptance(reviewed) and static_evidence.get('ok') is True and
              static_evidence.get('pr_checks_verified') is True, 'Complete family gates did not pass')
     _require(native.get('bds') is True and native.get('exact_files_checked') is True and
              native.get('test_only_overlays') == [] and native.get('simulated_players') is False and
              native.get('players' if saved_native else 'real_players') == 0,
              'Exact native evidence did not pass')
-    _require(all(saved.get(key) is True for key in ['fresh_stopped_backup', 'existing_world_loaded', 'saved_world_migration', 'bds']) and
+    world_keys = ['fresh_world_initialization', 'world_persistence', 'bds'] if fresh else ['fresh_stopped_backup', 'existing_world_loaded', 'saved_world_migration', 'bds']
+    _require(all(saved.get(key) is True for key in world_keys) and
              saved.get('test_only_overlays') == [] and saved.get('simulated_players') is False and saved.get('players') == 0,
              'Fresh stopped saved-world evidence did not pass')
-    _require(saved.get('player_records_before') == saved.get('player_records_after') and
+    _require((fresh or saved.get('player_records_before') == saved.get('player_records_after')) and
              saved.get('engine_sha256') == native.get('engine_sha256') and bool(saved.get('engine_sha256')) and
              saved.get('engine_inputs') == native.get('engine_inputs') and bool(saved.get('engine_inputs')), 'Saved/native engine or player binding differs')
     if not saved_native:
         _runs(native)
-    _runs(saved, saved=True)
+    _runs(saved, saved=not fresh)
+    if fresh:
+        first, restart = saved['runs']
+        _require(saved.get('saved_world_migration') is False and saved.get('existing_world_loaded') is False and
+                 reviewed.get('world_initialization', {}).get('kind') == 'fresh_world', 'Fresh initialization was mislabeled as migration')
+        _require(not any(name == 'level.dat' or name.startswith('db/') for name in first['world_input_files']) and
+                 restart['world_input_files'] == first['world_output_files'] and
+                 saved['world_files'] == restart['world_output_files'], 'Fresh first/restart database binding differs')
+        _require(all(row.get('generated_database') is True and row.get('commands_sent') is False for row in saved['runs']), 'Fresh world contains unverified generation or probe commands')
+        _require(dep.get('fresh_world') == post.get('active_world_binding', {}).get('world_dir') and
+                 Path(dep['fresh_world']).name == reviewed['world_initialization']['level_name'], 'Delivered fresh world binding differs')
     _require(backup.get('status') == 'consistent_stopped_backup' and backup.get('live_status') == 'STOPPED' and
              backup.get('consistent_stopped_snapshot') == str(r / 'production-snapshot') and
-             saved.get('snapshot_source') == str(r / 'production-snapshot') and
+             saved.get('rollback_snapshot' if fresh else 'snapshot_source') == str(r / 'production-snapshot') and
              saved.get('snapshot_cutoff') == backup.get('recorded_at') and bool(backup.get('files')) and
              backup.get('files', {}).get('level.dat') == backup.get('level_dat_sha256'), 'Stopped backup binding differs')
     refs = {ref['path']: ref for ref in reviewed.get('evidence', {}).get('reports', [])}
@@ -392,7 +405,18 @@ def _rollback_files(proof, r):
         _require(src == r / 'production-rollback' / (row['side'] + '_packs') / dst.name, 'Retired pack canonical layout differs')
         expected.update({str(src.relative_to(r / 'production-rollback') / rel): digest for rel, digest in row['files'].items()})
     _require(observed_aliases == set(aliases), 'Retained global rollback mapping is incomplete')
-    _require(bool(expected) or bool(aliases), 'Rollback inventory is empty')
+    if proof['docs']['saved-world-report.json'].get('native_acceptance_source') == 'fresh_world':
+        original_world = Path(proof['docs']['rollback-map.json']['original_world'])
+        snapshot = proof['docs']['production-before/backup-receipt.json']['files']
+        for destination, row in prior.items():
+            path = Path(destination)
+            if path.parent == original_world / (row['side'] + '_packs'):
+                _require(all(snapshot.get(str(Path(row['side'] + '_packs') / path.name / name)) == digest
+                             for name, digest in row['files'].items()), 'Fresh rollback omitted an original world pack')
+            else:
+                _require(destination in seen, 'Fresh rollback omitted an original global pack')
+    else:
+        _require(bool(expected) or bool(aliases), 'Rollback inventory is empty')
     return expected
 
 

@@ -39,6 +39,22 @@ const LEAVES=[
  ['food','food_freezer','冰柜食品','冰櫃食品','Frozen Foods',''],
  ['food','food_crafting','工作台食品','工作台食品','Crafted Foods','']
 ];
+/** Project publisher taxonomies into the family's fixed, shared navigation. */
+export function extensionGuideCategory(page,recipes,categories){
+ if(recipes.some(recipe=>recipe.kind==='shaker'))return 'cocktail';
+ if(recipes.some(recipe=>recipe.kind==='barrel'))return 'barrel';
+ if(recipes.some(recipe=>recipe.kind==='pressing'))return 'juices';
+ const mapped={cookery:'food',crafting:'food',tavern:'barrel',brewing:'barrel',pressing:'juices',equipment:'tools',string_lights:'lighting'};
+ const byId=new Map(categories.filter(category=>category.source===page.source).map(category=>[category.id,category]));
+ let category=page.category;
+ while(category){
+  if(Object.hasOwn(mapped,category))return mapped[category];
+  const parent=byId.get(category)?.parent;
+  if(!parent)return category;
+  category=parent;
+ }
+ return 'extensions';
+}
 export function guideLeaf(entry){
  const short=entry.id.split(':').slice(1).join(':');
  const methods=new Set((entry.recipes??[]).map(r=>r.method));

@@ -1,11 +1,11 @@
 import {system,ScriptEventSource} from '@minecraft/server';
-import {ExtensionTransport,EVENTS} from '../core/transport.js';
+import {ExtensionTransport,EVENTS,TRANSPORT_LIMITS} from '../core/transport.js';
 import {CAPABILITIES} from '../core/registry.js';
 import {utf8Bytes} from '../core/util.js';
 export function installExtensionHost(registry){
  const transport=new ExtensionTransport(registry);let countTick=-1,eventsThisTick=0;
  const send=(id,p)=>system.sendScriptEvent(id,JSON.stringify(p));
- const ready=()=>send(EVENTS.ready,{api:1,version:'0.3.0',capabilities:CAPABILITIES,maxPacketBytes:1900,maxPayloadBytes:262144});
+ const ready=()=>send(EVENTS.ready,{api:1,version:'0.3.0',capabilities:CAPABILITIES,maxPacketBytes:TRANSPORT_LIMITS.packetBytes,maxPayloadBytes:TRANSPORT_LIMITS.dataBytes,maxParts:TRANSPORT_LIMITS.maxParts});
  system.afterEvents.scriptEventReceive.subscribe(ev=>{
   if(!Object.values(EVENTS).includes(ev.id)||ev.id===EVENTS.ready||ev.id===EVENTS.ack)return;
   // Server-script-origin is required. Pack namespaces are cooperative, not authenticated identities.
@@ -14,7 +14,7 @@ export function installExtensionHost(registry){
   if(++eventsThisTick>256)return;
   if(ev.id===EVENTS.ping){ready();return;}
   let source,revision;
-  try{if(utf8Bytes(ev.message)>1900)throw new Error('PACKET_TOO_LARGE');const p=JSON.parse(ev.message);source=p.source;revision=p.revision;
+  try{if(utf8Bytes(ev.message)>TRANSPORT_LIMITS.packetBytes)throw new Error('PACKET_TOO_LARGE');const p=JSON.parse(ev.message);source=p.source;revision=p.revision;
    const result=transport.receive(ev.id,ev.message,system.currentTick);if(result)send(EVENTS.ack,result);
   }catch(error){console.warn(`[Tavern Extension] ${error}`);send(EVENTS.ack,{ok:false,source,revision,code:error.code??'INVALID_PACKET'});}
  },{namespaces:['kaleidoscope_tavern']});

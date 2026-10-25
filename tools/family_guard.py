@@ -29,22 +29,29 @@ def family_pack(pack,policy):
    content=re.sub(r'"(?:\\.|[^"\\])*"|//[^\n]*|/\*.*?\*/',lambda m:m[0] if m[0].startswith('"') else '',content,flags=re.S)
    if re.search(r'"identifier"\s*:\s*"(?:kaleidoscope_|kt_assets_)',content):return True
  return False
+def world_acceptance(receipt):
+ gates=receipt.get('acceptance',{});fresh=receipt.get('world_initialization')
+ return (gates.get('saved_world_migration') is True if fresh is None else
+  isinstance(fresh,dict) and fresh.get('kind')=='fresh_world' and bool(fresh.get('level_name'))
+  and gates.get('saved_world_migration') is False and gates.get('fresh_world_initialization') is True
+  and gates.get('world_persistence') is True)
 def validate_incoming(incoming,policy_path):
  policy=read(policy_path);ids={p['uuid'] for p in incoming}
  if not any(family_pack(p,policy) for p in incoming):return
  approved=policy.get('approved_receipt')
  if not approved:raise ValueError('森羅家族更新已攔截：需整套 Git 基線、官方來源鎖及存檔遷移驗收；不能個別覆蓋本地包。')
  receipt=read(approved);gates=receipt.get('acceptance',{})
- complete=receipt.get('production_ready') is True and all(gates.get(k) is True for k in ['static','bds','client','saved_world_migration'])
+ world_gate=world_acceptance(receipt)
+ complete=receipt.get('production_ready') is True and world_gate and all(gates.get(k) is True for k in ['static','bds','client'])
  # A user may explicitly defer client acceptance for one exact candidate.
  # Keep client=false and production_ready=false; never manufacture evidence.
  deferred=policy.get('deferred_client_acceptance',{})
  pending=(receipt.get('production_ready') is False and gates.get('client') is False
-  and all(gates.get(k) is True for k in ['static','bds','saved_world_migration'])
+  and world_gate and all(gates.get(k) is True for k in ['static','bds'])
   and deferred.get('source')=='explicit_user_instruction'
   and bool(deferred.get('instruction')) and bool(deferred.get('recorded_at'))
   and deferred.get('receipt_sha256')==hashlib.sha256(Path(approved).read_bytes()).hexdigest())
- if not complete and not pending:raise ValueError('森羅部署缺少 BDS／用戶端／存檔遷移驗收')
+ if not complete and not pending:raise ValueError('森羅部署缺少 BDS／用戶端／存檔遷移或新世界初始化及保存驗收')
  expected={p['uuid']:p for p in receipt['packs']}
  if ids!=set(expected):raise ValueError('森羅更新必須提交完整的已驗收家族包')
  for p in incoming:

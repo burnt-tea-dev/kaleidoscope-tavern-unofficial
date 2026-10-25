@@ -167,6 +167,9 @@ def functional_layers(root):
  for layer in layers:
   assert isinstance(layer.get('release'),str) and layer['release'].strip()
   assert isinstance(layer.get('files'),dict) and layer['files']
+  stage=layer.get('beforeImmutableReview')
+  assert stage in (None,'0.6.176'),'Unsupported functional review stage'
+  if stage:assert set(layer['files'])<=T176_PATHS,'Functional review outside immutable edge'
  return layers
 @lru_cache(maxsize=4)
 def asset_layers(root):
@@ -218,12 +221,14 @@ def reverse_functional_delta(name,data,row):
  restored=''.join(lines).encode('utf-8')
  assert hashlib.sha256(restored).hexdigest()==row['before'],('Functional predecessor mismatch',name)
  return restored
-def functional_projection(root,name,data):
+def functional_projection(root,name,data,*,before_immutable=False):
  # New reviews append to the ledger. Resolve newest-to-oldest without rewriting
  # any earlier review, then apply the original functional and baseline guards.
  for layer in reversed(functional_layers(root)):
+  if (layer.get('beforeImmutableReview') is not None)!=before_immutable:continue
   row=layer['files'].get(name)
   if row:data=reverse_functional_delta(name,data,row)
+ if before_immutable:return data
  row=functional_rows(root).get(name)
  return reverse_functional_delta(name,data,row) if row else data
 def version_projection(root,name,data,spec):
@@ -253,6 +258,9 @@ def version_projection(root,name,data,spec):
 
 def previous_bytes(root,path):
  root=Path(root).resolve();path=Path(path).resolve();name=path.relative_to(root).as_posix();data=path.read_bytes();row=rows(root).get(name)
+ # Later reviewed repairs first recover the exact immutable postimage; the
+ # T176 endpoints and all earlier preservation guards still run unchanged.
+ data=functional_projection(root,name,data,before_immutable=True)
  data=t176_preimage(root,name,data)
  data=collision_preimage(root,name,data)
  # Bind and normalize the current release identity before any body delta.

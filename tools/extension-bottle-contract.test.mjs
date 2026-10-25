@@ -6,6 +6,7 @@ import {localeMap} from '../runtime/BP/scripts/core/util.js';
 import {bottleBase,bottleBlock,isBottleBlock} from '../runtime/BP/scripts/core/extension-content.js';
 import {bottlePermutationBlock,bottlePermutationStates,bottleDisplayMatches,legacyBottleDisplay} from '../runtime/BP/scripts/core/bottle-display-schema.js';
 import {nativeStorageAnchor,checkNativeStorageOwner} from '../runtime/BP/scripts/core/native-storage-anchor.js';
+import {displayAdd,displayTake,parseBottle} from '../runtime/BP/scripts/core/bottles.js';
 
 const source='bottle_fixture',base=source+':wine',items=Array.from({length:6},(_,i)=>base+'_q'+(i+1));
 const contract=()=>({api:1,source,version:'1.0.0',content:[{kind:'bottle',base,block:base,items:items.slice(),qualityBlocks:items.slice(),maxCount:4,compact:true,visualKind:1100,effects:Array.from({length:6},()=>[]),displayStates:{count:'kaleidoscope_tavern:count',facing:'minecraft:cardinal_direction'}}]});
@@ -46,7 +47,30 @@ test('quality-block legacy reads recover only declared count, facing and exact q
    assert.equal(legacyBottleDisplay(block(items[quality-1],{...states,'minecraft:cardinal_direction':'sideways'})),undefined);
   }
   const creative=block(base,{'kaleidoscope_tavern:count':1,'minecraft:cardinal_direction':'south'}),restored=legacyBottleDisplay(creative);
-  assert.deepEqual(restored.items,[items[5]]);assert(bottleDisplayMatches(creative,restored));
+  assert.deepEqual(restored.items,[base]);assert(bottleDisplayMatches(creative,restored));
+ }finally{r.remove(source);}
+});
+
+test('the unqualified Creative preview retains its own identity through display and pickup',()=>{
+ const r=registry();r.install(contract());
+ try{
+  assert.equal(parseBottle(base).quality,6);
+  const state=displayAdd(undefined,base,1);
+  assert.equal(bottlePermutationBlock(state),base);assert.equal(displayTake(state).give[0].id,base);
+  const key='kt:bottles/overworld/1_2_3',anchor=nativeStorageAnchor(key,undefined,()=>JSON.stringify(state));
+  assert.equal(anchor.type,base);assert.deepEqual(anchor.displayIds,[base]);
+ }finally{r.remove(source);}
+ assert.equal(parseBottle(base),undefined);
+});
+
+test('quality-block descriptors inherit the current shared count and cardinal contract',()=>{
+ const r=registry(),raw=contract();delete raw.content[0].displayStates;r.install(raw);
+ try{
+  const state={schema:1,revision:0,base,facing:3,items:[items[0],items[5],items[5]]};
+  const states={'kaleidoscope_tavern:count':3,'minecraft:cardinal_direction':'east'};
+  assert.equal(bottlePermutationBlock(state),items[5]);
+  assert.deepEqual(bottlePermutationStates(state),states);
+  assert(bottleDisplayMatches(block(items[5],states),state));
  }finally{r.remove(source);}
 });
 
@@ -54,7 +78,7 @@ test('invalid quality layouts and foreign state keys reject atomically; replacem
  const r=registry();r.install(contract());const before=r.extensions.get(source);
  for(const mutate of [
   d=>d.qualityBlocks[0]='foreign:wine',d=>d.qualityBlocks[0]=d.qualityBlocks[1],d=>d.qualityBlocks.pop(),
-  d=>d.displayStates.count='foreign:count',d=>d.displayStates.facing='minecraft:facing_direction',d=>delete d.displayStates,
+  d=>d.displayStates.count='foreign:count',d=>d.displayStates.facing='minecraft:facing_direction',d=>d.displayStates=null,
   d=>d.displayStates.extra='bottle_fixture:extra',
  ]){const next=contract();mutate(next.content[0]);assert.throws(()=>r.install(next));assert.equal(r.extensions.get(source),before);}
  const aliasCollision=contract(),other=structuredClone(aliasCollision.content[0]);other.base=source+':other';other.block=source+':other';aliasCollision.content.push(other);

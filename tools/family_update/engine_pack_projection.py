@@ -95,6 +95,29 @@ def project(trees, world_receipt):
         original, inventory_ref = document(inventory_path)
     else:
         original, inventory_ref = {'packs': []}, None
+    if c.CONFIG.get('fresh_world'):
+        # Old active globals are rollback inputs, not part of the curated world.
+        # The same roots are parked by deployment before its normal start.
+        aliases = []
+        for row in original['packs']:
+            path = Path(row['path'])
+            if path.parent != c.B / (row['side'] + '_packs'):
+                continue
+            parked = c.R / 'production-rollback' / (row['side'] + '_packs') / path.name
+            assert regular_hashes(path if path.exists() else parked) == row['files'], 'Old global rollback input changed'
+            root = row['side'] + '_packs'
+            for relative in [p for p in trees[root] if p.startswith(path.name + '/')]:
+                del trees[root][relative]
+            aliases.append({'uuid': row['uuid'], 'side': row['side'], 'global_path': str(path),
+                            'files_sha256': fingerprint(row['files'])})
+        excluded = {row['global_path'] for row in aliases}
+        for side in ['behavior', 'resource']:
+            for manifest in (c.B / (side + '_packs')).glob('*/manifest.json'):
+                uid = c.read(manifest)['header']['uuid']
+                if uid in candidates:
+                    assert str(manifest.parent) in excluded, 'Uncaptured global candidate alias'
+        return {'schema': 1, 'captured_inventory': inventory_ref,
+                'fresh_world': True, 'aliases': aliases}
     aliases = {}
     for row in original['packs']:
         if row['uuid'] not in candidates or not row.get('path'):

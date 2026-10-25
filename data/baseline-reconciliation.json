@@ -8164,6 +8164,383 @@
           ]
         }
       }
+    },
+    {
+      "release": "0.6.184",
+      "beforeImmutableReview": "0.6.176",
+      "reviewedPredecessorCommit": "168a23ed9cb2465c1c9f6bbbf8853c6e39ea82d1",
+      "reviewedSourceCommit": "684962d2a0c2983af8e111bbc7b1c02965abcc8f",
+      "regressionTests": [
+        "tools/current-extension-contract.test.mjs",
+        "tools/extension-bottle-contract.test.mjs",
+        "tools/extension-bottle-adapter.test.mjs"
+      ],
+      "files": {
+        "runtime/BP/scripts/bedrock/machines.js": {
+          "before": "e3545d3e4e22dc4dccfe62db1d74a1b8d27c5b47aef9d89106c0804484bf3fc3",
+          "after": "8d5b4cf154500476b09d876390c3f45d3d7b4d8434a93baff38d8ce62dd6a25e",
+          "reason": "Reviewed current extension barrel quality booster interaction, native durability preservation, cooldown and deferred use routing.",
+          "reverseOps": [
+            [
+              37,
+              38,
+              ""
+            ],
+            [
+              44,
+              45,
+              ""
+            ],
+            [
+              141,
+              144,
+              ""
+            ],
+            [
+              145,
+              146,
+              "  if(action==='use')command.compatibleSlots=machineIngredientCompatibility(core,state,h);\n"
+            ],
+            [
+              156,
+              165,
+              ""
+            ],
+            [
+              167,
+              172,
+              ""
+            ],
+            [
+              419,
+              425,
+              ""
+            ],
+            [
+              427,
+              428,
+              " if(dy!==2)return undefined;const core=resolveCore(block);if(!core)return undefined;\n const state=store.load(keyFor(core));if(!state)return undefined;\n"
+            ]
+          ]
+        },
+        "runtime/BP/scripts/core/bottle-display-schema.js": {
+          "before": "5c09681e42a9d653be3bd1631ad7e1e15b7b412c02cbe738b8012c93056bbd0d",
+          "after": "e2c58bb8531b394945533d4d0b2483570913faf9de6bdda8cb4d1d536e95d9a6",
+          "reason": "Reviewed exact generic Creative bottle identity during display permutation and legacy reads.",
+          "reverseOps": [
+            [
+              6,
+              7,
+              "export const bottlePermutationBlock=value=>bottleBlock(value.base,parseBottle(value.items.at(-1)).quality);\n"
+            ],
+            [
+              27,
+              29,
+              " return validateDisplay({schema:1,revision:0,base,facing,items:Array(count).fill(def.items[quality-1])});\n"
+            ]
+          ]
+        },
+        "runtime/BP/scripts/core/extension-content.js": {
+          "before": "53c63f51e25b1d92f6b9f54a0dad8119e3f9f9b086ddab1e39751ad6273c758e",
+          "after": "598021236116991cb68f13d2a84ad687bb05dc86ef4e52f35fce45bbfdb544d8",
+          "reason": "Reviewed generic Creative bottle registration, replacement cleanup and exact item identity preservation.",
+          "reverseOps": [
+            [
+              20,
+              21,
+              " for(const old of sources.get(source)??[]){for(const item of old.items??[])drinks.delete(item);for(const block of [old.block,...old.qualityBlocks??[]])blocks.delete(block);delete BOTTLES[old.base];delete DRINK_EFFECTS[old.base];if(old.item)delete COCKTAILS[old.item];}\n"
+            ],
+            [
+              24,
+              28,
+              "   BOTTLES[d.base]={maxCount:d.maxCount,qualities:6,block:d.block,qualityBlocks:d.qualityBlocks,items:d.items,displayStates:d.displayStates,color:d.color};DRINK_EFFECTS[d.base]=d.effects;for(const block of [d.block,...d.qualityBlocks??[]])blocks.set(block,d.base);\n"
+            ]
+          ]
+        },
+        "runtime/BP/scripts/core/registry.js": {
+          "before": "833add84d9896e134cdb14d0b113369b5c2bb6ee75f87068d017c5ffcfdb64bc",
+          "after": "5456b2e678b77a3e0bdca479533f0194846ba21d46f16c5b4a8b5e110066d05f",
+          "reason": "Reviewed current stable extension recipe groups and conditions, optional fluid title, guide categories, quality boosters and generic bottle contracts.",
+          "reverseOps": [
+            [
+              9,
+              10,
+              "export const CAPABILITIES=Object.freeze(['barrel_recipes','pressing_recipes','guide_pages','guide_product_pages','recipe_auto_pages','atomic_extension_replace','chunk_transport','acknowledgements','shaker_recipes','shaker_batch_snapshot','native_potion_inputs','external_shaker_inputs','drink_content','furniture_storage','external_effect_lifecycle','custom_fluids','external_fluid_visuals','bottle_display_states','destruction_feedback','shaker_ingredient_tags','drink_source_labels','shaker_color_catalog','java_ingredient_predicates','native_ingredient_tags','automatic_bottle_inputs']);\n"
+            ],
+            [
+              12,
+              21,
+              "function options(value){check(Array.isArray(value)&&value.length>0&&value.length<=64,'INVALID_INGREDIENT');return [...new Set(value.map(id))].sort();}\nfunction normalizeRecipe(raw,source,fluids,itemExists){\n"
+            ],
+            [
+              36,
+              37,
+              "  r.input=options(raw.input);r.amount=integer(raw.amount??125,1,1000,'pressing.amount');\n"
+            ],
+            [
+              41,
+              42,
+              "  r.ingredients=raw.ingredients.map(options);\n"
+            ],
+            [
+              63,
+              71,
+              ""
+            ],
+            [
+              81,
+              82,
+              ""
+            ],
+            [
+              85,
+              90,
+              "  if(raw.displayStates){\n   check(raw.displayStates&&typeof raw.displayStates==='object','INVALID_DISPLAY_STATES');\n"
+            ],
+            [
+              92,
+              93,
+              "    const state=raw.displayStates[key],shared=d.qualityBlocks&&(key==='count'&&state===CORE+':count'||key==='facing'&&state==='minecraft:cardinal_direction');\n"
+            ],
+            [
+              95,
+              96,
+              "   if(raw.displayStates.quality!==undefined)d.displayStates.quality=own(raw.displayStates.quality,source);\n"
+            ],
+            [
+              97,
+              98,
+              "   check(Object.keys(raw.displayStates).every(key=>['count','facing','quality'].includes(key))&&new Set(Object.values(d.displayStates)).size===Object.keys(d.displayStates).length,'INVALID_DISPLAY_STATES');\n"
+            ],
+            [
+              106,
+              131,
+              "function normalizePage(raw,source){\n"
+            ],
+            [
+              134,
+              139,
+              " if(raw.category!==undefined){check(['equipment','barrel','cocktail','ingredients','storage','cultivation','furniture','lighting','incense','art','boards','food'].includes(raw.category),'INVALID_GUIDE_CATEGORY');page.category=raw.category;}\n"
+            ],
+            [
+              189,
+              191,
+              ""
+            ],
+            [
+              201,
+              202,
+              "  check(Array.isArray(rawRecipes)&&rawRecipes.length<=128,'RECIPE_LIMIT');check(Array.isArray(rawPages)&&rawPages.length<=256,'PAGE_LIMIT');check(Array.isArray(rawShakerInputs)&&rawShakerInputs.length<=128,'SHAKER_INPUT_LIMIT');\n"
+            ],
+            [
+              205,
+              207,
+              "   const fluid={id:own(f.id,source),filled:own(f.filled,source),empty:id(f.empty??'minecraft:bucket'),title:localeMap(f.title)};\n"
+            ],
+            [
+              216,
+              226,
+              "  const recipes=rawRecipes.map(x=>{const r=normalizeRecipe(x,source,availableFluids,this.itemExists);const f=customFluids.find(f=>f.id===r.fluid);if(f)r.fluidItem=f.filled;return r;}),pages=rawPages.map(x=>normalizePage(x,source)),explicitInputs=rawShakerInputs.map(x=>normalizeShakerInput(x,source,this.itemExists)),shakerInputs=deriveBottleInputs(content,explicitInputs);\n"
+            ],
+            [
+              235,
+              236,
+              "  const extension=freeze({...foundation,...categories,api:1,source,version:raw.version,title:raw.title?localeMap(raw.title):{en_US:source},fluids:customFluids,recipes,pages,shakerInputs,content});\n"
+            ],
+            [
+              248,
+              250,
+              ""
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "release": "0.6.184",
+      "reviewedPredecessorCommit": "168a23ed9cb2465c1c9f6bbbf8853c6e39ea82d1",
+      "reviewedSourceCommit": "684962d2a0c2983af8e111bbc7b1c02965abcc8f",
+      "regressionTests": [
+        "tools/current-extension-contract.test.mjs",
+        "tools/standalone-guide.test.mjs",
+        "tools/efficiency/preservation.test.mjs"
+      ],
+      "files": {
+        "runtime/BP/scripts/bedrock/decorations.js": {
+          "before": "57a9c249aae381aecc029e46d79247bb3df947111b0257ea2fbf82995e4a530a",
+          "after": "db21cdc38f94e545dc2136bea960378c2ce8eff20d001c6a8228b8ec79429b2b",
+          "reason": "Reviewed current light toggling through the shared native use route, preserving incense interaction and waterlogging behavior.",
+          "reverseOps": [
+            [
+              10,
+              12,
+              ""
+            ],
+            [
+              15,
+              16,
+              "let eventsInstalled=false;const recentIncenseInteractions=new Map(),recentIncensePlacements=new Map(),incensePulsePeriods=new Map();\n"
+            ],
+            [
+              20,
+              27,
+              ""
+            ],
+            [
+              30,
+              34,
+              "function interactIncense(player,block,event){\n if(event.cancel||!player||!block||!INCENSE[block.typeId.slice(NS.length+1)]||isPlacementCallback(player,block))return false;\n"
+            ],
+            [
+              36,
+              37,
+              " const key=interactionKey(player,block),previous=recentIncenseInteractions.get(key);\n"
+            ],
+            [
+              38,
+              39,
+              " // block use, so a held incense item cannot fall through into placement.\n"
+            ],
+            [
+              40,
+              41,
+              " const pending={event,hand:hs};recentIncenseInteractions.set(key,pending);\n"
+            ],
+            [
+              47,
+              49,
+              "   succeeded=toggleIncense(b,b.permutation.getState(OPEN)!==1);return succeeded;\n  }finally{if(recentIncenseInteractions.get(key)===pending)recentIncenseInteractions.delete(key);settleJavaBlockUse(event,succeeded);}\n"
+            ],
+            [
+              82,
+              83,
+              ""
+            ],
+            [
+              89,
+              90,
+              " registerJavaBlockUseHandler(e=>{if(e.cancel||!e.block)return;if(interactIncense(e.player,e.block,e)){e.cancel=true;return;}if(!e._javaNativeAfter)noteIncensePlacement(e.player,e);});\n"
+            ]
+          ]
+        },
+        "runtime/BP/scripts/bedrock/extension-host.js": {
+          "before": "61392b4066a6374d7a83046b82014c3ca483ae37d325713426a2482cf41bcbe4",
+          "after": "576f8171b93e2101e6cd099e3ccc3ce7762994661d0fcf7fff0b67951b4a7436",
+          "reason": "Reviewed current shared transport limit advertisement and receive boundary; restore the exact T183 host before historical preservation checks.",
+          "reverseOps": [
+            [
+              1,
+              2,
+              "import {ExtensionTransport,EVENTS} from '../core/transport.js';\n"
+            ],
+            [
+              7,
+              8,
+              " const ready=()=>send(EVENTS.ready,{api:1,version:'0.3.0',capabilities:CAPABILITIES,maxPacketBytes:1900,maxPayloadBytes:262144});\n"
+            ],
+            [
+              16,
+              17,
+              "  try{if(utf8Bytes(ev.message)>1900)throw new Error('PACKET_TOO_LARGE');const p=JSON.parse(ev.message);source=p.source;revision=p.revision;\n"
+            ]
+          ]
+        },
+        "runtime/BP/scripts/core/machines.js": {
+          "before": "11195ed9fd026860d9762027899746dec7444cd1322e588f123f5dcc370ebd91",
+          "after": "cf43c87cfd3d9dfa2e0920ed516ba47ba912135d163b5fafb9aaf9116ab592c3",
+          "reason": "Reviewed barrel quality booster interaction preserving the existing produced batch timer and six-level cap.",
+          "reverseOps": [
+            [
+              47,
+              59,
+              "  check(held,'EMPTY_HAND');check(s.open&&!s.batch,'LID_CLOSED');\n"
+            ]
+          ]
+        },
+        "runtime/BP/scripts/core/transport.js": {
+          "before": "1c0d2f7affb2fd0b7b9ad810ac68d817cdc8d3320c8973c707a9d19c96abddf0",
+          "after": "da3dd3bad2e71cfcb965f2f6536d71b37fb276e25ea7b434024958faeb3fb8d0",
+          "reason": "Reviewed current shared bounded payload, part and transfer timing limits; restore the exact T183 transport before older functional layers.",
+          "reverseOps": [
+            [
+              2,
+              4,
+              "const MAX_PACKET_BYTES=1900,MAX_DATA_BYTES=262144,TTL=600;\n"
+            ],
+            [
+              18,
+              19,
+              " check(parts.length<=512,'TOO_MANY_PARTS');\n"
+            ],
+            [
+              58,
+              59,
+              "   check(p.api===1,'API_VERSION_MISMATCH');integer(p.parts,1,512);integer(p.bytes,2,MAX_DATA_BYTES);check(/^[0-9a-f]{8}$/.test(p.digest),'INVALID_DIGEST');\n"
+            ]
+          ]
+        },
+        "runtime/BP/scripts/data/cookery-guide-payload.js": {
+          "before": "14f3183d2389af57f1d52ab093ec3b07f4fbb958824886f184175e57ef85ef00",
+          "after": "fa43f7e7d03a8bbb6190c9b340c794afc982f03b6fd10f044026e5a0e94e6b2b",
+          "reason": "Reviewed current stable extension guide projection and localized fluid names after the existing bound release identity normalization to 0.6.116.",
+          "reverseOps": [
+            [
+              2,
+              3,
+              ""
+            ],
+            [
+              5863,
+              5865,
+              "  const sources=registry.list?.()??[],pages=registry.allPages?.()??[],recipes=registry.allRecipes?.()??[],fluids=registry.allFluids?.()??FLUIDS,colors=registry.allIngredientColors?.()??[];\n  registry={list:()=>sources,allPages:()=>pages,allRecipes:()=>recipes,allFluids:()=>fluids,allIngredientColors:()=>colors};\n"
+            ],
+            [
+              5870,
+              5873,
+              "   const title=fluid.title?.[lc]??fluid.title?.en_US;\n"
+            ],
+            [
+              5875,
+              5876,
+              "   if(fluid.filled)payload.names[lc][fluid.filled]??=lc==='en_US'?title+' Bucket':title+'桶';\n"
+            ],
+            [
+              5905,
+              5906,
+              "  const linked=matches?matches[0]:recipes.find(r=>page.recipeIds?.includes(r.id)),item=page.item??linked?.output?.item??linked?.output?.byQuality?.[0];\n"
+            ],
+            [
+              5928,
+              5929,
+              "  const category=page.category??(linked[0]?.kind==='barrel'?'barrel':linked[0]?.kind==='shaker'?'cocktail_recipes':'extensions');\n"
+            ]
+          ]
+        },
+        "runtime/BP/scripts/data/guide-copy.js": {
+          "before": "d84a31ecc049932988782ab457e09d2b79114702259b4c84aaeb3e6e45feb2e9",
+          "after": "6f5c0a935cbfd9d9fb6132ced2c59001c2ed3166c3d1d063a88f5cdf2bf03e76",
+          "reason": "Reviewed three-language adaptation note for the current Dim Wine guide, preserving the remaining reviewed copy.",
+          "reverseOps": [
+            [
+              30,
+              38,
+              ""
+            ]
+          ]
+        },
+        "runtime/BP/scripts/data/guide-navigation.js": {
+          "before": "c296612d010aff0769a32479591a6f9c1faac6317f461e83e02b9b648936a149",
+          "after": "9344548995406ac34e76824b094c21d91fd3927001e84792f43888935f234ebd",
+          "reason": "Reviewed publisher category projection into the fixed shared family navigation, preserving all earlier guide layout and entries.",
+          "reverseOps": [
+            [
+              41,
+              57,
+              ""
+            ]
+          ]
+        }
+      }
     }
   ],
   "reviewedAssetDeltaLayers": [

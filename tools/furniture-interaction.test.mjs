@@ -104,6 +104,17 @@ test('native held-item incense fallback toggles once and empty-only adapters rem
  assert.equal(b.permutation.getState(OPEN),1);assert.equal(p.inventory.getItem(2).amount,4);assert.deepEqual(p.messages,[]);
 });
 
+test('shared addon boolean lights toggle once through the registered component and preserve held items and facing',()=>{
+ const lit=NS+'lit',cardinal='minecraft:cardinal_direction',{p,b}=setup('current_fixture:string_lights_entity_bee',{[lit]:false,[cardinal]:'west'});hold(p,'minecraft:stick',3);
+ assert.equal(interact(p,b).cancel,true);assert.equal(interact(p,b,{face:'East'}).cancel,true);
+ assert.equal(native(p,b,'Up',undefined,NS+'toggle_light'),false);system.advance(1);
+ assert.equal(b.permutation.getState(lit),true);assert.equal(b.permutation.getState(cardinal),'west');assert.equal(p.inventory.getItem(2).amount,3);
+ assert.ok(d.sounds.some(sound=>sound.id==='random.orb'&&sound.options.volume===0.45&&sound.options.pitch===1.45));
+ assert.equal(native(p,b,'East',undefined,NS+'toggle_light'),false);
+ interact(p,b);system.advance(1);assert.equal(b.permutation.getState(lit),false);
+ assert.ok(d.sounds.some(sound=>sound.id==='random.pop'&&sound.options.volume===0.40&&sound.options.pitch===1));assert.deepEqual(p.messages,[]);
+});
+
 test('secondary held use keeps placement, placement callback stays closed, sneaking empty use toggles',()=>{
  const {p,b}=setup(NS+'pine_incense',{[OPEN]:0});hold(p,NS+'pine_incense',2);p.isSneaking=true;
  assert.equal(interact(p,b).cancel,false);assert.equal(native(p,b),false);system.advance(1);assert.equal(b.permutation.getState(OPEN),0);

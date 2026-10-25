@@ -1,6 +1,7 @@
 import {check,integer,text,utf8Bytes,digest,TavernError,prepareJson,prepareDigest,jsonCodepointBytes,finishPreparation} from './util.js';
 export const EVENTS=Object.freeze({ping:'kaleidoscope_tavern:api_ping',ready:'kaleidoscope_tavern:api_ready',begin:'kaleidoscope_tavern:extension_begin',chunk:'kaleidoscope_tavern:extension_chunk',commit:'kaleidoscope_tavern:extension_commit',ack:'kaleidoscope_tavern:extension_ack',unregister:'kaleidoscope_tavern:extension_unregister'});
-const MAX_PACKET_BYTES=1900,MAX_DATA_BYTES=262144,TTL=600;
+export const TRANSPORT_LIMITS=Object.freeze({packetBytes:1900,dataBytes:1500000,maxParts:2048,pendingTicks:2400});
+const MAX_PACKET_BYTES=TRANSPORT_LIMITS.packetBytes,MAX_DATA_BYTES=TRANSPORT_LIMITS.dataBytes,TTL=TRANSPORT_LIMITS.pendingTicks;
 /** Complete and validate the whole transfer before emitting its begin packet. */
 export function* preparePacketsFor(extension,revision,{quotedLimit=1100}={}){
  const data=yield* prepareJson(extension,{canonicalKeys:true});
@@ -15,7 +16,7 @@ export function* preparePacketsFor(extension,revision,{quotedLimit=1100}={}){
   if((units+=length)>=2048){units=0;yield;}
  }
  if(start<data.length)parts.push(data.slice(start));
- check(parts.length<=512,'TOO_MANY_PARTS');
+ check(parts.length<=TRANSPORT_LIMITS.maxParts,'TOO_MANY_PARTS');
  const info={api:1,source:extension.source,revision,parts:parts.length,bytes:dataBytes,digest:checksum};
  const packets=[{id:EVENTS.begin,message:JSON.stringify(info)}];
  for(let index=0;index<parts.length;index++){
@@ -55,7 +56,7 @@ export class ExtensionTransport {
   if(eventId===EVENTS.unregister){check(p.api===1,'API_VERSION_MISMATCH');this.pending.delete(p.source);return {ok:true,source:p.source,removed:this.registry.remove(p.source)};}
   text(p.revision,64);check(/^[a-zA-Z0-9_.-]+$/.test(p.revision),'INVALID_REVISION');
   if(eventId===EVENTS.begin){
-   check(p.api===1,'API_VERSION_MISMATCH');integer(p.parts,1,512);integer(p.bytes,2,MAX_DATA_BYTES);check(/^[0-9a-f]{8}$/.test(p.digest),'INVALID_DIGEST');
+   check(p.api===1,'API_VERSION_MISMATCH');integer(p.parts,1,TRANSPORT_LIMITS.maxParts);integer(p.bytes,2,MAX_DATA_BYTES);check(/^[0-9a-f]{8}$/.test(p.digest),'INVALID_DIGEST');
    check(this.pending.has(p.source)||this.pending.size<16,'PENDING_LIMIT');
    this.pending.set(p.source,{...p,tick,partsData:new Map(),actualBytes:0,digestParts:0,digestState:2166136261});return null;
   }

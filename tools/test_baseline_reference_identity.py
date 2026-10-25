@@ -187,12 +187,24 @@ class T176ImmutableTests(unittest.TestCase):
    with self.subTest(name=name):self.assertTrue(previous_bytes(root,root/name))
  def test_complete_immutable_endpoints_and_mutation_rejection(self):
   root=Path(__file__).resolve().parents[1]
+  layer=next(row for row in functional_layers(str(root)) if row['release']=='0.6.184')
+  self.assertEqual(layer['beforeImmutableReview'],'0.6.176')
+  self.assertEqual(set(layer['files']),{'runtime/BP/scripts/'+name for name in ('bedrock/machines.js','core/bottle-display-schema.js','core/extension-content.js','core/registry.js')})
   for name in reference.T176_PATHS:
    before=reference.t176_source(str(root),reference.T176_BEFORE,name)
    after=reference.t176_source(str(root),reference.T176_AFTER,name)
    with self.subTest(name=name):
     self.assertNotEqual(before,after)
-    self.assertEqual((root/name).read_bytes(),after)
+    current=(root/name).read_bytes()
+    self.assertEqual(reference.functional_projection(root,name,current,before_immutable=True),after)
+    if name in layer['files']:
+     self.assertEqual(reference.subprocess.check_output(['git','show',layer['reviewedPredecessorCommit']+':'+name],cwd=root),after)
+     row=layer['files'][name]
+     self.assertEqual(reference.reverse_functional_delta(name,current,row),after)
+     with self.assertRaisesRegex(AssertionError,'Reviewed functional source mutated'):
+      reference.functional_projection(root,name,current+b'runUnreviewed();\n',before_immutable=True)
+     corrupt=json.loads(json.dumps(row));corrupt['reverseOps'][0][2]+='runUnreviewed();\n'
+     with self.assertRaisesRegex(AssertionError,'Functional predecessor mismatch'):reference.reverse_functional_delta(name,current,corrupt)
     self.assertEqual(reference.t176_preimage(root,name,after),before)
     self.assertEqual(reference.t176_preimage(root,name,before),before)
     for changed in [before+b'runUnreviewed();\n',after+b'runUnreviewed();\n']:

@@ -34,11 +34,36 @@ def verify_native(verified_candidate=None):
     """The fresh saved-world rehearsal supplies both native and save evidence."""
     receipt = verify_candidate_sources() if verified_candidate is None else verified_candidate
     evidence = read(R / 'saved-world-report.json')
-    assert evidence['native_acceptance_source'] == 'saved_world', 'Require this deployment\'s combined native rehearsal'
+    fresh = bool(CONFIG.get('fresh_world'))
+    assert evidence['native_acceptance_source'] == ('fresh_world' if fresh else 'saved_world'), 'Require this deployment\'s combined native rehearsal'
     assert evidence['candidate_receipt_sha256'] == sha(C / 'family-receipt.json')
     assert evidence['engine_sha256'] == sha(B / 'bedrock_server'), 'Native engine changed'
     assert evidence['engine_inputs'] == engine_inputs(world_receipt=receipt), 'Native engine builtin packs or configuration changed'
     assert evidence['backup_receipt'] == report_ref(R / 'production-before/backup-receipt.json'), 'Fresh stopped backup evidence changed'
+    if fresh:
+        from family_update.native_common import world_data_hashes
+        world = R / 'saved-world-engine/worlds' / CONFIG['fresh_world']['level_name']
+        assert evidence['world'] == str(world) and evidence['world_properties'] == fresh_world_properties()
+        assert evidence['engine_properties_sha256'] == sha(R / 'saved-world-engine/server.properties')
+        assert evidence['fresh_world_initialization'] is True and evidence['world_persistence'] is True
+        assert evidence['saved_world_migration'] is False and evidence['existing_world_loaded'] is False
+        assert evidence['bds'] is True and evidence['client'] is False and evidence['players'] == 0
+        assert evidence['simulated_players'] is False and evidence['exact_files_checked'] is True
+        assert evidence['test_only_overlays'] == []
+        assert evidence['packs'] == len(receipt['packs']) and evidence['versions'] == versions(receipt)
+        assert [row['phase'] for row in evidence['runs']] == ['first', 'restart']
+        first, restart = evidence['runs']
+        assert not any(name == 'level.dat' or name.startswith('db/') for name in first['world_input_files'])
+        assert restart['world_input_files'] == first['world_output_files'], 'Fresh restart used different data'
+        for row in evidence['runs']:
+            assert row['ok'] and row['started'] and row['family_initialized'] and row['exit_code'] == 0 and not row['errors']
+            assert row['real_player_connections'] == 0 and row['generated_database'] and row['commands_sent'] is False
+            assert row['log_sha256'] == sha(R / 'saved-world-engine' / (row['phase'] + '.log'))
+        assert evidence['world_files'] == restart['world_output_files'] == world_data_hashes(world)
+        audit_candidate(world, receipt)
+        from family_update.stable_author_validation import bind_native as bind_stable_author
+        bind_stable_author(receipt, evidence)
+        return evidence
     assert evidence['snapshot_source'] == str(R / 'production-snapshot'), 'Rehearsal used a different snapshot'
     assert evidence['fresh_stopped_backup'] and evidence['existing_world_loaded'] and evidence['saved_world_migration']
     assert evidence['bds'] is True and evidence['client'] is False and evidence['players'] == 0
@@ -332,7 +357,7 @@ def prepare(include_ci=True):
         run_stage('build_candidate')
         receipt = verify_candidate_sources()
     inventory = verify_predeploy()
-    if same_runtime(receipt, inventory):
+    if not CONFIG.get('fresh_world') and same_runtime(receipt, inventory):
         result = {'schema': 1, 'recorded_at': now(), 'state': 'no_runtime_changes', 'candidate_receipt_sha256': sha(C / 'family-receipt.json'), 'complete_files_versions_and_order_verified': True, 'live_mutated': False, 'native_rerun': False, 'saved_world_rerun': False, 'client': False, 'production_ready': False}
         target = R / 'no-runtime-changes.json'
         if not target.exists():
@@ -349,6 +374,8 @@ def prepare(include_ci=True):
 def verify_deployed():
     result = read(R / 'deployment-result.json')
     assert result['state'] == 'deployed_running', 'Previous deployment needs recovery; do not automatically retry it'
+    if CONFIG.get('fresh_world'):
+        assert verify_server_binding()['level_name'] == CONFIG['fresh_world']['level_name'], 'Fresh world is no longer active'
     verify_candidate_sources()
     receipt = read(R / 'reviewed-family-receipt.json')
     assert sha(R / 'reviewed-family-receipt.json') == result['receipt_sha256']
@@ -392,4 +419,5 @@ def plan():
         'static_ci': 'static-evidence.json',
         'native_and_saved_world': 'saved-world-report.json', 'deploy': 'deployment-result.json',
     }
-    return {'schema': 1, 'execute': False, 'output': str(R), 'server': SERVER, 'live': summary(), 'lease': read(LEASE) if LEASE.exists() else {}, 'stages': {key: {'report': str(R / relative), 'exists': (R / relative).exists()} for key, relative in files.items()}, 'reuse_rule': 'Revalidate source/config/tool/file/log hashes before reusing a completed stage; incomplete or mismatched outputs are preserved and rejected.', 'fresh_rule': 'Each new live deployment creates a stopped-world backup and rehearses that exact backup. Never reuse saved-world/client evidence from another deployment.', 'client': False}
+    rule = 'Back up the old world for rollback; generate the configured fresh world without probes, run first/restart on that same DB and deliver it after admission. No old-world migration is claimed.' if CONFIG.get('fresh_world') else 'Each new live deployment creates a stopped-world backup and rehearses that exact backup. Never reuse saved-world/client evidence from another deployment.'
+    return {'schema': 1, 'execute': False, 'output': str(R), 'server': SERVER, 'live': summary(), 'lease': read(LEASE) if LEASE.exists() else {}, 'stages': {key: {'report': str(R / relative), 'exists': (R / relative).exists()} for key, relative in files.items()}, 'reuse_rule': 'Revalidate source/config/tool/file/log hashes before reusing a completed stage; incomplete or mismatched outputs are preserved and rejected.', 'fresh_rule': rule, 'client': False}

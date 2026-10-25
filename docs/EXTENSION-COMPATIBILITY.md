@@ -1,0 +1,27 @@
+# Current API v1 extension compatibility
+
+The host accepts current Sculk and Dimensions Wine registrations through the existing Script Event protocol. Packet limits are 1900 UTF-8 bytes, 1,500,000 payload bytes and 2048 parts; incomplete transfers expire after 2400 loaded ticks. Readiness advertises these same limits. ACK identities, atomic replacement and the existing sender scheduling remain the protocol contract. The public SDK sender retains its conservative 262144-byte/512-part bound; independently maintained senders must honor the advertised host limits.
+
+`shakerInputs` describes at most 256 distinct registered input items. A physical shaker still has three ingredient slots; a barrel still has four. Namespaced `itemGroups` expand alternative ingredients for barrel and pressing recipes. `recipes[].when` checks `itemsAll`, `itemsAny` and `fluidsAll` before validating a conditionally available recipe.
+
+Quality-block bottle descriptors may omit `displayStates`: their count uses `kaleidoscope_tavern:count`, and facing uses `minecraft:cardinal_direction`. Explicit mappings remain supported. The unqualified Creative item keeps its original item ID through display, storage and pickup while using the maximum-quality preview effects.
+
+Fluid titles are optional. The shared guide resolves a missing title from the registered filled-container page, preserving its localized name rather than inventing another bucket suffix. Declared guide-category trees are validated within their source, then projected into the family's existing seven roots and child groups. This keeps both entrances within Cookery's 32-category limit without replacing either guide interface.
+
+The shared `kaleidoscope_tavern:toggle_light` component accepts the boolean `kaleidoscope_tavern:lit` state used by current addon lights. It uses the existing decoration interaction route, retains held items and facing, preserves waterlogging, and suppresses duplicate before/after callbacks. Turning on requests `random.orb` at volume 0.45/pitch 1.45; turning off requests `random.pop` at volume 0.40/pitch 1.0.
+
+## Barrel quality boosters
+
+`barrelQualityBoosters` supplies `item`, `boost`, `firstBoost`, `maxQuality`, `cooldownTicks`, `damage` and `consume`. The host advertises `barrel_quality_boosters`. The existing machine state and inventory transaction own the result: quality changes preserve the current fermentation countdown, and a failed save restores the original item and state without starting the cooldown.
+
+Dimensions Wine's Mead Essence advances an already produced batch by one quality level, up to the host's six levels. Survival spends one of its ten durability uses; an exhausted essence remains the same original item and cannot be used again in either mode. Creative spends no durability when using an essence that still has durability. A successful use starts the 600-tick player/item cooldown. Custom names, lore and properties remain intact.
+
+These decisions follow the maintained Java source: [Forge MeadEssence](https://github.com/WitherRedstone/Kaleidoscope-DimensionsWine/blob/cd5e040051cdb03b33834d7670807909c5e8d7cb/src/main/java/com/chinaex123/kaleidoscope_dim_wine/item/MeadEssence.java), [NeoForge MeadEssence](https://github.com/WitherRedstone/Kaleidoscope-DimensionsWine/blob/6702d5f678b98c67b37d50408b8446641d492c6a/src/main/java/com/chinaex123/kaleidoscope_dim_wine/item/MeadEssence.java). Java's `firstBoost` applies only at raw level zero; this host's produced batches start at level one. Java's host accessors and persistence clamp to six levels. The clean Bedrock author host instead applies the first boost at level one and deletes an item at maximum damage; this implementation follows Java for those observable behaviors.
+
+## Verification boundary
+
+Focused tests call the real transport, registry, bottle display, decoration, machine, native inventory transaction and shared guide implementations through the repository's API fixture. Private replay uses the two clean author senders, exact custom item/block definitions, this host and the original Cookery 1.6.4 guide receiver. No complete third-party scripts are published here. API-fixture results do not establish native BDS behavior, client rendering, audible output or TPS; those remain separate family gates and human acceptance.
+
+Dimensions Wine's Ranger's Satchel declares Java `minecraft:glowing` at qualities 3–6. The [official Bedrock stable effect list](https://learn.microsoft.com/en-gb/minecraft/creator/commands/commands/effect?view=minecraft-bedrock-stable) contains 37 effects and does not provide Glowing. The [stable EffectTypes API](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/effecttypes?view=minecraft-bedrock-stable) documents that an absent ID returns `undefined`. This is the documented stable boundary; this round has no separate native-registry or rendering receipt.
+
+The current consumer skips only that unsupported effect row. Actual clean payload replay through `completeDrink` at every affected quality verifies that Survival consumes exactly one bottle and returns exactly one empty Tavern bottle, including stacked drinks; supported effects still execute, and the remaining stack retains its metadata. Creative retains the drink and receives one empty bottle. The shared guide states the missing outline in all three supported languages. No effect is substituted, and the drink is not rejected as a whole.

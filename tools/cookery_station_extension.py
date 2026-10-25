@@ -109,29 +109,41 @@ def validate_api_handoff_anchor(handoff, grilling_root, api_raw):
             'public API declaration differs from committed handoff')
 
 
+def station_inputs(spec):
+    """A new author input needs the exact reviewed declaration, never a UUID fallback."""
+    if spec.get('host_uuid', HOST) == HOST and spec.get('archive_sha256', ARCHIVE) == ARCHIVE:
+        return HOST, ARCHIVE, AUTHOR, [1, 0, 1], WIRE_OPS
+    from stable_host_profiles import curated_profile, PROFILES
+    catalog = curated_profile()
+    profile = PROFILES[catalog['selection']['value']['station_profile']]
+    require(profile['spec_sha256'] == declaration_digest(spec), 'curated station declaration differs')
+    return profile['host_uuid'], profile['archive_sha256'], profile['original_files'][TARGET], profile['version'], profile['wire_ops_sha256']
+
+
 def current_station_profile(spec, owned_root, api, api_raw, grilling_root):
     """Validate the single current source contract, without version replay layers."""
+    host, archive, author, version, wiring = station_inputs(spec)
     require(spec.get('schema') == 1 and spec.get('kind') == KIND and spec.get('id') == IDENTITY
-            and spec.get('version') == [1, 0, 1], 'identity differs')
-    require(spec.get('host_uuid') == HOST and spec.get('archive_sha256') == ARCHIVE
-            and spec.get('original_files') == {TARGET: AUTHOR}, 'clean author input differs')
+            and spec.get('version') == version, 'identity differs')
+    require(spec.get('host_uuid') == host and spec.get('archive_sha256') == archive
+            and spec.get('original_files') == {TARGET: author}, 'clean author input differs')
     require(set(spec.get('patched_files', {})) == {TARGET}
             and re.fullmatch('[0-9a-f]{64}', spec['patched_files'][TARGET]) is not None, 'output inventory differs')
-    require(api.get('host_uuid') == HOST and api.get('archive_sha256') == ARCHIVE
-            and api.get('original_files', {}).get(TARGET) == AUTHOR, 'public API author input differs')
+    require(api.get('host_uuid') == host and api.get('archive_sha256') == archive
+            and api.get('original_files', {}).get(TARGET) == author, 'public API author input differs')
     handoff = spec.get('owner_handoff', {})
     validate_api_handoff_anchor(handoff, grilling_root, api_raw)
     hooks = [op for op in api['insertions'] if op.get('path') == TARGET]
     require(handoff.get('from_repository') == 'burnt-tea-dev/kaleidoscope-grilling-unofficial'
             and handoff.get('spec_path') == API_SPEC and handoff.get('spec_sha256') == digest(api_raw)
             and handoff.get('id') == api['id'] and handoff.get('version') == api['version']
-            and handoff.get('target') == TARGET and handoff.get('author_sha256') == AUTHOR
+            and handoff.get('target') == TARGET and handoff.get('author_sha256') == author
             and handoff.get('prior_output_sha256') == api['patched_files'][TARGET]
             and handoff.get('retained_imports_sha256') == digest(api['imports'][TARGET].encode())
             and handoff.get('retained_insertions_sha256') == declaration_digest(hooks), 'public API source binding differs')
     require(spec.get('imports') == {TARGET: HELPER_IMPORT + api['imports'][TARGET]}
             and spec.get('insertions') == [*hooks, INIT], 'existing public API hooks were changed or layered')
-    require(declaration_digest(spec.get('text_replacements')) == WIRE_OPS
+    require(declaration_digest(spec.get('text_replacements')) == wiring
             and spec.get('json_updates') == [] and not spec.get('removed_files')
             and spec.get('copies') == {HELPER: INSTALLED_HELPER}, 'wiring exceeds current display/persistence owner')
     modules = {}
@@ -170,13 +182,14 @@ def collect_station_handoffs(owned, sources):
         spec = json.loads(path.read_text()); profile = current_station_profile(spec, root, api, api_raw, grilling)
         manifest = json.loads((root / 'manifest.json').read_text())
         require(manifest['header']['version'] == config['version'], 'private runtime identity differs')
-        require(HOST not in plans, 'two private station owners')
+        host=spec['host_uuid'];author=spec['original_files'][TARGET]
+        require(host not in plans, 'two private station owners')
         binding = {'owner_id': IDENTITY, 'owner_repository': LOGICAL_PRIVATE,
                    'owner_commit': head(repo), 'owner_version': config['version'], 'spec_sha256': digest(path.read_bytes()),
-                   'input_sha256': AUTHOR, 'output_sha256': spec['patched_files'][TARGET],
+                   'input_sha256': author, 'output_sha256': spec['patched_files'][TARGET],
                    'helper_target': INSTALLED_HELPER, 'helper_sha256': spec['helper_sha256'],
                    'retained_api': spec['owner_handoff']}
-        plans[HOST] = {'private_key': own['key'], 'api_key': 'grilling', 'api': api, 'api_raw_sha256': digest(api_raw),
+        plans[host] = {'private_key': own['key'], 'api_key': 'grilling', 'api': api, 'api_raw_sha256': digest(api_raw),
                        'spec': spec, 'profile': profile, 'binding': binding, 'delegated': False, 'completed': False}
     return plans
 
@@ -204,17 +217,18 @@ def validate_public_delegation(actual, expected, binding=None):
     This never reconstructs or claims the retired public station output. Its one
     file remains the clean author input until the current private owner runs.
     """
+    author = expected['original_files'][TARGET]
     delegated = actual.get('delegated_files')
     require(isinstance(delegated, dict) and set(delegated) == {TARGET}, 'unexpected delegated API targets')
     value = delegated[TARGET]
     require(isinstance(value, dict) and (binding is None or value == binding), 'private owner binding differs')
     require(value.get('owner_id') == IDENTITY and value.get('owner_repository') == LOGICAL_PRIVATE
-            and value.get('input_sha256') == AUTHOR and value.get('helper_target') == INSTALLED_HELPER
+            and value.get('input_sha256') == author and value.get('helper_target') == INSTALLED_HELPER
             and all(re.fullmatch('[0-9a-f]{64}', value.get(key, '')) for key in ('spec_sha256', 'output_sha256', 'helper_sha256'))
             and re.fullmatch('[0-9a-f]{40}', value.get('owner_commit', '')) is not None, 'invalid private delegation binding')
     retained = value.get('retained_api', {})
     require(retained.get('id') == expected['id'] and retained.get('version') == expected['version']
-            and retained.get('target') == TARGET and retained.get('author_sha256') == AUTHOR
+            and retained.get('target') == TARGET and retained.get('author_sha256') == author
             and retained.get('prior_output_sha256') == expected['patched_files'].get(TARGET), 'retired API ownership differs')
     for key in ('id', 'version', 'copies'):
         require(actual.get(key) == expected.get(key), 'unaffected public API contract differs: ' + key)
@@ -239,7 +253,7 @@ def validate_station_receipt_pair(spec, profile, api, api_receipt, station_recei
     """Require the real current private output, not just a pending delegation claim."""
     expected = {'owner_id': IDENTITY, 'owner_repository': LOGICAL_PRIVATE,
                 'owner_commit': owner_commit, 'owner_version': owner_version, 'spec_sha256': spec_sha256,
-                'input_sha256': AUTHOR, 'output_sha256': spec['patched_files'][TARGET],
+                'input_sha256': spec['original_files'][TARGET], 'output_sha256': spec['patched_files'][TARGET],
                 'helper_target': INSTALLED_HELPER, 'helper_sha256': spec['helper_sha256'],
                 'retained_api': spec['owner_handoff']}
     copies = retained_api_copies(api, spec['owner_handoff']['retained_modules'])
@@ -257,7 +271,7 @@ def validate_station_receipt_pair(spec, profile, api, api_receipt, station_recei
 
 
 def render_station(raw, spec):
-    require(digest(raw) == AUTHOR == spec['original_files'][TARGET], 'station source is not clean author input')
+    require(digest(raw) == station_inputs(spec)[2] == spec['original_files'][TARGET], 'station source is not clean author input')
     text = spec['imports'][TARGET] + raw.decode()
     for op in spec['insertions']:
         anchor = op['anchor']
@@ -274,7 +288,7 @@ def render_station(raw, spec):
 
 def apply_station_extension(spec, owned_root, host_root, source, plan):
     require(plan is not None and spec == plan['spec'] and plan['delegated'] and not plan['completed'], 'missing or repeated current owner handoff')
-    require(source.get('owner') == 'upstream_extended' and source.get('archive_sha256') == ARCHIVE, 'preceding author/API source differs')
+    require(source.get('owner') == 'upstream_extended' and source.get('archive_sha256') == spec.get('archive_sha256', ARCHIVE), 'preceding author/API source differs')
     prior = [row for row in source.get('reviewed_extensions', []) if row.get('id') == plan['api']['id']]
     require(len(prior) == 1, 'one preceding public API receipt is required')
     modules = retained_api_copies(plan['api'], spec['owner_handoff']['retained_modules'])

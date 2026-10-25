@@ -18,11 +18,14 @@ export function installContent(source,content=[],foundation={}){
  for(const row of foundations.get(source)?.itemParticles??[])itemParticles.delete(row.item);
  for(const row of foundation.itemParticles??[])itemParticles.set(row.item,row.particle);
  foundations.set(source,foundation);for(const row of foundation.effects??[])effectDefinitions.set(row.id,row);
- for(const old of sources.get(source)??[]){for(const item of old.items??[])drinks.delete(item);for(const block of [old.block,...old.qualityBlocks??[]])blocks.delete(block);delete BOTTLES[old.base];delete DRINK_EFFECTS[old.base];if(old.item)delete COCKTAILS[old.item];}
+ for(const old of sources.get(source)??[]){for(const item of old.items??[])drinks.delete(item);if(old.genericItem)drinks.delete(old.genericItem);for(const block of [old.block,...old.qualityBlocks??[]])blocks.delete(block);delete BOTTLES[old.base];delete DRINK_EFFECTS[old.base];if(old.item)delete COCKTAILS[old.item];}
  sources.set(source,content);
  for(const d of content){
   if(d.kind==='bottle'){
-   BOTTLES[d.base]={maxCount:d.maxCount,qualities:6,block:d.block,qualityBlocks:d.qualityBlocks,items:d.items,displayStates:d.displayStates,color:d.color};DRINK_EFFECTS[d.base]=d.effects;for(const block of [d.block,...d.qualityBlocks??[]])blocks.set(block,d.base);
+   BOTTLES[d.base]={maxCount:d.maxCount,qualities:6,block:d.block,qualityBlocks:d.qualityBlocks,items:d.items,genericItem:d.genericItem,displayStates:d.displayStates,color:d.color};DRINK_EFFECTS[d.base]=d.effects;for(const block of [d.block,...d.qualityBlocks??[]])blocks.set(block,d.base);
+   // The clean Creative preview has maximum effects, but keeps its exact item
+   // identity through placement, storage and pickup instead of becoming q6.
+   if(d.genericItem)drinks.set(d.genericItem,{...d,modNameKey:foundation.modNameKey,item:d.genericItem,quality:6,id:d.genericItem,kind:d.visualKind,creative:true});
    d.items.forEach((item,i)=>drinks.set(item,{...d,modNameKey:foundation.modNameKey,item,quality:i+1,id:item,kind:d.visualKind}));
   }else COCKTAILS[d.item]={name:d.item.split(':')[1],block:d.block,effects:d.effects};
  }
