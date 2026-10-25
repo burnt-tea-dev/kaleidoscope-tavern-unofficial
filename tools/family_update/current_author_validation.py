@@ -309,6 +309,14 @@ def artifact_members(run_id,artifact_id,source,full_tree):
         members={name:archive.read(name) for name in names}
     return members,{'run_id':run_id,'artifact_id':artifact_id,'artifact_digest':artifact['digest'],'checks':checks,'statuses':statuses,'unavailable_optional_services':unavailable}
 
+def validate_merged_source(pr,binding,full_tree):
+    """Bind canonical evidence to the merged result, including current base changes."""
+    verify_record(pr['head']['repo'],REPOSITORY);verify_record(pr['base']['repo'],REPOSITORY)
+    assert pr['merged'] is True and pr['base']['ref']=='main'
+    merged=pr['merge_commit_sha']
+    c.git(c.EXTENSION,'merge-base','--is-ancestor',merged,binding['actual_current_source_commit'])
+    assert c.git(c.EXTENSION,'rev-parse',merged+'^{tree}')==full_tree,'Current author merged PR whole tree differs'
+
 def source_proof():
     VERSION,PROFILE,CATALOG_KEY=settings()
     from family_update.extension_validation import source_binding
@@ -336,10 +344,7 @@ def source_proof():
     authors=committed(catalog['authors_path'],catalog['authors_sha256'])
     assert authors['profile']==PROFILE and authors['source_package_version']==VERSION and authors['authors']==catalog['authors']
     pr=gh_json(f'repos/{current_name(REPOSITORY)}/pulls/{c.CONFIG["extension_stable_pull_request"]}')
-    verify_record(pr['head']['repo'],REPOSITORY);verify_record(pr['base']['repo'],REPOSITORY)
-    assert pr['merged'] is True and pr['base']['ref']=='main'
-    c.git(c.EXTENSION,'merge-base','--is-ancestor',pr['merge_commit_sha'],binding['actual_current_source_commit'])
-    assert c.git(c.EXTENSION,'rev-parse',pr['head']['sha']+'^{tree}')==proof['git_tree'],'Current author PR whole tree differs'
+    validate_merged_source(pr,binding,proof['git_tree'])
     members,ci=artifact_members(int(c.CONFIG['extension_stable_run_id']),int(c.CONFIG['extension_stable_artifact_id']),proof['source_commit'],proof['git_tree'])
     assert members.get(path.name)==raw,'Current author proof differs from original CI artifact'
     active=functional_selected(baseline)

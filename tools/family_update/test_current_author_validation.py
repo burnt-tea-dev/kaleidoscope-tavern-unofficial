@@ -1,5 +1,5 @@
 """Synthetic complete host chains, preserving the historical native gate."""
-import copy,hashlib,json,tempfile,unittest
+import copy,hashlib,json,subprocess,tempfile,unittest
 from pathlib import Path
 from unittest.mock import patch
 import stable_host_profiles as stable
@@ -140,6 +140,41 @@ class CurrentAuthorCandidate(unittest.TestCase):
  def test_pair_renderer_cannot_borrow_an_unrelated_bp_history(self):
   row=next(row for row in self.receipt['packs'] if row['uuid']=='ChineseFood-BP');row['source']['reviewed_extensions'].pop(0)
   with self.assertRaises((AssertionError,ValueError)):self.verify()
+
+class MergedSourceBinding(unittest.TestCase):
+ def setUp(self):
+  temporary=tempfile.TemporaryDirectory();self.addCleanup(temporary.cleanup);self.root=Path(temporary.name)
+  self.git('init','--quiet','--initial-branch=main')
+  self.git('config','maintenance.auto','false');self.git('config','gc.auto','0')
+  (self.root/'runtime.txt').write_text('Original runtime\n');self.commit('Original source')
+  self.base=self.git('rev-parse','HEAD')
+  self.git('switch','--quiet','-c','candidate')
+  (self.root/'runtime.txt').write_text('Reviewed runtime\n');self.commit('Reviewed candidate')
+  self.head=self.git('rev-parse','HEAD');self.head_tree=self.git('rev-parse','HEAD^{tree}')
+  self.git('switch','--quiet','main')
+  (self.root/'styles.css').write_text('Concurrent source-only CSS\n');self.commit('Concurrent base change')
+  self.git('merge','--squash','candidate');self.commit('Squash reviewed candidate onto current base')
+  self.merged=self.git('rev-parse','HEAD');self.tree=self.git('rev-parse','HEAD^{tree}')
+  record={'full_name':m.current_name(m.REPOSITORY),'id':m.REPOSITORY_ID}
+  self.pr={'merged':True,'merge_commit_sha':self.merged,'head':{'sha':self.head,'repo':record},'base':{'ref':'main','repo':record}}
+  self.binding={'actual_current_source_commit':self.merged}
+  patcher=patch.object(m.c,'EXTENSION',self.root);patcher.start();self.addCleanup(patcher.stop)
+ def git(self,*args):
+  return subprocess.check_output(['git','-C',str(self.root),'-c','user.name=Fixture','-c','user.email=fixture@example.invalid','-c','commit.gpgsign=false',*args],text=True,stderr=subprocess.PIPE).strip()
+ def commit(self,message):
+  self.git('add','.');self.git('commit','--quiet','-m',message)
+ def test_concurrent_base_squash_accepts_the_exact_merged_tree(self):
+  self.assertNotEqual(self.head_tree,self.tree)
+  with self.assertRaises(subprocess.CalledProcessError):self.git('merge-base','--is-ancestor',self.head,self.merged)
+  m.validate_merged_source(self.pr,self.binding,self.tree)
+ def test_head_only_proof_tree_is_rejected(self):
+  with self.assertRaisesRegex(AssertionError,'merged PR whole tree differs'):
+   m.validate_merged_source(self.pr,self.binding,self.head_tree)
+ def test_same_tree_nonancestor_merge_commit_is_rejected(self):
+  sibling=self.git('commit-tree',self.tree,'-p',self.base,'-m','Unrelated same-tree sibling')
+  self.assertEqual(self.git('rev-parse',sibling+'^{tree}'),self.tree)
+  with self.assertRaises(subprocess.CalledProcessError):
+   m.validate_merged_source({**self.pr,'merge_commit_sha':sibling},self.binding,self.tree)
 
 class Dispatch(unittest.TestCase):
  def test_new_explicit_profile_dispatches_without_changing_historical_default(self):
