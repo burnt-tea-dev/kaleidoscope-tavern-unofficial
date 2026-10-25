@@ -16,5 +16,5 @@
   "status": "candidate_pending_canonical_ci_and_family_admission",
   "peer_pins_status": "paired_with_world_liquor_0.1.160_exact_reviewed_source",
   "family_ready": false,
-  "paired_world_liquor_commit": "5da1ee880eb47a08b19e05b69a1f9f5d22f4d998"
+  "paired_world_liquor_commit": "efec2ba633ca4dd44e0a0dc250ce46ef40c09d95"
 }
