@@ -1,6 +1,6 @@
-## Current maintained source: 0.6.182
+## Current maintained source: 0.6.183
 
-Current source candidate: **T182 / G155**, with the exact World Liquor companion pending. Cancelling guide settings returns to the guide, and its settings button shows the active language. The existing three languages, personal volume settings, host-language context, storage keys, Java gameplay and sound behavior are preserved. This independently applies the navigation ideas in the [third-party design review](docs/THIRD-PARTY-TAVERN-REVIEW.md). Full-family and actual client acceptance remain pending.
+Current source candidate: **T183 / G155**, with the exact family companions pending. Vanilla bottles face opposite the player, and potion visuals share strict read-only storage access with Creative pick. WATER/EMPTY keep Java's stateless behavior. Cancelling guide settings returns to the guide, and its settings button shows the active language. The existing three languages, personal volume settings, host-language context, storage keys and sound behavior are preserved. The guide retains the navigation ideas independently applied from the [third-party design review](docs/THIRD-PARTY-TAVERN-REVIEW.md). Full-family and actual client acceptance remain pending.
 
 **Public download:** [Tavern v0.6.170](https://github.com/casama233/kaleidoscope-tavern-unofficial/releases/tag/v0.6.170), paired with **World Liquor 0.1.148** and the optional **Grilling 2.8.149** source-check family. The G149 public package uses Cookery **1.6.0**; current G155 source uses **1.6.2**. Main-source requirements and published-package requirements must be read for their own version.
 

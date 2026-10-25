@@ -7,6 +7,7 @@ import {registerProtectedBreakRoute} from './protected-break-router.js';
 import {planInventory,commitInventory} from '../core/inventory.js';
 import {potionDisplayInput,potionIdentity,restorePotion} from './potions.js';
 import {potionDisplayColor} from '../core/potions.js';
+import {CARDINALS,oppositeFacing} from '../core/java-placement.js';
 import {nativeStorageAnchor} from '../core/native-storage-anchor.js';
 import {tickStorageVisuals} from './storage-visual-maintenance.js';
 import {check} from '../core/util.js';
@@ -28,6 +29,12 @@ function offset(block,face){const v={Up:[0,1,0],Down:[0,-1,0],North:[0,0,-1],Sou
 function itemPayload(item){if(item.typeId==='minecraft:potion')return potionDisplayInput(item);return {item:item.typeId};}
 function resultingBlock(payload){if(payload.item==='minecraft:potion'&&['minecraft:water','minecraft:empty'].includes(payload.potion?.effectId))return NS+':bottle_water';return TARGETS[payload.item];}
 function restorePayload(payload){if(payload.item==='minecraft:potion')return restorePotion(payload);return makeStack(payload.item,1);}
+function potionSource(block,payload=stored(block)){
+ check(payload?.item==='minecraft:potion'&&payload.potion,'POTION_STATE_MISSING');
+ return {key:bottleDisplayKey(block),dimension:block.dimension,position:block.location,
+  legacyStacks:payload.nativeItems===1?undefined:[restorePotion(payload)],requireNative:payload.nativeItems===1};
+}
+function potionDisplayStack(block,payload=stored(block)){return nativeItems.read({...potionSource(block,payload),ids:['minecraft:potion']}).items[0];}
 function helpers(block){const key=bottleDisplayKey(block),p=block.location;return block.dimension.getEntities({type:VISUAL,location:{x:p.x+.5,y:p.y,z:p.z+.5},maxDistance:2}).filter(e=>e.isValid&&e.getDynamicProperty(ANCHOR)===key);}
 function discardVisual(entity){visuals.delete(entity.id);if(entity.isValid)entity.remove();}
 /** Cosmetic cleanup never changes the committed native inventory or its result. */
@@ -40,7 +47,7 @@ export function syncPotionBottleVisual(block,tracked){
   if(!payload){for(const entity of found)discardVisual(entity);return;}
   // The same strict read as pick/removal supplies the original native stack.
   // Missing adopted storage never falls back to a plausible JSON colour.
-  const stack=potionDisplayRemoval(block,payload).outputs[0].stack;
+  const stack=potionDisplayStack(block,payload);
   const color=potionDisplayColor(potionIdentity(stack).effectId)??0xffffff;
   found.sort((a,b)=>a.id.localeCompare(b.id));let visual=found[0];
   const p=block.location,point={x:p.x+.5,y:p.y,z:p.z+.5};
@@ -68,7 +75,12 @@ export function maintainPotionBottleVisual(entity){
   const block=blockAt(entity.dimension,anchor.position);
   if(!block)return; // Unloaded owner cells are not evidence of destruction.
   if(block.typeId!==POTION_BLOCK){discardVisual(entity);return;}
-  repairPotionBottleVisual(block,entity);
+  // The block tick owns native colour validation and missing-helper creation.
+  // Healthy tracked helpers need no inventory read or nearby helper query here.
+  const p=block.location,point={x:p.x+.5,y:p.y,z:p.z+.5};
+  const yaw=({north:0,east:90,south:180,west:270})[block.permutation.getState('minecraft:cardinal_direction')]??0;
+  const rotation=entity.getRotation(),delta=((rotation.y-yaw+180)%360+360)%360-180;
+  if(Math.abs(rotation.x)>1e-4||Math.abs(delta)>1e-4||['x','y','z'].some(axis=>Math.abs(entity.location[axis]-point[axis])>1e-4))repairPotionBottleVisual(block,entity);
  }catch(error){visualError(error);try{discardVisual(entity);}catch{}}
 }
 // Visit each tracked helper: a duplicate can have drifted beyond the owner's
@@ -76,8 +88,7 @@ export function maintainPotionBottleVisual(entity){
 export function tickPotionBottleVisuals(){visualCursor=tickStorageVisuals(visuals,visualCursor,maintainPotionBottleVisual,128);}
 export function registerVanillaBottleDisplayComponents({blockComponentRegistry}){
  blockComponentRegistry.registerCustomComponent(NS+':potion_bottle_visual',{
-  onTick:({block})=>repairPotionBottleVisual(block),
-  onPlace:({block})=>{const d=block.dimension,p={...block.location};system.run(()=>{const current=blockAt(d,p);if(current?.typeId===POTION_BLOCK)repairPotionBottleVisual(current);});}
+  onTick:({block})=>repairPotionBottleVisual(block)
  });
 }
 export function placeVanillaBottle(player,block,face){
@@ -88,7 +99,7 @@ export function placeVanillaBottle(player,block,face){
  check(oldRaw===undefined,'STORAGE_CONFLICT');
  const native=id===NS+':potion_bottle'?nativeItems.plan({key:displayKey,dimension:block.dimension,position:pos,oldIds:[],nextIds:[item.typeId],incoming:item}):undefined;
  const c=inventory(player),plan=planInventory(c,player.selectedSlotIndex,placementTake(player),[],makeStack);
- const permutation=BlockPermutation.resolve(id,{'minecraft:cardinal_direction':'north'});
+ const permutation=BlockPermutation.resolve(id,{'minecraft:cardinal_direction':CARDINALS[oppositeFacing(player.getRotation().y)]});
  commitInventory(plan,c,()=>{setWithWater(target,permutation);world.setDynamicProperty(displayKey,payload.item==='minecraft:potion'&&id===NS+':potion_bottle'?JSON.stringify(payload):undefined);native?.apply();},()=>{try{native?.rollback();}finally{restoreWater(target,old);world.setDynamicProperty(displayKey,oldRaw);}});native?.finish();
  if(id===POTION_BLOCK)repairPotionBottleVisual(target);
  try{player.dimension.playSound('random.glass',{x:pos.x+.5,y:pos.y+.5,z:pos.z+.5},{volume:1,pitch:1});}catch{}
@@ -96,8 +107,7 @@ export function placeVanillaBottle(player,block,face){
 }
 /** Also used by natural destruction/projectile impact; no default blank potion. */
 export function potionDisplayRemoval(block,payload=stored(block)){
- check(payload?.item==='minecraft:potion'&&payload.potion,'POTION_STATE_MISSING');
- const plan=nativeItems.plan({key:bottleDisplayKey(block),dimension:block.dimension,position:block.location,oldIds:['minecraft:potion'],nextIds:[],give:[{id:'minecraft:potion',count:1}],legacyStacks:payload.nativeItems===1?undefined:[restorePotion(payload)],requireNative:payload.nativeItems===1});
+ const plan=nativeItems.plan({...potionSource(block,payload),oldIds:['minecraft:potion'],nextIds:[],give:[{id:'minecraft:potion',count:1}]});
  return {...plan,finish(){plan.finish();clearPotionBottleVisual(block);}};
 }
 export function takeVanillaBottle(player,block){
@@ -127,7 +137,7 @@ export function pickVanillaBottleItem(block){
  const id=block.typeId;
  if(id===NS+':potion_bottle'){
   const payload=stored(block);check(payload?.item==='minecraft:potion','PICK_POTION_STATE_MISMATCH');
-  return potionDisplayRemoval(block,payload).outputs[0].stack;
+  return potionDisplayStack(block,payload);
  }
  const item=Object.keys(TARGETS).find(item=>TARGETS[item]===id);
  return item?makeStack(item,1):undefined;

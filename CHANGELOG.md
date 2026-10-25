@@ -1,3 +1,7 @@
+## 0.6.183
+
+Place supported vanilla bottles facing opposite the player, matching Java's placement rule. Read potion colour and Creative picks directly from strict native storage; block ticks own full visual repair while healthy tracked helpers check owner liveness and pose. Keep Java's stateless WATER/EMPTY behavior, existing inputs, quantities and models. Source regressions pass; current canonical CI, full-family native/migration and actual client acceptance remain pending.
+
 ## 0.6.182
 
 Cancelling guide settings returns to the current guide without saving preferences or prematurely returning to Cookery. The settings button shows the active language in its native name. Preserve the seven content sections, Cookery's temporary language context, existing player/world keys, Java gameplay and sound behavior. Full-family and actual client acceptance remain pending; see the [third-party design review](docs/THIRD-PARTY-TAVERN-REVIEW.md).
