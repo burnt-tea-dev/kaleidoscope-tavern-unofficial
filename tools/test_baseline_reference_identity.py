@@ -204,9 +204,8 @@ class T176ImmutableTests(unittest.TestCase):
 
 class GuideCurrentSourceTests(unittest.TestCase):
  def test_current_guide_owners_reach_launch_without_a_historical_source_view(self):
-  from check_launch import GUIDE_SOURCES
   root=Path(__file__).resolve().parents[1]
-  for name in GUIDE_SOURCES:
+  for name in ('runtime/BP/scripts/bedrock/standalone-guide.js','runtime/BP/scripts/core/standalone-guide-model.js'):
    with self.subTest(name=name):
     self.assertEqual(previous_bytes(root,root/name),(root/name).read_bytes())
 
