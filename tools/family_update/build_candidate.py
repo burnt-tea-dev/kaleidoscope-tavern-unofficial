@@ -20,13 +20,21 @@ def main(argv=None):
     preserved = read(R / 'production-before/preserved-packs.json')
     from family_update.prospective_preserved_inputs import select as select_prospective,verify_candidate as verify_prospective
     preserved_roots,prospective=select_prospective(preserved,original)
+    local_sources,local_selection={},None
+    if CONFIG.get('managed_drift_recovery'):
+        from family_update.managed_drift_recovery import select_local_inputs
+        preserved_roots,local_sources,local_selection=select_local_inputs(preserved_roots,original)
     from family_update.identity_migration import assembly_order, candidate_plan
     requested=CONFIG.get('held_sources',[])
     assembly_lock, assembly_sources, retention = read(T / 'family/upstream.lock.json'), SOURCES.copy(), None
     if CONFIG.get('approved_runtime_retention'):
         assembly_lock, assembly_sources, retention = select_approved_runtime_retention(original, sources)
-    receipt = assemble(assembly_lock, assembly_sources, archives, C, extensions=[EXTENSION] if EXTENSION else [], preserved=preserved_roots, reviewed_order=assembly_order(original),held_sources=requested)
+    local_arguments={'preserved_sources':local_sources} if local_sources else {}
+    receipt = assemble(assembly_lock, assembly_sources, archives, C, extensions=[EXTENSION] if EXTENSION else [], preserved=preserved_roots, reviewed_order=assembly_order(original),held_sources=requested,**local_arguments)
     verify_prospective(receipt,prospective)
+    if local_selection is not None:
+        from family_update.managed_drift_recovery import verify_local_target
+        verify_local_target(receipt,original)
     from family_update.source_holds import verify_retained,verify_retained_extension
     verify_retained(receipt,original,read(T/'family/upstream.lock.json'),requested)
     verify_retained_extension(receipt,original,read(T/'family/upstream.lock.json'),CONFIG.get('extension_hold',False))
@@ -36,13 +44,16 @@ def main(argv=None):
     audit_candidate(C, receipt)
     compatibility = quality(C, receipt)
     atomic(R / 'compatibility-report.json', compatibility)
-    tools = ['family_bundle.py', 'family_guard.py', 'family_saved_world.py', 'author_state_migration.py', 'bedrock_nbt.py', 'baseline_gate.py', 'host_extensions.py', 'container_recovery.py']
+    tools = ['family_bundle.py', 'family_guard.py', 'family_saved_world.py', 'author_state_migration.py', 'bedrock_nbt.py', 'baseline_gate.py', 'host_extensions.py', 'container_recovery.py', 'native_actor_recovery.py', 'native_actor_recovery_validation.py', 'cookery_station_extension.py']
     tools = [name for name in tools if (T / 'tools' / name).exists()]
     evidence = {'recorded_at': now(), 'config_sha256': sha(CONFIG_PATH), 'orchestration_sha256': orchestration_hashes(), 'sources': sources, 'candidate_receipt_sha256': sha(C / 'family-receipt.json'), 'upstream_lock_sha256': sha(T / 'family/upstream.lock.json'), 'tool_sha256': {name: sha(T / 'tools' / name) for name in tools}, 'packs': len(receipt['packs']), 'versions': versions(receipt), 'static_family_assembly': True, 'functional_tests_recorded_separately': True, 'client': False, 'production_ready': False}
     if retention is not None:evidence['approved_runtime_retention'] = retention
     if prospective is not None:
         evidence['prospective_preserved_inputs']=prospective
         atomic(R/'prospective-preserved-inputs-check.json',prospective)
+    if local_selection is not None:
+        evidence['managed_local_input_selection']=local_selection
+        atomic(R/'managed-local-input-selection.json',local_selection)
     atomic(R / 'build-evidence.json', evidence)
     evidence['external_input_sha256']=external_input_hashes();atomic(R/'build-evidence.json',evidence)
     verify_predeploy()

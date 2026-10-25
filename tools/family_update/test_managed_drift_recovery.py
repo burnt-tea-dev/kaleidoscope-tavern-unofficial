@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 import runpy
 import shutil
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -172,6 +173,303 @@ class DriftTests(unittest.TestCase):
         with self.assertRaises(AssertionError):
             m.check_observed(self.original)
 
+    def local_same_uuid_mode(self, action='retain_exact_bytes'):
+        pins, targets = {}, {}
+        for side, uid in m.LOCAL_INPUT_UUIDS.items():
+            approved = self.pack(self.trusted, uid, side, [1, 2, 10058])
+            approved['source'] = {'owner': 'preserved', 'role': 'reviewed_previous_local_variant'}
+            self.approved['packs'].append(approved); self.approved['order'][side].append(uid)
+            row = self.pack(self.engine, uid, side, [1, 3, 10004])
+            path = Path(row['path'])
+            write(path / ('items' if side == 'behavior' else 'entity') / 'fishing.json', {'description': {'identifier': 'kaleidoscope_fishing:current_local_item'}})
+            if side == 'behavior':
+                for name in ['tanks.js', 'keep.js']:
+                    (path / 'scripts/blocks').mkdir(parents=True, exist_ok=True)
+                    (path / 'scripts/blocks' / name).write_text('// exact synthetic observed input\n')
+            row['files'] = hashes(path)
+            self.original['packs'].append(row)
+            self.original['refs'][side].append({'pack_id': uid, 'version': row['version']})
+            pin = {'side': side, 'approved_version': approved['version'], 'version': row['version'],
+                   'original_path': row['path'], 'files': copy.deepcopy(row['files']), 'files_sha256': m.files_sha256(row['files']),
+                   'modules': c.read(path / 'manifest.json')['modules'], 'dependencies': []}
+            pins[uid] = pin
+            target = {key: copy.deepcopy(row[key]) for key in ['side', 'version', 'files']}
+            if action == 'repair_forward':
+                target['version'] = [1, 3, 10005]
+                target['files']['manifest.json'] = 'a' * 64
+                target['files']['scripts/blocks/tank-contents.js'] = 'b' * 64
+            targets[uid] = target
+            self.target['packs'].append({'uuid': uid, **target})
+            self.target['order'][side].append(uid)
+        write(self.assembled, {key: value for key, value in self.approved.items() if key != 'assembled_receipt'})
+        self.approved['assembled_receipt']['sha256'] = c.sha(self.assembled)
+        write(self.reviewed, self.approved)
+        self.policy['managed_uuids'] += list(m.LOCAL_INPUT_UUIDS.values())
+        write(self.quality / 'senluo-policy.json', self.policy)
+        write(self.output / 'production-before/senluo-policy.json', self.policy)
+        self.review['approved'].update(policy_sha256=c.sha(self.quality / 'senluo-policy.json'),
+            receipt_sha256=c.sha(self.reviewed), assembled_receipt_sha256=c.sha(self.assembled), pack_count=len(self.approved['packs']))
+        self.review['rollback'] = {key: self.review['approved'][key] for key in ['receipt_sha256', 'assembled_receipt_sha256']}
+        self.review['profile'] = m.LOCAL_INPUT_PROFILE
+        self.review['safety'].pop('unknown_leaf_count')
+        self.review['safety'].update(historical_origin_status='unknown', all_current_input_bytes_identified=True, full_gameplay_parity_verified=False,
+                                    after_candidate_start='retain_stopped_with_candidate_and_newest_database')
+        self.review['observed'].update(inventory_sha256=m.inventory_sha256(self.original), pack_count=len(self.original['packs']))
+        self.review['observed']['changed_uuids'] += list(m.LOCAL_INPUT_UUIDS.values())
+        self.review['local_existing_input'] = {'schema': 1, 'kind': 'same_uuid_unattributed_paired_input',
+            'historical_origin_status': 'unknown', 'original_archive_verified': False, 'latest_stable_verified': False,
+            'input_review_scope': 'exact_local_bytes_and_listed_repairs_only', 'full_gameplay_parity_verified': False,
+            'audited_input_paths': ['scripts/blocks/keep.js', 'scripts/blocks/tanks.js'],
+            'action': action, 'installation_location': 'world', 'definition_namespace': 'kaleidoscope_fishing',
+            'packs': pins, 'target_packs': targets}
+        if action == 'repair_forward':
+            self.review['local_existing_input']['canonical_runtime'] = {
+                'path': 'companion-sources/fishing-current-local/runtimeowner', 'tree': 'c' * 40,
+                'recipe_path': m.LOCAL_RECIPE, 'recipe_sha256': hashlib.sha256(b'{}').hexdigest()}
+            recipe = self.private / self.review['local_existing_input']['canonical_runtime']['recipe_path']
+            recipe.parent.mkdir(parents=True, exist_ok=True); recipe.write_bytes(b'{}')
+        # Existing unrelated added-pack provenance is unchanged by this mode.
+        write(self.addition_path, {'schema': 1, 'source_provenance': 'original archives', 'review_reason': 'Unchanged unrelated input',
+            'observed_inventory': self.original, 'packs': self.archives})
+        self.review['preserved_additions']['sha256'] = c.sha(self.addition_path)
+        for row in self.target['packs']:
+            if row['uuid'] in targets:
+                row['source'] = m.local_input_sources(self.original)[row['uuid']]
+
+    def test_same_uuid_local_pair_keeps_unknown_origin_and_exact_retention(self):
+        self.local_same_uuid_mode()
+        source = m.provenance_original(self.original, self.approved)
+        for row in source['packs']:
+            if row['uuid'] in m.LOCAL_INPUT_UUIDS.values():
+                self.assertEqual(row['source']['origin_status'], 'unverified_existing_input')
+                self.assertFalse(row['source']['original_archive_verified'])
+                self.assertFalse(row['source']['observed_reviewed_drift']['original_drift_approved'])
+        self.assertEqual(m.verify_local_target(self.target, self.original), set(m.LOCAL_INPUT_UUIDS.values()))
+        with patch.object(migration, 'plan_swaps', return_value=self.swaps):
+            self.assertEqual(m.validate_target(self.target, self.original, {'fixture': True}), set(self.additions))
+            self.assertEqual(m.reviewed_order(self.original, {'fixture': True}), self.target['order'])
+        self.assertEqual(set(m.global_relocations(self.original)), set(m.LOCAL_INPUT_UUIDS.values()))
+        self.assertEqual(hashes(self.world / 'db'), self.before_database)
+
+    def test_same_uuid_local_pair_rejects_byte_path_module_and_author_claims(self):
+        self.local_same_uuid_mode()
+        proof = self.review['local_existing_input']; uid = m.LOCAL_INPUT_UUIDS['behavior']
+        original = copy.deepcopy(proof)
+        for mutate in [
+            lambda: proof['packs'][uid]['files'].update({'unreviewed.json': 'd' * 64}),
+            lambda: proof['packs'][uid].update(original_path='/another/global/catalog'),
+            lambda: proof['packs'][uid]['modules'][0].update(uuid='another-module'),
+            lambda: proof.update(original_archive_verified=True),
+            lambda: proof['target_packs'][uid]['files'].update({'unreviewed.json': 'd' * 64}),
+        ]:
+            mutate()
+            with self.assertRaises(AssertionError): m.check_observed(self.original)
+            proof.clear(); proof.update(copy.deepcopy(original))
+        altered = copy.deepcopy(self.target)
+        next(row for row in altered['packs'] if row['uuid'] == uid)['source']['original_archive_verified'] = True
+        with self.assertRaisesRegex(AssertionError, 'origin or canonical repair proof'):
+            m.verify_local_target(altered, self.original)
+
+    def test_same_uuid_local_pair_cannot_mask_a_foreign_definition(self):
+        self.local_same_uuid_mode()
+        uid = m.LOCAL_INPUT_UUIDS['behavior']; row = next(row for row in self.original['packs'] if row['uuid'] == uid)
+        write(Path(row['path']) / 'items/fishing.json', {'description': {'identifier': 'kaleidoscope_tavern:foreign_override'}})
+        row['files'] = hashes(Path(row['path']))
+        pin = self.review['local_existing_input']['packs'][uid]
+        pin.update(files=row['files'], files_sha256=m.files_sha256(row['files']))
+        self.review['observed']['inventory_sha256'] = m.inventory_sha256(self.original)
+        with self.assertRaisesRegex(AssertionError, 'masks a managed or foreign'):
+            m.check_observed(self.original)
+
+    def test_same_uuid_forward_repair_requires_fresh_pair_and_exact_canonical_runtime(self):
+        with patch.object(c, 'git', return_value='c' * 40), patch.object(m.subprocess, 'check_output', return_value=b'{}'):
+            self.local_same_uuid_mode('repair_forward')
+            self.assertEqual(m.verify_local_target(self.target, self.original), set(m.LOCAL_INPUT_UUIDS.values()))
+            altered = copy.deepcopy(self.target)
+            next(row for row in altered['packs'] if row['uuid'] == m.LOCAL_INPUT_UUIDS['behavior'])['files']['changed-after-review.js'] = 'd' * 64
+            with self.assertRaisesRegex(AssertionError, 'Local target bytes'):
+                m.verify_local_target(altered, self.original)
+            proof = self.review['local_existing_input']; pin = proof['target_packs'][m.LOCAL_INPUT_UUIDS['resource']]
+            pin['version'] = [1, 3, 10004]
+            with self.assertRaisesRegex(AssertionError, 'fresh pair'):
+                m.check_observed(self.original)
+            pin['version'] = [1, 3, 10005]
+            proof['canonical_runtime']['tree'] = 'd' * 40
+            with self.assertRaisesRegex(AssertionError, 'runtime owner changed'):
+                m.check_observed(self.original)
+
+    def committed_local_target(self):
+        self.local_same_uuid_mode()
+        proof = self.review['local_existing_input']; proof['action'] = 'repair_forward'
+        for side, uid in m.LOCAL_INPUT_UUIDS.items():
+            label = 'BP' if side == 'behavior' else 'RP'
+            source = Path(proof['packs'][uid]['original_path'])
+            target = self.private / m.LOCAL_RUNTIME / label
+            shutil.copytree(source, target)
+            manifest = c.read(target / 'manifest.json')
+            manifest['header']['version'] = [1, 3, 10005]
+            for module in manifest['modules']: module['version'] = [1, 3, 10005]
+            write(target / 'manifest.json', manifest)
+            if side == 'behavior': write(target / 'scripts/repair.json', {'fixture_runtime_owner': True})
+            pin = {'side': side, 'version': [1, 3, 10005], 'files': hashes(target)}
+            proof['target_packs'][uid] = pin
+            next(row for row in self.target['packs'] if row['uuid'] == uid).update(pin)
+        recipe = {'schema': 1, 'kind': 'canonical_local_fishing_repair', 'historical_origin_status': 'unknown',
+                  'original_archive_verified': False, 'latest_stable_verified': False, 'version': [1, 3, 10005],
+                  'input_hashes': {('BP' if side == 'behavior' else 'RP'): proof['packs'][uid]['files'] for side, uid in m.LOCAL_INPUT_UUIDS.items()},
+                  'output_hashes': {('BP' if side == 'behavior' else 'RP'): proof['target_packs'][uid]['files'] for side, uid in m.LOCAL_INPUT_UUIDS.items()},
+                  'native_loading': False, 'saved_world_migration': False, 'client': False, 'production_ready': False}
+        write(self.private / m.LOCAL_RECIPE, recipe)
+        subprocess.run(['git', 'init', '--quiet', str(self.private)], check=True, capture_output=True)
+        subprocess.run(['git', '-C', str(self.private), 'add', '.'], check=True, capture_output=True)
+        subprocess.run(['git', '-C', str(self.private), '-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.invalid', 'commit', '--quiet', '-m', 'Fixture complete local runtime'], check=True, capture_output=True)
+        proof['canonical_runtime'] = {'path': m.LOCAL_RUNTIME, 'tree': c.git(self.private, 'rev-parse', 'HEAD:' + m.LOCAL_RUNTIME),
+                                      'recipe_path': m.LOCAL_RECIPE, 'recipe_sha256': c.sha(self.private / m.LOCAL_RECIPE)}
+        for row in self.target['packs']:
+            if row['uuid'] in proof['target_packs']: row['source'] = m.local_input_sources(self.original)[row['uuid']]
+        return proof
+
+    def test_local_selector_reads_complete_committed_pair_and_rejects_working_tree_edits(self):
+        proof = self.committed_local_target()
+        roots = [Path(row['path']) for row in self.original['packs']]
+        selected, sources, evidence = m.select_local_inputs(roots, self.original)
+        self.assertEqual(set(sources), set(m.LOCAL_INPUT_UUIDS.values()))
+        for before, after in zip(roots, selected):
+            uid = c.read(before / 'manifest.json')['header']['uuid']
+            self.assertEqual(after, self.private / m.LOCAL_RUNTIME / ('BP' if proof['packs'][uid]['side'] == 'behavior' else 'RP') if uid in sources else before)
+        self.assertFalse(evidence['full_gameplay_parity_verified']); self.assertFalse(evidence['native_loading'])
+        self.assertEqual(evidence['historical_origin_status'], 'unknown')
+        self.assertEqual(m.verify_local_target(self.target, self.original), set(sources))
+        path = self.private / m.LOCAL_RUNTIME / 'BP/scripts/repair.json'
+        original = path.read_bytes(); path.write_bytes(b'{"uncommitted":true}')
+        with self.assertRaisesRegex(AssertionError, 'reviewed output'):
+            m.select_local_inputs(roots, self.original)
+        path.write_bytes(original)
+        extra = path.parent / 'unreviewed-extra.json'; extra.write_text('{}')
+        with self.assertRaisesRegex(AssertionError, 'inventory differs'):
+            m.select_local_inputs(roots, self.original)
+        extra.unlink()
+        path.write_bytes(b'{"edited_and_rehashed":true}')
+        proof['target_packs'][m.LOCAL_INPUT_UUIDS['behavior']]['files'][path.relative_to(self.private / m.LOCAL_RUNTIME / 'BP').as_posix()] = c.sha(path)
+        with self.assertRaises(AssertionError):
+            m.select_local_inputs(roots, self.original)
+
+    def test_local_selector_rejects_another_selected_root_and_retention_keeps_input_bytes(self):
+        self.local_same_uuid_mode()
+        roots = [Path(row['path']) for row in self.original['packs']]
+        selected, sources, evidence = m.select_local_inputs(roots, self.original)
+        self.assertEqual(selected, roots); self.assertEqual(evidence['action'], 'retain_exact_bytes')
+        self.assertTrue(all(row['origin_status'] == 'unverified_existing_input' for row in sources.values()))
+        index = next(i for i, root in enumerate(roots) if c.read(root / 'manifest.json')['header']['uuid'] in sources)
+        alternate = self.base / 'another-output'; shutil.copytree(roots[index], alternate); roots[index] = alternate
+        with self.assertRaisesRegex(AssertionError, 'already replaced'):
+            m.select_local_inputs(roots, self.original)
+
+    def witch_local_mode(self, action='retain_exact_bytes'):
+        self.local_same_uuid_mode()
+        self.original['packs'][:] = [row for row in self.original['packs'] if not row['uuid'].startswith('foreign-')]
+        self.target['packs'][:] = [row for row in self.target['packs'] if not row['uuid'].startswith('foreign-')]
+        for side in m.SIDES:
+            self.original['refs'][side][:] = [row for row in self.original['refs'][side] if not row['pack_id'].startswith('foreign-')]
+            self.target['order'][side][:] = [uid for uid in self.target['order'][side] if not uid.startswith('foreign-')]
+        for uid in sorted(m.LOCAL_ADDITION_REPLACED):
+            side = 'resource' if uid.startswith('ea8da0de') else 'behavior'
+            row = self.pack(self.trusted, uid, side, [1, 0, 1]); row['source'] = {'owner': 'preserved'}
+            self.approved['packs'].append(row); self.approved['order'][side].append(uid)
+        pins = {}; targets = {}
+        for side, uid in m.LOCAL_ADDITION_UUIDS.items():
+            row = self.pack(self.engine, uid, side, [1, 3, 0]); root = Path(row['path'])
+            write(root / ('items' if side == 'behavior' else 'entity') / 'aww.json', {'description': {'identifier': 'aww:fixture'}})
+            if side == 'behavior':
+                for name, identifier in m.LOCAL_ADDITION_FOREIGN.items(): write(root / name, {'description': {'identifier': identifier}})
+                (root / 'scripts').mkdir(); (root / 'scripts/coven_and_reactions.js').write_text('// exact synthetic current drop consumer\n')
+            else:
+                write(root / 'entity/novelty_database.json', {'description': {'identifier': 'nvy:novelty_database'}})
+            row['files'] = hashes(root); self.original['packs'].append(row)
+            self.original['refs'][side].append({'pack_id': uid, 'version': row['version']})
+            definitions = m._definition_identifiers(root)
+            foreign = {name: values for name, values in definitions.items() if any(not identifier.startswith('aww:') for identifier in values)}
+            pins[uid] = {'side': side, 'version': row['version'], 'files': copy.deepcopy(row['files']), 'files_sha256': m.files_sha256(row['files']),
+                         'original_path': row['path'], 'modules': c.read(root / 'manifest.json')['modules'], 'dependencies': [], 'foreign_definitions': foreign}
+            targets[uid] = {key: copy.deepcopy(row[key]) for key in ['side', 'version', 'files']}
+            self.target['packs'].append({'uuid': uid, **copy.deepcopy(targets[uid])}); self.target['order'][side].append(uid)
+        write(self.assembled, {key: value for key, value in self.approved.items() if key != 'assembled_receipt'})
+        self.approved['assembled_receipt']['sha256'] = c.sha(self.assembled); write(self.reviewed, self.approved)
+        self.policy['managed_uuids'] += sorted(m.LOCAL_ADDITION_REPLACED)
+        write(self.quality / 'senluo-policy.json', self.policy); write(self.output / 'production-before/senluo-policy.json', self.policy)
+        self.review['approved'].update(policy_sha256=c.sha(self.quality / 'senluo-policy.json'), receipt_sha256=c.sha(self.reviewed),
+            assembled_receipt_sha256=c.sha(self.assembled), pack_count=len(self.approved['packs']))
+        self.review['rollback'] = {key: self.review['approved'][key] for key in ['receipt_sha256', 'assembled_receipt_sha256']}
+        self.review['observed'].update(inventory_sha256=m.inventory_sha256(self.original), pack_count=len(self.original['packs']), added_uuids=list(m.LOCAL_ADDITION_UUIDS.values()))
+        self.review['observed']['missing_uuids'] += sorted(m.LOCAL_ADDITION_REPLACED)
+        self.review.pop('preserved_additions'); c.CONFIG.pop('preserved_additions')
+        proof = self.review['retained_local_additions'] = {'schema': 1, 'kind': 'exact_unattributed_existing_pair',
+            'historical_origin_status': 'unknown', 'original_archive_verified': False, 'latest_stable_verified': False,
+            'full_gameplay_parity_verified': False, 'input_review_scope': 'exact_local_bytes_and_listed_repairs_only',
+            'audited_input_paths': ['scripts/coven_and_reactions.js'], 'action': action, 'installation_location': 'world',
+            'definition_namespace': 'aww', 'packs': pins, 'target_packs': targets}
+        if action == 'repair_forward':
+            for side, uid in m.LOCAL_ADDITION_UUIDS.items():
+                label = 'BP' if side == 'behavior' else 'RP'; path = self.private / m.LOCAL_ADDITION_RUNTIME / label
+                shutil.copytree(Path(pins[uid]['original_path']), path)
+                manifest = c.read(path / 'manifest.json'); manifest['header']['version'] = [1, 3, 1]
+                for module in manifest['modules']: module['version'] = [1, 3, 1]
+                write(path / 'manifest.json', manifest)
+                if side == 'behavior': (path / 'scripts/coven_and_reactions.js').write_text('// canonical synthetic consumer repair\n')
+                targets[uid] = {'side': side, 'version': [1, 3, 1], 'files': hashes(path)}
+                next(row for row in self.target['packs'] if row['uuid'] == uid).update(copy.deepcopy(targets[uid]))
+            recipe = {'schema': 1, 'kind': 'canonical_local_witchway_repair', 'historical_origin_status': 'unknown',
+                'original_archive_verified': False, 'latest_stable_verified': False, 'version': [1, 3, 1],
+                'input_hashes': {('BP' if side == 'behavior' else 'RP'): pins[uid]['files'] for side, uid in m.LOCAL_ADDITION_UUIDS.items()},
+                'output_hashes': {('BP' if side == 'behavior' else 'RP'): targets[uid]['files'] for side, uid in m.LOCAL_ADDITION_UUIDS.items()},
+                'native_loading': False, 'saved_world_migration': False, 'client': False, 'production_ready': False}
+            write(self.private / m.LOCAL_ADDITION_RECIPE, recipe)
+            subprocess.run(['git', 'init', '--quiet', str(self.private)], check=True, capture_output=True)
+            subprocess.run(['git', '-C', str(self.private), 'add', '.'], check=True, capture_output=True)
+            subprocess.run(['git', '-C', str(self.private), '-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.invalid', 'commit', '--quiet', '-m', 'Fixture committed local provider repair'], check=True, capture_output=True)
+            proof['canonical_runtime'] = {'path': m.LOCAL_ADDITION_RUNTIME, 'tree': c.git(self.private, 'rev-parse', 'HEAD:' + m.LOCAL_ADDITION_RUNTIME),
+                'recipe_path': m.LOCAL_ADDITION_RECIPE, 'recipe_sha256': c.sha(self.private / m.LOCAL_ADDITION_RECIPE)}
+        sources = m.local_input_sources(self.original)
+        for row in self.target['packs']:
+            if row['uuid'] in sources: row['source'] = sources[row['uuid']]
+        return proof
+
+    def test_witch_exact_retention_keeps_unknown_origin_and_five_embedded_provider_ids(self):
+        self.witch_local_mode()
+        roots = [Path(row['path']) for row in self.original['packs']]
+        selected, sources, evidence = m.select_local_inputs(roots, self.original)
+        self.assertEqual(selected, roots)
+        expected = set(m.LOCAL_INPUT_UUIDS.values()) | set(m.LOCAL_ADDITION_UUIDS.values())
+        self.assertEqual(set(sources), expected); self.assertEqual(m.verify_local_target(self.target, self.original), expected)
+        self.assertEqual(set(m.global_relocations(self.original)), expected)
+        self.assertFalse(any(source['original_archive_verified'] for source in sources.values()))
+        with patch.object(migration, 'plan_swaps', return_value=self.swaps):
+            self.assertEqual(m.validate_target(self.target, self.original, {'fixture': True}), set(self.additions))
+        self.assertTrue(all(row['action'] == 'retain_exact_bytes' for row in evidence['retained_local_additions'].values()))
+
+    def test_witch_retention_cannot_admit_another_nvy_identifier_by_rehashing(self):
+        proof = self.witch_local_mode()
+        uid = m.LOCAL_ADDITION_UUIDS['behavior']; row = next(row for row in self.original['packs'] if row['uuid'] == uid)
+        root = Path(row['path']); write(root / 'items/unreviewed.json', {'description': {'identifier': 'nvy:unreviewed_new_item'}})
+        row['files'] = hashes(root); proof['packs'][uid].update(files=copy.deepcopy(row['files']), files_sha256=m.files_sha256(row['files']))
+        proof['packs'][uid]['foreign_definitions']['items/unreviewed.json'] = ['nvy:unreviewed_new_item']
+        self.review['observed']['inventory_sha256'] = m.inventory_sha256(self.original)
+        with self.assertRaisesRegex(AssertionError, 'unreviewed foreign definition'):
+            m.check_observed(self.original)
+
+    def test_witch_forward_selector_requires_its_fixed_committed_pair_and_recipe(self):
+        proof = self.witch_local_mode('repair_forward')
+        roots = [Path(row['path']) for row in self.original['packs']]
+        selected, sources, _ = m.select_local_inputs(roots, self.original)
+        for before, after in zip(roots, selected):
+            uid = c.read(before / 'manifest.json')['header']['uuid']
+            self.assertEqual(after, self.private / m.LOCAL_ADDITION_RUNTIME / ('BP' if proof['packs'][uid]['side'] == 'behavior' else 'RP') if uid in m.LOCAL_ADDITION_UUIDS.values() else before)
+        self.assertTrue(all(sources[uid]['role'] == 'canonical_local_repair' for uid in m.LOCAL_ADDITION_UUIDS.values()))
+        m.verify_local_target(self.target, self.original)
+        proof['canonical_runtime']['path'] = 'companion-sources/some-other-pair/runtimeowner'
+        with self.assertRaisesRegex(AssertionError, 'runtime owner path'):
+            m.select_local_inputs(roots, self.original)
+
     def test_existing_unknown_pair_rejects_another_global_path_or_module(self):
         self.existing_mode()
         pin = self.review['preserved_existing_inputs']['packs']['foreign-behavior']
@@ -338,10 +636,10 @@ class DriftTests(unittest.TestCase):
         for row in self.review['proofs']:
             path = self.private / row['path']; write(path, {'proof': row['path']}); row['sha256'] = c.sha(path)
         review_path = Path(self.binding['path']); write(review_path, self.review)
-        write(self.private / '.repo-target.json', {'private': True, 'repository': 'casama233/senluo-family-integration-private', 'repository_id': 1406868911})
+        write(self.private / '.repo-target.json', m.repository_target('casama233/senluo-family-integration-private'))
         snapshots = {p.relative_to(self.private).as_posix(): p.read_bytes() for p in (self.private / 'maintenance').rglob('*.json')}
         def git(path, *args):
-            if args[0] == 'remote': return 'https://github.com/casama233/senluo-family-integration-private.git'
+            if args[0] == 'remote': return 'https://github.com/burnt-tea-dev/senluo-family-integration-private.git'
             if args[0] == 'branch': return 'main'
             if args[0] == 'status': return ''
             if args[0] == 'ls-remote': return 'a' * 40 + ' refs/heads/main'

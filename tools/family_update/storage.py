@@ -26,7 +26,7 @@ def allocated(root):
     return total
 
 
-def deployment_allocation(world, candidate, *, identity_migration=False, container_recovery=False):
+def deployment_allocation(world, candidate, *, identity_migration=False, container_recovery=False, native_actor_recovery=False):
     """Peak growth: one backup, one saved-world rehearsal, one candidate copy.
 
     The rehearsal pack copy is pruned before installation staging, and retired
@@ -40,7 +40,7 @@ def deployment_allocation(world, candidate, *, identity_migration=False, contain
     additional = full + data + allocated(candidate)
     if identity_migration:
         additional += full + allocated(world / 'db')
-    if container_recovery:
+    if container_recovery or native_actor_recovery:
         additional += allocated(world / 'db')
     return additional
 
@@ -82,12 +82,19 @@ def prune_closed_packs(candidate, world, report, receipt_sha256):
     engine = world.parent.parent
     if candidate.parent != engine.parent or candidate == world:
         raise ValueError('QA and candidate must belong to the same isolated output')
-    if not report.get('bds') or report.get('test_only_overlays') != []:
+    if not report.get('bds'):
         raise ValueError('Exact completed native evidence is required')
     if report.get('candidate_receipt_sha256') != receipt_sha256:
         raise ValueError('Candidate receipt does not match native evidence')
     if [run.get('phase') for run in report.get('runs', [])] != ['first', 'restart'] or not all(run.get('ok') is True for run in report['runs']):
         raise ValueError('Both successful native phases are required before deletion')
+    if report.get('test_only_overlays') != []:
+        try:
+            from family_update.fishing_native_observer import validate_native_evidence
+            verified=validate_native_evidence(report)
+            if not verified or verified.get('ok') is not True:raise ValueError('Missing exact Fishing observer proof')
+        except (AssertionError,KeyError,OSError,ValueError) as error:
+            raise ValueError('Exact completed and removed Fishing observer evidence is required') from error
     assert_idle(engine)
     for side in ['behavior_packs', 'resource_packs']:
         source, target = candidate / side, world / side

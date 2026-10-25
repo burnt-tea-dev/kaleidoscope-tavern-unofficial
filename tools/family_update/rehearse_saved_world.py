@@ -53,7 +53,21 @@ def main(argv=None):
     for side in ['behavior', 'resource']:
         shutil.copytree(C / (side + '_packs'), world / (side + '_packs'))
         shutil.copy2(C / ('world_' + side + '_packs.json'), world / ('world_' + side + '_packs.json'))
-    audit_candidate(world, receipt)
+    from family_update import fishing_native_observer as fishing_observer
+    fishing_enabled=fishing_observer.enabled()
+    fishing_overlay=None
+    if not fishing_enabled:audit_candidate(world, receipt)
+    actor_plan=None;actor_recovery=None;actor_runs=[];actor_previous=None;actor_commands=[]
+    if CONFIG.get('native_actor_recovery_plan'):
+        assert not recovery and not migration, 'Combined actor and block/identity recovery needs a separately reviewed transaction'
+        from native_actor_recovery import recover_world as recover_actors,verify_world as verify_actors
+        from native_actor_recovery_validation import inspect_world as inspect_actors,verify as verify_actor_preservation,commands as actor_probe_commands
+        actor_plan=read(Path(CONFIG['native_actor_recovery_plan']))
+        actor_recovery=recover_actors(world,actor_plan,stage_root=R,source_world=W)
+        verify_actors(world,actor_plan,actor_recovery,stage_root=R,source_world=W)
+        atomic(R/'saved-world-native-actor-recovery.json',actor_recovery)
+        actor_commands=actor_probe_commands(actor_plan)
+    if fishing_enabled:fishing_overlay=fishing_observer.install(world,receipt)
     runs=[]; after=before
     engine_hash=sha(B/'bedrock_server')
     for phase in ['first', 'restart']:
@@ -63,8 +77,20 @@ def main(argv=None):
         commands=[f'tickingarea add circle {x} {y} {z} 1 freezer_recovery_{i}' for i,(x,y,z) in enumerate(sorted(points))]
         if storage_plan:commands+=native_storage_commands(storage_plan)
         commands+=state_commands
+        commands+=actor_commands
+        if fishing_overlay:commands+=fishing_observer.commands(phase)
         record=native_run(engine,phase,commands=commands,delayed_commands=state_delayed,cpu_profile=CONFIG.get('native_cpu_profile',False))
-        after=player_hashes(world); audit_candidate(world, receipt)
+        after=player_hashes(world)
+        if fishing_overlay:
+            try:
+                fishing_observer.verify(engine,world,phase,fishing_overlay)
+                record['fishing_native_observer_verified']=True
+            except (AssertionError,ValueError) as error:
+                record['fishing_native_observer_verified']=False
+                record['fishing_native_observer_error']=str(error)
+                record['ok']=False
+                atomic(R/('fishing-native-observer-'+phase+'-failure.json'),{'phase':phase,'ok':False,'error':str(error),'log':report_ref(engine/(phase+'.log')),'overlay':fishing_overlay['evidence'],'client':False})
+        else:audit_candidate(world, receipt)
         containers_after=inventory_world(world)
         freezer_after=inspect_freezer_storage(world,freezer_uuid)
         freezer_retained=freezer_before==freezer_after
@@ -84,6 +110,14 @@ def main(argv=None):
             restored=verify_native_storage(storage_before,storage_after)
             storage_runs.append({'phase':phase,'original_identity_and_full_item_nbt_retained':restored,'rows':storage_after})
             record['native_storage_reanchor_verified']=restored
+        if actor_plan:
+            observed=inspect_actors(world,actor_plan,stage_root=R,source_world=W)
+            observed['native_run']=dict(record)
+            verified=verify_actor_preservation(actor_plan,actor_recovery,observed,previous=actor_previous)
+            actor_runs.append({'phase':phase,'observation':observed,'verification':verified})
+            record['native_actor_recovery_verified']=verified['ok']
+            record['ok']=record['ok'] and verified['ok']
+            actor_previous=observed
         record['ok']=record['ok'] and before==after and retained and freezer_retained
         runs.append(record); print(json.dumps(record),flush=True)
         if not record['ok']: break
@@ -91,7 +125,10 @@ def main(argv=None):
     assert inputs == engine_inputs(world_receipt=receipt), 'Engine inputs changed during saved-world rehearsal'
     assert hashes(snapshot)==backup['files'], 'Original backup mutated during rehearsal'
     success=len(runs)==2 and all(row['ok'] for row in runs)
-    report={'schema':1,'recorded_at':now(),'native_acceptance_source':'saved_world','exact_files_checked':True,'candidate_receipt_sha256':sha(C/'family-receipt.json'),'engine_sha256':engine_hash,'engine_inputs':inputs,'packs':len(receipt['packs']),'versions':versions(receipt),'identity_mapping':migration['uuid_mapping'] if migration else {},'same_author_and_owned_uuids':migration is None,'snapshot_source':str(snapshot),'backup_receipt':report_ref(R/'production-before/backup-receipt.json'),'fresh_stopped_backup':True,'snapshot_cutoff':backup['recorded_at'],'existing_world_loaded':success,'database_replaced_in_live':False,'saved_world_migration':success,'bds':success,'test_only_overlays':[],'client':False,'simulated_players':False,'players':0,'player_records_before':before,'player_records_after':after,'runs':runs}
+    report={'schema':1,'recorded_at':now(),'native_acceptance_source':'saved_world','exact_files_checked':True,'candidate_receipt_sha256':sha(C/'family-receipt.json'),'engine_sha256':engine_hash,'engine_inputs':inputs,'packs':len(receipt['packs']),'versions':versions(receipt),'identity_mapping':migration['uuid_mapping'] if migration else {},'same_author_and_owned_uuids':migration is None,'snapshot_source':str(snapshot),'backup_receipt':report_ref(R/'production-before/backup-receipt.json'),'fresh_stopped_backup':True,'snapshot_cutoff':backup['recorded_at'],'existing_world_loaded':success,'database_replaced_in_live':False,'saved_world_migration':success,'bds':success,'test_only_overlays':[fishing_overlay] if fishing_overlay else [],'client':False,'simulated_players':False,'players':0,'player_records_before':before,'player_records_after':after,'runs':runs}
+    if success and fishing_overlay:
+        report['test_only_overlay_removal']=fishing_observer.remove(world,receipt,fishing_overlay,evidence=report)
+        fishing_observer.validate_native_evidence(report)
     atomic(R/'saved-world-report.json',report)
     atomic(R/'saved-world-container-inventories.json',{'before':containers_before,'after':containers_after,'recovery':recovery,'retained':retained,'native_loaded_recovery_positions':bool(points)})
     atomic(R/'saved-world-freezer-inputs.json',{'uuid':freezer_uuid,'before':freezer_before,'runs':freezer_runs,'ok':success and all(row['complete_native_items_and_identity_retained']for row in freezer_runs),'scope':'Original actor identity/owner binding and complete typed item NBT in stopped rehearsal copies; no player/client equivalence'})
@@ -99,6 +136,8 @@ def main(argv=None):
         atomic(R/'saved-world-author-states.json',{'schema':1,'identity_spec':migration['identity_spec'],'before':states_before,'runs':state_runs,'ok':success and len(state_runs)==2 and all(row['ok'] for row in state_runs),'client':False,'test_world_only':True,'simulated_players':False})
     if storage_plan:
         atomic(R/'saved-world-native-storage.json',{'schema':1,'plan':report_ref(Path(CONFIG['native_storage_reanchor_plan'])),'uuid':storage_uuid,'before':storage_before,'runs':storage_runs,'ok':success and len(storage_runs)==2,'only_qa_world_loaded':True,'client':False})
+    if actor_plan:
+        atomic(R/'saved-world-native-actor-preservation.json',{'schema':1,'plan':report_ref(Path(CONFIG['native_actor_recovery_plan'])),'runs':actor_runs,'ok':success and len(actor_runs)==2 and all(row['verification']['ok'] for row in actor_runs),'only_qa_world_loaded':True,'client':False})
     if success:
         from family_update.storage import prune_closed_packs
         prune_closed_packs(C, world, report, report['candidate_receipt_sha256'])

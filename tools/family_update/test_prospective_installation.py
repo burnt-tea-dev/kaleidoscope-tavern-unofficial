@@ -4,6 +4,7 @@ from pathlib import Path
 from unittest.mock import patch
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from family_update import deploy_live as m
+from family_update import managed_drift_recovery
 import family_guard
 
 class InstallationTests(unittest.TestCase):
@@ -39,5 +40,30 @@ class InstallationTests(unittest.TestCase):
  def test_other_preserved_bytes_cannot_hide_in_the_transaction(self):
   self.receipt['packs'][4]['files']={'payload':'unregistered new version'}
   with self.assertRaisesRegex(AssertionError,'Unreviewed'):self.selection()
+
+class ManagedLocalInstallationTests(unittest.TestCase):
+ def setUp(self):
+  InstallationTests.setUp(self)
+  self.local_ids={p['uuid'] for p in self.receipt['packs'][:2]}
+  self.receipt['packs'][2:4]=copy.deepcopy(self.original['packs'][2:4])
+ def selection_local(self):
+  with patch.object(m,'R',self.root),patch.object(m,'CONFIG',{'managed_drift_recovery':str(self.review)}),patch.object(managed_drift_recovery,'global_relocations',return_value={uid:{} for uid in self.local_ids}),patch.object(managed_drift_recovery,'verify_local_target',return_value=self.local_ids) as verify:
+   result=m.installation_selection(self.receipt,self.original)
+   verify.assert_called_once_with(self.receipt,self.original)
+   return result
+ def test_exact_local_repaired_pair_can_relocate_changed_bytes_without_approving_other_changes(self):
+  family,foreign=self.selection_local()
+  self.assertEqual({p['uuid'] for p in family},{'owned',*self.local_ids})
+  self.assertEqual({p['uuid'] for p in foreign},{'pair-2','pair-3','unrelated'})
+  self.receipt['packs'][4]['files']={'payload':'unreviewed'}
+  with self.assertRaisesRegex(AssertionError,'Unreviewed'):self.selection_local()
+ def test_local_contract_rejection_precedes_preserved_content_reads(self):
+  with patch.object(m,'CONFIG',{'managed_drift_recovery':str(self.review)}),patch.object(managed_drift_recovery,'global_relocations',return_value={}),patch.object(managed_drift_recovery,'verify_local_target',side_effect=AssertionError('Exact local target rejected')),patch.object(m,'hashes') as content:
+   with self.assertRaisesRegex(AssertionError,'Exact local target rejected'):m.installation_selection(self.receipt,self.original)
+   content.assert_not_called()
+ def test_local_and_prospective_producers_cannot_claim_the_same_uuid(self):
+  with patch.object(m,'R',self.root),patch.object(m,'CONFIG',{'managed_drift_recovery':str(self.review),'prospective_preserved_inputs':str(self.review)}),patch.object(managed_drift_recovery,'global_relocations',return_value={}),patch.object(managed_drift_recovery,'verify_local_target',return_value=self.local_ids):
+   self.receipt['packs'][2:4]=[{**old,'version':[0,0,2],'files':self.outputs[old['uuid']]} for old in self.original['packs'][2:4]]
+   with self.assertRaisesRegex(AssertionError,'cannot also use another prospective producer'):m.installation_selection(self.receipt,self.original)
 
 if __name__=='__main__':unittest.main()

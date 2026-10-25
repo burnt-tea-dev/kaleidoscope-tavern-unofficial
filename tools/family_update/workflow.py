@@ -42,7 +42,9 @@ def verify_native(verified_candidate=None):
     assert evidence['snapshot_source'] == str(R / 'production-snapshot'), 'Rehearsal used a different snapshot'
     assert evidence['fresh_stopped_backup'] and evidence['existing_world_loaded'] and evidence['saved_world_migration']
     assert evidence['bds'] is True and evidence['client'] is False and evidence['players'] == 0
-    assert evidence['test_only_overlays'] == [] and evidence['simulated_players'] is False and evidence['exact_files_checked'] is True
+    assert evidence['simulated_players'] is False and evidence['exact_files_checked'] is True
+    from family_update.fishing_native_observer import validate_native_evidence as verify_fishing_observer
+    verify_fishing_observer(evidence)
     assert evidence['packs'] == len(receipt['packs']) and evidence['versions'] == versions(receipt)
     assert [run['phase'] for run in evidence['runs']] == ['first', 'restart'], 'Native first/start and restart are distinct required scenes'
     for run in evidence['runs']:

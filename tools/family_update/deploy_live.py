@@ -19,7 +19,7 @@ def retain_stopped_on_failure():
         assert isinstance(idle, str) and Path(idle).is_absolute(), 'Normal idle update needs its reviewed input'
         assert not CONFIG.get('managed_drift_recovery') and not CONFIG.get('preinstall_recovery_output'), 'Normal idle update cannot borrow recovery exceptions'
         return True
-    return policy == 'retain_stopped'
+    return policy == 'retain_stopped' or bool(CONFIG.get('native_actor_recovery_plan'))
 
 def deployment_authorized(agents):
     """Recognize only the reviewed standing instructions, without broadening scope."""
@@ -30,6 +30,8 @@ def deployment_authorized(agents):
 
 def preflight():
     retain_stopped_on_failure()
+    if CONFIG.get('native_actor_recovery_plan'):
+        assert not CONFIG.get('container_recovery_plan') and not CONFIG.get('identity_migration'), 'Combined actor and block/identity recovery needs a separately reviewed transaction'
     initial = summary()
     initial_status = initial['status']
     original = verify_predeploy()
@@ -59,7 +61,8 @@ def preflight():
     from family_update.storage import deployment_allocation, require_space
     allocation = deployment_allocation(W, C,
         identity_migration=bool(CONFIG.get('identity_migration')),
-        container_recovery=bool(CONFIG.get('container_recovery_plan')))
+        container_recovery=bool(CONFIG.get('container_recovery_plan')),
+        native_actor_recovery=bool(CONFIG.get('native_actor_recovery_plan')))
     if CONFIG.get('managed_drift_recovery'):
         from family_update.managed_drift_recovery import check_observed, rollback_metadata
         from family_update.storage import allocated
@@ -81,6 +84,11 @@ def finalize_receipt():
     saved=verify_native(verified_candidate=raw)
     reports=['build-evidence.json','static-evidence.json','compatibility-report.json','saved-world-report.json','production-before/backup-receipt.json','handoff-authorization.json']
     reports.append('saved-world-container-inventories.json')
+    if saved.get('test_only_overlays'):
+        # verify_native authenticated this one fixed observer, its original
+        # logs, both native phase reports and exact closed-world restoration.
+        reports.extend(overlay['evidence']['path'] for overlay in saved['test_only_overlays'])
+        reports.extend(['fishing-native-observer-first.json','fishing-native-observer-restart.json',saved['test_only_overlay_removal']['path']])
     if CONFIG.get('native_storage_reanchor_plan'):
         from family_update.native_storage_reanchor import verify as verify_native_storage
         storage=read(R/'saved-world-native-storage.json')
@@ -108,6 +116,22 @@ def finalize_receipt():
         reports.append(cache_static['differential']['path'])
         if cache_static.get('guide_differential'):reports.append(cache_static['guide_differential']['path'])
     if CONFIG.get('container_recovery_plan'):reports.append('saved-world-container-recovery.json')
+    if CONFIG.get('native_actor_recovery_plan'):
+        from native_actor_recovery_validation import verify as verify_actor_preservation
+        plan=read(Path(CONFIG['native_actor_recovery_plan']))
+        recovery=read(R/'saved-world-native-actor-recovery.json')
+        preservation=read(R/'saved-world-native-actor-preservation.json')
+        assert preservation['plan']==report_ref(Path(CONFIG['native_actor_recovery_plan']))
+        assert preservation['ok'] and preservation['client'] is False
+        assert [row['phase'] for row in preservation['runs']]==['first','restart']
+        previous=None
+        for row,run in zip(preservation['runs'],saved['runs']):
+            observed_run=row['observation']['native_run']
+            assert observed_run and all(run.get(key)==value for key,value in observed_run.items()), 'Actor observations refer to a different native run'
+            result=verify_actor_preservation(plan,recovery,row['observation'],previous=previous)
+            assert result==row['verification'] and result['ok'] and run['native_actor_recovery_verified']
+            previous=row['observation']
+        reports.extend(['saved-world-native-actor-recovery.json','saved-world-native-actor-preservation.json'])
     if CONFIG.get('identity_migration'):reports.append('saved-world-identity-migration.json')
     if (R/'saved-world-author-states.json').is_file():reports.append('saved-world-author-states.json')
     if CONFIG.get('startup_reconciliation'):reports.append('startup-reconciliation-check.json')
@@ -196,16 +220,19 @@ def installation_selection(receipt,original):
     prior={p['uuid']:p for p in original['packs']}
     assert len(prior)==len(original['packs']), 'Original inventory duplicates an identity'
     relocations={}
+    local_targets=set()
     if CONFIG.get('managed_drift_recovery'):
-        from family_update.managed_drift_recovery import global_relocations
+        from family_update.managed_drift_recovery import global_relocations,verify_local_target
         relocations=global_relocations(original)
+        local_targets=verify_local_target(receipt,original)
+        assert not local_targets & set(prospective), 'A local repair cannot also use another prospective producer'
     family=[];unchanged=[]
     for p in receipt['packs']:
         if p['source']['owner']!='preserved':family.append(p);continue
         old=prior.get(p['uuid']);assert old and old['side']==p['side'], 'Preserved identity or side changed'
         assert hashes(old['path'])==old['files'], 'Installed preserved pack drifted from its captured original'
-        if p['uuid'] in prospective or p['uuid'] in relocations:
-            if p['uuid'] in relocations:
+        if p['uuid'] in prospective or p['uuid'] in relocations or p['uuid'] in local_targets:
+            if p['uuid'] in relocations and p['uuid'] not in local_targets:
                 assert p['files']==old['files'] and p['version']==old['version'], 'Relocation cannot alter existing global input'
             family.append(p)
         else:
@@ -213,6 +240,7 @@ def installation_selection(receipt,original):
             unchanged.append(p)
     assert set(prospective)<={p['uuid'] for p in family}, 'Prospective pair omitted from installation'
     assert set(relocations)<={p['uuid'] for p in family}, 'Reviewed global pair omitted from installation'
+    assert local_targets<={p['uuid'] for p in family}, 'Reviewed local pair omitted from installation'
     return family,unchanged
 
 def installation_sources(family,original,migration,additions=None):
@@ -292,7 +320,7 @@ def recover_after_failure(original,changed,retired,installed,rollback_failed=Fal
             if summary()['status']!='STOPPED': action('stop')
             assert summary()['status']=='STOPPED', 'Failed stopped-state update must remain stopped'
             raise RecoveryRequired('The reviewed failure policy retains current packages, displaced inputs and the newest database for operator recovery; no rollback runtime may start')
-        if (R/'production-container-recovery.json').exists() or (R/'production-identity-migration.json').exists():
+        if any((R/name).exists() for name in ['production-container-recovery.json','production-identity-migration.json','production-native-actor-recovery.json']):
             if summary()['status']!='STOPPED':action('stop')
             assert summary()['status']=='STOPPED', 'Recovered containers must remain stopped after a failed deployment'
             raise RecoveryRequired('Migrated owners or recovered inventories require the compatible runtime; retain stopped state instead of restarting an incompatible rollback')
@@ -336,6 +364,26 @@ def retain_failed_installation(original,retired,installed,install_error):
     atomic(R/'deployment-result.json',{'state':'needs_operator_recovery','stage':'installation_retained_stopped','install_error':str(install_error),'automatic_package_restore':False,'save_database_restored':False,'client':False,'production_ready':False})
     raise RecoveryRequired('Installation failed; preserve partial package moves and the newest database without installing or starting a rollback runtime') from install_error
 
+def adopt_native_actor_recovery():
+    """Reapply the rehearsed pointer transaction to the latest stopped save."""
+    assert_lease();assert summary()['status']=='STOPPED'
+    assert not CONFIG.get('container_recovery_plan') and not CONFIG.get('identity_migration')
+    from native_actor_recovery import recover_world as recover_actors,verify_world as verify_actors
+    fresh=R/'production-snapshot'
+    assert hashes(W/'db')==hashes(fresh/'db'), 'Actor recovery must use the latest stopped database'
+    stage_root=R/'native-actor-recovery-stage';stage_root.mkdir()
+    stage=stage_root/'world';stage.mkdir();shutil.copytree(W/'db',stage/'db')
+    shutil.copy2(W/'world_behavior_packs.json',stage/'world_behavior_packs.json')
+    plan=read(Path(CONFIG['native_actor_recovery_plan']))
+    restored=recover_actors(stage,plan,stage_root=R,source_world=W)
+    assert restored==read(R/'saved-world-native-actor-recovery.json'), 'Actor restoration differs from the rehearsed exact transaction'
+    verify_actors(stage,plan,restored,stage_root=R,source_world=W)
+    # Publish the failure fence before either rename. A partial move must keep
+    # the server stopped with all original/staged database files retained.
+    assert not (R/'production-native-actor-recovery.json').exists()
+    atomic(R/'production-native-actor-recovery.json',restored)
+    os.replace(W/'db',R/'production-original-db');os.replace(stage/'db',W/'db')
+
 def install(receipt,original):
     assert_lease(); assert summary()['status']=='STOPPED'; verify_predeploy()
     verify_server_binding()
@@ -376,6 +424,8 @@ def install(receipt,original):
             assert restored==read(R/'saved-world-container-recovery.json'), 'Live restoration differs from rehearsed records'
             atomic(R/'production-container-recovery.json',restored)
             os.replace(W/'db',R/'production-original-db');os.replace(stage/'db',W/'db')
+        if CONFIG.get('native_actor_recovery_plan'):
+            adopt_native_actor_recovery()
         from family_update.identity_migration import adopt_world
         adopt_world(receipt,original)
         policy['installed']={'status':'pending_client_acceptance','receipt':str(R/'reviewed-family-receipt.json'),'receipt_sha256':sha(R/'reviewed-family-receipt.json'),'installed_at':now(),'packs':[{**p,'directory':p['uuid']} for p in family],'refs':{side:[p for p in read(W/('world_'+side+'_packs.json')) if p['pack_id'] in policy['managed_uuids']] for side in ['behavior','resource']}}
@@ -384,11 +434,11 @@ def install(receipt,original):
         drift=G['audit'](W,policy); assert drift['ok']; atomic(R/'production-drift.json',drift)
         valid=runpy.run_path(str(Q/'policy.py'))['validate_world'](W); assert valid['ok']; atomic(R/'production-quality.json',valid)
         atomic(R/'rollback-map.json',{'retired':[[str(a),str(b)] for a,b in retired],'installed':[str(p) for p in installed],'original_inventory':str(R/'production-before/inventory.json'),'backup':str(R/'production-snapshot')})
-        atomic(R/'deployment-result.json',{'schema':1,'state':'installed_stopped','versions':versions(receipt),'family_packs':len(family),'preserved_packs':len(foreign),'receipt_sha256':sha(R/'reviewed-family-receipt.json'),'assembled_receipt_sha256':sha(C/'family-receipt.json'),'guard_admission_passed':True,'original_database_untouched_during_install':not bool(CONFIG.get('container_recovery_plan') or CONFIG.get('identity_migration')),'reviewed_identity_migration':bool(CONFIG.get('identity_migration')),'reviewed_container_recovery':bool(CONFIG.get('container_recovery_plan')),'original_level_dat_untouched_during_install':True,'rollback':str(rollback),'client':False,'production_ready':False})
+        atomic(R/'deployment-result.json',{'schema':1,'state':'installed_stopped','versions':versions(receipt),'family_packs':len(family),'preserved_packs':len(foreign),'receipt_sha256':sha(R/'reviewed-family-receipt.json'),'assembled_receipt_sha256':sha(C/'family-receipt.json'),'guard_admission_passed':True,'original_database_untouched_during_install':not bool(CONFIG.get('container_recovery_plan') or CONFIG.get('identity_migration') or CONFIG.get('native_actor_recovery_plan')),'reviewed_identity_migration':bool(CONFIG.get('identity_migration')),'reviewed_container_recovery':bool(CONFIG.get('container_recovery_plan')),'reviewed_native_actor_recovery':bool(CONFIG.get('native_actor_recovery_plan')),'original_level_dat_untouched_during_install':True,'rollback':str(rollback),'client':False,'production_ready':False})
         return retired,installed
     except BaseException as install_error:
         retain_failed_installation(original,retired,installed,install_error)
-        if (R/'production-container-recovery.json').exists() or (R/'production-identity-migration.json').exists():
+        if any((R/name).exists() for name in ['production-container-recovery.json','production-identity-migration.json','production-native-actor-recovery.json']):
             raise RecoveryRequired('Container recovery has begun; keep the compatible candidate stopped for recovery') from install_error
         try:
             restore_packs(original,retired,installed)
