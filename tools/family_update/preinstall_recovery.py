@@ -21,7 +21,7 @@ ALLOWED_ADVANCEMENT = frozenset({
     'family/UPDATE-WORKFLOW.md',
     *('tools/family_update/' + name for name in (
         'common.py', 'managed_drift_recovery.py', 'memory_budget.py',
-        'preinstall_recovery.py', 'test_preinstall_recovery.py',
+        'preinstall_recovery.py', 'test_preinstall_recovery.py', 'test_lifecycle_action.py',
         'test_memory_budget.py', 'test_managed_drift_recovery.py')),
 })
 ALLOWED_OUTPUT = frozenset({
@@ -30,7 +30,8 @@ ALLOWED_OUTPUT = frozenset({
     'deployment-recovery.json', 'handoff-authorization.json',
     'live-authorization-AGENTS.md', 'memory-admissions.json',
     'previous-maintenance.json', 'production-before', 'release-candidate',
-    'static-evidence.json', 'stop-result.json', 'trusted-pack-rollback',
+    'static-evidence.json', 'stop-result.json', 'stop-response.json',
+    'stop-task-response.json', 'stop-readback.json', 'trusted-pack-rollback',
     'trusted-pack-rollback.json', 'preinstall-recovery-memory-admissions.json', PROOF,
 })
 REFERENCE_FILES = (
@@ -41,6 +42,11 @@ REFERENCE_FILES = (
     'production-before/senluo-policy.json', 'production-before/index.json',
     'production-before/server.properties', 'release-candidate/family-receipt.json',
 )
+OPTIONAL_STOP_REFERENCES = ('stop-response.json', 'stop-task-response.json', 'stop-readback.json')
+
+
+def _references(output):
+    return (*REFERENCE_FILES, *(name for name in OPTIONAL_STOP_REFERENCES if (output / name).exists() or (output / name).is_symlink()))
 
 
 def _bytes(value):
@@ -121,7 +127,7 @@ def _failure(output, original):
     assert report['state'] == 'needs_operator_recovery' and report['phase'] == 'retain_stopped_without_package_or_database_restore', 'Failure is not an untouched fail-stop transaction'
     assert report['server_status'] == 'STOPPED' and report['restart_attempted'] is False and report['save_database_restored'] is False
     stop = c.read(output / 'stop-result.json')
-    assert stop['status'] == 'success' and stop['result']['status'] == 'success' and stop['result']['server_name'] == c.SERVER, 'Normal stop was not confirmed'
+    c.validate_lifecycle_result('stop', stop)
     rows = c.read(output / 'memory-admissions.json')['observations']
     assert rows and all(row['ok'] is True for row in rows[:-1]), 'An earlier admission also failed'
     last, budget = rows[-1], original['memory_budget']
@@ -221,7 +227,7 @@ def _proof_binding(proof, output):
     assert old['owner'] == owner and old['recovery_report'] == str(output / 'deployment-recovery.json'), 'Abort belongs to another transaction'
     build = c.read(output / 'build-evidence.json')
     assert old['candidate_receipt_sha256'] == build['candidate_receipt_sha256'], 'Abort owner candidate changed'
-    assert set(proof['references']) == {*REFERENCE_FILES, 'original_config', 'recovery_config'}, 'Abort evidence closure is incomplete'
+    assert set(proof['references']) == {*_references(output), 'original_config', 'recovery_config'}, 'Abort evidence closure is incomplete'
     _producer(proof, build)
     closed = _closed_lease(old, output / PROOF, proof['recorded_at'])
     assert proof['old_lease_sha256'] == hashlib.sha256(_bytes(old)).hexdigest(), 'Original owner byte binding differs'
@@ -275,7 +281,7 @@ def main(argv=None):
         _stopped(first)
         before = _database()
         sources = _validate(output, original)
-        references = {name: _ref(output / name) for name in REFERENCE_FILES}
+        references = {name: _ref(output / name) for name in _references(output)}
         references.update(original_config=_ref(original_path), recovery_config=_ref(c.CONFIG_PATH))
         after = _database()
         _stopped(c.summary())

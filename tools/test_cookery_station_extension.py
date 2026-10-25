@@ -9,6 +9,7 @@ import hashlib
 import io
 import json
 from pathlib import Path
+import subprocess
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -124,7 +125,7 @@ class CurrentStationOwnership(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'clean author'): station.apply_station_extension(self.spec, self.owned, self.host, source, self.plan())
         self.assertEqual(target.read_bytes(), b'old public patched output'); self.assertFalse((self.host / station.INSTALLED_HELPER).exists())
 
-    def test_current_profile_binds_the_real_api_hooks_modules_and_owned_helper(self):
+    def current_profile_fixture(self):
         self.prepare_files()
         api = copy.deepcopy(self.api); api.update(host_uuid=station.HOST, archive_sha256=station.ARCHIVE)
         api['insertions'] = [{'path': station.TARGET, 'anchor': 'fixture', 'position': 'after', 'text': 'public-hook'}]
@@ -132,19 +133,45 @@ class CurrentStationOwnership(unittest.TestCase):
         api_root = self.root / 'grilling'; bp = api_root / 'projects/grilling/gameplay_core/behavior_pack'
         for i, (source, _) in enumerate(api['copies'].items()):
             p = bp / source; p.parent.mkdir(parents=True, exist_ok=True); p.write_bytes(('module-' + str(i)).encode())
+        (api_root / station.API_SPEC).parent.mkdir(parents=True, exist_ok=True)
+        (api_root / station.API_SPEC).write_bytes(api_raw)
+        rp = api_root / 'projects/grilling/gameplay_core/resource_pack'; rp.mkdir(parents=True)
+        for root, kind in ((bp, 'data'), (rp, 'resources')):
+            (root / 'manifest.json').write_text(json.dumps({'header': {'version': [2, 8, 155]},
+                                                          'modules': [{'type': kind, 'version': [2, 8, 155]}]}))
+        (rp / 'model.json').write_text('{"synthetic_model":true}')
+        (api_root / 'baseline.json').write_text(json.dumps({'version': [2, 8, 155], 'runtime': {
+            'BP': bp.relative_to(api_root).as_posix(), 'RP': rp.relative_to(api_root).as_posix()}}))
+        (api_root / 'release-history.json').write_text('{"2.8.155":{"fixture":"release identity"}}')
+        self.git(api_root, 'init', '--quiet')
+        self.git(api_root, 'config', 'user.email', 'fixture@example.invalid')
+        self.git(api_root, 'config', 'user.name', 'Synthetic fixture')
+        anchor = self.commit(api_root, 'Initial synthetic API handoff')
         operations = [{'path': station.TARGET, 'before': 'fixture-old', 'after': 'fixture-new'}]
         spec = copy.deepcopy(self.spec)
         spec.update(schema=1, kind=station.KIND, host_uuid=station.HOST, archive_sha256=station.ARCHIVE,
                     imports={station.TARGET: station.HELPER_IMPORT + api['imports'][station.TARGET]},
                     insertions=[*api['insertions'], station.INIT], text_replacements=operations,
                     json_updates=[], copies={station.HELPER: station.INSTALLED_HELPER}, expires='2099-01-01')
-        spec['owner_handoff'].update(from_repository='burnt-tea-dev/kaleidoscope-grilling-unofficial', from_commit='a' * 40,
+        spec['owner_handoff'].update(from_repository='burnt-tea-dev/kaleidoscope-grilling-unofficial', from_commit=anchor,
                 spec_path=station.API_SPEC, spec_sha256=station.digest(api_raw),
                 retained_imports_sha256=station.digest(api['imports'][station.TARGET].encode()),
                 retained_insertions_sha256=station.declaration_digest(api['insertions']))
+        return spec, api, api_raw, api_root, operations
+
+    @staticmethod
+    def git(root, *args):
+        return subprocess.check_output(['git', *args], cwd=root, text=True, stderr=subprocess.PIPE).strip()
+
+    def commit(self, root, message):
+        self.git(root, 'add', '--all'); self.git(root, 'commit', '--quiet', '-m', message)
+        return self.git(root, 'rev-parse', 'HEAD')
+
+    def test_current_profile_binds_the_real_api_hooks_modules_and_owned_helper(self):
+        spec, api, api_raw, api_root, operations = self.current_profile_fixture()
         def validate(value):
             return station.current_station_profile(value, self.owned, api, api_raw, api_root)
-        with patch.object(station, 'head', return_value='a' * 40), patch.object(station, 'WIRE_OPS', station.declaration_digest(operations)):
+        with patch.object(station, 'WIRE_OPS', station.declaration_digest(operations)):
             self.assertEqual(validate(spec)['copies'], self.profile['copies'])
             changes = [lambda x: x['owner_handoff'].update(from_commit='b' * 40),
                        lambda x: x['owner_handoff']['retained_modules'].pop(next(iter(self.modules))),
@@ -158,6 +185,71 @@ class CurrentStationOwnership(unittest.TestCase):
                 with self.assertRaises(ValueError): validate(changed)
             (self.owned / station.HELPER).write_bytes(b'changed-helper')
             with self.assertRaisesRegex(ValueError, 'helper differs'): validate(spec)
+
+    def test_original_handoff_survives_a_real_docs_only_descendant_without_changing_receipts(self):
+        spec, api, api_raw, api_root, operations = self.current_profile_fixture()
+        original = copy.deepcopy(spec)
+        with patch.object(station, 'WIRE_OPS', station.declaration_digest(operations)):
+            before = station.current_station_profile(spec, self.owned, api, api_raw, api_root)
+            docs = api_root / 'docs/RELEASING.md'; docs.parent.mkdir(); docs.write_text('Synthetic maintenance guidance.\n')
+            current = self.commit(api_root, 'Document maintenance process')
+            self.assertNotEqual(current, spec['owner_handoff']['from_commit'])
+            after = station.current_station_profile(spec, self.owned, api, api_raw, api_root)
+        self.assertEqual(after, before); self.assertEqual(spec, original)
+
+    def test_exported_runtime_or_manifest_change_cannot_reuse_the_original_handoff(self):
+        spec, _, api_raw, api_root, _ = self.current_profile_fixture()
+        anchor = spec['owner_handoff']['from_commit']
+        paths = ['projects/grilling/gameplay_core/behavior_pack/scripts/other.js',
+                 'projects/grilling/gameplay_core/resource_pack/model.json',
+                 'projects/grilling/gameplay_core/behavior_pack/manifest.json']
+        for path in paths:
+            with self.subTest(path=path):
+                self.git(api_root, 'reset', '--hard', anchor)
+                target = api_root / path; target.parent.mkdir(parents=True, exist_ok=True); target.write_text('changed export')
+                self.commit(api_root, 'Change exported release input')
+                with self.assertRaisesRegex(ValueError, 'exported runtime changed'):
+                    station.validate_api_handoff_anchor(spec['owner_handoff'], api_root, api_raw)
+
+    def test_baseline_and_release_history_changes_cannot_reuse_the_original_handoff(self):
+        spec, _, api_raw, api_root, _ = self.current_profile_fixture()
+        anchor = spec['owner_handoff']['from_commit']
+        for path in ('baseline.json', 'release-history.json'):
+            with self.subTest(path=path):
+                self.git(api_root, 'reset', '--hard', anchor)
+                (api_root / path).write_text('{"changed":"release input"}')
+                self.commit(api_root, 'Change release identity')
+                with self.assertRaisesRegex(ValueError, 'release input changed'):
+                    station.validate_api_handoff_anchor(spec['owner_handoff'], api_root, api_raw)
+
+    def test_changed_api_or_retained_module_cannot_reuse_the_original_handoff(self):
+        spec, api, api_raw, api_root, _ = self.current_profile_fixture()
+        anchor = spec['owner_handoff']['from_commit']
+        for path in (station.API_SPEC, 'projects/grilling/gameplay_core/behavior_pack/' + next(iter(api['copies']))):
+            with self.subTest(path=path):
+                self.git(api_root, 'reset', '--hard', anchor)
+                (api_root / path).write_text('changed public API input')
+                self.commit(api_root, 'Change public API')
+                with self.assertRaisesRegex(ValueError, 'exported runtime changed'):
+                    station.validate_api_handoff_anchor(spec['owner_handoff'], api_root, api_raw)
+
+    def test_unrelated_or_abbreviated_commit_cannot_be_a_retained_api_anchor(self):
+        spec, _, api_raw, api_root, _ = self.current_profile_fixture()
+        tree = self.git(api_root, 'rev-parse', 'HEAD^{tree}')
+        unrelated = self.git(api_root, 'commit-tree', tree, '-m', 'Unrelated identical source')
+        with self.assertRaisesRegex(ValueError, 'not an ancestor'):
+            station.validate_api_handoff_anchor({**spec['owner_handoff'], 'from_commit': unrelated}, api_root, api_raw)
+        self.git(api_root, 'tag', '--annotate', 'synthetic-anchor', '-m', 'Synthetic annotated tag')
+        tag = self.git(api_root, 'rev-parse', 'synthetic-anchor')
+        for anchor in ('HEAD', 'a' * 7, '--all', 'f' * 40, tag):
+            with self.subTest(anchor=anchor), self.assertRaises(ValueError):
+                station.validate_api_handoff_anchor({**spec['owner_handoff'], 'from_commit': anchor}, api_root, api_raw)
+
+    def test_uncommitted_api_bytes_cannot_replace_the_committed_declaration(self):
+        spec, _, api_raw, api_root, _ = self.current_profile_fixture()
+        (api_root / station.API_SPEC).write_bytes(api_raw + b'\n')
+        with self.assertRaisesRegex(ValueError, 'declaration differs from committed'):
+            station.validate_api_handoff_anchor(spec['owner_handoff'], api_root, api_raw + b'\n')
 
 
 class PreservedSourceReceipts(unittest.TestCase):
