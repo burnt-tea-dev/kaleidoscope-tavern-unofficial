@@ -14,7 +14,7 @@
   "native_evidence_scope": "Actual-source placement tests cover Java player-opposite facing across all four cardinals and unchanged input/quantity rules. Potion visual/pick reads use strict read-only native access; block ticks repair missing helpers and tracked helpers retain liveness/pose cleanup. WATER/EMPTY remain Java's stateless canonical-water path. Historical potion first/restart proof retains its original source scope; current canonical CI, full-family native/saved-world migration and real-client acceptance remain pending.",
   "client": false,
   "status": "candidate_pending_canonical_ci_and_family_admission",
-  "peer_pins_status": "family_world_liquor_and_private_companions_pending_current_reviewed_world_liquor_reference_is_0.1.160",
+  "peer_pins_status": "paired_with_world_liquor_0.1.161_exact_reviewed_source_private_companion_pending",
   "family_ready": false,
-  "paired_world_liquor_commit": "efec2ba633ca4dd44e0a0dc250ce46ef40c09d95"
+  "paired_world_liquor_commit": "772df3d75b6e932d8e873426670b2c5569a73ece"
 }
