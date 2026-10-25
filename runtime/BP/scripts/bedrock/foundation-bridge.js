@@ -10,8 +10,19 @@ import {importExternalEffects,statusNow,effectSnapshotEntities} from './custom-e
 const PREFIX='kaleidoscope_tavern:',ACK=PREFIX+'foundation_ack';
 const incoming=new Map(['begin','chunk','commit'].map(k=>[PREFIX+'foundation_'+k,EVENTS[k]]));
 export function installFoundationBridge(registry,furniture){
- let tick=-1,count=0;const snapshotCache=new Map();
+ let tick=-1,count=0,failedImport;const snapshotCache=new Map(),warnings=new Map();
+ const diagnostics={failures:0,suppressedWarnings:0,errors:[]};
+ const importContext=row=>row.kind==='cabinet'?{source:row.source,kind:row.kind,type:row.type,dimension:row.dimension,position:{...row.position}}:{source:row.source,kind:row.kind,entity:row.entity};
+ function warn(error,packet){
+  const context=failedImport??{source:packet?.source},code=error.code??String(error),key=canonical([context,code]),now=system.currentTick;
+  const previous=warnings.get(key),repeats=(previous?.repeats??0)+1;
+  diagnostics.failures++;diagnostics.errors.push({...context,code,tick:now,repeats});if(diagnostics.errors.length>16)diagnostics.errors.shift();
+  if(previous&&now-previous.tick<100){previous.repeats=repeats;diagnostics.suppressedWarnings++;return;}
+  warnings.delete(key);warnings.set(key,{tick:now,repeats});if(warnings.size>128)warnings.delete(warnings.keys().next().value);
+  console.warn('[Tavern foundation] '+JSON.stringify({...context,code,repeats,oldDataRetained:true}));
+ }
  const transport=new ExtensionTransport({install(row){
+  try{
   check(registry.extensions.has(row.source),'EXTENSION_NOT_READY');check(utf8Bytes(JSON.stringify(row))<=8192,'FOUNDATION_PAYLOAD_LIMIT');
   if(row.kind==='cabinet')return furniture.importSnapshot(row);
   if(row.kind==='native_use'){furniture.nativeUse(row);return {kind:row.kind};}
@@ -19,13 +30,14 @@ export function installFoundationBridge(registry,furniture){
   const def=externalEffectMigrations().find(x=>x.source===row.source);check(def,'EFFECT_MIGRATION_NOT_REGISTERED');
   const p=world.getEntity(row.entity);check(p?.typeId==='minecraft:player','PLAYER_UNAVAILABLE');
   importExternalEffects(p,row.source,row.raw,def.effects);return {kind:'effects',entity:row.entity};
+  }catch(error){failedImport=importContext(row);throw error;}
  }});
  system.afterEvents.scriptEventReceive.subscribe(ev=>{
   const id=incoming.get(ev.id),native=ev.id===PREFIX+'foundation_native_use';if((!id&&!native)||ev.sourceType!==ScriptEventSource.Server)return;
   if(tick!==system.currentTick){tick=system.currentTick;count=0;}if(++count>256)return;
-  let packet;
+  let packet;failedImport=undefined;
   try{check(utf8Bytes(ev.message)<=1900,'PACKET_TOO_LARGE');packet=JSON.parse(ev.message);if(native){furniture.nativeUse(packet);return;}const result=transport.receive(id,ev.message,system.currentTick);if(result)system.sendScriptEvent(ACK,JSON.stringify({...result,source:packet.source}));}
-  catch(e){console.warn('[Tavern foundation] '+e);if(packet?.source&&packet?.revision)system.sendScriptEvent(ACK,JSON.stringify({source:packet.source,revision:packet.revision,ok:false,code:e.code??'INVALID_PACKET'}));}
+  catch(e){warn(e,packet);if(packet?.source&&packet?.revision)system.sendScriptEvent(ACK,JSON.stringify({source:packet.source,revision:packet.revision,ok:false,code:e.code??'INVALID_PACKET'}));}
  },{namespaces:['kaleidoscope_tavern']});
  // Authoritative, read-only snapshots; no addon reaches into another pack's DP.
  const publish=()=>{
@@ -60,5 +72,5 @@ export function installFoundationBridge(registry,furniture){
   }
  };
  system.runInterval(publish,5);system.runInterval(()=>transport.cleanup(system.currentTick),200);
- return {transport,publish};
+ return {transport,publish,diagnostics};
 }

@@ -1,4 +1,5 @@
 import {nativeStorageView} from './native-item-storage.js';
+import {NATIVE_ITEM_ENTITY,NATIVE_STORAGE_OWNER,nativeItemKey} from '../core/native-item-storage.js';
 import {cellarCabinetRedstoneLaunch} from './cellar-cabinet.js';
 import {syncStorageVisualPose} from './storage-visual-maintenance.js';
 /** External cabinet adapter. No addon inventory engine, item whitelist or pose table. */
@@ -15,9 +16,9 @@ import {nativeEmptyHandBlockUse} from './java-placement-router.js';
 import {installStatefulStorageRoutes,tickStorageVisuals,routeStatefulStorageRedstone,popRandomStoredBottle} from './stateful-storage-router.js';
 const NS='kaleidoscope_tavern',ANCHOR=NS+':extension_storage_anchor';
 export const extensionFurnitureDiagnostics={commits:0,migrations:0,errors:[]};
-function error(e){extensionFurnitureDiagnostics.errors.push(String(e));if(extensionFurnitureDiagnostics.errors.length>16)extensionFurnitureDiagnostics.errors.shift();console.warn('[Tavern external storage] '+e);}
+function error(e,context){extensionFurnitureDiagnostics.errors.push(String(e));if(extensionFurnitureDiagnostics.errors.length>16)extensionFurnitureDiagnostics.errors.shift();console.warn('[Tavern external storage] '+(context?JSON.stringify({...context,code:e.code??String(e),oldDataRetained:true}):e));}
 export function createExtensionFurniture(registry){
- const visuals=new Map(),probes=new Map(),placements=new Map();let cursor=0;
+ const visuals=new Map(),probes=new Map(),placements=new Map(),deferredVisuals=new Map();let cursor=0;
  const definition=block=>registry.furniture(block?.typeId);
  const storeFor=(block,def=definition(block))=>{check(def,'UNKNOWN_FURNITURE');return nativeStorageView(new ExtensionCabinetStore(world,def,block.dimension.id,block.location));};
  function probe(def,dimension,position){
@@ -25,7 +26,7 @@ export function createExtensionFurniture(registry){
   if(system.currentTick-last<10)return;probes.set(key,system.currentTick);
   system.run(()=>system.sendScriptEvent('kaleidoscope_tavern:foundation_request',JSON.stringify({source:def.source,kind:'cabinet',type:def.block,dimension,position})));
  }
- const load=block=>{const store=storeFor(block);if(store.raw(store.key)===undefined){probe(store.def,block.dimension.id,block.location);check(false,'STORAGE_MIGRATION_PENDING');}const old=store.load(store.key);return {store,old,state:old??emptyExtensionStorage(store.def)};};
+ const load=(block,store=storeFor(block))=>{if(store.raw(store.key)===undefined){probe(store.def,block.dimension.id,block.location);check(false,'STORAGE_MIGRATION_PENDING');}const old=store.load(store.key);return {store,old,state:old??emptyExtensionStorage(store.def)};};
  const isBar=def=>def.kind==='bar_cabinet';
  const classifier=def=>isBar(def)?barCabinetItem:cellarCabinetItem;
  function connection(block){
@@ -120,8 +121,22 @@ export function createExtensionFurniture(registry){
    remove:(s,slot)=>cellarCabinetTake(s,slot).state,
    pose:({block,rng})=>cellarCabinetRedstoneLaunch(block,{rng,facingState:def.facing}),sync:visualSafe,...options});
  }
- function tickBlock(block){
-  if(!definition(block))return;const ctx=load(block);connection(block);sync(block,ctx.state);
+ function tickBlock(block,{background=false}={}){
+  if(!definition(block))return false;const store=storeFor(block),previous=background&&deferredVisuals.get(store.key);
+  const stamp=()=>[store.raw(store.key),world.getDynamicProperty(nativeItemKey(store.key))];
+  let before;
+  if(previous){before=stamp();if(before.every((raw,i)=>raw===previous.before[i])&&system.currentTick<previous.retryAt)return false;}
+  try{
+   const ctx=load(block,store);connection(block);sync(block,ctx.state);deferredVisuals.delete(store.key);return true;
+  }catch(e){
+   // Only background cosmetics wait. Interactions, imports and all native item
+   // transactions retain their strict immediate validation and failure paths.
+   if(!background||e.code!=='NATIVE_STORAGE_UNAVAILABLE')throw e;
+   before??=stamp();const failures=previous&&before.every((raw,i)=>raw===previous.before[i])?previous.failures+1:1;
+   const target={source:store.def.source,kind:'cabinet',type:block.typeId,dimension:block.dimension.id,position:{...block.location}},retryAt=system.currentTick+Math.min(600,20*2**Math.min(failures-1,5));
+   deferredVisuals.delete(store.key);deferredVisuals.set(store.key,{before,failures,retryAt,target});if(deferredVisuals.size>256)deferredVisuals.delete(deferredVisuals.keys().next().value);
+   error(e,{...target,failures,retryAt});return false;
+  }
  }
  function maintain(entity){
   if(!entity.isValid)return;
@@ -129,7 +144,7 @@ export function createExtensionFurniture(registry){
    const raw=entity.getDynamicProperty(ANCHOR);if(!raw)return;const a=JSON.parse(raw);if(!registry.furniture(a.type))return;
    const block=blockAt(entity.dimension,a.position);if(!block)return; // unloaded is NOT air
    if(entity.dimension.id!==a.dimension||block.typeId!==a.type){remove(entity);return;}
-   tickBlock(block);
+   tickBlock(block,{background:true});
   }catch(e){error(e);}
  }
  function install(){
@@ -139,7 +154,13 @@ export function createExtensionFurniture(registry){
     const def=definition(block);if(held.id&&!classifier(def)(held.id))return false;
     return choose(block,load(block).state,held.id,face,faceLocation).changed;
    }});
-  world.afterEvents.entityLoad.subscribe(({entity})=>{if(entity.isValid&&entity.getDynamicProperty(ANCHOR)){visuals.set(entity.id,entity);system.run(()=>maintain(entity));}});
+  world.afterEvents.entityLoad.subscribe(({entity})=>{
+   if(entity.isValid&&entity.typeId===NATIVE_ITEM_ENTITY){
+    const key=entity.getDynamicProperty(NATIVE_STORAGE_OWNER),deferred=deferredVisuals.get(key);
+    if(deferred){deferredVisuals.delete(key);system.run(()=>{try{if(!entity.isValid)return;const block=blockAt(entity.dimension,deferred.target.position);if(block?.typeId===deferred.target.type)tickBlock(block,{background:true});}catch(e){error(e,deferred.target);}});}
+   }
+   if(entity.isValid&&entity.getDynamicProperty(ANCHOR)){visuals.set(entity.id,entity);system.run(()=>maintain(entity));}
+  });
   system.runInterval(()=>{cursor=tickStorageVisuals(visuals,cursor,maintain,128,e=>{const a=JSON.parse(e.getDynamicProperty(ANCHOR));return JSON.stringify([e.dimension.id,a.type,a.dimension,a.position.x,a.position.y,a.position.z]);});for(const [key,t] of probes)if(system.currentTick-t>200)probes.delete(key);for(const [id,pending] of placements)if(system.currentTick-pending.tick>40)placements.delete(id);},20);
   world.afterEvents.playerLeave.subscribe(e=>placements.delete(e.playerId));
  }

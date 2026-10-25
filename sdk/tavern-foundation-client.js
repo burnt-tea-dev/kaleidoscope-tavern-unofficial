@@ -20,26 +20,48 @@ export function getTavernEffectEntities(world,source){
  return result;
 }
 export function createFoundationClient(system,world,payload,ready,{log=console.warn}={}){
- const source=payload.source,definitions=new Map(payload.furniture.map(x=>[x.block,x])),queue=[],staged=new Map();let active,seq=0;clock=()=>system.currentTick;
+ const source=payload.source,definitions=new Map(payload.furniture.map(x=>[x.block,x])),queue=[],staged=new Map();
+ // These are transport receipts, never cabinet contents or inventory authority.
+ // A finite retry window permits the original native actor to load/recover.
+ const rejected=new Map(),acknowledged=new Map();let active,seq=0,lastQueueWarning=-100;clock=()=>system.currentTick;
  const legacyKey=(def,dimension,p)=>def.legacyPrefix+dimension.split(':')[1]+'/'+p.x+'_'+p.y+'_'+p.z;
- function enqueue(row,onAck){
-  const key=canonical(row);if(active?.key===key||queue.some(x=>x.key===key))return;
-  if(queue.length>=256){log('[Tavern foundation] Queue full; old data retained');return;}
-  const revision='f'+(++seq)+'_'+digest(key);
-  queue.push({key,row,revision,onAck,packets:packetsFor({...row,source},revision).map(p=>({id:p.id.replace(':extension_',':foundation_'),message:p.message})),attempts:0});
+ const identity=row=>canonical(row.kind==='cabinet'?[source,row.kind,row.type,row.dimension,row.position.x,row.position.y,row.position.z]:[source,row.kind,row.entity]);
+ const remember=(map,key,value)=>{map.delete(key);map.set(key,value);if(map.size>256)map.delete(map.keys().next().value);};
+ const context=row=>row.kind==='cabinet'?{source,kind:row.kind,type:row.type,dimension:row.dimension,position:{...row.position}}:{source,kind:row.kind,entity:row.entity};
+ function reject(entry,code){
+  acknowledged.delete(entry.identity);
+  const old=rejected.get(entry.identity),failures=old?.key===entry.key?old.failures+1:1;
+  const delay=Math.min(600,20*2**Math.min(failures-1,5)),retryAt=system.currentTick+delay;
+  remember(rejected,entry.identity,{key:entry.key,failures,retryAt,code,target:context(entry.row)});
+  log('[Tavern foundation] '+JSON.stringify({...context(entry.row),code,failures,retryAt,oldDataRetained:true}));
  }
- function cabinet(row){
+ function enqueue(row,onAck,{refresh=false}={}){
+  const key=canonical(row),owner=identity(row),pending=queue.findIndex(x=>x.identity===owner);
+  if(active?.key===key){if(pending>=0)queue.splice(pending,1);return;}
+  if(pending>=0&&queue[pending].key===key)return;
+  const failed=rejected.get(owner);
+  if(failed?.key===key&&system.currentTick<failed.retryAt)return;
+  if(failed&&failed.key!==key)rejected.delete(owner);
+  if(row.kind==='cabinet'&&!refresh&&acknowledged.get(owner)===key)return;
+  if(pending<0&&queue.length>=256){if(system.currentTick-lastQueueWarning>=100){lastQueueWarning=system.currentTick;log('[Tavern foundation] '+JSON.stringify({...context(row),code:'QUEUE_FULL',oldDataRetained:true}));}return;}
+  const revision='f'+(++seq)+'_'+digest(key);
+  const entry={key,identity:owner,row,revision,onAck,packets:packetsFor({...row,source},revision).map(p=>({id:p.id.replace(':extension_',':foundation_'),message:p.message})),attempts:0};
+  if(pending>=0)queue[pending]=entry;else queue.push(entry);
+ }
+ function cabinetBlock(row){
+  try{const block=world.getDimension(row.dimension).getBlock(row.position);return block&&(block.typeId===row.type||block.isAir)?block:undefined;}catch{return undefined;}
+ }
+ function cabinet(row,options){
   const def=definitions.get(row.type),p=row.position;
   if(!def||!['x','y','z'].every(k=>Number.isInteger(p?.[k]))||!/^minecraft:[a-z_]+$/.test(row.dimension))return;
-  const dimension=world.getDimension(row.dimension),block=dimension.getBlock(p);
-  if(!block||(block.typeId!==row.type&&!block.isAir))return;
+  const block=cabinetBlock(row);if(!block)return;const dimension=block.dimension;
   const key=legacyKey(def,row.dimension,p),raw=world.getDynamicProperty(key)??null;
   enqueue({kind:'cabinet',type:row.type,dimension:row.dimension,position:p,raw},ack=>{
    if(raw!==null&&world.getDynamicProperty(key)===raw)world.setDynamicProperty(key,undefined);
    if(ack.visualReady)for(const entity of dimension.getEntities({location:{x:p.x+.5,y:p.y+.5,z:p.z+.5},maxDistance:2})){
     if(entity.typeId.startsWith(source+':cabinet_')&&entity.getDynamicProperty(source+':anchor')===key)entity.remove();
    }
-  });
+  },options);
  }
  function migrateEffects(){
   if(!ready())return;
@@ -52,6 +74,20 @@ export function createFoundationClient(system,world,payload,ready,{log=console.w
   }
  }
  const effectAcks=new Map();
+ // Entity handles may be unavailable while their chunk is loading. An observed
+ // carrier at the owner cell makes a failed background read eligible now; the
+ // host still verifies its exact saved ID, owner, token and native inventory.
+ world.afterEvents.entityLoad?.subscribe(({entity})=>{
+  if(entity?.typeId!==NS+'stored_items')return;
+  system.run(()=>{
+   if(!entity.isValid)return;
+   for(const failed of rejected.values()){
+    const row=failed.target,p=row.position;
+    if(failed.code!=='NATIVE_STORAGE_UNAVAILABLE'||row.kind!=='cabinet'||entity.dimension.id!==row.dimension||!['x','y','z'].every(k=>Math.abs(entity.location[k]-p[k]-.5)<.1))continue;
+    failed.retryAt=system.currentTick;cabinet(row,{refresh:true});
+   }
+  });
+ });
  system.afterEvents.scriptEventReceive.subscribe(ev=>{
   // Other Tavern channels include large extension transfers; they cannot affect
   // foundation state and must not pay its byte scan or JSON parse.
@@ -59,10 +95,12 @@ export function createFoundationClient(system,world,payload,ready,{log=console.w
   if(ev.sourceType!=='Server'||utf8Bytes(ev.message)>1900)return;
   try{
    const row=JSON.parse(ev.message);if(row.source!==source)return;
-   if(ev.id===NS+'foundation_request'&&row.kind==='cabinet'){cabinet(row);return;}
+   if(ev.id===NS+'foundation_request'&&row.kind==='cabinet'){cabinet(row,{refresh:true});return;}
    if(ev.id===NS+'foundation_ack'){
     if(!active||row.revision!==active.revision)return;
-    if(row.ok){active.onAck?.(row);active=undefined;}else{log('[Tavern foundation] '+row.code+'; old data retained');active=undefined;}return;
+    const entry=active;
+    if(row.ok){entry.onAck?.(row);rejected.delete(entry.identity);if(entry.row.kind==='cabinet')remember(acknowledged,entry.identity,entry.key);active=undefined;}
+    else{active=undefined;reject(entry,row.code??'INVALID_PACKET');}return;
    }
    if(ev.id!==NS+'effect_snapshot')return;
    if(typeof row.entity!=='string'||!Number.isInteger(row.sequence)||!Number.isInteger(row.parts)||row.parts<1||row.parts>8||!Number.isInteger(row.part)||row.part<0||row.part>=row.parts||!Array.isArray(row.rows)||row.rows.length>32)return;
@@ -76,7 +114,10 @@ export function createFoundationClient(system,world,payload,ready,{log=console.w
  system.runInterval(()=>{
   if(!ready())return;
   if(!active)active=queue.shift();if(!active)return;
-  if(active.sentAt!==undefined){if(system.currentTick-active.sentAt<100)return;if(active.attempts>=3){log('[Tavern foundation] ACK timeout; old data retained');active=undefined;return;}active.index=0;active.sentAt=undefined;}
+  if(active.sentAt!==undefined){if(system.currentTick-active.sentAt<100)return;if(active.attempts>=3){const entry=active;active=undefined;reject(entry,'ACK_TIMEOUT');return;}active.index=0;active.sentAt=undefined;}
+  // A queued snapshot may outlive its loaded owner. Check only when sending,
+  // not on every idle tick while an ACK is in flight.
+  if(active.row.kind==='cabinet'&&!cabinetBlock(active.row)){active=undefined;return;}
   if(!active.index)active.attempts++;
   for(let n=0;n<4&&(active.index??0)<active.packets.length;n++){const packet=active.packets[active.index??0];system.sendScriptEvent(packet.id,packet.message);active.index=(active.index??0)+1;}
   if(active.index===active.packets.length)active.sentAt=system.currentTick;

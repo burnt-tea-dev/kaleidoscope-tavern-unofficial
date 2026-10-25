@@ -1877,12 +1877,6 @@
       "after": "3018ef009fa87f12b6a902a3e4fecf8c9685dbda49b64a61ceb54a23552bf3bb",
       "reason": " 0.6.56: remove unsolicited success hints; index live cabinet helper anchors before removal and prune invalid storage maintenance references. Pickup parity audit 2026-09-29: native ItemStack persistence, Java storage/main-hand versus Forge inventory delivery, per-block creative handling, exact Java slot boundaries and feedback; details in docs/PICKUP-PARITY-20260929.md."
     },
-    "runtime/BP/scripts/bedrock/extension-furniture.js": {
-      "before": "7544b973d83231580225157ccecd2f3bef0358c4c87170d57cf3ee8aa4cb7d85",
-      "beforeProjected": "7544b973d83231580225157ccecd2f3bef0358c4c87170d57cf3ee8aa4cb7d85",
-      "after": "e3ed4b0869cb0a60928d4ce4c3228cb26ce8ac2d9bf48b64022b3c5a482c9177",
-      "reason": " 0.6.56: remove unsolicited success hints; index live cabinet helper anchors before removal and prune invalid storage maintenance references. Pickup follow-up: registered external cabinets share native slot persistence, main-hand delivery, Adventure interaction and Java cabinet feedback."
-    },
     "runtime/BP/scripts/bedrock/cultivation.js": {
       "before": "76d14952d0946f6218c21d808bed4da27d80e37356c8f3297630e4141cd48ba0",
       "beforeProjected": "76d14952d0946f6218c21d808bed4da27d80e37356c8f3297630e4141cd48ba0",

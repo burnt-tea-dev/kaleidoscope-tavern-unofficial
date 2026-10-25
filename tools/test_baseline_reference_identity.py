@@ -173,10 +173,10 @@ class HistoryAliasTests(unittest.TestCase):
   reference.historical_runtime_source.cache_clear()
   with patch.object(reference.subprocess,'check_output',return_value='unreviewed-tree\n') as git:
    with self.assertRaisesRegex(AssertionError,'alias tree differs'):
-    reference.historical_runtime_source('/synthetic-only',reference.T168_BEFORE,reference.T168_PATH)
+    reference.historical_runtime_source('/synthetic-only',reference.T169_BEFORE,reference.T169_PATH)
    self.assertEqual(git.call_count,1)
  def test_alias_cannot_resolve_arbitrary_commit_or_nonruntime_path(self):
-  for commit,name in [('HEAD',reference.T168_PATH),(reference.T168_BEFORE,'AGENTS.md')]:
+  for commit,name in [('HEAD',reference.T169_PATH),(reference.T169_BEFORE,'AGENTS.md')]:
    with self.subTest(commit=commit,name=name),self.assertRaisesRegex(AssertionError,'immutable runtime history'):
     reference.historical_runtime_source('/synthetic-only',commit,name)
 
@@ -202,29 +202,35 @@ class T176ImmutableTests(unittest.TestCase):
   for commit,name in [(reference.T176_AFTER,'runtime/BP/scripts/bedrock/mixology.js'),('HEAD',next(iter(reference.T176_PATHS)))]:
    with self.subTest(commit=commit,name=name),self.assertRaisesRegex(AssertionError,'Outside the T176'):reference.t176_source(str(root),commit,name)
 
-class T168ImmutableTests(unittest.TestCase):
+class FoundationCurrentSourceTests(unittest.TestCase):
  def setUp(self):
-  self.root=Path(__file__).resolve().parents[1]
-  layers=json.loads((self.root/'data/baseline-reconciliation.json').read_text())['reviewedFunctionalDeltaLayers']
-  matching=[layer for layer in layers if layer['release']=='0.6.168']
-  self.assertEqual(len(matching),1,'Exactly one immutable T168 review is required')
-  self.row=matching[0]['files'][reference.T168_PATH]
-  self.before=reference.t168_source(str(self.root),reference.T168_BEFORE)
-  self.after=reference.t168_source(str(self.root),reference.T168_AFTER)
- def test_exact_frozen_bridge_reverses_only_to_immutable_t167_source(self):
-  self.assertEqual(reference.reverse_t168_delta(self.root,reference.T168_PATH,self.after,self.row),self.before)
-  original=reference.historical_runtime_source(str(self.root),'cedfaedf6140bae61b24afb658869b1d0e6ea1a9',reference.T168_PATH)
-  self.assertEqual(previous_bytes(self.root,self.root/reference.T168_PATH),original)
- def test_extra_line_cannot_be_admitted_by_synchronizing_ledger_hash(self):
-  changed=self.after+b'unreviewed();\n';row={**self.row,'after':hashlib.sha256(changed).hexdigest()}
-  with self.assertRaisesRegex(AssertionError,'immutable postimage'):reference.reverse_t168_delta(self.root,reference.T168_PATH,changed,row)
- def test_forged_before_hash_reverse_ops_or_other_path_cannot_expand_review(self):
-  for kind in ['before','ops','path']:
-   row=json.loads(json.dumps(self.row));name=reference.T168_PATH
-   if kind=='before':row['before']=hashlib.sha256(b'forged();\n').hexdigest()
-   elif kind=='ops':row['reverseOps'][0][2]='forged();\n'
-   else:name='runtime/BP/scripts/bedrock/unrelated.js'
-   with self.subTest(kind=kind),self.assertRaises(AssertionError):reference.reverse_t168_delta(self.root,name,self.after,row)
+  import shutil
+  from foundation.source_contract import BRIDGE,FURNITURE,SDK
+  self.tmp=tempfile.TemporaryDirectory();self.addCleanup(self.tmp.cleanup);self.root=Path(self.tmp.name)
+  original=Path(__file__).resolve().parents[1]
+  for name in [BRIDGE,FURNITURE,SDK,'runtime/BP/scripts/main.js','data/baseline-reconciliation.json']:
+   target=self.root/name;target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(original/name,target)
+ def test_current_owner_checks_actual_wiring_instead_of_a_frozen_postimage(self):
+  from foundation.source_contract import check
+  result=check(self.root,syntax=False)
+  self.assertEqual(result['ownershipAndWiring'],'passed')
+  self.assertFalse(result['nativeInventoryRecovery'])
+ def test_wrong_native_owner_and_missing_entrypoint_connection_are_rejected(self):
+  from foundation.source_contract import check,FURNITURE
+  path=self.root/FURNITURE;original=path.read_text()
+  path.write_text(original.replace("from './native-item-storage.js'","from './parallel-item-storage.js'"))
+  with self.assertRaisesRegex(AssertionError,'owner import differs'):check(self.root,syntax=False)
+  path.write_text(original);entry=self.root/'runtime/BP/scripts/main.js'
+  entry.write_text(entry.read_text().replace('installFoundationBridge(registry,extensionFurniture)',''))
+  with self.assertRaises(AssertionError):check(self.root,syntax=False)
+ def test_sdk_consumer_must_equal_the_current_owner_and_keep_its_connection(self):
+  from foundation.source_contract import check,CONSUMER,SDK
+  consumer=self.root/'consumer';path=consumer/CONSUMER;path.parent.mkdir(parents=True);path.write_bytes((self.root/SDK).read_bytes())
+  owner=consumer/'runtime/BP/scripts/foundation.js';owner.write_text("import {createFoundationClient} from './sdk/tavern-foundation-client.js';\nbridge=createFoundationClient();\n")
+  (consumer/'data').mkdir();(consumer/'data/baseline-reconciliation.json').write_text('{"files":{}}')
+  self.assertEqual(check(self.root,consumer,syntax=False)['consumer'],CONSUMER)
+  path.write_bytes(path.read_bytes()+b'// stale independent SDK copy\n')
+  with self.assertRaisesRegex(AssertionError,'consumer differs'):check(self.root,consumer,syntax=False)
 class T169ImmutableTests(unittest.TestCase):
  def setUp(self):
   self.root=Path(__file__).resolve().parents[1]

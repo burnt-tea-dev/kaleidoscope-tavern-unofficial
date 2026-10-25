@@ -1,5 +1,9 @@
 # Tavern Java／Bedrock 差距矩陣
 
+## 2026-10-25 共用儲存穩定性修復來源
+
+已重現並修正外部酒櫃相同失敗快照的 NACK 重送循環，以及同一原生容器暫不可用時展示維護的重讀循環。相同 payload 有界退避、正常位置繼續交接，原 actor 載入或來源 raw／ledger 改變後恢復；玩家操作與 native inventory／migration receipt／tombstone 的權威不變。來源／API 測試量得 60 次回呼中的相同失敗查詢由 30 次降至 2 次，完整 foundation 127 項通過。詳細行為及重現命令見 [共用底層](FOUNDATION-PHASE1.md)。尚未 freeze／發布／部署；不能據此稱正式存檔已恢復或 LIVE 卡頓已解決，真 carrier、保存／BDS 與 client gates 保持。
+
 ## 2026-10-24 T179 候選
 
 普通冰在四個酒桶原料槽改用 Java 對應的半透明路由；packed／blue ice、其他原料、原圖與幾何保持。首次成功在線讀取建立效果時計，短時間登入／離線不再漏扣首個 heartbeat 前的在線時間。原生透明排序、光照與本候選完整家族／客戶端驗收仍未閉合。微醺視覺不在本輪範圍。下列日期段保留原有審查範圍。

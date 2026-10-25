@@ -169,9 +169,9 @@ test('old host lacking foundation capability is refused by SDK',()=>{
 });
 function isolatedFoundationClient(pack){
  let receive;const intervals=[],sent=[],logs=[];
- const clock={get currentTick(){return system.currentTick;},afterEvents:{scriptEventReceive:{subscribe(fn){receive=fn;}}},runInterval(fn,ticks){intervals.push({fn,ticks});},sendScriptEvent(id,message){sent.push({id,message});}};
+ const deferred=[],clock={get currentTick(){return system.currentTick;},afterEvents:{scriptEventReceive:{subscribe(fn){receive=fn;}}},run(fn){deferred.push(fn);},runInterval(fn,ticks){intervals.push({fn,ticks});},sendScriptEvent(id,message){sent.push({id,message});}};
  const client=createFoundationClient(clock,pack,bundle,()=>true,{log:message=>logs.push(message)});
- return {client,sent,logs,receive:event=>receive(event),pump:()=>intervals.find(row=>row.ticks===1).fn()};
+ return {client,sent,logs,receive:event=>receive(event),pump:()=>intervals.find(row=>row.ticks===1).fn(),flush:()=>{for(const fn of deferred.splice(0))fn();}};
 }
 test('foundation listener rejects unrelated channels before reading or parsing their payload',()=>{
  const {pack}=packWorld(),fixture=isolatedFoundationClient(pack);let reads=0,parses=0;
@@ -309,3 +309,111 @@ for(const wood of ['oak','birch','spruce','dark_oak','cherry'])test('external '+
 });
 test('external cellar failed projectile creation preserves the exact saved contents',()=>{const b=createBlock(def('oak','cellar_cabinet'),compact.items[0]),before=host.load(b).store.raw(host.load(b).store.key);assert.throws(()=>host.popRedstone(b,{spawn:()=>{throw Error('injected projectile failure');}}),/injected projectile failure/);assert.equal(host.load(b).store.raw(host.load(b).store.key),before);});
 test('external bar cabinets cannot use cellar redstone transaction',()=>{const b=createBlock(def(),compact.items[0]);assert.throws(()=>host.popRedstone(b),/NOT_EXTERNAL_CELLAR_CABINET/);assert.equal(host.load(b).state.left,compact.items[0]);});
+
+// These cases drive the actual SDK packets through the current host transport
+// and native store. The unavailable actor is retained intact for recovery.
+function rejectedCabinetRoute(){
+ const {pack}=packWorld(),fixture=isolatedFoundationClient(pack),definition=def(),block=createBlock(definition),player=makePlayer();near(player,block);
+ const original=new ItemStack(regular.items[2]);original.nameTag='native inventory stays authoritative';original.setLore(['not a legacy refill']);player.inventory.setItem(0,original);act(player,block);
+ const {store}=host.load(block),record=JSON.parse(world.getDynamicProperty('kt:native_items/'+store.key)),carrier=world.getEntity(record.entity);
+ const row={type:definition.block,dimension:d.id,position:{...block.location}},raw=legacy(definition);
+ pack.setDynamicProperty(store.legacy,raw);
+ return {...fixture,pack,definition,block,row,raw,store,carrier,original};
+}
+function deliverFoundationPackets(fixture,offset){
+ let rejected=0,accepted=0;
+ for(const packet of fixture.sent.slice(offset)){
+  let result;const envelope=JSON.parse(packet.message);
+  try{result=bus.transport.receive(packet.id.replace(':foundation_',':extension_'),packet.message,system.currentTick);}
+  catch(error){rejected++;fixture.receive({id:KT+':foundation_ack',sourceType:'Server',message:JSON.stringify({source:NS,revision:envelope.revision,ok:false,code:error.code??'INVALID_PACKET'})});}
+  if(result){accepted++;fixture.receive({id:KT+':foundation_ack',sourceType:'Server',message:JSON.stringify({...result,source:NS})});}
+ }
+ return {offset:fixture.sent.length,rejected,accepted};
+}
+test('foundation unavailable snapshots back off actual native reads and let healthy cabinets progress',t=>{
+ const f=rejectedCabinetRoute(),healthy=createBlock(),healthyRow={type:def().block,dimension:d.id,position:{...healthy.location}},healthyStore=host.load(healthy).store;
+ f.pack.setDynamicProperty(healthyStore.legacy,legacy(def()));f.carrier.removed=true;
+ const raw=world.getDynamicProperty(f.store.key),nativeRaw=world.getDynamicProperty('kt:native_items/'+f.store.key),readEntity=world.getEntity;
+ let unavailableReads=0,offset=0,rejected=0,accepted=0;
+ world.getEntity=id=>{if(id===f.carrier.id)unavailableReads++;return readEntity(id);};
+ try{
+  for(let n=0;n<60;n++){
+   f.client.cabinet(f.row);f.client.cabinet(healthyRow);f.pump();const result=deliverFoundationPackets(f,offset);offset=result.offset;rejected+=result.rejected;accepted+=result.accepted;system.currentTick++;
+  }
+  assert(unavailableReads<=3,`identical missing carrier was queried ${unavailableReads} times in 60 ticks`);
+  t.diagnostic(JSON.stringify({scope:'actual SDK packets through host transport/native store; 60 ticking-source polls',unavailableNativeLookups:unavailableReads,rejectedTransfers:rejected,acceptedOtherCabinetTransfers:accepted}));
+  assert(rejected<=3);assert(accepted>=1,'one broken key must not stop a healthy cabinet');
+  assert.equal(f.pack.getDynamicProperty(f.store.legacy),f.raw,'NACK must retain the owner copy');
+  assert.equal(f.pack.getDynamicProperty(healthyStore.legacy),undefined);
+  assert.equal(world.getDynamicProperty(f.store.key),raw);assert.equal(world.getDynamicProperty('kt:native_items/'+f.store.key),nativeRaw);
+  f.carrier.removed=false;
+  for(let n=0;n<680&&f.pack.getDynamicProperty(f.store.legacy)!==undefined;n++){
+   f.client.cabinet(f.row);f.pump();const result=deliverFoundationPackets(f,offset);offset=result.offset;system.currentTick++;
+  }
+  assert.equal(f.pack.getDynamicProperty(f.store.legacy),undefined,'a restored original actor must be retried within the finite window');
+  const item=f.carrier.getComponent('minecraft:inventory').container.getItem(0);assert.equal(item.nameTag,f.original.nameTag);assert.deepEqual(item.getLore(),f.original.getLore());assert.equal(item.amount,1);
+  assert.equal(world.getDynamicProperty(f.store.key),raw,'retry must not replay the empty legacy row over the native contents');
+ }finally{f.carrier.removed=false;world.getEntity=readEntity;}
+});
+test('foundation changed payload bypasses a rejected fingerprint and acknowledged background rows stop transferring',()=>{
+ const {pack}=packWorld(),f=isolatedFoundationClient(pack),block=createBlock(),store=host.load(block).store,row={type:def().block,dimension:d.id,position:{...block.location}};
+ const ack=(revision,ok)=>f.receive({id:KT+':foundation_ack',sourceType:'Server',message:JSON.stringify({source:NS,revision,ok,code:ok?undefined:'NATIVE_STORAGE_UNAVAILABLE'})});
+ pack.setDynamicProperty(store.legacy,'old source');f.client.cabinet(row);f.pump();let begin=f.sent.find(x=>x.id===KT+':foundation_begin');ack(JSON.parse(begin.message).revision,false);
+ const before=f.sent.length;f.client.cabinet(row);f.pump();assert.equal(f.sent.length,before,'unchanged failed snapshot must wait');
+ pack.setDynamicProperty(store.legacy,'changed source');f.client.cabinet(row);f.pump();begin=f.sent.slice(before).find(x=>x.id===KT+':foundation_begin');assert(begin,'changed raw payload must be eligible immediately');
+ ack(JSON.parse(begin.message).revision,true);assert.equal(pack.getDynamicProperty(store.legacy),undefined);
+ // The first null-source ACK settles the owner-copy deletion; later unchanged
+ // background polls need no repeated host import or native container lookup.
+ f.client.cabinet(row);f.pump();const last=f.sent.filter(x=>x.id===KT+':foundation_begin').at(-1);ack(JSON.parse(last.message).revision,true);
+ const settled=f.sent.length;for(let i=0;i<100;i++){system.currentTick++;f.client.cabinet(row);f.pump();}assert.equal(f.sent.length,settled);
+ f.receive({id:KT+':foundation_request',sourceType:'Server',message:JSON.stringify({source:NS,kind:'cabinet',...row})});f.pump();assert(f.sent.length>settled,'an explicit host request must refresh a cached background ACK');
+ const refreshed=JSON.parse(f.sent.filter(x=>x.id===KT+':foundation_begin').at(-1).message).revision;ack(refreshed,false);
+ const failed=f.sent.length;for(let i=0;i<21;i++){system.currentTick++;f.client.cabinet(row);f.pump();}assert(f.sent.length>failed,'a later NACK invalidates the old success receipt instead of permanently suppressing recovery');
+});
+test('foundation unavailable host diagnostic identifies the exact source cabinet without leaking raw contents',()=>{
+ const f=rejectedCabinetRoute(),warnings=[],warn=console.warn;f.carrier.removed=true;console.warn=message=>warnings.push(String(message));
+ try{
+  const row={source:NS,kind:'cabinet',...f.row,raw:f.raw};
+  for(const packet of packetsFor(row,'unavailable_context'))system.afterEvents.scriptEventReceive.emit({id:packet.id.replace(':extension_',':foundation_'),message:packet.message,sourceType:'Server'});
+  const warning=warnings.find(x=>x.startsWith('[Tavern foundation] '));assert(warning);
+  const context=JSON.parse(warning.slice('[Tavern foundation] '.length));
+  assert.equal(context.source,NS);assert.equal(context.kind,'cabinet');assert.equal(context.type,f.row.type);assert.equal(context.dimension,d.id);assert.deepEqual(context.position,f.row.position);assert.equal(context.code,'NATIVE_STORAGE_UNAVAILABLE');assert.equal(context.raw,undefined);
+  assert.equal(f.pack.getDynamicProperty(f.store.legacy),f.raw);
+ }finally{console.warn=warn;f.carrier.removed=false;}
+});
+test('foundation unavailable retry defers unloaded owners and resumes on the original native actor load',()=>{
+ const f=rejectedCabinetRoute(),cell=Object.values(f.row.position).join('_');let offset=0;
+ f.carrier.removed=true;
+ try{
+  f.client.cabinet(f.row);f.pump();offset=deliverFoundationPackets(f,offset).offset;
+  f.carrier.removed=false;world.afterEvents.entityLoad.emit({entity:f.carrier});f.flush();
+  f.pump();offset=deliverFoundationPackets(f,offset).offset;
+  assert.equal(f.pack.getDynamicProperty(f.store.legacy),undefined,'observed native load must bypass a stale unavailable delay');
+  // The owner may unload between the block callback and the queue's send tick.
+  f.client.cabinet(f.row);d.unloaded.add(cell);const before=f.sent.length;f.pump();assert.equal(f.sent.length,before);
+  assert.equal(world.getDynamicProperty(f.store.key)!==undefined,true);
+  d.unloaded.delete(cell);f.client.cabinet(f.row);f.pump();assert(f.sent.length>before,'a later loaded-owner callback must remain eligible');
+ }finally{f.carrier.removed=false;d.unloaded.delete(cell);}
+});
+test('foundation unavailable cosmetic maintenance backs off without caching inventory or slowing interactions',t=>{
+ const f=rejectedCabinetRoute(),readEntity=world.getEntity,warning=console.warn,warnings=[];let unavailableReads=0;
+ f.carrier.removed=true;world.getEntity=id=>{if(id===f.carrier.id)unavailableReads++;return readEntity(id);};console.warn=message=>warnings.push(String(message));
+ try{
+  for(let n=0;n<60;n++){host.tickBlock(f.block,{background:true});system.currentTick++;}
+  assert(unavailableReads<=3);assert(warnings.length<=3);
+  t.diagnostic(JSON.stringify({scope:'actual host background cabinet refresh; 60 calls',unavailableNativeLookups:unavailableReads,warnings:warnings.length}));
+  const before=unavailableReads;assert.throws(()=>host.load(f.block),/NATIVE_STORAGE_UNAVAILABLE/);assert.equal(unavailableReads,before+1,'player transaction reads remain strict immediately');
+  f.carrier.removed=false;world.afterEvents.entityLoad.emit({entity:f.carrier});
+  assert.equal(host.tickBlock(f.block,{background:true}),true,'the original entity load clears the cosmetic wait');
+  const item=f.carrier.getComponent('minecraft:inventory').container.getItem(0);assert.equal(item.nameTag,f.original.nameTag);assert.deepEqual(item.getLore(),f.original.getLore());assert.equal(item.amount,1);
+ }finally{f.carrier.removed=false;world.getEntity=readEntity;console.warn=warning;}
+});
+test('foundation queued cabinet snapshots coalesce to the latest exact payload and reload has no permanent rejection',()=>{
+ const {pack}=packWorld(),f=isolatedFoundationClient(pack),block=createBlock(),store=host.load(block).store,row={type:def().block,dimension:d.id,position:{...block.location}};
+ for(let i=0;i<30;i++){pack.setDynamicProperty(store.legacy,'source '+i);f.client.cabinet(row);}
+ f.pump();const parts=f.sent.filter(x=>x.id===KT+':foundation_chunk').map(x=>JSON.parse(x.message).data);
+ assert.equal(JSON.parse(parts.join('')).raw,'source 29');assert.equal(f.sent.filter(x=>x.id===KT+':foundation_begin').length,1);
+ const revision=JSON.parse(f.sent.find(x=>x.id===KT+':foundation_begin').message).revision;
+ f.receive({id:KT+':foundation_ack',sourceType:'Server',message:JSON.stringify({source:NS,revision,ok:false,code:'NATIVE_STORAGE_UNAVAILABLE'})});
+ const reloaded=isolatedFoundationClient(pack);reloaded.client.cabinet(row);reloaded.pump();assert(reloaded.sent.some(x=>x.id===KT+':foundation_begin'),'only in-memory transport receipt survives, not a permanent refusal');assert.equal(pack.getDynamicProperty(store.legacy),'source 29');
+});
