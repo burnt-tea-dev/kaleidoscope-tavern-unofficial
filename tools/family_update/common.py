@@ -9,6 +9,7 @@ import hashlib
 import importlib.util
 import json
 import os
+import re
 import runpy
 import subprocess
 import sys
@@ -167,18 +168,60 @@ def command(args, log):
         raise RuntimeError(f'Command failed ({process.returncode}); see {log}')
 
 
+def validate_lifecycle_result(name, row):
+    """Confirm a direct terminal result or an original completed task result."""
+    assert name in ['stop', 'start'] and isinstance(row, dict), 'Invalid lifecycle result'
+    allowed = {'stop': {'stopped', 'already_stopped'}, 'start': {'started', 'already_running'}}[name]
+    assert row.get('status') == 'success', 'Lifecycle operation is not confirmed successful'
+    if 'result' in row:
+        assert not {'server_name', 'outcome'} & row.keys(), 'Ambiguous lifecycle result'
+        result = row['result']
+        assert isinstance(result, dict) and result.get('status') == 'success' and result.get('server_name') == SERVER, 'Completed lifecycle task belongs to another server or failed'
+        assert 'outcome' not in result or result['outcome'] in allowed, 'Completed lifecycle task has an unexpected outcome'
+    else:
+        assert 'task_id' not in row and row.get('server_name') == SERVER and row.get('outcome') in allowed, 'Terminal lifecycle result belongs to another server or has an unexpected outcome'
+
+
+def _lifecycle_readback(name):
+    assert_lease()
+    observed = summary()
+    atomic(R / (name + '-readback.json'), observed)
+    target = {'stop': 'STOPPED', 'start': 'RUNNING'}[name]
+    assert observed.get('name') == SERVER and observed.get('status') == target, 'Lifecycle result is not confirmed by the current server summary'
+    if name == 'stop':
+        assert type(observed.get('player_count')) is int and observed['player_count'] == 0, 'Stopped server summary has unknown or nonzero players'
+    verify_server_binding()
+
+
 def action(name):
+    """Issue one normal request; ambiguous responses never trigger another POST."""
     assert_lease()
     verify_server_binding()
     assert name in ['stop', 'start']
-    task = api('/api/server/' + quote(SERVER, safe='') + '/' + name, {}, 'POST')['task_id']
+    answer = api('/api/server/' + quote(SERVER, safe='') + '/' + name, {}, 'POST')
+    # Preserve the actual answer before interpreting its contract. BSM's direct
+    # terminal route has already performed the operation when it returns.
+    atomic(R / (name + '-response.json'), answer)
+    assert isinstance(answer, dict), 'Lifecycle response is not an object'
+    if 'task_id' not in answer:
+        atomic(R / (name + '-result.json'), answer)
+        assert 'result' not in answer, 'A direct lifecycle response cannot masquerade as a completed task'
+        validate_lifecycle_result(name, answer)
+        _lifecycle_readback(name)
+        return
+    assert set(answer) <= {'status', 'task_id', 'message'} and answer.get('status') == 'pending', 'Unknown or ambiguous lifecycle task response'
+    task = answer['task_id']
+    assert isinstance(task, str) and re.fullmatch(r'[A-Za-z0-9_-]{1,128}', task), 'Invalid lifecycle task identity'
     deadline = time.monotonic() + 60
     while time.monotonic() < deadline:
-        row = api('/api/tasks/status/' + task)
+        row = api('/api/tasks/status/' + quote(task, safe=''))
+        atomic(R / (name + '-task-response.json'), row)
+        assert isinstance(row, dict) and row.get('status') in ['pending', 'running', 'success', 'error'], 'Unknown lifecycle task state'
+        assert all(row[key] == task for key in ['id', 'task_id'] if key in row), 'Lifecycle task response belongs to another operation'
         if row['status'] in ['success', 'error']:
             atomic(R / (name + '-result.json'), row)
-            if row['status'] != 'success':
-                raise RuntimeError(f'{name} failed; see {R / (name + "-result.json")}')
+            validate_lifecycle_result(name, row)
+            _lifecycle_readback(name)
             return
         time.sleep(.5)
     raise RuntimeError(name + ' timed out')

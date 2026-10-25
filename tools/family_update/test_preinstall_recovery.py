@@ -147,6 +147,28 @@ class PreinstallRecoveryTests(unittest.TestCase):
         self.next_context()
         self.assertTrue(p.verify_completed(self.output, c.summary())['database_unchanged_since_abort'])
 
+    def test_direct_terminal_stop_and_actual_response_readback_remain_bound(self):
+        terminal={'status':'success','server_name':'test-server','outcome':'stopped'}
+        self.write(self.output/'stop-result.json',terminal)
+        self.write(self.output/'stop-response.json',terminal)
+        self.write(self.output/'stop-readback.json',c.summary())
+        self.close()
+        proof=c.read(self.output/p.PROOF)
+        for name in ['stop-response.json','stop-readback.json']:
+            self.assertEqual(proof['references'][name]['sha256'],c.sha(self.output/name))
+        self.next_context()
+        self.assertTrue(p.verify_completed(self.output,c.summary())['database_unchanged_since_abort'])
+        self.write(self.output/'stop-response.json',{**terminal,'outcome':'already_stopped'})
+        with self.assertRaisesRegex(AssertionError,'evidence changed'):
+            p.input_refs()
+
+    def test_wrong_direct_terminal_stop_never_closes_the_active_owner(self):
+        self.write(self.output/'stop-result.json',{'status':'success','server_name':'test-server','outcome':'started'})
+        with self.assertRaisesRegex(AssertionError,'unexpected outcome'):
+            self.close()
+        self.assertFalse((self.output/p.PROOF).exists())
+        self.assertEqual(c.read(self.lease_path)['state'],'active')
+
     def test_any_post_stop_or_unknown_artifact_rejects_without_writing_proof(self):
         for name in ['production-snapshot', 'saved-world-engine', 'saved-world-report.json',
                      'production-staged', 'production-rollback', 'observed-global-displaced',
