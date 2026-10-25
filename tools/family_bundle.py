@@ -75,7 +75,7 @@ def retained_component_config(repo,config,sources):
  if config.get('retained_runtime') is None:return config,None
  from family_update.current_author_validation import validate_retained_runtime
  current=subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip()
- raw=subprocess.check_output(['python3',str(repo/'tools/current_release.py')],cwd=repo)
+ raw=subprocess.check_output([os.environ.get('PYTHON','python3'),str(repo/'tools/current_release.py')],cwd=repo)
  proof=json.loads(raw)
  validate_retained_runtime(proof,config,{'actual_current_source_commit':current},source_root=repo,sources=sources)
  for side,relative in config['runtime'].items():

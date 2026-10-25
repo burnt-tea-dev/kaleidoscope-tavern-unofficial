@@ -28,6 +28,7 @@ class ImpactTests(unittest.TestCase):
         for name in (
             "family/upstream.lock.json", "family/upstream-feedback.json",
             "tools/family_bundle.py", "tools/test_family_guard.py",
+            "tools/host_extensions.py", "tools/ci_impact.py", "tools/test_ci_impact.py",
             "tools/author_state_migration.py", "tools/bedrock_nbt.py",
             "tools/family_update.py", "tools/family_update/test_resume.py",
             "tools/family_update/fixtures/live-receipt.json",

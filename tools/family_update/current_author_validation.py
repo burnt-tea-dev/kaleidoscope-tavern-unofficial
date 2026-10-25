@@ -54,9 +54,18 @@ def validate_retained_runtime(owned,baseline,binding,*,source_root=None,sources=
     """Check public hashes/metadata only; never import or copy private runtime."""
     root=Path(source_root) if source_root is not None else c.EXTENSION
     selected_sources=sources if sources is not None else c.SOURCES
+    if 'integration_runtime' in baseline:
+        from family_update.integration_runtime_validation import validate_exact_integration
+        return validate_exact_integration(owned,baseline,binding,root,selected_sources)
     anchor=baseline['retained_runtime']
     if anchor.get('kind')=='current-functional':
         return validate_current_runtime(owned,baseline,binding,root,selected_sources)
+    return _validate_dependency_only_runtime(owned,baseline,binding,root,selected_sources)
+
+
+def _validate_dependency_only_runtime(owned,baseline,binding,root,selected_sources,*,reference_commit=None):
+    """Unchanged legacy rules; an immutable Git snapshot can be checked as history."""
+    anchor=baseline['retained_runtime']
     assert set(anchor)=={'schema','kind','source_commit','source_tree','source_version','dependency_versions'}
     assert anchor['schema']==1 and anchor['kind']=='dependency-only' and anchor['source_version']==[1,0,58]
     commit=anchor['source_commit'];assert isinstance(commit,str) and re.fullmatch('[0-9a-f]{40}',commit)
@@ -100,8 +109,10 @@ def validate_retained_runtime(owned,baseline,binding,*,source_root=None,sources=
         count+=len(before)-1
         relative=previous['runtime'][side]+'/manifest.json'
         raw=anchor_manifests[side]
-        old=json.loads(raw);current_raw=local(root/relative)
-        assert current_raw==subprocess.check_output(['git','show','HEAD:'+relative],cwd=root),'Uncommitted retained manifest'
+        old=json.loads(raw)
+        committed_raw=subprocess.check_output(['git','show',(reference_commit or 'HEAD')+':'+relative],cwd=root)
+        current_raw=committed_raw if reference_commit else local(root/relative)
+        assert current_raw==committed_raw,'Uncommitted retained manifest'
         assert digest(raw)==before['manifest.json'] and digest(current_raw)==after['manifest.json']
         expected=copy.deepcopy(old);expected['header']['version']=baseline['version']
         assert old['header']['uuid']==baseline['packs'][side]['uuid'] and old['header']['version']==previous['version']

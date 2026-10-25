@@ -115,6 +115,11 @@ def validate_recipe_removals(spec, owned_root, host_root, stable, *, retained_ow
   selected=json.loads((Path(retained_owner['source_root'])/'baseline.json').read_bytes())
   if selected.get('retained_runtime',{}).get('kind')=='current-functional':
    dependency['version']=selected['retained_runtime']['dependency_versions'][dependency['uuid']]
+  elif selected.get('integration_runtime',{}).get('kind')=='aww-exact-four-file':
+   from family_update.integration_runtime_validation import PROFILES,validate_salt_inputs
+   policy=PROFILES.get(tuple(selected['version']))
+   if policy is None:raise ValueError('unknown salt integration owner')
+   dependency['version']=validate_salt_inputs(Path(retained_owner['source_root']),policy)
  if manifest['header']['version'] != owner or dependency not in manifest.get('dependencies', []):
   raise ValueError('salt coexistence requires the exact Fishing companion dependency')
  for name, expected in removed.items():
