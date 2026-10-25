@@ -22,6 +22,14 @@ LOGICAL='local/senluo-amw-cuisine'
 PROFILE='senluo-stable-author-20261018-p55'
 CATALOG_KEY='current_author_p55'
 CHECKS={'current-source-api','native-freezer-performance.json','saturation-scheduling-functional.json','hud-coexistence-functional.json','ribbits-startup-functional.json','ribbits-fp-decode-functional.json'}
+CURRENT_DOMAINS={
+ 'cookery-station-performance':{'runtime/BP/host-extensions/cookery-station-performance.json','runtime/BP/scripts/host_api/cookery-station-performance.js'},
+ 'witchway-family-hud':{'runtime/RP/ui/_global_variables.json','runtime/RP/ui/hud_screen.json'}}
+CURRENT_CONTRACT='data/current-runtime-contract.json'
+
+def functional_selected(baseline=None):
+    baseline=committed('baseline.json') if baseline is None else baseline
+    return baseline.get('retained_runtime',{}).get('kind')=='current-functional'
 
 def selected():
     return c.CONFIG.get('extension_stable_profile') in ('current-author-p55','current-author-p56','current-author-p57','current-author-p58','current-author-retained')
@@ -47,6 +55,8 @@ def validate_retained_runtime(owned,baseline,binding,*,source_root=None,sources=
     root=Path(source_root) if source_root is not None else c.EXTENSION
     selected_sources=sources if sources is not None else c.SOURCES
     anchor=baseline['retained_runtime']
+    if anchor.get('kind')=='current-functional':
+        return validate_current_runtime(owned,baseline,binding,root,selected_sources)
     assert set(anchor)=={'schema','kind','source_commit','source_tree','source_version','dependency_versions'}
     assert anchor['schema']==1 and anchor['kind']=='dependency-only' and anchor['source_version']==[1,0,58]
     commit=anchor['source_commit'];assert isinstance(commit,str) and re.fullmatch('[0-9a-f]{40}',commit)
@@ -114,6 +124,89 @@ def validate_retained_runtime(owned,baseline,binding,*,source_root=None,sources=
     validate_owned_conservation(component,catalog,version=[1,0,58])
     return owned
 
+def validate_current_runtime(owned,baseline,binding,root,sources):
+    """Current domains have current owners; every unrelated component byte stays exact."""
+    anchor=baseline['retained_runtime']
+    assert set(anchor)=={'schema','kind','source_commit','source_tree','source_version','dependency_versions','functional_contract','retired_dependencies'}
+    assert anchor['schema']==1 and anchor['source_version']==[1,0,58] and anchor['functional_contract']==CURRENT_CONTRACT
+    assert anchor['retired_dependencies']==['994f73a2-05ec-41ce-876c-d388a526d9f5']
+    commit=anchor['source_commit'];assert re.fullmatch('[0-9a-f]{40}',commit)
+    assert c.git(root,'rev-parse',commit+'^{tree}')==anchor['source_tree']==owned['source_tree']
+    c.git(root,'merge-base','--is-ancestor',commit,binding['actual_current_source_commit'])
+    previous=json.loads(c.git(root,'show',commit+':baseline.json'))
+    assert previous['repository']==baseline['repository']==LOGICAL and previous['version']==owned['source_version']==[1,0,58]
+    assert tuple(baseline['version'])>tuple(previous['version']) and baseline['runtime']==previous['runtime']=={'BP':'runtime/BP','RP':'runtime/RP'}
+    assert owned['schema']==1 and owned['kind']=='current_functional_runtime' and owned['core_only'] is True
+    assert owned['source_commit']==owned['previous_commit']==commit and owned['version']==owned['current_owner_version']==baseline['version']
+    assert owned['source_trees']==baseline['source_trees'] and owned['retained_source_trees']==previous['source_trees']
+    raw=local(root/CURRENT_CONTRACT)
+    assert raw==subprocess.check_output(['git','show','HEAD:'+CURRENT_CONTRACT],cwd=root)
+    contract=json.loads(raw)
+    assert set(contract)=={'schema','kind','domains'} and contract['schema']==1 and contract['kind']=='current-functional-runtime'
+    assert contract['domains']==owned['functional_domains'] and set(contract['domains'])==set(CURRENT_DOMAINS)
+    active=set()
+    for domain,paths in CURRENT_DOMAINS.items():
+        assert set(contract['domains'][domain])==paths
+        for name,hashes in contract['domains'][domain].items():
+            assert set(hashes)=={'before','after'} and hashes['before']!=hashes['after']
+            side,relative=name.removeprefix('runtime/').split('/',1)
+            assert owned['previous_files'][side].get(relative)==hashes['before'] and owned['files'][side][relative]==hashes['after']
+            assert digest(local(root/name))==hashes['after'],'Current domain differs from committed source proof'
+        active|=paths
+    selected_peers={}
+    for key in ['tavern','grilling','world-liquor']:
+        peer=c.read(sources[key]/'baseline.json');selected_peers[peer['packs']['RP']['uuid']]=peer['version']
+    for name,side in [('fishing','BP'),('witchway','RP')]:
+        manifest=c.read(root/f'companion-sources/{name}-current-local/runtimeowner/{side}/manifest.json')
+        selected_peers[manifest['header']['uuid']]=manifest['header']['version']
+    anchor_manifests={side:subprocess.check_output(['git','show',commit+':runtime/'+side+'/manifest.json'],cwd=root) for side in ['BP','RP']}
+    peers={d['uuid']:selected_peers[d['uuid']] for raw in anchor_manifests.values() for d in json.loads(raw).get('dependencies',[])
+           if d.get('uuid') in selected_peers and d['version']!=selected_peers[d['uuid']]}
+    peers['d8a147c2-5b9e-4c11-9a32-7e418f20b201']=selected_peers['d8a147c2-5b9e-4c11-9a32-7e418f20b201']
+    assert anchor['dependency_versions']==owned['dependency_versions']==peers
+    assert owned['retired_dependencies']==anchor['retired_dependencies']
+    own={p['uuid'] for p in previous['packs'].values()};assert own=={p['uuid'] for p in baseline['packs'].values()}
+    changed=[];added=[];count=0;seen=set();retired_seen=set()
+    for side in ['BP','RP']:
+        before,after=owned['previous_files'][side],owned['files'][side]
+        assert tree(before)==previous['source_trees'][side] and tree(after)==baseline['source_trees'][side]
+        domain={name.removeprefix('runtime/'+side+'/') for name in active if name.startswith('runtime/'+side+'/')}
+        assert set(after)==set(before)|domain
+        for name,value in after.items():
+            path=Path(name);assert not path.is_absolute() and '..' not in path.parts and path.as_posix()==name and '\\' not in name
+            assert isinstance(value,str) and re.fullmatch('[0-9a-f]{64}',value)
+            full='runtime/'+side+'/'+name
+            if name not in before:added.append(full)
+            elif before[name]!=value:changed.append(full)
+            if name!='manifest.json' and name not in domain:
+                assert before[name]==value,'Current release changed a retained component byte';count+=1
+        old_raw=anchor_manifests[side]
+        actual_raw=local(root/'runtime'/side/'manifest.json')
+        assert digest(old_raw)==before['manifest.json'] and digest(actual_raw)==after['manifest.json']
+        expected=json.loads(old_raw);expected['header']['version']=baseline['version']
+        for module in expected['modules']:assert module['version']==[1,0,58];module['version']=baseline['version']
+        dependencies=[];original={d.get('uuid') for d in expected.get('dependencies',[])}
+        for dependency in expected.get('dependencies',[]):
+            uid=dependency.get('uuid')
+            if uid in anchor['retired_dependencies']:retired_seen.add(uid);continue
+            if uid in own:dependency['version']=baseline['version']
+            elif uid in peers:dependency['version']=peers[uid];seen.add(uid)
+            dependencies.append(dependency)
+        if side=='RP':
+            uid='d8a147c2-5b9e-4c11-9a32-7e418f20b201';assert uid not in original
+            dependencies.append({'uuid':uid,'version':peers[uid]});seen.add(uid)
+        expected['dependencies']=dependencies
+        assert json.loads(actual_raw)==expected and baseline['packs'][side]['dependencies']==dependencies
+    assert seen==set(peers) and retired_seen==set(anchor['retired_dependencies'])
+    assert sorted(changed)==owned['exact_changed_paths'] and sorted(added)==owned['added_paths'] and owned['retired_paths']==[]
+    assert count==owned['conserved_files']==368
+    component=owned['retained_component_conservation'];catalog=CATALOG['current_author_p58']
+    assert component['files']==owned['previous_files'] and component['previous_commit']==catalog['previous_commit']
+    old_component=json.loads(c.git(root,'show',catalog['previous_commit']+':baseline.json'))
+    for side in ['BP','RP']:assert tree(component['previous_files'][side])==old_component['source_trees'][side]
+    validate_owned_conservation(component,catalog,version=[1,0,58])
+    return owned
+
 def source_repository():
     # Historical source artifacts retain their recorded identity. Only the
     # fresh reviewed integration producer runs after the reviewed organization transfer.
@@ -137,6 +230,58 @@ def committed(relative,expected=None):
     assert path.resolve().is_relative_to(c.EXTENSION.resolve()),'Current source escaped owned checkout'
     assert raw==subprocess.check_output(['git','show','HEAD:'+relative],cwd=c.EXTENSION),'Uncommitted current author source'
     return json.loads(raw)
+
+def committed_digest(relative):
+    raw=local(c.EXTENSION/relative)
+    assert raw==subprocess.check_output(['git','show','HEAD:'+relative],cwd=c.EXTENSION),'Uncommitted current functional source'
+    return digest(raw)
+
+def validate_functional_artifacts(path,proof,baseline,members):
+    name='current-runtime-functional.json';raw=members[name];current=json.loads(raw)
+    completed=next(row for row in proof['completed_checks'] if row['name']==name)
+    assert completed['report_sha256']==digest(raw)
+    assert current['schema']==1 and current['kind']=='current_runtime_functional'
+    for key in ['version','repository','source_commit','git_tree','source_trees']:assert current[key]==proof[key]
+    assert current['version']==baseline['version'] and current['test_exit_code']==0
+    assert current['test_command']==['python','tools/build_current_functional_evidence.py']
+    assert all(current[key] is False for key in ['native_loading','client','simulated_players','production_ready','saved_world_migration','native_full_nbt_verified'])
+    assert current['sources']==proof['current_functional_sources'] and set(current['sources'])=={'Cookery','Fishing','WitchWay'}
+    checks=current['completed_checks'];assert len(checks)==3 and {row['name'] for row in checks}=={'cookery-station-performance','fishing-current','witchway-native-drop-items'}
+    for row in checks:
+        assert row['exit_code']==0 and isinstance(row['command'],list)
+        for ref in [row['log'],*([row['report']] if row.get('report') else [])]:assert digest(members[ref['name']])==ref['sha256']
+    cookery=current['sources']['Cookery'];station=committed('runtime/BP/host-extensions/cookery-station-performance.json')
+    closure=cookery['input_closure'];target='scripts/custom_components/blocks/directStation.js'
+    assert closure['repair_spec_sha256']==committed_digest('runtime/BP/host-extensions/cookery-station-performance.json')
+    assert closure['station_output_sha256']==station['patched_files'][target]
+    assert closure['owned_helper_sha256']==station['helper_sha256']==committed_digest('runtime/BP/scripts/host_api/cookery-station-performance.js')
+    report=json.loads(members[cookery['report']['name']]);assert digest(members[cookery['report']['name']])==cookery['report']['sha256']
+    assert report['ok'] is True and report['completeSuite'] is True and report['caseCount']==len(report['results'])==10
+    assert report['input_closure']==closure and report['native'] is False and report['client'] is False
+    assert report['source_test_sha256']==cookery['test_source_sha256']==committed_digest('tools/cookery-station-performance.test.mjs')
+    fish=current['sources']['Fishing'];assert fish['kind']=='current_local_fishing_functional' and fish['historical_origin_status']=='unknown'
+    assert fish['original_archive_verified'] is False and fish['latest_stable_verified'] is False
+    recipe=committed('companion-sources/fishing-current-local/recipe.json',fish['export_recipe']['sha256'])
+    assert recipe['kind']=='canonical_local_fishing_repair' and recipe['version']==fish['version']
+    assert recipe['owned_runtime']==recipe['output_hashes']==fish['runtime_files']
+    assert fish['input_recipe']['sha256']==recipe['input_recipe']['sha256']==committed_digest('companion-sources/fishing-current-local/input-recipe.json')
+    assert fish['test_source_sha256']==committed_digest('tools/fishing-tank-safety.test.mjs')
+    witch=current['sources']['WitchWay'];report=json.loads(members[witch['report']['name']])
+    assert digest(members[witch['report']['name']])==witch['report']['sha256']
+    assert report['status']=='PASS' and report['test_returncode']==0 and report['sources']==witch['source_integrity']
+    assert all(report[key] is False for key in ['bds_verified','rendered_client_verified','production_ready','live_modified'])
+    assert report['sources']['origin_status']=='unknown_current_local' and report['sources']['paired_runtime_identity_frozen'] is True
+    assert report['test_source_sha256']==witch['test_source_sha256']==committed_digest('tools/witchway-native-drop-items.test.mjs')
+    assert report['tool_sha256']==committed_digest('tools/witchway-native-drop-items.py')
+    assert report['sources']['helper_sha256']==committed_digest('companion-sources/witchway-current-local/runtimeowner/BP/scripts/senluo/native-drop-items.js')
+    for name,count in [('fishing-current',22),('witchway-native-drop-items',28)]:
+        row=next(row for row in checks if row['name']==name);text=members[row['log']['name']].decode()
+        cases=re.findall(r'^ok \d+ - (.+)$',text,re.M)
+        totals={key:int(value) for key,value in re.findall(r'^# (tests|pass|fail|cancelled|skipped|todo) (\d+)$',text,re.M)}
+        assert len(cases)==len(set(cases))==count and cases==row['test_cases']
+        assert totals==row['test_totals']=={'tests':count,'pass':count,'fail':0,'cancelled':0,'skipped':0,'todo':0}
+    assert digest(members[current['test_log']['name']])==current['test_log']['sha256']
+    return set(current['artifact_members'])
 
 @lru_cache(maxsize=2)
 def artifact_members(run_id,artifact_id,source,full_tree):
@@ -197,12 +342,16 @@ def source_proof():
     assert c.git(c.EXTENSION,'rev-parse',pr['head']['sha']+'^{tree}')==proof['git_tree'],'Current author PR whole tree differs'
     members,ci=artifact_members(int(c.CONFIG['extension_stable_run_id']),int(c.CONFIG['extension_stable_artifact_id']),proof['source_commit'],proof['git_tree'])
     assert members.get(path.name)==raw,'Current author proof differs from original CI artifact'
-    checks=proof['completed_checks'];assert isinstance(checks,list) and {row['name'] for row in checks}==CHECKS and len(checks)==len(CHECKS)
+    active=functional_selected(baseline)
+    expected_checks=CHECKS|({'current-runtime-functional.json'} if active else set())
+    checks=proof['completed_checks'];assert isinstance(checks,list) and {row['name'] for row in checks}==expected_checks and len(checks)==len(expected_checks)
     refs=[proof['test_log'],*[row['log'] for row in checks]]
     expected={path.name,*[ref['name'] for ref in refs]}
+    if active:expected|=validate_functional_artifacts(path,proof,baseline,members)
     assert set(proof['artifact_members'])==expected==set(members),'Current author artifact inventory differs'
     for ref in refs:
         member=sibling(path,ref);assert member.read_bytes()==members[ref['name']],'Current author CI log bytes differ'
+    for name in expected:assert local(path.parent/name)==members[name],'Current functional artifact bytes differ from original CI'
     assert all(row['exit_code']==0 and isinstance(row['command'],list) and row['command'] for row in checks)
     source_api=next(row for row in checks if row['name']=='current-source-api')
     assert source_api['command']==['node','--experimental-vm-modules','tools/current-author-functional.test.mjs']
@@ -254,6 +403,7 @@ def validate_candidate(receipt,proof,baseline,binding,catalog):
     """Validate every output and the exact ordered chain, not just changed paths."""
     VERSION,PROFILE,CATALOG_KEY=settings()
     component_version=VERSION
+    active=functional_selected(baseline)
     if retained_selected():
         assert proof['component_version']==component_version
         validate_retained_runtime(proof['owned_runtime'],baseline,binding)
@@ -272,18 +422,34 @@ def validate_candidate(receipt,proof,baseline,binding,catalog):
         assert tree(owned['previous_files'][side])==previous['source_trees'][side]
     if not retained_selected():validate_owned_conservation(owned,catalog)
     assert set(proof['authors'])==set(proof['resolved_host_files'])==set(catalog['authors'])
+    from cookery_station_extension import (KIND as STATION_KIND, IDENTITY as STATION_ID,
+        current_station_profile, active_api_declaration, validate_station_receipt_pair)
+    public_path=c.SOURCES['grilling']/'projects/grilling/gameplay_core/behavior_pack/host-extensions/board-api.json'
+    public_spec=c.read(public_path)
     specs={}
-    assert set(proof['host_specs'])==set(catalog['host_specs'])
-    for name,record in catalog['host_specs'].items():
-        spec=committed('runtime/BP/host-extensions/'+name,record['sha256']);profile=match_stable_profile(spec,c.EXTENSION/baseline['runtime']['BP'])
-        assert profile==PROFILES[record['profile']] and profile['spec_sha256']==record['declaration_sha256']
+    records=dict(catalog['host_specs'])
+    if active:
+        name='cookery-station-performance.json'
+        contract=committed(CURRENT_CONTRACT)
+        raw_sha=contract['domains']['cookery-station-performance']['runtime/BP/host-extensions/'+name]['after']
+        spec=committed('runtime/BP/host-extensions/'+name,raw_sha)
+        profile=current_station_profile(spec,c.EXTENSION/baseline['runtime']['BP'],public_spec,public_path.read_bytes(),c.SOURCES['grilling'])
+        records[name]={'profile':profile['admission'],'sha256':raw_sha,'declaration_sha256':profile['spec_sha256']}
+    assert set(proof['host_specs'])==set(records)
+    for name,record in records.items():
+        spec=committed('runtime/BP/host-extensions/'+name,record['sha256'])
+        if spec.get('kind')==STATION_KIND:
+            profile=current_station_profile(spec,c.EXTENSION/baseline['runtime']['BP'],public_spec,public_path.read_bytes(),c.SOURCES['grilling'])
+            assert record['profile']==profile['admission'] and profile['spec_sha256']==record['declaration_sha256']
+        else:
+            profile=match_stable_profile(spec,c.EXTENSION/baseline['runtime']['BP'])
+            assert profile==PROFILES[record['profile']] and profile['spec_sha256']==record['declaration_sha256']
         expected={'sha256':record['sha256'],'id':spec['id'],'host_uuid':spec['host_uuid'],'archive_sha256':spec['archive_sha256'],'original_files':spec['original_files'],'patched_files':spec['patched_files'],'copies_hashes':profile['copies']}
+        if spec.get('kind')==STATION_KIND:expected['owner_handoff']=spec['owner_handoff']
         if spec.get('removed_files'):expected['removed_files']=spec['removed_files']
         assert proof['host_specs'][name]==expected,'Current author host proof differs from committed profile'
         specs[spec['id']]=(spec,profile,record['sha256'])
     public=public_profiles()[catalog['public_api_profile']];api=proof['public_api'];g=c.SOURCES['grilling']
-    public_path=g/'projects/grilling/gameplay_core/behavior_pack/host-extensions/board-api.json'
-    public_spec=c.read(public_path)
     assert c.sha(public_path)==api['spec_sha256']==catalog['public_api_spec_sha256']
     assert match_stable_profile(public_spec)==public
     assert api['repository']=='casama233/kaleidoscope-grilling-unofficial'
@@ -308,13 +474,24 @@ def validate_candidate(receipt,proof,baseline,binding,catalog):
                 prefix={**source,'owner':'upstream' if index==0 else 'upstream_extended','reviewed_extensions':extensions[:index]}
                 if extension['id']==public['id']:
                     declared=public_spec;profile=public;spec_sha=catalog['public_api_spec_sha256'];repository=api['repository'];commit=c.git(g,'rev-parse','HEAD')
+                    if extension.get('delegated_files'):
+                        assert STATION_ID in specs,'Public station delegation has no current private source owner'
+                        station_spec,station_profile,station_sha=specs[STATION_ID]
+                        paired_owners=[row for row in extensions if row.get('id')==STATION_ID]
+                        assert len(paired_owners)==1,'Public station delegation requires one completed private owner'
+                        validate_station_receipt_pair(station_spec,station_profile,public_spec,extension,paired_owners[0],pack['files'],
+                            owner_commit=binding['actual_current_source_commit'],owner_version=VERSION,spec_sha256=station_sha)
+                        declared=active_api_declaration(public_spec)
                 else:
                     assert extension['id'] in specs,'Unexpected current author host extension'
                     declared,profile,spec_sha=specs[extension['id']];repository=LOGICAL;commit=binding['actual_current_source_commit'];seen.add(extension['id'])
-                if retained_selected() and repository==LOGICAL:
+                if retained_selected() and repository==LOGICAL and declared.get('kind')!=STATION_KIND:
                     anchor=baseline['retained_runtime']
                     assert extension['source_package_version']==VERSION and extension['component_version']==component_version
                     assert extension['retained_runtime_profile']=={'schema':1,'source_commit':anchor['source_commit'],'source_tree':anchor['source_tree'],'source_version':component_version}
+                if declared.get('kind')==STATION_KIND:
+                    assert active and extension['owner_version']==VERSION
+                    assert 'retained_runtime_profile' not in extension and 'component_version' not in extension
                 paired=declared.get('kind')=='chinesefood-doll-renderer-cleanup'
                 if paired and side=='RP':
                     bp_extensions=rows[pin['behavior_uuid']]['source']['reviewed_extensions']
@@ -356,6 +533,10 @@ def verify_static(receipt,prior):
 def evidence_paths(include_native=True):
     path=Path(c.CONFIG['extension_stable_validation']);proof=c.read(path)
     paths=[path,*[sibling(path,ref) for ref in [proof['test_log'],*[row['log'] for row in proof['completed_checks']]]]]
+    if proof.get('owned_runtime',{}).get('kind')=='current_functional_runtime':
+        for name in proof['artifact_members']:
+            assert Path(name).name==name
+            member=path.parent/name;local(member);paths.append(member)
     if include_native:paths.extend([c.R/'current-author-static-validation.json',c.R/'current-author-native-validation.json'])
     return [c.report_ref(path) for path in dict.fromkeys(paths)]
 
@@ -368,7 +549,9 @@ def bind_native(receipt,evidence):
     assert static['candidate_receipt_sha256']==evidence['candidate_receipt_sha256']==c.sha(c.C/'family-receipt.json')
     assert static['affected_packs']==affected_packs(receipt)
     assert all(evidence[key] for key in ['fresh_stopped_backup','existing_world_loaded','exact_files_checked','bds','saved_world_migration'])
-    assert evidence['client'] is False and evidence['simulated_players'] is False and evidence['test_only_overlays']==[]
+    assert evidence['client'] is False and evidence['simulated_players'] is False
+    from family_update.fishing_native_observer import validate_native_evidence as verify_fishing_observer
+    verify_fishing_observer(evidence)
     assert [row['phase'] for row in evidence['runs']]==['first','restart']
     assert all(row['ok'] and not row['errors'] and row['real_player_connections']==0 and all(row[key] for key in ['player_records_unchanged','custom_container_inventories_retained','native_freezer_inputs_retained']) for row in evidence['runs'])
     c.atomic(c.R/'current-author-native-validation.json',{'schema':1,'profile':PROFILE,'version':VERSION,**({'component_version':settings()[0]} if retained_selected() else {}),'static':c.report_ref(c.R/'current-author-static-validation.json'),'fresh_native':c.report_ref(c.R/'saved-world-report.json'),'candidate_receipt_sha256':evidence['candidate_receipt_sha256'],'affected_packs':static['affected_packs'],'native_loading':True,'saved_world_migration':True,'client':False,'production_ready':False})

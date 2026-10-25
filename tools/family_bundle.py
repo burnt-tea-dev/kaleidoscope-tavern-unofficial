@@ -84,7 +84,7 @@ def retained_component_config(repo,config,sources):
  component=json.loads(subprocess.check_output(['git','show',anchor['source_commit']+':baseline.json'],cwd=repo))
  return component,{'schema':1,'source_commit':anchor['source_commit'],'source_tree':anchor['source_tree'],'source_version':anchor['source_version']}
 
-def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),reviewed_order=None,held_sources=(),source_identities=None):
+def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),reviewed_order=None,held_sources=(),source_identities=None,preserved_sources=None):
  from family_update.source_holds import selected,effective
  holds=selected(lock,list(held_sources));lock=effective(lock,list(held_sources))
  lock=json.loads(json.dumps(lock))
@@ -154,6 +154,11 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
    for manifest,data in packs(z):
     header=manifest['header'];found.append({'uuid':header['uuid'],'version':header['version']});add({'owner':'upstream','project_id':upstream['project_id'],'file_id':upstream['file_id'],'archive_sha256':upstream['sha256']},manifest,data=data)
    if sorted(found,key=lambda p:p['uuid'])!=sorted(upstream['packs'],key=lambda p:p['uuid']):fail('official pack identity differs from lock')
+ # Resolve current module ownership from both exact source checkouts before the
+ # public API runs. Its delegated file stays clean until the one current owner.
+ from cookery_station_extension import collect_station_handoffs,verify_station_handoffs
+ try:station_handoffs=collect_station_handoffs(lock['owned'],sources)
+ except (ValueError,KeyError) as error:fail('station owner handoff rejected: '+str(error))
  # Only committed owned runtimes may declare a reviewed extension of a pinned host.
  # Spec and module bytes are in that runtime's versioned baseline, never a BSM hook.
  for own in lock['owned']:
@@ -206,20 +211,32 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
    if host is None:fail('host extension target missing')
    host_root=out/(host['side']+'_packs')/host['uuid']
    context={}
+   station=station_handoffs.get(spec.get('host_uuid'))
+   if station is not None and ((own['key']==station['api_key'] and spec.get('id')==station['api']['id']) or (own['key']==station['private_key'] and spec.get('kind')=='cookery-station-performance')):
+    context['station_handoff']=station
    if retained_runtime and spec.get('removed_files'):
     context['retained_owner']={'source_root':str(repo.resolve()),'source_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip(),'sources':{key:str(value.resolve())for key,value in sources.items()}}
    try:proof=apply_host_extension(spec,owned_root,host_root,host['source'],**context)
    except (ValueError,KeyError) as e:fail('host extension rejected: '+str(e))
-   proof.update({'repository':config['repository'],'commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip(),'owner_version':source_component['version'],'spec_sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'working_candidate':working})
-   if retained_runtime:proof.update(source_package_version=config['version'],component_version=source_component['version'],retained_runtime_profile=retained_runtime)
+   current_station=spec.get('kind')=='cookery-station-performance'
+   proof.update({'repository':config['repository'],'commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip(),'owner_version':config['version'] if current_station else source_component['version'],'spec_sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'working_candidate':working})
+   if retained_runtime and not current_station:proof.update(source_package_version=config['version'],component_version=source_component['version'],retained_runtime_profile=retained_runtime)
    if retained:
     proof.update(owner_version=retained['owner_version'],source_package_version=config['version'],retained_host_profile=retained)
    host['source']={**host['source'],'owner':'upstream_extended','reviewed_extensions':[*host['source'].get('reviewed_extensions',[]),proof]};host['files']=files_hash(host_root)
+ try:verify_station_handoffs(station_handoffs,records,out)
+ except (ValueError,KeyError) as error:fail('station owner handoff incomplete: '+str(error))
+ if preserved_sources is None:preserved_sources={}
+ if (not isinstance(preserved_sources,dict) or any(not isinstance(uid,str) or not uid or not isinstance(source,dict) or source.get('owner')!='preserved' or source.get('official_author_release') is True for uid,source in preserved_sources.items())):fail('preserved source descriptors must retain preserved ownership')
+ used_preserved_sources=set()
  for root in preserved:
   manifest=read(root/'manifest.json');uid=manifest['header']['uuid']
-  add({'owner':'preserved','role':'unchanged_external_dependency'},manifest,root=root)
+  source=preserved_sources.get(uid,{'owner':'preserved','role':'unchanged_external_dependency'})
+  if uid in preserved_sources:used_preserved_sources.add(uid)
+  add(json.loads(json.dumps(source)),manifest,root=root)
   label=by_uuid[uid]['side']
   if reviewed_order is None:lock['order'][label].append(uid)
+ if used_preserved_sources!=set(preserved_sources):fail('preserved source descriptor has no exact input UUID')
  for row in records:
   for dep in row['dependencies']:
    if 'uuid' in dep and (dep['uuid'] not in by_uuid or by_uuid[dep['uuid']]['version']!=dep['version']):fail('unresolved exact dependency '+row['uuid']+' -> '+dep['uuid'])

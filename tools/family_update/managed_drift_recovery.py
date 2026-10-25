@@ -15,8 +15,27 @@ import stat
 import subprocess
 
 from family_update import common as c
+from family_update.repository_identity import target as repository_target
 
 PROFILE = 'reviewed-managed-drift-repair-v1'
+LOCAL_INPUT_PROFILE = 'reviewed-same-uuid-local-input-repair-v1'
+LOCAL_INPUT_UUIDS = {
+    'behavior': '5e121bf2-1d2d-4da4-be15-cffc5f216d94',
+    'resource': 'e1168f1a-83d6-4abc-8f4b-ecb86e0a91dd',
+}
+LOCAL_RUNTIME = 'companion-sources/fishing-current-local/runtimeowner'
+LOCAL_RECIPE = 'companion-sources/fishing-current-local/recipe.json'
+LOCAL_ADDITION_UUIDS = {'behavior': 'd8a147c2-5b9e-4c11-9a32-7e418f20b101', 'resource': 'd8a147c2-5b9e-4c11-9a32-7e418f20b201'}
+LOCAL_ADDITION_FOREIGN = {
+    'items/novelty.json': 'nvy:novelty',
+    'items/novelty_ui_placeholder.json': 'nvy:novelty_ui_placeholder',
+    'entities/novelty_database.json': 'nvy:novelty_database',
+    'entities/novelty_inventory.json': 'nvy:novelty_inventory',
+    'entities/ui_queue_checker.json': 'uq:ui_queue_checker',
+}
+LOCAL_ADDITION_REPLACED = {'379931a2-7419-40fb-90fb-34288ab4e971', 'ea8da0de-83d7-4ae2-aa43-bbcd4192e0c7', '2d4fb75b-c854-460b-a2f5-b4639e11eaa6'}
+LOCAL_ADDITION_RUNTIME = 'companion-sources/witchway-current-local/runtimeowner'
+LOCAL_ADDITION_RECIPE = 'companion-sources/witchway-current-local/recipe.json'
 SIDES = ('behavior', 'resource')
 FIELDS = ('uuid', 'side', 'version', 'files')
 _INITIAL_STATE = None
@@ -46,6 +65,22 @@ def inventory_sha256(inventory):
 
 def files_sha256(files):
     return hashlib.sha256(json.dumps(files, sort_keys=True, separators=(',', ':'), ensure_ascii=False).encode()).hexdigest()
+
+
+def _identifiers(root):
+    return [identifier for values in _definition_identifiers(root).values() for identifier in values]
+
+
+def _definition_identifiers(root):
+    definitions = {}
+    for directory in ['blocks', 'items', 'entities', 'entity']:
+        for definition in (root / directory).rglob('*.json'):
+            text = definition.read_text(encoding='utf-8-sig')
+            text = re.sub(r'"(?:\\.|[^"\\])*"|//[^\n]*|/\*.*?\*/', lambda match: match[0] if match[0].startswith('"') else '', text, flags=re.S)
+            values = re.findall(r'"identifier"\s*:\s*"([^"\s]+)"', text)
+            if values:
+                definitions[definition.relative_to(root).as_posix()] = values
+    return definitions
 
 
 def receipt_inventory(receipt):
@@ -78,25 +113,36 @@ def load_review():
     source = c.EXTENSION
     assert source, 'Drift repair requires its canonical private review'
     target = c.read(source / '.repo-target.json')
-    assert target['private'] is True and target['repository'] == 'casama233/senluo-family-integration-private' and target['repository_id'] == 1406868911
+    expected = repository_target('casama233/senluo-family-integration-private')
+    assert all(target.get(key) == expected[key] for key in ['repository', 'repository_id', 'private', 'owner']), 'Drift review repository identity differs'
+    assert target['private'] is True and type(target['repository_id']) is int, 'Drift review repository type differs'
     assert c.git(source, 'remote', 'get-url', 'origin').removesuffix('.git') == 'https://github.com/' + target['repository'], 'Drift review remote differs'
     assert c.git(source, 'branch', '--show-current') == 'main' and not c.git(source, 'status', '--porcelain'), 'Drift review requires clean canonical main'
     head = c.git(source, 'rev-parse', 'HEAD')
     assert c.git(source, 'ls-remote', 'origin', 'refs/heads/main').split()[0] == head, 'Drift review is not canonical remote main'
     binding = _committed(path)
     review = c.read(path)
-    assert review['schema'] == 1 and review['kind'] == 'managed_drift_recovery' and review['profile'] == PROFILE
-    assert review['safety'] == {
-        'installer_authorization_proven': False, 'unknown_leaf_count': 0,
+    assert review['schema'] == 1 and review['kind'] == 'managed_drift_recovery' and review['profile'] in (PROFILE, LOCAL_INPUT_PROFILE)
+    safety = {
+        'installer_authorization_proven': False,
         'repair_only': True, 'keep_newest_database': True,
         'after_identity_adoption': 'retain_stopped_and_active_lease',
-        'preserve_displaced_bytes': True}, 'Drift repair safety boundary differs'
+        'preserve_displaced_bytes': True}
+    if review['profile'] == LOCAL_INPUT_PROFILE:
+        safety.update(historical_origin_status='unknown', all_current_input_bytes_identified=True, full_gameplay_parity_verified=False)
+        safety['after_candidate_start'] = 'retain_stopped_with_candidate_and_newest_database'
+        assert review['safety']['all_current_input_bytes_identified'] is True and review['safety']['full_gameplay_parity_verified'] is False
+        assert 'local_existing_input' in review and 'preserved_existing_inputs' not in review, 'Same-UUID local input needs its own exact review'
+    else:
+        safety['unknown_leaf_count'] = 0
+        assert 'local_existing_input' not in review and 'retained_local_additions' not in review, 'Local-origin uncertainty cannot use the author-provenance profile'
+    assert review['safety'] == safety, 'Drift repair safety boundary differs'
     assert len(review['proofs']) == 3 and len({row['path'] for row in review['proofs']}) == 3, 'Three distinct provenance proofs are required'
     for proof in review['proofs']:
         relative = Path(proof['path'])
         assert not relative.is_absolute() and '..' not in relative.parts
         assert _committed(source / relative)['sha256'] == proof['sha256'], 'Committed provenance proof differs'
-    if review['observed'].get('added_uuids') and 'preserved_existing_inputs' not in review:
+    if review['observed'].get('added_uuids') and 'preserved_existing_inputs' not in review and 'retained_local_additions' not in review:
         addition = review['preserved_additions']
         relative = Path(addition['path'])
         assert not relative.is_absolute() and '..' not in relative.parts
@@ -137,14 +183,233 @@ def check_observed(inventory, policy=None):
     changed = {uid for uid in set(actual) & set(old) if any(actual[uid][key] != old[uid][key] for key in FIELDS)}
     assert changed == set(review['observed']['changed_uuids']), 'Changed identities differ'
     assert all(actual[uid]['side'] == old[uid]['side'] for uid in set(actual) & set(old)), 'Observed pack side changed'
+    if review['profile'] == LOCAL_INPUT_PROFILE:
+        _local_existing_input(inventory, approved, review)
     if added:
         _review_additions(inventory, approved, review, policy)
     return review, binding
 
 
+def _local_existing_input(inventory, approved, review):
+    """Review the known current pair without inventing its historical author.
+
+    Every leaf has an exact input identity. Historical attribution remains
+    unknown even when those current bytes are reviewed for a forward repair.
+    This mode cannot admit an added UUID, foreign namespace or another pair.
+    """
+    proof = review['local_existing_input']
+    assert proof['schema'] == 1 and proof['kind'] == 'same_uuid_unattributed_paired_input'
+    assert proof['historical_origin_status'] == 'unknown' and proof['original_archive_verified'] is False and proof['latest_stable_verified'] is False
+    assert proof['input_review_scope'] == 'exact_local_bytes_and_listed_repairs_only' and proof['full_gameplay_parity_verified'] is False
+    assert isinstance(proof['audited_input_paths'], list) and proof['audited_input_paths'] == sorted(set(proof['audited_input_paths']))
+    assert {'scripts/blocks/tanks.js', 'scripts/blocks/keep.js'} <= set(proof['audited_input_paths']), 'Specific tank safety review is required'
+    assert proof['action'] in ('retain_exact_bytes', 'repair_forward') and proof['installation_location'] == 'world'
+    assert proof['definition_namespace'] == 'kaleidoscope_fishing'
+    ids = set(LOCAL_INPUT_UUIDS.values())
+    assert set(proof['packs']) == ids and ids <= set(review['observed']['changed_uuids']), 'Local input must be the exact changed Fishing pair'
+    assert set(proof['audited_input_paths']) <= set(proof['packs'][LOCAL_INPUT_UUIDS['behavior']]['files']), 'Audited tank input paths are absent'
+    assert not ids & set(review['observed'].get('added_uuids', [])), 'Same-UUID input is not an addition'
+    old = {row['uuid']: row for row in approved['packs']}
+    actual = {row['uuid']: row for row in inventory['packs']}
+    assert ids <= set(old) & set(actual), 'Same-UUID input must already belong to the approved stack'
+    assert set(proof['target_packs']) == ids, 'Complete local target pair is required'
+    module_ids = set()
+    for side, uid in LOCAL_INPUT_UUIDS.items():
+        row, pin = actual[uid], proof['packs'][uid]
+        assert row['side'] == pin['side'] == old[uid]['side'] == side
+        assert pin['approved_version'] == old[uid]['version'] and pin['version'] == row['version'], 'Local input version differs'
+        assert row['files'] == pin['files'] and files_sha256(row['files']) == pin['files_sha256'], 'Local input full byte map differs'
+        path = Path(row['path'])
+        assert path.is_absolute() and path.resolve() == path and str(path) == pin['original_path'], 'Local input original path differs'
+        assert path.parent in {c.B / (side + '_packs'), c.W / (side + '_packs')}, 'Local input is outside reviewed pack catalogs'
+        if not path.exists():
+            assert path.parent == c.B / (side + '_packs'), 'Missing world input is not a global displacement'
+            path = _displaced_existing_source(row, path)
+        assert _files(path) == set(row['files']), 'Local input contains unsafe or unreviewed leaves'
+        assert c.sha(path / 'manifest.json') == row['files']['manifest.json'], 'Local input manifest changed'
+        manifest = c.read(path / 'manifest.json')
+        assert manifest['header']['uuid'] == uid and manifest['header']['version'] == row['version']
+        assert manifest['modules'] == pin['modules'] and manifest.get('dependencies', []) == pin['dependencies'], 'Local input modules or dependencies differ'
+        assert manifest['modules'] and all(module['version'] == row['version'] for module in manifest['modules'])
+        for module in manifest['modules']:
+            assert module['uuid'] not in module_ids, 'Local pair duplicates a module identity'
+            module_ids.add(module['uuid'])
+        module_side = 'resource' if all(module['type'] == 'resources' for module in manifest['modules']) else 'behavior'
+        assert module_side == side, 'Local input module side differs'
+        identifiers = _identifiers(path)
+        assert all(identifier.startswith(proof['definition_namespace'] + ':') for identifier in identifiers), 'Local input masks a managed or foreign definition'
+        assert identifiers or side == 'resource', 'Local behavior input has no reviewed definitions'
+    _local_pair_target_contract(proof, actual, LOCAL_INPUT_UUIDS)
+    _local_runtime_contract(proof, LOCAL_RUNTIME, LOCAL_RECIPE)
+    return proof
+
+
+def _local_runtime_contract(proof, runtime_path, recipe_path):
+    runtime = proof.get('canonical_runtime')
+    if proof['action'] == 'repair_forward':
+        assert isinstance(runtime, dict) and set(runtime) == {'path', 'tree', 'recipe_path', 'recipe_sha256'}
+        root = Path(runtime['path'])
+        assert root.as_posix() == runtime_path, 'Local runtime owner path differs'
+        assert c.git(c.EXTENSION, 'rev-parse', 'HEAD:' + root.as_posix()) == runtime['tree'], 'Local repair runtime owner changed'
+        recipe = Path(runtime['recipe_path'])
+        assert recipe.as_posix() == recipe_path, 'Local repair recipe path differs'
+        raw = subprocess.check_output(['git', '-C', str(c.EXTENSION), 'show', 'HEAD:' + recipe.as_posix()])
+        assert (c.EXTENSION / recipe).read_bytes() == raw and hashlib.sha256(raw).hexdigest() == runtime['recipe_sha256'], 'Local repair recipe differs from canonical source'
+    else:
+        assert runtime is None, 'Retained input cannot claim a new runtime producer'
+
+
+def _local_components(review):
+    yield 'fishing', review['local_existing_input'], LOCAL_INPUT_UUIDS, LOCAL_RUNTIME, LOCAL_RECIPE, 'canonical_local_fishing_repair'
+    if 'retained_local_additions' in review:
+        yield 'witchway', review['retained_local_additions'], LOCAL_ADDITION_UUIDS, LOCAL_ADDITION_RUNTIME, LOCAL_ADDITION_RECIPE, 'canonical_local_witchway_repair'
+
+
+def local_input_sources(original):
+    """Descriptors for assembly, before its immutable receipt is written."""
+    review, binding = check_observed(original, c.read(c.R / 'production-before/senluo-policy.json'))
+    if review['profile'] != LOCAL_INPUT_PROFILE:
+        return {}
+    result = {}
+    for _, proof, identities, *_ in _local_components(review):
+        for uid in identities.values():
+            source = {'owner': 'preserved', 'role': 'existing_unattributed_input' if proof['action'] == 'retain_exact_bytes' else 'canonical_local_repair',
+                      'origin_status': 'unverified_existing_input', 'original_archive_verified': False,
+                      'latest_stable_verified': False, 'action': proof['action'], 'local_input_review': binding,
+                      'historical_origin_status': 'unknown', 'full_gameplay_parity_verified': False,
+                      'input_files_sha256': proof['packs'][uid]['files_sha256']}
+            if proof['action'] == 'repair_forward':
+                source['canonical_runtime'] = {**proof['canonical_runtime'], 'repository': repository_target('casama233/senluo-family-integration-private')['repository'],
+                                               'repository_id': 1406868911, 'commit': c.git(c.EXTENSION, 'rev-parse', 'HEAD')}
+            result[uid] = source
+    return result
+
+
+def _local_target_pins(review):
+    result = dict(review['local_existing_input']['target_packs'])
+    if 'retained_local_additions' in review:
+        result.update(review['retained_local_additions']['target_packs'])
+    return result
+
+
+def verify_local_target(receipt, original):
+    """Exact output gate shared by assembly and relocation selection."""
+    review, _ = check_observed(original, c.read(c.R / 'production-before/senluo-policy.json'))
+    if review['profile'] != LOCAL_INPUT_PROFILE:
+        return set()
+    proof = review['local_existing_input']
+    sources = local_input_sources(original)
+    rows = {row['uuid']: row for row in receipt['packs']}
+    targets = _local_target_pins(review)
+    for uid, target in targets.items():
+        assert uid in rows and all(rows[uid][key] == target[key] for key in ['side', 'version', 'files']), 'Local target bytes or identity differ'
+        assert rows[uid]['source'] == sources[uid], 'Local input origin or canonical repair proof differs'
+    return set(targets)
+
+
+def _canonical_local_payload(side, proof, component='fishing'):
+    """Read a complete committed pack once; working bytes must match its blobs."""
+    assert component in ('fishing', 'witchway'), 'Unreviewed local runtime component'
+    runtime, identities = (LOCAL_RUNTIME, LOCAL_INPUT_UUIDS) if component == 'fishing' else (LOCAL_ADDITION_RUNTIME, LOCAL_ADDITION_UUIDS)
+    relative = Path(runtime) / ('BP' if side == 'behavior' else 'RP')
+    path = c.EXTENSION / relative
+    assert path.is_dir() and not path.is_symlink() and path.resolve() == path, 'Local runtime pack path is not canonical'
+    uid = identities[side]
+    expected = proof['target_packs'][uid]
+    raw = subprocess.check_output(['git', '-C', str(c.EXTENSION), 'ls-tree', '-rz', 'HEAD:' + relative.as_posix()])
+    blobs = {}
+    for entry in raw.split(b'\0'):
+        if not entry:
+            continue
+        header, name = entry.split(b'\t', 1)
+        mode, kind, oid = header.decode('ascii').split()
+        name = name.decode('utf-8')
+        assert mode in ('100644', '100755') and kind == 'blob' and name not in blobs, 'Local runtime contains a linked, duplicate or nonregular object'
+        blobs[name] = oid
+    assert set(blobs) == _files(path) == set(expected['files']), 'Complete canonical local runtime inventory differs'
+    for name, oid in blobs.items():
+        source = path / name
+        descriptor = os.open(source, os.O_RDONLY | os.O_NOFOLLOW)
+        with os.fdopen(descriptor, 'rb') as stream:
+            before = os.fstat(stream.fileno()); content = stream.read(); after = os.fstat(stream.fileno())
+        final = source.lstat()
+        assert stat.S_ISREG(before.st_mode) and stat.S_ISREG(final.st_mode) and (final.st_dev, final.st_ino) == (before.st_dev, before.st_ino), 'Local runtime source was replaced or linked'
+        assert (before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns, before.st_ctime_ns) == (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_ctime_ns), 'Local runtime changed during read'
+        assert hashlib.sha256(content).hexdigest() == expected['files'][name], 'Local runtime differs from exact reviewed output'
+        assert hashlib.sha1(b'blob ' + str(len(content)).encode() + b'\0' + content).hexdigest() == oid, 'Local runtime is not committed unchanged'
+    manifest = c.read(path / 'manifest.json')
+    assert manifest['header']['uuid'] == uid and manifest['header']['version'] == expected['version'], 'Local target manifest identity differs'
+    assert manifest['modules'] and all(module['version'] == expected['version'] for module in manifest['modules']), 'Local target module versions differ'
+    assert all(module['type'] == 'resources' for module in manifest['modules']) if side == 'resource' else any(module['type'] in ('data', 'script') for module in manifest['modules']), 'Local target module side differs'
+    for dependency in manifest.get('dependencies', []):
+        if dependency.get('uuid') in identities.values():
+            assert dependency['version'] == expected['version'], 'Local target paired dependency differs'
+    if component == 'fishing':
+        assert all(identifier.startswith('kaleidoscope_fishing:') for identifier in _identifiers(path)), 'Local target masks a managed or foreign definition'
+    else:
+        _witch_definition_scope(path, side, proof['packs'][uid]['foreign_definitions'])
+    return path, manifest
+
+
+def select_local_inputs(roots, original):
+    """Select only the exact retained input or complete canonical repaired pair.
+
+    Paths are fixed inside verified private main. Configuration cannot supply
+    an arbitrary output directory or a per-file gameplay substitution.
+    """
+    roots = [Path(root) for root in roots]
+    if not c.CONFIG.get('managed_drift_recovery'):
+        return roots, {}, None
+    review, binding = check_observed(original, c.read(c.R / 'production-before/senluo-policy.json'))
+    if review['profile'] != LOCAL_INPUT_PROFILE:
+        return roots, {}, None
+    proof = review['local_existing_input']
+    identities = [c.read(root / 'manifest.json')['header']['uuid'] for root in roots]
+    expected_sources = local_input_sources(original)
+    assert len(identities) == len(set(identities)) and set(expected_sources) <= set(identities), 'Local pair selection is missing or ambiguous'
+    actual = {row['uuid']: row for row in original['packs']}
+    for root, uid in zip(roots, identities):
+        if uid in expected_sources:
+            assert root == Path(actual[uid]['path']), 'Another selector already replaced the local input'
+    replacements = {}
+    manifests = []
+    for component, selected_proof, component_ids, _, recipe_path, recipe_kind in _local_components(review):
+        if selected_proof['action'] == 'repair_forward':
+            recipe = c.read(c.EXTENSION / recipe_path)
+            assert recipe['schema'] == 1 and recipe['kind'] == recipe_kind
+            assert recipe['historical_origin_status'] == 'unknown' and recipe['original_archive_verified'] is False and recipe['latest_stable_verified'] is False
+            assert recipe['native_loading'] is False and recipe['saved_world_migration'] is False and recipe['client'] is False and recipe['production_ready'] is False, 'Source recipe cannot certify native/client admission'
+            for side, uid in component_ids.items():
+                label = 'BP' if side == 'behavior' else 'RP'
+                assert recipe['input_hashes'][label] == selected_proof['packs'][uid]['files'], 'Local recipe input identity differs'
+                assert recipe['output_hashes'][label] == selected_proof['target_packs'][uid]['files'], 'Local recipe output identity differs'
+                assert recipe['version'] == selected_proof['target_packs'][uid]['version'], 'Local recipe release identity differs'
+                replacements[uid], manifest = _canonical_local_payload(side, selected_proof, component)
+                manifests.append(manifest)
+    module_ids = [module['uuid'] for manifest in manifests for module in manifest['modules']]
+    assert len(module_ids) == len(set(module_ids)), 'Local target duplicates module identities'
+    selected = [replacements.get(uid, root) for root, uid in zip(roots, identities)]
+    evidence = {'schema': 1, 'kind': 'exact_local_input_selection', 'review': binding,
+                'historical_origin_status': 'unknown', 'full_gameplay_parity_verified': False,
+                'action': proof['action'], 'input_files_sha256': {uid: row['files_sha256'] for uid, row in proof['packs'].items()},
+                'output_files_sha256': {uid: files_sha256(row['files']) for uid, row in proof['target_packs'].items()},
+                'canonical_runtime': proof.get('canonical_runtime'),
+                'selected': {uid: str(replacements.get(uid, Path(actual[uid]['path']))) for uid in expected_sources},
+                'native_loading': False, 'saved_world_migration': False, 'client': False, 'production_ready': False}
+    if 'retained_local_additions' in review:
+        added = review['retained_local_additions']
+        evidence['retained_local_additions'] = {uid: {'files_sha256': pin['files_sha256'], 'target_files_sha256': files_sha256(added['target_packs'][uid]['files']),
+                                                    'action': added['action'], 'canonical_runtime': added.get('canonical_runtime'), 'historical_origin_status': 'unknown', 'full_gameplay_parity_verified': False}
+                                                for uid, pin in review['retained_local_additions']['packs'].items()}
+    return selected, expected_sources, evidence
+
+
 def _review_additions(inventory, approved, review, policy=None):
     """Reuse the original-archive gate; only reviewed missing rows are omitted."""
     from family_update.preserved_additions import review as review_additions
+    if 'retained_local_additions' in review:
+        assert review['profile'] == LOCAL_INPUT_PROFILE and 'preserved_existing_inputs' not in review and 'preserved_additions' not in review, 'Use one exact local addition admission mode'
+        return _retained_local_additions(inventory, approved, review)
     if 'preserved_existing_inputs' in review:
         assert 'preserved_additions' not in review, 'Use one explicit addition admission mode'
         return _existing_inputs(inventory, approved, review, policy)
@@ -156,6 +421,86 @@ def _review_additions(inventory, approved, review, policy=None):
     adjusted, _ = review_additions(observed, expected, order, policy['managed_uuids'], reviewed_path=c.EXTENSION / review['preserved_additions']['path'])
     assert set(adjusted) - set(expected) == set(review['observed']['added_uuids']), 'Addition archive review exceeds committed drift scope'
     return adjusted
+
+
+def _retained_local_additions(inventory, approved, review):
+    """Review the exact current Witch pair and its five embedded provider IDs.
+
+    This is no author/runtime approval. It cannot admit another UUID pair,
+    another foreign definition, or re-enable the displaced old providers.
+    """
+    proof = review['retained_local_additions']
+    assert proof['schema'] == 1 and proof['kind'] == 'exact_unattributed_existing_pair'
+    assert proof['historical_origin_status'] == 'unknown' and proof['original_archive_verified'] is False and proof['latest_stable_verified'] is False
+    assert proof['action'] in ('retain_exact_bytes', 'repair_forward') and proof['installation_location'] == 'world' and proof['definition_namespace'] == 'aww'
+    assert proof['full_gameplay_parity_verified'] is False
+    assert proof['input_review_scope'] == 'exact_local_bytes_and_listed_repairs_only'
+    if proof['action'] == 'repair_forward':
+        assert 'scripts/coven_and_reactions.js' in proof['audited_input_paths'], 'Specific native drop consumer review is required'
+    ids = set(LOCAL_ADDITION_UUIDS.values())
+    assert set(proof['packs']) == ids == set(review['observed'].get('added_uuids', [])), 'Local addition must be the exact current Witch pair'
+    if proof['action'] == 'repair_forward':
+        assert set(proof['audited_input_paths']) <= set(proof['packs'][LOCAL_ADDITION_UUIDS['behavior']]['files']), 'Audited local addition input paths are absent'
+    assert LOCAL_ADDITION_REPLACED <= set(review['observed']['missing_uuids']), 'Embedded providers must replace their exact retired standalone identities'
+    actual = {row['uuid']: row for row in inventory['packs']}
+    assert not LOCAL_ADDITION_REPLACED & set(actual), 'Embedded and standalone providers cannot coexist'
+    adjusted = {row['uuid']: row for row in approved['packs'] if row['uuid'] not in review['observed']['missing_uuids']}
+    modules = set()
+    for side, uid in LOCAL_ADDITION_UUIDS.items():
+        row, pin = actual[uid], proof['packs'][uid]
+        assert row['side'] == pin['side'] == side and row['version'] == pin['version']
+        assert row['files'] == pin['files'] and files_sha256(row['files']) == pin['files_sha256'], 'Retained local addition byte map differs'
+        path = Path(row['path'])
+        assert path.is_absolute() and path.resolve() == path and str(path) == pin['original_path'] and path.parent == c.B / (side + '_packs'), 'Retained local addition original global path differs'
+        if not path.exists():
+            path = _displaced_existing_source(row, path)
+        assert _files(path) == set(row['files']) and c.sha(path / 'manifest.json') == row['files']['manifest.json'], 'Retained local addition inventory or manifest differs'
+        manifest = c.read(path / 'manifest.json')
+        assert manifest['header']['uuid'] == uid and manifest['header']['version'] == row['version']
+        assert manifest['modules'] == pin['modules'] and manifest.get('dependencies', []) == pin['dependencies'], 'Retained local addition modules or dependencies differ'
+        assert manifest['modules'] and all(module['version'] == row['version'] for module in manifest['modules'])
+        inferred = 'resource' if all(module['type'] == 'resources' for module in manifest['modules']) else 'behavior'
+        assert inferred == side
+        for module in manifest['modules']:
+            assert module['uuid'] not in modules, 'Retained local addition duplicates a module identity'
+            modules.add(module['uuid'])
+        _witch_definition_scope(path, side, pin['foreign_definitions'])
+        adjusted[uid] = {**row, 'source': {'owner': 'preserved', 'role': 'existing_unattributed_input',
+            'origin_status': 'unverified_existing_input', 'historical_origin_status': 'unknown',
+            'original_archive_verified': False, 'latest_stable_verified': False, 'action': 'retain_exact_bytes',
+            'full_gameplay_parity_verified': False}}
+    assert len({tuple(row['version']) for row in proof['packs'].values()}) == 1, 'Retained local addition must be a complete paired version'
+    _local_pair_target_contract(proof, actual, LOCAL_ADDITION_UUIDS)
+    _local_runtime_contract(proof, LOCAL_ADDITION_RUNTIME, LOCAL_ADDITION_RECIPE)
+    return adjusted
+
+
+def _witch_definition_scope(path, side, expected_foreign):
+    definitions = _definition_identifiers(path)
+    foreign = {name: values for name, values in definitions.items() if any(not identifier.startswith('aww:') for identifier in values)}
+    assert foreign == expected_foreign, 'Retained local foreign definition scope differs'
+    assert all(identifier.startswith('aww:') or identifier in LOCAL_ADDITION_FOREIGN.values() for values in definitions.values() for identifier in values), 'Retained local addition masks an unreviewed foreign definition'
+    if side == 'behavior':
+        assert foreign == {name: [identifier] for name, identifier in LOCAL_ADDITION_FOREIGN.items()}, 'Retained local embedded provider definitions differ'
+        assert any(identifier.startswith('aww:') for values in definitions.values() for identifier in values), 'Retained local behavior input has no reviewed namespace'
+
+
+def _local_pair_target_contract(proof, actual, identities):
+    assert set(proof['target_packs']) == set(identities.values()), 'Complete local target pair is required'
+    for side, uid in identities.items():
+        row, target = actual[uid], proof['target_packs'][uid]
+        assert set(target) == {'side', 'version', 'files'} and target['side'] == side
+        assert isinstance(target['version'], list) and len(target['version']) == 3 and all(type(v) is int and v >= 0 for v in target['version'])
+        assert isinstance(target['files'], dict) and target['files'] and 'manifest.json' in target['files']
+        for name, digest in {**row['files'], **target['files']}.items():
+            leaf = Path(name)
+            assert not leaf.is_absolute() and '..' not in leaf.parts and leaf.as_posix() == name and '\\' not in name
+            assert isinstance(digest, str) and re.fullmatch('[0-9a-f]{64}', digest), 'Local input/output hash is malformed'
+        if proof['action'] == 'retain_exact_bytes':
+            assert all(target[key] == row[key] for key in ['side', 'version', 'files']), 'Retain-only local input changed'
+        else:
+            assert tuple(target['version']) > tuple(row['version']), 'A forward runtime repair needs a fresh pair'
+    assert len({tuple(row['version']) for row in proof['target_packs'].values()}) == 1, 'Local target must have a paired release identity'
 
 
 def _existing_inputs(inventory, approved, review, policy=None):
@@ -195,12 +540,7 @@ def _existing_inputs(inventory, approved, review, policy=None):
             assert module['uuid'] not in module_ids, 'Existing input duplicates a module identity'
             module_ids.add(module['uuid'])
         assert uid not in policy['managed_uuids'] and not any(dep.get('uuid') in policy['managed_uuids'] for dep in manifest.get('dependencies', [])), 'Managed ownership or dependencies cannot use retain-only admission'
-        identifiers = []
-        for directory in ['blocks', 'items', 'entities', 'entity']:
-            for definition in (path / directory).rglob('*.json'):
-                text = definition.read_text(encoding='utf-8-sig')
-                text = re.sub(r'"(?:\\.|[^"\\])*"|//[^\n]*|/\*.*?\*/', lambda match: match[0] if match[0].startswith('"') else '', text, flags=re.S)
-                identifiers.extend(re.findall(r'"identifier"\s*:\s*"([^"\s]+)"', text))
+        identifiers = _identifiers(path)
         assert all(identifier.startswith(proof['definition_namespace'] + ':') for identifier in identifiers), 'Retained input masks a managed or foreign definition'
         assert identifiers or side == 'resource', 'Retained behavior input has no reviewed definitions'
         sides.add(side)
@@ -242,6 +582,10 @@ def captured_addition_ids():
 
 def global_relocations(original):
     review, _ = check_observed(original, c.read(c.R / 'production-before/senluo-policy.json'))
+    if review['profile'] == LOCAL_INPUT_PROFILE:
+        pins = {**review['local_existing_input']['packs'], **review.get('retained_local_additions', {}).get('packs', {})}
+        return {uid: Path(row['original_path']) for uid, row in pins.items()
+                if Path(row['original_path']).parent == c.B / (row['side'] + '_packs')}
     if 'preserved_existing_inputs' not in review:
         return {}
     proof = review['preserved_existing_inputs']
@@ -266,7 +610,12 @@ def input_refs():
     review, binding = load_review()
     result = {'managed_drift_recovery': binding['sha256']}
     result.update({'managed_drift_proof:' + row['path']: row['sha256'] for row in review['proofs']})
-    if review['observed'].get('added_uuids') and 'preserved_existing_inputs' not in review:
+    if review['profile'] == LOCAL_INPUT_PROFILE:
+        proof = review['local_existing_input']
+        result['managed_drift_local_input'] = hashlib.sha256(json.dumps(proof, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
+        if 'retained_local_additions' in review:
+            result['managed_drift_retained_local_additions'] = hashlib.sha256(json.dumps(review['retained_local_additions'], sort_keys=True, separators=(',', ':')).encode()).hexdigest()
+    if review['observed'].get('added_uuids') and 'preserved_existing_inputs' not in review and 'retained_local_additions' not in review:
         result['managed_drift_additions_review'] = review['preserved_additions']['sha256']
         additions = c.read(c.EXTENSION / review['preserved_additions']['path'])
         for uid, row in additions['packs'].items():
@@ -308,6 +657,8 @@ def validate_target(receipt, original, migration):
         for uid in review['observed']['added_uuids']:
             assert all(candidate[uid][key] == actual[uid][key] for key in FIELDS), 'Retain-only input was changed by candidate'
             assert candidate[uid]['source']['owner'] == 'preserved', 'Retain-only input cannot masquerade as a current author release'
+    if review['profile'] == LOCAL_INPUT_PROFILE:
+        verify_local_target(receipt, original)
     return additions
 
 
@@ -321,6 +672,11 @@ def provenance_original(original, approved):
     packs = []
     for row in original['packs']:
         source = dict(prior[row['uuid']]['source'])
+        if review['profile'] == LOCAL_INPUT_PROFILE and row['uuid'] in LOCAL_INPUT_UUIDS.values():
+            source = {'owner': 'preserved', 'role': 'existing_unattributed_input',
+                      'origin_status': 'unverified_existing_input', 'original_archive_verified': False,
+                      'latest_stable_verified': False, 'action': 'observed_input_only',
+                      'approved_reference_source': source}
         if row['uuid'] in review['observed']['changed_uuids']:
             source['observed_reviewed_drift'] = {
                 'review': binding, 'approved_receipt_sha256': review['approved']['receipt_sha256'],
@@ -341,6 +697,12 @@ def reviewed_order(original, migration):
             if row['uuid'] in review['observed']['added_uuids']:
                 assert all(row[key] == actual[row['uuid']][key] for key in ['side', 'version']), 'Reviewed retained identity changed'
                 row.update(files=actual[row['uuid']]['files'], source={'owner': 'preserved'})
+    if review['profile'] == LOCAL_INPUT_PROFILE:
+        sources = local_input_sources(original)
+        pins = _local_target_pins(review)
+        for row in synthetic_rows:
+            if row['uuid'] in sources:
+                row.update(pins[row['uuid']], source=sources[row['uuid']])
     synthetic = {'packs': synthetic_rows, 'order': target['order']}
     validate_target(synthetic, original, migration)
     return {side: list(target['order'][side]) for side in SIDES}

@@ -1,3 +1,7 @@
+## 0.6.181
+
+Bound failed furniture handoffs and background visual retries while retaining original native inventory authority. Unchanged acknowledged cabinets no longer refill the transport queue; a changed owner or loaded native carrier can retry promptly. Add stopped-stage native actor index recovery with complete item and unrelated-record preservation checks. Full-family native and client acceptance remain pending.
+
 ## 0.6.180
 
 - Tint placed native potion liquid from the saved ItemStack using one shared cosmetic renderer, preserving original glass, alpha holes, texture shades and PBR roughness. Native storage remains the sole item authority.

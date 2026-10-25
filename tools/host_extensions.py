@@ -110,7 +110,11 @@ def validate_recipe_removals(spec, owned_root, host_root, stable, *, retained_ow
  manifest = json.loads((owned_root / 'manifest.json').read_text())
  dependency = {'uuid': '5e121bf2-1d2d-4da4-be15-cffc5f216d94', 'version': [1, 2, 10058] if stable['admission']=='current-author-p58' else [1, 2, 0]}
  owner=admissions[stable['admission']]
- if retained_owner is not None:owner=retained_owner_version(retained_owner,owned_root,owner)
+ if retained_owner is not None:
+  owner=retained_owner_version(retained_owner,owned_root,owner)
+  selected=json.loads((Path(retained_owner['source_root'])/'baseline.json').read_bytes())
+  if selected.get('retained_runtime',{}).get('kind')=='current-functional':
+   dependency['version']=selected['retained_runtime']['dependency_versions'][dependency['uuid']]
  if manifest['header']['version'] != owner or dependency not in manifest.get('dependencies', []):
   raise ValueError('salt coexistence requires the exact Fishing companion dependency')
  for name, expected in removed.items():
@@ -120,7 +124,15 @@ def validate_recipe_removals(spec, owned_root, host_root, stable, *, retained_ow
  return removed
 
 
-def apply_host_extension(spec,owned_root,host_root,source,*,retained_owner=None):
+def apply_host_extension(spec,owned_root,host_root,source,*,retained_owner=None,station_handoff=None):
+ if spec.get('kind')=='cookery-station-performance':
+  from cookery_station_extension import apply_station_extension
+  return apply_station_extension(spec,owned_root,host_root,source,station_handoff)
+ station_api_profile=None
+ if station_handoff is not None:
+  from cookery_station_extension import delegated_api_spec
+  station_api_profile=match_stable_profile(spec,owned_root,source)
+  spec=delegated_api_spec(spec,station_handoff)
  if spec.get('kind')=='cookery-held-geometry-canonicalization':
   from held_geometry_extension import apply_held_geometry_extension
   return apply_held_geometry_extension(spec,owned_root,host_root,source)
@@ -145,7 +157,7 @@ def apply_host_extension(spec,owned_root,host_root,source,*,retained_owner=None)
  dough=spec.get('kind')=='cookery-mooncake-dough-repair'
  cache=spec.get('kind')=='cookery-recipe-cache-repair'
  guide=spec.get('kind')=='cookery-guide-startup-repair'
- stable=match_stable_profile(spec,owned_root,source)
+ stable=station_api_profile or match_stable_profile(spec,owned_root,source)
  removed=validate_recipe_removals(spec,owned_root,host_root,stable,retained_owner=retained_owner)
  if cache and not stable:validate_recipe_cache_profile(spec,source)
  if guide and not stable:validate_guide_startup_profile(spec,source)
@@ -225,5 +237,6 @@ def apply_host_extension(spec,owned_root,host_root,source,*,retained_owner=None)
   src=safe(owned_root,name);dest=safe(host_root,target);data=src.read_bytes();dest.parent.mkdir(parents=True,exist_ok=True);dest.write_bytes(data);copies[target]={'source':name,'sha256':hashlib.sha256(data).hexdigest()}
  for name in removed:safe(host_root,name).unlink()
  proof={'id':spec['id'],'version':spec['version'],'expires':spec['expires'],'original_files':spec['original_files'],'patched_files':spec['patched_files'],'copies':copies,'removal_condition':spec['removal_condition'],'feedback':spec['feedback'],'authorization':spec['authorization']}
+ if station_handoff is not None:proof['delegated_files']={'scripts/custom_components/blocks/directStation.js':station_handoff['binding']}
  if removed:proof['removed_files']=removed
  return proof

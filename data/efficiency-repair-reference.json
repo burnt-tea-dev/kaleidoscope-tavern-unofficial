@@ -17,11 +17,6 @@
       "after": "d06b616619a3294d1b4ad170ac0d3a7b88c7f3370fb2d138988de7edf07efdd5",
       "reason": "One helper query per rack, group sweeps, actual-state delta setters and no ambient registration for empty racks. Preserve pose, pop rules and 1/8 particle test."
     },
-    "runtime/BP/scripts/bedrock/extension-furniture.js": {
-      "before": "e3ed4b0869cb0a60928d4ce4c3228cb26ce8ac2d9bf48b64022b3c5a482c9177",
-      "after": "ceff6646a47417705d55a9fca9ba420549ec3b6baeb7121c6db12dd8358c65d9",
-      "reason": "Group helper sweeps by external cabinet and skip unchanged actual pose/property setters. Preserve migration handshake, receipts, definitions and slot transactions."
-    },
     "runtime/BP/scripts/bedrock/java-ambient.js": {
       "before": "788b4c328d58d5d2dd6581a54d2bfa9452846fe207b42f7543708672efc86421",
       "after": "4d2f96b214a8abe9b2f9602cc103e52a78f17d259db8c3d5f1432f8af308a13d",

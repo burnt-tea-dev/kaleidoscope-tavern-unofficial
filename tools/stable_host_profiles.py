@@ -53,8 +53,20 @@ def validate_stable_source(profile, source):
             # or a mixture of a new identity and old helper hashes.
             if len(preceding) != 1:
                 raise ValueError('stable host lacks exact preceding receipt: ' + name)
-        if not any(isinstance(row, dict) and all(row.get(key) == value for key, value in option.items())
-                   for row in preceding for option in expected):
+        def matches(row, option):
+            if not isinstance(row, dict):
+                return False
+            if all(row.get(key) == value for key, value in option.items()):
+                return True
+            if name == 'public-api' and row.get('delegated_files'):
+                from cookery_station_extension import validate_public_delegation
+                try:
+                    validate_public_delegation(row, option)
+                    return True
+                except (ValueError, KeyError, TypeError):
+                    return False
+            return False
+        if not any(matches(row, option) for row in preceding for option in expected):
             raise ValueError('stable host lacks exact preceding receipt: ' + name)
 
 
