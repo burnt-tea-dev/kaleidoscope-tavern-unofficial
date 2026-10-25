@@ -14,6 +14,8 @@ import shutil
 import stat
 import subprocess
 
+from bridge_project import unique_object
+from family_bundle import read_definition
 from family_update import common as c
 from family_update.repository_identity import target as repository_target
 
@@ -74,12 +76,22 @@ def _identifiers(root):
 def _definition_identifiers(root):
     definitions = {}
     for directory in ['blocks', 'items', 'entities', 'entity']:
-        for definition in (root / directory).rglob('*.json'):
-            text = definition.read_text(encoding='utf-8-sig')
-            text = re.sub(r'"(?:\\.|[^"\\])*"|//[^\n]*|/\*.*?\*/', lambda match: match[0] if match[0].startswith('"') else '', text, flags=re.S)
-            values = re.findall(r'"identifier"\s*:\s*"([^"\s]+)"', text)
-            if values:
-                definitions[definition.relative_to(root).as_posix()] = values
+        for definition in sorted((root / directory).rglob('*.json')):
+            relative = definition.relative_to(root).as_posix()
+            try:
+                value = read_definition(definition, jsonc=True, object_pairs_hook=unique_object)
+            except ValueError as error:
+                raise AssertionError('Malformed pack definition ' + relative + ': ' + str(error)) from error
+            assert isinstance(value, dict), 'Pack definition must be an object: ' + relative
+            owners = [name for name in ['minecraft:block', 'minecraft:item', 'minecraft:entity', 'minecraft:client_entity'] if name in value]
+            if not owners:
+                continue
+            assert len(owners) == 1, 'Ambiguous registered definition owners: ' + relative
+            body = value[owners[0]]
+            assert isinstance(body, dict) and isinstance(body.get('description'), dict), 'Malformed registered definition description: ' + relative
+            identifier = body['description'].get('identifier')
+            assert isinstance(identifier, str) and re.fullmatch(r'[a-z0-9_.-]+:[a-z0-9_./-]+', identifier), 'Malformed registered definition identifier: ' + relative
+            definitions[relative] = [identifier]
     return definitions
 
 
