@@ -11,16 +11,16 @@ def validate_client_scripts(obj,path):
  if not isinstance(obj,dict) or obj.get('format_version')!='1.8.0':return
  scripts=obj.get('minecraft:client_entity',{}).get('description',{}).get('scripts',{})
  if 'initialize' in scripts:fail('client_entity format 1.8.0 does not support scripts.initialize: '+str(path))
-def read_definition(path,jsonc=False):
+def read_definition(path,jsonc=False,*,object_pairs_hook=None):
  raw=path.read_text(encoding='utf-8-sig')
- try:return json.loads(raw)
+ try:return json.loads(raw,object_pairs_hook=object_pairs_hook)
  except json.JSONDecodeError:
   if not jsonc:raise
  # Bedrock JSONC is allowed in preserved third-party definitions. Only the
  # scanner parses it; copied bytes and their per-file receipts stay untouched.
  raw=re.sub(r'"(?:\\.|[^"\\])*"|//[^\n]*|/\*.*?\*/',lambda m:m[0] if m[0].startswith('"') else '',raw,flags=re.S)
  raw=re.sub(r'"(?:\\.|[^"\\])*"|,\s*([}\]])',lambda m:m[0] if m[0].startswith('"') else m[1],raw)
- return json.loads(raw)
+ return json.loads(raw,object_pairs_hook=object_pairs_hook)
 def files_hash(root):return {p.relative_to(root).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(root.rglob('*')) if p.is_file()}
 def packs(z):
  names=z.namelist()

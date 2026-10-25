@@ -30,6 +30,90 @@ def hashes(root):
             for p in sorted(root.rglob('*')) if p.is_file()}
 
 
+def registered(kind, identifier):
+    return {kind: {'description': {'identifier': identifier}}}
+
+
+class RegisteredDefinitionIdentifiers(unittest.TestCase):
+    def setUp(self):
+        temporary = tempfile.TemporaryDirectory(); self.addCleanup(temporary.cleanup)
+        self.root = Path(temporary.name)
+
+    def test_only_registered_block_item_entity_and_client_entity_ids_are_owners(self):
+        for directory, kind in [('blocks', 'minecraft:block'), ('items', 'minecraft:item'),
+                                ('entities', 'minecraft:entity'), ('entity', 'minecraft:client_entity')]:
+            value = registered(kind, 'aww:fixture')
+            value[kind]['components'] = {'minecraft:geometry': {'identifier': 'geometry.aww.fixture'},
+                                          'magic:spell': {'identifier': 'aegis'},
+                                          'foreign:option': {'identifier': 'nvy:nested_option'}}
+            write(self.root / directory / 'fixture.json', value)
+        self.assertEqual(m._definition_identifiers(self.root), {
+            directory + '/fixture.json': ['aww:fixture'] for directory in ['blocks', 'items', 'entities', 'entity']})
+
+    def test_jsonc_comments_trailing_commas_and_string_decoys_do_not_create_owners(self):
+        path = self.root / 'items/scroll.json'; path.parent.mkdir()
+        path.write_text(r'''{
+          // "minecraft:item":{"description":{"identifier":"nvy:comment_decoy"}}
+          "minecraft:item": {
+            "description": {"identifier":"aww:aegis_scroll",},
+            "components": {"magic:spell":{"identifier":"aegis",},},
+          },
+          "note":"/* literal */ // literal ,} ,] escaped \"identifier\":\"nvy:string_decoy\"",
+        }''')
+        self.assertEqual(m._definition_identifiers(self.root), {'items/scroll.json': ['aww:aegis_scroll']})
+        value = m.read_definition(path, jsonc=True)
+        self.assertEqual(value['note'], '/* literal */ // literal ,} ,] escaped "identifier":"nvy:string_decoy"')
+
+    def test_real_foreign_root_cannot_masquerade_behind_allowed_nested_ids(self):
+        value = registered('minecraft:item', 'kaleidoscope_tavern:foreign_root')
+        value['minecraft:item']['components'] = {'magic:spell': {'identifier': 'aww:allowed_decoy'}}
+        write(self.root / 'items/foreign.json', value)
+        self.assertEqual(m._definition_identifiers(self.root), {'items/foreign.json': ['kaleidoscope_tavern:foreign_root']})
+        with self.assertRaisesRegex(AssertionError, 'foreign definition scope differs'):
+            m._witch_definition_scope(self.root, 'resource', {})
+
+    def test_unregistered_metadata_and_identifier_strings_do_not_define_assets(self):
+        write(self.root / 'entity/metadata.json', {'minecraft:geometry': {'description': {'identifier': 'nvy:geometry'}},
+                                                  'description': {'identifier': 'nvy:bare_description'},
+                                                  'note': '"identifier":"nvy:string"'})
+        self.assertEqual(m._definition_identifiers(self.root), {})
+
+    def test_duplicate_registered_owner_description_or_identifier_rejects_before_jsonc_fallback(self):
+        path = self.root / 'items/duplicate.json'; path.parent.mkdir()
+        samples = [
+            '{"minecraft:item":{"description":{"identifier":"aww:first"}},"minecraft:item":{"description":{"identifier":"nvy:hidden"}}}',
+            '{"minecraft:item":{"description":{"identifier":"aww:first"},"description":{"identifier":"nvy:hidden"}}}',
+            '{"minecraft:item":{"description":{"identifier":"aww:first","identifier":"nvy:hidden"}}}',
+        ]
+        for text in samples:
+            for jsonc in [False, True]:
+                with self.subTest(text=text, jsonc=jsonc):
+                    path.write_text(('// JSONC duplicate remains ambiguous\n' if jsonc else '') + text)
+                    with self.assertRaisesRegex(AssertionError, 'duplicate JSON key'):
+                        m._definition_identifiers(self.root)
+        # Existing callers keep their default decoder; strictness is opt-in.
+        self.assertEqual(m.read_definition(path, jsonc=True)['minecraft:item']['description']['identifier'], 'nvy:hidden')
+
+    def test_multiple_registered_owner_types_in_one_file_are_ambiguous(self):
+        value = registered('minecraft:item', 'aww:item') | registered('minecraft:entity', 'aww:entity')
+        write(self.root / 'items/ambiguous.json', value)
+        with self.assertRaisesRegex(AssertionError, 'Ambiguous registered definition owners'):
+            m._definition_identifiers(self.root)
+
+    def test_malformed_known_owner_never_falls_back_to_nested_identifier(self):
+        path = self.root / 'items/malformed.json'
+        values = [None, [], 'aww:string', {}, {'description': None}, {'description': []}, {'description': {}},
+                  *[{'description': {'identifier': identifier}} for identifier in [None, [], {}, '', 'aww', 'aww:', 'aww:two:colons', 'aww:bad whitespace']]]
+        for value in values:
+            with self.subTest(value=value):
+                write(path, {'minecraft:item': value, 'metadata': {'identifier': 'aww:nested_decoy'}})
+                with self.assertRaisesRegex(AssertionError, 'Malformed registered definition'):
+                    m._definition_identifiers(self.root)
+        path.write_text('{"minecraft:item":{"description":{"identifier":"aww:valid"}} /* unterminated')
+        with self.assertRaisesRegex(AssertionError, 'Malformed pack definition'):
+            m._definition_identifiers(self.root)
+
+
 class DriftTests(unittest.TestCase):
     def setUp(self):
         temporary = tempfile.TemporaryDirectory()
@@ -144,7 +228,7 @@ class DriftTests(unittest.TestCase):
         for row in self.original['packs']:
             if row['uuid'].startswith('foreign-'):
                 path = Path(row['path'])
-                write(path / ('items' if row['side'] == 'behavior' else 'entity') / 'fishing.json', {'description': {'identifier': 'kaleidoscope_fishing:existing_item'}})
+                write(path / ('items' if row['side'] == 'behavior' else 'entity') / 'fishing.json', registered('minecraft:item' if row['side'] == 'behavior' else 'minecraft:client_entity', 'kaleidoscope_fishing:existing_item'))
                 row['files'] = hashes(path)
                 pins[row['uuid']] = {'side': row['side'], 'version': row['version'], 'global_path': row['path'],
                     'manifest_sha256': row['files']['manifest.json'], 'files_sha256': m.files_sha256(row['files']),
@@ -181,7 +265,7 @@ class DriftTests(unittest.TestCase):
             self.approved['packs'].append(approved); self.approved['order'][side].append(uid)
             row = self.pack(self.engine, uid, side, [1, 3, 10004])
             path = Path(row['path'])
-            write(path / ('items' if side == 'behavior' else 'entity') / 'fishing.json', {'description': {'identifier': 'kaleidoscope_fishing:current_local_item'}})
+            write(path / ('items' if side == 'behavior' else 'entity') / 'fishing.json', registered('minecraft:item' if side == 'behavior' else 'minecraft:client_entity', 'kaleidoscope_fishing:current_local_item'))
             if side == 'behavior':
                 for name in ['tanks.js', 'keep.js']:
                     (path / 'scripts/blocks').mkdir(parents=True, exist_ok=True)
@@ -273,7 +357,7 @@ class DriftTests(unittest.TestCase):
     def test_same_uuid_local_pair_cannot_mask_a_foreign_definition(self):
         self.local_same_uuid_mode()
         uid = m.LOCAL_INPUT_UUIDS['behavior']; row = next(row for row in self.original['packs'] if row['uuid'] == uid)
-        write(Path(row['path']) / 'items/fishing.json', {'description': {'identifier': 'kaleidoscope_tavern:foreign_override'}})
+        write(Path(row['path']) / 'items/fishing.json', registered('minecraft:item', 'kaleidoscope_tavern:foreign_override'))
         row['files'] = hashes(Path(row['path']))
         pin = self.review['local_existing_input']['packs'][uid]
         pin.update(files=row['files'], files_sha256=m.files_sha256(row['files']))
@@ -379,12 +463,12 @@ class DriftTests(unittest.TestCase):
         pins = {}; targets = {}
         for side, uid in m.LOCAL_ADDITION_UUIDS.items():
             row = self.pack(self.engine, uid, side, [1, 3, 0]); root = Path(row['path'])
-            write(root / ('items' if side == 'behavior' else 'entity') / 'aww.json', {'description': {'identifier': 'aww:fixture'}})
+            write(root / ('items' if side == 'behavior' else 'entity') / 'aww.json', registered('minecraft:item' if side == 'behavior' else 'minecraft:client_entity', 'aww:fixture'))
             if side == 'behavior':
-                for name, identifier in m.LOCAL_ADDITION_FOREIGN.items(): write(root / name, {'description': {'identifier': identifier}})
+                for name, identifier in m.LOCAL_ADDITION_FOREIGN.items(): write(root / name, registered('minecraft:item' if name.startswith('items/') else 'minecraft:entity', identifier))
                 (root / 'scripts').mkdir(); (root / 'scripts/coven_and_reactions.js').write_text('// exact synthetic current drop consumer\n')
             else:
-                write(root / 'entity/novelty_database.json', {'description': {'identifier': 'nvy:novelty_database'}})
+                write(root / 'entity/novelty_database.json', registered('minecraft:client_entity', 'nvy:novelty_database'))
             row['files'] = hashes(root); self.original['packs'].append(row)
             self.original['refs'][side].append({'pack_id': uid, 'version': row['version']})
             definitions = m._definition_identifiers(root)
@@ -450,7 +534,7 @@ class DriftTests(unittest.TestCase):
     def test_witch_retention_cannot_admit_another_nvy_identifier_by_rehashing(self):
         proof = self.witch_local_mode()
         uid = m.LOCAL_ADDITION_UUIDS['behavior']; row = next(row for row in self.original['packs'] if row['uuid'] == uid)
-        root = Path(row['path']); write(root / 'items/unreviewed.json', {'description': {'identifier': 'nvy:unreviewed_new_item'}})
+        root = Path(row['path']); write(root / 'items/unreviewed.json', registered('minecraft:item', 'nvy:unreviewed_new_item'))
         row['files'] = hashes(root); proof['packs'][uid].update(files=copy.deepcopy(row['files']), files_sha256=m.files_sha256(row['files']))
         proof['packs'][uid]['foreign_definitions']['items/unreviewed.json'] = ['nvy:unreviewed_new_item']
         self.review['observed']['inventory_sha256'] = m.inventory_sha256(self.original)
@@ -488,12 +572,12 @@ class DriftTests(unittest.TestCase):
         self.assertTrue(c.G['family_pack'](row, {'managed_uuids': self.policy['managed_uuids']}))
         self.assertEqual(m.check_observed(self.original)[0], self.review)
         definition = Path(row['path']) / 'items/fishing.json'
-        write(definition, {'description': {'identifier': 'kaleidoscope_tavern:foreign_overlay'}})
+        write(definition, registered('minecraft:item', 'kaleidoscope_tavern:foreign_overlay'))
         row['files'] = hashes(Path(row['path'])); pin['files_sha256'] = m.files_sha256(row['files'])
         self.review['observed']['inventory_sha256'] = m.inventory_sha256(self.original)
         with self.assertRaisesRegex(AssertionError, 'masks a managed'):
             m.check_observed(self.original)
-        write(definition, {'description': {'identifier': 'kaleidoscope_fishing:existing_item'}})
+        write(definition, registered('minecraft:item', 'kaleidoscope_fishing:existing_item'))
         manifest = c.read(Path(row['path']) / 'manifest.json'); manifest['dependencies'] = [{'uuid': 'host-behavior', 'version': [1, 0, 1]}]
         write(Path(row['path']) / 'manifest.json', manifest)
         row['files'] = hashes(Path(row['path'])); pin['files_sha256'] = m.files_sha256(row['files']); pin['manifest_sha256'] = row['files']['manifest.json']
