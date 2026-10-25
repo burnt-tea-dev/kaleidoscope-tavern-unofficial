@@ -117,6 +117,8 @@ def runtime_ci_conservation(key, source, merge):
         assert all(classify_path(path) in ['family', 'docs'] for path in paths), 'Runtime CI inputs changed after successful CI'
         return {'runtime_merge': merge, 'current_commit': source['commit'], 'changed_paths': paths, 'unchanged_runtime': True, 'unchanged_baseline': True, 'unchanged_impact_classifier': True}
     allowed = {'README.md', 'README.zh-TW.md', 'docs/PARITY-MATRIX.md', 'docs/BUGS.md'}
+    if key == 'grilling':
+        allowed.add('docs/RELEASING.md')
     assert set(paths) <= allowed, 'Only current status prose may reuse Grilling or World Liquor runtime CI'
     return {'runtime_merge': merge, 'current_commit': source['commit'], 'changed_paths': paths, 'unchanged_runtime': True, 'unchanged_baseline': True, 'unchanged_tools': True, 'unchanged_workflows': True}
 

@@ -57,9 +57,9 @@ class RuntimeConservationTests(unittest.TestCase):
   row=self.reuse();row['runtime_ci']['source_tree']='foreign'
   with self.assertRaisesRegex(AssertionError,'tree'):self.validate(row)
   with self.assertRaises(AssertionError):m.runtime_ci_conservation('tavern',{**self.source,'commit':self.merge},self.current)
- def doc_reuse(self,key='grilling'):
+ def doc_reuse(self,key='grilling',extra_paths=()):
   self.git('reset','--hard',self.merge);self.git('clean','-fdq')
-  for path in ['README.md','README.zh-TW.md','docs/PARITY-MATRIX.md','docs/BUGS.md']:self.write(path,'current family status pointer')
+  for path in ['README.md','README.zh-TW.md','docs/PARITY-MATRIX.md','docs/BUGS.md',*extra_paths]:self.write(path,'current family status pointer')
   current=self.commit('current status prose');source={'repository':'owner/repo','commit':current,'tree':self.git('rev-parse',current+'^{tree}')}
   with patch.object(m,'SOURCES',{key:self.root}):
    conservation=m.runtime_ci_conservation(key,source,self.merge)
@@ -82,6 +82,15 @@ class RuntimeConservationTests(unittest.TestCase):
    with self.subTest(path=path):
     self.git('reset','--hard',source['commit']);self.git('clean','-fdq');self.write(path,json.dumps({'header':{'version':[2,8,125]}}) if path=='runtime/BP/manifest.json' else 'changed');revision=self.commit('not only current prose')
     with patch.object(m,'SOURCES',{'grilling':self.root}),self.assertRaises(AssertionError):m.runtime_ci_conservation('grilling',{**source,'commit':revision},self.merge)
+ def test_grilling_release_guide_reuses_actual_runtime_checks_with_independent_current_ci(self):
+  source,row=self.doc_reuse('grilling',('docs/RELEASING.md',))
+  self.validate_docs('grilling',source,row)
+  self.assertIn('docs/RELEASING.md',row['runtime_ci']['conservation']['changed_paths'])
+  next(check for check in row['checks'] if check['name']=='bridge')['conclusion']='skipped'
+  with self.assertRaisesRegex(AssertionError,'Current metadata'):self.validate_docs('grilling',source,row)
+ def test_world_liquor_release_guide_is_not_an_approved_runtime_reuse_path(self):
+  with self.assertRaisesRegex(AssertionError,'Only current status prose'):
+   self.doc_reuse('world-liquor',('docs/RELEASING.md',))
  def test_status_doc_reuse_rejects_unconfigured_skipped_spoofed_or_rebound_ci_heads(self):
   source,original=self.doc_reuse()
   for mode in ['unconfigured','current-skipped','old-skipped','old-spoofed','old-head','current-head']:
