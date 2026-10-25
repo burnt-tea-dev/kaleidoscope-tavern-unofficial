@@ -78,6 +78,9 @@ def validate_api_handoff_anchor(handoff, grilling_root, api_raw):
     anchor = handoff.get('from_commit')
     require(isinstance(anchor, str) and re.fullmatch('[0-9a-f]{40}', anchor) is not None,
             'public API anchor must be a complete commit')
+    anchor_type = subprocess.run(['git', 'cat-file', '-t', anchor], cwd=grilling_root, capture_output=True)
+    require(anchor_type.returncode == 0 and anchor_type.stdout == b'commit\n',
+            'public API anchor must identify a commit object')
     current = head(grilling_root)
     ancestor = subprocess.run(['git', 'merge-base', '--is-ancestor', anchor, current],
                               cwd=grilling_root, capture_output=True)

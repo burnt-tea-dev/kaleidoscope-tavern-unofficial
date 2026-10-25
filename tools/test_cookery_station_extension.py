@@ -239,7 +239,9 @@ class CurrentStationOwnership(unittest.TestCase):
         unrelated = self.git(api_root, 'commit-tree', tree, '-m', 'Unrelated identical source')
         with self.assertRaisesRegex(ValueError, 'not an ancestor'):
             station.validate_api_handoff_anchor({**spec['owner_handoff'], 'from_commit': unrelated}, api_root, api_raw)
-        for anchor in ('HEAD', 'a' * 7, '--all', 'f' * 40):
+        self.git(api_root, 'tag', '--annotate', 'synthetic-anchor', '-m', 'Synthetic annotated tag')
+        tag = self.git(api_root, 'rev-parse', 'synthetic-anchor')
+        for anchor in ('HEAD', 'a' * 7, '--all', 'f' * 40, tag):
             with self.subTest(anchor=anchor), self.assertRaises(ValueError):
                 station.validate_api_handoff_anchor({**spec['owner_handoff'], 'from_commit': anchor}, api_root, api_raw)
 
