@@ -1,6 +1,7 @@
 /** Small public contracts; clean author archives are exercised privately. No native acceptance claims. */
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
 import {world,system,Player,GameMode,ItemStack,registerFixtureItem} from '@minecraft/server';
 import {ExtensionRegistry} from '../runtime/BP/scripts/core/registry.js';
 import {TRANSPORT_LIMITS,EVENTS} from '../runtime/BP/scripts/core/transport.js';
@@ -19,6 +20,8 @@ const source='current_fixture',N=source+':',boosterItem=N+'mead_essence';
 const labels=text=>({en_US:text,zh_CN:text,zh_TW:text});
 const baseRegistry=()=>new ExtensionRegistry({fluids:FLUIDS,recipes:[...BUILTIN_RECIPES,...SHAKER_RECIPES]});
 const booster={item:boosterItem,boost:1,firstBoost:2,maxQuality:6,cooldownTicks:600,damage:1,consume:false};
+const meadItem='kaleidoscope_dim_wine:mead_essence',qualityUpKey='kaleidoscope_tavern.message.barrel_quality_up';
+const qualityUpMessage={rawtext:[{text:'§a'},{translate:qualityUpKey},{text:'§r'}]};
 
 test('current transport negotiation advertises the same limits used by the receiver',()=>{
  const host=installExtensionHost(baseRegistry());host.ready();
@@ -52,14 +55,14 @@ test('optional recipe conditions are resolved before ingredient validation',()=>
  assert.equal(r.recipe(N+'optional'),undefined);
 });
 
-registerFixtureItem(boosterItem,1);let serial=0;
-function barrel(){
- const r=baseRegistry();r.install({api:1,source,version:'1.0.0',barrelQualityBoosters:[booster]});setRegistry(r);
+registerFixtureItem(boosterItem,1);registerFixtureItem(meadItem,1);let serial=0;
+function barrel(boosterId=boosterItem){
+ const r=baseRegistry();r.install({api:1,source:boosterId.split(':')[0],version:'1.0.0',barrelQualityBoosters:[{...booster,item:boosterId}]});setRegistry(r);
  const dimension=world.getDimension('overworld'),location={x:++serial*8,y:4,z:160},player=new Player('booster-'+serial,dimension),block=dimension.getBlock(location),key=machineKey(dimension.id,location);
  player.inventory.setItem(0,new ItemStack('kaleidoscope_tavern:barrel'));createBarrel(player,location);
  const state=TEST_ACCESS.store.load(key);state.fluid='minecraft:water';state.amount=4000;TEST_ACCESS.store.restoreRaw(key,JSON.stringify(state));
  operate(player,block,'lid');tickBarrel(block);tickBarrel(block);
- const item=new ItemStack(boosterItem);item.nameTag='Original essence';item.setLore(['Unrelated lore']);item.setDynamicProperty('foreign:owner','kept');item.meta['minecraft:durability']={damage:0,maxDurability:10};player.inventory.setItem(0,item);
+ const item=new ItemStack(boosterId);item.nameTag='Original essence';item.setLore(['Unrelated lore']);item.setDynamicProperty('foreign:owner','kept');item.meta['minecraft:durability']={damage:0,maxDurability:10};player.inventory.setItem(0,item);
  return {r,player,block,key,load:()=>TEST_ACCESS.store.load(key),held:()=>player.inventory.getItem(0)};
 }
 
@@ -74,14 +77,32 @@ test('a produced Java level-one batch advances once, preserves its countdown and
  f.player.mode=GameMode.Creative;assert.throws(()=>operate(f.player,f.block,'use'),/BOOSTER_EXHAUSTED/);assert.equal(f.load().batch.quality,3);
  const reusable=f.held();reusable.getComponent('minecraft:durability').damage=4;f.player.inventory.setItem(0,reusable);operate(f.player,f.block,'use');assert.equal(f.load().batch.quality,4);assert.equal(f.held().getComponent('minecraft:durability').damage,4);
  const state=f.load();state.batch.quality=6;assert.throws(()=>interact(state,{action:'use',held:{id:boosterItem,count:1}},f.r,FLUIDS),/MAXIMUM_QUALITY/);
+ assert.deepEqual(f.player.messages,[],'Other boosters do not invent success feedback');
+});
+
+test('Java Mead success emits one green translated quality notice without barrel status',()=>{
+ for(const locale of ['en_US','zh_CN','zh_TW']){
+  const rows=readFileSync(new URL(`../runtime/RP/texts/${locale}.lang`,import.meta.url),'utf8').split(/\r?\n/).filter(line=>line.startsWith(qualityUpKey+'='));
+  assert.equal(rows.length,1);assert.ok(rows[0].slice(qualityUpKey.length+1).trim());
+ }
+ const f=barrel(meadItem),remaining=f.load().batch.ticksRemaining;
+ assert.deepEqual(f.player.messages,[]);operate(f.player,f.block,'use');
+ assert.deepEqual(f.player.messages,[qualityUpMessage]);assert.equal(f.load().batch.quality,2);assert.equal(f.load().batch.ticksRemaining,remaining);
+ assert.throws(()=>operate(f.player,f.block,'use'),/BOOSTER_COOLDOWN/);assert.deepEqual(f.player.messages,[qualityUpMessage]);
+ system.currentTick+=600;f.player.mode=GameMode.Creative;const original=f.held();operate(f.player,f.block,'use');
+ assert.deepEqual(f.player.messages,[qualityUpMessage,qualityUpMessage]);assert.equal(f.held().getComponent('minecraft:durability').damage,original.getComponent('minecraft:durability').damage);
+ system.currentTick+=600;const exhausted=f.held();exhausted.getComponent('minecraft:durability').damage=10;f.player.inventory.setItem(0,exhausted);
+ assert.throws(()=>operate(f.player,f.block,'use'),/BOOSTER_EXHAUSTED/);assert.deepEqual(f.player.messages,[qualityUpMessage,qualityUpMessage]);
 });
 
 test('a failed native quality save restores the exact original essence and does not consume its cooldown',()=>{
- const f=barrel(),raw=world.getDynamicProperty(f.key),original=f.held(),save=world.setDynamicProperty;let failed=false;
+ const f=barrel(meadItem),raw=world.getDynamicProperty(f.key),original=f.held(),save=world.setDynamicProperty;let failed=false;
  world.setDynamicProperty=function(key,value){save.call(this,key,value);if(key===f.key&&!failed){failed=true;throw Error('INJECTED_BOOST_SAVE');}};
  try{assert.throws(()=>operate(f.player,f.block,'use'),/INJECTED_BOOST_SAVE/);}finally{world.setDynamicProperty=save;}
  assert.equal(world.getDynamicProperty(f.key),raw);assert.deepEqual(f.held().meta,original.meta);assert.equal(f.held().nameTag,original.nameTag);
+ assert.deepEqual(f.player.messages,[]);
  assert.doesNotThrow(()=>operate(f.player,f.block,'use'));assert.equal(f.load().batch.quality,2);assert.equal(f.held().getComponent('minecraft:durability').damage,1);
+ assert.deepEqual(f.player.messages,[qualityUpMessage]);
 });
 
 test('the existing deferred machine-use route accepts essence on a closed produced barrel',()=>{

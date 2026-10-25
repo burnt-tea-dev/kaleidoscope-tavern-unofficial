@@ -1,5 +1,9 @@
 ## 0.6.183
 
+## 0.6.185
+
+Mead Essence now shows one green quality-up message after success, matching the reviewed Java interaction without exposing full barrel status. The current extension behavior and Java resource contracts replace obsolete source-shape preservation layers. Paired World Liquor 0.1.163 and private owner 1.0.67 sources are prepared for the clean fresh-world family; full-family native initialization/persistence and human client acceptance remain separate gates.
+
 Place supported vanilla bottles facing opposite the player, matching Java's placement rule. Read potion colour and Creative picks directly from strict native storage; block ticks own full visual repair while healthy tracked helpers check owner liveness and pose. Keep Java's stateless WATER/EMPTY behavior, existing inputs, quantities and models. Source regressions pass; current canonical CI, full-family native/migration and actual client acceptance remain pending.
 
 ## 0.6.182

@@ -2,15 +2,15 @@
 import base64,gzip,hashlib,json,tempfile,unittest
 from pathlib import Path
 import baseline_reference as reference
-from baseline_reference import previous_bytes,rows,functional_rows,functional_layers,asset_layers
+from baseline_reference import previous_bytes,rows,release_projections,functional_rows,functional_layers,asset_layers
 class IdentityTests(unittest.TestCase):
  def setUp(self):
   self.tmp=tempfile.TemporaryDirectory();self.addCleanup(self.tmp.cleanup);self.r=Path(self.tmp.name);(self.r/'data').mkdir()
   for name,value in [('package.json',{'version':'1.2.3'}),('release.json',{'version':'1.2.3'}),('baseline.json',{'version':[1,2,3]})]:(self.r/name).write_text(json.dumps(value))
  def fixture(self,name,current,reviewed,spec):
   self.p=self.r/name;self.p.parent.mkdir(parents=True,exist_ok=True);self.p.write_bytes(current)
-  row={'before':None,'after':hashlib.sha256(reviewed).hexdigest(),'versionProjection':spec}
-  (self.r/'data/baseline-reconciliation.json').write_text(json.dumps({'files':{name:row}}));rows.cache_clear();functional_rows.cache_clear();functional_layers.cache_clear();asset_layers.cache_clear()
+  row={'before':None,'after':hashlib.sha256(reviewed).hexdigest()}
+  (self.r/'data/baseline-reconciliation.json').write_text(json.dumps({'files':{name:row},'releaseVersionProjections':{name:spec}}));rows.cache_clear();release_projections.cache_clear();functional_rows.cache_clear();functional_layers.cache_clear();asset_layers.cache_clear()
  def functional_fixture(self,with_baseline=True,name='runtime/BP/scripts/bedrock/drink-effects.js'):
   self.p=self.r/name;self.p.parent.mkdir(parents=True,exist_ok=True)
   self.current=b'applyReviewedSourceFix();\n';self.predecessor=b'previousReviewedSource();\n';self.original=b'immutableHistoricalSource();\n'
@@ -20,7 +20,7 @@ class IdentityTests(unittest.TestCase):
   self.ledger={'schema':1,'testOnly':True,'files':{name:historical} if with_baseline else {},'reviewedFunctionalDeltas':{name:row}}
   self.write_functional_ledger()
  def write_functional_ledger(self):
-  (self.r/'data/baseline-reconciliation.json').write_text(json.dumps(self.ledger));rows.cache_clear();functional_rows.cache_clear();functional_layers.cache_clear();asset_layers.cache_clear()
+  (self.r/'data/baseline-reconciliation.json').write_text(json.dumps(self.ledger));rows.cache_clear();release_projections.cache_clear();functional_rows.cache_clear();functional_layers.cache_clear();asset_layers.cache_clear()
  def test_bound_script_version_preserves_all_remaining_bytes(self):
   old=b"export const BUILD_VERSION='1.2.2-baseline.1';\n";new=old.replace(b'1.2.2',b'1.2.3')
   self.fixture('runtime/build.js',new,old,{'kind':'build_identity','reviewedVersion':'1.2.2'})
@@ -109,7 +109,7 @@ class IdentityTests(unittest.TestCase):
   self.ledger['reviewedAssetDeltaLayers']=[{'release':'0.6.129','files':{name:row}}]
   self.write_functional_ledger()
  def test_exact_cocktail_assets_preserve_historical_witness_and_reject_drift(self):
-  for name in ['runtime/BP/blocks/cup_white_lady.json','runtime/RP/texts/zh_TW.lang','runtime/RP/ui/hud_screen.json',
+  for name in ['runtime/BP/blocks/cup_white_lady.json','runtime/RP/ui/hud_screen.json',
                'runtime/RP/texts/ja_JP.lang','runtime/RP/texts/ru_RU.lang','runtime/RP/texts/languages.json']:
    self.asset_fixture(name)
    self.assertEqual(previous_bytes(self.r,self.p),self.original)
@@ -120,7 +120,8 @@ class IdentityTests(unittest.TestCase):
    self.write_functional_ledger()
    with self.assertRaisesRegex(AssertionError,'Asset predecessor mismatch'):previous_bytes(self.r,self.p)
  def test_asset_review_does_not_admit_other_blocks_ui_or_locales(self):
-  for name in ['runtime/BP/blocks/barrel.json','runtime/RP/ui/unrelated.json','runtime/RP/texts/fr_FR.lang']:
+  for name in ['runtime/BP/blocks/barrel.json','runtime/RP/ui/unrelated.json','runtime/RP/texts/fr_FR.lang',
+               'runtime/RP/texts/en_US.lang','runtime/RP/texts/zh_CN.lang','runtime/RP/texts/zh_TW.lang']:
    self.asset_fixture(name)
    with self.assertRaisesRegex(AssertionError,'Unsupported reviewed asset path'):previous_bytes(self.r,self.p)
  def test_versioned_body_delta_keeps_release_binding_and_future_identity_only_bumps(self):
@@ -181,30 +182,13 @@ class HistoryAliasTests(unittest.TestCase):
     reference.historical_runtime_source('/synthetic-only',commit,name)
 
 class T176ImmutableTests(unittest.TestCase):
- def test_current_orchard_and_projectile_source_reaches_historical_guards(self):
-  root=Path(__file__).resolve().parents[1]
-  for name in ['runtime/BP/scripts/core/registry.js','runtime/BP/scripts/bedrock/machines.js','runtime/BP/scripts/bedrock/bottles.js']:
-   with self.subTest(name=name):self.assertTrue(previous_bytes(root,root/name))
  def test_complete_immutable_endpoints_and_mutation_rejection(self):
   root=Path(__file__).resolve().parents[1]
-  layer=next(row for row in functional_layers(str(root)) if row['release']=='0.6.184')
-  self.assertEqual(layer['beforeImmutableReview'],'0.6.176')
-  self.assertEqual(set(layer['files']),{'runtime/BP/scripts/'+name for name in ('bedrock/machines.js','core/bottle-display-schema.js','core/extension-content.js','core/registry.js')})
   for name in reference.T176_PATHS:
    before=reference.t176_source(str(root),reference.T176_BEFORE,name)
    after=reference.t176_source(str(root),reference.T176_AFTER,name)
    with self.subTest(name=name):
     self.assertNotEqual(before,after)
-    current=(root/name).read_bytes()
-    self.assertEqual(reference.functional_projection(root,name,current,before_immutable=True),after)
-    if name in layer['files']:
-     self.assertEqual(reference.subprocess.check_output(['git','show',layer['reviewedPredecessorCommit']+':'+name],cwd=root),after)
-     row=layer['files'][name]
-     self.assertEqual(reference.reverse_functional_delta(name,current,row),after)
-     with self.assertRaisesRegex(AssertionError,'Reviewed functional source mutated'):
-      reference.functional_projection(root,name,current+b'runUnreviewed();\n',before_immutable=True)
-     corrupt=json.loads(json.dumps(row));corrupt['reverseOps'][0][2]+='runUnreviewed();\n'
-     with self.assertRaisesRegex(AssertionError,'Functional predecessor mismatch'):reference.reverse_functional_delta(name,current,corrupt)
     self.assertEqual(reference.t176_preimage(root,name,after),before)
     self.assertEqual(reference.t176_preimage(root,name,before),before)
     for changed in [before+b'runUnreviewed();\n',after+b'runUnreviewed();\n']:
@@ -213,6 +197,53 @@ class T176ImmutableTests(unittest.TestCase):
   root=Path(__file__).resolve().parents[1]
   for commit,name in [(reference.T176_AFTER,'runtime/BP/scripts/bedrock/mixology.js'),('HEAD',next(iter(reference.T176_PATHS)))]:
    with self.subTest(commit=commit,name=name),self.assertRaisesRegex(AssertionError,'Outside the T176'):reference.t176_source(str(root),commit,name)
+
+class CurrentExtensionSourceTests(unittest.TestCase):
+ def setUp(self):
+  import shutil
+  from current_extension_source_contract import runtime_sources
+  self.tmp=tempfile.TemporaryDirectory();self.addCleanup(self.tmp.cleanup);self.root=Path(self.tmp.name)
+  original=Path(__file__).resolve().parents[1]
+  for name in runtime_sources()|{'runtime/BP/scripts/main.js','runtime/BP/scripts/data/guide-catalog.js',
+   'runtime/BP/scripts/core/bottles.js','runtime/BP/scripts/bedrock/bottles.js',
+   'data/baseline-reconciliation.json','data/launch-repair-reference.json'}:
+   target=self.root/name;target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(original/name,target)
+ def test_current_owners_use_actual_source_after_the_validated_handoff(self):
+  from current_extension_source_contract import check,runtime_sources
+  self.assertEqual(check(self.root,syntax=False,localization=False)['ownershipAndWiring'],'passed')
+  original=Path(__file__).resolve().parents[1]
+  for name in runtime_sources():
+   with self.subTest(name=name):self.assertEqual(previous_bytes(original,original/name),(original/name).read_bytes())
+ def test_parallel_transport_or_missing_host_connection_is_rejected(self):
+  from current_extension_source_contract import check
+  path=self.root/'runtime/BP/scripts/bedrock/extension-host.js';original=path.read_text()
+  path.write_text(original.replace("'../core/transport.js'","'../core/parallel-transport.js'"))
+  with self.assertRaisesRegex(AssertionError,'owner import differs'):check(self.root,syntax=False,localization=False)
+  path.write_text(original);entry=self.root/'runtime/BP/scripts/main.js'
+  entry.write_text(entry.read_text().replace('installExtensionHost(registry)',''))
+  with self.assertRaisesRegex(AssertionError,'host is disconnected'):check(self.root,syntax=False,localization=False)
+ def test_historical_body_guards_cannot_reclaim_current_owners(self):
+  from current_extension_source_contract import check
+  name='runtime/BP/scripts/core/registry.js';path=self.root/'data/baseline-reconciliation.json';original=json.loads(path.read_text())
+  for section in ('files','reviewedFunctionalDeltas'):
+   ledger=json.loads(json.dumps(original));ledger.setdefault(section,{})[name]={};path.write_text(json.dumps(ledger))
+   with self.assertRaisesRegex(AssertionError,'historical postimage'):check(self.root,syntax=False,localization=False)
+  for section in ('reviewedFunctionalDeltaLayers','reviewedAssetDeltaLayers'):
+   ledger=json.loads(json.dumps(original));ledger[section].append({'release':'fixture','files':{name:{}}});path.write_text(json.dumps(ledger))
+   with self.assertRaisesRegex(AssertionError,'reverse delta'):check(self.root,syntax=False,localization=False)
+  path.write_text(json.dumps(original));path=self.root/'data/launch-repair-reference.json';original=json.loads(path.read_text())
+  for section in ('reviewedChanges','newRuntimeFiles'):
+   ledger=json.loads(json.dumps(original));ledger[section][name]={};path.write_text(json.dumps(ledger))
+   with self.assertRaisesRegex(AssertionError,'launch hash aggregate'):check(self.root,syntax=False,localization=False)
+ def test_missing_or_empty_actual_quality_feedback_translation_is_rejected(self):
+  from current_extension_source_contract import check,LOCALE_SOURCES,QUALITY_UP_KEY
+  for name in LOCALE_SOURCES:
+   path=self.root/name;original=path.read_text()
+   row=next(line for line in original.splitlines(keepends=True) if line.startswith(QUALITY_UP_KEY+'='))
+   for replacement in ('',QUALITY_UP_KEY+'=\n'):
+    path.write_text(original.replace(row,replacement))
+    with self.subTest(name=name,replacement=replacement),self.assertRaises(AssertionError):check(self.root,syntax=False,localization=False)
+   path.write_text(original)
 
 class GuideCurrentSourceTests(unittest.TestCase):
  def test_current_guide_owners_reach_launch_without_a_historical_source_view(self):

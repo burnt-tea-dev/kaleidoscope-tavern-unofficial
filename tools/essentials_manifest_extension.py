@@ -16,18 +16,16 @@ UUIDS = {'BP': '5f808eda-2eed-47b9-94ca-8486af1c5c14',
          'RP': '537af6fe-a865-4603-8847-37791b81249d'}
 ORIGINALS = {'BP/manifest.json': '1e28288471494a49c3368aa25ae7ae6eba08bc17247215996c164c9c417dfc7f',
              'RP/manifest.json': '4e1b0f45dcfef21d533e2ffc9cc5293c97d8061b670452b30eee3b161cd0ccf5'}
-OWNER = [1, 0, 66]
-TARGET = [1, 8, 10066]
-
-
 def _sha(raw):
     return hashlib.sha256(raw).hexdigest()
 
 
 def compile_spec(raw_pair, owner_version, local_pack_version):
     """Compile the explicitly allocated pair from its exact official manifests."""
-    if owner_version != OWNER or local_pack_version != TARGET:
-        raise ValueError('Essentials requires the explicitly reviewed owner and paired version')
+    for version in (owner_version, local_pack_version):
+        if (not isinstance(version, list) or len(version) != 3
+                or any(type(part) is not int or part < 0 for part in version)):
+            raise ValueError('Essentials requires explicit owner and paired version triples')
     if set(raw_pair) != {'BP', 'RP'}:
         raise ValueError('Essentials requires both clean author manifests')
     changed = {}
@@ -36,12 +34,12 @@ def compile_spec(raw_pair, owner_version, local_pack_version):
         if _sha(raw) != ORIGINALS[name]:
             raise ValueError('Essentials clean author manifest differs: ' + side)
         value = json.loads(raw)
-        value['header']['version'] = TARGET.copy()
+        value['header']['version'] = local_pack_version.copy()
         for module in value['modules']:
-            module['version'] = TARGET.copy()
+            module['version'] = local_pack_version.copy()
         for dependency in value.get('dependencies', []):
             if dependency.get('uuid') in UUIDS.values():
-                dependency['version'] = TARGET.copy()
+                dependency['version'] = local_pack_version.copy()
         if side == 'RP':
             value['capabilities'] = ['pbr']
             value['header']['min_engine_version'] = [1, 21, 120]
@@ -49,9 +47,12 @@ def compile_spec(raw_pair, owner_version, local_pack_version):
     spec = {
         'schema': 1, 'kind': KIND, 'id': IDENTITY, 'version': [1, 0, 1],
         'host_uuid': UUIDS['RP'], 'behavior_uuid': UUIDS['BP'], 'resource_uuid': UUIDS['RP'],
-        'archive_sha256': ARCHIVE, 'owner_version': OWNER.copy(), 'local_pack_version': TARGET.copy(),
+        'archive_sha256': ARCHIVE, 'owner_version': owner_version.copy(), 'local_pack_version': local_pack_version.copy(),
         'official_author_release': False, 'expires': '2026-11-24',
-        'authorization': 'Owner explicitly allocates Essentials 1.8.10066 for fresh-world manifest compatibility with private owner 1.0.66; clean official 8837761 scripts and assets remain unchanged.',
+        'authorization': ('Owner explicitly allocates Essentials ' + '.'.join(map(str, local_pack_version))
+                          + ' for fresh-world manifest compatibility with private owner '
+                          + '.'.join(map(str, owner_version))
+                          + '; clean official 8837761 scripts and assets remain unchanged.'),
         'feedback': 'Manifest compatibility only; upstream feedback pending.',
         'removal_condition': 'Re-review on an author update; remove the compatibility fields when the clean official RP satisfies the reviewed PBR stack.',
         'original_files': ORIGINALS.copy(),
@@ -72,7 +73,7 @@ def apply_manifest_extension(spec, bp_root, rp_root, bp_source, rp_source, owner
     if date.fromisoformat(spec['expires']) < date.today():
         raise ValueError('Essentials manifest compatibility expired')
     profile = match_stable_profile(spec)
-    if profile is None or profile.get('admission') != CURATED or profile.get('owner_version') != OWNER:
+    if profile is None or profile.get('admission') != CURATED or profile.get('owner_version') != owner_version:
         raise ValueError('Essentials manifest compatibility requires its reviewed current profile')
     for source in (bp_source, rp_source):
         if (source.get('owner') != 'upstream' or source.get('archive_sha256') != ARCHIVE

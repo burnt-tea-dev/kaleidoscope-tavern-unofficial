@@ -59,9 +59,11 @@ def current_contract_sources():
     # aggregate preservation checks. Other paths keep the historical guards.
     from check_potion_bottle_visual import check as check_potion_visual, runtime_sources as potion_runtime_sources
     from foundation.source_contract import check as check_foundation, runtime_sources as foundation_runtime_sources
+    from current_extension_source_contract import check as check_extensions, runtime_sources as extension_runtime_sources
     check_potion_visual()
     check_foundation(ROOT)
-    return potion_runtime_sources()|foundation_runtime_sources()
+    check_extensions(ROOT)
+    return potion_runtime_sources()|foundation_runtime_sources()|extension_runtime_sources()
 
 def historical_files(prefix):
     current=current_contract_sources()
