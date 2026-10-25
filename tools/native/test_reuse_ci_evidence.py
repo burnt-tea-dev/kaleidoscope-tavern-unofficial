@@ -31,6 +31,10 @@ def commit(root, name):
 def repository(root, remote):
     root.mkdir()
     command(root, 'init', '-q', '-b', 'main')
+    # Git can detach automatic maintenance after a synchronous commit; fixture
+    # cleanup must not race another writer in its temporary object directory.
+    command(root, 'config', 'maintenance.auto', 'false')
+    command(root, 'config', 'gc.auto', '0')
     command(root, 'config', 'user.email', 'native-reuse-test@example.invalid')
     command(root, 'config', 'user.name', 'Native proof test')
     command(root, 'remote', 'add', 'origin', 'https://github.com/' + remote + '.git')

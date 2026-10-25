@@ -1487,18 +1487,6 @@
       "reason": "Reviewed standalone effect HUD, optional sprite ownership, and synchronized fresh release identity; original preimage retained.",
       "beforeGzipBase64": "H4sIAAAAAAACA7V93XLkxrHm/TwFHAqv5ViJKwLdLZsOXAw50ki2ZjQ7HEnHK290gN1gEyIaaAFocug4F+c19gn8CHvvR9kn2cyqAlBVqJ8sNBUhDdGo/D7Ub1bWX9Ynn0SXX73+9m3U3mVNvo02TZ51xUMebfNN3cBjXUW7pj4e2hf3WZkX27rd1Id83WUPeVNdFF2+f43BZ1W2z8/42/XmWAIHA6d/k1DRB46Krpo6iPCmyR+Lamcmu+SB0X+L3hQf8eGrX4/FYZ9XHeULAM1bM/GrpqjuSdHc1Jv7LitKC9FVH0zhajvI911uZrrmgRSe22NTFd2xsTB93QdTuMpid9dZC+A7EUphGquVJc+HcFr9qGtbpn/AIAoHxBxqfgH1xcL07SjAK1netC8++ST66u0rQrMBwR+L9piVUVG1h3zDwsrsJi/bsxddUeZn9906a9u8a9fZ+cWhydsWorTujjcsfuk78Sb6cLyJfn55/r89qDUEdxz6AZ4gdhSGLjusN2Xd5lsOvWLPkAcHFwKyqeLy38OTSxrb2fqcy/4Ez9F/RufRTd11Zd46MbGCiUmYRMEkJMxCwSxUDJR90T2pqJusafLSlGmXLMQF0vJNALBiquK7JjvkXPA1PmJsovbQgOQ0IfFFByxl0a6xsEuB+8DfQZr4W6CIXdg8a7v1Y952OnwI8DFUddPdrdv62N3pHFKQj2XT1K0jNlowjc0Rs4kAjfF4WG/rx8rMJgJ9TG3xcb0tGq4apoUmBdqYWDV5wFrcdtA9fCHVmAden9n76AsiwbmN4JxIENsIYiJBYiNInARYKgclE8bXxFyQKM6tFOdUithKEVMpEisFOS8WVooFlWJppVjaKIpNvraUihrkLxkT1bmT6jyEKnZSxSFUiZMqCaFaOKkWIVRLJ5W1BHd1ubUVoRZGaF0msnM32XkQWewmi4PIEjdZEkS2cJMtgsiWbjJRmroxIVUMjv92k0e9URFHtw28i74w4cYPCaUMv0ekEdHkeaVA8IUPgym5OW7u8062eP56hHhHl+y9N2UKfkwghUPKTiUSY2JJLGPKtbSMGUDhaR/zvFvf5E1T5K3CdI0h0SUPocWprB+NVK8hwMGkV8dE6qQ1u2wn9dOyTZa4WSb2mMyj2mIeJqO1KLNN7UUSozOGJpuRxKpYjVPG0W70sBksR5lNtx2NbEPbmdiPSoii36lE5y6i8wCi2EUUBxAlLqKERqTVMp3LW8dUtkkN0/kI9UtlNLYFnZXYHkzM3hiT24WJXWkbZmZP+9CKfdpGJqVPaSdj/zBpKGqQv6WYqM6dVOchVLGTKg6hSpxUCZFKV8s6m18rq3xTpawzUnSyymnuQHReai9i4vbHmt6fmPjVTsXM7etZtCpg6F4mNYHSdh4LGcWZ1Hc05PpQZlVnwvMQG0u+P3RPaz6jt77NNnnLOb7C99Elew9pwVnUvHnIt1FRVXkTMUkz5+Jic5ftD9lunNUcXmhTmws3Op6iYzo6maITOnoxRS986Lu6yp/W8nTu+IaScgkfG/BxAD4x4JMA/MKA96YfOw859f1vStoHbDzBxmRsMsEmZOxigvWmt61vs/XjHQwrlGnla3gNcBYgzy3bOeomq3ZGEh5CY9lDx1N1mYlGBNF42JLW+qY8GmM0htLYnvISB1kGJh5CjdPeEps9MR6Horo3MeB7GgNo1CcTA74PyVkbzxhKY9s8ZZWJB98T8+TYHEpjvvIQGoutptDryE0DPa+RAgOopYPTC8biwfkFEkeTb00MuIxJzIlsc2/OCgigcXB9Uua3nVGbYABFl0wIBk3iZej1yIRi1CJeDkmHTGgUDeJlEvpjwjJoD0Jc9sZY7EnfZ3pjghZaw4tmbX2CFm2cmItmDkVbeJmYrphwCE3hzwOuJ6a50GsJL4O5JlDrANcPU7jQDoRSQN1gKAauGbx41AsTNNcKhJSjTjAknWsEL57rg32x3VrsCx5E0QkGkkErEFh6vWCgGTUDgUfSDQYqRTsQ2IR+MDANGoIUp70lNntiPJieMDAITUFgYO3cwCDaODlnbTyKxiCwMZ1h4BFag5InXG+YcqXXHAQWW02h1xGuP0wUQoOQSgd1iLF4uBYhcKAeMTBwTULKCdQlxqzg2oTAwfVJg3XBqE5YCEWbTCkGZeLn6HXJlGRUJX4WSZNMiRRF4ucSemTKM6gRSnz25pjsaXFgOmSKFyrEj2ctf4oXTZ6anxYWRX34uZj2mLII5UHIC647DLnRqw4/h6VmkOsE1xsGAqE2KCWCWsNUJFxp+BlQZ0zxXGVQcgA1hikLuMLwM4zjkfWmbqq8sQ5LRDh1dGKiUwYpFD55rGIiVIcsFEZt5GIinQxgKLzSOMbEqQxnaPHcu2K4D4nbMMYxcUlDHQrXMFoxcUnDFXpZOBknwyAK7zAaMjFKgyJS3o1jI2PuyUMkCp+z5gXWuXHcZCSThk+0ku1HUeaiHQdTFLZ+TGXiGodWtBzrR1jmLBsHWhQ2yT5yKTxZgGwtOVUemVGxndxKj8ypW1JetUdmlu0qp+ILiOveGct9UPxGm8uh/Mhso+3kUH+BpeLmnJplZA1o5ZSNtAAdaM9FxWQja0ErX2gdlOw4lyIMKOXBqnOpQjLfYOPZlWFAzg0Wn0sdUvjyfd5k5bZfEGY/hhNbwNGB6mrL4waUTbTJqm2xzTrL4HOFxzvWm+ymqPJOmSGX3ssT5CsfxzijpjKICTUvXh5FqwzDINrLIdnVKkVvVhsZdiU8r235MQn15sqUb8wbE5srh6Zccj6Z2Ny5NeWT8sxE58y5DfQVlmxTg7x5pjGNGTbhceWWxiJn1YTHnU8ak5RJEyJnDnXsWNu6gUbO4dIL67eLZnPEb4wo5ZWzbB+zJl/f1eW21zP6Wxv6od7eZ/1OgR/xh7ZNwIGKVVRMQyUqKqGhFipq4UZ9edEc932q4FFL05c2RCwjYgoikREJBbGQEQsfor3Lm+apTwr/RUmNwMUaLibiEg2XEHELDedNH/a5vx6xH+9Lq39BKrMBHU/RMR2dTNEJHb2Yor3pxi1hO2jZItXiJyXNPTLWkTEVmejIhIpc6EhvOmGg1t7nQwUWPynp7JGxjoypyERHJlTkQkd607mHLGla3JM6lKn0ipJemSE2McQhDImJIQlhWJgY/PoqOz4Uu6qu0AKuNustKAU+lu9VmE2ApNWs7LGfPZ7PnvjZk/nsCz+7P9+H4zjq1kf9PSmXda7YyhUHcyVWriSYa2HlItTT+2OTqVk1vqLVxZEhNjHEIQyJiSEJYViYGLz5wDceD9aivOu49xkSsVBrFDZN/rhtiodhhDu+MGP+dLHND93denOXNTvxRfkNoP5kQu3rX4quFlqJPdskW2hGGboOWfdpEHkzeW/91lPb5VCdVLz+1vr9u+y+zw7+bJPEk2+38H/eMBcyfVWcvKbiYzM+puITMz6h4hdm/MKGL4/Qv9RHGH42xXZoifpbIjo2omMiOjGiEyJ6YURb0v3ni5smq7aDVcR/aUrnzw5crOFiIi7RcIkPt8kabDODdd7/psR1wMYTbEzGJhOsN877bJvhNuW7/GORVbvBHFNfU1KgM8U2pjiUKbExBaduYWNaeJnqDoZp67aqB70jvSLlj8QQmxjiEIbExJCEMCxMDN58OECjVQyB4QUlD0Z0PEXHdHQyRSd09GKK9qe7LqFVgWnPzCfFSDcEkfLCwBi7GOM5jImLMZnDuHAxevMRD6eX6NpqMtaZhlBy0cAXO/jiGXyJgy+Zwbdw8Hnzrz1W8LhmTgB6U3x8RckxmSE2McQhDImJwZsrjxmYhvu8hOHbL+ioYJjx0N5T0jPhiq1ccTBXYuUKT+PCyuUtdbGhKds+CbdmrLp8B7/NiPMvLrKyLEC/7bJm2zsne8leRa/ZK/Q99oUReVPWNZg/+6wRX7tkL6I38MKBanBh5C7PGrEIcIkvom/whR21q7e3GXZAvXsO8dOBQNq7+nAYMOMLO6rKeS93yDdFJgYob9m76Jq/s2PbzbG8V6HX+MqPZMtE9bHq8NPSws9l1kRX/L286kNgGRd9VA6x4kNgkBd8VI5htYfAIi32qCT9Sg8xLcpy7zRJ42IvNU4OQm352MIorwuJo8Tf9ItCRkh80WU32ok07msy+oABSgnHDoKxbDV4X7gusFysGnwsVxeBVKIafihSX+TXTW1PAAbSEmGlGYNJibHyDKF2mpu8LNeHvNpmVQd6d39gx83rvagXEBq946GghfforYmHhzB29cFOB4EOLtxpYo8d7jQJjd2EcYydgc4ZO7F7yhq/v/PdU4ExNLEOcTRTOmPZdvkBOtQtzrpIkbseXhPiJHEMUVEI3DHIqu1jsbmD70OPrMTiXZkVVXQtBKJLFNDjY/BHOuEcYmUhHONnZJvWWQzcQyva2mvuIOJkntQ3ndlQ60jMpnqicZtrC4ldKnGNVCl3GpdaVhqfpcR05km9Svp57qLa5GCUKx5tr1lQ9C0Pwl1z3MUtcCUUrtHR7YQJg+w8Bxx3m2L0Dsff9PgoPGNsNBZ3XHZFdb+rjbF5zYIC4qNxjTGaMLnj1B7qxpxB1xgSUmIKk1RgGo87Ppusq4qDMUJXLCggRhrXGKUJkyePcNbKmEU4dxWQQzKPlEEqizsuN8cOjMrb8skYocs+NCBWU8YxaiY+d/xuiya3xe5rHhYQN51tjNmUy6MHQKmhc/n1vq62TZH17Ve8RiNPBBA4duimff0Ixt2EZQyixQX3LbeZKTI8hMCyab44//OEgb0loLfZQ7GdoNlbgTb0IQkb/7ToNp/tPpa6Thz6XGMAsNweoZduu6wrNn3/8WSL0mKMkjwwl+I0DtAXbvyuaMr1Y9HdQWecwSP808D7aVmZ5Qhf2GctG9LiRKSh8ORQAltbV+v6FuSnlXIMovB0GS6uV+OASmaSAglcD1m13tW7u3Wbl7drUOFdkxVTVrMYgf+pvbmZsOFLAhZSAv8Vm3W2MVRdJZTAdqzuq8HfmcQj3gsGQyNYSI2g6XXce+6339sE/JRs6k2edXseWranvW+vuGH1mWibIQ8v2QmB56HFwxWiz8ZjFkRSQ3G3HTZtfkik1XXWNQvkF5C09ogtpYjxk0icQ5xKokRu6SUW55H69UJ+OOl5qMczSWIZfDyj9Dwf4EMgTi6OKhGJJyW21EpsaGB4wmNSXhQGqT3xRY9ZLFLz4adDTCyGbFop5bAfSmBPy/uVlxQPX4kFMjyG9TykeFJq8Af89Eyk4yEsuRo+4wf4CSqRGfw01XNlR54P/pHzvKLSTmrVSqtVm7qsmzJvhT/J4ee0dlHYJF3MT2vNYhlVLzvhNotDqz8kji8nHEOmq3juCx1YviSw6LpPpWJ/ItYXBPGN6TPxvcY0k/n2lpjtyXFSug6V5o3oSIhMcu+mEn3P+zoiz6iUVJZ3qKKoHFJr1lh42ybyyJ2TyiOm5TiPQQV8OZkxzWAsqk/DqRNmlyASvZTnzIjcYvl0nNZVecVS6gc+fxrG6Y6xYJ4V53/ibk1sXJ094ijDmlgXGnuJ3ZME6Rtz0oFLdGJDpC0ZV4NIYCokbncipC/MSQNbprZGn61ZB8acM7ojzXnnxLduNnfF1hrh71lwYIwFpzvKgnlOnA95XT1Zo/wOQwNjzBndEea8s+KLx/YPeZeV9prBVPI7JhMad4ndkwLpG/PS0W1wNwVz0u1ICZOK3jFX3qFpkb/gS438nVnpqQ8HRz3C0ND4M0ZPvBnvnPi2R596vD7O044jszvuI/+c+HeoGDwp+DDKBKZBZnenQv7GrHQcy+JgTwGGhsadMXpizXjnxBfnWHGfTA1mky3WPzGZ6D3IBMZdZnenQP4GKR2bu6y8FzV0D1aUmIoa3kbX+JbIUI4HaSSG78RhGosNu4ehYFc/cNgb/sMuzbb4iQsKxNQhvumvJrDiDjVeu6AA37FXXiR3ei8Dv8E3XtzHgwL6j4MXsW2yXc3ucM66OwX8ioXgBc4QovJMrkKF2lMfm01ebIDLsFWRv4p2YqsiF45wK6EtXviJ9bZooct46hnVGiquEQO56BWX641trX7+TPuGZA/7PySZxLO+JnmcMNCzjW7C20IAH98aZ+MTG+fIfE1emqkggMwCysObmWxQZ8xFdz2bbGcRkzO4iUW8jvB1eH3jDmyGGSpTnLVJ/p8DeNFHjpWS+cghpV7f1stfRHu2rTc8xcfck2BlPpsWQ21TUB9PYDq1fNDdvy0bcemBnIvsNJhyMmwSGy+DulGavYju+Ebp4JQxN1HOgtDWgX4O4LVlGZ/OJOeZvrVBpHvY1SBeh+Zkf85NO/UWzCJvT+m52M4Ua7x8uac6wDHk4BUT0HS2J56DsTJc89MbL6Ep7i8I0u8LCk/n1A2PmkwRHr3nPnlInOMMjbcnkCZpZvQHbG/Gul+BFpnB9mv072bkCDqpczVHbQH1ZzqrpTEyQnJbZDtKtDTzXSb2NHsYzefTo/58ehib4r9N/AjnGO8H64nwjP6NMEnnsGmH/jnh8DKUk++h0YpBbKyZWw7aJi3BKfZnzdSw6vZGsYTEdzbOZjRu9tGyAqUilIqYVNRvCZrfLid+2wwt6TVz3RBuS5udik2pWU0ZD5P488p20y87ZicCohtxx29gOahOB3RPBBG+DOZUD3PtxsNcoTzqDdX4O9rx26bnMqn5NxLOzD0pcrPiNY3SqbEZr2KUbmEMbiXMNvV2u3yZYUaPOzm8t5MP782I7ZOzr32tbmb4mc5q6WsZIbmvHTeh6uoNAyK2O/UEjcYcurqTr26OIMY51+o3ksys5ebb02VKW42npd5aTPgBcjnJWrt3ABmW0vHOSekOyujR2AbdTMNlxsPVjvPyfuBRcn6km6dp+psmR7bHWXpGct3tqsDSfpDQVixfCGmuJBK5VFNovF7NI+08mRdzlxaSyINivvfl9n5OPu8dObwPmFlRvQGpHoIi9i60tmpuXmTfL9Hg+yW47vau7F1Z+WayYfTnIG5Lhva05DxVtsBrnRAPi8T2+LmjDsnjoewCke1zD+Yy+CwLZZCWafb9Mk0ohzjzoecXvI/Kk/JKHG2ZEvMTL/N5Bxc+sk+fiPn0CeVy+XIbvdwFsprcL/B3Uds7UQhth+KSClcz/F7fEf5zCLOlEQrSAM0r9sF4zWqxFWbW+hDfueL9BN+8MsNylw9eDvub8/kzpGy3iqvs3qnbp3+ms4o9MP68kLbBzMtzdj2zuZYw8oA6ou54IcRd3vQypzx751ejL6xZ9qrBDZTiHypiAeIKmvBawvbR+HODbaWZV4ZN3rbsNNPxxsQsgqMPxxsqI79YxFm39d3wQcy2GsdJA+oc+uB2RVM9REWpVYNX7/GQCHfyHVzy7Fprc0IxWmQLaOplS/W+FcF7W+30MB/3o3P6QKx6rF72RTt3XlXyZKvQzWnTVt/KmuvliAXPz8GJN9xW9oYbyjVx0sRezbcvZL+0Sv277p3U0lnWydZOlLwi1WR+TYByZUBoHvk8/c627+Qj9YITbc+5dXk4batZyhAQ1bfR/gRbWXGPIFiZZ4S5cZXO8+qxZUERP+o7O76DW5GedHAzEl6jbUfo1FqpHMrgm0x+nsXfH/Jx0rvO+rjYx8NVLvpGHB0O5teOgjm+cTWcEpv1neF4l+sTT9m8VIwHoxzs7vNRTvahp3fSO8+HOfj1w2KOj1BOjnm/RMotypky55f2lNTs56VDOXrm+ID3HJrjG/KhNMcnfCfUHF8Yj6s5+N1n11zs0kE2F7/nVJvjC8MhaQf9+3w7i1uywxzs3FPBHH75eJ7jA8pZPe8XjuQNPePBghljWskJreyVNmLL5aH97nBNhr74zge0p62+65dw6MxPM9dVmPdDQ7Zyz4eUPOwysesSHkJTpbj80IyhPixi7kDmr3pOLotT08lCQ3abyadFvLVTPjAya7aha6DdFCab4gMPofKwcyL++LKjIjNaknC6opVh74plri1r9lKjfQSEIhSKUCgaXNnM/ia/fUu9iiuUA+/REwzsSr1AvO7xWfcDHXE/0KGs/L4t9fKt4PbEPUu7ZoF0rzc/0+Km+Kvm0wNltp0dQ8tcEI8ceTZo1LXz9Kt8xsnb+uRjTrO0hXBl6Sqcv+vuXSi5YHCRqTiLOW2vvWC3FJiIMLnE0BeVpiGYeyq3PgBTvj4ezu6zMi+2dbupDzn0TugE+Iz/AUu5EEOXv0lCFxF3FUwk2eabekoiOC6iVxDcvLgpa+irTCxjzU7HeuyQ13YGpNo+AAdyxFCkx1Mn6XjGxCU/nBVIx5MBDvl+bjftZ3IdstJaXCqtvDkQUv1LpdrmzFexhyEddiw487LfeZSO+4wc8sPe7XTYqe0t42HfSqrtUnGWWo+hSEtrCam0cuBAyHsTUnkngusr/QpZOqyHedvDoO50f2u0ljHCTXtwfG1kRJNx2tkv3Z2bt91ISPWkjqcFjThlncbflkagvj7ub1UjVu95fO1LLpd9TiwRZYdjqu1n9LW5EaieuaC1Pr0eqbvQfO1Qrg5EnL5umOqrhIS2OYInO5B8rVT6rrLy7srl4QSSdJLaIa9aTNqpcBfOPDOruQ/6dJiI/SOZi2kcnYepHTrHqHt0olEB0dlMPGEMTB/pFEwpBXCgJppw4Es6B+gonQEUFR3PtZVOwVUWnYXrLZ2FK6+QMp54q/oU1VhIuYLumhYsvKRzoFabVHp4F1pXUUOZ6yoqq5CaNuUJY+A6T+fgio/OIrSfTiNUYEBsQPFN4gLvXAz9OGRwWeuyb4r+NApORKQ/wU/UDvwnGce3CNHRYs4pFTNMbgtIfKLHDPyRHz3sOFcYvoWhWQjLeGJHjUgtpzYipmW9aeoDTwQl4lx8iDEpluITQ/RcVUXaapTKG4scGPkoo7hpmDvWcFYXVrmclULsjR1cmVyJhX93b8+PCWNnz58c0myiLP0R/3VawHiCHq8Kgz+ub4uz3emVeHBaGcNOmP6WCk9mDHvh0ne4Dc4jLabacHSCfz0Vi9FilfLFYbqPLn0nttBds3UBZpY4GMYzKML3i+eLw14tNn74n/jkqjDjPu/0DT7/Ab2iZq7pjea4T98f9y6Jyeas9H2/L+tV8+RNsrTgk17ztZ7X8Ow0lJUjAWAms9MA1+K361vakk3KS+WSrdZ4sppv10mv2R9nqxw2ckPL5LfTVc70qIcm0u/68xKX+NOlwNTjn+nr8eTnJfx2Ni/L5jBobP2+sEu2L4xSgmJGPv2R//VqwuGorVCGw7laV4wn257S62HHE0Hx6Vvi0zdiNzwBO06ES3c2OlPJTrxD6thft+rs3YjIVy06Oy1xHne8ZtHdgfYnM+UrFl35PO7ek++1d9Z3POQBVR3/OOQUB1HqNZYOlOyYIH3FfBJcsR8OjHpQQbsi0jnoH5zryNdlOnNL2rCoXijpMuayQ/ohO7hiwvwtpdztktdAYitP3EKK/orPJDuJowZDyYuUzCXxwcFe8mOlQ6R9bHEaiIZWl/E5flTcuIDv/b58CF9EgE18EfGSy4FUci3g/KLmqiCdOCZwmUqK65lUdTTjrFk3Jd6UeOO2LSXPdopTO69hIjCyWzpX2zV4mTM6mHOaVJI3PdWRngM1eMTrb/+s/xB9VYEW8Y7utFVenj18gddXSaRdDam0h8FVzLLnnVTxs+MsCjzdrN5r6rRbcINyyvcp+01usYVWuxvOPfE47MVV7nBztQ7FJYl2z5orjvLGX/U2NOfAQ3YOpd1Y5vqatCFauVnMpSl0N1nTe78caM39i34zl0/fSO5LUt1ZiSvOuku96ZWQ/kUFBW+4nNE32a5+X7848gWbMLaNyG+LjymbOL6IHIJ8TpVNojqktllzzyfFXsETm0zzSfNpQSbOujWffPbrMePiL+HJJ41TsEwYRng+WTEVx8T5BJwDgR0668RdMjiTjVPX/jwAQZEFTmmWtZ5c5Rnqy0uWjZ4cxMxz5xufTRUZxydQD76cE/PRvJY75PiQig+f+A4J14TdOFHnERaTYVahwcaTpsHsjINZJ0+AOSIwWHKyDeeJsdh7KWzUS/aDEP8eNhqpPujEV5BspXrBE1cnipnqg5t2m2p2qjcGU2dRqqEqCHr3yCYr5I4tSPdzgx/Yz0hMEbqAbQGxLYD79jbfdGYR1lhK3MB5aJ/Sa/Ez+oA/XcA7EIRhbl626TfwCKNceHQBhA+jLs/K7i4Vror4LxfsoWjBPgTDoGiKLvqR/XLJ20Z8DggbsHY4Zu/Sl+wZx+zObAPjcQdqPNvcpd/BIyhyeHQBunp/AzZhgf34B3gGixCfXRCweMHcLqr0P95Fr/DBJXw8tMC33uL64A/sOXoFzy7IP/OqgJL4X+yPs47cQUWFPq7r2Aom+xW9ZL9etMcbqH5l3pqnTTipKENeeNE3x33rwXHDQvj/OdQH1TKO4I2PgbVHcVQQ/+BSkDjXJ34GEIDVwsA4/wnP7QtcgIcGY+5J5J1x6d+vLy+d4ubN2TDgE/uyX8JrJ4HqLTO9eg8/nQB9E3H6A3/hBJk9lqRvuLOSN+y1k8BweDC95ucG32Tub6u+McEkefBkic+ZIYxOej+GGdik6MnwKy7iToLpTGF6zY8TvsW3Trhnm3X6YwbdEu6wvobwz9+JcCel5q8y/ZrPHjrzZur8DHoU7IzR99lP6Pusvr2N/pZV2S57dJfp1CVL+ga9sXznqwwTjyuIY2+cMD4BsObaAefH12X+gJNq6BQRrMYSOsKL6PetJwMkY+CHNo+6mntVLCVLMYLIVPduoolNI5Mx59gEkql1I7NgKBgrFJ6poaMQMaOHwGO0eGQm9B1AiY/B7JFpxJZmUsp6L4rn6df1sdpG8D/onDq7jzpIVhsVVQTVPsLleCJTnHIHHaB/skisZWPUdmBZcUds1DglrPGwGhnBoBvgGJWecpvjVBPItew1d/HWPYFx7ewSxGmU83H40EYb0A43ecQ2GUARQMyFmCeqPVn8G0S0HzPUj230eJfzYrB9Ar9SNJDnTcRMQVrbCmDHsxo1965EbHIB5HwBAif18Bv7bLfPuDi1VabfZC1UNpyw3LBmsG3qA//0XdY85C3bNS/q3i954d2qcFbl+Zb7SeE3RqRv4QVrYFBN8DX8+j28KPZ565sI53dKpNL9Es7dOf1Zd+j8+scXu6M5zl3+sTvLt0V3BpKbXMxl/dTgqltb7yFf8QTB2RmBAJ/WoOV31R6M9LMyv+3S7+CfcOgmZ+m9Yn/C4Q12Fel71uVD7rbZLncs+khdFbTpf//rTz9UTO+xOf0weAzwL7+tbvOmqJtAbALY5KreQ+cbiFwA8uZrnMUIwy0Bt7lqslvQWIHQFUBX//5X+SPYB4CiovmN5Zix665egwxuTan+AFrn0Ldxfu/J410BvbyA/I5CD7V8DbLQ/xU4Wrwtj2CUVjU8Hcsy/booS4UfjUsmA83xFie1AY8tfKRo53y2qtftAZqRWEhE1YTf/wz7B0gmSEd77jYj/DM8ScrHOu5mPX2f72uwDPE2J4lZSxrDk77WMLr5H+z4WKw+dgEf7bLDGpox6HD+IVH4ooKIEK6RUeHXXVD1kNl5Eky83R/aiIXO4wRFDc0Bt/mkf6+PUSUUPlOs2Ln0ofhSAIM/VFQPoOi20qfUhAA1qOx2/NjvyE27qG5r6LY+dunv2+gj9E3/GX2HrR1tdnh+CyHjizBW1ggNrJ++yT7+kUIl14hL/hc6Zl4PcOCHRtdT7slOfvwZmJh+T7+vyidh4kr220aYb6AsUJ7AWEAMd7iOmH7bP3Fa0epn8IqZjVHjgr6s1zgFzsxENh7C1xEzjOsIQj6LYIBY5jDij0R38O9/NRje5L8eC2iipC9me7Qvhq+9hezNq/oIw16eIqheTFL6WtLnIS59jR+DCnhb7M5+ybY5bhXcFdXav/HCJ80OGGbVVphUvEa9oH3jjI9GxxpMhGGLECNZrQkQCfbZR4GH2s7hL/J9gauk+a5unggbUrzi9l2yXqi6XG3eElCxmT7pG9Csu6beHje4PeDsLs/Qany52YgP4+HVdh4Xs+XOufX2+aYswKTHNqO4FORzQ6iw8/01TnSyetmxnrX7RwW1Fs+k6ihs4zW2eTRy4YkPoXCKC3mwQmfMHD87IeIxLeL8IhQYbLAOAvrLnPWW5ywmp3w/Sa+rHIbe/z1qTogH69exCOlR6X/0dWH4HN/EEUwjqsE71neyt8wZh2xtQOrrSdLOZn4qTv963B8izIlf8EGoaiXX2BREtj1C9jzxODGZSZy4u4KZEUnSb+pH0BHNZ1Fxy/mxdhYVWzXoDJWa2ULDoBJgHU62lPiuhZYPQyjoem6eGBbThp8iR+4hw3m/bmji1Q5vHf2Rvw1mkUoVE5Cpacl2YLG02AwfsQZucM4zb7GeZvyzPc0/KhEPGc47cRioA7TXBVCFwURo8J7Tp7N5sY3H8sgsHxUFcMQhPRjAUU8WWhGU70JLLvYF2BLl02dYdEXDbDpWy1jxiq8qRUwpXt6zGBX4DyzWWE9EvxNII4r366Jpu8/GQR3Yq2ezqNisWPUZGzchER+xYRvNqqfB1pAb4LzvJGALgprBUn5iEx7cbsq2kPWbEj1RnJSMBdhRYJ+1xf4AiuORO2bpML7wEysMnx+thvlXqODYe+EyJowWCj7UaVk1iHBlN+cQMaeOPVjPMC+Cy0mvJcbJEJ/NXd6/E3b3oal3WG3nfWsldHrWXxzF1w75rDGb1su4GpY7sIINbMRNZKwmFFXR3kHZexM9noriB8JyGBNlcqXnR8KG1/O4RM3/6uOhZEPuBqfCP2PpeIKhIGomiDKrxa10tKsVM8XqNDkUv2j7fL4wh6Fk20H5H1n7vETT5U2elcMEOWiB7MDOf0Dn30T8SAIozrKt2ShJntgUkZYjcXZCmmOo2zgEKbn9j2Ne7INwCyqrNXuLrVHf4PD0mSKROKbiecXCASifEW5ZocDQ5UHMKJ/05YX85f6TbAD+mD1xPc1WLXDl/zFrtuj6rJP1d9aIWeVTYrFkizfXeKyBLZQcmmPFWlgP+wx7xMOBaTboP/rYsLh1d8RPs+TJJp74zT/TBpKMpkDVyVHllbp37DUMnPvp/+wGJ56wpbR1UZ7N+WgsVlT7D7LSOOCUbdEV/8xZprD5q96+7CPDv110s76aiL6st87aA3YwMBZpin/iXA3alDiKOTZMdzD7ol9CmvXBRfoTTmqNeSlW1MeEM9XQN0w2bylWV4pOtiJ3qJrqGXVVjc+Sd7LDApaYMCgOUDulNRabzngq8hKaz/nn8SmRWKXfjJ9iXxGtRtDHnycU+i7bnWnTUUTxs23ebiDR2HjTr0aD40maMMT9HnxEi+6Z+m73tqn3YO1Bu99Ai/3kk+jqPHr/w9sP3775Krr+8PL9B+sutwvDVfHqcSArcnL1o3ycwo2Sr0mXV65cqOEydGF/2mXNl5JPt1HbGUyXj+teaDzo0VuX5PHJgdGuEpc3wDlQ0+u+NO8obqwhlyabvd0McjJ7H0l2hHTVtzih7JFd/3oeJh6HiSdh4osw8WWY+Iosrl53Lh9WdKAM15rr/pE8aKmwR69kdoz5kvLpEQwrg3od+XBS3Ss/1JoQSBwOScIhi3DIMhyyokOmV7VrR3LsWMOV7NrhODtWu3pd8nbkwsiXrI8+E/yIsUIEgeI5oGQOaDEHtJwDWtFB06vo1VNxdqThynbNY5gbOyqa0cOfFTG9Ll05mmzHGU5ECrzpWKSVR7lgvT9m7pDWr1JXnJB4cNql6fqRfSvaeJW5fqDNijZdWq4dE7RjzdeETw/guhkml4FPjtQ58JZLv02HOWgsktNhw9FlJ8fkinDdUQQVPei0+QTxqQTJqQSLUwmWpxKsQgnUK9lHxw8OhHr5OuFk14XlmnX6+akLzaHSrE/L1Vz3L0DAy/6mdBbF6ZSdS8o1T6yneUXLJj2HKJ+R84WUJep18v6jhRe2/AvKOvVieNnliAs1uYZZ89vqxo499+gX2YEwXLiu+yT1oJUq4j8CeWG7Qj3gcOHFxIPGlMJbI9TL1iW/x3bMsdjmN3UtbLHv8l22eRKusaPXGGjHyj2n6qvAARmdTHCg4mnCgxv9wkuuswiYoVcLhcXzYMk82GIebDkPtqLDtNvu/WeOL8z32pNP+V6ozv5mfFZqQboDHD96qiPN/hGdTGNlHfzKeeWHihoCicMhSThkEQ5ZhkNWVIjJBbRQYSY/0BSeUXHq3tw9aFP/ZvRqTuHRY0Ho8VTH3T14T0z/Xk353ptmxZedgKkO7YjYobbPhcenwZPT4IvT4MvT4KswuOZRkYN1t4pU9FBw8wniUwmSUwkWpxIsTyVYBRNo7uN7vO5D3sswNnjlhgg7bnQrKmCyb1EKbKwy4ch4NjKZjVzMRi5nI1dBSOaNUSC4Z0aHLPMN0gtrvoQdsMHPaQ8dnZ1SUGOhBwPjucBkLnAxF7icC1yFADXvpgKquzi14lWPmRytuc20YvULSTh6ciuJDz8qHfmGICtKvU1q8Ntul5e81AmM7KrOhZssy2t3a7ixY7rG23PsiN6JtUAMnqz9iKE1hYHiOaBkDmgxB7ScA1rRQVOH3QJr8NodwjKWxslE8XMRJc9FtHguouVzEa1mEUmeRXu87F7UjlQO1jOgfMTJjtMuBxJY/YYgH17SKNKdX1ZUA/obZ1oss3jvWTCkub53cWz1aKv3VTmRzEH9iOJe6v2IoQ2FgeI5oGQOaDEHtJwDWgWBxgoy3M1nl5947xfIqQv/AI6x6E6kiZ+HJnkemsXz0Cyfh2Y1g+a4F6Dj3ik1FqBXMKYKJlTBBVVwSRVcEQRV/8ccoDlB9mFHy02+s4SCGvI7HBjPBSZzgYu5wOVc4CoIOL3SV7ulzoG13IvR09guxwhnlEr8OUnj34I0+S1IF78F6fK3IF3NJx1v0BAc0pUaDpR0q0SPk6+WsCO52wQO4SfoHbJ4kU0vyy618ciOVZYoHoeJJ2HiizDxZZj4iig+uZdG4KaX09g5JD/zAi07m7fjZG/4Aqi4xLcjB09cAjZ65nJgJhdU9mDTLZVknmNuocE7CKksuDfcTMPvuyTyDNeSGrmku0mpfE+ZOVr8xkciC678GVn4naJklmEUZr7BksgzrokayeQ7KIMYramUb2AlM+5tsdvT4yXWQ4xEw72URC4+y2mk6m9DJTLhrKKRh99ySWVhUwdmHnFzJ5EJRpxGGnZPLJFDtrGM9/gSebijUCNRf1usnWm8h04QSJfRUVBj9xgMjOcCk7nAxVzgci5wFQI0OJYV8BB/+heGm6NMNJ6dP/qtgTqFb4OUjh8rygkU8ekUyekUi9MplqdTrEIp2D1ZHMQvy3JIHno5x7lE6eonIS3d/2RHyXvIvLvGxC2LXLq/atEnPVQ1OiAOBSShgEUoYBkKWFEBeLWtkGW33Lolx9wkCcchwkmI8CJEeBkivCIJyzfIcYByjZwbJ12vJmHlO9bseH5dr4CJu3t90kOp0QFxKCAJBSxCActQwIoO6CaLUvyeU8L6zng3qgxkF6R6MOMqBce41ynU69MFTr09nYjlLhhCGcZv+uTG6kYQjemiCV10QRdd0kVXFNHh5kVl4796/aIVLK6S0+qiuEyOUBkNV9EpFDQnA4JlrJ8CPVZQ3Je1QU/VF7JpKhujo4R8iG96fE+Xbo9DF399HLouKVw2aA2mrC7PFK6kZV+ApZLPc8phRTqdcrhRNqccLpTulMMuS3XKYWegOOXwoI1OORwYh1MOB8rrlMONpTjlcDOYnHLYEVOnHB5Z3SmHVzwOE0/CxBdh4ssw8RVZ3O6Uw4EiOOXwoI1OOewYqlMOK4PFKYdXfuqUgwCJwyFJOGQRDlmGQ1Z0iNcphx3rd8phx9qdcrgwZqccfoTBKQcFFM8BJXNAizmg5RzQig7yOeWwI/1OOdxYk1MOK8LjlMOOC3PKYeUxOuVwSDudcnhwHqccVjTJKYcVTXDKYcdSnXK4GfxOORz4AKccNBaLUw432uuOg4q2uuOgE8SnEiSnEixOJVieSrAKJbC543AgrO44CBiPOw4Kg9EdBwVodMdBQZIdcdi5dEccbkm7Iw4PTnfE4RHXHXF45E0uOPwInwsOF4PdBYcL5XPB4caaXHA4EAQXHB60xQUHBeVzwUHiMLvg8GGNzjfsGL/zDSvW7nzDAXE63/DgjM43CBiT8w0SLJ4HS+bBFvNgy3mwFR1mdb7hR7idbxDwJucbBJjJ+QYBR3W74WQyuN3wyk/dbhAgcTgkCYcswiHLcMiKCgl0u0Hhsbvd8KDJbjcoPHa3Gw601+2GG2tyu2FH+N1uELE2txtkeHwaPDkNvjgNvjwNvgqDk9xuUNFWtxt0gvhUguRUgsWpBMtTCVbBBES3G14Gi9sNO87pdoMCM7vdoCHj2chkNnIxG7mcjVwFIaduNxyyLrcbDpjD7QYFZXS7QQPGc4HJXOBiLnA5F7gKAdLcbljxBLcbVizR7YYPb3a7YUVZ3G7Y5d1uN1w4n9sNN9bkdsOOsLnd8CMMbjcooHgOKJkDWswBLeeAVnRQiNuNEBan240wovi5iJLnIlo8F9HyuYhWs4g8bjfsSLfbDTuO5nbDhze73bCiAtxuODg8bjecSKPbDT/C4HaDAorngJI5oMUc0HIOaBUEMrjdsMvT3W4EcLjcbgTRxM9DkzwPzeJ5aJbPQ7OaQSO73XBJKW433IIxVTChCi6ogkuq4IogSHC74cOa3W5QUEa3GzRgPBeYzAUu5gKXc4GrIKDX7YYDO9PtRjgjwe3GHNL4tyBNfgvSxW9BuvwtSFfzSV1uNxwoj9sNO3LqdsMhO3G74ZHV3W54xeMw8SRMfBEmvgwTXxHF6W437Bxutxt2nM/thh1pd7vhwAS53SDzON1uUFl8bjeIPGS3G1Q+t9sNIovH7QaZxeN2g8gT4HYjiJHkdoPM6HS7QWQhud0gchHcbhCZPG43qCx+txtEJqfbDSKH1+0GkYfgdsPO5HK7QUEZ3W7QgPFcYDIXuJgLXM4FrkKAYW43iDw2txsUvNPhBhlvd7gRQBGfTpGcTrE4nWJ5OsUqlGLicMMhKTncsEu5HG7YUSaHG1Zpo8MNn/TE4YYfEIcCklDAIhSwDAWsqADd4YZbUnO44ROOQ4STEOFFiPAyRHhFEvY43HDj/A437HiTww2f9MThhh8QhwKSUMAiFLAMBazoAL/DDQ/a6HDDgzE63LBj/A43iFiHww0Hg+JwwymnOtzwiMZ00YQuuqCLLumiK4ooxeGGFUx0uOHD0xxu+FjMDjcYyulwQ5PwONzQpCcON/Rwn8MNTX7icOOTT6KrOHr56tW3H779/u2145g8K7n11DdCxENaL9R8TJ4Ot5yrJhNQDjeSyezHSsgU5g3/ZLh/TzWZirLRl05m3PfJtybSSRzbCMkktn1TdIKAjUBkUtveBzoBeXGeTimtAJNBruXNAJJ5a2v0D0wWNOhQx9wPnYQ0WUCmM4366GBteEMGmuxsOlgxlugw0thgoMOOLKF0ZHw1DPUTbuuirYptjof1aZ4NkGGObcy/HOK5ARHzfO8gMvz0OEPNOteLyHlroYgM2cyO8vM9iCF6rvcOxJ6yj5qV5iyvWzx3564ZM/QzrGKykqLtQ8cWvJBacLZhDbRAl2vwfHbfrVnb5a01+h8RjAkODLV0o/C0MYc2KR4zjro6agVHk5d51ub46raoivaOEa5IigQHH3JnRR4kc6S+wBV2/I9zjOgwnLRQS3YYJ5DjoirZLRdHDktCxE2iHCUvkdGPD3CsvPBDHzX2pdMvFlKPRfYlMph2ZKcBHDkuC1OdEMn1aFx6DTvM2teHHh2GkxcM6VuWOVZZSA04kCa+PCx4Ug9e8HzSFvOH1ftIWRn0sUxafRDa0fKDeLTWH4SdaIAwtK4FgtCKJghCGrRBEN6gEQJLTtEKgaWlaYYgtKYdZtQ3o4YIrDOKlgjCGjRFEN6oLcJioGoMFWt3t9ve3KzN58qif//f6O/Xl5eOqUMC2OHbv4H/is062xRbB8sHIRe9BDnXyuUcOmvsNs0X53920Fy9h3CHXUiCW79+rO4rdPVpJ/iBS9hjQKew32ueoQmLhnnRZg6iN0wO7XWQc520nkNnv4gCRs71LdC50ngNA+n6FrgcORVKZI3RNntwVr1XGO7whEiCW7++Kxow1wsYxh1gHFyu4R+2S8hO+BoQESKiLHqHmOgrjnH5IHy+jzhuFcpwOqnias1eJEwseotiLnMqnMx+TQPUkV29u1u3eXm7PtRN12SFi/ZH6MteAyC6BsDn7wTAsSz9TB+wpoBPdzgIv/bMh1AJ7PUU/XmuH+GHS0vfoXMhEIx+AkFoebfR37Iq22WPbtdmpzHbNWFdZWBmuNUWyEB369SAQTSu2Gybwqmu3ggRZ1zIJKapiqJLr6GiGYJuj01V4PxJ+g4sb5yF6EPtSbrJWpwsnx5iAYoCzEHiDbJsos7Iw2bsyDxiMs1EJCbVyEz/xAkmtCw7Mx2GM1u1I3Nu6qYSK30myqshmMxYN5s76HtMbN+zIDLTIa+rJ3NJYgidB90IHPIuK83lyWzcdyw8gLPbMN2FOyIsrEwieocSdN76cLCkGUPIPO3RVazXx9BS7bBYHYwfxnA657EsDmY2DCHzoEUA0WpqS7v/iYVH7yHcxAmjzfp4MDGf8T/rzbHsigdpEeRvkqw4B34RXY1SRF5cWx+0pZHzkksQ+XD5qHWw4aJSS02zmGt28fXz0fYx4dm+3q5tBC/uu7N98bEu693TWZXn23V3B6P99CqrqrqLIOgiyrbbKImg66ju2+i2aNrudwrs12NWFt3TGmpe+j7/9Vg0eRu9a/I9KlYRGNVNdJPjHQVnChZEocjYnhfIY9DG0JVvn/C7+fYselcfG+xtajA2D9j5bCO2rhWxdS2V6fZYlilaA3zqPMoE1aaGoXdRtZAE+EKTbwsYi7d6LEAy/ZrNqId+t6geIIXb9UgOsSjaCIsj2vBsvMkxE3M2ld8NUVR5qnrdHuBTmAboQoABkXlVH8EabOp6j2AWGaAoppGAD9dgGLNs+Lb/GeHPMxjm3OecgxWfis2bpm7Sl6zjxwjjDQSYCVeQcZhVUZNjBsIrhPV3xtRd33RS0UCiu4zHGU30Lt9K0qISpN/lD3l5Eck8+ccufQv/RNOwffax2B/36ZvsIw+VwrYZzrBsxbU18MnmuGFrPJjz1abeH8q8y2UyVyN4YXTZCAX4mjVRxJ3JLuZbsZIqfkWg0HjVgKZNoBLNe5tDz29u1a8wKICqhcKG/DCTXfPAF/ntbb7pxu1VkDXbdb3PK8jFbfQ9PBhEyqLagsZq08v+aSqEfvDX0JILKHmoPswFfvR++D0F3OGUQPoN/jsNhLbaYYd+l2dldwd1mf3E1WD4ORX/5bjHTXt126V/hUd0AtJ2UzF4woEtDHeK3ZHt8sEq+zX/ORWvsmObZ+lb9scQzIafD0ULbSZlg8zoR/ZjKtrku7wCcxmbF6jH8YdJdMhCV+61B9DT6TX+awjsmrzaQb5di4epiNj+zO5hwPYrNj/3v1/gmuJbiCIMpzYlKrTPwXzaHaEKRbd1s4/K7CaH/gbbFuvg2bUj8mUjQ0hvCUBkMqbgRZc/CHTY/Nm7CB+jT48HVHO/byNcu4YhRt60fxzFmfrj3pjTH6aSf4m6J6j3/6gwnqC6q/wxKnG/50AAamhXpR/wU+wR6nw3hpb5bQc66lZ6tclxrJNesT/j6waLPH3PZhfgpRg12TTpB1DEMCItqjOWt1eY05i7NyV03tG2aCFdTxihrHXuNAkaVDl8lQUODty+weYZ9a7jVnOMZt9NbPShnyO1Jw037HPLc4d/9rnzMKPesXF6tlHv8FgVNLiyl+v8gbjb3z99usGe//MHavZ8CxuIG+ZxwLCvH9fCUeawsyQr9n+Rt5UwqReHYbXVYFFEn/5Q1be3BW7J+WP0/h2X3ubtpikOrJsbw6PLfNuglsO5T5xxN/B9BqoaLbasQr0JcVBkrur6HjfeyB8FC/0IlskGhxTZmdxh8c6u16WsHwBjGwxzPn6JSnQt8OkXZ6uz5E9/nHaN2U1bNzwNL4fHqRiMKbZHnMfFIoQWyn7BqAF+TYW3WXPPLKhX4sEgUpcH6HrZKXno/F/xn//vv/5Pi8vsJhsA7JishO8XLUT1a/wBn8cfU1HcEIrd/Gv+12CNMctK2FDczLJZUdDca1xcgXYP1k9Zos35DbzDksWBzY/8nQF4rHa4n4n9Mdl8tzkYg1uw9viD3Szklv9gFr5iP03iaJ3dFGzc8a30Yypa5g8F316JAxTxaBA7bu7T7+CfaVBd/xNz+Hv2ZxosislWQE1WCDv8PTxZDPEWt7DxSF4PjwYxPK9xi50exOcaNwx8zX+YRVm9vBYPU5GugdbGo/YBHy1xO1Ysb3AUYc6fxzzjTeAn8WAUeWDGKP9rEIDhh9jRuMWtuVuxmXFrEsV+SXRPyliX7ROEAsZ9/+0+g+46vQKTcwsNKNrWOR+/svdskM0ttDM2gkIVgmKPMMpF54l585Bv/xLd5/kB9Ndj3YA+vQFFCHQ4HARDALQetokNH0eD6tmdjRbkL8e2K26fYMzC/o4BYA5Ctt8csTW8Gp9HAVCZXbGBcuHG7I/ip8mg7eoDdDaH8cW+2G5LHP3gn/E1jmPrPTvuVO/H1/UDXilZP3KDOf+4gRFHy9L0+/bzku+ORrno+g60e15FoARB4cKQCXOkACudC/wlesIJlRa0vbDzH8VUAR6q2vUzC8OIYA1FU5ajhY+fAuP+/IsIxhi3QAwKCr7zJZvd4D/HQUB0gM+qVj/jZCTmsQYLkoYZMG7AV2vQwV36AYcUGSvaFob4d9Cn4EYcSMnNUzQZafQdL0LP8o9FZzZycWGLbbBJrytoEhiPXY79420AAe6xOQWPu4Pm4uvbbI0kp3y/wVHsfDjfHHUKA1qPJ+FxL9kpBHyX0Wll2O90OoVF7FY6LS+hgZxCgLsDT8GzPY6nZ+Wp0eBb/k6qFGCnTvH/H7Ed/EvIuAEA"
     },
-    "runtime/BP/scripts/core/standalone-guide-model.js": {
-      "before": null,
-      "after": "94d135964aa43ae3d5c57ef9fba2254ff1ae1859006e2c110a5e2f4f488ea896",
-      "reason": "Reviewed guide readability repair: localized fluid/container names, source-derived operation and aging, preserved recipe slots and shared optional chapter. See RELEASE-NOTES-0.6.94.md and standalone-guide.test.mjs.",
-      "superseded": [
-        {
-          "commit": "892436df95b7e299221e6e7aa699ab9944febcbb",
-          "after": "7879ea5476b4fc7a48125badcc79d634ac8e2fd623ad47c67f32d09e2636c3ec",
-          "reason": "Previous reviewed runtime before this guide/version repair; original historical preimage retained."
-        }
-      ]
-    },
     "runtime/BP/texts/zh_TW.lang": {
       "before": "05374075a3ba3c8ef721ce105ff82c6a4848b73d8b44f9fa9055d927eac934a2",
       "after": "12a5bfba2709efc7291785c6850e8e18221a6790ea7b12e37a9c2a47c9fe17d7",
@@ -1533,11 +1521,6 @@
       "after": "95587726f1ba8defc4b6ce92f5dd7b07ab587846c6ffa584b8122780410c627d",
       "reason": "Owner-requested independent Tavern guide and optional Cookery integration; same shared content and storage/API preserved. See RELEASE-NOTES-0.6.80.md.",
       "beforeGzipBase64": "H4sIAAAAAAACA43OsW7DMAwE0L1fQaB7gQBFh3TJls8QZOsqC1ZIh5Qt6O+rsUMReeBwwLsD3+meDhgJ5/ZNu4E8MSoVWKEqmgN5DpThD1DiA1xEG9nmZ3y8xd6lm9HqM1IQm2WDm0VWaLvGPQVMPdDlf1j6pvLVFt/9AOGxleZi9mbVK+jydYJPUkoe2kPC6t3zk14zTbCcOLqgzdUlFYw7MUv96Qd1k6KOCzXxiVlFcM8d4DFdhNHfPTWbZvyRv10D0OkaAgAA"
-    },
-    "runtime/BP/scripts/bedrock/standalone-guide.js": {
-      "before": null,
-      "after": "8409d9a261b7aa5216c741f54d7adb21b3189dfafc8d33d3c2d2f027c3587835",
-      "reason": "Owner-requested independent Tavern guide and optional Cookery integration; same shared content and storage/API preserved. See RELEASE-NOTES-0.6.80.md."
     },
     "runtime/BP/texts/zh_CN.lang": {
       "before": "5af61c98b4f1705b313d932c07e0cc240e423e0c9a926c7237a2ecdd452ceb5e",
@@ -4863,33 +4846,6 @@
             ]
           ]
         },
-        "runtime/BP/scripts/bedrock/standalone-guide.js": {
-          "before": "8409d9a261b7aa5216c741f54d7adb21b3189dfafc8d33d3c2d2f027c3587835",
-          "after": "823a435b43625a3917bb9c77c64ee10685b72663f1a1287794bbdc529bc71acc",
-          "reason": "Expose explicit language and owner-local shaker volume settings through the existing standalone guide; canceled forms do not write and failed saves retain the prior settings.",
-          "reverseOps": [
-            [
-              2,
-              5,
-              "import {GUIDE_LANGUAGES,guideLocale,guideText,standaloneGuideView} from '../core/standalone-guide-model.js';\nconst LANGUAGE_KEY='kt:standalone_guide_locale',sessions=new Map();\n"
-            ],
-            [
-              6,
-              7,
-              "function localeOf(player){try{return guideLocale(player.getDynamicProperty(LANGUAGE_KEY))}catch{return guideLocale()}}\n"
-            ],
-            [
-              26,
-              29,
-              "    const answer=await new ModalFormData().title(guideText(locale,'language')).dropdown(guideText(locale,'language'),['繁體中文','简体中文','English'],{defaultValueIndex:GUIDE_LANGUAGES.indexOf(locale)}).show(player);\n"
-            ],
-            [
-              30,
-              34,
-              "    const choice=answer.formValues?.[0];if(!Number.isInteger(choice)||!GUIDE_LANGUAGES[choice])continue;\n    const before=player.getDynamicProperty(LANGUAGE_KEY),next=GUIDE_LANGUAGES[choice];\n    try{player.setDynamicProperty(LANGUAGE_KEY,next);if(player.getDynamicProperty(LANGUAGE_KEY)!==next)throw Error('Language write not acknowledged');locale=next;}\n    catch(error){try{player.setDynamicProperty(LANGUAGE_KEY,before)}catch{}locale=localeOf(player);notify(player,guideText(locale,'saveError'));console.warn('[Tavern guide language] '+error);}\n"
-            ]
-          ]
-        },
         "runtime/BP/scripts/core/custom-effects.js": {
           "before": "2f9ac47df27bbc0605e1c7303ce2de95193de06919b8d5bb00c13ee18c64c2b0",
           "after": "0ab7aaf1bf2dd5cf4238367e4939645a6a7ef9af56d56bb22993fd2d3b8507b2",
@@ -5029,33 +4985,6 @@
               180,
               189,
               " acceptsShakerInput(item){return this.itemExists(item);}\n"
-            ]
-          ]
-        },
-        "runtime/BP/scripts/core/standalone-guide-model.js": {
-          "before": "94d135964aa43ae3d5c57ef9fba2254ff1ae1859006e2c110a5e2f4f488ea896",
-          "after": "57589407f5954b1334b46c50a724ec4fd070d0573174030aa8055cdc0bb9ad3c",
-          "reason": "Reuse the shared language/settings model and localized volume choices in the existing guide navigation; retain seven content roots and report persistence/rollback failures honestly.",
-          "reverseOps": [
-            [
-              5,
-              7,
-              "export const GUIDE_LANGUAGES=Object.freeze(['zh_TW','zh_CN','en_US']);\n"
-            ],
-            [
-              9,
-              12,
-              " zh_TW:{back:'返回',close:'關閉',language:'語言 / Language',empty:'此分類目前沒有已安裝的內容。',next:'下一頁',previous:'上一頁',recipe:'製作方法',ingredients:'材料',result:'成品',time:'製作時間',ticks:'tick',inventory:'背包使用',yes:'可以',placeable:'可擺放展示',returns:'使用後容器',stack:'堆疊上限',usedBy:'用於製作',initializing:'酒館指南尚未完成初始化，請稍後再試。',error:'指南開啟失敗，請稍後再試。',saveError:'語言設定未能確認儲存，請重新開啟指南檢查。',craftNote:'材料清單不代表合成格位置；實際排列請查看原版配方書。',methods:{Barrel:'酒桶釀造',Shaker:'雪克杯調酒','Pressing Tub':'壓榨桶','Crafting Table':'工作台',Freezer:'冰櫃'}},\n zh_CN:{back:'返回',close:'关闭',language:'语言 / Language',empty:'此分类目前没有已安装的内容。',next:'下一页',previous:'上一页',recipe:'制作方法',ingredients:'材料',result:'成品',time:'制作时间',ticks:'tick',inventory:'背包使用',yes:'可以',placeable:'可摆放展示',returns:'使用后容器',stack:'堆叠上限',usedBy:'用于制作',initializing:'酒馆指南尚未完成初始化，请稍后再试。',error:'指南打开失败，请稍后再试。',saveError:'语言设置未能确认保存，请重新打开指南检查。',craftNote:'材料清单不代表合成格位置；实际排列请查看原版配方书。',methods:{Barrel:'酒桶酿造',Shaker:'雪克杯调酒','Pressing Tub':'压榨桶','Crafting Table':'工作台',Freezer:'冰柜'}},\n en_US:{back:'Back',close:'Close',language:'Language / 語言',empty:'No installed content in this category yet.',next:'Next page',previous:'Previous page',recipe:'Preparation',ingredients:'Ingredients',result:'Result',time:'Preparation time',ticks:'ticks',inventory:'Use from inventory',yes:'Yes',placeable:'Can be placed for display',returns:'Returned container',stack:'Stack limit',usedBy:'Used to make',initializing:'The Tavern guide is not initialized yet. Please try again shortly.',error:'The guide could not open. Please try again.',saveError:'Could not confirm the language was saved. Reopen the guide to check.',craftNote:'This ingredient list does not specify crafting-grid positions. Check the vanilla recipe book for the actual layout.',methods:{Barrel:'Barrel brewing',Shaker:'Shaker mixing','Pressing Tub':'Pressing tub','Crafting Table':'Crafting table',Freezer:'Freezer'}}\n"
-            ],
-            [
-              13,
-              13,
-              "export const guideLocale=value=>GUIDE_LANGUAGES.includes(value)?value:'zh_TW';\n"
-            ],
-            [
-              29,
-              30,
-              "  buttons.push({label:text.language,action:{type:'language'}},{label:text.close,action:{type:'close'}});\n"
             ]
           ]
         },
@@ -6061,48 +5990,6 @@
       "reviewedSourceCommit": "496ce702161fb48ab6f67ea6645ad1e4d41b2a12",
       "reviewDocument": "docs/GUIDE-EDITORIAL.md",
       "files": {
-        "runtime/BP/scripts/bedrock/standalone-guide.js": {
-          "before": "823a435b43625a3917bb9c77c64ee10685b72663f1a1287794bbdc529bc71acc",
-          "after": "3bce30fcd893a452c4ddfe8aff488f487a443c17e74877ac111ad7defb603591",
-          "reason": "Render the same localized chapter from both entrances, preserve saved preferences and close/back outcomes, and use the scoped player-origin Cookery handoff. See docs/GUIDE-EDITORIAL.md and docs/RELEASE-NOTES-0.6.136.md.",
-          "reverseOps": [
-            [
-              2,
-              3,
-              "import {GUIDE_LANGUAGES,guideText,standaloneGuideView} from '../core/standalone-guide-model.js';\n"
-            ],
-            [
-              8,
-              10,
-              "export async function showStandaloneGuide(player,payloadProvider){\n"
-            ],
-            [
-              11,
-              12,
-              " const token={};sessions.set(player.id,token);let locale=localeOf(player);const history=[];let node={type:'root'};\n"
-            ],
-            [
-              13,
-              14,
-              "  if(!payloadProvider()){standaloneGuideDiagnostics.notReady++;notify(player,guideText(locale,'initializing'));return false;}\n"
-            ],
-            [
-              16,
-              18,
-              "   const payload=payloadProvider();if(!payload){notify(player,guideText(locale,'initializing'));break;}\n   const view=standaloneGuideView(payload,locale,node);if(view.node.type==='root'&&node.type!=='root')history.length=0;else if(view.node.type!==node.type||view.node.id!==node.id){while(history.length&&history.at(-1).type===view.node.type&&history.at(-1).id===view.node.id)history.pop();}node=view.node;\n"
-            ],
-            [
-              24,
-              25,
-              ""
-            ],
-            [
-              41,
-              43,
-              " }catch(error){standaloneGuideDiagnostics.errors++;console.warn('[Tavern standalone guide] '+error);notify(player,guideText(locale,'error'));return false;}\n finally{if(sessions.get(player.id)===token)sessions.delete(player.id);standaloneGuideDiagnostics.closed++;}\n"
-            ]
-          ]
-        },
         "runtime/BP/scripts/core/guide-preparation-text.js": {
           "before": "898d16fd40b1a33ddfdf2c59881180773242e5970bbf5a6c89cff45e0102d06b",
           "after": "5b2088df21508b78548253ccc11a67aab7e09b80398cf10bc521d73ab0884f17",
@@ -6156,58 +6043,6 @@
               23,
               24,
               " barrel:{en_US:'Sneak-use the Tavern barrel to open it. Add the listed fluid FIRST, then the ingredients. Close it to brew and age; open it and use an empty bottle to collect. Higher quality takes more time in the barrel.',zh_CN:'潜行操作酒馆酒桶开盖，先加入所列液体，再加入原料，关盖酿造、熟成；开盖后用空酒瓶取酒。继续留在桶中可提升品质。',zh_TW:'潛行操作酒館酒桶開蓋，先加入所列液體，再加入原料，關蓋釀造、熟成；開蓋後用空酒瓶取酒。繼續留在桶中可提升品質。'},\n"
-            ]
-          ]
-        },
-        "runtime/BP/scripts/core/standalone-guide-model.js": {
-          "before": "57589407f5954b1334b46c50a724ec4fd070d0573174030aa8055cdc0bb9ad3c",
-          "after": "61be2e00d567869861eed5841f3f6773f9388664e01aaaf20874cd8c43a82b34",
-          "reason": "Apply heading/body formatting and reset colors, retain complete preparation buttons, and return the optional chapter to its host without reopening on Close. See docs/GUIDE-EDITORIAL.md and docs/RELEASE-NOTES-0.6.136.md.",
-          "reverseOps": [
-            [
-              2,
-              3,
-              "import {preparationText} from './guide-preparation-text.js';\n"
-            ],
-            [
-              24,
-              34,
-              "export function standaloneGuideView(payload,locale,node={type:'root'}){\n"
-            ],
-            [
-              38,
-              42,
-              "  buttons.push({label:text.settings,action:{type:'language'}},{label:text.close,action:{type:'close'}});\n  return {node,title:word(payload,locale,payload.titleKey??'title','Tavern'),body:word(payload,locale,payload.introKey??'intro'),buttons};\n"
-            ],
-            [
-              44,
-              45,
-              "  const category=payload.categories.find(c=>c.id===node.id);if(!category)return standaloneGuideView(payload,locale);\n"
-            ],
-            [
-              54,
-              55,
-              " const entry=payload.entries.find(e=>e.id===node.id);if(!entry)return standaloneGuideView(payload,locale);\n"
-            ],
-            [
-              56,
-              57,
-              "  const recipe=entry.recipes?.[node.index];if(!recipe)return standaloneGuideView(payload,locale,{type:'entry',id:entry.id});\n"
-            ],
-            [
-              59,
-              62,
-              "  if(recipe.time>0)sections.push(heading(text.time,[(recipe.time/20)+' s']));\n  if(recipe.method==='Crafting Table')sections.push(text.craftNote);\n  return {node,title:'§l'+guideItemName(payload,locale,entry.id)+' · '+method,body:sections.join('\\n\\n'),buttons:[back]};\n"
-            ],
-            [
-              64,
-              68,
-              " if(Number.isFinite(entry.stack))lines.push(text.stack+': '+entry.stack);\n if(entry.placeable)lines.push(text.placeable+': '+text.yes);\n if(entry.food?.eatFromInventory)lines.push(text.inventory+': '+text.yes);\n if(entry.food?.returns)lines.push(text.returns+': '+guideItemName(payload,locale,entry.food.returns));\n"
-            ],
-            [
-              71,
-              72,
-              " return {node:{...node,page:result.page},title:'§l'+guideItemName(payload,locale,entry.id),body:lines.join('\\n\\n'),buttons:result.buttons};\n"
             ]
           ]
         },
