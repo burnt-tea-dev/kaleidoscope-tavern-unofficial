@@ -87,7 +87,7 @@ def gh_json(endpoint):
 def required_ci_checks(key):
     profiles = {
         'tavern': {'impact', 'baseline'},
-        'grilling': {'baseline', 'bridge', 'canonical', 'candidate'},
+        'grilling': {'baseline', 'bridge', 'validate', 'candidate'},
         'world-liquor': {'baseline', 'bridge', 'package', 'wall-record'},
     }
     required = set(profiles[key])
