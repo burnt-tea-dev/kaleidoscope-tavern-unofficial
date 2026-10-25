@@ -1,3 +1,7 @@
+## 0.6.182
+
+Cancelling guide settings returns to the current guide without saving preferences or prematurely returning to Cookery. The settings button shows the active language in its native name. Preserve the seven content sections, Cookery's temporary language context, existing player/world keys, Java gameplay and sound behavior. Full-family and actual client acceptance remain pending; see the [third-party design review](docs/THIRD-PARTY-TAVERN-REVIEW.md).
+
 ## 0.6.181
 
 Bound failed furniture handoffs and background visual retries while retaining original native inventory authority. Unchanged acknowledged cabinets no longer refill the transport queue; a changed owner or loaded native carrier can retry promptly. Add stopped-stage native actor index recovery with complete item and unrelated-record preservation checks. Full-family native and client acceptance remain pending.

@@ -1,5 +1,9 @@
 # Tavern Java／Bedrock 差距矩陣
 
+## T182 指南設定導航來源（2026-10-25）
+
+取消設定視窗會返回相同指南，既有 session 若已清除則仍退出；取消不寫入偏好，也不提前觸發返回 Cookery。首頁設定按鈕顯示實際使用的語言名稱，與既有三語選單共用字串。七大內容入口、Cookery 臨時語言優先、原玩家／世界資料鍵及 Java 玩法／音效保持。這是獨立吸收介面設計，沒有複製第三方腳本，也未新增 29 語、維度音效／粒子設定或蹲下放置選項。現有 controller／偏好定向測試通過；完整家族保存／BDS、實際畫面與操作仍待驗收，`client=false`、`production_ready=false`。詳見[本次吸收範圍](THIRD-PARTY-TAVERN-REVIEW.md)。以下保留原候選範圍。
+
 ## 2026-10-25 共用儲存穩定性修復來源
 
 已重現並修正外部酒櫃相同失敗快照的 NACK 重送循環，以及同一原生容器暫不可用時展示維護的重讀循環。相同 payload 有界退避、正常位置繼續交接，原 actor 載入或來源 raw／ledger 改變後恢復；玩家操作與 native inventory／migration receipt／tombstone 的權威不變。來源／API 測試量得 60 次回呼中的相同失敗查詢由 30 次降至 2 次，完整 foundation 127 項通過。詳細行為及重現命令見 [共用底層](FOUNDATION-PHASE1.md)。尚未 freeze／發布／部署；不能據此稱正式存檔已恢復或 LIVE 卡頓已解決，真 carrier、保存／BDS 與 client gates 保持。

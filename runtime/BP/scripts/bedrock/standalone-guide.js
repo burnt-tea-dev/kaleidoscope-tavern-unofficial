@@ -27,9 +27,10 @@ export async function showStandaloneGuide(player,payloadProvider,options={}){
    if(action.type==='page'){node=action.node;continue;}
    if(action.type==='language'){
     const answer=await new ModalFormData().title(guideText(locale,'settings'))
-     .dropdown(guideText(locale,'language'),['繁體中文','简体中文','English'],{defaultValueIndex:GUIDE_LANGUAGES.indexOf(locale)})
+     .dropdown(guideText(locale,'language'),GUIDE_LANGUAGES.map(language=>guideText(language,'languageName')),{defaultValueIndex:GUIDE_LANGUAGES.indexOf(locale)})
      .dropdown(guideText(locale,'shakerSound'),guideText(locale,'shakerSoundLevels'),{defaultValueIndex:SHAKER_SOUND_LEVELS.indexOf(getShakerSoundLevel(player))}).show(player);
-    if(sessions.get(player.id)!==token||answer.canceled)break;
+    if(sessions.get(player.id)!==token)break;
+    if(answer.canceled)continue;
     const [languageIndex,soundIndex]=answer.formValues??[];
     if(!Number.isInteger(languageIndex)||!GUIDE_LANGUAGES[languageIndex]||!Number.isInteger(soundIndex)||!SHAKER_SOUND_LEVELS[soundIndex])continue;
     try{locale=savePresentationSettings(player,{locale:GUIDE_LANGUAGES[languageIndex],shakerSound:SHAKER_SOUND_LEVELS[soundIndex]}).locale;}

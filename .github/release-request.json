@@ -1,7 +1,7 @@
 {
-  "version": "0.6.181",
-  "tag": "v0.6.181",
-  "title": "Tavern 0.6.181: bounded foundation retries and native storage recovery",
+  "version": "0.6.182",
+  "tag": "v0.6.182",
+  "title": "Tavern 0.6.182: retain guide navigation when cancelling settings",
   "prerelease": false,
   "publication_request": false,
   "validation_evidence": "docs/PARITY-MATRIX.md",
@@ -11,10 +11,10 @@
   "saved_world_migration": "pending",
   "production_ready": false,
   "live_deployment": false,
-  "native_evidence_scope": "Source-level foundation transport, fairness and current-owner regressions; native actor pointer recovery tooling preserves original inventories. Full-family first-load/restart, saved-world migration and rendered client acceptance remain pending.",
+  "native_evidence_scope": "Guide view/controller and existing presentation-setting regressions only. Java gameplay, audio routing, player/world storage keys and host-language precedence are unchanged. Full-family first-load/restart, saved-world migration and actual client acceptance remain pending.",
   "client": false,
   "status": "candidate_pending_canonical_ci_and_family_admission",
-  "peer_pins_status": "paired_with_world_liquor_0.1.159_exact_reviewed_source",
+  "peer_pins_status": "paired_with_world_liquor_0.1.160_exact_reviewed_source",
   "family_ready": false,
-  "paired_world_liquor_commit": "103d6b7ad2792f6ba0b430a67b0a50e74d07d7f5"
+  "paired_world_liquor_commit": "efec2ba633ca4dd44e0a0dc250ce46ef40c09d95"
 }

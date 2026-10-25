@@ -1,4 +1,14 @@
-# Loyallay Tavern 1.0.1: published-package review
+# Loyallay Tavern: published-package reviews
+
+## 2026-10-25: guide navigation adopted in T182
+
+Inspected Loyallay's published [Tavern 1.0.7](https://www.curseforge.com/minecraft-bedrock/addons/kaleidoscope-tavern-unoffical/files/9317036), file 9317036, alongside the current [World Liquor 1.0.0](https://www.curseforge.com/minecraft-bedrock/addons/kaleidoscope-world-liquor-unofficial/files/9317011). These are independent unofficial Bedrock ports. This was archive/source inspection, not a client playtest.
+
+T182 independently improves the existing shared guide's settings navigation: cancelling settings returns to the guide without saving or returning to Cookery, and the root settings button displays the current language in its native name. The existing personal shaker-volume setting already provides less/normal/more with an unchanged normal default; this release does not implement it again. No third-party source or assets were copied.
+
+The same three languages and seven content roots remain. Cookery's temporary language context still takes precedence for that entrance, while the player's stored preference is preserved. Player/world keys, recipes, quantities, timing, interaction authority and audio routing are unchanged. We did not adopt broader language tables, dimension-wide presentation preferences or sneak-to-place behavior. Focused controller and presentation-setting regressions passed; complete-family native/saved-world and actual-client acceptance remain pending. This change does not establish complete Java parity.
+
+## Historical review: Tavern 1.0.1 (2026-10-08)
 
 Reviewed 2026-10-08 against our `d295390e1023ec0a8f38c82ebbfd1ddc1eacb509` repair base. This is a read-only inspection of the actual published add-on, not a client playtest. No third-party runtime source or assets are incorporated by this review.
 

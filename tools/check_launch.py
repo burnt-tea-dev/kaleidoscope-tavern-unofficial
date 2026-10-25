@@ -13,6 +13,8 @@ ROOT=Path(__file__).resolve().parents[1]
 EFFECT_SOURCES={'runtime/BP/scripts/bedrock/custom-effects.js'}
 BARREL_SOURCES={f'runtime/RP/entity/runtime_barrel_ingredients_{slot}.entity.json' for slot in range(4)}|{
     'runtime/RP/render_controllers/runtime_barrel_ingredients.render_controllers.json'}
+GUIDE_SOURCES={'runtime/BP/scripts/bedrock/standalone-guide.js',
+    'runtime/BP/scripts/core/standalone-guide-model.js'}
 def read(path):return json.loads(path.read_text(encoding='utf-8-sig'))
 def sha(path):
     path=Path(path).resolve()
@@ -26,6 +28,14 @@ def main():
     potion_contract=check_potion_visual(args.java_source)
     foundation_sources=foundation_runtime_sources()
     foundation_contract=check_foundation_sources(ROOT)
+    for name in GUIDE_SOURCES:
+        path=ROOT/name
+        assert path.is_file() and not path.is_symlink(),('Missing current guide owner',name)
+    guide_ledger=read(ROOT/'data/baseline-reconciliation.json')
+    for section in ('files','reviewedFunctionalDeltas'):
+        assert not GUIDE_SOURCES & set(guide_ledger.get(section,{})),'Current guide owner returned to a historical postimage guard'
+    for layer in guide_ledger.get('reviewedFunctionalDeltaLayers',[]):
+        assert not GUIDE_SOURCES & set(layer['files']),'Current guide owner returned to a reverse delta'
     ref=read(ROOT/'data/launch-repair-reference.json')
     from efficiency.reference import apply_efficiency_reference
     ref=apply_efficiency_reference(ref,ROOT)
@@ -69,12 +79,12 @@ def main():
     if args.baseline:
         old_names={p.relative_to(args.baseline).as_posix() for p in (args.baseline/'runtime').rglob('*') if p.is_file()}
         new_names={p.relative_to(ROOT).as_posix() for p in (ROOT/'runtime').rglob('*') if p.is_file()}
-        assert new_names==(old_names|set(ref['newRuntimeFiles'])|potion_sources|foundation_sources)-set(removed),'Unlisted runtime addition or removal'
-        assert (EFFECT_SOURCES|BARREL_SOURCES|potion_sources|foundation_sources)<=new_names,'Missing current-contract source'
+        assert new_names==(old_names|set(ref['newRuntimeFiles'])|potion_sources|foundation_sources|GUIDE_SOURCES)-set(removed),'Unlisted runtime addition or removal'
+        assert (EFFECT_SOURCES|BARREL_SOURCES|potion_sources|foundation_sources|GUIDE_SOURCES)<=new_names,'Missing current-contract source'
         for old in (args.baseline/'runtime').rglob('*'):
             if not old.is_file():continue
             name=old.relative_to(args.baseline).as_posix()
-            if name not in ref['reviewedChanges'] and name not in removed and name not in (EFFECT_SOURCES|BARREL_SOURCES|potion_sources|foundation_sources):
+            if name not in ref['reviewedChanges'] and name not in removed and name not in (EFFECT_SOURCES|BARREL_SOURCES|potion_sources|foundation_sources|GUIDE_SOURCES):
                 assert previous_bytes(ROOT,ROOT/name)==old.read_bytes(),('Unreviewed existing-runtime change',name)
                 unchanged+=1
     components=read(ROOT/'runtime/BP/items/molotov.json')['minecraft:item']['components']
@@ -142,6 +152,7 @@ def main():
         'reviewedChanges':sorted(ref['reviewedChanges']),'reviewedRemovals':sorted(removed),'unchangedExistingRuntimeFiles':unchanged if args.baseline else None,
         'currentContracts':{'barrelResources':{'sources':sorted(BARREL_SOURCES),'generatedResources':'passed','adapterScenarios':'separate foundation CI; not run by this command'},
                             'foundation':foundation_contract,
+                            'guide':{'sources':sorted(GUIDE_SOURCES),'behaviorAndResources':'actual standalone-guide.test.mjs, presentation-settings.test.mjs and check_guide.mjs in the existing package suite; not run by this static command'},
                             'potionVisual':{**potion_contract,'sources':sorted(potion_sources),'adapterScenarios':'separate foundation CI; not run by this command'},
                             'customEffects':{'sources':sorted(EFFECT_SOURCES),'behaviorScenarios':'separate efficiency and foundation CI; not run by this command'}},
         'pureRules':pure,'nativeMolotovResources':'source/schema aligned; device acceptance pending',

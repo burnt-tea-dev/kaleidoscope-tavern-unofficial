@@ -202,6 +202,13 @@ class T176ImmutableTests(unittest.TestCase):
   for commit,name in [(reference.T176_AFTER,'runtime/BP/scripts/bedrock/mixology.js'),('HEAD',next(iter(reference.T176_PATHS)))]:
    with self.subTest(commit=commit,name=name),self.assertRaisesRegex(AssertionError,'Outside the T176'):reference.t176_source(str(root),commit,name)
 
+class GuideCurrentSourceTests(unittest.TestCase):
+ def test_current_guide_owners_reach_launch_without_a_historical_source_view(self):
+  root=Path(__file__).resolve().parents[1]
+  for name in ('runtime/BP/scripts/bedrock/standalone-guide.js','runtime/BP/scripts/core/standalone-guide-model.js'):
+   with self.subTest(name=name):
+    self.assertEqual(previous_bytes(root,root/name),(root/name).read_bytes())
+
 class FoundationCurrentSourceTests(unittest.TestCase):
  def setUp(self):
   import shutil
