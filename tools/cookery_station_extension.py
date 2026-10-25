@@ -54,6 +54,58 @@ def head(root):
     return subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=root, text=True).strip()
 
 
+def _source_entry(root, commit, path, kind):
+    result = subprocess.run(['git', '--literal-pathspecs', 'ls-tree', '-z', commit, '--', path],
+                            cwd=root, capture_output=True)
+    entries = result.stdout.rstrip(b'\0').split(b'\0')
+    require(result.returncode == 0 and len(entries) == 1 and b'\t' in entries[0],
+            'public API anchor input missing: ' + path)
+    metadata, name = entries[0].split(b'\t', 1)
+    parts = metadata.decode().split()
+    modes = {'blob': {'100644', '100755'}, 'tree': {'040000'}}
+    require(name == path.encode() and len(parts) == 3 and parts[0] in modes[kind]
+            and parts[1] == kind and re.fullmatch('[0-9a-f]{40}', parts[2]) is not None,
+            'public API anchor input is not a regular ' + kind + ': ' + path)
+    return tuple(parts)
+
+
+def validate_api_handoff_anchor(handoff, grilling_root, api_raw):
+    """Retain an authentic API handoff across conserved exported releases.
+
+    This compares committed release inputs, not whole repository trees or CI
+    evidence. Current functional evidence still binds its complete current tree.
+    """
+    anchor = handoff.get('from_commit')
+    require(isinstance(anchor, str) and re.fullmatch('[0-9a-f]{40}', anchor) is not None,
+            'public API anchor must be a complete commit')
+    current = head(grilling_root)
+    ancestor = subprocess.run(['git', 'merge-base', '--is-ancestor', anchor, current],
+                              cwd=grilling_root, capture_output=True)
+    require(ancestor.returncode == 0, 'public API anchor is not an ancestor of current source')
+    # Manifests, modules, dependency identities and generated payloads are inside
+    # the roots owned by this baseline. No changing-prose path allowlist is used.
+    entries = {}
+    for path in ('baseline.json', 'release-history.json'):
+        entries[path] = _source_entry(grilling_root, anchor, path, 'blob')
+        require(entries[path] == _source_entry(grilling_root, current, path, 'blob'),
+                'public API release input changed after handoff: ' + path)
+    baseline = json.loads(subprocess.check_output(['git', 'cat-file', 'blob', entries['baseline.json'][2]],
+                                                cwd=grilling_root))
+    roots = baseline.get('runtime')
+    require(isinstance(roots, dict) and set(roots) == {'BP', 'RP'}, 'public API exported roots differ')
+    for side, path in roots.items():
+        require(isinstance(path, str) and path and PurePosixPath(path).as_posix() == path
+                and not PurePosixPath(path).is_absolute() and '..' not in PurePosixPath(path).parts
+                and '\\' not in path, 'public API exported root is unsafe: ' + side)
+        require(_source_entry(grilling_root, anchor, path, 'tree')
+                == _source_entry(grilling_root, current, path, 'tree'),
+                'public API exported runtime changed after handoff: ' + side)
+    api_entry = _source_entry(grilling_root, anchor, API_SPEC, 'blob')
+    require(api_entry == _source_entry(grilling_root, current, API_SPEC, 'blob')
+            and subprocess.check_output(['git', 'cat-file', 'blob', api_entry[2]], cwd=grilling_root) == api_raw,
+            'public API declaration differs from committed handoff')
+
+
 def current_station_profile(spec, owned_root, api, api_raw, grilling_root):
     """Validate the single current source contract, without version replay layers."""
     require(spec.get('schema') == 1 and spec.get('kind') == KIND and spec.get('id') == IDENTITY
@@ -65,9 +117,9 @@ def current_station_profile(spec, owned_root, api, api_raw, grilling_root):
     require(api.get('host_uuid') == HOST and api.get('archive_sha256') == ARCHIVE
             and api.get('original_files', {}).get(TARGET) == AUTHOR, 'public API author input differs')
     handoff = spec.get('owner_handoff', {})
+    validate_api_handoff_anchor(handoff, grilling_root, api_raw)
     hooks = [op for op in api['insertions'] if op.get('path') == TARGET]
     require(handoff.get('from_repository') == 'burnt-tea-dev/kaleidoscope-grilling-unofficial'
-            and handoff.get('from_commit') == head(grilling_root)
             and handoff.get('spec_path') == API_SPEC and handoff.get('spec_sha256') == digest(api_raw)
             and handoff.get('id') == api['id'] and handoff.get('version') == api['version']
             and handoff.get('target') == TARGET and handoff.get('author_sha256') == AUTHOR
