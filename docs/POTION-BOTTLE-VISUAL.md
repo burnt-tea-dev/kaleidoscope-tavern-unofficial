@@ -22,13 +22,22 @@ existing base-model budget remains below 1,024. This is a project budget,
 not a claimed engine-wide geometry-ID limit or rendered-client evidence.
 
 The saved native ItemStack remains the only adopted item authority. Colour
-reads use the same strict native plan as pick/removal. Missing adopted carriers
-remove the cosmetic liquid and never reconstruct a replacement item. Creative
+reads and Creative picks use the same strict read-only native source as removal.
+Missing adopted carriers remove the cosmetic liquid at the block tick and never
+reconstruct a replacement item. Creative
 pick remains read-only; take, natural break and projectile break use existing
 transaction completion for cosmetic cleanup. The helper has no inventory.
-Block ticks restore missing helpers; entity-load and bounded maintenance repair
-pose, collapse duplicates and defer unloaded owner cells. Cosmetic spawn failure
+Block ticks validate colour and restore missing helpers. Entity-load and bounded
+maintenance check owner liveness and pose, invoking full repair only for drift;
+healthy helpers avoid another native inventory read. Full repair collapses
+duplicates and unloaded owner cells defer cleanup. Cosmetic spawn failure
 does not undo a committed item placement.
+
+Vanilla bottle placement uses the existing Java direction adapter to face opposite
+the player. Forge `VanillaBottlePlaceEvent.getPlacement` maps WATER/EMPTY to the
+ordinary water block without storing the input stack; NeoForge does the same for
+water or missing potion contents. Their water loot creates canonical water. That
+stateless water behavior, accepted inputs, quantities and models remain unchanged.
 
 `tools/potion-bottle-visual.test.mjs` exercises the production callbacks with the
 existing API double. Its expected colours come from original Minecraft 1.21.1
