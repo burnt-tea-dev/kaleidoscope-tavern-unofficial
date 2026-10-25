@@ -3,6 +3,7 @@
 import {world,ItemStack,ItemLockMode,EnchantmentTypes,Potions,BlockPermutation} from '@minecraft/server';
 import {MachineStore,machineKey} from './core/storage.js';
 import {newMachine,interact,barrelCells} from './core/machines.js';
+import {ExtensionRegistry} from './core/registry.js';
 import {canonical} from './core/util.js';
 import {nativeItemKey} from './core/native-item-storage.js';
 import {machineItems,machineIngredientCompatibility,machineIngredientPlan,machineIngredientOutputs,readMachineIngredients} from './bedrock/machine-item-storage.js';
@@ -28,6 +29,7 @@ function save(block,state,next,incoming){
  try{plan.apply();store.save(key,next,state.revision);}catch(error){try{plan.rollback();}finally{store.restoreRaw(key,raw);}throw error;}plan.finish();return plan;
 }
 export async function runMachineIngredientsProbe({phase,dimension,container,out}){
+ const registry=new ExtensionRegistry();
  for(const [index,row]of definitions.entries()){
   const key=machineKey(dimension.id,row.position),expectedKey='qa:machine_expected_'+index,identityKey='qa:machine_carrier_'+index;
   const block=dimension.getBlock(row.position);check(block,'machine scene chunk is unavailable');
@@ -39,7 +41,7 @@ export async function runMachineIngredientsProbe({phase,dimension,container,out}
    if(row.kind==='barrel'){state.fluid='minecraft:water';state.amount=4000;store.restoreRaw(key,JSON.stringify(state));}
    const inputs=originals(row.kind);
    for(const incoming of inputs){
-    state=store.load(key);const tx=interact(state,{action:'use',held:{id:incoming.typeId,count:incoming.amount,maxAmount:incoming.maxAmount},compatibleSlots:machineIngredientCompatibility(block,state,incoming)},undefined,[]);
+    state=store.load(key);const tx=interact(state,{action:'use',held:{id:incoming.typeId,count:incoming.amount,maxAmount:incoming.maxAmount},compatibleSlots:machineIngredientCompatibility(block,state,incoming)},registry,registry.allFluids());
     check(tx.take===incoming.amount,'native insertion count did not match Java slot limit');save(block,state,tx.state,incoming);
    }
    const saved=readMachineIngredients(block,store.load(key)),expected=inputs.map(shape);check(canonical(saved.items.slice(0,inputs.length).map(shape))===canonical(expected),'native machine input was changed before save');
@@ -49,7 +51,7 @@ export async function runMachineIngredientsProbe({phase,dimension,container,out}
    let state=store.load(key);check(state?.nativeItems===1,'saved machine lost native-required state');const saved=readMachineIngredients(block,state),expected=JSON.parse(world.getDynamicProperty(expectedKey));
    check(saved.record.entity===world.getDynamicProperty(identityKey),'saved machine carrier was replaced');check(canonical(saved.items.slice(0,expected.length).map(shape))===canonical(expected),'machine native metadata/count changed across normal restart');
    for(let slot=expected.length-1;slot>=0;slot--){
-    state=store.load(key);const tx=interact(state,{action:'remove_ingredient',removeCount:64},undefined,[]),raw=store.raw(key),plan=machineIngredientPlan(block,state,tx.state);
+    state=store.load(key);const tx=interact(state,{action:'remove_ingredient',removeCount:64},registry,registry.allFluids()),raw=store.raw(key),plan=machineIngredientPlan(block,state,tx.state);
     const outputs=machineIngredientOutputs(plan,tx.give,tx.ingredientSlot);check(outputs.length===1&&canonical(shape(outputs[0].stack))===canonical(expected[slot]),'machine recovery chose the wrong original slot');
     const target=10+index*4+slot,previous=container.getItem(target);
     try{plan.apply();store.save(key,tx.state,state.revision);container.setItem(target,outputs[0].stack);check(canonical(shape(container.getItem(target)))===canonical(expected[slot]),'native recovered receipt did not retain original metadata');}

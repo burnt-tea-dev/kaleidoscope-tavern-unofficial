@@ -8355,6 +8355,192 @@
           ]
         }
       }
+    },
+    {
+      "release": "0.6.184",
+      "reviewedPredecessorCommit": "168a23ed9cb2465c1c9f6bbbf8853c6e39ea82d1",
+      "reviewedSourceCommit": "684962d2a0c2983af8e111bbc7b1c02965abcc8f",
+      "regressionTests": [
+        "tools/current-extension-contract.test.mjs",
+        "tools/standalone-guide.test.mjs",
+        "tools/efficiency/preservation.test.mjs"
+      ],
+      "files": {
+        "runtime/BP/scripts/bedrock/decorations.js": {
+          "before": "57a9c249aae381aecc029e46d79247bb3df947111b0257ea2fbf82995e4a530a",
+          "after": "db21cdc38f94e545dc2136bea960378c2ce8eff20d001c6a8228b8ec79429b2b",
+          "reason": "Reviewed current light toggling through the shared native use route, preserving incense interaction and waterlogging behavior.",
+          "reverseOps": [
+            [
+              10,
+              12,
+              ""
+            ],
+            [
+              15,
+              16,
+              "let eventsInstalled=false;const recentIncenseInteractions=new Map(),recentIncensePlacements=new Map(),incensePulsePeriods=new Map();\n"
+            ],
+            [
+              20,
+              27,
+              ""
+            ],
+            [
+              30,
+              34,
+              "function interactIncense(player,block,event){\n if(event.cancel||!player||!block||!INCENSE[block.typeId.slice(NS.length+1)]||isPlacementCallback(player,block))return false;\n"
+            ],
+            [
+              36,
+              37,
+              " const key=interactionKey(player,block),previous=recentIncenseInteractions.get(key);\n"
+            ],
+            [
+              38,
+              39,
+              " // block use, so a held incense item cannot fall through into placement.\n"
+            ],
+            [
+              40,
+              41,
+              " const pending={event,hand:hs};recentIncenseInteractions.set(key,pending);\n"
+            ],
+            [
+              47,
+              49,
+              "   succeeded=toggleIncense(b,b.permutation.getState(OPEN)!==1);return succeeded;\n  }finally{if(recentIncenseInteractions.get(key)===pending)recentIncenseInteractions.delete(key);settleJavaBlockUse(event,succeeded);}\n"
+            ],
+            [
+              82,
+              83,
+              ""
+            ],
+            [
+              89,
+              90,
+              " registerJavaBlockUseHandler(e=>{if(e.cancel||!e.block)return;if(interactIncense(e.player,e.block,e)){e.cancel=true;return;}if(!e._javaNativeAfter)noteIncensePlacement(e.player,e);});\n"
+            ]
+          ]
+        },
+        "runtime/BP/scripts/bedrock/extension-host.js": {
+          "before": "61392b4066a6374d7a83046b82014c3ca483ae37d325713426a2482cf41bcbe4",
+          "after": "576f8171b93e2101e6cd099e3ccc3ce7762994661d0fcf7fff0b67951b4a7436",
+          "reason": "Reviewed current shared transport limit advertisement and receive boundary; restore the exact T183 host before historical preservation checks.",
+          "reverseOps": [
+            [
+              1,
+              2,
+              "import {ExtensionTransport,EVENTS} from '../core/transport.js';\n"
+            ],
+            [
+              7,
+              8,
+              " const ready=()=>send(EVENTS.ready,{api:1,version:'0.3.0',capabilities:CAPABILITIES,maxPacketBytes:1900,maxPayloadBytes:262144});\n"
+            ],
+            [
+              16,
+              17,
+              "  try{if(utf8Bytes(ev.message)>1900)throw new Error('PACKET_TOO_LARGE');const p=JSON.parse(ev.message);source=p.source;revision=p.revision;\n"
+            ]
+          ]
+        },
+        "runtime/BP/scripts/core/machines.js": {
+          "before": "11195ed9fd026860d9762027899746dec7444cd1322e588f123f5dcc370ebd91",
+          "after": "cf43c87cfd3d9dfa2e0920ed516ba47ba912135d163b5fafb9aaf9116ab592c3",
+          "reason": "Reviewed barrel quality booster interaction preserving the existing produced batch timer and six-level cap.",
+          "reverseOps": [
+            [
+              47,
+              59,
+              "  check(held,'EMPTY_HAND');check(s.open&&!s.batch,'LID_CLOSED');\n"
+            ]
+          ]
+        },
+        "runtime/BP/scripts/core/transport.js": {
+          "before": "1c0d2f7affb2fd0b7b9ad810ac68d817cdc8d3320c8973c707a9d19c96abddf0",
+          "after": "da3dd3bad2e71cfcb965f2f6536d71b37fb276e25ea7b434024958faeb3fb8d0",
+          "reason": "Reviewed current shared bounded payload, part and transfer timing limits; restore the exact T183 transport before older functional layers.",
+          "reverseOps": [
+            [
+              2,
+              4,
+              "const MAX_PACKET_BYTES=1900,MAX_DATA_BYTES=262144,TTL=600;\n"
+            ],
+            [
+              18,
+              19,
+              " check(parts.length<=512,'TOO_MANY_PARTS');\n"
+            ],
+            [
+              58,
+              59,
+              "   check(p.api===1,'API_VERSION_MISMATCH');integer(p.parts,1,512);integer(p.bytes,2,MAX_DATA_BYTES);check(/^[0-9a-f]{8}$/.test(p.digest),'INVALID_DIGEST');\n"
+            ]
+          ]
+        },
+        "runtime/BP/scripts/data/cookery-guide-payload.js": {
+          "before": "14f3183d2389af57f1d52ab093ec3b07f4fbb958824886f184175e57ef85ef00",
+          "after": "fa43f7e7d03a8bbb6190c9b340c794afc982f03b6fd10f044026e5a0e94e6b2b",
+          "reason": "Reviewed current stable extension guide projection and localized fluid names after the existing bound release identity normalization to 0.6.116.",
+          "reverseOps": [
+            [
+              2,
+              3,
+              ""
+            ],
+            [
+              5863,
+              5865,
+              "  const sources=registry.list?.()??[],pages=registry.allPages?.()??[],recipes=registry.allRecipes?.()??[],fluids=registry.allFluids?.()??FLUIDS,colors=registry.allIngredientColors?.()??[];\n  registry={list:()=>sources,allPages:()=>pages,allRecipes:()=>recipes,allFluids:()=>fluids,allIngredientColors:()=>colors};\n"
+            ],
+            [
+              5870,
+              5873,
+              "   const title=fluid.title?.[lc]??fluid.title?.en_US;\n"
+            ],
+            [
+              5875,
+              5876,
+              "   if(fluid.filled)payload.names[lc][fluid.filled]??=lc==='en_US'?title+' Bucket':title+'桶';\n"
+            ],
+            [
+              5905,
+              5906,
+              "  const linked=matches?matches[0]:recipes.find(r=>page.recipeIds?.includes(r.id)),item=page.item??linked?.output?.item??linked?.output?.byQuality?.[0];\n"
+            ],
+            [
+              5928,
+              5929,
+              "  const category=page.category??(linked[0]?.kind==='barrel'?'barrel':linked[0]?.kind==='shaker'?'cocktail_recipes':'extensions');\n"
+            ]
+          ]
+        },
+        "runtime/BP/scripts/data/guide-copy.js": {
+          "before": "d84a31ecc049932988782ab457e09d2b79114702259b4c84aaeb3e6e45feb2e9",
+          "after": "6f5c0a935cbfd9d9fb6132ced2c59001c2ed3166c3d1d063a88f5cdf2bf03e76",
+          "reason": "Reviewed three-language adaptation note for the current Dim Wine guide, preserving the remaining reviewed copy.",
+          "reverseOps": [
+            [
+              30,
+              38,
+              ""
+            ]
+          ]
+        },
+        "runtime/BP/scripts/data/guide-navigation.js": {
+          "before": "c296612d010aff0769a32479591a6f9c1faac6317f461e83e02b9b648936a149",
+          "after": "9344548995406ac34e76824b094c21d91fd3927001e84792f43888935f234ebd",
+          "reason": "Reviewed publisher category projection into the fixed shared family navigation, preserving all earlier guide layout and entries.",
+          "reverseOps": [
+            [
+              41,
+              57,
+              ""
+            ]
+          ]
+        }
+      }
     }
   ],
   "reviewedAssetDeltaLayers": [
