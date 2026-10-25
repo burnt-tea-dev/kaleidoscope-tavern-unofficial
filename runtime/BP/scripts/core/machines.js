@@ -45,7 +45,18 @@ export function interact(state,command,registry,fluids){
   const item=s.slots[index],limit=s.kind==='pressing_tub'?(command.removeCount??1):item.count;integer(limit,1,64);const count=Math.min(item.count,limit);
   tx.give=[{id:item.id,count,preferHand:true,overflow:'drop'}];tx.ingredientSlot=index;item.count-=count;if(item.count===0)s.slots[index]=null;
  }else if(command.action==='use'){
-  check(held,'EMPTY_HAND');check(s.open&&!s.batch,'LID_CLOSED');
+  check(held,'EMPTY_HAND');
+  const booster=s.kind==='barrel'?registry.barrelQualityBooster?.(held.id):undefined;
+  if(booster){
+   check(s.batch,'NO_PRODUCT');const maximum=Math.min(6,booster.maxQuality);
+   check(s.batch.quality<maximum,'MAXIMUM_QUALITY');
+   // Java uses firstBoost only for level zero. A produced batch starts at one;
+   // boosting it preserves the running brew timer and the six-level host cap.
+   s.batch.quality=Math.min(maximum,s.batch.quality+booster.boost);
+   tx.take=command.creative||!booster.consume?0:1;tx.booster=booster;
+   tx.message=statusText(s);tx.state=changed(s);return tx;
+  }
+  check(s.open&&!s.batch,'LID_CLOSED');
   const inbound=fluids.find(f=>f.filled===held.id);
   if(inbound&&s.kind==='barrel'){
    check(!s.slots.some(Boolean),'REMOVE_INGREDIENTS_FIRST');check(!s.fluid||s.fluid===inbound.id,'MIXED_FLUID');

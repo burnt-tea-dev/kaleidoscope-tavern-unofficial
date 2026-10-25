@@ -186,6 +186,39 @@ class CurrentStationOwnership(unittest.TestCase):
             (self.owned / station.HELPER).write_bytes(b'changed-helper')
             with self.assertRaisesRegex(ValueError, 'helper differs'): validate(spec)
 
+    def test_new_author_requires_the_exact_registered_current_owner(self):
+        import stable_host_profiles as stable
+        spec, api, api_raw, api_root, operations = self.current_profile_fixture()
+        host, archive, author = 'new-reviewed-host', '6' * 64, '7' * 64
+        api.update(host_uuid=host, archive_sha256=archive); api['original_files'][station.TARGET] = author
+        api_raw = json.dumps(api).encode(); (api_root / station.API_SPEC).write_bytes(api_raw)
+        anchor = self.commit(api_root, 'New exact author API')
+        spec.update(host_uuid=host, archive_sha256=archive, original_files={station.TARGET: author})
+        spec['owner_handoff'].update(from_commit=anchor, spec_sha256=station.digest(api_raw), author_sha256=author)
+        profile = {'id': station.IDENTITY, 'admission': stable.CURATED, 'spec_sha256': station.declaration_digest(spec),
+                   'host_uuid': host, 'archive_sha256': archive, 'original_files': {station.TARGET: author},
+                   'version': spec['version'], 'wire_ops_sha256': station.declaration_digest(operations)}
+        value = {'schema': 1, 'kind': stable.CURATED, 'profile': 'synthetic-current', 'version': [1, 0, 66],
+                 'sources': ['Cookery'], 'functional_checks': {'cookery-station-performance': {'source': 'Cookery', 'cases': 10}},
+                 'domains': {'station': ['runtime/BP/host-extensions/cookery-station-performance.json']},
+                 'checks': ['current-source-api', 'current-runtime-functional.json'],
+                 'check_commands': {'current-source-api': ['node', 'real-source-test.mjs'], 'current-runtime-functional.json': ['python', 'real-producer.py']},
+                 'functional_contract': {'path': 'companion-sources/current-author-curated/runtime-contract.json', 'sha256': 'a' * 64},
+                 'authors': {}, 'pack_versions': {}, 'station_profile': 'reviewed-current-station'}
+        catalog = {'profile': value['profile'], 'version': value['version'], 'authors': {},
+                   'selection': {'path': stable.CURATED_INPUT, 'sha256': 'b' * 64, 'value': value}}
+        with patch.object(stable, 'CATALOG', {}), self.assertRaisesRegex(ValueError, 'no reviewed catalog'):
+            station.current_station_profile(spec, self.owned, api, api_raw, api_root)
+        with patch.object(stable, 'CATALOG', {stable.CURATED_KEY: catalog}), patch.object(stable, 'PROFILES', {'reviewed-current-station': profile}):
+            self.assertEqual(station.current_station_profile(spec, self.owned, api, api_raw, api_root)['host_uuid'], host)
+            changed = copy.deepcopy(spec); changed['text_replacements'][0]['after'] = 'unreviewed-wiring'
+            with self.assertRaisesRegex(ValueError, 'curated station declaration differs'):
+                station.current_station_profile(changed, self.owned, api, api_raw, api_root)
+
+    def test_delegation_uses_the_exact_public_author_instead_of_the_legacy_constant(self):
+        with patch.object(station, 'AUTHOR', 'f' * 64):
+            self.assertEqual(station.validate_public_delegation(self.api_receipt, self.expected_api), self.binding)
+
     def test_original_handoff_survives_a_real_docs_only_descendant_without_changing_receipts(self):
         spec, api, api_raw, api_root, operations = self.current_profile_fixture()
         original = copy.deepcopy(spec)

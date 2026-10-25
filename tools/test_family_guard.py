@@ -46,6 +46,22 @@ class FamilyAdmissionTests(unittest.TestCase):
   import hashlib
   policy=guard.read(self.policy);policy['deferred_client_acceptance']['receipt_sha256']=hashlib.sha256(self.receipt.read_bytes()).hexdigest();self.policy.write_text(json.dumps(policy))
   with self.assertRaises(ValueError):guard.validate_incoming([self.row],self.policy)
+ def test_fresh_initialization_and_persistence_replace_only_the_fresh_world_gate(self):
+  import hashlib
+  self.defer_client();data=guard.read(self.receipt)
+  data['world_initialization']={'kind':'fresh_world','level_name':'New'}
+  data['acceptance'].update(saved_world_migration=False,fresh_world_initialization=True,world_persistence=True)
+  def save(value):
+   self.receipt.write_text(json.dumps(value));policy=guard.read(self.policy)
+   policy['deferred_client_acceptance']['receipt_sha256']=hashlib.sha256(self.receipt.read_bytes()).hexdigest()
+   self.policy.write_text(json.dumps(policy))
+  save(data);guard.validate_incoming([self.row],self.policy)
+  for key in ['fresh_world_initialization','world_persistence']:
+   data['acceptance'][key]=False;save(data)
+   with self.assertRaises(ValueError):guard.validate_incoming([self.row],self.policy)
+   data['acceptance'][key]=True
+  data['acceptance']['saved_world_migration']=True;save(data)
+  with self.assertRaises(ValueError):guard.validate_incoming([self.row],self.policy)
  def test_deferral_rejects_another_receipt(self):
   self.defer_client();data=guard.read(self.receipt);data['new_candidate']=True;self.receipt.write_text(json.dumps(data))
   with self.assertRaises(ValueError):guard.validate_incoming([self.row],self.policy)

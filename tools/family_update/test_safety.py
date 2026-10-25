@@ -100,6 +100,29 @@ class ConfigurationTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, 'nonempty list of nonempty strings'):
                     self.configure()
 
+    def test_fresh_world_requires_separate_name_explicit_seed_and_generation_settings(self):
+        fresh = {'level_name': 'New', 'seed': '12345',
+                 'properties': {'gamemode': 'survival', 'difficulty': 'normal', 'level-type': 'DEFAULT'}}
+        self.config['fresh_world'] = fresh
+        self.configure()
+        for field, value in [('level_name', 'Test'), ('level_name', '../Old'), ('seed', ''), ('properties', {})]:
+            with self.subTest(field=field, value=value):
+                previous = fresh[field]; fresh[field] = value
+                with self.assertRaisesRegex(ValueError, 'fresh_world'):
+                    self.configure()
+                fresh[field] = previous
+
+    def test_fresh_world_rejects_old_world_recovery_and_retained_input_profiles(self):
+        self.config['fresh_world'] = {'level_name': 'New', 'seed': '12345',
+                                     'properties': {'gamemode': 'survival', 'difficulty': 'normal', 'level-type': 'DEFAULT'}}
+        for key in ['identity_migration', 'native_actor_recovery_plan', 'container_recovery_plan',
+                    'managed_drift_recovery', 'prospective_preserved_inputs', 'preserved_additions']:
+            with self.subTest(key=key):
+                self.config[key] = '/old-plan.json'
+                with self.assertRaisesRegex(ValueError, 'old-world recovery'):
+                    self.configure()
+                del self.config[key]
+
 
 class BindingTests(unittest.TestCase):
     def setUp(self):

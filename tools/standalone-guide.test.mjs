@@ -45,6 +45,18 @@ test('reviewed AMW pages retain their icons and producer data, with distinct thr
  assert.equal(JSON.stringify(pages),before,'Shared guide adaptation must leave the registered producer pages intact');
 });
 
+test('the affected addon wine explains its Glowing limit and ordinary consumption in both shared guide views',async()=>{
+ const source='kaleidoscope_dim_wine',item=source+':rangers_satchel_q1',page={source,id:source+':rangers_satchel',item,category:'barrel',title:{zh_CN:'巡林客的背囊',zh_TW:'巡林客的背囊',en_US:"Ranger's Satchel"},body:{zh_CN:'原作者说明。',zh_TW:'原作者說明。',en_US:'Original author instructions.'},recipeIds:[]};
+ const before=JSON.stringify(page),p=buildCookeryGuidePayload({list:()=>[{source}],allPages:()=>[page],allRecipes:()=>registry.allRecipes()});
+ const {cookery106WirePayload}=await import('../runtime/BP/scripts/core/cookery-guide-publisher.js'),wire=cookery106WirePayload(p),entry=wire.entries.find(row=>row.id===item);
+ for(const locale of GUIDE_LANGUAGES){
+  const view=standaloneGuideView(p,locale,{type:'entry',id:item}),note=locale==='en_US'?'glowing outline':locale==='zh_CN'?'发光描边':'發光描邊',container=locale==='en_US'?'one empty Tavern bottle':'一个酒馆空瓶';
+  assert(view.body.includes(note));assert(entry.mechanicsByLocale[locale].some(row=>row.includes(note)));
+  assert(view.body.includes(locale==='zh_TW'?'一個酒館空瓶':container));assert(view.body.includes(page.body[locale]));
+ }
+ assert.equal(JSON.stringify(page),before);
+});
+
 // The reported World Liquor page, expressed as registration data, not a second
 // imported addon implementation. Actual companion payload is checked separately.
 const sourceId='guide_regression',iceId=sourceId+':ice_tea_q1',iceRecipe={id:sourceId+':barrel/ice_tea',kind:'barrel',title:{zh_TW:'勁涼冰紅茶',zh_CN:'劲凉冰红茶',en_US:'Iced Tea'},fluid:'minecraft:water',ingredients:[['minecraft:crimson_roots'],['minecraft:sugar'],['minecraft:ice']],carrier:N+'empty_bottle',unitTime:2400,output:{byQuality:Array.from({length:6},(_,i)=>sourceId+':ice_tea_q'+(i+1))},source:sourceId};

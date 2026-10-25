@@ -55,6 +55,28 @@ def configure(path):
             raise ValueError(f'{key} must be an absolute local path')
         return value.resolve()
     R, B, W, Q = (location(key) for key in ['output_dir', 'bds_root', 'world_dir', 'quality_dir'])
+    if 'fresh_world' in CONFIG:
+        fresh = CONFIG['fresh_world']
+        if not isinstance(fresh, dict) or set(fresh) != {'level_name', 'seed', 'properties'}:
+            raise ValueError('fresh_world requires level_name, seed and explicit generation properties')
+        name = fresh['level_name']
+        if not isinstance(name, str) or name in ['', '.', '..', W.name] or any(c in name for c in '/\\\r\n'):
+            raise ValueError('fresh_world level_name must name a new world directory')
+        if not isinstance(fresh['seed'], str) or not fresh['seed'] or any(c in fresh['seed'] for c in '\r\n'):
+            raise ValueError('fresh_world seed must be explicit text')
+        properties = fresh['properties']
+        if not isinstance(properties, dict) or set(properties) != {'gamemode', 'difficulty', 'level-type'}:
+            raise ValueError('fresh_world properties require gamemode, difficulty and level-type')
+        if any(not isinstance(v, str) or not v or any(c in v for c in '\r\n') for v in properties.values()):
+            raise ValueError('fresh_world generation properties must be single-line text')
+        incompatible = ['identity_migration', 'container_recovery_plan', 'native_actor_recovery_plan',
+                        'native_storage_reanchor_plan', 'prospective_preserved_inputs',
+                        'preserved_additions', 'preserved_reconciliation', 'approved_runtime_retention',
+                        'managed_drift_recovery', 'preserve_captured_experiments', 'startup_reconciliation',
+                        'translation_reconciliation', 'extension_cache_validation',
+                        'extension_hud_validation', 'extension_performance_validation']
+        if any(CONFIG.get(key) for key in incompatible):
+            raise ValueError('fresh_world cannot reuse old-world recovery, retained inputs or QA overlays')
     LEASE, LOCK, AUTHORIZATION = (location(key) for key in ['lease_file', 'lock_file', 'authorization_file'])
     if not Path(CONFIG['python']).is_absolute():
         raise ValueError('python must be an absolute interpreter path')
@@ -116,6 +138,22 @@ def configure(path):
 
 def hashes(path):
     return G['hashes'](Path(path))
+
+
+def fresh_world_properties():
+    fresh = CONFIG['fresh_world']
+    return {**fresh['properties'], 'level-name': fresh['level_name'], 'level-seed': fresh['seed']}
+
+
+def active_world():
+    # world_dir remains the immutable old rollback source throughout the update.
+    # Normal API lifecycle/readback follows the explicitly selected new name.
+    if CONFIG.get('fresh_world'):
+        properties = dict(line.split('=', 1) for line in (B / 'server.properties').read_text().splitlines()
+                          if '=' in line and not line.lstrip().startswith('#'))
+        if properties.get('level-name') == CONFIG['fresh_world']['level_name']:
+            return B / 'worlds' / CONFIG['fresh_world']['level_name']
+    return W
 
 
 def atomic(path, value):
@@ -285,14 +323,15 @@ def source_state(verify_remote=False):
 
 
 def live_inventory():
+    world = active_world()
     rows, refs = [], {}
     for side in ['behavior', 'resource']:
-        refs[side] = read(W / ('world_' + side + '_packs.json'))
+        refs[side] = read(world / ('world_' + side + '_packs.json'))
         roots = {}
         # World references can resolve to BDS-global packs. Resolve the complete
         # identity once; a world/global collision is ambiguous, never priority.
         searched = set()
-        for directory in [W / (side + '_packs'), B / (side + '_packs')]:
+        for directory in [world / (side + '_packs'), B / (side + '_packs')]:
             if directory.resolve() in searched or not directory.is_dir():
                 continue
             searched.add(directory.resolve())
@@ -310,12 +349,15 @@ def live_inventory():
 
 def check_live_against_policy(inventory):
     policy = read(Q / 'senluo-policy.json')
+    if CONFIG.get('fresh_world') and active_world() == W:
+        # Observed old bytes are backed up, never admitted or selected as inputs.
+        return policy
     receipt = read(policy['approved_receipt'])
     expected = {pack['uuid']: pack for pack in receipt['packs']}
     if CONFIG.get('managed_drift_recovery'):
         from family_update.managed_drift_recovery import matches_receipt, check_observed
         if matches_receipt(inventory, receipt):
-            assert G['audit'](W, policy)['ok'], 'Approved inventory failed family audit'
+            assert G['audit'](active_world(), policy)['ok'], 'Approved inventory failed family audit'
         else:
             check_observed(inventory)
         return policy
@@ -346,7 +388,7 @@ def check_live_against_policy(inventory):
     from family_update.preserved_additions import review
     expected,order=review(inventory,expected,receipt['order'],policy['managed_uuids'])
     assert all([ref['pack_id'] for ref in inventory['refs'][side]]==uids for side,uids in order.items()), 'Unreviewed pack order change'
-    if not G['audit'](W, policy)['ok'] or any(pack['files']!=expected[pack['uuid']]['files'] or pack['version']!=expected[pack['uuid']]['version'] for pack in inventory['packs']):
+    if not G['audit'](active_world(), policy)['ok'] or any(pack['files']!=expected[pack['uuid']]['files'] or pack['version']!=expected[pack['uuid']]['version'] for pack in inventory['packs']):
         from family_update.preserved_reconciliation import reconcile
         reviewed,dependency_pins=reconcile(inventory,expected)
         validate_translation_reconciliation(inventory,reviewed,order,dependency_pins)
@@ -375,10 +417,14 @@ def external_input_hashes():
     if CONFIG.get('preserved_additions'):
         for uid,row in read(Path(CONFIG['preserved_additions']))['packs'].items():
             result['preserved_archive:'+uid]=sha(row['artifact']['path'])
-    from family_update.prospective_preserved_inputs import input_refs
-    result.update(input_refs())
-    from family_update.managed_drift_recovery import input_refs as managed_drift_inputs
-    result.update(managed_drift_inputs())
+    from family_update.current_author_validation import curated_inputs_enabled,input_refs as curated_inputs
+    if curated_inputs_enabled():
+        result.update(curated_inputs())
+    else:
+        from family_update.prospective_preserved_inputs import input_refs
+        result.update(input_refs())
+        from family_update.managed_drift_recovery import input_refs as managed_drift_inputs
+        result.update(managed_drift_inputs())
     from family_update.fishing_native_observer import input_refs as fishing_observer_inputs
     result.update(fishing_observer_inputs())
     if CONFIG.get('preinstall_recovery_output'):
@@ -530,6 +576,13 @@ def verify_candidate_sources():
         _,prospective=select_prospective(read(R/'production-before/preserved-packs.json'),read(R/'production-before/inventory.json'))
         verify_prospective(receipt,prospective)
     assert prospective==evidence.get('prospective_preserved_inputs'), 'Prospective input review changed after assembly'
+    from family_update.current_author_validation import curated_inputs_enabled,verify_curated_inputs
+    if curated_inputs_enabled():
+        path=R/'curated-input-selection.json'
+        assert evidence.get('curated_input_selection')==report_ref(path), 'Curated input selection changed after assembly'
+        verify_curated_inputs(receipt,read(path))
+    else:
+        assert not evidence.get('curated_input_selection'), 'Curated input selection requires its fresh profile'
     if CONFIG.get('approved_runtime_retention'):
         original = read(R/'production-before/inventory.json')
         _, _, retention = select_approved_runtime_retention(original, current)
@@ -632,7 +685,8 @@ def verify_server_binding():
     response = api('/api/server/' + quote(SERVER, safe='') + '/properties/get')
     level_name = response['properties']['level-name']
     assert isinstance(level_name, str) and level_name not in ['', '.', '..'] and '/' not in level_name and '\\' not in level_name, 'Unexpected active world name'
-    assert (B / 'worlds' / level_name).resolve() == W, 'Configured world is not the active API world'
+    world = active_world()
+    assert (B / 'worlds' / level_name).resolve() == world, 'Configured world is not the active API world'
     assert response['raw_content'].encode() == (B / 'server.properties').read_bytes(), 'API and local server.properties differ'
     assert summary()['name'] == SERVER, 'API summary identifies a different server'
-    return {'server': SERVER, 'bds_root': str(B), 'world_dir': str(W), 'api_servers_path': str(api_root), 'level_name': level_name, 'properties_sha256': sha(B / 'server.properties')}
+    return {'server': SERVER, 'bds_root': str(B), 'world_dir': str(world), 'api_servers_path': str(api_root), 'level_name': level_name, 'properties_sha256': sha(B / 'server.properties')}

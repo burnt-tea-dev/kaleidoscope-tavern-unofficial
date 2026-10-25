@@ -28,7 +28,7 @@ def main(argv=None):
     shutil.copy2(str(AUTHORIZATION), out / 'ROOT-AGENTS.md')
     assert original_policy == sha(Q / 'senluo-policy.json'), 'Concurrent deployment during capture'
     assert inventory == live_inventory(), 'Concurrent pack change during capture'
-    preserved = {p['uuid'] for p in read(policy['approved_receipt'])['packs'] if p['source']['owner'] == 'preserved'}
+    preserved = set() if CONFIG.get('fresh_world') else {p['uuid'] for p in read(policy['approved_receipt'])['packs'] if p['source']['owner'] == 'preserved'}
     if CONFIG.get('preserved_additions'):
         preserved.update(read(Path(CONFIG['preserved_additions']))['packs'])
     if CONFIG.get('managed_drift_recovery'):
@@ -36,6 +36,13 @@ def main(argv=None):
         preserved.update(captured_addition_ids())
     atomic(out / 'preserved-packs.json', [p for p in inventory['packs'] if p['uuid'] in preserved])
     capture = {'recorded_at': now(), 'read_only_live': True, 'previous_lease': previous, 'policy_sha256': original_policy, 'engine_sha256': sha(B / 'bedrock_server'), 'level_metadata': report_ref(out / 'level-metadata.dat'), 'agent_instructions': report_ref(out / 'ROOT-AGENTS.md'), 'inventory': report_ref(out / 'inventory.json'), 'note': 'No live LevelDB copy. Fresh stopped snapshot is created only during authorized deployment.'}
+    if CONFIG.get('fresh_world'):
+        from family_update.normal_idle_update import CURRENT_CONFIG
+        assert CURRENT_CONFIG.is_symlink(), 'Preserve the actual current deployment selector'
+        shutil.copy2(CURRENT_CONFIG, out / 'previous-update-config.json')
+        capture['current_selector'] = {'path': str(CURRENT_CONFIG), 'target': os.readlink(CURRENT_CONFIG),
+                                       'sha256': sha(CURRENT_CONFIG), 'backup': report_ref(out / 'previous-update-config.json')}
+        assert capture['current_selector']['sha256'] == capture['current_selector']['backup']['sha256'], 'Current configuration changed during capture'
     atomic(out / 'capture.json', capture)
     print(json.dumps({'captured': len(inventory['packs']), 'preserved': len(preserved), 'read_only_live': True}))
 if __name__ == '__main__': main()

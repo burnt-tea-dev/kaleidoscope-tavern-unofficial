@@ -176,14 +176,41 @@ def verify_handoff(summary, *, lease_bound=False):
 
 def validate_initial_status(summary):
     global _INITIAL
-    _INITIAL = verify_handoff(summary)
+    _INITIAL = verify_fresh_handoff(summary) if c.CONFIG.get('fresh_world') else verify_handoff(summary)
     return _INITIAL
+
+
+def verify_fresh_handoff(summary, *, lease_bound=False):
+    """Explicit new-world delivery can follow an owner's normal stopped handoff."""
+    assert c.CONFIG.get('fresh_world'), 'Stopped fresh handoff requires fresh_world'
+    assert summary['name'] == c.SERVER and summary['status'] in ['RUNNING', 'STOPPED'], 'Fresh handoff requires a known running or stopped server'
+    assert type(summary['player_count']) is int and summary['player_count'] == 0, 'Fresh handoff requires confirmed zero players'
+    binding = c.verify_server_binding()
+    assert binding['world_dir'] == str(c.W), 'Fresh handoff must still own the original active world'
+    previous = c.read(c.R / 'previous-maintenance.json') if lease_bound else c.lease_available()
+    capture = c.read(c.R / 'production-before/capture.json')
+    assert previous == capture['previous_lease'], 'Previous maintenance owner changed after capture'
+    selector = capture['current_selector']
+    assert selector['path'] == str(CURRENT_CONFIG) and CURRENT_CONFIG.is_symlink() and os.readlink(CURRENT_CONFIG) == selector['target'], 'Current deployment selector changed'
+    assert c.sha(CURRENT_CONFIG) == selector['sha256'] == c.sha(selector['backup']['path']), 'Previous configuration changed after capture'
+    if previous:
+        assert previous['state'] == 'completed', 'Fresh handoff cannot replace an active or failed owner'
+        expected = 'Canonical family update ' + hashlib.sha256(previous['candidate'].encode()).hexdigest()[:12]
+        assert previous['owner'] == expected, 'Previous completed maintenance owner differs'
+    if summary['status'] == 'STOPPED':
+        assert not _processes(), 'Stopped server still has a BDS process'
+    if lease_bound:
+        c.assert_lease()
+    assert c.summary() == summary, 'Server state changed during fresh handoff'
+    return {'schema': 1, 'profile': 'fresh_world', 'server': summary, 'binding': binding,
+            'previous_lease': previous, 'restart_original_after_failure': False}
 
 
 def record_initial_status():
     c.assert_lease()
     assert _INITIAL is not None, 'Normal idle preflight did not verify the original owner'
-    assert verify_handoff(c.summary(), lease_bound=True) == _INITIAL, 'Normal idle handoff changed after lease acquisition'
+    observed = verify_fresh_handoff(c.summary(), lease_bound=True) if c.CONFIG.get('fresh_world') else verify_handoff(c.summary(), lease_bound=True)
+    assert observed == _INITIAL, 'Normal handoff changed after lease acquisition'
     path = c.R / 'deployment-initial-state.json'
     assert not path.exists(), 'Preserve the previous initial-state report'
     c.atomic(path, _INITIAL)

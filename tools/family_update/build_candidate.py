@@ -10,7 +10,7 @@ def main(argv=None):
     if not args.execute:
         print(json.dumps({'execute': False, 'sources': {k: str(v) for k,v in SOURCES.items()}, 'extension': str(EXTENSION) if EXTENSION else None, 'preserved_inventory': str(R / 'production-before/preserved-packs.json'), 'output': str(C), 'existing_candidate': C.exists()}, indent=2)); return
     lease_available()
-    for path in [C, R / 'build-evidence.json', R / 'compatibility-report.json']:
+    for path in [C, R / 'build-evidence.json', R / 'compatibility-report.json', R / 'curated-input-selection.json']:
         assert not path.exists(), 'Never overwrite existing candidate/report: ' + str(path)
     from family_update.storage import require_space
     require_space(R, "Family candidate assembly")
@@ -18,12 +18,20 @@ def main(argv=None):
     sources = source_state(verify_remote=True)
     archives = archive_paths()
     preserved = read(R / 'production-before/preserved-packs.json')
-    from family_update.prospective_preserved_inputs import select as select_prospective,verify_candidate as verify_prospective
-    preserved_roots,prospective=select_prospective(preserved,original)
-    local_sources,local_selection={},None
-    if CONFIG.get('managed_drift_recovery'):
-        from family_update.managed_drift_recovery import select_local_inputs
-        preserved_roots,local_sources,local_selection=select_local_inputs(preserved_roots,original)
+    if CONFIG.get('fresh_world'):
+        assert preserved == [], 'Fresh worlds cannot inherit captured retained packs'
+    from family_update.current_author_validation import curated_inputs_enabled,select_curated_inputs,verify_curated_inputs
+    local_sources,local_selection,curated_selection={},None,None
+    prospective=None
+    if curated_inputs_enabled():
+        preserved_roots,local_sources,curated_selection=select_curated_inputs(original)
+        atomic(R/'curated-input-selection.json',curated_selection)
+    else:
+        from family_update.prospective_preserved_inputs import select as select_prospective,verify_candidate as verify_prospective
+        preserved_roots,prospective=select_prospective(preserved,original)
+        if CONFIG.get('managed_drift_recovery'):
+            from family_update.managed_drift_recovery import select_local_inputs
+            preserved_roots,local_sources,local_selection=select_local_inputs(preserved_roots,original)
     from family_update.identity_migration import assembly_order, candidate_plan
     requested=CONFIG.get('held_sources',[])
     assembly_lock, assembly_sources, retention = read(T / 'family/upstream.lock.json'), SOURCES.copy(), None
@@ -31,7 +39,8 @@ def main(argv=None):
         assembly_lock, assembly_sources, retention = select_approved_runtime_retention(original, sources)
     local_arguments={'preserved_sources':local_sources} if local_sources else {}
     receipt = assemble(assembly_lock, assembly_sources, archives, C, extensions=[EXTENSION] if EXTENSION else [], preserved=preserved_roots, reviewed_order=assembly_order(original),held_sources=requested,**local_arguments)
-    verify_prospective(receipt,prospective)
+    if prospective is not None:verify_prospective(receipt,prospective)
+    if curated_selection is not None:verify_curated_inputs(receipt,curated_selection)
     if local_selection is not None:
         from family_update.managed_drift_recovery import verify_local_target
         verify_local_target(receipt,original)
@@ -54,6 +63,8 @@ def main(argv=None):
     if local_selection is not None:
         evidence['managed_local_input_selection']=local_selection
         atomic(R/'managed-local-input-selection.json',local_selection)
+    if curated_selection is not None:
+        evidence['curated_input_selection']=report_ref(R/'curated-input-selection.json')
     atomic(R / 'build-evidence.json', evidence)
     evidence['external_input_sha256']=external_input_hashes();atomic(R/'build-evidence.json',evidence)
     verify_predeploy()

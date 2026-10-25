@@ -1,5 +1,6 @@
 import {preparationRecipes,preparationFood} from '../core/guide-preparation.js';
 import {prepareConsolidateGuide} from './guide-catalog.js';
+import {extensionGuideCategory} from './guide-navigation.js';
 import {prepareClone,finishPreparation} from '../core/util.js';
 import {GUIDE_NATIVE_NAMES} from './guide-native-names.js';
 import {FLUIDS} from './fluids.js';
@@ -8,7 +9,7 @@ import { EFFECT_PAGES } from "./effect-pages.js";
 export const COOKERY_GUIDE_PAYLOAD={
   "api": 1,
   "id": "kaleidoscope_tavern:tavern",
-  "version": "0.6.183",
+  "version": "0.6.184",
   "order": 250,
   "icon": "textures/ui/guidebook_icons/kt_tavern",
   "titleKey": "title",
@@ -5860,17 +5861,19 @@ export function* prepareCookeryGuidePayload(registry){
  // Capture frozen registry views together before yielding; a later extension
  // refresh publishes a new generation rather than mixing two registries.
  if(registry){
-  const sources=registry.list?.()??[],pages=registry.allPages?.()??[],recipes=registry.allRecipes?.()??[],fluids=registry.allFluids?.()??FLUIDS,colors=registry.allIngredientColors?.()??[];
-  registry={list:()=>sources,allPages:()=>pages,allRecipes:()=>recipes,allFluids:()=>fluids,allIngredientColors:()=>colors};
+  const sources=registry.list?.()??[],pages=registry.allPages?.()??[],recipes=registry.allRecipes?.()??[],fluids=registry.allFluids?.()??FLUIDS,colors=registry.allIngredientColors?.()??[],categories=registry.allGuideCategories?.()??[];
+  registry={list:()=>sources,allPages:()=>pages,allRecipes:()=>recipes,allFluids:()=>fluids,allIngredientColors:()=>colors,allGuideCategories:()=>categories};
  }
  const payload=yield* prepareClone(COOKERY_GUIDE_PAYLOAD);
  for(const lc of GUIDE_LOCALES){
   payload.names[lc]={...GUIDE_NATIVE_NAMES[lc],...payload.names[lc]};
   for(const fluid of registry?.allFluids?.()??FLUIDS){
-   const title=fluid.title?.[lc]??fluid.title?.en_US;
+   const page=registry?.allPages?.().find(page=>page.id===fluid.filled||page.item===fluid.filled);
+   const filledTitle=page?.title?.[lc]??page?.title?.en_US;
+   const title=fluid.title?.[lc]??fluid.title?.en_US??filledTitle;
    if(!title)continue;
    payload.names[lc][fluid.id]??=title;
-   if(fluid.filled)payload.names[lc][fluid.filled]??=lc==='en_US'?title+' Bucket':title+'桶';
+   if(fluid.filled)payload.names[lc][fluid.filled]??=filledTitle??(lc==='en_US'?title+' Bucket':title+'桶');
   }
  }
  for(const entry of payload.entries){
@@ -5900,7 +5903,7 @@ export function* prepareCookeryGuidePayload(registry){
   const ids=immutableRecipes?immutablePageRecipeIds(page):undefined;
   const matches=ids?recipes.filter(recipe=>ids.includes(recipe.id)):undefined;
   if(matches)linkedByPage.set(page,matches);
-  const linked=matches?matches[0]:recipes.find(r=>page.recipeIds?.includes(r.id)),item=page.item??linked?.output?.item??linked?.output?.byQuality?.[0];
+  const linked=matches?matches[0]:recipes.find(r=>page.recipeIds?.includes(r.id)),item=page.item??linked?.output?.item??linked?.output?.byQuality?.[0]??page.id;
   if(!item?.startsWith(page.source+':'))continue;
   const base=item.replace(/_q[1-6]$/,'');
   for(const key of new Set([item,base,...(linked?.output?.byQuality??[])])){
@@ -5923,7 +5926,7 @@ export function* prepareCookeryGuidePayload(registry){
   yield;
   const linked=linkedByPage.get(page)??recipes.filter(r=>page.recipeIds?.includes(r.id));
   const item=page.item??linked[0]?.output?.item??linked[0]?.output?.byQuality?.[0]??page.id;
-  const category=page.category??(linked[0]?.kind==='barrel'?'barrel':linked[0]?.kind==='shaker'?'cocktail_recipes':'extensions');
+  const category=extensionGuideCategory(page,linked,registry.allGuideCategories?.()??[]);
   const mechanicsByLocale=Object.fromEntries(GUIDE_LOCALES.map(lc=>{
    const body=String(page.body?.[lc]??page.body?.en_US??firstText(page.body,page.id));
    // Actual registered recipe slots are authoritative, never inferred from prose.

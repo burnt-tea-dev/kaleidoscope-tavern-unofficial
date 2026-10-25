@@ -35,12 +35,14 @@ const CARDINALS=Object.freeze(['north','east','south','west']);
 const DIRECTIONS={Up:{x:0,y:1,z:0},Down:{x:0,y:-1,z:0},North:{x:0,y:0,z:-1},South:{x:0,y:0,z:1},East:{x:1,y:0,z:0},West:{x:-1,y:0,z:0}};
 const make=(id,count)=>new ItemStack(id,count),store=new MachineStore(world),bottleStore=new BottleStore(world),locks=new Locks(),tapSessions=new Map(),tapGestures=new Map();let serial=0;let registry;
 const warningTimes=new Map(),pressedFalls=new Map(),pendingFalls=new Map(),fallDamageFallback=new Set();
+const boosterCooldowns=new Map();
 export const diagnostics={errors:[],active:true,tap:{opened:0,emptyOpens:0,manualCancels:0,redstoneOpens:0,extracted:0,waterCauldronExtracted:0,carrierRollbacks:0,orphanRepairs:0,scope:'BARREL_CARRIERS_AND_WATER_CAULDRON'}};
 function warn(error,key='global'){
  const code=error.code??String(error);diagnostics.errors.push({tick:system.currentTick,key,code});if(diagnostics.errors.length>12)diagnostics.errors.shift();
  if((warningTimes.get(key)??-1000)+100<=system.currentTick){console.warn(`[Tavern] ${key}: ${code}`);warningTimes.set(key,system.currentTick);}
 }
 const CN={UNEQUAL_INGREDIENT_COUNTS:'各種原料數量必須相同；請空手取回後重新投料。',TAP_NEEDS_CARRIER:'請在酒嘴正下方放置或丟下一個酒館空瓶。',TAP_NO_PRODUCT:'酒桶目前沒有可接出的成品。',INVENTORY_FULL:'背包已滿，交易取消，沒有扣料。',FILL_BARREL_FIRST:'請先装滿4桶相同液體。',FLUID_FULL:'液體已滿。',NO_PRODUCT:'還沒有可接出的成品。',WRONG_CARRIER:'請手持酒館空瓶接酒。',LID_CLOSED:'請先開蓋；發酵時不能再投料。',FERMENTING_LID_LOCKED:'正在發酵，請先取空成品。',MIXED_FLUID:'不能混入不同液體。',NOT_ENOUGH_FLUID:'尚未滿1000 mB，不能裝滿一桶。',BUSY:'機器忙碌，請再試一次。',NO_INGREDIENT:'沒有原料。',UNSUPPORTED_INGREDIENT:'此原料未由可用配方註冊。',REMOVE_INGREDIENTS_FIRST:'請先取出原料。',METADATA_ITEM_REJECTED:'原料有自訂資料，本版拒收，沒有清除資料。',MACHINE_NOT_EMPTY:'只允許拆除空機器；先取回原料、液體和成品。',SPACE_NOT_CLEAR:'酒桶需要完整3×3×3空氣空間，不能跨入未載入區塊。',STRUCTURE_DAMAGED:'酒桶結構不完整，狀態已保留並停止操作。',STATE_CONFLICT:'狀態已變更，沒有重複扣料。',CORE_UNAVAILABLE:'核心未載入，請移近後再試。',STALE_HAND:'手持物已變更，操作取消。',NO_NEARBY_BARREL:'旁邊未找到酒桶。',RECIPE_UNAVAILABLE:'配方來源目前未註冊，原料已保留。',UNKNOWN_ITEM:'附屬產物不存在；原料或成品計數已保留。'};
+Object.assign(CN,{BOOSTER_COOLDOWN:'請稍候再使用品質精華。',BOOSTER_EXHAUSTED:'品質精華的耐久已耗盡。',BOOSTER_NOT_DURABLE:'此品質精華缺少耐久資料，操作已取消。',MAXIMUM_QUALITY:'酒桶已達這種品質精華的上限。'});
 function tell(player,message){try{player?.onScreenDisplay.setActionBar(message);}catch{}}
 function guarded(player,fn){try{return fn();}catch(e){tell(player,'§e'+(CN[e.code]??e.code??'Tavern error'));warn(e,player?.id??'machine');return undefined;}}
 function blockAt(dim,p){try{return dim.getBlock(p);}catch{return undefined;}}
@@ -137,8 +139,11 @@ export function operate(player,block,action,expected){
   check(intact(core),'STRUCTURE_DAMAGED');const h=held(player);
   if(expected)check(expected.slot===player.selectedSlotIndex&&expected.id===(h?.typeId??'')&&expected.count===(h?.amount??0),'STALE_HAND');
   const state=store.load(key);check(state,'MISSING_STATE');
+  const booster=action==='use'&&state.kind==='barrel'?registry.barrelQualityBooster?.(h?.typeId):undefined;
+  const boosterKey=booster?player.id+'|'+booster.item:undefined;
+  if(booster)check(system.currentTick>=(boosterCooldowns.get(boosterKey)??0),'BOOSTER_COOLDOWN');
   const command={action,held:h?{id:h.typeId,count:h.amount,maxAmount:h.maxAmount}:undefined,creative:player.getGameMode()===GameMode.Creative};
-  if(action==='use')command.compatibleSlots=machineIngredientCompatibility(core,state,h);
+  if(action==='use'&&!booster)command.compatibleSlots=machineIngredientCompatibility(core,state,h);
   if(action==='remove_ingredient'&&state.kind==='pressing_tub')command.removeCount=player.isSneaking?64:1;
   const tx=interact(state,command,registry,registry.allFluids());
   if(action==='inspect'){tell(player,tx.message);return tx;}
@@ -149,8 +154,22 @@ export function operate(player,block,action,expected){
   const native=machineIngredientPlan(core,state,tx.state,h);
   if(action==='remove_ingredient')tx.give=machineIngredientOutputs(native,tx.give,tx.ingredientSlot);
   const c=inv(player),plan=planInventory(c,player.selectedSlotIndex,tx.take,tx.give,make),original=store.raw(key);
+  let exhausted=false;
+  if(tx.booster?.damage){
+   const damaged=h.clone(),durability=damaged.getComponent('minecraft:durability');
+   check(durability,'BOOSTER_NOT_DURABLE');check(durability.damage<durability.maxDurability,'BOOSTER_EXHAUSTED');
+   if(!command.creative){
+    durability.damage=Math.min(durability.maxDurability,durability.damage+tx.booster.damage);exhausted=durability.damage===durability.maxDurability;
+    plan.after[player.selectedSlotIndex]=damaged;if(!plan.changes.includes(player.selectedSlotIndex))plan.changes.push(player.selectedSlotIndex);
+   }
+  }
   commitPickupInventory(plan,c,player,()=>{native.apply();store.save(key,tx.state,state.revision);},()=>{try{native.rollback();}finally{store.restoreRaw(key,original);}});
   native.finish();
+  if(tx.booster){
+   boosterCooldowns.set(boosterKey,system.currentTick+tx.booster.cooldownTicks);safeVisuals(core,tx.state);tell(player,tx.message);
+   if(exhausted)playWorldSound(core.dimension,'random.break',core.location,{volume:.8,pitch:.8+Math.random()*.4});
+   return tx;
+  }
   if(plan.received>0&&(action==='remove_ingredient'||tx.fluidTransfer))inventoryPickupFeedback(player);
   safeVisuals(core,tx.state);if(action==='remove_ingredient'||action==='use'&&tx.state.slots.some((v,i)=>v?.count!==(state.slots[i]?.count)))ingredientFeedback(core,action==='remove_ingredient');else feedback(core,action==='lid'?(tx.state.open?'open':'close'):action==='remove_ingredient'?'take':action==='extract'?'fill':tx.state.amount>state.amount?'empty':'fill',tx.state.revision);return tx;
  });
@@ -398,10 +417,15 @@ function machineUsePlan(block,item){
   const action=!heldItem?(state.slots.some(Boolean)?'remove_ingredient':undefined):'use';if(!action)return undefined;
   try{interact(state,{action,held:heldItem,...(action==='use'?{compatibleSlots:machineIngredientCompatibility(block,state,item)}:{})},registry,registry.allFluids());return {kind:'machine',action};}catch{return undefined;}
  }
+ if(type!==PART&&type!==CORE)return undefined;
+ const core=resolveCore(block);if(!core)return undefined;
+ const state=store.load(keyFor(core));if(!state)return undefined;
+ if(heldItem&&registry.barrelQualityBooster?.(heldItem.id)&&state.batch){
+  try{interact(state,{action:'use',held:heldItem},registry,registry.allFluids());return {kind:'machine',action:'use'};}catch{return undefined;}
+ }
  if(type!==PART)return undefined;
  const dy=block.permutation.getState(NS+':dy'),dx=block.permutation.getState(NS+':dx'),dz=block.permutation.getState(NS+':dz');
- if(dy!==2)return undefined;const core=resolveCore(block);if(!core)return undefined;
- const state=store.load(keyFor(core));if(!state)return undefined;
+ if(dy!==2)return undefined;
  let action;
  if(!state.open)action='lid';
  else if(dx===0&&dz===0)action=heldItem?'use':state.slots.some(Boolean)?'remove_ingredient':undefined;

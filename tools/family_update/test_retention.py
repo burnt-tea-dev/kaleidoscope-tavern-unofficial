@@ -133,6 +133,44 @@ class RetentionTests(unittest.TestCase):
     def test_completed_sort_uses_metadata_not_output_name(self):
         self.modify(self.a, 'deployment-result.json', lambda d: d.update(completed_at='2026-10-04T01:00:00+00:00'))
         self.assertEqual(self.plan()['newest_retained'], [str(self.a)])
+
+    def fresh_deployment(self):
+        target = str(self.root / 'live/worlds/New')
+        self.modify(self.c, 'deployment-result.json', lambda d: d.update(fresh_world=target))
+        self.modify(self.c, 'poststart-verification.json', lambda d: d.update(active_world_binding={'world_dir': target}))
+        self.modify(self.c, 'rollback-map.json', lambda d: d.update(original_world=str(self.root / 'old-world')))
+        def saved(d):
+            d.update(native_acceptance_source='fresh_world', fresh_world_initialization=True, world_persistence=True,
+                     saved_world_migration=False, existing_world_loaded=False, rollback_snapshot=d.pop('snapshot_source'))
+            d['runs'][0].update(world_input_files={}, world_output_files={'db/data': 'first'})
+            d['runs'][1].update(world_input_files={'db/data': 'first'}, world_output_files={'db/data': 'restart'})
+            d['world_files'] = {'db/data': 'restart'}
+            for row in d['runs']: row.update(generated_database=True, commands_sent=False)
+        self.modify(self.c, 'saved-world-report.json', saved)
+        def receipt(d):
+            d['acceptance'].update(saved_world_migration=False, fresh_world_initialization=True, world_persistence=True)
+            d['world_initialization'] = {'kind': 'fresh_world', 'level_name': 'New'}
+        self.modify(self.c, 'reviewed-family-receipt.json', receipt)
+
+    def test_fresh_delivery_retains_one_complete_old_rollback_and_retires_old_generated_copies(self):
+        self.fresh_deployment()
+        planned = self.plan()
+        self.assertEqual(planned['newest_retained'], [str(self.c)]); self.assertTrue(planned['rollback_retention_ready'])
+        self.assertEqual(self.execute(planned)['state'], 'completed')
+        self.assertTrue((self.c / 'production-snapshot/level.dat').exists())
+        self.assertTrue((self.c / 'production-rollback/behavior_packs/behavior-uuid/manifest.json').exists())
+        self.assertFalse((self.a / 'production-snapshot').exists()); self.assertFalse((self.b / m.COPIES[0]).exists())
+
+    def test_missing_fresh_persistence_or_global_rollback_preserves_unproven_copies(self):
+        self.fresh_deployment()
+        self.modify(self.c, 'reviewed-family-receipt.json', lambda d: d['acceptance'].update(world_persistence=False))
+        planned = self.plan(); self.assertEqual(self.row(planned, self.c)['delete'], [])
+        self.modify(self.c, 'reviewed-family-receipt.json', lambda d: d['acceptance'].update(world_persistence=True))
+        self.modify(self.c, 'rollback-map.json', lambda d: d.update(retired=d['retired'][:1]))
+        planned = self.plan(); self.assertEqual(self.row(planned, self.c)['delete'], [])
+        self.assertFalse(planned['rollback_retention_ready'])
+        self.assertTrue(all(not (self.row(planned, output)['delete'] and any(
+            row['relative'] in m.BACKUPS for row in self.row(planned, output)['delete'])) for output in [self.a, self.b]))
     def test_many_histories_validate_once_without_retaining_full_proof_documents(self):
         histories = [self.a, self.b, self.c]
         histories += [self.deployment(f'history-{day}', day) for day in range(4, 25)]

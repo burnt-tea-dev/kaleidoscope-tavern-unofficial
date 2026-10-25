@@ -1,0 +1,10 @@
+{
+  "project_id": 1285412,
+  "file_id": 8837761,
+  "archive_sha256": "7b8a599d7d4ceda6ae403e66e2897fe6262e98d4b7e45c1628bd756d0240413c",
+  "source": "Official clean8837761 manifest metadata only; no third-party scripts/assets",
+  "manifests": {
+    "BP": "{\n  \"format_version\": 2,\n  \"header\": {\n    \"name\": \"Bedrock Essentials+ BP\",\n    \"description\": \"Made by Gao\",\n    \"min_engine_version\": [1, 21, 100],\n    \"uuid\": \"5f808eda-2eed-47b9-94ca-8486af1c5c14\",\n    \"version\": [ 1, 8, 3 ]\n  },\n  \"modules\": [\n    {\n      \"type\": \"script\",\n      \"language\": \"javascript\",\n      \"entry\": \"scripts/main.js\",\n      \"uuid\": \"873cf115-e942-4fb9-9025-c72debec647f\",\n      \"version\": [ 1, 8, 3 ]\n    }\n  ],\n  \"dependencies\": [\n    {\n      \"module_name\": \"@minecraft/server\",\n      \"version\": \"2.6.0\"\n    },\n    {\n      \"uuid\": \"537af6fe-a865-4603-8847-37791b81249d\",\n      \"version\": [ 1, 8, 3 ]\n    }\n  ],\n  \"capabilities\": [\n    \"script_eval\"\n  ],\n  \"metadata\": {\n    \"product_type\": \"addon\"\n  }\n}",
+    "RP": "{\n  \"format_version\": 2,\n  \"header\": {\n    \"name\": \"Bedrock Essentials+ RP\",\n    \"description\": \"Made by Gao\",\n    \"min_engine_version\": [1, 21, 90],\n    \"uuid\": \"537af6fe-a865-4603-8847-37791b81249d\",\n    \"version\": [ 1, 8, 3 ]\n  },\n  \"modules\": [\n    {\n      \"type\": \"resources\",\n      \"uuid\": \"a5c3c2a2-8368-44bb-8629-0ec7e83bf847\",\n      \"version\": [ 1, 8, 3 ]\n    }\n  ],\n  \"dependencies\": [\n    {\n      \"uuid\": \"5f808eda-2eed-47b9-94ca-8486af1c5c14\",\n      \"version\": [ 1, 8, 3 ]\n    }\n  ]\n}"
+  }
+}

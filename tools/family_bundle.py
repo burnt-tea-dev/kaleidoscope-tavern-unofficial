@@ -72,14 +72,20 @@ def renderer_source_version(config,spec,path):
 def retained_component_config(repo,config,sources):
  # The private producer emits only the existing conservation metadata. Public
  # validation independently checks its complete hashes and exact manifests.
- if config.get('retained_runtime') is None:return config,None
- from family_update.current_author_validation import validate_retained_runtime
+ curated=config.get('current_author_profile') is not None
+ if not curated and config.get('retained_runtime') is None:return config,None
+ from family_update.current_author_validation import validate_retained_runtime,validate_curated_runtime
+ if curated:
+  from stable_host_profiles import curated_profile
+  catalog=curated_profile()
  current=subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip()
  raw=subprocess.check_output(['python3',str(repo/'tools/current_release.py')],cwd=repo)
  proof=json.loads(raw)
- validate_retained_runtime(proof,config,{'actual_current_source_commit':current},source_root=repo,sources=sources)
+ if curated:validate_curated_runtime(proof,config,catalog,source_root=repo)
+ else:validate_retained_runtime(proof,config,{'actual_current_source_commit':current},source_root=repo,sources=sources)
  for side,relative in config['runtime'].items():
   if files_hash(repo/relative)!=proof['files'][side]:fail('retained current source payload differs from proof')
+ if curated:return config,None
  anchor=config['retained_runtime']
  component=json.loads(subprocess.check_output(['git','show',anchor['source_commit']+':baseline.json'],cwd=repo))
  return component,{'schema':1,'source_commit':anchor['source_commit'],'source_tree':anchor['source_tree'],'source_version':anchor['source_version']}
@@ -166,10 +172,12 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
   source_component,retained_runtime=components[own['key']]
   for path in sorted((owned_root/'host-extensions').glob('*.json'),key=lambda p:(read(p).get('kind')=='chinesefood-doll-renderer-cleanup',read(p).get('kind')=='cookery-guide-startup-repair',p.name)):
    spec=read(path)
-   if spec.get('kind') in ['chinesefood-doll-renderer-cleanup','nether-placeable-drinks-schema-repair']:
+   if spec.get('kind') in ['chinesefood-doll-renderer-cleanup','nether-placeable-drinks-schema-repair','essentials-manifest-compatibility']:
     renderer=spec['kind']=='chinesefood-doll-renderer-cleanup'
     if renderer:
      from doll_renderer_extension import apply_renderer_extension as apply_pair
+    elif spec['kind']=='essentials-manifest-compatibility':
+     from essentials_manifest_extension import apply_manifest_extension as apply_pair
     else:
      from nether_placeable_extension import apply_nether_extension as apply_pair
     bp=by_uuid.get(spec['behavior_uuid']);rp=by_uuid.get(spec['host_uuid'] if renderer else spec['resource_uuid'])
@@ -187,6 +195,7 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
      root=out/(row['side']+'_packs')/row['uuid'];manifest=read(root/'manifest.json')
      row.update(version=manifest['header']['version'],dependencies=manifest.get('dependencies',[]),files=files_hash(root))
      row['source']={**row['source'],'owner':'upstream_extended','reviewed_extensions':[*row['source'].get('reviewed_extensions',[]),proof]}
+     if spec['kind']=='essentials-manifest-compatibility':row['source']['official_author_release']=False
     continue
    retained=None
    if config.get('version') in ([1,0,51],[1,0,52],[1,0,53],[1,0,54]) and spec.get('kind') in ('cookery-held-geometry-canonicalization','cookery-millstone-extension-admission'):

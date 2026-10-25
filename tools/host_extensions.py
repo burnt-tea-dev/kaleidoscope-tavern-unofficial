@@ -2,7 +2,7 @@
 from datetime import date
 from pathlib import Path,PurePosixPath
 import hashlib,json,subprocess
-from stable_host_profiles import match_stable_profile
+from stable_host_profiles import CURATED,curated_profile,declaration_sha,match_stable_profile
 
 def validate_recipe_cache_profile(spec,source):
  """Admit only the reviewed cache delta after the pinned public Cookery API.
@@ -89,7 +89,7 @@ def retained_owner_version(context, owned_root, component_version):
   if (root/config['runtime']['BP']).resolve()!=owned_root.resolve():
    raise ValueError('retained owner pack root differs')
   component,anchor=retained_component_config(root,config,{key:Path(value)for key,value in sources.items()})
-  if not anchor or component['version']!=component_version:
+  if component['version']!=component_version or (not anchor and config.get('current_author_profile') is None):
    raise ValueError('retained owner component differs')
   return config['version']
  except (AssertionError,KeyError,TypeError,OSError,subprocess.CalledProcessError,SystemExit,ValueError) as error:
@@ -102,19 +102,33 @@ def validate_recipe_removals(spec, owned_root, host_root, stable, *, retained_ow
   return {}
  allowed = REVIEWED_SALT_REMOVAL
  admissions={'current-author-p55':[1,0,55], 'current-author-p56':[1,0,56], 'current-author-p57':[1,0,57], 'current-author-p58':[1,0,58]}
- if (not stable or stable.get('admission') not in admissions
+ current=bool(stable and stable.get('admission')==CURATED)
+ if (not stable or (stable.get('admission') not in admissions and not current)
      or spec.get('kind') != 'chinesefood-reviewed-repairs'
      or spec.get('archive_sha256') != 'dea708dd6443ea30d23e5791860a50181e8eeb560dcd7ec5a8e80fe22743e659'
      or removed != allowed):
   raise ValueError('recipe removal is outside the exact reviewed coexistence profile')
  manifest = json.loads((owned_root / 'manifest.json').read_text())
- dependency = {'uuid': '5e121bf2-1d2d-4da4-be15-cffc5f216d94', 'version': [1, 2, 10058] if stable['admission']=='current-author-p58' else [1, 2, 0]}
- owner=admissions[stable['admission']]
- if retained_owner is not None:
-  owner=retained_owner_version(retained_owner,owned_root,owner)
-  selected=json.loads((Path(retained_owner['source_root'])/'baseline.json').read_bytes())
-  if selected.get('retained_runtime',{}).get('kind')=='current-functional':
-   dependency['version']=selected['retained_runtime']['dependency_versions'][dependency['uuid']]
+ if current:
+  from family_update.current_author_validation import current_selection
+  owner=stable['owner_version']
+  if retained_owner is not None:owner=retained_owner_version(retained_owner,owned_root,owner)
+  root=Path(retained_owner['source_root']) if retained_owner is not None else owned_root.parents[1]
+  selected=current_selection(source_root=root);catalog=curated_profile()
+  record=catalog['host_specs']['chinesefood-reviewed-repairs.json']
+  if owner!=selected['version'] or spec.get('owner_version')!=owner or declaration_sha(spec)!=record['declaration_sha256'] or stable['spec_sha256']!=record['declaration_sha256']:
+   raise ValueError('salt coexistence owner differs from the selected curated declaration')
+  companions=[dep for dep in selected['dependencies']['BP'] if dep.get('uuid')=='5e121bf2-1d2d-4da4-be15-cffc5f216d94']
+  if len(companions)!=1:raise ValueError('salt coexistence requires the exact Fishing companion dependency')
+  dependency=companions[0]
+ else:
+  dependency = {'uuid': '5e121bf2-1d2d-4da4-be15-cffc5f216d94', 'version': [1, 2, 10058] if stable['admission']=='current-author-p58' else [1, 2, 0]}
+  owner=admissions[stable['admission']]
+  if retained_owner is not None:
+   owner=retained_owner_version(retained_owner,owned_root,owner)
+   selected=json.loads((Path(retained_owner['source_root'])/'baseline.json').read_bytes())
+   if selected.get('retained_runtime',{}).get('kind')=='current-functional':
+    dependency['version']=selected['retained_runtime']['dependency_versions'][dependency['uuid']]
  if manifest['header']['version'] != owner or dependency not in manifest.get('dependencies', []):
   raise ValueError('salt coexistence requires the exact Fishing companion dependency')
  for name, expected in removed.items():

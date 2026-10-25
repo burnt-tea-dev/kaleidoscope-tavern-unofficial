@@ -5,6 +5,56 @@ from container_recovery import recover_world, inventory_world
 from family_update.native_storage_reanchor import inspect_world as inspect_native_storage,verify as verify_native_storage,commands as native_storage_commands
 from family_update.freezer_storage_preservation import inspect_world as inspect_freezer_storage
 
+
+def rehearse_fresh_world(engine, port, receipt, backup):
+    """Generate the delivery world once, without a probe or old save input."""
+    inputs = engine_inputs(world_receipt=receipt)
+    name = CONFIG['fresh_world']['level_name']
+    properties = fresh_world_properties()
+    setup_engine(engine, name, port, expected_inputs=inputs, world_receipt=receipt, world_properties=properties)
+    properties_sha256 = sha(engine / 'server.properties')
+    world = engine / 'worlds' / name
+    world.mkdir(parents=True)
+    for side in ['behavior', 'resource']:
+        shutil.copytree(C / (side + '_packs'), world / (side + '_packs'))
+        shutil.copy2(C / ('world_' + side + '_packs.json'), world / ('world_' + side + '_packs.json'))
+    assert not (world / 'db').exists() and not (world / 'level.dat').exists(), 'Fresh generation must begin without save data'
+    audit_candidate(world, receipt)
+    engine_hash = sha(B / 'bedrock_server')
+    runs = []; previous = None
+    for phase in ['first', 'restart']:
+        from family_update.memory_budget import require
+        require('saved_world_' + phase)
+        before = world_data_hashes(world)
+        if previous is not None:
+            assert before == previous, 'Restart must use the first normal save without edits'
+        record = native_run(engine, phase, cpu_profile=CONFIG.get('native_cpu_profile', False))
+        audit_candidate(world, receipt)
+        generated = (world / 'level.dat').is_file() and (world / 'db').is_dir() and bool(hashes(world / 'db'))
+        after = world_data_hashes(world)
+        record.update(world_input_files=before, world_output_files=after, generated_database=generated)
+        record['ok'] = record['ok'] and generated and not record['commands_sent']
+        runs.append(record); previous = after
+        if not record['ok']:
+            break
+    success = len(runs) == 2 and all(row['ok'] for row in runs)
+    assert sha(B / 'bedrock_server') == engine_hash and inputs == engine_inputs(world_receipt=receipt)
+    assert sha(engine / 'server.properties') == properties_sha256, 'Fresh engine properties changed'
+    assert hashes(R / 'production-snapshot') == backup['files'], 'Old rollback snapshot changed'
+    report = {'schema': 1, 'recorded_at': now(), 'native_acceptance_source': 'fresh_world',
+              'candidate_receipt_sha256': sha(C / 'family-receipt.json'), 'engine_sha256': engine_hash,
+              'engine_inputs': inputs, 'packs': len(receipt['packs']), 'versions': versions(receipt),
+              'world': str(world), 'world_properties': properties, 'world_files': previous,
+              'engine_properties_sha256': properties_sha256,
+              'backup_receipt': report_ref(R / 'production-before/backup-receipt.json'),
+              'rollback_snapshot': str(R / 'production-snapshot'), 'snapshot_cutoff': backup['recorded_at'],
+              'fresh_world_initialization': success, 'world_persistence': success,
+              'saved_world_migration': False, 'existing_world_loaded': False,
+              'exact_files_checked': True, 'test_only_overlays': [], 'bds': success,
+              'client': False, 'simulated_players': False, 'players': 0, 'runs': runs}
+    atomic(R / 'saved-world-report.json', report)
+    return 0 if success else 1
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--execute', action='store_true', help='Launch native BDS on fresh backup copy')
@@ -22,6 +72,8 @@ def main(argv=None):
     assert backup['lease_owner'] == OWNER
     assert hashes(snapshot) == backup['files'], 'Fresh backup changed after capture'
     receipt = verify_candidate_sources()
+    if CONFIG.get('fresh_world'):
+        return rehearse_fresh_world(engine, args.port, receipt, backup)
     inputs = engine_inputs(world_receipt=receipt)
     original = read(R / 'production-before/inventory.json')
     from family_update.identity_migration import prepare_world

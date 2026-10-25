@@ -1,7 +1,7 @@
 /** Receiver integrity only: pure source data, no world or player substitutes. */
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {ExtensionTransport,EVENTS,packetsFor} from '../runtime/BP/scripts/core/transport.js';
+import {ExtensionTransport,EVENTS,packetsFor,TRANSPORT_LIMITS} from '../runtime/BP/scripts/core/transport.js';
 import {ExtensionRegistry} from '../runtime/BP/scripts/core/registry.js';
 import {digest,utf8Bytes} from '../runtime/BP/scripts/core/util.js';
 const source='integrity_probe';
@@ -47,8 +47,17 @@ test('reverse order retains digest fallback, corruption errors and begin replace
  const conflict=JSON.parse(packets[1].message);conflict.data+='x';error(()=>send(receiver,EVENTS.chunk,conflict,4),'CONFLICTING_CHUNK');
  receiver.receive(packets[0].id,packets[0].message,4);
  error(()=>receiver.receive(packets.at(-1).id,packets.at(-1).message,4),'MISSING_CHUNKS');
- receiver.receive(packets[0].id,packets[0].message,5);receiver.cleanup(606);
- error(()=>receiver.receive(packets[1].id,packets[1].message,606),'NO_PENDING_TRANSFER');
+ const expired=6+TRANSPORT_LIMITS.pendingTicks;receiver.receive(packets[0].id,packets[0].message,5);receiver.cleanup(expired);
+ error(()=>receiver.receive(packets[1].id,packets[1].message,expired),'NO_PENDING_TRANSFER');
+});
+
+test('a current extension larger than the former byte and part limits installs atomically',()=>{
+ const large={api:1,source,version:'1.0.0',pages:Array.from({length:96},(_,i)=>({id:source+':page_'+i,title:{en_US:'Page '+i},body:{en_US:'x'.repeat(7000)}}))};
+ const r=registry(),receiver=new ExtensionTransport(r),packets=packetsFor(large,'large_current_extension'),initialRevision=r.revision;
+ assert(packets.length>514);assert(utf8Bytes(JSON.stringify(large))>262144);
+ for(const packet of packets.slice(0,-1)){receiver.receive(packet.id,packet.message,0);assert.equal(r.revision,initialRevision);}
+ assert.equal(receiver.receive(packets.at(-1).id,packets.at(-1).message,1).ok,true);
+ assert.equal(r.allPages().length,large.pages.length);assert.equal(r.allPages().at(-1).body.en_US,large.pages.at(-1).body.en_US);
 });
 
 test('split surrogate boundaries across empty parts retain byte rejection and failed-chunk side effects',()=>{

@@ -63,6 +63,43 @@ LevelDB Python adapter；`gh` 需已有正常的唯讀 GitHub 認證。缺少依
 `prepare` 完成來源、組裝與 static；`deploy` 從本次停服備份完成一次 BDS／保存演練與 canonical／BSM admission。
 來源必須是乾淨、與遠端相符的 main，執行中的工具 bytes 也必須與 canonical 相符。
 
+### 明確交付新世界
+
+擁有者選擇放棄舊世界時，在新設定加入 `fresh_world`，並保留 `world_dir` 指向
+原活動世界作回退來源。例如（名稱、seed 和生成設定須填實際選擇）：
+
+```json
+"fresh_world": {
+  "level_name": "New world name",
+  "seed": "12345",
+  "properties": {"gamemode": "survival", "difficulty": "normal", "level-type": "DEFAULT"}
+}
+```
+
+新集合只從 canonical 家族鎖／owned sources／extension 組裝；舊 capture 的 retained
+包與順序只作回退證據，不自動加入新世界。不得帶舊世界 recovery／migration／observer
+或 retained-input profiles；普通更新仍要求原有完整存檔遷移證據。
+
+同一正常停服窗口保留一份完整舊世界 snapshot、原 properties／政策／current selector 設定及 displaced global
+包。隔離引擎使用指定名稱／seed／生成設定，從沒有 DB 或 level.dat 的目錄生成，
+同庫只做 first／restart；不複製舊 Spawn／Creative／實驗 metadata，也不加入任何 probe、
+測試 overlay、actor repair 或 Fishing observer。成功後精確審計並經既有 guard 准入，
+才搬移該乾淨新世界；跨檔案系統搬移前按實際新世界大小確認額外空間及 2 GiB 餘量。
+
+receipt 的 `fresh_world_initialization`／`world_persistence` 通過，
+`saved_world_migration` 保持 false。它證明真初始化及同庫正常保存重啟，
+不證明舊世界資料遷移、真人畫面或負載效能；client／production_ready 保持 false。
+正常 `properties/set` 僅提交 properties，沿現有 API 預設不重啟，讀回原 response、
+properties／本地 bytes／STOPPED 後才正常 start 並驗 active world。禁止使用 world/reset。
+失敗保留 stopped／lease／新舊資料供恢復，不自行重啟未知舊組合。
+
+已由擁有者正常停服的交接只在 fresh 模式接受：核對原 active world／properties、
+STOPPED／零玩家／實際無該 BDS 程序、未變的 completed previous lease 與 current selector，
+取得 lease 後再核同一交接，寫既有 `deployment-initial-state.json`；ERROR 或 failed owner 不放行。
+若交接時仍 RUNNING，同樣必須明確為零玩家，才可進入正常停服流程。
+retention 與 guard 共用 world gate，核真 first／restart 及新 active world 綁定後，
+沿既有精確 cleanup plan 保留最新一套完整舊回退、退役舊 generated copies；不把初始化寫成遷移。
+
 主機容量暫不足時，可在不可變設定指定 `native_capacity_wait_seconds`（整數
 1–7200）。僅首次 `update --execute` 在 capture、候選與 lease 前有界等待；
 按完整 native cap、2 GiB 餘量及既有 32 MiB accounting pad 保守投影，不抵扣

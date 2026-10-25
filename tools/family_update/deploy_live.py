@@ -19,7 +19,7 @@ def retain_stopped_on_failure():
         assert isinstance(idle, str) and Path(idle).is_absolute(), 'Normal idle update needs its reviewed input'
         assert not CONFIG.get('managed_drift_recovery') and not CONFIG.get('preinstall_recovery_output'), 'Normal idle update cannot borrow recovery exceptions'
         return True
-    return policy == 'retain_stopped' or bool(CONFIG.get('native_actor_recovery_plan'))
+    return policy == 'retain_stopped' or bool(CONFIG.get('native_actor_recovery_plan') or CONFIG.get('fresh_world'))
 
 def deployment_authorized(agents):
     """Recognize only the reviewed standing instructions, without broadening scope."""
@@ -37,9 +37,12 @@ def preflight():
     original = verify_predeploy()
     receipt = verify_candidate_sources()
     from family_update.workflow import same_runtime
-    if same_runtime(receipt, original):
+    if not CONFIG.get('fresh_world') and same_runtime(receipt, original):
         return original, receipt
-    if CONFIG.get('normal_idle_update'):
+    if CONFIG.get('fresh_world'):
+        target = B / 'worlds' / CONFIG['fresh_world']['level_name']
+        assert not target.exists(), 'Never replace an existing fresh-world target'
+    if CONFIG.get('fresh_world') or CONFIG.get('normal_idle_update'):
         from family_update.normal_idle_update import validate_initial_status
         validate_initial_status(initial)
     elif CONFIG.get('managed_drift_recovery'):
@@ -83,7 +86,8 @@ def finalize_receipt():
     from family_update.workflow import verify_native
     saved=verify_native(verified_candidate=raw)
     reports=['build-evidence.json','static-evidence.json','compatibility-report.json','saved-world-report.json','production-before/backup-receipt.json','handoff-authorization.json']
-    reports.append('saved-world-container-inventories.json')
+    if not CONFIG.get('fresh_world'):
+        reports.append('saved-world-container-inventories.json')
     if saved.get('test_only_overlays'):
         # verify_native authenticated this one fixed observer, its original
         # logs, both native phase reports and exact closed-world restoration.
@@ -147,6 +151,8 @@ def finalize_receipt():
             reports.append(str(EXTENSION / review['stopped_server_review']['evidence']['path']))
     if CONFIG.get('normal_idle_update'):
         reports.extend([CONFIG['normal_idle_update'], 'deployment-initial-state.json'])
+    elif CONFIG.get('fresh_world'):
+        reports.append('deployment-initial-state.json')
     if CONFIG.get('prospective_preserved_inputs'):
         reports.append('prospective-preserved-inputs-check.json')
         prospective=read(R/'prospective-preserved-inputs-check.json')
@@ -162,7 +168,11 @@ def finalize_receipt():
         from family_update.preserved_saturation_inputs import is_profile as is_saturation
         if is_saturation(prospective):
             reports.extend(['saturation-scheduling-native-validation.json', prospective['review']['path'], prospective['recipe']['path'], prospective['source_validation']['path'], prospective['source_log']['path'], prospective['source_diagnosis']['path'], prospective['author_file_boundary']['path']])
-    raw['acceptance']={'static':True,'bds':True,'client':False,'saved_world_migration':True}
+    raw['acceptance']={'static':True,'bds':True,'client':False,'saved_world_migration':not bool(CONFIG.get('fresh_world'))}
+    if CONFIG.get('fresh_world'):
+        raw['acceptance'].update(fresh_world_initialization=True, world_persistence=True)
+        raw['world_initialization']={'kind':'fresh_world', 'level_name':CONFIG['fresh_world']['level_name'],
+                                     'properties':fresh_world_properties(), 'native_report':report_ref(R/'saved-world-report.json')}
     raw['production_ready']=False
     raw['assembled_receipt']={'path':str(C/'family-receipt.json'),'sha256':digest}
     raw['evidence']={'reports':[report_ref(p) for p in dict.fromkeys((R/p).resolve() for p in reports)],'client_acceptance':f'Deferred for this exact candidate under the continuing user instruction in {AUTHORIZATION}; no human client pass claimed.'}
@@ -271,20 +281,25 @@ def installation_sources(family,original,migration,additions=None):
 
 def prepare_admission(receipt,original):
     policy=read(Q/'senluo-policy.json')
-    approved=R/'reviewed-family-receipt.json'; family,_=installation_selection(receipt,original)
+    approved=R/'reviewed-family-receipt.json'
+    if CONFIG.get('fresh_world') and CONFIG.get('extension_stable_validation'):
+        from family_update.stable_author_validation import verify_installation
+        verify_installation(receipt)
+    family = receipt['packs'] if CONFIG.get('fresh_world') else installation_selection(receipt,original)[0]
     from family_update.identity_migration import candidate_plan
     migration=candidate_plan(receipt,original)
     additions=None
     if CONFIG.get('managed_drift_recovery'):
         from family_update.managed_drift_recovery import validate_target
         additions=validate_target(receipt,original,migration)
-    sources=installation_sources(family,original,migration,additions)
+    sources=[] if CONFIG.get('fresh_world') else installation_sources(family,original,migration,additions)
     policy['approved_receipt']=str(approved)
     policy['deferred_client_acceptance']={'source':'explicit_user_instruction','instruction':read(R/'handoff-authorization.json')['instruction'],'recorded_at':now(),'receipt_sha256':sha(approved),'authorization_source':str(AUTHORIZATION),'authorization_sha256':sha(str(AUTHORIZATION))}
     policy['managed_uuids']=sorted(set(policy['managed_uuids'])|{p['uuid'] for p in family})
     policy['upstream_lock_sha256']=sha(T/'family/upstream.lock.json')
     policy['reviewed_targets']=[{'name':name,'canonical_path':str(SOURCES[name]),'commit':row['commit'],'tree':row['tree']} for name,row in read(R/'build-evidence.json')['sources'].items() if name in SOURCES]
-    policy['latest_observed_deployment']={'path':str(approved),'status':'reviewed_full_family_for_live_development','recorded_at':now(),'note':'Canonical merged sources; complete static, native BDS and fresh stopped-world rehearsal; human client remains pending.'}
+    note = 'Canonical merged sources; static, clean fresh-world initialization and same-world save/restart; old world retained for rollback, no migration claimed.' if CONFIG.get('fresh_world') else 'Canonical merged sources; complete static, native BDS and fresh stopped-world rehearsal; human client remains pending.'
+    policy['latest_observed_deployment']={'path':str(approved),'status':'reviewed_full_family_for_live_development','recorded_at':now(),'note':note}
     atomic(R/'admission-policy.json',policy)
     incoming=[{'uuid':p['uuid'],'version':p['version'],'path':str(C/(p['side']+'_packs')/p['uuid'])} for p in receipt['packs']]
     G['validate_incoming'](incoming,R/'admission-policy.json')
@@ -384,10 +399,72 @@ def adopt_native_actor_recovery():
     atomic(R/'production-native-actor-recovery.json',restored)
     os.replace(W/'db',R/'production-original-db');os.replace(stage/'db',W/'db')
 
+def install_fresh_world(receipt, original):
+    from family_update.native_common import world_data_hashes
+    from family_update.storage import allocated, assert_idle, require_space
+    source = R / 'saved-world-engine/worlds' / CONFIG['fresh_world']['level_name']
+    target = B / 'worlds' / CONFIG['fresh_world']['level_name']
+    native = read(R / 'saved-world-report.json')
+    assert not target.exists(), 'Never overwrite a world during fresh delivery'
+    assert_idle(source.parent.parent)
+    assert world_data_hashes(source) == native['world_files'], 'Prepared world changed after native validation'
+    audit_candidate(source, receipt)
+    policy, incoming, family, _ = prepare_admission(receipt, original)
+    rollback = R / 'production-rollback'; rollback.mkdir()
+    retired = []; installed = []
+    try:
+        atomic(Q / 'senluo-policy.json', policy)
+        runpy.run_path(str(Q / 'policy.py'))['validate_incoming'](incoming, {p['uuid'] for p in original['packs']}, True)
+        for old in original['packs']:
+            path = Path(old['path'])
+            if path.parent != B / (old['side'] + '_packs'):
+                continue
+            parked = rollback / (old['side'] + '_packs') / path.name
+            parked.parent.mkdir(parents=True, exist_ok=True)
+            assert hashes(path) == old['files'] and not parked.exists(), 'Old global rollback input changed'
+            os.replace(path, parked); retired.append((parked, path))
+        # A cross-filesystem move temporarily needs one actual new-world copy.
+        require_space(target.parent, 'Fresh world delivery', allocated(source))
+        shutil.move(str(source), str(target)); installed.append(target)
+        assert world_data_hashes(target) == native['world_files'], 'Fresh world delivery bytes differ'
+        audit_candidate(target, receipt)
+        properties = fresh_world_properties()
+        response = api('/api/server/' + quote(SERVER, safe='') + '/properties/set',
+                       {'properties': properties}, 'POST')
+        atomic(R / 'fresh-world-properties-response.json', response)
+        assert response.get('status') == 'success' and response.get('server_name') == SERVER, 'World properties update was not confirmed'
+        binding = verify_server_binding()
+        observed = api('/api/server/' + quote(SERVER, safe='') + '/properties/get')['properties']
+        assert all(str(observed.get(key)) == value for key, value in properties.items()), 'New world properties were not applied'
+        assert summary()['status'] == 'STOPPED', 'World selection must not start the server'
+        policy['installed']={'status':'pending_client_acceptance','receipt':str(R/'reviewed-family-receipt.json'),
+                             'receipt_sha256':sha(R/'reviewed-family-receipt.json'),'installed_at':now(),
+                             'packs':[{**p,'directory':p['uuid']} for p in family],
+                             'refs':{side:read(target/('world_'+side+'_packs.json')) for side in ['behavior','resource']}}
+        policy['hold_reason']='Fresh initialization and same-world persistence passed; no old-world migration or human client acceptance claimed.'
+        atomic(Q/'senluo-policy.json',policy)
+        drift=G['audit'](target,policy); assert drift['ok']; atomic(R/'production-drift.json',drift)
+        valid=runpy.run_path(str(Q/'policy.py'))['validate_world'](target); assert valid['ok']; atomic(R/'production-quality.json',valid)
+        atomic(R/'rollback-map.json',{'retired':[[str(a),str(b)] for a,b in retired],'installed':[str(p) for p in installed],
+                                     'original_inventory':str(R/'production-before/inventory.json'),'backup':str(R/'production-snapshot'),
+                                     'original_world':str(W),'new_world':str(target),'original_properties':str(R/'production-before/server.properties')})
+        atomic(R/'deployment-result.json',{'schema':1,'state':'installed_stopped','versions':versions(receipt),
+                'family_packs':len(family),'preserved_packs':0,'receipt_sha256':sha(R/'reviewed-family-receipt.json'),
+                'assembled_receipt_sha256':sha(C/'family-receipt.json'),'guard_admission_passed':True,
+                'fresh_world':str(target),'active_world_binding':binding,'original_database_untouched_during_install':True,
+                'original_level_dat_untouched_during_install':True,'rollback':str(rollback),
+                'client':False,'production_ready':False})
+        return retired, installed
+    except BaseException as error:
+        retain_failed_installation(original, retired, installed, error)
+
+
 def install(receipt,original):
     assert_lease(); assert summary()['status']=='STOPPED'; verify_predeploy()
     verify_server_binding()
     verify_candidate_sources()
+    if CONFIG.get('fresh_world'):
+        return install_fresh_world(receipt, original)
     policy,incoming,family,sources=prepare_admission(receipt,original)
     prior={p['uuid']:p for p in original['packs']}
     foreign={p['uuid']:p for p in receipt['packs'] if p['source']['owner']=='preserved' and p['uuid'] not in {row['uuid'] for row in family}}
@@ -465,7 +542,7 @@ def main(argv=None):
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         lease_available(); original,receipt=preflight()
         from family_update.workflow import same_runtime
-        if same_runtime(receipt, original):
+        if not CONFIG.get('fresh_world') and same_runtime(receipt, original):
             print('NO_RUNTIME_CHANGES: full live bytes and order already match; no restart', flush=True)
             return {'state': 'no_runtime_changes', 'live_mutated': False, 'client': False}
         for path in [R/name for name in ['previous-maintenance.json','handoff-authorization.json','live-authorization-AGENTS.md','reviewed-family-receipt.json','admission-policy.json','admission-report.json','deployment-result.json','deployment-recovery.json','rollback-map.json','production-snapshot','production-staged','production-rollback','saved-world-engine','saved-world-report.json','deployment-initial-state.json']]:
@@ -476,7 +553,7 @@ def main(argv=None):
         acquire_lease(receipt)
         changed=False; retired=[]; installed=[]
         try:
-            if CONFIG.get('normal_idle_update'):
+            if CONFIG.get('fresh_world') or CONFIG.get('normal_idle_update'):
                 from family_update.normal_idle_update import record_initial_status
                 record_initial_status()
             elif CONFIG.get('managed_drift_recovery'):
@@ -490,7 +567,7 @@ def main(argv=None):
                 from family_update.managed_drift_recovery import prepare_rollback
                 prepare_rollback(original)
             print(f'Preparing {SERVER} for a fresh stopped backup and saved-world rehearsal',flush=True)
-            if not (CONFIG.get('managed_drift_recovery') or CONFIG.get('normal_idle_update')) or summary()['status']!='STOPPED':
+            if not (CONFIG.get('fresh_world') or CONFIG.get('managed_drift_recovery') or CONFIG.get('normal_idle_update')) or summary()['status']!='STOPPED':
                 action('stop')
             assert summary()['status']=='STOPPED'; verify_predeploy()
             # Admit the larger native ceiling only after normal production stop.
