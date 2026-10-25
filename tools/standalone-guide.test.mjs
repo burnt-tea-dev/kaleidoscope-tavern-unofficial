@@ -94,14 +94,15 @@ function ui(responses,provider=()=>payload,options={}){const shown=[],properties
 test('Close and cancel terminate without consuming a book or changing preferences',async()=>{for(const response of [{selection:8},{canceled:true}]){const f=ui([response]);assert.equal(await f.run(),true);assert.equal(f.shown.length,1);assert.equal(f.writes,0);}});
 test('Back returns from a single-entry item to its parent root category',async()=>{const f=ui([{selection:0},{selection:0},{selection:0},{canceled:true}]);await f.run();assert.equal(f.shown.length,4);assert.equal(f.shown[1].t,f.shown[3].t);});
 test('undefined registry is not presented as a complete 111-entry fallback',async()=>{const f=ui([],()=>null);assert.equal(await f.run(),false);assert.equal(f.shown.length,0);assert.equal(f.api.standaloneGuideDiagnostics.notReady,1);});
-test('language and sound selections persist together and refresh the existing guide',async()=>{const f=ui([{selection:7},{formValues:[2,0]},{canceled:true}]);await f.run();assert.equal(f.properties.get(GUIDE_LANGUAGE_KEY),'en_US');assert.equal(f.properties.get(SHAKER_SOUND_KEY),'less');assert.equal(f.shown[2].t,payload.text.en_US.title);});
-test('cancelled, incomplete or invalid settings do not write either preference',async()=>{for(const response of [{canceled:true},{formValues:[999,1]},{formValues:[2]},{formValues:[2,999]},{formValues:[true,1]}]){const f=ui([{selection:7},response,{canceled:true}]);await f.run();assert.equal(f.writes,0);}});
+test('language and sound selections persist together and refresh the existing guide',async()=>{const f=ui([{selection:7},{formValues:[2,0]},{canceled:true}]);await f.run();assert.equal(f.properties.get(GUIDE_LANGUAGE_KEY),'en_US');assert.equal(f.properties.get(SHAKER_SOUND_KEY),'less');assert.equal(f.shown[2].t,payload.text.en_US.title);assert.ok(f.shown[2].buttons[7].includes('English'));assert.ok(!f.shown[2].buttons[7].includes('繁體中文'));});
+test('cancelled, incomplete or invalid settings return to the same guide without writing either preference',async()=>{for(const response of [{canceled:true},{formValues:[999,1]},{formValues:[2]},{formValues:[2,999]},{formValues:[true,1]}]){const f=ui([{selection:7},response,{canceled:true}]);await f.run();assert.equal(f.shown.length,3);assert.equal(f.shown[2].t,f.shown[0].t);assert.deepEqual(f.shown[2].buttons,f.shown[0].buttons);assert.equal(f.writes,0);}});
 test('failed settings writes are reported, not silently successful',async()=>{const f=ui([{selection:7},{formValues:[2,2]},{canceled:true}]);f.fail=true;await f.run();assert.equal(f.properties.size,0);assert.equal(f.messages.length,1);});
 for(const locale of GUIDE_LANGUAGES)test(locale+' keeps seven content roots and localizes both settings fields',async()=>{
  const f=ui([{selection:7},{canceled:true}]);f.properties.set(GUIDE_LANGUAGE_KEY,locale);f.properties.set(SHAKER_SOUND_KEY,'legacy');
  const view=standaloneGuideView(payload,locale);assert.deepEqual(view.buttons.filter(row=>row.action.type==='category').map(row=>row.action.id),GUIDE_ROOTS);
- assert.equal(view.buttons.length,9);assert.equal(view.buttons[7].label,guideText(locale,'settings'));assert.equal(view.buttons[7].action.type,'language');
+ assert.equal(view.buttons.length,9);assert.ok(view.buttons[7].label.startsWith(guideText(locale,'settings')));assert.ok(view.buttons[7].label.includes({zh_TW:'繁體中文',zh_CN:'简体中文',en_US:'English'}[locale]));assert.equal(view.buttons[7].action.type,'language');
  await f.run();const modal=f.shown[1];assert.equal(modal.t,guideText(locale,'settings'));assert.equal(modal.fields.length,2);
+ assert.equal(f.shown[0].buttons[7],view.buttons[7].label);assert.equal(f.shown[2].buttons[7],view.buttons[7].label);
  assert.deepEqual(Array.from(modal.fields[0][1]),['繁體中文','简体中文','English']);assert.equal(modal.fields[0][2].defaultValueIndex,GUIDE_LANGUAGES.indexOf(locale));
  assert.equal(modal.fields[1][0],guideText(locale,'shakerSound'));assert.deepEqual(Array.from(modal.fields[1][1]),guideText(locale,'shakerSoundLevels'));assert.equal(modal.fields[1][2].defaultValueIndex,1);
  assert.equal(f.writes,0);assert.equal(f.properties.get(SHAKER_SOUND_KEY),'legacy');
@@ -112,9 +113,11 @@ test('an unconfirmed rollback is shown in the restored guide language',async()=>
  await f.run();assert.equal(f.properties.get(GUIDE_LANGUAGE_KEY),'zh_CN');assert.equal(f.messages.length,1);assert.ok(f.messages[0].includes(guideText('zh_CN','rollbackError')));
 });
 test('a settings answer arriving after session cleanup cannot write preferences',async()=>{
- let release,shown;const showing=new Promise(resolve=>shown=resolve);
- const f=ui([{selection:7},()=>new Promise(resolve=>{release=resolve;shown();})]),opening=f.run();
- await showing;f.api.clearStandaloneGuideSession(f.holder.id);release({formValues:[2,2]});await opening;assert.equal(f.writes,0);
+ for(const answer of [{formValues:[2,2]},{canceled:true}]){
+  let release,shown;const showing=new Promise(resolve=>shown=resolve);
+  const f=ui([{selection:7},()=>new Promise(resolve=>{release=resolve;shown();})]),opening=f.run();
+  await showing;f.api.clearStandaloneGuideSession(f.holder.id);release(answer);await opening;assert.equal(f.writes,0);assert.equal(f.shown.length,2);
+ }
 });
 test('show errors release the session for a later use',async()=>{const f=ui([new Error('UI unavailable'),{canceled:true}]);assert.equal(await f.run(),false);assert.equal(await f.run(),true);assert.equal(f.api.standaloneGuideDiagnostics.errors,1);});
 test('duplicate open is blocked and leave cleanup permits a new session',async()=>{let release;const f=ui([()=>new Promise(r=>release=r),{canceled:true}]);const first=f.run();assert.equal(await f.run(),false);f.api.clearStandaloneGuideSession(f.holder.id);assert.equal(await f.run(),true);release({canceled:true});await first;});
@@ -158,8 +161,22 @@ test('Cookery entrance shares the view, returns only on explicit Back and preser
  for(const [response,outcome] of [[{selection:8},'back'],[{selection:9},'closed'],[{canceled:true},'closed']]){
   const finished=[],f=ui([response],()=>payload,{locale:'en_US',onFinish:v=>finished.push(v)});
   f.properties.set(GUIDE_LANGUAGE_KEY,'zh_CN');await f.run();
-  assert.equal(f.shown[0].t,payload.text.en_US.title);assert.deepEqual(finished,[outcome]);
+  assert.equal(f.shown[0].t,payload.text.en_US.title);assert.ok(f.shown[0].buttons[7].includes('English'));assert.deepEqual(finished,[outcome]);
   assert.equal(f.properties.get(GUIDE_LANGUAGE_KEY),'zh_CN');assert.equal(f.writes,0);
+ }
+});
+
+test('cancelling settings keeps the Cookery guide open until explicit Back or Close',async()=>{
+ for(const [selection,outcome]of [[8,'back'],[9,'closed']]){
+  const finished=[];
+  let f;f=ui([{selection:7},{canceled:true},()=>{
+   assert.deepEqual(finished,[]);assert.equal(f.writes,0);
+   assert.equal(f.shown[2].t,f.shown[0].t);assert.deepEqual(f.shown[2].buttons,f.shown[0].buttons);
+   assert.equal(f.api.hasStandaloneGuideSession(f.holder.id),true);
+   return {selection};
+  }],()=>payload,{locale:'en_US',onFinish:value=>finished.push(value)});
+  f.properties.set(GUIDE_LANGUAGE_KEY,'zh_CN');await f.run();
+  assert.deepEqual(finished,[outcome]);assert.equal(f.properties.get(GUIDE_LANGUAGE_KEY),'zh_CN');assert.equal(f.writes,0);
  }
 });
 
