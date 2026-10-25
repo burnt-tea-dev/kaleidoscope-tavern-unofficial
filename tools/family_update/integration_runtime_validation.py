@@ -128,8 +128,16 @@ def validate_exact_integration(owned,baseline,binding,root,sources):
     # Keep the old P62/P58 checks intact, reading P62 manifests from its Git
     # snapshot instead of pretending the current P64 files are conserved P58.
     historical=owned['historical_p62_conservation']
-    _validate_dependency_only_runtime(historical,prior,{'actual_current_source_commit':base},root,sources,reference_commit=base)
-    assert owned['retained_component_conservation']==historical['retained_component_conservation']
+    assert 'retained_component_conservation' not in historical,'Unexpected historical proof shape'
+    # The honest producer emits the P62 comparison and P58 component as peers.
+    # Compose those two real proofs only for the unchanged legacy validator.
+    component=owned['retained_component_conservation']
+    assert component['core_only'] is True
+    assert component['conserved_files']==sum(1 for side in component['files']
+        for name in component['files'][side].keys()&component['previous_files'][side].keys()
+        if component['files'][side][name]==component['previous_files'][side][name]),'Incorrect component conservation count'
+    legacy={**historical,'retained_component_conservation':component}
+    _validate_dependency_only_runtime(legacy,prior,{'actual_current_source_commit':base},root,sources,reference_commit=base)
     fishing=validate_salt_inputs(root,policy)
     uuids={v['uuid'] for v in prior['packs'].values()}
     for side in ['BP','RP']:

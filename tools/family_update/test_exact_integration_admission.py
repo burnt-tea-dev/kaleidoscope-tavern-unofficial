@@ -91,7 +91,7 @@ class ExactIntegrationCLI(unittest.TestCase):
   self.write('data/aww-p64-runtime-contract.json',encoded(self.contract))
   self.config['integration_runtime']={'kind':'aww-exact-four-file','base_commit':self.p62,'base_tree':self.p62tree,'contract':'data/aww-p64-runtime-contract.json','contract_sha256':sha(encoded(self.contract))}
   self.write('baseline.json',encoded(self.config))
-  self.proof={'kind':'aww-exact-four-file','version':[1,0,64],'source_version':[1,0,58],'previous_commit':self.p62,'previous_files':self.p62files,'files':self.after,'source_trees':self.config['source_trees'],'exact_changed_paths':sorted(CHANGED),'conserved_files':368,'historical_p62_conservation':self.historical,'retained_component_conservation':self.component,
+  self.proof={'kind':'aww-exact-four-file','version':[1,0,64],'source_version':[1,0,58],'previous_commit':self.p62,'previous_files':self.p62files,'files':self.after,'source_trees':self.config['source_trees'],'exact_changed_paths':sorted(CHANGED),'conserved_files':368,'historical_p62_conservation':{k:v for k,v in self.historical.items() if k!='retained_component_conservation'},'retained_component_conservation':self.component,
     **{k:False for k in ['client','native','performance','production_ready','live','publication_request']}}
   self.write('proof.json',encoded(self.proof));self.salt=self.salt_input();self.write('data/fishing-1.3-salt-inputs.json',encoded(self.salt));self.good=self.commit('owned P64')
   host=self.tmp/'host';salt=host/'recipes/vanilla_cooking/salt_smelting.json';salt.parent.mkdir(parents=True);salt.write_bytes(b'owned salt recipe fixture')
@@ -139,12 +139,13 @@ class ExactIntegrationCLI(unittest.TestCase):
    self.git('reset','--hard',commit);result=self.consume()
    self.assertEqual(result.returncode,0,result.stderr);self.assertEqual(json.loads(result.stdout)['owner'],version)
  def test_p64_cannot_impersonate_old_kind_or_change_anchor_tree(self):
-  for mutation in ['old-kind','anchor','tree','unknown-version']:
+  for mutation in ['old-kind','anchor','tree','unknown-version','component']:
    self.restore();config=copy.deepcopy(self.config);proof=copy.deepcopy(self.proof)
    if mutation=='old-kind':proof['kind']='dependency_only_runtime'
    elif mutation=='anchor':config['integration_runtime']['base_commit']=self.p58
    elif mutation=='tree':config['integration_runtime']['base_tree']='0'*40
-   else:config['version']=[1,0,65]
+   elif mutation=='unknown-version':config['version']=[1,0,65]
+   else:proof['retained_component_conservation']['conserved_files']-=1
    self.write('baseline.json',encoded(config));self.write('proof.json',encoded(proof));self.commit(mutation)
    result=self.consume();self.assertNotEqual(result.returncode,0,mutation)
  def test_fifth_change_wrong_ui_added_removed_and_rehashed_helper_reject(self):
