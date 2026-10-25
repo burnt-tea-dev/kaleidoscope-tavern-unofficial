@@ -89,13 +89,23 @@ class RuntimeConservationTests(unittest.TestCase):
     row=copy.deepcopy(original);refs={'grilling':11}
     if mode=='unconfigured':refs={}
     elif mode=='current-skipped':next(c for c in row['checks'] if c['name']=='bridge')['conclusion']='skipped'
-    elif mode=='old-skipped':next(c for c in row['runtime_ci']['checks'] if c['name']=='canonical')['conclusion']='skipped'
-    elif mode=='old-spoofed':next(c for c in row['runtime_ci']['checks'] if c['name']=='canonical')['app_slug']='other-app'
+    elif mode=='old-skipped':next(c for c in row['runtime_ci']['checks'] if c['name']=='validate')['conclusion']='skipped'
+    elif mode=='old-spoofed':next(c for c in row['runtime_ci']['checks'] if c['name']=='validate')['app_slug']='other-app'
     else:
      revision=self.merge if mode=='old-head' else source['commit'];self.git('reset','--hard',revision);self.git('commit','--allow-empty','-qm','same tree never checked');head=self.git('rev-parse','HEAD')
      self.assertEqual(self.git('rev-parse',head+'^{tree}'),self.git('rev-parse',revision+'^{tree}'))
      if mode=='old-head':row['runtime_ci']['head']=head
      else:row['head']=head
     with self.assertRaises(AssertionError):self.validate_docs('grilling',source,row,refs)
+
+ def test_current_grilling_validate_job_is_required_and_old_label_does_not_substitute(self):
+  source={'repository':'owner/repo','tree':'current source tree'}
+  row={'source':'grilling','repository':source['repository'],'source_tree':source['tree'],
+       'checks':[self.check(name) for name in ['baseline','bridge','validate','candidate']], 'statuses':[]}
+  with patch.object(m,'CONFIG',{}),patch.object(m,'SOURCES',{'grilling':self.root}):
+   m.validate_ci_rows([row],{'grilling':source})
+   next(check for check in row['checks'] if check['name']=='validate')['name']='canonical'
+   with self.assertRaisesRegex(AssertionError,'required checks.*validate'):
+    m.validate_ci_rows([row],{'grilling':source})
 
 if __name__=='__main__':unittest.main()
