@@ -213,7 +213,10 @@ def _sources(build):
         if name != 'tavern':
             assert all(old.get(key) == value for key, value in row.items()), 'Non-Tavern recovery source changed: ' + name
             continue
-        assert {key: value for key, value in row.items() if key not in {'commit', 'tree', 'remote_main'}} == {key: value for key, value in old.items() if key not in {'commit', 'tree', 'remote_main'}}, 'Tavern runtime or baseline changed'
+        # Remote metadata is present only in source_state(verify_remote=True).
+        # The CLI verifies remote identity before this local runtime comparison.
+        metadata = {'commit', 'tree', 'remote_main', 'remote_repository'}
+        assert {key: value for key, value in row.items() if key not in metadata} == {key: value for key, value in old.items() if key not in metadata}, 'Tavern runtime or baseline changed'
         ancestor = subprocess.run(['git', '-C', str(c.T), 'merge-base', '--is-ancestor', old['commit'], row['commit']], capture_output=True)
         assert ancestor.returncode == 0, 'Original Tavern is not an ancestor of the canonical recovery runner'
         changed = set(c.git(c.T, 'diff', '--name-only', old['commit'], row['commit']).splitlines())
