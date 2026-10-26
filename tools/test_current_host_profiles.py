@@ -45,6 +45,16 @@ class CurrentHostProfiles(unittest.TestCase):
     changed=copy.deepcopy(self.spec);changed['version']=[1,0,99]
     with self.assertRaisesRegex(ValueError,'exact reviewed profile'):validate({'repository':'local/senluo-amw-cuisine','version':[1,0,58]},changed)
 
+class CuratedCatalogReceipts(unittest.TestCase):
+ def test_current_catalog_accepts_receipts_from_its_selected_predecessors(self):
+  catalog=stable.curated_profile()
+  selected=[stable.PROFILES[row['profile']] for row in catalog['host_specs'].values() if row['profile'] in stable.PROFILES]
+  for profile in selected:
+   receipts=[stable.receipt(row) for row in selected if row is not profile]
+   if 'public-api' in profile['required_extensions']:receipts.append(stable.public_predecessors(profile)[0])
+   source={'owner':profile['source_owner'],'archive_sha256':profile['archive_sha256'],'reviewed_extensions':receipts}
+   with self.subTest(extension=profile['id']):stable.validate_stable_source(profile,source)
+
 class RecipeRemovalBoundary(unittest.TestCase):
  def setUp(self):
   temporary=tempfile.TemporaryDirectory();self.addCleanup(temporary.cleanup);self.root=Path(temporary.name)
