@@ -8,6 +8,30 @@ from pathlib import Path, PurePosixPath
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def validate_request_identity(request, release):
+    """Check the current request even when publication remains disabled.
+
+    Runtime and family source identities still belong to their existing locks.
+    This only binds the publication-facing version, tag and title to release.json.
+    """
+    version = release.get('version')
+    if not isinstance(version, str) or not re.fullmatch(r'\d+\.\d+\.\d+', version):
+        raise ValueError('Release version must contain three numeric components')
+    if request.get('version') != version:
+        raise ValueError('Release request version differs from release.json')
+    prerelease = request.get('prerelease')
+    if type(prerelease) is not bool:
+        raise ValueError('Release request prerelease flag must be a boolean')
+    if request.get('tag') != f'v{version}' + ('-beta.1' if prerelease else ''):
+        raise ValueError('Release request tag differs from the declared version/channel')
+    title = request.get('title')
+    if not isinstance(title, str) or '\n' in title or '\r' in title:
+        raise ValueError('Release request title must be a single line')
+    named_version = re.match(r'^Tavern (\d+\.\d+\.\d+)(?=\s|:|$)', title)
+    if not named_version or named_version.group(1) != version:
+        raise ValueError('Release request title must name the declared Tavern version')
+
+
 def publication_enabled(request, event_name, publish_release=False):
     automatic = request.get('publication_request', True)
     if type(automatic) is not bool or type(publish_release) is not bool:
@@ -51,6 +75,8 @@ def main():
     parser.add_argument('--publish-release', choices=('true', 'false'), default='false')
     args = parser.parse_args()
     request = json.loads((ROOT / '.github/release-request.json').read_text())
+    release = json.loads((ROOT / 'release.json').read_text())
+    validate_request_identity(request, release)
     enabled = publication_enabled(request, args.event, args.publish_release == 'true')
     notes = public_notes(ROOT, request)
     if output := os.environ.get('GITHUB_OUTPUT'):

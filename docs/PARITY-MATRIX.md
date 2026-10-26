@@ -1,5 +1,7 @@
 # Tavern Java／Bedrock 差距矩陣
 
+目前維護來源為 **T184／0.6.184**；公開下載、公開來源配對、完整家族准入、實際部署及真人驗收分別見[家族現況](../family/BASELINE-STATUS.md)。下列日期段保留各次修補及原始證據範圍，不因較新的來源版本自動取得client或完整家族通過結果。
+
 ## T182 指南設定導航來源（2026-10-25）
 
 取消設定視窗會返回相同指南，既有 session 若已清除則仍退出；取消不寫入偏好，也不提前觸發返回 Cookery。首頁設定按鈕顯示實際使用的語言名稱，與既有三語選單共用字串。七大內容入口、Cookery 臨時語言優先、原玩家／世界資料鍵及 Java 玩法／音效保持。這是獨立吸收介面設計，沒有複製第三方腳本，也未新增 29 語、維度音效／粒子設定或蹲下放置選項。現有 controller／偏好定向測試通過；完整家族保存／BDS、實際畫面與操作仍待驗收，`client=false`、`production_ready=false`。詳見[本次吸收範圍](THIRD-PARTY-TAVERN-REVIEW.md)。以下保留原候選範圍。
@@ -18,9 +20,9 @@ Java 的 [BarrelBlockEntityRender](https://github.com/KaleidoscopeMods/Kaleidosc
 
 時計的可見反例是：帶100 ticks效果登入，在4 ticks後離線，應保存96而不是100；重新登入不扣離線時間。情境測試從事件入口驗證持久化值、空效果recipient和後續API讀取，不綁內部Map。該效果模組的歷史逆向差異已退役；其他尚未整理的域仍有舊驗證債務，這次不宣稱全庫重構完成。發布包identity、release-history與存檔契約另行保留。
 
-## 2026-10-17 現行修復狀態
+## 2026-10-17 修復狀態與後續承接
 
-目前來源為 **T173**（[115942e5](https://github.com/casama233/kaleidoscope-tavern-unofficial/commit/115942e55e9946cfd257fbcdc41c849f75b77509)）；來源／下載／倉庫部署／驗收分別見[唯一家族現況](../family/BASELINE-STATUS.md)。完整Java一比一與當前真人驗收未完成。
+這份摘要始於 **T173**（[115942e5](https://github.com/casama233/kaleidoscope-tavern-unofficial/commit/115942e55e9946cfd257fbcdc41c849f75b77509)）；後續承接在下表明列。來源／下載／倉庫部署／驗收分別見[家族現況](../family/BASELINE-STATUS.md)。完整Java一比一與當前真人驗收未完成。
 
 | 行為 | 已保留的來源修補 | 目前未閉合的部分 |
 | --- | --- | --- |
@@ -28,7 +30,7 @@ Java 的 [BarrelBlockEntityRender](https://github.com/KaleidoscopeMods/Kaleidosc
 | 特調RGB | source texel × cupRGB、六幀與10組render controllers已在目前source | [#287](https://github.com/casama233/kaleidoscope-tavern-unofficial/issues/287)：原生材質、透明、濾波／PBR與各視圖；舊flat-only說法只屬歷史 |
 | 雪克杯HUD／手感 | T165座標、T166快取、T167游標插值、T169過期窗口已承接 | 最新進度條、快開／取消／換槽／取出、聲音與延遲仍需同候選正常操作結果 |
 | HUD共存 | 既有三transport、自有namespace、原生root保存 | [#285](https://github.com/casama233/kaleidoscope-tavern-unofficial/issues/285)：跨維度重建refresh、長title ownership與foreign writer完整共存 |
-| Tipsy／時計 | yaw只明確opt-in；其他scheduler／cleanup修補保留 | [#286](https://github.com/casama233/kaleidoscope-tavern-unofficial/issues/286)：保留瞄準與原生手臂的純roll、首次online clock anchor |
+| Tipsy／時計 | yaw只明確opt-in；T179已補首次在線讀取的效果時計並保留離線暫停 | [#286](https://github.com/casama233/kaleidoscope-tavern-unofficial/issues/286)：保留瞄準與原生手臂的純roll仍未實作；時計來源修補不代表相機視覺已完成 |
 | 原生語義／儲存／板面 | 多輪item保存、dispatch、類別與source adapters保留 | [#98](https://github.com/casama233/kaleidoscope-tavern-unofficial/issues/98)：reach、清仇恨、step、XP、outline；任意三份裝飾非堆疊原料、多行editor、部分event／drop語義仍不完整 |
 | 杯架／香薰／酒桶 | T156選取、T159交叉花葉／cutout、T173碰撞形狀已有來源修補 | 真實四向點選、原生接觸、透明／粒子、保存與聲畫仍按場景驗收 |
 
