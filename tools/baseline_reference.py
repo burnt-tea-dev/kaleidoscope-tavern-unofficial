@@ -8,6 +8,7 @@ from pathlib import Path
 import base64,gzip,hashlib,json,subprocess
 from functools import lru_cache
 from collision_shape_projection import collision_preimage
+from current_extension_source_contract import check as check_current_extensions, runtime_sources as extension_runtime_sources
 
 # Only exact reviewed non-script assets and opt-in command entry points.
 # T134 visual semantics are checked by the board, source-texel and animation
@@ -19,8 +20,7 @@ COCKTAIL_ASSET_PATHS=frozenset({
   'cup_emerald','cup_empty_glassware','cup_godfather','cup_grasshopper',
   'cup_mojito','cup_mystery_cocktail','cup_nether_special','cup_screwdriver',
   'cup_sculk_special','cup_signature_cocktail','cup_white_lady','shaker_station')
-}|{'runtime/RP/texts/en_US.lang','runtime/RP/texts/zh_CN.lang',
-   'runtime/RP/texts/zh_TW.lang','runtime/RP/texts/ja_JP.lang',
+}|{'runtime/RP/texts/ja_JP.lang',
    'runtime/RP/texts/ru_RU.lang','runtime/RP/texts/languages.json',
    'runtime/RP/ui/hud_screen.json',
    'runtime/RP/ui/_global_variables.json',
@@ -151,6 +151,10 @@ def rows(root):
  p=Path(root)/'data/baseline-reconciliation.json'
  return json.loads(p.read_text())['files'] if p.exists() else {}
 @lru_cache(maxsize=4)
+def release_projections(root):
+ p=Path(root)/'data/baseline-reconciliation.json'
+ return json.loads(p.read_text()).get('releaseVersionProjections',{}) if p.exists() else {}
+@lru_cache(maxsize=4)
 def functional_rows(root):
  p=Path(root)/'data/baseline-reconciliation.json'
  if not p.exists():return {}
@@ -167,9 +171,6 @@ def functional_layers(root):
  for layer in layers:
   assert isinstance(layer.get('release'),str) and layer['release'].strip()
   assert isinstance(layer.get('files'),dict) and layer['files']
-  stage=layer.get('beforeImmutableReview')
-  assert stage in (None,'0.6.176'),'Unsupported functional review stage'
-  if stage:assert set(layer['files'])<=T176_PATHS,'Functional review outside immutable edge'
  return layers
 @lru_cache(maxsize=4)
 def asset_layers(root):
@@ -221,14 +222,12 @@ def reverse_functional_delta(name,data,row):
  restored=''.join(lines).encode('utf-8')
  assert hashlib.sha256(restored).hexdigest()==row['before'],('Functional predecessor mismatch',name)
  return restored
-def functional_projection(root,name,data,*,before_immutable=False):
+def functional_projection(root,name,data):
  # New reviews append to the ledger. Resolve newest-to-oldest without rewriting
  # any earlier review, then apply the original functional and baseline guards.
  for layer in reversed(functional_layers(root)):
-  if (layer.get('beforeImmutableReview') is not None)!=before_immutable:continue
   row=layer['files'].get(name)
   if row:data=reverse_functional_delta(name,data,row)
- if before_immutable:return data
  row=functional_rows(root).get(name)
  return reverse_functional_delta(name,data,row) if row else data
 def version_projection(root,name,data,spec):
@@ -258,15 +257,18 @@ def version_projection(root,name,data,spec):
 
 def previous_bytes(root,path):
  root=Path(root).resolve();path=Path(path).resolve();name=path.relative_to(root).as_posix();data=path.read_bytes();row=rows(root).get(name)
- # Later reviewed repairs first recover the exact immutable postimage; the
- # T176 endpoints and all earlier preservation guards still run unchanged.
- data=functional_projection(root,name,data,before_immutable=True)
+ # Current extension owners are checked against their live wiring and behavior
+ # suites. Their bodies no longer participate in the historical source view.
+ if root==Path(__file__).resolve().parents[1] and name in extension_runtime_sources():
+  check_current_extensions(root,syntax=False,localization=False)
+  return data
  data=t176_preimage(root,name,data)
  data=collision_preimage(root,name,data)
  # Bind and normalize the current release identity before any body delta.
  # This keeps a reviewed guide-body change separate from later pure version
  # bumps while retaining all existing version/dependency assertions.
- if row and 'versionProjection' in row:data=version_projection(root,name,data,row['versionProjection'])
+ spec=release_projections(root).get(name)
+ if spec:data=version_projection(root,name,data,spec)
  data=asset_projection(root,name,data)
  data=functional_projection(root,name,data)
  if not row:return data

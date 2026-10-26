@@ -42,7 +42,7 @@ class BaselineGateTests(unittest.TestCase):
   (scripts/'cookery-guide-payload.js').write_text('export const payload={"version": "1.0.0"};\n')
   (scripts/'build-version.js').write_text("export const BUILD_VERSION='1.0.0-baseline.1';\n")
   (self.root/'data').mkdir()
-  (self.root/'data/baseline-reconciliation.json').write_text(json.dumps({'files':{name:{'versionProjection':spec} for name,spec in specs.items()}}))
+  (self.root/'data/baseline-reconciliation.json').write_text(json.dumps({'files':{},'releaseVersionProjections':specs}))
  def test_tavern_bound_payload_and_diagnostic_pass_before_freeze(self):
   self.tavern_identity_fixture();gate.validate(self.config)
  def test_stale_diagnostic_or_payload_rejected_before_claim_and_history_write(self):
@@ -59,7 +59,7 @@ class BaselineGateTests(unittest.TestCase):
  def test_missing_projection_cannot_disable_tavern_release_identity_guard(self):
   self.tavern_identity_fixture()
   path=self.root/'data/baseline-reconciliation.json';ledger=json.loads(path.read_text())
-  del ledger['files']['runtime/BP/scripts/data/build-version.js'];path.write_text(json.dumps(ledger))
+  del ledger['releaseVersionProjections']['runtime/BP/scripts/data/build-version.js'];path.write_text(json.dumps(ledger))
   self.reject('Tavern release version projection invalid',lambda:gate.validate(self.config))
  def test_readme_version_rejected(self):
   (self.root/'README.md').write_text('## Current maintained baseline: 0.0.1\n')

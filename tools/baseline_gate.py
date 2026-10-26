@@ -42,11 +42,11 @@ def validate_release_projections(config):
   'runtime/BP/scripts/data/cookery-guide-payload.js':'payload_version',
   'runtime/BP/scripts/data/build-version.js':'build_identity',
  }
- try:rows=read(ROOT/'data/baseline-reconciliation.json')['files']
+ try:specs=read(ROOT/'data/baseline-reconciliation.json')['releaseVersionProjections']
  except (OSError,KeyError,ValueError) as error:fail('Tavern release version projections missing: '+str(error))
  for name,kind in expected.items():
   try:
-   spec=rows[name]['versionProjection']
+   spec=specs[name]
    if spec['kind']!=kind:fail('Tavern release version projection kind differs: '+name)
    version_projection(ROOT,name,(ROOT/name).read_bytes(),spec)
   except (OSError,KeyError,ValueError,AssertionError) as error:

@@ -20,7 +20,7 @@ class EssentialsManifestCompatibility(unittest.TestCase):
                    'archive_sha256': extension.ARCHIVE, 'owner_version': [1, 0, 66],
                    'admission': profiles.CURATED, 'spec_sha256': profiles.declaration_sha(self.spec),
                    'source_owner': 'upstream', 'required_extensions': [], 'copies': {}}
-        self.enterContext(patch.dict(profiles.PROFILES, {'essentials-current-fixture': profile}))
+        self.enterContext(patch.dict(profiles.PROFILES, {'essentials-current-fixture': profile}, clear=True))
         self.source = {'owner': 'upstream', 'project_id': 1285412, 'file_id': 8837761,
                        'archive_sha256': extension.ARCHIVE, 'reviewed_extensions': []}
         temporary = tempfile.TemporaryDirectory(); self.addCleanup(temporary.cleanup)
@@ -34,22 +34,43 @@ class EssentialsManifestCompatibility(unittest.TestCase):
             self.spec if spec is None else spec, self.roots['BP'], self.roots['RP'],
             self.source if source is None else source, self.source, [1, 0, 66])
 
-    def test_actual_manifests_keep_every_field_except_allocated_versions_and_rp_compatibility(self):
+    def assert_manifest_compatibility(self, changed, local_version):
         for side in ['BP', 'RP']:
-            before = json.loads(self.raw[side]); after = json.loads(self.changed[side + '/manifest.json'])
-            self.assertEqual(after['header']['version'], [1, 8, 10066])
-            for module in after['modules']:self.assertEqual(module['version'], [1, 8, 10066])
+            before = json.loads(self.raw[side]); after = json.loads(changed[side + '/manifest.json'])
+            self.assertEqual(after['header']['version'], local_version)
+            for module in after['modules']:self.assertEqual(module['version'], local_version)
             restored = copy.deepcopy(after); restored['header']['version'] = before['header']['version']
             for new, old in zip(restored['modules'], before['modules'], strict=True):new['version'] = old['version']
             for new, old in zip(restored['dependencies'], before['dependencies'], strict=True):
                 if new.get('uuid') in extension.UUIDS.values():
-                    self.assertEqual(new['version'], [1, 8, 10066]);new['version'] = old['version']
+                    self.assertEqual(new['version'], local_version);new['version'] = old['version']
             if side == 'RP':
                 self.assertEqual(after['capabilities'], ['pbr'])
                 self.assertEqual(after['header']['min_engine_version'], [1, 21, 120])
                 del restored['capabilities']
                 restored['header']['min_engine_version'] = before['header']['min_engine_version']
             self.assertEqual(restored, before)
+
+    def test_actual_manifests_keep_every_field_except_allocated_versions_and_rp_compatibility(self):
+        self.assert_manifest_compatibility(self.changed, [1, 8, 10066])
+
+    def test_explicit_pairs_preserve_bodies_and_unregistered_pair_cannot_write(self):
+        for owner, local in [([1, 0, 66], [1, 8, 10066]), ([1, 0, 67], [1, 8, 10067])]:
+            with self.subTest(owner=owner):
+                spec, changed = extension.compile_spec(self.raw, owner, local)
+                self.assertEqual(spec['owner_version'], owner)
+                self.assertEqual(spec['local_pack_version'], local)
+                self.assert_manifest_compatibility(changed, local)
+        before = {side: {p.name: p.read_bytes() for p in root.iterdir()} for side, root in self.roots.items()}
+        with self.assertRaisesRegex(ValueError, 'exact reviewed profile'):
+            extension.apply_manifest_extension(spec, self.roots['BP'], self.roots['RP'],
+                                               self.source, self.source, [1, 0, 67])
+        self.assertEqual({side: {p.name: p.read_bytes() for p in root.iterdir()}
+                          for side, root in self.roots.items()}, before)
+        for owner, local in [([1, 0], [1, 8, 10067]), ([1, 0, 67], [1, 8, True]),
+                             ([1, 0, -1], [1, 8, 10067])]:
+            with self.subTest(owner=owner, local=local), self.assertRaisesRegex(ValueError, 'version triples'):
+                extension.compile_spec(self.raw, owner, local)
 
     def test_extra_api_or_metadata_delta_and_wrong_source_are_rejected_without_writes(self):
         for side in ['BP', 'RP']:

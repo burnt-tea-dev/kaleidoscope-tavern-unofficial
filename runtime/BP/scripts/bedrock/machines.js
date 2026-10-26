@@ -166,7 +166,9 @@ export function operate(player,block,action,expected){
   commitPickupInventory(plan,c,player,()=>{native.apply();store.save(key,tx.state,state.revision);},()=>{try{native.rollback();}finally{store.restoreRaw(key,original);}});
   native.finish();
   if(tx.booster){
-   boosterCooldowns.set(boosterKey,system.currentTick+tx.booster.cooldownTicks);safeVisuals(core,tx.state);tell(player,tx.message);
+   boosterCooldowns.set(boosterKey,system.currentTick+tx.booster.cooldownTicks);safeVisuals(core,tx.state);
+   // Java Mead essence announces a successful boost; other extensions stay quiet.
+   if(tx.booster.item==='kaleidoscope_dim_wine:mead_essence')tell(player,{rawtext:[{text:'§a'},{translate:'kaleidoscope_tavern.message.barrel_quality_up'},{text:'§r'}]});
    if(exhausted)playWorldSound(core.dimension,'random.break',core.location,{volume:.8,pitch:.8+Math.random()*.4});
    return tx;
   }

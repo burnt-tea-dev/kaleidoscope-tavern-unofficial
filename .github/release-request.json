@@ -1,7 +1,7 @@
 {
-  "version": "0.6.184",
-  "tag": "v0.6.184",
-  "title": "Tavern 0.6.184: current extension contracts and fresh-world family tooling",
+  "version": "0.6.185",
+  "tag": "v0.6.185",
+  "title": "Tavern 0.6.185: Java Mead feedback and current source contracts",
   "prerelease": false,
   "publication_request": false,
   "validation_evidence": "docs/PARITY-MATRIX.md",
@@ -11,8 +11,9 @@
   "saved_world_migration": "pending",
   "production_ready": false,
   "live_deployment": false,
-  "native_evidence_scope": "T184 sources include current extension protocol, guide and quality interactions plus fresh-world update orchestration. Canonical native-persistence reuses verified original evidence for unchanged execution inputs; it does not establish complete current-family native/saved-world or real-client acceptance. Family versions and runtime hashes are selected by family/upstream.lock.json; canonical validation selects exact peer commits. Historical evidence retains its original source scope.",
+  "native_evidence_scope": "Current source behavior and Java resource contracts cover maintained extension ownership and Mead quality feedback. Canonical CI, complete-family clean-world initialization/persistence and rendered-client acceptance retain their separate scope. Family runtime identities are selected by family/upstream.lock.json and exact peer commits by canonical validation.",
   "client": false,
-  "status": "source_merged_pending_complete_family_admission",
-  "family_ready": false
+  "status": "candidate_pending_canonical_ci_and_family_admission",
+  "family_ready": false,
+  "public_notes_inline": "Support the current stable Sculk and Dimensions Wine protocol, shared guide groups and native light/Mead interactions. Mead Essence now shows only the source-backed green quality-up message. Current behavior and Java resource contracts own these modules; superseded source-shape projections are retired. Complete-family fresh-world and rendered-client acceptance remain separate pending gates."
 }
