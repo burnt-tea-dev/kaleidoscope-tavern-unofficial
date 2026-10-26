@@ -19,7 +19,7 @@ A Bedrock port of [Kaleidoscope Tavern](https://github.com/KaleidoscopeMods/Kale
 - Current work, public downloads, repository-recorded deployment and acceptance are maintained in [one family status index](family/BASELINE-STATUS.md). [PR dispositions](docs/audit/PR-DISPOSITIONS.md) retain historical source decisions.
 - [baseline.json](baseline.json) owns package identity and exact dependencies; [CHANGELOG.md](CHANGELOG.md) records changes.
 - Bedrock 1.26.50 or newer; current load target BDS 1.26.52.3.
-- Enable both Tavern BP and RP. Cookery is optional; the reviewed family target is author Cookery1.6.2. World Liquor uses its exact paired Tavern version.
+- Enable both Tavern BP and RP. Cookery is optional; the reviewed author version and World Liquor pairing are defined in [the family lock](family/upstream.lock.json).
 - Use canonical source/releases, keep a world backup and remove duplicate older Tavern packs before an upgrade. Private integration is a separately identified addon; it is not a different Tavern runtime.
 - For a family candidate with the reviewed integration Cookery RP repair, a clean resource-pack installation or targeted removal of the older Cookery RP is a prerequisite for client acceptance. Server replacement alone does not prove a client refresh; see [Cookery RP installation](family/COOKERY-RP-INSTALLATION.md).
 
