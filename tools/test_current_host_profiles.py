@@ -1,5 +1,5 @@
 """Synthetic exact-profile tests contain no author/private implementation."""
-import copy,hashlib,tempfile,unittest
+import copy,hashlib,json,tempfile,unittest
 from pathlib import Path
 from unittest.mock import patch
 import stable_host_profiles as stable
@@ -78,5 +78,58 @@ class RecipeRemovalBoundary(unittest.TestCase):
   self.profile={'admission':'current-author-p55'};outside=self.root/'outside';outside.write_bytes(b'synthetic recipe');self.path.unlink();self.path.symlink_to(outside)
   with self.assertRaisesRegex(ValueError,'preimage'):self.validate()
   self.assertEqual(outside.read_bytes(),b'synthetic recipe')
+
+class SharedCatalogIconBoundary(unittest.TestCase):
+ def setUp(self):
+  temporary=tempfile.TemporaryDirectory();self.addCleanup(temporary.cleanup);self.root=Path(temporary.name)
+  self.host=self.root/'host';self.host.mkdir();self.owned=self.root/'owned';self.owned.mkdir()
+  self.name='item_catalog/crafting_item_catalog.json';self.path=self.host/self.name;self.path.parent.mkdir()
+  self.before={'format_version':'1.21.90','minecraft:crafting_items_catalog':{'categories':[
+   {'category_name':'equipment','groups':[
+    {'group_identifier':{'name':'fixture:foods'},'items':['fixture:apple','fixture:pie']},
+    {'group_identifier':{'name':'fixture:existing','icon':'fixture:pear'},'items':['fixture:pear']}]}]}}
+  self.path.write_bytes(self.encoded(self.before))
+  self.op={'path':self.name,'pointer':['minecraft:crafting_items_catalog','categories','0','groups','0','group_identifier','icon'],'mode':'reviewed_set','category':'equipment','group':'fixture:foods','value':'fixture:apple'}
+  self.spec={'schema':1,'kind':'orchard-tavern-bridge-adapter','id':'fixture:catalog','version':[1,0,1],
+   'host_uuid':'fixture:host','archive_sha256':'fixture-archive','expires':'9999-12-31',
+   'authorization':'Synthetic reviewed fixture','feedback':'Native name-only icon regression',
+   'removal_condition':'Author supplies explicit icons','imports':{},'insertions':[],'copies':{},'json_updates':[self.op]}
+  self.catalog={'profiles':{},'public_api_profile':{'id':'fixture:unused','host_uuid':'fixture:unused'}}
+  for p in [patch.object(stable,'PROFILES',self.catalog['profiles']),patch.object(stable,'CATALOG',self.catalog)]:p.start();self.addCleanup(p.stop)
+ def encoded(self,value):return (json.dumps(value,ensure_ascii=False,indent=2)+'\n').encode()
+ def register(self):
+  self.spec['original_files']={self.name:hashlib.sha256(self.path.read_bytes()).hexdigest()}
+  after=copy.deepcopy(self.before);after['minecraft:crafting_items_catalog']['categories'][0]['groups'][0]['group_identifier']['icon']='fixture:apple'
+  self.spec['patched_files']={self.name:hashlib.sha256(self.encoded(after)).hexdigest()}
+  self.catalog['profiles']['reviewed']={**self.spec,'spec_sha256':stable.declaration_sha(self.spec),
+   'source_owner':'upstream','required_extensions':[],'copies':{}}
+ def apply(self):
+  return host_extensions.apply_host_extension(self.spec,self.owned,self.host,{'owner':'upstream','archive_sha256':'fixture-archive','reviewed_extensions':[]})
+ def test_fills_only_missing_icon_and_preserves_every_other_catalog_field(self):
+  self.register();proof=self.apply();after=json.loads(self.path.read_bytes())
+  icon=after['minecraft:crafting_items_catalog']['categories'][0]['groups'][0]['group_identifier'].pop('icon')
+  self.assertEqual(icon,'fixture:apple');self.assertEqual(after,self.before)
+  self.assertEqual(proof['patched_files'][self.name],hashlib.sha256(self.path.read_bytes()).hexdigest())
+ def test_rejects_changed_source_without_partial_write(self):
+  self.register();self.path.write_bytes(b'changed author catalog')
+  with self.assertRaisesRegex(ValueError,'original host file hash differs'):self.apply()
+  self.assertEqual(self.path.read_bytes(),b'changed author catalog')
+ def test_rejects_category_membership_existing_icon_and_invalid_icon_changes(self):
+  for change in [
+   {'pointer':['minecraft:crafting_items_catalog','categories','0','groups','0','items']},
+   {'category':'items'}, {'group':'fixture:other'}, {'value':''},
+   {'pointer':['minecraft:crafting_items_catalog','categories','0','groups','1','group_identifier','icon'],'group':'fixture:existing'}]:
+   with self.subTest(change=change):
+    self.spec['json_updates']=[{**self.op,**change}];self.register();before=self.path.read_bytes()
+    with self.assertRaisesRegex(ValueError,'catalog repair|catalog group'):self.apply()
+    self.assertEqual(self.path.read_bytes(),before)
+ def test_catalog_path_requires_registered_orchard_adapter(self):
+  self.spec['kind']='fixture:unrelated-adapter';self.register()
+  with self.assertRaisesRegex(ValueError,'only script hooks'):self.apply()
+  self.assertEqual(json.loads(self.path.read_bytes()),self.before)
+ def test_unreviewed_icon_declaration_is_rejected(self):
+  self.register();self.op['value']='fixture:pear'
+  with self.assertRaisesRegex(ValueError,'exact reviewed profile'):self.apply()
+  self.assertEqual(json.loads(self.path.read_bytes()),self.before)
 
 if __name__=='__main__':unittest.main()

@@ -3521,20 +3521,22 @@
         "scripts/integrations/tavernBridge.js": "a01cf3d828bde169fa8919c4d5a9a03168e97f5e59370789a4b10cfc196bb717",
         "scripts/data/tavern-extension.js": "bd2390a367532de7e079e97181e202d28f727fadcd403a34c09bafe9cff9c293",
         "scripts/data/guidebook.js": "23f85fd3975075628d272530c52c08d7938ae0887a30bd95b6407cc62dcb3614",
-        "scripts/integrations/contracts.js": "b0f95dafab2989af61a7f27df39505f72d263e70c957567919f7c618e4371998"
+        "scripts/integrations/contracts.js": "b0f95dafab2989af61a7f27df39505f72d263e70c957567919f7c618e4371998",
+        "item_catalog/crafting_item_catalog.json": "808ab3d9e126b13144bf3a79288291fd7cb38b7b8608d96222fe773cc9615217"
       },
       "patched_files": {
         "scripts/integrations/tavernBridge.js": "d64ea95e421d9bf49cc5c79d9445aa15724a950e2dfaa8d0ef6810bd2807a79c",
         "scripts/data/tavern-extension.js": "bd2390a367532de7e079e97181e202d28f727fadcd403a34c09bafe9cff9c293",
         "scripts/data/guidebook.js": "23f85fd3975075628d272530c52c08d7938ae0887a30bd95b6407cc62dcb3614",
-        "scripts/integrations/contracts.js": "b0f95dafab2989af61a7f27df39505f72d263e70c957567919f7c618e4371998"
+        "scripts/integrations/contracts.js": "b0f95dafab2989af61a7f27df39505f72d263e70c957567919f7c618e4371998",
+        "item_catalog/crafting_item_catalog.json": "b00bd99da10e59988737d55d8a0ef0cfef472ff4de19294c3583e8c3cd70049f"
       },
       "version": [
         1,
         0,
         3
       ],
-      "spec_sha256": "192ab326ce9157c24288603f9810efcf576e4cd69a87d484b5d456f89d814ac6",
+      "spec_sha256": "3947dcf7c8eb2f72a98481b4e3e1531d97bf4b80f31cca16a5c934480412b85f",
       "copies": {
         "scripts/integrations/senluo_orchard_tavern_adapter.js": {
           "source": "scripts/compat/orchard-tavern-adapter.js",
@@ -5426,8 +5428,8 @@
       },
       "orchard-tavern-bridge-adapter.json": {
         "profile": "curated-orchard-tavern-bridge-adapter-p67",
-        "sha256": "3d032b1d4508ea156aeab55057e9b891424f63ed78c8383d5df14c15d6f0fcc3",
-        "declaration_sha256": "192ab326ce9157c24288603f9810efcf576e4cd69a87d484b5d456f89d814ac6"
+        "sha256": "38adf5f7d6655112d0d9483a32de6ef179a9f93d2bcc4a0d8261fb10de937a0b",
+        "declaration_sha256": "3947dcf7c8eb2f72a98481b4e3e1531d97bf4b80f31cca16a5c934480412b85f"
       },
       "chinesefood-reviewed-repairs.json": {
         "profile": "curated-chinesefood-reviewed-repairs-p67",
@@ -5439,7 +5441,7 @@
     "public_api_spec_sha256": "26de3617b9f2b4f93e6a00119b30cc6d2681a35fc454b212f939a558aac9b799",
     "selection": {
       "path": "companion-sources/current-author-curated/profile.json",
-      "sha256": "5174432341e966eea095fb8d7e3cc55846263d85d318acf9101e71655dfb0a10",
+      "sha256": "746b81083628dbc09e49bc287dbb3886f000c7bbfce49ec1ef1b1e28601b7903",
       "value": {
         "schema": 1,
         "kind": "current-author-curated",
@@ -5849,7 +5851,7 @@
               "version": [
                 0,
                 1,
-                163
+                164
               ]
             },
             {
@@ -6353,7 +6355,7 @@
         "station_profile": "curated-cookery-station-performance",
         "functional_contract": {
           "path": "companion-sources/current-author-curated/runtime-contract.json",
-          "sha256": "9e2204f42f1a74cd04704d879ae3408c240d147d7c456bedb607ab6dd4f66467"
+          "sha256": "c49dfac53e552f5a3fc90bd1925c0b7e817986c70712b43ae4eb1b19cf410a2c"
         }
       }
     },
