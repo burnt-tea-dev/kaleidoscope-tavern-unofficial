@@ -63,19 +63,17 @@ jobs:
       - name: Validate explicit release request
         run: |
           python - <<'PY'
-          import json, os, re
+          import json, os, re, sys
           from pathlib import Path
+          sys.path.insert(0, str(Path('tools').resolve()))
+          from release_publication import validate_request_identity
           c = json.loads(Path('release.json').read_text())
           r = json.loads(Path('.github/release-request.json').read_text())
-          assert r['version'] == c['version']
-          assert re.fullmatch(r'\d+\.\d+\.\d+', c['version'])
+          validate_request_identity(r, c)
           prerelease = r['prerelease']
-          assert type(prerelease) is bool
-          assert r['tag'] == f"v{c['version']}" + ('-beta.1' if prerelease else '')
           assert c['artifact_suffix'] in ('beta1','baseline1')
           assert prerelease or c['artifact_suffix'] == 'baseline1'
           assert re.fullmatch(r'[a-f0-9]{64}', r['expected_archive_sha256'])
-          assert isinstance(r['title'], str) and '\n' not in r['title'] and '\r' not in r['title']
           values = {'RELEASE_TAG': r['tag'], 'RELEASE_TITLE': r['title'], 'RELEASE_VERSION': c['version'], 'RELEASE_PRERELEASE': str(prerelease).lower(), 'RELEASE_ARCHIVE': f"Kaleidoscope_Tavern_Unofficial_{c['version']}_{c['artifact_suffix']}.mcaddon"}
           with open(os.environ['GITHUB_ENV'], 'a', encoding='utf-8') as f:
               for key, value in values.items():
