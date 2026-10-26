@@ -70,6 +70,14 @@ class CurrentAuthorCandidate(unittest.TestCase):
   p=patch.object(m.c,'git',side_effect=git);p.start();self.addCleanup(p.stop)
  def verify(self):m.validate_candidate(self.receipt,self.proof,self.baseline,{'actual_current_source_commit':'p-current'},self.catalog)
  def test_full_seven_author_pairs_and_same_owned_source_are_accepted(self):self.verify()
+ def test_public_receipt_accepts_reviewed_owner_transfer_and_preserves_other_bindings(self):
+  extension=next(row for pack in self.receipt['packs'] for row in pack['source'].get('reviewed_extensions',[]) if row['id']==self.public['id'])
+  extension['repository']='burnt-tea-dev/kaleidoscope-grilling-unofficial'
+  self.verify()
+  for key,value in [('repository','burnt-tea-dev/kaleidoscope-world-liquor-unofficial'),('repository','unreviewed/kaleidoscope-grilling-unofficial'),('commit','foreign-commit'),('spec_sha256','foreign-declaration'),('working_candidate',True)]:
+   old=extension[key];extension[key]=value
+   with self.subTest(key=key,value=value),self.assertRaises(AssertionError):self.verify()
+   extension[key]=old
  def test_retained_candidate_checks_current_owner_and_component_receipt_separately(self):
   component_files=copy.deepcopy(self.proof['owned_runtime']['files'])
   self.baseline.update(version=[1,0,59],retained_runtime={'source_commit':'component58','source_tree':'component-tree'})
