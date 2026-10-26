@@ -1,8 +1,8 @@
-## Current maintained source: 0.6.183
+## Current maintained source
 
-Current source candidate: **T183 / G155**, with the exact family companions pending. Vanilla bottles face opposite the player, and potion visuals share strict read-only storage access with Creative pick. WATER/EMPTY keep Java's stateless behavior. Cancelling guide settings returns to the guide, and its settings button shows the active language. The existing three languages, personal volume settings, host-language context, storage keys and sound behavior are preserved. The guide retains the navigation ideas independently applied from the [third-party design review](docs/THIRD-PARTY-TAVERN-REVIEW.md). Full-family and actual client acceptance remain pending.
+Current source identity and dependencies come from [baseline.json](baseline.json), and the reviewed family pairings come from [family/upstream.lock.json](family/upstream.lock.json). The source includes placed-bottle facing and potion tint, guide navigation, and bounded cabinet retries. The reviewed Orchard adapter may fill missing creative-group icons while preserving category, membership and ordering. Full-family and actual client acceptance remain pending.
 
-**Public download:** [Tavern v0.6.170](https://github.com/casama233/kaleidoscope-tavern-unofficial/releases/tag/v0.6.170), paired with **World Liquor 0.1.148** and the optional **Grilling 2.8.149** source-check family. The G149 public package uses Cookery **1.6.0**; current G155 source uses **1.6.2**. Main-source requirements and published-package requirements must be read for their own version.
+**Public download:** [Tavern v0.6.170](https://github.com/casama233/kaleidoscope-tavern-unofficial/releases/tag/v0.6.170), paired with **World Liquor 0.1.148** and the optional **Grilling 2.8.149** source-check family. The G149 public package uses Cookery **1.6.0**. Read the published release requirements separately from the current source requirements in baseline.json.
 
 **Deployment records:** Actual server identities, private integration versions, deployment times and production receipts are kept in private maintenance records. Public versions and acceptance limits remain in the family status index.
 

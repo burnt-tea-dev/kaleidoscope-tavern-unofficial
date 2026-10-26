@@ -1,7 +1,7 @@
 """Apply reviewed, pinned host insertions; algorithms remain in canonical owned runtime."""
 from datetime import date
 from pathlib import Path,PurePosixPath
-import hashlib,json,subprocess
+import hashlib,json,re,subprocess
 from stable_host_profiles import CURATED,curated_profile,declaration_sha,match_stable_profile
 
 def validate_recipe_cache_profile(spec,source):
@@ -184,7 +184,8 @@ def apply_host_extension(spec,owned_root,host_root,source,*,retained_owner=None,
   script=name.startswith('scripts/') and name.endswith('.js')
   item=name.startswith('items/') and name.endswith('.json')
   block=(name.startswith('blocks/') if recovery else name.startswith('blocks/kitchen/freezer')) and name.endswith('.json')
-  if not script and not item and not block:raise ValueError('only script hooks and reviewed additive capabilities permitted; author identity is immutable')
+  catalog=(name=='item_catalog/crafting_item_catalog.json' and spec.get('kind')=='orchard-tavern-bridge-adapter' and stable is not None)
+  if not script and not item and not block and not catalog:raise ValueError('only script hooks and reviewed additive capabilities permitted; author identity is immutable')
   if digest(safe(host_root,name))!=expected:raise ValueError('original host file hash differs '+name)
  changes={}
  for name,expected in spec['patched_files'].items():
@@ -196,6 +197,21 @@ def apply_host_extension(spec,owned_root,host_root,source,*,retained_owner=None,
    for op in updates:
     pointer=op.get('pointer');value=op.get('value')
     if not isinstance(pointer,list) or not pointer or not all(isinstance(key,str) for key in pointer):raise ValueError('invalid field pointer')
+    if name=='item_catalog/crafting_item_catalog.json':
+     if (len(pointer)!=7 or pointer[:2]!=['minecraft:crafting_items_catalog','categories']
+         or pointer[3]!='groups' or pointer[5:]!=['group_identifier','icon']
+         or not pointer[2].isdecimal() or not pointer[4].isdecimal()
+         or op.get('mode')!='reviewed_set' or not isinstance(value,str)
+         or not re.fullmatch(r'[a-z0-9_.-]+:[a-z0-9_./-]+',value)):
+      raise ValueError('catalog repair can only fill a reviewed group icon')
+     category=data['minecraft:crafting_items_catalog']['categories'][int(pointer[2])]
+     group=category['groups'][int(pointer[4])]['group_identifier']
+     if category['category_name']!=op.get('category') or group.get('name')!=op.get('group') or 'icon' in group:
+      raise ValueError('catalog group differs or already has an icon')
+     # Name-only appends can clear the native group's icon. Preserve its
+     # category, membership and ordering while repeating an explicit icon.
+     group['icon']=value
+     continue
     if dough:
      allowed={'minecraft:allow_off_hand':True,'minecraft:use_modifiers':{'use_duration':1,'movement_modifier':0.2},'minecraft:use_animation':'bow','senluo:mooncake_dough':{}}
      if name!='items/stuffed_dough_food.json' or data['minecraft:item']['description']['identifier']!='kaleidoscope_cookery:stuffed_dough_food' or len(pointer)!=3 or pointer[:2]!=['minecraft:item','components'] or pointer[2] not in allowed or value!=allowed[pointer[2]] or op.get('mode')!='reviewed_set':raise ValueError('dough repair capability is outside reviewed scope')
