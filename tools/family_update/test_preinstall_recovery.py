@@ -1,6 +1,9 @@
 import hashlib
 import json
 from pathlib import Path
+import shutil
+import subprocess
+import sys
 import tempfile
 import unittest
 from unittest.mock import Mock, patch
@@ -288,6 +291,127 @@ class PreinstallRecoveryTests(unittest.TestCase):
         c.atomic.side_effect = self.write
         self.close()
         self.assertEqual((self.output / p.PROOF).read_bytes(), raw)
+
+    def fresh_failure(self):
+        from family_update import normal_idle_update as idle
+        self.original = {key: value for key, value in self.original.items() if not key.startswith('managed_drift')}
+        self.original['fresh_world'] = {'level_name': 'New World', 'seed': '123',
+                                        'properties': {'gamemode': 'survival', 'difficulty': 'easy', 'level-type': 'DEFAULT'}}
+        self.write(self.original_path, self.original)
+        c.CONFIG = {**self.original, 'recovery_original_config': str(self.original_path),
+                    'memory_budget': {**self.original['memory_budget'], 'unit': 'recovery.service'}}
+        self.write(self.config_path, c.CONFIG)
+        self.build['config_sha256'] = c.sha(self.original_path)
+        self.write(self.output / 'build-evidence.json', self.build)
+        static = c.read(self.output / 'static-evidence.json')
+        static['reports'] = [c.report_ref(self.output / name) for name in ['build-evidence.json', 'ci-evidence.json']]
+        self.write(self.output / 'static-evidence.json', static)
+        (self.output / 'stop-result.json').unlink()
+        previous_output = str(self.root / 'previous-output')
+        self.previous = {'state': 'completed', 'candidate': previous_output,
+                         'owner': 'Canonical family update ' + hashlib.sha256(previous_output.encode()).hexdigest()[:12]}
+        self.write(self.output / 'previous-maintenance.json', self.previous)
+        old_config = self.root / 'previous-config.json'
+        self.write(old_config, {'output_dir': previous_output})
+        shutil.copyfile(old_config, self.output / 'production-before/previous-update-config.json')
+        selector = self.root / 'current.json'
+        selector.symlink_to(old_config.name)
+        capture = c.read(self.output / 'production-before/capture.json')
+        capture.update(previous_lease=self.previous, current_selector={'path': str(selector), 'target': old_config.name,
+                       'sha256': c.sha(selector), 'backup': c.report_ref(self.output / 'production-before/previous-update-config.json')})
+        self.write(self.output / 'production-before/capture.json', capture)
+        binding = {'world_dir': str(self.world)}
+        self.write(self.output / 'deployment-initial-state.json', {'schema': 1, 'profile': 'fresh_world',
+                   'server': c.summary(), 'binding': binding, 'previous_lease': self.previous, 'restart_original_after_failure': False})
+        for target, name, options in [(idle, 'CURRENT_CONFIG', {'new': selector}),
+                                      (idle, '_processes', {'return_value': []}),
+                                      (c, 'verify_server_binding', {'return_value': binding})]:
+            patcher = patch.object(target, name, **options)
+            patcher.start(); self.addCleanup(patcher.stop)
+        snapshot = self.output / 'production-snapshot'
+        shutil.copytree(self.world, snapshot)
+        backup = {'status': 'consistent_stopped_backup', 'live_status': 'STOPPED', 'lease_owner': self.owner,
+                  'world': str(self.world), 'consistent_stopped_snapshot': str(snapshot), 'files': self.hashes(self.world),
+                  'level_dat_sha256': c.sha(self.world / 'level.dat'), 'recorded_at': 'fixture-cutoff'}
+        self.write(self.output / 'production-before/backup-receipt.json', backup)
+        self.memory['observations'][0]['ok'] = True
+        self.write(self.output / 'memory-admissions.json', self.memory)
+        engine = self.output / 'saved-world-engine'
+        engine.mkdir()
+        (engine / 'first.log').write_text('actual diagnostic fixture: native content error; normal shutdown')
+        (self.output / 'saved-world-summary.log').write_text('native failed')
+        report = {'native_acceptance_source': 'fresh_world', 'bds': False, 'exact_files_checked': True,
+                  'candidate_receipt_sha256': self.build['candidate_receipt_sha256'],
+                  'backup_receipt': c.report_ref(self.output / 'production-before/backup-receipt.json'),
+                  'rollback_snapshot': str(snapshot), 'world': str(engine / 'worlds/New World'),
+                  'world_properties': c.fresh_world_properties(), 'snapshot_cutoff': backup['recorded_at'],
+                  'engine_sha256': c.sha(self.bds / 'bedrock_server'), 'fresh_world_initialization': False,
+                  'world_persistence': False, 'existing_world_loaded': False,
+                  'test_only_overlays': [], 'simulated_players': False, 'players': 0,
+                  'runs': [{'phase': 'first', 'ok': False, 'started': True, 'exit_code': 0,
+                            'real_player_connections': 0, 'commands_sent': False, 'delayed_commands_sent': False,
+                            'log_sha256': c.sha(engine / 'first.log')}]}
+        self.write(self.output / 'saved-world-report.json', report)
+
+    def test_fresh_native_abort_returns_exact_previous_owner_without_rewriting_failure_or_world(self):
+        self.fresh_failure()
+        before = {str(path): path.read_bytes() for path in self.output.rglob('*') if path.is_file()}
+        world = self.hashes(self.world)
+        self.close()
+        self.assertEqual(c.read(self.lease_path), self.previous)
+        self.assertEqual(self.lease_path.read_bytes(), (self.output / 'previous-maintenance.json').read_bytes())
+        self.assertEqual(self.hashes(self.world), world)
+        for path, raw in before.items():
+            self.assertEqual(Path(path).read_bytes(), raw)
+        proof = c.read(self.output / p.PROOF)
+        self.assertFalse(proof['lease_before']['state'] == 'completed')
+        self.assertEqual(p._proof_binding(proof, self.output), self.previous)
+        self.assertIn('saved-world-engine/first.log', proof['references'])
+
+    def test_fresh_abort_rejects_changed_stopped_database_snapshot_inventory_and_policy(self):
+        self.fresh_failure()
+        for path in [self.world / 'db/CURRENT', self.output / 'production-snapshot/db/CURRENT', self.quality / 'senluo-policy.json']:
+            with self.subTest(path=path):
+                raw = path.read_bytes(); path.write_bytes(b'changed')
+                with self.assertRaises(AssertionError): self.close()
+                path.write_bytes(raw)
+                self.assertEqual(c.read(self.lease_path), self.lease)
+                self.assertFalse((self.output / p.PROOF).exists())
+        self.inventory = {'packs': [], 'refs': {}}
+        with self.assertRaisesRegex(AssertionError, 'Concurrent live'): self.close()
+
+    def test_fresh_abort_rejects_installation_artifacts_and_forged_previous_owner(self):
+        self.fresh_failure()
+        for path in [self.output / 'production-staged', self.output / 'production-rollback',
+                     self.output / 'reviewed-family-receipt.json', self.bds / 'worlds/New World']:
+            with self.subTest(path=path):
+                path.mkdir(parents=True)
+                with self.assertRaises(AssertionError): self.close()
+                path.rmdir()
+                self.assertEqual(c.read(self.lease_path), self.lease)
+        self.write(self.output / 'previous-maintenance.json', {**self.previous, 'state': 'failed'})
+        with self.assertRaisesRegex(AssertionError, 'Previous maintenance owner changed'): self.close()
+
+    def test_fresh_abort_rejects_active_engine_using_real_process_directory(self):
+        self.fresh_failure()
+        child = subprocess.Popen([sys.executable, '-c', 'import time; time.sleep(30)'], cwd=self.output / 'saved-world-engine')
+        try:
+            with self.assertRaisesRegex(RuntimeError, 'active process'): self.close()
+            self.assertEqual(c.read(self.lease_path), self.lease)
+        finally:
+            child.terminate(); child.wait(timeout=5)
+        self.close()
+
+    def test_fresh_abort_rejects_commands_abnormal_exit_and_changed_native_log(self):
+        self.fresh_failure()
+        path = self.output / 'saved-world-report.json'
+        report = c.read(path)
+        for changes in [{'commands_sent': True}, {'exit_code': 137}, {'log_sha256': 'forged'}]:
+            with self.subTest(changes=changes):
+                self.write(path, {**report, 'runs': [{**report['runs'][0], **changes}]})
+                with self.assertRaises(AssertionError): self.close()
+                self.assertEqual(c.read(self.lease_path), self.lease)
+                self.assertFalse((self.output / p.PROOF).exists())
 
 
 if __name__ == '__main__':
