@@ -175,6 +175,15 @@ kernel 不抵扣。所需空間仍是剩餘受限預算加至少 2 GiB，不把�
 目前 STOPPED 狀態與未變的包／policy／停服 DB，接續正常整批流程。
 原失敗與收據不改寫，原 idle-owner 的 hash 也不重設來掩蓋維護來源。
 
+乾淨新世界的原生載入失敗、但尚未安裝時，也使用同一個
+`recover-preinstall --execute` 入口。它要求原生程序已正常退出且沒有玩家、
+指令或測試 overlay；正式新世界目錄與安裝／准入標記均不存在。
+工具核對舊世界及一致停服備份逐檔相同、正式包／policy／設定未變，
+並重用原 fresh-world 交接的 API、程序及 current selector 檢查。
+追加中止證據後，僅交回 capture 與交接記錄共同綁定的原 completed lease；
+失敗候選不標成 completed，原失敗、QA 與備份保持原狀。
+這項操作不批准原有漂移、不啟服，也不改包或世界。
+
 一般更新要求 UUID 不變。已提交的 Cookery 1.0.8→1.6.0 作者身份遷移可用 `identity_migration` 指向 canonical `family/identity-migrations/cookery-108-to-160.json`；工具限制原／新作者 UUID、版本、archive 與原 manifest，先在本次停服副本逐筆搬移所有權並演練，再採用未受 QA 引擎修改的資料庫。其他身份遷移仍須另行設計與審查。
 
 遷移使用 little-endian NBT 的無損字串編解碼，保留 actor `StorageKey` 等以 TAG_String 儲存的二進位資料。每個 root 在修改前須能逐 byte 往返；重複欄位、截斷資料或無法原樣編碼的值會拒絕，不以替代字元修補。這只保護後續遷移，不會自動恢復既已損壞的 actor 或索引。

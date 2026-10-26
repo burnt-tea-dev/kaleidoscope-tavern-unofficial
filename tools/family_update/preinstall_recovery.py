@@ -1,4 +1,4 @@
-"""Close one untouched, stopped transaction after native memory admission failed.
+"""Abort a stopped transaction before installation, preserving its failure.
 
 This does not resume a candidate, approve observed drift, restore a database or
 start a server. A later candidate must pass the normal deployment gates anew.
@@ -43,10 +43,19 @@ REFERENCE_FILES = (
     'production-before/server.properties', 'release-candidate/family-receipt.json',
 )
 OPTIONAL_STOP_REFERENCES = ('stop-response.json', 'stop-task-response.json', 'stop-readback.json')
+FRESH_OUTPUT = frozenset({'curated-input-selection.json', 'production-snapshot',
+                         'saved-world-engine', 'saved-world-report.json', 'saved-world-summary.log'})
+FRESH_REFERENCES = ('previous-maintenance.json', 'production-before/backup-receipt.json',
+                    'production-before/previous-update-config.json', 'saved-world-report.json',
+                    'saved-world-summary.log', 'saved-world-engine/first.log')
 
 
-def _references(output):
-    return (*REFERENCE_FILES, *(name for name in OPTIONAL_STOP_REFERENCES if (output / name).exists() or (output / name).is_symlink()))
+def _references(output, fresh=False):
+    required = tuple(name for name in REFERENCE_FILES if not (fresh and name == 'stop-result.json'))
+    if fresh:
+        required += FRESH_REFERENCES
+    optional = OPTIONAL_STOP_REFERENCES + (('stop-result.json', 'curated-input-selection.json', 'saved-world-engine/restart.log') if fresh else ())
+    return (*required, *(name for name in optional if (output / name).exists() or (output / name).is_symlink()))
 
 
 def _bytes(value):
@@ -79,11 +88,19 @@ def _output_context(output):
         c.R, c.C = old
 
 
-def _untouched(output):
+def _untouched(output, original=None):
     assert output.is_dir() and output.resolve() == output, 'Recovery output differs'
-    assert set(path.name for path in output.iterdir()) <= ALLOWED_OUTPUT, 'Post-stop, native, installation or retirement state exists'
+    fresh = bool(original and original.get('fresh_world'))
+    allowed = ALLOWED_OUTPUT | FRESH_OUTPUT if fresh else ALLOWED_OUTPUT
+    assert set(path.name for path in output.iterdir()) <= allowed, 'Post-stop, native, installation or retirement state exists'
     before = output / 'production-before'
-    assert not (before / 'backup-receipt.json').exists(), 'A stopped snapshot already exists'
+    if fresh:
+        from family_update.storage import assert_idle
+        assert_idle(output / 'saved-world-engine')
+        target = c.B / 'worlds' / original['fresh_world']['level_name']
+        assert not target.exists() and not target.is_symlink(), 'Fresh world installation already exists'
+    else:
+        assert not (before / 'backup-receipt.json').exists(), 'A stopped snapshot already exists'
     assert not any(path.is_symlink() for path in output.iterdir()), 'Recovery output contains a symlink'
 
 
@@ -105,7 +122,7 @@ def _original_config(path, output):
     path = _regular(path)
     config = c.read(path)
     assert Path(config['output_dir']) == output, 'Original transaction output differs'
-    assert config.get('managed_drift_recovery') and config.get('managed_drift_failure_policy') == 'retain_stopped', 'Original transaction lacks fail-stop review'
+    assert config.get('fresh_world') or (config.get('managed_drift_recovery') and config.get('managed_drift_failure_policy') == 'retain_stopped'), 'Original transaction lacks fail-stop review'
     assert c.sha(path) == c.read(output / 'build-evidence.json')['config_sha256'], 'Original configuration differs from the built transaction'
     return config
 
@@ -126,6 +143,9 @@ def _failure(output, original):
     report = c.read(output / 'deployment-recovery.json')
     assert report['state'] == 'needs_operator_recovery' and report['phase'] == 'retain_stopped_without_package_or_database_restore', 'Failure is not an untouched fail-stop transaction'
     assert report['server_status'] == 'STOPPED' and report['restart_attempted'] is False and report['save_database_restored'] is False
+    if original.get('fresh_world'):
+        _fresh_failure(output, original)
+        return
     stop = c.read(output / 'stop-result.json')
     c.validate_lifecycle_result('stop', stop)
     rows = c.read(output / 'memory-admissions.json')['observations']
@@ -137,6 +157,48 @@ def _failure(output, original):
     assert last['reserve_bytes'] == budget['reserve_bytes'] >= 2 * 1024 ** 3
     assert last['available_bytes'] < last['required_available_bytes'] and last['required_available_bytes'] >= last['reserve_bytes'] + last['limit_bytes'], 'Recorded memory failure lacks the complete native headroom'
     assert all(not int(row['memory_events'].get(key, 0)) for row in rows for key in ('oom', 'oom_kill', 'oom_group_kill')), 'An OOM cannot use untouched admission recovery'
+
+
+def _previous_owner(output):
+    previous = c.read(output / 'previous-maintenance.json')
+    capture = c.read(output / 'production-before/capture.json')
+    initial = c.read(output / 'deployment-initial-state.json')
+    assert previous == capture['previous_lease'] == initial['previous_lease'], 'Previous completed owner evidence differs'
+    assert initial['profile'] == 'fresh_world' and initial['restart_original_after_failure'] is False
+    expected = 'Canonical family update ' + hashlib.sha256(previous['candidate'].encode()).hexdigest()[:12]
+    assert previous['state'] == 'completed' and previous['owner'] == expected, 'Previous owner is not a completed canonical transaction'
+    return previous
+
+
+def _fresh_failure(output, original):
+    from family_update.normal_idle_update import verify_fresh_handoff
+    # Reuse the original handoff's real API/path/selector/process checks.
+    assert verify_fresh_handoff(c.summary(), lease_bound=True) == c.read(output / 'deployment-initial-state.json'), 'Fresh handoff changed after failure'
+    _previous_owner(output)
+    backup_path = output / 'production-before/backup-receipt.json'
+    backup = c.read(backup_path)
+    assert backup['status'] == 'consistent_stopped_backup' and backup['live_status'] == 'STOPPED' and backup['lease_owner'] == c.OWNER
+    assert backup['world'] == str(c.W) and backup['consistent_stopped_snapshot'] == str(output / 'production-snapshot')
+    assert backup['files'] == c.hashes(c.W) == c.hashes(output / 'production-snapshot'), 'Old world or stopped backup changed'
+    assert backup['level_dat_sha256'] == c.sha(c.W / 'level.dat')
+    rows = c.read(output / 'memory-admissions.json')['observations']
+    assert rows and all(row['ok'] is True for row in rows), 'Native failure contains a failed memory admission'
+    assert all(not int(row['memory_events'].get(key, 0)) for row in rows for key in ('oom', 'oom_kill', 'oom_group_kill')), 'An OOM cannot use normal native abort'
+    report = c.read(output / 'saved-world-report.json')
+    assert report['native_acceptance_source'] == 'fresh_world' and report['bds'] is False and report['exact_files_checked'] is True, 'Require a failed fresh native report'
+    assert report['candidate_receipt_sha256'] == c.read(output / 'build-evidence.json')['candidate_receipt_sha256']
+    assert report['backup_receipt'] == _ref(backup_path) and report['rollback_snapshot'] == str(output / 'production-snapshot')
+    assert report['world'] == str(output / 'saved-world-engine/worlds' / original['fresh_world']['level_name'])
+    assert report['world_properties'] == c.fresh_world_properties() and report['snapshot_cutoff'] == backup['recorded_at']
+    assert report['engine_sha256'] == c.sha(c.B / 'bedrock_server')
+    assert report['fresh_world_initialization'] is False and report['world_persistence'] is False and report['existing_world_loaded'] is False
+    assert report['test_only_overlays'] == [] and report['simulated_players'] is False and report['players'] == 0
+    runs = report['runs']
+    assert [row['phase'] for row in runs] in [['first'], ['first', 'restart']] and runs[-1]['ok'] is False and all(row['ok'] is True for row in runs[:-1])
+    for row in runs:
+        assert row['started'] is True and row['exit_code'] == 0 and row['real_player_connections'] == 0, 'Native engine did not stop normally without players'
+        assert row['commands_sent'] is False and row['delayed_commands_sent'] is False, 'Fresh native run sent commands'
+        assert row['log_sha256'] == c.sha(_regular(output / 'saved-world-engine' / (row['phase'] + '.log'))), 'Native failure log changed'
 
 
 def _blob(path, revision, relative):
@@ -190,7 +252,11 @@ def _compiled(output, original):
     return sources
 
 
-def _closed_lease(previous, proof_path, recorded_at):
+def _closed_lease(previous, proof_path, recorded_at, returned_owner=None):
+    if returned_owner is not None:
+        # The failed fresh candidate never replaced the installed stack. Return
+        # its recorded control owner without calling this candidate completed.
+        return returned_owner
     return {**previous, 'state': 'failed', 'failed_at': recorded_at,
             'status': KIND, 'preinstall_abort': str(proof_path)}
 
@@ -227,9 +293,11 @@ def _proof_binding(proof, output):
     assert old['owner'] == owner and old['recovery_report'] == str(output / 'deployment-recovery.json'), 'Abort belongs to another transaction'
     build = c.read(output / 'build-evidence.json')
     assert old['candidate_receipt_sha256'] == build['candidate_receipt_sha256'], 'Abort owner candidate changed'
-    assert set(proof['references']) == {*_references(output), 'original_config', 'recovery_config'}, 'Abort evidence closure is incomplete'
+    original = _original_config(Path(proof['references']['original_config']['path']), output)
+    fresh = bool(original.get('fresh_world'))
+    assert set(proof['references']) == {*_references(output, fresh), 'original_config', 'recovery_config'}, 'Abort evidence closure is incomplete'
     _producer(proof, build)
-    closed = _closed_lease(old, output / PROOF, proof['recorded_at'])
+    closed = _closed_lease(old, output / PROOF, proof['recorded_at'], _previous_owner(output) if fresh else None)
     assert proof['old_lease_sha256'] == hashlib.sha256(_bytes(old)).hexdigest(), 'Original owner byte binding differs'
     expected = {'path': str(c.LEASE), 'sha256': hashlib.sha256(_bytes(closed)).hexdigest()}
     assert proof['closed_lease'] == expected, 'Closed owner binding was changed'
@@ -239,7 +307,7 @@ def _proof_binding(proof, output):
 
 
 def _validate(output, original):
-    _untouched(output)
+    _untouched(output, original)
     _failure(output, original)
     with _output_context(output):
         c.verify_predeploy()
@@ -272,6 +340,7 @@ def main(argv=None):
     original = _original_config(original_path, output)
     assert _configuration_for_recovery(original) == original_path
     original = {**original, '_config_path': str(original_path)}
+    fresh = bool(original.get('fresh_world'))
     with open(c.LOCK, 'a+') as lock:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         c.assert_lease()
@@ -281,12 +350,12 @@ def main(argv=None):
         _stopped(first)
         before = _database()
         sources = _validate(output, original)
-        references = {name: _ref(output / name) for name in _references(output)}
+        references = {name: _ref(output / name) for name in _references(output, fresh)}
         references.update(original_config=_ref(original_path), recovery_config=_ref(c.CONFIG_PATH))
         after = _database()
         _stopped(c.summary())
         assert before == after, 'Stopped database changed during recovery inspection'
-        _untouched(output)
+        _untouched(output, original)
         c.verify_predeploy()
         assert c.read(c.LEASE) == lease, 'Maintenance owner changed during inspection'
         c.assert_lease()
@@ -297,7 +366,7 @@ def main(argv=None):
             assert proof['lease_before'] == lease and proof['references'] == references and proof['database_after'] == after and proof['producer']['sources'] == sources, 'Preserved abort proof differs; retain active lease'
         else:
             recorded = c.now()
-            closed = _closed_lease(lease, path, recorded)
+            closed = _closed_lease(lease, path, recorded, _previous_owner(output) if fresh else None)
             proof = {'schema': 1, 'kind': KIND, 'recorded_at': recorded, 'output': str(output),
                      'server': first, 'references': references, 'lease_before': lease,
                      'old_lease_sha256': c.sha(c.LEASE),
@@ -305,7 +374,7 @@ def main(argv=None):
                      'producer': {'canonical_commit': sources['tavern']['commit'], 'sources': sources,
                                   'orchestration_sha256': c.orchestration_hashes()},
                      'database_before': before, 'database_after': after,
-                     'database_claim': 'Only unchanged across this stopped abort inspection; not compared with the earlier running capture.',
+                     'database_claim': 'Unchanged since the consistent stopped backup and across this abort inspection.' if fresh else 'Only unchanged across this stopped abort inspection; not compared with the earlier running capture.',
                      'world_mutated': False, 'server_started': False, 'original_drift_approved': False,
                      'client': False, 'production_ready': False}
             # Preserve all original failure reports. A partially written proof
@@ -316,7 +385,7 @@ def main(argv=None):
         assert c.read(c.LEASE) == lease, 'Maintenance owner changed before closure'
         _stopped(c.summary())
         assert _database() == after, 'Stopped database changed before closure'
-        _untouched(output)
+        _untouched(output, original)
         c.verify_predeploy()
         c.atomic(c.LEASE, closed)
         assert c.sha(c.LEASE) == proof['closed_lease']['sha256'], 'Closed owner bytes differ; do not start another transaction'
