@@ -713,7 +713,13 @@ def validate_candidate(receipt,proof,baseline,binding,catalog):
                     matching=[i for i,row in enumerate(bp_extensions) if row['id']==extension['id']];assert len(matching)==1
                     prefix={**source,'owner':'upstream' if matching[0]==0 else 'upstream_extended','reviewed_extensions':bp_extensions[:matching[0]]}
                 validate_stable_source(profile,prefix)
-                assert extension['spec_sha256']==spec_sha and extension['repository']==repository and extension['commit']==commit and extension['working_candidate'] is False
+                receipt_repository=extension['repository']
+                if repository!=LOGICAL:
+                    # Receipts keep their historical logical owner; CI records
+                    # the reviewed current remote after the organization move.
+                    receipt_repository=current_name(receipt_repository)
+                    repository=current_name(repository)
+                assert extension['spec_sha256']==spec_sha and receipt_repository==repository and extension['commit']==commit and extension['working_candidate'] is False,'Current author extension source binding differs: '+extension['id']
                 assert extension['original_files']==declared['original_files'] and extension['patched_files']==declared['patched_files']
                 assert extension.get('removed_files',{})==declared.get('removed_files',{}),'Current author removal receipt differs'
                 if 'version' in declared:assert extension['version']==declared['version']
