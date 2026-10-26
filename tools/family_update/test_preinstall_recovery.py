@@ -259,6 +259,19 @@ class PreinstallRecoveryTests(unittest.TestCase):
         p._blob.side_effect = lambda *args: b'not-the-original-runner'
         with self.assertRaisesRegex(AssertionError, 'Original runner'): self.close()
 
+    def test_remote_observation_metadata_does_not_masquerade_as_runtime_change(self):
+        self.build['sources']['tavern']['remote_repository'] = 'fixture/tavern'
+        self.build['sources']['tavern']['remote_main'] = 'old-tavern'
+        self.write(self.output / 'build-evidence.json', self.build)
+        static = c.read(self.output / 'static-evidence.json')
+        static['sources'] = self.build['sources']
+        static['reports'] = [c.report_ref(self.output / name) for name in ['build-evidence.json', 'ci-evidence.json']]
+        self.write(self.output / 'static-evidence.json', static)
+        self.sources = {name: {key: value for key, value in row.items() if key not in {'remote_main', 'remote_repository'}}
+                        for name, row in self.sources.items()}
+        self.close()
+        self.assertEqual(c.read(self.lease_path)['state'], 'failed')
+
     def test_closed_record_database_and_proof_tampering_deny_next_owner(self):
         self.close()
         self.next_context()
