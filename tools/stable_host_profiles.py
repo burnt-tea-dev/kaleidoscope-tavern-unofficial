@@ -86,7 +86,10 @@ def public_predecessors(profile):
     # Any reviewed public API receipt is an acceptable predecessor for a
     # current host declaration. The source still has to carry one exact
     # receipt; only the redundant per-profile lookup key is removed.
-    return [CATALOG['public_api'], *[receipt(value) for value in public_profiles().values()]]
+    reviewed = [receipt(value) for value in public_profiles().values()
+                if isinstance(value, dict) and all(key in value for key in
+                ('id', 'version', 'original_files', 'patched_files', 'copies'))]
+    return [CATALOG['public_api'], *reviewed]
 
 
 def validate_stable_source(profile, source):
