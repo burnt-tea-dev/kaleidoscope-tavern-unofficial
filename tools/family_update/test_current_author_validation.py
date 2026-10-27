@@ -503,6 +503,21 @@ class CuratedRetainedInputs(unittest.TestCase):
   changed=copy.deepcopy(self.original);changed['packs'][0]['files']['content.bin']='f'*64
   with self.assertRaisesRegex(AssertionError,'captured input bytes changed'):m.select_curated_inputs(changed)
 
+ def test_new_world_can_reuse_the_complete_installed_fishing_output(self):
+  for actual in self.original['packs']:
+   row=next((row for row in self.rows if row['uuid']==actual['uuid'] and row['kind']=='canonical-fishing'),None)
+   if row is None:continue
+   root=self.root/row['canonical_source']
+   actual.update(version=row['output_version'],files=self.guard.hashes(root))
+  _,_,report,receipt=self.selected()
+  m.verify_curated_inputs(receipt,report)
+  for actual in self.original['packs']:
+   if actual['version']==[1,3,10005]:
+    self.assertEqual(report['packs'][actual['uuid']]['captured_version'],[1,3,10005])
+    actual['files']['content.bin']='f'*64
+    with self.assertRaisesRegex(AssertionError,'captured input bytes changed'):self.selected()
+    break
+
  def test_whole_fishing_recipe_and_candidate_selection_cannot_be_substituted(self):
   roots,sources,report,receipt=self.selected()
   fishing=self.root/'companion-sources/fishing-current-local/runtimeowner/BP/content.bin'
