@@ -129,7 +129,7 @@ function recipeEnabled(raw,itemExists,fluids){
  return all.every(itemExists)&&(!any.length||any.some(itemExists))&&requiredFluids.every(fluid=>fluids.has(fluid));
 }
 function normalizePage(raw,source,guideCategories){
- own(raw.id,source);const page={id:raw.id,source,title:localeMap(raw.title),body:localeMap(raw.body),recipeIds:(raw.recipeIds??[]).map(id)};
+ own(raw.id,source);const page={id:raw.id,source,title:localeMap(raw.title),body:localeMap(raw.body),recipeIds:[...new Set((raw.recipeIds??[]).map(id))]};
  check(page.recipeIds.length<=32,'TOO_MANY_PAGE_RECIPES');
  if(raw.item!==undefined)page.item=own(raw.item,source);
  const requested=raw.categories??(raw.category===undefined?[]:[raw.category]);

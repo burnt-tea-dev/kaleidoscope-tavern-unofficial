@@ -59,9 +59,10 @@
           "loader": "Forge",
           "source_reference_file_ids": [
             8947050,
-            9066402
+            9066402,
+            9217901
           ],
-          "source_scope": "Author1.1.12; maintained Forge1.20.1 reference. Current author bytes, recipes/effects/assets review is World Liquor data/current-author-review-20261009.json; implementation/open/event/platform/client scopes in docs/PARITY-MATRIX.md. Full-family deployment evidence is Tavern family/BASELINE-STATUS.md. No complete branch or client parity claimed."
+          "source_scope": "Current archive verified 2026-10-27. Maotai effects adopted; other current-version changes remain explicit gaps. Unchanged domains retain the older reviewed authority. World Liquor data/current-author-review-20261027.json owns this scoped comparison; complete branch/client parity is not claimed."
         },
         {
           "minecraft": "1.21.1",
@@ -69,9 +70,10 @@
           "source_reference_file_ids": [
             8704187,
             8947041,
-            9066406
+            9066406,
+            9217896
           ],
-          "source_scope": "Author1.1.11; maintained NeoForge1.21.1 reference. Current author bytes, recipes/effects/assets review is World Liquor data/current-author-review-20261009.json; implementation/open/event/platform/client scopes in docs/PARITY-MATRIX.md. Full-family deployment evidence is Tavern family/BASELINE-STATUS.md. No complete branch or client parity claimed."
+          "source_scope": "Current archive verified 2026-10-27. Maotai effects adopted; other current-version changes remain explicit gaps. Unchanged domains retain the older reviewed authority. World Liquor data/current-author-review-20261027.json owns this scoped comparison; complete branch/client parity is not claimed."
         },
         {
           "minecraft": "26.1.2",

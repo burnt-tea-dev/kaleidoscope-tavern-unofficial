@@ -17,4 +17,15 @@ class UpstreamWatchTests(unittest.TestCase):
  def test_api_failure_not_current(self):
   def fail(path):raise ValueError('API unavailable')
   self.assertFalse(watch(self.lock,fail)['all_pins_latest'])
+ def test_pinned_author_id_accepts_a_rename_but_rejects_a_different_owner(self):
+  self.lock['upstream'][0]['author_id']=42;self.project['authors']=[{'id':42,'name':'Renamed'}]
+  self.assertTrue(watch(self.lock,self.get)['all_pins_latest'])
+  self.project['authors']=[{'id':43,'name':'Loyallay'}]
+  self.assertEqual(watch(self.lock,self.get)['projects'][0]['status'],'check_failed')
+ def test_owned_port_reference_updates_are_monitored_without_installing_them(self):
+  self.lock['monitored_sources']=[{**self.lock['upstream'][0],'name':'Owned port reference','file_id':9,'role':'owned_port_reference'}]
+  report=watch(self.lock,self.get)
+  self.assertFalse(report['all_pins_latest']);self.assertEqual(len(report['projects']),2)
+  self.assertEqual(report['projects'][1]['role'],'owned_port_reference')
+  self.assertEqual(report['projects'][1]['status'],'review_required')
 if __name__=='__main__':unittest.main()

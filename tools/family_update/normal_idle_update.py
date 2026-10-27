@@ -86,7 +86,7 @@ def load_review():
     previous = Path(review['previous_output'])
     assert previous.is_absolute() and previous != c.R
     assert old_config['output_dir'] == str(previous)
-    for key, value in [('server_name', c.SERVER), ('bds_root', str(c.B)), ('world_dir', str(c.W)), ('quality_dir', str(c.Q)), ('lease_file', str(c.LEASE)), ('lock_file', str(c.LOCK))]:
+    for key, value in [('server_name', c.SERVER), ('bds_root', str(c.B)), ('quality_dir', str(c.Q)), ('lease_file', str(c.LEASE)), ('lock_file', str(c.LOCK))]:
         assert old_config[key] == value, 'Previous server/owner binding differs: ' + key
     documents = {}
     refs = {'review': binding, 'idle_config': idle_ref, 'previous_config': old_ref}
@@ -97,6 +97,19 @@ def load_review():
     assert receipt_ref['sha256'] == review['receipt_sha256'] == result['receipt_sha256'] == post['receipt_sha256']
     assert result['state'] == 'deployed_running' and result['poststart_report'] == str(previous / 'poststart-verification.json')
     assert post['ok'] is True and not post['errors'] and post['summary']['name'] == c.SERVER and post['summary']['status'] == 'RUNNING'
+    previous_world = Path(old_config['world_dir'])
+    if old_config.get('fresh_world'):
+        # A completed fresh deployment keeps world_dir as its old rollback.
+        # Its selected world must agree in configuration and both readbacks.
+        name = old_config['fresh_world']['level_name']
+        assert isinstance(name, str) and name not in ['', '.', '..'] and Path(name).name == name
+        previous_world = c.B / 'worlds' / name
+        assert result['fresh_world'] == str(previous_world)
+        for document in [result, post]:
+            observed = document['active_world_binding']
+            assert observed['server'] == c.SERVER and observed['bds_root'] == str(c.B)
+            assert observed['world_dir'] == str(previous_world) and observed['level_name'] == name
+    assert previous_world == c.W, 'Previous active world differs from the update world'
     assembled = documents['reviewed-family-receipt.json']['assembled_receipt']
     assert assembled['path'] == str(previous / 'release-candidate/family-receipt.json')
     assert assembled['sha256'] == result['assembled_receipt_sha256'] == c.sha(Path(assembled['path']))

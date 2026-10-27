@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "reviewed_at": "2026-10-27",
+  "tavern": {
+    "project_id": 1718691,
+    "file_id": 9317036,
+    "archive_sha256": "71fd6f635b9cdf7d91b3d0e511ed9601401b1bea62ca88d8dcf84c8b041cfe47",
+    "previous_file_id": 9262192,
+    "adopted": [
+      "Deduplicate page recipe references before the 32-unique-recipe limit"
+    ],
+    "already_supported": [
+      "Multiple guide categories and descendant filtering"
+    ],
+    "retained": [
+      "Owned shared guide, identity, persistence, machine repairs"
+    ]
+  },
+  "direct_author_inputs": "Nine installed Loyallay Kaleidoscope author inputs already match current official stable file IDs; no empty version bumps. PresenceFootsteps is also current.",
+  "other_reference_sources": "monitored_sources in upstream.lock.json",
+  "world_liquor_java_review": "https://github.com/burnt-tea-dev/kaleidoscope-world-liquor-unofficial/blob/main/data/current-author-review-20261027.json",
+  "client": false
+}

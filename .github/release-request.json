@@ -1,7 +1,7 @@
 {
-  "version": "0.6.186",
-  "tag": "v0.6.186",
-  "title": "Tavern 0.6.186: legacy creative labels and Java wine order",
+  "version": "0.6.187",
+  "tag": "v0.6.187",
+  "title": "tavern-family-review-dev 0.6.187: deduplicate guide recipe references",
   "prerelease": false,
   "publication_request": false,
   "validation_evidence": "docs/PARITY-MATRIX.md",
@@ -11,10 +11,9 @@
   "saved_world_migration": "pending",
   "production_ready": false,
   "live_deployment": false,
-  "native_evidence_scope": "Source checks cover four legacy creative labels, the existing visible wine representatives in Java order, and current catalog ownership. This candidate has no new BDS, saved-world or client acceptance.",
+  "native_evidence_scope": "Source behavior only; canonical CI, full-family saved-world validation and rendered-client acceptance are separate gates.",
   "client": false,
   "status": "candidate_pending_canonical_ci_and_family_admission",
   "family_ready": false,
-  "public_notes_inline": "Restore four Tavern-owned legacy creative labels across five locales without changing addon group identities, icons or contents. Keep the existing 25 visible wine representatives in the original Java ingredient-family order. Current generator and Java-source checks own the catalog instead of historical hash projections. World Liquor requires the matching dependency-only update. Full-family initialization, saved-world and rendered-client acceptance remain pending.",
-  "expected_archive_sha256": "ade726e8ec563aaa48b9218b0afd5c3296d384bd8c26278d06266c5331e24077"
+  "public_notes_inline": "Adopt the official Bedrock Tavern1.0.7 unique-reference rule. Preserve the current shared seven-section guide. Monitor official owned-port counterparts and adapted Fishing source with pinned author IDs; recognize the selected world after a completed fresh deployment."
 }
