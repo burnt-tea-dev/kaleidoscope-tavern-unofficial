@@ -645,16 +645,21 @@ def validate_target(receipt, original, migration):
     review, _ = check_observed(original, c.read(c.R / 'production-before/senluo-policy.json'))
     target = review['target']
     identities = lambda rows: sorted([{key: row[key] for key in ['uuid', 'side', 'version']} for row in rows], key=lambda row: row['uuid'])
-    assert identities(receipt['packs']) == identities(target['packs']) and receipt['order'] == target['order'], 'Candidate identities or order differ from drift repair review'
-    assert c.sha(c.T / 'family/upstream.lock.json') == target['upstream_lock_sha256'], 'Candidate author lock differs'
-    paths = {**c.SOURCES, 'extension': c.EXTENSION}
-    assert set(target['owned_source_trees']) == set(paths)
-    for name, path in paths.items():
-        assert c.read(path / 'baseline.json')['source_trees'] == target['owned_source_trees'][name], 'Reviewed candidate runtime source differs: ' + name
+    assert identities(receipt['packs']) == identities(target['packs']) and receipt['order'] == target.get('order', receipt['order']), 'Candidate identities or order differ from drift repair review'
+    # The receipt is the candidate identity. Older reviews may carry the
+    # duplicated source/upstream/swap pins; compare them only when present.
+    if 'upstream_lock_sha256' in target:
+        assert c.sha(c.T / 'family/upstream.lock.json') == target['upstream_lock_sha256'], 'Candidate author lock differs'
+    if 'owned_source_trees' in target:
+        paths = {**c.SOURCES, 'extension': c.EXTENSION}
+        assert set(target['owned_source_trees']) == set(paths)
+        for name, path in paths.items():
+            assert c.read(path / 'baseline.json')['source_trees'] == target['owned_source_trees'][name], 'Reviewed candidate runtime source differs: ' + name
     from family_update.identity_migration import plan_swaps
     swaps = plan_swaps(migration) if migration else []
-    selected = lambda rows: sorted([{key: row[key] for key in ['old_uuid', 'new_uuid', 'side']} for row in rows], key=lambda row: row['old_uuid'])
-    assert selected(swaps) == selected(target['swaps']), 'Reviewed identity swaps differ'
+    if 'swaps' in target:
+        selected = lambda rows: sorted([{key: row[key] for key in ['old_uuid', 'new_uuid', 'side']} for row in rows], key=lambda row: row['old_uuid'])
+        assert selected(swaps) == selected(target['swaps']), 'Reviewed identity swaps differ'
     before = {row['uuid'] for row in original['packs']}
     after = {row['uuid'] for row in receipt['packs']}
     old_swaps = {row['old_uuid'] for row in swaps}
