@@ -1,21 +1,14 @@
 # 家族現行基線與修復主線
 
-更新：**2026-10-26，香港時間**。本頁只保留一份現況摘要。修復收斂到 **T184／G157／W162／Cookery 1.6.4**；公開來源配對、完整家族准入、發布、部署與真人驗收分開記錄。核對起點為 Tavern [79ac1fb8](https://github.com/burnt-tea-dev/kaleidoscope-tavern-unofficial/commit/79ac1fb82e06ddd07993cf7b9140dfbf1cfd09fc)，不是新的部署收據。
+更新：**2026-10-27，香港時間**。本頁維護家族流程與證據入口。當前來源查各庫 baseline，完整家族選取查家族鎖；公開下載、准入、實際部署與真人驗收各查自己的原始記錄。本頁不另維護版本、部署狀態或檔案數量表。
 
 ## 1. 來源、公開下載與家族准入
 
-| 模組 | 本輪維護來源 | 公開下載 |
-| --- | --- | --- |
-| Tavern | **0.6.184**；[baseline](../baseline.json)、[BP manifest](../runtime/BP/manifest.json) | [v0.6.170](https://github.com/burnt-tea-dev/kaleidoscope-tavern-unofficial/releases/tag/v0.6.170) |
-| Grilling | **2.8.157**；完整 BP／RP 雜湊由[家族鎖](upstream.lock.json)選取 | [A2.8.149](https://github.com/burnt-tea-dev/kaleidoscope-grilling-unofficial/releases/tag/A2.8.149) |
-| World Liquor | **0.1.162**；完整 BP／RP 雜湊由[家族鎖](upstream.lock.json)選取 | [v0.1.148](https://github.com/burnt-tea-dev/kaleidoscope-world-liquor-unofficial/releases/tag/v0.1.148) |
-
-- **公開來源配對不等於完整家族可部署。** W162 的最終 T／G 來源 pin 已由 [PR149](https://github.com/burnt-tea-dev/kaleidoscope-world-liquor-unofficial/pull/149)固定至 canonical T184（`79ac1fb82e06ddd07993cf7b9140dfbf1cfd09fc`）／G157（`2e3ef63839e38f84b4a0109957077ac00a140697`），[四項 canonical CI](https://github.com/burnt-tea-dev/kaleidoscope-world-liquor-unofficial/actions/runs/40269373713)通過後合併為 `f207d4142ad24c5c582248ea0f8916ce67d207c1`。精確 peer commit 由各庫 CI checkout 與來源檢查選取，不再由發布請求的重複說明欄位維護第二份。
-- **目前作者相依是 Cookery 1.6.4。** 私有 host-extension 的作者來源、UUID、API及保存契約仍須重新核對；只提高私有 manifest 的 T／W 版本不能證明已適配新作者包。私有實作、作者來源與原始收據保留在私有維護入口。
-- 完整家族仍欠同一候選的作者契約整合、static、native、同一份停服存檔 first／restart、准入及部署後讀回。新世界初始化與既有世界遷移分別記錄，不能互相代替。
-- T184 合併來源的 [Canonical validation 40227655798](https://github.com/burnt-tea-dev/kaleidoscope-tavern-unofficial/actions/runs/40227655798) 13 個 jobs 通過；[native-persistence](https://github.com/burnt-tea-dev/kaleidoscope-tavern-unofficial/actions/runs/40227655798/job/121272551139)驗證並重用相同執行輸入的原始 native 證據，沒有重新執行整套新世界或 LIVE 驗收。
-- [發布請求](../.github/release-request.json)保持 `publication_request=false`；[Publish run 40227655780](https://github.com/burnt-tea-dev/kaleidoscope-tavern-unofficial/actions/runs/40227655780)的 request 通過、publish 跳過。Workflow 整體綠勾不能證明已發布 T184。
-- **`client=false`、`production_ready=false`、`pending_client_acceptance` 保持。** 純來源、工具或文件修正不新增真人通過結果，也不啟動 LIVE。
+- **來源與相依：** Tavern 的身份由 [baseline.json](../baseline.json)持有，完整家族選取由 [upstream.lock.json 的 owned／upstream／order](upstream.lock.json)持有；Grilling 與 World Liquor 各自的 [baseline](https://github.com/burnt-tea-dev/kaleidoscope-grilling-unofficial/blob/main/baseline.json)／[baseline](https://github.com/burnt-tea-dev/kaleidoscope-world-liquor-unofficial/blob/main/baseline.json)是其 runtime 身份來源。精確測試 peer commit 由各庫 CI 的來源 pin 選取，不把工具提交等同於新的遊戲包。
+- **公開下載：** 實際已公開版本、下載、archive 身份及安裝邊界只在各庫 [Tavern README](../README.md#current-maintained-source)、[Grilling README](https://github.com/burnt-tea-dev/kaleidoscope-grilling-unofficial/blob/main/README.md)、[World Liquor README](https://github.com/burnt-tea-dev/kaleidoscope-world-liquor-unofficial/blob/main/README.md)維護，這裡不複製另一份下載表。發布請求的 `publication_request=false` 是該來源的請求設定；是否已發布要看實際 release，不能只看這個欄位或 workflow 綠勾。
+- **完整家族：** LIVE 的實際版本與階段由宿主維護入口、政策及該次部署收據持有；公開單包發布的範圍見 [Tavern README](../README.md#current-maintained-source)。每次新的功能候選仍須同一候選的 static、正常停服一致備份、同一存檔副本 first／restart、准入、安裝及部署後讀回。一般更新沿用現行存檔；新世界初始化必須有該次明確設定與授權，不能與保存遷移互相代替。
+- **作者適配：** 已合併的私有作者適配與來源證據保留在私有維護入口；實際作者版本、UUID、archive 與順序由家族鎖持有。不能只提高 manifest 相依版本就宣稱適配完成，也不公開作者完整 scripts 或私有收據。
+- **`client=false`、`production_ready=false`、`pending_client_acceptance` 保持。** BDS、來源及保存檢查不證明畫面、聲音或真人玩法；純工具／文件修正不升包或重啟 LIVE。
 
 ### 部署紀錄的邊界
 
@@ -23,11 +16,11 @@
 
 ## 2. 現行修復線
 
-下表的 **P0／P1／P2只表示修復優先次序**，不是Grilling重建計畫的階段。Grilling仍在原[重建計畫P2](https://github.com/burnt-tea-dev/kaleidoscope-grilling-unofficial/blob/main/docs/REBUILD-PLAN.md)：[#255的T2.8](https://github.com/burnt-tea-dev/kaleidoscope-grilling-unofficial/pull/255)正在整合最新main，逐ID／可達表面引用、完整家族乾淨相容及同存檔正常重啟抽查等原出口條件未全閉合前不開始P3；T1.8的 **OWNER WAIVED不是PASS**，並行T4診斷也不是新增的P3前置條件。
+下表的 **P0／P1／P2只表示修復優先次序**，不是 Grilling 重建計畫的階段。Grilling 的當前階段與出口條件以原 [REBUILD-PLAN](https://github.com/burnt-tea-dev/kaleidoscope-grilling-unofficial/blob/main/docs/REBUILD-PLAN.md)為準；本頁不再把 2026-10-26 的分支整合狀態當成現況。T1.8 的 **OWNER WAIVED 不是 PASS**，並行 T4 診斷也不是新增的 P3 前置條件。
 
 | 工作線 | 已有來源結果 | 仍需閉合 |
 | --- | --- | --- |
-| **P0：家族來源及作者契約** | T184／G157／W162 runtime已選定；[PR428](https://github.com/burnt-tea-dev/kaleidoscope-tavern-unofficial/pull/428)補現行附屬註冊及fresh-world工具；W162最終配對已通過PR149的CI並合併 | 重新核對私有host-extension的新作者來源，再完成相同候選的保存／准入／讀回 |
+| **P0：家族來源及作者契約** | 三庫來源及作者適配已有 canonical 來源；當前選取查[家族鎖](upstream.lock.json)，來源證據保留各自原始範圍 | 依該候選原始收據核對 static、保存演練、准入、部署與讀回；真人另驗 |
 | **P1：雪克杯及HUD** | clone／abort／metadata、T165位置、T166快取、T167插值、T169尾幀窗口保留 | 同候選投料→搖晃→取消／換槽→重開→成功取出→放置／取回／重登；同步驗聲音、尾幀與延遲。跨維度／長title由 [#285](https://github.com/burnt-tea-dev/kaleidoscope-tavern-unofficial/issues/285)承接 |
 | **P1：穿串、調料瓶與餐盤** | 目前實作及交易差距由 [Grilling矩陣](https://github.com/burnt-tea-dev/kaleidoscope-grilling-unofficial/blob/main/docs/PARITY-MATRIX.md)持有 | 取得原料→配方／秘製串→烤製→同瓶三料及搖勻→撒料→取出／吃完或取消→保存重載。調料瓶runtime owner是Grilling [#168](https://github.com/burnt-tea-dev/kaleidoscope-grilling-unofficial/issues/168)，不另開酒館平行線 |
 | **P1：全部物品顯示／動作** | [T174](../docs/RELEASE-NOTES-0.6.174.md)動態側面／UV與XP瓶材質、[T175](../docs/RELEASE-NOTES-0.6.175.md)已批准的傾斜酒架FP調整保留；有有限Blockbench結果 | [#288](https://github.com/burnt-tea-dev/kaleidoscope-tavern-unofficial/issues/288)：逐ID核對材質／路由、第一第三人稱、主副手、動作與必要contexts。代表模型或舊畫面不關閉全量工作 |
@@ -53,7 +46,7 @@
 | 逐ID／材質／視圖／狀態的Blockbench結果 | 指定編輯器觀察通過 |
 | 同候選、裝置／輸入／畫面設定及正常完整流程 | 對應真人場景已接受 |
 
-T184有255份BP item定義，但source mapping、方塊物品、動態內容、別名與各視圖不是同一分母。每列至少記item ID、版本／SHA、Java原資產、Bedrock路由、視圖／動作、編輯器結果、遊戲結果及修補入口。舊T／G／W局部檢查保留原範圍，不改成當前全量PASS。
+2026-10-26 的 T184 item 定義數是歷史快照，不能作當前完成度分母；source mapping、方塊物品、動態內容、別名與各視圖也不是同一集合。每列至少記 item ID、版本／SHA、Java 原資產、Bedrock 路由、視圖／動作、編輯器結果、遊戲結果及修補入口。舊 T／G／W 局部檢查保留原範圍，不改成當前全量 PASS。
 
 性能已有來源層改善：[T168空snapshot](../docs/evidence/performance-20261015.md)在100 idle ticks由11包減至1包；[T181相同失敗櫃子查詢](../docs/FOUNDATION-PHASE1.md)在60次callback由30次減至2次。這些不是現服TPS、FPS或操作延遲。完整家族應在相同存檔、玩家數、設備及操作負載比較tick／script時間、watchdog、記憶體與輸入延遲，不能把不同負載的CPU差異歸因於修補。
 
@@ -61,7 +54,7 @@ T184有255份BP item定義，但source mapping、方塊物品、動態內容、�
 
 ## 4. 接續及文件責任
 
-1. 先固定同一條來源線並核對作者契約，保留並行修補。T185／W163等其他未整合候選不得僅因版本較新便取代本輪配對。
+1. 依當前 canonical baseline、家族鎖與原始來源證據固定同一候選，保留並行修補。原 T184／W162 配對及 W163 候選的處置只適用其歷史觀察時點，不再作為當前選版指示。
 2. 模組自有功能可平行處理；共同HUD、展示generator、family lock與保存流程指定單一整合者。同一行為只有一個責任入口，不整支套用舊工作樹。
 3. 已修來源但缺真人結果的項目標「待驗收」，不重新宣稱舊bug仍重現。純工具／文件修正不升包、不建立runtime候選、不重啟LIVE。
 4. 發布請求只維護發布身份；version、tag與title由既有 `release_publication.py`共同檢查，publication關閉時也必須一致。Family版本／runtime雜湊由既有lock負責，精確peer checkout由既有CI來源檢查負責。
@@ -69,6 +62,7 @@ T184有255份BP item定義，但source mapping、方塊物品、動態內容、�
 
 ### 歷史來源與原證據
 
+- [2026-10-26 T184／G157／W162 摘錄](https://github.com/burnt-tea-dev/kaleidoscope-tavern-unofficial/blob/f26daa8eb631eef1fe40c94ad2bb17d36656ee94/family/BASELINE-STATUS.md)：保留原 PR149／T184 CI、當時跳過發布的結果與接續判斷；只適用原觀察時點，不是今天的來源或下載狀態。
 - [收斂前完整索引（79ac1fb8）](https://github.com/burnt-tea-dev/kaleidoscope-tavern-unofficial/blob/79ac1fb82e06ddd07993cf7b9140dfbf1cfd09fc/family/BASELINE-STATUS.md)：10/24 T179、10/19 T177、10/17 T175／T173等各時點來源、候選、失敗、部署與PR處置。
 - [較早完整索引（115942e5）](https://github.com/burnt-tea-dev/kaleidoscope-tavern-unofficial/blob/115942e55e9946cfd257fbcdc41c849f75b77509/family/BASELINE-STATUS.md)：T166／T167／T169等原部署、收據及上游查核時間。
 - [歷史PR處置](../docs/audit/PR-DISPOSITIONS.md)、[工具依賴盤點](TOOLS-INVENTORY.md)：先核對已吸收差異與仍在使用的責任，再退役舊入口；不能直接以「保留六個核心」刪除仍可達的相依模組。
