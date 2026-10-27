@@ -112,9 +112,8 @@ def apply_paired_data_extension(spec, bp_root, rp_root, bp_source, rp_source, ow
     if (pair_uuids(spec) != (uuids['BP'], uuids['RP']) or spec.get('host_uuid') != uuids['RP']
             or any(profile.get(key) != spec.get(key) for key in
                    ('id', 'kind', 'version', 'host_uuid', 'behavior_uuid', 'resource_uuid',
-                    'owner_version', 'local_pack_version', 'archive_sha256', 'original_files', 'patched_files'))
+                    'owner_version', 'local_pack_version', 'archive_sha256'))
             or profile.get('owner_version') != owner_version or profile.get('copies') != {}
-            or profile.get('author_version') != author['author_version']
             or spec['local_pack_version'] == author['author_version']
             or spec.get('archive_sha256') != author['sha256']
             or spec.get('official_author_release') is not False
