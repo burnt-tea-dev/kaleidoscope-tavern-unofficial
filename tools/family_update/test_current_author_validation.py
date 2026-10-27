@@ -149,6 +149,27 @@ class CurrentAuthorCandidate(unittest.TestCase):
   row=next(row for row in self.receipt['packs'] if row['uuid']=='ChineseFood-BP');row['source']['reviewed_extensions'].pop(0)
   with self.assertRaises((AssertionError,ValueError)):self.verify()
 
+ def test_pair_schema_revision_does_not_replace_owner_and_installed_version_checks(self):
+  filename='chinesefood-doll-renderer.json';spec=self.specs[filename]
+  spec['version']=[1,0,1]
+  profile=self.profiles['chinesefood-doll-renderer-p55']
+  profile['spec_sha256']=stable.declaration_sha(spec)
+  self.spec_records[filename]['declaration_sha256']=profile['spec_sha256']
+  receipts=[extension for row in self.receipt['packs'] for extension in row['source'].get('reviewed_extensions',[]) if extension['id']==spec['id']]
+  self.assertEqual(len(receipts),2)
+  for receipt in receipts:receipt['version']=[1,0,1]
+  self.verify()
+  for field,value in [('owner_version',[1,0,54]),('local_pack_version',[1,0,1])]:
+   before=[copy.deepcopy(receipt[field]) for receipt in receipts]
+   for receipt in receipts:receipt[field]=value
+   with self.subTest(field=field),self.assertRaisesRegex(AssertionError,'owner or installed version'):self.verify()
+   for receipt,original in zip(receipts,before):receipt[field]=original
+
+ def test_pair_requires_the_same_receipt_on_both_author_sides(self):
+  row=next(row for row in self.receipt['packs'] if row['uuid']=='ChineseFood-RP')
+  row['source']['reviewed_extensions'][0]['authorization']='Unrelated resource-side provenance'
+  with self.assertRaisesRegex(AssertionError,'different reviewed receipts'):self.verify()
+
 class MergedSourceBinding(unittest.TestCase):
  def setUp(self):
   temporary=tempfile.TemporaryDirectory();self.addCleanup(temporary.cleanup);self.root=Path(temporary.name)
