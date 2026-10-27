@@ -6340,7 +6340,7 @@
       ],
       "admission": "current-author-curated",
       "required_extensions": [
-        "curated-chinesefood-freezer-storage-p71"
+        "curated-chinesefood-freezer-storage-p72"
       ],
       "source_owner": "upstream_extended",
       "removed_files": {
@@ -6375,7 +6375,7 @@
       ],
       "admission": "current-author-curated",
       "required_extensions": [
-        "curated-chinesefood-freezer-storage-p71",
+        "curated-chinesefood-freezer-storage-p72",
         "curated-chinesefood-reviewed-repairs-p71"
       ],
       "source_owner": "upstream_extended",
