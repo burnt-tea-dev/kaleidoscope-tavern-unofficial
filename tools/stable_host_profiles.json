@@ -6527,7 +6527,7 @@
     "public_api_spec_sha256": "26de3617b9f2b4f93e6a00119b30cc6d2681a35fc454b212f939a558aac9b799",
     "selection": {
       "path": "companion-sources/current-author-curated/profile.json",
-      "sha256": "4278ba86209180e752952412fafd937b2bdf532b3c4b31ec189ff472d004e741",
+      "sha256": "256897f9ed4ae7742f68dcdcc2b12d7b299a39d45e6f5cdf845c014578eaa022",
       "value": {
         "schema": 1,
         "kind": "current-author-curated",
@@ -7494,6 +7494,66 @@
             "output_tree": {
               "sha256": "5bec3b32b971855a08d2b38d3d0a027b9c03ae6a11503c28465b969bf4e3fae8",
               "files": 4124
+            },
+            "provenance": {
+              "kind": "owner_accepted_current_exact_bytes",
+              "original_archive_verified": false,
+              "latest_stable_verified": false,
+              "official_author_release": false
+            }
+          },
+          {
+            "group": "Kaleidoscope Herbal",
+            "kind": "literal",
+            "uuid": "dfdc2c29-89b4-5afa-9ac8-8b4b63f36dfb",
+            "side": "behavior",
+            "input_version": [
+              1,
+              0,
+              0
+            ],
+            "output_version": [
+              1,
+              0,
+              0
+            ],
+            "input_tree": {
+              "sha256": "ca4ad3e68b9a5f1c530dd12c3999a33ed948bc84033c93ca6afa7ab399f0298b",
+              "files": 330
+            },
+            "output_tree": {
+              "sha256": "ca4ad3e68b9a5f1c530dd12c3999a33ed948bc84033c93ca6afa7ab399f0298b",
+              "files": 330
+            },
+            "provenance": {
+              "kind": "owner_accepted_current_exact_bytes",
+              "original_archive_verified": false,
+              "latest_stable_verified": false,
+              "official_author_release": false
+            }
+          },
+          {
+            "group": "Kaleidoscope Herbal",
+            "kind": "literal",
+            "uuid": "e1ac63a0-af94-5d65-9435-9e0035eb61d2",
+            "side": "resource",
+            "input_version": [
+              1,
+              0,
+              0
+            ],
+            "output_version": [
+              1,
+              0,
+              0
+            ],
+            "input_tree": {
+              "sha256": "3370f885a4b2ce38c90f8f327fc672d248a162f8105abfad1b8867f650b58bc9",
+              "files": 821
+            },
+            "output_tree": {
+              "sha256": "3370f885a4b2ce38c90f8f327fc672d248a162f8105abfad1b8867f650b58bc9",
+              "files": 821
             },
             "provenance": {
               "kind": "owner_accepted_current_exact_bytes",
