@@ -15,5 +15,6 @@
   "client": false,
   "status": "candidate_pending_canonical_ci_and_family_admission",
   "family_ready": false,
-  "public_notes_inline": "Restore four Tavern-owned legacy creative labels across five locales without changing addon group identities, icons or contents. Keep the existing 25 visible wine representatives in the original Java ingredient-family order. Current generator and Java-source checks own the catalog instead of historical hash projections. World Liquor requires the matching dependency-only update. Full-family initialization, saved-world and rendered-client acceptance remain pending."
+  "public_notes_inline": "Restore four Tavern-owned legacy creative labels across five locales without changing addon group identities, icons or contents. Keep the existing 25 visible wine representatives in the original Java ingredient-family order. Current generator and Java-source checks own the catalog instead of historical hash projections. World Liquor requires the matching dependency-only update. Full-family initialization, saved-world and rendered-client acceptance remain pending.",
+  "expected_archive_sha256": "ade726e8ec563aaa48b9218b0afd5c3296d384bd8c26278d06266c5331e24077"
 }
