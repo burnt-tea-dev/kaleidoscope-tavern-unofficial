@@ -6046,58 +6046,34 @@
         "blocks/kitchen/freezer_yellow.json": "4d715b5a13456680a9895ed088c79ea5f9fe8117876158a90e798ed60e18c389"
       },
       "patched_files": {
-        "scripts/custom_components/blocks/freezer.js": "e1991b5908c54ddfae05185c58c91c520ac3af544a407b2455e0624632975218",
-        "blocks/kitchen/freezer.json": "a661098395759ca45cb385c5e9720625171d016b0e789d6c3721bc91dcdeeb83",
-        "blocks/kitchen/freezer_green.json": "383c277819f328b2c7775600655e41ed9470ad44c9f516a9c37b8db1a6872891",
-        "blocks/kitchen/freezer_light_blue.json": "4b8d6d75651eddc1e6bdc1a1a55ff466cd89bf8471f8e21a08414bc7b51a310c",
-        "blocks/kitchen/freezer_orange.json": "c33de29db78bb3a0691964a2c0c026053f78325b70b5514dfb2ce8bcd4a2b635",
-        "blocks/kitchen/freezer_pink.json": "8fb08fefe53610084258c79692fcefd33d55b774745b56c2448d17e8af509f8f",
-        "blocks/kitchen/freezer_yellow.json": "883badb2a0f397cbffec8d11092268eb5c7f76d89ccf4e73cf7418fec69549e7"
+        "scripts/custom_components/blocks/freezer.js": "afb3541be35f21e2e9bd73f76fd95aa71b863752f18d0e1fe1258c44c11f0744",
+        "blocks/kitchen/freezer.json": "8a52b86ba76aa3ee3c9f32cdee722038b7d97e7033cf4a02cad224de1c99d6b6",
+        "blocks/kitchen/freezer_green.json": "c5e7f157974206223684e626e46eedc6fc1400b9b523ac86fdaa40e7ffe5da2a",
+        "blocks/kitchen/freezer_light_blue.json": "197889cbc5d39b3984068d168820bbc8fcca6edb42378fea21bc27f4393a20ec",
+        "blocks/kitchen/freezer_orange.json": "48e050af6947ec0615e4a31fc31909cfd654e89b06ef55a94d87fe57c7bad84a",
+        "blocks/kitchen/freezer_pink.json": "2e3ce059f44a513e026cfdc91d37b8a308478111f2ff4152cdecb96fa90c2b14",
+        "blocks/kitchen/freezer_yellow.json": "ffaeb36afc550b42a602e36208304aa04e65da347d74d4029cdb4ec940c40606"
       },
       "version": [
         1,
         0,
-        7
+        6
       ],
-      "spec_sha256": "82412290ceba6e4d236aa8fd2659685b6c4d5bd7ddd4f8b83ee9eb50bf07dedb",
+      "spec_sha256": "a9a9ed1984a2f4f042d251a59d917cd786f4471ad888f3c30832d686fe79e5a9",
       "copies": {
         "scripts/_senluo/native-freezer-storage.js": {
           "source": "scripts/compat/native-freezer-storage.js",
-          "sha256": "d5c8b789dd9c16487dd8fc0fd66009a5e905676f26f65c78d94f5c45e66d25ee"
+          "sha256": "1710c44cd6f637895bc0b908b5be979be187d8c8cf22ac0328bed3f42f9f3b69"
         },
         "loot_tables/senluo_native/freezer_empty.json": {
           "source": "loot_tables/senluo_native/freezer_empty.json",
           "sha256": "4b26570bb8729e26aed2b988e1ac9dcc40fc27cd92f2460b640c4b112edecb59"
-        },
-        "blocks/kitchen/freezer_upper.json": {
-          "source": "freezer-native/freezer_upper.json",
-          "sha256": "9a01c547a685ca72fc3b9caf95c3ae1d443dde274324fa157a392703f6676d22"
-        },
-        "blocks/kitchen/freezer_green_upper.json": {
-          "source": "freezer-native/freezer_green_upper.json",
-          "sha256": "d1d9d61b9df9c3b34b34bf341b2fe968cef3acd4aaff1030bd99f0e30402ae95"
-        },
-        "blocks/kitchen/freezer_light_blue_upper.json": {
-          "source": "freezer-native/freezer_light_blue_upper.json",
-          "sha256": "1f8f7b8cf938484b1fd8f0d01ea3d256f06d993161d7dc8b4ba3cdd8bd8b5973"
-        },
-        "blocks/kitchen/freezer_orange_upper.json": {
-          "source": "freezer-native/freezer_orange_upper.json",
-          "sha256": "2023c8e709a82630bf6509b7c0132466213ede14f7156b215774ac423e72e66e"
-        },
-        "blocks/kitchen/freezer_pink_upper.json": {
-          "source": "freezer-native/freezer_pink_upper.json",
-          "sha256": "867f95d99198b8ef846bf8f5c4efedd85ee8099b2262ae9f08c2d15f7cb8af45"
-        },
-        "blocks/kitchen/freezer_yellow_upper.json": {
-          "source": "freezer-native/freezer_yellow_upper.json",
-          "sha256": "75927eb6cb1d558b65707ca4c617a70671c80968d2117f95324ff798d9108419"
         }
       },
       "owner_version": [
         1,
         0,
-        74
+        73
       ],
       "admission": "current-author-curated",
       "required_extensions": [],
@@ -6234,7 +6210,7 @@
         0,
         7
       ],
-      "spec_sha256": "fb823c7d5996f657a541e97c4fd5fc35aa6b9b2f285400c036eff84b091dffc0",
+      "spec_sha256": "2ce97e4e32251a5a8ac4a0cf8bcba709e6af1595839b31de9e3a60dcd510dd7e",
       "copies": {
         "scripts/_senluo/recovered/utils/blockData.js": {
           "source": "scripts/compat/chinesefood-recovered/utils/blockData.js",
@@ -6336,11 +6312,11 @@
       "owner_version": [
         1,
         0,
-        74
+        73
       ],
       "admission": "current-author-curated",
       "required_extensions": [
-        "curated-chinesefood-freezer-storage-p72"
+        "curated-chinesefood-freezer-storage-p71"
       ],
       "source_owner": "upstream_extended",
       "removed_files": {
@@ -6357,25 +6333,25 @@
         "RP/blocks.json": "a66b3053dfbb173ce12a7bd53beb9827bdd1d952c6b92a83d37d2d15387c0fe4"
       },
       "patched_files": {
-        "BP/manifest.json": "83a6b910152fa12719376c91263a4714deaebaa6caa72b57e4dc660df91903dd",
-        "RP/manifest.json": "f9e2a9c5d6765751216d79cccfb19fbd162e35ec99619f430798873831420273",
+        "BP/manifest.json": "894b44659787cbc3920842ea417ef7a8311a071dd75cc1e620226dc72b6743c2",
+        "RP/manifest.json": "7b6aeab21390042e7ace12f0bab8e50ed6e0416292db626941de059ba52b123b",
         "RP/blocks.json": "51756e55a09a2896a801fcfce599ee53272e1722821fb447c54de8e744dd1fc3"
       },
       "version": [
         1,
         0,
-        10673
+        10672
       ],
-      "spec_sha256": "cf3962a5f79cd1e2271e4fcad0add30238bf1377ad42f83e555e2089675551f4",
+      "spec_sha256": "f2ca8be5f183c2ca73ffe7b3af05ef73ec08becc335b6194d3a13c3be8250764",
       "copies": {},
       "owner_version": [
         1,
         0,
-        74
+        73
       ],
       "admission": "current-author-curated",
       "required_extensions": [
-        "curated-chinesefood-freezer-storage-p72",
+        "curated-chinesefood-freezer-storage-p71",
         "curated-chinesefood-reviewed-repairs-p71"
       ],
       "source_owner": "upstream_extended",
@@ -6386,8 +6362,8 @@
         6
       ],
       "manifest_names": {
-        "BP": "森羅廚房：國味 BP [相容修補 1.0.74；作者原版 1.0.6]",
-        "RP": "森羅廚房：國味 RP [相容修補 1.0.74；作者原版 1.0.6]"
+        "BP": "森羅廚房：國味 BP [相容修補 1.0.73；作者原版 1.0.6]",
+        "RP": "森羅廚房：國味 RP [相容修補 1.0.73；作者原版 1.0.6]"
       }
     },
     "curated-cookery-mooncake-dough-repair-p72": {
@@ -6405,12 +6381,12 @@
         0,
         5
       ],
-      "spec_sha256": "b6e8d04f5e2d2235356602add895977ecc5cbe0cdd8485bdec1b30fe05b9ead7",
+      "spec_sha256": "a19982040c1e969c88536424b59820044064a3485b6c8543134dbe3217431674",
       "copies": {},
       "owner_version": [
         1,
         0,
-        74
+        73
       ],
       "admission": "current-author-curated",
       "required_extensions": [
@@ -6433,7 +6409,7 @@
         0,
         5
       ],
-      "spec_sha256": "685b4fe5dcb3c9d7c75db1741b687439a0db616cb7e116909afda764c03b662a",
+      "spec_sha256": "2d3ae431989c81c759ee01938de74a491d2f65ef658959ab15ab8b8323181625",
       "copies": {
         "scripts/api/senluo_guide_startup.js": {
           "source": "scripts/host_api/cookery-guide-startup.js",
@@ -6443,7 +6419,7 @@
       "owner_version": [
         1,
         0,
-        74
+        73
       ],
       "admission": "current-author-curated",
       "required_extensions": [
@@ -6466,12 +6442,12 @@
         0,
         4
       ],
-      "spec_sha256": "d399d9d2ea19a13740b4f13508c9548bf2584e17fb2db7defd9e4ba36f3de8a0",
+      "spec_sha256": "bcb44138a7882a650a153af81a79c7ab0e0593553305af14c3080bc69ea0b1a9",
       "copies": {},
       "owner_version": [
         1,
         0,
-        74
+        73
       ],
       "admission": "current-author-curated",
       "required_extensions": [
@@ -6498,12 +6474,12 @@
         0,
         4
       ],
-      "spec_sha256": "4738a932351be5545f9d02ce18521ed97cceac15014d984ccd9ef850f83e2a3d",
+      "spec_sha256": "f4fa3f0b32701a0582a782544b92e84c681087d46860be2313df273d15ff0e31",
       "copies": {},
       "owner_version": [
         1,
         0,
-        74
+        73
       ],
       "admission": "current-author-curated",
       "required_extensions": [],
@@ -6532,7 +6508,7 @@
         0,
         3
       ],
-      "spec_sha256": "d60dfea2dc04ce28156100ec502847c3e336b139a2324dff047f56a9545957fa",
+      "spec_sha256": "0353872bdaea2db5a5b5d744a1439906aad07070b40b9f9ab69f610632541476",
       "copies": {
         "scripts/integrations/senluo_orchard_tavern_adapter.js": {
           "source": "scripts/compat/orchard-tavern-adapter.js",
@@ -6542,7 +6518,7 @@
       "owner_version": [
         1,
         0,
-        74
+        73
       ],
       "admission": "current-author-curated",
       "required_extensions": [],
@@ -6563,7 +6539,7 @@
       "owner_version": [
         1,
         0,
-        74
+        73
       ],
       "local_pack_version": [
         1,
@@ -6588,7 +6564,7 @@
       "source_owner": "upstream",
       "required_extensions": [],
       "copies": {},
-      "spec_sha256": "e5d1bbc60567e79a86752db6b7575b70a75551bc1baf9def626cba74b1734bc8"
+      "spec_sha256": "2fd3b5746422774eed1ca990e54a201bcc881abed068877e3216e351682ac14e"
     },
     "current-author-curated-dimensions-wine-snow-repair-p72": {
       "id": "senluo:dimensions-wine-snow-repair",
@@ -6605,7 +6581,7 @@
       "owner_version": [
         1,
         0,
-        74
+        73
       ],
       "local_pack_version": [
         1,
@@ -6619,8 +6595,8 @@
         "BP/scripts/data/guidebook.js": "e1cd4651598316885c0d5a9941662888ac8edbee1b449a9ad1ee9cdaf28f3a79"
       },
       "patched_files": {
-        "BP/manifest.json": "5d51455277dd0d818aa3c19f514469d9146fffbe2bf09f204a4ec0998c70081b",
-        "RP/manifest.json": "f92d1e4e912723208d93d3100fe48318fdc94f7e0f4be404bbd68f0991b35403",
+        "BP/manifest.json": "0d30f95217fe42662d874916f848eba49caf05c98203fbc602abcab4844b6e7a",
+        "RP/manifest.json": "5e6a9aa0ce39ce3366bdd85b8efa48a44a06420706ae642a7d234e524eb13f69",
         "BP/scripts/data/tavern-extension.js": "a5afb40863d8fd395e39b116f7b2b62b29c202782723f87a88618079258a973f",
         "BP/scripts/data/guidebook.js": "f45f61a861092bb33d507731ce4cdb936cf9befdb29fd49771f29e9afef4a993"
       },
@@ -6634,10 +6610,10 @@
       "source_owner": "upstream",
       "required_extensions": [],
       "copies": {},
-      "spec_sha256": "261fde6a6d0b8830e70234d39dcaa6bd5861541ef4febbb35c4b5e4bbe9ae942",
+      "spec_sha256": "072cfb3fbf0f55f3eb79d9574c19d135f382902829f1fbf2efc73a0a849e65de",
       "manifest_names": {
-        "BP": "Kaleidoscope Dimensions Wine BP [Senluo compatibility 1.0.74; author 1.0.0]",
-        "RP": "Kaleidoscope Dimensions Wine RP [Senluo compatibility 1.0.74; author 1.0.0]"
+        "BP": "Kaleidoscope Dimensions Wine BP [Senluo compatibility 1.0.73; author 1.0.0]",
+        "RP": "Kaleidoscope Dimensions Wine RP [Senluo compatibility 1.0.73; author 1.0.0]"
       }
     },
     "curated-cookery-station-performance-p72": {
@@ -8129,9 +8105,9 @@
     "version": [
       1,
       0,
-      74
+      73
     ],
-    "previous_commit": "11f24c8c5fe6563ea516e2a5b05cfe56951444e7",
+    "previous_commit": "6f7bb81ce90c11ab1cecb44906d2b8631a8f196e",
     "authors": {
       "Cookery": {
         "project_id": 1673664,
@@ -8302,53 +8278,53 @@
     "host_specs": {
       "chinesefood-freezer-storage.json": {
         "profile": "curated-chinesefood-freezer-storage-p72",
-        "sha256": "95ae6e6a0b1dd1e5120f5a09384ee24d23f9c1c7d98b00a6afd65aa72e172c38",
-        "declaration_sha256": "107749802fd8a69be094da9c7fb328d5237ef7b8327f9fc18c0a48313447e94c"
+        "sha256": "7913e9d3ae601997b7452279c510ca58bda8822e1ec1fda4fbf0fa3f6b077478",
+        "declaration_sha256": "a9a9ed1984a2f4f042d251a59d917cd786f4471ad888f3c30832d686fe79e5a9"
       },
       "chinesefood-reviewed-repairs.json": {
         "profile": "curated-chinesefood-reviewed-repairs-p72",
-        "sha256": "9ebf5bfb09049f59ce277aa0b0e4d59533c3ad05d9765740f2a7ece838eec9c9",
-        "declaration_sha256": "76197272241a75947ce083bd15fd7be3cbe4d3a69f5f934040cdecb1dd36c2d7"
+        "sha256": "f606ac8d6d66ade4824b85d0c39c34441c2492b85d76adb7ac2ee4a53bec0862",
+        "declaration_sha256": "2ce97e4e32251a5a8ac4a0cf8bcba709e6af1595839b31de9e3a60dcd510dd7e"
       },
       "chinesefood-doll-renderer.json": {
         "profile": "curated-chinesefood-doll-renderer-p72",
-        "sha256": "689ce41d1df184df57769f9e8f081f17a884d5573d5be9b9ec2c02dc7c044d62",
-        "declaration_sha256": "bec1af0bdbdea416c7a79963b8d10fb93af699a3140455aa6de1997a53efb1cb"
+        "sha256": "66f64b7e37281968ac6b310f9a91e9950279a16f408dc59096f6116b5e4ad981",
+        "declaration_sha256": "f2ca8be5f183c2ca73ffe7b3af05ef73ec08becc335b6194d3a13c3be8250764"
       },
       "cookery-mooncake-dough-repair.json": {
         "profile": "curated-cookery-mooncake-dough-repair-p72",
-        "sha256": "119b6a64a1d85efbd28e7f98a4037ddf19e17a079cb8da6932e4ee6949dc00de",
-        "declaration_sha256": "eea567176f63006283d597c17d1eeea2b64784aa9b997c2c8a30337260a12d68"
+        "sha256": "03308d9851cbda5693b5048e4f922408b686e16551e5b719d03fd27cf54877c4",
+        "declaration_sha256": "a19982040c1e969c88536424b59820044064a3485b6c8543134dbe3217431674"
       },
       "cookery-guide-startup-repair.json": {
         "profile": "curated-cookery-guide-startup-repair-p72",
-        "sha256": "56de856fb86c68e576e51d0916bcbe330a3bf2fa7b7ab9281918affd92d4f97e",
-        "declaration_sha256": "4176234f1928cd7c1193f876a3576aee7b10adc023553d10bc1800e14c82a32c"
+        "sha256": "2d015741bb265ffb40e7896a63905d61bfd3beff9d005f8ebb78bed091f68220",
+        "declaration_sha256": "2d3ae431989c81c759ee01938de74a491d2f65ef658959ab15ab8b8323181625"
       },
       "cookery-enamel-basin-lid-repair.json": {
         "profile": "curated-cookery-enamel-basin-lid-repair-p72",
-        "sha256": "f6af4198e7f8c6ee04ec85d836c516d2c2700d511d89b89f76515373e7ec939a",
-        "declaration_sha256": "1ce4010a39702809de2b92d6ac6b504de95da1f8fb485457bc83880500150a9c"
+        "sha256": "7301a85b85daeff1547a4861f2211aa65ea593761e56fc984e5485ea0ac15b24",
+        "declaration_sha256": "bcb44138a7882a650a153af81a79c7ab0e0593553305af14c3080bc69ea0b1a9"
       },
       "cookery-held-geometry-canonicalization.json": {
         "profile": "curated-cookery-held-geometry-canonicalization-p72",
-        "sha256": "1a9fe42ff249195b277dfbb4ec8f236c843d7d5379aa709abda3f814b665208d",
-        "declaration_sha256": "428e8befd3a420e0db673ba975e00119c4aef69d4c3df73643c873ffd05d89a7"
+        "sha256": "8dcf27954ab0029440468eac534b92ba134b2f6fbc173cd22394ca77dff58bd7",
+        "declaration_sha256": "f4fa3f0b32701a0582a782544b92e84c681087d46860be2313df273d15ff0e31"
       },
       "orchard-tavern-bridge-adapter.json": {
         "profile": "curated-orchard-tavern-bridge-adapter-p72",
-        "sha256": "765211f84698293a9de1a9ff2c557ac20271b9fa2357457dab1a15571b6ea594",
-        "declaration_sha256": "550b80e66e94521dac4073a9f30d48ecd7883a0f4e39262a48a9cfbee46f272a"
+        "sha256": "055e9ee384c2582047926804df766cdcd8a549a0d0eae096ec8179f02101e444",
+        "declaration_sha256": "0353872bdaea2db5a5b5d744a1439906aad07070b40b9f9ab69f610632541476"
       },
       "essentials-manifest-compatibility.json": {
         "profile": "current-author-curated-essentials-manifest-compatibility-p72",
-        "sha256": "e16e4ed9c8d5a8a884444a14d00c1d17594737a898a85eff7c890424a20b0e15",
-        "declaration_sha256": "1cb3d0c785119efb4be891c6cf633acf2c2296bfcc5c6a60f09a5cd30624882a"
+        "sha256": "d67895bc0b85e4b32bff2f2cbef7f023c0ab92f44b089bfda795dcd6201569d4",
+        "declaration_sha256": "2fd3b5746422774eed1ca990e54a201bcc881abed068877e3216e351682ac14e"
       },
       "dimensions-wine-snow-repair.json": {
         "profile": "current-author-curated-dimensions-wine-snow-repair-p72",
-        "sha256": "a5dace4c14ee67522b67257a177bc00874623ba14664daa256a33c7bdffa701d",
-        "declaration_sha256": "891369a9e034dbef026b9ade479314ed3002af70eeebffada79ad40e987b44e5"
+        "sha256": "d00bb70a8eba4c13500881a33768ddefd01ad1cdc92f762af617f60b5932adb8",
+        "declaration_sha256": "072cfb3fbf0f55f3eb79d9574c19d135f382902829f1fbf2efc73a0a849e65de"
       },
       "cookery-station-performance.json": {
         "profile": "current-cookery-station-owner",
@@ -8360,7 +8336,7 @@
     "public_api_spec_sha256": "26de3617b9f2b4f93e6a00119b30cc6d2681a35fc454b212f939a558aac9b799",
     "selection": {
       "path": "companion-sources/current-author-curated/profile.json",
-      "sha256": "cb428ba9394d9ddfea4b3f78c852c31321f471be5fa6e1521c590a6a570b9942",
+      "sha256": "1d730f0f81a9b0a6f7f66c36f91cd647b5863293802e9a6e13749c1c0c06344a",
       "value": {
         "schema": 1,
         "kind": "current-author-curated",
@@ -8368,9 +8344,9 @@
         "version": [
           1,
           0,
-          74
+          73
         ],
-        "previous_commit": "11f24c8c5fe6563ea516e2a5b05cfe56951444e7",
+        "previous_commit": "6f7bb81ce90c11ab1cecb44906d2b8631a8f196e",
         "authors": {
           "Cookery": {
             "project_id": 1673664,
@@ -8550,14 +8526,7 @@
             "runtime/BP/host-extensions/cookery-station-performance.json",
             "runtime/BP/host-extensions/dimensions-wine-snow-repair.json",
             "runtime/BP/host-extensions/essentials-manifest-compatibility.json",
-            "runtime/BP/host-extensions/orchard-tavern-bridge-adapter.json",
-            "runtime/BP/freezer-native/freezer_upper.json",
-            "runtime/BP/freezer-native/freezer_green_upper.json",
-            "runtime/BP/freezer-native/freezer_light_blue_upper.json",
-            "runtime/BP/freezer-native/freezer_orange_upper.json",
-            "runtime/BP/freezer-native/freezer_pink_upper.json",
-            "runtime/BP/freezer-native/freezer_yellow_upper.json",
-            "runtime/BP/scripts/compat/native-freezer-storage.js"
+            "runtime/BP/host-extensions/orchard-tavern-bridge-adapter.json"
           ]
         },
         "station": {
@@ -8584,12 +8553,12 @@
             "BP": [
               1,
               0,
-              10673
+              10672
             ],
             "RP": [
               1,
               0,
-              10673
+              10672
             ]
           },
           "ImmersiveEating": {
@@ -8718,7 +8687,7 @@
               "version": [
                 1,
                 0,
-                74
+                73
               ]
             },
             {
@@ -8744,7 +8713,7 @@
               "version": [
                 1,
                 0,
-                74
+                73
               ]
             },
             {
@@ -9400,7 +9369,7 @@
         "station_profile": "curated-cookery-station-performance-p72",
         "functional_contract": {
           "path": "companion-sources/current-author-curated/runtime-contract.json",
-          "sha256": "116dc6d392c655c27eff2763c0336bd1538821143ac99b1be9a0dbe8c12bb80c"
+          "sha256": "c2a60840c30d6a99620a5262e750691de979e02b7580aab8735ab47babc02c8b"
         }
       }
     },
@@ -9408,25 +9377,18 @@
       "runtime/BP/host-extensions/chinesefood-doll-renderer.json",
       "runtime/BP/host-extensions/chinesefood-freezer-storage.json",
       "runtime/BP/host-extensions/chinesefood-reviewed-repairs.json",
-      "runtime/BP/scripts/compat/native-freezer-storage.js",
       "runtime/BP/host-extensions/cookery-enamel-basin-lid-repair.json",
       "runtime/BP/host-extensions/cookery-guide-startup-repair.json",
       "runtime/BP/host-extensions/cookery-held-geometry-canonicalization.json",
       "runtime/BP/host-extensions/cookery-mooncake-dough-repair.json",
+      "runtime/BP/host-extensions/cookery-station-performance.json",
       "runtime/BP/host-extensions/dimensions-wine-snow-repair.json",
       "runtime/BP/host-extensions/essentials-manifest-compatibility.json",
       "runtime/BP/host-extensions/orchard-tavern-bridge-adapter.json",
       "runtime/BP/manifest.json",
       "runtime/RP/manifest.json"
     ],
-    "added_paths": [
-      "runtime/BP/freezer-native/freezer_upper.json",
-      "runtime/BP/freezer-native/freezer_green_upper.json",
-      "runtime/BP/freezer-native/freezer_light_blue_upper.json",
-      "runtime/BP/freezer-native/freezer_orange_upper.json",
-      "runtime/BP/freezer-native/freezer_pink_upper.json",
-      "runtime/BP/freezer-native/freezer_yellow_upper.json"
-    ],
+    "added_paths": [],
     "retired_paths": []
   }
 }
