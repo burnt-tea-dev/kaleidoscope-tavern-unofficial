@@ -833,12 +833,6 @@
       "after": "01b7f421d7181e8e5743ab45c5fa54668c913ac2d93d6d41a02ba5cc7f14f82f",
       "reason": "0.6.46: shared Cookery-style creative taxonomy and product guide cleanup; menu metadata/text only, gameplay IDs and mechanics preserved. 0.6.48: reviewed native product preparations, destruction cleanup, Java resistance/selection and native potion delivery IDs as applicable."
     },
-    "runtime/BP/item_catalog/crafting_item_catalog.json": {
-      "before": "8a7e709c7ed34f8047547cd260bcd57634afcca5b7d1c1fdac037c54859b8a2f",
-      "beforeProjected": "8a7e709c7ed34f8047547cd260bcd57634afcca5b7d1c1fdac037c54859b8a2f",
-      "after": "06afa3689dfe5084410e6bbd11c150568169c9eaf7d6185f10e46938ab0032d0",
-      "reason": "0.6.46: shared Cookery-style creative taxonomy and product guide cleanup; menu metadata/text only, gameplay IDs and mechanics preserved."
-    },
     "runtime/BP/items/string_lights_cyan.json": {
       "before": "febc47cd0a6abb91744c7f933d6a6c1ed652e129641be5c58761aeb54a1a0401",
       "beforeProjected": "d75b0df2514103dd65e59527a004f838b24d4e2ff1d0077c8aaea9b66867549f",

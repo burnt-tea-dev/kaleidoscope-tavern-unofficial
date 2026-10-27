@@ -1,7 +1,7 @@
 {
-  "version": "0.6.185",
-  "tag": "v0.6.185",
-  "title": "Tavern 0.6.185: Java Mead feedback and current source contracts",
+  "version": "0.6.186",
+  "tag": "v0.6.186",
+  "title": "Tavern 0.6.186: legacy creative labels and Java wine order",
   "prerelease": false,
   "publication_request": false,
   "validation_evidence": "docs/PARITY-MATRIX.md",
@@ -11,10 +11,9 @@
   "saved_world_migration": "pending",
   "production_ready": false,
   "live_deployment": false,
-  "native_evidence_scope": "Current source behavior and Java resource contracts cover maintained extension ownership and Mead quality feedback. Canonical CI, complete-family clean-world initialization/persistence and rendered-client acceptance retain their separate scope. Family runtime identities are selected by family/upstream.lock.json and exact peer commits by canonical validation.",
+  "native_evidence_scope": "Source checks cover four legacy creative labels, the existing visible wine representatives in Java order, and current catalog ownership. This candidate has no new BDS, saved-world or client acceptance.",
   "client": false,
   "status": "candidate_pending_canonical_ci_and_family_admission",
   "family_ready": false,
-  "public_notes_inline": "Support the current stable Sculk and Dimensions Wine protocol, shared guide groups and native light/Mead interactions. Mead Essence now shows only the source-backed green quality-up message. Current behavior and Java resource contracts own these modules; superseded source-shape projections are retired. Complete-family fresh-world and rendered-client acceptance remain separate pending gates.",
-  "expected_archive_sha256": "9f11af7e13331e674a0cd7b95309500cc1bed2f2c031c7a23581b2b45750efb2"
+  "public_notes_inline": "Restore four Tavern-owned legacy creative labels across five locales without changing addon group identities, icons or contents. Keep the existing 25 visible wine representatives in the original Java ingredient-family order. Current generator and Java-source checks own the catalog instead of historical hash projections. World Liquor requires the matching dependency-only update. Full-family initialization, saved-world and rendered-client acceptance remain pending."
 }

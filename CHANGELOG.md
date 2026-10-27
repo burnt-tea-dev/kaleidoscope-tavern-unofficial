@@ -1,3 +1,7 @@
+## 0.6.186
+
+Restore four Tavern-owned legacy creative labels in five locales while preserving addon group identities, icons and membership. Keep the existing 25 visible wine representatives in the original Java ingredient-family order, checked against the maintained 1.21.1, main and 26.1.2 source branches. Move the catalog from obsolete hash projections to the existing current generator and optional Java-source contract; preserve unrelated history. Pair with dependency-only World Liquor 0.1.166. Canonical CI, complete-family initialization/persistence and actual client acceptance remain pending. This does not establish wine-group click behavior, full-family icon priority or complete Java parity.
+
 ## 0.6.183
 
 ## 0.6.185

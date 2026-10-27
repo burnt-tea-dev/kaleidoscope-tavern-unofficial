@@ -309,8 +309,11 @@ def select_curated_inputs(original):
         uid=row['uuid'];matches=captured.get(uid,[])
         assert len(matches)==1, 'Missing or ambiguous curated captured input: '+uid
         actual=matches[0];side='BP' if row['side']=='behavior' else 'RP'
-        assert actual['side']==row['side'] and actual['version']==row['input_version'], 'Curated captured input identity changed: '+uid
-        assert tree(actual['files'])==row['input_tree'], 'Curated captured input bytes changed: '+uid
+        current_fishing=row['kind']=='canonical-fishing' and actual['version']==row['output_version']
+        expected_version=row['output_version'] if current_fishing else row['input_version']
+        actual_tree=tree(actual['files'])
+        assert actual['side']==row['side'] and actual['version']==expected_version, 'Curated captured input identity changed: '+uid
+        assert actual_tree==(row['output_tree'] if current_fishing else row['input_tree']), 'Curated captured input bytes changed: '+uid
         root=Path(actual['path'])
         if row['kind']=='literal':
             assert row['input_version']==row['output_version'] and row['input_tree']==row['output_tree'], 'Literal retained inputs cannot be transformed'
@@ -329,7 +332,8 @@ def select_curated_inputs(original):
             assert recipe['kind']=='canonical_local_fishing_repair' and recipe['input_recipe']==ref, 'Fishing canonical source recipe differs'
             assert recipe['historical_origin_status']=='unknown' and recipe['original_archive_verified'] is False and recipe['latest_stable_verified'] is False, 'Fishing origin uncertainty must remain explicit'
             assert input_recipe['packs'][side]['uuid']==uid and input_recipe['packs'][side]['version']==row['input_version'], 'Fishing original identity differs'
-            assert actual['files']==input_recipe['packs'][side]['files']==recipe['input_hashes'][side], 'Fishing original bytes differ from its canonical input recipe'
+            assert input_recipe['packs'][side]['files']==recipe['input_hashes'][side], 'Fishing original bytes differ from its canonical input recipe'
+            assert actual['files']==recipe['output_hashes' if current_fishing else 'input_hashes'][side], 'Fishing captured bytes differ from its canonical recipe'
             assert recipe['owned_runtime']==recipe['output_hashes'] and recipe['version']==row['output_version'], 'Fishing must use the whole canonical owner output'
             root=c.EXTENSION/relative
             assert c.hashes(root)==recipe['output_hashes'][side], 'Fishing canonical runtime bytes differ'
@@ -339,6 +343,7 @@ def select_curated_inputs(original):
             assert all(module['version']==row['output_version'] for module in manifest['modules']), 'Fishing canonical module version differs'
         roots.append(root);descriptors[uid]=_curated_retained_descriptor(row)
         selected[uid]={'path':str(root),'side':row['side'],'input_version':row['input_version'],
+                       'captured_version':actual['version'],'captured_tree':actual_tree,
                        'version':row['output_version'],'input_tree':row['input_tree'],
                        'output_tree':row['output_tree'],'source':descriptors[uid]}
     binding=CATALOG[CURATED_KEY]['selection']

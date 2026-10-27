@@ -226,6 +226,7 @@ jobs:
           set -o pipefail
           python tools/creative/catalog.py --peer ../world-liquor-src | tee ../evidence/catalog.json
           python tools/creative/test_catalog.py 2>&1 | tee ../evidence/creative-tests.log
+          python tools/creative/test_legacy_labels.py 2>&1 | tee ../evidence/creative-legacy-labels.log
           python tools/creative/catalog.py --write
           python tools/creative/catalog.py --root ../world-liquor-src --write
           python ../world-liquor-src/tools/build_effect_names.py --check
@@ -377,7 +378,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: burnt-tea-dev/kaleidoscope-grilling-unofficial
-          ref: 2e3ef63839e38f84b4a0109957077ac00a140697
+          ref: 3168d3a5a469022a69e782476801117ccac9525c
           path: grilling
           sparse-checkout: projects/grilling/gameplay_core/resource_pack/ui
           persist-credentials: false

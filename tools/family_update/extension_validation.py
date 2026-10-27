@@ -22,7 +22,7 @@ def source_binding(proof,config):
 def verify_extension(receipt,prior):
     changed=[p for p in receipt['packs'] if p['source']['owner']=='owned' and p['source'].get('repository')=='local/senluo-amw-cuisine' and
              (p['uuid'] not in prior or any(p[k]!=prior[p['uuid']][k] for k in ['files','version']))]
-    if not changed:return []
+    if not changed and not (CONFIG.get('fresh_world') and CONFIG.get('extension_stable_validation')):return []
     if CONFIG.get('extension_stable_validation'):
         from family_update.stable_author_validation import verify_static
         return verify_static(receipt,prior)

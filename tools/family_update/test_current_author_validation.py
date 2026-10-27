@@ -209,6 +209,13 @@ class Dispatch(unittest.TestCase):
  def test_new_explicit_profile_dispatches_without_changing_historical_default(self):
   with patch.object(legacy.c,'CONFIG',{'extension_stable_profile':'current-author-p55'}),patch.object(m,'verify_static',return_value=['current']) as verify:
    self.assertEqual(legacy.verify_static({},{}),['current']);verify.assert_called_once()
+ def test_fresh_world_requires_static_binding_even_with_unchanged_private_files(self):
+  from family_update import extension_validation as extension
+  pack={'uuid':'private','source':{'owner':'owned','repository':'local/senluo-amw-cuisine'},'files':{},'version':[1,0,70]}
+  with patch.object(extension,'CONFIG',{'fresh_world':True,'extension_stable_validation':'proof'}),patch.object(legacy,'verify_static',return_value=['current']) as verify:
+   self.assertEqual(extension.verify_extension({'packs':[pack]},{'private':pack}),['current']);verify.assert_called_once()
+  with patch.object(extension,'CONFIG',{'extension_stable_validation':'proof'}),patch.object(legacy,'verify_static') as verify:
+   self.assertEqual(extension.verify_extension({'packs':[pack]},{'private':pack}),[]);verify.assert_not_called()
 
 class FreshNativeBinding(unittest.TestCase):
  def setUp(self):
@@ -502,6 +509,21 @@ class CuratedRetainedInputs(unittest.TestCase):
   with self.assertRaisesRegex(AssertionError,'Missing or ambiguous'):m.select_curated_inputs(missing)
   changed=copy.deepcopy(self.original);changed['packs'][0]['files']['content.bin']='f'*64
   with self.assertRaisesRegex(AssertionError,'captured input bytes changed'):m.select_curated_inputs(changed)
+
+ def test_new_world_can_reuse_the_complete_installed_fishing_output(self):
+  for actual in self.original['packs']:
+   row=next((row for row in self.rows if row['uuid']==actual['uuid'] and row['kind']=='canonical-fishing'),None)
+   if row is None:continue
+   root=self.root/row['canonical_source']
+   actual.update(version=row['output_version'],files=self.guard.hashes(root))
+  _,_,report,receipt=self.selected()
+  m.verify_curated_inputs(receipt,report)
+  for actual in self.original['packs']:
+   if actual['version']==[1,3,10005]:
+    self.assertEqual(report['packs'][actual['uuid']]['captured_version'],[1,3,10005])
+    actual['files']['content.bin']='f'*64
+    with self.assertRaisesRegex(AssertionError,'captured input bytes changed'):self.selected()
+    break
 
  def test_whole_fishing_recipe_and_candidate_selection_cannot_be_substituted(self):
   roots,sources,report,receipt=self.selected()
