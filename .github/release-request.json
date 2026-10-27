@@ -15,5 +15,6 @@
   "client": false,
   "status": "candidate_pending_canonical_ci_and_family_admission",
   "family_ready": false,
-  "public_notes_inline": "Support the current stable Sculk and Dimensions Wine protocol, shared guide groups and native light/Mead interactions. Mead Essence now shows only the source-backed green quality-up message. Current behavior and Java resource contracts own these modules; superseded source-shape projections are retired. Complete-family fresh-world and rendered-client acceptance remain separate pending gates."
+  "public_notes_inline": "Support the current stable Sculk and Dimensions Wine protocol, shared guide groups and native light/Mead interactions. Mead Essence now shows only the source-backed green quality-up message. Current behavior and Java resource contracts own these modules; superseded source-shape projections are retired. Complete-family fresh-world and rendered-client acceptance remain separate pending gates.",
+  "expected_archive_sha256": "9f11af7e13331e674a0cd7b95309500cc1bed2f2c031c7a23581b2b45750efb2"
 }
