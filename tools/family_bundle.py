@@ -4,6 +4,7 @@ from pathlib import Path,PurePosixPath
 import argparse,hashlib,io,json,os,re,shutil,subprocess,zipfile
 from host_extensions import apply_host_extension
 from retained_host_profiles import retained_host_source
+from paired_host_extension import DATA_REPAIRS,PAIRED_KINDS,pair_uuids
 ROOT=Path(__file__).resolve().parents[1]
 def fail(message):raise SystemExit('FAMILY: '+message)
 def read(path):return json.loads(path.read_text(encoding='utf-8-sig'))
@@ -172,15 +173,18 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
   source_component,retained_runtime=components[own['key']]
   for path in sorted((owned_root/'host-extensions').glob('*.json'),key=lambda p:(read(p).get('kind')=='chinesefood-doll-renderer-cleanup',read(p).get('kind')=='cookery-guide-startup-repair',p.name)):
    spec=read(path)
-   if spec.get('kind') in ['chinesefood-doll-renderer-cleanup','nether-placeable-drinks-schema-repair','essentials-manifest-compatibility']:
+   if spec.get('kind') in PAIRED_KINDS:
     renderer=spec['kind']=='chinesefood-doll-renderer-cleanup'
     if renderer:
      from doll_renderer_extension import apply_renderer_extension as apply_pair
     elif spec['kind']=='essentials-manifest-compatibility':
      from essentials_manifest_extension import apply_manifest_extension as apply_pair
+    elif spec['kind'] in DATA_REPAIRS:
+     from paired_host_extension import apply_paired_data_extension as apply_pair
     else:
      from nether_placeable_extension import apply_nether_extension as apply_pair
-    bp=by_uuid.get(spec['behavior_uuid']);rp=by_uuid.get(spec['host_uuid'] if renderer else spec['resource_uuid'])
+    bp_uuid,rp_uuid=pair_uuids(spec)
+    bp=by_uuid.get(bp_uuid);rp=by_uuid.get(rp_uuid)
     if not bp or not rp:fail('paired host extension requires complete author pair')
     try:retained=retained_host_source(source_component,spec,path)
     except ValueError as e:fail('paired host retention rejected: '+str(e))
@@ -195,7 +199,7 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
      root=out/(row['side']+'_packs')/row['uuid'];manifest=read(root/'manifest.json')
      row.update(version=manifest['header']['version'],dependencies=manifest.get('dependencies',[]),files=files_hash(root))
      row['source']={**row['source'],'owner':'upstream_extended','reviewed_extensions':[*row['source'].get('reviewed_extensions',[]),proof]}
-     if spec['kind']=='essentials-manifest-compatibility':row['source']['official_author_release']=False
+     if spec.get('official_author_release') is False:row['source']['official_author_release']=False
     continue
    retained=None
    if config.get('version') in ([1,0,51],[1,0,52],[1,0,53],[1,0,54]) and spec.get('kind') in ('cookery-held-geometry-canonicalization','cookery-millstone-extension-admission'):

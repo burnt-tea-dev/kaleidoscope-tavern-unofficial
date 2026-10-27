@@ -14,6 +14,7 @@ from family_update import common as c
 from family_update.cookery_cache_validation import tree
 from family_update.repository_identity import current_name,verify_record,verify_remote
 from stable_host_profiles import CATALOG,PROFILES,CURATED,CURATED_KEY,curated_profile,match_stable_profile,public_profiles,receipt as profile_receipt,validate_stable_source
+from paired_host_extension import DATA_REPAIRS,PAIRED_KINDS,validate_pair_receipt
 
 VERSION=[1,0,55]
 REPOSITORY='casama233/senluo-family-integration-private'
@@ -707,10 +708,13 @@ def validate_candidate(receipt,proof,baseline,binding,catalog):
                 if declared.get('kind')==STATION_KIND:
                     assert active and extension['owner_version']==VERSION
                     assert 'retained_runtime_profile' not in extension and 'component_version' not in extension
-                paired=declared.get('kind') in {'chinesefood-doll-renderer-cleanup','essentials-manifest-compatibility'}
+                paired=declared.get('kind') in PAIRED_KINDS
+                if declared.get('kind') in DATA_REPAIRS:
+                    assert key==DATA_REPAIRS[declared['kind']]['author'],'Paired data repair belongs to another author'
                 if paired and side=='RP':
                     bp_extensions=rows[pin['behavior_uuid']]['source']['reviewed_extensions']
                     matching=[i for i,row in enumerate(bp_extensions) if row['id']==extension['id']];assert len(matching)==1
+                    assert bp_extensions[matching[0]]==extension,'Paired author sides have different reviewed receipts'
                     prefix={**source,'owner':'upstream' if matching[0]==0 else 'upstream_extended','reviewed_extensions':bp_extensions[:matching[0]]}
                 validate_stable_source(profile,prefix)
                 receipt_repository=extension['repository']
@@ -722,7 +726,10 @@ def validate_candidate(receipt,proof,baseline,binding,catalog):
                 assert extension['spec_sha256']==spec_sha and receipt_repository==repository and extension['commit']==commit and extension['working_candidate'] is False,'Current author extension source binding differs: '+extension['id']
                 assert extension['original_files']==declared['original_files'] and extension['patched_files']==declared['patched_files']
                 assert extension.get('removed_files',{})==declared.get('removed_files',{}),'Current author removal receipt differs'
-                if 'version' in declared:assert extension['version']==declared['version']
+                if paired:
+                    try:validate_pair_receipt(declared,extension,component_version,expected_version,pin['behavior_uuid'],pin['resource_uuid'])
+                    except ValueError as error:raise AssertionError(str(error)) from error
+                elif 'version' in declared:assert extension['version']==declared['version']
                 else:assert extension['owner_version']==component_version and extension['local_pack_version']==(selection['pack_versions'][key][side] if selection else variant)
                 copies=profile['copies'];assert extension.get('copies',{})==copies
                 for name,value in declared['original_files'].items():
