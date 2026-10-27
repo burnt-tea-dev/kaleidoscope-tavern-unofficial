@@ -86,6 +86,13 @@ LevelDB Python adapter；`gh` 需已有正常的唯讀 GitHub 認證。缺少依
 Saturation／Fishing 適配包會拒絕。其餘包仍按原來源驗證，缺少依賴仍由
 完整家族組裝檢查拒絕。選擇及排除名單記入候選證據，不修改原作者選擇檔。
 
+作者原包已有 PBR、但 RP 最低引擎宣告過舊時，來源鎖可選擇
+`manifest_compatibility_release`。同一鎖的 `upstream_manifest_releases`
+保存追加的配對版本、原始／輸出完整樹及兩份 manifest 雜湊。組裝器先核對
+官方 archive 和原始 UUID／版本，再重新編譯並核對該記錄；只允許兩側版本、
+自身配對相依和 RP 最低引擎改動，不改腳本、地形或資產，不標作官方原版。
+已發布的記錄保持不變，改動須追加新的配對版本。
+
 同一正常停服窗口保留一份完整舊世界 snapshot、原 properties／政策／current selector 設定及 displaced global
 包。隔離引擎使用指定名稱／seed／生成設定，從沒有 DB 或 level.dat 的目錄生成，
 同庫只做 first／restart；不複製舊 Spawn／Creative／實驗 metadata，也不加入任何 probe、
