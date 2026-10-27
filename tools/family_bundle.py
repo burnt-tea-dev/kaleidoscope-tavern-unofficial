@@ -157,10 +157,15 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
   archive_bytes=matches[0].read_bytes()
   if hashlib.sha256(archive_bytes).hexdigest()!=upstream['sha256']:fail('upstream archive changed after indexing: '+upstream['name'])
   with zipfile.ZipFile(io.BytesIO(archive_bytes)) as z:
-   found=[]
-   for manifest,data in packs(z):
-    header=manifest['header'];found.append({'uuid':header['uuid'],'version':header['version']});add({'owner':'upstream','project_id':upstream['project_id'],'file_id':upstream['file_id'],'archive_sha256':upstream['sha256']},manifest,data=data)
+   author_packs=list(packs(z))
+   found=[{'uuid':manifest['header']['uuid'],'version':manifest['header']['version']} for manifest,_ in author_packs]
    if sorted(found,key=lambda p:p['uuid'])!=sorted(upstream['packs'],key=lambda p:p['uuid']):fail('official pack identity differs from lock')
+   source={'owner':'upstream','project_id':upstream['project_id'],'file_id':upstream['file_id'],'archive_sha256':upstream['sha256']}
+   if upstream.get('manifest_compatibility_release'):
+    from family_update.upstream_manifest_compatibility import reviewed_pair
+    author_packs,release=reviewed_pair(upstream,author_packs,lock['upstream_manifest_releases'])
+    source.update(owner='upstream_extended',manifest_compatibility={'release':upstream['manifest_compatibility_release'],**release},official_author_release=False)
+   for manifest,data in author_packs:add(source.copy(),manifest,data=data)
  # Resolve current module ownership from both exact source checkouts before the
  # public API runs. Its delegated file stays clean until the one current owner.
  from cookery_station_extension import collect_station_handoffs,verify_station_handoffs

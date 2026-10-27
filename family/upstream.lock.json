@@ -323,6 +323,31 @@
           ]
         }
       ]
+    },
+    {
+      "name": "BetterBiomes",
+      "project_id": 1145412,
+      "file_id": 9303477,
+      "sha256": "aaa87c8165aa054a268fd40fc5250a3a0e17ed69b8a7175888862c6a9aef91a5",
+      "packs": [
+        {
+          "uuid": "0b60a09d-c02f-4201-adbc-ff5572cbb24c",
+          "version": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "uuid": "7ee9fe5f-5599-4fe7-9087-d2a06e0dfec6",
+          "version": [
+            1,
+            0,
+            0
+          ]
+        }
+      ],
+      "manifest_compatibility_release": "better-biomes-1.0.10001"
     }
   ],
   "order": {
@@ -340,7 +365,8 @@
       "b6552bad-e030-4083-9225-e47b08cfd860",
       "d6636182-2ca5-4ec4-9814-40dc1191c026",
       "d5c48842-1a22-4965-861e-d8fad49b1e00",
-      "5f808eda-2eed-47b9-94ca-8486af1c5c14"
+      "5f808eda-2eed-47b9-94ca-8486af1c5c14",
+      "0b60a09d-c02f-4201-adbc-ff5572cbb24c"
     ],
     "resource": [
       "96e2a090-a34d-4745-b0df-bc52464e8e76",
@@ -356,11 +382,58 @@
       "40321040-66de-448c-8071-ca694b9ea420",
       "f2c4c5f1-7abd-4c36-bb0c-7705a4d93aa5",
       "66b445af-a1d0-4b2f-bd40-a0b13e17a8f0",
-      "537af6fe-a865-4603-8847-37791b81249d"
+      "537af6fe-a865-4603-8847-37791b81249d",
+      "7ee9fe5f-5599-4fe7-9087-d2a06e0dfec6"
     ]
   },
   "upstream_runtime_changes": false,
   "client_acceptance_required": true,
   "saved_world_migration_required": true,
-  "deployment_holds": {}
+  "deployment_holds": {},
+  "upstream_manifest_releases": {
+    "better-biomes-1.0.10001": {
+      "project_id": 1145412,
+      "file_id": 9303477,
+      "sha256": "aaa87c8165aa054a268fd40fc5250a3a0e17ed69b8a7175888862c6a9aef91a5",
+      "version": [
+        1,
+        0,
+        10001
+      ],
+      "resource_min_engine": [
+        1,
+        21,
+        120
+      ],
+      "source_trees": {
+        "BP": {
+          "sha256": "b5a5f3eb1c9101f67b8cdd5c2777ce24eb5b8042cc25abb5ebbf6ab1a5f5556e",
+          "files": 1013
+        },
+        "RP": {
+          "sha256": "2f68ac72969642dbb7b290de91fb5d74a86dae95c8bced2380d8889605b4c129",
+          "files": 452
+        }
+      },
+      "output_trees": {
+        "BP": {
+          "sha256": "cead0737df4387ed0c074bfe323bfb45f593073d16c484ebe07d656bf83b4c8d",
+          "files": 1013
+        },
+        "RP": {
+          "sha256": "48c881f812527f5e547e92cfddde1dd3c151b752c191212e0a548190a43258ac",
+          "files": 452
+        }
+      },
+      "original_manifests": {
+        "BP": "6b33d96f3b25b1bc316e40eedf0526e4a8aaf24c2157913b93aa224d2a22184d",
+        "RP": "3b3414b06639da1d055e8114061040c520065fcdce321dae8283c96ae5501eb0"
+      },
+      "patched_manifests": {
+        "BP": "64b0e45b371b4c8b16bac611637e8e2a57670cb5c292868d31b030e7ba139ba9",
+        "RP": "903e8eae207c4a18a9ab80def4af2a1048ff3f3d36ea0f8562db9474cc262f31"
+      },
+      "reason": "Author V6 RP already declares pbr but min_engine_version 1.21.60 is below the installed PBR stack minimum. Only the paired release identities and RP engine minimum change; all script, biome, feature and asset bytes are conserved."
+    }
+  }
 }
