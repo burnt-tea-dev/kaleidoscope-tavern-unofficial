@@ -1,3 +1,7 @@
+## 0.6.186 — 2026-10-27
+
+Adopt the official Bedrock Tavern1.0.7 unique-reference rule. Preserve the current shared seven-section guide. Monitor official owned-port counterparts and adapted Fishing source with pinned author IDs; recognize the selected world after a completed fresh deployment.
+
 ## 0.6.183
 
 ## 0.6.185

@@ -1,7 +1,7 @@
 {
-  "version": "0.6.185",
-  "tag": "v0.6.185",
-  "title": "Tavern 0.6.185: Java Mead feedback and current source contracts",
+  "version": "0.6.186",
+  "tag": "v0.6.186",
+  "title": "tavern-family-review-dev 0.6.186: deduplicate guide recipe references",
   "prerelease": false,
   "publication_request": false,
   "validation_evidence": "docs/PARITY-MATRIX.md",
@@ -11,10 +11,9 @@
   "saved_world_migration": "pending",
   "production_ready": false,
   "live_deployment": false,
-  "native_evidence_scope": "Current source behavior and Java resource contracts cover maintained extension ownership and Mead quality feedback. Canonical CI, complete-family clean-world initialization/persistence and rendered-client acceptance retain their separate scope. Family runtime identities are selected by family/upstream.lock.json and exact peer commits by canonical validation.",
+  "native_evidence_scope": "Source behavior only; canonical CI, full-family saved-world validation and rendered-client acceptance are separate gates.",
   "client": false,
   "status": "candidate_pending_canonical_ci_and_family_admission",
   "family_ready": false,
-  "public_notes_inline": "Support the current stable Sculk and Dimensions Wine protocol, shared guide groups and native light/Mead interactions. Mead Essence now shows only the source-backed green quality-up message. Current behavior and Java resource contracts own these modules; superseded source-shape projections are retired. Complete-family fresh-world and rendered-client acceptance remain separate pending gates.",
-  "expected_archive_sha256": "9f11af7e13331e674a0cd7b95309500cc1bed2f2c031c7a23581b2b45750efb2"
+  "public_notes_inline": "Adopt the official Bedrock Tavern1.0.7 unique-reference rule. Preserve the current shared seven-section guide. Monitor official owned-port counterparts and adapted Fishing source with pinned author IDs; recognize the selected world after a completed fresh deployment."
 }

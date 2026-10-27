@@ -1,3 +1,7 @@
+## Current upstream review — 2026-10-27
+
+Adopt the official Bedrock Tavern1.0.7 unique-reference rule. Preserve the current shared seven-section guide. Monitor official owned-port counterparts and adapted Fishing source with pinned author IDs; recognize the selected world after a completed fresh deployment. See [the source review](../family/bedrock-upstream-review-20261027.json). Historical sections below retain their original source and test scope.
+
 # Tavern Java／Bedrock 差距矩陣
 
 目前維護來源為 **T184／0.6.184**；公開下載、公開來源配對、完整家族准入、實際部署及真人驗收分別見[家族現況](../family/BASELINE-STATUS.md)。下列日期段保留各次修補及原始證據範圍，不因較新的來源版本自動取得client或完整家族通過結果。

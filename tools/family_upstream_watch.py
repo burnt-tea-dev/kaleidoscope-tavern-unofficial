@@ -8,11 +8,12 @@ def latest(files,stable=False):
  return max(available,key=lambda f:(f['fileDate'],f['id'])) if available else None
 def watch(lock,get):
  rows=[]
- for pin in lock['upstream']:
-  row={'name':pin['name'],'project_id':pin['project_id'],'locked_file_id':pin['file_id']}
+ for pin in [*lock['upstream'],*lock.get('monitored_sources',[])]:
+  row={'name':pin['name'],'project_id':pin['project_id'],'locked_file_id':pin['file_id'],'role':pin.get('role','installed_author_input')}
   try:
    project=get('mods/'+str(pin['project_id']))
-   if project['id']!=pin['project_id'] or not any(a.get('name')=='Loyallay' for a in project['authors']):raise ValueError('project/Bedrock author identity changed; review required')
+   author_matches=any(a.get('id')==pin['author_id'] if 'author_id' in pin else a.get('name')=='Loyallay' for a in project['authors'])
+   if project['id']!=pin['project_id'] or not author_matches:raise ValueError('project/Bedrock author identity changed; review required')
    files=get('mods/'+str(pin['project_id'])+'/files?pageSize=50')
    for label,stable in [('newest_author_file',False),('newest_stable_file',True)]:
     f=latest(files,stable);row[label]={k:f.get(k) for k in ['id','displayName','fileDate','releaseType']} if f else None

@@ -77,6 +77,22 @@ class NormalIdleTests(unittest.TestCase):
         write(self.output / 'previous-maintenance.json', self.old_lease)
         write(self.lease, {'state': 'active', 'owner': c.OWNER, 'candidate': str(self.output)})
 
+    def test_completed_fresh_deployment_hands_off_its_selected_world(self):
+        config=c.read(self.old_config);config['fresh_world']={'level_name':'new-world'}
+        write(self.old_config,config);self.review['previous_config']['sha256']=c.sha(self.old_config);write(self.review_path,self.review)
+        target=self.bds/'worlds/new-world'
+        binding={'server':'fixture','bds_root':str(self.bds),'world_dir':str(target),'level_name':'new-world'}
+        for name in ['deployment-result.json','poststart-verification.json']:
+            path=self.previous/name;document=c.read(path);document['active_world_binding']=binding
+            if name=='deployment-result.json':document['fresh_world']=str(target)
+            write(path,document)
+        with patch.object(c,'W',target):
+            m.load_review()
+            path=self.previous/'poststart-verification.json';document=c.read(path)
+            document['active_world_binding']['world_dir']=str(self.world);write(path,document)
+            with self.assertRaises(AssertionError):m.load_review()
+        with self.assertRaises(AssertionError):m.load_review()
+
     def test_exact_idle_handoff_survives_timer_timestamp_and_our_maintenance_lock(self):
         initial = m.validate_initial_status(self.summary)
         self.assertFalse(initial['restart_original_after_failure'])

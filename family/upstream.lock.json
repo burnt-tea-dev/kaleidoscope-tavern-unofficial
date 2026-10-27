@@ -7,15 +7,15 @@
       "version": [
         0,
         6,
-        185
+        186
       ],
       "source_trees": {
         "BP": {
-          "sha256": "8891c59a1d26e97917939a8c313dce3df0cc603009eb67ff9044646bfa149898",
+          "sha256": "3a04be038fd0aa6a44c14a8838c22c7b8f35d37c08f26cfc2ae3b909109d5818",
           "files": 833
         },
         "RP": {
-          "sha256": "3800d177a8d8c54dc6e9014b168248353ea17e522f69d0085d7f7ea33516b601",
+          "sha256": "a2d54ed427172b56a824c4643aa769a4b73c2261030441c889220d1e92634f70",
           "files": 3231
         }
       }
@@ -45,15 +45,15 @@
       "version": [
         0,
         1,
-        165
+        166
       ],
       "source_trees": {
         "BP": {
-          "sha256": "18b68bcb7ab2ff36a7e83778aaf67fa811c32ab0125bc41697cd2d3510f1e4b2",
+          "sha256": "e8bb9d10e90c6445244bf1565ea37ab5ccf774c007f8262706ac19cc187c07e0",
           "files": 341
         },
         "RP": {
-          "sha256": "659037a8d788a84bd2a5ffcf0cd4becf7b3ed9970361424ba3e00c0f56d8bfbe",
+          "sha256": "8093fbf4524b092b60cb152d826854cdb2e968131cc0938d10be07e1867edd51",
           "files": 552
         }
       }
@@ -82,7 +82,8 @@
             4
           ]
         }
-      ]
+      ],
+      "author_id": 125441763
     },
     {
       "name": "ChineseFood",
@@ -106,7 +107,8 @@
             6
           ]
         }
-      ]
+      ],
+      "author_id": 125441763
     },
     {
       "name": "ImmersiveEating",
@@ -130,7 +132,8 @@
             0
           ]
         }
-      ]
+      ],
+      "author_id": 125441763
     },
     {
       "name": "Nether",
@@ -154,7 +157,8 @@
             3
           ]
         }
-      ]
+      ],
+      "author_id": 125441763
     },
     {
       "name": "End",
@@ -178,7 +182,8 @@
             3
           ]
         }
-      ]
+      ],
+      "author_id": 125441763
     },
     {
       "name": "Orchard",
@@ -202,7 +207,8 @@
             1
           ]
         }
-      ]
+      ],
+      "author_id": 125441763
     },
     {
       "name": "PresenceFootsteps",
@@ -226,7 +232,8 @@
             1
           ]
         }
-      ]
+      ],
+      "author_id": 125441763
     },
     {
       "name": "Deco",
@@ -250,7 +257,8 @@
             1
           ]
         }
-      ]
+      ],
+      "author_id": 125441763
     },
     {
       "name": "Sculk",
@@ -274,7 +282,8 @@
             0
           ]
         }
-      ]
+      ],
+      "author_id": 125441763
     },
     {
       "name": "DimensionsWine",
@@ -298,7 +307,8 @@
             0
           ]
         }
-      ]
+      ],
+      "author_id": 125441763
     },
     {
       "name": "Essentials",
@@ -322,7 +332,8 @@
             3
           ]
         }
-      ]
+      ],
+      "author_id": 116503607
     },
     {
       "name": "BetterBiomes",
@@ -347,7 +358,8 @@
           ]
         }
       ],
-      "manifest_compatibility_release": "better-biomes-1.0.10001"
+      "manifest_compatibility_release": "better-biomes-1.0.10001",
+      "author_id": 117554178
     }
   ],
   "order": {
@@ -435,5 +447,31 @@
       },
       "reason": "Author V6 RP already declares pbr but min_engine_version 1.21.60 is below the installed PBR stack minimum. Only the paired release identities and RP engine minimum change; all script, biome, feature and asset bytes are conserved."
     }
-  }
+  },
+  "monitored_sources": [
+    {
+      "name": "Tavern official Bedrock reference",
+      "project_id": 1718691,
+      "file_id": 9317036,
+      "author_id": 125441763,
+      "role": "owned_port_reference",
+      "review_scope": "1.0.7 recipe-reference deduplication adopted; existing multi-category guide preserved; no author UUID replacement"
+    },
+    {
+      "name": "World Liquor official Bedrock reference",
+      "project_id": 1724286,
+      "file_id": 9317011,
+      "author_id": 125441763,
+      "role": "owned_port_reference",
+      "review_scope": "1.0.0 reviewed against the maintained Java port; existing identities and repairs retained; Java branch changes reviewed separately"
+    },
+    {
+      "name": "Fishing Voyage public source reference",
+      "project_id": 1750717,
+      "file_id": 9293477,
+      "author_id": 101342476,
+      "role": "adapted_companion_reference",
+      "review_scope": "1.3.0 RP matches captured source byte-for-byte; captured BP already contains local repairs; preserve adapted 1.3.10005 output"
+    }
+  ]
 }

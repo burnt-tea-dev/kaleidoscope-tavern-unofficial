@@ -23,6 +23,16 @@ const booster={item:boosterItem,boost:1,firstBoost:2,maxQuality:6,cooldownTicks:
 const meadItem='kaleidoscope_dim_wine:mead_essence',qualityUpKey='kaleidoscope_tavern.message.barrel_quality_up';
 const qualityUpMessage={rawtext:[{text:'§a'},{translate:qualityUpKey},{text:'§r'}]};
 
+test('guide pages count unique recipe references and retain the distinct-recipe limit',()=>{
+ const r=baseRegistry();
+ const recipes=Array.from({length:33},(_,i)=>({id:N+'wine_'+i,kind:'barrel',fluid:'minecraft:water',ingredients:[['minecraft:apple']],output:{item:N+'drink_'+i}}));
+ const page={id:N+'wine',title:labels('Wine'),body:labels('Age in a barrel.')};
+ r.install({api:1,source,version:'1.0.0',recipes,pages:[{...page,recipeIds:Array(33).fill(recipes[0].id)}]});
+ assert.deepEqual(r.extensions.get(source).pages[0].recipeIds,[recipes[0].id]);
+ assert.throws(()=>r.install({api:1,source,version:'1.0.1',recipes,pages:[{...page,recipeIds:recipes.map(recipe=>recipe.id)}]}),/TOO_MANY_PAGE_RECIPES/);
+ assert.deepEqual(r.extensions.get(source).pages[0].recipeIds,[recipes[0].id]);
+});
+
 test('current transport negotiation advertises the same limits used by the receiver',()=>{
  const host=installExtensionHost(baseRegistry());host.ready();
  const ready=JSON.parse(system.sent.filter(event=>event.id===EVENTS.ready).at(-1).message);
