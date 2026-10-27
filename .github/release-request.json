@@ -1,7 +1,7 @@
 {
   "version": "0.6.187",
   "tag": "v0.6.187",
-  "title": "tavern-family-review-dev 0.6.187: deduplicate guide recipe references",
+  "title": "Tavern 0.6.187: current upstream recipe references and family pairing",
   "prerelease": false,
   "publication_request": false,
   "validation_evidence": "docs/PARITY-MATRIX.md",
