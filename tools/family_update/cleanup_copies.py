@@ -12,9 +12,9 @@ from family_update import retention
 def absolute_paths(value):
     if isinstance(value, dict):
         for key, child in value.items():
-            # The configured scan boundary is metadata even in an echoed config.
-            # Actual archive/source/evidence paths remain cleanup dependencies.
-            if key != 'retention_root':
+            # The scan boundary and recorded command arguments are metadata.
+            # CI argv paths are not local evidence; explicit report/source refs are.
+            if key not in {'retention_root', 'command', 'test_command'}:
                 yield from absolute_paths(child)
     elif isinstance(value, list):
         for child in value:

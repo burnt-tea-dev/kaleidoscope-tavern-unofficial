@@ -44,6 +44,25 @@ class ContextTests(unittest.TestCase):
         self.assertIn(self.root / 'private-source', context['protected'])
         self.assertNotIn(self.root / 'evidence', context['references'])
 
+    def test_historical_command_paths_do_not_hide_actual_report_dependencies(self):
+        ci_report = self.root / 'former-ci-host/station-functional.json'
+        ci_output = self.root / 'former-ci-host/runtime-functional.json'
+        self.write(self.proof, {
+            'test_command': ['python', '--output', str(ci_output)],
+            'completed_checks': [{
+                'command': ['node', '--report', str(ci_report)],
+                'report': {'path': str(self.report)},
+            }],
+        })
+        refs = m.cleanup_context()['references']
+        self.assertIn(self.report, refs)
+        self.assertIn(self.snapshot, refs)
+        self.assertNotIn(ci_report, refs)
+        self.assertNotIn(ci_output, refs)
+        self.report.unlink()
+        with self.assertRaises(FileNotFoundError):
+            m.cleanup_context()
+
     def test_nested_update_configuration_omits_only_scan_boundary(self):
         nested = self.root / 'echoed-update-config.json'
         scan_root = Path(m.c.CONFIG['retention_root'])
