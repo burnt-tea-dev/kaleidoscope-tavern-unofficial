@@ -54,6 +54,18 @@ class FinalizerPrivateProofRefTests(unittest.TestCase):
         self.assertEqual(read(self.root/'reviewed-family-receipt.json'),result)
         self.assertFalse(result['production_ready']);self.assertFalse(result['acceptance']['client'])
         return result
+    def test_exact_upstream_selection_metadata_survives_review_without_relabelling_assembly(self):
+        value=read(self.c/'family-receipt.json')
+        selection={'schema':1,'kind':'current-author-curated-upstream','synthetic_fixture_only':True,
+                   'full_lock_sha256':'a'*64,'profile':{'path':'fixture/profile.json','sha256':'b'*64}}
+        value['upstream_selection']=selection;atomic(self.c/'family-receipt.json',value)
+        self.raw=(self.c/'family-receipt.json').read_bytes()
+        native=self.native_check.side_effect(verified_candidate=value)
+        native['candidate_receipt_sha256']=sha(self.c/'family-receipt.json')
+        atomic(self.root/'saved-world-report.json',native)
+        result=self.finalize()
+        self.assertEqual(result['upstream_selection'],selection)
+        self.assertEqual(read(self.c/'family-receipt.json')['upstream_selection'],selection)
     def test_configured_proof_included_once_with_exact_absolute_path_and_hash(self):
         self.assertEqual(self.finalize()['evidence']['reports'].count(report_ref(self.private.resolve())),1)
     def test_without_extension_seven_combined_reports_retained(self):

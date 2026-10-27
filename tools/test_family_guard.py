@@ -9,6 +9,19 @@ class FamilyAdmissionTests(unittest.TestCase):
  def write_policy(self,approved):self.policy.write_text(json.dumps({'managed_uuids':['own','old-upstream'],'approved_receipt':approved}))
  def tearDown(self):self.tmp.cleanup()
  def test_exact_accepted(self):guard.validate_incoming([self.row],self.policy)
+ def test_curated_selection_does_not_weaken_complete_47_pack_or_file_gates(self):
+  data=guard.read(self.receipt);incoming=[self.row]
+  for index in range(46):
+   uid='synthetic-retained-'+str(index);path=self.root/uid;path.mkdir();(path/'manifest.json').write_text('{}')
+   data['packs'].append({'uuid':uid,'version':[1,0,0],'files':guard.hashes(path),'source':{'owner':'preserved'}})
+   incoming.append({'uuid':uid,'version':[1,0,0],'path':str(path)})
+  data['upstream_selection']={'synthetic_fixture_only':True,'kind':'current-author-curated-upstream'}
+  self.receipt.write_text(json.dumps(data));self.defer_client()
+  guard.validate_incoming(incoming,self.policy)
+  for changed in (incoming[:-1],incoming+[{'uuid':'unreviewed-extra'}]):
+   with self.assertRaisesRegex(ValueError,'完整'):guard.validate_incoming(changed,self.policy)
+  (self.pack/'manifest.json').write_text('{"changed":true}')
+  with self.assertRaisesRegex(ValueError,'雜湊'):guard.validate_incoming(incoming,self.policy)
  def test_unrelated_accepted(self):guard.validate_incoming([{'uuid':'other'}],self.policy)
  def test_renamed_family_uuid_rejected(self):
   self.write_policy(None);directory=self.pack/'blocks';directory.mkdir()

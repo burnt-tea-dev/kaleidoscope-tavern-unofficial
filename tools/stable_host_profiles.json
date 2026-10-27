@@ -8771,6 +8771,40 @@
       "runtime/RP/manifest.json"
     ],
     "added_paths": [],
-    "retired_paths": []
+    "retired_paths": [],
+    "upstream_selection": {
+      "schema": 1,
+      "kind": "exact-curated-author-set",
+      "deferred": {
+        "BetterBiomes": {
+          "upstream": {
+            "name": "BetterBiomes",
+            "project_id": 1145412,
+            "file_id": 9303477,
+            "sha256": "aaa87c8165aa054a268fd40fc5250a3a0e17ed69b8a7175888862c6a9aef91a5",
+            "packs": [
+              {
+                "uuid": "0b60a09d-c02f-4201-adbc-ff5572cbb24c",
+                "version": [
+                  1,
+                  0,
+                  0
+                ]
+              },
+              {
+                "uuid": "7ee9fe5f-5599-4fe7-9087-d2a06e0dfec6",
+                "version": [
+                  1,
+                  0,
+                  0
+                ]
+              }
+            ],
+            "manifest_compatibility_release": "better-biomes-1.0.10001"
+          },
+          "reason": "Retain the delivered and reviewed P70 family scope. BetterBiomes is outside the current curated author set; adoption is deferred to a separately reviewed family candidate. This does not claim client acceptance."
+        }
+      }
+    }
   }
 }

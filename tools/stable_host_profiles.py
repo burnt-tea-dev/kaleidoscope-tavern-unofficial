@@ -4,9 +4,11 @@ Existing profiles are unchanged. New author identities and public API versions
 are admitted only with reviewed declaration digests, original/output hashes,
 helper hashes and their explicitly compatible preceding source receipts.
 """
+import copy
 import hashlib
 import json
 import re
+import subprocess
 from pathlib import Path
 
 CATALOG = json.loads(Path(__file__).with_suffix('.json').read_text())
@@ -63,6 +65,135 @@ def curated_profile():
 
 def declaration_sha(spec):
     return hashlib.sha256(json.dumps(spec, sort_keys=True, separators=(',', ':'), ensure_ascii=False).encode()).hexdigest()
+
+
+def curated_upstream_selection(lock, baseline, source_root):
+    """Select only the committed private profile's reviewed author pairs.
+
+    The full public lock remains a catalog. Its complement must be declared
+    exactly by the public policy; callers cannot supply an exclusion list.
+    The caller first validates the current private runtime conservation proof.
+    """
+    from family_update.current_author_validation import committed, current_selection
+    from family_update.repository_identity import target
+
+    def require(condition, message):
+        if not condition:
+            raise ValueError('Curated upstream selection: ' + message)
+
+    root = Path(source_root)
+    catalog = curated_profile()
+    selection = current_selection(source_root=root)
+    require(committed('baseline.json', source_root=root) == baseline, 'private baseline is not the committed input')
+    require(baseline.get('repository') == 'local/senluo-amw-cuisine'
+            and baseline.get('version') == selection['version'] == catalog['version'], 'private owner identity differs')
+    identity = committed('.repo-target.json', source_root=root)
+    expected = target('burnt-tea-dev/senluo-family-integration-private')
+    require(all(identity.get(key) == value for key, value in expected.items())
+            and identity.get('logical_runtime_repository') == baseline['repository'], 'private repository target differs')
+    commit = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=root, text=True).strip()
+    require(re.fullmatch('[0-9a-f]{40}', commit) is not None, 'private commit is missing')
+    policy = catalog.get('upstream_selection')
+    require(isinstance(policy, dict) and set(policy) == {'schema', 'kind', 'deferred'}
+            and policy['schema'] == 1 and policy['kind'] == 'exact-curated-author-set', 'reviewed selection policy is missing')
+    deferred = policy['deferred']
+    authors = selection['authors']
+    require(isinstance(deferred, dict) and isinstance(authors, dict) and bool(authors), 'author selection is empty')
+    require(not set(authors) & set(deferred), 'active and deferred authors overlap')
+    upstream = lock['upstream']
+    require(isinstance(upstream, list), 'full upstream catalog is invalid')
+    names, projects, files, archives, uuids = set(), set(), set(), set(), set()
+    for row in upstream:
+        require(isinstance(row, dict) and isinstance(row.get('name'), str) and bool(row['name']), 'author name is missing')
+        require(row['name'] not in names, 'duplicate author name')
+        names.add(row['name'])
+        for field, seen in [('project_id', projects), ('file_id', files)]:
+            value = row.get(field)
+            require(type(value) is int and value > 0 and value not in seen, 'duplicate or invalid ' + field)
+            seen.add(value)
+        require(isinstance(row.get('sha256'), str) and re.fullmatch('[0-9a-f]{64}', row['sha256']) is not None
+                and row['sha256'] not in archives, 'duplicate or invalid archive digest')
+        archives.add(row['sha256'])
+        pair = row.get('packs')
+        require(isinstance(pair, list) and len(pair) == 2, 'author requires one complete pair')
+        for pack in pair:
+            require(isinstance(pack, dict) and set(pack) == {'uuid', 'version'}
+                    and isinstance(pack['uuid'], str) and bool(pack['uuid']) and pack['uuid'] not in uuids,
+                    'duplicate or invalid author UUID')
+            require(isinstance(pack['version'], list) and len(pack['version']) == 3
+                    and all(type(n) is int and n >= 0 for n in pack['version']), 'invalid author version')
+            uuids.add(pack['uuid'])
+    require(names == set(authors) | set(deferred), 'full catalog must equal active plus explicitly deferred authors')
+    active, postponed = [], []
+    for row in upstream:
+        name = row['name']
+        if name in deferred:
+            review = deferred[name]
+            require(isinstance(review, dict) and set(review) == {'upstream', 'reason'}
+                    and review['upstream'] == row and isinstance(review['reason'], str) and bool(review['reason'].strip()),
+                    'deferred author differs from its exact reviewed row or reason')
+            postponed.append(copy.deepcopy(review))
+            continue
+        pin = authors[name]
+        require(set(row) == {'name', 'project_id', 'file_id', 'sha256', 'packs'}
+                and all(row[key] == pin[key] for key in ('project_id', 'file_id', 'sha256')), 'selected author identity differs: ' + name)
+        pair = {pin['behavior_uuid']: pin['author_version'], pin['resource_uuid']: pin['author_version']}
+        require(len(pair) == 2 and {pack['uuid']: pack['version'] for pack in row['packs']} == pair,
+                'selected author pair differs: ' + name)
+        outputs = [{'uuid': pin[uuid], 'side': label, 'version': selection['pack_versions'][name][side]}
+                   for side, label, uuid in [('BP', 'behavior', 'behavior_uuid'), ('RP', 'resource', 'resource_uuid')]]
+        active.append({'upstream': copy.deepcopy(row), 'outputs': copy.deepcopy(outputs)})
+    return {
+        'schema': 1, 'kind': 'current-author-curated-upstream',
+        'full_lock_sha256': hashlib.sha256(json.dumps(lock, sort_keys=True).encode()).hexdigest(),
+        'policy_sha256': declaration_sha({'authors': catalog['authors'], 'policy': policy}),
+        'profile': {'path': catalog['selection']['path'], 'sha256': catalog['selection']['sha256'], 'name': catalog['profile']},
+        'owner': {'repository': baseline['repository'], 'commit': commit, 'version': list(baseline['version']),
+                  'packs': {label: baseline['packs'][side]['uuid'] for side, label in [('BP', 'behavior'), ('RP', 'resource')]}},
+        'active': active, 'deferred': postponed,
+    }
+
+
+def validate_curated_upstream_receipt(receipt, expected):
+    """Require the exact active pairs and reject deferred packs under any owner."""
+    def require(condition, message):
+        if not condition:
+            raise ValueError('Curated upstream receipt: ' + message)
+
+    require(receipt.get('upstream_selection') == expected, 'selection proof differs from current committed sources')
+    packs = receipt['packs']
+    rows = {row['uuid']: row for row in packs}
+    require(len(rows) == len(packs), 'duplicate pack UUID')
+    active = {pack['uuid']: (item['upstream'], pack) for item in expected['active'] for pack in item['outputs']}
+    postponed = {pack['uuid'] for item in expected['deferred'] for pack in item['upstream']['packs']}
+    require(not postponed & set(rows), 'deferred author pack re-entered the candidate')
+    require({row['uuid'] for row in packs if row['source'].get('owner') in ('upstream', 'upstream_extended')} == set(active),
+            'active upstream pair inventory differs')
+    catalog = [item['upstream'] for item in expected['active'] + expected['deferred']]
+    identities = {field: {row[field] for row in catalog} for field in ('project_id', 'file_id', 'sha256')}
+    for uid, row in rows.items():
+        source = row['source']
+        if uid in active:
+            upstream, pack = active[uid]
+            require(row['side'] == pack['side'] and row['version'] == pack['version'], 'selected output pair differs')
+            require(source.get('owner') in ('upstream', 'upstream_extended')
+                    and source.get('archive_sha256') == upstream['sha256']
+                    and all(source.get(key) == upstream[key] for key in ('project_id', 'file_id')), 'selected source identity differs')
+        else:
+            require(source.get('archive_sha256') not in identities['sha256']
+                    and all(source.get(key) not in identities[key] for key in ('project_id', 'file_id')),
+                    'catalog author disguised as another pack owner')
+    owner = expected['owner']
+    require({row['uuid'] for row in packs if row['source'].get('repository') == owner['repository']} == set(owner['packs'].values()),
+            'private selection owner pair differs')
+    for side, uid in owner['packs'].items():
+        row = rows[uid]
+        require(row['side'] == side and row['version'] == owner['version'] and row['source'].get('owner') == 'owned'
+                and row['source'].get('commit') == owner['commit'], 'private selection owner binding differs')
+    require(set(receipt['order']) == {'behavior', 'resource'}, 'candidate order sides differ')
+    for side, order in receipt['order'].items():
+        require(len(order) == len(set(order)) and set(order) == {row['uuid'] for row in packs if row['side'] == side},
+                'candidate order does not cover its complete pack set')
 
 
 def receipt(profile):

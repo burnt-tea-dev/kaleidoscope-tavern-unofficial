@@ -92,6 +92,7 @@ def retained_component_config(repo,config,sources):
  return component,{'schema':1,'source_commit':anchor['source_commit'],'source_tree':anchor['source_tree'],'source_version':anchor['source_version']}
 
 def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),reviewed_order=None,held_sources=(),source_identities=None,preserved_sources=None):
+ full_lock=json.loads(json.dumps(lock))
  from family_update.source_holds import selected,effective
  holds=selected(lock,list(held_sources));lock=effective(lock,list(held_sources))
  lock=json.loads(json.dumps(lock))
@@ -118,7 +119,7 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
    fail('expected gate repository identities must cover exactly the selected owned sources')
   for own in lock['owned']:source_gate_environment(own,source_identities)
  if out.exists():fail('output exists; never replace another candidate')
- out.mkdir(parents=True);records=[];by_uuid={};components={}
+ out.mkdir(parents=True);records=[];by_uuid={};components={};curated_owners=[];upstream_selection=None
  # Index every candidate archive once. Read and recheck the selected bytes at
  # use time so a concurrent file replacement cannot exploit the index.
  archive_index={}
@@ -145,12 +146,23 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
   if config['repository']!=own['repository']:fail('wrong owned repository')
   try:components[own['key']]=retained_component_config(repo,config,sources)
   except (AssertionError,ValueError,KeyError) as error:fail('retained runtime rejected: '+str(error))
+  if config.get('current_author_profile') is not None:curated_owners.append((repo,config))
   for side,relative in config['runtime'].items():
    root=repo/relative;m=read(root/'manifest.json');source={'owner':'owned','repository':config['repository'],'commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip(),'working_candidate':working}
    if own['key'] in holds:
     if source['commit']!=holds[own['key']]['commit']:fail('held source revision differs')
     source['held_revision']=holds[own['key']]
    add(source,m,root=root)
+ if curated_owners:
+  if len(curated_owners)!=1:fail('curated author selection requires one private owner')
+  from stable_host_profiles import curated_upstream_selection,validate_curated_upstream_receipt
+  repo,config=curated_owners[0]
+  try:upstream_selection=curated_upstream_selection(full_lock,config,repo)
+  except (AssertionError,ValueError,KeyError) as error:fail('curated author selection rejected: '+str(error))
+  lock['upstream']=[row['upstream'] for row in upstream_selection['active']]
+  if reviewed_order is None:
+   deferred={pack['uuid'] for row in upstream_selection['deferred'] for pack in row['upstream']['packs']}
+   lock['order']={side:[uid for uid in order if uid not in deferred] for side,order in lock['order'].items()}
  for upstream in lock['upstream']:
   matches=archive_index.get(upstream['sha256'],[])
   if not matches:fail('missing hash-pinned upstream archive: '+upstream['name'])
@@ -284,6 +296,10 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
      if identity in definitions:overlaps.append({'kind':key,'identifier':identifier,'effective_uuid':definitions[identity],'shadowed_uuid':uid})
      else:definitions[identity]=uid
  receipt={'schema':1,'lock_sha256':hashlib.sha256(json.dumps(lock,sort_keys=True).encode()).hexdigest(),'packs':records,'order':lock['order'],'definition_overlaps':overlaps,'behavior_player_definition':behavior_player,'acceptance':{'static':True,'bds':False,'client':False,'saved_world_migration':False},'production_ready':False}
+ if upstream_selection is not None:
+  receipt['upstream_selection']=upstream_selection
+  try:validate_curated_upstream_receipt(receipt,upstream_selection)
+  except (ValueError,KeyError) as error:fail('curated author receipt rejected: '+str(error))
  (out/'family-receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');print(json.dumps({'candidate':str(out),'packs':len(records),'overlaps':len(overlaps),'production_ready':False}))
  return receipt
 

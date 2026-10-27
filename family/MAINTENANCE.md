@@ -49,6 +49,16 @@ flowchart LR
 
 - 原生 health／同步 property 擴充的 BP `minecraft:player` 必須保留版本釘選原版內容；Grilling 自身生成器檢查其增量。家族組裝器拒絕兩份 BP 玩家定義，收據記錄唯一 effective UUID／路徑／hash；RP 玩家相容與 Windows 心形／效果仍須獨立真人驗收。
 
+## 已審查的作者選取
+
+`upstream.lock.json` 保留完整作者目錄。沒有明確的 `current_author_profile` 私有來源時，組裝器仍要求目錄內全部作者原包。只有唯一私有 owner 的已提交 profile、repository identity、baseline 與完整 runtime conservation proof 都通過，才依公開 `current_author_curated` catalog 啟用作者選取；`working` 模式也不能略過這些條件，沒有任意 exclude／suppress 參數。
+
+目前保留已交付、已審查的 P70 家族範圍：Tavern／Grilling／World Liquor／私有整合共 8 包，11 個作者的 22 包，以及精確保留的 17 包，合計 47 包。BetterBiomes 的完整原包 identity 與 `manifest_compatibility_release` 仍留在來源鎖，公開 catalog 明列其延後理由；是否採用須另行審查。這項範圍紀錄不表示 P70 已有真人用戶端驗收。
+
+完整來源目錄必須恰好等於 active 與明列 deferred 的不重疊聯集。選中作者的 project、file、archive hash、原版 BP/RP UUID 與版本逐一對應 committed profile；實際輸出版本另外依既有 host repair 合約驗證。組裝後及 `current_author_validation.validate_candidate` 都重新核對選取證明、完整作者雙包與來源，拒絕漏包、未知作者和將 deferred 包偽裝成 preserved。既有 `preserved_sources`／`reviewed_order` API 繼續使用；外部提供的完整順序不會被自動刪項，未知或缺失項照常拒絕。
+
+收據的 `upstream_selection` 記錄完整原始 lock 的 semantic SHA256、公開 selection policy digest、私有 profile 路徑／原始檔 hash、owner commit／版本及 active／deferred identities。原有 `lock_sha256` 仍表示實際組裝用的 effective lock（包括 extension 與完整順序）。正式接納須從當前來源重算證明；舊收據不會被重新標示成新選取結果。收據整理保留這些欄位，`family_guard` 仍只接受完整已驗收包集合與逐檔 hash。Static、BDS、新世界／存檔持久化與 client 證據仍各自成立。
+
 ## 統一更新入口
 
 整套更新與可核查的階段重用使用 `tools/family_update.py`；設定、命令、保留的fresh存檔門檻及失敗恢復見 [UPDATE-WORKFLOW.md](UPDATE-WORKFLOW.md)。不要再複製一套硬編碼私人部署腳本。CI 去重與變更覆蓋見 [CI-VALIDATION.md](../docs/CI-VALIDATION.md)。

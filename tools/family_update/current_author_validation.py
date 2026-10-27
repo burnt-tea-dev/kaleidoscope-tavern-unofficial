@@ -637,6 +637,10 @@ def validate_candidate(receipt,proof,baseline,binding,catalog):
         validate_retained_runtime(proof['owned_runtime'],baseline,binding)
         VERSION=baseline['version']
     selection=current_selection() if curated_selected() else None
+    if selection is not None:
+        from stable_host_profiles import curated_upstream_selection,validate_curated_upstream_receipt
+        upstream=curated_upstream_selection(c.read(c.T/'family/upstream.lock.json'),baseline,c.EXTENSION)
+        validate_curated_upstream_receipt(receipt,upstream)
     variant=None if selection else {55:[1,0,10655],56:[1,0,10656],57:[1,0,10657],58:[1,0,10658]}[component_version[-1]]
     rows={row['uuid']:row for row in receipt['packs']};assert len(rows)==len(receipt['packs'])
     assert {row['uuid'] for row in rows.values() if row['source'].get('repository')==LOGICAL}=={p['uuid'] for p in baseline['packs'].values()},'Current private pair inventory differs'
