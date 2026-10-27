@@ -7125,7 +7125,7 @@
     "public_api_spec_sha256": "26de3617b9f2b4f93e6a00119b30cc6d2681a35fc454b212f939a558aac9b799",
     "selection": {
       "path": "companion-sources/current-author-curated/profile.json",
-      "sha256": "283ac3aa7112eaf6df337e443c048a69d820ed81c6a92a61b7421dce618d7a68",
+      "sha256": "6945b75635eaea4a605500c149d12823e4c47f308ddf46ed4a3556c29870190d",
       "value": {
         "schema": 1,
         "kind": "current-author-curated",
@@ -7312,9 +7312,10 @@
             "runtime/BP/host-extensions/cookery-guide-startup-repair.json",
             "runtime/BP/host-extensions/cookery-held-geometry-canonicalization.json",
             "runtime/BP/host-extensions/cookery-mooncake-dough-repair.json",
+            "runtime/BP/host-extensions/cookery-station-performance.json",
+            "runtime/BP/host-extensions/dimensions-wine-snow-repair.json",
             "runtime/BP/host-extensions/essentials-manifest-compatibility.json",
-            "runtime/BP/host-extensions/orchard-tavern-bridge-adapter.json",
-            "runtime/BP/host-extensions/dimensions-wine-snow-repair.json"
+            "runtime/BP/host-extensions/orchard-tavern-bridge-adapter.json"
           ]
         },
         "station": {
@@ -8157,7 +8158,7 @@
         "station_profile": "curated-cookery-station-performance",
         "functional_contract": {
           "path": "companion-sources/current-author-curated/runtime-contract.json",
-          "sha256": "0f4d2a616a4cf6a5907c544fd515b957d70ddbba51c116ee5b1e6a6a89c34b33"
+          "sha256": "a4ff43dcbd2fab4a0f3a9b5f0222f535e514e63ed31743012b67db49c4a8eaee"
         }
       }
     },
