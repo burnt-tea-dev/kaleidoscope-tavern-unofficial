@@ -6059,7 +6059,7 @@
         0,
         6
       ],
-      "spec_sha256": "d8dfa17cf643edd655e0b4594a4661d65440f65374140a1deb00dab9e3520ec3",
+      "spec_sha256": "a9a9ed1984a2f4f042d251a59d917cd786f4471ad888f3c30832d686fe79e5a9",
       "copies": {
         "scripts/_senluo/native-freezer-storage.js": {
           "source": "scripts/compat/native-freezer-storage.js",
@@ -6073,7 +6073,7 @@
       "owner_version": [
         1,
         0,
-        72
+        73
       ],
       "admission": "current-author-curated",
       "required_extensions": [],
@@ -6210,7 +6210,7 @@
         0,
         7
       ],
-      "spec_sha256": "8db8583230bffde5309a6791b21757b7d88b1dcbd694fdaa1f9c139be3344a07",
+      "spec_sha256": "2ce97e4e32251a5a8ac4a0cf8bcba709e6af1595839b31de9e3a60dcd510dd7e",
       "copies": {
         "scripts/_senluo/recovered/utils/blockData.js": {
           "source": "scripts/compat/chinesefood-recovered/utils/blockData.js",
@@ -6312,7 +6312,7 @@
       "owner_version": [
         1,
         0,
-        72
+        73
       ],
       "admission": "current-author-curated",
       "required_extensions": [
@@ -6342,12 +6342,12 @@
         0,
         10672
       ],
-      "spec_sha256": "45ec9826e62b09388a309393ab6970ee358fe52dfd866d2bed322d4d47aa8950",
+      "spec_sha256": "f2ca8be5f183c2ca73ffe7b3af05ef73ec08becc335b6194d3a13c3be8250764",
       "copies": {},
       "owner_version": [
         1,
         0,
-        72
+        73
       ],
       "admission": "current-author-curated",
       "required_extensions": [
@@ -6381,12 +6381,12 @@
         0,
         5
       ],
-      "spec_sha256": "07e1b97f66818eda4f8da63dbdfee7a88554f0fc17717cbe5ab015bfbd84820e",
+      "spec_sha256": "a19982040c1e969c88536424b59820044064a3485b6c8543134dbe3217431674",
       "copies": {},
       "owner_version": [
         1,
         0,
-        72
+        73
       ],
       "admission": "current-author-curated",
       "required_extensions": [
@@ -6409,7 +6409,7 @@
         0,
         5
       ],
-      "spec_sha256": "5d408eaf2148aaad67730ce84be38de607b3b11ad3c2aca6b128a97526258a25",
+      "spec_sha256": "2d3ae431989c81c759ee01938de74a491d2f65ef658959ab15ab8b8323181625",
       "copies": {
         "scripts/api/senluo_guide_startup.js": {
           "source": "scripts/host_api/cookery-guide-startup.js",
@@ -6419,7 +6419,7 @@
       "owner_version": [
         1,
         0,
-        72
+        73
       ],
       "admission": "current-author-curated",
       "required_extensions": [
@@ -6442,12 +6442,12 @@
         0,
         4
       ],
-      "spec_sha256": "9ee731fd96c40c067aceb46ccd5a7e27dc4dd714bbd9ce9f116e77a8598f1603",
+      "spec_sha256": "bcb44138a7882a650a153af81a79c7ab0e0593553305af14c3080bc69ea0b1a9",
       "copies": {},
       "owner_version": [
         1,
         0,
-        72
+        73
       ],
       "admission": "current-author-curated",
       "required_extensions": [
@@ -6474,12 +6474,12 @@
         0,
         4
       ],
-      "spec_sha256": "119ce659796f241ad2b53cc9341b5b475d03f32ec7a552be585c788e3b38165f",
+      "spec_sha256": "f4fa3f0b32701a0582a782544b92e84c681087d46860be2313df273d15ff0e31",
       "copies": {},
       "owner_version": [
         1,
         0,
-        72
+        73
       ],
       "admission": "current-author-curated",
       "required_extensions": [],
@@ -6508,7 +6508,7 @@
         0,
         3
       ],
-      "spec_sha256": "42e033d6da6ec7a36e988e2d8b31c91a44dcba9c29506d39f6d63234019e5a39",
+      "spec_sha256": "0353872bdaea2db5a5b5d744a1439906aad07070b40b9f9ab69f610632541476",
       "copies": {
         "scripts/integrations/senluo_orchard_tavern_adapter.js": {
           "source": "scripts/compat/orchard-tavern-adapter.js",
@@ -6518,7 +6518,7 @@
       "owner_version": [
         1,
         0,
-        72
+        73
       ],
       "admission": "current-author-curated",
       "required_extensions": [],
@@ -6539,7 +6539,7 @@
       "owner_version": [
         1,
         0,
-        72
+        73
       ],
       "local_pack_version": [
         1,
@@ -6564,7 +6564,7 @@
       "source_owner": "upstream",
       "required_extensions": [],
       "copies": {},
-      "spec_sha256": "6fbcbed8ac2df86f91be20c995bc801f3a6e21eed79467927eae4d07a02407d5"
+      "spec_sha256": "2fd3b5746422774eed1ca990e54a201bcc881abed068877e3216e351682ac14e"
     },
     "current-author-curated-dimensions-wine-snow-repair-p72": {
       "id": "senluo:dimensions-wine-snow-repair",
@@ -6581,7 +6581,7 @@
       "owner_version": [
         1,
         0,
-        72
+        73
       ],
       "local_pack_version": [
         1,
@@ -6610,7 +6610,7 @@
       "source_owner": "upstream",
       "required_extensions": [],
       "copies": {},
-      "spec_sha256": "b9e957f2f54005db09b532019c0193fd6ee998c47e7c3ef933ac72dcb4295e30",
+      "spec_sha256": "072cfb3fbf0f55f3eb79d9574c19d135f382902829f1fbf2efc73a0a849e65de",
       "manifest_names": {
         "BP": "Kaleidoscope Dimensions Wine BP [Senluo compatibility 1.0.72; author 1.0.0]",
         "RP": "Kaleidoscope Dimensions Wine RP [Senluo compatibility 1.0.72; author 1.0.0]"
