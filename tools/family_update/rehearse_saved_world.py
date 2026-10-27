@@ -4,10 +4,13 @@ from family_update.native_common import *
 from container_recovery import recover_world, inventory_world
 from family_update.native_storage_reanchor import inspect_world as inspect_native_storage,verify as verify_native_storage,commands as native_storage_commands
 from family_update.freezer_storage_preservation import inspect_world as inspect_freezer_storage
+from family_update import world_experiments
 
 
 def rehearse_fresh_world(engine, port, receipt, backup):
     """Generate the delivery world once, without a probe or old save input."""
+    if world_experiments.required():
+        raise ValueError('Source requires experiments; fresh-world creation has no reviewed flag initialization. Use the existing stopped-save migration path.')
     inputs = engine_inputs(world_receipt=receipt)
     name = CONFIG['fresh_world']['level_name']
     properties = fresh_world_properties()
@@ -80,6 +83,7 @@ def main(argv=None):
     rehearsal_source,migration=prepare_world(snapshot,receipt,original)
     setup_engine(engine, 'Saved World QA', args.port, expected_inputs=inputs, world_receipt=receipt)
     world = engine / 'worlds/Saved World QA'; world.parent.mkdir(); shutil.copytree(rehearsal_source, world, ignore=lambda directory, names: [n for n in names if Path(directory) == rehearsal_source and n in {"behavior_packs", "resource_packs"}])
+    experiment_transition=world_experiments.prepare(world)
     recovery=None
     if CONFIG.get('container_recovery_plan'):
         recovery=recover_world(world,read(Path(CONFIG['container_recovery_plan'])))
@@ -131,7 +135,13 @@ def main(argv=None):
         commands+=state_commands
         commands+=actor_commands
         if fishing_overlay:commands+=fishing_observer.commands(phase)
+        level_input=sha(world/'level.dat') if experiment_transition is not None else None
         record=native_run(engine,phase,commands=commands,delayed_commands=state_delayed,cpu_profile=CONFIG.get('native_cpu_profile',False))
+        if experiment_transition is not None:
+            record.update(level_input_sha256=level_input,level_output_sha256=sha(world/'level.dat'))
+            try:record['world_experiments']=world_experiments.observe((world/'level.dat').read_bytes(),experiment_transition['required'])
+            except ValueError as error:
+                record.update(world_experiments=None,world_experiment_error=str(error),ok=False)
         after=player_hashes(world)
         if fishing_overlay:
             try:
@@ -178,6 +188,7 @@ def main(argv=None):
     assert hashes(snapshot)==backup['files'], 'Original backup mutated during rehearsal'
     success=len(runs)==2 and all(row['ok'] for row in runs)
     report={'schema':1,'recorded_at':now(),'native_acceptance_source':'saved_world','exact_files_checked':True,'candidate_receipt_sha256':sha(C/'family-receipt.json'),'engine_sha256':engine_hash,'engine_inputs':inputs,'packs':len(receipt['packs']),'versions':versions(receipt),'identity_mapping':migration['uuid_mapping'] if migration else {},'same_author_and_owned_uuids':migration is None,'snapshot_source':str(snapshot),'backup_receipt':report_ref(R/'production-before/backup-receipt.json'),'fresh_stopped_backup':True,'snapshot_cutoff':backup['recorded_at'],'existing_world_loaded':success,'database_replaced_in_live':False,'saved_world_migration':success,'bds':success,'test_only_overlays':[fishing_overlay] if fishing_overlay else [],'client':False,'simulated_players':False,'players':0,'player_records_before':before,'player_records_after':after,'runs':runs}
+    if experiment_transition is not None:report['world_experiments']=experiment_transition
     if success and fishing_overlay:
         report['test_only_overlay_removal']=fishing_observer.remove(world,receipt,fishing_overlay,evidence=report)
         fishing_observer.validate_native_evidence(report)

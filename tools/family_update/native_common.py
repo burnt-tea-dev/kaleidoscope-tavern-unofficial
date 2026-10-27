@@ -80,10 +80,14 @@ def blank_level(target, name):
     data['LevelName'] = nbtlib.String(name)
     data['SpawnX'], data['SpawnY'], data['SpawnZ'] = nbtlib.Int(0), nbtlib.Int(80), nbtlib.Int(64)
     data['GameType'] = nbtlib.Int(1)
-    if not CONFIG.get('preserve_captured_experiments',False):
-        data['experiments'] = nbtlib.Compound()
+    # Captured flags are world metadata, not a stable-only API preference.
+    # Preserve them and add only capabilities from the exact reviewed source.
     output = io.BytesIO(); data.write(output, byteorder='little'); body = output.getvalue()
-    (target / 'level.dat').write_bytes(struct.pack('<II', 10, len(body)) + body)
+    from family_update.world_experiments import required, transition
+    raw = struct.pack('<II', 10, len(body)) + body
+    flags = required()
+    if flags: raw, _ = transition(raw, flags)
+    (target / 'level.dat').write_bytes(raw)
 
 def _cpu_profile_files(engine):
     directory = engine / 'profiles'

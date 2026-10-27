@@ -21,6 +21,9 @@ def patch_manifests(bp,rp,version,owner_version,profile=None):
     expected=profile['author_version'] if current else [1,0,5] if stable else [1,0,4]
     bp_id,rp_id=(profile['behavior_uuid'],profile['host_uuid']) if current else (STABLE_BP,STABLE_RP) if stable else (BP,RP)
     if current and (owner_version!=profile['owner_version'] or version!=profile['version']):raise ValueError('current renderer manifest differs from the exact owner release')
+    script_dependencies=profile.get('script_dependencies',{}) if current else {}
+    if script_dependencies and script_dependencies!={'@minecraft/server':'2.8.0'}:
+        raise ValueError('Unreviewed ChineseFood script API dependency')
     if stable and {(1,0,43):(1,0,10543),(1,0,44):(1,0,10544),(1,0,45):(1,0,10545),(1,0,46):(1,0,10546),(1,0,47):(1,0,10547),(1,0,48):(1,0,10548)}.get(tuple(owner_version))!=tuple(version):raise ValueError('stable renderer manifest identity differs from the exact owner release')
     result=[]
     for original,uid,other in [(bp,bp_id,rp_id),(rp,rp_id,bp_id)]:
@@ -37,7 +40,12 @@ def patch_manifests(bp,rp,version,owner_version,profile=None):
             module['version']=version
         paired=[d for d in value.get('dependencies',[]) if d.get('uuid')==other]
         if len(paired)!=1 or paired[0]['version']!=expected:raise ValueError('original author pair dependency differs')
-        paired[0]['version']=version;result.append(value)
+        paired[0]['version']=version
+        if uid==bp_id and script_dependencies:
+            api=[d for d in value.get('dependencies',[]) if d.get('module_name')=='@minecraft/server']
+            if len(api)!=1 or api[0]['version']!='2.7.0':raise ValueError('ChineseFood original script API differs')
+            api[0]['version']=script_dependencies['@minecraft/server']
+        result.append(value)
     return result
 
 

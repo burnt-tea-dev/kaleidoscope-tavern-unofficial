@@ -162,6 +162,31 @@ cache 重用只適用於同一份不可變候選。不是只看版號、mtime、
 回退失敗或原始包／政策不完整時保持停服及 active `needs_operator_recovery`；
 只有核對完成的原始整套包才可重啟。新資料庫不會被舊快照自動覆蓋。
 
+### 來源要求的實驗功能
+
+擁有者允許 Beta APIs 與 creator experiments。必要旗標來自已審查、與 canonical
+commit 及 metadata catalog 相符的 curated source selection `required_experiments`，
+例如 `{"upcoming_creator_features": true}`；本機 update config 不能另行提供旗標或關閉
+既有功能。QA metadata 也保留原有 experiments，不再因省略舊的
+`preserve_captured_experiments` 選項而清空它們。
+
+更新器在本次停服一致備份的 QA 副本上只開啟宣告旗標及原生 experiment history bits。
+沿用 lossless Bedrock NBT codec，保留其餘全部 typed tags、opaque bytes、原 seed、玩家與
+世界 DB；不改原備份。原始與轉換後的 level.dat hash 記入既有 `saved-world-report.json`，
+首次載入與同副本重啟均核對必要旗標，重啟輸入 metadata 必須是首次正常保存的輸出。
+
+完整家族 admission 通過後，仍在同一次停服窗口，從正式世界原始 metadata 重算完全相同
+轉換才採用，並記入既有 `deployment-result.json`。不複製被 QA 引擎修改過的 level.dat。
+若正式存檔在備份後改變、旗標或兩次驗證不符，拒絕採用。相同 pack bytes 但缺少必要
+旗標仍需這些門檻，不能當作無變更跳過。
+
+要求原生功能的候選開始採用後發生部署失敗，保留相容候選、最新資料與 maintenance lease 並停服；
+即使必要旗標本來已開啟、metadata 不需改寫，候選仍可能在首次啟動遷移方塊／物品資料，
+因此同樣記錄採用開始標記並保留相容 runtime。
+不自動啟動舊 runtime 或回寫舊 metadata；完整原備份與回退包留供核對後恢復。
+目前 `fresh_world` 無受審查的生成前旗標入口，來源要求 experiments 時會明確拒絕，
+須先補完該生成路徑的正式驗證。既有世界使用上述同副本轉換，無須重建世界。
+
 若已審查的 managed repair 必須保留目前的玩法裁減，而歷史 approved rollback
 含不相容內容，設定 `managed_drift_failure_policy: "retain_stopped"`。
 取得 lease 後任何失敗均正常停服、保留最新 DB、現有包和已移出的包，不自動還原或

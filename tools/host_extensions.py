@@ -249,10 +249,12 @@ def apply_host_extension(spec,owned_root,host_root,source,*,retained_owner=None,
    text=text.replace(anchor,op['text']+anchor if op['position']=='before' else anchor+op['text'])
   if hashlib.sha256(text.encode()).hexdigest()!=expected:raise ValueError('patched host hash differs '+name)
   changes[name]=text.encode()
+ from native_freezer_extension import validate_upper_copies
+ upper_copies=validate_upper_copies(spec,owned_root,changes,stable)
  for name in spec['copies'].values():
   script=name.startswith('scripts/') and name.endswith('.js')
   empty_loot=name=='loot_tables/senluo_native/freezer_empty.json'
-  if not (script or empty_loot) or safe(host_root,name).exists() or name in changes:raise ValueError('extension copy would replace host bytes')
+  if not (script or empty_loot or name in upper_copies) or safe(host_root,name).exists() or name in changes:raise ValueError('extension copy would replace host bytes')
  for name in spec['copies']:
   if not safe(owned_root,name).is_file():raise ValueError('extension module missing')
   if spec['copies'][name]=='loot_tables/senluo_native/freezer_empty.json' and json.loads(safe(owned_root,name).read_text())!={'pools':[]}:raise ValueError('freezer loot must be empty')
