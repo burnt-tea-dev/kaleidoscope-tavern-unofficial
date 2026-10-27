@@ -8105,7 +8105,7 @@
     "version": [
       1,
       0,
-      72
+      73
     ],
     "previous_commit": "6f7bb81ce90c11ab1cecb44906d2b8631a8f196e",
     "authors": {
@@ -8336,7 +8336,7 @@
     "public_api_spec_sha256": "26de3617b9f2b4f93e6a00119b30cc6d2681a35fc454b212f939a558aac9b799",
     "selection": {
       "path": "companion-sources/current-author-curated/profile.json",
-      "sha256": "3967230178b7e6191a92691f514143e2f91c3a505bfa004231593177bb967b84",
+      "sha256": "dd13007f258807b1eabe2fd6597601f432febca979ab15aa1f8c10baafc51f14",
       "value": {
         "schema": 1,
         "kind": "current-author-curated",
@@ -8344,7 +8344,7 @@
         "version": [
           1,
           0,
-          72
+          73
         ],
         "previous_commit": "6f7bb81ce90c11ab1cecb44906d2b8631a8f196e",
         "authors": {
@@ -8687,7 +8687,7 @@
               "version": [
                 1,
                 0,
-                72
+                73
               ]
             },
             {
@@ -8713,7 +8713,7 @@
               "version": [
                 1,
                 0,
-                72
+                73
               ]
             },
             {
@@ -8761,7 +8761,7 @@
               "version": [
                 1,
                 5,
-                1
+                2
               ]
             }
           ]
@@ -9253,20 +9253,20 @@
             "input_version": [
               1,
               5,
-              1
+              2
             ],
             "output_version": [
               1,
               5,
-              1
+              2
             ],
             "input_tree": {
-              "sha256": "31c434f31b49719f7759e10ab660b5ce540356a519d71300225344bc5a3aa2b5",
-              "files": 863
+              "sha256": "95829b7a8b3a37a3ccadf0574687958aaa43e176588d7ce6396e8ce764dfbdbd",
+              "files": 1559
             },
             "output_tree": {
-              "sha256": "31c434f31b49719f7759e10ab660b5ce540356a519d71300225344bc5a3aa2b5",
-              "files": 863
+              "sha256": "95829b7a8b3a37a3ccadf0574687958aaa43e176588d7ce6396e8ce764dfbdbd",
+              "files": 1559
             },
             "provenance": {
               "kind": "owner_accepted_current_exact_bytes",
@@ -9283,20 +9283,20 @@
             "input_version": [
               1,
               5,
-              1
+              2
             ],
             "output_version": [
               1,
               5,
-              1
+              2
             ],
             "input_tree": {
-              "sha256": "5bec3b32b971855a08d2b38d3d0a027b9c03ae6a11503c28465b969bf4e3fae8",
-              "files": 4124
+              "sha256": "79044cdb776133636ba507995a414d965674ab4b586ac81f5c3f5c8305aa201c",
+              "files": 4356
             },
             "output_tree": {
-              "sha256": "5bec3b32b971855a08d2b38d3d0a027b9c03ae6a11503c28465b969bf4e3fae8",
-              "files": 4124
+              "sha256": "79044cdb776133636ba507995a414d965674ab4b586ac81f5c3f5c8305aa201c",
+              "files": 4356
             },
             "provenance": {
               "kind": "owner_accepted_current_exact_bytes",
