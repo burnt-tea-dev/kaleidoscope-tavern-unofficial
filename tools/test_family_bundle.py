@@ -328,13 +328,18 @@ class PublicApiPredecessorTests(unittest.TestCase):
   for prior in [[old,new],[new,old],[new,new]]:
    with self.subTest(ids=[p['id'] for p in prior]),self.assertRaisesRegex(ValueError,'exact preceding receipt'):
     validate_stable_source(profile,{'owner':'upstream_extended','archive_sha256':profile['archive_sha256'],'reviewed_extensions':prior})
- def test_new_public_receipt_does_not_extend_an_unlisted_private_declaration(self):
+ def test_any_reviewed_public_receipt_is_an_acceptable_predecessor(self):
   import copy
   from stable_host_profiles import CATALOG,PROFILES,receipt,validate_stable_source
-  profile=copy.deepcopy(PROFILES['cookery-recipe-cache-repair']);profile['spec_sha256']='unreviewed'
+  profile=copy.deepcopy(PROFILES['cookery-recipe-cache-repair'])
+  reviewed=receipt(CATALOG['public_api_profiles']['public-api-0.2.12'])
   source={'owner':'upstream_extended','archive_sha256':profile['archive_sha256'],
-          'reviewed_extensions':[receipt(CATALOG['public_api_profiles']['public-api-0.2.12'])]}
-  with self.assertRaisesRegex(ValueError,'exact preceding receipt'):validate_stable_source(profile,source)
+          'reviewed_extensions':[reviewed]}
+  validate_stable_source(profile,source)
+  unreviewed=copy.deepcopy(reviewed);unreviewed['id']='unreviewed:public'
+  with self.assertRaisesRegex(ValueError,'exact preceding receipt'):
+   validate_stable_source(profile,{'owner':'upstream_extended','archive_sha256':profile['archive_sha256'],
+                                   'reviewed_extensions':[unreviewed]})
  def test_public_declarations_require_full_digest_and_owned_helper_bytes(self):
   import copy,hashlib
   from unittest.mock import patch
