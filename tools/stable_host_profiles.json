@@ -3164,7 +3164,7 @@
         0,
         2
       ],
-      "spec_sha256": "51ef920ddeb13db1380d6b003f93451a18eff55c8526f35f872ee955397a4ac8",
+      "spec_sha256": "7eb264e6c5f7140949f788178b12b3c822509cdbe044f440ae98466f373a57a4",
       "copies": {
         "scripts/api/senluo_station_performance.js": {
           "source": "scripts/host_api/cookery-station-performance.js",
