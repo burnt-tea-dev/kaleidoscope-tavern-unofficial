@@ -110,7 +110,7 @@ class IdentityTests(unittest.TestCase):
   self.write_functional_ledger()
  def test_exact_cocktail_assets_preserve_historical_witness_and_reject_drift(self):
   for name in ['runtime/BP/blocks/cup_white_lady.json','runtime/RP/ui/hud_screen.json',
-               'runtime/RP/texts/ja_JP.lang','runtime/RP/texts/ru_RU.lang','runtime/RP/texts/languages.json']:
+               'runtime/RP/texts/languages.json']:
    self.asset_fixture(name)
    self.assertEqual(previous_bytes(self.r,self.p),self.original)
    self.p.write_bytes(self.current+b'unreviewed bytes')
@@ -121,7 +121,8 @@ class IdentityTests(unittest.TestCase):
    with self.assertRaisesRegex(AssertionError,'Asset predecessor mismatch'):previous_bytes(self.r,self.p)
  def test_asset_review_does_not_admit_other_blocks_ui_or_locales(self):
   for name in ['runtime/BP/blocks/barrel.json','runtime/RP/ui/unrelated.json','runtime/RP/texts/fr_FR.lang',
-               'runtime/RP/texts/en_US.lang','runtime/RP/texts/zh_CN.lang','runtime/RP/texts/zh_TW.lang']:
+               'runtime/RP/texts/en_US.lang','runtime/RP/texts/zh_CN.lang','runtime/RP/texts/zh_TW.lang',
+               'runtime/RP/texts/ja_JP.lang','runtime/RP/texts/ru_RU.lang']:
    self.asset_fixture(name)
    with self.assertRaisesRegex(AssertionError,'Unsupported reviewed asset path'):previous_bytes(self.r,self.p)
  def test_versioned_body_delta_keeps_release_binding_and_future_identity_only_bumps(self):
@@ -209,7 +210,8 @@ class CurrentExtensionSourceTests(unittest.TestCase):
    'data/baseline-reconciliation.json','data/launch-repair-reference.json'}:
    target=self.root/name;target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(original/name,target)
  def test_current_owners_use_actual_source_after_the_validated_handoff(self):
-  from current_extension_source_contract import check,runtime_sources
+  from current_extension_source_contract import check,runtime_sources,LOCALE_SOURCES
+  self.assertEqual(LOCALE_SOURCES,{f'runtime/RP/texts/{locale}.lang' for locale in ('en_US','zh_CN','zh_TW','ja_JP','ru_RU')})
   self.assertEqual(check(self.root,syntax=False,localization=False)['ownershipAndWiring'],'passed')
   original=Path(__file__).resolve().parents[1]
   for name in runtime_sources():
@@ -236,14 +238,35 @@ class CurrentExtensionSourceTests(unittest.TestCase):
    ledger=json.loads(json.dumps(original));ledger[section][name]={};path.write_text(json.dumps(ledger))
    with self.assertRaisesRegex(AssertionError,'launch hash aggregate'):check(self.root,syntax=False,localization=False)
  def test_missing_or_empty_actual_quality_feedback_translation_is_rejected(self):
-  from current_extension_source_contract import check,LOCALE_SOURCES,QUALITY_UP_KEY
-  for name in LOCALE_SOURCES:
+  from current_extension_source_contract import check,COMPLETE_LOCALE_SOURCES,QUALITY_UP_KEY
+  for name in COMPLETE_LOCALE_SOURCES:
    path=self.root/name;original=path.read_text()
    row=next(line for line in original.splitlines(keepends=True) if line.startswith(QUALITY_UP_KEY+'='))
    for replacement in ('',QUALITY_UP_KEY+'=\n'):
     path.write_text(original.replace(row,replacement))
     with self.subTest(name=name,replacement=replacement),self.assertRaises(AssertionError):check(self.root,syntax=False,localization=False)
    path.write_text(original)
+ def test_partial_locales_keep_fallback_and_validate_optional_quality_feedback(self):
+  from current_extension_source_contract import check,PARTIAL_LOCALE_SOURCES,QUALITY_UP_KEY
+  for name in PARTIAL_LOCALE_SOURCES:
+   path=self.root/name;original=path.read_text()
+   fallback=''.join(line for line in original.splitlines(keepends=True) if not line.startswith(QUALITY_UP_KEY+'='))
+   path.write_text(fallback)
+   self.assertEqual(check(self.root,syntax=False,localization=False)['ownershipAndWiring'],'passed')
+   path.write_text(fallback+'\n'+QUALITY_UP_KEY+'=Quality increased.\n')
+   self.assertEqual(check(self.root,syntax=False,localization=False)['ownershipAndWiring'],'passed')
+   path.write_text(fallback+'\n'+QUALITY_UP_KEY+'=Quality increased: %s\n')
+   with self.subTest(name=name),self.assertRaisesRegex(AssertionError,'Quality feedback placeholders differ'):
+    check(self.root,syntax=False,localization=False)
+   path.write_text(original)
+ def test_historical_asset_guards_cannot_reclaim_partial_locales(self):
+  from current_extension_source_contract import check,PARTIAL_LOCALE_SOURCES
+  path=self.root/'data/baseline-reconciliation.json';original=json.loads(path.read_text())
+  for name in PARTIAL_LOCALE_SOURCES:
+   ledger=json.loads(json.dumps(original));ledger['reviewedAssetDeltaLayers'].append({'release':'fixture','files':{name:{}}})
+   path.write_text(json.dumps(ledger))
+   with self.subTest(name=name),self.assertRaisesRegex(AssertionError,'reverse delta'):
+    check(self.root,syntax=False,localization=False)
 
 class GuideCurrentSourceTests(unittest.TestCase):
  def test_current_guide_owners_reach_launch_without_a_historical_source_view(self):

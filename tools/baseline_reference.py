@@ -20,8 +20,7 @@ COCKTAIL_ASSET_PATHS=frozenset({
   'cup_emerald','cup_empty_glassware','cup_godfather','cup_grasshopper',
   'cup_mojito','cup_mystery_cocktail','cup_nether_special','cup_screwdriver',
   'cup_sculk_special','cup_signature_cocktail','cup_white_lady','shaker_station')
-}|{'runtime/RP/texts/ja_JP.lang',
-   'runtime/RP/texts/ru_RU.lang','runtime/RP/texts/languages.json',
+}|{'runtime/RP/texts/languages.json',
    'runtime/RP/ui/hud_screen.json',
    'runtime/RP/ui/_global_variables.json',
    'runtime/RP/ui/kt_tavern_hud.json',
