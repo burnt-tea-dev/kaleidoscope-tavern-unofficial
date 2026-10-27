@@ -1,14 +1,16 @@
 ## Current maintained source
 
-Current source identity and dependencies come from [baseline.json](baseline.json), and the reviewed family pairings come from [family/upstream.lock.json](family/upstream.lock.json). The source includes placed-bottle facing and potion tint, guide navigation, and bounded cabinet retries. The reviewed Orchard adapter may fill missing creative-group icons while preserving category, membership and ordering. Full-family and actual client acceptance remain pending.
+Current source identity and dependencies come from [baseline.json](baseline.json), and the reviewed family pairings come from [family/upstream.lock.json](family/upstream.lock.json). The source includes placed-bottle facing and potion tint, guide navigation, and bounded cabinet retries. The reviewed Orchard adapter may fill missing creative-group icons while preserving category, membership and ordering. Actual client acceptance remains pending.
 
-**Public download:** [Tavern v0.6.170](https://github.com/casama233/kaleidoscope-tavern-unofficial/releases/tag/v0.6.170), paired with **World Liquor 0.1.148** and the optional **Grilling 2.8.149** source-check family. The G149 public package uses Cookery **1.6.0**. Read the published release requirements separately from the current source requirements in baseline.json.
+**Public download:** [Tavern v0.6.185](https://github.com/burnt-tea-dev/kaleidoscope-tavern-unofficial/releases/tag/v0.6.185), paired with **World Liquor 0.1.164** and optional **Grilling 2.8.157** in the reviewed family. Its author inputs are Cookery **1.6.4** and ChineseFood **1.0.6**, pinned in [the public family lock](family/upstream.lock.json). This download contains only the owned Tavern BP/RP; it does not include author packages or private integration, or assemble the full family on import.
+
+**Publication scope (2026-10-27):** v0.6.185 was published from source `06c7c97cb2b0dbf0b7181660e1347b2f08d190a4`; all 21 uploaded assets were downloaded and matched the build. Complete-family native first-load/restart and saved-data checks passed for the tested T185/G157/W164 pairing on this date. These fixed-scope results do not certify human gameplay, rendering or client acceptance.
 
 **Deployment records:** Actual server identities, private integration versions, deployment times and production receipts are kept in private maintenance records. Public versions and acceptance limits remain in the family status index.
 
-**Remaining work:** complete the current full-family evidence, the owner's all-item Blockbench first-person/side-texture inspection, and the specific gameplay/client scenes in [PARITY-MATRIX](docs/PARITY-MATRIX.md) and [BUGS](docs/BUGS.md). T160 side faces, T167 cursor work and T169 progress expiry repairs are retained. `client=false`, `production_ready=false`, `pending_client_acceptance`.
+**Remaining work:** complete the current gameplay/client acceptance, the owner's all-item Blockbench first-person/side-texture inspection, and the specific scenes in [PARITY-MATRIX](docs/PARITY-MATRIX.md) and [BUGS](docs/BUGS.md). T160 side faces, T167 cursor work and T169 progress expiry repairs are retained. `client=false`, `production_ready=false`, `pending_client_acceptance`.
 
-The T170/G149/W148 stable-channel publication followed the owner's source/editor/CI/package decision; this audit does not add a new client gate to that publication. [Earlier README evidence](https://github.com/casama233/kaleidoscope-tavern-unofficial/blob/115942e55e9946cfd257fbcdc41c849f75b77509/README.md) and versioned release notes retain their original scope.
+**Historical scope:** the earlier T183/G155 source candidate and the T170/G149/W148 stable-channel publication retain their original versions and evidence. The latter followed the owner's source/editor/CI/package decision; this update does not add a new client gate to that publication or relabel either record as T185 acceptance. [Earlier README evidence](https://github.com/casama233/kaleidoscope-tavern-unofficial/blob/115942e55e9946cfd257fbcdc41c849f75b77509/README.md) and versioned release notes retain their original scope.
 
 # Kaleidoscope Tavern (Unofficial)
 
