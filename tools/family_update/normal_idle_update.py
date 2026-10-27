@@ -17,7 +17,7 @@ PROFILE = 'canonical-normal-idle-v1'
 IDLE_CONFIG = Path('/root/senluo-maintenance/bedrock-idle/config.json')
 CURRENT_CONFIG = Path('/root/senluo-maintenance/config/current.json')
 SOURCE = 'maintenance/bedrock-idle/idle_stop.py'
-SOURCE_SHA256 = '5bcdba9d1b86d6c4b448ce7652540c60220f207f118f0b01aa4401f2f8ca9b55'
+SOURCE_SHA256 = '201b9bd0f0c72ed7bd9537f115b24ab1820f4588d679a843fe059dd0c9f887d0'
 ROOT_UID = 0
 _INITIAL = None
 
@@ -52,7 +52,10 @@ def _document(path):
 
 
 def normalized_sleep(state):
-    return {key: state[key] for key in ['server_status', 'log', 'fresh_player_count', 'empty_seconds', 'stop_task', 'last_sleep']}
+    result = {key: state.get(key) for key in ['server_status', 'log', 'fresh_player_count', 'empty_seconds', 'stop_task', 'last_sleep']}
+    if 'stop_operation' in state:
+        result['stop_operation'] = state['stop_operation']
+    return result
 
 
 def _timestamp(value):
@@ -115,12 +118,24 @@ def load_review():
     assert assembled['sha256'] == result['assembled_receipt_sha256'] == c.sha(Path(assembled['path']))
     refs['assembled_receipt'] = assembled
     sleep = review['sleep']
-    assert set(sleep) == {'server_status', 'log', 'fresh_player_count', 'empty_seconds', 'stop_task', 'last_sleep'}
+    fields = {'server_status', 'log', 'fresh_player_count', 'empty_seconds', 'stop_task', 'last_sleep'}
+    assert set(sleep) in [fields, fields | {'stop_operation'}]
     assert sleep['server_status'] == 'STOPPED' and type(sleep['fresh_player_count']) is int and sleep['fresh_player_count'] == 0
     assert type(sleep['empty_seconds']) is int and sleep['empty_seconds'] >= idle['idle_seconds']
     assert sleep['log']['valid'] is True and sleep['log']['connections'] == []
     assert sleep['last_sleep']['process'] == sleep['log']['process']
-    assert sleep['last_sleep']['task'] == sleep['stop_task'] and sleep['last_sleep']['empty_seconds'] == sleep['empty_seconds']
+    assert sleep['last_sleep']['empty_seconds'] == sleep['empty_seconds']
+    if sleep['stop_task']:
+        assert sleep['last_sleep']['task'] == sleep['stop_task']
+    else:
+        operation = sleep['stop_operation']
+        identifier = operation['id']
+        assert isinstance(identifier, str) and len(identifier) == 32 and all(ch in '0123456789abcdefABCDEF' for ch in identifier)
+        assert sleep['last_sleep']['operation_id'] == identifier and not sleep['last_sleep'].get('task')
+        assert operation['source'] == 'bsm_http_terminal' and operation['method'] == 'POST' and operation['action'] == 'stop'
+        assert operation['server_name'] == c.SERVER and operation['process'] == sleep['log']['process']
+        assert operation['status'] == 'success' and operation['outcome'] == 'stopped' and not operation.get('task_id')
+        assert _timestamp(operation['started_at_utc']) <= _timestamp(operation['completed_at_utc']) <= _timestamp(sleep['last_sleep']['at_utc'])
     assert _timestamp(result['completed_at']) < _timestamp(sleep['last_sleep']['at_utc']), 'Idle stop predates the installed deployment'
     return review, refs, idle
 
@@ -164,8 +179,9 @@ def verify_handoff(summary, *, lease_bound=False):
     assert not state.get('error') and normalized_sleep(state) == review['sleep'], 'Normal idle stop identity changed'
     age = (_timestamp(c.now()) - _timestamp(state['checked_at_utc'])).total_seconds()
     assert 0 <= age <= idle['max_check_gap_seconds'], 'Idle owner observation is stale'
-    task = c.api('/api/tasks/status/' + quote(state['stop_task'], safe=''))
-    assert task['status'] == 'success' and task['result']['status'] == 'success' and task['result']['server_name'] == c.SERVER, 'Normal idle stop task is not confirmed successful'
+    if state.get('stop_task'):
+        task = c.api('/api/tasks/status/' + quote(state['stop_task'], safe=''))
+        assert task['status'] == 'success' and task['result']['status'] == 'success' and task['result']['server_name'] == c.SERVER, 'Normal idle stop task is not confirmed successful'
     assert not _processes(), 'Stopped server still has a BDS process'
     assert c.sha(c.B / 'server_output.txt') == review['server_log_sha256'], 'Stopped server log changed after the reviewed idle stop'
     assert c.sha(c.Q / 'senluo-policy.json') == review['policy_sha256'], 'Installed policy changed after the idle review'

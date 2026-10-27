@@ -93,6 +93,20 @@ class NormalIdleTests(unittest.TestCase):
             with self.assertRaises(AssertionError):m.load_review()
         with self.assertRaises(AssertionError):m.load_review()
 
+    def test_terminal_http_stop_is_bound_to_the_original_operation_without_a_task(self):
+        self.state.pop('stop_task')
+        self.state['last_sleep'].pop('task')
+        self.state['last_sleep']['operation_id']='a'*32
+        self.state['stop_operation']={'id':'a'*32,'source':'bsm_http_terminal','method':'POST','action':'stop','server_name':'fixture','process':'123:456','status':'success','outcome':'stopped','started_at_utc':'2026-01-01T00:09:55Z','completed_at_utc':'2026-01-01T00:09:59Z'}
+        self.review['sleep']=m.normalized_sleep(self.state)
+        write(self.review_path,self.review);write(self.idle/'state.json',self.state)
+        m.validate_initial_status(self.summary)
+        self.api.assert_not_called()
+        for field,value in [('outcome','already_stopped'),('status','unknown'),('process','another-process'),('completed_at_utc','2026-01-01T00:10:01Z')]:
+            with self.subTest(field=field):
+                changed=copy.deepcopy(self.review);changed['sleep']['stop_operation'][field]=value;write(self.review_path,changed)
+                with self.assertRaises(AssertionError):m.load_review()
+
     def test_exact_idle_handoff_survives_timer_timestamp_and_our_maintenance_lock(self):
         initial = m.validate_initial_status(self.summary)
         self.assertFalse(initial['restart_original_after_failure'])
