@@ -49,6 +49,9 @@ def configure(path):
     CONFIG = read(CONFIG_PATH)
     if CONFIG.get('schema') != 1:
         raise ValueError('Unsupported update configuration schema')
+    if 'fresh_world_excluded_groups' in CONFIG:
+        if not CONFIG.get('fresh_world') or CONFIG.get('extension_stable_profile') != 'current-author-curated':
+            raise ValueError('Addon group exclusions require a fresh current-author-curated world')
     def location(key):
         value = Path(CONFIG[key]).expanduser()
         if not value.is_absolute():
