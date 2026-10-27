@@ -267,6 +267,12 @@ def _curated_retained_rows():
     for kind in ('saturation','canonical-fishing'):
         selected=[row for row in rows if row['kind']==kind]
         assert len(selected)==2 and {row['side'] for row in selected}=={'behavior','resource'}, 'Curated retained pair is incomplete: '+kind
+    excluded=c.CONFIG.get('fresh_world_excluded_groups',[])
+    assert isinstance(excluded,list) and all(isinstance(group,str) and group.strip() for group in excluded) and len(set(excluded))==len(excluded), 'Fresh-world exclusions require distinct group names'
+    for group in excluded:
+        pair=[row for row in rows if row['group']==group]
+        assert len(pair)==2 and {row['side'] for row in pair}=={'behavior','resource'} and all(row['kind']=='literal' for row in pair), 'Only complete declared literal addon pairs can be excluded: '+group
+    rows=[row for row in rows if row['group'] not in excluded]
     return rows
 
 def _curated_retained_recipes(rows):
@@ -337,12 +343,14 @@ def select_curated_inputs(original):
                        'output_tree':row['output_tree'],'source':descriptors[uid]}
     binding=CATALOG[CURATED_KEY]['selection']
     report={'schema':1,'kind':'curated_input_selection','profile':{'path':binding['path'],'sha256':binding['sha256']},
-            'packs':selected,'native_loading':False,'client':False,'production_ready':False}
+            'packs':selected,'excluded_groups':c.CONFIG.get('fresh_world_excluded_groups',[]),
+            'native_loading':False,'client':False,'production_ready':False}
     return roots,descriptors,report
 
 def verify_curated_inputs(receipt,selection):
     rows=_curated_retained_rows();binding=CATALOG[CURATED_KEY]['selection']
     assert selection['schema']==1 and selection['kind']=='curated_input_selection' and selection['profile']=={'path':binding['path'],'sha256':binding['sha256']}, 'Curated input selection profile changed'
+    assert selection.get('excluded_groups',[])==c.CONFIG.get('fresh_world_excluded_groups',[]), 'Fresh-world excluded groups changed'
     assert all(selection[key] is False for key in ('native_loading','client','production_ready')), 'Source selection cannot certify native or client acceptance'
     assert set(selection['packs'])=={row['uuid'] for row in rows}, 'Curated input selection set changed'
     actual={row['uuid']:row for row in receipt['packs']}

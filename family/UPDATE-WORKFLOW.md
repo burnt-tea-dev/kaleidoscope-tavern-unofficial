@@ -80,6 +80,12 @@ LevelDB Python adapter；`gh` 需已有正常的唯讀 GitHub 認證。缺少依
 包與順序只作回退證據，不自動加入新世界。不得帶舊世界 recovery／migration／observer
 或 retained-input profiles；普通更新仍要求原有完整存檔遷移證據。
 
+沿用 `current-author-curated` 集合建立新世界時，可在設定以
+`fresh_world_excluded_groups` 列出不再加入的可選 addon 完整名稱。
+僅允許已宣告的 literal 行為／資源配對整組移除；未知名稱、單邊包及
+Saturation／Fishing 適配包會拒絕。其餘包仍按原來源驗證，缺少依賴仍由
+完整家族組裝檢查拒絕。選擇及排除名單記入候選證據，不修改原作者選擇檔。
+
 同一正常停服窗口保留一份完整舊世界 snapshot、原 properties／政策／current selector 設定及 displaced global
 包。隔離引擎使用指定名稱／seed／生成設定，從沒有 DB 或 level.dat 的目錄生成，
 同庫只做 first／restart；不複製舊 Spawn／Creative／實驗 metadata，也不加入任何 probe、
