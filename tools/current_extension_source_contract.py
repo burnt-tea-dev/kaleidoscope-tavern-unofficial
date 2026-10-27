@@ -9,6 +9,7 @@ from pathlib import Path
 
 from foundation.source_contract import imported, read_module
 from check_localization import check as check_localization, parse_lang, tokens
+from build_locale_aliases import PARTIAL_LOCALES
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_GROUPS = {
@@ -17,7 +18,9 @@ SOURCE_GROUPS = {
     'machinesAndDecorations': ('bedrock/machines.js', 'core/machines.js', 'bedrock/decorations.js'),
     'sharedGuide': ('data/cookery-guide-payload.js', 'data/guide-navigation.js', 'data/guide-copy.js'),
 }
-LOCALE_SOURCES = frozenset('runtime/RP/texts/' + locale + '.lang' for locale in ('en_US', 'zh_CN', 'zh_TW'))
+COMPLETE_LOCALE_SOURCES = frozenset('runtime/RP/texts/' + locale + '.lang' for locale in ('en_US', 'zh_CN', 'zh_TW'))
+PARTIAL_LOCALE_SOURCES = frozenset('runtime/RP/texts/' + locale + '.lang' for locale in PARTIAL_LOCALES)
+LOCALE_SOURCES = COMPLETE_LOCALE_SOURCES | PARTIAL_LOCALE_SOURCES
 QUALITY_UP_KEY = 'kaleidoscope_tavern.message.barrel_quality_up'
 
 
@@ -58,10 +61,13 @@ def check(root=ROOT, *, syntax=True, localization=True):
              {'bottlePermutationBlock', 'bottlePermutationStates', 'legacyBottleDisplay'})
 
     languages = {name: parse_lang((root / name).read_text(), name) for name in LOCALE_SOURCES}
+    for name in COMPLETE_LOCALE_SOURCES:
+        assert QUALITY_UP_KEY in languages[name], ('Missing current quality feedback key', name)
+    # Partial Java translations retain the existing English fallback. When an
+    # override is present, it must preserve the same placeholder contract.
     for name, labels in languages.items():
-        assert QUALITY_UP_KEY in labels, ('Missing current quality feedback key', name)
-    for name, labels in languages.items():
-        assert tokens(labels[QUALITY_UP_KEY]) == tokens(languages['runtime/RP/texts/en_US.lang'][QUALITY_UP_KEY]), ('Quality feedback placeholders differ', name)
+        if QUALITY_UP_KEY in labels:
+            assert tokens(labels[QUALITY_UP_KEY]) == tokens(languages['runtime/RP/texts/en_US.lang'][QUALITY_UP_KEY]), ('Quality feedback placeholders differ', name)
     localization_result = check_localization(root) if localization else 'not run'
 
     sources = runtime_sources()

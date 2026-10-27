@@ -10,6 +10,11 @@ kaleidoscope_tavern:itemGroup.name.decoration=森羅物語酒館：裝飾
 kaleidoscope_tavern:itemGroup.name.tools=森羅物語酒館：工具
 kaleidoscope_tavern:itemGroup.name.ingredients=森羅物語酒館：原料與調酒材料
 ## END shared creative decoration groups
+## Shared legacy addon creative groups; identities remain distinct.
+kaleidoscope_tavern:itemGroup.name.wines_spirits=森羅物語酒館：酒飲
+kaleidoscope_tavern:itemGroup.name.cultivation=森羅物語酒館：作物
+kaleidoscope_tavern:itemGroup.name.barware_bottles=空瓶與酒杯
+kaleidoscope_tavern:itemGroup.name.decorations_lighting=森羅物語酒館：裝飾
 ## Visual inspection labels.
 tile.kt_assets_a1:pressing_tub.name=壓榨桶 [A1]
 tile.kt_assets_a1:pressing_tub_tilt.name=傾斜壓榨桶 [A1]

@@ -1,5 +1,7 @@
 ## Current maintained source
 
+**0.6.186 source candidate:** retains the existing four-key legacy creative-label repair across five locales and restores the 25 visible wine representatives to Java order. World Liquor 0.1.166 supplies the exact dependency pairing. Canonical CI and complete-family/native/client admission are pending; the published download below remains 0.6.185.
+
 Current source identity and dependencies come from [baseline.json](baseline.json), and the reviewed family pairings come from [family/upstream.lock.json](family/upstream.lock.json). The source includes placed-bottle facing and potion tint, guide navigation, and bounded cabinet retries. The reviewed Orchard adapter may fill missing creative-group icons while preserving category, membership and ordering. Actual client acceptance remains pending.
 
 **Public download:** [Tavern v0.6.185](https://github.com/burnt-tea-dev/kaleidoscope-tavern-unofficial/releases/tag/v0.6.185), paired with **World Liquor 0.1.164** and optional **Grilling 2.8.157** in the reviewed family. Its author inputs are Cookery **1.6.4** and ChineseFood **1.0.6**, pinned in [the public family lock](family/upstream.lock.json). This download contains only the owned Tavern BP/RP; it does not include author packages or private integration, or assemble the full family on import.

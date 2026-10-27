@@ -169,7 +169,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: burnt-tea-dev/kaleidoscope-world-liquor-unofficial
-          ref: 922645eeb852410477034f55a61c61a6064d9287
+          ref: d60c280ea17b810c4f5f892400c58591b3133845
           path: world-liquor-src
           fetch-depth: 0
           persist-credentials: false
@@ -199,7 +199,7 @@ jobs:
               'world-liquor':{'repository':'casama233/kaleidoscope-world-liquor-unofficial','repository_id':1385218112}}
           assert os.environ['GITHUB_REPOSITORY']=='burnt-tea-dev/kaleidoscope-tavern-unofficial'
           assert os.environ['GITHUB_REPOSITORY_ID']==str(identities['tavern']['repository_id'])
-          assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=peer,text=True).strip()=='922645eeb852410477034f55a61c61a6064d9287'
+          assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=peer,text=True).strip()=='d60c280ea17b810c4f5f892400c58591b3133845'
           lock=json.loads((root/'family/upstream.lock.json').read_text())
           lock['owned']=[row for row in lock['owned'] if row['key'] in {'tavern','world-liquor'}]
           assert len(lock['owned'])==2 and {row['key'] for row in lock['owned']}=={'tavern','world-liquor'}
@@ -226,6 +226,7 @@ jobs:
           set -o pipefail
           python tools/creative/catalog.py --peer ../world-liquor-src | tee ../evidence/catalog.json
           python tools/creative/test_catalog.py 2>&1 | tee ../evidence/creative-tests.log
+          python tools/creative/test_legacy_labels.py 2>&1 | tee ../evidence/creative-legacy-labels.log
           python tools/creative/catalog.py --write
           python tools/creative/catalog.py --root ../world-liquor-src --write
           python ../world-liquor-src/tools/build_effect_names.py --check
@@ -256,7 +257,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: burnt-tea-dev/kaleidoscope-world-liquor-unofficial
-          ref: 922645eeb852410477034f55a61c61a6064d9287
+          ref: d60c280ea17b810c4f5f892400c58591b3133845
           path: world-liquor
           persist-credentials: false
       - uses: actions/setup-node@v4
@@ -371,13 +372,13 @@ jobs:
           repository: burnt-tea-dev/kaleidoscope-world-liquor-unofficial
           # World Liquor164 requires this paired Tavern185 runtime.
           # Pin exact peer bytes, not an obsolete release or a moving branch.
-          ref: 922645eeb852410477034f55a61c61a6064d9287
+          ref: d60c280ea17b810c4f5f892400c58591b3133845
           path: liquor
           persist-credentials: false
       - uses: actions/checkout@v4
         with:
           repository: burnt-tea-dev/kaleidoscope-grilling-unofficial
-          ref: 2e3ef63839e38f84b4a0109957077ac00a140697
+          ref: 3168d3a5a469022a69e782476801117ccac9525c
           path: grilling
           sparse-checkout: projects/grilling/gameplay_core/resource_pack/ui
           persist-credentials: false
@@ -433,7 +434,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: burnt-tea-dev/kaleidoscope-world-liquor-unofficial
-          ref: 922645eeb852410477034f55a61c61a6064d9287
+          ref: d60c280ea17b810c4f5f892400c58591b3133845
           path: liquor
           persist-credentials: false
       - uses: actions/setup-node@v4
@@ -520,7 +521,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: burnt-tea-dev/kaleidoscope-world-liquor-unofficial
-          ref: 922645eeb852410477034f55a61c61a6064d9287
+          ref: d60c280ea17b810c4f5f892400c58591b3133845
           path: .source-check/world-liquor-native
           persist-credentials: false
       - name: Reject incomplete or relabeled native evidence

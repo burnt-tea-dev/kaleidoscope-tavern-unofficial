@@ -133,8 +133,54 @@ class FixtureTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'Duplicate'):
             c.localize(KEY+'stools=Other\n', {KEY+'stools': 'Stools'})
 
+    def test_current_catalog_rejects_reinstated_historical_owner(self):
+        c.apply(self.root, True)
+        baseline = 'data/baseline-reconciliation.json'
+        launch = 'data/launch-repair-reference.json'
+        put(self.root, baseline, {})
+        put(self.root, launch, {})
+        self.assertEqual(c.check_current(self.root)['changed_files'], 0)
+        # Reintroduce the exact two ownership routes retired by this change.
+        for path, section, error in [(baseline, 'files', 'historical postimage'),
+                                     (launch, 'reviewedChanges', 'launch hash aggregate')]:
+            put(self.root, path, {section: {c.CATALOG.as_posix(): {'after': 'old-catalog-hash'}}})
+            with self.subTest(path=path), self.assertRaisesRegex(ValueError, error):
+                c.check_current(self.root)
+            put(self.root, path, {})
+
+    def test_java_order_rejects_reordered_or_missing_wines(self):
+        plan = c.load(self.root/c.PLAN)
+        plan['groups'] = {'wines': ['watermelon_juice', 'wine_q6']}
+        put(self.root, c.PLAN, plan)
+        catalog = c.load(self.root/c.CATALOG)
+        group = catalog['minecraft:crafting_items_catalog']['categories'][0]['groups'][0]
+        group['group_identifier']['name'] = c.taxonomy()['existing_groups']['wines']['name']
+        group['items'] = ['kaleidoscope_tavern:'+item for item in plan['groups']['wines']]
+        put(self.root, c.CATALOG, catalog)
+        source = self.root/'ModCreativeTabs.java'
+        juice = 'output.accept(ModItems.WATERMELON_JUICE.get());\n'
+        wine = 'output.accept(BottleBlockItem.getMaxLevelDrink(ModItems.WINE));\n'
+        unrelated = 'output.accept(ModItems.GRAPE.get());\n'
+        source.write_text('// '+wine+'/* '+wine+' */\n'+juice+unrelated+wine)
+        self.assertEqual(c.check_java_wine_order(self.root, source)['items'], 2)
+        group['items'].reverse()
+        put(self.root, c.CATALOG, catalog)
+        with self.assertRaisesRegex(ValueError, 'Visible wine catalog differs'):
+            c.check_java_wine_order(self.root, source)
+        group['items'].reverse()
+        put(self.root, c.CATALOG, catalog)
+        for changed in (wine+juice, juice, juice+wine+wine):
+            source.write_text(changed)
+            with self.subTest(source=changed), self.assertRaisesRegex(ValueError, 'differs from Java'):
+                c.check_java_wine_order(self.root, source)
+
 
 class RealPackTests(unittest.TestCase):
+    def test_catalog_is_owned_by_the_current_generator(self):
+        self.assertEqual(c.check_current(TAVERN)['changed_files'], 0)
+        from baseline_reference import previous_bytes
+        self.assertEqual(previous_bytes(TAVERN,TAVERN/c.CATALOG), (TAVERN/c.CATALOG).read_bytes())
+
     def test_both_current_catalogs_are_reproducible(self):
         self.assertEqual(c.apply(TAVERN)['changed_files'], 0)
         self.assertEqual(c.apply(LIQUOR)['changed_files'], 0)

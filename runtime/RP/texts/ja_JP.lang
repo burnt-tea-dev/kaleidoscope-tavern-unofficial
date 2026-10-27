@@ -1,3 +1,8 @@
+## Shared legacy addon creative groups; identities remain distinct.
+kaleidoscope_tavern:itemGroup.name.wines_spirits=Kaleidoscope Tavern: Drinks
+kaleidoscope_tavern:itemGroup.name.cultivation=Kaleidoscope Tavern: Cultivation
+kaleidoscope_tavern:itemGroup.name.barware_bottles=Empty bottles and glasses
+kaleidoscope_tavern:itemGroup.name.decorations_lighting=Kaleidoscope Tavern: Decor
 ## Visual inspection labels.
 item_group.kaleidoscope_tavern.tavern_main.name=カレイドスコープ：酒場
 item_group.kaleidoscope_tavern.tavern_deco.name=カレイドスコープ：酒場装飾

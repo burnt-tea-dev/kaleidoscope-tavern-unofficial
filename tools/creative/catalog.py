@@ -7,6 +7,7 @@ explicitly hidden block implementations and quality variants remain untouched.
 import argparse
 import copy
 import json
+import re
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -15,6 +16,7 @@ PLAN = Path('data/creative-decoration-groups.json')
 BEGIN = '## BEGIN shared creative decoration groups'
 END = '## END shared creative decoration groups'
 LOCALES = ('en_US', 'zh_CN', 'zh_TW')
+JAVA_TABS = Path('src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/init/ModCreativeTabs.java')
 
 
 def load(path):
@@ -167,6 +169,59 @@ def apply(root, write=False):
             'planned_items': sum(len(v) for v in load(root / PLAN)['groups'].values()), 'changed_files': len(stale)}
 
 
+def runtime_sources():
+    """The catalog is maintained by this generator, not a historical postimage."""
+    return frozenset({CATALOG.as_posix()})
+
+
+def check_java_wine_order(root, java_source):
+    """Compare existing wine representatives with Java's accepted-item order."""
+    plan = load(Path(root) / PLAN)
+    if plan['namespace'] != 'kaleidoscope_tavern':
+        raise ValueError('Java Tavern wine order requires the Tavern creative plan')
+    expected = plan['groups']['wines']
+    name = taxonomy()['existing_groups']['wines']['name']
+    groups = [group for category in load(Path(root) / CATALOG)['minecraft:crafting_items_catalog']['categories']
+              for group in category['groups'] if group.get('group_identifier', {}).get('name') == name]
+    if len(groups) != 1 or groups[0]['items'] != [plan['namespace'] + ':' + item for item in expected]:
+        raise ValueError('Visible wine catalog differs from the reviewed plan')
+    representatives = {re.sub(r'_q[1-6]$', '', name).upper(): name for name in expected}
+    if not expected or len(representatives) != len(expected):
+        raise ValueError('Ambiguous Java wine representatives')
+    source = Path(java_source)
+    if source.is_dir():
+        source /= JAVA_TABS
+    text = re.sub(r'/\*.*?\*/|//[^\n]*', '', source.read_text(encoding='utf-8'), flags=re.S)
+    accepted = re.findall(
+        r'\boutput\s*\.\s*accept\s*\(\s*(?:BottleBlockItem\s*\.\s*getMaxLevelDrink\s*\(\s*)?'
+        r'ModItems\s*\.\s*([A-Z][A-Z0-9_]*)', text)
+    actual = [representatives[name] for name in accepted if name in representatives]
+    if actual != expected:
+        raise ValueError('Creative wine order differs from Java accepted items')
+    return {'source': str(source), 'items': len(actual), 'order': 'passed'}
+
+
+def check_current(root, java_source=None):
+    """Validate current output and ownership; this is not client acceptance."""
+    root = Path(root).resolve()
+    sources = runtime_sources()
+    ledger = load(root / 'data/baseline-reconciliation.json')
+    for section in ('files', 'reviewedFunctionalDeltas'):
+        if sources & set(ledger.get(section, {})):
+            raise ValueError('Creative catalog returned to a historical postimage')
+    for section in ('reviewedFunctionalDeltaLayers', 'reviewedAssetDeltaLayers'):
+        if any(sources & set(layer['files']) for layer in ledger.get(section, [])):
+            raise ValueError('Creative catalog returned to a reverse delta')
+    reference = load(root / 'data/launch-repair-reference.json')
+    for section in ('reviewedChanges', 'newRuntimeFiles'):
+        if sources & set(reference.get(section, {})):
+            raise ValueError('Creative catalog returned to the launch hash aggregate')
+    report = apply(root)
+    report.update(sources=sorted(sources), bds=False, client=False,
+                  java_wine_order=check_java_wine_order(root, java_source) if java_source else 'not run')
+    return report
+
+
 def check_pair(roots):
     """Validate shared names/icons and resolution; not an engine/UI simulation."""
     combined_defs, merged = {}, {}
@@ -198,8 +253,11 @@ def main():
     parser.add_argument('--root', type=Path, default=HERE.parents[1])
     parser.add_argument('--write', action='store_true', help='Regenerate reviewed catalog, visible menus and group labels')
     parser.add_argument('--peer', type=Path, help='Additionally validate the paired pack (check only)')
+    parser.add_argument('--java-source', type=Path, help='Check Tavern wine order against a Java checkout or ModCreativeTabs.java')
     args = parser.parse_args()
     report = apply(args.root, args.write)
+    if args.java_source:
+        report['java_wine_order'] = check_java_wine_order(args.root, args.java_source)
     if args.peer:
         report['paired_groups'] = check_pair([args.root, args.peer])
     print(json.dumps(report, ensure_ascii=False, indent=2))

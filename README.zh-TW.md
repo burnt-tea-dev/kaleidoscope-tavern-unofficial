@@ -1,5 +1,7 @@
 ## 當前維護來源
 
+**0.6.186 來源候選：** 保留四個舊創造分類鍵、五個語系的既有修正，並依 Java 順序排列 25 個可見酒飲代表品。世界名酒 0.1.166 提供精確相依配對；canonical CI、完整家族／原生／真人驗收仍待完成，下方已發布下載仍為 0.6.185。
+
 當前來源及精確相依以 [baseline.json](baseline.json) 為準，已審查家族配對見 [family/upstream.lock.json](family/upstream.lock.json)。原生瓶擺放朝向玩家的反方向，藥水顯示與創造模式選取共用嚴格唯讀儲存；WATER／EMPTY維持Java無持久物品資料的行為。取消指南設定仍返回原指南，設定按鈕顯示目前語言名稱。既有三語、個人音量、廚房臨時語言、存檔鍵及音效行為保持；保留依[第三方設計審查](docs/THIRD-PARTY-TAVERN-REVIEW.md)自行實作的導航改善。這些是來源實作說明，不代表真人通過。
 
 **公開下載：[酒館 v0.6.185](https://github.com/burnt-tea-dev/kaleidoscope-tavern-unofficial/releases/tag/v0.6.185)**，本輪已審查配套為世界名酒 0.1.164 及可選 Grilling 2.8.157。公開檔案只含自有 Tavern BP/RP，不含作者包或私人整合；一般匯入不會組裝完整家族。精確作者相依見下方與公開家族 lock。
