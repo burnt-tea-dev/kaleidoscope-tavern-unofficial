@@ -1,19 +1,19 @@
 {
-  "version": "0.6.187",
-  "tag": "v0.6.187",
-  "title": "Tavern 0.6.187: current upstream recipe references and family pairing",
+  "version": "0.6.188",
+  "tag": "v0.6.188",
+  "title": "Tavern 0.6.188: optional Java pendant lamps and Luck protocol",
   "prerelease": false,
   "publication_request": false,
   "validation_evidence": "docs/PARITY-MATRIX.md",
-  "public_notes_path": "CHANGELOG.md",
+  "public_notes_path": "docs/RELEASE-NOTES-0.6.188.md",
   "client_acceptance": "pending",
   "full_client_acceptance": "pending",
   "saved_world_migration": "pending",
   "production_ready": false,
   "live_deployment": false,
-  "native_evidence_scope": "Source behavior only; canonical CI, full-family saved-world validation and rendered-client acceptance are separate gates.",
+  "native_evidence_scope": "Isolated BDS1.26.60.6 exact entity drop/metadata probe and actual shared furniture adapter regressions; no human rendering/audio or full-family acceptance yet.",
   "client": false,
   "status": "candidate_pending_canonical_ci_and_family_admission",
   "family_ready": false,
-  "public_notes_inline": "Adopt the official Bedrock Tavern1.0.7 unique-reference rule. Preserve the current shared seven-section guide. Monitor official owned-port counterparts and adapted Fishing source with pinned author IDs; recognize the selected world after a completed fresh deployment."
+  "public_notes_inline": "Support registered optional two-half pendant lamps through the existing placement/recovery lifecycle, add the current author blue dye recipe to the Tavern-owned blue lamp and append the optional World Liquor Luck+ icon without renumbering old codes. Preserve existing standalone operation and save identities. Pair with World Liquor169. Current-source/adapter checks pass; full-family admission and rendered-client acceptance are separate gates."
 }

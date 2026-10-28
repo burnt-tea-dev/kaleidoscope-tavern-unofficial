@@ -2,7 +2,9 @@
  * checks do not run native SimulatedPlayer, BDS, touch hardware or rendering. */
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {world,system,Entity,Player,GameMode,ItemStack,BlockPermutation} from '@minecraft/server';
+import {world,system,Entity,Player,GameMode,ItemStack,BlockPermutation,registerFixtureItem} from '@minecraft/server';
+import {normalizeFoundation} from '../runtime/BP/scripts/core/extension-foundation.js';
+import {installContent} from '../runtime/BP/scripts/core/extension-content.js';
 import {ensureSeat,sitOnFurniture,maintainSeat,recolorLight,placeFurniture,recoverFurniture,resolveGlasswareHit,registerFurnitureComponents,installFurnitureEvents,FURNITURE_TEST} from '../runtime/BP/scripts/bedrock/furniture.js';
 import {registerDecorationComponents,installDecorationEvents} from '../runtime/BP/scripts/bedrock/decorations.js';
 import {installJavaItemUseOnEvents,nativeEmptyHandBlockUse,nativeBlockUse,JAVA_PLACEMENT_TEST} from '../runtime/BP/scripts/bedrock/java-placement-router.js';
@@ -186,4 +188,20 @@ test('vacant stools reset yaw after leaving or reloading; idle maintenance does 
  p.isSneaking=true;maintainSeat(seat);assert.equal(mounts.has(p),false);assert.equal(seat.getProperty(NS+'seat_yaw'),0);
  seat.setProperty(NS+'seat_yaw',47);FURNITURE_TEST.helpers.clear();maintainSeat(seat);assert.equal(seat.getProperty(NS+'seat_yaw'),0);
  let writes=0;const set=seat.setProperty.bind(seat);seat.setProperty=(...a)=>{writes++;set(...a);};maintainSeat(seat);assert.equal(writes,0);
+});
+
+test('registered optional lamps place and recover both halves once through the shared lifecycle',()=>{
+ const source='optional_lamp_test',id=source+':green_pendant_lamp';registerFixtureItem(id);
+ installContent(source,[],normalizeFoundation({furniture:[{block:id,kind:'pendant_lamp'}]},source,()=>true));
+ try{
+  const {p,b}=setup('minecraft:stone',{}),upper={...b.location,y:b.location.y+2},lower={...b.location,y:b.location.y+1};
+  hold(p,id,2);placeFurniture(p,upper);
+  assert.equal(d.getBlock(upper).typeId,id);assert.equal(d.getBlock(lower).typeId,id);
+  assert.equal(d.getBlock(upper).permutation.getState(NS+'half'),0);assert.equal(d.getBlock(lower).permutation.getState(NS+'half'),1);
+  assert.equal(p.inventory.getItem(2).amount,1);
+  recoverFurniture(p,d.getBlock(lower));
+  assert.equal(d.getBlock(upper).typeId,'minecraft:air');assert.equal(d.getBlock(lower).typeId,'minecraft:air');assert.equal(p.inventory.getItem(2).amount,2);
+  at(lower,'minecraft:stone');assert.throws(()=>placeFurniture(p,upper),/PENDANT_LOWER_BLOCKED/);
+  assert.equal(d.getBlock(upper).typeId,'minecraft:air');assert.equal(p.inventory.getItem(2).amount,2);
+ }finally{installContent(source,[],{});}
 });

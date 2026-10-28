@@ -395,12 +395,6 @@
       "after": "ee68b9970e1427d81e9e4cde41894c5596b88717ec75ece7ca400786685ef9ab",
       "reason": "Reviewed reconciliation of PRs #25/#50/#69/#88 and paired version bump; preserves native pick, storage and creative metadata."
     },
-    "runtime/BP/scripts/core/furniture.js": {
-      "before": "9a440585b8b9c72699c42a017cbb139f8533123c069e32e1ad06213a86e06079",
-      "beforeProjected": "9a440585b8b9c72699c42a017cbb139f8533123c069e32e1ad06213a86e06079",
-      "after": "d91b8d4d9768655cbceb2eb2869cd86aaf6b410b82019f052fce095802619b82",
-      "reason": "Reviewed reconciliation of PRs #25/#50/#69/#88 and paired version bump; preserves native pick, storage and creative metadata. 0.6.63: glasswareHolderSlot delegates to the shared world-quadrant read in core/hit-basis.js."
-    },
     "runtime/RP/manifest.json": {
       "before": "da277b14643b196a0c35cc43ca56e4719b28a3e213a031155e365b3c3686b30c",
       "beforeProjected": "da277b14643b196a0c35cc43ca56e4719b28a3e213a031155e365b3c3686b30c",
@@ -1949,12 +1943,6 @@
       "after": "ac563cf09e6aaae8c78ba4f411447016c06bb007f791f661990e75b4b42ab7f9",
       "reason": "2026-09-28 effects review: Source-derived post-commit feedback, isolated cosmetic failures and real splash lifecycle; preserves PR93 carrier repair. See docs/EFFECTS-REPORT-FOLLOWUP-20260928.md. Pickup parity audit 2026-09-29: native ItemStack persistence, Java storage/main-hand versus Forge inventory delivery, per-block creative handling, exact Java slot boundaries and feedback; details in docs/PICKUP-PARITY-20260929.md."
     },
-    "runtime/BP/scripts/core/extension-foundation.js": {
-      "before": "106025e78428e79a06e0c65c2217c7c22a1152e52af70827b552e3180da0117f",
-      "beforeProjected": "106025e78428e79a06e0c65c2217c7c22a1152e52af70827b552e3180da0117f",
-      "after": "fa5a29e4195b3abc954332c6e20e191b0820238a6ac094b83f36918663d816d8",
-      "reason": "2026-09-28 effects review: Optional namespace-scoped external item particle registration. See docs/EFFECTS-REPORT-FOLLOWUP-20260928.md."
-    },
     "runtime/RP/particles/butterfly_incense.json": {
       "before": "c95a3889b3115198c9b7bf5fe871d77e1be5cdf4f09ef86f84ed584c559597f2",
       "beforeProjected": "c95a3889b3115198c9b7bf5fe871d77e1be5cdf4f09ef86f84ed584c559597f2",
@@ -2497,6 +2485,20 @@
       "reason": "Retire unreachable owned module; current consumers and retained production coverage reviewed in the 2026-10-19 runtime retirement evidence. Historical baseline/preimages remain unchanged.",
       "retiredSourceCommit": "a5c1e0093c8f14a755d5ea403a4c547744c04c25",
       "retiredSourceSha256": "cfbda3933582450867542f470406517383363e2c11b213017ea05c8c82530fc9"
+    }
+  },
+  "historicalChanges": {
+    "runtime/BP/scripts/core/furniture.js": {
+      "before": "9a440585b8b9c72699c42a017cbb139f8533123c069e32e1ad06213a86e06079",
+      "beforeProjected": "9a440585b8b9c72699c42a017cbb139f8533123c069e32e1ad06213a86e06079",
+      "after": "d91b8d4d9768655cbceb2eb2869cd86aaf6b410b82019f052fce095802619b82",
+      "reason": "Reviewed reconciliation of PRs #25/#50/#69/#88 and paired version bump; preserves native pick, storage and creative metadata. 0.6.63: glasswareHolderSlot delegates to the shared world-quadrant read in core/hit-basis.js."
+    },
+    "runtime/BP/scripts/core/extension-foundation.js": {
+      "before": "106025e78428e79a06e0c65c2217c7c22a1152e52af70827b552e3180da0117f",
+      "beforeProjected": "106025e78428e79a06e0c65c2217c7c22a1152e52af70827b552e3180da0117f",
+      "after": "fa5a29e4195b3abc954332c6e20e191b0820238a6ac094b83f36918663d816d8",
+      "reason": "2026-09-28 effects review: Optional namespace-scoped external item particle registration. See docs/EFFECTS-REPORT-FOLLOWUP-20260928.md."
     }
   }
 }

@@ -13,8 +13,10 @@ from build_locale_aliases import PARTIAL_LOCALES
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_GROUPS = {
-    'registrationAndTransport': ('bedrock/extension-host.js', 'core/registry.js', 'core/transport.js'),
+    'registrationAndTransport': ('bedrock/extension-host.js', 'core/registry.js', 'core/transport.js', 'core/extension-foundation.js'),
     'bottleIdentity': ('core/extension-content.js', 'core/bottle-display-schema.js'),
+    'furnitureLifecycle': ('core/furniture.js',),
+    'optionalEffectProtocol': ('data/effect-icons.js',),
     'machinesAndDecorations': ('bedrock/machines.js', 'core/machines.js', 'bedrock/decorations.js'),
     'sharedGuide': ('data/cookery-guide-payload.js', 'data/guide-navigation.js', 'data/guide-copy.js'),
 }
@@ -22,10 +24,11 @@ COMPLETE_LOCALE_SOURCES = frozenset('runtime/RP/texts/' + locale + '.lang' for l
 PARTIAL_LOCALE_SOURCES = frozenset('runtime/RP/texts/' + locale + '.lang' for locale in PARTIAL_LOCALES)
 LOCALE_SOURCES = COMPLETE_LOCALE_SOURCES | PARTIAL_LOCALE_SOURCES
 QUALITY_UP_KEY = 'kaleidoscope_tavern.message.barrel_quality_up'
+LAMP_RECIPE = 'runtime/BP/recipes/blue_pendant_lamp_from_dye.json'
 
 
 def runtime_sources():
-    return frozenset('runtime/BP/scripts/' + name for group in SOURCE_GROUPS.values() for name in group) | LOCALE_SOURCES
+    return frozenset('runtime/BP/scripts/' + name for group in SOURCE_GROUPS.values() for name in group) | LOCALE_SOURCES | {LAMP_RECIPE}
 
 
 def check(root=ROOT, *, syntax=True, localization=True):
@@ -48,6 +51,11 @@ def check(root=ROOT, *, syntax=True, localization=True):
     imported(modules['bedrock/extension-host.js'], '../core/transport.js', {'ExtensionTransport', 'EVENTS', 'TRANSPORT_LIMITS'})
     imported(modules['bedrock/extension-host.js'], '../core/registry.js', {'CAPABILITIES'})
     imported(modules['core/registry.js'], './extension-content.js', {'installContent'})
+    imported(modules['core/furniture.js'], './extension-content.js', {'externalFurnitureDefinition'})
+    recipe=json.loads((root/LAMP_RECIPE).read_text())['minecraft:recipe_shaped']
+    assert recipe['pattern']==[' L ','LGL',' L ']
+    assert recipe['key']=={'L':{'item':'kaleidoscope_tavern:yellow_pendant_lamp'},'G':{'item':'minecraft:blue_dye'}}
+    assert recipe['result']=={'item':'kaleidoscope_tavern:blue_pendant_lamp','count':4}
     imported(modules['core/bottle-display-schema.js'], './extension-content.js', {'bottleBase', 'bottleBlock'})
     imported(modules['bedrock/machines.js'], '../core/machines.js', {'interact', 'advanceBarrel'})
     imported(modules['bedrock/machines.js'], '../core/bottle-display-schema.js', {'bottlePermutationBlock', 'bottlePermutationStates'})

@@ -1,6 +1,6 @@
 # Baseline maintenance
 
-1. Implement gameplay, rendering, guide and stable API fixes in canonical runtime. Do not patch them during packaging or installation.
+1. Implement gameplay, rendering, guide and API fixes in canonical runtime. Verified Beta APIs and creator experiments are allowed under the owner's current policy; declare their actual engine and experiment requirements. Do not patch fixes during packaging or installation.
 2. Bump the release version whenever any exported file changes. Update paired manifests, module versions, guide/payload version and dependencies together.
 3. Update `baseline.json` dependencies from verified upstream file metadata. Never infer UUIDs from a version label.
 4. Run the repository's functional regressions. Stage reviewed source files, then run `python tools/baseline_gate.py freeze`. An existing version cannot be assigned new content.

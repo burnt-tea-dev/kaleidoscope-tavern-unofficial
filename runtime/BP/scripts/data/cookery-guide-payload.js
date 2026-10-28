@@ -9,7 +9,7 @@ import { EFFECT_PAGES } from "./effect-pages.js";
 export const COOKERY_GUIDE_PAYLOAD={
   "api": 1,
   "id": "kaleidoscope_tavern:tavern",
-  "version": "0.6.187",
+  "version": "0.6.188",
   "order": 250,
   "icon": "textures/ui/guidebook_icons/kt_tavern",
   "titleKey": "title",
@@ -2202,6 +2202,19 @@ export const COOKERY_GUIDE_PAYLOAD={
             "minecraft:chain",
             "minecraft:chain",
             "minecraft:soul_lantern"
+          ],
+          "count": 4,
+          "time": 0,
+          "result": "kaleidoscope_tavern:blue_pendant_lamp"
+        },
+        {
+          "method": "Crafting Table",
+          "ingredients": [
+            "kaleidoscope_tavern:yellow_pendant_lamp",
+            "kaleidoscope_tavern:yellow_pendant_lamp",
+            "minecraft:blue_dye",
+            "kaleidoscope_tavern:yellow_pendant_lamp",
+            "kaleidoscope_tavern:yellow_pendant_lamp"
           ],
           "count": 4,
           "time": 0,

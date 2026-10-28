@@ -1,3 +1,7 @@
+## 0.6.188 — 2026-10-28
+
+Support registered optional two-half pendant lamps through the existing placement/recovery lifecycle, add the current author blue dye recipe to the Tavern-owned blue lamp and append the optional World Liquor Luck+ icon without renumbering old codes. Preserve existing standalone operation and save identities. Pair with World Liquor169. Current-source/adapter checks pass; full-family admission and rendered-client acceptance are separate gates.
+
 ## 0.6.187 — 2026-10-27
 
 Adopt the official Bedrock Tavern1.0.7 unique-reference rule. Preserve the current shared seven-section guide. Monitor official owned-port counterparts and adapted Fishing source with pinned author IDs; recognize the selected world after a completed fresh deployment.
