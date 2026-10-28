@@ -8890,52 +8890,52 @@
       "chinesefood-freezer-storage.json": {
         "profile": "curated-chinesefood-freezer-storage-p76",
         "sha256": "05db7ef79a092f69789c88e9c63cf822e58fc05f17c2dc43b9128762f11d1f1a",
-        "declaration_sha256": "c3467a3ca9737edd02d07e377caf22d15ab8968dbd63e6b8a9bf6b703be6e9b1"
+        "declaration_sha256": "1f2e5960b98d996c95abf3288be267b7ba9452a7a8c90e0795d7cd3b1b5b74f4"
       },
       "chinesefood-reviewed-repairs.json": {
         "profile": "curated-chinesefood-reviewed-repairs-p76",
         "sha256": "695944b65f8f98821a49d281be1fffb5062079f2a962d654230596a1e448a7a6",
-        "declaration_sha256": "004c0bb26a101bfc4693d6284defa144376f3bddf3ff43a65c97eca907a31e47"
+        "declaration_sha256": "67b1dc247087effe22cfe0e39600cd33f6a397ad2233ec0cccf3878c3127d244"
       },
       "chinesefood-doll-renderer.json": {
         "profile": "curated-chinesefood-doll-renderer-p76",
         "sha256": "6ec1cad0fc2f7b32f1ae77bfcf8d71dc99a16d35c374448f138f6a2caea18435",
-        "declaration_sha256": "a992e47299a2652984bc9d385552ee7aab9505602f1b2c6a3e6da3a1a37b904c"
+        "declaration_sha256": "919f1db3f69975bace6e1d6046d1386e80c43f4a63ea23f2696777b33dda9f62"
       },
       "cookery-mooncake-dough-repair.json": {
         "profile": "curated-cookery-mooncake-dough-repair-p76",
         "sha256": "9b3816a28769a312858a3f01edca970333fd84755847057af55ceacc7ee2792a",
-        "declaration_sha256": "6725f282b1fbe62bfe4e03f388c9c70384b9701f9f40ef44380fe7e556c69363"
+        "declaration_sha256": "226a35c343597dc3fa9e1358bcefd91b236cd91b1395f52e874c0307da4e85ba"
       },
       "cookery-guide-startup-repair.json": {
         "profile": "curated-cookery-guide-startup-repair-p76",
         "sha256": "63dcf1ba173a7069e001ed7148a1d22683d85bf32875e33f47496c08c3a3bec4",
-        "declaration_sha256": "c26bdd39f7ed4b96c0f1262751b246947aaf38234be5273cfe3e2eaad922ecf2"
+        "declaration_sha256": "15ec03c25a667c0886be3673a348b4c1142b85a02141056a7aa5b828e7d197ab"
       },
       "cookery-enamel-basin-lid-repair.json": {
         "profile": "curated-cookery-enamel-basin-lid-repair-p76",
         "sha256": "02a5c862573f463c2aff1a8af1f1407746f2e882255d7b10dac50fe971311215",
-        "declaration_sha256": "88498f45cc4cf0978fedaabf033318bf7d4a0c69e13a3275784cfc74a3fd24e1"
+        "declaration_sha256": "f8d26db42bce39c6773693c2c9492bace9c024347f95206cd600f84a159de5ed"
       },
       "cookery-held-geometry-canonicalization.json": {
         "profile": "curated-cookery-held-geometry-canonicalization-p76",
         "sha256": "6970fbbd03bf2974cc7263130dbebd98d3bb10fb9a968bcd93c351e316ce6e64",
-        "declaration_sha256": "095ed7034bd92f1c1e4b5547c2818fd286bf0b42378bc156990e25eaae80cc5c"
+        "declaration_sha256": "9a1e087a9dfc3e32f8d77f17216b9213872423c99f510199abeb4bd850efae19"
       },
       "orchard-tavern-bridge-adapter.json": {
         "profile": "curated-orchard-tavern-bridge-adapter-p76",
         "sha256": "160b1aa2f6f131a457a71d094cf278637174eb003ed79e0580cd31365ba72bed",
-        "declaration_sha256": "7b4a6718044589d439dfc9078069152fa17b7d887863cb164593e38d408e454b"
+        "declaration_sha256": "f838758cb14dbf2d9f9b89358303e99c87e0f6f6f259a2f3fe5b45d856daa181"
       },
       "essentials-manifest-compatibility.json": {
         "profile": "current-author-curated-essentials-manifest-compatibility-p76",
         "sha256": "a14c2415ab83294fba2fc452adb12db45d1db3b54acfe913d0b87a7401446a8c",
-        "declaration_sha256": "e059ab870dbb6b274b158b4b634faa77568e98fc2e9cc73b300ae6a62971f867"
+        "declaration_sha256": "f8403249588afbc577ed703fd01a33714d5c4989fb1ddc936eacd7bfa69d1567"
       },
       "dimensions-wine-snow-repair.json": {
         "profile": "current-author-curated-dimensions-wine-snow-repair-p76",
         "sha256": "812a12bf8232418478a1fb8ff38eb0c229e45cd96155ce016c728bab25e84ab6",
-        "declaration_sha256": "6dcab7009aaf0b1899ec66af969bc4429be64b43c9da0574def2cc3e630d17b5"
+        "declaration_sha256": "52e98f7ea85f124cd3e98166390baaa130bf45089a140bfb03fef69f3ca8be25"
       },
       "cookery-station-performance.json": {
         "profile": "current-cookery-station-owner",
@@ -10044,6 +10044,7 @@
       "runtime/BP/host-extensions/cookery-guide-startup-repair.json",
       "runtime/BP/host-extensions/cookery-held-geometry-canonicalization.json",
       "runtime/BP/host-extensions/cookery-mooncake-dough-repair.json",
+      "runtime/BP/host-extensions/cookery-station-performance.json",
       "runtime/BP/host-extensions/dimensions-wine-snow-repair.json",
       "runtime/BP/host-extensions/essentials-manifest-compatibility.json",
       "runtime/BP/host-extensions/orchard-tavern-bridge-adapter.json",
@@ -10052,8 +10053,7 @@
       "runtime/RP/manifest.json",
       "runtime/RP/texts/en_US.lang",
       "runtime/RP/texts/zh_CN.lang",
-      "runtime/RP/texts/zh_TW.lang",
-      "runtime/BP/host-extensions/cookery-station-performance.json"
+      "runtime/RP/texts/zh_TW.lang"
     ],
     "added_paths": [
       "runtime/BP/host-assets/chinesefood/freezer_green_upper.json",
