@@ -207,6 +207,33 @@ class PreinstallRecoveryTests(unittest.TestCase):
                 self.assertEqual(c.read(self.lease_path),self.lease)
         path.write_bytes(original)
 
+    def test_closed_handoff_allows_new_source_inputs_but_not_changed_original_evidence(self):
+        self.close();self.next_context()
+        self.sources['extension']={**self.sources['extension'],'commit':'new-reviewed-private-source'}
+        c.external_input_hashes.return_value={'review':'new-source-review'}
+        self.assertTrue(p.verify_completed(self.output,c.summary())['observed_stack_unchanged'])
+        (self.output/'static-evidence.json').write_text('changed old evidence')
+        with self.assertRaises(AssertionError):p.verify_completed(self.output,c.summary())
+
+    def test_initially_stopped_retry_requires_exact_closed_owner_and_production_boundary(self):
+        result=self.close();closed=c.read(self.lease_path);retry=self.root/'retry';retry.mkdir()
+        original={**self.original,'output_dir':str(retry),'preinstall_recovery_output':str(self.output)}
+        initial={'server':c.summary(),'restart_original_after_failure':False,'previous_lease':closed,
+                 'previous_lease_sha256':c.sha(self.lease_path),
+                 'preinstall_recovery':{'proof':result['proof'],'closed_lease':result['closed_lease']}}
+        self.write(retry/'previous-maintenance.json',closed)
+        self.write(retry/'production-before/capture.json',{'previous_lease':closed})
+        self.write(retry/'build-evidence.json',{'external_input_sha256':{'preinstall_recovery_abort':result['proof']['sha256']}})
+        self.write(retry/'deployment-initial-state.json',initial)
+        p._initially_stopped(retry,original)
+        self.assertNotIn('stop-result.json',p._references(retry))
+        for change in [{'restart_original_after_failure':True},{'previous_lease_sha256':'foreign'}]:
+            with self.subTest(change=change):
+                self.write(retry/'deployment-initial-state.json',{**initial,**change})
+                with self.assertRaises(AssertionError):p._initially_stopped(retry,original)
+        self.write(retry/'deployment-initial-state.json',initial)
+        with self.assertRaises(AssertionError):p._initially_stopped(retry,{**original,'world_dir':'/other-world'})
+
     def test_completed_rehearsal_can_abort_without_rewriting_native_evidence_or_world(self):
         self.completed_rehearsal();before={str(path):path.read_bytes() for path in self.output.rglob('*') if path.is_file()}
         result=self.close();self.assertEqual(result['state'],p.KIND)
