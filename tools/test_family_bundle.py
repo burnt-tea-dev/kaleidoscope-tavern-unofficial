@@ -171,6 +171,45 @@ class ReviewedHostExtensionTests(unittest.TestCase):
    with self.assertRaises(ValueError):apply_host_extension(spec,own,host,source)
 
 class AdditiveHostItemCapabilityTests(unittest.TestCase):
+ def test_reviewed_titled_freezer_runs_the_real_apply_path_without_widening_storage(self):
+  import copy,hashlib
+  from unittest.mock import patch
+  import stable_host_profiles as profiles
+  from host_extensions import apply_host_extension
+  with tempfile.TemporaryDirectory() as tmp:
+   root=Path(tmp);own=root/'own';host=root/'host';own.mkdir();(host/'blocks/kitchen').mkdir(parents=True)
+   name='blocks/kitchen/freezer.json';path=host/name
+   original={'minecraft:block':{'description':{'identifier':'kaleidoscope_chinesefood:freezer'},'components':{'minecraft:geometry':'geometry.synthetic_freezer'}}}
+   encoded=lambda value:json.dumps(value,ensure_ascii=False,indent=2)+'\n'
+   sha=lambda text:hashlib.sha256(text.encode()).hexdigest()
+   before=encoded(original);path.write_text(before)
+   native={'container':{'slot_count':54,'title':'senluo.freezer.lower'},'dynamic_properties':True}
+   def declaration(value):
+    changed=copy.deepcopy(original);changed['minecraft:block']['components']['minecraft:block_entity']=value
+    return {'schema':1,'id':'senluo:chinesefood-native-freezer-storage','version':[2,0,1],'host_uuid':'synthetic-freezer-host','expires':'2099-01-01','feedback':'synthetic boundary','authorization':'reviewed fixture','removal_condition':'author provides storage','archive_sha256':'synthetic-freezer-archive','original_files':{name:sha(before)},'patched_files':{name:sha(encoded(changed))},'insertions':[],'imports':{},'copies':{},'json_updates':[{'path':name,'pointer':['minecraft:block','components','minecraft:block_entity'],'value':value}]},changed
+   def reviewed(spec):
+    return {'id':spec['id'],'host_uuid':spec['host_uuid'],'archive_sha256':spec['archive_sha256'],'spec_sha256':profiles.declaration_sha(spec),'admission':profiles.CURATED,'source_owner':'upstream','required_extensions':[],'copies':{}}
+   source={'owner':'upstream','archive_sha256':'synthetic-freezer-archive'}
+   spec,changed=declaration(native)
+   # The normal declaration matcher and its exact digest gate remain active.
+   with patch.dict(profiles.PROFILES,{'synthetic-native-freezer':reviewed(spec)}):
+    apply_host_extension(spec,own,host,source)
+   self.assertEqual(json.loads(path.read_text()),changed)
+   path.write_text(before)
+   for value in [{'container':{'slot_count':54,'title':'unreviewed.title'},'dynamic_properties':True},
+                 {'container':{'slot_count':36,'title':'senluo.freezer.lower'},'dynamic_properties':True},
+                 {**native,'unreviewed':True}]:
+    bad,_=declaration(value)
+    with self.subTest(value=value),patch.dict(profiles.PROFILES,{'synthetic-native-freezer':reviewed(bad)}):
+     with self.assertRaisesRegex(ValueError,'reviewed additive freezer'):
+      apply_host_extension(bad,own,host,source)
+    self.assertEqual(path.read_text(),before)
+   with patch.dict(profiles.PROFILES,{'synthetic-native-freezer':reviewed(spec)}):
+    drift=copy.deepcopy(spec);drift['patched_files'][name]='0'*64
+    with self.assertRaisesRegex(ValueError,'exact reviewed profile'):
+     apply_host_extension(drift,own,host,source)
+   self.assertEqual(path.read_text(),before)
+
  def test_freezer_storage_is_additive_and_other_blocks_or_capabilities_fail(self):
   import hashlib,copy
   from host_extensions import apply_host_extension

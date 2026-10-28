@@ -3,6 +3,7 @@ from datetime import date
 from pathlib import Path,PurePosixPath
 import hashlib,json,re,subprocess
 from stable_host_profiles import CURATED,curated_profile,declaration_sha,match_stable_profile
+from native_freezer_extension import LOWER_TITLE
 
 def validate_recipe_cache_profile(spec,source):
  """Admit only the reviewed cache delta after the pinned public Cookery API.
@@ -237,6 +238,9 @@ def apply_host_extension(spec,owned_root,host_root,source,*,retained_owner=None,
      allowed={'kaleidoscope_chinesefood:freezer'+suffix for suffix in ['', '_green', '_light_blue', '_orange', '_pink', '_yellow']}
      if identifier not in allowed:raise ValueError('native storage repair is restricted to the six author freezers')
      native={'container':{'slot_count':54},'dynamic_properties':True}
+     if (stable and stable.get('admission')==CURATED
+         and spec['id']=='senluo:chinesefood-native-freezer-storage' and spec['version']==[2,0,1]):
+      native['container']['title']=LOWER_TITLE
      if not ((pointer==['minecraft:block','components','minecraft:block_entity'] and value==native) or (pointer==['minecraft:block','components','minecraft:loot'] and value=='loot_tables/senluo_native/freezer_empty.json')):raise ValueError('only reviewed additive freezer storage and empty loot are allowed')
     components=data[pointer[0]]['components'];capability=pointer[-1]
     if capability in components:raise ValueError('original capability already exists')
