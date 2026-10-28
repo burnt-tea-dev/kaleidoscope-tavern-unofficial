@@ -8869,7 +8869,7 @@
       ],
       "admission": "current-author-curated",
       "required_extensions": [
-        "curated-chinesefood-freezer-storage-p79"
+        "curated-chinesefood-freezer-storage-p81"
       ],
       "source_owner": "upstream_extended",
       "removed_files": {
@@ -8904,8 +8904,8 @@
       ],
       "admission": "current-author-curated",
       "required_extensions": [
-        "curated-chinesefood-freezer-storage-p79",
-        "curated-chinesefood-reviewed-repairs-p79"
+        "curated-chinesefood-freezer-storage-p81",
+        "curated-chinesefood-reviewed-repairs-p81"
       ],
       "source_owner": "upstream_extended",
       "behavior_uuid": "aa73502b-f806-4c11-8ef0-3f139bfc604a",
