@@ -10044,6 +10044,7 @@
       "runtime/BP/host-extensions/cookery-guide-startup-repair.json",
       "runtime/BP/host-extensions/cookery-held-geometry-canonicalization.json",
       "runtime/BP/host-extensions/cookery-mooncake-dough-repair.json",
+      "runtime/BP/host-extensions/cookery-station-performance.json",
       "runtime/BP/host-extensions/dimensions-wine-snow-repair.json",
       "runtime/BP/host-extensions/essentials-manifest-compatibility.json",
       "runtime/BP/host-extensions/orchard-tavern-bridge-adapter.json",
@@ -10052,8 +10053,7 @@
       "runtime/RP/manifest.json",
       "runtime/RP/texts/en_US.lang",
       "runtime/RP/texts/zh_CN.lang",
-      "runtime/RP/texts/zh_TW.lang",
-      "runtime/BP/host-extensions/cookery-station-performance.json"
+      "runtime/RP/texts/zh_TW.lang"
     ],
     "added_paths": [
       "runtime/BP/host-assets/chinesefood/freezer_green_upper.json",
