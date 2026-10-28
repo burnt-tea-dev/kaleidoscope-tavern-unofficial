@@ -8890,52 +8890,52 @@
       "chinesefood-freezer-storage.json": {
         "profile": "curated-chinesefood-freezer-storage-p76",
         "sha256": "6251d06bf4e71014620693afe627c1f32259b0ae6bea4ab7d297bccdea5c83dd",
-        "declaration_sha256": "b80c73d77278d8b54ce72214555c49ae7b56dbbd7d5f70b039731effb75d604a"
+        "declaration_sha256": "f0d3e02ca7080115ca468a2c43f5b86efeea8a0250eef570e0d75a3ad2a5cfeb"
       },
       "chinesefood-reviewed-repairs.json": {
         "profile": "curated-chinesefood-reviewed-repairs-p76",
         "sha256": "c31b2037ed23802444a0c49e790d4d57c278b36ea279370e68d0ffa77dd9250a",
-        "declaration_sha256": "5515a2d113037a81bebdbcb485827972cd0959302f14eb41bc9e6a7e04718a28"
+        "declaration_sha256": "79030c34b49d5edf1646a626419a00f52018f4836b8996a9989e383dc348abbc"
       },
       "chinesefood-doll-renderer.json": {
         "profile": "curated-chinesefood-doll-renderer-p76",
         "sha256": "8d83ac82d8b7a33eca678679e49edfe5bd4483c34afb9b7d1b3d28963922bd5b",
-        "declaration_sha256": "498c67cf533db46c38666974908e74a3d79855aa165bdaa7e745613322b36cbc"
+        "declaration_sha256": "b2dd4bd751533c96570e24864c478ea6c5467b1a4069a42f1a7e52630783b9cd"
       },
       "cookery-mooncake-dough-repair.json": {
         "profile": "curated-cookery-mooncake-dough-repair-p76",
         "sha256": "e3588c748b3caac691920b9e7bbbe9f3092d3284d1cdaf7ad4c66d68244a66d8",
-        "declaration_sha256": "855315974d51cd36e77864631f8713a194970fd198ab87118d61a0d3ccafeb0c"
+        "declaration_sha256": "b966332db1e1b38563397ef14f0acec170aabdd1bdbb0f529d7630463ded390c"
       },
       "cookery-guide-startup-repair.json": {
         "profile": "curated-cookery-guide-startup-repair-p76",
         "sha256": "f936debe8d170618f18e8f85d8703262afcfd6902c8363459b35d9b1fe9d3465",
-        "declaration_sha256": "743b4dd07f7c2ae1def53447a5150bc77892356918529e1bbe1dc5b1958010e9"
+        "declaration_sha256": "c7d88ce116bbb8b40e05c9661d1b974562be87eeb70bd66b3b43faa9728ae37f"
       },
       "cookery-enamel-basin-lid-repair.json": {
         "profile": "curated-cookery-enamel-basin-lid-repair-p76",
         "sha256": "b8ab2b5cd0def48a417badc6ab05f8cbde7866a6f6a59c1988ccc4250da77a38",
-        "declaration_sha256": "ed28a539321e02fcbca4455ace80aa6d9cec9884422d111540af29c92e379b2a"
+        "declaration_sha256": "26b0e3b4400c1c3e46062ad741a70a83bafe9bf788996417e2356b58f51c3ecd"
       },
       "cookery-held-geometry-canonicalization.json": {
         "profile": "curated-cookery-held-geometry-canonicalization-p76",
         "sha256": "6854534bd9587290fe24a6078f0b58ca3f3e046e0e0cf623ce32612546a2e6bb",
-        "declaration_sha256": "41189e898f79588b9e359c1e86112da0cdaa3a510507cae3c4dc0dda8c3938b9"
+        "declaration_sha256": "043c5a1cab8bc0e4ead164a0415332c7cc44bddbe1bfaf77726b790d986e1140"
       },
       "orchard-tavern-bridge-adapter.json": {
         "profile": "curated-orchard-tavern-bridge-adapter-p76",
         "sha256": "adda0b1ff94be5358d5133b40a618955bdbf2aa20691c1965e8ac0e5fdec8c9f",
-        "declaration_sha256": "a59572ba0b2cf41523f578834ffa044bcb0feb044c775f2c4a01654fe0f9b4d2"
+        "declaration_sha256": "0fe9aa9cfa01d1ede38eb9dd64577491a8cf4f4931869557a5962480d44eee28"
       },
       "essentials-manifest-compatibility.json": {
         "profile": "current-author-curated-essentials-manifest-compatibility-p76",
         "sha256": "f91b13a1bf18289dcafaa15f3a7b0cb93b2f1941d15c2ad44867825eb2bcb919",
-        "declaration_sha256": "913c8e682f06a411dd917211b8f5828bb31555653209de87e0dc59624cb14d9b"
+        "declaration_sha256": "e39d45494586aa20f70bf6b4f50537f61af25e6d883b627d98cb7fec4d3cfa4a"
       },
       "dimensions-wine-snow-repair.json": {
         "profile": "current-author-curated-dimensions-wine-snow-repair-p76",
         "sha256": "166cce7c35b1ae33f9211fe45a8cfdc41c386ccf417c83576f20475165333895",
-        "declaration_sha256": "044b0f70ead53ae15b1208f29d799b12685ac0535a8da5c90bc65b9ebe5e26aa"
+        "declaration_sha256": "480965aa93d13aaa6e781615622453bd4abbe53cd9e2e405275225643593595d"
       },
       "cookery-station-performance.json": {
         "profile": "current-cookery-station-owner",
@@ -8947,7 +8947,7 @@
     "public_api_spec_sha256": "26de3617b9f2b4f93e6a00119b30cc6d2681a35fc454b212f939a558aac9b799",
     "selection": {
       "path": "companion-sources/current-author-curated/profile.json",
-      "sha256": "f36dd4fed6287a64fc4939f2270975ef49e6b0b72dbf821f34aae004e7c0374d",
+      "sha256": "421a998698ea505c617804dc568da3aab73b5e8bd7070e4ecccf6beec08028da",
       "value": {
         "schema": 1,
         "kind": "current-author-curated",
@@ -9887,12 +9887,12 @@
               2
             ],
             "input_tree": {
-              "sha256": "95829b7a8b3a37a3ccadf0574687958aaa43e176588d7ce6396e8ce764dfbdbd",
-              "files": 1559
+              "sha256": "3424c9b49c80e3a866f8689d5dda98693068fa875fe05bb37ef6d2142e2a6f21",
+              "files": 1579
             },
             "output_tree": {
-              "sha256": "95829b7a8b3a37a3ccadf0574687958aaa43e176588d7ce6396e8ce764dfbdbd",
-              "files": 1559
+              "sha256": "3424c9b49c80e3a866f8689d5dda98693068fa875fe05bb37ef6d2142e2a6f21",
+              "files": 1579
             },
             "provenance": {
               "kind": "owner_accepted_current_exact_bytes",
@@ -9938,21 +9938,21 @@
             "side": "behavior",
             "input_version": [
               1,
-              0,
+              1,
               0
             ],
             "output_version": [
               1,
-              0,
+              1,
               0
             ],
             "input_tree": {
-              "sha256": "ca4ad3e68b9a5f1c530dd12c3999a33ed948bc84033c93ca6afa7ab399f0298b",
-              "files": 330
+              "sha256": "9411808565e78883545fda04ae40e02ad8663780dd34ef21315a8c40ae59c777",
+              "files": 333
             },
             "output_tree": {
-              "sha256": "ca4ad3e68b9a5f1c530dd12c3999a33ed948bc84033c93ca6afa7ab399f0298b",
-              "files": 330
+              "sha256": "9411808565e78883545fda04ae40e02ad8663780dd34ef21315a8c40ae59c777",
+              "files": 333
             },
             "provenance": {
               "kind": "owner_accepted_current_exact_bytes",
@@ -9968,21 +9968,21 @@
             "side": "resource",
             "input_version": [
               1,
-              0,
+              1,
               0
             ],
             "output_version": [
               1,
-              0,
+              1,
               0
             ],
             "input_tree": {
-              "sha256": "3370f885a4b2ce38c90f8f327fc672d248a162f8105abfad1b8867f650b58bc9",
-              "files": 821
+              "sha256": "ec149fc35fcc5b253ed7a6747fe6b0dcd787188d1f7b9e18be5f9a812373ae3e",
+              "files": 601
             },
             "output_tree": {
-              "sha256": "3370f885a4b2ce38c90f8f327fc672d248a162f8105abfad1b8867f650b58bc9",
-              "files": 821
+              "sha256": "ec149fc35fcc5b253ed7a6747fe6b0dcd787188d1f7b9e18be5f9a812373ae3e",
+              "files": 601
             },
             "provenance": {
               "kind": "owner_accepted_current_exact_bytes",
@@ -10004,6 +10004,34 @@
         },
         "required_experiments": {
           "upcoming_creator_features": true
+        },
+        "replacement_packs": {
+          "Essentials": {
+            "BP": {
+              "uuid": "5f808eda-2eed-47b9-94ca-8486af1c5c14",
+              "version": [
+                1,
+                8,
+                10070
+              ],
+              "tree": {
+                "sha256": "2dffce1ffd7d8298a20de3a80420b82907abc600f2d3455baf71ee98c170d1cf",
+                "files": 8
+              }
+            },
+            "RP": {
+              "uuid": "537af6fe-a865-4603-8847-37791b81249d",
+              "version": [
+                1,
+                8,
+                10070
+              ],
+              "tree": {
+                "sha256": "84ab8fdb046bd15f2eb1415754ca32bc5d6d144eec9ddd432c8c02f3fe9d4f24",
+                "files": 4
+              }
+            }
+          }
         }
       }
     },
