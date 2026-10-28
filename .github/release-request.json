@@ -15,7 +15,7 @@
   "client": false,
   "status": "candidate_pending_canonical_ci_and_family_admission",
   "family_ready": false,
-  "expected_archive_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "expected_archive_sha256": "22cee51f8ea2a39eff5193612a624a0a74cc346d8846c021674b19781d6af020",
   "bds": false,
   "publication_ready": false
 }
