@@ -5,7 +5,7 @@ import pathlib
 import tempfile
 import unittest
 
-from record_shaker_migration import EVIDENCE_NAME, LOG_NAME, MAIN_OVERLAY_NOTE, PREFIX, validate_phase, validate_potion_pair, validate_recorded_inputs, write_evidence
+from record_shaker_migration import EVIDENCE_NAME, LOG_NAME, MAIN_OVERLAY_NOTE, PREFIX, BDS_VERSION, validate_phase, validate_potion_pair, validate_recorded_inputs, write_evidence
 
 VERSION = '0.1.112'
 
@@ -57,7 +57,7 @@ def transcript(phase):
     if phase == 'first':
         case('native-aura-acquisition', duration=597, ownLease=True, nativeParticleFlagsReadable=False)
     else:
-        case('native-aura-saved-restore', duration=450, ownLease=True, reloadWitnesses=1, reloadAcknowledgements=1,
+        case('native-aura-saved-restore', duration=450, ownLease=True, reloadEventMode='replayed',storedLeaseMatchesNative=True,reloadWitnesses=1, reloadAcknowledgements=1,
              reloadAcknowledgement=dict(entity='saved-aura-wolf', id='speed', ticks=460, amplifier=0, tick=10))
         case('native-aura-foreign-handoff', duration=797, ownLease=False, nativeParticleFlagsReadable=False,
              foreignHandoffs=1, reloadAcknowledgementsUnchanged=True)
@@ -97,7 +97,7 @@ def transcript(phase):
 
 
 def raw_log(row):
-    return ('Version: 1.26.52.3\n'+''.join(PREFIX+json.dumps(item)+'\n' for item in row['observations'])+'Quit correctly\n').encode()
+    return ('Version: '+BDS_VERSION+'\n'+''.join(PREFIX+json.dumps(item)+'\n' for item in row['observations'])+'Quit correctly\n').encode()
 
 
 def mode(row, name):
@@ -309,6 +309,15 @@ class RecorderTests(unittest.TestCase):
                 row = transcript('restart')
                 mode(row, 'native-upside-down-mob-class')[key] = value
                 self.reject(row)
+
+    def test_restart_aura_saved_readback_requires_zero_replay_and_a_valid_lease(self):
+        row=transcript('restart')
+        restored=mode(row,'native-aura-saved-restore')
+        restored.update(reloadEventMode='saved_readback',reloadWitnesses=0,reloadAcknowledgements=0,reloadAcknowledgement=None)
+        validate_phase(row,raw_log(row),VERSION)
+        for key,value in [('reloadWitnesses',1),('reloadAcknowledgements',1),('storedLeaseMatchesNative',False),('reloadEventMode','unknown')]:
+            with self.subTest(key=key):
+                changed=copy.deepcopy(row);mode(changed,'native-aura-saved-restore')[key]=value;self.reject(changed)
 
     def test_restart_aura_requires_complete_bounded_native_reload_acknowledgement(self):
         for target, key, value in [('row', 'reloadWitnesses', 0), ('row', 'reloadAcknowledgements', 0),

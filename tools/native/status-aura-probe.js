@@ -48,10 +48,16 @@ export async function runStatusAuraProbe({phase,dimension:d,out}){
   check(STATUS_AURA_TEST.tracks.get(wolf.id)?.native.has('speed'),'saved appearance lease not restored');
   check(wolf.getEffect('speed')?.duration>0,'saved native gameplay effect missing');
   const acknowledgement=statusAuraDiagnostics.lastNativeReloadAcknowledgement;
-  check(acknowledgement?.entity===wolf.id&&acknowledgement.id==='speed'&&acknowledgement.amplifier===0&&
-   statusAuraDiagnostics.nativeReloadAcknowledgements>0,'saved native aura reload acknowledgement missing');
+  const saved=JSON.parse(wolf.getDynamicProperty(STATUS_AURA_KEY)),native=wolf.getEffect('speed'),rows=saved.rows.filter(row=>row.id==='speed');
+  check(saved.schema===1&&rows.length===1&&rows[0].amplifier===native.amplifier&&rows[0].ticks>=native.duration&&rows[0].ticks-native.duration<=5,'saved native aura lease/readback mismatch');
+  // 26.60 restores this saved effect without replaying effectAdd. Require
+  // exact zero counters in that path, retain the strict replay witness in
+  // engines that emit it, and still prove foreign refresh revokes ownership.
+  const noReplay=statusAuraDiagnostics.nativeReloadWitnesses===0&&statusAuraDiagnostics.nativeReloadAcknowledgements===0&&acknowledgement===null;
+  check(noReplay||(acknowledgement?.entity===wolf.id&&acknowledgement.id==='speed'&&acknowledgement.amplifier===0&&
+   statusAuraDiagnostics.nativeReloadAcknowledgements>0),'saved native aura reload acknowledgement missing');
   out('case',{mode:'native-aura-saved-restore',phase,duration:wolf.getEffect('speed').duration,ownLease:true,
-   reloadWitnesses:statusAuraDiagnostics.nativeReloadWitnesses,reloadAcknowledgements:statusAuraDiagnostics.nativeReloadAcknowledgements,reloadAcknowledgement:acknowledgement});
+   reloadEventMode:noReplay?'saved_readback':'replayed',storedLeaseMatchesNative:true,reloadWitnesses:statusAuraDiagnostics.nativeReloadWitnesses,reloadAcknowledgements:statusAuraDiagnostics.nativeReloadAcknowledgements,reloadAcknowledgement:acknowledgement});
   const handoffs=statusAuraDiagnostics.nativeHandoffs,acknowledgements=statusAuraDiagnostics.nativeReloadAcknowledgements;
   wolf.addEffect('speed',800,{amplifier:0,showParticles:false});await pause(3);
   check(!STATUS_AURA_TEST.tracks.get(wolf.id)?.native.has('speed'),'foreign same-amplifier refresh retained host appearance ownership');

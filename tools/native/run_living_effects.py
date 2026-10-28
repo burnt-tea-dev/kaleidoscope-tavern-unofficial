@@ -9,6 +9,7 @@ import argparse, hashlib, json, os, pathlib, re, shutil, subprocess, sys, time, 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT/'tools'))
 from baseline_gate import fingerprint
+from pickup.run_native_smoke import BDS_VERSION
 
 
 def render_world_liquor_probe_inputs(baseline, headers):
@@ -64,6 +65,14 @@ def main():
     (work/'server.properties').write_text(f'server-name=Living effect native QA\nlevel-name=living-effect-qa\nserver-port={args.port}\nserver-portv6={args.port+1}\nallow-cheats=true\nonline-mode=true\nallow-list=true\nenable-lan-visibility=false\ntransport=nethernet\nview-distance=5\ntick-distance=4\nmax-threads=2\ncontent-log-file-enabled=true\ncontent-log-console-output-enabled=true\n')
     world = work/'worlds/living-effect-qa'
     world.mkdir(parents=True)
+    # Reuse only the stopped zero-player pickup QA world's level metadata.
+    # No DB, old test entities or player data enter this new isolated world.
+    from family_update.world_experiments import transition, write_metadata, observe
+    flags=json.loads((liquor/'config.json').read_text())['experimentalGameplay']
+    raw,experiment_transition=transition((engine/'worlds/pickup-smoke/level.dat').read_bytes(),flags)
+    write_metadata(world/'level.dat',raw)
+    assert observe(raw,flags) is not None if flags else True
+    (work/'world-experiment-transition.json').write_text(json.dumps(experiment_transition,indent=2)+'\n')
     manifests = {'BP': [], 'RP': []}
     sources = {}
     probe_inputs = None

@@ -6,9 +6,14 @@ export function normalizeFoundation(raw,source,itemExists){
  check(Array.isArray(rows)&&rows.length<=128,'FURNITURE_LIMIT');
  check(Array.isArray(effects)&&effects.length<=64,'EFFECT_LIMIT');
  const furniture=rows.map(row=>{
-  check(row&&['bar_cabinet','cellar_cabinet'].includes(row.kind),'FURNITURE_KIND');
+  check(row&&['bar_cabinet','cellar_cabinet','pendant_lamp'].includes(row.kind),'FURNITURE_KIND');
   const block=own(row.block,source);check(itemExists(block),'UNKNOWN_ITEM',block);
   const facing=id(row.facing??'kaleidoscope_tavern:facing');
+  if(row.kind==='pendant_lamp'){
+   // Reuse the host's existing two-half placement and destruction contract.
+   check(facing==='kaleidoscope_tavern:facing'&&(row.half??'kaleidoscope_tavern:half')==='kaleidoscope_tavern:half','PENDANT_STATE_CONTRACT');
+   return {source,block,kind:row.kind,facing,half:'kaleidoscope_tavern:half'};
+  }
   const connection=own(row.connection,source);
   // The old coordinate store is read-only until a validated commit succeeds.
   const legacyPrefix=row.legacyPrefix;

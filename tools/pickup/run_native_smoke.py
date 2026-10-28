@@ -4,7 +4,8 @@ No player sessions and no SimulatedPlayer API. Not a complete pack/client test.
 """
 import argparse,hashlib,json,os,pathlib,queue,re,shutil,subprocess,threading,time,urllib.request,uuid,zipfile
 ROOT=pathlib.Path(__file__).resolve().parents[2]
-URL='https://www.minecraft.net/bedrockdedicatedserver/bin-linux/bedrock-server-1.26.52.3.zip'
+BDS_VERSION='1.26.60.6'
+URL=f'https://www.minecraft.net/bedrockdedicatedserver/bin-linux/bedrock-server-{BDS_VERSION}.zip'
 def stage_violations(lines,result,returncode,stop_requested,reader_finished):
  issues=[];log=''.join(lines)
  if re.search(r'\bERROR\]|\[error\]',log,re.IGNORECASE):issues.append('engine/content ERROR in complete server log')

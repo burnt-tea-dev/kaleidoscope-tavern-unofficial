@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Static release validation only: no player mocks or game interactions."""
 import copy
-import argparse,hashlib,json,re,subprocess,sys
+import argparse,hashlib,json,re,subprocess,sys,importlib.util
 from pathlib import Path
 from baseline_reference import asset_projection
 ROOT=Path(__file__).resolve().parents[1];RT=ROOT/'runtime'
@@ -106,11 +106,33 @@ def check_combined_geometry_budget(inventory,tavern_root=ROOT):
             maximum=max(maximum,len(cubes)*24);potion_ids.add(identifier)
         potion_allocations[name]={'ids':len(models),'max_allocated_vertices':maximum,'max_bones':1}
     assert len(potion_ids)==4,'Potion source contract must own exactly four shared geometries'
-    base=set(inventory)-set(REVIEWED_ITEM_GEOMETRIES)-set(REVIEWED_VISUAL_GEOMETRIES)-potion_ids
+    # Optional current-author lamps have a reproducible source converter. Its
+    # contract owns their allocation, as the potion source contract does above.
+    lamp_ids={'geometry.kwl.pendant_lamp_top','geometry.kwl.green_pendant_lamp_bottom','geometry.kwl.pink_pendant_lamp_bottom'}
+    lamp_allocations={}
+    if lamp_ids.intersection(inventory):
+        assert lamp_ids.issubset(inventory),'Incomplete optional lamp resource contract'
+        owner=Path(inventory['geometry.kwl.pendant_lamp_top'][0]).resolve().parents[4]
+        tools=owner/'tools';spec=importlib.util.spec_from_file_location('current_author_lamp_resources',tools/'current_author_art.py')
+        sys.path.insert(0,str(tools))
+        try:
+            contract=importlib.util.module_from_spec(spec);spec.loader.exec_module(contract);contract.check()
+        finally:sys.path.pop(0)
+        for identifier in lamp_ids:
+            path=owner/'runtime/RP/models/entity'/(identifier.removeprefix('geometry.')+'.geo.json')
+            assert [Path(p).resolve() for p in inventory[identifier]]==[path],('Optional lamp geometry owner differs',identifier)
+            models=read(path)['minecraft:geometry'];assert len(models)==1
+            model=models[0];assert model['description']['identifier']==identifier
+            bones=model['bones'];cubes=sum(len(b.get('cubes',[])) for b in bones)
+            assert len(bones)<=9 and cubes<=8,('Optional lamp source complexity exceeds allocation',identifier)
+            lamp_allocations[identifier]={'bones':len(bones),'cubes':cubes,'allocated_vertices':cubes*24}
+    else:lamp_ids=set()
+    base=set(inventory)-set(REVIEWED_ITEM_GEOMETRIES)-set(REVIEWED_VISUAL_GEOMETRIES)-potion_ids-lamp_ids
     assert len(base)<1024,('combined Tavern + World Liquor base geometry budget exceeded',len(base))
     return {'geometries':len(inventory),'base_geometries':len(base),'reviewed_item_geometries':len(REVIEWED_ITEM_GEOMETRIES),
             'reviewed_visual_geometries':len(REVIEWED_VISUAL_GEOMETRIES),'visual_allocations':allocations,
             'potion_contract_geometries':len(potion_ids),'potion_allocations':potion_allocations,
+            'lamp_contract_geometries':len(lamp_ids),'lamp_allocations':lamp_allocations,
             'base_limit_exclusive':1024,'client_verified':False}
 
 def parse_args(argv=None):

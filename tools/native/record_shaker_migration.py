@@ -9,7 +9,7 @@ import argparse,collections,hashlib,json,math,pathlib,re,subprocess,sys
 ROOT=pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(ROOT/'tools'))
 from baseline_gate import fingerprint
-from run_living_effects import render_world_liquor_probe_inputs
+from run_living_effects import render_world_liquor_probe_inputs, BDS_VERSION
 
 APPEND=b"\n// Disposable native observer; not release content.\nimport './living-effects-probe.js';\n"
 PREFIX='[LIVING_EFFECT_QA] '
@@ -177,16 +177,21 @@ def validate_observations(observations,phase,version):
  row=case('native-aura-chunk-readiness','area readableChunks waitedTicks preload')
  values(row,area='status_aura_qa',readableChunks=4,preload=True)
  number(row['waitedTicks'],5,300,True);same(row['waitedTicks']%5,0)
- row=case(aura,'duration ownLease'+(' nativeParticleFlagsReadable' if phase=='first' else ' reloadWitnesses reloadAcknowledgements reloadAcknowledgement'))
+ row=case(aura,'duration ownLease'+(' nativeParticleFlagsReadable' if phase=='first' else ' reloadEventMode storedLeaseMatchesNative reloadWitnesses reloadAcknowledgements reloadAcknowledgement'))
  number(row['duration'],1,600,True);same(row['ownLease'],True)
  if phase=='first':same(row['nativeParticleFlagsReadable'],False)
  else:
-  number(row['reloadWitnesses'],1,integer=True)
-  number(row['reloadAcknowledgements'],1,row['reloadWitnesses'],True)
-  acknowledgement=row['reloadAcknowledgement'];fields(acknowledgement,'entity id ticks amplifier tick')
-  assert isinstance(acknowledgement['entity'],str) and acknowledgement['entity']
-  values(acknowledgement,id='speed',amplifier=0)
-  number(acknowledgement['ticks'],1,20000000,True);number(acknowledgement['tick'],0,integer=True)
+  same(row['storedLeaseMatchesNative'],True)
+  if row['reloadEventMode']=='saved_readback':
+   values(row,reloadWitnesses=0,reloadAcknowledgements=0,reloadAcknowledgement=None)
+  else:
+   same(row['reloadEventMode'],'replayed')
+   number(row['reloadWitnesses'],1,integer=True)
+   number(row['reloadAcknowledgements'],1,row['reloadWitnesses'],True)
+   acknowledgement=row['reloadAcknowledgement'];fields(acknowledgement,'entity id ticks amplifier tick')
+   assert isinstance(acknowledgement['entity'],str) and acknowledgement['entity']
+   values(acknowledgement,id='speed',amplifier=0)
+   number(acknowledgement['ticks'],1,20000000,True);number(acknowledgement['tick'],0,integer=True)
   row=case('native-aura-foreign-handoff','duration ownLease nativeParticleFlagsReadable foreignHandoffs reloadAcknowledgementsUnchanged')
   number(row['duration'],796,800,True)
   values(row,ownLease=False,nativeParticleFlagsReadable=False,foreignHandoffs=1,reloadAcknowledgementsUnchanged=True)
@@ -234,7 +239,7 @@ def validate_phase(row,raw,version):
  same(row['player_connections'],0)
  phase=row['phase'];text=raw.decode('utf8')
  assert not re.search(r'\bERROR\]|\[error\]|\bplayer[ _]?(?:connected|joined|spawned)\b',text,re.I)
- assert 'Version: 1.26.52.3' in text and re.search(r'^Quit correctly\s*$',text,re.M)
+ assert 'Version: '+BDS_VERSION in text and re.search(r'^Quit correctly\s*$',text,re.M)
  observed=[json.loads(line.split(PREFIX,1)[1]) for line in text.splitlines() if PREFIX in line]
  same(row['observations'],observed)
  return validate_observations(observed,phase,version)
@@ -310,11 +315,11 @@ def main():
   logs.append('\n'.join(line for line in text.splitlines()if any(marker in line for marker in ['Version:','Build ID:','Commit ID:','Pack Stack','[LIVING_EFFECT_QA]','stop requested','Stopping server','Quit correctly'])))
  same(registrations[0],registrations[1])
  validate_potion_pair(report['reports'])
- evidence={'schema':1,'bdsVersion':'1.26.52.3','scriptAPI':'2.7.0','versions':versions,'sourceTrees':source_trees,'observerInputsSHA256':inputs,
+ evidence={'schema':1,'bdsVersion':BDS_VERSION,'scriptAPI':'2.7.0','versions':versions,'sourceTrees':source_trees,'observerInputsSHA256':inputs,
   'sourcePacksEqualNativeInputsExceptExplicitObserver':True,'nativeServerSaveRestart':True,'nativeCrossIdReadableMetadata':True,'nativePutRecoveryAndRearm':True,
   'playerSessions':0,'client':False,'live':False,'fpsMeasured':False,'idleCallbacksMeasured':False,'crossPackPrivateDataPreservation':False,
   'scope':'Real chest and machine ItemStacks; two native potion carriers with original metadata, stale JSON counterfactuals, readonly pick, production liquid RGB properties, same-world restart and exact removal/cleanup; current native potion registry coverage; script-set PUT permutations; native aura chunk readiness and lease restart; Vision and Upside Down recipient APIs; public effect-snapshot delivery to familyless cod with native fall-damage control/protection outcomes. Block/storage setup and projectile impact envelopes are observer inputs. Host-scope dynamic properties only. Not client-rendered colours, physical projectile collision, particle pixels, player spawn/use, chunk re-entry or a private existing-world migration.',
-  'reports':summaries,'command':'python tools/native/run_living_effects.py --engine <isolated BDS 1.26.52.3> --liquor <paired World Liquor source> --work <new disposable directory> --port <isolated-port> --probe tools/native/shaker-migration-probe.js'}
+  'reports':summaries,'command':f'python tools/native/run_living_effects.py --engine <isolated BDS {BDS_VERSION}> --liquor <paired World Liquor source> --work <new disposable directory> --port <isolated-port> --probe tools/native/shaker-migration-probe.js'}
  target=write_evidence(work,evidence,logs)
  print(json.dumps({'evidence':str(target),'versions':versions,'sourceTrees':source_trees,'nativeSaveRestart':True,'players':0,'client':False}))
 if __name__=='__main__':main()

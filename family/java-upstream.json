@@ -62,7 +62,7 @@
             9066402,
             9217901
           ],
-          "source_scope": "Current archive verified 2026-10-27. Maotai effects adopted; other current-version changes remain explicit gaps. Unchanged domains retain the older reviewed authority. World Liquor data/current-author-review-20261027.json owns this scoped comparison; complete branch/client parity is not claimed."
+          "source_scope": "Current maintained author archives verified 2026-10-27; selected lamps, cabinet art, Dassai/Luck and effect/client-hook changes adopted 2026-10-28. World Liquor data/current-author-review-20261028.json owns adopted domains, API adaptations and remaining global-loot/renderer/client gaps. Complete branch/client parity is not claimed."
         },
         {
           "minecraft": "1.21.1",
@@ -73,7 +73,7 @@
             9066406,
             9217896
           ],
-          "source_scope": "Current archive verified 2026-10-27. Maotai effects adopted; other current-version changes remain explicit gaps. Unchanged domains retain the older reviewed authority. World Liquor data/current-author-review-20261027.json owns this scoped comparison; complete branch/client parity is not claimed."
+          "source_scope": "Current maintained author archives verified 2026-10-27; selected lamps, cabinet art, Dassai/Luck and effect/client-hook changes adopted 2026-10-28. World Liquor data/current-author-review-20261028.json owns adopted domains, API adaptations and remaining global-loot/renderer/client gaps. Complete branch/client parity is not claimed."
         },
         {
           "minecraft": "26.1.2",

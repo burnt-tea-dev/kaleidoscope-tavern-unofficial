@@ -80,8 +80,8 @@ function packWorld(){
  return {pack,wrap};
 }
 
-test('foundation contract: existing payload, 10 furniture definitions and 18 declared effects',()=>{
- const highball=bundle.content.some(row=>row.item==='kaleidoscope_world_liquor:highball');assert.equal(bundle.furniture.length,10);assert.equal(bundle.effects.length,highball?19:18);assert.equal(bundle.effects.filter(x=>x.mode==='timed').length,highball?15:14);
+test('foundation contract: existing cabinets, optional lamps and declared effects',()=>{
+ const highball=bundle.content.some(row=>row.item==='kaleidoscope_world_liquor:highball');assert.equal(bundle.furniture.filter(row=>row.kind!=='pendant_lamp').length,10);assert.equal(bundle.furniture.length,10+(payload.furniture??[]).length);assert.equal(bundle.effects.length,highball?20:19);assert.equal(bundle.effects.filter(x=>x.mode==='timed').length,highball?16:15);
  assert(CAPABILITIES.includes('furniture_storage'));assert.deepEqual(bundle.recipes,payload.recipes);assert.deepEqual(bundle.pages,payload.pages);
 });
 for(const mutate of [b=>b.furniture.push(b.furniture[0]),b=>b.furniture[0].block='alien:chest',b=>b.effects[0].mode='unknown',b=>b.requires.push('unknown_capability')])test('invalid foundation replacement is atomic: '+mutate.toString(),()=>{
@@ -93,14 +93,14 @@ test('third addon bottles use the same dynamic classifier for base and external 
  const id=items[5];assert.equal(barCabinetItem(id).item,id);assert.equal(cellarCabinetItem(id).item,id);
  const b=createBlock(def(),id);const entities=d.getEntities({type:'foundation_fixture:bar_visual'});assert(entities.some(e=>e.getProperty(KT+':storage_kind')===1500));assert.equal(host.load(b).state.left,id);
 });
-for(const definition of bundle.furniture)test('legacy storage exact quality, type and layout: '+definition.block,()=>{
+for(const definition of bundle.furniture.filter(row=>row.kind!=='pendant_lamp'))test('legacy storage exact quality, type and layout: '+definition.block,()=>{
  const item=(definition.kind==='bar_cabinet'?regular:compact).items[5],raw=legacy(definition,item),backend=new Properties(),store=new ExtensionCabinetStore(backend,definition,d.id,{x:1,y:2,z:3});
  const before=backend.dp.size;assert.equal(store.load(store.key),undefined);assert.equal(backend.dp.size,before);
  store.importLegacy(raw);const row=store.load(store.key);assert.equal(definition.kind==='bar_cabinet'?row.left:row.slots[0],item);assert.equal(row.type,definition.block);
  const saved=store.raw(store.key);store.importLegacy(raw);assert.equal(store.raw(store.key),saved);
  assert.throws(()=>store.importLegacy(legacy(definition,compact.items[0])),/LEGACY_STORAGE_CHANGED/);
 });
-for(const definition of bundle.furniture)for(const destroy of [false,true])test('native items override stale external index '+definition.block+' destroy='+destroy,()=>{
+for(const definition of bundle.furniture.filter(row=>row.kind!=='pendant_lamp'))for(const destroy of [false,true])test('native items override stale external index '+definition.block+' destroy='+destroy,()=>{
  const p=makePlayer(),b=createBlock(definition),at={...b.location};near(p,b);
  const id=(definition.kind==='bar_cabinet'?regular:compact).items[3],original=new ItemStack(id);original.nameTag='retained original';original.setLore(['foreign metadata']);p.inventory.setItem(0,original);act(p,b);
  const ctx=host.load(b),state=JSON.parse(ctx.store.raw(ctx.store.key)),receipt=state.migrationDigest;
@@ -281,7 +281,7 @@ test('vendored SDK bytes match the host repository source of truth',()=>{
 });
 
 // Host-native pickup policy applies to every registered cabinet, not a fixed addon ID list.
-for(const definition of bundle.furniture)for(const mode of [GameMode.Survival,GameMode.Creative,GameMode.Adventure])test('external native slot identity '+definition.block+' '+mode,()=>{
+for(const definition of bundle.furniture.filter(row=>row.kind!=='pendant_lamp'))for(const mode of [GameMode.Survival,GameMode.Creative,GameMode.Adventure])test('external native slot identity '+definition.block+' '+mode,()=>{
  const p=makePlayer(),b=createBlock(definition);near(p,b);p.selectedSlotIndex=7;p.mode=mode;
  const points=definition.kind==='bar_cabinet'?[{x:.8,y:.8,z:0},{x:.2,y:.8,z:0}]:Array.from({length:9},(_,i)=>({x:1-(i%3+.5)/3,y:1-(Math.floor(i/3)+.5)/3,z:0}));
  const originals=points.map((point,i)=>{const item=new ItemStack(compact.items[0]);item.nameTag='slot '+i;item.setLore(['native slot '+i]);p.inventory.setItem(7,item);assert(act(p,b,point));assert.equal(p.inventory.getItem(7),undefined,'Java cabinets split(1), including Creative');return item;});

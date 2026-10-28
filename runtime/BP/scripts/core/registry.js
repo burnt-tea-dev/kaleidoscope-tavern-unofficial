@@ -7,7 +7,7 @@ import {expandShakerTags} from './shaker-tags.js';
 import {normalizeCategoryData,ingredientPredicate,buildCategoryCatalog,matchShakerRecipe,deriveBottleInputs,colorTag,COLOR_TAG_PREFIX} from './mixology-categories.js';
 import {check,id,integer,clone,freeze,localeMap,sorted,TavernError} from './util.js';
 export const API_VERSION=1;
-export const CAPABILITIES=Object.freeze(['barrel_recipes','pressing_recipes','guide_pages','guide_product_pages','recipe_auto_pages','atomic_extension_replace','chunk_transport','acknowledgements','shaker_recipes','shaker_batch_snapshot','native_potion_inputs','external_shaker_inputs','drink_content','furniture_storage','external_effect_lifecycle','custom_fluids','external_fluid_visuals','bottle_display_states','destruction_feedback','shaker_ingredient_tags','drink_source_labels','shaker_color_catalog','java_ingredient_predicates','native_ingredient_tags','automatic_bottle_inputs','barrel_quality_boosters']);
+export const CAPABILITIES=Object.freeze(['barrel_recipes','pressing_recipes','guide_pages','guide_product_pages','recipe_auto_pages','atomic_extension_replace','chunk_transport','acknowledgements','shaker_recipes','shaker_batch_snapshot','native_potion_inputs','external_shaker_inputs','drink_content','furniture_storage','vertical_double_furniture','external_effect_lifecycle','custom_fluids','external_fluid_visuals','bottle_display_states','destruction_feedback','shaker_ingredient_tags','drink_source_labels','shaker_color_catalog','java_ingredient_predicates','native_ingredient_tags','automatic_bottle_inputs','barrel_quality_boosters']);
 const CORE='kaleidoscope_tavern';
 function own(value,source){id(value);check(value.startsWith(source+':'),'FOREIGN_NAMESPACE',value);return value;}
 function options(value,groups){
@@ -239,8 +239,8 @@ export class ExtensionRegistry {
  }
  remove(source){check(source!==CORE,'RESERVED_SOURCE');const removed=this.extensions.delete(source);if(removed){installContent(source,[]);this.rebuild();}return removed;}
  subscribe(listener){check(typeof listener==='function','INVALID_LISTENER');this.listeners.add(listener);return()=>this.listeners.delete(listener);}
- furniture(block){return this.furnitureCache.get(block);}
- allFurniture(){return [...this.furnitureCache.values()];}
+ furniture(block){const row=this.furnitureCache.get(block);return row?.kind==='pendant_lamp'?undefined:row;}
+ allFurniture(){return [...this.furnitureCache.values()].filter(row=>row.kind!=='pendant_lamp');}
  allFluids(){return this.fluidCache;}
  allRecipes(){return this.recipeCache;}
  pendingBarrelRecipeSources(){return [...this.expectedBarrelRecipeSources].filter(source=>!this.extensions.has(source)||!this.readyRecipeSources.has(source));}

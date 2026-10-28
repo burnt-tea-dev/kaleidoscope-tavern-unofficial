@@ -1086,12 +1086,6 @@
       "after": "85fc1cacd7fa71fe8136db0210657e9ad160471ff7ffdfc66bdd0edf0bf3931f",
       "reason": "Restore functional destruction feedback after the historical merge discarded it; preserve later metadata and geometry fixes."
     },
-    "runtime/BP/scripts/core/extension-foundation.js": {
-      "before": "fa5a29e4195b3abc954332c6e20e191b0820238a6ac094b83f36918663d816d8",
-      "after": "6d53bb8a624a176b2bc4a18547b194659ad55c0229712b75e52a1323af506a92",
-      "reason": "Restore functional destruction feedback after the historical merge discarded it; preserve later metadata and geometry fixes.",
-      "beforeGzipBase64": "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"
-    },
     "runtime/BP/scripts/data/break-feedback.js": {
       "before": null,
       "after": "25d4699daeb3ec8a9c76843880d7e85b450859ff350e4d37b149ec516b7b4067",
@@ -2856,11 +2850,6 @@
       "before": null,
       "after": "a015537e11d6f9c3d6049ff12045a61b265f5e91dce104c599fa7ab4119ea61c",
       "reason": "Reviewed standalone effect HUD, optional sprite ownership, and synchronized fresh release identity; original preimage retained."
-    },
-    "runtime/BP/scripts/data/effect-icons.js": {
-      "before": null,
-      "after": "71a6776c906541994f8904792f0cd4a45c7c7758f8de2d8bac40ca9bfce20091",
-      "reason": "Reviewed original effect sprite/HUD addition for 0.6.86; exact current content verified by effect icon tests and source sprite ledger. Test-only preservation projection."
     },
     "runtime/BP/scripts/bedrock/effect-icons.js": {
       "before": null,
@@ -8409,6 +8398,19 @@
     "runtime/BP/scripts/data/build-version.js": {
       "kind": "build_identity",
       "reviewedVersion": "0.6.116"
+    }
+  },
+  "historicalFiles": {
+    "runtime/BP/scripts/core/extension-foundation.js": {
+      "before": "fa5a29e4195b3abc954332c6e20e191b0820238a6ac094b83f36918663d816d8",
+      "after": "6d53bb8a624a176b2bc4a18547b194659ad55c0229712b75e52a1323af506a92",
+      "reason": "Restore functional destruction feedback after the historical merge discarded it; preserve later metadata and geometry fixes.",
+      "beforeGzipBase64": "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"
+    },
+    "runtime/BP/scripts/data/effect-icons.js": {
+      "before": null,
+      "after": "71a6776c906541994f8904792f0cd4a45c7c7758f8de2d8bac40ca9bfce20091",
+      "reason": "Reviewed original effect sprite/HUD addition for 0.6.86; exact current content verified by effect icon tests and source sprite ledger. Test-only preservation projection."
     }
   }
 }
