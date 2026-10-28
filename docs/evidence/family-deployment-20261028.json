@@ -1,0 +1,138 @@
+{
+  "schema": 1,
+  "observed_at": "2026-10-28T15:24:36.131418+00:00",
+  "scope": "Operator deployment of the reviewed complete family into the existing survival save; this is a dated observation, not human client acceptance.",
+  "bds_version": "1.26.60.6",
+  "pack_sides": 47,
+  "public_sources": {
+    "tavern": {
+      "repository": "burnt-tea-dev/kaleidoscope-tavern-unofficial",
+      "commit": "161ae147c0b4a3831dd735bcc9f683ce3a8b5973",
+      "version": "0.6.188",
+      "runtime": {
+        "BP": {
+          "sha256": "a02e26eb92bf29b39ebd1614926caba7905e7f12289a39ec3d40c48b3b0ff20e",
+          "files": 834
+        },
+        "RP": {
+          "sha256": "fff8e0f398890ce4ad9b12575cb7c35bf0fe7354fed8cbf3528f2933df0b6513",
+          "files": 3231
+        }
+      }
+    },
+    "grilling": {
+      "repository": "burnt-tea-dev/kaleidoscope-grilling-unofficial",
+      "commit": "322bdf0959248bce2f6cf51461c7f05cbe03f6a9",
+      "version": "2.8.187",
+      "runtime": {
+        "BP": {
+          "sha256": "08db94c6ca3e02701f88aa413b83fa2fefb62e3c68d11c79b465025592ef661e",
+          "files": 789
+        },
+        "RP": {
+          "sha256": "2bde6c7f414f49a541ac427db4897c5aa6d2a0f0d6d75a1c07043ff6238b8a87",
+          "files": 2859
+        }
+      }
+    },
+    "world-liquor": {
+      "repository": "burnt-tea-dev/kaleidoscope-world-liquor-unofficial",
+      "commit": "ba123792914035200dc1a43400cb6d1cd36fa567",
+      "version": "0.1.170",
+      "runtime": {
+        "BP": {
+          "sha256": "d25de2066b6f91f3b66b0e37b3a6dd6962af2c38efdd97d5ae4dd49a8c5fc733",
+          "files": 348
+        },
+        "RP": {
+          "sha256": "fff4288fbe08c5eb9455d0b9efb3161880eef44a2f0ec55294e286da4f6b74e9",
+          "files": 561
+        }
+      }
+    }
+  },
+  "integration_version": "1.0.83",
+  "assembled_receipt_sha256": "770cb9d9951ad54703f9c52e417f548a575225b926213bb65a1c83bdafcc51cd",
+  "reviewed_receipt_sha256": "77f9881724b41ca83cc5c4f8428b38c7c8aefdbb4d689a476a4e17f271defb27",
+  "static": {
+    "ok": true,
+    "merged_pr_checks_verified": true
+  },
+  "saved_world": {
+    "fresh_stopped_backup": true,
+    "migration_passed": true,
+    "database_replaced_in_live": false,
+    "simulated_players": false,
+    "runs": [
+      {
+        "phase": "first",
+        "ok": true,
+        "errors": [],
+        "warning_count": 513,
+        "real_player_connections": 0,
+        "log_sha256": "52c8d4d34e6e8dcdd37b3ac4bc2c36aa23609e1a3433cb87cd44b0488637fd19",
+        "player_records": 8,
+        "player_records_unchanged": true,
+        "custom_container_count": 0,
+        "custom_container_inventories_retained": true,
+        "native_freezer_input_containers": 0,
+        "native_freezer_inputs_retained": true,
+        "world_experiments": {
+          "upcoming_creator_features": 1,
+          "gametest": 1,
+          "experiments_ever_used": 1,
+          "saved_with_toggled_experiments": 1
+        }
+      },
+      {
+        "phase": "restart",
+        "ok": true,
+        "errors": [],
+        "warning_count": 516,
+        "real_player_connections": 0,
+        "log_sha256": "3420ac88d841b8c95d69d74a596df95a5784087ae436695e505f793ffeb76011",
+        "player_records": 8,
+        "player_records_unchanged": true,
+        "custom_container_count": 0,
+        "custom_container_inventories_retained": true,
+        "native_freezer_input_containers": 0,
+        "native_freezer_inputs_retained": true,
+        "world_experiments": {
+          "upcoming_creator_features": 1,
+          "gametest": 1,
+          "experiments_ever_used": 1,
+          "saved_with_toggled_experiments": 1
+        }
+      }
+    ]
+  },
+  "live_readback": {
+    "ok": true,
+    "native_started": true,
+    "family_initialized": true,
+    "errors": [],
+    "exact_pack_files_and_order": true,
+    "pack_count": 47,
+    "whole_stack_quality": true
+  },
+  "startup_warning_count": 505,
+  "cleanup": {
+    "state": "completed",
+    "errors": []
+  },
+  "private_report_sha256": {
+    "static-evidence.json": "b209ac8c5c2ec0bacbddb3c79a56d2815208970160e829750c20d70c118d46eb",
+    "saved-world-report.json": "d6995ae9c64d3284029632127a3b80ada8c75f95ddad726b33e33aad4737c90d",
+    "poststart-verification.json": "dffe6ae0da50e27ba8a1e974cd3ca4ab5ca9dd6438436e5a911807af1fd3e3a7",
+    "admission-report.json": "e5b118578e350609140cc3eb48c1419c8a220362bfbd40af583678b9b1a750d5"
+  },
+  "client": false,
+  "production_ready": false,
+  "status": "pending_client_acceptance",
+  "limits": [
+    "No human render, audio, creative-category, FPS or normal-play performance acceptance.",
+    "No populated custom-container or native-freezer input inventory was present in this selected save; this does not prove C04 stack preservation.",
+    "Startup warnings remain in the retained logs; zero load errors is not a zero-warning or performance claim.",
+    "World Liquor Luck currently covers emitted native mob-death drops; global Java loot contexts and TreasureSense outlines remain open."
+  ]
+}
