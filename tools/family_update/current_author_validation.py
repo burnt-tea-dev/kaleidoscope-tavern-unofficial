@@ -684,6 +684,27 @@ def validate_owned_conservation(owned,catalog,version=None):
         assert len(normals)==156 and set(added)==allowed_added|set(normals),'reviewed integration additions exceed client helper/plan/normals'
         assert set(changed)=={'runtime/BP/manifest.json','runtime/RP/manifest.json',*['runtime/BP/host-extensions/'+name for name in catalog['host_specs']]},'reviewed integration runtime changes exceed paired identity/host declarations'
 
+def validate_public_api_source(api,catalog,grilling,spec,path,*,curated):
+    """Bind completed CI to the actual reviewed public source and helper bytes."""
+    actual=c.sha(path)
+    if curated:
+        # The family lock and source baseline already choose this Grilling.
+        # Match its exact reviewed declaration, not a second manual selector.
+        public=match_stable_profile(spec,path.parent.parent)
+        assert public is not None,'Current public API has no reviewed declaration'
+    else:
+        public=public_profiles()[catalog['public_api_profile']]
+        assert actual==catalog['public_api_spec_sha256']
+        assert match_stable_profile(spec)==public
+    assert actual==api['spec_sha256'],'Public API source differs from completed CI'
+    assert api['repository']==(current_name('casama233/kaleidoscope-grilling-unofficial') if curated else 'casama233/kaleidoscope-grilling-unofficial')
+    assert api['git_tree']==c.git(grilling,'rev-parse','HEAD^{tree}')==c.git(grilling,'rev-parse',api['source_commit']+'^{tree}'),'Public API source tree differs from completed CI'
+    c.git(grilling,'merge-base','--is-ancestor',api['source_commit'],c.git(grilling,'rev-parse','HEAD'))
+    for key in ['id','version','host_uuid','archive_sha256','original_files','patched_files']:
+        assert api[key]==public[key],'Public API declaration metadata differs: '+key
+    assert api['copies_hashes']==public['copies'],'Public API helper proof differs'
+    return public
+
 def validate_candidate(receipt,proof,baseline,binding,catalog):
     """Validate every output and the exact ordered chain, not just changed paths."""
     VERSION,PROFILE,CATALOG_KEY=settings()
@@ -735,14 +756,8 @@ def validate_candidate(receipt,proof,baseline,binding,catalog):
         if spec.get('removed_files'):expected['removed_files']=spec['removed_files']
         assert proof['host_specs'][name]==expected,'Current author host proof differs from committed profile'
         specs[spec['id']]=(spec,profile,record['sha256'])
-    public=public_profiles()[catalog['public_api_profile']];api=proof['public_api'];g=c.SOURCES['grilling']
-    assert c.sha(public_path)==api['spec_sha256']==catalog['public_api_spec_sha256']
-    assert match_stable_profile(public_spec)==public
-    assert api['repository']==(current_name('casama233/kaleidoscope-grilling-unofficial') if curated_selected() else 'casama233/kaleidoscope-grilling-unofficial')
-    assert api['git_tree']==c.git(g,'rev-parse','HEAD^{tree}')==c.git(g,'rev-parse',api['source_commit']+'^{tree}')
-    c.git(g,'merge-base','--is-ancestor',api['source_commit'],c.git(g,'rev-parse','HEAD'))
-    for key in ['id','version','host_uuid','archive_sha256','original_files','patched_files']:assert api[key]==public[key]
-    assert api['copies_hashes']==public['copies']
+    api=proof['public_api'];g=c.SOURCES['grilling']
+    public=validate_public_api_source(api,catalog,g,public_spec,public_path,curated=curated_selected())
     seen=set();replaced=replacement_author_keys()
     replacement_uids={selection['authors'][key][side+'_uuid'] for key in replaced for side in ('behavior','resource')}
     for key,pin in catalog['authors'].items():
@@ -761,7 +776,7 @@ def validate_candidate(receipt,proof,baseline,binding,catalog):
             for index,extension in enumerate(extensions):
                 prefix={**source,'owner':'upstream' if index==0 else 'upstream_extended','reviewed_extensions':extensions[:index]}
                 if extension['id']==public['id']:
-                    declared=public_spec;profile=public;spec_sha=catalog['public_api_spec_sha256'];repository=api['repository'];commit=c.git(g,'rev-parse','HEAD')
+                    declared=public_spec;profile=public;spec_sha=api['spec_sha256'];repository=api['repository'];commit=c.git(g,'rev-parse','HEAD')
                     if extension.get('delegated_files'):
                         assert STATION_ID in specs,'Public station delegation has no current private source owner'
                         station_spec,station_profile,station_sha=specs[STATION_ID]
