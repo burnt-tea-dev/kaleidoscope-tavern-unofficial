@@ -150,6 +150,55 @@ class PreinstallRecoveryTests(unittest.TestCase):
         self.next_context()
         self.assertTrue(p.verify_completed(self.output, c.summary())['database_unchanged_since_abort'])
 
+    def completed_rehearsal(self):
+        snapshot=self.output/'production-snapshot';shutil.copytree(self.world,snapshot)
+        backup={'status':'consistent_stopped_backup','live_status':'STOPPED','world':str(self.world),
+                'consistent_stopped_snapshot':str(snapshot),'files':self.hashes(self.world)}
+        self.write(self.output/'production-before/backup-receipt.json',backup)
+        engine=self.output/'saved-world-engine';engine.mkdir()
+        runs=[]
+        for phase in ['first','restart']:
+            path=engine/(phase+'.log');path.write_text('Normal isolated fixture shutdown')
+            runs.append({'phase':phase,'ok':True,'started':True,'exit_code':0,'errors':[],
+                         'real_player_connections':0,'log_sha256':c.sha(path)})
+        self.write(self.output/'saved-world-report.json',{'native_acceptance_source':'saved_world',
+            'bds':True,'saved_world_migration':True,'exact_files_checked':True,'database_replaced_in_live':False,
+            'simulated_players':False,'players':0,'test_only_overlays':[],
+            'candidate_receipt_sha256':self.build['candidate_receipt_sha256'],
+            'backup_receipt':c.report_ref(self.output/'production-before/backup-receipt.json'),'runs':runs})
+        self.write(self.output/'reviewed-family-receipt.json',{'assembled_receipt':c.report_ref(self.output/'release-candidate/family-receipt.json')})
+        (self.output/'saved-world-summary.log').write_text('first/restart passed; admission refused before install')
+        self.memory['observations'][0]['ok']=True;self.write(self.output/'memory-admissions.json',self.memory)
+
+    def test_completed_rehearsal_can_abort_without_rewriting_native_evidence_or_world(self):
+        self.completed_rehearsal();before={str(path):path.read_bytes() for path in self.output.rglob('*') if path.is_file()}
+        result=self.close();self.assertEqual(result['state'],p.KIND)
+        for name,raw in before.items():self.assertEqual(Path(name).read_bytes(),raw)
+        self.assertIn('saved-world-report.json',c.read(self.output/p.PROOF)['references'])
+
+    def test_completed_rehearsal_rejects_changed_world_log_and_installation_marker(self):
+        self.completed_rehearsal()
+        for path in [self.world/'db/CURRENT',self.output/'saved-world-engine/restart.log',self.output/'deployment-result.json']:
+            with self.subTest(path=path):
+                old=path.read_bytes() if path.exists() else None;path.write_bytes(b'changed')
+                with self.assertRaises(AssertionError):self.close()
+                if old is None:path.unlink()
+                else:path.write_bytes(old)
+                self.assertEqual(c.read(self.lease_path),self.lease)
+
+    def test_closed_abort_handoff_binds_its_owner_and_unchanged_database(self):
+        from family_update import managed_drift_recovery as drift
+        self.completed_rehearsal();result=self.close();private=self.root/'private';private.mkdir()
+        handoff=private/'handoff.json';self.write(handoff,{'schema':1,'kind':p.KIND,'abort':result['proof']})
+        review={'stopped_server_review':{'evidence':{'path':'handoff.json'},'lease_sha256':c.sha(self.lease_path)}}
+        with patch.object(c,'EXTENSION',private):
+            drift._preinstall_handoff(review,verify_database=True)
+            review['stopped_server_review']['lease_sha256']='0'*64
+            with self.assertRaises(AssertionError):drift._preinstall_handoff(review)
+            review['stopped_server_review']['lease_sha256']=c.sha(self.lease_path)
+            (self.world/'db/CURRENT').write_bytes(b'changed')
+            with self.assertRaises(AssertionError):drift._preinstall_handoff(review,verify_database=True)
+
     def test_direct_terminal_stop_and_actual_response_readback_remain_bound(self):
         terminal={'status':'success','server_name':'test-server','outcome':'stopped'}
         self.write(self.output/'stop-result.json',terminal)
