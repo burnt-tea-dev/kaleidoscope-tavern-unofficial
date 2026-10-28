@@ -1,0 +1,120 @@
+{
+  "schema": 1,
+  "observed_at": "2026-10-28T18:48:20.959330+00:00",
+  "scope": "Dated existing-save operator deployment of the grapevine repair and exact paired family, separate from human client acceptance.",
+  "bds_version": "1.26.60.6",
+  "pack_sides": 47,
+  "public_sources": {
+    "tavern": {
+      "repository": "burnt-tea-dev/kaleidoscope-tavern-unofficial",
+      "commit": "bd60a2a0f3ad83c6e3885dc32589f2705e6653a2",
+      "version": "0.6.189",
+      "runtime": {
+        "BP": {
+          "sha256": "25aa0fa83644f3d16a24bd276c06218de0949891aeb3070f5849119c9b7f3399",
+          "files": 835
+        },
+        "RP": {
+          "sha256": "66d9239ef0141a8aed261720f9b218ee87b4afb816708780d8516a426512e682",
+          "files": 3231
+        }
+      }
+    },
+    "grilling": {
+      "repository": "burnt-tea-dev/kaleidoscope-grilling-unofficial",
+      "commit": "322bdf0959248bce2f6cf51461c7f05cbe03f6a9",
+      "version": "2.8.187",
+      "runtime": {
+        "BP": {
+          "sha256": "08db94c6ca3e02701f88aa413b83fa2fefb62e3c68d11c79b465025592ef661e",
+          "files": 789
+        },
+        "RP": {
+          "sha256": "2bde6c7f414f49a541ac427db4897c5aa6d2a0f0d6d75a1c07043ff6238b8a87",
+          "files": 2859
+        }
+      }
+    },
+    "world-liquor": {
+      "repository": "burnt-tea-dev/kaleidoscope-world-liquor-unofficial",
+      "commit": "0c644ae424b430948b7673360cb2c292494009f0",
+      "version": "0.1.171",
+      "runtime": {
+        "BP": {
+          "sha256": "e2fbcb26fd08a6d1822f3c1801747bd4ea90e74017bf8371cdb1ca90a8e73cdf",
+          "files": 348
+        },
+        "RP": {
+          "sha256": "179799afaf1b55d3901683895170aac33dfeff20ec75bafa36d81c0a82750093",
+          "files": 561
+        }
+      }
+    }
+  },
+  "integration_version": "1.0.84",
+  "assembled_receipt_sha256": "03a945e34f85729ea4058fc422a1360c3f0d3de3432de8afbfaa45c21d48084b",
+  "reviewed_receipt_sha256": "620b6b8089991d2ee483fa9bd42ee516782c2f8969d75b273a91f371565baf89",
+  "static": {
+    "ok": true,
+    "merged_pr_checks_verified": true
+  },
+  "saved_world": {
+    "fresh_stopped_backup": true,
+    "migration_passed": true,
+    "database_replaced_in_live": false,
+    "simulated_players": false,
+    "runs": [
+      {
+        "phase": "first",
+        "ok": true,
+        "errors": [],
+        "warning_count": 522,
+        "real_player_connections": 0,
+        "log_sha256": "f9cc72a787b1a1912db047719162f27e7e616e58581a6b36abda96edcc859450",
+        "player_records": 8,
+        "player_records_unchanged": true,
+        "custom_container_count": 0,
+        "native_freezer_input_containers": 0
+      },
+      {
+        "phase": "restart",
+        "ok": true,
+        "errors": [],
+        "warning_count": 514,
+        "real_player_connections": 0,
+        "log_sha256": "682fb69c895e64fd49e38586f0d3ae19c093bf5bcbead982d4eb928caa8a8df3",
+        "player_records": 8,
+        "player_records_unchanged": true,
+        "custom_container_count": 0,
+        "native_freezer_input_containers": 0
+      }
+    ]
+  },
+  "live_readback": {
+    "ok": true,
+    "native_started": true,
+    "family_initialized": true,
+    "errors": [],
+    "exact_pack_files_and_order": true,
+    "pack_count": 47,
+    "whole_stack_quality": true
+  },
+  "startup_warning_count": 499,
+  "private_report_sha256": {
+    "static-evidence.json": "9dfe6b0a96cb7b74c6e37f061fd5c0d6a24d16bf5060b31d68a58ee77aefef86",
+    "saved-world-report.json": "34ea1433dcff811b3e0f956ceb1a224155ee596c9a113215cc3f28cb8ec9b66d",
+    "poststart-verification.json": "22702500890e28ef4c0b1cedd638547374bca9755a47c982a9d85880f8b8147c",
+    "admission-report.json": "a9ed0239880891240b68548a51b4645efa873b83dc05db1fb2a9a852db8b5270"
+  },
+  "client": false,
+  "production_ready": false,
+  "status": "pending_client_acceptance",
+  "limits": [
+    "No human input, render, audio, creative-category or normal-play performance acceptance; S1 remains incomplete.",
+    "Non-player support changes such as natural leaf decay still use the existing 80-140-tick fallback; no claim of complete neighbor-update parity.",
+    "Startup warnings are retained, and zero load errors is not a zero-warning or performance claim.",
+    "Container/freezer counts above describe this selected save only and do not establish C04 stack acceptance.",
+    "World Liquor global Luck loot contexts and TreasureSense outlines remain open.",
+    "Latest owner-installed AWW bytes are retained; the original owner archive was not independently verified here."
+  ]
+}

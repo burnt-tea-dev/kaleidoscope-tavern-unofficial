@@ -5,3 +5,5 @@ Fix wild grapevine detachment and drops. Head/body share the native grapevine lo
 Isolated BDS1.26.60.6 tests cover stone and birch-leaf support, middle cuts, 26-cell chains, overlapping support notifications and disabled tile drops. Source tests cover empty hand, held dirt, tools, Creative and disabled tile drops. See [targeted evidence](evidence/wild-grapevine-20261029.json) for exact scope and remaining limits. Full-family admission and human acceptance remain separate.
 
 S1 remains incomplete: client rendering/audio, C04 inventory stacks, normal-play performance and the final 48-hour S1 observation are not certified by this repair.
+
+Deployed on 2026-10-29 HKT as the complete47-pack family on the existing survival save. First load and restart each preserved all8 player records with zero load errors; installed files/order and normal startup readback passed. Latest owner inputs including AWW1.6.4 were retained. See the [dated operator observation](evidence/family-deployment-20261029.json) for exact identities, warning scope and remaining limits. Human client acceptance remains pending.
