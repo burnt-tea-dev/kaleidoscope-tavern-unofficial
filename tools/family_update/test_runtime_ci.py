@@ -117,4 +117,37 @@ class RuntimeConservationTests(unittest.TestCase):
    with self.assertRaisesRegex(AssertionError,'required checks.*validate'):
     m.validate_ci_rows([row],{'grilling':source})
 
+class AtomicStackCITests(unittest.TestCase):
+ setUp=RuntimeConservationTests.setUp
+ tearDown=RuntimeConservationTests.tearDown
+ git=RuntimeConservationTests.git
+ write=RuntimeConservationTests.write
+ commit=RuntimeConservationTests.commit
+ def stack_fixture(self):
+  self.git('checkout','-qb','stack-member')
+  self.write('runtime/BP/main.js','tested stacked runtime');head=self.commit('Stack member')
+  # The fixture default branch may be main or master on the host.
+  branch=self.git('for-each-ref','--format=%(refname:short)','refs/heads').splitlines()
+  base=next(name for name in branch if name!='stack-member')
+  self.git('checkout','-q',base);self.git('merge','--no-ff','-qm','Atomic stack merge',head)
+  merge=self.git('rev-parse','HEAD');source={'repository':'casama233/kaleidoscope-tavern-unofficial','commit':merge,'tree':self.git('rev-parse',merge+'^{tree}')}
+  repo={'full_name':'burnt-tea-dev/kaleidoscope-tavern-unofficial','id':1377171148}
+  pr={'merged':True,'base':{'ref':'stack-lower-member','repo':repo},'head':{'sha':head,'repo':repo},'merge_commit_sha':merge,'html_url':'https://example.invalid/stack/11'}
+  return source,pr
+ def test_atomic_stack_uses_actual_main_merge_and_exact_tested_tree(self):
+  source,pr=self.stack_fixture();checks=[{**self.check(n),'head_sha':pr['head']['sha']} for n in self.required]
+  with patch.object(m,'gh_json',return_value=pr),patch.object(m,'actual_ci_records',return_value=(checks,[])),patch.object(m,'required_ci_checks',return_value=self.required):
+   proof=m.runtime_ci_result('tavern',11,source)
+   self.assertEqual(proof['head'],pr['head']['sha']);self.assertEqual(proof['source_tree'],source['tree'])
+   self.run_root=self.root/'run';candidate=self.run_root/'candidate';candidate.mkdir(parents=True)
+   (candidate/'family-receipt.json').write_text('{}')
+   (self.run_root/'build-evidence.json').write_text(json.dumps({'sources':{'tavern':source}}))
+   with patch.object(m,'R',self.run_root),patch.object(m,'C',candidate),patch.object(m,'CONFIG',{'pull_requests':{'tavern':11}}),patch.object(m,'atomic',side_effect=lambda p,v:Path(p).write_text(json.dumps(v))):
+    self.assertTrue(m.verify_ci()['ok'])
+ def test_unmerged_or_unreachable_stack_is_not_canonical(self):
+  source,pr=self.stack_fixture();unrelated=self.git('commit-tree',source['tree'],'-m','Unreachable identical content')
+  for change in [{'merged':False},{'merge_commit_sha':unrelated}]:
+   with self.subTest(change=change),patch.object(m,'gh_json',return_value={**pr,**change}),self.assertRaises((AssertionError,subprocess.CalledProcessError)):
+    m.runtime_ci_result('tavern',11,source)
+
 if __name__=='__main__':unittest.main()

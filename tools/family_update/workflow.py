@@ -186,7 +186,9 @@ def runtime_ci_result(key, number, source):
     assert key in {'tavern', 'grilling', 'world-liquor'} and type(number) is int and number > 0
     repository = source['repository']
     pr = gh_json(f'repos/{current_name(repository)}/pulls/{number}')
-    assert pr['merged'] is True and pr['base']['ref'] == 'main', 'Runtime CI PR must be merged on canonical main'
+    assert pr['merged'] is True, 'Runtime CI PR must be merged'
+    # Atomic stacked merges retain the member's old base label. Conservation
+    # below proves main ancestry; ci_revision requires the exact checked tree.
     verify_record(pr['base']['repo'],repository)
     verify_record(pr['head']['repo'],repository)
     merge = pr['merge_commit_sha']
@@ -279,7 +281,7 @@ def verify_ci():
         from family_update.repository_identity import current_name, verify_record
         pr = gh_json(f'repos/{current_name(repository)}/pulls/{number}')
         assert pr['merged'] is True, f'{key} PR #{number} has not merged'
-        assert pr['base']['ref'] == 'main'
+        # Stack base labels are historical; actual main ancestry is checked below.
         verify_record(pr['base']['repo'],repository)
         verify_record(pr['head']['repo'],repository)
         reviewed_head=pr['head']['sha']
