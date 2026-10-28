@@ -9362,11 +9362,11 @@
     "retirement_contract_sha256": "2f2842c600dc635f0b7c57191697173ac9ea99e8f44a4b06df6827503048a54e"
   },
   "current_author_curated": {
-    "profile": "bedrock-26-60-native-family-p79-20261028",
+    "profile": "stable-family-current-upstream-20261027",
     "version": [
       1,
       0,
-      79
+      73
     ],
     "previous_commit": "11f24c8c5fe6563ea516e2a5b05cfe56951444e7",
     "authors": {
@@ -9597,17 +9597,17 @@
     "public_api_spec_sha256": "26de3617b9f2b4f93e6a00119b30cc6d2681a35fc454b212f939a558aac9b799",
     "selection": {
       "path": "companion-sources/current-author-curated/profile.json",
-      "sha256": "8470e3ee27a55bc1d6e9a5ca11512d105cf108077ad0c60f355393346651acb9",
+      "sha256": "0bef58e0c62a32abfe80121bcc3f031acf15a06b3188d3b2a9d0c02c21b954a7",
       "value": {
         "schema": 1,
         "kind": "current-author-curated",
-        "profile": "bedrock-26-60-native-family-p79-20261028",
+        "profile": "stable-family-current-upstream-20261027",
         "version": [
           1,
           0,
-          79
+          73
         ],
-        "previous_commit": "11f24c8c5fe6563ea516e2a5b05cfe56951444e7",
+        "previous_commit": "6f7bb81ce90c11ab1cecb44906d2b8631a8f196e",
         "authors": {
           "Cookery": {
             "project_id": 1673664,
@@ -9776,18 +9776,6 @@
           }
         },
         "domains": {
-          "native-freezer-storage": [
-            "runtime/BP/host-assets/chinesefood/freezer_green_upper.json",
-            "runtime/BP/host-assets/chinesefood/freezer_light_blue_upper.json",
-            "runtime/BP/host-assets/chinesefood/freezer_orange_upper.json",
-            "runtime/BP/host-assets/chinesefood/freezer_pink_upper.json",
-            "runtime/BP/host-assets/chinesefood/freezer_upper.json",
-            "runtime/BP/host-assets/chinesefood/freezer_yellow_upper.json",
-            "runtime/BP/scripts/compat/native-freezer-storage.js",
-            "runtime/RP/texts/en_US.lang",
-            "runtime/RP/texts/zh_CN.lang",
-            "runtime/RP/texts/zh_TW.lang"
-          ],
           "author-host-declarations": [
             "runtime/BP/host-extensions/chinesefood-doll-renderer.json",
             "runtime/BP/host-extensions/chinesefood-freezer-storage.json",
@@ -9796,10 +9784,10 @@
             "runtime/BP/host-extensions/cookery-guide-startup-repair.json",
             "runtime/BP/host-extensions/cookery-held-geometry-canonicalization.json",
             "runtime/BP/host-extensions/cookery-mooncake-dough-repair.json",
+            "runtime/BP/host-extensions/cookery-station-performance.json",
             "runtime/BP/host-extensions/dimensions-wine-snow-repair.json",
             "runtime/BP/host-extensions/essentials-manifest-compatibility.json",
-            "runtime/BP/host-extensions/orchard-tavern-bridge-adapter.json",
-            "runtime/BP/host-extensions/cookery-station-performance.json"
+            "runtime/BP/host-extensions/orchard-tavern-bridge-adapter.json"
           ]
         },
         "station": {
@@ -9826,12 +9814,12 @@
             "BP": [
               1,
               0,
-              10679
+              10672
             ],
             "RP": [
               1,
               0,
-              10679
+              10672
             ]
           },
           "ImmersiveEating": {
@@ -9922,24 +9910,24 @@
             "BP": [
               1,
               0,
-              10079
+              10072
             ],
             "RP": [
               1,
               0,
-              10079
+              10072
             ]
           },
           "Essentials": {
             "BP": [
               1,
               8,
-              10079
+              10070
             ],
             "RP": [
               1,
               8,
-              10079
+              10070
             ]
           }
         },
@@ -9960,7 +9948,7 @@
               "version": [
                 1,
                 0,
-                79
+                73
               ]
             },
             {
@@ -9986,7 +9974,7 @@
               "version": [
                 1,
                 0,
-                79
+                73
               ]
             },
             {
@@ -10002,7 +9990,7 @@
               "version": [
                 2,
                 8,
-                184
+                181
               ]
             },
             {
@@ -10010,7 +9998,7 @@
               "version": [
                 0,
                 1,
-                168
+                167
               ]
             },
             {
@@ -10061,10 +10049,6 @@
           ],
           "native-freezer-performance.json": [
             "node",
-            "--test",
-            "--experimental-test-isolation=none",
-            "--test-reporter=tap",
-            "tools/native-freezer-migration.test.mjs",
             "tools/native-freezer-scheduling.test.mjs"
           ],
           "saturation-scheduling-functional.json": [
@@ -10538,12 +10522,12 @@
               2
             ],
             "input_tree": {
-              "sha256": "3424c9b49c80e3a866f8689d5dda98693068fa875fe05bb37ef6d2142e2a6f21",
-              "files": 1579
+              "sha256": "95829b7a8b3a37a3ccadf0574687958aaa43e176588d7ce6396e8ce764dfbdbd",
+              "files": 1559
             },
             "output_tree": {
-              "sha256": "3424c9b49c80e3a866f8689d5dda98693068fa875fe05bb37ef6d2142e2a6f21",
-              "files": 1579
+              "sha256": "95829b7a8b3a37a3ccadf0574687958aaa43e176588d7ce6396e8ce764dfbdbd",
+              "files": 1559
             },
             "provenance": {
               "kind": "owner_accepted_current_exact_bytes",
@@ -10589,21 +10573,21 @@
             "side": "behavior",
             "input_version": [
               1,
-              1,
+              0,
               0
             ],
             "output_version": [
               1,
-              1,
+              0,
               0
             ],
             "input_tree": {
-              "sha256": "9411808565e78883545fda04ae40e02ad8663780dd34ef21315a8c40ae59c777",
-              "files": 333
+              "sha256": "ca4ad3e68b9a5f1c530dd12c3999a33ed948bc84033c93ca6afa7ab399f0298b",
+              "files": 330
             },
             "output_tree": {
-              "sha256": "9411808565e78883545fda04ae40e02ad8663780dd34ef21315a8c40ae59c777",
-              "files": 333
+              "sha256": "ca4ad3e68b9a5f1c530dd12c3999a33ed948bc84033c93ca6afa7ab399f0298b",
+              "files": 330
             },
             "provenance": {
               "kind": "owner_accepted_current_exact_bytes",
@@ -10619,21 +10603,21 @@
             "side": "resource",
             "input_version": [
               1,
-              1,
+              0,
               0
             ],
             "output_version": [
               1,
-              1,
+              0,
               0
             ],
             "input_tree": {
-              "sha256": "ec149fc35fcc5b253ed7a6747fe6b0dcd787188d1f7b9e18be5f9a812373ae3e",
-              "files": 601
+              "sha256": "3370f885a4b2ce38c90f8f327fc672d248a162f8105abfad1b8867f650b58bc9",
+              "files": 821
             },
             "output_tree": {
-              "sha256": "ec149fc35fcc5b253ed7a6747fe6b0dcd787188d1f7b9e18be5f9a812373ae3e",
-              "files": 601
+              "sha256": "3370f885a4b2ce38c90f8f327fc672d248a162f8105abfad1b8867f650b58bc9",
+              "files": 821
             },
             "provenance": {
               "kind": "owner_accepted_current_exact_bytes",
@@ -10643,54 +10627,10 @@
             }
           }
         ],
-        "station_profile": "curated-cookery-station-performance-p79",
+        "station_profile": "curated-cookery-station-performance-p72",
         "functional_contract": {
           "path": "companion-sources/current-author-curated/runtime-contract.json",
-          "sha256": "f9acfbd1e97392d1ba9e6f4f27b93e19bbd5ca24d87c51f1aff5307c098bf876"
-        },
-        "script_dependencies": {
-          "ChineseFood": {
-            "@minecraft/server": "2.8.0"
-          }
-        },
-        "required_experiments": {
-          "upcoming_creator_features": true,
-          "gametest": true
-        },
-        "replacement_packs": {
-          "Essentials": {
-            "BP": {
-              "uuid": "5f808eda-2eed-47b9-94ca-8486af1c5c14",
-              "version": [
-                1,
-                8,
-                10070
-              ],
-              "tree": {
-                "sha256": "2dffce1ffd7d8298a20de3a80420b82907abc600f2d3455baf71ee98c170d1cf",
-                "files": 8
-              }
-            },
-            "RP": {
-              "uuid": "537af6fe-a865-4603-8847-37791b81249d",
-              "version": [
-                1,
-                8,
-                10070
-              ],
-              "tree": {
-                "sha256": "84ab8fdb046bd15f2eb1415754ca32bc5d6d144eec9ddd432c8c02f3fe9d4f24",
-                "files": 4
-              }
-            }
-          }
-        },
-        "min_engine_versions": {
-          "ChineseFood": [
-            1,
-            26,
-            60
-          ]
+          "sha256": "cb220b35864768b169a12d85afe318a2078a134e73b7d016b2a024610dedebcd"
         }
       }
     },
