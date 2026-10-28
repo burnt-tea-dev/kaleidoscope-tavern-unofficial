@@ -213,7 +213,7 @@ jobs:
           with tempfile.TemporaryDirectory(prefix='tavern-liquor-exact-') as tmp:
               # Strict committed-source gates and the original exact-dependency
               # resolver are mandatory. This is a focused pair, not full-family admission.
-              receipt=assemble(lock,{'tavern':root,'world-liquor':peer},[],Path(tmp)/'candidate',source_identities=identities)
+              receipt=assemble(lock,{'tavern':root,'world-liquor':peer},[],Path(tmp)/'candidate',source_identities=identities,held_sources=sorted(lock.get('deployment_holds',{})))
               assert len(receipt['packs'])==4 and receipt['acceptance']['static'] is True
               assert receipt['production_ready'] is False
               receipt['scope']='Tavern/World Liquor four-pack exact dependencies only; no full-family, BDS, saved-world or client admission'
