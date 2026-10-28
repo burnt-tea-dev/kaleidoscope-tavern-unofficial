@@ -6631,7 +6631,7 @@
         0,
         2
       ],
-      "spec_sha256": "b9d858ca9db62ad4e1d1064bb389a9e375e1923c9a49e7e5f7695b2fa11358d4",
+      "spec_sha256": "cd546214851d18a6127b3bdb1eab0c0b5a7b816c0e792ddd66882a408e9c7785",
       "copies": {
         "scripts/api/senluo_station_performance.js": {
           "source": "scripts/host_api/cookery-station-performance.js",
@@ -6641,7 +6641,7 @@
       "owner_version": [
         1,
         0,
-        78
+        79
       ],
       "admission": "current-author-curated",
       "required_extensions": [
@@ -6677,7 +6677,7 @@
         0,
         0
       ],
-      "spec_sha256": "a3140cfc98a2f3602e3df68284bb91c79baf5c32484a91cf2ec29c6f04b5cccf",
+      "spec_sha256": "d96647d50fa667dd66e6c558a6f27dd456fee79fad58268ef26d3b672a6e63ba",
       "copies": {
         "scripts/_senluo/native-freezer-storage.js": {
           "source": "scripts/compat/native-freezer-storage.js",
@@ -6715,7 +6715,7 @@
       "owner_version": [
         1,
         0,
-        78
+        79
       ],
       "admission": "current-author-curated",
       "required_extensions": [],
@@ -6852,7 +6852,7 @@
         0,
         7
       ],
-      "spec_sha256": "283c893deb30c55c2f96003f32ba79676de8613cbf453926c0246188f1381edf",
+      "spec_sha256": "769f3ca28e12913f20db28b6b6facae78a1c05268e7bcb596bbc94529bc65995",
       "copies": {
         "scripts/_senluo/recovered/utils/blockData.js": {
           "source": "scripts/compat/chinesefood-recovered/utils/blockData.js",
@@ -6954,7 +6954,7 @@
       "owner_version": [
         1,
         0,
-        78
+        79
       ],
       "admission": "current-author-curated",
       "required_extensions": [
@@ -6975,21 +6975,21 @@
         "RP/blocks.json": "a66b3053dfbb173ce12a7bd53beb9827bdd1d952c6b92a83d37d2d15387c0fe4"
       },
       "patched_files": {
-        "BP/manifest.json": "00e47d184b07b88b6599a56417321fc2ad5f0fdc9ec797765ef096accfbeaf4c",
-        "RP/manifest.json": "9b80b2247f7f8aa686c4ca941e72b711c5ec08c5de2d29207704aabcbf26ebc1",
+        "BP/manifest.json": "267f9cc853ff9c3875683193070df10d2f645eba7ed3c7ef8682d91994189a04",
+        "RP/manifest.json": "07d92c7a6f538a84a7ac497727f4be2da9426d73d16b55cedb75991d712e6960",
         "RP/blocks.json": "51756e55a09a2896a801fcfce599ee53272e1722821fb447c54de8e744dd1fc3"
       },
       "version": [
         1,
         0,
-        10678
+        10679
       ],
-      "spec_sha256": "b3eacc3109bbaa9dbe8349c027381a2bf80aa4e4695bf6a6a00eea45b15365ad",
+      "spec_sha256": "dbe03bdb9b587f134bfece10447cb0dcc0a89be6f589d9198b211c433e5da457",
       "copies": {},
       "owner_version": [
         1,
         0,
-        78
+        79
       ],
       "admission": "current-author-curated",
       "required_extensions": [
@@ -7004,8 +7004,8 @@
         6
       ],
       "manifest_names": {
-        "BP": "森羅廚房：國味 BP [相容修補 1.0.78；作者原版 1.0.6]",
-        "RP": "森羅廚房：國味 RP [相容修補 1.0.78；作者原版 1.0.6]"
+        "BP": "森羅廚房：國味 BP [相容修補 1.0.79；作者原版 1.0.6]",
+        "RP": "森羅廚房：國味 RP [相容修補 1.0.79；作者原版 1.0.6]"
       },
       "script_dependencies": {
         "@minecraft/server": "2.8.0"
@@ -7026,12 +7026,12 @@
         0,
         5
       ],
-      "spec_sha256": "fa83daac05beec9af0b2bc05508274fbc59d99982cc71a70d9a2c3836c1f7d8e",
+      "spec_sha256": "bf4b69317a2bb80ab24289ac97993d7f79d4568449b47b81fe4f3702e9739644",
       "copies": {},
       "owner_version": [
         1,
         0,
-        78
+        79
       ],
       "admission": "current-author-curated",
       "required_extensions": [
@@ -7054,7 +7054,7 @@
         0,
         5
       ],
-      "spec_sha256": "42611f57a408453527a57314b718b319564c4895526b9b0e6161179da7bb70ca",
+      "spec_sha256": "b9506c61fc6484f49a800df8af90fb7363842ef9d9c631d2735bc1a3d2b43cde",
       "copies": {
         "scripts/api/senluo_guide_startup.js": {
           "source": "scripts/host_api/cookery-guide-startup.js",
@@ -7064,7 +7064,7 @@
       "owner_version": [
         1,
         0,
-        78
+        79
       ],
       "admission": "current-author-curated",
       "required_extensions": [
@@ -7087,12 +7087,12 @@
         0,
         4
       ],
-      "spec_sha256": "eedcd0f5694d14c540e5d76333e68bc70ccfa62dab7e50f624db27f0bcec2d51",
+      "spec_sha256": "5f655218bc6eab3bbb68f5f6c895376b77426c4d2bf6cc9a6d3810db5466c709",
       "copies": {},
       "owner_version": [
         1,
         0,
-        78
+        79
       ],
       "admission": "current-author-curated",
       "required_extensions": [
@@ -7119,12 +7119,12 @@
         0,
         4
       ],
-      "spec_sha256": "3ddbb609ff3aa7d3794116942af385ca65ee67abffd9576e96e53b157bd4cc36",
+      "spec_sha256": "6668effef335e051401cbd0faa72baeab9434e3be00dd4fca3e6e235eb39df0a",
       "copies": {},
       "owner_version": [
         1,
         0,
-        78
+        79
       ],
       "admission": "current-author-curated",
       "required_extensions": [],
@@ -7153,7 +7153,7 @@
         0,
         3
       ],
-      "spec_sha256": "3a9bcf55d85bd20f811c0ffe70835ebacb71f1b3b0221835182f6481e66edc64",
+      "spec_sha256": "8ffa87301a8564508008a7d5cbde28c1159f6cb2bab85745236987288c51da89",
       "copies": {
         "scripts/integrations/senluo_orchard_tavern_adapter.js": {
           "source": "scripts/compat/orchard-tavern-adapter.js",
@@ -7163,7 +7163,7 @@
       "owner_version": [
         1,
         0,
-        78
+        79
       ],
       "admission": "current-author-curated",
       "required_extensions": [],
@@ -7184,7 +7184,7 @@
       "owner_version": [
         1,
         0,
-        78
+        79
       ],
       "local_pack_version": [
         1,
@@ -7209,7 +7209,7 @@
       "source_owner": "upstream",
       "required_extensions": [],
       "copies": {},
-      "spec_sha256": "9bb031c93d4a0341f20d02e7cabdf92b0c6479afb3bb18d4f96c09a252aac17e"
+      "spec_sha256": "cf36a1d7514acf358ba88f4ba0878b8207eebdce6027c724a5dfa17bd1fb181d"
     },
     "current-author-curated-dimensions-wine-snow-repair-p76": {
       "id": "senluo:dimensions-wine-snow-repair",
@@ -7226,12 +7226,12 @@
       "owner_version": [
         1,
         0,
-        78
+        79
       ],
       "local_pack_version": [
         1,
         0,
-        10078
+        10079
       ],
       "original_files": {
         "BP/manifest.json": "c31075a5a356e40428898330806e8fa6517f2cc3313ea63a563627afa97f31b5",
@@ -7240,8 +7240,8 @@
         "BP/scripts/data/guidebook.js": "e1cd4651598316885c0d5a9941662888ac8edbee1b449a9ad1ee9cdaf28f3a79"
       },
       "patched_files": {
-        "BP/manifest.json": "c6a5cc788a6a080fdcf8c8c73f6e217165e2f6a36a9ce7bfbf4e1810fcf2441e",
-        "RP/manifest.json": "f457d38d22675d50cc3610965e30e85d0b884346a8f55227a7a4094c6da201d6",
+        "BP/manifest.json": "fe7c8ae17979eef76242ded6d7963aa713db70f2c30fd6c087a985a18aa803bf",
+        "RP/manifest.json": "16a8b96b69c901298514848fa404cf189b906483e5e3c141f8296dd25229b193",
         "BP/scripts/data/tavern-extension.js": "a5afb40863d8fd395e39b116f7b2b62b29c202782723f87a88618079258a973f",
         "BP/scripts/data/guidebook.js": "f45f61a861092bb33d507731ce4cdb936cf9befdb29fd49771f29e9afef4a993"
       },
@@ -7255,10 +7255,10 @@
       "source_owner": "upstream",
       "required_extensions": [],
       "copies": {},
-      "spec_sha256": "037226f83945902ada58dc66ea2f78845039de27461254c38c149d46ab908a78",
+      "spec_sha256": "be68e207fb4da0690f413ea761d463477b78a5b53dd9a6c773dabbd427400225",
       "manifest_names": {
-        "BP": "Kaleidoscope Dimensions Wine BP [Senluo compatibility 1.0.78; author 1.0.0]",
-        "RP": "Kaleidoscope Dimensions Wine RP [Senluo compatibility 1.0.78; author 1.0.0]"
+        "BP": "Kaleidoscope Dimensions Wine BP [Senluo compatibility 1.0.79; author 1.0.0]",
+        "RP": "Kaleidoscope Dimensions Wine RP [Senluo compatibility 1.0.79; author 1.0.0]"
       }
     }
   },
@@ -8716,7 +8716,7 @@
     "version": [
       1,
       0,
-      78
+      79
     ],
     "previous_commit": "11f24c8c5fe6563ea516e2a5b05cfe56951444e7",
     "authors": {
@@ -8889,65 +8889,65 @@
     "host_specs": {
       "chinesefood-freezer-storage.json": {
         "profile": "curated-chinesefood-freezer-storage-p76",
-        "sha256": "85bc992eeb87b0110275a9f8a3e77bc02552a86b39b076abf75b6e2a8d0efbe0",
-        "declaration_sha256": "a3140cfc98a2f3602e3df68284bb91c79baf5c32484a91cf2ec29c6f04b5cccf"
+        "sha256": "5a14d1b11eed58a76d496de80f763fe5fbf7fad6a82642a4a9ba99549fdbf118",
+        "declaration_sha256": "d96647d50fa667dd66e6c558a6f27dd456fee79fad58268ef26d3b672a6e63ba"
       },
       "chinesefood-reviewed-repairs.json": {
         "profile": "curated-chinesefood-reviewed-repairs-p76",
-        "sha256": "7aff2b528c74add13512cf3f790f33c5d0441789ce032b4759397097d9095db8",
-        "declaration_sha256": "283c893deb30c55c2f96003f32ba79676de8613cbf453926c0246188f1381edf"
+        "sha256": "7d6ba68a9a361ee84b54123428dab6412947930fe1e1bd2761b9ad8d2d53dc90",
+        "declaration_sha256": "769f3ca28e12913f20db28b6b6facae78a1c05268e7bcb596bbc94529bc65995"
       },
       "chinesefood-doll-renderer.json": {
         "profile": "curated-chinesefood-doll-renderer-p76",
-        "sha256": "50e69024f208b67c49b712070b97c58e1162bdba2f9d5ac8685f4ca77fa2fccf",
-        "declaration_sha256": "b3eacc3109bbaa9dbe8349c027381a2bf80aa4e4695bf6a6a00eea45b15365ad"
+        "sha256": "7565b62e780e52cebb42451651e9366c22305e3ee57bfe7711f32d5508b30c5a",
+        "declaration_sha256": "dbe03bdb9b587f134bfece10447cb0dcc0a89be6f589d9198b211c433e5da457"
       },
       "cookery-mooncake-dough-repair.json": {
         "profile": "curated-cookery-mooncake-dough-repair-p76",
-        "sha256": "bf4ef209627d9c247bc44fc4114fa2677d341e184ded79cffeb3e13ba108f113",
-        "declaration_sha256": "fa83daac05beec9af0b2bc05508274fbc59d99982cc71a70d9a2c3836c1f7d8e"
+        "sha256": "de9d2527306858e074ce94389cd595fe93db14b120710730961c47f8656c608c",
+        "declaration_sha256": "bf4b69317a2bb80ab24289ac97993d7f79d4568449b47b81fe4f3702e9739644"
       },
       "cookery-guide-startup-repair.json": {
         "profile": "curated-cookery-guide-startup-repair-p76",
-        "sha256": "673757a6125293006b1b2eceae2e08650ef3300fb72a5cd108e31f9f9e07d250",
-        "declaration_sha256": "42611f57a408453527a57314b718b319564c4895526b9b0e6161179da7bb70ca"
+        "sha256": "b3b8e4c5ab2319071ecd6c08fba889741a0bb58dd87681b61849e997c024d560",
+        "declaration_sha256": "b9506c61fc6484f49a800df8af90fb7363842ef9d9c631d2735bc1a3d2b43cde"
       },
       "cookery-enamel-basin-lid-repair.json": {
         "profile": "curated-cookery-enamel-basin-lid-repair-p76",
-        "sha256": "5398cc24272b67b2763800ff0990672ea68dbb704491ba510148ccb11099bfd8",
-        "declaration_sha256": "eedcd0f5694d14c540e5d76333e68bc70ccfa62dab7e50f624db27f0bcec2d51"
+        "sha256": "132132663a1e43cd743371f3f1c95c856c37aff42343e6104cef089fb81fbc1f",
+        "declaration_sha256": "5f655218bc6eab3bbb68f5f6c895376b77426c4d2bf6cc9a6d3810db5466c709"
       },
       "cookery-held-geometry-canonicalization.json": {
         "profile": "curated-cookery-held-geometry-canonicalization-p76",
-        "sha256": "bc6d19b4515f4fcf7031066daf1b5d425bd29dd11d5d25c5f2e684eabac37de0",
-        "declaration_sha256": "3ddbb609ff3aa7d3794116942af385ca65ee67abffd9576e96e53b157bd4cc36"
+        "sha256": "9b018aa7a7363596a4b2fdef54be6c2713c2e3c1c8bb0fcaf6a3f72b1c1c9958",
+        "declaration_sha256": "6668effef335e051401cbd0faa72baeab9434e3be00dd4fca3e6e235eb39df0a"
       },
       "orchard-tavern-bridge-adapter.json": {
         "profile": "curated-orchard-tavern-bridge-adapter-p76",
-        "sha256": "7256b6edfc73f79f0f230d40999d669765fbb2a222eb3e04dc267bb2cc9cb115",
-        "declaration_sha256": "3a9bcf55d85bd20f811c0ffe70835ebacb71f1b3b0221835182f6481e66edc64"
+        "sha256": "10297d115e137ef0b6a64e06d74e4a8f51bab91b45f9bc1d67fbe6a090566ea5",
+        "declaration_sha256": "8ffa87301a8564508008a7d5cbde28c1159f6cb2bab85745236987288c51da89"
       },
       "essentials-manifest-compatibility.json": {
         "profile": "current-author-curated-essentials-manifest-compatibility-p76",
-        "sha256": "d614dd7421c5d0590d5ab9d6d6e8f23d349282ede2f2fe7c93e6bd10db2b6408",
-        "declaration_sha256": "9bb031c93d4a0341f20d02e7cabdf92b0c6479afb3bb18d4f96c09a252aac17e"
+        "sha256": "4b288c9a018c57aa309f9444f8732c05e20dfdd424a0a9b6198b92258c5b066a",
+        "declaration_sha256": "cf36a1d7514acf358ba88f4ba0878b8207eebdce6027c724a5dfa17bd1fb181d"
       },
       "dimensions-wine-snow-repair.json": {
         "profile": "current-author-curated-dimensions-wine-snow-repair-p76",
-        "sha256": "02e0ffcaf21f305baf09a361c1af97f5f9ff93e830534ccf0eed825933e14c81",
-        "declaration_sha256": "037226f83945902ada58dc66ea2f78845039de27461254c38c149d46ab908a78"
+        "sha256": "9aeedab99b6b4300a4dc83f2378a2bf2c721a45b74cad6c724a8c371c922d0bf",
+        "declaration_sha256": "be68e207fb4da0690f413ea761d463477b78a5b53dd9a6c773dabbd427400225"
       },
       "cookery-station-performance.json": {
         "profile": "current-cookery-station-owner",
-        "sha256": "bcdae53c815d2ab9ddbaa566f0281d4cf81f02ddf64979fc4429e1668070befa",
-        "declaration_sha256": "b9d858ca9db62ad4e1d1064bb389a9e375e1923c9a49e7e5f7695b2fa11358d4"
+        "sha256": "f27c953179e5bc736cc05be9baf86679284412708fdb1676c10e1e0592c12bde",
+        "declaration_sha256": "cd546214851d18a6127b3bdb1eab0c0b5a7b816c0e792ddd66882a408e9c7785"
       }
     },
     "public_api_profile": "curated-public-api-cookery-164",
     "public_api_spec_sha256": "26de3617b9f2b4f93e6a00119b30cc6d2681a35fc454b212f939a558aac9b799",
     "selection": {
       "path": "companion-sources/current-author-curated/profile.json",
-      "sha256": "52c67a97fb208bd5aa657555d0d1ffb89ea4e71a8530ac016ec7b6b893189e83",
+      "sha256": "cb830f12c6112b821a6b4e21e6757ad5bf29d8ddb490a305f92bf0f1a80836b0",
       "value": {
         "schema": 1,
         "kind": "current-author-curated",
@@ -8955,7 +8955,7 @@
         "version": [
           1,
           0,
-          78
+          79
         ],
         "previous_commit": "11f24c8c5fe6563ea516e2a5b05cfe56951444e7",
         "authors": {
@@ -9176,12 +9176,12 @@
             "BP": [
               1,
               0,
-              10678
+              10679
             ],
             "RP": [
               1,
               0,
-              10678
+              10679
             ]
           },
           "ImmersiveEating": {
@@ -9272,12 +9272,12 @@
             "BP": [
               1,
               0,
-              10078
+              10079
             ],
             "RP": [
               1,
               0,
-              10078
+              10079
             ]
           },
           "Essentials": {
@@ -9310,7 +9310,7 @@
               "version": [
                 1,
                 0,
-                78
+                79
               ]
             },
             {
@@ -9336,7 +9336,7 @@
               "version": [
                 1,
                 0,
-                78
+                79
               ]
             },
             {
@@ -9352,7 +9352,7 @@
               "version": [
                 2,
                 8,
-                183
+                184
               ]
             },
             {
@@ -9996,7 +9996,7 @@
         "station_profile": "curated-cookery-station-performance-p72",
         "functional_contract": {
           "path": "companion-sources/current-author-curated/runtime-contract.json",
-          "sha256": "c337a809c0e6549954223d8cee6a7162378b467209e8bccbc284c1f38774640b"
+          "sha256": "df51e0c6def1bdc02c45164fbbf8cdfcd9008e77270c1728a7f4d2e1aeddf261"
         },
         "script_dependencies": {
           "ChineseFood": {

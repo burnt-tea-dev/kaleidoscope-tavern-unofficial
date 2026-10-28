@@ -379,7 +379,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: burnt-tea-dev/kaleidoscope-grilling-unofficial
-          ref: 2418195c7957bc9479b0fc9e28c888f575843397
+          ref: 1e908e87010056a2f4f2574469bfacb5eada6f79
           path: grilling
           sparse-checkout: projects/grilling/gameplay_core/resource_pack/ui
           persist-credentials: false
