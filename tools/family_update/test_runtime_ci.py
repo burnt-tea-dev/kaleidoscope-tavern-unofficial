@@ -83,7 +83,7 @@ class RuntimeConservationTests(unittest.TestCase):
     self.git('reset','--hard',source['commit']);self.git('clean','-fdq');self.write(path,json.dumps({'header':{'version':[2,8,125]}}) if path=='runtime/BP/manifest.json' else 'changed');revision=self.commit('not only current prose')
     with patch.object(m,'SOURCES',{'grilling':self.root}),self.assertRaises(AssertionError):m.runtime_ci_conservation('grilling',{**source,'commit':revision},self.merge)
  def test_grilling_release_guide_reuses_actual_runtime_checks_with_independent_current_ci(self):
-  source,row=self.doc_reuse('grilling',('docs/RELEASING.md',))
+  source,row=self.doc_reuse('grilling',('docs/RELEASING.md','docs/KNOWN-ISSUES.md'))
   self.validate_docs('grilling',source,row)
   self.assertIn('docs/RELEASING.md',row['runtime_ci']['conservation']['changed_paths'])
   next(check for check in row['checks'] if check['name']=='bridge')['conclusion']='skipped'
