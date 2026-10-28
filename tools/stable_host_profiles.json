@@ -6631,7 +6631,7 @@
         0,
         2
       ],
-      "spec_sha256": "e291974104a646b2d6a4d2ecf35bfad2f10384f09835b270451084abfed2e6d0",
+      "spec_sha256": "a2ff91716bd9301df779fd9eb7b1520a1bc15fc57de42bead847d03d9d6799cb",
       "copies": {
         "scripts/api/senluo_station_performance.js": {
           "source": "scripts/host_api/cookery-station-performance.js",
@@ -6641,7 +6641,7 @@
       "owner_version": [
         1,
         0,
-        66
+        77
       ],
       "admission": "current-author-curated",
       "required_extensions": [
@@ -8939,8 +8939,8 @@
       },
       "cookery-station-performance.json": {
         "profile": "current-cookery-station-owner",
-        "sha256": "8dc3a6ed0282dfbf8ac12e93be9cafe75845da01dc5f2603694754eca476f6ec",
-        "declaration_sha256": "e291974104a646b2d6a4d2ecf35bfad2f10384f09835b270451084abfed2e6d0"
+        "sha256": "8dfbf4b442c35281cd3bebc26b9262a10a6c3ebef298184bb32570f51210e4f5",
+        "declaration_sha256": "a2ff91716bd9301df779fd9eb7b1520a1bc15fc57de42bead847d03d9d6799cb"
       }
     },
     "public_api_profile": "curated-public-api-cookery-164",
