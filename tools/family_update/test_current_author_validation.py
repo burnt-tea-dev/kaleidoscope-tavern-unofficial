@@ -242,6 +242,39 @@ class FreshNativeBinding(unittest.TestCase):
 
 
 
+class PublicApiSourceAdmission(unittest.TestCase):
+ def setUp(self):
+  temporary=tempfile.TemporaryDirectory();self.addCleanup(temporary.cleanup);self.root=Path(temporary.name)
+  self.owned=self.root/'BP';self.path=self.owned/'host-extensions/board-api.json';self.path.parent.mkdir(parents=True)
+  self.helper=self.owned/'scripts/helper.js';self.helper.parent.mkdir();self.helper.write_bytes(b'export const tested=1;')
+  self.spec={'id':'fixture:public','version':[0,2,13],'host_uuid':'fixture-host','archive_sha256':'fixture-author','original_files':{},'patched_files':{},'copies':{'scripts/helper.js':'scripts/api/helper.js'}}
+  self.path.write_text(json.dumps(self.spec))
+  self.profile={**{k:self.spec[k] for k in ['id','version','host_uuid','archive_sha256','original_files','patched_files']},'spec_sha256':stable.declaration_sha(self.spec),'copies':{'scripts/api/helper.js':{'source':'scripts/helper.js','sha256':m.digest(self.helper.read_bytes())}},'source_owner':'upstream','required_extensions':[]}
+  self.git('init','--quiet');self.commit('Reviewed public source')
+  self.api={**{k:self.spec[k] for k in ['id','version','host_uuid','archive_sha256','original_files','patched_files']},'spec_sha256':m.digest(self.path.read_bytes()),'copies_hashes':self.profile['copies'],'repository':m.current_name('casama233/kaleidoscope-grilling-unofficial'),'source_commit':self.git('rev-parse','HEAD'),'git_tree':self.git('rev-parse','HEAD^{tree}')}
+  for context in [patch.object(stable,'CATALOG',{'public_api_profile':self.profile}),patch.object(stable,'PROFILES',{})]:context.start();self.addCleanup(context.stop)
+ def git(self,*args):
+  return subprocess.check_output(['git','-C',str(self.root),'-c','user.name=Fixture','-c','user.email=fixture@example.invalid','-c','commit.gpgsign=false',*args],text=True,stderr=subprocess.PIPE).strip()
+ def commit(self,label):self.git('add','.');self.git('commit','-qm',label)
+ def validate(self,api=None,catalog=None,curated=True):
+  return m.validate_public_api_source(self.api if api is None else api,{} if catalog is None else catalog,self.root,self.spec,self.path,curated=curated)
+ def test_actual_reviewed_source_needs_no_duplicate_current_selector(self):
+  self.assertEqual(self.validate(),self.profile)
+  self.assertEqual(self.validate(catalog={'public_api_profile':'stale','public_api_spec_sha256':'0'*64}),self.profile)
+ def test_unreviewed_declaration_and_committed_helper_changes_remain_rejected(self):
+  self.helper.write_bytes(b'unreviewed implementation');self.commit('Changed helper')
+  self.api.update(source_commit=self.git('rev-parse','HEAD'),git_tree=self.git('rev-parse','HEAD^{tree}'))
+  with self.assertRaisesRegex(ValueError,'helper differs'):self.validate()
+  self.helper.write_bytes(b'export const tested=1;');self.spec['version']=[0,2,14];self.path.write_text(json.dumps(self.spec))
+  with self.assertRaisesRegex(ValueError,'exact reviewed'):self.validate()
+ def test_wrong_completed_proof_and_historical_selector_remain_rejected(self):
+  with self.assertRaisesRegex(AssertionError,'differs from completed CI'):self.validate(api={**self.api,'spec_sha256':'0'*64})
+  valid={'public_api_profile':'public-api','public_api_spec_sha256':self.api['spec_sha256']}
+  historical={**self.api,'repository':'casama233/kaleidoscope-grilling-unofficial'}
+  self.assertEqual(self.validate(api=historical,catalog=valid,curated=False),self.profile)
+  with self.assertRaises(AssertionError):self.validate(api=historical,catalog={**valid,'public_api_spec_sha256':'0'*64},curated=False)
+
+
 class CuratedProfileAdmission(unittest.TestCase):
  """One real committed selection drives all current boundaries, including retirement."""
  def setUp(self):

@@ -12284,8 +12284,6 @@
         "declaration_sha256": "e1fa516d37335505fe7dd847d4efbf55fe7830478fe6a3e69b3745160fd6acb8"
       }
     },
-    "public_api_profile": "curated-public-api-cookery-164",
-    "public_api_spec_sha256": "26de3617b9f2b4f93e6a00119b30cc6d2681a35fc454b212f939a558aac9b799",
     "selection": {
       "path": "companion-sources/current-author-curated/profile.json",
       "sha256": "9dad8a461f219a7c1a20648ed6a7f76f05d5108e38a2c58ff511d694f9ce18e8",
