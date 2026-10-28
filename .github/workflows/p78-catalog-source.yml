@@ -1,0 +1,73 @@
+name: Integrate P78 source catalog
+on:
+  push:
+    branches: [feat/26-60-p78-catalog]
+    paths: [.github/workflows/p78-catalog-source.yml]
+permissions:
+  contents: write
+jobs:
+  integrate:
+    if: github.repository == 'burnt-tea-dev/kaleidoscope-tavern-unofficial'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+          ref: feat/26-60-p78-catalog
+      - name: Apply exact metadata and owned tool repairs
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import copy,hashlib,json,os,pathlib,subprocess
+          root=pathlib.Path.cwd();catalog_path=root/'tools/stable_host_profiles.json'
+          catalog=json.loads(catalog_path.read_bytes());assert catalog['current_author_curated']['version']==[1,0,77]
+          prior_profiles=copy.deepcopy(catalog['profiles'])
+          delta=json.loads((root/'.github/p78-catalog-input.json').read_bytes())
+          assert hashlib.sha256(json.dumps(delta,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode()).hexdigest()=='c26a251b75b5982c09950a45520b496ac20d73fafc11b0561c4fcb3a3f3631e9'
+          def apply(value,operations):
+              for operation in operations:
+                  path=operation[0];target=value
+                  for part in path[:-1]:target=target[part]
+                  if len(operation)==1:del target[path[-1]]
+                  else:target[path[-1]]=copy.deepcopy(operation[1])
+          for name,change in delta['profiles'].items():
+              assert name not in catalog['profiles']
+              row=copy.deepcopy(catalog['profiles'][change['copy']]);apply(row,change['changes']);catalog['profiles'][name]=row
+          apply(catalog['current_author_curated'],delta['current'])
+          assert {key:catalog['profiles'][key] for key in prior_profiles}==prior_profiles
+          current=catalog['current_author_curated'];assert current['version']==[1,0,78]
+          encoded=lambda v:(json.dumps(v,ensure_ascii=False,indent=2)+'\n').encode()
+          assert hashlib.sha256(encoded(current['selection']['value'])).hexdigest()==current['selection']['sha256']=='303bd42426bcce01b66c5e3e78ff1bc1745f0d4a9c2cdb38eb2fc31c8a9ed41e'
+          catalog_path.write_bytes(encoded(catalog))
+          source='edeb0eb34b8bb5a003ad9a807fcd4ab7dca8c267'
+          files=['tools/doll_renderer_extension.py','tools/test_doll_renderer_extension.py','tools/family_bundle.py','tools/test_family_bundle.py','tools/family_update/build_candidate.py','tools/family_update/test_build_order.py']
+          for path in files:(root/path).write_bytes(subprocess.check_output(['git','show',source+':'+path]))
+          p=root/'tools/family_update/test_build_order.py';s=p.read_text()
+          s=s.replace("patch.object(v,'select_replacement_inputs',return_value=(new,sources,selection),create=True)","patch.object(v,'select_replacement_inputs',return_value=(new,sources,selection))")
+          s=s.replace("patch.object(v,'verify_replacement_inputs',create=True)","patch.object(v,'verify_replacement_inputs')")
+          p.write_text(s)
+          workflow=root/'.github/workflows/validation.yml';s=workflow.read_text()
+          assert '1279162e632c7ae3e556c18503adf0919267ced5' in s
+          s=s.replace('1279162e632c7ae3e556c18503adf0919267ced5','8085291165ee7a2c1f224a132e098eb61797a5c7')
+          s=s.replace('World Liquor164 requires this paired Tavern185 runtime.','World Liquor168 requires this paired Tavern187 runtime.')
+          workflow.write_text(s)
+          peer=pathlib.Path(os.environ['RUNNER_TEMP'])/'grilling-g183'
+          subprocess.run(['git','clone','--quiet','https://github.com/burnt-tea-dev/kaleidoscope-grilling-unofficial.git',str(peer)],check=True)
+          subprocess.run(['git','checkout','--quiet','--detach','8085291165ee7a2c1f224a132e098eb61797a5c7'],cwd=peer,check=True)
+          baseline=json.loads((peer/'baseline.json').read_bytes());assert baseline['version']==[2,8,183]
+          p=root/'family/upstream.lock.json';lock=json.loads(p.read_bytes());row=next(row for row in lock['owned'] if row['key']=='grilling')
+          assert row['version']==[2,8,182];row['version']=baseline['version'];row['source_trees']=baseline['source_trees'];p.write_bytes(encoded(lock))
+          (root/'.github/p78-catalog-input.json').unlink()
+          (root/'.github/workflows/p78-catalog-source.yml').unlink()
+          PY
+          python3 -m unittest discover -s tools -p test_doll_renderer_extension.py
+          python3 -m unittest discover -s tools -p test_family_bundle.py
+          python3 -m unittest discover -s tools/family_update -p test_build_order.py
+          git add -A
+          git config user.name 'Cary development assistant'
+          git config user.email '97009482+casama233@users.noreply.github.com'
+          git commit -m 'feat: P78 native titles, G183 pairing and exact accepted-pack assembly'
+          python3 tools/baseline_gate.py check --release
+          git push origin HEAD:refs/heads/feat/26-60-p78-catalog
+          git show -s --format='%H %T' HEAD
