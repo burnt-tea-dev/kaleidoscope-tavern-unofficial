@@ -50,3 +50,41 @@ def validate_upper_copies(spec, owned_root, changed, profile):
                 or not path.is_file() or json.loads(path.read_bytes()) != expected):
             raise ValueError('Native freezer upper differs from its original author definition: ' + lower)
     return set(block_copies.values())
+
+
+def apply_native_26_60_update(spec, data, operation, profile):
+    """Apply only reviewed native-freezer scheduling and schema changes."""
+    if (not profile or spec.get('id') != 'senluo:chinesefood-native-freezer-storage'
+            or operation.get('mode') != 'reviewed_set'):
+        return False
+    block = data['minecraft:block']
+    if block['description']['identifier'] not in {NAMESPACE + lower for lower in LOWERS}:
+        raise ValueError('Native scheduling is restricted to the six author freezers')
+    pointer, value = operation['pointer'], operation['value']
+    allowed = {
+        ('format_version',): '1.26.60',
+        ('minecraft:block', 'components', 'minecraft:block_entity'):
+            {'container': {'slot_count': 54, 'title': LOWER_TITLE}, 'dynamic_properties': True},
+        ('minecraft:block', 'components', 'minecraft:tick'):
+            {'interval_range': [20, 20], 'looping': True},
+        ('minecraft:block', 'components', 'minecraft:neighbor_change'):
+            {'neighbor_directions': ['all']},
+    }
+    if tuple(pointer) in allowed:
+        if value != allowed[tuple(pointer)]:
+            raise ValueError('Native freezer scheduling field differs')
+    elif (pointer == ['minecraft:block', 'components', 'minecraft:collision_box']
+          or (len(pointer) == 5 and pointer[:2] == ['minecraft:block', 'permutations']
+              and pointer[2].isdecimal() and pointer[3:] == ['components', 'minecraft:collision_box'])):
+        target = data
+        for key in pointer:
+            target = target[int(key)] if isinstance(target, list) else target[key]
+        if not isinstance(target, dict) or value != [target]:
+            raise ValueError('Native freezer collision conversion changed author coordinates')
+    else:
+        raise ValueError('Native freezer schema field is outside the reviewed scope')
+    target = data
+    for key in pointer[:-1]:
+        target = target[int(key)] if isinstance(target, list) else target.setdefault(key, {})
+    target[pointer[-1]] = copy.deepcopy(value)
+    return True

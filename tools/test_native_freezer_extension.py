@@ -5,7 +5,7 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from native_freezer_extension import COPIES, LOWERS, NAMESPACE, validate_upper_copies
+from native_freezer_extension import COPIES, LOWERS, NAMESPACE, validate_upper_copies, apply_native_26_60_update
 from doll_renderer_extension import patch_manifests
 
 
@@ -130,6 +130,34 @@ class NativeLifecycleApiBoundary(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'original script API'):
             patch_manifests(*pair, [1, 0, 10673], [1, 0, 73], self.profile())
 
+
+
+
+
+class NativeSchedulingBoundary(unittest.TestCase):
+    def setUp(self):
+        self.spec = {'id': 'senluo:chinesefood-native-freezer-storage'}
+        self.profile = {'admission': 'current-author-curated'}
+        self.data = {'format_version': '1.26.30', 'minecraft:block': {
+            'description': {'identifier': NAMESPACE + 'freezer'},
+            'components': {'minecraft:collision_box': {'origin': [-8, 0, -8], 'size': [16, 16, 16]}}}}
+    def apply(self, pointer, value):
+        return apply_native_26_60_update(self.spec, self.data,
+            {'mode': 'reviewed_set', 'pointer': pointer, 'value': value}, self.profile)
+    def test_native_recovery_and_neighbor_wake_keep_author_collision_shape(self):
+        collision = copy.deepcopy(self.data['minecraft:block']['components']['minecraft:collision_box'])
+        self.assertTrue(self.apply(['format_version'], '1.26.60'))
+        self.apply(['minecraft:block', 'components', 'minecraft:tick'], {'interval_range': [20, 20], 'looping': True})
+        self.apply(['minecraft:block', 'components', 'minecraft:neighbor_change'], {'neighbor_directions': ['all']})
+        self.apply(['minecraft:block', 'components', 'minecraft:collision_box'], [collision])
+        self.assertEqual(self.data['minecraft:block']['components']['minecraft:collision_box'], [collision])
+    def test_unreviewed_changes_cannot_move_collision_or_change_other_fields(self):
+        for pointer, value in [(['minecraft:block', 'components', 'minecraft:collision_box'], [{'origin': [0, 0, 0], 'size': [1, 1, 1]}]),
+                               (['minecraft:block', 'components', 'minecraft:tick'], {'interval_range': [1, 1], 'looping': True}),
+                               (['minecraft:block', 'description', 'identifier'], 'foreign:block')]:
+            before = copy.deepcopy(self.data)
+            with self.assertRaises(ValueError): self.apply(pointer, value)
+            self.assertEqual(self.data, before)
 
 if __name__ == '__main__':
     unittest.main()

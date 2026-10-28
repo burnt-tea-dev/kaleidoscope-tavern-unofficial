@@ -3,7 +3,7 @@ from datetime import date
 from pathlib import Path,PurePosixPath
 import hashlib,json,re,subprocess
 from stable_host_profiles import CURATED,curated_profile,declaration_sha,match_stable_profile
-from native_freezer_extension import LOWER_TITLE
+from native_freezer_extension import LOWER_TITLE,apply_native_26_60_update
 
 def validate_recipe_cache_profile(spec,source):
  """Admit only the reviewed cache delta after the pinned public Cookery API.
@@ -213,6 +213,7 @@ def apply_host_extension(spec,owned_root,host_root,source,*,retained_owner=None,
      # category, membership and ordering while repeating an explicit icon.
      group['icon']=value
      continue
+    if apply_native_26_60_update(spec,data,op,stable):continue
     if dough:
      allowed={'minecraft:allow_off_hand':True,'minecraft:use_modifiers':{'use_duration':1,'movement_modifier':0.2},'minecraft:use_animation':'bow','senluo:mooncake_dough':{}}
      if name!='items/stuffed_dough_food.json' or data['minecraft:item']['description']['identifier']!='kaleidoscope_cookery:stuffed_dough_food' or len(pointer)!=3 or pointer[:2]!=['minecraft:item','components'] or pointer[2] not in allowed or value!=allowed[pointer[2]] or op.get('mode')!='reviewed_set':raise ValueError('dough repair capability is outside reviewed scope')
