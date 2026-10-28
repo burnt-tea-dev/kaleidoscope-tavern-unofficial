@@ -22,7 +22,9 @@ def patch_manifests(bp,rp,version,owner_version,profile=None):
     bp_id,rp_id=(profile['behavior_uuid'],profile['host_uuid']) if current else (STABLE_BP,STABLE_RP) if stable else (BP,RP)
     if current and (owner_version!=profile['owner_version'] or version!=profile['version']):raise ValueError('current renderer manifest differs from the exact owner release')
     script_dependencies=profile.get('script_dependencies',{}) if current else {}
-    if script_dependencies and script_dependencies!={'@minecraft/server':'2.8.0'}:
+    if script_dependencies and not (script_dependencies=={'@minecraft/server':'2.8.0'} or
+            profile.get('admission')==CURATED and profile.get('min_engine_version')==[1,26,60]
+            and script_dependencies=={'@minecraft/server':'2.12.0-beta'}):
         raise ValueError('Unreviewed ChineseFood script API dependency')
     engine=profile.get('min_engine_version') if current else None
     if engine is not None and (profile.get('admission')!=CURATED or engine!=[1,26,60]):
