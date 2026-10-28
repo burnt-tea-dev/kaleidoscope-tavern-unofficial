@@ -1,0 +1,87 @@
+{
+  "schema": 1,
+  "bds_version": "1.26.60.6",
+  "scope": "Targeted actual production-component probe before release identity freeze; not real-client acceptance or full S1 parity.",
+  "prototype_identity": [
+    0,
+    6,
+    188
+  ],
+  "source_sha256": {
+    "runtime/BP/blocks/wild_grapevine.json": "ea1c3f23e7dc1394c7505424dc67d7d7c256a757cc3960c5f8e24bcecc8890f4",
+    "runtime/BP/blocks/wild_grapevine_plant.json": "9b22c1a77820c9fd0e4af4b9f6d0944cf9c3cb148d84da44de1b656ae27556b6",
+    "runtime/BP/scripts/bedrock/cultivation.js": "7c1f0ca191c558de79013145db0d095b8a304a4cb4e9bbaf3881d3f00058e6e5",
+    "runtime/BP/scripts/bedrock/protected-break-router.js": "9763b6c53f3c66fa92403df843e04e4de97b06c040acb6a972c954a576bce750",
+    "runtime/BP/loot_tables/blocks/wild_grapevine.json": "00ffba8f2d2b5c1f4961dbfc4a58d5cc730c4e35907001afee0f49e179edb9f2"
+  },
+  "probe_sha256": "21766e775e3d38761599e6ff9c1fb4098a2eed3e26af3402cf83ad96f28d09e6",
+  "native": {
+    "cases": [
+      {
+        "case": "middle-break",
+        "support": "minecraft:stone",
+        "detachedWithinTicks": 1,
+        "drops": 2,
+        "upperBecameHead": true
+      },
+      {
+        "case": "middle-break",
+        "support": "minecraft:birch_leaves",
+        "detachedWithinTicks": 1,
+        "drops": 2,
+        "upperBecameHead": true
+      },
+      {
+        "case": "duplicate-support-notification",
+        "detachedWithinTicks": 2,
+        "drops": 3
+      },
+      {
+        "case": "26-cell-chain",
+        "detachedWithinTicks": 1,
+        "drops": 26
+      },
+      {
+        "case": "tile-drops-disabled",
+        "drops": 0
+      }
+    ],
+    "players": 0,
+    "realPlayerInputTested": false
+  },
+  "native_runner": {
+    "phase": "first",
+    "started": true,
+    "family_initialized": true,
+    "exit_code": 0,
+    "errors": [],
+    "warning_count": 10,
+    "real_player_connections": 0,
+    "log_sha256": "e9eb119763c07334eb0fccf4efd83125e6a2f52f0f7da4a1211364d323da08ab",
+    "commands_sent": false,
+    "commands_completed": true,
+    "delayed_commands_sent": true,
+    "missing_startup_markers": [],
+    "stop_reason": "ready",
+    "ticking_areas_created": [],
+    "ticking_area_cleanup_commands": [],
+    "ok": true
+  },
+  "source_tests": {
+    "cases": 21,
+    "passed": 21,
+    "held_items": [
+      "empty",
+      "minecraft:dirt",
+      "minecraft:diamond_axe"
+    ],
+    "creative_and_do_tile_drops_false": true
+  },
+  "client": false,
+  "production_ready": false,
+  "limits": [
+    "Native support callback was directly invoked with real native blocks; real player input delivery is not established by this zero-player probe.",
+    "Natural support loss without a player/vine break event retains the periodic fallback; full global neighbour parity is not claimed.",
+    "Explosion-specific loot probability, audio/rendering and normal-play performance remain unverified."
+  ]
+}

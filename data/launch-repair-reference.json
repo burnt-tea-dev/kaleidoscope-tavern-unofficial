@@ -581,12 +581,6 @@
       "after": "1c081707ba1913529812de3799f56f7aea0780b2425bb475027bc34706b2f802",
       "reason": "0.6.46: shared Cookery-style creative taxonomy and product guide cleanup; menu metadata/text only, gameplay IDs and mechanics preserved. 0.6.48: reviewed native product preparations, destruction cleanup, Java resistance/selection and native potion delivery IDs as applicable."
     },
-    "runtime/BP/blocks/wild_grapevine.json": {
-      "before": "24981cff47a07fd4a5f1a80646d6e8761f1afced58cfbe4ae802f291ab5365d9",
-      "beforeProjected": "df392b3f9f5d5a5801ecadb11b980c693b7f58a95df914c229e29858210679e3",
-      "after": "bdb143ae757604ac6f5b31eda77a1ae3c78f9064e183bf2f94a52bc8e79430a1",
-      "reason": "0.6.46: shared Cookery-style creative taxonomy and product guide cleanup; menu metadata/text only, gameplay IDs and mechanics preserved. 0.6.48: reviewed native product preparations, destruction cleanup, Java resistance/selection and native potion delivery IDs as applicable."
-    },
     "runtime/BP/blocks/ginkgo_incense.json": {
       "before": "db777e47cf8b18e6f7c3ef7e0c7d15ce03d599622119cf4ed792e3ec38d14568",
       "beforeProjected": "88208f11f96431a948463f70fb786109b1dc4b685b9fd5669fe899eeabe90f51",
@@ -1415,12 +1409,6 @@
       "after": "6d3079ddddb5c07c9eccec2ce6ed436d49afbd3246026558855c934bb932d9b7",
       "reason": "0.6.48: Java explosion resistance and native destruction cleanup; native Cookery product preparations and circular-rack base hitbox."
     },
-    "runtime/BP/blocks/wild_grapevine_plant.json": {
-      "before": "fd3fd5c88c09d4c45a00ea841d3def7307b04c4661d647b52a9eb42df2296542",
-      "beforeProjected": "fd3fd5c88c09d4c45a00ea841d3def7307b04c4661d647b52a9eb42df2296542",
-      "after": "c02354dc17d40c0e704db986a881d8e35b216def9457fdb1d4276a3195069691",
-      "reason": "0.6.48: Java explosion resistance and native destruction cleanup; native Cookery product preparations and circular-rack base hitbox."
-    },
     "runtime/BP/blocks/light_colorless.json": {
       "before": "431ef5934d21d5156ac0e9fa62886fe0266724dbe1c423c093fe0469beeb6ca9",
       "beforeProjected": "431ef5934d21d5156ac0e9fa62886fe0266724dbe1c423c093fe0469beeb6ca9",
@@ -1587,12 +1575,6 @@
       "before": "d22f975b5cc3f31ff0e536ac0ff9b1b51586e084b63f1da6574ffc0a80cd74c3",
       "beforeProjected": "d22f975b5cc3f31ff0e536ac0ff9b1b51586e084b63f1da6574ffc0a80cd74c3",
       "after": "d9a1977842a19f768babee27ee1fe24603ffff09c2dd90efab4d844993fe5895",
-      "reason": "0.6.48: Java explosion resistance and native destruction cleanup; native Cookery product preparations and circular-rack base hitbox."
-    },
-    "runtime/BP/scripts/bedrock/protected-break-router.js": {
-      "before": "7421f7f70d43664e1335203fcf0cb7076921a8464f9be11c336e032a952a2505",
-      "beforeProjected": "7421f7f70d43664e1335203fcf0cb7076921a8464f9be11c336e032a952a2505",
-      "after": "e1c5286ca6445044fdf51864103664f1c03d8f9ced984ecf6d510b8caec7b203",
       "reason": "0.6.48: Java explosion resistance and native destruction cleanup; native Cookery product preparations and circular-rack base hitbox."
     },
     "runtime/BP/scripts/bedrock/mixology.js": {
@@ -1822,12 +1804,6 @@
       "beforeProjected": "ca1c3717c30c54e8ef0e5ba59a15ef12d99198eef103d6b9b7d23ae07c180046",
       "after": "3018ef009fa87f12b6a902a3e4fecf8c9685dbda49b64a61ceb54a23552bf3bb",
       "reason": " 0.6.56: remove unsolicited success hints; index live cabinet helper anchors before removal and prune invalid storage maintenance references. Pickup parity audit 2026-09-29: native ItemStack persistence, Java storage/main-hand versus Forge inventory delivery, per-block creative handling, exact Java slot boundaries and feedback; details in docs/PICKUP-PARITY-20260929.md."
-    },
-    "runtime/BP/scripts/bedrock/cultivation.js": {
-      "before": "76d14952d0946f6218c21d808bed4da27d80e37356c8f3297630e4141cd48ba0",
-      "beforeProjected": "76d14952d0946f6218c21d808bed4da27d80e37356c8f3297630e4141cd48ba0",
-      "after": "1cd502959ef67ed212708db7e3621a4f600771f448f3b9a6c5d99bc7e2d1664d",
-      "reason": " 0.6.56: remove unsolicited success hints; index live cabinet helper anchors before removal and prune invalid storage maintenance references. 2026-09-28 effects review: Source-derived post-commit feedback, isolated cosmetic failures and real splash lifecycle; preserves PR93 carrier repair. See docs/EFFECTS-REPORT-FOLLOWUP-20260928.md."
     },
     "runtime/RP/ui/hud_screen.json": {
       "before": "5da651746453ffe082090da1a155ba985736ae3381c116269d35ff2ca58e94ca",
@@ -2499,6 +2475,30 @@
       "beforeProjected": "106025e78428e79a06e0c65c2217c7c22a1152e52af70827b552e3180da0117f",
       "after": "fa5a29e4195b3abc954332c6e20e191b0820238a6ac094b83f36918663d816d8",
       "reason": "2026-09-28 effects review: Optional namespace-scoped external item particle registration. See docs/EFFECTS-REPORT-FOLLOWUP-20260928.md."
+    },
+    "runtime/BP/blocks/wild_grapevine.json": {
+      "before": "24981cff47a07fd4a5f1a80646d6e8761f1afced58cfbe4ae802f291ab5365d9",
+      "beforeProjected": "df392b3f9f5d5a5801ecadb11b980c693b7f58a95df914c229e29858210679e3",
+      "after": "bdb143ae757604ac6f5b31eda77a1ae3c78f9064e183bf2f94a52bc8e79430a1",
+      "reason": "0.6.46: shared Cookery-style creative taxonomy and product guide cleanup; menu metadata/text only, gameplay IDs and mechanics preserved. 0.6.48: reviewed native product preparations, destruction cleanup, Java resistance/selection and native potion delivery IDs as applicable."
+    },
+    "runtime/BP/blocks/wild_grapevine_plant.json": {
+      "before": "fd3fd5c88c09d4c45a00ea841d3def7307b04c4661d647b52a9eb42df2296542",
+      "beforeProjected": "fd3fd5c88c09d4c45a00ea841d3def7307b04c4661d647b52a9eb42df2296542",
+      "after": "c02354dc17d40c0e704db986a881d8e35b216def9457fdb1d4276a3195069691",
+      "reason": "0.6.48: Java explosion resistance and native destruction cleanup; native Cookery product preparations and circular-rack base hitbox."
+    },
+    "runtime/BP/scripts/bedrock/protected-break-router.js": {
+      "before": "7421f7f70d43664e1335203fcf0cb7076921a8464f9be11c336e032a952a2505",
+      "beforeProjected": "7421f7f70d43664e1335203fcf0cb7076921a8464f9be11c336e032a952a2505",
+      "after": "e1c5286ca6445044fdf51864103664f1c03d8f9ced984ecf6d510b8caec7b203",
+      "reason": "0.6.48: Java explosion resistance and native destruction cleanup; native Cookery product preparations and circular-rack base hitbox."
+    },
+    "runtime/BP/scripts/bedrock/cultivation.js": {
+      "before": "76d14952d0946f6218c21d808bed4da27d80e37356c8f3297630e4141cd48ba0",
+      "beforeProjected": "76d14952d0946f6218c21d808bed4da27d80e37356c8f3297630e4141cd48ba0",
+      "after": "1cd502959ef67ed212708db7e3621a4f600771f448f3b9a6c5d99bc7e2d1664d",
+      "reason": " 0.6.56: remove unsolicited success hints; index live cabinet helper anchors before removal and prune invalid storage maintenance references. 2026-09-28 effects review: Source-derived post-commit feedback, isolated cosmetic failures and real splash lifecycle; preserves PR93 carrier repair. See docs/EFFECTS-REPORT-FOLLOWUP-20260928.md."
     }
   }
 }

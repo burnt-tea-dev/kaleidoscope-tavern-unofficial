@@ -49,8 +49,8 @@
       "sha256": "ff07044f0fc9cfa0a04971cbb53bcfc7aaec7da37b841f4ed40522e3f1475b52"
     },
     "runtime/BP/blocks": {
-      "files": 159,
-      "sha256": "76bf7e1f8bcd9b7c60f14152302c3571bcf95cc02f1e2e1bc98d145ceafd9801"
+      "files": 157,
+      "sha256": "39b78139a60b0f8fd40d512e593996e4f76286d59f48a305638b70da261695d1"
     },
     "runtime/BP/recipes": {
       "files": 160,
@@ -98,5 +98,19 @@
       "runtime/BP/scripts/bedrock/mixology.js"
     ],
     "originalBodyProof": "data/pick-block-prefixes.json"
+  },
+  "historicalPreservedGroups": {
+    "runtime/BP/blocks": {
+      "original": {
+        "files": 159,
+        "sha256": "76bf7e1f8bcd9b7c60f14152302c3571bcf95cc02f1e2e1bc98d145ceafd9801"
+      },
+      "retiredToCurrentContract": [
+        "runtime/BP/blocks/wild_grapevine.json",
+        "runtime/BP/blocks/wild_grapevine_plant.json"
+      ],
+      "contract": "tools/cultivation_source_contract.py",
+      "reason": "The two current wild-vine blocks are validated against Java loot resources and actual cultivation behavior, rather than historical block bodies. The remaining historical group retains its exact source view."
+    }
   }
 }

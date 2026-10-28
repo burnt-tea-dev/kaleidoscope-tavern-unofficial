@@ -3,8 +3,9 @@
 import json
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
-def update(root,addon=False):
+def update(root,addon=False,blocks=None):
  for p in (root/'runtime/BP/blocks').glob('*.json'):
+  if blocks is not None and p.stem not in blocks:continue
   d=json.loads(p.read_text());b=d['minecraft:block'];c=b['components'];name=b['description']['identifier'];short=name.split(':')[1]
   old=c.get('minecraft:destructible_by_explosion',{});res=old.get('explosion_resistance',0) if isinstance(old,dict) else 0
   drop=name
@@ -15,6 +16,15 @@ def update(root,addon=False):
   if not addon and (short=='trellis' or short.endswith('grapevine_trellis')):res=.8
   if not addon and short.endswith('_incense'):res=0
   c['minecraft:destructible_by_explosion']={'explosion_resistance':res}
+  if not addon and short in ('wild_grapevine','wild_grapevine_plant'):
+   # Head and body have the same Java loot. Neighbour repair belongs to their
+   # cultivation component; the generic recovery item would be a block ID.
+   c.pop('minecraft:placement_filter',None)
+   c['minecraft:loot']='loot_tables/blocks/wild_grapevine.json'
+   c.pop('kaleidoscope_tavern:natural_break',None)
+   loot=root/'runtime/BP/loot_tables/blocks/wild_grapevine.json'
+   loot.parent.mkdir(parents=True,exist_ok=True)
+   loot.write_text(json.dumps({'pools':[{'rolls':1,'entries':[{'type':'item','name':'kaleidoscope_tavern:grapevine','weight':1}]}]},indent=2)+'\n')
   # Only empty-loot blocks need scripted recovery; native plant loot stays native.
   if c.get('minecraft:loot')=='loot_tables/empty.json':
    if not addon:
@@ -23,13 +33,16 @@ def update(root,addon=False):
     elif short.startswith('light_') and not short.endswith('_sofa'):drop='kaleidoscope_tavern:string_lights_'+short[6:]
     elif short in ('honey_bottle','dragon_breath_bottle','xp_bottle'):drop={'honey_bottle':'minecraft:honey_bottle','dragon_breath_bottle':'minecraft:dragon_breath','xp_bottle':'minecraft:experience_bottle'}[short]
     elif short.endswith('_grapevine_trellis') or short=='grapevine_trellis':drop='kaleidoscope_tavern:trellis'
-    elif short=='wild_grapevine_plant':drop='kaleidoscope_tavern:wild_grapevine'
     elif short.endswith('_crop'):drop='kaleidoscope_tavern:'+short.removesuffix('_crop')
     c['kaleidoscope_tavern:natural_break']={'drop':drop}
    elif any(k in c for k in ('kaleidoscope_tavern:bottle_display','kaleidoscope_tavern:cocktail_cup')) or 'cabinet' in short:
     c['kaleidoscope_tavern:natural_break']={'drop':drop,**({'storage':True} if 'cabinet' in short else {})}
   p.write_text(json.dumps(d,ensure_ascii=False,indent=2)+'\n')
-update(ROOT)
 if __name__=='__main__':
- import sys
- if '--addon' in sys.argv:update(ROOT.parent/'world-liquor-src',True)
+ import argparse
+ parser=argparse.ArgumentParser(description=__doc__)
+ parser.add_argument('--addon',action='store_true')
+ parser.add_argument('--blocks',nargs='+',help='Regenerate only the selected block definitions')
+ args=parser.parse_args()
+ update(ROOT,blocks=args.blocks)
+ if args.addon:update(ROOT.parent/'world-liquor-src',True,blocks=args.blocks)

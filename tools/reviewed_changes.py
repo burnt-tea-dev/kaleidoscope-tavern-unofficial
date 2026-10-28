@@ -61,11 +61,13 @@ def current_contract_sources():
     from foundation.source_contract import check as check_foundation, runtime_sources as foundation_runtime_sources
     from current_extension_source_contract import check as check_extensions, runtime_sources as extension_runtime_sources
     from creative.catalog import check_current as check_creative, runtime_sources as creative_runtime_sources
+    from cultivation_source_contract import check as check_cultivation, runtime_sources as cultivation_runtime_sources
+    check_cultivation(ROOT)
     check_potion_visual()
     check_foundation(ROOT)
     check_extensions(ROOT)
     check_creative(ROOT)
-    return potion_runtime_sources()|foundation_runtime_sources()|extension_runtime_sources()|creative_runtime_sources()
+    return potion_runtime_sources()|foundation_runtime_sources()|extension_runtime_sources()|creative_runtime_sources()|cultivation_runtime_sources()
 
 def historical_files(prefix):
     current=current_contract_sources()

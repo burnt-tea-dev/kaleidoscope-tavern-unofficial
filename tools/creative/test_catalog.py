@@ -329,7 +329,12 @@ class HistoricalProjectionTests(unittest.TestCase):
     def test_projection_changes_only_reviewed_menu_and_native_registration(self):
         for root in (TAVERN, LIQUOR):
             projection = self.module.LegacyMenuProjection(root)
+            from cultivation_source_contract import check as check_cultivation, runtime_sources as cultivation_sources
+            if root == TAVERN:
+                check_cultivation(root)
             for path in projection.menus:
+                if root == TAVERN and path in cultivation_sources():
+                    continue  # Current gameplay/resources have their own contract.
                 p = root/path
                 kind = 'minecraft:item' if '/items/' in path else 'minecraft:block'
                 from baseline_reference import previous_bytes
