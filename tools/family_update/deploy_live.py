@@ -4,6 +4,11 @@ from family_update.common import *
 import hashlib
 
 CONSOLIDATED_AUTHORIZATION_LINE_SHA256 = '470615d4dd6da2d869a9e0d4d4606d265230fb36e060ed4acab15fdccd00017b'
+CURRENT_AUTHORIZATION_LINE_SHA256S = {
+    CONSOLIDATED_AUTHORIZATION_LINE_SHA256,
+    # Current managed policy after the owner's 2026-10-27 native/experimental clarification.
+    '135356da8e3ab5ea3a18baa9a35458ccd5643f6a8862df32163d1eb96608fff7',
+}
 
 class RecoveryRequired(RuntimeError):
     """A failed rollback must retain the stopped server and active lease."""
@@ -26,7 +31,7 @@ def deployment_authorized(agents):
     if all((text in agents for text in ['使用者已持續授權', '供使用者直接測試開發效果', '`deferred_client_acceptance`'])):
         return True
     lines = set(agents.splitlines())
-    return {'# Senluo maintenance', "Scope: Senluo family work on this host. These are the owner's standing requirements (2026-09-30 through 2026-10-11), consolidated on 2026-10-16. Later explicit user instructions take precedence."}.issubset(lines) and any((hashlib.sha256(line.encode('utf-8', 'surrogatepass')).hexdigest() == CONSOLIDATED_AUTHORIZATION_LINE_SHA256 for line in lines))
+    return {'# Senluo maintenance', "Scope: Senluo family work on this host. These are the owner's standing requirements (2026-09-30 through 2026-10-11), consolidated on 2026-10-16. Later explicit user instructions take precedence."}.issubset(lines) and any((hashlib.sha256(line.encode('utf-8', 'surrogatepass')).hexdigest() in CURRENT_AUTHORIZATION_LINE_SHA256S for line in lines))
 
 def preflight():
     retain_stopped_on_failure()
