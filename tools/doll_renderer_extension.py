@@ -24,12 +24,16 @@ def patch_manifests(bp,rp,version,owner_version,profile=None):
     script_dependencies=profile.get('script_dependencies',{}) if current else {}
     if script_dependencies and script_dependencies!={'@minecraft/server':'2.8.0'}:
         raise ValueError('Unreviewed ChineseFood script API dependency')
+    engine=profile.get('min_engine_version') if current else None
+    if engine is not None and (profile.get('admission')!=CURATED or engine!=[1,26,60]):
+        raise ValueError('Unreviewed ChineseFood engine requirement')
     if stable and {(1,0,43):(1,0,10543),(1,0,44):(1,0,10544),(1,0,45):(1,0,10545),(1,0,46):(1,0,10546),(1,0,47):(1,0,10547),(1,0,48):(1,0,10548)}.get(tuple(owner_version))!=tuple(version):raise ValueError('stable renderer manifest identity differs from the exact owner release')
     result=[]
     for original,uid,other in [(bp,bp_id,rp_id),(rp,rp_id,bp_id)]:
         value=copy.deepcopy(original)
         if value['header']['uuid']!=uid or value['header']['version']!=expected:raise ValueError('renderer cleanup requires original author identities')
         value['header']['version']=version
+        if engine is not None:value['header']['min_engine_version']=list(engine)
         if current:
             value['header']['name']=profile['manifest_names']['BP' if uid==bp_id else 'RP']
         elif owner_version>=[1,0,18] and value['header']['name']=='pack.name':
