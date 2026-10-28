@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import {world,system,Player,GameMode,ItemStack,BlockPermutation,registerFixtureItem} from '@minecraft/server';
 import {ui} from '@minecraft/server-ui';
 import {registerWritingBoardComponents,installWritingBoardEvents,WRITING_BOARD_DIAGNOSTICS} from '../runtime/BP/scripts/bedrock/writing-boards.js';
-import {farmUse,farmBreak,framePermutation,installCultivation} from '../runtime/BP/scripts/bedrock/cultivation.js';
+import {farmUse,farmBreak,framePermutation,installCultivation,registerCultivation} from '../runtime/BP/scripts/bedrock/cultivation.js';
 import {installFurnitureEvents} from '../runtime/BP/scripts/bedrock/furniture.js';
 import {installJavaItemUseOnEvents,JAVA_PLACEMENT_TEST} from '../runtime/BP/scripts/bedrock/java-placement-router.js';
 import {exchangeBlocks,exchangeBlocksToWorld,air} from '../runtime/BP/scripts/bedrock/transactions.js';
@@ -166,6 +166,15 @@ test('Adventure ripe harvesting and wild-vine clipping retain drops and tool wea
  assert.equal(crop.typeId,NS+'grape_crop');assert.deepEqual(p.inventory.getItem(2),shears);
  assert.deepEqual(farmUse(p,crop,{rng:()=>.9}),[{id:NS+'grape',count:3}]);assert.equal(crop.typeId,'minecraft:air');assert.equal(p.inventory.getItem(2).getComponent('minecraft:durability').damage,13);
  const wild=at({...pos,z:pos.z+3},NS+'wild_grapevine',{[NS+'sheared']:false});assert.equal(farmUse(p,wild,{rng:()=>.9}),'sheared');assert.equal(wild.permutation.getState(NS+'sheared'),true);assert.equal(p.inventory.getItem(2).getComponent('minecraft:durability').damage,14);
+});
+
+test('both actual wild-vine components register immediate break callbacks and retain growth ticks',()=>{
+ const components=new Map();
+ registerCultivation({blockComponentRegistry:{registerCustomComponent:(id,component)=>components.set(id,component)}});
+ for(const id of ['wild_grapevine','wild_grapevine_plant']){
+  const component=components.get(NS+id);
+  assert.equal(typeof component.onBreak,'function');assert.equal(typeof component.onTick,'function');
+ }
 });
 
 test('Survival wild-vine breaks yield one grapevine with empty hand, dirt or a tool, preserving held metadata',()=>{

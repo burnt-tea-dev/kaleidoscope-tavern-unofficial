@@ -165,6 +165,7 @@ def main(argv=None):
     config=read(ROOT/'release.json');version=list(map(int,config['version'].split('.')))
     source_checks=source_check_commands(args,config['version'])
     subprocess.run(['node','--test','tools/ambient-sparse.test.mjs'],cwd=ROOT,check=True)
+    subprocess.run([sys.executable,str(ROOT/'tools/test_cultivation_source_contract.py')],cwd=ROOT,check=True)
     subprocess.run([sys.executable,str(ROOT/'tools/test_item_render_contract.py')],cwd=ROOT,check=True)
     subprocess.run([sys.executable,str(ROOT/'tools/test_tilted_rack_lift.py')],cwd=ROOT,check=True)
     subprocess.run([sys.executable,str(ROOT/'tools/test_later_retained_host_profiles.py')],cwd=ROOT,check=True)

@@ -9,6 +9,7 @@ import base64,gzip,hashlib,json,subprocess
 from functools import lru_cache
 from collision_shape_projection import collision_preimage
 from current_extension_source_contract import check as check_current_extensions, runtime_sources as extension_runtime_sources
+from cultivation_source_contract import check as check_cultivation, runtime_sources as cultivation_runtime_sources
 
 # Only exact reviewed non-script assets and opt-in command entry points.
 # T134 visual semantics are checked by the board, source-texel and animation
@@ -260,6 +261,9 @@ def previous_bytes(root,path):
  # suites. Their bodies no longer participate in the historical source view.
  if root==Path(__file__).resolve().parents[1] and name in extension_runtime_sources():
   check_current_extensions(root,syntax=False,localization=False)
+  return data
+ if root==Path(__file__).resolve().parents[1] and name in cultivation_runtime_sources():
+  check_cultivation(root,syntax=False)
   return data
  data=t176_preimage(root,name,data)
  data=collision_preimage(root,name,data)

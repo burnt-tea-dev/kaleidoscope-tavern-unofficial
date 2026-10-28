@@ -873,18 +873,6 @@
       "reason": "Canonical baseline reconciliation; stable API/connection/public dependencies and reviewed live fixes. See BASELINE-MAINTENANCE.md.",
       "beforeGzipBase64": "H4sIAAAAAAACA+1ZW3PaOBR+51cwfml3h7oYQpLNTJ/3R+xkNMI+BjW25EoyDZvhv+/xBSPJgtLQhsysn0DS8bl8+s4F/DIaj4NUyJxqsgGpmODBwziIwtltuJgGk+o4ZxxiSVP9sMxE/ITnL7iNBwmoWLJCNw81m7jNEuCapQxkpeqJZsASoWJRANEUjfCH72umgSiR0tpC/VQOvCQx1bAScmuowyNjN4BvJStQVndPosBKirI4ZgxN5X9XAiGnOYRpKTnTpYSgfX7XuaA0GlK2bZ/GlMaMr1Dun05uPJ5OjEVkLmbmYt59f5ycthILjri34L7Gkrm4MReLgw89DLSkTDsYHAhQZDSGCn2SMNk592LoDoDTZQYJ6cA0XbeUxVQmjNPM0GWIPpoeB1siBSpEGSLSVIFGxdH9tBPZjczPNpwgFnkhOLprBmR4sAKRg3bpZvN3LxM+aUIVWlaE3oQVd4lCFmQeHh0MYFqBZBgi44gHj112/emip+G55mbFZcMeqTOPJBCLOm1InUGBBZEEnoAk6OxaJJUCmhVrSvASdNDHyeMsprOWJV4E3h9ZbgmeNDQ3HFboAU8U0YLU4qLCbhoufkItPBeZUC5zgm6bSFCsQavWfX8KX7Gp2ObQVWwajuptUSPJ8r3cCVWZEBWpguoTUxCl1WfIC70Nvyr01fcEW60xEWheQAvU1CMViyxjdVxL8Wylg3XxQrIV4710+XQ/sdbTiXN8NGMU+xd66qJb+3lHe3RrqjuQZnKRz85yfpnLkQPBwu/yyDFg3IiCrCk37Y0Y1PFGZMdjmTfwN8u5JxA7DHd1oiAf/NbMaL5NpeJYXjZYXiTlK9fizPJ0NvV6imwvGu5ijkLPuK8v1W0b3fC5WPVasmGqpJntqbfSnlVro7uw1powhd1nS4zZwUfQ4Acl11N0j5bd6I4cM21z8Lzae2Dl6TqcMZxxEqyv2tNhg26byDLrNVgnrlbVvhB+r7BxfY8pJ1jUNWWcNPItGxw5sT/G4l/G69p0UPelikCOcKlgLx1nrOhzzIbj8SzmcYqXhDe7lECdTEikKM6YNr1TQgEyL5vhwoTTHECx57H2KoJvYdOM6wHn44fTo9uHP8Zfvoyn5rDqHUrOGUwuGU6cLDmzQ/UZdbzq+yq/p2P1ulavDRxvBb524GkwvU5mt4YeFJfH6Nma/9oQIw+Mi9MhnuyLHQC/kOXRFVieQaoHjg8cfyuOz67AcVn9zhhIPpD8rUg+vwLJc5Ykw7gysPztWH5zpXEFf2xJjpID1f+vVP/tIV5yjYvzQoyid5bOi2tNZkM+D/n82hDnQzpb71Rf+XeZlpSr5i12/41k9fds++7Qg1APi/7G6Bguu9+ORHRNJD799a6wmF0Vi+j+XYExvyoYs7vLwBjtZXaj3eg/gkLHPYMiAAA="
     },
-    "runtime/BP/blocks/wild_grapevine.json": {
-      "before": "bdb143ae757604ac6f5b31eda77a1ae3c78f9064e183bf2f94a52bc8e79430a1",
-      "after": "e0e146bb055f971477b177c257421128a8149c5068d64b676c12a5deed51a41e",
-      "reason": "Canonical baseline reconciliation; stable API/connection/public dependencies and reviewed live fixes. See BASELINE-MAINTENANCE.md.",
-      "beforeGzipBase64": "H4sIAAAAAAACA6VWUXLaMBD95xQef3aIi2lIUi7QQ3Q6GllejIosqZLsQDPcvSsbjOQ6QNoPBna12n16ervibZYk6UaZmjrSgrFcyXSdpHm2fMpWi3Tul2sugRm6cetCKLbD9Td040IJlhmuXb+pd6KblyAd33AwPtWOCuClskxpII5iEbl+5aIklaEaWszdVel2Wkcd2CBXMr2fVkCEesXA70NgkizmgZGHxjI0voTGY2isQuMpNJ5D4yU0vkZFYwgRhjwCkUco8ghGvhqMH/PbRGx5tb3KxN3Z7BaogXKUbEOFhTChMw1ccp5+HYdLrEE2hOFFVsoc4rsMvCn8arjGWJcGqCqjGv2eariD+psPyCStIeu9hDXC8ZZ2IjxjmQWIUqZqrSQWCoUViLoCVYMbQ41FfI7Jdo5Qa8FZQpfZSMZ/MzHUwPYCw6kgXKLGJRuL/FNkosPB3jUGOiqCkuSdzun2GJAlGIJAt8pfYkqF3lKCHeXiQFoXHE9HFGOiObX8IotEk24oA1LyGs9Q4XIngmH9eOWo/pZIy21DRXzGSZ7/i+kAgIdwneMJlv+N5w8wfR/Xt9i+8H2deaaE4L4EKdT+nGUizoIA5i5xwR0pwysuRwPgIZp+EfSH58nhYvlvGCUZjbinePxdGycDbnxucPQg8kIAKQ4EV3q6ggNYYEqWljhFunB16Pn+QFrYa6Fs/KbhhsFNDFjeK+xmbqGU8/rw3zjGsIL9DLV2h+ynxQITOxwPXti+PyTqukVdGyqrMa0v8ah/XEzeB5bXPVXB7L7gveOJRkSTc021/lAxYHSCH+zEHXTXWajrU9xdpSXFlsTzFgboiIvSKH3nn4r4LZj5z3H2B6gm8arvCAAA"
-    },
-    "runtime/BP/blocks/wild_grapevine_plant.json": {
-      "before": "c02354dc17d40c0e704db986a881d8e35b216def9457fdb1d4276a3195069691",
-      "after": "876f71c5b64e56120688728156d8988cbd1f31e33b3cfcbe4cc6bc038e8a6499",
-      "reason": "Canonical baseline reconciliation; stable API/connection/public dependencies and reviewed live fixes. See BASELINE-MAINTENANCE.md.",
-      "beforeGzipBase64": "H4sIAAAAAAACA6VV227bMAx9z1cEfhxaLym6dsivDIMgy7SrRRYFifGSFfn3UXaaSK6RpuiDYZi3c3hE0a+L5bJo0HeSRA8+aLTFZlmsy4en8sequIvuTltQXja0qQyqLftf2cyOGoLy2tGYNBrZrGuwpBsNPpbaSgO6xqDQgSDJIHbzV5tatF466Lm2cEZaGrCG/A7sTihJ0KI/JIXZlVgLixaKk+s4vI9jiUJh59hpKaS0Lm20gB3QtHZO+y2m3JKQIQAFIR/KnPgZ/e49BgsKXksjtA0krYKQo33LPtlAsKedh0GyBFJc1WrI9GBr8ILpvmAd86VxL1IQhEmg7CrNPQpUyuxOR70qV1lMIxWIWnfcScvuRpoAZ//xSsOaoBO9Djtp8k5n1f6S3gmBSOG60jNaf0XtT+h9m+IfaX5R/br+Co3REUJUuH+rMhMXwICiS1xyUuh1qyPFXwn6/XPKNqN+/3z++J0cSND/YFJk/ZjmrZ+yr8dLlSv98bIhv2PmlQFRHQR7RrmSBgIotHUQhGIIx8Oo9yfKwt4ZDPlG44SzWXgIepyzD2sbRIrzEd+8+hghfIfO0aH8ExhgJoN0sl/HW2J5unuebi9tO5X15yoXcjV7HgzvRqm4U3jH9+YFzbxmNx32sbWcNhuhi5NPBzfcMp7uU9xNBKzk68ldVx7kRJHao7vtxzL5Oyzic1z8B/R9/z/zBgAA"
-    },
     "runtime/BP/blocks/wither_rose_sandwich_board.json": {
       "before": "bfebc391282909f9baacc37530a618c072b3234e5716be21af066238ede7e5d0",
       "after": "9d074413fa4d9d58190598aebc273625a508ce0697a39ca1acfe8fd7f1f842ae",
@@ -1051,12 +1039,6 @@
       "after": "4ad9e89f3de99b2139978cde2aeacaa94139408d34c0847cda355c389936ac6e",
       "reason": "Restore functional destruction feedback after the historical merge discarded it; preserve later metadata and geometry fixes."
     },
-    "runtime/BP/scripts/bedrock/cultivation.js": {
-      "before": "1cd502959ef67ed212708db7e3621a4f600771f448f3b9a6c5d99bc7e2d1664d",
-      "after": "3887e4546f4302721ff4cf15b51456640a5d02dd7f8c43cfc315256796aa6847",
-      "reason": "Restore functional destruction feedback after the historical merge discarded it; preserve later metadata and geometry fixes. Current Java parity repair; source-specific tests in tools/java-parity*.test.mjs, tools/grass-stealth*.test.mjs or tests/freezer-state.test.mjs.",
-      "beforeGzipBase64": "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"
-    },
     "runtime/BP/scripts/bedrock/furniture.js": {
       "before": "38371c590f508338a97b4a740be8e1ea1955a84e2530fe55a3890c97a12d0372",
       "after": "80d62b3406053ec5615655de695ed9f2fffa28cfd152169a4269ef7c0a343bce",
@@ -1068,12 +1050,6 @@
       "after": "731dbe2f75dc29b1d4323596a58436b27a0102ecb2d219ea905154c7d0fad7bc",
       "reason": "Tavern 0.6.92 reviewed native item storage repair; see data/native-storage-review-20261003.json and pickup/foundation regressions. Historical preimage remains unchanged.",
       "beforeGzipBase64": "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"
-    },
-    "runtime/BP/scripts/bedrock/protected-break-router.js": {
-      "before": "e1c5286ca6445044fdf51864103664f1c03d8f9ced984ecf6d510b8caec7b203",
-      "after": "70a60f6bd33162d18c66bd48f7b618eb5f80dbd481c87208a8751501035198b3",
-      "reason": "Restore functional destruction feedback after the historical merge discarded it; preserve later metadata and geometry fixes.; reviewed integration of remote PR200/46 callback/HUD repairs with current Java use/combat candidate, fresh identities 0.6.114/0.1.74.",
-      "beforeGzipBase64": "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"
     },
     "runtime/BP/scripts/bedrock/scripted-block-change.js": {
       "before": "ad067ad2193b8d8c9c79f6288857898d9d4068283b06a72041e888fab725ca6a",
@@ -4924,68 +4900,6 @@
       "reviewedSourceCommit": "f08714307ea331be52a9240d8aa6473752325d1c",
       "reviewDocument": "docs/RELEASE-NOTES-0.6.131.md",
       "files": {
-        "runtime/BP/scripts/bedrock/cultivation.js": {
-          "before": "3887e4546f4302721ff4cf15b51456640a5d02dd7f8c43cfc315256796aa6847",
-          "after": "602d69a313ce375c9718a1e324e5b8defcbf18de52c88d79566e592fd102270c",
-          "reason": "Java block interaction permissions and free trellis wax/unwax; preserve item-use placement and bone-meal write gates, transaction rollback, and native duplicate settlement.",
-          "reverseOps": [
-            [
-              2,
-              3,
-              "import {registerJavaBlockUseHandler} from './java-placement-router.js';\n"
-            ],
-            [
-              9,
-              10,
-              "import {makeStack,hand,handSnapshot,sameHand,canWrite,blockAt,plus,safe,exchangeBlocks,exchangeBlocksToWorld,applyBlocks,air} from './transactions.js';\n"
-            ],
-            [
-              108,
-              109,
-              " canWrite(player);check(FARM_IDS.has(b.typeId),'NOT_A_CROP');\n"
-            ],
-            [
-              115,
-              116,
-              "   exchangeBlocks(player,creative?0:1,[],[{block:b,permutation:framePermutation(`${NS}:${kind}vine_trellis`,shape(b),0,false,waterlogged(b))}]);refreshAround(b);return 'planted';\n"
-            ],
-            [
-              118,
-              121,
-              "   check(!waxed(b),'ALREADY_WAXED');check(isPlainIngredient(h,makeStack),'METADATA_ITEM_REJECTED');\n   exchangeBlocks(player,creative?0:1,[],[{block:b,permutation:b.permutation.withState(WAX,true)}]);trellisWaxFeedback(b,true);return 'waxed';\n"
-            ],
-            [
-              123,
-              124,
-              "   check(waxed(b),'NOT_WAXED');exchangeBlocks(player,0,[],[{block:b,permutation:b.permutation.withState(WAX,false)}],{wear:true,rng});trellisWaxFeedback(b,false);return 'unwaxed';\n"
-            ],
-            [
-              126,
-              128,
-              "   check(isPlainIngredient(h,makeStack),'METADATA_ITEM_REJECTED');\n"
-            ],
-            [
-              132,
-              133,
-              "  if(b.typeId===WILD_HEAD){check(b.permutation.getState(WILD_SHEARED)!==true,'ALREADY_SHEARED');exchangeBlocks(player,0,[],[{block:b,permutation:b.permutation.withState(WILD_SHEARED,true)}],{wear:true,rng});try{player.playSound('mob.sheep.shear');}catch{}return 'sheared';}\n"
-            ],
-            [
-              137,
-              138,
-              "    exchangeBlocksToWorld(player,[{id:NS+':grapevine',count:1}],edits,b.location,{wear:true,rng});refreshAround(b);try{b.dimension.playSound('block.beehive.shear',b.location,{volume:1,pitch:1});}catch{}return 'pruned';\n"
-            ],
-            [
-              142,
-              143,
-              "    exchangeBlocksToWorld(player,outputs,[{block:b,permutation:air()}],b.location,{wear:true,rng});try{b.dimension.playSound('block.beehive.shear',b.location,{volume:1,pitch:1});}catch{}return outputs;\n"
-            ],
-            [
-              186,
-              191,
-              "   check(e.player.dimension.id===d.id,'DIMENSION_CHANGED');const b=blockAt(d,p);check(b&&current(b)===sig,'BLOCK_CHANGED');sameHand(e.player,hs);\n   return farmUse(e.player,b);\n"
-            ]
-          ]
-        },
         "runtime/BP/scripts/bedrock/furniture.js": {
           "before": "80d62b3406053ec5615655de695ed9f2fffa28cfd152169a4269ef7c0a343bce",
           "after": "546857f32f9cc60eac52c81e72e16c2becbc8c94e4a55aeaf054c0e64d885f50",
@@ -6068,26 +5982,6 @@
               41,
               43,
               "    const e=block.dimension.spawnItem(new ItemStack(output.id,base+(i<remainder?1:0)),{x:block.location.x+.5+dx*.3,y:block.location.y+.55,z:block.location.z+.5+dz*.3});\n"
-            ]
-          ]
-        },
-        "runtime/BP/scripts/bedrock/protected-break-router.js": {
-          "before": "70a60f6bd33162d18c66bd48f7b618eb5f80dbd481c87208a8751501035198b3",
-          "after": "b7d01d8a6960c291c6a737d72ddb0e9e655b6a14bf84a4ccf1ac3880bf232ab8",
-          "reason": "T134 appended exact source review. Preserve counted complete native machine inputs and exact source outputs/adoption, metadata-sensitive merging, quantities and mode/game-rule handling. Rollback attempts each native slot/carrier, marker, block and public record independently; targeted production failure/retention regressions prevent duplication or plain-ID fallback.",
-          "reviewedPredecessorCommit": "625ff769f4c656ff224314bba38d26a1ef5dacc0",
-          "reviewedSourceCommit": "37ff9f12e74c6a4f3bb3a5fc40502d7e70e68c83",
-          "reviewDocument": "docs/RELEASE-NOTES-0.6.134.md",
-          "reverseOps": [
-            [
-              41,
-              42,
-              " * Survival outputs become world drops; Creative outputs are discarded. Spawn failure occurs\n"
-            ],
-            [
-              45,
-              46,
-              " const mode=player.getGameMode()===GameMode.Survival?'drop':'discard';\n"
             ]
           ]
         },
@@ -8411,6 +8305,127 @@
       "before": null,
       "after": "71a6776c906541994f8904792f0cd4a45c7c7758f8de2d8bac40ca9bfce20091",
       "reason": "Reviewed original effect sprite/HUD addition for 0.6.86; exact current content verified by effect icon tests and source sprite ledger. Test-only preservation projection."
+    },
+    "runtime/BP/blocks/wild_grapevine.json": {
+      "before": "bdb143ae757604ac6f5b31eda77a1ae3c78f9064e183bf2f94a52bc8e79430a1",
+      "after": "e0e146bb055f971477b177c257421128a8149c5068d64b676c12a5deed51a41e",
+      "reason": "Canonical baseline reconciliation; stable API/connection/public dependencies and reviewed live fixes. See BASELINE-MAINTENANCE.md.",
+      "beforeGzipBase64": "H4sIAAAAAAACA6VWUXLaMBD95xQef3aIi2lIUi7QQ3Q6GllejIosqZLsQDPcvSsbjOQ6QNoPBna12n16ervibZYk6UaZmjrSgrFcyXSdpHm2fMpWi3Tul2sugRm6cetCKLbD9Td040IJlhmuXb+pd6KblyAd33AwPtWOCuClskxpII5iEbl+5aIklaEaWszdVel2Wkcd2CBXMr2fVkCEesXA70NgkizmgZGHxjI0voTGY2isQuMpNJ5D4yU0vkZFYwgRhjwCkUco8ghGvhqMH/PbRGx5tb3KxN3Z7BaogXKUbEOFhTChMw1ccp5+HYdLrEE2hOFFVsoc4rsMvCn8arjGWJcGqCqjGv2eariD+psPyCStIeu9hDXC8ZZ2IjxjmQWIUqZqrSQWCoUViLoCVYMbQ41FfI7Jdo5Qa8FZQpfZSMZ/MzHUwPYCw6kgXKLGJRuL/FNkosPB3jUGOiqCkuSdzun2GJAlGIJAt8pfYkqF3lKCHeXiQFoXHE9HFGOiObX8IotEk24oA1LyGs9Q4XIngmH9eOWo/pZIy21DRXzGSZ7/i+kAgIdwneMJlv+N5w8wfR/Xt9i+8H2deaaE4L4EKdT+nGUizoIA5i5xwR0pwysuRwPgIZp+EfSH58nhYvlvGCUZjbinePxdGycDbnxucPQg8kIAKQ4EV3q6ggNYYEqWljhFunB16Pn+QFrYa6Fs/KbhhsFNDFjeK+xmbqGU8/rw3zjGsIL9DLV2h+ynxQITOxwPXti+PyTqukVdGyqrMa0v8ah/XEzeB5bXPVXB7L7gveOJRkSTc021/lAxYHSCH+zEHXTXWajrU9xdpSXFlsTzFgboiIvSKH3nn4r4LZj5z3H2B6gm8arvCAAA"
+    },
+    "runtime/BP/blocks/wild_grapevine_plant.json": {
+      "before": "c02354dc17d40c0e704db986a881d8e35b216def9457fdb1d4276a3195069691",
+      "after": "876f71c5b64e56120688728156d8988cbd1f31e33b3cfcbe4cc6bc038e8a6499",
+      "reason": "Canonical baseline reconciliation; stable API/connection/public dependencies and reviewed live fixes. See BASELINE-MAINTENANCE.md.",
+      "beforeGzipBase64": "H4sIAAAAAAACA6VV227bMAx9z1cEfhxaLym6dsivDIMgy7SrRRYFifGSFfn3UXaaSK6RpuiDYZi3c3hE0a+L5bJo0HeSRA8+aLTFZlmsy4en8sequIvuTltQXja0qQyqLftf2cyOGoLy2tGYNBrZrGuwpBsNPpbaSgO6xqDQgSDJIHbzV5tatF466Lm2cEZaGrCG/A7sTihJ0KI/JIXZlVgLixaKk+s4vI9jiUJh59hpKaS0Lm20gB3QtHZO+y2m3JKQIQAFIR/KnPgZ/e49BgsKXksjtA0krYKQo33LPtlAsKedh0GyBFJc1WrI9GBr8ILpvmAd86VxL1IQhEmg7CrNPQpUyuxOR70qV1lMIxWIWnfcScvuRpoAZ//xSsOaoBO9Djtp8k5n1f6S3gmBSOG60jNaf0XtT+h9m+IfaX5R/br+Co3REUJUuH+rMhMXwICiS1xyUuh1qyPFXwn6/XPKNqN+/3z++J0cSND/YFJk/ZjmrZ+yr8dLlSv98bIhv2PmlQFRHQR7RrmSBgIotHUQhGIIx8Oo9yfKwt4ZDPlG44SzWXgIepyzD2sbRIrzEd+8+hghfIfO0aH8ExhgJoN0sl/HW2J5unuebi9tO5X15yoXcjV7HgzvRqm4U3jH9+YFzbxmNx32sbWcNhuhi5NPBzfcMp7uU9xNBKzk68ldVx7kRJHao7vtxzL5Oyzic1z8B/R9/z/zBgAA"
+    },
+    "runtime/BP/scripts/bedrock/protected-break-router.js": {
+      "before": "e1c5286ca6445044fdf51864103664f1c03d8f9ced984ecf6d510b8caec7b203",
+      "after": "70a60f6bd33162d18c66bd48f7b618eb5f80dbd481c87208a8751501035198b3",
+      "reason": "Restore functional destruction feedback after the historical merge discarded it; preserve later metadata and geometry fixes.; reviewed integration of remote PR200/46 callback/HUD repairs with current Java use/combat candidate, fresh identities 0.6.114/0.1.74.",
+      "beforeGzipBase64": "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"
+    },
+    "runtime/BP/scripts/bedrock/cultivation.js": {
+      "before": "1cd502959ef67ed212708db7e3621a4f600771f448f3b9a6c5d99bc7e2d1664d",
+      "after": "3887e4546f4302721ff4cf15b51456640a5d02dd7f8c43cfc315256796aa6847",
+      "reason": "Restore functional destruction feedback after the historical merge discarded it; preserve later metadata and geometry fixes. Current Java parity repair; source-specific tests in tools/java-parity*.test.mjs, tools/grass-stealth*.test.mjs or tests/freezer-state.test.mjs.",
+      "beforeGzipBase64": "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"
     }
-  }
+  },
+  "historicalReviewedFunctionalDeltaLayers": [
+    {
+      "release": "0.6.131",
+      "reviewedPredecessorCommit": "c4453491e2f52d4b4515dda0385db204aa892c97",
+      "reviewedSourceCommit": "f08714307ea331be52a9240d8aa6473752325d1c",
+      "reviewDocument": "docs/RELEASE-NOTES-0.6.131.md",
+      "files": {
+        "runtime/BP/scripts/bedrock/cultivation.js": {
+          "before": "3887e4546f4302721ff4cf15b51456640a5d02dd7f8c43cfc315256796aa6847",
+          "after": "602d69a313ce375c9718a1e324e5b8defcbf18de52c88d79566e592fd102270c",
+          "reason": "Java block interaction permissions and free trellis wax/unwax; preserve item-use placement and bone-meal write gates, transaction rollback, and native duplicate settlement.",
+          "reverseOps": [
+            [
+              2,
+              3,
+              "import {registerJavaBlockUseHandler} from './java-placement-router.js';\n"
+            ],
+            [
+              9,
+              10,
+              "import {makeStack,hand,handSnapshot,sameHand,canWrite,blockAt,plus,safe,exchangeBlocks,exchangeBlocksToWorld,applyBlocks,air} from './transactions.js';\n"
+            ],
+            [
+              108,
+              109,
+              " canWrite(player);check(FARM_IDS.has(b.typeId),'NOT_A_CROP');\n"
+            ],
+            [
+              115,
+              116,
+              "   exchangeBlocks(player,creative?0:1,[],[{block:b,permutation:framePermutation(`${NS}:${kind}vine_trellis`,shape(b),0,false,waterlogged(b))}]);refreshAround(b);return 'planted';\n"
+            ],
+            [
+              118,
+              121,
+              "   check(!waxed(b),'ALREADY_WAXED');check(isPlainIngredient(h,makeStack),'METADATA_ITEM_REJECTED');\n   exchangeBlocks(player,creative?0:1,[],[{block:b,permutation:b.permutation.withState(WAX,true)}]);trellisWaxFeedback(b,true);return 'waxed';\n"
+            ],
+            [
+              123,
+              124,
+              "   check(waxed(b),'NOT_WAXED');exchangeBlocks(player,0,[],[{block:b,permutation:b.permutation.withState(WAX,false)}],{wear:true,rng});trellisWaxFeedback(b,false);return 'unwaxed';\n"
+            ],
+            [
+              126,
+              128,
+              "   check(isPlainIngredient(h,makeStack),'METADATA_ITEM_REJECTED');\n"
+            ],
+            [
+              132,
+              133,
+              "  if(b.typeId===WILD_HEAD){check(b.permutation.getState(WILD_SHEARED)!==true,'ALREADY_SHEARED');exchangeBlocks(player,0,[],[{block:b,permutation:b.permutation.withState(WILD_SHEARED,true)}],{wear:true,rng});try{player.playSound('mob.sheep.shear');}catch{}return 'sheared';}\n"
+            ],
+            [
+              137,
+              138,
+              "    exchangeBlocksToWorld(player,[{id:NS+':grapevine',count:1}],edits,b.location,{wear:true,rng});refreshAround(b);try{b.dimension.playSound('block.beehive.shear',b.location,{volume:1,pitch:1});}catch{}return 'pruned';\n"
+            ],
+            [
+              142,
+              143,
+              "    exchangeBlocksToWorld(player,outputs,[{block:b,permutation:air()}],b.location,{wear:true,rng});try{b.dimension.playSound('block.beehive.shear',b.location,{volume:1,pitch:1});}catch{}return outputs;\n"
+            ],
+            [
+              186,
+              191,
+              "   check(e.player.dimension.id===d.id,'DIMENSION_CHANGED');const b=blockAt(d,p);check(b&&current(b)===sig,'BLOCK_CHANGED');sameHand(e.player,hs);\n   return farmUse(e.player,b);\n"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "release": "0.6.134",
+      "files": {
+        "runtime/BP/scripts/bedrock/protected-break-router.js": {
+          "before": "70a60f6bd33162d18c66bd48f7b618eb5f80dbd481c87208a8751501035198b3",
+          "after": "b7d01d8a6960c291c6a737d72ddb0e9e655b6a14bf84a4ccf1ac3880bf232ab8",
+          "reason": "T134 appended exact source review. Preserve counted complete native machine inputs and exact source outputs/adoption, metadata-sensitive merging, quantities and mode/game-rule handling. Rollback attempts each native slot/carrier, marker, block and public record independently; targeted production failure/retention regressions prevent duplication or plain-ID fallback.",
+          "reviewedPredecessorCommit": "625ff769f4c656ff224314bba38d26a1ef5dacc0",
+          "reviewedSourceCommit": "37ff9f12e74c6a4f3bb3a5fc40502d7e70e68c83",
+          "reviewDocument": "docs/RELEASE-NOTES-0.6.134.md",
+          "reverseOps": [
+            [
+              41,
+              42,
+              " * Survival outputs become world drops; Creative outputs are discarded. Spawn failure occurs\n"
+            ],
+            [
+              45,
+              46,
+              " const mode=player.getGameMode()===GameMode.Survival?'drop':'discard';\n"
+            ]
+          ]
+        }
+      }
+    }
+  ]
 }
