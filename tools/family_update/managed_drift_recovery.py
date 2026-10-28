@@ -641,6 +641,62 @@ def input_refs():
     return result
 
 
+def verify_owner_accepted_inputs(receipt, original):
+    """Preserve explicit current-byte decisions without assigning provenance.
+
+    The existing committed drift proofs are the authority. This check neither
+    selects a replacement provider nor turns captured hashes into canonical
+    source. A candidate lacking the accepted source stays blocked.
+    """
+    if not c.CONFIG.get('managed_drift_recovery'):
+        return
+    review, _ = load_review()
+    accepted = {}
+    for reference in review['proofs']:
+        relative = Path(reference['path'])
+        assert (not relative.is_absolute() and '..' not in relative.parts
+                and relative.as_posix() == reference['path'] and '\\' not in reference['path']), 'Unsafe owner-input proof path'
+        path = c.EXTENSION / relative
+        assert _committed(path)['sha256'] == reference['sha256'], 'Committed owner-input proof differs'
+        raw = path.read_bytes()
+        assert hashlib.sha256(raw).hexdigest() == reference['sha256'], 'Owner-input proof changed during validation'
+        try:
+            proof = json.loads(raw)
+        except (UnicodeDecodeError, json.JSONDecodeError):
+            assert path.suffix != '.json', 'Invalid JSON owner-input review proof'
+            continue  # Existing non-JSON provenance documents keep their role.
+        if not isinstance(proof, dict) or proof.get('kind') != 'owner_accepted_current_exact_bytes':
+            continue
+        assert proof.get('schema') == 1 and isinstance(proof.get('packs'), dict) and proof['packs'], 'Invalid owner-accepted input proof'
+        assert all(proof.get(key) is False for key in ('original_archive_verified', 'latest_stable_verified', 'official_author_release')), 'Accepted current bytes do not establish author provenance'
+        for name, pin in proof['packs'].items():
+            uid = pin.get('uuid')
+            assert (isinstance(name, str) and name and isinstance(uid, str)
+                    and re.fullmatch(r'[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}', uid)
+                    and uid not in accepted and pin.get('side') in SIDES), 'Duplicate or invalid accepted pack identity'
+            version = pin.get('version')
+            fingerprint = pin.get('tree')
+            assert (isinstance(version, list) and len(version) == 3
+                    and all(type(value) is int and value >= 0 for value in version)
+                    and isinstance(fingerprint, dict) and set(fingerprint) == {'sha256', 'files'}
+                    and isinstance(fingerprint.get('sha256'), str)
+                    and re.fullmatch(r'[0-9a-f]{64}', fingerprint.get('sha256', ''))
+                    and type(fingerprint.get('files')) is int and fingerprint['files'] > 0), 'Invalid accepted pack fingerprint'
+            accepted[uid] = (name, pin)
+    if not accepted:
+        return
+    from family_update.cookery_cache_validation import tree
+    for label, inventory in [('captured input', original), ('candidate', receipt)]:
+        rows = {row['uuid']: row for row in inventory['packs']}
+        assert len(rows) == len(inventory['packs']), 'Duplicate pack identity in ' + label
+        for uid, (name, pin) in accepted.items():
+            row = rows.get(uid)
+            message = ('Owner-accepted exact bytes differ in ' + label + ': ' + name + ' (' + uid
+                       + '). Preserve the accepted whole pack or review its actual source and a new owner decision; no clean-author substitution is admitted.')
+            assert (row is not None and all(row.get(key) == pin[key] for key in ('side', 'version'))
+                    and isinstance(row.get('files'), dict) and tree(row['files']) == pin['tree']), message
+
+
 def validate_target(receipt, original, migration):
     review, _ = check_observed(original, c.read(c.R / 'production-before/senluo-policy.json'))
     target = review['target']

@@ -162,6 +162,15 @@ cache 重用只適用於同一份不可變候選。不是只看版號、mtime、
 回退失敗或原始包／政策不完整時保持停服及 active `needs_operator_recovery`；
 只有核對完成的原始整套包才可重啟。新資料庫不會被舊快照自動覆蓋。
 
+若既有 managed drift review 的 committed proofs 宣告
+`owner_accepted_current_exact_bytes`，本次 capture 與實際組裝收據都必須保留該記錄
+中各包的 UUID、side、version 及完整 file-tree hash。建立候選及重用候選時都會核對；
+只有相同版本號、部分檔案或重新命名來源不能代替全包一致。此檢查沿用原 review，
+不增加另一份准入清單，也不把已接受的現存 bytes 宣告成官方作者或 canonical 來源。
+例如已接受的 Essentials 連鎖挖掘內容若尚無可重現來源，作者原包重建會明確拒絕，
+不能默默覆寫它。後續升級應更新同一份來源審查與 owner decision，並保留正常的配對、
+完整家族及存檔驗證；沒有此種保留決策的歷史 review 維持原流程。
+
 ### 來源要求的實驗功能
 
 擁有者允許 Beta APIs 與 creator experiments。必要旗標來自已審查、與 canonical

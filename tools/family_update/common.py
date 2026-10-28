@@ -573,6 +573,9 @@ def verify_candidate_sources():
         assert sha(T / 'tools' / name) == digest, 'Canonical tool changed: ' + name
     assert sha(C / 'family-receipt.json') == evidence['candidate_receipt_sha256'], 'Assembled receipt changed'
     receipt = read(C / 'family-receipt.json')
+    if CONFIG.get('managed_drift_recovery'):
+        from family_update.managed_drift_recovery import verify_owner_accepted_inputs
+        verify_owner_accepted_inputs(receipt, read(R / 'production-before/inventory.json'))
     prospective=None
     if CONFIG.get('prospective_preserved_inputs'):
         from family_update.prospective_preserved_inputs import select as select_prospective,verify_candidate as verify_prospective

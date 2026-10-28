@@ -39,6 +39,9 @@ def main(argv=None):
         assembly_lock, assembly_sources, retention = select_approved_runtime_retention(original, sources)
     local_arguments={'preserved_sources':local_sources} if local_sources else {}
     receipt = assemble(assembly_lock, assembly_sources, archives, C, extensions=[EXTENSION] if EXTENSION else [], preserved=preserved_roots, reviewed_order=assembly_order(original),held_sources=requested,**local_arguments)
+    if CONFIG.get('managed_drift_recovery'):
+        from family_update.managed_drift_recovery import verify_owner_accepted_inputs
+        verify_owner_accepted_inputs(receipt, original)
     if prospective is not None:verify_prospective(receipt,prospective)
     if curated_selection is not None:verify_curated_inputs(receipt,curated_selection)
     if local_selection is not None:
