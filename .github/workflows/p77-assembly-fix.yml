@@ -1,0 +1,124 @@
+name: Complete accepted-pair assembly fix
+on:
+  push:
+    branches: [feat/26-60-p77-catalog]
+    paths: [.github/workflows/p77-assembly-fix.yml]
+permissions:
+  contents: write
+jobs:
+  fix:
+    if: github.repository == 'burnt-tea-dev/kaleidoscope-tavern-unofficial'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+          ref: feat/26-60-p77-catalog
+      - name: Correct assembly ownership and cover the actual execution path
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib
+          root=Path.cwd();p=root/'tools/family_bundle.py';s=p.read_text();raw=s.encode()
+          assert hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()=='e730ff972066f4ba74c5f8c0c8646805fa04b27b'
+          validation=" if preserved_sources is None:preserved_sources={}\n if (not isinstance(preserved_sources,dict) or any(not isinstance(uid,str) or not uid or not isinstance(source,dict) or source.get('owner')!='preserved' or source.get('official_author_release') is True for uid,source in preserved_sources.items())):fail('preserved source descriptors must retain preserved ownership')\n"
+          assert s.count(validation)==1;s=s.replace(validation,'')
+          anchor=" from family_update.source_holds import selected,effective\n"
+          s=s.replace(anchor,validation+" replacements={uid for uid,source in preserved_sources.items() if source.get('role')=='owner_accepted_author_replacement'}\n"+anchor,1)
+          old="   replaced=set(preserved_sources)\n   selected=[(manifest,data) for manifest,data in author_packs if manifest['header']['uuid'] not in replaced]\n   if len(selected)!=len(author_packs):\n    if len(selected)+len([1 for manifest,_ in author_packs if manifest['header']['uuid'] in replaced])!=len(author_packs):fail('replacement split is ambiguous')\n    author_packs=selected\n"
+          assert s.count(old)==1
+          s=s.replace(old,"   author_ids={manifest['header']['uuid'] for manifest,_ in author_packs}\n   if author_ids & replacements:\n    if not author_ids <= replacements:fail('author replacement requires the complete archive pair')\n    # The captured whole pair is added below without archive transforms.\n    continue\n")
+          anchor="   spec=read(path)\n";assert s.count(anchor)==1
+          s=s.replace(anchor,anchor+"   if spec.get('kind') in PAIRED_KINDS:\n    pair=set(pair_uuids(spec))\n    if pair & replacements:\n     if not pair <= replacements:fail('paired extension overlaps an incomplete author replacement')\n     continue\n   elif spec.get('host_uuid') in replacements:\n    continue\n",1)
+          s=s.replace("  if reviewed_order is None:lock['order'][label].append(uid)","  if reviewed_order is None and uid not in lock['order'][label]:lock['order'][label].append(uid)")
+          p.write_text(s)
+          p=root/'tools/test_family_bundle.py';s=p.read_text();anchor="if __name__=='__main__':unittest.main()";assert s.count(anchor)==1
+          addition='''
+          class WholeAuthorReplacementTests(unittest.TestCase):
+           def fixture(self, root):
+            import hashlib,zipfile
+            archive=root/'author.mcaddon';official=[];preserved=[]
+            with zipfile.ZipFile(archive,'w') as z:
+             for uid,kind in [('host-b','data'),('host-r','resources')]:
+              m={'header':{'uuid':uid,'version':[1,0,0]},'modules':[{'type':kind,'version':[1,0,0]}]}
+              official.append({'uuid':uid,'version':[1,0,0]});z.writestr(uid+'/manifest.json',json.dumps(m))
+              path=root/uid;path.mkdir();m['header']['version']=[1,0,7];m['modules'][0]['version']=[1,0,7]
+              (path/'manifest.json').write_text(json.dumps(m));(path/'accepted.txt').write_text('owner accepted extra body')
+              preserved.append(path)
+            order={'behavior':['host-b'],'resource':['host-r']}
+            upstream={'name':'host','sha256':hashlib.sha256(archive.read_bytes()).hexdigest(),'project_id':1,'file_id':2,'packs':official,'manifest_compatibility_release':'must-not-run'}
+            lock={'owned':[],'upstream':[upstream],'order':order,'upstream_manifest_releases':{}}
+            descriptors={uid:{'owner':'preserved','role':'owner_accepted_author_replacement','official_author_release':False} for uid in ['host-b','host-r']}
+            return archive,preserved,lock,descriptors
+           def test_complete_pair_skips_archive_transform_and_preserves_all_bytes(self):
+            from unittest.mock import patch
+            with tempfile.TemporaryDirectory() as tmp:
+             root=Path(tmp);archive,preserved,lock,descriptors=self.fixture(root)
+             with patch('family_update.upstream_manifest_compatibility.reviewed_pair',side_effect=AssertionError('Archive producer must not execute')),contextlib.redirect_stdout(io.StringIO()):
+              receipt=assemble(lock,{},[archive],root/'out',preserved=preserved,preserved_sources=descriptors)
+             self.assertEqual(receipt['order'],lock['order'])
+             for row,path in zip(receipt['packs'],preserved):
+              self.assertEqual(row['files'],files_hash(path));self.assertEqual(row['version'],[1,0,7])
+              self.assertEqual(row['source'],descriptors[row['uuid']])
+           def test_split_pair_and_missing_captured_half_are_rejected(self):
+            with tempfile.TemporaryDirectory() as tmp:
+             root=Path(tmp);archive,preserved,lock,descriptors=self.fixture(root)
+             with self.assertRaisesRegex(SystemExit,'complete archive pair'):
+              assemble(lock,{},[archive],root/'partial',preserved=preserved[:1],preserved_sources={'host-b':descriptors['host-b']})
+             with self.assertRaisesRegex(SystemExit,'no exact input UUID'):
+              assemble(lock,{},[archive],root/'missing',preserved=preserved[:1],preserved_sources=descriptors)
+           def test_ordinary_preserved_descriptor_cannot_suppress_an_author(self):
+            from unittest.mock import patch
+            with tempfile.TemporaryDirectory() as tmp:
+             root=Path(tmp);archive,preserved,lock,descriptors=self.fixture(root)
+             for value in descriptors.values():value['role']='unchanged_external_dependency'
+             with patch('family_update.upstream_manifest_compatibility.reviewed_pair',side_effect=ValueError('Author path still selected')) as producer:
+              with self.assertRaisesRegex(ValueError,'Author path still selected'):
+               assemble(lock,{},[archive],root/'out',preserved=preserved,preserved_sources=descriptors)
+             producer.assert_called_once()
+           def test_owned_paired_hook_is_not_applied_to_a_preserved_replacement(self):
+            from unittest.mock import patch
+            with tempfile.TemporaryDirectory() as tmp:
+             root=Path(tmp);archive,preserved,lock,descriptors=self.fixture(root);owner=root/'owner';bp=owner/'BP';(bp/'host-extensions').mkdir(parents=True)
+             config={'repository':'fixture/owner','version':[1,0,1],'runtime':{'BP':'BP'},'source_trees':{}}
+             (owner/'baseline.json').write_text(json.dumps(config));(bp/'manifest.json').write_text(json.dumps({'header':{'uuid':'owner','version':[1,0,1]},'modules':[{'type':'data'}]}))
+             spec={'kind':'essentials-manifest-compatibility','host_uuid':'host-r','behavior_uuid':'host-b','resource_uuid':'host-r'}
+             (bp/'host-extensions/replacement.json').write_text(json.dumps(spec));lock['owned']=[{'key':'fixture','repository':'fixture/owner','version':[1,0,1],'source_trees':{}}];lock['order']['behavior'].insert(0,'owner')
+             with patch('family_bundle.subprocess.check_output',return_value='fixture-commit\\n'),patch('essentials_manifest_extension.apply_manifest_extension',side_effect=AssertionError('Preserved pair must remain untouched')) as transform,contextlib.redirect_stdout(io.StringIO()):
+              receipt=assemble(lock,{'fixture':owner},[archive],root/'out',working=True,preserved=preserved,preserved_sources=descriptors)
+             transform.assert_not_called();self.assertEqual(len(receipt['packs']),3)
+          '''
+          p.write_text(s.replace(anchor,addition+'\n'+anchor))
+          p=root/'tools/family_update/test_build_order.py';s=p.read_text();assert s.count(anchor)==1
+          addition='''
+          class ReplacementBuildOrderTests(unittest.TestCase):
+           def test_replacement_mapping_keys_deduplicate_existing_roots_before_assembly(self):
+            from family_update import current_author_validation as v, prospective_preserved_inputs as prospective
+            with tempfile.TemporaryDirectory() as tmp:
+             root=Path(tmp);original={'refs':{'behavior':[{'pack_id':'bp'},{'pack_id':'extra'}],'resource':[{'pack_id':'rp'}]}}
+             old=[root/'old-bp',root/'keep',root/'old-rp'];new=[root/'accepted-bp',root/'accepted-rp']
+             sources={uid:{'owner':'preserved','role':'owner_accepted_author_replacement','official_author_release':False} for uid in ['bp','rp']}
+             selection={'packs':{'bp':{'path':str(new[0]),'side':'behavior'},'rp':{'path':str(new[1]),'side':'resource'}}}
+             def read(path):
+              path=Path(path)
+              if path.name=='manifest.json':return {'header':{'uuid':{'old-bp':'bp','old-rp':'rp','keep':'extra'}[path.parent.name]}}
+              return [] if path.name=='preserved-packs.json' else {}
+             class AssemblyReached(Exception):pass
+             with patch.multiple(m,R=root,C=root/'candidate',T=root,SOURCES={},EXTENSION=None,CONFIG={}),patch.object(m,'lease_available'),patch.object(m,'verify_predeploy',return_value=original),patch.object(m,'source_state',return_value={}),patch.object(m,'archive_paths',return_value=[]),patch.object(m,'read',side_effect=read),patch.object(m,'atomic'),patch.object(v,'curated_inputs_enabled',return_value=False),patch.object(prospective,'select',return_value=(old,None)),patch.object(v,'select_replacement_inputs',return_value=(new,sources,selection),create=True),patch.object(v,'verify_replacement_inputs',create=True),patch.object(identity_migration,'CONFIG',{}),patch.object(m,'assemble',side_effect=AssemblyReached) as assemble:
+              with self.assertRaises(AssemblyReached):m.main(['--execute'])
+             self.assertEqual(assemble.call_args.kwargs['preserved'],[root/'keep',*new])
+             self.assertEqual(assemble.call_args.kwargs['preserved_sources'],sources)
+          '''
+          p.write_text(s.replace(anchor,addition+'\n'+anchor))
+          (root/'.github/workflows/p77-assembly-fix.yml').unlink()
+          PY
+          python3 -m unittest discover -s tools -p test_family_bundle.py
+          git add -A
+          git config user.name 'Cary development assistant'
+          git config user.email '97009482+casama233@users.noreply.github.com'
+          git commit -m 'fix: preserve whole accepted author pairs through assembly'
+          python3 tools/baseline_gate.py check --release
+          git push origin HEAD:refs/heads/feat/26-60-p77-catalog
+          git show -s --format='%H %T' HEAD
