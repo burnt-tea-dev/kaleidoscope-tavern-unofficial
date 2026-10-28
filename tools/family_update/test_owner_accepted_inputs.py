@@ -236,6 +236,46 @@ class ReplacementSelectionTests(unittest.TestCase):
             with self.assertRaisesRegex(AssertionError, 'Replacement identity'):
                 v.replacement_rows()
 
+    def replacement_fixture(self):
+        from family_update import current_author_validation as v
+        selection=self.selection()
+        original={'packs':[{'uuid':uid,'side':side,'version':[1,8,10070],
+                            'path':'/fixture/'+uid,'files':{'manifest.json':uid+'-manifest','script.js':uid+'-script'}}
+                           for uid,side in [('bp','behavior'),('rp','resource')]]}
+        for key,row in zip(['BP','RP'],original['packs']):
+            selection['replacement_packs']['Essentials'][key]['tree']=tree(row['files'])
+        self.addCleanup(patch.stopall)
+        patch.object(v,'curated_selected',return_value=True).start()
+        patch.object(v,'current_selection',return_value=selection).start()
+        patch.object(v,'CATALOG',{v.CURATED_KEY:{'selection':{'path':'fixture.json','sha256':'f'*64}}}).start()
+        return v,selection,original
+
+    def test_actual_replacement_selection_and_candidate_accept_the_complete_fingerprint(self):
+        v,selection,original=self.replacement_fixture()
+        roots,sources,proof=v.select_replacement_inputs(original)
+        self.assertEqual([str(root) for root in roots],['/fixture/bp','/fixture/rp'])
+        receipt={'packs':[{**row,'source':sources[row['uuid']]} for row in original['packs']]}
+        v.verify_replacement_inputs(receipt,proof)
+        self.assertEqual(proof['packs']['bp']['tree'],selection['replacement_packs']['Essentials']['BP']['tree'])
+
+    def test_changed_captured_bytes_or_file_count_are_rejected(self):
+        v,selection,original=self.replacement_fixture()
+        original['packs'][0]['files']['script.js']='changed'
+        with self.assertRaisesRegex(AssertionError,'replacement bytes changed'):
+            v.select_replacement_inputs(original)
+        original['packs'][0]['files']['script.js']='bp-script'
+        selection['replacement_packs']['Essentials']['BP']['tree']['files']+=1
+        with self.assertRaisesRegex(AssertionError,'replacement bytes changed'):
+            v.select_replacement_inputs(original)
+
+    def test_changed_candidate_bytes_are_rejected_after_valid_selection(self):
+        v,_,original=self.replacement_fixture()
+        _,sources,proof=v.select_replacement_inputs(original)
+        receipt={'packs':[{**row,'files':dict(row['files']),'source':sources[row['uuid']]} for row in original['packs']]}
+        receipt['packs'][0]['files']['script.js']='changed'
+        with self.assertRaisesRegex(AssertionError,'Replacement candidate output differs'):
+            v.verify_replacement_inputs(receipt,proof)
+
 
 if __name__ == '__main__':
     unittest.main()

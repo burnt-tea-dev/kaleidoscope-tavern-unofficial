@@ -327,7 +327,7 @@ def select_replacement_inputs(original):
     for uid,row in rows.items():
         matches=captured.get(uid,[]);assert len(matches)==1,'Missing or ambiguous owner-accepted replacement: '+uid
         actual=matches[0];actual_tree=tree(actual['files'])
-        assert actual['side']==row['side'] and actual['version']==row['version'] and actual_tree==row['tree']['sha256'],'Owner-accepted replacement bytes changed: '+uid
+        assert actual['side']==row['side'] and actual['version']==row['version'] and actual_tree==row['tree'],'Owner-accepted replacement bytes changed: '+uid
         root=Path(actual['path']);roots.append(root)
         source={'owner':'preserved','role':'owner_accepted_author_replacement','official_author_release':False}
         descriptors[uid]=source
@@ -340,8 +340,8 @@ def verify_replacement_inputs(receipt,selection):
     assert set(selection['packs'])==set(rows),'Replacement selection set changed'
     actual={row['uuid']:row for row in receipt['packs']}
     for uid,row in rows.items():
-        pack=actual.get(uid);expected={'side':row['side'],'version':row['version'],'tree':row['tree']['sha256'],'source':{'owner':'preserved','role':'owner_accepted_author_replacement','official_author_release':False}}
-        assert pack and {key:pack[key] for key in ('side','version')}=={'side':row['side'],'version':row['version']} and tree(pack['files'])==row['tree']['sha256'],'Replacement candidate output differs: '+uid
+        pack=actual.get(uid);expected={'side':row['side'],'version':row['version'],'tree':row['tree'],'source':{'owner':'preserved','role':'owner_accepted_author_replacement','official_author_release':False}}
+        assert pack and {key:pack[key] for key in ('side','version')}=={'side':row['side'],'version':row['version']} and tree(pack['files'])==row['tree'],'Replacement candidate output differs: '+uid
         assert pack['source']==expected['source'],'Replacement candidate provenance differs: '+uid
 
 def select_curated_inputs(original):
