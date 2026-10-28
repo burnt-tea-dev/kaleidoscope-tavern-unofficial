@@ -120,6 +120,17 @@ class NativeLifecycleApiBoundary(unittest.TestCase):
         self.assertEqual(originals, self.pair())
         self.assertEqual(len(result[1]['dependencies']), 1)
 
+    def test_named_tick_api_requires_the_reviewed_26_60_engine(self):
+        profile = self.profile()
+        profile.update(script_dependencies={'@minecraft/server': '2.12.0-beta'}, min_engine_version=[1, 26, 60])
+        pair = patch_manifests(*self.pair(), [1, 0, 10673], [1, 0, 73], profile)
+        self.assertEqual(pair[0]['dependencies'][1]['version'], '2.12.0-beta')
+        self.assertEqual(pair[0]['header']['min_engine_version'], [1, 26, 60])
+        self.assertEqual(pair[0]['dependencies'][2], self.pair()[0]['dependencies'][2])
+        profile.pop('min_engine_version')
+        with self.assertRaisesRegex(ValueError, 'Unreviewed'):
+            patch_manifests(*self.pair(), [1, 0, 10673], [1, 0, 73], profile)
+
     def test_unreviewed_api_and_wrong_author_preimage_fail(self):
         profile = self.profile()
         profile['script_dependencies'] = {'@minecraft/server': '9.0.0-beta'}
