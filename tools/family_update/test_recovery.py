@@ -1,5 +1,5 @@
 """Failure injection for recovery control flow; all live I/O is replaced."""
-import contextlib, importlib.util, sys, unittest
+import contextlib, importlib.util, json, sys, tempfile, unittest
 from pathlib import Path
 from unittest.mock import patch
 
@@ -72,6 +72,19 @@ class RecoveryTests(unittest.TestCase):
         self.status='RUNNING'
         self.assertTrue(module.recover_after_failure(self.original,True,[],[]))
         self.assertEqual(self.actions,['stop','start'])
+    def test_adopted_world_features_retain_compatible_candidate_stopped_without_rollback(self):
+        from family_update import world_experiments
+        self.status='RUNNING'
+        with tempfile.TemporaryDirectory() as temporary:
+            output=Path(temporary)
+            # Existing true flags do not change metadata, but the candidate may
+            # already have moved legacy contents into native blocks on startup.
+            (output/'deployment-result.json').write_text(json.dumps({'state':'installed_stopped',
+                'world_experiments':{'required':{'upcoming_creator_features':True},'changed_flags':{}}}))
+            with patch.object(world_experiments.c,'R',output):
+                self.assertFalse(module.recover_after_failure(self.original,True,[],[]))
+        self.assertEqual(self.actions,['stop']); self.restore.assert_not_called()
+        self.assertEqual(self.status,'STOPPED'); self.assertEqual(self.lease['state'],'active')
     def test_recovered_items_never_restart_incompatible_original(self):
         self.status='RUNNING'
         with patch.object(Path,'exists',return_value=True):

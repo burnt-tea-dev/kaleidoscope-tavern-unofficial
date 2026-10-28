@@ -36,8 +36,8 @@ def preflight():
     initial_status = initial['status']
     original = verify_predeploy()
     receipt = verify_candidate_sources()
-    from family_update.workflow import same_runtime
-    if not CONFIG.get('fresh_world') and same_runtime(receipt, original):
+    from family_update.workflow import no_update_needed
+    if not CONFIG.get('fresh_world') and no_update_needed(receipt, original):
         return original, receipt
     if CONFIG.get('fresh_world'):
         target = B / 'worlds' / CONFIG['fresh_world']['level_name']
@@ -330,6 +330,12 @@ def recover_after_failure(original,changed,retired,installed,rollback_failed=Fal
     phase='inspect_failure'
     try:
         assert_lease()
+        from family_update.world_experiments import adoption_recorded
+        if adoption_recorded():
+            phase='retain_stopped_after_world_experiment_adoption'
+            if summary()['status']!='STOPPED':action('stop')
+            assert summary()['status']=='STOPPED', 'World feature migration must remain stopped after a failed deployment'
+            raise RecoveryRequired('Rehearsed world experiment adoption began; retain the compatible candidate and newest save stopped. The original complete backup remains available for reviewed recovery.')
         if retain_stopped_on_failure():
             phase='retain_stopped_without_package_or_database_restore'
             if summary()['status']!='STOPPED': action('stop')
@@ -505,15 +511,20 @@ def install(receipt,original):
             adopt_native_actor_recovery()
         from family_update.identity_migration import adopt_world
         adopt_world(receipt,original)
+        from family_update.world_experiments import adopt as adopt_experiments, required as required_experiments
+        experiment_transition=adopt_experiments(read(R/'saved-world-report.json')) if required_experiments() else None
         policy['installed']={'status':'pending_client_acceptance','receipt':str(R/'reviewed-family-receipt.json'),'receipt_sha256':sha(R/'reviewed-family-receipt.json'),'installed_at':now(),'packs':[{**p,'directory':p['uuid']} for p in family],'refs':{side:[p for p in read(W/('world_'+side+'_packs.json')) if p['pack_id'] in policy['managed_uuids']] for side in ['behavior','resource']}}
         policy['hold_reason']='依使用者持續授權更新 live 供開發效果真人測試；完整家族 static、BDS、停服一致存檔驗證已通過。client=false，production_ready=false，仍需真人聲畫與玩法驗收。'
         atomic(Q/'senluo-policy.json',policy)
         drift=G['audit'](W,policy); assert drift['ok']; atomic(R/'production-drift.json',drift)
         valid=runpy.run_path(str(Q/'policy.py'))['validate_world'](W); assert valid['ok']; atomic(R/'production-quality.json',valid)
         atomic(R/'rollback-map.json',{'retired':[[str(a),str(b)] for a,b in retired],'installed':[str(p) for p in installed],'original_inventory':str(R/'production-before/inventory.json'),'backup':str(R/'production-snapshot')})
-        atomic(R/'deployment-result.json',{'schema':1,'state':'installed_stopped','versions':versions(receipt),'family_packs':len(family),'preserved_packs':len(foreign),'receipt_sha256':sha(R/'reviewed-family-receipt.json'),'assembled_receipt_sha256':sha(C/'family-receipt.json'),'guard_admission_passed':True,'original_database_untouched_during_install':not bool(CONFIG.get('container_recovery_plan') or CONFIG.get('identity_migration') or CONFIG.get('native_actor_recovery_plan')),'reviewed_identity_migration':bool(CONFIG.get('identity_migration')),'reviewed_container_recovery':bool(CONFIG.get('container_recovery_plan')),'reviewed_native_actor_recovery':bool(CONFIG.get('native_actor_recovery_plan')),'original_level_dat_untouched_during_install':True,'rollback':str(rollback),'client':False,'production_ready':False})
+        atomic(R/'deployment-result.json',{'schema':1,'state':'installed_stopped','versions':versions(receipt),'family_packs':len(family),'preserved_packs':len(foreign),'receipt_sha256':sha(R/'reviewed-family-receipt.json'),'assembled_receipt_sha256':sha(C/'family-receipt.json'),'guard_admission_passed':True,'original_database_untouched_during_install':not bool(CONFIG.get('container_recovery_plan') or CONFIG.get('identity_migration') or CONFIG.get('native_actor_recovery_plan')),'reviewed_identity_migration':bool(CONFIG.get('identity_migration')),'reviewed_container_recovery':bool(CONFIG.get('container_recovery_plan')),'reviewed_native_actor_recovery':bool(CONFIG.get('native_actor_recovery_plan')),'world_experiments':experiment_transition,'original_level_dat_untouched_during_install':not bool(experiment_transition and experiment_transition['changed_flags']),'rollback':str(rollback),'client':False,'production_ready':False})
         return retired,installed
     except BaseException as install_error:
+        from family_update.world_experiments import adoption_recorded
+        if adoption_recorded():
+            raise RecoveryRequired('World feature adoption began; keep the compatible candidate and newest metadata stopped for recovery') from install_error
         retain_failed_installation(original,retired,installed,install_error)
         if any((R/name).exists() for name in ['production-container-recovery.json','production-identity-migration.json','production-native-actor-recovery.json']):
             raise RecoveryRequired('Container recovery has begun; keep the compatible candidate stopped for recovery') from install_error
@@ -541,8 +552,8 @@ def main(argv=None):
     with open(str(LOCK), 'a+') as lock:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         lease_available(); original,receipt=preflight()
-        from family_update.workflow import same_runtime
-        if not CONFIG.get('fresh_world') and same_runtime(receipt, original):
+        from family_update.workflow import no_update_needed
+        if not CONFIG.get('fresh_world') and no_update_needed(receipt, original):
             print('NO_RUNTIME_CHANGES: full live bytes and order already match; no restart', flush=True)
             return {'state': 'no_runtime_changes', 'live_mutated': False, 'client': False}
         for path in [R/name for name in ['previous-maintenance.json','handoff-authorization.json','live-authorization-AGENTS.md','reviewed-family-receipt.json','admission-policy.json','admission-report.json','deployment-result.json','deployment-recovery.json','rollback-map.json','production-snapshot','production-staged','production-rollback','saved-world-engine','saved-world-report.json','deployment-initial-state.json']]:

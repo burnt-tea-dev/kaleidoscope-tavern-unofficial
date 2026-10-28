@@ -1,4 +1,4 @@
-"""QA can inherit only existing captured flags and never changes the input save."""
+"""Captured flags and reviewed feature migration preserve the original save."""
 import io,json,struct,sys,tempfile,unittest
 from pathlib import Path
 from unittest.mock import patch
@@ -16,7 +16,7 @@ class NativeFeatureTests(unittest.TestCase):
                 m.native_run(engine,'first')
             launch.assert_not_called();self.assertEqual(log.read_text(),'retained evidence')
 
-    def test_exact_existing_flags_are_preserved_only_when_explicitly_selected(self):
+    def test_exact_existing_flags_are_preserved_for_both_legacy_config_values(self):
         with tempfile.TemporaryDirectory() as tmp:
             r=Path(tmp);before=r/'production-before';before.mkdir()
             captured=before/'level-metadata.dat';flags={'upcoming_creator_features':nbtlib.Byte(1),'experiments_ever_used':nbtlib.Byte(1)}
@@ -27,7 +27,7 @@ class NativeFeatureTests(unittest.TestCase):
                 out=r/str(enabled);out.mkdir()
                 with patch.multiple(m,R=r,CONFIG={'preserve_captured_experiments':enabled}):m.blank_level(out,'QA')
                 actual=m.level_metadata(out)['experiments'].unpack()
-                self.assertEqual(actual,{k:int(v) for k,v in flags.items()} if enabled else {})
+                self.assertEqual(actual,{k:int(v) for k,v in flags.items()})
             self.assertEqual(captured.read_bytes(),struct.pack('<II',10,len(raw))+raw)
     def test_modified_captured_input_is_rejected(self):
         with tempfile.TemporaryDirectory() as tmp:

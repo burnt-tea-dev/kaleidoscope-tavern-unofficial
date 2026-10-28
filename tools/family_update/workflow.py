@@ -30,6 +30,11 @@ def same_runtime(receipt, inventory):
     ] for side, order in receipt['order'].items())
 
 
+def no_update_needed(receipt, inventory):
+    from family_update.world_experiments import satisfied
+    return same_runtime(receipt, inventory) and satisfied()
+
+
 def verify_native(verified_candidate=None):
     """The fresh saved-world rehearsal supplies both native and save evidence."""
     receipt = verify_candidate_sources() if verified_candidate is None else verified_candidate
@@ -40,6 +45,8 @@ def verify_native(verified_candidate=None):
     assert evidence['engine_sha256'] == sha(B / 'bedrock_server'), 'Native engine changed'
     assert evidence['engine_inputs'] == engine_inputs(world_receipt=receipt), 'Native engine builtin packs or configuration changed'
     assert evidence['backup_receipt'] == report_ref(R / 'production-before/backup-receipt.json'), 'Fresh stopped backup evidence changed'
+    from family_update.world_experiments import verify_rehearsal
+    verify_rehearsal(evidence)
     if fresh:
         from family_update.native_common import world_data_hashes
         world = R / 'saved-world-engine/worlds' / CONFIG['fresh_world']['level_name']
@@ -357,7 +364,7 @@ def prepare(include_ci=True):
         run_stage('build_candidate')
         receipt = verify_candidate_sources()
     inventory = verify_predeploy()
-    if not CONFIG.get('fresh_world') and same_runtime(receipt, inventory):
+    if not CONFIG.get('fresh_world') and no_update_needed(receipt, inventory):
         result = {'schema': 1, 'recorded_at': now(), 'state': 'no_runtime_changes', 'candidate_receipt_sha256': sha(C / 'family-receipt.json'), 'complete_files_versions_and_order_verified': True, 'live_mutated': False, 'native_rerun': False, 'saved_world_rerun': False, 'client': False, 'production_ready': False}
         target = R / 'no-runtime-changes.json'
         if not target.exists():
@@ -380,7 +387,7 @@ def verify_deployed():
     receipt = read(R / 'reviewed-family-receipt.json')
     assert sha(R / 'reviewed-family-receipt.json') == result['receipt_sha256']
     current = live_inventory()
-    assert same_runtime(receipt, current), 'Live has changed since this deployment'
+    assert no_update_needed(receipt, current), 'Live packs or required world features changed since this deployment'
     check_live_against_policy(current)
     policy = read(Q / 'senluo-policy.json')
     assert policy['approved_receipt'] == str(R / 'reviewed-family-receipt.json'), 'Another deployment owns the current policy'

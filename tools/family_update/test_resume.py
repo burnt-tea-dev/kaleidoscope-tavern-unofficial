@@ -306,6 +306,16 @@ class ResumeTests(unittest.TestCase):
         self.audit.assert_called_once()
         self.live.assert_called_once_with()
         self.static.assert_not_called()
+
+    def test_identical_packs_missing_required_world_features_still_require_static_and_saved_world_gates(self):
+        from family_update import world_experiments
+        self.inventory = inventory_for(self.receipt)
+        self.write(self.before / 'inventory.json', self.inventory)
+        with patch.object(world_experiments, 'satisfied', return_value=False):
+            prepared = workflow.prepare()
+        self.assertEqual(prepared['state'], 'ready_for_fresh_saved_world_and_deploy')
+        self.static.assert_called_once_with(verified_candidate=self.receipt)
+        self.stages.assert_not_called()
         self.ci.assert_not_called()
 
     def test_failed_or_interrupted_deployment_is_never_automatically_retried(self):
