@@ -1,0 +1,80 @@
+name: Materialize P77 catalog source
+on:
+  push:
+    branches: [feat/26-60-p77-catalog]
+    paths: [.github/workflows/p77-catalog-apply.yml]
+permissions:
+  contents: write
+jobs:
+  apply:
+    if: github.repository == 'burnt-tea-dev/kaleidoscope-tavern-unofficial'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+          ref: feat/26-60-p77-catalog
+      - name: Apply reviewed public metadata without private implementation
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import copy,json,pathlib
+          p=pathlib.Path.cwd()
+          def apply(value,operations):
+              for operation in operations:
+                  path=operation[0];target=value
+                  for name in path[:-1]:target=target[name]
+                  if len(operation)==1:del target[path[-1]]
+                  else:target[path[-1]]=copy.deepcopy(operation[1])
+          f=p/'tools/stable_host_profiles.json';catalog=json.loads(f.read_text())
+          assert catalog['current_author_curated']['version']==[1,0,76]
+          delta=json.loads((p/'.github/p77-catalog-input.json').read_text())
+          for name,change in delta['profiles'].items():
+              assert name not in catalog['profiles']
+              row=copy.deepcopy(catalog['profiles'][change['copy']]);apply(row,change['changes']);catalog['profiles'][name]=row
+          apply(catalog['current_author_curated'],delta['current'])
+          f.write_text(json.dumps(catalog,ensure_ascii=False,indent=2)+'\n')
+          f=p/'tools/doll_renderer_extension.py';s=f.read_text();i=s.index('    if stable and {(1,0,43)')
+          s=s[:i]+"    engine=profile.get('min_engine_version') if current else None\n    if engine is not None and (profile.get('admission')!=CURATED or engine!=[1,26,60]):\n        raise ValueError('Unreviewed ChineseFood engine requirement')\n"+s[i:]
+          s=s.replace("        value['header']['version']=version\n", "        value['header']['version']=version\n        if engine is not None:value['header']['min_engine_version']=list(engine)\n",1);f.write_text(s)
+          f=p/'tools/test_doll_renderer_extension.py';s=f.read_text();anchor="if __name__=='__main__':unittest.main()";assert anchor in s
+          addition="""class CuratedEngineTests(unittest.TestCase):
+           def pair(self):
+            return [{'header':{'uuid':uid,'version':[1,0,6],'name':'Author','min_engine_version':[1,26,30]},'modules':[{'version':[1,0,6]}],'dependencies':[{'uuid':other,'version':[1,0,6]},{'module_name':'@minecraft/server','version':'2.7.0'}]} for uid,other in [('bp','rp'),('rp','bp')]]
+           def profile(self):
+            return {'admission':'current-author-curated','author_version':[1,0,6],'owner_version':[1,0,77],'version':[1,0,10677],'behavior_uuid':'bp','host_uuid':'rp','manifest_names':{'BP':'Reviewed BP','RP':'Reviewed RP'},'script_dependencies':{'@minecraft/server':'2.8.0'}}
+           def test_engine_requirement_is_explicit_and_preserves_originals(self):
+            pair=self.pair();profile=self.profile()
+            old=patch_manifests(*pair,[1,0,10677],[1,0,77],profile)
+            self.assertTrue(all(m['header']['min_engine_version']==[1,26,30] for m in old))
+            profile['min_engine_version']=[1,26,60]
+            new=patch_manifests(*pair,[1,0,10677],[1,0,77],profile)
+            self.assertTrue(all(m['header']['min_engine_version']==[1,26,60] for m in new))
+            self.assertEqual(pair,self.pair())
+            self.assertEqual(new[0]['dependencies'][1]['version'],'2.8.0')
+           def test_unreviewed_engine_and_noncurated_override_are_rejected(self):
+            for admission,engine in [('current-author-curated',[1,26,70]),('current-author-p58',[1,26,60])]:
+             profile=self.profile();profile.update(admission=admission,min_engine_version=engine)
+             with self.assertRaisesRegex(ValueError,'engine requirement'):patch_manifests(*self.pair(),[1,0,10677],[1,0,77],profile)
+          
+          """
+          f.write_text(s.replace(anchor,addition+anchor))
+          (p/'.github/p77-catalog-input.json').unlink()
+          (p/'.github/workflows/p77-catalog-apply.yml').unlink()
+          PY
+          python3 -m unittest discover -s tools -p test_doll_renderer_extension.py
+          git add -A
+          test "$(git write-tree)" = 827a63e2c2bf90eed9391b84e27f4c2fe693318e
+          git config user.name 'Cary development assistant'
+          git config user.email '97009482+casama233@users.noreply.github.com'
+          git commit -m 'chore: bind P77 native container titles and 26.60 engine consumer'
+          python3 tools/baseline_gate.py check --release
+          git push origin HEAD:refs/heads/feat/26-60-p77-catalog
+          git bundle create "$RUNNER_TEMP/tavern-p77.bundle" HEAD ^dc3d16474831e0db72448e7becda5d2ccc11eeb3
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tavern-p77-source-delta
+          path: ${{ runner.temp }}/tavern-p77.bundle
+          retention-days: 1
+          if-no-files-found: error
