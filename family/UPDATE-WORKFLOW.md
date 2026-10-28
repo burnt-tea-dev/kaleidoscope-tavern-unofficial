@@ -222,6 +222,13 @@ kernel 不抵扣。所需空間仍是剩餘受限預算加至少 2 GiB，不把�
 目前 STOPPED 狀態與未變的包／policy／停服 DB，接續正常整批流程。
 原失敗與收據不改寫，原 idle-owner 的 hash 也不重設來掩蓋維護來源。
 
+既有存檔 first-load／restart 均通過、但安裝前准入失敗時，也可關閉未改動交易。
+入口額外核對正式世界與停服備份逐檔相同、兩次原生日誌和候選收據完整、
+隔離引擎已退出，且不存在安裝標記。私有 canonical review 可提交
+`preinstall_aborted_unchanged` 停服交接，引用精確中止證據及 closed lease；
+下一個候選在初始准入再次核對未變的 DB，然後走正常整批流程。
+這允許修正准入清單後建立新候選，不改寫原失敗收據，也不借用舊 idle-owner。
+
 乾淨新世界的原生載入失敗、但尚未安裝時，也使用同一個
 `recover-preinstall --execute` 入口。它要求原生程序已正常退出且沒有玩家、
 指令或測試 overlay；正式新世界目錄與安裝／准入標記均不存在。
