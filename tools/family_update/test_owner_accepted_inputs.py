@@ -214,5 +214,28 @@ class AcceptedInputTests(unittest.TestCase):
             c.verify_candidate_sources()
 
 
+class ReplacementSelectionTests(unittest.TestCase):
+    def selection(self):
+        return {'authors': {'Essentials': {'behavior_uuid': 'bp', 'resource_uuid': 'rp'}},
+                'replacement_packs': {'Essentials': {
+                    'BP': {'uuid': 'bp', 'version': [1, 8, 10070], 'tree': {'sha256': 'a' * 64, 'files': 8}},
+                    'RP': {'uuid': 'rp', 'version': [1, 8, 10070], 'tree': {'sha256': 'b' * 64, 'files': 4}}}}}
+
+    def test_complete_reviewed_pair_is_selected_as_one_replacement(self):
+        from family_update import current_author_validation as v
+        with patch.object(v, 'curated_selected', return_value=True), patch.object(v, 'current_selection', return_value=self.selection()):
+            rows = v.replacement_rows()
+        self.assertEqual(set(rows), {'bp', 'rp'})
+        self.assertEqual({row['author'] for row in rows.values()}, {'Essentials'})
+
+    def test_split_or_mismatched_replacement_fails_closed(self):
+        from family_update import current_author_validation as v
+        selection = self.selection()
+        selection['replacement_packs']['Essentials']['RP']['uuid'] = 'wrong'
+        with patch.object(v, 'curated_selected', return_value=True), patch.object(v, 'current_selection', return_value=selection):
+            with self.assertRaisesRegex(AssertionError, 'Replacement identity'):
+                v.replacement_rows()
+
+
 if __name__ == '__main__':
     unittest.main()

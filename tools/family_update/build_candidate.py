@@ -20,7 +20,8 @@ def main(argv=None):
     preserved = read(R / 'production-before/preserved-packs.json')
     if CONFIG.get('fresh_world'):
         assert preserved == [], 'Fresh worlds cannot inherit captured retained packs'
-    from family_update.current_author_validation import curated_inputs_enabled,select_curated_inputs,verify_curated_inputs
+    from family_update.current_author_validation import (curated_inputs_enabled,select_curated_inputs,verify_curated_inputs,
+        select_replacement_inputs,verify_replacement_inputs)
     local_sources,local_selection,curated_selection={},None,None
     prospective=None
     if curated_inputs_enabled():
@@ -32,6 +33,13 @@ def main(argv=None):
         if CONFIG.get('managed_drift_recovery'):
             from family_update.managed_drift_recovery import select_local_inputs
             preserved_roots,local_sources,local_selection=select_local_inputs(preserved_roots,original)
+    replacement_roots,replacement_sources,replacement_selection=select_replacement_inputs(original)
+    if replacement_selection is not None:
+        replaced={row['uuid'] for row in replacement_selection['packs'].values()}
+        preserved_roots=[root for root in preserved_roots
+                         if read(Path(root)/'manifest.json')['header']['uuid'] not in replaced]+replacement_roots
+        local_sources={**local_sources,**replacement_sources}
+        atomic(R/'author-replacement-selection.json',replacement_selection)
     from family_update.identity_migration import assembly_order, candidate_plan
     requested=CONFIG.get('held_sources',[])
     assembly_lock, assembly_sources, retention = read(T / 'family/upstream.lock.json'), SOURCES.copy(), None
@@ -44,6 +52,7 @@ def main(argv=None):
         verify_owner_accepted_inputs(receipt, original)
     if prospective is not None:verify_prospective(receipt,prospective)
     if curated_selection is not None:verify_curated_inputs(receipt,curated_selection)
+    if replacement_selection is not None:verify_replacement_inputs(receipt,replacement_selection)
     if local_selection is not None:
         from family_update.managed_drift_recovery import verify_local_target
         verify_local_target(receipt,original)
@@ -68,6 +77,8 @@ def main(argv=None):
         atomic(R/'managed-local-input-selection.json',local_selection)
     if curated_selection is not None:
         evidence['curated_input_selection']=report_ref(R/'curated-input-selection.json')
+    if replacement_selection is not None:
+        evidence['author_replacement_selection']=report_ref(R/'author-replacement-selection.json')
     atomic(R / 'build-evidence.json', evidence)
     evidence['external_input_sha256']=external_input_hashes();atomic(R/'build-evidence.json',evidence)
     verify_predeploy()

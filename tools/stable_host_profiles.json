@@ -9597,7 +9597,7 @@
     "public_api_spec_sha256": "26de3617b9f2b4f93e6a00119b30cc6d2681a35fc454b212f939a558aac9b799",
     "selection": {
       "path": "companion-sources/current-author-curated/profile.json",
-      "sha256": "89f883754b7df73835d8cd93c32f949abf10e574b04493c54939448a0d90fe31",
+      "sha256": "02019b5e18d4de8a8454e5067ae6e02e9b26c8da276617b1e99831d93c0fba1e",
       "value": {
         "schema": 1,
         "kind": "current-author-curated",
@@ -10538,12 +10538,12 @@
               2
             ],
             "input_tree": {
-              "sha256": "95829b7a8b3a37a3ccadf0574687958aaa43e176588d7ce6396e8ce764dfbdbd",
-              "files": 1559
+              "sha256": "3424c9b49c80e3a866f8689d5dda98693068fa875fe05bb37ef6d2142e2a6f21",
+              "files": 1579
             },
             "output_tree": {
-              "sha256": "95829b7a8b3a37a3ccadf0574687958aaa43e176588d7ce6396e8ce764dfbdbd",
-              "files": 1559
+              "sha256": "3424c9b49c80e3a866f8689d5dda98693068fa875fe05bb37ef6d2142e2a6f21",
+              "files": 1579
             },
             "provenance": {
               "kind": "owner_accepted_current_exact_bytes",
@@ -10589,21 +10589,21 @@
             "side": "behavior",
             "input_version": [
               1,
-              0,
+              1,
               0
             ],
             "output_version": [
               1,
-              0,
+              1,
               0
             ],
             "input_tree": {
-              "sha256": "ca4ad3e68b9a5f1c530dd12c3999a33ed948bc84033c93ca6afa7ab399f0298b",
-              "files": 330
+              "sha256": "9411808565e78883545fda04ae40e02ad8663780dd34ef21315a8c40ae59c777",
+              "files": 333
             },
             "output_tree": {
-              "sha256": "ca4ad3e68b9a5f1c530dd12c3999a33ed948bc84033c93ca6afa7ab399f0298b",
-              "files": 330
+              "sha256": "9411808565e78883545fda04ae40e02ad8663780dd34ef21315a8c40ae59c777",
+              "files": 333
             },
             "provenance": {
               "kind": "owner_accepted_current_exact_bytes",
@@ -10619,21 +10619,21 @@
             "side": "resource",
             "input_version": [
               1,
-              0,
+              1,
               0
             ],
             "output_version": [
               1,
-              0,
+              1,
               0
             ],
             "input_tree": {
-              "sha256": "3370f885a4b2ce38c90f8f327fc672d248a162f8105abfad1b8867f650b58bc9",
-              "files": 821
+              "sha256": "ec149fc35fcc5b253ed7a6747fe6b0dcd787188d1f7b9e18be5f9a812373ae3e",
+              "files": 601
             },
             "output_tree": {
-              "sha256": "3370f885a4b2ce38c90f8f327fc672d248a162f8105abfad1b8867f650b58bc9",
-              "files": 821
+              "sha256": "ec149fc35fcc5b253ed7a6747fe6b0dcd787188d1f7b9e18be5f9a812373ae3e",
+              "files": 601
             },
             "provenance": {
               "kind": "owner_accepted_current_exact_bytes",
@@ -10663,6 +10663,34 @@
             26,
             60
           ]
+        },
+        "replacement_packs": {
+          "Essentials": {
+            "BP": {
+              "uuid": "5f808eda-2eed-47b9-94ca-8486af1c5c14",
+              "version": [
+                1,
+                8,
+                10070
+              ],
+              "tree": {
+                "sha256": "2dffce1ffd7d8298a20de3a80420b82907abc600f2d3455baf71ee98c170d1cf",
+                "files": 8
+              }
+            },
+            "RP": {
+              "uuid": "537af6fe-a865-4603-8847-37791b81249d",
+              "version": [
+                1,
+                8,
+                10070
+              ],
+              "tree": {
+                "sha256": "84ab8fdb046bd15f2eb1415754ca32bc5d6d144eec9ddd432c8c02f3fe9d4f24",
+                "files": 4
+              }
+            }
+          }
         }
       }
     },
