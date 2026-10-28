@@ -160,7 +160,7 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
    author_packs=list(packs(z))
    found=[{'uuid':manifest['header']['uuid'],'version':manifest['header']['version']} for manifest,_ in author_packs]
    if sorted(found,key=lambda p:p['uuid'])!=sorted(upstream['packs'],key=lambda p:p['uuid']):fail('official pack identity differs from lock')
-   replaced=set(preserved_sources)
+   replaced=set(preserved_sources or {})
    selected=[(manifest,data) for manifest,data in author_packs if manifest['header']['uuid'] not in replaced]
    if len(selected)!=len(author_packs):
     if len(selected)+len([1 for manifest,_ in author_packs if manifest['header']['uuid'] in replaced])!=len(author_packs):fail('replacement split is ambiguous')
