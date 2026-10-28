@@ -371,7 +371,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: burnt-tea-dev/kaleidoscope-world-liquor-unofficial
-          # World Liquor164 requires this paired Tavern185 runtime.
+          # World Liquor168 requires this paired Tavern187 runtime.
           # Pin exact peer bytes, not an obsolete release or a moving branch.
           ref: 1ef4060800d36ed0966925b1655ae823f5591d33
           path: liquor
@@ -379,7 +379,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: burnt-tea-dev/kaleidoscope-grilling-unofficial
-          ref: 2418195c7957bc9479b0fc9e28c888f575843397
+          ref: a9078ba6577033c24c2a72e501919d156f8765f3
           path: grilling
           sparse-checkout: projects/grilling/gameplay_core/resource_pack/ui
           persist-credentials: false

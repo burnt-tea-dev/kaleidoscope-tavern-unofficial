@@ -92,6 +92,9 @@ def retained_component_config(repo,config,sources):
  return component,{'schema':1,'source_commit':anchor['source_commit'],'source_tree':anchor['source_tree'],'source_version':anchor['source_version']}
 
 def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),reviewed_order=None,held_sources=(),source_identities=None,preserved_sources=None):
+ if preserved_sources is None:preserved_sources={}
+ if (not isinstance(preserved_sources,dict) or any(not isinstance(uid,str) or not uid or not isinstance(source,dict) or source.get('owner')!='preserved' or source.get('official_author_release') is True for uid,source in preserved_sources.items())):fail('preserved source descriptors must retain preserved ownership')
+ replacements={uid for uid,source in preserved_sources.items() if source.get('role')=='owner_accepted_author_replacement'}
  from family_update.source_holds import selected,effective
  holds=selected(lock,list(held_sources));lock=effective(lock,list(held_sources))
  lock=json.loads(json.dumps(lock))
@@ -160,11 +163,11 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
    author_packs=list(packs(z))
    found=[{'uuid':manifest['header']['uuid'],'version':manifest['header']['version']} for manifest,_ in author_packs]
    if sorted(found,key=lambda p:p['uuid'])!=sorted(upstream['packs'],key=lambda p:p['uuid']):fail('official pack identity differs from lock')
-   replaced=set(preserved_sources or {})
-   selected=[(manifest,data) for manifest,data in author_packs if manifest['header']['uuid'] not in replaced]
-   if len(selected)!=len(author_packs):
-    if len(selected)+len([1 for manifest,_ in author_packs if manifest['header']['uuid'] in replaced])!=len(author_packs):fail('replacement split is ambiguous')
-    author_packs=selected
+   author_ids={manifest['header']['uuid'] for manifest,_ in author_packs}
+   if author_ids & replacements:
+    if not author_ids <= replacements:fail('author replacement requires the complete archive pair')
+    # The captured whole pair is added below without archive transforms.
+    continue
    source={'owner':'upstream','project_id':upstream['project_id'],'file_id':upstream['file_id'],'archive_sha256':upstream['sha256']}
    if upstream.get('manifest_compatibility_release'):
     from family_update.upstream_manifest_compatibility import reviewed_pair
@@ -183,6 +186,13 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
   source_component,retained_runtime=components[own['key']]
   for path in sorted((owned_root/'host-extensions').glob('*.json'),key=lambda p:(read(p).get('kind')=='chinesefood-doll-renderer-cleanup',read(p).get('kind')=='cookery-guide-startup-repair',p.name)):
    spec=read(path)
+   if spec.get('kind') in PAIRED_KINDS:
+    pair=set(pair_uuids(spec))
+    if pair & replacements:
+     if not pair <= replacements:fail('paired extension overlaps an incomplete author replacement')
+     continue
+   elif spec.get('host_uuid') in replacements:
+    continue
    if spec.get('kind') in PAIRED_KINDS:
     renderer=spec['kind']=='chinesefood-doll-renderer-cleanup'
     if renderer:
@@ -249,8 +259,6 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
    host['source']={**host['source'],'owner':'upstream_extended','reviewed_extensions':[*host['source'].get('reviewed_extensions',[]),proof]};host['files']=files_hash(host_root)
  try:verify_station_handoffs(station_handoffs,records,out)
  except (ValueError,KeyError) as error:fail('station owner handoff incomplete: '+str(error))
- if preserved_sources is None:preserved_sources={}
- if (not isinstance(preserved_sources,dict) or any(not isinstance(uid,str) or not uid or not isinstance(source,dict) or source.get('owner')!='preserved' or source.get('official_author_release') is True for uid,source in preserved_sources.items())):fail('preserved source descriptors must retain preserved ownership')
  used_preserved_sources=set()
  for root in preserved:
   manifest=read(root/'manifest.json');uid=manifest['header']['uuid']
@@ -258,7 +266,7 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
   if uid in preserved_sources:used_preserved_sources.add(uid)
   add(json.loads(json.dumps(source)),manifest,root=root)
   label=by_uuid[uid]['side']
-  if reviewed_order is None:lock['order'][label].append(uid)
+  if reviewed_order is None and uid not in lock['order'][label]:lock['order'][label].append(uid)
  if used_preserved_sources!=set(preserved_sources):fail('preserved source descriptor has no exact input UUID')
  for row in records:
   for dep in row['dependencies']:
