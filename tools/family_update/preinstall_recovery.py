@@ -65,7 +65,9 @@ def _completed_rehearsal(output):
 
 
 def _references(output, fresh=False):
-    required = tuple(name for name in REFERENCE_FILES if not (fresh and name == 'stop-result.json'))
+    required = tuple(name for name in REFERENCE_FILES if name != 'stop-result.json' or (not fresh and (output / name).exists()))
+    if not fresh and not (output / 'stop-result.json').exists():
+        required += ('previous-maintenance.json',)
     if fresh:
         required += FRESH_REFERENCES
     optional = OPTIONAL_STOP_REFERENCES + (('stop-result.json', 'curated-input-selection.json', 'saved-world-engine/restart.log') if fresh else ())
@@ -168,6 +170,25 @@ def _configuration_for_recovery(original):
     return Path(path)
 
 
+def _initially_stopped(output, original):
+    previous_output = Path(original['preinstall_recovery_output'])
+    proof_path = previous_output / PROOF
+    proof = c.read(_regular(proof_path))
+    closed = _proof_binding(proof, previous_output)
+    initial = c.read(output / 'deployment-initial-state.json')
+    _stopped(initial['server'])
+    assert initial['restart_original_after_failure'] is False
+    previous = c.read(output / 'previous-maintenance.json')
+    assert previous == closed == initial['previous_lease'] == c.read(output / 'production-before/capture.json')['previous_lease'], 'Initial stopped owner differs from its closed predecessor'
+    assert initial['previous_lease_sha256'] == hashlib.sha256(_bytes(previous)).hexdigest()
+    assert initial['preinstall_recovery']['proof'] == _ref(proof_path)
+    assert initial['preinstall_recovery']['closed_lease'] == proof['closed_lease']
+    assert c.read(output / 'build-evidence.json')['external_input_sha256']['preinstall_recovery_abort'] == c.sha(proof_path)
+    prior = _original_config(Path(proof['references']['original_config']['path']), previous_output)
+    for key in ('server_name', 'bds_root', 'world_dir', 'quality_dir', 'sources', 'extension', 'lease_file', 'lock_file', 'authorization_file', 'api_module', 'api_path_mappings'):
+        assert original.get(key) == prior.get(key), 'Initial stopped production boundary changed: ' + key
+
+
 def _failure(output, original):
     report = c.read(output / 'deployment-recovery.json')
     assert report['state'] == 'needs_operator_recovery' and report['phase'] == 'retain_stopped_without_package_or_database_restore', 'Failure is not an untouched fail-stop transaction'
@@ -175,8 +196,10 @@ def _failure(output, original):
     if original.get('fresh_world'):
         _fresh_failure(output, original)
         return
-    stop = c.read(output / 'stop-result.json')
-    c.validate_lifecycle_result('stop', stop)
+    if (output / 'stop-result.json').exists():
+        c.validate_lifecycle_result('stop', c.read(output / 'stop-result.json'))
+    else:
+        _initially_stopped(output, original)
     rows = c.read(output / 'memory-admissions.json')['observations']
     if _saved_rehearsal(output):
         assert rows and all(row['ok'] is True for row in rows), 'Saved rehearsal contains a failed memory admission'
@@ -458,16 +481,24 @@ def verify_completed(output, summary):
     assert c.read(c.LEASE) == closed and c.sha(c.LEASE) == proof['closed_lease']['sha256'], 'Stopped owner closure changed or was stolen'
     original_path = Path(proof['references']['original_config']['path'])
     original = _original_config(original_path, output)
-    # The new transaction may choose new outputs, reviewed tooling PRs and its
-    # own memory unit. All production locations and non-Tavern sources remain.
+    # New sources pass the new candidate's own CI and deployment gates. The
+    # closed abort proves the old installed stack and stopped world only.
     for key in ('server_name', 'bds_root', 'world_dir', 'quality_dir', 'sources', 'extension', 'lease_file', 'lock_file', 'authorization_file', 'api_module', 'api_path_mappings'):
         assert c.CONFIG.get(key) == original.get(key), 'New transaction changed the recovered production boundary: ' + key
-    sources = _validate(output, {**original, '_config_path': str(original_path)})
+    _untouched(output, original)
+    _failure(output, original)
+    with _output_context(output):
+        c.verify_predeploy()
+    receipt_path = output / 'release-candidate/family-receipt.json'
+    c.audit_candidate(receipt_path.parent, c.read(receipt_path))
+    # Original source/config/CI were checked before closure and are bound by
+    # the producer and immutable references above. Re-reading current sources
+    # as the old candidate would prevent the repair that this handoff enables.
     assert proof['database_after'] == _database(), 'Stopped database changed since owner closure'
     _stopped(c.summary())
     assert c.sha(c.LEASE) == proof['closed_lease']['sha256'], 'Stopped owner changed during admission'
     return {'proof': _ref(proof_path), 'closed_lease': dict(proof['closed_lease']),
             'original_config': _ref(original_path), 'producer_commit': proof['producer']['canonical_commit'],
-            'current_canonical_commit': sources['tavern']['commit'], 'observed_stack_unchanged': True,
+            'current_canonical_commit': c.git(c.T, 'rev-parse', 'HEAD'), 'observed_stack_unchanged': True,
             'database_unchanged_since_abort': True, 'original_drift_approved': False,
             'restart_original_after_failure': False}
