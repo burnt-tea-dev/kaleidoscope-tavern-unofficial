@@ -74,4 +74,23 @@ class StableRendererManifestTests(unittest.TestCase):
   with self.assertRaisesRegex(ValueError,'exact owner'):patch_manifests(*self.pair(),[1,0,10547],[1,0,48])
   with self.assertRaisesRegex(ValueError,'exact owner'):patch_manifests(*self.pair(),[1,0,10543],[1,0,44])
 
+class CuratedEngineTests(unittest.TestCase):
+ def pair(self):
+  return [{'header':{'uuid':uid,'version':[1,0,6],'name':'Author','min_engine_version':[1,26,30]},'modules':[{'version':[1,0,6]}],'dependencies':[{'uuid':other,'version':[1,0,6]},{'module_name':'@minecraft/server','version':'2.7.0'}]} for uid,other in [('bp','rp'),('rp','bp')]]
+ def profile(self):
+  return {'admission':'current-author-curated','author_version':[1,0,6],'owner_version':[1,0,77],'version':[1,0,10677],'behavior_uuid':'bp','host_uuid':'rp','manifest_names':{'BP':'Reviewed BP','RP':'Reviewed RP'},'script_dependencies':{'@minecraft/server':'2.8.0'}}
+ def test_engine_requirement_is_explicit_and_preserves_originals(self):
+  pair=self.pair();profile=self.profile()
+  old=patch_manifests(*pair,[1,0,10677],[1,0,77],profile)
+  self.assertTrue(all(m['header']['min_engine_version']==[1,26,30] for m in old))
+  profile['min_engine_version']=[1,26,60]
+  new=patch_manifests(*pair,[1,0,10677],[1,0,77],profile)
+  self.assertTrue(all(m['header']['min_engine_version']==[1,26,60] for m in new))
+  self.assertEqual(pair,self.pair())
+  self.assertEqual(new[0]['dependencies'][1]['version'],'2.8.0')
+ def test_unreviewed_engine_and_noncurated_override_are_rejected(self):
+  for admission,engine in [('current-author-curated',[1,26,70]),('current-author-p58',[1,26,60])]:
+   profile=self.profile();profile.update(admission=admission,min_engine_version=engine)
+   with self.assertRaisesRegex(ValueError,'engine requirement'):patch_manifests(*self.pair(),[1,0,10677],[1,0,77],profile)
+
 if __name__=='__main__':unittest.main()

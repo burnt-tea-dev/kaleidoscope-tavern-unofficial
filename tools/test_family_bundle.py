@@ -432,4 +432,59 @@ class RetainedAssemblyTests(unittest.TestCase):
     bundle.retained_component_config(root,config,{'tavern':root})
    self.assertEqual(validate.call_args.kwargs,{'source_root':root,'sources':{'tavern':root}})
 
+
+class WholeAuthorReplacementTests(unittest.TestCase):
+ def fixture(self, root):
+  import hashlib,zipfile
+  archive=root/'author.mcaddon';official=[];preserved=[]
+  with zipfile.ZipFile(archive,'w') as z:
+   for uid,kind in [('host-b','data'),('host-r','resources')]:
+    m={'header':{'uuid':uid,'version':[1,0,0]},'modules':[{'type':kind,'version':[1,0,0]}]}
+    official.append({'uuid':uid,'version':[1,0,0]});z.writestr(uid+'/manifest.json',json.dumps(m))
+    path=root/uid;path.mkdir();m['header']['version']=[1,0,7];m['modules'][0]['version']=[1,0,7]
+    (path/'manifest.json').write_text(json.dumps(m));(path/'accepted.txt').write_text('owner accepted extra body')
+    preserved.append(path)
+  order={'behavior':['host-b'],'resource':['host-r']}
+  upstream={'name':'host','sha256':hashlib.sha256(archive.read_bytes()).hexdigest(),'project_id':1,'file_id':2,'packs':official,'manifest_compatibility_release':'must-not-run'}
+  lock={'owned':[],'upstream':[upstream],'order':order,'upstream_manifest_releases':{}}
+  descriptors={uid:{'owner':'preserved','role':'owner_accepted_author_replacement','official_author_release':False} for uid in ['host-b','host-r']}
+  return archive,preserved,lock,descriptors
+ def test_complete_pair_skips_archive_transform_and_preserves_all_bytes(self):
+  from unittest.mock import patch
+  with tempfile.TemporaryDirectory() as tmp:
+   root=Path(tmp);archive,preserved,lock,descriptors=self.fixture(root)
+   with patch('family_update.upstream_manifest_compatibility.reviewed_pair',side_effect=AssertionError('Archive producer must not execute')),contextlib.redirect_stdout(io.StringIO()):
+    receipt=assemble(lock,{},[archive],root/'out',preserved=preserved,preserved_sources=descriptors)
+   self.assertEqual(receipt['order'],lock['order'])
+   for row,path in zip(receipt['packs'],preserved):
+    self.assertEqual(row['files'],files_hash(path));self.assertEqual(row['version'],[1,0,7])
+    self.assertEqual(row['source'],descriptors[row['uuid']])
+ def test_split_pair_and_missing_captured_half_are_rejected(self):
+  with tempfile.TemporaryDirectory() as tmp:
+   root=Path(tmp);archive,preserved,lock,descriptors=self.fixture(root)
+   with self.assertRaisesRegex(SystemExit,'complete archive pair'):
+    assemble(lock,{},[archive],root/'partial',preserved=preserved[:1],preserved_sources={'host-b':descriptors['host-b']})
+   with self.assertRaisesRegex(SystemExit,'no exact input UUID'):
+    assemble(lock,{},[archive],root/'missing',preserved=preserved[:1],preserved_sources=descriptors)
+ def test_ordinary_preserved_descriptor_cannot_suppress_an_author(self):
+  from unittest.mock import patch
+  with tempfile.TemporaryDirectory() as tmp:
+   root=Path(tmp);archive,preserved,lock,descriptors=self.fixture(root)
+   for value in descriptors.values():value['role']='unchanged_external_dependency'
+   with patch('family_update.upstream_manifest_compatibility.reviewed_pair',side_effect=ValueError('Author path still selected')) as producer:
+    with self.assertRaisesRegex(ValueError,'Author path still selected'):
+     assemble(lock,{},[archive],root/'out',preserved=preserved,preserved_sources=descriptors)
+   producer.assert_called_once()
+ def test_owned_paired_hook_is_not_applied_to_a_preserved_replacement(self):
+  from unittest.mock import patch
+  with tempfile.TemporaryDirectory() as tmp:
+   root=Path(tmp);archive,preserved,lock,descriptors=self.fixture(root);owner=root/'owner';bp=owner/'BP';(bp/'host-extensions').mkdir(parents=True)
+   config={'repository':'fixture/owner','version':[1,0,1],'runtime':{'BP':'BP'},'source_trees':{}}
+   (owner/'baseline.json').write_text(json.dumps(config));(bp/'manifest.json').write_text(json.dumps({'header':{'uuid':'owner','version':[1,0,1]},'modules':[{'type':'data'}]}))
+   spec={'kind':'essentials-manifest-compatibility','host_uuid':'host-r','behavior_uuid':'host-b','resource_uuid':'host-r'}
+   (bp/'host-extensions/replacement.json').write_text(json.dumps(spec));lock['owned']=[{'key':'fixture','repository':'fixture/owner','version':[1,0,1],'source_trees':{}}];lock['order']['behavior'].insert(0,'owner')
+   with patch('family_bundle.subprocess.check_output',return_value='fixture-commit\n'),patch('essentials_manifest_extension.apply_manifest_extension',side_effect=AssertionError('Preserved pair must remain untouched')) as transform,contextlib.redirect_stdout(io.StringIO()):
+    receipt=assemble(lock,{'fixture':owner},[archive],root/'out',working=True,preserved=preserved,preserved_sources=descriptors)
+   transform.assert_not_called();self.assertEqual(len(receipt['packs']),3)
+
 if __name__=='__main__':unittest.main()

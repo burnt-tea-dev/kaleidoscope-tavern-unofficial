@@ -35,7 +35,7 @@ def main(argv=None):
             preserved_roots,local_sources,local_selection=select_local_inputs(preserved_roots,original)
     replacement_roots,replacement_sources,replacement_selection=select_replacement_inputs(original)
     if replacement_selection is not None:
-        replaced={row['uuid'] for row in replacement_selection['packs'].values()}
+        replaced=set(replacement_selection['packs'])
         preserved_roots=[root for root in preserved_roots
                          if read(Path(root)/'manifest.json')['header']['uuid'] not in replaced]+replacement_roots
         local_sources={**local_sources,**replacement_sources}
