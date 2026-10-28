@@ -161,13 +161,32 @@ def load_review():
         assert _committed(source / relative)['sha256'] == addition['sha256'], 'Committed addition review differs'
     if review.get('allow_initially_stopped'):
         stopped = review['stopped_server_review']
-        assert stopped['server_name'] == c.SERVER and stopped['reason'] == 'normal_idle_stop', 'Stopped server authorization differs'
+        assert stopped['server_name'] == c.SERVER and stopped['reason'] in ('normal_idle_stop', 'preinstall_aborted_unchanged'), 'Stopped server authorization differs'
         evidence = stopped['evidence']
         relative = Path(evidence['path'])
         assert not relative.is_absolute() and '..' not in relative.parts
         assert _committed(source / relative)['sha256'] == evidence['sha256'], 'Stopped owner evidence differs'
+        if stopped['reason'] == 'preinstall_aborted_unchanged':
+            _preinstall_handoff(review)
     assert review['rollback'] == {key: review['approved'][key] for key in ['receipt_sha256', 'assembled_receipt_sha256']}, 'Rollback must be the original approved stack'
     return review, binding
+
+
+def _preinstall_handoff(review, *, verify_database=False):
+    """A closed untouched transaction hands its saved DB to a new candidate."""
+    from family_update import preinstall_recovery as recovery
+    stopped = review['stopped_server_review']
+    handoff = c.read(c.EXTENSION / stopped['evidence']['path'])
+    assert handoff['schema'] == 1 and handoff['kind'] == recovery.KIND
+    reference = handoff['abort']
+    recovery._check_ref(reference)
+    path = Path(reference['path'])
+    assert path.name == recovery.PROOF, 'Preinstall handoff is not an abort proof'
+    proof = c.read(path)
+    recovery._proof_binding(proof, path.parent)
+    assert proof['closed_lease'] == {'path': str(c.LEASE), 'sha256': stopped['lease_sha256']}, 'Preinstall handoff owner differs'
+    if verify_database:
+        assert recovery._database() == proof['database_after'], 'Database changed after the preinstall abort'
 
 
 def _approved(review, policy=None):
@@ -794,6 +813,8 @@ def validate_initial_status(summary):
             preinstall_recovery = verify_completed(Path(c.CONFIG['preinstall_recovery_output']), summary)
         else:
             assert c.sha(c.LEASE) == review['stopped_server_review']['lease_sha256'], 'Previous maintenance owner state changed'
+            if review['stopped_server_review']['reason'] == 'preinstall_aborted_unchanged':
+                _preinstall_handoff(review, verify_database=True)
         c.lease_available()
     _INITIAL_STATE = {'schema': 1, 'server': dict(summary), 'review': binding,
         'previous_lease': c.lease_available(), 'previous_lease_sha256': c.sha(c.LEASE),
