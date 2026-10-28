@@ -295,6 +295,55 @@ def _curated_retained_descriptor(row):
     if row['kind']=='canonical-fishing':source['canonical_source']=row['canonical_source']
     return source
 
+def replacement_rows():
+    """Reviewed owner-accepted author pair supplied whole instead of its archive."""
+    if not curated_selected():
+        return {}
+    selection=current_selection();rows=selection.get('replacement_packs',{})
+    assert isinstance(rows,dict),'Current author replacement map is invalid'
+    if not rows:return {}
+    result={}
+    for key,pair in rows.items():
+        assert isinstance(key,str) and key in selection['authors'] and set(pair)=={'BP','RP'},'Replacement author pair is invalid'
+        for side,row in pair.items():
+            label='behavior' if side=='BP' else 'resource'
+            assert set(row)=={'uuid','version','tree'} and row['uuid']==selection['authors'][key][label+'_uuid'],'Replacement identity differs from author pin'
+            assert isinstance(row['version'],list) and len(row['version'])==3 and all(type(n) is int and n>=0 for n in row['version']),'Replacement version is invalid'
+            assert set(row['tree'])=={'sha256','files'} and re.fullmatch('[0-9a-f]{64}',row['tree']['sha256']) and type(row['tree']['files']) is int and row['tree']['files']>0,'Replacement tree is invalid'
+            assert row['uuid'] not in result,'Duplicate replacement pack identity'
+            result[row['uuid']]={'author':key,'side':label,**copy.deepcopy(row)}
+    return result
+
+def replacement_author_keys():
+    return {row['author'] for row in replacement_rows().values()}
+
+def select_replacement_inputs(original):
+    """Select exact current whole-pack inputs without assigning author provenance."""
+    rows=replacement_rows()
+    if not rows:return [],[],None
+    captured={}
+    for row in original['packs']:captured.setdefault(row['uuid'],[]).append(row)
+    roots=[];descriptors={};selected={}
+    for uid,row in rows.items():
+        matches=captured.get(uid,[]);assert len(matches)==1,'Missing or ambiguous owner-accepted replacement: '+uid
+        actual=matches[0];actual_tree=tree(actual['files'])
+        assert actual['side']==row['side'] and actual['version']==row['version'] and actual_tree==row['tree']['sha256'],'Owner-accepted replacement bytes changed: '+uid
+        root=Path(actual['path']);roots.append(root)
+        source={'owner':'preserved','role':'owner_accepted_author_replacement','official_author_release':False}
+        descriptors[uid]=source
+        selected[uid]={'path':str(root),'side':row['side'],'version':row['version'],'tree':actual_tree,'source':source}
+    binding=CATALOG[CURATED_KEY]['selection']
+    return roots,descriptors,{'schema':1,'kind':'author_replacement_selection','profile':{'path':binding['path'],'sha256':binding['sha256']},'packs':selected,'native_loading':False,'client':False,'production_ready':False}
+
+def verify_replacement_inputs(receipt,selection):
+    rows=replacement_rows();assert selection and selection.get('kind')=='author_replacement_selection'
+    assert set(selection['packs'])==set(rows),'Replacement selection set changed'
+    actual={row['uuid']:row for row in receipt['packs']}
+    for uid,row in rows.items():
+        pack=actual.get(uid);expected={'side':row['side'],'version':row['version'],'tree':row['tree']['sha256'],'source':{'owner':'preserved','role':'owner_accepted_author_replacement','official_author_release':False}}
+        assert pack and {key:pack[key] for key in ('side','version')}=={'side':row['side'],'version':row['version']} and tree(pack['files'])==row['tree']['sha256'],'Replacement candidate output differs: '+uid
+        assert pack['source']==expected['source'],'Replacement candidate provenance differs: '+uid
+
 def select_curated_inputs(original):
     """Select only declared captured inputs or a complete canonical Fishing pair.
 
@@ -686,8 +735,10 @@ def validate_candidate(receipt,proof,baseline,binding,catalog):
     c.git(g,'merge-base','--is-ancestor',api['source_commit'],c.git(g,'rev-parse','HEAD'))
     for key in ['id','version','host_uuid','archive_sha256','original_files','patched_files']:assert api[key]==public[key]
     assert api['copies_hashes']==public['copies']
-    seen=set()
+    seen=set();replaced=replacement_author_keys()
+    replacement_uids={selection['authors'][key][side+'_uuid'] for key in replaced for side in ('behavior','resource')}
     for key,pin in catalog['authors'].items():
+        if key in replaced:continue
         assert {row['uuid'] for row in rows.values() if row['source'].get('archive_sha256')==pin['sha256']}=={pin['behavior_uuid'],pin['resource_uuid']},'Current author pair inventory differs'
         authored=proof['authors'][key];assert {name:authored[name] for name in pin}==pin
         assert authored['resolved_files']==proof['resolved_host_files'][key]
@@ -761,7 +812,8 @@ def validate_candidate(receipt,proof,baseline,binding,catalog):
                 for name,record in copies.items():assert name not in current,'Current author helper overwrote existing data';current[name]=record['sha256']
             assert current==pack['files'],'Current author complete output differs from exact hook replay'
             if key in ['Nether','End','PresenceFootsteps','Deco']:assert not extensions and authored['original_files'][side]==pack['files']
-    assert seen==set(specs),'Current author host profile omitted'
+    expected_seen={identity for identity,(spec,_,_) in specs.items() if spec['host_uuid'] not in replacement_uids}
+    assert seen==expected_seen,'Current author host profile omitted or applied to a replaced author'
 
 def verify_static(receipt,prior):
     VERSION,PROFILE,CATALOG_KEY=settings()
