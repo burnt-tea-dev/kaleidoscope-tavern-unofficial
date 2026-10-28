@@ -91,7 +91,8 @@ def effective(lock,requested):
 def verify_source(path,config,hold,git):
  assert config['repository']==hold['repository'] and config['version']==hold['version'] and config['source_trees']==hold['source_trees'],'Held runtime does not match canonical pin'
  assert git(path,'rev-parse','HEAD')==hold['commit'],'Held revision differs'
- assert git(path,'remote','get-url','origin').removesuffix('.git')=='https://github.com/'+hold['repository'],'Held canonical remote differs'
+ from family_update.repository_identity import current_name
+ assert git(path,'remote','get-url','origin').removesuffix('.git')=='https://github.com/'+current_name(hold['repository']),'Held canonical remote differs'
  remote=git(path,'ls-remote','origin','refs/heads/main').split()[0]
  assert subprocess.run(['git','-C',str(path),'merge-base','--is-ancestor',hold['commit'],remote],capture_output=True).returncode==0,'Held revision must remain on canonical main history'
  return remote
