@@ -170,6 +170,43 @@ class PreinstallRecoveryTests(unittest.TestCase):
         (self.output/'saved-world-summary.log').write_text('first/restart passed; admission refused before install')
         self.memory['observations'][0]['ok']=True;self.write(self.output/'memory-admissions.json',self.memory)
 
+    def failed_saved_rehearsal(self):
+        self.completed_rehearsal()
+        (self.output/'reviewed-family-receipt.json').unlink()
+        (self.output/'saved-world-engine/restart.log').unlink()
+        path=self.output/'saved-world-report.json';report=c.read(path)
+        report.update(bds=False,saved_world_migration=False,runs=report['runs'][:1])
+        report['runs'][0].update(ok=False,missing_startup_markers=['actual marker differs'])
+        self.write(path,report)
+        for name in ['author-replacement-selection.json','maintenance-window-approval.private.json','maintenance-player-notice.private.json']:
+            self.write(self.output/name,{'observation':'preinstall metadata'})
+
+    def test_failed_saved_rehearsal_closes_owner_preserving_failure_and_complete_world(self):
+        self.failed_saved_rehearsal();before={str(path):path.read_bytes() for path in self.output.rglob('*') if path.is_file()}
+        result=self.close();self.assertEqual(result['state'],p.KIND)
+        for name,raw in before.items():self.assertEqual(Path(name).read_bytes(),raw)
+        self.assertFalse(c.read(self.output/'saved-world-report.json')['bds'])
+        references=c.read(self.output/p.PROOF)['references']
+        self.assertIn('saved-world-report.json',references);self.assertIn('maintenance-window-approval.private.json',references)
+        self.next_context();self.assertTrue(p.verify_completed(self.output,c.summary())['database_unchanged_since_abort'])
+
+    def test_failed_saved_rehearsal_rejects_changed_save_snapshot_log_abnormal_exit_or_install(self):
+        self.failed_saved_rehearsal()
+        for path in [self.world/'db/CURRENT',self.output/'production-snapshot/db/CURRENT',self.output/'saved-world-engine/first.log',self.output/'deployment-result.json']:
+            with self.subTest(path=path):
+                old=path.read_bytes() if path.exists() else None;path.write_bytes(b'changed')
+                with self.assertRaises(AssertionError):self.close()
+                if old is None:path.unlink()
+                else:path.write_bytes(old)
+                self.assertEqual(c.read(self.lease_path),self.lease)
+        path=self.output/'saved-world-report.json';original=path.read_bytes()
+        for changes in [{'exit_code':1},{'real_player_connections':1},{'ok':True}]:
+            with self.subTest(changes=changes):
+                report=json.loads(original);report['runs'][0].update(changes);self.write(path,report)
+                with self.assertRaises(AssertionError):self.close()
+                self.assertEqual(c.read(self.lease_path),self.lease)
+        path.write_bytes(original)
+
     def test_completed_rehearsal_can_abort_without_rewriting_native_evidence_or_world(self):
         self.completed_rehearsal();before={str(path):path.read_bytes() for path in self.output.rglob('*') if path.is_file()}
         result=self.close();self.assertEqual(result['state'],p.KIND)

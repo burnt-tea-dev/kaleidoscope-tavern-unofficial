@@ -52,7 +52,12 @@ ADMISSION_OUTPUT = frozenset({'production-snapshot', 'saved-world-engine', 'save
     'saved-world-summary.log', 'reviewed-family-receipt.json', 'current-author-native-validation.json',
     'saved-world-container-inventories.json', 'saved-world-freezer-inputs.json',
     'selected-live-pack-conservation.private.json', 'author-replacement-selection.json',
-    'preserved-additions-check.json'})
+    'preserved-additions-check.json', 'author-replacement-selection.json',
+    'maintenance-window-approval.private.json', 'maintenance-player-notice.private.json'})
+
+
+def _saved_rehearsal(output):
+    return (output / 'saved-world-report.json').is_file()
 
 
 def _completed_rehearsal(output):
@@ -64,10 +69,10 @@ def _references(output, fresh=False):
     if fresh:
         required += FRESH_REFERENCES
     optional = OPTIONAL_STOP_REFERENCES + (('stop-result.json', 'curated-input-selection.json', 'saved-world-engine/restart.log') if fresh else ())
-    if not fresh and _completed_rehearsal(output):
+    if not fresh and _saved_rehearsal(output):
         required += ('production-before/backup-receipt.json', 'saved-world-report.json',
-                     'reviewed-family-receipt.json', 'saved-world-summary.log',
-                     'saved-world-engine/first.log', 'saved-world-engine/restart.log')
+                     'saved-world-summary.log', 'saved-world-engine/first.log')
+        optional += ('saved-world-engine/restart.log',)
         optional += tuple(name for name in sorted(ADMISSION_OUTPUT) if name not in required and (output / name).is_file())
     return (*required, *(name for name in optional if (output / name).exists() or (output / name).is_symlink()))
 
@@ -106,8 +111,8 @@ def _untouched(output, original=None):
     assert output.is_dir() and output.resolve() == output, 'Recovery output differs'
     fresh = bool(original and original.get('fresh_world'))
     allowed = ALLOWED_OUTPUT | FRESH_OUTPUT if fresh else ALLOWED_OUTPUT
-    completed = not fresh and _completed_rehearsal(output)
-    if completed:
+    saved = not fresh and _saved_rehearsal(output)
+    if saved:
         allowed |= ADMISSION_OUTPUT
     assert set(path.name for path in output.iterdir()) <= allowed, 'Post-stop, native, installation or retirement state exists'
     before = output / 'production-before'
@@ -116,7 +121,7 @@ def _untouched(output, original=None):
         assert_idle(output / 'saved-world-engine')
         target = c.B / 'worlds' / original['fresh_world']['level_name']
         assert not target.exists() and not target.is_symlink(), 'Fresh world installation already exists'
-    elif completed:
+    elif saved:
         from family_update.storage import assert_idle
         assert_idle(output / 'saved-world-engine')
         backup = c.read(before / 'backup-receipt.json')
@@ -173,18 +178,28 @@ def _failure(output, original):
     stop = c.read(output / 'stop-result.json')
     c.validate_lifecycle_result('stop', stop)
     rows = c.read(output / 'memory-admissions.json')['observations']
-    if _completed_rehearsal(output):
-        assert rows and all(row['ok'] is True for row in rows), 'Completed rehearsal contains a failed memory admission'
+    if _saved_rehearsal(output):
+        assert rows and all(row['ok'] is True for row in rows), 'Saved rehearsal contains a failed memory admission'
         native = c.read(output / 'saved-world-report.json')
-        assert native.get('native_acceptance_source') == 'saved_world' and native.get('bds') is True and native.get('saved_world_migration') is True
+        assert native.get('native_acceptance_source') == 'saved_world'
         assert native.get('exact_files_checked') is True and native.get('database_replaced_in_live') is False
         assert native.get('simulated_players') is False and native.get('players') == 0 and native.get('test_only_overlays') == []
         assert native['candidate_receipt_sha256'] == c.sha(output / 'release-candidate/family-receipt.json')
         assert native['backup_receipt'] == _ref(output / 'production-before/backup-receipt.json')
-        assert [row['phase'] for row in native['runs']] == ['first', 'restart']
-        for row in native['runs']:
-            assert row['ok'] is True and row['started'] is True and row['exit_code'] == 0 and row['errors'] == [] and row['real_player_connections'] == 0
-            assert row['log_sha256'] == c.sha(output / 'saved-world-engine' / (row['phase'] + '.log')), 'Saved rehearsal log changed'
+        runs = native['runs']
+        if _completed_rehearsal(output):
+            assert native.get('bds') is True and native.get('saved_world_migration') is True
+            assert [row['phase'] for row in runs] == ['first', 'restart'] and all(row['ok'] is True and row['errors'] == [] for row in runs)
+        else:
+            # A failed isolated run never installed its candidate. Closing its
+            # owner requires the same unchanged LIVE/snapshot proof as success;
+            # it does not turn the failed report into native acceptance.
+            assert native.get('bds') is False and native.get('saved_world_migration') is False
+            assert [row['phase'] for row in runs] in [['first'], ['first', 'restart']]
+            assert runs[-1]['ok'] is False and all(row['ok'] is True for row in runs[:-1])
+        for row in runs:
+            assert row['started'] is True and row['exit_code'] == 0 and row['real_player_connections'] == 0, 'Isolated engine did not stop normally without players'
+            assert row['log_sha256'] == c.sha(_regular(output / 'saved-world-engine' / (row['phase'] + '.log'))), 'Saved rehearsal log changed'
         return
     assert rows and all(row['ok'] is True for row in rows[:-1]), 'An earlier admission also failed'
     last, budget = rows[-1], original['memory_budget']
