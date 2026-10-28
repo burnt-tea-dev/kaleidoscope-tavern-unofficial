@@ -99,7 +99,10 @@ export function maintain(b){
  if(b.typeId===WILD_HEAD||b.typeId===WILD_BODY){
   const above=blockAt(b.dimension,plus(b.location,{x:0,y:1,z:0}));
   if(!above)return; // An unloaded support is unknown, not a missing block.
-  if(!canAnchorWildVine(above)){feedback.transaction(b,()=>b.setType('minecraft:air'));return;}
+  if(!canAnchorWildVine(above)){
+   // Use native loot, gamerules and neighbour callbacks for detached cells.
+   const {x,y,z}=b.location;b.dimension.runCommand(`setblock ${x} ${y} ${z} air destroy`);return;
+  }
   if(b.typeId===WILD_BODY){const below=wildBelow(b);if(!below)return;if(below.typeId!==WILD_BODY&&below.typeId!==WILD_HEAD)b.setPermutation(makeWildHead(BlockPermutation.resolve(WILD_HEAD),0,false));}
  }
  else if(isFrame(b.typeId))refreshAround(b);
@@ -164,9 +167,21 @@ export function registerCultivation({blockComponentRegistry:r}){
   onRandomTick:e=>safe(undefined,()=>grow(e.block)),onTick:e=>safe(undefined,()=>maintain(e.block))
  });
  r.registerCustomComponent(NS+':wild_grapevine',{
+  onBreak:wildVineBroken,
   onTick:e=>safe(undefined,()=>{maintain(e.block);if(e.block.typeId===WILD_HEAD&&!e.block.permutation.getState(WILD_SHEARED)&&Math.random()<.15)grow(e.block,{force:true});})
  });
- r.registerCustomComponent(NS+':wild_grapevine_plant',{onTick:e=>safe(undefined,()=>maintain(e.block))});
+ r.registerCustomComponent(NS+':wild_grapevine_plant',{onBreak:wildVineBroken,onTick:e=>safe(undefined,()=>maintain(e.block))});
+}
+function wildVineBroken({block}){
+ const dimension=block.dimension,position={...block.location};
+ // BDS queues onBreak for both engine destruction and script replacement.
+ // Observe the final neighbours next tick, including overlapping breaks.
+ system.run(()=>safe(undefined,()=>{
+  for(const y of [1,-1]){
+   const neighbor=blockAt(dimension,plus(position,{x:0,y,z:0}));
+   if(neighbor?.typeId===WILD_HEAD||neighbor?.typeId===WILD_BODY)maintain(neighbor);
+  }
+ }));
 }
 function farmBlockConsumes(block,itemId){
  if(block.typeId===BARE){
@@ -198,6 +213,9 @@ export function installCultivation(openBook){
  });
  registerProtectedBreakRoute({
   id:'cultivation',isBlock:block=>FARM_IDS.has(block?.typeId),
+  onNeighborBreak:({block})=>{
+   const below=wildBelow(block);if(below?.typeId===WILD_HEAD||below?.typeId===WILD_BODY)wildVineBroken({block});
+  },
   capture:({block})=>current(block),verify:({block,snapshot})=>check(current(block)===snapshot,'BLOCK_CHANGED'),
   recover:({player,block})=>farmBreak(player,block)
  });

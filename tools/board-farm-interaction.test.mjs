@@ -168,6 +168,29 @@ test('Adventure ripe harvesting and wild-vine clipping retain drops and tool wea
  const wild=at({...pos,z:pos.z+3},NS+'wild_grapevine',{[NS+'sheared']:false});assert.equal(farmUse(p,wild,{rng:()=>.9}),'sheared');assert.equal(wild.permutation.getState(NS+'sheared'),true);assert.equal(p.inventory.getItem(2).getComponent('minecraft:durability').damage,14);
 });
 
+test('Survival wild-vine breaks yield one grapevine with empty hand, dirt or a tool, preserving held metadata',()=>{
+ registerFixtureItem('minecraft:dirt');
+ registerFixtureItem('minecraft:diamond_axe',1);
+ for(const id of [undefined,'minecraft:dirt','minecraft:diamond_axe']){
+  const {p,lower}=setup(GameMode.Survival),b=at({...lower.location,z:lower.location.z+4},NS+'wild_grapevine_plant');p.location={...b.location};
+  const held=id?withMetadata(new ItemStack(id,id==='minecraft:dirt'?3:1)):undefined;p.inventory.setItem(2,held);
+  const event={player:p,block:b,cancel:false};world.beforeEvents.playerBreakBlock.emit(event);assert.equal(event.cancel,true);system.advance(1);
+  assert.equal(b.typeId,'minecraft:air');assert.deepEqual(p.inventory.getItem(2),held);
+  const drops=d.getEntities({type:'minecraft:item',location:b.location,maxDistance:2}).map(e=>e.itemStack);
+  assert.deepEqual(drops.map(s=>[s.typeId,s.amount]),[[NS+'grapevine',1]]);
+ }
+});
+
+test('Creative and disabled tile drops discard the clicked vine drop',()=>{
+ for(const [mode,tileDrops]of [[GameMode.Creative,true],[GameMode.Survival,false]]){
+  const {p,lower}=setup(mode),b=at({...lower.location,z:lower.location.z+4},NS+'wild_grapevine');p.location={...b.location};
+  const previous=world.gameRules.doTileDrops;world.gameRules.doTileDrops=tileDrops;
+  try{const e={player:p,block:b,cancel:false};world.beforeEvents.playerBreakBlock.emit(e);assert.equal(e.cancel,true);system.advance(1);}
+  finally{world.gameRules.doTileDrops=previous;}
+  assert.equal(b.typeId,'minecraft:air');assert.deepEqual(d.getEntities({type:'minecraft:item',location:b.location,maxDistance:2}),[]);
+ }
+});
+
 const lockedSounds=()=>d.sounds?.filter(s=>s.id==='block.sign.waxed_interact_fail').length??0;
 function itemUse(p,b,face='East'){
  p.getBlockFromViewDirection=()=>({block:b,face,faceLocation:{x:1,y:.5,z:.5}});

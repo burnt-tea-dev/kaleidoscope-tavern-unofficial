@@ -51,6 +51,9 @@ function installGlobalRoutes(){
  if(installed)return;installed=true;
  world.beforeEvents.playerBreakBlock.subscribe(event=>{
   if(event.cancel)return;
+  // Support blocks retain native destruction. Domains can refresh adjacent
+  // owned blocks next tick without another global break subscription.
+  for(const route of routes)route.onNeighborBreak?.(event);
   const found=matchingRoutes(event.block);if(!found.length)return;
   event.cancel=true;
   if(found.length!==1){system.run(()=>safe(event.player,()=>check(false,'BREAK_ROUTE_CONFLICT')));return;}
@@ -75,14 +78,14 @@ function installGlobalRoutes(){
  * Domains own state snapshots and exact recovery; this adapter owns event ordering,
  * Survival drops and material feedback. Natural destruction uses onBreak.
  */
-export function registerProtectedBreakRoute({id,isBlock,capture,verify,recover,guard,protectExplosions=false}){
+export function registerProtectedBreakRoute({id,isBlock,capture,verify,recover,guard,onNeighborBreak,protectExplosions=false}){
  check(typeof isBlock==='function'&&typeof recover==='function','INVALID_BREAK_ROUTE');
  if(capture!==undefined)check(typeof capture==='function','INVALID_BREAK_ROUTE');
  if(verify!==undefined)check(typeof verify==='function','INVALID_BREAK_ROUTE');
  if(guard!==undefined)check(typeof guard==='function','INVALID_BREAK_ROUTE');
  const routeId=id??('break-route-'+(++sequence));
  check(typeof routeId==='string'&&routeId.length>0&&!routes.some(route=>route.id===routeId),'DUPLICATE_BREAK_ROUTE');
- routes.push({id:routeId,isBlock,capture,verify,recover,guard,protectExplosions:protectExplosions!==false});
+ routes.push({id:routeId,isBlock,capture,verify,recover,guard,onNeighborBreak,protectExplosions:protectExplosions!==false});
  installGlobalRoutes();return routeId;
 }
 
