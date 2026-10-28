@@ -107,6 +107,21 @@ class ContextTests(unittest.TestCase):
         self.assertIn(old_backup, context['references'])
         self.assertNotIn(history, context['historical_records'])
 
+    def test_stopped_policy_snapshot_keeps_missing_client_history_as_a_protected_leaf(self):
+        snapshot = self.root / 'old-deployment/production-before/senluo-policy.json'
+        history = self.root / 'retired-client-evidence/client-failure.json'
+        self.write(snapshot, {'client_failure_reports': [{'report': str(history)}],
+                             'approved_receipt': str(self.root / 'live/reviewed-family-receipt.json')})
+        self.write(self.report, {'policy_snapshot': str(snapshot)})
+        context = m.cleanup_context()
+        self.assertIn(snapshot, context['references'])
+        self.assertIn(history, context['protected'])
+        self.assertIn(history, context['historical_records'])
+        self.assertNotIn(history, context['references'])
+        self.write(self.report, {'policy_snapshot': str(snapshot), 'actual_validation_source': str(history)})
+        with self.assertRaises(FileNotFoundError):
+            m.cleanup_context()
+
     def test_changed_config_and_missing_referenced_json_abort(self):
         self.write(self.config_path, {**m.c.CONFIG, 'retention_root': str(self.root / 'different')})
         with self.assertRaisesRegex(RuntimeError, 'configuration changed'):

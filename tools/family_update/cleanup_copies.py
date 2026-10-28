@@ -63,7 +63,8 @@ def cleanup_context(track=None):
             raise RuntimeError('Too many cleanup evidence references; review explicitly')
         seen.add(path)
         value = read(path)
-        if path == policy_path:
+        if path == policy_path or (path.name == policy_path.name and path.parent.name == 'production-before'):
+            # Stopped policy snapshots carry the same historical client leaves.
             # Historical client records stay as leaves, not a live dependency
             # chain through an obsolete repair deployment and its rollback.
             history = {key: value[key] for key in ('client_failure_reports', 'client_hud_observations') if key in value}
