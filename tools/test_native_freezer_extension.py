@@ -43,6 +43,32 @@ class NativeUpperBoundary(unittest.TestCase):
         self.assertEqual(self.validate(), set(COPIES.values()))
         self.assertEqual(self.changed, before)
 
+    def test_titled_containers_keep_distinct_halves_and_original_capacities(self):
+        for lower in LOWERS:
+            name = 'blocks/kitchen/' + lower + '.json'
+            definition = json.loads(self.changed[name])
+            definition['minecraft:block']['components']['minecraft:block_entity']['container']['title'] = 'senluo.freezer.lower'
+            self.changed[name] = json.dumps(definition).encode()
+            path = self.root / ('host-assets/chinesefood/' + lower + '_upper.json')
+            upper = json.loads(path.read_text())
+            upper['minecraft:block']['components']['minecraft:block_entity']['container']['title'] = 'senluo.freezer.upper'
+            path.write_text(json.dumps(upper))
+        self.assertEqual(self.validate(), set(COPIES.values()))
+        path = self.root / next(iter(COPIES))
+        upper = json.loads(path.read_text())
+        upper['minecraft:block']['components']['minecraft:block_entity']['container']['title'] = 'senluo.freezer.lower'
+        path.write_text(json.dumps(upper))
+        with self.assertRaisesRegex(ValueError, 'author definition'):
+            self.validate()
+
+    def test_unreviewed_lower_title_is_rejected(self):
+        name = 'blocks/kitchen/freezer.json'
+        definition = json.loads(self.changed[name])
+        definition['minecraft:block']['components']['minecraft:block_entity']['container']['title'] = 'unrelated.container'
+        self.changed[name] = json.dumps(definition).encode()
+        with self.assertRaisesRegex(ValueError, 'lower container title'):
+            self.validate()
+
     def test_partial_or_unrelated_copy_inventory_and_unreviewed_profile_fail(self):
         self.profile = None
         with self.assertRaisesRegex(ValueError, 'exact six'): self.validate()

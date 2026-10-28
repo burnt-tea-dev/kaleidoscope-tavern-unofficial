@@ -7,6 +7,8 @@ LOWERS = ('freezer', 'freezer_green', 'freezer_light_blue', 'freezer_orange',
           'freezer_pink', 'freezer_yellow')
 COPIES = {'host-assets/chinesefood/' + lower + '_upper.json':
           'blocks/kitchen/' + lower + '_upper.json' for lower in LOWERS}
+LOWER_TITLE = 'senluo.freezer.lower'
+UPPER_TITLE = 'senluo.freezer.upper'
 
 
 def validate_upper_copies(spec, owned_root, changed, profile):
@@ -33,7 +35,13 @@ def validate_upper_copies(spec, owned_root, changed, profile):
             raise ValueError('Native freezer lower identity differs')
         block['description']['identifier'] += '_upper'
         block['description']['states'][NAMESPACE + 'top'] = [True, False]
-        block['components']['minecraft:block_entity'] = {'container': {'slot_count': 36}}
+        container = {'slot_count': 36}
+        lower_container = block['components']['minecraft:block_entity']['container']
+        if 'title' in lower_container:
+            if lower_container['title'] != LOWER_TITLE:
+                raise ValueError('Native freezer lower container title differs')
+            container['title'] = UPPER_TITLE
+        block['components']['minecraft:block_entity'] = {'container': container}
         block['components']['minecraft:loot'] = 'loot_tables/senluo_native/freezer_empty.json'
         for permutation in block.get('permutations', []):
             permutation.get('components', {}).pop('minecraft:block_entity', None)

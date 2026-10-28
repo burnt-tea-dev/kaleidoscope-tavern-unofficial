@@ -26,16 +26,16 @@
       "version": [
         2,
         8,
-        181
+        184
       ],
       "source_trees": {
         "BP": {
-          "sha256": "77e070667e890643802695e9e6349fb053faa23a2ff23a258f7c2aff45cc184f",
+          "sha256": "2c0aa5db9934dd73190f4d363c9a74cd8cdf20a7d8d985338d3d039870bd6cca",
           "files": 791
         },
         "RP": {
-          "sha256": "ed6c8993361c019777cfac269be9770e6b1e4f1180a2594559b9b31d95e20f2d",
-          "files": 3762
+          "sha256": "785ec754f5512247c13ae6f21847f64e2c6e6c3aa4b3af6592a868726811f794",
+          "files": 2972
         }
       }
     },
@@ -401,33 +401,7 @@
   "upstream_runtime_changes": false,
   "client_acceptance_required": true,
   "saved_world_migration_required": true,
-  "deployment_holds": {
-    "world-liquor": {
-      "repository": "casama233/kaleidoscope-world-liquor-unofficial",
-      "commit": "837a8cfb4145ce03aed7778a0b7420a374431600",
-      "version": [
-        0,
-        1,
-        167
-      ],
-      "candidate_version": [
-        0,
-        1,
-        168
-      ],
-      "source_trees": {
-        "BP": {
-          "sha256": "385173294660bada6c9cf98a709ec5aae30024c1b75bd52821a1eb5f36471614",
-          "files": 341
-        },
-        "RP": {
-          "sha256": "24d52fe3a898bb78e74552ebf681834e28f8742f77a7b41b05897e9b84cb3b0a",
-          "files": 552
-        }
-      },
-      "reason_file": "family/world-liquor-w167-r1-20261028.json"
-    }
-  },
+  "deployment_holds": {},
   "upstream_manifest_releases": {
     "better-biomes-1.0.10001": {
       "project_id": 1145412,
