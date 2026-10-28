@@ -1,0 +1,63 @@
+{
+  "source_world": "stopped failed paired-aura-qa restart state",
+  "original_failure_preserved": true,
+  "isolated": true,
+  "live_modified": false,
+  "exit_code": 0,
+  "rows": [
+    {
+      "kind": "case",
+      "mode": "native-aura-chunk-readiness",
+      "phase": "restart",
+      "area": "status_aura_qa",
+      "readableChunks": 4,
+      "waitedTicks": 5,
+      "preload": true
+    },
+    {
+      "kind": "case",
+      "mode": "native-aura-saved-restore",
+      "phase": "restart",
+      "duration": 199,
+      "ownLease": true,
+      "reloadEventMode": "saved_readback",
+      "storedLeaseMatchesNative": true,
+      "reloadWitnesses": 0,
+      "reloadAcknowledgements": 0,
+      "reloadAcknowledgement": null
+    },
+    {
+      "kind": "case",
+      "mode": "native-aura-foreign-handoff",
+      "phase": "restart",
+      "duration": 797,
+      "ownLease": false,
+      "nativeParticleFlagsReadable": false,
+      "foreignHandoffs": 1,
+      "reloadAcknowledgementsUnchanged": true
+    },
+    {
+      "kind": "case",
+      "mode": "native-one-tick-invisibility-expiry",
+      "phase": "restart",
+      "nativeTicksObserved": 2,
+      "scriptTicksWaited": 3,
+      "playerConcealmentVerified": false
+    },
+    {
+      "kind": "case",
+      "mode": "native-outline-registry",
+      "phase": "restart",
+      "glowing": false,
+      "client": false
+    },
+    {
+      "kind": "done",
+      "players": 0
+    }
+  ],
+  "bds": "1.26.60.6",
+  "client": false,
+  "production_ready": false,
+  "scope": "Same stopped failed QA save, aura-only observer. Saved readback and foreign handoff pass without effectAdd replay; original failed full observer evidence retained."
+}

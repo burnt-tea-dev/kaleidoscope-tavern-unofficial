@@ -1,6 +1,6 @@
 ## 0.6.188 — 2026-10-28
 
-Support registered optional two-half pendant lamps through the existing placement/recovery lifecycle, add the current author blue dye recipe to the Tavern-owned blue lamp and append the optional World Liquor Luck+ icon without renumbering old codes. Preserve existing standalone operation and save identities. Pair with World Liquor169. Current-source/adapter checks pass; full-family admission and rendered-client acceptance are separate gates.
+Support registered optional two-half pendant lamps through the existing placement/recovery lifecycle, add the current author blue dye recipe to the Tavern-owned blue lamp and append the optional World Liquor Luck+ icon without renumbering old codes. Preserve existing standalone operation and save identities. Pair with World Liquor170. Current-source/adapter checks pass; full-family admission and rendered-client acceptance are separate gates.
 
 ## 0.6.187 — 2026-10-27
 

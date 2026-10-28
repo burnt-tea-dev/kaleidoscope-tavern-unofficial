@@ -177,16 +177,21 @@ def validate_observations(observations,phase,version):
  row=case('native-aura-chunk-readiness','area readableChunks waitedTicks preload')
  values(row,area='status_aura_qa',readableChunks=4,preload=True)
  number(row['waitedTicks'],5,300,True);same(row['waitedTicks']%5,0)
- row=case(aura,'duration ownLease'+(' nativeParticleFlagsReadable' if phase=='first' else ' reloadWitnesses reloadAcknowledgements reloadAcknowledgement'))
+ row=case(aura,'duration ownLease'+(' nativeParticleFlagsReadable' if phase=='first' else ' reloadEventMode storedLeaseMatchesNative reloadWitnesses reloadAcknowledgements reloadAcknowledgement'))
  number(row['duration'],1,600,True);same(row['ownLease'],True)
  if phase=='first':same(row['nativeParticleFlagsReadable'],False)
  else:
-  number(row['reloadWitnesses'],1,integer=True)
-  number(row['reloadAcknowledgements'],1,row['reloadWitnesses'],True)
-  acknowledgement=row['reloadAcknowledgement'];fields(acknowledgement,'entity id ticks amplifier tick')
-  assert isinstance(acknowledgement['entity'],str) and acknowledgement['entity']
-  values(acknowledgement,id='speed',amplifier=0)
-  number(acknowledgement['ticks'],1,20000000,True);number(acknowledgement['tick'],0,integer=True)
+  same(row['storedLeaseMatchesNative'],True)
+  if row['reloadEventMode']=='saved_readback':
+   values(row,reloadWitnesses=0,reloadAcknowledgements=0,reloadAcknowledgement=None)
+  else:
+   same(row['reloadEventMode'],'replayed')
+   number(row['reloadWitnesses'],1,integer=True)
+   number(row['reloadAcknowledgements'],1,row['reloadWitnesses'],True)
+   acknowledgement=row['reloadAcknowledgement'];fields(acknowledgement,'entity id ticks amplifier tick')
+   assert isinstance(acknowledgement['entity'],str) and acknowledgement['entity']
+   values(acknowledgement,id='speed',amplifier=0)
+   number(acknowledgement['ticks'],1,20000000,True);number(acknowledgement['tick'],0,integer=True)
   row=case('native-aura-foreign-handoff','duration ownLease nativeParticleFlagsReadable foreignHandoffs reloadAcknowledgementsUnchanged')
   number(row['duration'],796,800,True)
   values(row,ownLease=False,nativeParticleFlagsReadable=False,foreignHandoffs=1,reloadAcknowledgementsUnchanged=True)
