@@ -454,12 +454,20 @@ def validate_curated_runtime(owned,baseline,catalog,*,source_root=None):
         for name,hashes in contract['domains'][domain].items():
             assert name not in active,'Curated domain path has two owners'
             active.add(name)
-            assert set(hashes)=={'before','after'} and hashes['before']!=hashes['after']
+            # The frozen baseline owns output hashes. The domain contract owns
+            # preimages and allowed paths; optional after values are review data.
+            assert 'before' in hashes and set(hashes)<={'before','after'}
             path=Path(name);assert len(path.parts)>=3 and path.parts[:2] in [('runtime','BP'),('runtime','RP')]
             side=path.parts[1];relative='/'.join(path.parts[2:])
-            assert owned['previous_files'][side].get(relative)==hashes['before'] and owned['files'][side].get(relative)==hashes['after']
-            if hashes['after'] is not None:assert committed_digest(name,source_root=root)==hashes['after']
-            else:assert not (root/name).exists()
+            assert owned['previous_files'][side].get(relative)==hashes['before']
+            actual=owned['files'][side].get(relative)
+            if 'after' in hashes:
+                assert hashes['before']!=hashes['after'] and actual==hashes['after']
+            if actual is not None:
+                assert committed_digest(name,source_root=root)==actual,'Current domain differs from frozen source proof'
+            else:
+                assert 'after' in hashes and hashes['after'] is None,'Retirement requires an explicit absence declaration'
+                assert not (root/name).exists()
     validate_owned_conservation(owned,catalog,version=baseline['version'])
     reviewed=set(owned['exact_changed_paths']+owned['added_paths']+owned['retired_paths'])
     assert active==reviewed-{'runtime/BP/manifest.json','runtime/RP/manifest.json'},'Curated domains do not cover the exact reviewed runtime changes'

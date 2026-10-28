@@ -301,6 +301,19 @@ class CuratedProfileAdmission(unittest.TestCase):
   with self.assertRaises(AssertionError):m.validate_curated_runtime(bad,self.baseline,self.catalog)
   self.write(self.recipe,'FD recipe')
   with self.assertRaises(AssertionError):m.validate_curated_runtime(self.owned,self.baseline,self.catalog)
+ def test_before_only_contract_uses_frozen_outputs_and_rejects_committed_payload_drift(self):
+  self.domains['family-hud'][self.hud].pop('after')
+  self.write(self.contract,{'schema':1,'kind':'current-functional-runtime','domains':self.domains})
+  self.value['functional_contract']['sha256']=m.digest((self.root/self.contract).read_bytes())
+  self.write(stable.CURATED_INPUT,self.value)
+  self.catalog['selection']['sha256']=m.digest((self.root/stable.CURATED_INPUT).read_bytes())
+  self.owned['functional_domains']=copy.deepcopy(self.domains)
+  self.commit('One frozen output identity')
+  m.validate_curated_runtime(self.owned,self.baseline,self.catalog)
+  self.write(self.hud,'unreviewed committed HUD')
+  self.commit('Payload changed without a new baseline')
+  with self.assertRaisesRegex(AssertionError,'frozen source proof'):
+   m.validate_curated_runtime(self.owned,self.baseline,self.catalog)
  def test_omitted_domain_or_report_requirement_is_not_optional(self):
   bad=copy.deepcopy(self.owned);del bad['functional_domains']['family-hud']
   with self.assertRaises(AssertionError):m.validate_curated_runtime(bad,self.baseline,self.catalog)
