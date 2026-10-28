@@ -9,7 +9,7 @@ import argparse,collections,hashlib,json,math,pathlib,re,subprocess,sys
 ROOT=pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(ROOT/'tools'))
 from baseline_gate import fingerprint
-from run_living_effects import render_world_liquor_probe_inputs
+from run_living_effects import render_world_liquor_probe_inputs, BDS_VERSION
 
 APPEND=b"\n// Disposable native observer; not release content.\nimport './living-effects-probe.js';\n"
 PREFIX='[LIVING_EFFECT_QA] '
@@ -234,7 +234,7 @@ def validate_phase(row,raw,version):
  same(row['player_connections'],0)
  phase=row['phase'];text=raw.decode('utf8')
  assert not re.search(r'\bERROR\]|\[error\]|\bplayer[ _]?(?:connected|joined|spawned)\b',text,re.I)
- assert 'Version: 1.26.52.3' in text and re.search(r'^Quit correctly\s*$',text,re.M)
+ assert 'Version: '+BDS_VERSION in text and re.search(r'^Quit correctly\s*$',text,re.M)
  observed=[json.loads(line.split(PREFIX,1)[1]) for line in text.splitlines() if PREFIX in line]
  same(row['observations'],observed)
  return validate_observations(observed,phase,version)
@@ -310,11 +310,11 @@ def main():
   logs.append('\n'.join(line for line in text.splitlines()if any(marker in line for marker in ['Version:','Build ID:','Commit ID:','Pack Stack','[LIVING_EFFECT_QA]','stop requested','Stopping server','Quit correctly'])))
  same(registrations[0],registrations[1])
  validate_potion_pair(report['reports'])
- evidence={'schema':1,'bdsVersion':'1.26.52.3','scriptAPI':'2.7.0','versions':versions,'sourceTrees':source_trees,'observerInputsSHA256':inputs,
+ evidence={'schema':1,'bdsVersion':BDS_VERSION,'scriptAPI':'2.7.0','versions':versions,'sourceTrees':source_trees,'observerInputsSHA256':inputs,
   'sourcePacksEqualNativeInputsExceptExplicitObserver':True,'nativeServerSaveRestart':True,'nativeCrossIdReadableMetadata':True,'nativePutRecoveryAndRearm':True,
   'playerSessions':0,'client':False,'live':False,'fpsMeasured':False,'idleCallbacksMeasured':False,'crossPackPrivateDataPreservation':False,
   'scope':'Real chest and machine ItemStacks; two native potion carriers with original metadata, stale JSON counterfactuals, readonly pick, production liquid RGB properties, same-world restart and exact removal/cleanup; current native potion registry coverage; script-set PUT permutations; native aura chunk readiness and lease restart; Vision and Upside Down recipient APIs; public effect-snapshot delivery to familyless cod with native fall-damage control/protection outcomes. Block/storage setup and projectile impact envelopes are observer inputs. Host-scope dynamic properties only. Not client-rendered colours, physical projectile collision, particle pixels, player spawn/use, chunk re-entry or a private existing-world migration.',
-  'reports':summaries,'command':'python tools/native/run_living_effects.py --engine <isolated BDS 1.26.52.3> --liquor <paired World Liquor source> --work <new disposable directory> --port <isolated-port> --probe tools/native/shaker-migration-probe.js'}
+  'reports':summaries,'command':f'python tools/native/run_living_effects.py --engine <isolated BDS {BDS_VERSION}> --liquor <paired World Liquor source> --work <new disposable directory> --port <isolated-port> --probe tools/native/shaker-migration-probe.js'}
  target=write_evidence(work,evidence,logs)
  print(json.dumps({'evidence':str(target),'versions':versions,'sourceTrees':source_trees,'nativeSaveRestart':True,'players':0,'client':False}))
 if __name__=='__main__':main()

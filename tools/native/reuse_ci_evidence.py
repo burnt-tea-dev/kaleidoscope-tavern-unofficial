@@ -276,7 +276,7 @@ def validate_original(files, root, liquor):
     recorder.same(evidence['sourceTrees'], {name: source['source_trees'] for name, source in sources.items()})
     versions = {name: '.'.join(map(str, source['baseline']['version'])) for name, source in sources.items()}
     recorder.same(evidence['versions'], versions)
-    for key, value in {'schema': 1, 'bdsVersion': '1.26.52.3', 'scriptAPI': '2.7.0',
+    for key, value in {'schema': 1, 'bdsVersion': pickup.BDS_VERSION, 'scriptAPI': '2.7.0',
                        'sourcePacksEqualNativeInputsExceptExplicitObserver': True,
                        'nativeServerSaveRestart': True, 'nativeCrossIdReadableMetadata': True,
                        'nativePutRecoveryAndRearm': True, 'playerSessions': 0, 'client': False,

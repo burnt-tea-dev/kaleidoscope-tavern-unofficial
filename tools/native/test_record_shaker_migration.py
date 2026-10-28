@@ -5,7 +5,7 @@ import pathlib
 import tempfile
 import unittest
 
-from record_shaker_migration import EVIDENCE_NAME, LOG_NAME, MAIN_OVERLAY_NOTE, PREFIX, validate_phase, validate_potion_pair, validate_recorded_inputs, write_evidence
+from record_shaker_migration import EVIDENCE_NAME, LOG_NAME, MAIN_OVERLAY_NOTE, PREFIX, BDS_VERSION, validate_phase, validate_potion_pair, validate_recorded_inputs, write_evidence
 
 VERSION = '0.1.112'
 
@@ -97,7 +97,7 @@ def transcript(phase):
 
 
 def raw_log(row):
-    return ('Version: 1.26.52.3\n'+''.join(PREFIX+json.dumps(item)+'\n' for item in row['observations'])+'Quit correctly\n').encode()
+    return ('Version: '+BDS_VERSION+'\n'+''.join(PREFIX+json.dumps(item)+'\n' for item in row['observations'])+'Quit correctly\n').encode()
 
 
 def mode(row, name):

@@ -312,6 +312,16 @@ class HistoricalProjectionTests(unittest.TestCase):
                     paths=historical_files(prefix)
                 else:
                     paths=sorted((root/prefix).rglob('*'))
+                    # Current author lamps have their own source/art contract.
+                    # Their genuinely new items/blocks did not exist in this
+                    # historical inventory; do not alter its old golden hash.
+                    import importlib.util
+                    spec=importlib.util.spec_from_file_location('liquor_current_author_art',root/'tools/current_author_art.py')
+                    sys.path.insert(0,str(root/'tools'))
+                    try:
+                        art=importlib.util.module_from_spec(spec);spec.loader.exec_module(art);art.check()
+                    finally:sys.path.pop(0)
+                    added.update(path.relative_to(root).as_posix() for path in art.planned() if path.is_relative_to(root/'runtime/BP/items') or path.is_relative_to(root/'runtime/BP/blocks'))
                 rows = [p.relative_to(root).as_posix()+'\0'+(historical_digest(p,projected=True) if root==TAVERN else liquor_digest(p))+'\n'
                         for p in paths if p.is_file() and p.relative_to(root).as_posix() not in added]
                 self.assertEqual({'files':len(rows), 'sha256':hashlib.sha256(''.join(rows).encode()).hexdigest()}, expected)
