@@ -1,3 +1,7 @@
+## 0.6.191 — 2026-10-29
+
+Restore the shared translucent liquid-surface render controller used by the Tavern host contract. Pair with Grilling 2.8.195 from canonical commit 44dde213ef010b95e846510d03c3a683e518a9d7. This release source adds a static dependency-contract regression; BDS, saved-world and rendered-client checks remain separate.
+
 ## 0.6.190 — 2026-10-29
 
 Re-mark effect-icon views at +20/+40 ticks after a dimension transfer so a client that rebuilt its HUD receives the current status again; newer transfers, spawn and leave cancel the marks, other destinations and invalid handles discard them, and known inactive views stay silent. Source tests only; #285 title reservation and foreign-writer coexistence remain open.
