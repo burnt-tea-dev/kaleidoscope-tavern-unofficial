@@ -6,7 +6,7 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {EFFECT_ICONS} from '../runtime/BP/scripts/data/effect-icons.js';
-import {createEffectIcons,effectIconPacket,effectIconToken,effectDetails,EFFECT_ICON_PREFIX,EFFECT_ICON_SLOTS,EFFECT_ICON_HIDE_TAG} from '../runtime/BP/scripts/core/effect-icons.js';
+import {createEffectIcons,createDimensionRefresh,effectIconPacket,effectIconToken,effectDetails,EFFECT_ICON_PREFIX,EFFECT_ICON_SLOTS,EFFECT_ICON_HIDE_TAG,EFFECT_ICON_REFRESH_DELAYS} from '../runtime/BP/scripts/core/effect-icons.js';
 import {createEffectIconTransport} from '../runtime/BP/scripts/core/effect-icon-transport.js';
 const state=(...rows)=>({entries:rows}),row=(id,ticks=200,amplifier=0)=>({id,ticks,amplifier});
 const t='kaleidoscope_tavern:vision',w='kaleidoscope_world_liquor:multi_jump';
@@ -49,6 +49,36 @@ test('No countdown traffic; milk/expiry, dimensions, respawn and opt-out are iso
  hidden.delete('b');view.tick(handles);assert.equal(calls.length,6);
  view.reset('a');view.tick(handles);assert.deepEqual(calls.at(-1),['a',EFFECT_ICON_PREFIX]);
  available=false;const before=calls.length;view.tick(handles);assert.equal(calls.length,before);
+});
+test('Dimension rebuild refresh resends only the current packet; known inactive views stay silent',()=>{
+ const calls=[],states=new Map([['a',state(row(t))],['b',state()]]);
+ const handles=['a','b'].map(id=>({id,dimension:{id:'overworld'},hasTag:()=>false}));
+ const view=createEffectIcons({status:h=>states.get(h.id),available:()=>true,send:(h,packet)=>calls.push([h.id,packet])});
+ view.tick(handles);assert.deepEqual(calls.map(c=>c[0]),['a'],'inactive join sends no packet');
+ handles[1].dimension.id='nether';view.tick(handles);assert.equal(calls.length,1,'known inactive view sends no clear on a dimension change');
+ assert.equal(view.dirty('a'),true);assert.equal(view.dirty('nobody'),false);
+ view.tick(handles);assert.equal(calls.length,2);assert.deepEqual(calls[1],calls[0],'the current packet is resent once');
+ view.tick(handles);assert.equal(calls.length,2,'a refresh is not a countdown');
+ states.set('a',state());view.dirty('a');view.tick(handles);assert.equal(calls.length,3);assert.deepEqual(calls.at(-1),['a',EFFECT_ICON_PREFIX],'milk/expiry clears instead of replaying the old active packet');
+ view.dirty('a');view.tick(handles);assert.equal(calls.length,3,'known inactive view: dirty sends no redundant clear');
+ states.set('b',state(row(w)));view.tick(handles);assert.equal(calls.length,4);assert.equal(calls.at(-1)[0],'b');
+});
+test('Dimension transfer schedules +20/+40 refreshes; newer transfers, spawn/leave, other destinations and invalid handles discard them',()=>{
+ const jobs=new Map();let next=1;const refreshed=[];
+ const refresh=createDimensionRefresh({schedule:(fn,delay)=>{const id=next++;jobs.set(id,{fn,delay});return id;},cancel:id=>jobs.delete(id),refresh:id=>refreshed.push(id)});
+ const player={id:'a',isValid:true,dimension:{id:'nether'}};
+ const fire=()=>{for(const [id,job] of [...jobs]){jobs.delete(id);job.fn();}};
+ refresh.changed('a','nether',()=>player);
+ assert.deepEqual([...jobs.values()].map(j=>j.delay),[...EFFECT_ICON_REFRESH_DELAYS]);assert.deepEqual([...EFFECT_ICON_REFRESH_DELAYS],[20,40]);
+ assert.equal(refresh.pending('a'),2);fire();assert.deepEqual(refreshed,['a','a']);assert.equal(refresh.pending('a'),0);
+ refresh.changed('a','the_end',()=>player);const superseded=[...jobs.keys()];refresh.changed('a','nether',()=>player);
+ assert(superseded.every(id=>!jobs.has(id)),'a newer transfer cancels the previous jobs');assert.equal(jobs.size,2);
+ fire();assert.equal(refreshed.length,4);
+ refresh.changed('a','nether',()=>player);refresh.cancel('a');assert.equal(jobs.size,0);assert.equal(refresh.pending('a'),0);
+ refresh.changed('a','nether',()=>({id:'a',isValid:true,dimension:{id:'overworld'}}));fire();
+ refresh.changed('a','nether',()=>({id:'a',isValid:false,dimension:{id:'nether'}}));fire();
+ refresh.changed('a','nether',()=>{throw new Error('invalid handle');});fire();
+ assert.equal(refreshed.length,4,'other destination, invalid or thrown handles never refresh');assert.equal(jobs.size,0);
 });
 test('All slot tokens are unique and cannot produce phantom icons across boundaries',()=>{
  const all=[];for(let slot=0;slot<EFFECT_ICON_SLOTS;slot++)for(const icon of EFFECT_ICONS)all.push(effectIconToken(slot,icon.code));

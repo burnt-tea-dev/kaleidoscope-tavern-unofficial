@@ -1,3 +1,7 @@
+## 0.6.190 — 2026-10-29
+
+Re-mark effect-icon views at +20/+40 ticks after a dimension transfer so a client that rebuilt its HUD receives the current status again; newer transfers, spawn and leave cancel the marks, other destinations and invalid handles discard them, and known inactive views stay silent. Source tests only; #285 title reservation and foreign-writer coexistence remain open.
+
 ## 0.6.188 — 2026-10-28
 
 Support registered optional two-half pendant lamps through the existing placement/recovery lifecycle, add the current author blue dye recipe to the Tavern-owned blue lamp and append the optional World Liquor Luck+ icon without renumbering old codes. Preserve existing standalone operation and save identities. Pair with World Liquor170. Current-source/adapter checks pass; full-family admission and rendered-client acceptance are separate gates.

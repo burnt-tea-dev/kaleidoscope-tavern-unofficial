@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
-import {createEffectIcons,effectDetails,EFFECT_ICON_HIDE_TAG,EFFECT_ICON_INTERVAL} from '../runtime/BP/scripts/core/effect-icons.js';
+import {createEffectIcons,createDimensionRefresh,effectDetails,EFFECT_ICON_HIDE_TAG,EFFECT_ICON_INTERVAL} from '../runtime/BP/scripts/core/effect-icons.js';
 import {createEffectIconTransport} from '../runtime/BP/scripts/core/effect-icon-transport.js';
 const source=readFileSync(new URL('../runtime/BP/scripts/bedrock/effect-icons.js',import.meta.url),'utf8').replace(/^import .*\n/gm,'').replace(/export /g,'');
 test('Real adapter startup: standalone, external queue, embedded election and repeated installation',()=>{
@@ -11,16 +11,28 @@ test('Real adapter startup: standalone, external queue, embedded election and re
   const target={id:'display-route',isValid:true,dimension:{id:'overworld'},hasTag:()=>false,
    onScreenDisplay:{setTitle:(...v)=>writes.push(v)},runCommand:s=>commands.push(s)};
   const event={subscribe:fn=>subscriptions.add(fn),unsubscribe:fn=>subscriptions.delete(fn)};
-  const system={afterEvents:{scriptEventReceive:event},runTimeout:fn=>deferred.push(fn),runInterval:fn=>intervals.push(fn),sendScriptEvent:(...v)=>events.push(v)};
-  const context=vm.createContext({EntityTypes:{get:()=>queue?{}:undefined},system,world:{afterEvents:{playerSpawn:{subscribe(){}},playerLeave:{subscribe(){}}},getAllPlayers:()=>[target]},ActionFormData:class{},console:{info(){}},
-   createEffectIcons,effectDetails,EFFECT_ICON_HIDE_TAG,EFFECT_ICON_INTERVAL,createEffectIconTransport,externalEffectDefinition:()=>undefined,statusNow:()=>({entries:[{id:'kaleidoscope_tavern:vision',ticks:100,amplifier:0},{id:'kaleidoscope_world_liquor:multi_jump',ticks:100,amplifier:0}]})});
+  const timeouts=new Map();let nextTimeout=1;const dimensionChanges=[];
+  const system={afterEvents:{scriptEventReceive:event},runTimeout:(fn,delay)=>{if(delay===undefined||delay===5){deferred.push(fn);return 0;}const id=nextTimeout++;timeouts.set(id,{fn,delay});return id;},clearRun:id=>timeouts.delete(id),runInterval:fn=>intervals.push(fn),sendScriptEvent:(...v)=>events.push(v)};
+  const context=vm.createContext({EntityTypes:{get:()=>queue?{}:undefined},system,world:{afterEvents:{playerSpawn:{subscribe(){}},playerLeave:{subscribe(){}},playerDimensionChange:{subscribe:fn=>dimensionChanges.push(fn)}},getAllPlayers:()=>[target]},ActionFormData:class{},console:{info(){}},
+   createEffectIcons,createDimensionRefresh,effectDetails,EFFECT_ICON_HIDE_TAG,EFFECT_ICON_INTERVAL,createEffectIconTransport,externalEffectDefinition:()=>undefined,statusNow:()=>({entries:[{id:'kaleidoscope_tavern:vision',ticks:100,amplifier:0},{id:'kaleidoscope_world_liquor:multi_jump',ticks:100,amplifier:0}]})});
   vm.runInContext(source+'\nthis.install=installEffectIcons;this.diagnostics=effectIconDiagnostics;',context);
-  context.install();context.install();assert.equal(deferred.length,1);assert.equal(intervals.length,1);
+  context.install();context.install();assert.equal(deferred.length,1);assert.equal(intervals.length,1);assert.equal(dimensionChanges.length,1);
   for(let i=0;i<peerCount;i++)for(const fn of subscriptions)fn({id:'ui_queue_module:setup',message:'peer-'+i});
   deferred[0]();assert.equal(subscriptions.size,0);assert.equal(context.diagnostics.transport,mode);
   intervals[0]();for(let i=0;i<100;i++)intervals[0]();
   assert.equal(writes.length+events.length+commands.length,1,'Changes only; no ordinary repeated traffic');
   assert.equal(writes.length,mode==='standalone'?1:0);assert.equal(events.length,mode==='ui_queue'?1:0);assert.equal(commands.length,mode==='embedded_queue'?1:0);
+  // A dimension transfer re-marks the view at +20/+40 ticks through the real adapter wiring;
+  // the ordinary poll then resends the current packet once per mark, and only to a handle
+  // still in the destination dimension.
+  target.dimension.id='nether';intervals[0]();const afterTransfer=writes.length+events.length+commands.length;assert.equal(afterTransfer,2,'the poll itself resends once on a dimension change');
+  dimensionChanges[0]({player:target,fromDimension:{id:'overworld'},toDimension:{id:'nether'}});
+  assert.deepEqual([...timeouts.values()].map(t=>t.delay),[20,40]);
+  for(const [id,job] of [...timeouts]){timeouts.delete(id);job.fn();intervals[0]();}
+  assert.equal(writes.length+events.length+commands.length,afterTransfer+2);assert.equal(context.diagnostics.dimensionRefreshes,2);
+  dimensionChanges[0]({player:target,fromDimension:{id:'nether'},toDimension:{id:'the_end'}});
+  for(const [id,job] of [...timeouts]){timeouts.delete(id);job.fn();intervals[0]();}
+  assert.equal(writes.length+events.length+commands.length,afterTransfer+2,'a handle outside the destination dimension is discarded');
   assert.equal(context.diagnostics.errors,0);
  }
 });

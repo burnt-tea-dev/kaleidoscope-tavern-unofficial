@@ -4,6 +4,8 @@ export const EFFECT_ICON_PREFIX='§r§d§e§a§d§r';
 export const EFFECT_ICON_HIDE_TAG='kaleidoscope_tavern:hide_effect_icons';
 export const EFFECT_ICON_SLOTS=32;
 export const EFFECT_ICON_INTERVAL=20;
+/** The client rebuilds its HUD some ticks after a dimension transfer; one poll resend can land before that. */
+export const EFFECT_ICON_REFRESH_DELAYS=Object.freeze([20,40]);
 const icons=new Map(EFFECT_ICONS.map(row=>[row.id,row]));
 export const effectIcon=id=>icons.get(id);
 export function effectIconToken(slot,code){
@@ -28,6 +30,8 @@ export function createEffectIcons({status,available,send,enabled=()=>true,hidden
  return {
   forget:id=>views.delete(id),
   reset:id=>views.set(id,{packet:undefined,dimension:undefined}),
+  /** Resend the CURRENT packet once for a view whose client may have rebuilt its HUD. Never replays a cached packet; a known inactive view stays silent. */
+  dirty(id){const view=views.get(id);if(view)view.dirty=true;return view!==undefined;},
   tick(players){
    if(!available()){views.clear();return;}
    const seen=new Set();
@@ -37,10 +41,40 @@ export function createEffectIcons({status,available,send,enabled=()=>true,hidden
     const dimension=player.dimension?.id;
     // Inactive joins need no packet. Clearing contains only our scoped formatting header.
     if(packet===EFFECT_ICON_PREFIX&&!old)continue;
-    if(old?.packet===packet&&old.dimension===dimension)continue;
+    // A known inactive view has nothing to rebuild after a transfer or refresh request.
+    if(packet===EFFECT_ICON_PREFIX&&old?.packet===EFFECT_ICON_PREFIX){views.set(player.id,{packet,dimension});continue;}
+    if(!old?.dirty&&old?.packet===packet&&old.dimension===dimension)continue;
     send(player,packet);views.set(player.id,{packet,dimension});
    }catch(error){onError(error);}
    for(const id of views.keys())if(!seen.has(id))views.delete(id);
+  }
+ };
+}
+/**
+ * Limited refresh after a dimension transfer (issue #285): mark the view dirty
+ * at each delay so the ordinary poll reads and sends the current status. A
+ * newer transfer, spawn or leave cancels pending work; an invalid handle or a
+ * different destination dimension discards the callback.
+ */
+export function createDimensionRefresh({schedule,cancel,refresh,delays=EFFECT_ICON_REFRESH_DELAYS}){
+ const pending=new Map();
+ const clear=id=>{for(const handle of pending.get(id)??[])try{cancel(handle);}catch{}pending.delete(id);};
+ return {
+  pending:id=>pending.get(id)?.length??0,
+  cancel:clear,
+  changed(id,destination,current){
+   clear(id);
+   const handles=[];pending.set(id,handles);
+   for(const delay of delays){
+    const handle=schedule(()=>{
+     if(pending.get(id)!==handles)return;
+     handles.splice(handles.indexOf(handle),1);if(!handles.length)pending.delete(id);
+     let player;try{player=current();}catch{return;}
+     if(!player||player.isValid===false||player.dimension?.id!==destination)return;
+     refresh(id);
+    },delay);
+    handles.push(handle);
+   }
   }
  };
 }
