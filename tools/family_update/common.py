@@ -50,8 +50,9 @@ def configure(path):
     if CONFIG.get('schema') != 1:
         raise ValueError('Unsupported update configuration schema')
     if 'fresh_world_excluded_groups' in CONFIG:
-        if not CONFIG.get('fresh_world') or CONFIG.get('extension_stable_profile') != 'current-author-curated':
-            raise ValueError('Addon group exclusions require a fresh current-author-curated world')
+        selected = CONFIG.get('fresh_world') or CONFIG.get('delivery_profile') == 'senluo-stable-lock-v1'
+        if not selected or CONFIG.get('extension_stable_profile') != 'current-author-curated':
+            raise ValueError('Addon group exclusions require an explicit current-author-curated selection')
     def location(key):
         value = Path(CONFIG[key]).expanduser()
         if not value.is_absolute():

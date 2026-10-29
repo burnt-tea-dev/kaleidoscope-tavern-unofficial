@@ -550,11 +550,37 @@ class CuratedRetainedInputs(unittest.TestCase):
   self.guard.atomic(self.run/'curated-input-selection.json',{**report,'client':True})
   self.assertNotEqual(m.input_refs(),refs)
 
+ def test_stable_saved_world_reuses_exact_retained_inputs_without_a_fresh_world_claim(self):
+  m.c.CONFIG.pop('fresh_world')
+  m.c.CONFIG['delivery_profile']='senluo-stable-lock-v1'
+  roots,sources,report,receipt=self.selected()
+  self.assertEqual(len(roots),5)
+  self.assertNotIn(Path(self.excluded['path']),roots)
+  m.verify_curated_inputs(receipt,report)
+  self.assertFalse(report['native_loading'])
+  changed=copy.deepcopy(self.original);changed['packs'][0]['files']['content.bin']='0'*64
+  with self.assertRaisesRegex(AssertionError,'captured input bytes changed'):
+   m.select_curated_inputs(changed)
+
  def test_missing_capture_or_changed_captured_bytes_are_rejected(self):
   missing=copy.deepcopy(self.original);missing['packs']=missing['packs'][1:]
   with self.assertRaisesRegex(AssertionError,'Missing or ambiguous'):m.select_curated_inputs(missing)
   changed=copy.deepcopy(self.original);changed['packs'][0]['files']['content.bin']='f'*64
   with self.assertRaisesRegex(AssertionError,'captured input bytes changed'):m.select_curated_inputs(changed)
+
+ def test_curated_candidate_also_checks_the_declared_whole_author_replacement(self):
+  _,_,report,receipt=self.selected()
+  replacements={}
+  for side in ('behavior','resource'):
+   uid='replacement-'+side
+   actual=self.pack(self.root/'replacement'/side,uid,side,[1,8,10071],b'exact owner replacement')
+   replacements[uid]={'side':side,'version':actual['version'],'tree':m.tree(actual['files'])}
+   receipt['packs'].append({**actual,'source':{'owner':'preserved','role':'owner_accepted_author_replacement','official_author_release':False}})
+  with patch.object(m,'replacement_rows',return_value=replacements):
+   m.verify_curated_inputs(receipt,report)
+   altered=copy.deepcopy(receipt);altered['packs'][-1]['files']['content.bin']='0'*64
+   with self.assertRaisesRegex(AssertionError,'Replacement candidate output differs'):
+    m.verify_curated_inputs(altered,report)
 
  def test_new_owner_fishing_pair_is_retained_without_the_legacy_adapter(self):
   for row in self.rows:

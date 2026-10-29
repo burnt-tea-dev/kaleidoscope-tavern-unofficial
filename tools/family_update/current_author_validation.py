@@ -250,10 +250,11 @@ def committed(relative,expected=None,*,source_root=None):
     return json.loads(raw)
 
 def curated_inputs_enabled():
-    return bool(c.CONFIG.get('fresh_world')) and curated_selected()
+    return (bool(c.CONFIG.get('fresh_world'))
+            or c.CONFIG.get('delivery_profile') == 'senluo-stable-lock-v1') and curated_selected()
 
 def _curated_retained_rows():
-    assert curated_inputs_enabled(), 'Retained curated inputs require a fresh current-author selection'
+    assert curated_inputs_enabled(), 'Retained curated inputs require an explicit current-author selection'
     assert not c.CONFIG.get('managed_drift_recovery') and not c.CONFIG.get('prospective_preserved_inputs'), 'Curated inputs cannot combine retained selectors'
     rows=current_selection()['retained_inputs']
     assert isinstance(rows,list) and rows, 'Curated retained inputs must be explicit'
@@ -413,7 +414,10 @@ def verify_curated_inputs(receipt,selection):
     assert set(selection['packs'])=={row['uuid'] for row in rows}, 'Curated input selection set changed'
     actual={row['uuid']:row for row in receipt['packs']}
     assert len(actual)==len(receipt['packs']), 'Candidate contains duplicate pack identities'
-    assert {uid for uid,row in actual.items() if row['source']['owner']=='preserved'}==set(selection['packs']), 'Candidate contains an unselected retained input'
+    replacements=replacement_rows()
+    assert {uid for uid,row in actual.items() if row['source']['owner']=='preserved'}==set(selection['packs'])|set(replacements), 'Candidate contains an unselected retained input'
+    if replacements:
+        verify_replacement_inputs(receipt,{'kind':'author_replacement_selection','packs':replacements})
     for row in rows:
         uid=row['uuid'];pack=actual[uid];selected=selection['packs'][uid]
         expected={'side':row['side'],'input_version':row['input_version'],'version':row['output_version'],

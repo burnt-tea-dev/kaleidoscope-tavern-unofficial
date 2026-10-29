@@ -23,11 +23,16 @@ class FreshWorldExclusions(unittest.TestCase):
 
     def test_two_optional_pairs_are_removed_without_changing_other_rows(self):
         self.config['fresh_world_excluded_groups'] = self.groups
-        rows = m._curated_retained_rows()
-        self.assertEqual(len(rows), len(self.profile['retained_inputs']) - 4)
-        self.assertTrue(all(row['group'] not in self.groups for row in rows))
-        self.assertTrue(all(row in self.profile['retained_inputs'] for row in rows))
-        self.assertEqual(self.profile, self.original)
+        for mode in ('fresh', 'stable_saved_world'):
+            with self.subTest(mode=mode):
+                if mode == 'stable_saved_world':
+                    self.config.pop('fresh_world')
+                    self.config['delivery_profile'] = 'senluo-stable-lock-v1'
+                rows = m._curated_retained_rows()
+                self.assertEqual(len(rows), len(self.profile['retained_inputs']) - 4)
+                self.assertTrue(all(row['group'] not in self.groups for row in rows))
+                self.assertTrue(all(row in self.profile['retained_inputs'] for row in rows))
+                self.assertEqual(self.profile, self.original)
 
     def test_unknown_duplicate_single_side_and_adapted_groups_reject(self):
         for groups in [['unknown'], [self.groups[0]] * 2, ['Fishing'], ['Java Saturation'], ['Wuthering Manor']]:

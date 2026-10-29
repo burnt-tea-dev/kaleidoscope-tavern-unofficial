@@ -16931,7 +16931,7 @@
     },
     "selection": {
       "path": "companion-sources/current-author-curated/profile.json",
-      "sha256": "5c662aef744d2b1a707ec5a8ecc0baa31c73f5509ea082ab138ccb575a4085db",
+      "sha256": "34a7e7a24a686ac478778056e2fe234af5c9cc861c11ae1e22602316541e91bd",
       "value": {
         "schema": 1,
         "kind": "current-author-curated",
@@ -18029,6 +18029,96 @@
             "output_tree": {
               "sha256": "2929fe7fcb5e46dc145141cc94e3f157e8208a79e49811f904581681631ae7af",
               "files": 2
+            },
+            "provenance": {
+              "kind": "owner_accepted_current_exact_bytes",
+              "original_archive_verified": false,
+              "latest_stable_verified": false,
+              "official_author_release": false
+            }
+          },
+          {
+            "group": "Baking Orchard compatibility",
+            "kind": "literal",
+            "uuid": "010ff4ca-74ca-4951-8949-d0e4a302fecb",
+            "side": "behavior",
+            "input_version": [
+              1,
+              0,
+              0
+            ],
+            "output_version": [
+              1,
+              0,
+              0
+            ],
+            "input_tree": {
+              "sha256": "0db7819ccbccef515c7181a7da5b14451e799cbe2e2c642e99fec175fc5f9c36",
+              "files": 14
+            },
+            "output_tree": {
+              "sha256": "0db7819ccbccef515c7181a7da5b14451e799cbe2e2c642e99fec175fc5f9c36",
+              "files": 14
+            },
+            "provenance": {
+              "kind": "owner_accepted_current_exact_bytes",
+              "original_archive_verified": false,
+              "latest_stable_verified": false,
+              "official_author_release": false
+            }
+          },
+          {
+            "group": "Baking",
+            "kind": "literal",
+            "uuid": "c3e2ac9e-3992-4de5-b913-dac0c57a80b2",
+            "side": "behavior",
+            "input_version": [
+              1,
+              0,
+              0
+            ],
+            "output_version": [
+              1,
+              0,
+              0
+            ],
+            "input_tree": {
+              "sha256": "3b1c6e921d08ca823d61bdeba2e83ebc6340c0289cc3b72abc88dcc0111008ce",
+              "files": 669
+            },
+            "output_tree": {
+              "sha256": "3b1c6e921d08ca823d61bdeba2e83ebc6340c0289cc3b72abc88dcc0111008ce",
+              "files": 669
+            },
+            "provenance": {
+              "kind": "owner_accepted_current_exact_bytes",
+              "original_archive_verified": false,
+              "latest_stable_verified": false,
+              "official_author_release": false
+            }
+          },
+          {
+            "group": "Baking",
+            "kind": "literal",
+            "uuid": "758d0d04-5294-49e0-bc7f-d8ec7bacd37a",
+            "side": "resource",
+            "input_version": [
+              1,
+              0,
+              0
+            ],
+            "output_version": [
+              1,
+              0,
+              0
+            ],
+            "input_tree": {
+              "sha256": "fecbf781e3a2d14c97e1b14cc4796e60f82cf27da500bdfaf11f86e24d997cba",
+              "files": 2909
+            },
+            "output_tree": {
+              "sha256": "fecbf781e3a2d14c97e1b14cc4796e60f82cf27da500bdfaf11f86e24d997cba",
+              "files": 2909
             },
             "provenance": {
               "kind": "owner_accepted_current_exact_bytes",
