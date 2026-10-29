@@ -6,6 +6,8 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+env:
+  SENLUO_WORLD_LIQUOR_REF: 04e3ef4b2b928a08d543d74708429bbd6457af0b
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
@@ -170,7 +172,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: burnt-tea-dev/kaleidoscope-world-liquor-unofficial
-          ref: 8b9c19f3502c79555f97c8d1400de376b3154aab
+          ref: ${{ env.SENLUO_WORLD_LIQUOR_REF }}
           path: world-liquor-src
           fetch-depth: 0
           persist-credentials: false
@@ -200,7 +202,7 @@ jobs:
               'world-liquor':{'repository':'casama233/kaleidoscope-world-liquor-unofficial','repository_id':1385218112}}
           assert os.environ['GITHUB_REPOSITORY']=='burnt-tea-dev/kaleidoscope-tavern-unofficial'
           assert os.environ['GITHUB_REPOSITORY_ID']==str(identities['tavern']['repository_id'])
-          assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=peer,text=True).strip()=='8b9c19f3502c79555f97c8d1400de376b3154aab'
+          assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=peer,text=True).strip()==os.environ['SENLUO_WORLD_LIQUOR_REF']
           lock=json.loads((root/'family/upstream.lock.json').read_text())
           lock['owned']=[row for row in lock['owned'] if row['key'] in {'tavern','world-liquor'}]
           assert len(lock['owned'])==2 and {row['key'] for row in lock['owned']}=={'tavern','world-liquor'}
@@ -258,7 +260,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: burnt-tea-dev/kaleidoscope-world-liquor-unofficial
-          ref: 8b9c19f3502c79555f97c8d1400de376b3154aab
+          ref: ${{ env.SENLUO_WORLD_LIQUOR_REF }}
           path: world-liquor
           persist-credentials: false
       - uses: actions/setup-node@v4
@@ -373,7 +375,7 @@ jobs:
           repository: burnt-tea-dev/kaleidoscope-world-liquor-unofficial
           # World Liquor168 requires this paired Tavern187 runtime.
           # Pin exact peer bytes, not an obsolete release or a moving branch.
-          ref: 8b9c19f3502c79555f97c8d1400de376b3154aab
+          ref: ${{ env.SENLUO_WORLD_LIQUOR_REF }}
           path: liquor
           persist-credentials: false
       - uses: actions/checkout@v4
@@ -435,7 +437,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: burnt-tea-dev/kaleidoscope-world-liquor-unofficial
-          ref: 8b9c19f3502c79555f97c8d1400de376b3154aab
+          ref: ${{ env.SENLUO_WORLD_LIQUOR_REF }}
           path: liquor
           persist-credentials: false
       - uses: actions/setup-node@v4
@@ -522,7 +524,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: burnt-tea-dev/kaleidoscope-world-liquor-unofficial
-          ref: 8b9c19f3502c79555f97c8d1400de376b3154aab
+          ref: ${{ env.SENLUO_WORLD_LIQUOR_REF }}
           path: .source-check/world-liquor-native
           persist-credentials: false
       - name: Reject incomplete or relabeled native evidence

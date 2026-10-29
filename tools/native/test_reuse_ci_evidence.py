@@ -248,6 +248,21 @@ class ReuseTests(unittest.TestCase):
             self.assertNotEqual(reuse.workflow_contract(changed)[0], original)
         changed_peer = self.workflow.replace(self.peer_sha, '1' * 40)
         self.assertEqual(reuse.workflow_contract(changed_peer), (original, '1' * 40))
+        shared = self.workflow.replace('jobs:\n',
+            'env:\n  SENLUO_WORLD_LIQUOR_REF: ' + self.peer_sha + '\njobs:\n', 1)
+        shared = shared.replace('          ref: ' + self.peer_sha,
+                                '          ref: ${{ env.SENLUO_WORLD_LIQUOR_REF }}')
+        contract, peer = reuse.workflow_contract(shared)
+        self.assertEqual(peer, self.peer_sha)
+        self.assertNotEqual(contract, original)
+        self.assertNotEqual(reuse.workflow_contract(shared.replace(self.peer_sha, '1' * 40))[0], contract)
+        for invalid in (shared.replace(self.peer_sha, 'main'),
+                        shared.replace('env.SENLUO_WORLD_LIQUOR_REF', 'env.UNRELATED_REF'),
+                        shared.replace('  SENLUO_WORLD_LIQUOR_REF: ' + self.peer_sha,
+                            '  SENLUO_WORLD_LIQUOR_REF: ' + self.peer_sha +
+                            '\n  SENLUO_WORLD_LIQUOR_REF: ' + '1' * 40)):
+            with self.assertRaises(reuse.ReuseError):
+                reuse.workflow_contract(invalid)
 
     def test_exact_source_relationship_survives_squash_merge(self):
         # Original CI occurs on a feature commit, then metadata-only repairs are

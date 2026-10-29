@@ -131,9 +131,19 @@ def workflow_contract(text):
     require(match is not None, 'native job absent from workflow')
     job = match.group(0)
     peer = re.search(r'          repository: ' + re.escape(PEER_REPOSITORY)
-                     + r'\n          ref: ([0-9a-f]{40})\n          path: \.source-check/world-liquor-native\n', job)
+                     + r'\n          ref: ([^\n]+)\n          path: \.source-check/world-liquor-native\n', job)
     require(peer is not None, 'native peer checkout is not an exact canonical revision')
     peer_commit = peer.group(1)
+    if not re.fullmatch(r'[0-9a-f]{40}', peer_commit):
+        require(peer_commit == '${{ env.SENLUO_WORLD_LIQUOR_REF }}',
+                'native peer checkout uses an unsupported reference')
+        environments = re.findall(r'^env:\n((?:  [^\n]*\n)*)', prefix + '\n', re.M)
+        require(len(environments) == 1, 'native peer needs one global environment')
+        pins = re.findall(r'^  SENLUO_WORLD_LIQUOR_REF: ([0-9a-f]{40})$', environments[0], re.M)
+        require(len(pins) == 1, 'native peer environment is not one exact canonical revision')
+        peer_commit = pins[0]
+    # Keep the global environment in the execution contract. Resolving this
+    # checkout expression must not conceal a changed native run setting.
     job = job[:peer.start(1)] + '<peer-commit>' + job[peer.end(1):]
     wiring = (
         '    permissions:\n      contents: read\n      actions: read\n',
