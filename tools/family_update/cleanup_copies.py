@@ -1,9 +1,13 @@
 """Delete retired deployment copies; current configuration and references stay protected."""
 import argparse
 import fcntl
+import hashlib
+import json
 import os
 from pathlib import Path
+import re
 import stat
+import subprocess
 
 from family_update import common as c
 from family_update import retention
@@ -21,6 +25,36 @@ def absolute_paths(value):
             yield from absolute_paths(child)
     elif isinstance(value, str) and value.startswith('/') and '\n' not in value:
         yield Path(value)
+
+
+def frozen_source_reports(path, value, read):
+    """Read source evidence at the receipt's original commit, never today's file."""
+    if path.name != 'reviewed-family-receipt.json':
+        return {}
+    reports = value.get('evidence', {}).get('reports', [])
+    roots = set(c.SOURCES.values()) | ({c.EXTENSION} if c.EXTENSION else set())
+    owned = [(row, root) for row in reports for root in roots
+             if Path(row['path']).is_relative_to(root)]
+    if not owned:
+        return {}
+    build_path = path.parent / 'build-evidence.json'
+    build_ref = next(row for row in reports if row['path'] == str(build_path))
+    build = read(build_path)
+    assert c.sha(build_path) == build_ref['sha256'], 'Frozen cleanup build evidence changed'
+    sources = {Path(row['path']): row for row in build['sources'].values()}
+    result = {}
+    for row, root in owned:
+        reference = Path(row['path'])
+        if reference.suffix != '.json':
+            continue
+        revision = sources[root]['commit']
+        assert re.fullmatch(r'[0-9a-f]{40}', revision), 'Invalid frozen cleanup source commit'
+        relative = reference.relative_to(root)
+        assert '..' not in relative.parts, 'Invalid frozen cleanup source path'
+        raw = subprocess.check_output(['git', '-C', str(root), 'show', revision + ':' + relative.as_posix()])
+        assert hashlib.sha256(raw).hexdigest() == row['sha256'], 'Frozen cleanup source evidence changed'
+        result[reference] = (row['sha256'], json.loads(raw))
+    return result
 
 
 def cleanup_context(track=None):
@@ -50,19 +84,22 @@ def cleanup_context(track=None):
         protected.add(c.EXTENSION)
     policy_path = c.Q / 'senluo-policy.json'
     historical = set()
-    pending = [policy_path, c.T / 'family/upstream.lock.json']
-    pending += [Path(current[key]) for key in ['extension_validation', 'preserved_reconciliation', 'preserved_additions', 'identity_migration', 'container_recovery_plan', 'translation_reconciliation'] if current.get(key)]
+    pending = [(path, None) for path in [policy_path, c.T / 'family/upstream.lock.json']]
+    pending += [(Path(current[key]), None) for key in ['extension_validation', 'preserved_reconciliation', 'preserved_additions', 'identity_migration', 'container_recovery_plan', 'translation_reconciliation'] if current.get(key)]
     # Follow actual JSON evidence references, including the private validation's
     # still-used source snapshot. Do not traverse arbitrary source/archive dirs.
     seen = set()
     while pending:
-        path = pending.pop()
-        if path in seen:
+        path, frozen = pending.pop()
+        # Two historical receipts can bind different bytes at the same path.
+        identity = (path, frozen[0] if frozen else None)
+        if identity in seen:
             continue
         if len(seen) >= 256:
             raise RuntimeError('Too many cleanup evidence references; review explicitly')
-        seen.add(path)
-        value = read(path)
+        seen.add(identity)
+        value = frozen[1] if frozen else read(path)
+        source_reports = frozen_source_reports(path, value, read)
         if path == policy_path or (path.name == policy_path.name and path.parent.name == 'production-before'):
             # Stopped policy snapshots carry the same historical client leaves.
             # Historical client records stay as leaves, not a live dependency
@@ -78,7 +115,7 @@ def cleanup_context(track=None):
         paths.update(refs)
         # Missing transitive evidence cannot silently discard the snapshot it
         # used to reference. Every JSON reference must be readable before prune.
-        pending.extend(ref for ref in refs if ref not in seen and ref.suffix == '.json')
+        pending.extend((ref, source_reports.get(ref)) for ref in refs if ref.suffix == '.json')
     return {'protected': sorted(protected), 'references': sorted(paths), 'lease': c.LEASE,
             'historical_records': sorted(historical - paths)}
 
