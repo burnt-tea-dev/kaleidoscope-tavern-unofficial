@@ -273,6 +273,7 @@ def _curated_retained_rows():
     excluded=c.CONFIG.get('fresh_world_excluded_groups',[])
     assert isinstance(excluded,list) and all(isinstance(group,str) and group.strip() for group in excluded) and len(set(excluded))==len(excluded), 'Fresh-world exclusions require distinct group names'
     for group in excluded:
+        assert group not in ('Fishing','Java Saturation'), 'Required retained family pair cannot be excluded: '+group
         pair=[row for row in rows if row['group']==group]
         assert len(pair)==2 and {row['side'] for row in pair}=={'behavior','resource'} and all(row['kind']=='literal' for row in pair), 'Only complete declared literal addon pairs can be excluded: '+group
     rows=[row for row in rows if row['group'] not in excluded]
