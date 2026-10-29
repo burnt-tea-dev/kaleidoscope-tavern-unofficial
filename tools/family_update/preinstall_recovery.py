@@ -182,6 +182,32 @@ def _configuration_for_recovery(original):
 
 
 def _initially_stopped(output, original):
+    if not original.get('preinstall_recovery_output'):
+        initial = c.read(output / 'deployment-initial-state.json')
+        _stopped(initial['server'])
+        assert initial['restart_original_after_failure'] is False
+        source = c.read(output / 'build-evidence.json')['sources']['extension']
+        root = Path(source['path'])
+        assert str(root) == original.get('extension') and original.get('managed_drift_recovery'), 'Normal idle recovery requires its original private review'
+        relative = Path(original['managed_drift_recovery']).relative_to(root)
+        assert relative.parts[0] == 'maintenance' and '..' not in relative.parts
+        # A later candidate may advance private HEAD after closure. Its review
+        # is different; recover this predecessor from the original Git blobs.
+        raw = _blob(root, source['commit'], relative.as_posix())
+        assert initial['review'] == {'path': str(root / relative), 'sha256': hashlib.sha256(raw).hexdigest()}, 'Original normal idle review changed'
+        review = json.loads(raw)
+        stopped = review['stopped_server_review']
+        assert review.get('allow_initially_stopped') is True and stopped['reason'] == 'normal_idle_stop' and stopped['server_name'] == c.SERVER, 'Initial stop was not reviewed as normal idle'
+        evidence = stopped['evidence']; relative = Path(evidence['path'])
+        assert not relative.is_absolute() and relative.parts[0] == 'maintenance' and '..' not in relative.parts
+        raw = _blob(root, source['commit'], relative.as_posix())
+        assert hashlib.sha256(raw).hexdigest() == evidence['sha256'], 'Original normal idle evidence changed'
+        idle = json.loads(raw)
+        assert idle['schema'] == 1 and idle['kind'] == 'normal_idle_stop' and idle['server_name'] == c.SERVER and idle['world'] == c.W.name
+        previous = c.read(output / 'previous-maintenance.json')
+        assert previous['state'] == 'completed' and previous == initial['previous_lease'] == c.read(output / 'production-before/capture.json')['previous_lease'], 'Initial normal idle owner differs'
+        assert idle['lease_sha256'] == stopped['lease_sha256'] == initial['previous_lease_sha256'] == hashlib.sha256(_bytes(previous)).hexdigest(), 'Initial normal idle owner hash differs'
+        return
     previous_output = Path(original['preinstall_recovery_output'])
     proof_path = previous_output / PROOF
     proof = c.read(_regular(proof_path))

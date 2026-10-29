@@ -223,6 +223,63 @@ class PreinstallRecoveryTests(unittest.TestCase):
         self.write(self.output / p.CAPACITY_WAIT_STATE, {'schema': 1})
         with self.assertRaisesRegex(AssertionError, 'original configured wait'): self.close()
 
+    def normal_idle_origin(self):
+        self.completed_rehearsal()
+        (self.output / 'stop-result.json').unlink()
+        root = Path(self.sources['extension']['path'])
+        review_name, idle_name = 'maintenance/review.json', 'maintenance/idle.json'
+        self.original.update(extension=str(root), managed_drift_recovery=str(root / review_name))
+        self.config.update(extension=str(root), managed_drift_recovery=str(root / review_name))
+        self.write(self.original_path, self.original); self.write(self.config_path, self.config)
+        self.build['config_sha256'] = c.sha(self.original_path)
+        self.write(self.output / 'build-evidence.json', self.build)
+        static = c.read(self.output / 'static-evidence.json')
+        static['reports'] = [c.report_ref(row['path']) for row in static['reports']]
+        self.write(self.output / 'static-evidence.json', static)
+        previous = {'state': 'completed', 'owner': 'previous owner', 'candidate': '/previous'}
+        digest = hashlib.sha256(p._bytes(previous)).hexdigest()
+        idle = {'schema': 1, 'kind': 'normal_idle_stop', 'server_name': c.SERVER,
+                'world': self.world.name, 'lease_sha256': digest}
+        idle_raw = p._bytes(idle)
+        review = {'allow_initially_stopped': True, 'stopped_server_review': {
+            'reason': 'normal_idle_stop', 'server_name': c.SERVER, 'lease_sha256': digest,
+            'evidence': {'path': idle_name, 'sha256': hashlib.sha256(idle_raw).hexdigest()}}}
+        raw = p._bytes(review)
+        initial = {'schema': 1, 'server': c.summary(), 'restart_original_after_failure': False,
+                   'review': {'path': str(root / review_name), 'sha256': hashlib.sha256(raw).hexdigest()},
+                   'previous_lease': previous, 'previous_lease_sha256': digest}
+        self.write(self.output / 'deployment-initial-state.json', initial)
+        self.write(self.output / 'previous-maintenance.json', previous)
+        capture = c.read(self.output / 'production-before/capture.json'); capture['previous_lease'] = previous
+        self.write(self.output / 'production-before/capture.json', capture)
+        blobs = {review_name: raw, idle_name: idle_raw}
+        original_blob = p._blob.side_effect
+        def blob(path, commit, name):
+            if Path(path) == root and commit == self.sources['extension']['commit']: return blobs[name]
+            return original_blob(path, commit, name)
+        patcher = patch.object(p, '_blob', side_effect=blob); patcher.start(); self.addCleanup(patcher.stop)
+        return initial, blobs
+
+    def test_normal_idle_origin_closes_without_inventing_a_stop_command_or_prior_abort(self):
+        self.normal_idle_origin(); before = p._database()
+        self.assertEqual(self.close()['state'], p.KIND)
+        self.assertFalse((self.output / 'stop-result.json').exists())
+        self.assertEqual(p._database(), before)
+        # A new private review on disk must not replace the pinned predecessor.
+        self.write(Path(self.original['managed_drift_recovery']), {'new_candidate': True})
+        self.next_context()
+        self.assertTrue(p.verify_completed(self.output, c.summary())['database_unchanged_since_abort'])
+
+    def test_normal_idle_origin_rejects_changed_old_blobs_and_owner_binding(self):
+        initial, blobs = self.normal_idle_origin()
+        name = 'maintenance/idle.json'; before = blobs[name]; blobs[name] = p._bytes({'foreign': True})
+        with self.assertRaisesRegex(AssertionError, 'normal idle evidence changed'): self.close()
+        blobs[name] = before
+        initial['previous_lease_sha256'] = 'foreign'
+        self.write(self.output / 'deployment-initial-state.json', initial)
+        with self.assertRaisesRegex(AssertionError, 'normal idle owner hash differs'): self.close()
+        self.assertEqual(c.read(self.lease_path), self.lease)
+
     def test_failed_saved_rehearsal_closes_owner_preserving_failure_and_complete_world(self):
         self.failed_saved_rehearsal();before={str(path):path.read_bytes() for path in self.output.rglob('*') if path.is_file()}
         result=self.close();self.assertEqual(result['state'],p.KIND)
