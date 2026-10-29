@@ -38,6 +38,11 @@ def world_acceptance(receipt):
 def validate_incoming(incoming,policy_path):
  policy=read(policy_path);ids={p['uuid'] for p in incoming}
  if not any(family_pack(p,policy) for p in incoming):return
+ if policy.get('delivery_profile')=='senluo-stable-lock-v1':
+  import runpy
+  runpy.run_path(str(Path(__file__).with_name('stable_lock_guard.py')))['validate'](
+   incoming,policy,policy_path,hashes)
+  return
  approved=policy.get('approved_receipt')
  if not approved:raise ValueError('森羅家族更新已攔截：需整套 Git 基線、官方來源鎖及存檔遷移驗收；不能個別覆蓋本地包。')
  receipt=read(approved);gates=receipt.get('acceptance',{})

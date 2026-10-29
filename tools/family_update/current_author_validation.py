@@ -250,10 +250,11 @@ def committed(relative,expected=None,*,source_root=None):
     return json.loads(raw)
 
 def curated_inputs_enabled():
-    return bool(c.CONFIG.get('fresh_world')) and curated_selected()
+    return (bool(c.CONFIG.get('fresh_world'))
+            or c.CONFIG.get('delivery_profile') == 'senluo-stable-lock-v1') and curated_selected()
 
 def _curated_retained_rows():
-    assert curated_inputs_enabled(), 'Retained curated inputs require a fresh current-author selection'
+    assert curated_inputs_enabled(), 'Retained curated inputs require an explicit current-author selection'
     assert not c.CONFIG.get('managed_drift_recovery') and not c.CONFIG.get('prospective_preserved_inputs'), 'Curated inputs cannot combine retained selectors'
     rows=current_selection()['retained_inputs']
     assert isinstance(rows,list) and rows, 'Curated retained inputs must be explicit'
