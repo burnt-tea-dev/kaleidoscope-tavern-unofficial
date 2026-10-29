@@ -173,6 +173,8 @@ def apply_host_extension(spec,owned_root,host_root,source,*,retained_owner=None,
  cache=spec.get('kind')=='cookery-recipe-cache-repair'
  guide=spec.get('kind')=='cookery-guide-startup-repair'
  stable=station_api_profile or match_stable_profile(spec,owned_root,source)
+ if spec.get('text_replacements') and not stable:
+  raise ValueError('script replacements require an exact reviewed stable profile')
  removed=validate_recipe_removals(spec,owned_root,host_root,stable,retained_owner=retained_owner)
  if cache and not stable:validate_recipe_cache_profile(spec,source)
  if guide and not stable:validate_guide_startup_profile(spec,source)
@@ -247,6 +249,15 @@ def apply_host_extension(spec,owned_root,host_root,source,*,retained_owner=None,
     if capability in components:raise ValueError('original capability already exists')
     components[capability]=value
    text=json.dumps(data,ensure_ascii=False,indent=2)+'\n'
+  for op in spec.get('text_replacements',[]):
+   if (not isinstance(op,dict) or set(op)!={'path','before','after'}
+       or op['path'] not in spec['original_files'] or not op['path'].endswith('.js')
+       or not isinstance(op['before'],str) or not op['before']
+       or not isinstance(op['after'],str) or op['before']==op['after']):
+    raise ValueError('invalid reviewed script replacement')
+   if op['path']!=name:continue
+   if text.count(op['before'])!=1:raise ValueError('non-unique reviewed replacement')
+   text=text.replace(op['before'],op['after'],1)
   for op in spec['insertions']:
    if op['path']!=name:continue
    anchor=op['anchor']

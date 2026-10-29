@@ -309,10 +309,18 @@ def replacement_rows():
     if not rows:return {}
     result={}
     for key,pair in rows.items():
-        assert isinstance(key,str) and key in selection['authors'] and set(pair)=={'BP','RP'},'Replacement author pair is invalid'
+        assert isinstance(key,str) and set(pair)=={'BP','RP'},'Replacement author pair is invalid'
+        pin=selection['authors'].get(key)
+        if pin is None:
+            # Whole owner inputs can also replace a locked archive with no host
+            # adapter. Keep its archive identity pinned; never transform it here.
+            upstream=c.read(c.T/'family/upstream.lock.json')['upstream']
+            matches=[row for row in upstream if row['name']==key]
+            assert len(matches)==1,'Replacement author is not in the reviewed upstream lock'
+            assert {row['uuid'] for row in matches[0]['packs']}=={row['uuid'] for row in pair.values()},'Replacement must cover the locked complete archive pair'
         for side,row in pair.items():
             label='behavior' if side=='BP' else 'resource'
-            assert set(row)=={'uuid','version','tree'} and row['uuid']==selection['authors'][key][label+'_uuid'],'Replacement identity differs from author pin'
+            assert set(row)=={'uuid','version','tree'} and (pin is None or row['uuid']==pin[label+'_uuid']),'Replacement identity differs from author pin'
             assert isinstance(row['version'],list) and len(row['version'])==3 and all(type(n) is int and n>=0 for n in row['version']),'Replacement version is invalid'
             assert set(row['tree'])=={'sha256','files'} and re.fullmatch('[0-9a-f]{64}',row['tree']['sha256']) and type(row['tree']['files']) is int and row['tree']['files']>0,'Replacement tree is invalid'
             assert row['uuid'] not in result,'Duplicate replacement pack identity'
@@ -771,7 +779,7 @@ def validate_candidate(receipt,proof,baseline,binding,catalog):
     api=proof['public_api'];g=c.SOURCES['grilling']
     public=validate_public_api_source(api,catalog,g,public_spec,public_path,curated=curated_selected())
     seen=set();replaced=replacement_author_keys()
-    replacement_uids={selection['authors'][key][side+'_uuid'] for key in replaced for side in ('behavior','resource')}
+    replacement_uids=set(replacement_rows())
     for key,pin in catalog['authors'].items():
         if key in replaced:continue
         assert {row['uuid'] for row in rows.values() if row['source'].get('archive_sha256')==pin['sha256']}=={pin['behavior_uuid'],pin['resource_uuid']},'Current author pair inventory differs'

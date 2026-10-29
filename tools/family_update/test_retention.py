@@ -106,6 +106,118 @@ class RetentionTests(unittest.TestCase):
         return next(row for row in plan['outputs'] if row['output'] == str(output))
     def execute(self, planned, **kwargs):
         return m.execute(planned, lease=self.lease, **kwargs)
+    def m1_deployment(self, name='m1-live'):
+        r = self.root / name
+        server, world = '/var/lib/docker/volumes/bsm_data/_data/servers/luosen', 'Senluo'
+        previous = {'schema': 1, 'name': 'previous', 'digest_format': m.M1_TREE_DIGEST_FORMAT,
+                    'observed_at': '2026-10-29T00:00:00+00:00',
+                    'status': {'ci': False, 'staging_smoke': False, 'staging_human': None, 'live': None},
+                    'packs': [{'kind': 'behavior', 'slot': 1, 'uuid': '11111111-1111-4111-8111-111111111111',
+                               'version': [1, 0, 0], 'path': 'behavior_packs/old',
+                               'sha256': '910d3f050dae67a6633db910d18a481384e29a8d2cd88a2194b32ef30b9a3bcf'}]}
+        candidate = {'schema': 1, 'name': 'candidate', 'digest_format': m.M1_TREE_DIGEST_FORMAT,
+                     'observed_at': '2026-10-30T00:00:00+00:00',
+                     'status': {'ci': True, 'staging_smoke': True, 'staging_human': False, 'live': False},
+                     'packs': [{'kind': 'behavior', 'slot': 1, 'uuid': '22222222-2222-4222-8222-222222222222',
+                                'version': [2, 0, 0], 'path': f'worlds/{world}/behavior_packs/new',
+                                'sha256': '393dfa706fb9e01a81d106ee05fd80af7f69f32101bbddb29aeadce8cd59f37f'}]}
+        self.write(r / 'previous-lock.json', previous)
+        self.write(r / 'candidate-lock.json', candidate)
+        (r / 'backup/world/db').mkdir(parents=True, exist_ok=True)
+        (r / 'backup/world/db/data').write_bytes(b'world-leveldb-bytes')
+        (r / 'backup/world/level.dat').write_bytes(b'level')
+        (r / 'backup/server/behavior_packs/old').mkdir(parents=True)
+        (r / 'backup/server/behavior_packs/old/manifest.json').write_bytes(b'previous-pack')
+        manifest = {'world_sha256': '84754d022bd88f4ca63bbc369b2b760332f78b75e7a5165c650e2753ff6c6ff1',
+                    'global_packs': {'behavior_packs/old': previous['packs'][0]['sha256']},
+                    'previous_lock_sha256': hashlib.sha256((r / 'previous-lock.json').read_bytes()).hexdigest(),
+                    'candidate_lock_sha256': hashlib.sha256((r / 'candidate-lock.json').read_bytes()).hexdigest()}
+        self.write(r / 'backup/manifest.json', manifest)
+        controls = {
+            'policy': ('policy-original.json', 'senluo-policy.json', b'old policy'),
+            'family_guard': ('family-guard-original.py', 'family_guard.py', b'old family guard'),
+            'stable_lock_guard': ('stable-lock-guard-original.py', 'stable_lock_guard.py', b'old stable guard'),
+            'current_selector': ('current-selector.json', 'current.json', b'old selector'),
+        }
+        control_rows = {}
+        for key, (backup_name, source_name, content) in controls.items():
+            (r / 'backup' / backup_name).write_bytes(content)
+            control_rows[key] = {'source': '/tmp/quality/' + source_name, 'backup': backup_name,
+                                 'present': True, 'sha256': hashlib.sha256(content).hexdigest(),
+                                 'size': len(content), 'mode': 0o600, 'uid': 1000, 'gid': 1000}
+        self.write(r / 'backup/control-state.json', {'schema': 1, 'files': control_rows})
+        receipt = {'schema': 1, 'operation': 'live_family_deployment', 'server': server, 'world': world,
+                   'status': 'deployed', 'result': 'deployed', 'live': True, 'client': False,
+                   'production_ready': False, 'finished_at': '2026-10-30T02:00:00+00:00',
+                   'live_save_binding': {'status': 'verified', 'world': world,
+                                         'live_world': server + '/worlds/' + world},
+                   'candidate_lock_sha256': hashlib.sha256((r / 'candidate-lock.json').read_bytes()).hexdigest(),
+                   'backup_manifest_sha256': hashlib.sha256((r / 'backup/manifest.json').read_bytes()).hexdigest(),
+                   'control_state': {'path': str((r / 'backup/control-state.json').resolve()),
+                       'sha256': hashlib.sha256((r / 'backup/control-state.json').read_bytes()).hexdigest()},
+                   'control_state_sha256': hashlib.sha256((r / 'backup/control-state.json').read_bytes()).hexdigest()}
+        self.write(r / 'receipt.json', receipt)
+        return r
+
+    def test_m1_rollback_is_newest_complete_and_legacy_copies_can_retire(self):
+        m1 = self.m1_deployment()
+        planned = self.plan()
+        self.assertEqual(planned['newest_retained'], [str(m1)])
+        self.assertTrue(planned['rollback_retention_ready'])
+        self.assertEqual(self.row(planned, m1)['delete'], [])
+        self.assertIn('M1 run is retained whole', self.row(planned, m1)['reason'])
+        result = self.execute(planned)
+        self.assertEqual(result['state'], 'completed')
+        for output in (self.a, self.b, self.c):
+            self.assertFalse((output / 'production-snapshot').exists())
+        self.assertTrue((m1 / 'backup/world/db/data').exists())
+        self.assertTrue((m1 / 'backup/server/behavior_packs/old/manifest.json').exists())
+
+    def test_m1_bad_world_global_manifest_or_lock_reference_never_counts(self):
+        cases = ('world', 'global', 'manifest', 'lock', 'control-missing', 'control-corrupt')
+        for case in cases:
+            with self.subTest(case=case):
+                m1 = self.m1_deployment('m1-live-' + case)
+                if case == 'world':
+                    (m1 / 'backup/world/db/data').write_bytes(b'corrupt')
+                elif case == 'global':
+                    (m1 / 'backup/server/behavior_packs/old/manifest.json').unlink()
+                elif case == 'manifest':
+                    self.modify(m1 / 'backup', 'manifest.json', lambda value: value.update(world_sha256='0' * 64))
+                elif case == 'control-missing':
+                    (m1 / 'backup/policy-original.json').unlink()
+                elif case == 'control-corrupt':
+                    (m1 / 'backup/policy-original.json').write_bytes(b'corrupt')
+                else:
+                    self.modify(m1, 'candidate-lock.json', lambda value: value.update(name='changed'))
+                planned = self.plan()
+                self.assertEqual(planned['newest_retained'], [str(self.c)])
+                self.assertTrue(planned['rollback_retention_ready'])
+                row = self.row(planned, m1)
+                self.assertEqual(row['delete'], [])
+                self.assertIn('mismatched M1', row['reason'])
+                self.assertTrue((m1 / 'receipt.json').exists())
+
+    def test_m1_explicit_absent_stable_guard_is_a_complete_control_snapshot(self):
+        m1 = self.m1_deployment()
+        state_path = m1 / 'backup/control-state.json'
+        state = json.loads(state_path.read_text())
+        state['files']['stable_lock_guard'] = {
+            'source': '/tmp/quality/stable_lock_guard.py',
+            'backup': 'stable-lock-guard-original.py',
+            'present': False, 'sha256': None, 'size': None,
+            'mode': None, 'uid': None, 'gid': None}
+        (m1 / 'backup/stable-lock-guard-original.py').unlink()
+        self.write(state_path, state)
+        receipt_path = m1 / 'receipt.json'
+        receipt = json.loads(receipt_path.read_text())
+        control_sha = hashlib.sha256(state_path.read_bytes()).hexdigest()
+        receipt['control_state'] = {'path': str(state_path.resolve()), 'sha256': control_sha}
+        receipt['control_state_sha256'] = control_sha
+        self.write(receipt_path, receipt)
+        planned = self.plan()
+        self.assertEqual(planned['newest_retained'], [str(m1)])
+        self.assertTrue(planned['rollback_retention_ready'])
     def test_latest_one_original_evidence_retained_with_single_integrity_boundary(self):
         before = {rel: (self.a / rel).read_bytes() for rel in m.REPORTS}
         p = self.plan()

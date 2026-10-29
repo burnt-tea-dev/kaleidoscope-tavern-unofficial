@@ -42,6 +42,15 @@
 不支持glob或整個任務目錄。本機命令先產生計畫，核對精確清单後才加 `--execute`。
 有清單時只處理明列的非部署QA，不掃描或重驗其他部署；沒有清單時仍要求成功正常結束報告。
 
+M1 移出的失敗 QA 世界使用 `m1-failed-{gameplay,prepare}-rN/world`。
+明列項目另帶 `receipt`，指向同輪 `m1-gate-b-rN/receipt.json`；必須是失敗且 teardown 為 STOPPED，
+世界名稱、包索引與實際 manifest 相符。缺少原始收據或停止未確認的副本保留。
+清理前後固定原始收據的 hash／檔案身份，只刪下述生成檔，不改失敗結論。
+
+成功的 M1 正式部署由 `receipt.json`、兩份 lock、`backup/manifest.json` 及
+`backup/control-state.json` 證明完整回退。最後一項固定原政策、兩個守門程式（含原先不存在的狀態）
+及 `current.json` 的 bytes、hash 和還原所需權限。最新完整 M1 回退整份保留；尚未實作舊 M1 副本的刪除。
+
 明列退役可保留失敗或缺報告的原狀，只移除實際複製的引擎執行檔、測試世界的生成LevelDB檔，
 以及BP structures／RP textures和sounds內的常規二進位資產。
 保留DB診斷LOG、observer／scripts、JSON、模型、來源與原始報告／日誌，不刪整個世界或包。

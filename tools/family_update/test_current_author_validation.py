@@ -632,4 +632,28 @@ class CuratedRetainedInputs(unittest.TestCase):
   recipe=self.root/'companion-sources/fishing-current-local/recipe.json';recipe.write_bytes(recipe.read_bytes()+b'\n')
   with self.assertRaisesRegex(AssertionError,'evidence changed'):m.select_curated_inputs(self.original)
 
+class LockedArchiveReplacementTests(unittest.TestCase):
+ def test_current_whole_pair_can_replace_a_locked_archive_without_a_host_adapter(self):
+  with tempfile.TemporaryDirectory() as directory:
+   root=Path(directory);(root/'family').mkdir()
+   pair={side:{'uuid':'archive-'+side,'version':[1,0,10001],
+               'tree':m.tree({'manifest.json':'1'*64})} for side in ('BP','RP')}
+   upstream={'upstream':[{'name':'BetterBiomes','packs':[{'uuid':row['uuid']} for row in pair.values()]}]}
+   (root/'family/upstream.lock.json').write_text(json.dumps(upstream))
+   selection={'authors':{},'replacement_packs':{'BetterBiomes':pair}}
+   captured={'packs':[{'uuid':row['uuid'],'side':side,'version':row['version'],
+                       'files':{'manifest.json':'1'*64},'path':str(root/side)}
+                      for side,row in (('behavior',pair['BP']),('resource',pair['RP']))]}
+   with patch.object(m,'curated_selected',return_value=True),patch.object(m,'current_selection',return_value=selection),patch.object(m.c,'T',root):
+    roots,sources,report=m.select_replacement_inputs(captured)
+    self.assertEqual(len(roots),2)
+    self.assertTrue(all(row['role']=='owner_accepted_author_replacement' and row['official_author_release'] is False for row in sources.values()))
+    self.assertEqual(set(report['packs']),{row['uuid'] for row in pair.values()})
+    changed=copy.deepcopy(captured);changed['packs'][0]['files']['clover.json']='2'*64
+    with self.assertRaisesRegex(AssertionError,'replacement bytes changed'):m.select_replacement_inputs(changed)
+    pair['RP']['uuid']='unrelated-resource'
+    with self.assertRaisesRegex(AssertionError,'complete archive pair'):m.replacement_rows()
+    selection['replacement_packs']={'Unknown':pair}
+    with self.assertRaisesRegex(AssertionError,'reviewed upstream lock'):m.replacement_rows()
+
 if __name__=='__main__':unittest.main()

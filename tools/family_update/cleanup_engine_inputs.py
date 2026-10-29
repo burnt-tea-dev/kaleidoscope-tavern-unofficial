@@ -8,9 +8,11 @@ import argparse
 from contextlib import ExitStack
 import fcntl
 import filecmp
+import hashlib
 import json
 import os
 from pathlib import Path
+import re
 import shutil
 import stat
 
@@ -100,6 +102,91 @@ def database_file(p):
     return p.suffix in {'.ldb', '.sst'} or p.name in {'CURRENT', 'LOCK'} or (manifest.isascii() and manifest.isdigit())
 
 
+def failed_world_identity(engine, source_world, root, mounts):
+    """Bind a renamed M1 world to its receipt name and pack indexes."""
+    world = engine / 'world'
+    retention._safe_path(world, root, mounts)
+    if not world.is_dir() or world.is_symlink():
+        raise ValueError('Failed M1 archive has no regular world directory')
+    required_files = ('level.dat', 'levelname.txt', 'world_behavior_packs.json',
+                      'world_resource_packs.json')
+    required_dirs = ('db', 'behavior_packs', 'resource_packs')
+    if any(not (world / name).is_file() or (world / name).is_symlink()
+           for name in required_files):
+        raise ValueError('Failed M1 archive is missing world identity or pack indexes')
+    if any(not (world / name).is_dir() or (world / name).is_symlink()
+           for name in required_dirs):
+        raise ValueError('Failed M1 archive is missing world database or pack directories')
+    if (world / 'levelname.txt').read_text(encoding='utf-8').strip() != source_world.name:
+        raise ValueError('Failed M1 archive world name differs from its receipt source')
+    packs = {}
+    for kind, filename in (('behavior', 'world_behavior_packs.json'),
+                           ('resource', 'world_resource_packs.json')):
+        entries = json.loads((world / filename).read_text(encoding='utf-8-sig'))
+        if not isinstance(entries, list):
+            raise ValueError('Failed M1 world pack index must be a list')
+        ids = set()
+        for entry in entries:
+            if (not isinstance(entry, dict) or not isinstance(entry.get('pack_id'), str) or
+                    not isinstance(entry.get('version'), list) or len(entry['version']) != 3 or
+                    any(type(part) is not int or part < 0 for part in entry['version']) or
+                    entry['pack_id'] in ids):
+                raise ValueError('Failed M1 world pack index has an invalid or duplicate pack identity')
+            uid = entry['pack_id']
+            ids.add(uid)
+            pack = world / (kind + '_packs') / uid
+            manifest = pack / 'manifest.json'
+            retention._safe_path(manifest, root, mounts)
+            if not pack.is_dir() or pack.is_symlink() or not manifest.is_file() or manifest.is_symlink():
+                raise ValueError('Failed M1 world pack index has no matching installed pack')
+            manifest_value = json.loads(manifest.read_text(encoding='utf-8-sig'))
+            header = manifest_value.get('header') if isinstance(manifest_value, dict) else None
+            if (not isinstance(header, dict) or header.get('uuid') != uid or
+                    header.get('version') != entry['version']):
+                raise ValueError('Failed M1 world pack identity differs from its installed manifest')
+            packs[f'{kind}/{uid}'] = [*retention._stat(manifest), manifest.lstat().st_ctime_ns]
+    paths = [world, *(world / name for name in required_files),
+             *(world / name for name in required_dirs)]
+    identity = {'path': str(world), 'source_world': str(source_world),
+                'world_name': source_world.name,
+                'directory': [world.lstat().st_dev, world.lstat().st_ino, world.lstat().st_mode],
+                'required': {str(path): [*retention._stat(path), path.lstat().st_ctime_ns]
+                             for path in paths[1:]},
+                'packs': packs}
+    return identity
+
+
+def read_failed_receipt(receipt, root, mounts):
+    retention._safe_path(receipt, root, mounts)
+    before = receipt.lstat()
+    if not stat.S_ISREG(before.st_mode):
+        raise ValueError('Failed M1 receipt must be a regular file')
+    data = receipt.read_bytes()
+    after = receipt.lstat()
+    fingerprint = lambda info: (info.st_dev, info.st_ino, info.st_size,
+                                info.st_mtime_ns, info.st_ctime_ns)
+    if fingerprint(before) != fingerprint(after):
+        raise ValueError('Failed M1 receipt changed while being read')
+    return (json.loads(data.decode('utf-8-sig')),
+            retention._stat(receipt), after.st_ctime_ns,
+            hashlib.sha256(data).hexdigest())
+
+
+def failed_receipt_unchanged(binding):
+    receipt = Path(binding['path'])
+    before = receipt.lstat()
+    if not stat.S_ISREG(before.st_mode):
+        return False
+    data = receipt.read_bytes()
+    after = receipt.lstat()
+    fingerprint = lambda info: (info.st_dev, info.st_ino, info.st_size,
+                                info.st_mtime_ns, info.st_ctime_ns)
+    return (fingerprint(before) == fingerprint(after) and
+            retention._stat(receipt) == binding['metadata'] and
+            after.st_ctime_ns == binding['ctime_ns'] and
+            hashlib.sha256(data).hexdigest() == binding['sha256'])
+
+
 def reviewed_retirements(path, root, mounts):
     if path is None:
         return None
@@ -112,14 +199,56 @@ def reviewed_retirements(path, root, mounts):
         raise ValueError('Expected schema 1 and an explicit engines list')
     entries = {}
     for row in value['engines']:
-        if not isinstance(row, dict) or set(row) != {'engine', 'reason'}:
-            raise ValueError('Each retirement requires only engine and reason')
+        if not isinstance(row, dict) or set(row) not in ({'engine', 'reason'},
+                                                          {'engine', 'reason', 'receipt'}):
+            raise ValueError('Each retirement requires engine and reason, plus an optional failed M1 receipt')
         engine = retention._absolute(row['engine'])
         if engine == root or root not in engine.parents or str(engine) in entries:
             raise ValueError('Retirements must be unique engines below retention_root')
         if not isinstance(row['reason'], str) or not row['reason'].strip():
             raise ValueError('Each diagnostic retirement needs its reviewed reason')
-        entries[str(engine)] = row['reason']
+        entry = {'reason': row['reason'], 'receipt': None}
+        if 'receipt' in row:
+            match = re.fullmatch(r'm1-failed-(?:gameplay|prepare)-r([1-9][0-9]*)', engine.name)
+            if engine.parent != root or not match:
+                raise ValueError('A failed M1 receipt can bind only a named top-level failed QA directory')
+            expected = root / f'm1-gate-b-r{match.group(1)}' / 'receipt.json'
+            receipt = retention._absolute(row['receipt'])
+            if receipt != expected:
+                raise ValueError('Failed M1 receipt does not match the failed QA run number')
+            if overlap(engine, receipt):
+                raise ValueError('Failed M1 receipt must remain outside its retired QA archive')
+            value, receipt_metadata, receipt_ctime, receipt_sha256 = read_failed_receipt(receipt, root, mounts)
+            if not isinstance(value, dict):
+                raise ValueError('Failed M1 receipt must be an object')
+            server, world = value.get('server'), value.get('world')
+            phases = value.get('phases')
+            phase = phases.get('failure_teardown', {}) if isinstance(phases, dict) else {}
+            if (value.get('verdict') != 'fail' or phase.get('status') != 'STOPPED' or
+                    not isinstance(server, str) or not Path(server).is_absolute() or
+                    '..' in Path(server).parts or Path(server).as_posix() != server or
+                    Path(server) == root or root not in Path(server).parents or
+                    not isinstance(world, str) or world in {'', '.', '..'} or
+                    '/' in world or '\\' in world):
+                raise ValueError('Failed M1 receipt does not prove a stopped failed world')
+            source_server = Path(server)
+            retention._safe_path(source_server, root, mounts)
+            source_worlds = source_server / 'worlds'
+            retention._safe_path(source_worlds, root, mounts)
+            if (not source_server.is_dir() or source_server.is_symlink() or
+                    not source_worlds.is_dir() or source_worlds.is_symlink()):
+                raise ValueError('Failed M1 receipt server is not a regular staging directory')
+            source_world = source_worlds / world
+            retention._safe_path(source_world, root, mounts)
+            identity = failed_world_identity(engine, source_world, root, mounts)
+            entry['receipt'] = {'path': str(receipt), 'metadata': receipt_metadata,
+                                'ctime_ns': receipt_ctime, 'sha256': receipt_sha256,
+                                'source_world': str(source_world),
+                                'world_identity': identity,
+                                'original_status': {'verdict': value['verdict'],
+                                                    'failure_teardown': phase['status'],
+                                                    'error': value.get('error')}}
+        entries[str(engine)] = entry
     return {'path': str(path), 'metadata': retention._stat(path), 'engines': entries}
 
 
@@ -236,8 +365,14 @@ def diagnostic_group(path, root, mounts, select):
                  selected_allocated_bytes=allocated)]
 
 
-def diagnostic_targets(engine, root, mounts):
+def diagnostic_targets(engine, root, mounts, world_root=None):
     targets = []
+    if world_root is not None:
+        def world_file(parts):
+            path = Path(parts[-1]) if parts else Path()
+            return ((len(parts) >= 2 and parts[0] == 'db' and database_file(path)) or
+                    pack_asset_file(parts))
+        return diagnostic_group(world_root, root, mounts, world_file)
     executable = engine / 'bedrock_server'
     if executable.exists() and not executable.is_symlink():
         targets.append(target_metadata(executable, root, mounts))
@@ -460,7 +595,17 @@ def plan(root, context, comparison_cache=None, retire_diagnostics=None):
             if any(overlap(engine, p) for p in guards):
                 raise ValueError('Current source, evidence, policy or configuration reference')
             managed = ancestor_guard(engine, root, mounts)
-            if not (engine / 'bedrock_server').is_file() and not (engine / MARKER).is_file():
+            review_row = explicit.get(str(engine))
+            failed_receipt = review_row['receipt'] if review_row else None
+            failed_world = None
+            if failed_receipt:
+                failed_world = engine / 'world'
+                retention._safe_path(failed_world, root, mounts)
+                if (engine.parent != root or not failed_world.is_dir() or failed_world.is_symlink() or
+                        any(child.name not in {'world', MARKER} for child in engine.iterdir())):
+                    raise ValueError('Failed M1 retirement requires the exact world-only archive shape')
+            if (not (engine / 'bedrock_server').is_file() and
+                    not (engine / MARKER).is_file() and failed_world is None):
                 raise ValueError('No isolated QA executable or retirement marker')
             # A managed candidate is never reclassified as an ordinary probe.
             binding = None
@@ -476,14 +621,15 @@ def plan(root, context, comparison_cache=None, retire_diagnostics=None):
                 if any(part in {'worlds', *retention.BACKUPS, 'production-original-db'}
                        for part in engine.relative_to(root).parts):
                     raise ValueError('Explicit retirement cannot target world/backup paths')
-                retirement = {'reason': explicit[str(engine)],
+                retirement = {'reason': review_row['reason'],
+                              'failed_qa_receipt': failed_receipt,
                               'reports': diagnostic_reports(engine, root, mounts)}
             proof = closed_report(engine, root, mounts) if retirement is None else None
             if not proof and retirement is None:
                 raise ValueError('No successful normally closed QA report')
             assert_idle(engine)
             if retirement:
-                targets = diagnostic_targets(engine, root, mounts)
+                targets = diagnostic_targets(engine, root, mounts, failed_world)
             else:
                 targets = [v for name in PAYLOAD
                            if not (engine / name).is_symlink() and
@@ -546,6 +692,9 @@ def execute(planned, context_provider, comparison_cache=None):
         for report in retirement['reports'] if retirement else []:
             if retention._stat(Path(report['path'])) != report['metadata']:
                 raise RuntimeError('Original diagnostic report changed')
+        failed_receipt = retirement.get('failed_qa_receipt') if retirement else None
+        if failed_receipt and not failed_receipt_unchanged(failed_receipt):
+            raise RuntimeError('Failed M1 receipt changed')
         if previous_removals(engine, root, mounts) != (row['marker_metadata'], row['previous_removed']):
             raise RuntimeError('QA retirement marker changed before recording removals')
         marker = engine / MARKER
@@ -583,6 +732,9 @@ def execute(planned, context_provider, comparison_cache=None):
                 for report in retirement['reports'] if retirement else []:
                     if retention._stat(Path(report['path'])) != report['metadata']:
                         raise RuntimeError('Original diagnostic report changed before deletion')
+                failed_receipt = retirement.get('failed_qa_receipt') if retirement else None
+                if failed_receipt and not failed_receipt_unchanged(failed_receipt):
+                    raise RuntimeError('Failed M1 receipt changed before deletion')
                 # Recheck the complete group boundary; no hash/suite rerun.
                 try:
                     actual = target_metadata(p, root, mounts, generated_file=target.get('diagnostic_generated', False))
@@ -603,7 +755,8 @@ def execute(planned, context_provider, comparison_cache=None):
                         result['deleted'].append(leaf)
                         removed.append(leaf)
                         parts = Path(leaf).relative_to(engine).parts
-                        if len(parts) >= 4 and parts[0] == 'worlds' and parts[2] == 'db':
+                        if ((len(parts) >= 4 and parts[0] == 'worlds' and parts[2] == 'db') or
+                                (len(parts) >= 3 and parts[0] == 'world' and parts[1] == 'db')):
                             result['test_world_database_files_removed'] = True
                     unlink_selected(target, root, ledger, record_removed)
                 else:

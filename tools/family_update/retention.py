@@ -39,6 +39,8 @@ REPORTS = ('deployment-result.json', 'poststart-verification.json',
            'reviewed-family-receipt.json', 'build-evidence.json',
            'static-evidence.json', 'rollback-map.json',
            'production-before/inventory.json')
+M1_RECEIPT = 'receipt.json'
+M1_TREE_DIGEST_FORMAT = 'senluo-pack-tree-v1'
 
 
 def _now():
@@ -183,6 +185,8 @@ def _runs(report, saved=False):
 
 
 def _proof(r, root, mounts):
+    if _is_m1_output(r):
+        return _m1_proof(r, root, mounts)
     saved = _read(r / 'saved-world-report.json', root, mounts)
     fresh = saved.get('native_acceptance_source') == 'fresh_world'
     saved_native = fresh or saved.get('native_acceptance_source') == 'saved_world'
@@ -265,6 +269,213 @@ def _proof(r, root, mounts):
         identity['managed_report_metadata'] = managed.pop('metadata')
         proof['managed_rollback'] = managed
     return {'identity': identity, **proof}
+
+
+def _m1_tree_inventory(path, expected_digest, root, mounts):
+    """Verify one M1 tree fingerprint and return the file hashes for cleanup rechecks.
+
+    This reads regular file bytes only. It never opens a database through a DB
+    library or interprets world contents.
+    """
+    info = _walk(path, root, mounts)
+    _require(info['present'], 'M1 rollback tree is missing: ' + str(path))
+    files = {}
+    tree = hashlib.sha256((M1_TREE_DIGEST_FORMAT + '\0').encode('ascii'))
+    for name in sorted(info['files'], key=lambda value: value.encode('utf-8')):
+        encoded = name.encode('utf-8')
+        file = path / name
+        before = _stat(file)
+        _require(stat.S_ISREG(file.lstat().st_mode), 'M1 rollback entry is not regular: ' + str(file))
+        tree.update(len(encoded).to_bytes(8, 'big'))
+        tree.update(encoded)
+        tree.update(before[2].to_bytes(8, 'big'))
+        file_digest = hashlib.sha256()
+        descriptor = os.open(file, os.O_RDONLY | os.O_NOFOLLOW)
+        with os.fdopen(descriptor, 'rb') as source:
+            opened = os.fstat(source.fileno())
+            _require([opened.st_dev, opened.st_ino, opened.st_size, opened.st_mtime_ns] == before,
+                     'M1 rollback entry changed before hashing: ' + str(file))
+            for block in iter(lambda: source.read(1024 * 1024), b''):
+                tree.update(block)
+                file_digest.update(block)
+        _require(_stat(file) == before, 'M1 rollback entry changed while hashing: ' + str(file))
+        files[name] = file_digest.hexdigest()
+    _require(_walk(path, root, mounts)['files'] == info['files'],
+             'M1 rollback tree topology changed while hashing: ' + str(path))
+    _require(tree.hexdigest() == expected_digest,
+             'M1 rollback tree fingerprint differs from its manifest: ' + str(path))
+    return files
+
+
+def _is_m1_output(path):
+    return all((path / name).is_file() for name in
+               (M1_RECEIPT, 'candidate-lock.json', 'previous-lock.json'))
+
+
+def _m1_lock(value, label, world):
+    _require(isinstance(value, dict) and value.get('schema') == 1 and
+             value.get('digest_format') == M1_TREE_DIGEST_FORMAT and
+             isinstance(value.get('name'), str) and value['name'].strip() and
+             isinstance(value.get('packs'), list) and value['packs'],
+             'M1 ' + label + ' lock is invalid')
+    status = value.get('status')
+    observed = value.get('observed_at')
+    _require(isinstance(status, dict) and type(status.get('ci')) is bool and
+             (label != 'candidate' or status.get('ci') is True) and
+             type(status.get('staging_smoke')) is bool and
+             'staging_human' in status and 'live' in status and isinstance(observed, str),
+             'M1 ' + label + ' lock status is invalid')
+    _date(observed)
+    paths = set()
+    identities = set()
+    slots = {'behavior': 0, 'resource': 0}
+    for pack in value['packs']:
+        _require(isinstance(pack, dict) and pack.get('kind') in {'behavior', 'resource'} and
+                 isinstance(pack.get('uuid'), str) and
+                 re.fullmatch(r'[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}', pack['uuid']) and
+                 isinstance(pack.get('path'), str) and bool(pack['path']) and isinstance(pack.get('sha256'), str) and
+                 re.fullmatch(r'[0-9a-f]{64}', pack['sha256']),
+                 'M1 ' + label + ' lock pack is invalid')
+        side = pack['kind']
+        slots[side] += 1
+        _require(type(pack.get('slot')) is int and pack['slot'] == slots[side] and
+                 (side, pack['uuid']) not in identities and isinstance(pack.get('version'), list) and
+                 len(pack['version']) == 3 and all(type(part) is int and part >= 0 for part in pack['version']),
+                 'M1 ' + label + ' lock pack identity/version is invalid')
+        identities.add((side, pack['uuid']))
+        relative = Path(pack['path'])
+        _require(not relative.is_absolute() and '..' not in relative.parts and
+                 relative.as_posix() == pack['path'] and pack['path'] not in paths,
+                 'M1 ' + label + ' lock pack path is unsafe or duplicated')
+        directories = {side + '_packs', 'development_' + side + '_packs'}
+        _require((len(relative.parts) == 2 and relative.parts[0] in directories) or
+                 (len(relative.parts) == 4 and relative.parts[0:2] == ('worlds', world) and
+                  relative.parts[2] in directories),
+                 'M1 ' + label + ' lock pack path is outside the bound world/pack directories')
+        paths.add(pack['path'])
+    return value
+
+
+def _m1_proof(r, root, mounts):
+    """Prove the native M1 deployment receipt and complete saved-world rollback."""
+    receipt_path = r / M1_RECEIPT
+    receipt = _read(receipt_path, root, mounts)
+    _require(receipt.get('schema') == 1 and receipt.get('operation') == 'live_family_deployment' and
+             receipt.get('status') == receipt.get('result') == 'deployed' and
+             receipt.get('live') is True and receipt.get('client') is False and
+             receipt.get('production_ready') is False,
+             'M1 receipt is not a successful LIVE deployment')
+    _date(receipt['finished_at'])
+    server = receipt.get('server')
+    world = receipt.get('world')
+    binding = receipt.get('live_save_binding')
+    server_path = Path(server) if isinstance(server, str) else Path('.')
+    _require(isinstance(server, str) and server_path.is_absolute() and '..' not in server_path.parts and
+             server_path.as_posix() == server and server_path.name not in {'', '.', '..'} and
+             isinstance(world, str) and world not in {'', '.', '..'} and '/' not in world and '\\' not in world and
+             isinstance(binding, dict) and binding.get('status') == 'verified' and
+             binding.get('world') == world and binding.get('live_world') == str(server_path / 'worlds' / world),
+             'M1 receipt does not bind its BDS server and saved world')
+
+    candidate_path, previous_path = r / 'candidate-lock.json', r / 'previous-lock.json'
+    candidate = _read(candidate_path, root, mounts)
+    previous = _read(previous_path, root, mounts)
+    candidate_raw, previous_raw = candidate_path.read_bytes(), previous_path.read_bytes()
+    candidate_sha, previous_sha = hashlib.sha256(candidate_raw).hexdigest(), hashlib.sha256(previous_raw).hexdigest()
+    _require(receipt.get('candidate_lock_sha256') == candidate_sha,
+             'M1 receipt candidate lock SHA256 differs')
+    candidate, previous = _m1_lock(candidate, 'candidate', world), _m1_lock(previous, 'previous', world)
+    manifest_path = r / 'backup/manifest.json'
+    manifest = _read(manifest_path, root, mounts)
+    manifest_sha = hashlib.sha256(manifest_path.read_bytes()).hexdigest()
+    _require(receipt.get('backup_manifest_sha256') == manifest_sha and
+             manifest.get('candidate_lock_sha256') == candidate_sha and
+             manifest.get('previous_lock_sha256') == previous_sha,
+             'M1 receipt, backup manifest and stable locks are not hash-bound')
+    _require(isinstance(manifest.get('world_sha256'), str) and
+             re.fullmatch(r'[0-9a-f]{64}', manifest['world_sha256']) and
+             isinstance(manifest.get('global_packs'), dict), 'M1 backup manifest is invalid')
+
+    control_ref = receipt.get('control_state')
+    control_path = r / 'backup/control-state.json'
+    _require(isinstance(control_ref, dict) and
+             control_ref.get('path') == str(control_path.resolve()) and
+             control_ref.get('sha256') == receipt.get('control_state_sha256') and
+             re.fullmatch(r'[0-9a-f]{64}', str(control_ref.get('sha256', ''))),
+             'M1 receipt lacks a bound control-state snapshot')
+    control = _read(control_path, root, mounts)
+    control_sha = hashlib.sha256(control_path.read_bytes()).hexdigest()
+    _require(control.get('schema') == 1 and control_sha == control_ref['sha256'] and
+             isinstance(control.get('files'), dict) and set(control['files']) ==
+             {'policy', 'family_guard', 'stable_lock_guard', 'current_selector'},
+             'M1 control-state snapshot is invalid or changed')
+    expected_controls = {
+        'policy': ('policy-original.json', 'senluo-policy.json', True),
+        'family_guard': ('family-guard-original.py', 'family_guard.py', True),
+        'stable_lock_guard': ('stable-lock-guard-original.py', 'stable_lock_guard.py', False),
+        'current_selector': ('current-selector.json', 'current.json', True),
+    }
+    backup_control_files = {'control-state.json': control_sha}
+    for key, (backup_name, source_name, required) in expected_controls.items():
+        row = control['files'][key]
+        _require(isinstance(row, dict) and row.get('backup') == backup_name and
+                 isinstance(row.get('source'), str) and Path(row['source']).is_absolute() and
+                 '..' not in Path(row['source']).parts and Path(row['source']).name == source_name and
+                 type(row.get('present')) is bool and (not required or row['present']),
+                 'M1 control source record is invalid: ' + key)
+        if not row['present']:
+            _require(all(row.get(field) is None for field in ('sha256', 'size', 'mode', 'uid', 'gid')) and
+                     not (r / 'backup' / backup_name).exists(),
+                     'Absent M1 control source has unexpected backup bytes: ' + key)
+            continue
+        _require(isinstance(row.get('sha256'), str) and
+                 re.fullmatch(r'[0-9a-f]{64}', row['sha256']) and
+                 type(row.get('size')) is int and row['size'] >= 0 and
+                 type(row.get('mode')) is int and 0 <= row['mode'] <= 0o777 and
+                 type(row.get('uid')) is int and row['uid'] >= 0 and
+                 type(row.get('gid')) is int and row['gid'] >= 0,
+                 'M1 control source metadata is invalid: ' + key)
+        target = r / 'backup' / backup_name
+        _safe_path(target, root, mounts)
+        before = _stat(target)
+        _require(stat.S_ISREG(target.lstat().st_mode) and before[2] == row['size'],
+                 'M1 control backup is missing or has the wrong size: ' + key)
+        digest = hashlib.sha256()
+        descriptor = os.open(target, os.O_RDONLY | os.O_NOFOLLOW)
+        with os.fdopen(descriptor, 'rb') as source:
+            opened = os.fstat(source.fileno())
+            _require([opened.st_dev, opened.st_ino, opened.st_size, opened.st_mtime_ns] == before,
+                     'M1 control backup changed before hashing: ' + key)
+            for block in iter(lambda: source.read(1024 * 1024), b''):
+                digest.update(block)
+        _require(digest.hexdigest() == row['sha256'] and _stat(target) == before,
+                 'M1 control backup hash differs: ' + key)
+        backup_control_files[backup_name] = row['sha256']
+
+    world_inventory = _m1_tree_inventory(r / 'backup/world', manifest['world_sha256'], root, mounts)
+    _require('level.dat' in world_inventory, 'M1 rollback world lacks its level metadata')
+    inventories = {'backup': backup_control_files, 'backup/world': world_inventory}
+    expected_globals = {pack['path']: pack['sha256'] for pack in previous['packs']
+                        if not Path(pack['path']).parts[0] == 'worlds'}
+    _require(manifest['global_packs'] == expected_globals,
+             'M1 global backup manifest differs from the previous stable lock')
+    for relative, expected in manifest['global_packs'].items():
+        path = Path(relative)
+        _require(len(path.parts) == 2 and path.parts[0] in {
+            'behavior_packs', 'resource_packs', 'development_behavior_packs', 'development_resource_packs'},
+            'M1 global backup path is outside BDS pack directories')
+        inventories['backup/server/' + relative] = _m1_tree_inventory(
+            r / 'backup/server' / relative, expected, root, mounts)
+
+    identity = {'kind': 'm1_live_deployment', 'output': str(r),
+                'completed_at': receipt['finished_at'],
+                'receipt_sha256': hashlib.sha256(receipt_path.read_bytes()).hexdigest(),
+                'backup_manifest_sha256': manifest_sha,
+                'deployment_receipt_metadata': _stat(receipt_path),
+                'backup_manifest_metadata': _stat(manifest_path),
+                'candidate_lock_sha256': candidate_sha, 'previous_lock_sha256': previous_sha,
+                'control_state_sha256': control_sha, 'server': server, 'world': world}
+    return {'identity': identity, 'm1': {'inventories': inventories}}
 
 
 def _managed_rollback(proof, r, root, mounts):
@@ -421,6 +632,8 @@ def _rollback_files(proof, r):
 
 
 def _rollback_inventories(proof, r):
+    if 'm1' in proof:
+        return proof['m1']['inventories']
     return {'production-snapshot': proof['docs']['production-before/backup-receipt.json']['files'],
             'production-rollback': _rollback_files(proof, r),
             **proof.get('managed_rollback', {}).get('inventories', {})}
@@ -451,6 +664,9 @@ def _assert_idle(output, proc_root):
 
 def _backup_complete(proof, r, root, mounts):
     try:
+        if 'm1' in proof:
+            _require(bool(proof['m1']['inventories']), 'M1 rollback inventory is empty')
+            return True, None
         for relative, files in _rollback_inventories(proof, r).items():
             actual = _walk(r / relative, root, mounts)
             _require(actual['present'] and actual['files'] == set(files), 'Retained rollback file set incomplete: ' + relative)
@@ -466,16 +682,17 @@ def _discover(root, guards, mounts, directories=None):
         if '.git' in files or '.git' in dirs:
             dirs[:] = []
             continue
-        if directories is not None and 'deployment-result.json' not in files:
+        m1_shape = _is_m1_output(p)
+        if directories is not None and 'deployment-result.json' not in files and not m1_shape:
             info = p.stat()
             directories[str(p)] = [info.st_dev, info.st_ino, info.st_mtime_ns]
-        if 'bedrock_server' in files and 'deployment-result.json' not in files:
+        if 'bedrock_server' in files and 'deployment-result.json' not in files and not m1_shape:
             dirs[:] = []
             continue
         # Protected deployments still participate in the retention horizon.
         # Historic child mounts stay outside discovery and deletion.
         dirs[:] = [d for d in dirs if d not in SKIP and not (p / d).is_symlink() and p / d not in mounts]
-        if 'deployment-result.json' in files:
+        if 'deployment-result.json' in files or m1_shape:
             rows.append(p)
             dirs[:] = []
     return sorted(rows)
@@ -656,18 +873,29 @@ def plan(root, *, protected=(), lease=None, references=(), historical_records=()
     _require(root.is_dir() and not root.is_symlink(), 'Configured retention root must be a real directory')
     guards, lease_state = _context(protected, lease, references)
     outputs, candidates, finished = [], set(), []
+    m1_proofs = {}
     directories, headers = {}, {}
     for r in _discover(root, guards, mounts, directories):
-        headers[str(r / "deployment-result.json")] = _stat(r / "deployment-result.json")
-        row = {'output': str(r), 'retained': [], 'delete': [], 'state': 'preserved'}
+        m1_shape = _is_m1_output(r)
+        header = r / (M1_RECEIPT if m1_shape else 'deployment-result.json')
+        headers[str(header)] = _stat(header)
+        row = {'output': str(r), 'retained': [], 'delete': [], 'state': 'preserved',
+               **({'kind': 'm1_live_deployment'} if m1_shape else {})}
         outputs.append(row)
         try:
-            dep = _read(r / 'deployment-result.json', root, mounts, allow_mount=True)
-            if dep.get('state') == 'deployed_running':
-                finished.append((_date(dep['completed_at']), str(r)))
-            candidates.add(str(r))
+            if m1_shape:
+                proof = _m1_proof(r, root, mounts)
+                m1_proofs[str(r)] = proof
+                finished.append((_date(proof['identity']['completed_at']), str(r)))
+                candidates.add(str(r))
+            else:
+                dep = _read(r / 'deployment-result.json', root, mounts, allow_mount=True)
+                if dep.get('state') == 'deployed_running':
+                    finished.append((_date(dep['completed_at']), str(r)))
+                candidates.add(str(r))
         except (OSError, ValueError, KeyError, TypeError) as error:
-            row['reason'] = 'Incomplete, failed or mismatched deployment metadata: ' + str(error)
+            row['reason'] = ('Incomplete, failed or mismatched M1 deployment metadata: ' if m1_shape else
+                             'Incomplete, failed or mismatched deployment metadata: ') + str(error)
     finished.sort(reverse=True)
     latest = [name for _, name in finished[:retain]]
     rollback_ready = len(latest) >= retain
@@ -680,7 +908,7 @@ def plan(root, *, protected=(), lease=None, references=(), historical_records=()
     for name in latest:
         proof = None
         try:
-            proof = _proof(Path(name), root, mounts)
+            proof = m1_proofs.get(name) or _proof(Path(name), root, mounts)
             rows[name]['binding'] = proof['identity']
         except (OSError, ValueError, KeyError, TypeError) as error:
             rows[name]['reason'] = 'Incomplete, failed or mismatched deployment metadata: ' + str(error)
@@ -696,10 +924,12 @@ def plan(root, *, protected=(), lease=None, references=(), historical_records=()
             continue
         if row['output'] in latest:
             if 'binding' in row:
-                row['reason'] = 'Newest retained successful deployment'
+                row['reason'] = ('Newest retained complete M1 rollback; M1 run is retained whole'
+                                  if row.get('kind') == 'm1_live_deployment' else
+                                  'Newest retained successful deployment')
             continue
         try:
-            proof = _proof(r, root, mounts)
+            proof = m1_proofs.get(row['output']) or _proof(r, root, mounts)
             row['binding'] = proof['identity']
         except (OSError, ValueError, KeyError, TypeError) as error:
             row['reason'] = 'Incomplete, failed or mismatched deployment metadata: ' + str(error)
@@ -709,6 +939,9 @@ def plan(root, *, protected=(), lease=None, references=(), historical_records=()
             continue
         if any(_overlap(r, g) for g in guards):
             row['reason'] = 'Referenced by current live/source/policy/config/archive/lease context'
+            continue
+        if 'm1' in proof:
+            row['reason'] = 'M1 native run retained whole; M1 copy deletion is not implemented'
             continue
         marker = None
         try:
@@ -771,8 +1004,11 @@ def _verify_horizon(planned):
     # changing the deployment horizon. Check the actual headers instead, while
     # keeping protected outputs in discovery so a new current deployment counts.
     root, mounts = _absolute(planned['root']), _mount_paths()
-    actual = {str(output / 'deployment-result.json'): _stat(output / 'deployment-result.json')
-              for output in _discover(root, (), mounts)}
+    actual = {}
+    for output in _discover(root, (), mounts):
+        m1_shape = _is_m1_output(output)
+        header = output / (M1_RECEIPT if m1_shape else 'deployment-result.json')
+        actual[str(header)] = _stat(header)
     expected = planned['horizon_metadata']['deployment_headers']
     _require(actual.keys() == expected.keys(), 'Deployment horizon changed during cleanup: header set differs')
     for value, identity in expected.items():

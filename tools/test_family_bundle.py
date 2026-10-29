@@ -170,6 +170,38 @@ class ReviewedHostExtensionTests(unittest.TestCase):
    self.assertEqual(proof['version'],[0,1,0]);self.assertEqual(p.read_text(),'function run(){api();return 1;}\n');self.assertEqual((host/'scripts/api.js').read_bytes(),(own/'scripts/api.js').read_bytes())
    with self.assertRaises(ValueError):apply_host_extension(spec,own,host,source)
 
+ def test_reviewed_script_replacement_checks_the_real_apply_boundary(self):
+  import copy,hashlib
+  from unittest.mock import patch
+  import stable_host_profiles as profiles
+  from host_extensions import apply_host_extension
+  with tempfile.TemporaryDirectory() as tmp:
+   root=Path(tmp);own=root/'own';own.mkdir();host=root/'host';(host/'scripts').mkdir(parents=True)
+   path=host/'scripts/entry.js';before='export function run(){return 1;}\n';after='export function run(){return 2;}\n'
+   sha=lambda value:hashlib.sha256(value.encode()).hexdigest()
+   spec={'schema':1,'id':'own:startup','version':[1,0,0],'host_uuid':'fixture-host','archive_sha256':'fixture-archive',
+         'expires':'2099-01-01','authorization':'fixture','feedback':'fixture','removal_condition':'author adopts fix',
+         'original_files':{'scripts/entry.js':sha(before)},'patched_files':{'scripts/entry.js':sha(after)},
+         'copies':{},'imports':{},'insertions':[],
+         'text_replacements':[{'path':'scripts/entry.js','before':before,'after':after}]}
+   def reviewed(value):
+    return {'id':value['id'],'host_uuid':value['host_uuid'],'archive_sha256':value['archive_sha256'],
+            'admission':profiles.CURATED,'spec_sha256':profiles.declaration_sha(value),
+            'source_owner':'upstream','required_extensions':[],'copies':{}}
+   source={'owner':'upstream','archive_sha256':spec['archive_sha256']};path.write_text(before)
+   with patch.dict(profiles.PROFILES,{'fixture-startup':reviewed(spec)}):
+    apply_host_extension(spec,own,host,source)
+   self.assertEqual(path.read_text(),after)
+   path.write_text(before)
+   bad=copy.deepcopy(spec);bad['text_replacements'][0]['before']='return'
+   with patch.dict(profiles.PROFILES,{'fixture-startup':reviewed(bad)}):
+    with self.assertRaisesRegex(ValueError,'patched host hash differs'):apply_host_extension(bad,own,host,source)
+   self.assertEqual(path.read_text(),before)
+   bad['text_replacements'][0]['before']='missing anchor'
+   with patch.dict(profiles.PROFILES,{'fixture-startup':reviewed(bad)}):
+    with self.assertRaisesRegex(ValueError,'non-unique reviewed replacement'):apply_host_extension(bad,own,host,source)
+   self.assertEqual(path.read_text(),before)
+
 class AdditiveHostItemCapabilityTests(unittest.TestCase):
  def test_reviewed_titled_freezer_runs_the_real_apply_path_without_widening_storage(self):
   import copy,hashlib
