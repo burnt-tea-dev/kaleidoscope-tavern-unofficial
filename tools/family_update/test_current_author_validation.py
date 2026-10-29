@@ -556,6 +556,28 @@ class CuratedRetainedInputs(unittest.TestCase):
   changed=copy.deepcopy(self.original);changed['packs'][0]['files']['content.bin']='f'*64
   with self.assertRaisesRegex(AssertionError,'captured input bytes changed'):m.select_curated_inputs(changed)
 
+ def test_new_owner_fishing_pair_is_retained_without_the_legacy_adapter(self):
+  for row in self.rows:
+   if row['kind']!='canonical-fishing':continue
+   row.update(group='Fishing',kind='literal',output_version=row['input_version'],output_tree=row['input_tree'],
+              provenance={'official_author_release':False,'original_archive_verified':False,'latest_stable_verified':False})
+   for key in ('canonical_source','recipe_path','recipe_sha256'):row.pop(key)
+  self.write(stable.CURATED_INPUT,self.value)
+  self.catalog['selection']['sha256']=m.digest((self.root/stable.CURATED_INPUT).read_bytes())
+  self.commit('Select the complete owner Fishing pair')
+  _,sources,report,receipt=self.selected()
+  m.verify_curated_inputs(receipt,report)
+  for row in self.rows:
+   if row['group']=='Fishing':
+    self.assertEqual(sources[row['uuid']]['kind'],'literal')
+    self.assertEqual(report['packs'][row['uuid']]['path'],next(p['path'] for p in self.original['packs'] if p['uuid']==row['uuid']))
+  row=next(row for row in self.rows if row['group']=='Fishing')
+  row['kind']='canonical-fishing'
+  self.write(stable.CURATED_INPUT,self.value)
+  self.catalog['selection']['sha256']=m.digest((self.root/stable.CURATED_INPUT).read_bytes())
+  self.commit('Reject mixing two Fishing producers')
+  with self.assertRaisesRegex(AssertionError,'incomplete or mixed'):self.selected()
+
  def test_new_world_can_reuse_the_complete_installed_fishing_output(self):
   for actual in self.original['packs']:
    row=next((row for row in self.rows if row['uuid']==actual['uuid'] and row['kind']=='canonical-fishing'),None)

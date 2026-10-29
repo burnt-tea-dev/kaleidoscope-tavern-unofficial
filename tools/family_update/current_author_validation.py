@@ -264,9 +264,12 @@ def _curated_retained_rows():
             value=row[key]
             assert isinstance(value,list) and len(value)==3 and all(type(n) is int and n>=0 for n in value), 'Invalid curated retained input version'
         assert row['provenance']['official_author_release'] is False, 'Retained compatibility bytes are not official author releases'
-    for kind in ('saturation','canonical-fishing'):
-        selected=[row for row in rows if row['kind']==kind]
-        assert len(selected)==2 and {row['side'] for row in selected}=={'behavior','resource'}, 'Curated retained pair is incomplete: '+kind
+    selected=[row for row in rows if row['kind']=='saturation']
+    assert len(selected)==2 and {row['side'] for row in selected}=={'behavior','resource'}, 'Curated retained pair is incomplete: saturation'
+    # A complete newer owner input can supersede the legacy Fishing adapter.
+    # Both sides must choose the same producer; literal bytes stay unchanged.
+    selected=[row for row in rows if row['kind']=='canonical-fishing' or row['group']=='Fishing']
+    assert len(selected)==2 and {row['side'] for row in selected}=={'behavior','resource'} and len({row['kind'] for row in selected})==1, 'Curated retained pair is incomplete or mixed: Fishing'
     excluded=c.CONFIG.get('fresh_world_excluded_groups',[])
     assert isinstance(excluded,list) and all(isinstance(group,str) and group.strip() for group in excluded) and len(set(excluded))==len(excluded), 'Fresh-world exclusions require distinct group names'
     for group in excluded:
@@ -510,6 +513,10 @@ def validate_functional_artifacts(path,proof,baseline,members):
         assert report['source_test_sha256']==cookery['test_source_sha256']==committed_digest('tools/cookery-station-performance.test.mjs')
     if 'Fishing' in policy['sources']:
         fish=current['sources']['Fishing'];assert fish['kind']=='current_local_fishing_functional' and fish['historical_origin_status']=='unknown'
+        selected_fish=[row for row in policy.get('retained_inputs',[]) if row['group']=='Fishing']
+        if selected_fish and all(row['kind']=='literal' for row in selected_fish):
+            assert fish.get('deployed') is False, 'Legacy Fishing tests cannot certify the newer owner input'
+            assert fish['selected_inputs']=={row['uuid']:{'version':row['output_version'],'tree':row['output_tree']} for row in selected_fish}, 'Selected Fishing input scope differs'
         assert fish['original_archive_verified'] is False and fish['latest_stable_verified'] is False
         recipe=committed('companion-sources/fishing-current-local/recipe.json',fish['export_recipe']['sha256'])
         assert recipe['kind']=='canonical_local_fishing_repair' and recipe['version']==fish['version']
