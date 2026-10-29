@@ -15631,7 +15631,7 @@
     },
     "selection": {
       "path": "companion-sources/current-author-curated/profile.json",
-      "sha256": "9c958da11419a43402805b9c4578737ad2901ea4eba3d851ec7ef5deee9095b8",
+      "sha256": "b3e70d6d693cb4c080638e1ca60a977d8e4d2ca1ba1964ac97d06097a912ea92",
       "value": {
         "schema": 1,
         "kind": "current-author-curated",
@@ -15841,7 +15841,8 @@
             1,
             0,
             2
-          ]
+          ],
+          "handoff_commit": "8d35e2b3c929f6a433dfccf353f4cb45d92756ef"
         },
         "pack_versions": {
           "Cookery": {
