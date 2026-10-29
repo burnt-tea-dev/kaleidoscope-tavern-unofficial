@@ -568,6 +568,20 @@ class CuratedRetainedInputs(unittest.TestCase):
   changed=copy.deepcopy(self.original);changed['packs'][0]['files']['content.bin']='f'*64
   with self.assertRaisesRegex(AssertionError,'captured input bytes changed'):m.select_curated_inputs(changed)
 
+ def test_curated_candidate_also_checks_the_declared_whole_author_replacement(self):
+  _,_,report,receipt=self.selected()
+  replacements={}
+  for side in ('behavior','resource'):
+   uid='replacement-'+side
+   actual=self.pack(self.root/'replacement'/side,uid,side,[1,8,10071],b'exact owner replacement')
+   replacements[uid]={'side':side,'version':actual['version'],'tree':m.tree(actual['files'])}
+   receipt['packs'].append({**actual,'source':{'owner':'preserved','role':'owner_accepted_author_replacement','official_author_release':False}})
+  with patch.object(m,'replacement_rows',return_value=replacements):
+   m.verify_curated_inputs(receipt,report)
+   altered=copy.deepcopy(receipt);altered['packs'][-1]['files']['content.bin']='0'*64
+   with self.assertRaisesRegex(AssertionError,'Replacement candidate output differs'):
+    m.verify_curated_inputs(altered,report)
+
  def test_new_owner_fishing_pair_is_retained_without_the_legacy_adapter(self):
   for row in self.rows:
    if row['kind']!='canonical-fishing':continue

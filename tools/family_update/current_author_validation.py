@@ -414,7 +414,10 @@ def verify_curated_inputs(receipt,selection):
     assert set(selection['packs'])=={row['uuid'] for row in rows}, 'Curated input selection set changed'
     actual={row['uuid']:row for row in receipt['packs']}
     assert len(actual)==len(receipt['packs']), 'Candidate contains duplicate pack identities'
-    assert {uid for uid,row in actual.items() if row['source']['owner']=='preserved'}==set(selection['packs']), 'Candidate contains an unselected retained input'
+    replacements=replacement_rows()
+    assert {uid for uid,row in actual.items() if row['source']['owner']=='preserved'}==set(selection['packs'])|set(replacements), 'Candidate contains an unselected retained input'
+    if replacements:
+        verify_replacement_inputs(receipt,{'kind':'author_replacement_selection','packs':replacements})
     for row in rows:
         uid=row['uuid'];pack=actual[uid];selected=selection['packs'][uid]
         expected={'side':row['side'],'input_version':row['input_version'],'version':row['output_version'],
