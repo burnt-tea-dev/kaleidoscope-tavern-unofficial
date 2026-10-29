@@ -23,7 +23,9 @@ Tavern has its own guide and does **not** require Cookery. Optional companion pa
 
 ## Languages
 
-Item names and other resource text follow the Minecraft client language. Guide language selection is handled by the guide itself; these are separate settings. Translation coverage and remaining untranslated text are being reviewed.
+- Resource text: **English, 简体中文, 繁體中文**. Japanese and Russian include partial upstream translations, with English fallback for untranslated keys.
+- Guide: English, Simplified Chinese and Traditional Chinese; choose the language in its settings. The default is Traditional Chinese, independent of the Minecraft client language.
+- Some machine rejection messages still use Traditional Chinese. Matching language-file keys do not mean every interface has been translated.
 
 ## Development
 
