@@ -1,10 +1,10 @@
 import {EntityTypes,system,world} from '@minecraft/server';
 import {ActionFormData} from '@minecraft/server-ui';
 import {statusNow} from './custom-effects.js';
-import {createEffectIcons,effectDetails,EFFECT_ICON_HIDE_TAG,EFFECT_ICON_INTERVAL} from '../core/effect-icons.js';
+import {createEffectIcons,createDimensionRefresh,effectDetails,EFFECT_ICON_HIDE_TAG,EFFECT_ICON_INTERVAL} from '../core/effect-icons.js';
 import {createEffectIconTransport} from '../core/effect-icon-transport.js';
 import {externalEffectDefinition} from '../core/extension-content.js';
-export const effectIconDiagnostics={ready:false,queueAvailable:false,embeddedQueueAvailable:false,transport:'starting',sent:0,detailsOpened:0,errors:0,lastError:''};
+export const effectIconDiagnostics={ready:false,queueAvailable:false,embeddedQueueAvailable:false,transport:'starting',sent:0,detailsOpened:0,dimensionRefreshes:0,errors:0,lastError:''};
 function report(error){effectIconDiagnostics.errors++;effectIconDiagnostics.lastError=String(error).slice(0,300);}
 export function effectIconQueueAvailable(){try{return !!EntityTypes.get('uq:ui_queue_checker');}catch{return false;}}
 const enabled=id=>id.startsWith('kaleidoscope_tavern:')||externalEffectDefinition(id)?.mode==='timed';
@@ -14,6 +14,11 @@ const transport=createEffectIconTransport({queueAvailable:()=>effectIconDiagnost
  legacySend:(player,packet)=>player.runCommand('scriptevent ui_load:kt_effect_icons '+packet)});
 const icons=createEffectIcons({status:statusNow,available:()=>effectIconDiagnostics.ready,enabled,
  send(player,packet){transport.send(player,packet);effectIconDiagnostics.sent++;},onError:report});
+// The client rebuilds its HUD after a dimension transfer, possibly after the
+// poll already resent once. Mark the view again at +20/+40 ticks; the poll
+// still sends only the current status, never a cached packet.
+const refresh=createDimensionRefresh({schedule:(callback,delay)=>system.runTimeout(callback,delay),cancel:handle=>system.clearRun(handle),
+ refresh(id){if(icons.dirty(id))effectIconDiagnostics.dimensionRefreshes++;}});
 let installed=false;
 export function installEffectIcons(){
  if(installed)return;installed=true;
@@ -27,8 +32,9 @@ export function installEffectIcons(){
   effectIconDiagnostics.transport=transport.mode();effectIconDiagnostics.ready=true;
   console.info('[Tavern effect icons] transport '+effectIconDiagnostics.transport+'; standalone support built in');
  },5);
- world.afterEvents.playerSpawn.subscribe(e=>icons.reset(e.player.id));
- world.afterEvents.playerLeave.subscribe(e=>{icons.forget(e.playerId);detailsSessions.delete(e.playerId);});
+ world.afterEvents.playerSpawn.subscribe(e=>{refresh.cancel(e.player.id);icons.reset(e.player.id);});
+ world.afterEvents.playerLeave.subscribe(e=>{refresh.cancel(e.playerId);icons.forget(e.playerId);detailsSessions.delete(e.playerId);});
+ world.afterEvents.playerDimensionChange.subscribe(e=>{const player=e.player;refresh.changed(player.id,e.toDimension?.id,()=>player);});
  system.runInterval(()=>icons.tick(world.getAllPlayers()),EFFECT_ICON_INTERVAL);
 }
 const detailsSessions=new Map();

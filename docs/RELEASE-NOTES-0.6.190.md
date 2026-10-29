@@ -1,0 +1,5 @@
+# Tavern 0.6.190
+
+Limited effect-icon refresh after dimension transfers (first item of [#285](https://github.com/burnt-tea-dev/kaleidoscope-tavern-unofficial/issues/285)). The client rebuilds its HUD some ticks after a transfer, so the single poll resend could arrive too early and the unchanged cache then suppressed the icons. The adapter now re-marks the player's view at +20 and +40 ticks after `playerDimensionChange`; the ordinary 20-tick poll still reads and sends only the current status. A newer transfer, spawn or leave cancels pending marks; an invalid handle or a different destination discards them. Milk, expiry and hide never replay an old active packet, and a known inactive view sends no redundant clear, including on a dimension change.
+
+Source tests only: `tools/effect-icons.test.mjs` and `tools/effect-icon-startup.test.mjs` cover the view, the scheduler and the real adapter wiring. No BDS, saved-world, client or human acceptance. Title reservation and foreign-writer coexistence from #285 remain open; `client=false`, `production_ready=false`.

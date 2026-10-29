@@ -7354,6 +7354,65 @@
           ]
         }
       }
+    },
+    {
+      "release": "0.6.190",
+      "files": {
+        "runtime/BP/scripts/core/effect-icons.js": {
+          "before": "a015537e11d6f9c3d6049ff12045a61b265f5e91dce104c599fa7ab4119ea61c",
+          "after": "0faac19b235456190fb531ad9728fcf8757e78bdbc74a70d3853e66c6b437642",
+          "reason": "Reviewed limited effect-icon refresh after dimension transfers (#285): dirty view resend of the current packet, +20/+40 tick scheduler, silent known-inactive views. Verified by effect-icons and effect-icon-startup tests.",
+          "reverseOps": [
+            [
+              6,
+              8,
+              ""
+            ],
+            [
+              32,
+              34,
+              ""
+            ],
+            [
+              43,
+              46,
+              "    if(old?.packet===packet&&old.dimension===dimension)continue;\n"
+            ],
+            [
+              52,
+              80,
+              ""
+            ]
+          ]
+        },
+        "runtime/BP/scripts/bedrock/effect-icons.js": {
+          "before": "f958f50bf702cfbfb3fd99c2a0137d6a3b439be1dba1f3b452a338a288012bd8",
+          "after": "b0f8fb90c4c08f8933015982464ffbc93554fb5c494f281f758f28e0f2092ab2",
+          "reason": "Reviewed limited effect-icon refresh after dimension transfers (#285): dirty view resend of the current packet, +20/+40 tick scheduler, silent known-inactive views. Verified by effect-icons and effect-icon-startup tests.",
+          "reverseOps": [
+            [
+              3,
+              4,
+              "import {createEffectIcons,effectDetails,EFFECT_ICON_HIDE_TAG,EFFECT_ICON_INTERVAL} from '../core/effect-icons.js';\n"
+            ],
+            [
+              6,
+              7,
+              "export const effectIconDiagnostics={ready:false,queueAvailable:false,embeddedQueueAvailable:false,transport:'starting',sent:0,detailsOpened:0,errors:0,lastError:''};\n"
+            ],
+            [
+              16,
+              21,
+              ""
+            ],
+            [
+              34,
+              37,
+              " world.afterEvents.playerSpawn.subscribe(e=>icons.reset(e.player.id));\n world.afterEvents.playerLeave.subscribe(e=>{icons.forget(e.playerId);detailsSessions.delete(e.playerId);});\n"
+            ]
+          ]
+        }
+      }
     }
   ],
   "reviewedAssetDeltaLayers": [

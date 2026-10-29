@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "version": "0.6.190",
+  "date": "2026-10-29",
+  "scope": "source_tests_only",
+  "issue": "https://github.com/burnt-tea-dev/kaleidoscope-tavern-unofficial/issues/285",
+  "item": "dimension transfer limited effect-icon refresh (+20/+40 ticks)",
+  "tests": [
+    "tools/effect-icons.test.mjs",
+    "tools/effect-icon-startup.test.mjs"
+  ],
+  "bds": false,
+  "client": false,
+  "saved_world": false,
+  "human_acceptance": false,
+  "notes": "Scheduler and dirty view exercised through the real adapter wiring in a vm context with a deterministic system double. No native HUD rebuild was observed; title reservation and foreign-writer coexistence are not part of this candidate."
+}
