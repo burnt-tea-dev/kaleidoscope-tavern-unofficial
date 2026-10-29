@@ -181,6 +181,48 @@ class PreinstallRecoveryTests(unittest.TestCase):
         for name in ['author-replacement-selection.json','maintenance-window-approval.private.json','maintenance-player-notice.private.json']:
             self.write(self.output/name,{'observation':'preinstall metadata'})
 
+    def capacity_wait(self):
+        self.original['native_capacity_wait_seconds'] = 1800
+        self.config['native_capacity_wait_seconds'] = 1800
+        self.write(self.original_path, self.original)
+        self.write(self.config_path, self.config)
+        self.build['config_sha256'] = c.sha(self.original_path)
+        self.write(self.output / 'build-evidence.json', self.build)
+        static = c.read(self.output / 'static-evidence.json')
+        static['reports'] = [c.report_ref(row['path']) for row in static['reports']]
+        self.write(self.output / 'static-evidence.json', static)
+        state = {'schema': 1, 'kind': 'native_capacity_wait_state', 'wait_seconds': 1800,
+                 'config_sha256': c.sha(self.original_path), 'state': 'projection_available', 'projection_fits': True,
+                 **{key: False for key in ('receipt', 'native_admission', 'live_mutated', 'limit_changed')}}
+        self.write(self.output / p.CAPACITY_WAIT_STATE, state)
+        return state
+
+    def test_completed_rehearsal_with_capacity_wait_closes_and_binds_the_original_state(self):
+        self.completed_rehearsal(); self.capacity_wait()
+        before = (self.output / p.CAPACITY_WAIT_STATE).read_bytes()
+        self.assertEqual(self.close()['state'], p.KIND)
+        self.assertEqual((self.output / p.CAPACITY_WAIT_STATE).read_bytes(), before)
+        self.assertIn(p.CAPACITY_WAIT_STATE, c.read(self.output / p.PROOF)['references'])
+        self.next_context()
+        self.assertTrue(p.verify_completed(self.output, c.summary())['database_unchanged_since_abort'])
+        self.write(self.output / p.CAPACITY_WAIT_STATE, {'changed': True})
+        with self.assertRaisesRegex(AssertionError, 'Recovery evidence changed'):
+            p.verify_completed(self.output, c.summary())
+
+    def test_capacity_wait_with_foreign_config_or_execution_claim_cannot_close_owner(self):
+        self.completed_rehearsal(); state = self.capacity_wait()
+        for change in ({'config_sha256': 'foreign'}, {'wait_seconds': 60}, {'live_mutated': True},
+                       {'native_admission': True}, {'state': 'waiting'}, {'receipt': True}):
+            with self.subTest(change=change):
+                self.write(self.output / p.CAPACITY_WAIT_STATE, {**state, **change})
+                with self.assertRaises(AssertionError): self.close()
+                self.assertEqual(c.read(self.lease_path), self.lease)
+
+    def test_capacity_wait_file_is_rejected_without_the_original_wait_configuration(self):
+        self.completed_rehearsal()
+        self.write(self.output / p.CAPACITY_WAIT_STATE, {'schema': 1})
+        with self.assertRaisesRegex(AssertionError, 'original configured wait'): self.close()
+
     def test_failed_saved_rehearsal_closes_owner_preserving_failure_and_complete_world(self):
         self.failed_saved_rehearsal();before={str(path):path.read_bytes() for path in self.output.rglob('*') if path.is_file()}
         result=self.close();self.assertEqual(result['state'],p.KIND)
