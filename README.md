@@ -1,23 +1,51 @@
-# Kaleidoscope Tavern (Unofficial)
+# Kaleidoscope Tavern — Unofficial Bedrock Port
 
-A Bedrock port of Kaleidoscope Tavern, with brewing, cocktails, furniture, storage and the shared Tavern guide. [繁體中文](README.zh-TW.md).
+Brewing, cocktails and a place to enjoy them. This addon brings [Kaleidoscope Tavern](https://github.com/KaleidoscopeMods/KaleidoscopeTavern) to Minecraft Bedrock Edition.
 
-## Install and current source
+[繁體中文](README.zh-TW.md) · [Download](https://github.com/burnt-tea-dev/kaleidoscope-tavern-unofficial/releases) · [Changelog](CHANGELOG.md)
 
-Download public packages from [Releases](https://github.com/burnt-tea-dev/kaleidoscope-tavern-unofficial/releases). Enable both BP and RP and use the dependencies listed for that release. A Git main commit is development source; it does not establish which version is installed on a server.
+## Features
 
-[baseline.json](baseline.json) owns the current source version, pack identities and exact dependencies. [family/upstream.lock.json](family/upstream.lock.json) records reviewed family inputs. [CHANGELOG.md](CHANGELOG.md) describes changes; [the family status index](family/BASELINE-STATUS.md) separates published source and recorded acceptance. Do not infer a running deployment from an old README snapshot.
+- Grow brewing ingredients, ferment drinks and mix cocktails.
+- Furnish a tavern with bottles, cabinets, seating and customizable boards.
+- Discover recipes and equipment through the in-game Tavern guide.
+- Extend the collection with World Liquor; optionally integrate the guide with Cookery.
 
-## Develop and verify
+This is an independent, unfinished port, not an official release. Some effects and interactions differ from Java, and client visuals/audio are not fully verified. See the [parity matrix](docs/PARITY-MATRIX.md) for specific limitations.
 
-Read [AGENTS.md](AGENTS.md), [baseline maintenance](docs/BASELINE-MAINTENANCE.md) and the relevant [family update procedure](family/UPDATE-WORKFLOW.md). The builder packages committed runtime directly:
+## Installation
+
+1. Back up your world and download the `.mcaddon` from **Releases**, not GitHub's source-code ZIP.
+2. Import it into Minecraft Bedrock and activate both its behavior pack (BP) and resource pack (RP).
+3. Use the Minecraft version and any experiment settings required by that release. If adding World Liquor, install its exact matching Tavern version.
+
+Tavern has its own guide and does **not** require Cookery. Optional companion packs are installed separately; this download does not include them or the private server integration. Use the in-game guide for recipes and machine instructions.
+
+## Languages
+
+- Resource text: **English, 简体中文, 繁體中文**. Japanese and Russian include partial upstream translations, with English fallback for untranslated keys.
+- Guide: English, Simplified Chinese and Traditional Chinese; choose the language in its settings. The default is Traditional Chinese, independent of the Minecraft client language.
+- Some machine rejection messages still use Traditional Chinese. Matching language-file keys do not mean every interface has been translated.
+
+## Development
+
+Requirements: Python 3 and Node.js. The maintained packs are in [`runtime/BP`](runtime/BP/) and [`runtime/RP`](runtime/RP/).
+
+From a clean, committed checkout:
 
 ```sh
+python3 tools/check_release.py
 python3 tools/build_release.py
 ```
 
-Use the existing targeted checks during development; canonical CI runs the required suite. [PARITY-MATRIX](docs/PARITY-MATRIX.md) and [BUGS](docs/BUGS.md) retain implemented behavior, known differences and player reports. Engine loading and source checks do not establish rendered gameplay, audio or client acceptance. Private integration remains a separate private addon.
+Packages are written to `dist/`. Source versions and exact dependencies live in [`baseline.json`](baseline.json); development source can be newer than the downloadable release. For changes, start with [AGENTS.md](AGENTS.md) and [baseline maintenance](docs/BASELINE-MAINTENANCE.md). Use the existing checks for the affected feature.
 
-## License and history
+## Reporting issues
 
-Original code is BSD-3-Clause; original and derived art is CC BY-NC-SA4.0. See [CREDITS](CREDITS.md), LICENSE-CODE and LICENSE-ASSETS. Earlier README release snapshots remain in [Git history](https://github.com/burnt-tea-dev/kaleidoscope-tavern-unofficial/blob/bb9e7cfb32b642ccfa563a1d3aca2abc9e744453/README.md).
+Include the addon and Minecraft versions, companion packs, enabled experiments, reproduction steps and expected result. Screenshots or a short recording help with visual and audio issues. Check [known issues](docs/BUGS.md) first; do not post private worlds, credentials or third-party archives.
+
+## Credits and license
+
+Original project: **Kaleidoscope Official Production Team / YSBB**. Bedrock adaptation: **casama233 and contributors**. No affiliation or endorsement is implied.
+
+Code: [BSD-3-Clause](LICENSE-CODE). Original and derived artwork: [CC BY-NC-SA 4.0](LICENSE-ASSETS). Other assets retain their own terms; see [credits](CREDITS.md).
