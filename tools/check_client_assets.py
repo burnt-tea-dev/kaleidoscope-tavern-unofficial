@@ -53,3 +53,7 @@ for p in (RT/'RP/entity').rglob('*.json'):
    refs=re.findall(r'\b'+kind+r'\.([A-Za-z0-9_]+)',json.dumps(rc),re.I)
    assert all(ref in d.get(key,{}) for ref in refs),(p,name,kind,set(refs)-d.get(key,{}).keys())
 print('Shared render-controller friendly names passed for all client entities.')
+# Addon-owned liquid entities depend on this host export, not own RP references.
+from test_external_liquid_controller import validate as check_external_liquid_controller
+assert check_external_liquid_controller(ROOT) == 16
+print('Sixteen external liquid dependencies retain their host controller contract.')
