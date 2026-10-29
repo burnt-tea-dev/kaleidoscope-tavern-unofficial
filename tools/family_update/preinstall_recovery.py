@@ -13,6 +13,7 @@ from pathlib import Path
 import subprocess
 
 from family_update import common as c
+from family_update.native_capacity_wait import STATE as CAPACITY_WAIT_STATE
 
 KIND = 'preinstall_aborted_unchanged'
 PROOF = 'preinstall-abort.json'
@@ -70,7 +71,7 @@ def _references(output, fresh=False):
         required += ('previous-maintenance.json',)
     if fresh:
         required += FRESH_REFERENCES
-    optional = OPTIONAL_STOP_REFERENCES + (('stop-result.json', 'curated-input-selection.json', 'saved-world-engine/restart.log') if fresh else ())
+    optional = OPTIONAL_STOP_REFERENCES + (CAPACITY_WAIT_STATE,) + (('stop-result.json', 'curated-input-selection.json', 'saved-world-engine/restart.log') if fresh else ())
     if not fresh and _saved_rehearsal(output):
         required += ('production-before/backup-receipt.json', 'saved-world-report.json',
                      'saved-world-summary.log', 'saved-world-engine/first.log')
@@ -116,6 +117,16 @@ def _untouched(output, original=None):
     saved = not fresh and _saved_rehearsal(output)
     if saved:
         allowed |= ADMISSION_OUTPUT
+    wait = output / CAPACITY_WAIT_STATE
+    if wait.exists() or wait.is_symlink():
+        assert original and type(original.get('native_capacity_wait_seconds')) is int, 'Capacity wait output requires its original configured wait'
+        state = c.read(_regular(wait))
+        assert state.get('schema') == 1 and state.get('kind') == 'native_capacity_wait_state', 'Unknown capacity wait output'
+        assert state.get('wait_seconds') == original['native_capacity_wait_seconds'] and 1 <= state['wait_seconds'] <= 7200, 'Capacity wait configuration differs'
+        assert state.get('config_sha256') == c.read(output / 'build-evidence.json')['config_sha256'], 'Capacity wait belongs to another configuration'
+        assert all(state.get(key) is False for key in ('receipt', 'native_admission', 'live_mutated', 'limit_changed')), 'Capacity projection claims an execution action'
+        assert state.get('state') == 'projection_available' and state.get('projection_fits') is True, 'Capacity wait did not finish before this transaction'
+        allowed |= {CAPACITY_WAIT_STATE}
     assert set(path.name for path in output.iterdir()) <= allowed, 'Post-stop, native, installation or retirement state exists'
     before = output / 'production-before'
     if fresh:
