@@ -1,8 +1,10 @@
 """Current reference changes and cleanup failures never modify live deployment."""
 import json
+import hashlib
 import os
 from pathlib import Path
 import sys
+import subprocess
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -134,6 +136,60 @@ class ContextTests(unittest.TestCase):
     def test_missing_transitive_report_aborts_instead_of_losing_snapshot_guard(self):
         self.report.unlink()
         with self.assertRaises(FileNotFoundError):
+            m.cleanup_context()
+
+    def frozen_receipts(self):
+        source = m.c.EXTENSION
+        source.mkdir()
+        def git(*args):
+            return subprocess.check_output(['git', '-C', str(source), *args], stderr=subprocess.DEVNULL).decode().strip()
+        git('init', '-q')
+        git('config', 'user.name', 'Cleanup test')
+        git('config', 'user.email', 'cleanup@example.invalid')
+        document = source / 'maintenance/handoff.json'
+        receipts, snapshots = [], []
+        for number in range(2):
+            snapshot = self.root / ('snapshot-' + str(number))
+            snapshot.mkdir()
+            snapshots.append(snapshot)
+            self.write(document, {'world_source': str(snapshot)})
+            git('add', '.')
+            git('commit', '-qm', 'Original handoff')
+            output = self.root / ('run-' + str(number))
+            build = output / 'build-evidence.json'
+            self.write(build, {'sources': {'extension': {'path': str(source), 'commit': git('rev-parse', 'HEAD')}}})
+            receipt = output / 'reviewed-family-receipt.json'
+            self.write(receipt, {'evidence': {'reports': [
+                {'path': str(build), 'sha256': hashlib.sha256(build.read_bytes()).hexdigest()},
+                {'path': str(document), 'sha256': hashlib.sha256(document.read_bytes()).hexdigest()},
+            ]}})
+            receipts.append(receipt)
+        git('rm', 'maintenance/handoff.json')
+        git('commit', '-qm', 'Retire handoff path')
+        self.write(self.proof, {'receipts': list(map(str, receipts))})
+        return receipts, snapshots, document
+
+    def test_deleted_source_evidence_preserves_both_receipts_original_snapshot_dependencies(self):
+        _, snapshots, document = self.frozen_receipts()
+        context = m.cleanup_context()
+        self.assertFalse(document.exists())
+        for snapshot in snapshots:
+            self.assertIn(snapshot, context['references'])
+
+    def test_changed_present_source_file_does_not_replace_frozen_receipt_bytes(self):
+        _, snapshots, document = self.frozen_receipts()
+        self.write(document, {'world_source': str(self.root / 'wrong-current-snapshot')})
+        context = m.cleanup_context()
+        for snapshot in snapshots:
+            self.assertIn(snapshot, context['references'])
+        self.assertNotIn(self.root / 'wrong-current-snapshot', context['references'])
+
+    def test_frozen_source_report_digest_mismatch_aborts_cleanup(self):
+        receipts, _, _ = self.frozen_receipts()
+        value = json.loads(receipts[0].read_text())
+        value['evidence']['reports'][1]['sha256'] = '0' * 64
+        self.write(receipts[0], value)
+        with self.assertRaisesRegex(AssertionError, 'source evidence changed'):
             m.cleanup_context()
 
     def test_symlink_reference_also_protects_actual_snapshot(self):
