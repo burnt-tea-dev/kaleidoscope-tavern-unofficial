@@ -57,10 +57,10 @@ import {installQualityTooltipEvents,qualityTooltipDiagnostics} from './bedrock/q
 // the two ordered phase tables replace ~40 hand-written calls, and the long
 // one-line statements are formatted. Phase order is the original call order.
 
-let registry;let cookeryReady=false,cookeryCapabilities=[];
+let registry,cookeryGuidePublisher;let cookeryReady=false,cookeryCapabilities=[];
+let cookeryInitialization='pending',cookeryInitializationError;
 installNativeStoragePinning(()=>registry);
 const LEGACY_GUIDES=new Set(['kaleidoscope_tavern:guidebook','kaleidoscope_tavern:recipe_book']);
-const cookeryGuidePublisher=installCookeryGuidePublisher(system,()=>prepareCookeryGuidePayload(registry));
 installCookeryGuideEntry({system,world,
  available:player=>!!registry&&!hasStandaloneGuideSession(player.id),
  show:(player,options)=>showStandaloneGuide(player,()=>registry?buildCookeryGuidePayload(registry):null,options),
@@ -157,7 +157,8 @@ export function diagnosticSnapshot(){
   cookeryManifestBound:false,
   cookeryHandshakeObserved:cookeryReady,
   cookeryCapabilities,
-  cookeryGuideChapter:cookeryGuidePublisher.getStatus(),
+  cookeryInitialization:{state:cookeryInitialization,error:cookeryInitializationError},
+  cookeryGuideChapter:cookeryGuidePublisher?.getStatus()??{active:false,disposed:false,hostReady:false,dirty:false,deliveryState:'initializing'},
   guideAuthority:'kaleidoscope_tavern:guidebook',
   cookeryGuideIntegration:true,
   standaloneGuide:standaloneGuideDiagnostics,
@@ -204,34 +205,49 @@ system.afterEvents.scriptEventReceive.subscribe(ev=>{
  }
 },{namespaces:['kaleidoscope_cookery']});
 
-system.run(()=>{
+function* initializeCookery(){
  try{
+  cookeryInitialization='checking_items';
   // Resolve a known historical Java/Bedrock sugar-cane alias against the installed engine, not a guessed ID.
   const nativeItemExists=cacheNativeItemDefinitionExists(id=>ItemTypes.get(id));
   const native=id=>id==='minecraft:sugar_cane'&&!nativeItemExists(id)&&nativeItemExists('minecraft:reeds')?'minecraft:reeds':id;
-  const recipes=[...BUILTIN_RECIPES,...SHAKER_RECIPES].map(r=>r.kind==='barrel'?{...r,ingredients:r.ingredients.map(s=>s.map(native))}:r);
+  let checked=0;const recipes=[];
+  for(const recipe of [...BUILTIN_RECIPES,...SHAKER_RECIPES]){
+   if(recipe.kind==='barrel'){
+    const ingredients=[];
+    for(const slot of recipe.ingredients){const rows=[];for(const item of slot){rows.push(native(item));if(++checked%32===0)yield;}ingredients.push(rows);}
+    recipes.push({...recipe,ingredients});
+   }else recipes.push(recipe);
+  }
   const missing=[];
   for(const r of recipes){
    const ids=r.kind!=='pressing'?[...r.ingredients.flat(),r.carrier,...(r.output.byQuality??[r.output.item])]:r.input;
-   for(const id of ids)if(!nativeItemExists(id))missing.push(id);
+   for(const id of ids){if(!nativeItemExists(id))missing.push(id);if(++checked%32===0)yield;}
   }
   if(missing.length)throw new Error('Missing required runtime items: '+[...new Set(missing)].join(', '));
   const nativeItemTags=cacheItemDefinitionTags(id=>new ItemStack(id,1).getTags());
-  registry=new ExtensionRegistry({
+  cookeryInitialization='preparing_registry';
+  const startupRegistry=new ExtensionRegistry({
    recipes,
    pages:[...GUIDE_PAGES,...EFFECT_PAGES,...MIXOLOGY_PAGES],
    fluids:FLUIDS,
    itemExists:nativeItemExists,
    itemTags:nativeItemTags,
    expectedBarrelRecipeSources:installedBarrelRecipeSources(nativeItemExists),
+   deferInitialRebuild:true,
   });
-  registry.subscribe(()=>cookeryGuidePublisher.refresh());
+  yield* startupRegistry.prepareRebuild();
+  registry=startupRegistry;
   setRegistry(registry);setMixologyRegistry(registry);
   const extensionFurniture=installExtensionFurniture(registry);
-  installFoundationBridge(registry,extensionFurniture);installExtensionHost(registry);cookeryGuidePublisher.refresh();
+  installFoundationBridge(registry,extensionFurniture);installExtensionHost(registry);
+  cookeryGuidePublisher=installCookeryGuidePublisher(system,()=>prepareCookeryGuidePayload(registry));
+  startupRegistry.subscribe(()=>cookeryGuidePublisher.refresh());cookeryGuidePublisher.refresh();
   system.sendScriptEvent('kaleidoscope_cookery:api_ping','{}');
+  cookeryInitialization='ready';
   console.warn(`[Tavern C6] Standalone Tavern guide and optional Cookery chapter initialized. Public beta ${BUILD_VERSION}.`);
- }catch(e){console.error('[Tavern C6] Startup halted: '+e);}
-});
+ }catch(e){cookeryInitialization='failed';cookeryInitializationError=String(e);console.error('[Tavern C6] Startup halted: '+e);}
+}
+system.runJob(initializeCookery());
 
 export function runtimeRegistry(){return registry;}

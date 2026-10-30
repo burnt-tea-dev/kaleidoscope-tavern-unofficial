@@ -70,7 +70,7 @@ export function snapshotShakerDiagnostics(){
  return {schema:1,registryReady:!!registry,players,events:shakerEventTrace.map(row=>({...row})),errors:[...mixologyDiagnostics.errors],hud:{...shakerHudDiagnostics},client:false};
 }
 export function setMixologyRegistry(value){registry=value;configureBottleCategories(item=>registry.ingredientColor(item),item=>registry.previousIngredientColors(item));}
-function log(error){const code=error.code??String(error);mixologyDiagnostics.errors.push(code);if(mixologyDiagnostics.errors.length>12)mixologyDiagnostics.errors.shift();console.warn('[Tavern Mixology] '+code);}
+function log(error){const code=error.code??String(error);mixologyDiagnostics.errors.push(code);if(mixologyDiagnostics.errors.length>12)mixologyDiagnostics.errors.shift();if(code!=='NOT_CUP')console.warn('[Tavern Mixology] '+code);}
 function safely(player,fn){try{return fn();}catch(error){log(error);if(player)showShakerMessage(player,error.code??'ERROR');}}
 function near(player,block){canInteract(player);check(block,'UNLOADED_TARGET');requireBlockReach(player,block.dimension,block.location);}
 function facing(player){return Math.floor((((player.getRotation().y+225)%360)+360)%360/90);}

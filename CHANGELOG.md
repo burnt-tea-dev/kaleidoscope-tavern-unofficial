@@ -1,3 +1,10 @@
+## 0.6.194 — 2026-10-30
+
+- 字板改為直接讀取字寬，不在啟動時建立兩張大陣列；全部 65,536 字值、Java 排版與 PNG 圖集保持一致，隔離量測字表載入從 56 ms 降至低於 1 ms。
+- 原生工作排程分批準備初始 Registry，完成後才公開給機器、擴充與指南；指南每 tick 最多傳兩包。啟動能力與完整傳輸在目標引擎已確認，整體效能門檻仍待完整家族驗證。
+- 正常 NOT_CUP 拒絕保留診斷與單次玩家提示，取消伺服器警告；未知錯誤仍記警告。接入 Grilling 0.2.15 的精確宿主 SDK 宣告。
+- 完整停服存檔、LIVE、Releases 及真人畫面／聲音驗收另行記錄；client=false、production_ready=false。
+
 ## 0.6.193 — 2026-10-30
 
 Prepare extension registry updates across scheduled ticks, then expose each complete update atomically. Yield between native item-tag reads, validate each packet once, reuse one tick snapshot per received event, and avoid resending unchanged Cookery guide chapters. Skip quality-tooltip events for departed players. Transport, registry, guide and invalid-player source regressions pass; full-family native performance, saved-world and rendered-client acceptance remain pending.

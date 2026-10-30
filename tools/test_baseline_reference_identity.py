@@ -207,8 +207,11 @@ class CurrentExtensionSourceTests(unittest.TestCase):
   self.tmp=tempfile.TemporaryDirectory();self.addCleanup(self.tmp.cleanup);self.root=Path(self.tmp.name)
   original=Path(__file__).resolve().parents[1]
   for name in runtime_sources()|{'runtime/BP/scripts/main.js','runtime/BP/scripts/data/guide-catalog.js',
+   'runtime/BP/scripts/bedrock/writing-boards.js',
    'runtime/BP/scripts/core/bottles.js','runtime/BP/scripts/bedrock/bottles.js',
-   'data/baseline-reconciliation.json','data/launch-repair-reference.json'}:
+   'data/baseline-reconciliation.json','data/launch-repair-reference.json',
+   'data/efficiency-repair-reference.json','data/pickup-pick-baseline.json',
+   'data/pick-block-prefixes.json'}:
    target=self.root/name;target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(original/name,target)
  def test_current_owners_use_actual_source_after_the_validated_handoff(self):
   from current_extension_source_contract import check,runtime_sources,LOCALE_SOURCES
@@ -228,6 +231,7 @@ class CurrentExtensionSourceTests(unittest.TestCase):
  def test_historical_body_guards_cannot_reclaim_current_owners(self):
   baseline=self.root/'data/baseline-reconciliation.json';original=json.loads(baseline.read_text())
   launch=self.root/'data/launch-repair-reference.json';launch_original=json.loads(launch.read_text())
+  efficiency=self.root/'data/efficiency-repair-reference.json';efficiency_original=json.loads(efficiency.read_text())
   for name in (
    'runtime/BP/scripts/core/registry.js',
    'runtime/BP/scripts/core/transport.js',
@@ -236,6 +240,10 @@ class CurrentExtensionSourceTests(unittest.TestCase):
    'runtime/BP/scripts/bedrock/extension-host.js',
    'runtime/BP/scripts/bedrock/quality-tooltip.js',
    'runtime/BP/scripts/core/cookery-guide-publisher.js',
+   'runtime/BP/scripts/bedrock/board-text.js',
+   'runtime/BP/scripts/core/board-layout.js',
+   'runtime/BP/scripts/data/board-font.js',
+   'runtime/BP/scripts/bedrock/mixology.js',
   ):
    with self.subTest(owner=name):
     baseline.write_text(json.dumps(original));launch.write_text(json.dumps(launch_original))
@@ -251,6 +259,11 @@ class CurrentExtensionSourceTests(unittest.TestCase):
      for section in ('reviewedChanges','newRuntimeFiles'):
       ledger=json.loads(json.dumps(launch_original));ledger[section][name]={};launch.write_text(json.dumps(ledger))
       with self.assertRaisesRegex(AssertionError,'launch hash aggregate'):previous_bytes(self.root,self.root/name)
+     launch.write_text(json.dumps(launch_original))
+     for section in ('reviewedChanges','newRuntimeFiles'):
+      ledger=json.loads(json.dumps(efficiency_original));ledger[section][name]={};efficiency.write_text(json.dumps(ledger))
+      with self.assertRaisesRegex(AssertionError,'efficiency hash aggregate'):previous_bytes(self.root,self.root/name)
+     efficiency.write_text(json.dumps(efficiency_original))
  def test_missing_or_empty_actual_quality_feedback_translation_is_rejected(self):
   from current_extension_source_contract import check,COMPLETE_LOCALE_SOURCES,QUALITY_UP_KEY
   for name in COMPLETE_LOCALE_SOURCES:

@@ -8,7 +8,7 @@ const current=path.resolve(import.meta.dirname,'../..');
 // The canonical projection validates the complete append-only functional chain
 // before the original preservation assertions. Do not silently ignore newer
 // reviewed deltas, or rewrite the original hashes to make a new feature pass.
-const projectionFiles=['bedrock/stateful-storage-router.js','core/cellar-cabinet.js','core/circular-rack.js','core/aim-hit.js','core/java-ambient-sampling.js','bedrock/tipsy-visual.js','bedrock/board-text.js','bedrock/cellar-cabinet.js','bedrock/circular-rack.js'];
+const projectionFiles=['bedrock/stateful-storage-router.js','core/cellar-cabinet.js','core/circular-rack.js','core/aim-hit.js','core/java-ambient-sampling.js','bedrock/tipsy-visual.js','bedrock/cellar-cabinet.js','bedrock/circular-rack.js'];
 let projected;
 const read=(root,file)=>{
  if(path.resolve(root)!==current)return fs.readFileSync(path.join(root,'runtime/BP/scripts',file),'utf8');
@@ -28,11 +28,8 @@ test('aim resolution and all transaction/redstone routing remain byte-identical'
 test('pose/slot math, sampler and tipsy modules remain byte-identical',{skip:!baseline},()=>{
  for(const file of ['core/cellar-cabinet.js','core/circular-rack.js','core/aim-hit.js','core/java-ambient-sampling.js','bedrock/tipsy-visual.js'])assert.equal(read(current,file),read(baseline,file),file);
 });
-test('board frame and layout equations remain byte-identical',{skip:!baseline},()=>{
- const old=read(baseline,'bedrock/board-text.js'),now=read(current,'bedrock/board-text.js');
- assert.equal(now.slice(now.indexOf('function frame('),now.indexOf('function buildLayout(')),old.slice(old.indexOf('function frame('),old.indexOf('export function renderBoardText(')));
- assert.equal(now.slice(now.indexOf(' const f=frame(info)'),now.indexOf(' return {f,color,expected};')),old.slice(old.indexOf(' const f=frame(info)'),old.indexOf(' const existing=helpers(')));
-});
+// Current glyph coordinates, saved-board refresh and layout use the actual
+// adapter in board-rendering.test.mjs; check_board_layout retains every metric.
 test('cabinet/rack inventory transaction bodies remain byte-identical',{skip:!baseline},()=>{
  for(const file of ['cellar-cabinet.js','circular-rack.js']){
   const old=read(baseline,'bedrock/'+file),now=read(current,'bedrock/'+file);

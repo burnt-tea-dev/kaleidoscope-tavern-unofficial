@@ -2,7 +2,7 @@ import {boardCode as code,boardLayoutOptions,splitBoardLines,boardGlyphOffsets,b
 /** Port of TextBlockEntityRender and its two concrete Java renderers.
  * Layout remains in Java font pixels; geometry scale is applied exactly once.
  */
-import {FONT_BOLD_OFFSETS} from '../data/board-font.js';
+import {fontBoldOffset} from '../data/board-font.js';
 import {CARDINALS,entityYaw} from '../core/java-placement.js';
 const NS='kaleidoscope_tavern',TYPE=NS+':board_glyph_visual';
 const ANCHOR='kt:writingBoard/anchor',SIGNATURE='kt:writingBoard/signature';
@@ -80,7 +80,7 @@ export function renderBoardText(d,info,data,unused,key){
   e.setDynamicProperty(ANCHOR,row.anchor);
   e.setProperty(NS+':font_scale',f.scale*16);e.setProperty(NS+':tilt',-f.tilt);e.setProperty(NS+':bold',f.bold?1:0);
   row.offset.forEach((value,index)=>e.setProperty(NS+':x_'+index,value));
-  e.setProperty(NS+':char_0',row.cp);e.setProperty(NS+':bold_offset',FONT_BOLD_OFFSETS[row.cp]);
+  e.setProperty(NS+':char_0',row.cp);e.setProperty(NS+':bold_offset',fontBoldOffset(row.cp));
   for(const [name,shift]of [['red',16],['green',8],['blue',0]])e.setProperty(NS+':'+name,(color>>shift)&255);
   e.setProperty(NS+':glowing',data.glowing?1:0);e.addTag(NS+':visual_helper');
   e.setDynamicProperty(SIGNATURE,row.signature);boardTextDiagnostics.spawned++;changed=true;

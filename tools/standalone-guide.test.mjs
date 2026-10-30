@@ -150,6 +150,8 @@ test('guide preparation waits for the host, yields, and reuses packets until con
  ready();advance(500);assert.equal(builds,1);
  const first=sent.filter(x=>[E.begin,E.chunk,E.end].includes(x.id));
  assert.equal(first.filter(x=>x.id===E.end).length,1);
+ const packetsByTick=new Map();for(const row of first)packetsByTick.set(row.tick,(packetsByTick.get(row.tick)??0)+1);
+ assert.ok([...packetsByTick.values()].every(count=>count<=2),'Cookery guide publisher sends at most two protocol packets per tick');
  assert.ok(publisher.getStatus().preparationSlices>2);
  const raw=first.filter(x=>x.id===E.chunk).map(x=>x.message.split('\n').slice(4).join('\n')).join('');
  assert.deepEqual(JSON.parse(raw),cookery106WirePayload(payload));

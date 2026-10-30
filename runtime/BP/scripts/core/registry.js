@@ -165,12 +165,12 @@ export function matchIngredients(required,stacks){
  return visit(0,0);
 }
 export class ExtensionRegistry {
- constructor({recipes=[],pages=[],fluids=[],itemExists=()=>true,itemTags=()=>[],expectedBarrelRecipeSources=[]}={}){
+ constructor({recipes=[],pages=[],fluids=[],itemExists=()=>true,itemTags=()=>[],expectedBarrelRecipeSources=[],deferInitialRebuild=false}={}){
   check(Array.isArray(expectedBarrelRecipeSources)&&expectedBarrelRecipeSources.length<=64&&expectedBarrelRecipeSources.every(source=>typeof source==='string'&&/^[a-z][a-z0-9_]{1,47}$/.test(source)),'INVALID_EXPECTED_RECIPE_SOURCES');
   this.expectedBarrelRecipeSources=new Set(expectedBarrelRecipeSources);
   this.itemTags=itemTags;this.baseFluids=fluids.map(x=>typeof x==='string'?{id:x}:clone(x));this.itemExists=itemExists;this.fluids=new Set(fluids.map(x=>typeof x==='string'?x:x.id));this.extensions=new Map();this.listeners=new Set();this.revision=0;
   this.builtins=freeze(recipes.map(x=>({...clone(x),source:CORE})));this.pages=freeze(pages.map(x=>({...clone(x),source:CORE})));
-  this.rebuild();
+  if(!deferInitialRebuild)this.rebuild();
  }
  *prepareRebuild(){
   const ext=sorted([...this.extensions.values()],x=>x.source);

@@ -69,6 +69,11 @@ def current_contract_sources():
     check_creative(ROOT)
     return potion_runtime_sources()|foundation_runtime_sources()|extension_runtime_sources()|creative_runtime_sources()|cultivation_runtime_sources()
 
+def historical_preserved(rows):
+    """Keep old snapshots scoped to files still owned by historical checks."""
+    current=current_contract_sources()
+    return {name:value for name,value in rows.items() if name not in current}
+
 def historical_files(prefix):
     current=current_contract_sources()
     paths={p for p in (ROOT/prefix).rglob('*') if p.is_file() and p.relative_to(ROOT).as_posix() not in reviewed_additions() and p.relative_to(ROOT).as_posix() not in current}

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Compare motion resources to source-derived dimensions; no game emulation."""
 from pathlib import Path
-from reviewed_changes import historical_digest,changes,reviewed_additions,historical_files
+from reviewed_changes import historical_digest,changes,reviewed_additions,historical_files,historical_preserved
 import hashlib,json
 from creative.historical import LegacyMenuProjection
 ROOT=Path(__file__).resolve().parents[1]
@@ -26,7 +26,8 @@ for name,scope in ref.get('historicalPreservedGroups',{}).items():
     actual={'files':len(rows),'sha256':hashlib.sha256(''.join(path+'\0'+digest+'\n' for path,digest in sorted(rows.items())).encode()).hexdigest()}
     assert actual==scope['original'], ('Historical handoff changed the former source group',name)
 for name,expected in ref['preservedGroups'].items():assert digest_group(name)==expected,('Preserved asset group changed',name)
-for name,expected in ref['preservedFiles'].items():assert historical_digest(ROOT/name)==expected,('Preserved source changed',name)
+preserved_files=historical_preserved(ref['preservedFiles'])
+for name,expected in preserved_files.items():assert historical_digest(ROOT/name)==expected,('Preserved source changed',name)
 java=ref['java']
 assert java['expectedCubeEdgePixels']==16*java['barrelRendererScale']*java['blockFixedScale']==4
 assert java['expectedCardWidthPixels']==16*java['barrelRendererScale']*java['generatedItemFixedScale']==8

@@ -139,7 +139,7 @@ export function installCookeryGuidePublisher(system,payloadOrProvider,warn=conso
   const step=()=>{
    if(disposed){active=false;return;}
    try{
-    for(let n=0;n<4&&cursor<messages.length;n++,cursor++){const m=messages[cursor];system.sendScriptEvent(m.id,m.message);}
+    for(let n=0;n<2&&cursor<messages.length;n++,cursor++){const m=messages[cursor];system.sendScriptEvent(m.id,m.message);}
     if(cursor<messages.length)runningHandle=later(step,1);
     else{active=false;lastSent=system.currentTick;lastRevision=revision;successfulTransfers++;if(successfulTransfers===1)info('[Tavern guide] Chapter sent; host receipt and client display are not acknowledged by Cookery API v1.');if(dirty)queue();}
    }catch(error){active=false;dirty=true;sendFailures++;warn('[Tavern guide] Publish failed: '+String(error));if(sendFailures<=2)later(()=>queue(),40);}
