@@ -58,13 +58,14 @@ test('builtin recipes keep working while an optional source is pending',()=>{
  assert.equal(advanceBarrel(state,host).batch.recipeId,builtin.id);
 });
 
-test('an exception after source insertion cannot expose an unbuilt recipe view as ready',()=>{
- const host=registry(),state=barrel(),rebuild=host.rebuild;
- host.rebuild=()=>{throw new Error('native metadata unavailable during rebuild');};
+test('a native lookup failure during staged rebuild cannot expose an unbuilt recipe view as ready',()=>{
+ const host=registry(),state=barrel(),itemTags=host.itemTags;
+ host.itemTags=()=>{throw new Error('native metadata unavailable during rebuild');};
  assert.throws(()=>host.install(payload),/native metadata unavailable/);
+ assert.equal(host.extensions.has(source),false,'failed staged data remains invisible');
  assert.deepEqual(host.pendingBarrelRecipeSources(),[source]);
  assert.equal(advanceBarrel(state,host),state);
- host.rebuild=rebuild;host.install(payload);
+ host.itemTags=itemTags;host.install(payload);
  assert.deepEqual(host.pendingBarrelRecipeSources(),[]);
  assert.equal(advanceBarrel(state,host).batch.recipeId,recipe.id);
 });
