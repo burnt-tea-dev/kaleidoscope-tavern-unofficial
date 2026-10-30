@@ -106,6 +106,12 @@ def check(root=ROOT, *, syntax=True, localization=True):
     reference = json.loads((root / 'data/launch-repair-reference.json').read_text())
     for section in ('reviewedChanges', 'newRuntimeFiles'):
         assert not sources & set(reference[section]), 'Current extension owner returned to the launch hash aggregate'
+    efficiency = json.loads((root / 'data/efficiency-repair-reference.json').read_text())
+    for section in ('reviewedChanges', 'newRuntimeFiles'):
+        assert not sources & set(efficiency[section]), 'Current extension owner returned to the efficiency hash aggregate'
+    pickup = json.loads((root / 'data/pickup-pick-baseline.json').read_text())
+    prefixes = json.loads((root / 'data/pick-block-prefixes.json').read_text())
+    assert not sources & (set(pickup['files']) | set(prefixes)), 'Current extension owner returned to the pickup hash aggregate'
     return {
         'sources': sorted(sources), 'ownershipAndWiring': 'passed',
         'syntax': 'passed' if syntax else 'not run',

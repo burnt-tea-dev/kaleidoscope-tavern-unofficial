@@ -82,83 +82,92 @@
         "base": "205a320b73ef3e603e0bf7ca729a2ecfcb0cde104b3da6e49149272242861fcb",
         "golden": "9a8ef42f05d3dd5697809d29df393afcaee8905fff063bebf4be2daa3f8da42a"
       }
-    },
+    }
+  },
+  "historicalFiles": {
     "runtime/BP/scripts/bedrock/mixology.js": {
-      "before": "5f1acc00c0ca38edce4bc411085f075354c3a1b63c42a0f4b3c5e8013c453632",
-      "after": "b4b3ecb29d8fd2e41339043a04365489a38f17a20c5cc90b43dd3d2fb2d9a7b5",
-      "reverseOps": [
-        [
-          18,
-          19,
-          "import {makeStack,hand,inventory,handSnapshot,sameHand,canWrite,blockAt,plus,requireBlockReach} from './transactions.js';\n"
+      "pickupReview": {
+        "before": "5f1acc00c0ca38edce4bc411085f075354c3a1b63c42a0f4b3c5e8013c453632",
+        "after": "b4b3ecb29d8fd2e41339043a04365489a38f17a20c5cc90b43dd3d2fb2d9a7b5",
+        "reverseOps": [
+          [
+            18,
+            19,
+            "import {makeStack,hand,inventory,handSnapshot,sameHand,canWrite,blockAt,plus,requireBlockReach} from './transactions.js';\n"
+          ],
+          [
+            83,
+            84,
+            " commitInventory(plan,container,()=>{\n"
+          ],
+          [
+            87,
+            88,
+            ""
+          ],
+          [
+            169,
+            170,
+            " commitBlock(player,cupStore,key,state,1,[],block,perm(cupBlock(item.typeId),state.facing));syncCupVisual(block);return state;\n"
+          ],
+          [
+            190,
+            191,
+            " near(player,block);const key=cupKey(block.dimension.id,block.location);\n"
+          ],
+          [
+            193,
+            195,
+            "  commitBlock(player,cupStore,key,undefined,0,[{stack:resultItem(state),count:1}],block,BlockPermutation.resolve('minecraft:air'));\n  syncCupVisual(block);return state;\n"
+          ]
         ],
-        [
-          83,
-          84,
-          " commitInventory(plan,container,()=>{\n"
+        "previousAfter": [],
+        "reason": "Reviewed pickup delta over main 06d941f0, effects delta over base f793a98a, and legacy delta to the immutable golden; all three op lists regenerated and the chain replay-verified end to end.",
+        "effectOps": [
+          [
+            0,
+            2,
+            ""
+          ],
+          [
+            111,
+            112,
+            "  shakerPut(block,next.revision);showShakerSlots(player,next);return next;\n"
+          ],
+          [
+            205,
+            206,
+            "  syncCupVisual(block);feedback(block,'fill',next.revision);cocktailEffect(block,20);playShakerPour(player);hideShakerHud(player);return next;\n"
+          ],
+          [
+            292,
+            293,
+            "   if(block.typeId===NS+':cup_mystery_cocktail')cocktailEffect(block,1,.2);\n"
+          ]
         ],
-        [
-          87,
-          88,
-          ""
+        "legacyOps": [
+          [
+            116,
+            117,
+            "  commitBlock(player,shakerStore,key,undefined,0,[{stack:item,count:1}],block,BlockPermutation.resolve('minecraft:air'));\n"
+          ],
+          [
+            346,
+            349,
+            ""
+          ]
         ],
-        [
-          169,
-          170,
-          " commitBlock(player,cupStore,key,state,1,[],block,perm(cupBlock(item.typeId),state.facing));syncCupVisual(block);return state;\n"
-        ],
-        [
-          190,
-          191,
-          " near(player,block);const key=cupKey(block.dimension.id,block.location);\n"
-        ],
-        [
-          193,
-          195,
-          "  commitBlock(player,cupStore,key,undefined,0,[{stack:resultItem(state),count:1}],block,BlockPermutation.resolve('minecraft:air'));\n  syncCupVisual(block);return state;\n"
-        ]
-      ],
-      "previousAfter": [],
-      "reason": "Reviewed pickup delta over main 06d941f0, effects delta over base f793a98a, and legacy delta to the immutable golden; all three op lists regenerated and the chain replay-verified end to end.",
-      "effectOps": [
-        [
-          0,
-          2,
-          ""
-        ],
-        [
-          111,
-          112,
-          "  shakerPut(block,next.revision);showShakerSlots(player,next);return next;\n"
-        ],
-        [
-          205,
-          206,
-          "  syncCupVisual(block);feedback(block,'fill',next.revision);cocktailEffect(block,20);playShakerPour(player);hideShakerHud(player);return next;\n"
-        ],
-        [
-          292,
-          293,
-          "   if(block.typeId===NS+':cup_mystery_cocktail')cocktailEffect(block,1,.2);\n"
-        ]
-      ],
-      "legacyOps": [
-        [
-          116,
-          117,
-          "  commitBlock(player,shakerStore,key,undefined,0,[{stack:item,count:1}],block,BlockPermutation.resolve('minecraft:air'));\n"
-        ],
-        [
-          346,
-          349,
-          ""
-        ]
-      ],
-      "hashes": {
-        "current": "b4b3ecb29d8fd2e41339043a04365489a38f17a20c5cc90b43dd3d2fb2d9a7b5",
-        "main": "5f1acc00c0ca38edce4bc411085f075354c3a1b63c42a0f4b3c5e8013c453632",
-        "base": "112a31ee97fb2b8e79a911ce7c8e1a855c0ed8701652adeecef7d1b39a024adb",
-        "golden": "a9fb6cb3944dd69fc55d7804f0331a4957fe3252007a832d457ada1c333e1cc2"
+        "hashes": {
+          "current": "b4b3ecb29d8fd2e41339043a04365489a38f17a20c5cc90b43dd3d2fb2d9a7b5",
+          "main": "5f1acc00c0ca38edce4bc411085f075354c3a1b63c42a0f4b3c5e8013c453632",
+          "base": "112a31ee97fb2b8e79a911ce7c8e1a855c0ed8701652adeecef7d1b39a024adb",
+          "golden": "a9fb6cb3944dd69fc55d7804f0331a4957fe3252007a832d457ada1c333e1cc2"
+        }
+      },
+      "pickPrefix": {
+        "prefixBytes": 22549,
+        "prefixSha256": "8da0a3cb0becde083315ef3ba2284d1541110ab40b106760dcc707ed5dccdac3",
+        "sha256": "a9fb6cb3944dd69fc55d7804f0331a4957fe3252007a832d457ada1c333e1cc2"
       }
     }
   }
