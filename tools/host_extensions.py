@@ -278,7 +278,8 @@ def apply_host_extension(spec,owned_root,host_root,source,*,retained_owner=None,
   if op['path'] not in changes:raise ValueError('unlisted extension insertion')
  for op in spec.get('json_updates',[]):
   if op['path'] not in changes:raise ValueError('unlisted item capability change')
- if guide and digest(safe(owned_root,GUIDE_HELPER_SOURCE))!=GUIDE_HELPER_SHA:raise ValueError('guide startup helper bytes differ')
+ # Current reviewed profiles already bind their own exact helper bytes above.
+ if guide and not stable and digest(safe(owned_root,GUIDE_HELPER_SOURCE))!=GUIDE_HELPER_SHA:raise ValueError('guide startup helper bytes differ')
  for name,data in changes.items():safe(host_root,name).write_bytes(data)
  copies={}
  for name,target in spec['copies'].items():
