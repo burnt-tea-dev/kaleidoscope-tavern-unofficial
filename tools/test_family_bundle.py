@@ -119,6 +119,39 @@ class PreservedDependencyTests(unittest.TestCase):
    with self.assertRaises(json.JSONDecodeError):read_definition(p,False)
 
 class ReviewedHostExtensionTests(unittest.TestCase):
+ def test_current_guide_uses_its_reviewed_helper_and_rejects_changed_bytes(self):
+  import hashlib
+  from unittest.mock import patch
+  from host_extensions import apply_host_extension,GUIDE_HELPER_SOURCE,GUIDE_HELPER_TARGET
+  from stable_host_profiles import PROFILES,declaration_sha
+  digest=lambda raw:hashlib.sha256(raw).hexdigest()
+  before=b'export const ready=1;\n';after=b'export const ready=0+1;\n'
+  helper=b'export const currentGuideQueue=true;\n';name='scripts/api/guide.js'
+  spec={'schema':1,'kind':'cookery-guide-startup-repair','id':'senluo:cookery-guide-startup-repair','version':[1,0,6],
+        'host_uuid':'fixture:current-cookery','archive_sha256':'reviewed-current-archive',
+        'expires':'2099-01-01','feedback':'pending author review','authorization':'reviewed current source',
+        'removal_condition':'author adopts queue','original_files':{name:digest(before)},
+        'patched_files':{name:digest(after)},'imports':{},'json_updates':[],
+        'insertions':[{'path':name,'anchor':'1;','position':'before','text':'0+'}],
+        'copies':{GUIDE_HELPER_SOURCE:GUIDE_HELPER_TARGET},'helper_sha256':digest(helper)}
+  profile={key:spec[key] for key in ['id','version','host_uuid','archive_sha256','original_files','patched_files']}
+  profile.update(spec_sha256=declaration_sha(spec),source_owner='upstream',required_extensions=[],
+                 copies={GUIDE_HELPER_TARGET:{'source':GUIDE_HELPER_SOURCE,'sha256':digest(helper)}})
+  source={'owner':'upstream','archive_sha256':spec['archive_sha256']}
+  with tempfile.TemporaryDirectory() as tmp,patch.dict(PROFILES,{'fixture-current-guide':profile}):
+   owned,host=Path(tmp)/'owned',Path(tmp)/'host'
+   (owned/GUIDE_HELPER_SOURCE).parent.mkdir(parents=True)
+   (host/name).parent.mkdir(parents=True)
+   (host/name).write_bytes(before);(owned/GUIDE_HELPER_SOURCE).write_bytes(helper)
+   apply_host_extension(spec,owned,host,source)
+   self.assertEqual((host/name).read_bytes(),after)
+   self.assertEqual((host/GUIDE_HELPER_TARGET).read_bytes(),helper)
+   (host/GUIDE_HELPER_TARGET).unlink();(host/name).write_bytes(before)
+   (owned/GUIDE_HELPER_SOURCE).write_bytes(helper+b'changed')
+   with self.assertRaisesRegex(ValueError,'helper differs from the exact reviewed source'):
+    apply_host_extension(spec,owned,host,source)
+   self.assertEqual((host/name).read_bytes(),before)
+   self.assertFalse((host/GUIDE_HELPER_TARGET).exists())
  def test_recipe_cache_profile_is_one_exact_registry_after_the_public_api(self):
   from host_extensions import apply_host_extension,validate_recipe_cache_profile
   name='scripts/api/extensionRegistry.js';before='db08671267c46ed151836a4bb80dccc10dee5ef486489009f49d8e83ac112ca1';after='5cc512e108df7c3ab3583bb9f48422bf9f013c333bcd04bd2a3098022d70eee7'
