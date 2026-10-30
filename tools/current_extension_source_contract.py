@@ -14,11 +14,12 @@ from build_locale_aliases import PARTIAL_LOCALES
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_GROUPS = {
     'registrationAndTransport': ('bedrock/extension-host.js', 'core/registry.js', 'core/transport.js', 'core/extension-foundation.js'),
-    'bottleIdentity': ('core/extension-content.js', 'core/bottle-display-schema.js'),
+    'bottleIdentity': ('core/extension-content.js', 'core/bottle-display-schema.js', 'core/quality-tooltip.js', 'bedrock/quality-tooltip.js'),
     'furnitureLifecycle': ('core/furniture.js',),
     'optionalEffectProtocol': ('data/effect-icons.js',),
     'machinesAndDecorations': ('bedrock/machines.js', 'core/machines.js', 'bedrock/decorations.js'),
     'sharedGuide': ('core/cookery-guide-publisher.js', 'data/cookery-guide-payload.js', 'data/guide-navigation.js', 'data/guide-copy.js'),
+    'sharedUtilities': ('core/util.js',),
 }
 COMPLETE_LOCALE_SOURCES = frozenset('runtime/RP/texts/' + locale + '.lang' for locale in ('en_US', 'zh_CN', 'zh_TW'))
 PARTIAL_LOCALE_SOURCES = frozenset('runtime/RP/texts/' + locale + '.lang' for locale in PARTIAL_LOCALES)
@@ -43,6 +44,7 @@ def check(root=ROOT, *, syntax=True, localization=True):
         ('./bedrock/decorations.js', {'registerDecorationComponents', 'installDecorationEvents'}),
         ('./data/cookery-guide-payload.js', {'buildCookeryGuidePayload', 'prepareCookeryGuidePayload'}),
         ('./core/cookery-guide-publisher.js', {'installCookeryGuidePublisher'}),
+        ('./bedrock/quality-tooltip.js', {'installQualityTooltipEvents', 'qualityTooltipDiagnostics'}),
     ):
         imported(entrypoint, module, names)
     assert entrypoint.count('installExtensionHost(registry)') == 1, 'Current extension host is disconnected'
@@ -53,12 +55,15 @@ def check(root=ROOT, *, syntax=True, localization=True):
     imported(modules['bedrock/extension-host.js'], '../core/transport.js', {'ExtensionTransport', 'EVENTS', 'TRANSPORT_LIMITS'})
     imported(modules['bedrock/extension-host.js'], '../core/registry.js', {'CAPABILITIES'})
     imported(modules['core/registry.js'], './extension-content.js', {'installContent'})
+    imported(modules['core/registry.js'], './util.js', {'check', 'prepareFreeze', 'finishPreparation'})
     imported(modules['core/furniture.js'], './extension-content.js', {'externalFurnitureDefinition'})
     recipe=json.loads((root/LAMP_RECIPE).read_text())['minecraft:recipe_shaped']
     assert recipe['pattern']==[' L ','LGL',' L ']
     assert recipe['key']=={'L':{'item':'kaleidoscope_tavern:yellow_pendant_lamp'},'G':{'item':'minecraft:blue_dye'}}
     assert recipe['result']=={'item':'kaleidoscope_tavern:blue_pendant_lamp','count':4}
     imported(modules['core/bottle-display-schema.js'], './extension-content.js', {'bottleBase', 'bottleBlock'})
+    imported(modules['bedrock/quality-tooltip.js'], '../core/quality-tooltip.js', {'qualityBottleLore', 'isManagedQualityBottleLore', 'isLegacyManagedQualityBottleLore'})
+    imported(modules['bedrock/quality-tooltip.js'], '../core/cocktail-tooltip.js', {'normalizeCocktailStack'})
     imported(modules['bedrock/machines.js'], '../core/machines.js', {'interact', 'advanceBarrel'})
     imported(modules['bedrock/machines.js'], '../core/bottle-display-schema.js', {'bottlePermutationBlock', 'bottlePermutationStates'})
     imported(modules['bedrock/decorations.js'], './java-placement-router.js', {'registerJavaBlockUseHandler', 'settleJavaBlockUse'})

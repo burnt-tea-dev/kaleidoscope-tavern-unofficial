@@ -228,7 +228,15 @@ class CurrentExtensionSourceTests(unittest.TestCase):
  def test_historical_body_guards_cannot_reclaim_current_owners(self):
   baseline=self.root/'data/baseline-reconciliation.json';original=json.loads(baseline.read_text())
   launch=self.root/'data/launch-repair-reference.json';launch_original=json.loads(launch.read_text())
-  for name in ('runtime/BP/scripts/core/registry.js','runtime/BP/scripts/core/cookery-guide-publisher.js'):
+  for name in (
+   'runtime/BP/scripts/core/registry.js',
+   'runtime/BP/scripts/core/transport.js',
+   'runtime/BP/scripts/core/util.js',
+   'runtime/BP/scripts/core/quality-tooltip.js',
+   'runtime/BP/scripts/bedrock/extension-host.js',
+   'runtime/BP/scripts/bedrock/quality-tooltip.js',
+   'runtime/BP/scripts/core/cookery-guide-publisher.js',
+  ):
    with self.subTest(owner=name):
     baseline.write_text(json.dumps(original));launch.write_text(json.dumps(launch_original))
     with mock.patch.object(reference,'__file__',str(self.root/'tools/baseline_reference.py')):

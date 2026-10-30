@@ -1871,12 +1871,6 @@
       "after": "15d0a039b34796fc59478527f3eaad96d0619a0765040525822ed4ae2e8e3b3f",
       "reason": "Resolve drink face depth conflicts with unchanged original UVs; shared 0.6.59 renderer repair."
     },
-    "runtime/BP/scripts/core/quality-tooltip.js": {
-      "before": "6a3d293d66c5ed5bce60b39fbffbe51c16e01a14afddd25212e8fb60576d2fde",
-      "beforeProjected": "6a3d293d66c5ed5bce60b39fbffbe51c16e01a14afddd25212e8fb60576d2fde",
-      "after": "4858f6bed6a16728601aa5b0d38ee63980de570590da1c03f9ef2d4f015c965a",
-      "reason": "0.6.60: user-requested Word-style board alignment and capacity checks; metadata-safe drink stack merging and empty-hand pickup; duplicate placement gesture coalescing."
-    },
     "runtime/BP/scripts/core/inventory.js": {
       "before": "243bb0e2669f6b5e4dfc374b8fb0311830c7277831af20fa1ff92b7580ee60dc",
       "beforeProjected": "243bb0e2669f6b5e4dfc374b8fb0311830c7277831af20fa1ff92b7580ee60dc",
