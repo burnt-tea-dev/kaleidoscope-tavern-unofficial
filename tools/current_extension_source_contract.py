@@ -18,7 +18,7 @@ SOURCE_GROUPS = {
     'furnitureLifecycle': ('core/furniture.js',),
     'optionalEffectProtocol': ('data/effect-icons.js',),
     'machinesAndDecorations': ('bedrock/machines.js', 'core/machines.js', 'bedrock/decorations.js'),
-    'sharedGuide': ('data/cookery-guide-payload.js', 'data/guide-navigation.js', 'data/guide-copy.js'),
+    'sharedGuide': ('core/cookery-guide-publisher.js', 'data/cookery-guide-payload.js', 'data/guide-navigation.js', 'data/guide-copy.js'),
 }
 COMPLETE_LOCALE_SOURCES = frozenset('runtime/RP/texts/' + locale + '.lang' for locale in ('en_US', 'zh_CN', 'zh_TW'))
 PARTIAL_LOCALE_SOURCES = frozenset('runtime/RP/texts/' + locale + '.lang' for locale in PARTIAL_LOCALES)
@@ -42,11 +42,13 @@ def check(root=ROOT, *, syntax=True, localization=True):
         ('./bedrock/machines.js', {'setRegistry', 'registerMachineComponents', 'installMachineEvents'}),
         ('./bedrock/decorations.js', {'registerDecorationComponents', 'installDecorationEvents'}),
         ('./data/cookery-guide-payload.js', {'buildCookeryGuidePayload', 'prepareCookeryGuidePayload'}),
+        ('./core/cookery-guide-publisher.js', {'installCookeryGuidePublisher'}),
     ):
         imported(entrypoint, module, names)
     assert entrypoint.count('installExtensionHost(registry)') == 1, 'Current extension host is disconnected'
     assert entrypoint.count('setRegistry(registry)') == 1, 'Current machine registry is disconnected'
     assert '()=>prepareCookeryGuidePayload(registry)' in entrypoint, 'Shared guide publisher is disconnected'
+    assert 'installCookeryGuidePublisher(system,()=>prepareCookeryGuidePayload(registry))' in entrypoint, 'Cookery guide publisher is disconnected'
 
     imported(modules['bedrock/extension-host.js'], '../core/transport.js', {'ExtensionTransport', 'EVENTS', 'TRANSPORT_LIMITS'})
     imported(modules['bedrock/extension-host.js'], '../core/registry.js', {'CAPABILITIES'})

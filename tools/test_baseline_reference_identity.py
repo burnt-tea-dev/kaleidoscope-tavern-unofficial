@@ -1,5 +1,6 @@
 """Historical views may normalize only bound, explicitly reviewed identities."""
 import base64,gzip,hashlib,json,tempfile,unittest
+from unittest import mock
 from pathlib import Path
 import baseline_reference as reference
 from baseline_reference import previous_bytes,rows,release_projections,functional_rows,functional_layers,asset_layers
@@ -225,18 +226,23 @@ class CurrentExtensionSourceTests(unittest.TestCase):
   entry.write_text(entry.read_text().replace('installExtensionHost(registry)',''))
   with self.assertRaisesRegex(AssertionError,'host is disconnected'):check(self.root,syntax=False,localization=False)
  def test_historical_body_guards_cannot_reclaim_current_owners(self):
-  from current_extension_source_contract import check
-  name='runtime/BP/scripts/core/registry.js';path=self.root/'data/baseline-reconciliation.json';original=json.loads(path.read_text())
-  for section in ('files','reviewedFunctionalDeltas'):
-   ledger=json.loads(json.dumps(original));ledger.setdefault(section,{})[name]={};path.write_text(json.dumps(ledger))
-   with self.assertRaisesRegex(AssertionError,'historical postimage'):check(self.root,syntax=False,localization=False)
-  for section in ('reviewedFunctionalDeltaLayers','reviewedAssetDeltaLayers'):
-   ledger=json.loads(json.dumps(original));ledger[section].append({'release':'fixture','files':{name:{}}});path.write_text(json.dumps(ledger))
-   with self.assertRaisesRegex(AssertionError,'reverse delta'):check(self.root,syntax=False,localization=False)
-  path.write_text(json.dumps(original));path=self.root/'data/launch-repair-reference.json';original=json.loads(path.read_text())
-  for section in ('reviewedChanges','newRuntimeFiles'):
-   ledger=json.loads(json.dumps(original));ledger[section][name]={};path.write_text(json.dumps(ledger))
-   with self.assertRaisesRegex(AssertionError,'launch hash aggregate'):check(self.root,syntax=False,localization=False)
+  baseline=self.root/'data/baseline-reconciliation.json';original=json.loads(baseline.read_text())
+  launch=self.root/'data/launch-repair-reference.json';launch_original=json.loads(launch.read_text())
+  for name in ('runtime/BP/scripts/core/registry.js','runtime/BP/scripts/core/cookery-guide-publisher.js'):
+   with self.subTest(owner=name):
+    baseline.write_text(json.dumps(original));launch.write_text(json.dumps(launch_original))
+    with mock.patch.object(reference,'__file__',str(self.root/'tools/baseline_reference.py')):
+     self.assertEqual(previous_bytes(self.root,self.root/name),(self.root/name).read_bytes())
+     for section in ('files','reviewedFunctionalDeltas'):
+      ledger=json.loads(json.dumps(original));ledger.setdefault(section,{})[name]={};baseline.write_text(json.dumps(ledger))
+      with self.assertRaisesRegex(AssertionError,'historical postimage'):previous_bytes(self.root,self.root/name)
+     for section in ('reviewedFunctionalDeltaLayers','reviewedAssetDeltaLayers'):
+      ledger=json.loads(json.dumps(original));ledger[section].append({'release':'fixture','files':{name:{}}});baseline.write_text(json.dumps(ledger))
+      with self.assertRaisesRegex(AssertionError,'reverse delta'):previous_bytes(self.root,self.root/name)
+     baseline.write_text(json.dumps(original))
+     for section in ('reviewedChanges','newRuntimeFiles'):
+      ledger=json.loads(json.dumps(launch_original));ledger[section][name]={};launch.write_text(json.dumps(ledger))
+      with self.assertRaisesRegex(AssertionError,'launch hash aggregate'):previous_bytes(self.root,self.root/name)
  def test_missing_or_empty_actual_quality_feedback_translation_is_rejected(self):
   from current_extension_source_contract import check,COMPLETE_LOCALE_SOURCES,QUALITY_UP_KEY
   for name in COMPLETE_LOCALE_SOURCES:

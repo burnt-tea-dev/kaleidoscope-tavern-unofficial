@@ -497,12 +497,6 @@
       "after": "35301a5ca8a11fdd64426e15863cfa70fcfcec86a6b5979e7ffad462c24f4576",
       "reason": "0.6.47 reviewed repair: Java viewer sampling and particle classes; bound full-UV animated item cards; missing barrel/status HUD label. See docs/REPAIR-0.6.47.md. 2026-09-28 effects review: Pinned Java constructors, finite per-sample emission and source 20Hz dynamics. See docs/EFFECTS-REPORT-FOLLOWUP-20260928.md. 0.6.64 Molang hotfix: expand compound assignments to explicit assignments; arithmetic order and all other JSON values retained."
     },
-    "runtime/BP/scripts/core/cookery-guide-publisher.js": {
-      "before": "5a2787aba4c3de29014c367af14e2e04771dac82dbfee8f5656f094ba227bc41",
-      "beforeProjected": "5a2787aba4c3de29014c367af14e2e04771dac82dbfee8f5656f094ba227bc41",
-      "after": "6ad64976071affd75dfaf00e3f2e1b68e2d1e95166c4546256441c25b5f826c1",
-      "reason": "0.6.46 reviewed guide transport/shared usage, deployed icon preservation, and finite incense visibility repair. 0.6.54: correct barrel/tap/aging instructions; derive legacy pages from the canonical Cookery chapter; expose feedback failures and truthful guide delivery state."
-    },
     "runtime/BP/blocks/pine_incense.json": {
       "before": "0001e93157150d410824e8c95445f52946b9991ee96f33a0a4399cc67b3c85cd",
       "beforeProjected": "beba8822f877a6c85132db8529582d92cc4439180f3193ad6016263e6ee78e69",

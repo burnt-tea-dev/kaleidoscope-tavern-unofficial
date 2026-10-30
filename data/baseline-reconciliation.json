@@ -938,19 +938,6 @@
       "reason": "Canonical baseline reconciliation; stable API/connection/public dependencies and reviewed live fixes. See BASELINE-MAINTENANCE.md. 0.6.70 external cellar redstone integration; see foundation tests. 0.6.70 external cellar redstone integration; see foundation tests.",
       "beforeGzipBase64": "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"
     },
-    "runtime/BP/scripts/core/cookery-guide-publisher.js": {
-      "before": "6ad64976071affd75dfaf00e3f2e1b68e2d1e95166c4546256441c25b5f826c1",
-      "after": "a7c70c0bb1a6487964a8c7e66772ec2b7fa98b45517b50e6f5f9020dd45e544e",
-      "reason": "Reviewed guide readability repair: localized fluid/container names, source-derived operation and aging, preserved recipe slots and shared optional chapter. See RELEASE-NOTES-0.6.94.md and standalone-guide.test.mjs.",
-      "beforeGzipBase64": "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",
-      "superseded": [
-        {
-          "commit": "892436df95b7e299221e6e7aa699ab9944febcbb",
-          "after": "730557eadce63e59238afdd2bb08c6845eb1d5b2e68bf9b6a3b214c8e6df0154",
-          "reason": "Previous reviewed runtime before this guide/version repair; original historical preimage retained."
-        }
-      ]
-    },
     "runtime/BP/scripts/core/guide-preparation.js": {
       "before": "46036ece1e0a9a8c223bbc11ac379c160894245ca00e982cabf8c5fb7558e57c",
       "after": "b303adbe72411f00496fc31b6fdf42d1934ff7f7177046a821ec2efa9e546202",
@@ -4253,63 +4240,6 @@
       }
     },
     {
-      "release": "0.6.123",
-      "files": {
-        "runtime/BP/scripts/core/cookery-guide-publisher.js": {
-          "before": "a7c70c0bb1a6487964a8c7e66772ec2b7fa98b45517b50e6f5f9020dd45e544e",
-          "after": "69c46bb54cb8d06b6f55599590e2dd0610bd3a2501d33f8a5c0a407a32269753",
-          "reason": "Defer optional guide preparation until host readiness, cache exact packets by refresh generation and cooperatively prepare UTF-8 transport without changing chapter bytes or retransmission semantics.",
-          "reverseOps": [
-            [
-              54,
-              55,
-              "export function encodeCookeryGuideMessages(payload,{source=COOKERY_GUIDE_SOURCE,revision=COOKERY_GUIDE_REVISION}={}){\n"
-            ],
-            [
-              57,
-              67,
-              " const raw=JSON.stringify(cookery106WirePayload(payload));\n const chunks=[];let part='',bytes=0;\n // Split on Unicode code points and enforce the stricter UTF-8 byte budget.\n // Escaping every Chinese character consumed twice as much transfer capacity.\n for(const char of raw){const size=utf8Bytes(char);if(bytes+size>COOKERY_GUIDE_CHUNK_SIZE){chunks.push(part);part='';bytes=0;}part+=char;bytes+=size;}\n if(part)chunks.push(part);\n"
-            ],
-            [
-              74,
-              75,
-              " for(const m of messages)if(utf8Bytes(m.message)>2048)throw new RangeError('Unsafe Cookery guide Script Event packet.');\n"
-            ],
-            [
-              76,
-              82,
-              ""
-            ],
-            [
-              88,
-              89,
-              ""
-            ],
-            [
-              90,
-              90,
-              " try{const initial=provider(),revision=dynamic?cookeryGuideRevision(initial):COOKERY_GUIDE_REVISION;lastMessageCount=encodeCookeryGuideMessages(initial,{revision}).length;}catch{/* surfaced on first host-ready publish */}\n"
-            ],
-            [
-              101,
-              129,
-              "  let payload,messages,revision;\n  try{\n   payload=provider();revision=dynamic?cookeryGuideRevision(payload):COOKERY_GUIDE_REVISION;\n   messages=encodeCookeryGuideMessages(payload,{revision});lastMessageCount=messages.length;\n  }catch(error){sendFailures++;dirty=true;warn('[Tavern guide] Build failed: '+String(error));return false;}\n  active=true;dirty=false;let cursor=0;\n"
-            ],
-            [
-              137,
-              138,
-              "  runningHandle=later(step,1);return true;\n"
-            ],
-            [
-              148,
-              150,
-              "  refresh:()=>{if(disposed)return false;dirty=true;return queue();},\n  getStatus:()=>({active,disposed,hostReady,dirty,successfulTransfers,transmittedTransfers:successfulTransfers,sendFailures,messageCount:lastMessageCount,revision:lastRevision,acknowledgementAvailable:false,receiptConfirmed:false,deliveryState:disposed?'disposed':!hostReady?'host_not_ready':active?'transmitting':dirty&&sendFailures?'send_failed':lastRevision?'sent_unconfirmed':'waiting_to_send'}),\n"
-            ]
-          ]
-        }
-      }
-    },
-    {
       "release": "0.6.126",
       "files": {
         "runtime/BP/scripts/core/machine-visuals.js": {
@@ -6783,53 +6713,6 @@
               66,
               67,
               " messages.delete(id);last.delete(id);\n"
-            ]
-          ]
-        },
-        "runtime/BP/scripts/core/cookery-guide-publisher.js": {
-          "before": "69c46bb54cb8d06b6f55599590e2dd0610bd3a2501d33f8a5c0a407a32269753",
-          "after": "20b4f91a31c912ed0953c7c09bf44f8921298ae39614ec309819e6a650698858",
-          "reason": "T149 preserves recipes, item settlement and guide content while routing graphical HUD away from shared Actionbars and bounding startup preparation; source/scheduler checks are distinct from pending native/client acceptance. See docs/RELEASE-NOTES-0.6.149.md.",
-          "reverseOps": [
-            [
-              4,
-              5,
-              "import {canonical,digest,utf8Bytes} from './util.js';\n"
-            ],
-            [
-              16,
-              17,
-              ""
-            ],
-            [
-              39,
-              40,
-              "export function cookery106WirePayload(payload){\n"
-            ],
-            [
-              41,
-              43,
-              " const entries=payload.entries.map(entry=>{\n"
-            ],
-            [
-              49,
-              57,
-              "  return {...entry,mechanics:packGuideParagraphs(fallback),\n   mechanicsByLocale:Object.fromEntries(Object.entries(localized).map(([lc,rows])=>[lc,packGuideParagraphs(rows)]))};\n });\n const names=Object.fromEntries(Object.entries(payload.names??{}).map(([lc,rows])=>[lc,Object.fromEntries(Object.entries(rows).filter(([id])=>needed.has(id)))]));\n"
-            ],
-            [
-              59,
-              61,
-              ""
-            ],
-            [
-              66,
-              68,
-              " const wire=cookery106WirePayload(payload);yield;\n const raw=JSON.stringify(wire);yield;\n"
-            ],
-            [
-              115,
-              118,
-              "   const payload=provider();yield;\n   const revision=dynamic?cookeryGuideRevision(payload):COOKERY_GUIDE_REVISION;yield;\n"
             ]
           ]
         },
