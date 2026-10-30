@@ -1,7 +1,7 @@
-import {FONT_ADVANCES,FONT_BOLD_OFFSETS} from '../data/board-font.js';
+import {fontAdvance,fontBoldOffset} from '../data/board-font.js';
 import {boardLineStart} from './boards.js';
 export const boardCode=ch=>ch.codePointAt(0)<=65535?ch.codePointAt(0):0x25a1;
-export const boardAdvance=(ch,bold=false)=>FONT_ADVANCES[boardCode(ch)]+(bold?FONT_BOLD_OFFSETS[boardCode(ch)]:0);
+export const boardAdvance=(ch,bold=false)=>{const code=boardCode(ch);return fontAdvance(code)+(bold?fontBoldOffset(code):0);};
 const fullwidth=ch=>/[\u1100-\u115f\u2329\u232a\u2e80-\ua4cf\uac00-\ud7a3\uf900-\ufaff\ufe10-\ufe19\ufe30-\ufe6f\uff01-\uff60\uffe0-\uffe6]/u.test(ch)||ch.codePointAt(0)>65535;
 export function boardLayoutOptions(kind,large=false){return kind==='sandwich'?{width:55,maxLines:8,bold:true}:{width:large?232:63,maxLines:11,bold:false,smallChalk:!large};}
 /** A small chalkboard has 70 capacity units: halfwidth=7, fullwidth=10.

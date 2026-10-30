@@ -3,7 +3,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {world,system,Player,ItemStack,BlockPermutation,GameMode,EntitySwingSource,Potions} from '@minecraft/server';
-import {nativeStart,nativeStop,beforeShakerUse,pourHeldShakerNow,pourIngredient,placeShaker,placeCup,pickupShaker,clearHeldShaker,clearShakerOnSwing,readPortableItem,setMixologyRegistry,migrateShakerSlot,migrateShakerInventory,registerMixologyComponents} from '../runtime/BP/scripts/bedrock/mixology.js';
+import {nativeStart,nativeStop,beforeShakerUse,pourHeldShakerNow,pourIngredient,placeShaker,placeCup,pickupShaker,clearHeldShaker,clearShakerOnSwing,readPortableItem,setMixologyRegistry,migrateShakerSlot,migrateShakerInventory,registerMixologyComponents,mixologyDiagnostics} from '../runtime/BP/scripts/bedrock/mixology.js';
 import {shakerPut} from '../runtime/BP/scripts/bedrock/immersion.js';
 import {naturalBreak} from '../runtime/BP/scripts/bedrock/natural-break.js';
 import {potionInput} from '../runtime/BP/scripts/bedrock/potions.js';
@@ -229,6 +229,32 @@ test('actual air-use guards keep empty and completed shakers silent but retain t
  const item=original.clone();item.setDynamicProperty(PORTABLE_DATA,encodePortable({...emptyShaker(),slots:f.state.slots.slice(0,1)},'partial_'+serial));f.player.inventory.setItem(0,item);
  const event={source:f.player,itemStack:item,cancel:false};beforeShakerUse(event);system.advance(1);
  assert.equal(event.cancel,true);assert.equal(writes.length,1);assert.equal(writes[0].rawtext[1].translate,'message.kaleidoscope_tavern.shaker.amount_too_low');
+});
+
+test('ordinary NOT_CUP rejection stays diagnostic and visible without a server warning',()=>{
+ const f=fixture(),warnings=[],messages=[],warn=console.warn,raycast=f.player.getBlockFromViewDirection;
+ f.player.isSneaking=true;f.player.onScreenDisplay.setActionBar=value=>messages.push(value);
+ f.player.inventory.setItem(0,new ItemStack('minecraft:stone'));
+ let rejection;
+ try{placeCup(f.player,{...f.player.location,z:f.player.location.z+1});}catch(error){rejection=error;}
+ assert.equal(rejection?.code,'NOT_CUP','placeCup rejects an ordinary non-cup held item');
+ f.player.inventory.setItem(0,f.item);
+ console.warn=(...args)=>warnings.push(args);
+ try{
+  // Feed the real gameplay rejection through the exported adapter's existing
+  // safely catch path, which records the code and shows the player's hint.
+  f.player.getBlockFromViewDirection=()=>{throw rejection;};
+  clearShakerOnSwing({player:f.player,heldItemStack:f.current(),swingSource:EntitySwingSource.Attack});
+  assert.equal(mixologyDiagnostics.errors.at(-1),'NOT_CUP');
+  assert.equal(messages.length,1,'the player still gets the one rejection hint');
+  assert.equal(warnings.length,0);
+
+  const failure=Object.assign(new Error('INJECTED_FAILURE'),{code:'INJECTED_FAILURE'});
+  f.player.getBlockFromViewDirection=()=>{throw failure;};
+  clearShakerOnSwing({player:f.player,heldItemStack:f.current(),swingSource:EntitySwingSource.Attack});
+  assert.equal(mixologyDiagnostics.errors.at(-1),'INJECTED_FAILURE');
+  assert.equal(warnings.length,1);assert.match(warnings[0][0],/INJECTED_FAILURE/);
+ }finally{console.warn=warn;f.player.getBlockFromViewDirection=raycast;}
 });
 
 function swing(f,{source=EntitySwingSource.Attack,sneaking=true,block,entities=[]}={}){

@@ -28,6 +28,15 @@ function predecessorPackets(extension,revision,quotedLimit){
 }
 const finishWithYields=job=>{let result,yields=0;do{result=job.next();if(!result.done)yields++;}while(!result.done);return {value:result.value,yields};};
 
+test('ExtensionRegistry constructor stays synchronous unless initial rebuild is explicitly deferred',()=>{
+ const synchronous=new ExtensionRegistry({recipes:[],fluids:[]});
+ assert.equal(synchronous.revision,1);assert.ok(Array.isArray(synchronous.allRecipes()));
+ const deferred=new ExtensionRegistry({recipes:[],fluids:[],deferInitialRebuild:true});
+ assert.equal(deferred.revision,0);assert.equal(deferred.allRecipes(),undefined);
+ const prepared=finishWithYields(deferred.prepareRebuild());
+ assert.ok(prepared.yields>0);assert.equal(deferred.revision,1);assert.ok(Array.isArray(deferred.allRecipes()));
+});
+
 test('wire byte counters match the Node Buffer oracle for every code unit and surrogate boundaries',()=>{
  const counters=[utf8Bytes,sdkUtf8Bytes];
  const compare=value=>{const expected=Buffer.byteLength(value,'utf8');for(const count of counters)assert.equal(count(value),expected);};

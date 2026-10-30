@@ -19,6 +19,8 @@ SOURCE_GROUPS = {
     'optionalEffectProtocol': ('data/effect-icons.js',),
     'machinesAndDecorations': ('bedrock/machines.js', 'core/machines.js', 'bedrock/decorations.js'),
     'sharedGuide': ('core/cookery-guide-publisher.js', 'data/cookery-guide-payload.js', 'data/guide-navigation.js', 'data/guide-copy.js'),
+    'boardLayoutAndText': ('data/board-font.js', 'core/board-layout.js', 'bedrock/board-text.js'),
+    'mixologyLifecycle': ('bedrock/mixology.js',),
     'sharedUtilities': ('core/util.js',),
 }
 COMPLETE_LOCALE_SOURCES = frozenset('runtime/RP/texts/' + locale + '.lang' for locale in ('en_US', 'zh_CN', 'zh_TW'))
@@ -45,13 +47,22 @@ def check(root=ROOT, *, syntax=True, localization=True):
         ('./data/cookery-guide-payload.js', {'buildCookeryGuidePayload', 'prepareCookeryGuidePayload'}),
         ('./core/cookery-guide-publisher.js', {'installCookeryGuidePublisher'}),
         ('./bedrock/quality-tooltip.js', {'installQualityTooltipEvents', 'qualityTooltipDiagnostics'}),
+        ('./bedrock/mixology.js', {'setMixologyRegistry', 'registerMixologyComponents', 'installMixologyEvents'}),
     ):
         imported(entrypoint, module, names)
     assert entrypoint.count('installExtensionHost(registry)') == 1, 'Current extension host is disconnected'
     assert entrypoint.count('setRegistry(registry)') == 1, 'Current machine registry is disconnected'
     assert '()=>prepareCookeryGuidePayload(registry)' in entrypoint, 'Shared guide publisher is disconnected'
     assert 'installCookeryGuidePublisher(system,()=>prepareCookeryGuidePayload(registry))' in entrypoint, 'Cookery guide publisher is disconnected'
+    assert entrypoint.count('setMixologyRegistry(registry)') == 1, 'Mixology registry wiring is disconnected'
+    assert '\n registerMixologyComponents,' in entrypoint, 'Mixology startup component registration is disconnected'
+    assert '\n installMixologyEvents,' in entrypoint, 'Mixology event installation is disconnected'
 
+    imported(modules['core/board-layout.js'], '../data/board-font.js', {'fontAdvance', 'fontBoldOffset'})
+    imported(modules['bedrock/board-text.js'], '../data/board-font.js', {'fontBoldOffset'})
+    writing_boards = read_module(root, 'runtime/BP/scripts/bedrock/writing-boards.js', False)
+    imported(writing_boards, '../core/board-layout.js', {'boardLayoutOptions', 'splitBoardLines', 'encodeBoardInput', 'decodeBoardInput'})
+    imported(writing_boards, './board-text.js', {'renderBoardText', 'removeBoardText'})
     imported(modules['bedrock/extension-host.js'], '../core/transport.js', {'ExtensionTransport', 'EVENTS', 'TRANSPORT_LIMITS'})
     imported(modules['bedrock/extension-host.js'], '../core/registry.js', {'CAPABILITIES'})
     imported(modules['core/registry.js'], './extension-content.js', {'installContent'})
@@ -99,7 +110,7 @@ def check(root=ROOT, *, syntax=True, localization=True):
         'sources': sorted(sources), 'ownershipAndWiring': 'passed',
         'syntax': 'passed' if syntax else 'not run',
         'localization': localization_result,
-        'behavior': 'existing current-extension-contract, transport-integrity, extension-bottle, furniture-interaction and standalone-guide suites; not run by this static check',
+        'behavior': 'existing current-extension-contract, transport-integrity, extension-bottle, furniture-interaction, standalone-guide, board-layout and mixology rejection suites; not run by this static check',
         'javaResources': 'existing incense surfaces/sampling, barrel materials/collision and guide checks in the package suite; not run by this static check',
         'bds': False, 'client': False,
     }

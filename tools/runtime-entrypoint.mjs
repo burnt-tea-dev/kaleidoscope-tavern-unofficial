@@ -71,7 +71,6 @@ export function checkRuntimeEntrypoint(source=runtimeEntrypointSource()){
    assert(exported&&!(local in context),`Ambiguous imported binding: ${local}`);
    context[local]=(...args)=>{
     record('call',`${module}:${exported}`,args);
-    if(exported==='installCookeryGuidePublisher')return {getStatus:()=>({}),refresh(){}};
    };
   }
   return '';
@@ -80,14 +79,13 @@ export function checkRuntimeEntrypoint(source=runtimeEntrypointSource()){
  context.system={
   beforeEvents:{startup:subscribe('startup')},
   afterEvents:{scriptEventReceive:subscribe('scriptEventReceive')},
-  run:(...args)=>{assert.equal(typeof args[0],'function');record('defer','bootstrap',args);deferred.push(args[0]);},
+  runJob:(...args)=>{assert.equal(typeof args[0]?.next,'function');record('defer','bootstrap',args);deferred.push(args[0]);},
  };
  context.world={afterEvents:{playerLeave:subscribe('playerLeave')}};
  vm.runInNewContext(body,context,{filename:'runtime/BP/scripts/main.js',timeout:1000});
  const load=trace.slice();
  assert.deepEqual(load.map(row=>row.key),[
   'call:./bedrock/native-storage-pinning.js:installNativeStoragePinning',
-  'call:./core/cookery-guide-publisher.js:installCookeryGuidePublisher',
   'call:./core/cookery-guide-entry.js:installCookeryGuideEntry',
   'subscribe:playerLeave','subscribe:startup',
   ...INSTALLERS.map(importedCall),
@@ -95,11 +93,9 @@ export function checkRuntimeEntrypoint(source=runtimeEntrypointSource()){
  ],'Entrypoint load order or installation count changed');
  for(const row of load.filter(row=>INSTALLERS.some(spec=>importedCall(spec)===row.key)))
   assert.equal(row.args.length,0,`${row.key} must install without a startup event`);
- const [pinning,publisher,guideEntry]=load;
+ const [pinning,guideEntry]=load;
  assert.equal(pinning.args.length,1);assert.equal(typeof pinning.args[0],'function');
  assert.equal(pinning.args[0](),undefined,'Storage pinning keeps the deferred registry getter');
- assert.equal(publisher.args.length,2);assert.equal(publisher.args[0],context.system);
- assert.equal(typeof publisher.args[1],'function');
  assert.equal(guideEntry.args.length,1);
  assert.equal(guideEntry.args[0].system,context.system);
  assert.equal(guideEntry.args[0].world,context.world);
@@ -123,8 +119,57 @@ export function checkRuntimeEntrypoint(source=runtimeEntrypointSource()){
   installers:INSTALLERS.map(([name])=>name),
   registrations:COMPONENTS.map(([name])=>name),
   legacyGuideRegisteredLast:true,
-  deferredBootstrapCallbacks:deferred.length,
+  deferredBootstrapJobs:deferred.length,
  };
+}
+
+/** Execute the real main.js bootstrap generator with isolated imported interfaces. */
+export function checkCookeryBootstrap(source=runtimeEntrypointSource()){
+ const jobs=[],trace=[],context={};let ready=false,publisherInstalled=false;
+ const noop=(name,module)=>(...args)=>{trace.push(`${module}:${name}`);};
+ const Registry=class{
+  constructor(options){assert.equal(options.deferInitialRebuild,true);this.options=options;this.ready=false;}
+  *prepareRebuild(){trace.push('registry:prepare-start');yield;trace.push('registry:prepare-middle');yield;this.ready=true;ready=true;this.recipeCache=[];this.pageCache=[];this.revision=1;trace.push('registry:prepare-done');}
+  subscribe(){trace.push('registry:subscribe');}
+  list(){return [];}
+  allRecipes(){return this.ready?[]:undefined;}
+  pendingBarrelRecipeSources(){return [];}
+ };
+ const overrides={
+  system:{beforeEvents:{startup:{subscribe(){}}},afterEvents:{scriptEventReceive:{subscribe(){}}},runJob(job){assert.equal(typeof job.next,'function');jobs.push(job);},sendScriptEvent(id){trace.push(`send:${id}`);}},
+  world:{afterEvents:{playerLeave:{subscribe(){}}}},
+  ItemTypes:{get:()=>true},ItemStack:class{getTags(){return []; }},ScriptEventSource:{Server:'Server'},
+  ExtensionRegistry:Registry,BUILTIN_RECIPES:[],SHAKER_RECIPES:[],GUIDE_PAGES:[],EFFECT_PAGES:[],MIXOLOGY_PAGES:[],FLUIDS:[],
+  installedBarrelRecipeSources:()=>[],cacheNativeItemDefinitionExists:()=>()=>true,cacheItemDefinitionTags:()=>()=>[],
+  installCookeryGuidePublisher(_system,provider){assert(ready,'publisher must only install after registry readiness');assert(provider().ready,'publisher provider must see the complete registry');publisherInstalled=true;return {getStatus:()=>({deliveryState:'waiting_to_send'}),refresh(){trace.push('publisher:refresh');}};},
+  prepareCookeryGuidePayload:registry=>registry,
+  setRegistry:()=>{trace.push('machines:registry-bound');},setMixologyRegistry:()=>{trace.push('mixology:registry-bound');},
+  installExtensionFurniture:()=>({}),installFoundationBridge:()=>{},installExtensionHost:()=>{},
+  diagnostics:{errors:[]},console:{warn(){},error(){}},
+ };
+ const body=source.replace(/^import\s*\{([^}]+)\}\s*from\s*['"]([^'"]+)['"];\s*$/gm,(_,bindings,module)=>{
+  for(const binding of bindings.split(',')){
+   const [exported,local=exported]=binding.trim().split(/\s+as\s+/);assert(exported&&!(local in context),`Ambiguous imported binding: ${local}`);
+   context[local]=Object.hasOwn(overrides,exported)?overrides[exported]:noop(exported,module);
+  }
+  return '';
+ }).replace(/^export\s+(?=function\s)/gm,'');
+ assert(!/^import\s/m.test(body),'Entrypoint import form needs an explicit fixture update');
+ context.console=overrides.console;
+ context.diagnosticSnapshot=undefined;vm.runInNewContext(body,context,{filename:'runtime/BP/scripts/main.js',timeout:1000});
+ assert.equal(jobs.length,1);assert.equal(context.runtimeRegistry(),undefined,'registry is private until runJob completes');
+ assert.equal(context.diagnosticSnapshot().cookeryInitialization.state,'pending');
+ const first=jobs[0].next();assert.equal(first.done,false);assert.equal(context.runtimeRegistry(),undefined,'registry remains private during prepareRebuild');
+ assert.equal(publisherInstalled,false);
+ assert.equal(context.diagnosticSnapshot().cookeryInitialization.state,'preparing_registry');
+ const second=jobs[0].next();assert.equal(second.done,false);assert.equal(context.runtimeRegistry(),undefined,'registry remains private for every preparation yield');
+ assert.equal(publisherInstalled,false);
+ const last=jobs[0].next();assert.equal(last.done,true);
+ const registry=context.runtimeRegistry();assert(registry?.ready);assert(publisherInstalled,'publisher installs after the complete registry is published');
+ const snapshot=context.diagnosticSnapshot();assert.equal(snapshot.cookeryInitialization.state,'ready');assert.equal(snapshot.cookeryGuideChapter.deliveryState,'waiting_to_send');
+ const readyAt=trace.indexOf('registry:prepare-done');
+ for(const event of ['machines:registry-bound','mixology:registry-bound','publisher:refresh'])assert(trace.indexOf(event)>readyAt,`${event} must wait for completed registry`);
+ return {scope:'real main.js bootstrap generator with isolated imported interfaces; no BDS/client proof',registryPrivateUntilReady:true,publisherAfterReady:true,jobYields:2,phase:trace};
 }
 
 if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href)

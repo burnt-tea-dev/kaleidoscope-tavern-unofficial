@@ -7,7 +7,7 @@ import {visibleEffects,effectTime,effectLevel,effectBarMessage,createEffectBar,E
 import {addStatus,advanceStatus,activeStatus,CUSTOM_IMPLEMENTED,CUSTOM_INSTANT} from '../runtime/BP/scripts/core/custom-effects.js';
 import {installContent} from '../runtime/BP/scripts/core/extension-content.js';
 import {normalizeFoundation} from '../runtime/BP/scripts/core/extension-foundation.js';
-import {checkRuntimeEntrypoint,runtimeEntrypointSource} from './runtime-entrypoint.mjs';
+import {checkCookeryBootstrap,checkRuntimeEntrypoint,runtimeEntrypointSource} from './runtime-entrypoint.mjs';
 const A='kaleidoscope_tavern:slightly_tipsy',B='kaleidoscope_world_liquor:reverse_gravity';
 const row=(id=A,ticks=1200,amplifier=0)=>({id,ticks,amplifier});
 const state=(...entries)=>({schema:1,entries});
@@ -107,11 +107,14 @@ test('entrypoint installs once; no new UI/native-effect writes in bar',()=>{
  assert(adapter.includes('if(installed)return;installed=true;'));assert(adapter.includes('status:statusNow'));assert(adapter.includes('busy:isTavernHudBusy'));
  assert(!/setDynamicProperty|addEffect\(|setTitle\(|setHudVisibility|sendMessage/.test(adapter));
 });
+test('Cookery bootstrap keeps registry private until runJob finishes preparation',()=>{
+ const result=checkCookeryBootstrap();assert.equal(result.registryPrivateUntilReady,true);assert.equal(result.publisherAfterReady,true);
+});
 test('entrypoint observation rejects extra immediate or deferred installation',()=>{
  const source=runtimeEntrypointSource();
  for(const broken of [
   source+'\ninstallEffectBar();\n',
-  source+'\nsystem.run(()=>installMolotovEvents());\n',
+  source+'\nsystem.runJob((function*(){installMolotovEvents();})());\n',
  ]){
   assert.throws(()=>checkRuntimeEntrypoint(broken),/Entrypoint load order or installation count changed/);
  }
