@@ -6,7 +6,7 @@ transforms are read from the shipped JS poses, geometry pivots, scale and animat
 The adapter convention is Java (x,y,z) -> geometry (8-x,y,z-8), with world yaw
 opposite Java YP. These algebraic checks do NOT prove client rendering.
 """
-from reviewed_changes import historical_digest,changes,reviewed_additions,historical_files
+from reviewed_changes import historical_digest,changes,reviewed_additions,historical_files,historical_preserved
 import argparse
 import copy
 import hashlib
@@ -233,21 +233,26 @@ def main():
                 fixed=bedrock_point(vertices[0][1],case,client,g,animations)
                 regression=max(regression,math.dist(old,fixed))
     assert abs(regression-math.sqrt(.5))<1e-12,'Negative fixture must detect original half-block pivot displacement'
-    for path,digest in contract.get('preservedSha256',{}).items():
+    # These current owners have actual wiring/behavior checks. The original
+    # storage snapshot retains its historical hashes and its remaining scope.
+    protected=historical_preserved(contract.get('preservedSha256',{}))
+    handed_off=set(contract.get('preservedSha256',{}))-set(protected)
+    for path,digest in protected.items():
         assert historical_digest(ROOT/path)==digest,('Unrelated asset/gameplay changed',path)
-    preserved_count=len(contract.get('preservedSha256',{}))
+    preserved_count=len(protected)
     for prefix,expected in contract.get('preservedTrees',{}).items():
         hashes={p.relative_to(ROOT).as_posix():historical_digest(p) for p in historical_files(prefix)}
         rows=''.join(k+'\0'+v+'\n' for k,v in sorted(hashes.items()))
         assert len(hashes)==expected['files'] and hashlib.sha256(rows.encode()).hexdigest()==expected['sha256'],('Unrelated asset tree changed',prefix)
         preserved_count+=len(hashes)
-    superseded=set(changes())&set(contract.get('preservedSha256',{}))
+    superseded=set(changes())&set(protected)
     for prefix in contract.get('preservedTrees',{}):
         superseded.update(name for name in changes() if name.startswith(prefix+'/'))
     report={'upstreamCommit':contract['upstreamCommit'],'upstreamFilesVerified':len(contract['sources']) if args.java_source else 0,
             'familyVariants':6,'facings':4,'poseCases':len(snap['poses']),'modelPoseCases':len(snap['poses'])*len(points),
             'vertexComparisons':checks,'maxCoordinateErrorBlocks':maximum,'checkedModelBindings':checked_bindings,
             'oldCellarMolotovPivotErrorBlocks':regression,'preservedFiles':preserved_count-len(superseded),'reviewedSupersededFiles':sorted(superseded),
+            'currentSourceContractFiles':sorted(handed_off),
             'watermelonKinds':{'compact':17,'general':27},'playerSimulation':False,'bdsTest':'NOT_RUN','clientVisualTest':'NOT_RUN'}
     if args.report:
         args.report.parent.mkdir(parents=True,exist_ok=True)
