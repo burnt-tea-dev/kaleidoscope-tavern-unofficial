@@ -107,3 +107,8 @@ current config／policy／來源／驗證傳遞引用、maintenance lock、host 
 正常 cleanup-copies 的成功部署保留規則不變。此工具／文件更新不升包、不建立候選、不重啟 LIVE。
 
 明列退役的 CLI 乾跑只回傳標記為不可執行計畫的摘要；完整檔案 metadata 留在同次執行記憶體，結果只保存 scope／數量／配置量／binding 與實際刪除葉檔，避免重複巨型清單。
+
+穩定 family lock 輸出的 `lock-source-projection` 可作為另一個精確 `targets` scope 明列退役。
+清理器只接受輸出根目錄的這個固定名稱；逐包比對同輪 `family-lock.json`、`build-evidence.json` 與 `release-candidate/family-receipt.json` 的 receipt／lock hash、pack UUID／side／version、完整 pack 檔案 hash 及 selector 順序。
+只刪所有上述證據綁定的 pack 檔案；family lock、build evidence、raw receipt、selector JSON、目錄及任何未知額外檔保留。缺檔、額外檔落在已綁定 pack 內、hash／順序不符、來源／Git／世界／備份路徑、活動程序、lease 或現行引用均拒絕計畫或執行。
+投影 scope 使用獨立的 `lock-source-projection-retirement.json`，不擴寫或覆蓋既有 `reviewed-retirement.json` 的 targets／removed 歷史；同一輸出可以追加新的獨立明列 scope，且清單路徑與 metadata 綁定在新 marker。

@@ -598,6 +598,155 @@ def _expected_pack_files(reviewed, side):
     return {str(Path(pack['uuid']) / rel) for pack in reviewed['packs'] if pack['side'] == side for rel in pack['files']}
 
 
+def _expected_lock_projection_files(output, root, mounts, removed=()):
+    """Return only pack leaves bound by this output's stable lock and build receipt."""
+    lock_path = output / 'family-lock.json'
+    evidence_path = output / 'build-evidence.json'
+    result_path = output / 'candidate-result.json'
+    receipt_path = output / 'release-candidate/family-receipt.json'
+    for path in (lock_path, evidence_path, result_path, receipt_path):
+        _safe_path(path, root, mounts)
+        _require(path.is_file() and not path.is_symlink(), 'Stable projection source evidence is missing: ' + str(path))
+    lock = _read(lock_path, root, mounts)
+    evidence = _read(evidence_path, root, mounts)
+    result = _read(result_path, root, mounts)
+    receipt = _read(receipt_path, root, mounts)
+    receipt_hash = hashlib.sha256(receipt_path.read_bytes()).hexdigest()
+    lock_hash = hashlib.sha256(lock_path.read_bytes()).hexdigest()
+    _require(evidence.get('candidate_receipt_sha256') == receipt_hash and
+             result.get('candidate_receipt_sha256') == receipt_hash and
+             result.get('family_lock_sha256') == lock_hash and result.get('schema') == 1 and
+             result.get('state') == 'candidate_built_ci_verified',
+             'Stable projection candidate evidence hashes differ')
+    _require(isinstance(lock, dict) and lock.get('schema') == 1 and
+             lock.get('digest_format') == 'senluo-pack-tree-v1' and
+             isinstance(lock.get('packs'), list), 'Stable projection lock is invalid')
+    _require(isinstance(receipt, dict) and receipt.get('schema') == 1 and
+             isinstance(receipt.get('packs'), list) and isinstance(receipt.get('order'), dict) and
+             set(receipt['order']) == {'behavior', 'resource'} and
+             all(isinstance(receipt['order'][side], list) for side in ('behavior', 'resource')) and
+             isinstance(evidence.get('sources'), dict),
+             'Stable projection raw family receipt is invalid')
+    raw = {(pack.get('side'), pack.get('uuid')): pack for pack in receipt['packs']
+           if isinstance(pack, dict)}
+    _require(len(raw) == len(receipt['packs']), 'Stable projection receipt repeats or invalidates a pack')
+    locked = {(('behavior' if pack.get('kind') == 'behavior' else 'resource'), pack.get('uuid')): pack
+              for pack in lock['packs'] if isinstance(pack, dict) and pack.get('kind') in {'behavior', 'resource'}}
+    _require(len(locked) == len(lock['packs']) and set(locked) == set(raw),
+             'Stable projection lock and raw family receipt pack identities differ')
+    for side, uid in raw:
+        pack = raw[(side, uid)]
+        files = pack.get('files')
+        source = pack.get('source')
+        _require(isinstance(pack.get('version'), list) and len(pack['version']) == 3 and
+                 all(type(part) is int and part >= 0 for part in pack['version']) and
+                 isinstance(files, dict) and 'manifest.json' in files and
+                 all(isinstance(name, str) and name and '\\' not in name and '\x00' not in name and
+                     not Path(name).is_absolute() and '..' not in Path(name).parts and
+                     Path(name).as_posix() == name and isinstance(digest, str) and
+                     re.fullmatch(r'[0-9a-f]{64}', digest) for name, digest in files.items()) and
+                 isinstance(source, dict) and source.get('owner') in
+                 {'owned', 'upstream', 'upstream_extended', 'preserved'},
+                 'Stable projection receipt pack binding is invalid: ' + str(uid))
+    files = set()
+    removed = set(removed)
+    _require(all(path.startswith('lock-source-projection/') for path in removed),
+             'Projection retirement marker contains an out-of-scope path')
+    worlds = set()
+    for side in ('behavior', 'resource'):
+        expected_order = [uid for uid in receipt['order'].get(side, [])]
+        _require(len(expected_order) == len(set(expected_order)) and
+                 set(expected_order) == {uid for pack_side, uid in raw if pack_side == side},
+                 'Stable projection receipt order is incomplete: ' + side)
+        for uid in expected_order:
+            pack = raw[(side, uid)]
+            locked_pack = locked[(side, uid)]
+            lock_path = locked_pack.get('path')
+            match = (re.fullmatch(r'worlds/([^/]+)/' + side + r'_packs/' + re.escape(uid), lock_path)
+                     if isinstance(lock_path, str) else None)
+            _require(match is not None and pack.get('version') == locked_pack.get('version') and
+                     isinstance(pack.get('files'), dict) and bool(pack['files']),
+                     'Stable projection pack metadata differs from its lock: ' + str(uid))
+            owner = pack['source']['owner']
+            source_owner = pack['source']
+            if owner == 'upstream_extended':
+                extensions = source_owner.get('reviewed_extensions')
+                _require(isinstance(extensions, list) and bool(extensions) and
+                         isinstance(extensions[-1], dict),
+                         'Stable projection extension source binding is invalid: ' + str(uid))
+                source_owner = extensions[-1]
+            if owner in {'owned', 'upstream_extended'}:
+                _require(isinstance(source_owner.get('repository'), str) and
+                         re.fullmatch(r'[0-9a-f]{40}', source_owner.get('commit', '')),
+                         'Stable projection Git source binding is invalid: ' + str(uid))
+                source_binding = next((row for row in evidence.get('sources', {}).values()
+                                       if isinstance(row, dict) and row.get('repository') == source_owner['repository']), None)
+                expected_repository = (source_binding.get('remote_repository', source_owner['repository'])
+                                       if source_binding else source_owner['repository'])
+                if source_binding:
+                    _require(source_binding.get('commit') == source_owner['commit'],
+                             'Stable projection source commit differs from build evidence: ' + str(uid))
+                expected_source = expected_repository + '@' + source_owner['commit']
+                _require(locked_pack.get('source') == expected_source,
+                         'Stable projection source differs from raw family receipt: ' + str(uid))
+            else:
+                if owner == 'upstream':
+                    _require(type(pack['source'].get('project_id')) is int and pack['source']['project_id'] > 0 and
+                             type(pack['source'].get('file_id')) is int and pack['source']['file_id'] > 0 and
+                             re.fullmatch(r'[0-9a-f]{64}', pack['source'].get('archive_sha256', '')),
+                             'Stable projection author source binding is invalid: ' + str(uid))
+                _require(isinstance(locked_pack.get('source'), str) and
+                         re.fullmatch(r'third-party: as-installed \d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\+00:00',
+                                      locked_pack['source']) is not None,
+                         'Stable projection retained-source label is invalid: ' + str(uid))
+            world_name = match.group(1)
+            worlds.add(world_name)
+            pack_root = output / 'lock-source-projection' / locked_pack['path']
+            _safe_path(pack_root, root, mounts)
+            actual_files = _walk(pack_root, root, mounts)['files']
+            pack_removed = {path.removeprefix('lock-source-projection/' + locked_pack['path'] + '/')
+                            for path in removed
+                            if path.startswith('lock-source-projection/' + locked_pack['path'] + '/')}
+            _require(pack_removed <= set(pack['files']) and actual_files == set(pack['files']) - pack_removed,
+                     'Stable projection pack file set differs from raw receipt: ' + str(uid))
+            digest = hashlib.sha256((lock.get('digest_format', '') + '\0').encode('ascii'))
+            for name in sorted(pack['files'], key=lambda item: item.encode('utf-8')):
+                expected = pack['files'][name]
+                _require(isinstance(expected, str) and re.fullmatch(r'[0-9a-f]{64}', expected),
+                         'Stable projection file hash is invalid: ' + str(name))
+                if name in pack_removed:
+                    continue
+                path = pack_root / name
+                _safe_path(path, root, mounts)
+                state = path.lstat()
+                _require(stat.S_ISREG(state.st_mode), 'Stable projection leaf is not a regular file')
+                data = path.read_bytes()
+                after = path.lstat()
+                _require((state.st_dev, state.st_ino, state.st_size, state.st_mtime_ns, state.st_ctime_ns) ==
+                         (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_ctime_ns)
+                         and len(data) == state.st_size,
+                         'Stable projection file changed while hashing: ' + str(path))
+                encoded = name.encode('utf-8')
+                digest.update(len(encoded).to_bytes(8, 'big'))
+                digest.update(encoded)
+                digest.update(state.st_size.to_bytes(8, 'big'))
+                file_hash = hashlib.sha256(data).hexdigest()
+                _require(file_hash == expected, 'Stable projection file hash differs: ' + str(path))
+                digest.update(data)
+            _require(bool(pack_removed) or digest.hexdigest() == locked_pack.get('sha256'),
+                     'Stable projection pack hash differs from family lock: ' + str(uid))
+            files.update(f"lock-source-projection/{locked_pack['path']}/{name}" for name in pack['files'])
+    _require(len(worlds) == 1, 'Stable projection packs do not share one world')
+    world_name = next(iter(worlds))
+    world_root = output / 'lock-source-projection/worlds' / world_name
+    for side in ('behavior', 'resource'):
+        refs = _read(world_root / f'world_{side}_packs.json', root, mounts)
+        expected_refs = [{'pack_id': uid, 'version': raw[(side, uid)]['version']}
+                         for uid in receipt['order'][side]]
+        _require(refs == expected_refs, 'Stable projection pack selector differs from reviewed order: ' + side)
+    return files
+
+
 def _rollback_files(proof, r):
     inventory = proof['docs']['production-before/inventory.json']
     prior = {pack['path']: pack for pack in inventory.get('packs', [])}
@@ -743,7 +892,7 @@ def _candidate_build_receipt(receipt):
                  len(order) == len(set(order)) and set(order) == expected, 'Candidate build receipt pack order differs')
 
 
-def _reviewed_binding(output, root, mounts, manifest):
+def _reviewed_binding(output, root, mounts, manifest, targets=()):
     _safe_path(output, root, mounts)
     _require(output != root and not any((p / '.git').exists() for p in [output, *output.parents] if p == root or root in p.parents),
              'Reviewed output must not be a Git/source ancestor')
@@ -755,6 +904,12 @@ def _reviewed_binding(output, root, mounts, manifest):
             reports[name] = [*_stat(path), path.lstat().st_ctime_ns]
     binding = {'output': str(output), 'reviewed_retirement': manifest,
                'original_report_metadata': reports}
+    if 'lock-source-projection' in targets:
+        result = output / 'candidate-result.json'
+        _safe_path(result, root, mounts)
+        _require(result.is_file() and not result.is_symlink(),
+                 'Stable projection candidate result is missing')
+        binding['stable_projection_candidate_result_metadata'] = [*_stat(result), result.lstat().st_ctime_ns]
     if 'deployment-result.json' not in reports and 'build-evidence.json' not in reports:
         _require('release-candidate/family-receipt.json' in reports,
                  'Explicit output requires an existing deployment/build record')
@@ -763,7 +918,13 @@ def _reviewed_binding(output, root, mounts, manifest):
     return binding
 
 
-def _reviewed_target(target, relative, output, root, mounts):
+def _explicit_marker_path(output, targets):
+    if 'lock-source-projection' in targets:
+        return output / 'lock-source-projection-retirement.json'
+    return output / EXPLICIT_MARKER
+
+
+def _reviewed_target(target, relative, output, root, mounts, retired_files=()):
     from .cleanup_engine_inputs import target_metadata, leaf_identity, database_file, pack_asset_file
     metadata = target_metadata(target, root, mounts, generated_file=True)
     if metadata is None:
@@ -774,6 +935,12 @@ def _reviewed_target(target, relative, output, root, mounts):
     names = metadata['files']
     if relative.endswith('/db'):
         names = [name for name in names if len(Path(name).parts) == 1 and database_file(Path(name))]
+    elif relative == 'lock-source-projection':
+        projection_removed = [path for path in retired_files if path.startswith(relative + '/')]
+        expected = _expected_lock_projection_files(output, root, mounts, projection_removed)
+        names = [name for name in names if f'{relative}/{name}' in expected]
+        _require({f'{relative}/{name}' for name in names} | set(projection_removed) == expected,
+                 'Stable projection is missing reviewed pack files')
     elif relative.startswith('release-candidate/'):
         receipt = _read(output / 'release-candidate/family-receipt.json', root, mounts)
         side = 'behavior' if relative.endswith('behavior_packs') else 'resource'
@@ -814,14 +981,26 @@ def _reviewed_plan(result, path, root, mounts, protected, references, historical
         _require(isinstance(entry['reason'], str) and bool(entry['reason'].strip()), 'Specific retirement reason required')
         targets = entry['targets']
         _require(isinstance(targets, list) and targets and len(set(targets)) == len(targets) and
-                 all(isinstance(rel, str) and rel in COPIES + BACKUPS + ENGINE_INPUTS for rel in targets),
+                 all(isinstance(rel, str) and rel in COPIES + BACKUPS + ENGINE_INPUTS + ('lock-source-projection',) for rel in targets),
                  'Targets must be exact canonical generated copies/engine inputs')
         _require(not any(_overlap(output, g) for g in hard), 'Current source/evidence/configuration reference')
-        binding = _reviewed_binding(output, root, mounts, manifest)
+        binding = _reviewed_binding(output, root, mounts, manifest, targets)
         _require(not binding.get('candidate_only') or all(rel in COPIES[:2] for rel in targets),
                  'Receipt-only candidate permits only release-candidate pack copies')
         source_paths = list(_paths(_read(output / 'build-evidence.json', root, mounts).get('sources', {}))) if (output / 'build-evidence.json').exists() else []
         _assert_idle(output, proc_root)
+        marker_path = _explicit_marker_path(output, targets)
+        marker = _read(marker_path, root, mounts) if marker_path.exists() else None
+        if marker is not None:
+            _require(marker.get('metadata_binding') == binding and marker.get('targets') == targets,
+                     'Retirement marker changed')
+        retired_files = marker.get('removed', []) if marker else []
+        projection_removed = {path for path in retired_files
+                              if path.startswith('lock-source-projection/')}
+        if projection_removed:
+            expected_projection = _expected_lock_projection_files(output, root, mounts, projection_removed)
+            _require(projection_removed <= expected_projection,
+                     'Projection retirement marker lists an unreviewed file')
         selected = []
         for rel in targets:
             target = output / rel
@@ -831,7 +1010,7 @@ def _reviewed_plan(result, path, root, mounts, protected, references, historical
                 continue
             if target.is_file():
                 _require(target.name == 'bedrock_server' and rel in ENGINE_INPUTS, 'Only an isolated executable is a file target')
-            metadata = _reviewed_target(target, rel, output, root, mounts)
+            metadata = _reviewed_target(target, rel, output, root, mounts, retired_files)
             # Empty/unselected directories are still existing declared scopes.
             # Bind their namespace and full metadata so execution can finish a
             # no-op scope without accepting a leaf that appeared after planning.
@@ -841,10 +1020,7 @@ def _reviewed_plan(result, path, root, mounts, protected, references, historical
         # Completed zero-leaf scopes need no further retirement. A partial or
         # absent marker still needs execution to close its bound empty scopes.
         if selected and not any(target['metadata'].get('files') is None or target['metadata']['selected_files'] for target in selected):
-            marker_path = output / EXPLICIT_MARKER
-            if marker_path.exists():
-                marker = _read(marker_path, root, mounts)
-                _require(marker.get('metadata_binding') == binding and marker.get('targets') == targets, 'Retirement marker changed')
+            if marker is not None:
                 if marker.get('state') == 'pruned' and marker.get('candidate_closed') is True and set(targets) <= set(marker.get('retired_scopes', [])):
                     selected = []
         rows.append({'output': str(output), 'retained': [], 'delete': selected,
@@ -1135,7 +1311,7 @@ def execute(planned, *, protected=(), lease=None, references=(), historical_reco
     for output, row in selected.items():
         r, mounts = Path(output), _mount_paths()
         explicit = row.get('explicit_retirement')
-        marker_path = r / (EXPLICIT_MARKER if explicit else MARKER)
+        marker_path = _explicit_marker_path(r, row['targets']) if explicit else r / MARKER
         marker, owned_marker = None, False
         backup_group_checked = False
         removed_leaves = set()
@@ -1157,20 +1333,20 @@ def execute(planned, *, protected=(), lease=None, references=(), historical_reco
                 hard = set(guards) - set(map(Path, values.get('historical_records', ()))) if explicit else set(guards)
                 _require(not any(_overlap(r, g) for g in hard), 'Cleanup output became externally referenced')
                 mounts = _mount_paths()
-                binding = (_reviewed_binding(r, root, mounts, explicit['manifest']) if explicit else _proof(r, root, mounts)['identity'])
+                binding = (_reviewed_binding(r, root, mounts, explicit['manifest'], row['targets']) if explicit else _proof(r, root, mounts)['identity'])
                 if explicit:
                     manifest = Path(explicit['manifest']['path'])
                     _require([*_stat(manifest), manifest.lstat().st_ctime_ns] == explicit['manifest']['metadata'], 'Retirement list changed')
                 _require(binding == row['binding'], 'Deployment metadata changed during cleanup')
                 _assert_idle(r, proc_root)
                 target = r / rel
-                _require(rel in COPIES + BACKUPS + (ENGINE_INPUTS if explicit else ()), 'Target outside canonical deletion scope')
+                _require(rel in COPIES + BACKUPS + (ENGINE_INPUTS if explicit else ()) + ('lock-source-projection',), 'Target outside canonical deletion scope')
                 _require(not any(_overlap(target, g) for g in guards), 'Target became externally referenced')
                 _safe_path(target, root, mounts)
                 metadata = None
                 if target.exists() and explicit:
                     from .cleanup_engine_inputs import matching_target
-                    metadata = _reviewed_target(target, rel, r, root, mounts)
+                    metadata = _reviewed_target(target, rel, r, root, mounts, marker.get('removed', []))
                     expected = row['target_metadata'].get(rel)
                     _require(expected is not None, 'Unplanned target appeared')
                     if target.is_file():

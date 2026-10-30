@@ -339,6 +339,134 @@ class RetentionTests(unittest.TestCase):
         self.write(manifest, {'schema': 1, 'outputs': [
             {'output': str(self.a), 'reason': 'Superseded test fixture; preserve original reports', 'targets': targets}]})
         return self.plan(retire_outputs=manifest)
+    def stable_projection(self):
+        run = self.a
+        source = {'owner': 'owned', 'repository': 'burnt-tea-dev/kaleidoscope-tavern-unofficial',
+                  'commit': 'a' * 40, 'working_candidate': False}
+        receipt_packs, lock_packs, order, projected = [], [], {'behavior': [], 'resource': []}, []
+        for side, uid in [('behavior', '11111111-1111-4111-8111-111111111111'),
+                          ('resource', '22222222-2222-4222-8222-222222222222')]:
+            files = {'manifest.json': (side + ' manifest').encode(), 'scripts/main.js': (side + ' js').encode(),
+                     'assets/reclaim.bin': (side.encode() * (512 * 1024))}
+            pack_files = {name: hashlib.sha256(data).hexdigest() for name, data in files.items()}
+            world = 'Fixture World'
+            relative = f'worlds/{world}/{side}_packs/{uid}'
+            pack_root = run / 'lock-source-projection' / relative
+            candidate_pack = run / 'release-candidate' / f'{side}_packs' / uid
+            pack_root.mkdir(parents=True)
+            candidate_pack.mkdir(parents=True)
+            for name, data in files.items():
+                candidate_file = candidate_pack / name
+                candidate_file.parent.mkdir(parents=True, exist_ok=True)
+                candidate_file.write_bytes(data)
+                projection_file = pack_root / name
+                projection_file.parent.mkdir(parents=True, exist_ok=True)
+                os.link(candidate_file, projection_file)
+            digest = hashlib.sha256(b'senluo-pack-tree-v1\0')
+            for name in sorted(files):
+                encoded = name.encode()
+                digest.update(len(encoded).to_bytes(8, 'big'))
+                digest.update(encoded)
+                digest.update(len(files[name]).to_bytes(8, 'big'))
+                digest.update(files[name])
+            receipt_packs.append({'uuid': uid, 'side': side, 'version': [1, 2, 3], 'source': source,
+                                  'dependencies': [], 'files': pack_files})
+            lock_packs.append({'kind': side, 'uuid': uid, 'version': [1, 2, 3], 'path': relative,
+                               'sha256': digest.hexdigest(), 'source': source['repository'] + '@' + source['commit']})
+            order[side].append(uid)
+            projected.extend(pack_root.rglob('*'))
+        for side in ('behavior', 'resource'):
+            (run / 'lock-source-projection/worlds' / 'Fixture World' / f'world_{side}_packs.json').write_text(
+                json.dumps([{'pack_id': uid, 'version': [1, 2, 3]} for uid in order[side]]))
+        lock = {'schema': 1, 'digest_format': 'senluo-pack-tree-v1', 'name': 'stable',
+                'packs': lock_packs}
+        self.write(run / 'family-lock.json', lock)
+        raw = {'schema': 1, 'lock_sha256': hashlib.sha256((run / 'family-lock.json').read_bytes()).hexdigest(),
+               'packs': receipt_packs, 'order': order}
+        receipt_path = run / 'release-candidate/family-receipt.json'
+        self.write(receipt_path, raw)
+        build = json.loads((run / 'build-evidence.json').read_text())
+        build['candidate_receipt_sha256'] = hashlib.sha256(receipt_path.read_bytes()).hexdigest()
+        self.write(run / 'build-evidence.json', build)
+        self.write(run / 'candidate-result.json', {
+            'schema': 1, 'state': 'candidate_built_ci_verified',
+            'candidate_receipt_sha256': hashlib.sha256(receipt_path.read_bytes()).hexdigest(),
+            'family_lock_sha256': hashlib.sha256((run / 'family-lock.json').read_bytes()).hexdigest()})
+        return run / 'lock-source-projection', run / 'release-candidate/behavior_packs/11111111-1111-4111-8111-111111111111/manifest.json'
+    def reviewed_projection_plan(self, *guards, targets=None):
+        output = self.a
+        manifest = self.root / 'reviewed-projection.json'
+        self.write(manifest, {'schema': 1, 'outputs': [{'output': str(output),
+            'reason': 'Superseded stable lock projection; source-bound build retained',
+            'targets': targets or ['release-candidate/behavior_packs', 'release-candidate/resource_packs',
+                                   'lock-source-projection']} ]})
+        return m.plan(self.root, lease=self.lease, protected=guards, retire_outputs=manifest)
+    def test_stable_projection_retirement_frees_last_hardlink_alias(self):
+        projection, candidate_file = self.stable_projection()
+        old_marker = self.a / m.EXPLICIT_MARKER
+        old_marker.write_text(json.dumps({'schema': 1, 'state': 'pruned',
+            'targets': ['release-candidate/behavior_packs', 'release-candidate/resource_packs'],
+            'retired_scopes': ['release-candidate/behavior_packs', 'release-candidate/resource_packs'],
+            'removed': ['release-candidate/behavior_packs/older-reviewed-leaf']}))
+        old_marker_bytes = old_marker.read_bytes()
+        unknown = projection / 'review-note.txt'
+        unknown.write_text('preserve')
+        projection_file = projection / 'worlds/Fixture World/behavior_packs/11111111-1111-4111-8111-111111111111/manifest.json'
+        self.assertEqual(candidate_file.stat().st_ino, projection_file.stat().st_ino)
+        self.assertEqual(candidate_file.stat().st_nlink, 2)
+        free_before = shutil.disk_usage(self.root).free
+        result = self.execute(self.reviewed_projection_plan())
+        self.assertEqual(result['state'], 'completed', result['errors'])
+        self.assertGreater(shutil.disk_usage(self.root).free, free_before)
+        self.assertFalse(candidate_file.exists())
+        self.assertFalse(projection_file.exists())
+        self.assertEqual(unknown.read_text(), 'preserve')
+        self.assertTrue((self.a / 'family-lock.json').exists())
+        self.assertTrue((self.a / 'build-evidence.json').exists())
+        self.assertEqual(old_marker.read_bytes(), old_marker_bytes)
+        self.assertTrue((self.a / 'lock-source-projection-retirement.json').is_file())
+    def test_projection_only_retirement_keeps_existing_retirement_record(self):
+        projection, _ = self.stable_projection()
+        old_marker = self.a / m.EXPLICIT_MARKER
+        old_marker.write_text(json.dumps({'schema': 1, 'state': 'pruned',
+            'targets': ['release-candidate/behavior_packs', 'release-candidate/resource_packs'],
+            'retired_scopes': ['release-candidate/behavior_packs', 'release-candidate/resource_packs'],
+            'removed': ['release-candidate/behavior_packs/older-reviewed-leaf']}))
+        old_marker_bytes = old_marker.read_bytes()
+        result = self.execute(self.reviewed_projection_plan(targets=['lock-source-projection']))
+        self.assertEqual(result['state'], 'completed', result['errors'])
+        self.assertEqual(old_marker.read_bytes(), old_marker_bytes)
+        self.assertTrue((self.a / 'lock-source-projection-retirement.json').is_file())
+        self.assertTrue((self.a / 'release-candidate/behavior_packs/11111111-1111-4111-8111-111111111111/manifest.json').exists())
+        self.assertFalse((projection / 'worlds/Fixture World/behavior_packs/11111111-1111-4111-8111-111111111111/manifest.json').exists())
+    def test_stable_projection_refuses_current_reference_active_lease_and_unreviewed_file(self):
+        projection, _ = self.stable_projection()
+        candidate_file = self.a / 'release-candidate/behavior_packs/11111111-1111-4111-8111-111111111111/manifest.json'
+        with self.assertRaisesRegex(ValueError, 'Current source/evidence/configuration reference'):
+            self.reviewed_projection_plan(candidate_file)
+        self.write(self.lease, {'state': 'active'})
+        with self.assertRaisesRegex(ValueError, 'Active maintenance lease'):
+            self.reviewed_projection_plan()
+        self.write(self.lease, {'state': 'completed'})
+        (projection / 'worlds/Fixture World/behavior_packs/11111111-1111-4111-8111-111111111111/unreviewed.txt').write_text('extra')
+        with self.assertRaisesRegex(ValueError, 'file set differs'):
+            self.reviewed_projection_plan()
+    def test_stable_projection_refuses_wrong_file_hash_and_git_entry(self):
+        projection, _ = self.stable_projection()
+        pack = projection / 'worlds/Fixture World/resource_packs/22222222-2222-4222-8222-222222222222'
+        (pack / 'scripts/main.js').write_text('changed')
+        with self.assertRaisesRegex(ValueError, 'file hash differs'):
+            self.reviewed_projection_plan()
+        (pack / 'scripts/main.js').write_text('resource js')
+        (projection / '.git').mkdir()
+        with self.assertRaisesRegex(ValueError, 'Git entry'):
+            self.reviewed_projection_plan()
+    def test_stable_projection_refuses_selector_order_drift(self):
+        projection, _ = self.stable_projection()
+        selector = projection / 'worlds/Fixture World/world_behavior_packs.json'
+        selector.write_text('[]')
+        with self.assertRaisesRegex(ValueError, 'selector differs'):
+            self.reviewed_projection_plan()
     def test_explicit_empty_directory_scope_is_bound_and_resumes_after_partial_cleanup(self):
         empty = self.a / 'production-rollback'
         shutil.rmtree(empty)
