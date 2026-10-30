@@ -207,6 +207,7 @@ class CurrentExtensionSourceTests(unittest.TestCase):
   self.tmp=tempfile.TemporaryDirectory();self.addCleanup(self.tmp.cleanup);self.root=Path(self.tmp.name)
   original=Path(__file__).resolve().parents[1]
   for name in runtime_sources()|{'runtime/BP/scripts/main.js','runtime/BP/scripts/data/guide-catalog.js',
+   'runtime/BP/scripts/bedrock/writing-boards.js',
    'runtime/BP/scripts/core/bottles.js','runtime/BP/scripts/bedrock/bottles.js',
    'data/baseline-reconciliation.json','data/launch-repair-reference.json'}:
    target=self.root/name;target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(original/name,target)
