@@ -8,6 +8,7 @@ permissions:
   contents: read
 env:
   SENLUO_WORLD_LIQUOR_REF: 0f6e9cebb83268222441c20cc577826db3d13cf4
+  SENLUO_GRILLING_HOST_REF: cae1ad19c8e89877f2e1face8f2e3178ed48aacf
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
@@ -179,6 +180,24 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - uses: actions/checkout@v4
+        with:
+          repository: burnt-tea-dev/kaleidoscope-grilling-unofficial
+          ref: ${{ env.SENLUO_GRILLING_HOST_REF }}
+          path: grilling-host-src
+          persist-credentials: false
+      - name: Exact Grilling host declaration and copied runtime helpers are reviewed
+        working-directory: tavern-src
+        run: |
+          python - <<'PYHOST'
+          import json,sys
+          from pathlib import Path
+          sys.path.insert(0,'tools')
+          from stable_host_profiles import match_stable_profile
+          root=Path('../grilling-host-src/projects/grilling/gameplay_core/behavior_pack')
+          spec=json.loads((root/'host-extensions/board-api.json').read_bytes())
+          assert match_stable_profile(spec,root,source={'owner':'upstream','archive_sha256':spec['archive_sha256']}) is not None
+          PYHOST
       - name: Current resource contract dependency
         run: python -m pip install Pillow==11.3.0
       - name: Record exact sources
