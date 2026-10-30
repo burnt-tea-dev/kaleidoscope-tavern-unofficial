@@ -8,6 +8,15 @@ export function integer(n,min,max,field='number') { check(Number.isInteger(n)&&n
 export function text(s,max=4096) { check(typeof s==='string'&&s.length<=max,'INVALID_TEXT');return s; }
 export function clone(value) { return JSON.parse(JSON.stringify(value)); }
 export function freeze(value) { if(value&&typeof value==='object'){for(const v of Object.values(value))freeze(v);Object.freeze(value);} return value; }
+/** Freeze plain JSON graphs with bounded work between scheduler turns. */
+export function* prepareFreeze(value){
+ const stack=[value];let steps=0;
+ while(stack.length){const row=stack.pop();if(!row||typeof row!=='object')continue;
+  for(const child of Object.values(row))if(child&&typeof child==='object')stack.push(child);
+  Object.freeze(row);if(++steps>=64){steps=0;yield;}
+ }
+ return value;
+}
 export function canonical(value) {
  if(Array.isArray(value))return '['+value.map(canonical).join(',')+']';
  if(value&&typeof value==='object')return '{'+Object.keys(value).sort().map(k=>JSON.stringify(k)+':'+canonical(value[k])).join(',')+'}';
@@ -16,6 +25,9 @@ export function canonical(value) {
 export function utf8Bytes(s) {
  // Keep the public iterable fallback; wire strings need no per-codepoint string.
  if(typeof s!=='string'){let n=0;for(const c of s){const v=c.codePointAt(0);n+=v<128?1:v<2048?2:v<65536?3:4;}return n;}
+ // Most protocol packets contain ASCII JSON. Let the engine scan those once
+ // instead of crossing into charCodeAt for every character of every chunk.
+ if(!/[^\x00-\x7f]/.test(s))return s.length;
  let n=0;
  for(let i=0;i<s.length;i++){
   const v=s.charCodeAt(i);

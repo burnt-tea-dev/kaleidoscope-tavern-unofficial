@@ -141,8 +141,8 @@ test('removed recipe fallback does not repeat the entry on Back',async()=>{const
 // Scheduler-only publisher regression: no entity/player or simulated Minecraft world.
 test('guide preparation waits for the host, yields, and reuses packets until content changes',async()=>{
  const {installCookeryGuidePublisher,COOKERY_GUIDE_EVENTS:E,cookery106WirePayload}=await import('../runtime/BP/scripts/core/cookery-guide-publisher.js');
- let receive,next=0,builds=0,latest=payload;const pending=new Map(),sent=[];
- const bus={currentTick:0,afterEvents:{scriptEventReceive:{subscribe(fn){receive=fn},unsubscribe(){receive=null}}},runTimeout(fn,ticks){const id=++next;pending.set(id,{fn,at:this.currentTick+ticks});return id},clearRun(id){pending.delete(id)},sendScriptEvent(id,message){sent.push({id,message,tick:this.currentTick})}};
+ let receive,next=0,builds=0,latest=payload,failNext=false;const pending=new Map(),sent=[];
+ const bus={currentTick:0,afterEvents:{scriptEventReceive:{subscribe(fn){receive=fn},unsubscribe(){receive=null}}},runTimeout(fn,ticks){const id=++next;pending.set(id,{fn,at:this.currentTick+ticks});return id},clearRun(id){pending.delete(id)},sendScriptEvent(id,message){if(failNext){failNext=false;throw Error('temporary send failure');}sent.push({id,message,tick:this.currentTick})}};
  const advance=n=>{for(let i=0;i<n;i++){bus.currentTick++;for(const [id,row] of [...pending])if(row.at<=bus.currentTick){pending.delete(id);row.fn();}}};
  const publisher=installCookeryGuidePublisher(bus,()=>{builds++;return latest},()=>{},()=>{});
  advance(220);assert.equal(builds,0,'standalone worlds must not build optional transport');
@@ -153,17 +153,31 @@ test('guide preparation waits for the host, yields, and reuses packets until con
  assert.ok(publisher.getStatus().preparationSlices>2);
  const raw=first.filter(x=>x.id===E.chunk).map(x=>x.message.split('\n').slice(4).join('\n')).join('');
  assert.deepEqual(JSON.parse(raw),cookery106WirePayload(payload));
- ready();advance(500);assert.equal(builds,1,'repeat ready must reuse the unchanged packet set');
- assert.equal(publisher.getStatus().successfulTransfers,2);
+ const firstCount=sent.length;
+ for(let i=0;i<15;i++)ready();
+ advance(500);assert.equal(builds,1,'repeat ready must reuse the unchanged packet set');
+ assert.equal(sent.length,firstCount,'ready retries must not resend a successfully transferred chapter');
+ assert.equal(publisher.getStatus().successfulTransfers,1);
  latest=structuredClone(payload);latest.entries[0].mechanics.push('Updated 🧪\n新內容');
- publisher.refresh();advance(3);
+ publisher.refresh();advance(3);assert.equal(publisher.getStatus().active,true,'refresh should begin a new transfer');
+ for(let i=0;i<15;i++)ready();
+ advance(1000);assert.equal(builds,2,'ready broadcasts during an active transfer must not queue a duplicate');
+ assert.equal(publisher.getStatus().successfulTransfers,2);
+ const afterRefresh=sent.length;
  latest=structuredClone(latest);latest.entries[1].mechanics.push('Refresh during preparation');
+ publisher.refresh();advance(3);assert.equal(publisher.getStatus().active,true);
+ latest=structuredClone(latest);latest.entries[2].mechanics.push('Newest snapshot after refresh');
  publisher.refresh();advance(1000);
- assert.equal(builds,3,'refresh during preparation must eventually publish the newest snapshot');
+ assert.equal(builds,4,'refresh during preparation must eventually publish the newest snapshot');
+ assert.equal(publisher.getStatus().successfulTransfers,4);
+ assert.ok(sent.length>afterRefresh);
  const end=sent.findLastIndex(x=>x.id===E.end),begin=sent.findLastIndex((x,i)=>i<end&&x.id===E.begin);
  const final=sent.slice(begin+1,end).filter(x=>x.id===E.chunk).map(x=>x.message.split('\n').slice(4).join('\n')).join('');
  assert.deepEqual(JSON.parse(final),cookery106WirePayload(latest));
  assert.ok(sent.every(x=>Buffer.byteLength(x.message)<=2048));
+ failNext=true;publisher.refresh();advance(1000);
+ assert.equal(publisher.getStatus().sendFailures,1,'a transient send failure remains observable');
+ assert.equal(publisher.getStatus().successfulTransfers,5,'a transient send failure should retry and complete');
  publisher.refresh();advance(2);publisher.dispose();const count=sent.length;advance(500);
  assert.equal(sent.length,count,'dispose must cancel unfinished work');assert.equal(pending.size,0);
 });

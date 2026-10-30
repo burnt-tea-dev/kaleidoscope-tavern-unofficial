@@ -3,7 +3,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {ExtensionTransport,EVENTS,packetsFor,TRANSPORT_LIMITS} from '../runtime/BP/scripts/core/transport.js';
 import {ExtensionRegistry} from '../runtime/BP/scripts/core/registry.js';
-import {digest,utf8Bytes} from '../runtime/BP/scripts/core/util.js';
+import {digest,freeze,utf8Bytes} from '../runtime/BP/scripts/core/util.js';
 const source='integrity_probe';
 const payload={api:1,source,version:'1.0.0',pages:[{id:source+':unicode',title:{en_US:'Probe'},body:{en_US:('葡萄🍇\ud800\u0000').repeat(180)},recipeIds:[]}]};
 const error=(fn,code)=>assert.throws(fn,e=>e.code===code);
@@ -79,4 +79,13 @@ test('split surrogate boundaries across empty parts retain byte rejection and fa
  // Unpaired surrogate endpoints do not become a pair after joining.
  const unpaired=[raw.slice(0,at)+'\ud800','','x\udc00'+raw.slice(at+2)];
  const valid=frame(unpaired);let ack;for(const p of valid)ack=send(receiver,p.id,p.row);assert.equal(ack.ok,true);
+});
+
+test('valid parsed packets retain source and revision in rejection ACK context',()=>{
+ const receiver=new ExtensionTransport(registry());
+ assert.throws(()=>send(receiver,EVENTS.begin,{api:2,source,revision:'context_revision'}),error=>{
+  assert.equal(error.code,'API_VERSION_MISMATCH');assert.deepEqual(error.packetContext,{source,revision:'context_revision'});return true;
+ });
+ assert.throws(()=>receiver.receive(EVENTS.begin,'{',0),error=>error.code==='BAD_JSON'&&error.packetContext===undefined);
+ assert.throws(()=>receiver.receive(EVENTS.begin,' '.repeat(TRANSPORT_LIMITS.packetBytes+1),0),error=>error.code==='PACKET_TOO_LARGE'&&error.packetContext===undefined);
 });
