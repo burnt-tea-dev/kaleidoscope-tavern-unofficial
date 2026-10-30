@@ -6,6 +6,19 @@ import {pourIngredient,pickupShaker,readPortableItem,setMixologyRegistry,natural
 import {ExtensionRegistry} from '../runtime/BP/scripts/core/registry.js';
 import {SHAKER_RECIPES} from '../runtime/BP/scripts/data/mixology.js';
 import {SIGNATURE,SIGNATURE_DATA} from '../runtime/BP/scripts/core/mixology.js';
+import {installQualityTooltipEvents} from '../runtime/BP/scripts/bedrock/quality-tooltip.js';
+
+test('inventory and spawn tooltip events ignore a player who has already left',()=>{
+ installQualityTooltipEvents();
+ const gone={getComponent(){const error=new Error('Player is no longer valid');error.name='InvalidEntityError';throw error;}};
+ assert.doesNotThrow(()=>world.afterEvents.playerInventoryItemChange.emit({player:gone,slot:0}));
+ assert.doesNotThrow(()=>world.afterEvents.playerSpawn.emit({player:gone}));
+ const player=new Player('quality-tooltip-active',world.getDimension('overworld'));
+ const bottle=new ItemStack('kaleidoscope_tavern:plum_wine_q4');bottle.nameTag='Keep my bottle';player.inventory.setItem(0,bottle);
+ world.afterEvents.playerInventoryItemChange.emit({player,slot:0});
+ assert(player.inventory.getItem(0).getRawLore().length>0);
+ assert.equal(player.inventory.getItem(0).nameTag,'Keep my bottle');
+});
 
 test('the placed-to-held path resolves each accepted ingredient identity and its source color',()=>{
  const descriptor=Object.getOwnPropertyDescriptor(ItemStack.prototype,'localizationKey');

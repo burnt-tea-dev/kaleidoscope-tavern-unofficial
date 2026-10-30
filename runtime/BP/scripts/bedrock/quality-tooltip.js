@@ -2,7 +2,10 @@ import {world} from '@minecraft/server';
 import {qualityBottleLore,isManagedQualityBottleLore,isLegacyManagedQualityBottleLore} from '../core/quality-tooltip.js';
 import {normalizeCocktailStack} from '../core/cocktail-tooltip.js';
 
-const getContainer=player=>player?.getComponent?.('minecraft:inventory')?.container;
+const getContainer=player=>{
+ try{return player?.getComponent?.('minecraft:inventory')?.container;}
+ catch(error){if(error?.name!=='InvalidEntityError')throw error;}
+};
 function stampSlot(player,slot){
  const container=getContainer(player);
  if(!container||!Number.isInteger(slot)||slot<0||slot>=container.size)return false;

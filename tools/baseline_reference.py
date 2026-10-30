@@ -97,7 +97,7 @@ T176_AFTER='fd791c0faa839b4317e7e07ad332b97c34ad9758'
 T176_PATHS=frozenset('runtime/BP/scripts/'+name for name in (
  'bedrock/bottles.js','bedrock/display-projectiles.js','bedrock/machines.js',
  'core/bottle-display-schema.js','core/extension-content.js',
- 'core/native-storage-anchor.js','core/registry.js','core/util.js'))
+ 'core/native-storage-anchor.js','core/registry.js'))
 
 # Public history was rewritten without changing these complete runtime trees.
 # Keep the historical review IDs/ledger intact; bind each replacement to the

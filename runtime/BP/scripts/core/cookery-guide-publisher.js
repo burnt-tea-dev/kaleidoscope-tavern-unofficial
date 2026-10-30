@@ -99,7 +99,7 @@ export function installCookeryGuidePublisher(system,payloadOrProvider,warn=conso
  const scheduled=new Set();
  const later=(fn,ticks)=>{const handle=system.runTimeout(()=>{scheduled.delete(handle);if(!disposed)fn();},ticks);scheduled.add(handle);return handle;};
  const queue=()=>{
-  if(disposed||!hostReady||queuedHandle!=null)return false;
+  if(disposed||!hostReady||!dirty||active||queuedHandle!=null)return false;
   const wait=Math.max(1,120-(system.currentTick-lastSent));
   queuedHandle=later(()=>{queuedHandle=undefined;transmit();},wait);
   return true;
@@ -130,7 +130,7 @@ export function installCookeryGuidePublisher(system,payloadOrProvider,warn=conso
       prepared=result.value;messages=prepared.messages;revision=prepared.revision;
       lastMessageCount=messages.length;runningHandle=later(step,1);return;
      }
-     if(Date.now()-started>=2)break;
+     if(Date.now()-started>=1)break;
     }
     runningHandle=later(prepareStep,1);
    }catch(error){active=false;dirty=true;sendFailures++;warn('[Tavern guide] Build failed: '+String(error));}
@@ -139,7 +139,7 @@ export function installCookeryGuidePublisher(system,payloadOrProvider,warn=conso
   const step=()=>{
    if(disposed){active=false;return;}
    try{
-    for(let n=0;n<8&&cursor<messages.length;n++,cursor++){const m=messages[cursor];system.sendScriptEvent(m.id,m.message);}
+    for(let n=0;n<4&&cursor<messages.length;n++,cursor++){const m=messages[cursor];system.sendScriptEvent(m.id,m.message);}
     if(cursor<messages.length)runningHandle=later(step,1);
     else{active=false;lastSent=system.currentTick;lastRevision=revision;successfulTransfers++;if(successfulTransfers===1)info('[Tavern guide] Chapter sent; host receipt and client display are not acknowledged by Cookery API v1.');if(dirty)queue();}
    }catch(error){active=false;dirty=true;sendFailures++;warn('[Tavern guide] Publish failed: '+String(error));if(sendFailures<=2)later(()=>queue(),40);}
@@ -148,7 +148,7 @@ export function installCookeryGuidePublisher(system,payloadOrProvider,warn=conso
  }
  const receive=ev=>{
   if(disposed||ev.id!==COOKERY_GUIDE_EVENTS.ready)return;
-  try{if(Number(JSON.parse(String(ev.message??'')).api)===1){hostReady=true;dirty=true;queue();}}catch{/* unrelated/malformed host ready */}
+  try{if(Number(JSON.parse(String(ev.message??'')).api)===1){hostReady=true;queue();}}catch{/* unrelated/malformed host ready */}
  };
  system.afterEvents.scriptEventReceive.subscribe(receive);
  const ping=()=>{try{system.sendScriptEvent(COOKERY_GUIDE_EVENTS.ping,JSON.stringify({api:1,source:COOKERY_GUIDE_SOURCE}));}catch(error){warn('[Tavern guide] Ping failed: '+String(error));}};

@@ -1,3 +1,11 @@
+## 0.6.193 — 2026-10-30
+
+Prepare extension registry updates across scheduled ticks, then expose each complete update atomically. Yield between native item-tag reads, validate each packet once, reuse one tick snapshot per received event, and avoid resending unchanged Cookery guide chapters. Skip quality-tooltip events for departed players. Transport, registry, guide and invalid-player source regressions pass; full-family native performance, saved-world and rendered-client acceptance remain pending.
+
+## 0.6.192 — 2026-10-30
+
+Stop retransmitting unchanged Cookery guide chapters on repeated host-ready broadcasts. Explicit refreshes still publish the newest content, including when they arrive during preparation or transfer; failed sends keep their retry. The focused source regression passes; rendered client acceptance remains pending.
+
 ## 0.6.191 — 2026-10-29
 
 Restore the shared translucent liquid-surface render controller used by the Tavern host contract. Pair with Grilling 2.8.195 from canonical commit 44dde213ef010b95e846510d03c3a683e518a9d7. This release source adds a static dependency-contract regression; BDS, saved-world and rendered-client checks remain separate.
