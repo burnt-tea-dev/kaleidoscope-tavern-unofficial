@@ -3,6 +3,7 @@
   "tag": "v0.6.194",
   "title": "Tavern 0.6.194: reduce glyph startup work and prepare the registry cooperatively",
   "prerelease": false,
+  "expected_archive_sha256": "03131885ffa8b243146b5dd02db3fdcc60cf217df969a4d7f55f3d47f1c3b0bb",
   "publication_request": false,
   "public_notes_path": null,
   "public_notes_inline": "Writing boards read the same glyph widths directly without building full numeric arrays during startup. Native scheduler jobs prepare the initial registry before exposing it or publishing the Cookery chapter; guide packets are paced at two per tick. Expected NOT_CUP rejections retain diagnostics and one player hint without server warning spam. Includes the exact Grilling 0.2.15 host SDK contract. Full-family saved-world and actual client acceptance remain pending.",
