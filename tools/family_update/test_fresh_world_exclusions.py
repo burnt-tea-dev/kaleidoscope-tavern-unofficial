@@ -15,6 +15,7 @@ class FreshWorldExclusions(unittest.TestCase):
         self.original = copy.deepcopy(self.profile)
         self.config = {'fresh_world': {'level_name': 'New'}, 'extension_stable_profile': m.CURATED}
         self.enterContext(patch.object(m.c, 'CONFIG', self.config))
+        self.enterContext(patch.object(m.c, 'T', Path(__file__).resolve().parents[2]))
         self.enterContext(patch.object(m, 'current_selection', return_value=self.profile))
         self.groups = ['Magical Furniture Add-On', 'Structures Add-On / Structures & Stuff']
 
