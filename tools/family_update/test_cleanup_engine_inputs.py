@@ -162,6 +162,115 @@ class EngineInputCleanup(unittest.TestCase):
             {'engine': str(self.engine), 'reason': 'Superseded diagnostic; owner reviewed closure'}]}))
         return path
 
+    def m1_failed_layout(self, run=7):
+        engine = self.root / f'm1-failed-gameplay-r{run}'
+        world = engine / 'world'
+        for name in ('db', 'behavior_packs/bp-uuid', 'resource_packs/rp-uuid'):
+            (world / name).mkdir(parents=True, exist_ok=True)
+        (world / 'level.dat').write_bytes(b'level identity')
+        (world / 'levelname.txt').write_text('M1-QA-World')
+        (world / 'db/000001.ldb').write_bytes(b'generated database')
+        (world / 'db/CURRENT').write_text('MANIFEST-000001')
+        (world / 'db/MANIFEST-000001').write_bytes(b'generated manifest')
+        (world / 'db/LOG').write_text('keep database diagnostics')
+        (world / 'world_behavior_packs.json').write_text(json.dumps([
+            {'pack_id': 'bp-uuid', 'version': [1, 0, 1]}]))
+        (world / 'world_resource_packs.json').write_text(json.dumps([
+            {'pack_id': 'rp-uuid', 'version': [1, 0, 1]}]))
+        for side, uid in [('behavior_packs', 'bp-uuid'), ('resource_packs', 'rp-uuid')]:
+            (world / side / uid / 'manifest.json').write_text(json.dumps({
+                'header': {'uuid': uid, 'version': [1, 0, 1]}}))
+        (world / 'behavior_packs/bp-uuid/structures').mkdir()
+        (world / 'behavior_packs/bp-uuid/structures/house.mcstructure').write_bytes(b'generated structure')
+        (world / 'behavior_packs/bp-uuid/structures/metadata.json').write_text('preserve JSON')
+        (world / 'behavior_packs/bp-uuid/scripts').mkdir()
+        (world / 'behavior_packs/bp-uuid/scripts/observer.js').write_text('preserve observer')
+        (world / 'resource_packs/rp-uuid/textures').mkdir()
+        (world / 'resource_packs/rp-uuid/textures/house.png').write_bytes(b'generated texture')
+        (world / 'resource_packs/rp-uuid/textures/item_texture.json').write_text('preserve JSON')
+        server = self.root / 'm1-family-staging-r1'
+        (server / 'worlds').mkdir(parents=True)
+        receipt_path = self.root / f'm1-gate-b-r{run}/receipt.json'
+        receipt_path.parent.mkdir()
+        receipt_path.write_text(json.dumps({'schema': 1, 'verdict': 'fail', 'server': str(server),
+                                            'world': 'M1-QA-World',
+                                            'phases': {'failure_teardown': {'status': 'STOPPED'}},
+                                            'error': 'original GameTest failure'}))
+        review = self.root / f'review-r{run}.json'
+        review.write_text(json.dumps({'schema': 1, 'engines': [{
+            'engine': str(engine), 'reason': f'run-family-gate-r{run}.py moved this failed world; see {receipt_path}',
+            'receipt': str(receipt_path)}]}))
+        return engine, world, receipt_path, review
+
+    def test_failed_m1_receipt_binds_exact_source_world_and_preserves_original_evidence(self):
+        engine, world, receipt, review = self.m1_failed_layout()
+        original_receipt = receipt.read_bytes()
+        plan = cleanup.plan(self.root, self.context, retire_diagnostics=review)
+        self.assertEqual(len(plan['selected']), 1)
+        binding = plan['selected'][0]['diagnostic_retirement']['failed_qa_receipt']
+        self.assertEqual(binding['source_world'], str(self.root / 'm1-family-staging-r1/worlds/M1-QA-World'))
+        self.assertEqual(binding['world_identity']['world_name'], 'M1-QA-World')
+        self.assertEqual(binding['original_status']['failure_teardown'], 'STOPPED')
+        self.assertEqual(binding['sha256'], hashlib.sha256(original_receipt).hexdigest())
+        result = cleanup.execute(plan, lambda: self.context)
+        self.assertEqual(result['state'], 'completed')
+        self.assertFalse((world / 'db/000001.ldb').exists())
+        self.assertFalse((world / 'db/CURRENT').exists())
+        self.assertFalse((world / 'db/MANIFEST-000001').exists())
+        self.assertFalse((world / 'behavior_packs/bp-uuid/structures/house.mcstructure').exists())
+        self.assertFalse((world / 'resource_packs/rp-uuid/textures/house.png').exists())
+        for path in [world / 'db/LOG', world / 'level.dat', world / 'levelname.txt',
+                     world / 'world_behavior_packs.json', world / 'world_resource_packs.json',
+                     world / 'behavior_packs/bp-uuid/manifest.json',
+                     world / 'behavior_packs/bp-uuid/structures/metadata.json',
+                     world / 'behavior_packs/bp-uuid/scripts/observer.js',
+                     world / 'resource_packs/rp-uuid/manifest.json',
+                     world / 'resource_packs/rp-uuid/textures/item_texture.json']:
+            self.assertTrue(path.exists(), str(path))
+        self.assertEqual(receipt.read_bytes(), original_receipt)
+        self.assertTrue((engine / cleanup.MARKER).exists())
+
+    def test_failed_m1_missing_corrupt_or_wrong_status_receipt_is_preserved(self):
+        engine, world, receipt, review = self.m1_failed_layout()
+        receipt.unlink()
+        with self.assertRaises(FileNotFoundError):
+            cleanup.plan(self.root, self.context, retire_diagnostics=review)
+        receipt.write_text('{broken')
+        with self.assertRaises(json.JSONDecodeError):
+            cleanup.plan(self.root, self.context, retire_diagnostics=review)
+        receipt.write_text(json.dumps({'schema': 1, 'verdict': 'fail', 'server': str(self.root / 'm1-family-staging-r1'),
+                                       'world': 'M1-QA-World',
+                                       'phases': {'failure_teardown': {'status': 'unconfirmed'}}}))
+        with self.assertRaisesRegex(ValueError, 'stopped failed world'):
+            cleanup.plan(self.root, self.context, retire_diagnostics=review)
+        self.assertTrue((world / 'db/000001.ldb').exists())
+
+    def test_failed_m1_wrong_world_identity_receipt_change_and_current_reference_preserve(self):
+        engine, world, receipt, review = self.m1_failed_layout()
+        plan = cleanup.plan(self.root, self.context, retire_diagnostics=review)
+        (world / 'levelname.txt').write_text('another-world')
+        with self.assertRaisesRegex(ValueError, 'world name differs'):
+            cleanup.plan(self.root, self.context, retire_diagnostics=review)
+        (world / 'levelname.txt').write_text('M1-QA-World')
+        manifest = world / 'behavior_packs/bp-uuid/manifest.json'
+        original_manifest = manifest.read_bytes()
+        manifest.write_text(json.dumps({'header': {'uuid': 'bp-uuid', 'version': [1, 0, 2]}}))
+        with self.assertRaisesRegex(ValueError, 'pack identity differs'):
+            cleanup.plan(self.root, self.context, retire_diagnostics=review)
+        manifest.write_bytes(original_manifest)
+        plan = cleanup.plan(self.root, self.context, retire_diagnostics=review)
+        self.context['references'] = [world / 'level.dat']
+        self.assertEqual(cleanup.plan(self.root, self.context, retire_diagnostics=review)['selected'], [])
+        self.context['references'] = []
+        self.context['lease'] = {'state': 'active'}
+        self.assertEqual(cleanup.plan(self.root, self.context, retire_diagnostics=review)['selected'], [])
+        self.context['lease'] = {}
+        plan = cleanup.plan(self.root, self.context, retire_diagnostics=review)
+        receipt.write_text(receipt.read_text() + '\n')
+        with self.assertRaisesRegex(RuntimeError, 'list changed'):
+            cleanup.execute(plan, lambda: self.context)
+        self.assertTrue((engine / 'world/db/000001.ldb').exists())
+
     def diagnostic_world(self):
         world = self.engine / 'worlds/QA'
         db = world / 'db'
