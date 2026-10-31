@@ -119,8 +119,9 @@ def _verify_owned(uid, row, source, by_id):
     actual_manifest_path = Path(row['path']) / 'manifest.json'
     actual_manifest = c.read(actual_manifest_path)
     approved = json.loads(json.dumps(original))
-    dep_by_uid = {d.get('uuid'): d for d in approved.get('dependencies', [])}
-    assert len(dep_by_uid) == len(approved.get('dependencies', [])), 'Canonical manifest has duplicate dependencies'
+    pack_dependencies = [dependency for dependency in approved.get('dependencies', []) if 'uuid' in dependency]
+    dep_by_uid = {dependency['uuid']: dependency for dependency in pack_dependencies}
+    assert len(dep_by_uid) == len(pack_dependencies), 'Canonical manifest has duplicate pack dependencies'
     assert set(repins) <= set(dep_by_uid), 'Repin names a dependency absent from canonical manifest'
     for peer_uid in repins:
         assert peer_uid in by_id, 'Repinned dependency is not present in observed inventory'
