@@ -46,6 +46,10 @@ class CurrentInventoryReviewTests(unittest.TestCase):
                 base = ('runtime/' + side) if key in ('tavern', 'extension', 'world-liquor') else ('projects/grilling/gameplay_core/' + ('behavior_pack' if side == 'BP' else 'resource_pack'))
                 runtime = root / base
                 manifest = {'header': {'uuid': uid, 'version': version}, 'modules': [], 'dependencies': []}
+                if side == 'BP':
+                    manifest['dependencies'] = [
+                        {'module_name': '@minecraft/server', 'version': '2.7.0'},
+                        {'module_name': '@minecraft/server-ui', 'version': '2.0.0'}]
                 write(runtime / 'manifest.json', manifest)
                 (runtime / 'scripts').mkdir(parents=True, exist_ok=True)
                 (runtime / 'scripts/main.js').write_text(key + side)
