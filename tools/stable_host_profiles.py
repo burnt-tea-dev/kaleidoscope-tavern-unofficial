@@ -138,6 +138,20 @@ def match_stable_profile(spec, owned_root=None, source=None):
     # Distinct owner releases may share the author UUID and extension ID.
     # Match the full reviewed declaration; never choose the newest by name.
     exact = [(name, profile) for name, profile in found if declaration_sha(spec) == profile['spec_sha256']]
+    if len(exact) > 1 and owned_root is not None:
+        root = Path(owned_root).resolve()
+
+        def has_exact_helpers(profile):
+            for record in profile['copies'].values():
+                path = Path(owned_root) / record['source']
+                if (path.is_symlink() or not path.resolve().is_relative_to(root) or not path.is_file() or
+                        hashlib.sha256(path.read_bytes()).hexdigest() != record['sha256']):
+                    return False
+            return True
+
+        exact = [(name, profile) for name, profile in exact if has_exact_helpers(profile)]
+        if not exact:
+            raise ValueError('stable host helper differs from the exact reviewed source')
     if len(exact) != 1:
         raise ValueError('stable host declaration differs from the exact reviewed profile: ' + spec['id'])
     name, profile = exact[0]
