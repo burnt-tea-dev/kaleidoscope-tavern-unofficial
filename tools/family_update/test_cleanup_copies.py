@@ -138,6 +138,29 @@ class ContextTests(unittest.TestCase):
         with self.assertRaises(FileNotFoundError):
             m.cleanup_context()
 
+    def test_initial_state_keeps_previous_lease_history_without_following_retired_recovery(self):
+        initial = self.root / 'old-deployment/deployment-initial-state.json'
+        missing = self.root / 'retired-deployment/deployment-recovery.json'
+        self.write(initial, {'previous_lease': {'candidate': str(missing.parent),
+                                              'recovery_report': str(missing)},
+                             'review': {'source_world': str(self.snapshot)}})
+        self.write(self.report, {'initial_state': str(initial)})
+        context = m.cleanup_context()
+        self.assertIn(initial, context['references'])
+        self.assertIn(self.snapshot, context['references'])
+        self.assertNotIn(missing, context['references'])
+        self.assertNotIn(missing.parent, context['references'])
+        self.assertEqual(json.loads(initial.read_text())['previous_lease']['recovery_report'], str(missing))
+        self.write(self.report, {'initial_state': str(initial), 'actual_validation_source': str(missing)})
+        with self.assertRaises(FileNotFoundError):
+            m.cleanup_context()
+
+    def test_previous_lease_field_in_other_evidence_remains_a_current_reference(self):
+        missing = self.root / 'retired-deployment/deployment-recovery.json'
+        self.write(self.report, {'previous_lease': {'recovery_report': str(missing)}})
+        with self.assertRaises(FileNotFoundError):
+            m.cleanup_context()
+
     def frozen_receipts(self):
         source = m.c.EXTENSION
         source.mkdir()
