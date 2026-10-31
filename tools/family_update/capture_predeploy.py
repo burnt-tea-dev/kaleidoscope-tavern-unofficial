@@ -34,6 +34,9 @@ def main(argv=None):
     if CONFIG.get('managed_drift_recovery'):
         from family_update.managed_drift_recovery import captured_addition_ids
         preserved.update(captured_addition_ids())
+    if CONFIG.get('current_inventory_review'):
+        from family_update.current_inventory_review import verify
+        preserved.update(verify(inventory, policy))
     atomic(out / 'preserved-packs.json', [p for p in inventory['packs'] if p['uuid'] in preserved])
     capture = {'recorded_at': now(), 'read_only_live': True, 'previous_lease': previous, 'policy_sha256': original_policy, 'engine_sha256': sha(B / 'bedrock_server'), 'level_metadata': report_ref(out / 'level-metadata.dat'), 'agent_instructions': report_ref(out / 'ROOT-AGENTS.md'), 'inventory': report_ref(out / 'inventory.json'), 'note': 'No live LevelDB copy. Fresh stopped snapshot is created only during authorized deployment.'}
     if CONFIG.get('fresh_world'):
