@@ -58,6 +58,7 @@ jobs:
       - run: python tools/test_millstone_extension.py
       - run: python tools/test_held_geometry_extension.py
       - run: python tools/test_current_host_profiles.py
+      - run: python tools/test_private_host_catalog.py
       - run: python tools/test_native_freezer_extension.py
       - run: python tools/test_public_grilling_profile.py
       - run: python tools/test_retained_host_profiles.py

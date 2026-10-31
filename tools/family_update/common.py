@@ -136,6 +136,8 @@ def configure(path):
     if EXTENSION and '[MagicDatabase]' not in STARTUP_MARKERS:
         raise ValueError('The configured integration requires its initialization marker')
     sys.path.insert(0, str(T / 'tools'))
+    from stable_host_profiles import bind_source_catalog
+    bind_source_catalog(EXTENSION)
     G = runpy.run_path(str(T / 'tools/family_guard.py'))
     _api_request = None
 
