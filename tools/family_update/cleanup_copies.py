@@ -100,6 +100,11 @@ def cleanup_context(track=None):
         seen.add(identity)
         value = frozen[1] if frozen else read(path)
         source_reports = frozen_source_reports(path, value, read)
+        if path.name == 'deployment-initial-state.json':
+            # The snapshot keeps the preceding lease as history. The live
+            # lease is checked separately; following this old lease would
+            # make already retired recovery reports a current dependency.
+            value = {key: child for key, child in value.items() if key != 'previous_lease'}
         if path == policy_path or (path.name == policy_path.name and path.parent.name == 'production-before'):
             # Stopped policy snapshots carry the same historical client leaves.
             # Historical client records stay as leaves, not a live dependency
