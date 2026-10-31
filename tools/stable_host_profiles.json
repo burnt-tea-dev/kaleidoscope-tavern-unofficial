@@ -19962,7 +19962,7 @@
     },
     "selection": {
       "path": "companion-sources/current-author-curated/profile.json",
-      "sha256": "d5fd48674784e5e3983fa8b8b267a25fc4b6022060a8446e31be9932d257ff3b",
+      "sha256": "09b626dc656d62845475a4887b5cf29b5c871d5b961b6947f310441b0db3013b",
       "value": {
         "schema": 1,
         "kind": "current-author-curated",
@@ -20179,6 +20179,9 @@
           ],
           "grilling-player-controls": [
             "runtime/RP/render_controllers/ie_grilling_first_person.render_controllers.json"
+          ],
+          "java-audio-attribution": [
+            "runtime/RP/ATTRIBUTION.md"
           ]
         },
         "station": {
@@ -21385,7 +21388,7 @@
         "station_profile": "curated-cookery-station-performance-p94",
         "functional_contract": {
           "path": "companion-sources/current-author-curated/runtime-contract.json",
-          "sha256": "29acc977c46bd713396cd949f72b57e01d00cb10d2c9a20fc1030a18a1604e5c"
+          "sha256": "b2e6902e09c980f06e7b06bf6b13234444eca50a56f67dfaf62e020373a7c15d"
         },
         "script_dependencies": {
           "ChineseFood": {
@@ -21474,6 +21477,7 @@
       "runtime/BP/manifest.json",
       "runtime/BP/scripts/compat/native-freezer-storage.js",
       "runtime/BP/scripts/host_api/cookery-guide-startup.js",
+      "runtime/RP/ATTRIBUTION.md",
       "runtime/RP/manifest.json",
       "runtime/RP/render_controllers/ie_grilling_first_person.render_controllers.json",
       "runtime/RP/texts/en_US.lang",
