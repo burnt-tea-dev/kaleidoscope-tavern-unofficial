@@ -76,7 +76,7 @@ def configure(path):
         incompatible = ['identity_migration', 'container_recovery_plan', 'native_actor_recovery_plan',
                         'native_storage_reanchor_plan', 'prospective_preserved_inputs',
                         'preserved_additions', 'preserved_reconciliation', 'approved_runtime_retention',
-                        'managed_drift_recovery', 'current_inventory_review', 'preserve_captured_experiments', 'startup_reconciliation',
+                        'managed_drift_recovery', 'preserve_captured_experiments', 'startup_reconciliation',
                         'translation_reconciliation', 'extension_cache_validation',
                         'extension_hud_validation', 'extension_performance_validation']
         if any(CONFIG.get(key) for key in incompatible):
@@ -358,14 +358,6 @@ def check_live_against_policy(inventory):
         return policy
     receipt = read(policy['approved_receipt'])
     expected = {pack['uuid']: pack for pack in receipt['packs']}
-    if CONFIG.get('current_inventory_review'):
-        from family_update.current_inventory_review import verify
-        from family_update.managed_drift_recovery import matches_receipt
-        if matches_receipt(inventory, receipt):
-            assert G['audit'](active_world(), policy)['ok'], 'Approved inventory failed family audit'
-        else:
-            verify(inventory, policy)
-        return policy
     if CONFIG.get('managed_drift_recovery'):
         from family_update.managed_drift_recovery import matches_receipt, check_observed
         if matches_receipt(inventory, receipt):
@@ -412,7 +404,7 @@ def check_live_against_policy(inventory):
 
 
 def external_input_hashes():
-    result={key: sha(Path(CONFIG[key])) for key in ['current_inventory_review','startup_reconciliation','identity_migration','translation_reconciliation', 'container_recovery_plan','native_actor_recovery_plan','extension_validation','extension_hud_validation','extension_performance_validation','extension_stable_validation','preserved_reconciliation','preserved_additions','approved_runtime_retention','native_storage_reanchor_plan'] if CONFIG.get(key)}
+    result={key: sha(Path(CONFIG[key])) for key in ['startup_reconciliation','identity_migration','translation_reconciliation', 'container_recovery_plan','native_actor_recovery_plan','extension_validation','extension_hud_validation','extension_performance_validation','extension_stable_validation','preserved_reconciliation','preserved_additions','approved_runtime_retention','native_storage_reanchor_plan'] if CONFIG.get(key)}
     if CONFIG.get('extension_hold_source'):
         path=Path(CONFIG['extension_hold_source'])
         if path.exists():result['extension_hold_source']=sha(path)
