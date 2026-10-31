@@ -467,6 +467,41 @@ class PublicApiPredecessorTests(unittest.TestCase):
    with self.assertRaisesRegex(ValueError,'exact reviewed profile'):m.match_stable_profile(changed,root,source)
    (root/'source.js').write_bytes(b'old or changed helper')
    with self.assertRaisesRegex(ValueError,'exact reviewed source'):m.match_stable_profile(new,root,source)
+ def test_duplicate_public_declarations_are_disambiguated_only_by_exact_helper_bytes(self):
+  import copy,hashlib
+  from unittest.mock import patch
+  import stable_host_profiles as m
+  old_bytes,new_bytes=b'G201 helper bytes',b'G203 helper bytes'
+  spec={'id':'owned:public-0.2.15','version':[0,2,15],'host_uuid':'author-host','archive_sha256':'author-archive',
+        'original_files':{},'patched_files':{},'copies':{'source.js':'api.js'},'insertions':[{'before':'shared declaration'}]}
+  def profile(raw):
+   return {**copy.deepcopy(spec),'spec_sha256':m.declaration_sha(spec),'source_owner':'upstream','required_extensions':[],
+           'copies':{'api.js':{'source':'source.js','sha256':hashlib.sha256(raw).hexdigest()}}}
+  old,new=profile(old_bytes),profile(new_bytes)
+  catalog={'public_api_profile':old,'public_api':m.receipt(old),
+           'public_api_profiles':{'public-api-0.2.15':new}}
+  source={'owner':'upstream','archive_sha256':'author-archive'}
+  with tempfile.TemporaryDirectory() as tmp,patch.object(m,'CATALOG',catalog),patch.object(m,'PROFILES',{}):
+   root=Path(tmp);helper=root/'source.js'
+   helper.write_bytes(old_bytes)
+   self.assertIs(m.match_stable_profile(spec,root,source),old)
+   helper.write_bytes(new_bytes)
+   self.assertIs(m.match_stable_profile(spec,root,source),new)
+   with self.assertRaisesRegex(ValueError,'exact reviewed profile'):
+    m.match_stable_profile(spec,source=source)
+   same_bytes=copy.deepcopy(new)
+   same_bytes['copies']['api.js']['sha256']=old['copies']['api.js']['sha256']
+   catalog['public_api_profiles']['public-api-0.2.15']=same_bytes
+   helper.write_bytes(old_bytes)
+   with self.assertRaisesRegex(ValueError,'exact reviewed profile'):
+    m.match_stable_profile(spec,root,source)
+   catalog['public_api_profiles']['public-api-0.2.15']=new
+   helper.write_bytes(b'unrecognized helper bytes')
+   with self.assertRaisesRegex(ValueError,'exact reviewed source'):
+    m.match_stable_profile(spec,root,source)
+   unknown=copy.deepcopy(spec);unknown['copies']['unknown.js']='unreviewed.js'
+   with self.assertRaisesRegex(ValueError,'exact reviewed profile'):
+    m.match_stable_profile(unknown,root,source)
  def test_actual_grilling151_declaration_and_twelve_owned_copies(self):
   import copy,os
   from stable_host_profiles import CATALOG,match_stable_profile
