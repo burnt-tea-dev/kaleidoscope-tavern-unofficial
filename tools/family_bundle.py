@@ -77,7 +77,8 @@ def retained_component_config(repo,config,sources):
  if not curated and config.get('retained_runtime') is None:return config,None
  from family_update.current_author_validation import validate_retained_runtime,validate_curated_runtime
  if curated:
-  from stable_host_profiles import curated_profile
+  from stable_host_profiles import bind_source_catalog,curated_profile
+  bind_source_catalog(repo)
   catalog=curated_profile()
  current=subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip()
  raw=subprocess.check_output(['python3',str(repo/'tools/current_release.py')],cwd=repo)
