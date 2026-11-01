@@ -59,6 +59,8 @@ M1 移出的失敗 QA 世界使用 `m1-failed-{gameplay,prepare}-rN/world`。
 明列清單不能退役任何有部署祖先的QA。沿用maintenance lock和host process namespace，
 清單、報告及生成檔案stat在刪除邊界重新核對，不重跑遊戲或全盤hash。
 
+歷史來源證據由 reviewed receipt 綁定的原 build evidence 決定來源路徑與 Git 提交；即使目前 main checkout 換了位置，也按各歷史提交讀回並核對各自雜湊，不以目前檔案取代同名歷史版本。
+
 同一次清理可沿用已解析的引用集合；每個刪除邊界仍核對所有JSON/config的full stat／ctime，
 以及source／reference的存在、inode／mode、解析結果和完整symlink鏈身份。
 正式世界正常autosave不改路徑身份時不失效；JSON內容、路徑身份或解析改變則拒絕並重新計畫。
