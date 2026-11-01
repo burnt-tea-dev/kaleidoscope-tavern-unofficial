@@ -61,6 +61,12 @@ M1 移出的失敗 QA 世界使用 `m1-failed-{gameplay,prepare}-rN/world`。
 
 歷史來源證據由 reviewed receipt 綁定的原 build evidence 決定來源路徑與 Git 提交；即使目前 main checkout 換了位置，也按各歷史提交讀回並核對各自雜湊，不以目前檔案取代同名歷史版本。
 
+後續部署的 initial-state 與 Git 固定的來源交接報告中，已完成的 preinstall abort 是歷史結案證據。
+清理器仍核對父記錄綁定的 proof hash，並呼叫原復原驗證器核對結案、產生者和全部原始 metadata。
+proof、所列設定／JSON／日誌均保留並追蹤 full stat；不沿這條已結束交接鏈重新保護舊生成 snapshot。
+同一 metadata 若也由現行驗證直接引用，仍完整遞迴保護；交接報告的其他／未知欄位也照常追蹤。
+目前 recovery 設定、來源、活動租約與最新完整回退的保護不變，亦不改寫任何原始收據。
+
 同一次清理可沿用已解析的引用集合；每個刪除邊界仍核對所有JSON/config的full stat／ctime，
 以及source／reference的存在、inode／mode、解析結果和完整symlink鏈身份。
 正式世界正常autosave不改路徑身份時不失效；JSON內容、路徑身份或解析改變則拒絕並重新計畫。

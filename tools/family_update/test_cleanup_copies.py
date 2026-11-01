@@ -161,7 +161,7 @@ class ContextTests(unittest.TestCase):
         with self.assertRaises(FileNotFoundError):
             m.cleanup_context()
 
-    def frozen_receipts(self):
+    def frozen_receipts(self, report_factory=None):
         source = m.c.EXTENSION
         source.mkdir()
         def git(*args):
@@ -175,7 +175,7 @@ class ContextTests(unittest.TestCase):
             snapshot = self.root / ('snapshot-' + str(number))
             snapshot.mkdir()
             snapshots.append(snapshot)
-            self.write(document, {'world_source': str(snapshot)})
+            self.write(document, report_factory(snapshot) if report_factory else {'world_source': str(snapshot)})
             git('add', '.')
             git('commit', '-qm', 'Original handoff')
             output = self.root / ('run-' + str(number))
@@ -191,6 +191,46 @@ class ContextTests(unittest.TestCase):
         git('commit', '-qm', 'Retire handoff path')
         self.write(self.proof, {'receipts': list(map(str, receipts))})
         return receipts, snapshots, document
+
+    def frozen_abort_handoff(self, extra_reference=False):
+        abort = self.root / 'old-transaction/preinstall-abort.json'
+        self.write(abort, {'references': {'report': {
+            'path': str(self.report), 'sha256': hashlib.sha256(self.report.read_bytes()).hexdigest()}}})
+        reference = {'path': str(abort), 'sha256': hashlib.sha256(abort.read_bytes()).hexdigest()}
+        def report(snapshot):
+            value = {'schema': 1, 'kind': 'preinstall_aborted_unchanged',
+                     'abort': reference, 'scope': snapshot.name}
+            if extra_reference:
+                value['actual_validation_source'] = str(snapshot)
+            return value
+        _, snapshots, _ = self.frozen_receipts(report)
+        return abort, snapshots
+
+    def test_frozen_closed_handoff_preserves_records_without_following_old_payload(self):
+        abort, _ = self.frozen_abort_handoff()
+        # Producer-binding validation has real fixtures in test_preinstall_recovery;
+        # this case isolates the Git-frozen handoff's traversal semantics.
+        with patch('family_update.preinstall_recovery._proof_binding') as validator:
+            context = m.cleanup_context()
+        validator.assert_called()
+        for record in [abort, self.report]:
+            self.assertIn(record, context['historical_records'])
+            self.assertIn(record, context['protected'])
+        self.assertNotIn(self.snapshot, context['references'])
+
+    def test_frozen_closed_handoff_keeps_unknown_current_dependencies(self):
+        _, snapshots = self.frozen_abort_handoff(extra_reference=True)
+        with patch('family_update.preinstall_recovery._proof_binding'):
+            context = m.cleanup_context()
+        for snapshot in snapshots:
+            self.assertIn(snapshot, context['references'])
+
+    def test_current_unfrozen_handoff_still_follows_its_dependencies(self):
+        abort = self.root / 'current/preinstall-abort.json'
+        self.write(abort, {'snapshot_source': str(self.snapshot)})
+        self.write(self.report, {'schema': 1, 'kind': 'preinstall_aborted_unchanged',
+                                 'abort': {'path': str(abort)}})
+        self.assertIn(self.snapshot, m.cleanup_context()['references'])
 
     def test_deleted_source_evidence_preserves_both_receipts_original_snapshot_dependencies(self):
         _, snapshots, document = self.frozen_receipts()

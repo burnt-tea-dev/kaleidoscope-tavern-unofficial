@@ -11,6 +11,7 @@ import subprocess
 
 from family_update import common as c
 from family_update import retention
+from family_update import preinstall_recovery
 
 
 def absolute_paths(value):
@@ -58,6 +59,23 @@ def frozen_source_reports(path, value, read):
         assert hashlib.sha256(raw).hexdigest() == row['sha256'], 'Frozen cleanup source evidence changed'
         result[reference] = (row['sha256'], json.loads(raw))
     return result
+
+
+def closed_preinstall_records(reference, read, track=None):
+    """Keep a verified closed abort and its metadata, without reusing its payload."""
+    path = preinstall_recovery._regular(Path(reference['path']))
+    assert path.name == preinstall_recovery.PROOF, 'Unexpected closed abort proof path'
+    proof = read(path)
+    assert c.sha(path) == reference['sha256'], 'Closed abort proof hash changed'
+    records = {path, *(Path(row['path']) for row in proof['references'].values())}
+    if track:
+        for record in records:
+            track(record, document=True)
+    preinstall_recovery._proof_binding(proof, path.parent)
+    if track:
+        for record in records:
+            track(record, document=True)
+    return proof, records
 
 
 def cleanup_context(track=None):
@@ -108,6 +126,26 @@ def cleanup_context(track=None):
             # lease is checked separately; following this old lease would
             # make already retired recovery reports a current dependency.
             value = {key: child for key, child in value.items() if key != 'previous_lease'}
+            recovery = value.get('preinstall_recovery')
+            if (isinstance(recovery, dict) and recovery.get('observed_stack_unchanged') is True
+                    and recovery.get('database_unchanged_since_abort') is True):
+                proof, records = closed_preinstall_records(recovery['proof'], read, track)
+                assert recovery['closed_lease'] == proof['closed_lease'], 'Closed abort lease binding changed'
+                assert recovery['original_config'] == proof['references']['original_config'], 'Closed abort configuration binding changed'
+                historical.update(records)
+                protected.update(records)
+                # This records adoption before a later deployment, not an
+                # instruction to recover the already closed predecessor again.
+                # Unknown fields remain traversable as current dependencies.
+                recovery = {key: child for key, child in recovery.items()
+                            if key not in {'proof', 'closed_lease', 'original_config'}}
+                value = {**value, 'preinstall_recovery': recovery}
+        if (frozen and isinstance(value, dict) and value.get('schema') == 1
+                and value.get('kind') == preinstall_recovery.KIND and 'abort' in value):
+            _, records = closed_preinstall_records(value['abort'], read, track)
+            historical.update(records)
+            protected.update(records)
+            value = {key: child for key, child in value.items() if key != 'abort'}
         if path == policy_path or (path.name == policy_path.name and path.parent.name == 'production-before'):
             # Stopped policy snapshots carry the same historical client leaves.
             # Historical client records stay as leaves, not a live dependency
@@ -129,7 +167,7 @@ def cleanup_context(track=None):
 
 
 def context_path_identity(paths, documents=()):
-    """Track namespace identity; only parsed JSON contents require full stat."""
+    """Track namespaces and full stat for parsed or hash-bound evidence files."""
     paths, documents = set(map(Path, paths)), set(map(Path, documents))
     resolved = {path: path.resolve() for path in paths | documents}
     pending = set(resolved) | set(resolved.values())
