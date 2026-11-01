@@ -386,8 +386,14 @@ def diagnostic_targets(engine, root, mounts, world_root=None):
         # Shared vanilla inputs are not copied targets. Worlds still reject links.
         if pack_root.is_symlink() or not pack_root.exists():
             continue
-        targets += diagnostic_group(pack_root, root, mounts,
-                                    lambda parts, side=side: pack_asset_file((side, *parts)))
+        retention._safe_path(pack_root, root, mounts)
+        for pack in sorted(pack_root.iterdir()):
+            # Shared vanilla packs can be symlinks beside copied packs. Keep
+            # them untouched and inspect only ordinary copied pack directories.
+            if pack.is_symlink() or not pack.is_dir():
+                continue
+            targets += diagnostic_group(pack, root, mounts,
+                                        lambda parts, side=side: pack_asset_file((side, pack.name, *parts)))
     return targets
 
 
