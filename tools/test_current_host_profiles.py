@@ -142,4 +142,40 @@ class SharedCatalogIconBoundary(unittest.TestCase):
   with self.assertRaisesRegex(ValueError,'exact reviewed profile'):self.apply()
   self.assertEqual(json.loads(self.path.read_bytes()),self.before)
 
+class CookeryEngineContextBoundary(unittest.TestCase):
+ def setUp(self):
+  temporary=tempfile.TemporaryDirectory();self.addCleanup(temporary.cleanup);self.root=Path(temporary.name)
+  self.host=self.root/'host';self.host.mkdir();self.owned=self.root/'owned';self.owned.mkdir()
+  self.before={'header':{'uuid':'cookery-host','version':[1,6,4],'min_engine_version':[1,26,1]},
+   'modules':[{'uuid':'saved-data-owner','version':[1,6,4]}],'dependencies':[{'uuid':'cookery-rp','version':[1,6,4]}]}
+  self.path=self.host/'manifest.json';self.path.write_bytes(self.encoded(self.before))
+  self.op={'path':'manifest.json','pointer':['header','min_engine_version'],'value':[1,26,60],'mode':'reviewed_set'}
+  self.spec={'schema':1,'kind':'cookery-guide-startup-repair','id':'senluo:cookery-guide-startup-repair',
+   'version':[1,0,8],'host_uuid':'cookery-host','archive_sha256':'fixture-archive','expires':'9999-12-31',
+   'authorization':'Synthetic exact reviewed declaration','feedback':'First command-context initialization',
+   'removal_condition':'Author declares the selected supported engine','imports':{},'insertions':[],'copies':{},'json_updates':[self.op]}
+  self.catalog={'profiles':{},'public_api_profile':{'id':'unused','host_uuid':'unused'}}
+  for p in [patch.object(stable,'PROFILES',self.catalog['profiles']),patch.object(stable,'CATALOG',self.catalog)]:p.start();self.addCleanup(p.stop)
+ def encoded(self,value):return (json.dumps(value,ensure_ascii=False,indent=2)+'\n').encode()
+ def register(self):
+  after=copy.deepcopy(self.before);after['header']['min_engine_version']=[1,26,60]
+  self.spec['original_files']={'manifest.json':hashlib.sha256(self.path.read_bytes()).hexdigest()}
+  self.spec['patched_files']={'manifest.json':hashlib.sha256(self.encoded(after)).hexdigest()}
+  self.catalog['profiles']['reviewed']={**self.spec,'spec_sha256':stable.declaration_sha(self.spec),
+   'source_owner':'upstream','required_extensions':[],'copies':{}}
+ def apply(self):return host_extensions.apply_host_extension(self.spec,self.owned,self.host,{'owner':'upstream','archive_sha256':'fixture-archive','reviewed_extensions':[]})
+ def test_raises_only_the_reviewed_engine_minimum_and_preserves_identity(self):
+  self.register();self.apply();after=json.loads(self.path.read_bytes())
+  self.assertEqual(after['header'].pop('min_engine_version'),[1,26,60])
+  before=copy.deepcopy(self.before);before['header'].pop('min_engine_version')
+  self.assertEqual(after,before)
+ def test_rejects_identity_changes_downgrades_and_unrelated_adapters(self):
+  for change in [{'pointer':['header','uuid'],'value':'replacement'}, {'value':[1,20,0]}, {'mode':'unchecked'}]:
+   with self.subTest(change=change):
+    self.spec['json_updates']=[{**self.op,**change}];self.register();before=self.path.read_bytes()
+    with self.assertRaisesRegex(ValueError,'engine context'):self.apply()
+    self.assertEqual(self.path.read_bytes(),before)
+  self.spec['kind']='unrelated';self.spec['json_updates']=[self.op];self.register()
+  with self.assertRaisesRegex(ValueError,'only script hooks'):self.apply()
+
 if __name__=='__main__':unittest.main()

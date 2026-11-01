@@ -173,6 +173,7 @@ def apply_host_extension(spec,owned_root,host_root,source,*,retained_owner=None,
  cache=spec.get('kind')=='cookery-recipe-cache-repair'
  guide=spec.get('kind')=='cookery-guide-startup-repair'
  stable=station_api_profile or match_stable_profile(spec,owned_root,source)
+ engine_context=bool(guide and stable and spec.get('id')=='senluo:cookery-guide-startup-repair')
  if spec.get('text_replacements') and not stable:
   raise ValueError('script replacements require an exact reviewed stable profile')
  removed=validate_recipe_removals(spec,owned_root,host_root,stable,retained_owner=retained_owner)
@@ -188,7 +189,8 @@ def apply_host_extension(spec,owned_root,host_root,source,*,retained_owner=None,
   item=name.startswith('items/') and name.endswith('.json')
   block=(name.startswith('blocks/') if recovery else name.startswith('blocks/kitchen/freezer')) and name.endswith('.json')
   catalog=(name=='item_catalog/crafting_item_catalog.json' and spec.get('kind')=='orchard-tavern-bridge-adapter' and stable is not None)
-  if not script and not item and not block and not catalog:raise ValueError('only script hooks and reviewed additive capabilities permitted; author identity is immutable')
+  manifest=name=='manifest.json' and engine_context
+  if not script and not item and not block and not catalog and not manifest:raise ValueError('only script hooks and reviewed additive capabilities permitted; author identity is immutable')
   if digest(safe(host_root,name))!=expected:raise ValueError('original host file hash differs '+name)
  changes={}
  for name,expected in spec['patched_files'].items():
@@ -200,6 +202,17 @@ def apply_host_extension(spec,owned_root,host_root,source,*,retained_owner=None,
    for op in updates:
     pointer=op.get('pointer');value=op.get('value')
     if not isinstance(pointer,list) or not pointer or not all(isinstance(key,str) for key in pointer):raise ValueError('invalid field pointer')
+    if name=='manifest.json':
+     header=data.get('header',{});previous=header.get('min_engine_version')
+     versions=(previous,value)
+     if (not engine_context or pointer!=['header','min_engine_version'] or op.get('mode')!='reviewed_set'
+         or header.get('uuid')!=spec['host_uuid'] or any(not isinstance(v,list) or len(v)!=3
+         or any(type(part) is not int or part<0 for part in v) for v in versions) or value<=previous):
+      raise ValueError('Cookery engine context can only raise its reviewed minimum; identity is immutable')
+     # Select the reviewed native command context without changing UUIDs,
+     # module owners, dependencies, author scripts or persistent data.
+     header['min_engine_version']=value
+     continue
     if name=='item_catalog/crafting_item_catalog.json':
      if (len(pointer)!=7 or pointer[:2]!=['minecraft:crafting_items_catalog','categories']
          or pointer[3]!='groups' or pointer[5:]!=['group_identifier','icon']
