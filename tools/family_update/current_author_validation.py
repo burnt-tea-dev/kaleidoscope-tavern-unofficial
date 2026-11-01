@@ -330,12 +330,47 @@ def replacement_rows():
 def replacement_author_keys():
     return {row['author'] for row in replacement_rows().values()}
 
+def curated_owner_inputs():
+    """Read exact prebuilt owner pairs selected by the committed curated profile.
+
+    These are new candidate inputs, never observations of what LIVE has installed.
+    The normal captured inventory and policy drift checks remain unchanged.
+    """
+    configured=c.CONFIG.get('curated_owner_inputs',{})
+    if not configured:return {}
+    assert isinstance(configured,dict) and curated_inputs_enabled() and not c.CONFIG.get('fresh_world'), 'Owner inputs require the normal curated saved-world profile'
+    assert not c.CONFIG.get('identity_migration'), 'Owner input additions cannot combine UUID migrations'
+    retained=[row for row in _curated_retained_rows() if row['kind']=='literal']
+    replacements=replacement_rows()
+    expected={row['uuid']:{'side':row['side'],'version':row['input_version'],'tree':row['input_tree'],'group':row['group']} for row in retained}
+    expected.update({uid:{**row,'group':row['author']} for uid,row in replacements.items()})
+    assert set(configured)<=set(expected), 'Unreviewed owner input identity'
+    for group in {expected[uid]['group'] for uid in configured}:
+        pair={uid for uid,row in expected.items() if row['group']==group}
+        assert pair<=set(configured) and len(pair)==2 and {expected[uid]['side'] for uid in pair}=={'behavior','resource'}, 'Owner inputs require a complete declared BP/RP pair'
+    protected=[c.B,c.W,c.Q,*c.SOURCES.values(),*([c.EXTENSION] if c.EXTENSION else [])]
+    selected={}
+    for uid,location in configured.items():
+        root=Path(location)
+        assert root.is_absolute() and root.resolve()==root, 'Owner input path must be absolute and contain no symlink'
+        assert all(not root.is_relative_to(Path(path).resolve()) for path in protected), 'Owner input overlaps LIVE or canonical sources'
+        manifest=c.read(root/'manifest.json');pin=expected[uid]
+        version=manifest['header']['version']
+        side='resource' if all(row['type']=='resources' for row in manifest['modules']) else 'behavior'
+        files=c.hashes(root)
+        assert manifest['header']['uuid']==uid and version==pin['version'] and side==pin['side'] and tree(files)==pin['tree'], 'Owner input differs from the committed profile'
+        assert all(row['version']==version for row in manifest['modules']), 'Owner input module identity differs'
+        selected[uid]={'uuid':uid,'side':side,'version':version,'path':str(root),'files':files}
+    return selected
+
+
 def select_replacement_inputs(original):
     """Select exact current whole-pack inputs without assigning author provenance."""
     rows=replacement_rows()
     if not rows:return [],[],None
     captured={}
     for row in original['packs']:captured.setdefault(row['uuid'],[]).append(row)
+    captured.update({uid:[row] for uid,row in curated_owner_inputs().items()})
     roots=[];descriptors={};selected={}
     for uid,row in rows.items():
         matches=captured.get(uid,[]);assert len(matches)==1,'Missing or ambiguous owner-accepted replacement: '+uid
@@ -366,6 +401,7 @@ def select_curated_inputs(original):
     rows=_curated_retained_rows();recipes,_=_curated_retained_recipes(rows)
     captured={}
     for row in original['packs']:captured.setdefault(row['uuid'],[]).append(row)
+    captured.update({uid:[row] for uid,row in curated_owner_inputs().items()})
     roots=[];descriptors={};selected={}
     for row in rows:
         uid=row['uuid'];matches=captured.get(uid,[])
@@ -442,6 +478,7 @@ def input_refs():
             'curated_retained_capture':c.sha(c.R/'production-before/inventory.json'),
             'curated_retained_selection':c.sha(c.R/'curated-input-selection.json')}
     result.update({'curated_retained_recipe:'+name:value for name,value in references.items()})
+    result.update({'curated_owner_input:'+uid:tree(row['files'])['sha256'] for uid,row in curated_owner_inputs().items()})
     return result
 
 def committed_digest(relative,*,source_root=None):

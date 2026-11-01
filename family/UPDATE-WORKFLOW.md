@@ -63,6 +63,12 @@ LevelDB Python adapter；`gh` 需已有正常的唯讀 GitHub 認證。缺少依
 `prepare` 完成來源、組裝與 static；`deploy` 從本次停服備份完成一次 BDS／保存演練與 canonical／BSM admission。
 來源必須是乾淨、與遠端相符的 main，執行中的工具 bytes 也必須與 canonical 相符。
 
+### 啟用已審閱的完整本機配套
+
+正常 `current-author-curated` 存檔更新可在 Git 外設定 `curated_owner_inputs`，以 UUID 對應完整本機 BP/RP 目錄。只接受已提交 profile 的 literal retained pair 或 whole-author replacement pair；必須兩側齊全，原 UUID／版本、module、完整檔案樹均符合 profile。目錄須在 LIVE 與 Git 來源之外。
+
+這些是新候選來源，不冒充 LIVE capture。原已裝清單、政策漂移檢查與停服備份保持原狀；原有身份與順序保留，新配對加入兩側優先位置，仍由有效 player 與相依契約檢查。此選擇不執行 UUID 資料遷移，也不允許移除未列出的包；之後照常完成 fresh stopped-save、BDS、准入、安裝及讀回。來源設定／profile／候選失配會拒絕部署。
+
 ### 明確交付新世界
 
 擁有者選擇放棄舊世界時，在新設定加入 `fresh_world`，並保留 `world_dir` 指向

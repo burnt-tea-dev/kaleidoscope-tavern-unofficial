@@ -225,6 +225,7 @@ jobs:
           assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=peer,text=True).strip()==os.environ['SENLUO_WORLD_LIQUOR_REF']
           lock=json.loads((root/'family/upstream.lock.json').read_text())
           lock['owned']=[row for row in lock['owned'] if row['key'] in {'tavern','world-liquor'}]
+          lock['deployment_holds']={key:value for key,value in lock.get('deployment_holds',{}).items() if key in {'tavern','world-liquor'}}
           assert len(lock['owned'])==2 and {row['key'] for row in lock['owned']}=={'tavern','world-liquor'}
           lock['upstream']=[]
           uuids={json.loads((repo/'runtime'/side/'manifest.json').read_text())['header']['uuid']

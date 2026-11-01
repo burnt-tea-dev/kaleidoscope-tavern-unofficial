@@ -109,7 +109,14 @@ def candidate_plan(receipt, original):
         return None
     location = CONFIG.get('identity_migration')
     if not location:
-        assert {p['uuid'] for p in original['packs']} == {p['uuid'] for p in receipt['packs']}, 'UUID change needs a canonical reviewed migration'
+        expected={p['uuid'] for p in original['packs']}
+        if CONFIG.get('curated_owner_inputs'):
+            from family_update.current_author_validation import curated_owner_inputs
+            inputs=curated_owner_inputs();expected.update(inputs)
+            actual={row['uuid']:row for row in receipt['packs']}
+            for uid,row in inputs.items():
+                assert uid in actual and all(actual[uid][key]==row[key] for key in ('side','version','files')), 'Owner input candidate differs from its reviewed source'
+        assert expected == {p['uuid'] for p in receipt['packs']}, 'UUID change needs a canonical reviewed migration'
         return None
     path = Path(location).resolve()
     assert path.parent == (T / 'family/identity-migrations').resolve(), 'Migration declaration must belong to canonical Git'
@@ -146,6 +153,12 @@ def assembly_order(original):
     order = {side: [ref['pack_id'] for ref in original['refs'][side]] for side in ['behavior', 'resource']}
     location = CONFIG.get('identity_migration')
     if not location:
+        if CONFIG.get('curated_owner_inputs'):
+            from family_update.current_author_validation import curated_owner_inputs
+            inputs=curated_owner_inputs()
+            for side in order:
+                additions=[uid for uid,row in inputs.items() if row['side']==side and uid not in order[side]]
+                order[side]=additions+order[side]
         return order
     path = Path(location).resolve()
     assert path.parent == (T / 'family/identity-migrations').resolve(), 'Migration declaration must belong to canonical Git'
