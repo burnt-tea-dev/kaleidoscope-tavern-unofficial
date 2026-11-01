@@ -50,6 +50,22 @@ class SourceGateEnvironmentTests(unittest.TestCase):
      assemble(lock,{},[],out,working=working,source_identities=identities)
     self.assertFalse(out.exists())
 
+class PlayerPresentationContractTests(unittest.TestCase):
+ def test_client_presentation_is_not_applied_as_a_host_patch(self):
+  from family_bundle import host_declarations
+  with tempfile.TemporaryDirectory() as tmp:
+   root=Path(tmp);directory=root/'host-extensions';directory.mkdir()
+   contract={'schema':1,'identifier':'minecraft:player','scripts':{'variables':{'variable.kg_held_frame':'public'}},'animations':{}}
+   raw=json.dumps(contract).encode();path=directory/'player-presentation.json';path.write_bytes(raw)
+   (directory/'board-api.json').write_text(json.dumps({'host_uuid':'author-cookery'}))
+   self.assertEqual([p.name for p,s in host_declarations(root,'grilling')],['board-api.json'])
+   self.assertEqual(path.read_bytes(),raw)
+   with self.assertRaisesRegex(SystemExit,'host declaration target is missing'):
+    list(host_declarations(root,'unregistered-provider'))
+   contract['identifier']='other:entity';path.write_text(json.dumps(contract))
+   with self.assertRaisesRegex(SystemExit,'invalid Grilling player presentation'):
+    list(host_declarations(root,'grilling'))
+
 class PreservedDependencyTests(unittest.TestCase):
  def test_reviewed_interleaving_controls_world_refs_receipt_and_effective_priority(self):
   import zipfile,hashlib
