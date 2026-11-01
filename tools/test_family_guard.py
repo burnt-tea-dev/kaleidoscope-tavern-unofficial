@@ -226,6 +226,15 @@ class StableLockAdmissionTests(unittest.TestCase):
    sys.path[:]=[p for p in old_path if Path(p or '.').resolve() not in (checkout.resolve(),tools.resolve())]
    loaded=runpy.run_path(str(checkout/'family_guard.py'));loaded['validate_incoming'](self.incoming,self.policy)
   finally:sys.path[:]=old_path
+ def test_reviewed_owner_input_source_binds_exact_preserved_files(self):
+  import hashlib
+  files=self.receipt_packs[0]['files'];self.receipt_packs[0]['source']={'owner':'preserved'}
+  family=guard.read(self.family);family['packs']=self.receipt_packs;self.family.write_text(json.dumps(family))
+  policy=guard.read(self.policy);policy['deferred_client_acceptance']['receipt_sha256']=hashlib.sha256(self.family.read_bytes()).hexdigest();self.policy.write_text(json.dumps(policy))
+  digest=hashlib.sha256(json.dumps(files,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+  self.lock_value['packs'][0]['source']='third-party: reviewed-input sha256:'+digest;self.lock.write_text(json.dumps(self.lock_value));self.refresh_lock_hash();self.run_guard()
+  self.lock_value['packs'][0]['source']='third-party: reviewed-input sha256:'+'0'*64;self.lock.write_text(json.dumps(self.lock_value));self.refresh_lock_hash()
+  with self.assertRaisesRegex(ValueError,'bind preserved'):self.run_guard()
  def test_lock_rejects_unrecognized_pending_source(self):
   self.lock_value['packs'][0]['source']='working-candidate';self.lock.write_text(json.dumps(self.lock_value));self.refresh_lock_hash()
   with self.assertRaises(ValueError):self.run_guard()

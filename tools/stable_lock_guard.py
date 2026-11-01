@@ -12,6 +12,7 @@ THIRD_PARTY_SOURCE = re.compile(
     r"^third-party: as-installed (\d{4}-\d{2}-\d{2}T\d{2}:\d{2}"
     r"(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:\d{2}))$"
 )
+REVIEWED_INPUT_SOURCE = re.compile(r"^third-party: reviewed-input sha256:([0-9a-f]{64})$")
 MIN_RESERVE_BYTES = 2 * 1024 ** 3
 
 
@@ -97,7 +98,7 @@ def _validate_lock(lock):
         _require(isinstance(pack.get("dependencies"), list), "stable lock dependencies missing")
         source = pack.get("source")
         canonical_source = CANONICAL_SOURCE.fullmatch(source) if isinstance(source, str) else None
-        valid_source = source == "observed-installed" or canonical_source
+        valid_source = source == "observed-installed" or canonical_source or (REVIEWED_INPUT_SOURCE.fullmatch(source) if isinstance(source,str) else None)
         if canonical_source:
             valid_source = canonical_source.group(1) not in (".", "..") and canonical_source.group(2) not in (".", "..")
         third_party = THIRD_PARTY_SOURCE.fullmatch(source) if isinstance(source, str) else None
@@ -257,6 +258,11 @@ def validate(incoming, policy, policy_path, hashes):
                  "stable lock kind differs from approved family side: " + uid)
         _require(hashes(item["path"]) == row.get("files"),
                  "incoming pack file hashes differ from approved family: " + uid)
+        reviewed_input=REVIEWED_INPUT_SOURCE.fullmatch(lp["source"])
+        if reviewed_input:
+            files_digest=hashlib.sha256(json.dumps(row["files"],sort_keys=True,separators=(",", ":")).encode()).hexdigest()
+            _require(row.get("source",{}).get("owner")=="preserved" and reviewed_input.group(1)==files_digest,
+                     "reviewed input source does not bind preserved file hashes: " + uid)
         _require(row.get("source", {}).get("owner") != "owned"
                  or (not row["source"].get("working_candidate") and row["source"].get("commit")),
                  "owned source must be committed: " + uid)
