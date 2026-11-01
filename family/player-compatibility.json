@@ -28,6 +28,34 @@
       ],
       "source": "https://github.com/burnt-tea-dev/senluo-bedrock-core/pull/13",
       "scope": "Explicit merged BP player only. Exact versions, file fingerprints, priority, retained base schema/components/groups/events and32-property budget required. Not client acceptance."
+    },
+    {
+      "id": "tacz-20005-grilling-206",
+      "owner_uuid": "4f2a831e-9d12-4c6b-96e5-22a83b9f1a01",
+      "definitions": [
+        {
+          "uuid": "4f2a831e-9d12-4c6b-96e5-22a83b9f1a01",
+          "version": [
+            1,
+            0,
+            20005
+          ],
+          "path": "entities/player.json",
+          "sha256": "1481c316b702afcb009d332136ff6340d983c539963dcc19dbb0536eab8064d3"
+        },
+        {
+          "uuid": "c68005c5-23ff-54e8-a3ff-da6349ad43c2",
+          "version": [
+            2,
+            8,
+            206
+          ],
+          "path": "entities/player.json",
+          "sha256": "589df66236c178c5456f7bd8de8cc247d0fc94482aa628ed51d699dca8fb856d"
+        }
+      ],
+      "source": "https://github.com/burnt-tea-dev/senluo-bedrock-core/pull/18",
+      "scope": "Explicit merged BP player only. Exact versions, file fingerprints, priority, retained base schema/components/groups/events and32-property budget required. Not client acceptance."
     }
   ]
 }
