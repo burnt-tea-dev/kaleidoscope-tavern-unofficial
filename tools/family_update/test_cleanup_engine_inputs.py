@@ -364,6 +364,36 @@ class EngineInputCleanup(unittest.TestCase):
         os.utime(asset, ns=(before.st_atime_ns, before.st_mtime_ns))
         self.assertEqual(cleanup.execute(plan, lambda: self.context)['deleted'], [])
 
+    def test_explicit_retirement_skips_shared_pack_links_and_removes_only_binary_inputs(self):
+        shared = self.root / 'shared/vanilla_1.21.90'
+        (shared / 'textures').mkdir(parents=True)
+        shared_image = shared / 'textures/shared.png'
+        shared_image.write_bytes(b'shared vanilla texture')
+        linked_pack = self.engine / 'behavior_packs/vanilla_1.21.90'
+        linked_pack.parent.mkdir()
+        linked_pack.symlink_to(shared, target_is_directory=True)
+
+        copied = self.engine / 'resource_packs/copied-pack'
+        (copied / 'textures/items').mkdir(parents=True)
+        (copied / 'textures/items/copied.png').write_bytes(b'reproducible texture')
+        (copied / 'textures/item_texture.json').write_text('{"preserve": true}')
+        (copied / 'scripts').mkdir()
+        (copied / 'scripts/observer.js').write_text('preserve observer')
+
+        plan = cleanup.plan(self.root, self.context, retire_diagnostics=self.retirement_list())
+        self.assertEqual(len(plan['selected']), 1, plan['preserved'])
+        result = cleanup.execute(plan, lambda: self.context)
+
+        self.assertEqual(result['state'], 'completed')
+        self.assertFalse((self.engine / 'bedrock_server').exists())
+        self.assertFalse((copied / 'textures/items/copied.png').exists())
+        self.assertTrue(linked_pack.is_symlink())
+        self.assertEqual(shared_image.read_bytes(), b'shared vanilla texture')
+        self.assertTrue((copied / 'textures/item_texture.json').exists())
+        self.assertTrue((copied / 'scripts/observer.js').exists())
+        self.assertTrue(self.report.exists())
+        self.assertTrue((self.engine / 'first.log').exists())
+
     def test_explicit_review_cannot_override_sources_mounts_links_or_active_context(self):
         db, pack = self.diagnostic_world()
         review = self.retirement_list()
