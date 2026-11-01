@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "pack_path": "tests/gametest/first-message/BP",
+  "census_exclusions": {
+    "world_dynamic_property_uuids": [
+      "d89e9be3-7da4-43b0-8a0b-d67315261a12"
+    ]
+  },
+  "tests": [
+    {
+      "id": "senluo_message_diag:simplayer_first_message",
+      "checks": [
+        "simulatedPlayerCreated",
+        "firstMessageReturned",
+        "secondMessageReturned"
+      ],
+      "restart_checks": [
+        "simulatedPlayerCreated",
+        "firstMessageReturned",
+        "secondMessageReturned"
+      ]
+    }
+  ],
+  "ticking_area": {
+    "name": "senluo_message_diag",
+    "center": { "x": 40, "y": 80, "z": 40 },
+    "radius": 1
+  }
+}
