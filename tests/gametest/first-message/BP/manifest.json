@@ -1,0 +1,23 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "Native first-message timing probe",
+    "description": "Isolated QA-only GameTest fixture; not part of a family release.",
+    "uuid": "d89e9be3-7da4-43b0-8a0b-d67315261a12",
+    "version": [0, 0, 1],
+    "min_engine_version": [1, 26, 52]
+  },
+  "modules": [
+    {
+      "type": "script",
+      "language": "javascript",
+      "uuid": "0db6c66f-1eaa-4dc8-a3b0-06a68397ba10",
+      "version": [0, 0, 1],
+      "entry": "scripts/message.js"
+    }
+  ],
+  "dependencies": [
+    { "module_name": "@minecraft/server", "version": "2.7.0" },
+    { "module_name": "@minecraft/server-gametest", "version": "1.0.0-beta" }
+  ]
+}
