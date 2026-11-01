@@ -32,16 +32,19 @@ def frozen_source_reports(path, value, read):
     if path.name != 'reviewed-family-receipt.json':
         return {}
     reports = value.get('evidence', {}).get('reports', [])
-    roots = set(c.SOURCES.values()) | ({c.EXTENSION} if c.EXTENSION else set())
-    owned = [(row, root) for row in reports for root in roots
-             if Path(row['path']).is_relative_to(root)]
-    if not owned:
-        return {}
     build_path = path.parent / 'build-evidence.json'
-    build_ref = next(row for row in reports if row['path'] == str(build_path))
+    build_ref = next((row for row in reports if row['path'] == str(build_path)), None)
+    if build_ref is None:
+        roots = set(c.SOURCES.values()) | ({c.EXTENSION} if c.EXTENSION else set())
+        assert not any(Path(row['path']).is_relative_to(root) for row in reports for root in roots), 'Frozen cleanup build evidence missing'
+        return {}
     build = read(build_path)
     assert c.sha(build_path) == build_ref['sha256'], 'Frozen cleanup build evidence changed'
+    # Source locations belong to the original receipt, even after today's main
+    # checkouts move. Reading current files would lose or replace old references.
     sources = {Path(row['path']): row for row in build['sources'].values()}
+    owned = [(row, root) for row in reports for root in sources
+             if Path(row['path']).is_relative_to(root)]
     result = {}
     for row, root in owned:
         reference = Path(row['path'])

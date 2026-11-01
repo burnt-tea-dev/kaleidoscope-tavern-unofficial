@@ -207,6 +207,25 @@ class ContextTests(unittest.TestCase):
             self.assertIn(snapshot, context['references'])
         self.assertNotIn(self.root / 'wrong-current-snapshot', context['references'])
 
+    def test_moved_current_sources_keep_both_missing_historical_report_versions(self):
+        _, snapshots, document = self.frozen_receipts()
+        moved = self.root / 'current-private-source'
+        moved.mkdir()
+        with patch.object(m.c, 'EXTENSION', moved):
+            context = m.cleanup_context()
+        self.assertFalse(document.exists())
+        for snapshot in snapshots:
+            self.assertIn(snapshot, context['references'])
+
+    def test_moved_current_sources_reject_wrong_historical_report_digest(self):
+        receipts, _, _ = self.frozen_receipts()
+        value = json.loads(receipts[0].read_text())
+        value['evidence']['reports'][1]['sha256'] = '0' * 64
+        self.write(receipts[0], value)
+        with patch.object(m.c, 'EXTENSION', self.root / 'current-private-source'):
+            with self.assertRaisesRegex(AssertionError, 'source evidence changed'):
+                m.cleanup_context()
+
     def test_frozen_source_report_digest_mismatch_aborts_cleanup(self):
         receipts, _, _ = self.frozen_receipts()
         value = json.loads(receipts[0].read_text())
