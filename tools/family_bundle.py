@@ -23,6 +23,20 @@ def read_definition(path,jsonc=False,*,object_pairs_hook=None):
  raw=re.sub(r'"(?:\\.|[^"\\])*"|,\s*([}\]])',lambda m:m[0] if m[0].startswith('"') else m[1],raw)
  return json.loads(raw,object_pairs_hook=object_pairs_hook)
 def files_hash(root):return {p.relative_to(root).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(root.rglob('*')) if p.is_file()}
+def host_declarations(owned_root,provider):
+ rows=[(path,read(path)) for path in (owned_root/'host-extensions').glob('*.json')]
+ for path,spec in sorted(rows,key=lambda row:(row[1].get('kind')=='chinesefood-doll-renderer-cleanup',row[1].get('kind')=='cookery-guide-startup-repair',row[0].name)):
+  if provider=='grilling' and path.name=='player-presentation.json':
+   # This G206 document describes client readers consumed by the canonical
+   # player composer. It remains in the verified G payload; it is not a patch
+   # instruction targeting an author host UUID.
+   if (set(spec)!={'schema','identifier','scripts','animations'} or spec['schema']!=1
+       or spec['identifier']!='minecraft:player' or not isinstance(spec['scripts'],dict)
+       or not isinstance(spec['animations'],dict)):
+    fail('invalid Grilling player presentation contract')
+   continue
+  if not spec.get('host_uuid'):fail('host declaration target is missing: '+path.name)
+  yield path,spec
 def packs(z):
  names=z.namelist()
  if len(names)!=len(set(names)):fail('duplicate ZIP entries')
@@ -185,8 +199,7 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
  for own in lock['owned']:
   repo=sources[own['key']];config=read(repo/'baseline.json');owned_root=repo/config['runtime']['BP']
   source_component,retained_runtime=components[own['key']]
-  for path in sorted((owned_root/'host-extensions').glob('*.json'),key=lambda p:(read(p).get('kind')=='chinesefood-doll-renderer-cleanup',read(p).get('kind')=='cookery-guide-startup-repair',p.name)):
-   spec=read(path)
+  for path,spec in host_declarations(owned_root,own['key']):
    if spec.get('kind') in PAIRED_KINDS:
     pair=set(pair_uuids(spec))
     if pair & replacements:
