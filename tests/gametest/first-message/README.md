@@ -17,7 +17,7 @@ The `SENLUO_FAMILY_GT` records use the existing GameTest parser. Their explicit 
 To compare an actual client's first call, restart the isolated world/process and have that player run this command **before** any GameTest or other probe message:
 
 ```mcfunction
-scriptevent senluo_message_diag:player_message
+scriptevent senluo_message_diag:player_message 0
 ```
 
 Capture the two visible messages, original timing log, client and engine builds, resolved pack stack and whether the caller was an actual client or a simulated player. The handler deliberately records only `command_source_player`; that event alone cannot prove a real player participated. Restart again before measuring the simulated-player route, so one route does not warm the other.
