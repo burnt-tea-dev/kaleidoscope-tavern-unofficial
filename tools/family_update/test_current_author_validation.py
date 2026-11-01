@@ -536,6 +536,58 @@ class CuratedRetainedInputs(unittest.TestCase):
                    for uid,row in report['packs'].items()]}
   return roots,sources,report,receipt
 
+ def owner_pair(self,replacement=False):
+  folder=tempfile.TemporaryDirectory();self.addCleanup(folder.cleanup);root=Path(folder.name)
+  inputs={}
+  for side in ('behavior','resource'):
+   uid='reviewed-'+side;path=root/uid;path.mkdir()
+   self.guard.atomic(path/'manifest.json',{'header':{'uuid':uid,'version':[1,0,2]},'modules':[{'type':'data' if side=='behavior' else 'resources','version':[1,0,2]}]})
+   (path/'payload.js').write_text('export const reviewed=true;')
+   inputs[uid]={'uuid':uid,'side':side,'version':[1,0,2],'path':str(path),'files':self.guard.hashes(path)}
+  if replacement:
+   self.value['authors']['ReviewedLocal']={'behavior_uuid':'reviewed-behavior','resource_uuid':'reviewed-resource'}
+   self.catalog['authors']=copy.deepcopy(self.value['authors']);self.value['pack_versions']['ReviewedLocal']={'BP':[1,0,2],'RP':[1,0,2]}
+   self.value['replacement_packs']={'ReviewedLocal':{('BP' if row['side']=='behavior' else 'RP'):{'uuid':uid,'version':row['version'],'tree':m.tree(row['files'])}for uid,row in inputs.items()}}
+  else:
+   for uid,row in inputs.items():
+    self.rows.append({'uuid':uid,'side':row['side'],'group':'ReviewedLocal','kind':'literal','input_version':row['version'],'output_version':row['version'],'input_tree':m.tree(row['files']),'output_tree':m.tree(row['files']),'provenance':{'official_author_release':False,'original_archive_verified':False,'latest_stable_verified':False}})
+   self.value['retained_inputs']=self.rows
+  self.write(stable.CURATED_INPUT,self.value);self.catalog['selection']['sha256']=m.digest((self.root/stable.CURATED_INPUT).read_bytes());self.commit('Reviewed complete local owner pair')
+  m.c.CONFIG.pop('fresh_world',None);m.c.CONFIG['delivery_profile']='senluo-stable-lock-v1';m.c.CONFIG['curated_owner_inputs']={uid:row['path']for uid,row in inputs.items()}
+  return inputs
+
+ def test_owner_pair_addition_uses_exact_new_inputs_without_rewriting_live_capture(self):
+  inputs=self.owner_pair();before=copy.deepcopy(self.original)
+  roots,sources,selection=m.select_curated_inputs(self.original)
+  self.assertTrue(set(inputs)<=set(selection['packs']));self.assertEqual(self.original,before)
+  from family_update import identity_migration as migration
+  original={**self.original,'refs':{side:[{'pack_id':row['uuid']}for row in self.original['packs']if row['side']==side]for side in ('behavior','resource')}}
+  with patch.object(migration,'CONFIG',m.c.CONFIG):
+   order=migration.assembly_order(original)
+   for uid,row in inputs.items():self.assertEqual(order[row['side']][0],uid)
+   candidate={'packs':[*self.original['packs'],*inputs.values()]};self.assertIsNone(migration.candidate_plan(candidate,original))
+   changed=copy.deepcopy(candidate);changed['packs'][-1]['files']['payload.js']='wrong'
+   with self.assertRaisesRegex(AssertionError,'candidate differs'):migration.candidate_plan(changed,original)
+   candidate['packs'].pop(0)
+   with self.assertRaisesRegex(AssertionError,'UUID change'):migration.candidate_plan(candidate,original)
+
+ def test_whole_owner_replacement_selects_new_pair_without_claiming_it_was_installed(self):
+  inputs=self.owner_pair(replacement=True)
+  captured={'packs':[dict(row,version=[1,0,1],files={'manifest.json':'old'})for row in inputs.values()]};before=copy.deepcopy(captured)
+  roots,sources,selection=m.select_replacement_inputs(captured)
+  self.assertEqual(set(selection['packs']),set(inputs));self.assertEqual(captured,before)
+  self.assertTrue(all(row['source']['role']=='owner_accepted_author_replacement'for row in selection['packs'].values()))
+
+ def test_owner_inputs_reject_partial_pair_unknown_identity_and_changed_bytes(self):
+  inputs=self.owner_pair();configured=dict(m.c.CONFIG['curated_owner_inputs'])
+  m.c.CONFIG['curated_owner_inputs']={next(iter(configured)):next(iter(configured.values()))}
+  with self.assertRaisesRegex(AssertionError,'complete declared'):m.curated_owner_inputs()
+  m.c.CONFIG['curated_owner_inputs']={'unknown':next(iter(configured.values()))}
+  with self.assertRaisesRegex(AssertionError,'Unreviewed'):m.curated_owner_inputs()
+  m.c.CONFIG['curated_owner_inputs']=configured
+  (Path(next(iter(configured.values())))/'payload.js').write_text('changed')
+  with self.assertRaisesRegex(AssertionError,'committed profile'):m.curated_owner_inputs()
+
  def test_only_selected_roots_and_complete_canonical_fishing_are_used(self):
   roots,sources,report,receipt=self.selected()
   self.assertEqual(len(roots),5);self.assertNotIn(Path(self.excluded['path']),roots)
