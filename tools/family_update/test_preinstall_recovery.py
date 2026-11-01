@@ -1,5 +1,6 @@
 import hashlib
 import json
+import os
 from pathlib import Path
 import shutil
 import subprocess
@@ -180,6 +181,84 @@ class PreinstallRecoveryTests(unittest.TestCase):
         self.write(path,report)
         for name in ['author-replacement-selection.json','maintenance-window-approval.private.json','maintenance-player-notice.private.json']:
             self.write(self.output/name,{'observation':'preinstall metadata'})
+
+    def closed_handoff_for_cleanup(self):
+        self.completed_rehearsal()
+        for live, captured in [
+            (self.quality / 'senluo-policy.json', self.output / 'production-before/senluo-policy.json'),
+            (self.quality.parent / 'addon_localizations/index.json', self.output / 'production-before/index.json'),
+        ]:
+            self.write(live, {})
+            self.write(captured, {})
+        self.close()
+        self.next_context()
+        return p.verify_completed(self.output, c.summary())
+
+    def cleanup_context_after_handoff(self, handoff):
+        from family_update import cleanup_copies
+        initial = self.root / 'installed/deployment-initial-state.json'
+        receipt = initial.with_name('reviewed-family-receipt.json')
+        self.write(initial, {'preinstall_recovery': handoff})
+        self.write(receipt, {'evidence': {'reports': [c.report_ref(initial)]}})
+        self.write(self.quality / 'senluo-policy.json', {'approved_receipt': str(receipt)})
+        self.write(self.source / 'family/upstream.lock.json', {})
+        c.R = self.root / 'cleanup-output'
+        c.CONFIG_PATH = self.root / 'cleanup-config.json'
+        c.CONFIG = {'output_dir': str(c.R), 'retention_root': str(self.root),
+                    'retention_pid_namespace': os.readlink('/proc/self/ns/pid')}
+        self.write(c.CONFIG_PATH, c.CONFIG)
+        for key, value in [('SOURCES', {'tavern': self.source}), ('EXTENSION', None)]:
+            patcher = patch.object(c, key, value)
+            patcher.start(); self.addCleanup(patcher.stop)
+        return cleanup_copies, initial
+
+    def test_cleanup_closed_handoff_keeps_real_proof_metadata_without_old_payload_dependency(self):
+        handoff = self.closed_handoff_for_cleanup()
+        proof = c.read(self.output / p.PROOF)
+        original = {row['path']: Path(row['path']).read_bytes() for row in proof['references'].values()}
+        cleanup, _ = self.cleanup_context_after_handoff(handoff)
+        context = cleanup.cleanup_context()
+        self.assertNotIn(self.output / 'production-snapshot', context['references'])
+        for path in [self.output / p.PROOF, *map(Path, original)]:
+            self.assertIn(path, context['protected'])
+            self.assertIn(path, context['historical_records'])
+        for path, raw in original.items():
+            self.assertEqual(Path(path).read_bytes(), raw)
+        self.assertEqual(c.read(self.output / 'deployment-recovery.json'), self.failure)
+
+    def test_cleanup_closed_handoff_does_not_hide_a_current_metadata_dependency(self):
+        handoff = self.closed_handoff_for_cleanup()
+        cleanup, _ = self.cleanup_context_after_handoff(handoff)
+        current = self.root / 'current-validation.json'
+        report = self.output / 'production-before/backup-receipt.json'
+        self.write(current, {'actual_validation_source': str(report)})
+        c.CONFIG['extension_validation'] = str(current)
+        self.write(c.CONFIG_PATH, c.CONFIG)
+        context = cleanup.cleanup_context()
+        self.assertIn(self.output / 'production-snapshot', context['references'])
+        self.assertNotIn(report, context['historical_records'])
+
+    def test_cleanup_closed_handoff_rejects_a_changed_proof_hash(self):
+        handoff = self.closed_handoff_for_cleanup()
+        handoff['proof']['sha256'] = '0' * 64
+        cleanup, _ = self.cleanup_context_after_handoff(handoff)
+        with self.assertRaisesRegex(AssertionError, 'Closed abort proof hash changed'):
+            cleanup.cleanup_context()
+
+    def test_cleanup_tracks_hash_bound_historical_metadata_at_each_boundary(self):
+        handoff = self.closed_handoff_for_cleanup()
+        cleanup, _ = self.cleanup_context_after_handoff(handoff)
+        provider = cleanup.execution_context_provider()
+        provider()
+        self.write(self.output / 'compatibility-report.json', {'changed': True})
+        with self.assertRaisesRegex(RuntimeError, 'Cleanup context paths changed'):
+            provider()
+
+    def test_cleanup_preserves_extra_current_paths_in_a_historical_handoff(self):
+        handoff = self.closed_handoff_for_cleanup()
+        handoff['additional_validation_source'] = str(self.output / 'production-snapshot')
+        cleanup, _ = self.cleanup_context_after_handoff(handoff)
+        self.assertIn(self.output / 'production-snapshot', cleanup.cleanup_context()['references'])
 
     def capacity_wait(self):
         self.original['native_capacity_wait_seconds'] = 1800
