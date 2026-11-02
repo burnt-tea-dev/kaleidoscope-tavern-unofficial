@@ -370,7 +370,8 @@ When a new Tavern runtime has already passed its complete CI, a later family
 lock/maintenance PR legitimately skips gameplay jobs. The current full source
 still needs its own merged PR and successful `impact`/`baseline`; skipped jobs
 are never relabelled as success. Local config may additionally declare
-`runtime_ci_pull_requests: {"tavern": <merged runtime PR>}`.
+`runtime_ci_pull_requests` with the merged runtime PR for `tavern`, `grilling`
+or `world-liquor`, alongside each source's current merged metadata PR.
 
 The update entry records both actual GitHub check revisions separately. The
 runtime merge must be an ancestor of current canonical source. Own runtime
@@ -379,8 +380,13 @@ path must be classified as family tooling/data or prose by the unchanged
 classifier; runtime, fixture, general build or unknown inputs reject reuse.
 All required gameplay checks must actually succeed on the retained runtime
 revision. Current metadata checks cannot be satisfied by those older results.
-The conservation proof is rechecked when cached evidence is used. Other public
-sources retain the existing exact-tree CI rule. Full family static/native,
+The conservation proof is rechecked when cached evidence is used. Grilling and
+World Liquor use their explicit current-status file allowlists and additionally
+retain identical tools and workflows. Grilling may also change
+`THIRD_PARTY_NOTICES.md` and `.github/release-request.json`; changing the latter
+requires successful current `validate` and `Rebuild guards` checks, in addition
+to its independent current baseline/bridge checks. An older successful check
+cannot satisfy those publication metadata checks. Full family static/native,
 fresh stopped backup/saved-world and admission/readback gates remain required.
 
 Historical approved-runtime retention validates reused CI against the immutable

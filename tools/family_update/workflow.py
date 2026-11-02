@@ -150,8 +150,9 @@ def runtime_ci_conservation(key, source, merge):
         return {'runtime_merge': merge, 'current_commit': source['commit'], 'changed_paths': paths, 'unchanged_runtime': True, 'unchanged_baseline': True, 'unchanged_impact_classifier': True}
     allowed = {'README.md', 'README.zh-TW.md', 'docs/PARITY-MATRIX.md', 'docs/BUGS.md'}
     if key == 'grilling':
-        allowed.update({'docs/RELEASING.md', 'docs/KNOWN-ISSUES.md'})
-    assert set(paths) <= allowed, 'Only current status prose may reuse Grilling or World Liquor runtime CI'
+        allowed.update({'docs/RELEASING.md', 'docs/KNOWN-ISSUES.md',
+                        'THIRD_PARTY_NOTICES.md', '.github/release-request.json'})
+    assert set(paths) <= allowed, 'Only current status prose or reviewed Grilling publication metadata may reuse runtime CI'
     return {'runtime_merge': merge, 'current_commit': source['commit'], 'changed_paths': paths, 'unchanged_runtime': True, 'unchanged_baseline': True, 'unchanged_tools': True, 'unchanged_workflows': True}
 
 
@@ -219,6 +220,10 @@ def validate_ci_rows(rows, sources, runtime_ci_references=None):
             assert reused['conservation'] == runtime_ci_conservation(key, sources[key], reused['merge_commit']), 'Runtime conservation evidence changed'
             assert git(SOURCES[key], 'rev-parse', reused['merge_commit']+'^{tree}') == reused['source_tree'] == git(SOURCES[key], 'rev-parse', reused['head']+'^{tree}'), 'Reused CI tree differs from the runtime merge'
             assert runtime_ci_current_checks(key) <= successful, 'Current metadata checks must succeed independently'
+            if key == 'grilling' and '.github/release-request.json' in reused['conservation']['changed_paths']:
+                # Publication settings never feed family runtime assembly, but
+                # their own current validation cannot come from an older PR.
+                assert {'validate', 'Rebuild guards'} <= successful, 'Current publication metadata checks must succeed independently'
             prior = reused['checks']
             if key != 'tavern':
                 assert git(SOURCES[key], 'rev-parse', row['head']+'^{tree}') == sources[key]['tree'], 'Current documentation CI tree differs from the source'

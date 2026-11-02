@@ -91,6 +91,21 @@ class RuntimeConservationTests(unittest.TestCase):
  def test_world_liquor_release_guide_is_not_an_approved_runtime_reuse_path(self):
   with self.assertRaisesRegex(AssertionError,'Only current status prose'):
    self.doc_reuse('world-liquor',('docs/RELEASING.md',))
+ def test_grilling_notices_and_publication_metadata_require_their_own_current_checks(self):
+  source,row=self.doc_reuse('grilling',('THIRD_PARTY_NOTICES.md','.github/release-request.json'))
+  with self.assertRaisesRegex(AssertionError,'publication metadata'):self.validate_docs('grilling',source,row)
+  for name in ['validate','Rebuild guards']:row['checks'].append({**self.check(name),'head_sha':row['head']})
+  self.validate_docs('grilling',source,row)
+  for name in ['validate','Rebuild guards']:
+   for mode in ['skipped','spoofed']:
+    with self.subTest(check=name,mode=mode):
+     bad=copy.deepcopy(row);check=next(c for c in bad['checks'] if c['name']==name)
+     if mode=='skipped':check['conclusion']='skipped'
+     else:check['app_slug']='other-app'
+     with self.assertRaisesRegex(AssertionError,'publication metadata'):self.validate_docs('grilling',source,bad)
+  self.write('.github/other-settings.json','{}');revision=self.commit('unreviewed publication input')
+  with patch.object(m,'SOURCES',{'grilling':self.root}),self.assertRaisesRegex(AssertionError,'Only current status prose'):
+   m.runtime_ci_conservation('grilling',{**source,'commit':revision},self.merge)
  def test_status_doc_reuse_rejects_unconfigured_skipped_spoofed_or_rebound_ci_heads(self):
   source,original=self.doc_reuse()
   for mode in ['unconfigured','current-skipped','old-skipped','old-spoofed','old-head','current-head']:
