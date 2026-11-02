@@ -11,7 +11,8 @@ DATA_REPAIRS = {
     'dimensions-wine-snow-repair': {
         'author': 'DimensionsWine',
         'files': ('BP/manifest.json', 'RP/manifest.json',
-                  'BP/scripts/data/tavern-extension.js', 'BP/scripts/data/guidebook.js'),
+                  'BP/scripts/data/tavern-extension.js', 'BP/scripts/data/guidebook.js',
+                  'BP/scripts/custom_components/netherGrapevine.js'),
         'text_replacements': [
             {'path': 'BP/scripts/data/tavern-extension.js',
              'before': '"minecraft:snow_block"', 'after': '"minecraft:snow"'},
@@ -21,6 +22,9 @@ DATA_REPAIRS = {
             {'path': 'BP/scripts/data/guidebook.js',
              'before': '"minecraft:snow_block":"Snow Block"',
              'after': '"minecraft:snow":"Snow Block"'},
+            {'path': 'BP/scripts/custom_components/netherGrapevine.js',
+             'before': 'onTick({block}){if(!attached(block,c))',
+             'after': 'onTick({block}){if(!block.isValid)return;if(!attached(block,c))'},
         ],
     },
 }
@@ -96,7 +100,7 @@ def _manifest_updates(original, uuids, author_version, local_version, manifest_n
 
 
 def apply_paired_data_extension(spec, bp_root, rp_root, bp_source, rp_source, owner_version):
-    """Validate both inputs and all four outputs before writing the candidate."""
+    """Validate both inputs and all reviewed outputs before writing the candidate."""
     policy = DATA_REPAIRS.get(spec.get('kind'))
     if (policy is None or type(spec.get('schema')) is not int or spec['schema'] != 1
             or spec.get('id') != 'senluo:' + spec['kind']):
