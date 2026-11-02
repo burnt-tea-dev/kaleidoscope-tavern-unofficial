@@ -588,6 +588,36 @@ class CuratedRetainedInputs(unittest.TestCase):
   (Path(next(iter(configured.values())))/'payload.js').write_text('changed')
   with self.assertRaisesRegex(AssertionError,'committed profile'):m.curated_owner_inputs()
 
+ def owner_companion(self,modules=None,dependency_version=None):
+  inputs=self.owner_pair();uid='reviewed-data-companion';root=Path(inputs['reviewed-behavior']['path']).parent/uid;root.mkdir()
+  version=[1,0,3]
+  self.guard.atomic(root/'manifest.json',{'header':{'uuid':uid,'version':version},
+   'modules':modules or [{'type':'data','version':version}],
+   'dependencies':[{'uuid':'reviewed-behavior','version':dependency_version or [1,0,2]}]})
+  (root/'recipes.json').write_text('{"ingredient":"retained-item"}')
+  self.rows.append({'uuid':uid,'side':'behavior','group':'Reviewed data companion','kind':'literal',
+   'companion_of':'reviewed-behavior','input_version':version,'output_version':version,
+   'input_tree':m.tree(self.guard.hashes(root)),'output_tree':m.tree(self.guard.hashes(root)),
+   'provenance':{'official_author_release':False}})
+  self.value['retained_inputs']=self.rows;self.write(stable.CURATED_INPUT,self.value)
+  self.catalog['selection']['sha256']=m.digest((self.root/stable.CURATED_INPUT).read_bytes());self.commit('Exact declared data companion')
+  m.c.CONFIG['curated_owner_inputs'][uid]=str(root)
+  return uid
+
+ def test_declared_data_companion_requires_exact_complete_parent_pair(self):
+  uid=self.owner_companion();before=copy.deepcopy(self.original)
+  selected=m.curated_owner_inputs();self.assertIn(uid,selected);self.assertEqual(self.original,before)
+  del m.c.CONFIG['curated_owner_inputs']['reviewed-behavior']
+  with self.assertRaisesRegex(AssertionError,'declared parent pair|complete declared'):m.curated_owner_inputs()
+
+ def test_data_companion_cannot_introduce_script_or_wrong_parent_dependency(self):
+  self.owner_companion(modules=[{'type':'script','version':[1,0,3]}])
+  with self.assertRaisesRegex(AssertionError,'companion modules'):m.curated_owner_inputs()
+
+ def test_data_companion_rejects_stale_parent_version(self):
+  self.owner_companion(dependency_version=[1,0,1])
+  with self.assertRaisesRegex(AssertionError,'companion modules'):m.curated_owner_inputs()
+
  def test_only_selected_roots_and_complete_canonical_fishing_are_used(self):
   roots,sources,report,receipt=self.selected()
   self.assertEqual(len(roots),5);self.assertNotIn(Path(self.excluded['path']),roots)

@@ -47,6 +47,8 @@ class PairedDataRepair(unittest.TestCase):
         self.before = {side + '/manifest.json': encoded(value) for side, value in manifests.items()}
         self.before.update({payload: b'export const data=["minecraft:snow_block"];\n',
                             guide: b'export const guide=[["minecraft:blue_ice","minecraft:snow_block"],{"minecraft:snow_block":"Snow Block"}];\n'})
+        vine = 'BP/scripts/custom_components/netherGrapevine.js'
+        self.before[vine] = b'export const tick={onTick({block}){if(!attached(block,c))detach(block);}};\n'
         self.after = {
             side + '/manifest.json': encoded({
                 'header': {'uuid': self.ids[side], 'version': self.local, 'name': self.names[side],
@@ -58,6 +60,7 @@ class PairedDataRepair(unittest.TestCase):
             for side, peer in [('BP', 'RP'), ('RP', 'BP')]}
         self.after.update({payload: b'export const data=["minecraft:snow"];\n',
                            guide: b'export const guide=[["minecraft:blue_ice","minecraft:snow"],{"minecraft:snow":"Snow Block"}];\n'})
+        self.after[vine] = b'export const tick={onTick({block}){if(!block.isValid)return;if(!attached(block,c))detach(block);}};\n'
         updates = []
         # Fixture declarations are literal input, rather than a call to the consumer's planner.
         for side in ('BP', 'RP'):
@@ -68,7 +71,7 @@ class PairedDataRepair(unittest.TestCase):
                 {'path': side + '/manifest.json', 'pointer': ['header', 'name'], 'mode': 'reviewed_set', 'value': self.names[side]},
             ])
         self.spec = {'schema': 1, 'kind': 'dimensions-wine-snow-repair',
-                     'id': 'senluo:dimensions-wine-snow-repair', 'version': [1, 0, 1],
+                     'id': 'senluo:dimensions-wine-snow-repair', 'version': [1, 0, 2],
                      'host_uuid': self.ids['RP'], 'behavior_uuid': self.ids['BP'], 'resource_uuid': self.ids['RP'],
                      'archive_sha256': self.author['sha256'], 'owner_version': self.owner,
                      'local_pack_version': self.local, 'official_author_release': False,
@@ -84,6 +87,8 @@ class PairedDataRepair(unittest.TestCase):
                          {'path': guide, 'before': '"minecraft:snow_block":"Snow Block"',
                           'after': '"minecraft:snow":"Snow Block"'},
                      ]}
+        self.spec['text_replacements'].append({'path': vine, 'before': 'onTick({block}){if(!attached(block,c))',
+                                                'after': 'onTick({block}){if(!block.isValid)return;if(!attached(block,c))'})
         self.registry = {}
         self.enterContext(patch.object(stable, 'PROFILES', self.registry))
         self.enterContext(patch.object(stable, 'CATALOG', {
@@ -120,7 +125,7 @@ class PairedDataRepair(unittest.TestCase):
         receipt = self.apply()
         for name, raw in self.after.items():self.assertEqual((self.root / name).read_bytes(), raw)
         self.assertEqual((self.root / 'RP/untouched.bin').read_bytes(), b'untouched invented body')
-        self.assertEqual(receipt['version'], [1, 0, 1])
+        self.assertEqual(receipt['version'], [1, 0, 2])
         self.assertEqual(receipt['local_pack_version'], self.local)
         self.assertEqual(receipt['spec_sha256'], stable.declaration_sha(self.spec))
         extension.validate_pair_receipt(self.spec, receipt, self.owner, self.local, self.ids['BP'], self.ids['RP'])
@@ -150,7 +155,7 @@ class PairedDataRepair(unittest.TestCase):
             with self.subTest(mutation=mutation), self.assertRaises(ValueError):self.apply(spec)
             self.assertEqual(self.snapshot(), original)
 
-    def test_last_output_or_rp_preimage_failure_leaves_all_four_files_unchanged(self):
+    def test_last_output_or_rp_preimage_failure_leaves_all_reviewed_files_unchanged(self):
         original = self.snapshot()
         spec = copy.deepcopy(self.spec); spec['patched_files']['BP/scripts/data/guidebook.js'] = 'f' * 64
         self.register(spec)
@@ -174,7 +179,7 @@ class PairedDataRepair(unittest.TestCase):
 
     def test_pair_receipt_checks_schema_revision_separately_from_owner_and_pack(self):
         receipt = self.apply()
-        for field, value in [('version', [1, 0, 2]), ('owner_version', [1, 0, 69]),
+        for field, value in [('version', [1, 0, 3]), ('owner_version', [1, 0, 69]),
                              ('owner_version', [True, 0, 70]), ('local_pack_version', [1, 0, 1]),
                              ('resource_uuid', 'other'), ('official_author_release', True),
                              ('official_author_release', 0)]:
@@ -229,7 +234,7 @@ class PairedDataRepair(unittest.TestCase):
             proof = row['source']['reviewed_extensions'][0]
             self.assertEqual(proof['source_package_version'], self.owner)
             self.assertTrue(proof['working_candidate'])
-            self.assertEqual(proof['version'], [1, 0, 1])
+            self.assertEqual(proof['version'], [1, 0, 2])
         self.assertIs(receipt['production_ready'], False)
 
 
