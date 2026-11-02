@@ -140,6 +140,34 @@
       ],
       "source": "https://github.com/burnt-tea-dev/senluo-bedrock-core/pull/26",
       "scope": "Explicit composed BP player only. TACZ20010 corrects missing held-item texture references while retaining the exact reviewed BP player bytes. Paired version, fingerprint, effective priority, Grilling schema/components/groups/events and32-property limit remain required. Actual client acceptance pending."
+    },
+    {
+      "id": "tacz-20011-grilling-207",
+      "owner_uuid": "4f2a831e-9d12-4c6b-96e5-22a83b9f1a01",
+      "definitions": [
+        {
+          "uuid": "4f2a831e-9d12-4c6b-96e5-22a83b9f1a01",
+          "version": [
+            1,
+            0,
+            20011
+          ],
+          "path": "entities/player.json",
+          "sha256": "1481c316b702afcb009d332136ff6340d983c539963dcc19dbb0536eab8064d3"
+        },
+        {
+          "uuid": "c68005c5-23ff-54e8-a3ff-da6349ad43c2",
+          "version": [
+            2,
+            8,
+            207
+          ],
+          "path": "entities/player.json",
+          "sha256": "589df66236c178c5456f7bd8de8cc247d0fc94482aa628ed51d699dca8fb856d"
+        }
+      ],
+      "source": "https://github.com/burnt-tea-dev/senluo-bedrock-core/pull/29",
+      "scope": "Explicit composed BP player only. Core0.23 selects UI-safe canonical G207 composition and fresh TACZ20011/IE20003 pairs. Both BP player payloads retain the earlier reviewed bytes. Exact paired versions, fingerprints, effective priority, retained schema/components/groups/events and32-property budget remain required. Actual client UI and full-family native/save/rollback evidence are separate."
     }
   ]
 }
