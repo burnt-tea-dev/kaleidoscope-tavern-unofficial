@@ -14,7 +14,6 @@ import hashlib
 import io
 import json
 from pathlib import Path
-from PIL import Image
 from native_input_bindings import scoped_input
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -61,6 +60,7 @@ def binding(expression):
     return {'binding_type':'view','source_property_name':expression,'target_property_name':'#visible'}
 
 def generated(root=ROOT):
+    from PIL import Image
     reference=json.loads((root/'tools/fixtures/mojang-server-form-reference.json').read_text())
     vanilla=reference['files']['server_form.json']['nodes']
     ui={'namespace':'server_form',**board_input_ui(root,vanilla,reference)}
