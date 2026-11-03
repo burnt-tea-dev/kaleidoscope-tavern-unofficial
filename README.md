@@ -2,7 +2,9 @@
 
 Brewing, cocktails and a place to enjoy them. This addon brings [Kaleidoscope Tavern](https://github.com/KaleidoscopeMods/KaleidoscopeTavern) to Minecraft Bedrock Edition.
 
-[繁體中文](README.zh-TW.md) · [Download](https://github.com/burnt-tea-dev/kaleidoscope-tavern-unofficial/releases) · [Changelog](CHANGELOG.md)
+[简体中文](README.zh-CN.md) · [繁體中文](README.zh-TW.md) · **English**
+
+[Download](https://github.com/burnt-tea-dev/kaleidoscope-tavern-unofficial/releases) · [Changelog](CHANGELOG.md)
 
 ## Features
 
