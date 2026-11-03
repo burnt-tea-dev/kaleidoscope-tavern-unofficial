@@ -43,6 +43,9 @@ def board_input_ui(root,vanilla,reference):
     for kind in ('foreign',*BOARD_INPUT_LIMITS):
         expression=f'(not {owned})' if kind=='foreign' else selected[kind]
         node=scoped_input(reference,'settings_common.option_text_edit_control',expression,'#kt_board')
+        # Branches inherit the widget directly, so its enclosing option's
+        # $enabled default must be supplied here before native bindings resolve.
+        node['$enabled']=True
         if kind!='foreign':node['max_length']=BOARD_INPUT_LIMITS[kind]
         # Every branch inherits the ORIGINAL edit widget, bindings, placeholder,
         # collection name, textbox name and button mappings. No multiline swap.

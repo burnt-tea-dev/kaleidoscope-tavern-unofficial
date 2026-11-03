@@ -110,7 +110,8 @@
         "source_property_name": "(((not ((((#kt_board_title = '§r§0§rStanding Board') and (#kt_board_field = 'Board text (up to 8 lines)')) or ((#kt_board_title = '§r§0§r立式告示牌') and (#kt_board_field = '黑板文字（最多 8 行）'))) or (((#kt_board_title = '§r§0§rChalkboard') and (#kt_board_field = 'Up to 11 lines; 10 halfwidth or 7 fullwidth characters per line')) or ((#kt_board_title = '§r§0§r黑板内容') and (#kt_board_field = '最多 11 行；每行 10 个半角或 7 个全角字')) or ((#kt_board_title = '§r§0§r黑板內容') and (#kt_board_field = '最多 11 行；每行 10 個半角或 7 個全角字'))) or (((#kt_board_title = '§r§0§rChalkboard') and (#kt_board_field = 'Board text (up to 11 lines)')) or ((#kt_board_title = '§r§0§r黑板内容') and (#kt_board_field = '黑板文字（最多 11 行）')) or ((#kt_board_title = '§r§0§r黑板內容') and (#kt_board_field = '黑板文字（最多 11 行）'))))) and #kt_board_native_visible and $enabled and #kt_board_native_enabled) and #kt_board_native_focus)",
         "target_property_name": "#focus_enabled"
       }
-    ]
+    ],
+    "$enabled": true
   },
   "kt_board_input_sandwich@settings_common.option_text_edit_control": {
     "visible": false,
@@ -198,6 +199,7 @@
         "target_property_name": "#focus_enabled"
       }
     ],
+    "$enabled": true,
     "max_length": 640
   },
   "kt_board_input_small@settings_common.option_text_edit_control": {
@@ -286,6 +288,7 @@
         "target_property_name": "#focus_enabled"
       }
     ],
+    "$enabled": true,
     "max_length": 700
   },
   "kt_board_input_large@settings_common.option_text_edit_control": {
@@ -374,6 +377,7 @@
         "target_property_name": "#focus_enabled"
       }
     ],
+    "$enabled": true,
     "max_length": 3000
   },
   "kt_board_input_branches": {
