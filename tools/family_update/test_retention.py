@@ -339,10 +339,12 @@ class RetentionTests(unittest.TestCase):
         self.write(manifest, {'schema': 1, 'outputs': [
             {'output': str(self.a), 'reason': 'Superseded test fixture; preserve original reports', 'targets': targets}]})
         return self.plan(retire_outputs=manifest)
-    def stable_projection(self):
+    def stable_projection(self, reviewed_input=None):
         run = self.a
         source = {'owner': 'owned', 'repository': 'burnt-tea-dev/kaleidoscope-tavern-unofficial',
                   'commit': 'a' * 40, 'working_candidate': False}
+        if reviewed_input:
+            source = {'owner': 'preserved', 'role': 'curated_retained_input', 'kind': 'literal'}
         receipt_packs, lock_packs, order, projected = [], [], {'behavior': [], 'resource': []}, []
         for side, uid in [('behavior', '11111111-1111-4111-8111-111111111111'),
                           ('resource', '22222222-2222-4222-8222-222222222222')]:
@@ -372,7 +374,11 @@ class RetentionTests(unittest.TestCase):
             receipt_packs.append({'uuid': uid, 'side': side, 'version': [1, 2, 3], 'source': source,
                                   'dependencies': [], 'files': pack_files})
             lock_packs.append({'kind': side, 'uuid': uid, 'version': [1, 2, 3], 'path': relative,
-                               'sha256': digest.hexdigest(), 'source': source['repository'] + '@' + source['commit']})
+                               'sha256': digest.hexdigest(), 'source':
+                               ('third-party: reviewed-input sha256:' +
+                                (hashlib.sha256(json.dumps(pack_files, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
+                                 if reviewed_input == 'valid' else '0' * 64))
+                               if reviewed_input else source['repository'] + '@' + source['commit']})
             order[side].append(uid)
             projected.extend(pack_root.rglob('*'))
         for side in ('behavior', 'resource'):
@@ -425,6 +431,21 @@ class RetentionTests(unittest.TestCase):
         self.assertTrue((self.a / 'build-evidence.json').exists())
         self.assertEqual(old_marker.read_bytes(), old_marker_bytes)
         self.assertTrue((self.a / 'lock-source-projection-retirement.json').is_file())
+    def test_reviewed_owner_input_projection_retires_only_receipt_bound_files(self):
+        projection, candidate_file = self.stable_projection(reviewed_input='valid')
+        result = self.execute(self.reviewed_projection_plan(targets=['lock-source-projection']))
+        self.assertEqual(result['state'], 'completed', result['errors'])
+        self.assertTrue(candidate_file.exists())
+        self.assertTrue((self.a / 'family-lock.json').exists())
+        self.assertFalse(list(projection.rglob('manifest.json')))
+
+    def test_reviewed_owner_input_projection_rejects_a_forged_source_digest(self):
+        projection, candidate_file = self.stable_projection(reviewed_input='forged')
+        with self.assertRaisesRegex(ValueError, 'reviewed-input label differs'):
+            self.reviewed_projection_plan(targets=['lock-source-projection'])
+        self.assertTrue(candidate_file.exists())
+        self.assertTrue(list(projection.rglob('manifest.json')))
+
     def test_projection_only_retirement_keeps_existing_retirement_record(self):
         projection, _ = self.stable_projection()
         old_marker = self.a / m.EXPLICIT_MARKER

@@ -695,10 +695,17 @@ def _expected_lock_projection_files(output, root, mounts, removed=()):
                              type(pack['source'].get('file_id')) is int and pack['source']['file_id'] > 0 and
                              re.fullmatch(r'[0-9a-f]{64}', pack['source'].get('archive_sha256', '')),
                              'Stable projection author source binding is invalid: ' + str(uid))
-                _require(isinstance(locked_pack.get('source'), str) and
-                         re.fullmatch(r'third-party: as-installed \d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\+00:00',
-                                      locked_pack['source']) is not None,
-                         'Stable projection retained-source label is invalid: ' + str(uid))
+                label = locked_pack.get('source')
+                if owner == 'preserved' and isinstance(label, str) and label.startswith('third-party: reviewed-input '):
+                    # candidate.py labels reviewed local inputs by their complete
+                    # receipt file map, rather than claiming they came from LIVE.
+                    digest = hashlib.sha256(json.dumps(pack['files'], sort_keys=True, separators=(',', ':')).encode()).hexdigest()
+                    _require(label == 'third-party: reviewed-input sha256:' + digest,
+                             'Stable projection reviewed-input label differs from receipt: ' + str(uid))
+                else:
+                    _require(isinstance(label, str) and
+                             re.fullmatch(r'third-party: as-installed \d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\+00:00', label) is not None,
+                             'Stable projection retained-source label is invalid: ' + str(uid))
             world_name = match.group(1)
             worlds.add(world_name)
             pack_root = output / 'lock-source-projection' / locked_pack['path']

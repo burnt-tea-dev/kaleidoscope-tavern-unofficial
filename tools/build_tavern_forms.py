@@ -14,10 +14,10 @@ import hashlib
 import io
 import json
 from pathlib import Path
-from PIL import Image
 from native_input_bindings import scoped_input
 
 ROOT=Path(__file__).resolve().parents[1]
+CURRENT_FORM_SOURCES={'runtime/RP/ui/server_form.json'}
 NAMES=('depth_charge','mystery_cocktail','nether_special','ice_grape')
 BOARD_TITLE_PREFIX='§r§0§r'
 BOARD_INPUT_LIMITS={'sandwich':640,'small':700,'large':3000}
@@ -43,6 +43,9 @@ def board_input_ui(root,vanilla,reference):
     for kind in ('foreign',*BOARD_INPUT_LIMITS):
         expression=f'(not {owned})' if kind=='foreign' else selected[kind]
         node=scoped_input(reference,'settings_common.option_text_edit_control',expression,'#kt_board')
+        # Branches inherit the widget directly, so its enclosing option's
+        # $enabled default must be supplied here before native bindings resolve.
+        node['$enabled']=True
         if kind!='foreign':node['max_length']=BOARD_INPUT_LIMITS[kind]
         # Every branch inherits the ORIGINAL edit widget, bindings, placeholder,
         # collection name, textbox name and button mappings. No multiline swap.
@@ -57,6 +60,7 @@ def binding(expression):
     return {'binding_type':'view','source_property_name':expression,'target_property_name':'#visible'}
 
 def generated(root=ROOT):
+    from PIL import Image
     reference=json.loads((root/'tools/fixtures/mojang-server-form-reference.json').read_text())
     vanilla=reference['files']['server_form.json']['nodes']
     ui={'namespace':'server_form',**board_input_ui(root,vanilla,reference)}

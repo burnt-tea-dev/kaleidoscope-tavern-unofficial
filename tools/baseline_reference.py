@@ -10,6 +10,7 @@ from functools import lru_cache
 from collision_shape_projection import collision_preimage
 from current_extension_source_contract import check as check_current_extensions, runtime_sources as extension_runtime_sources
 from cultivation_source_contract import check as check_cultivation, runtime_sources as cultivation_runtime_sources
+from build_tavern_forms import CURRENT_FORM_SOURCES, check_or_write as check_current_forms
 
 # Only exact reviewed non-script assets and opt-in command entry points.
 # T134 visual semantics are checked by the board, source-texel and animation
@@ -25,7 +26,6 @@ COCKTAIL_ASSET_PATHS=frozenset({
    'runtime/RP/ui/hud_screen.json',
    'runtime/RP/ui/_global_variables.json',
    'runtime/RP/ui/kt_tavern_hud.json',
-   'runtime/RP/ui/server_form.json',
    'runtime/RP/manifest.json',
    'runtime/BP/items/depth_charge.json',
    'runtime/BP/items/mystery_cocktail.json',
@@ -257,6 +257,9 @@ def version_projection(root,name,data,spec):
 
 def previous_bytes(root,path):
  root=Path(root).resolve();path=Path(path).resolve();name=path.relative_to(root).as_posix();data=path.read_bytes();row=rows(root).get(name)
+ if root==Path(__file__).resolve().parents[1] and name in CURRENT_FORM_SOURCES:
+  check_current_forms()
+  return data
  # Current extension owners are checked against their live wiring and behavior
  # suites. Their bodies no longer participate in the historical source view.
  if root==Path(__file__).resolve().parents[1] and name in extension_runtime_sources():

@@ -45,7 +45,8 @@ class TavernForms(unittest.TestCase):
         original=native['bindings']
         self.assertEqual(native['type'],'edit_box');self.assertEqual(len(original),6)
         for kind,node in nodes.items():
-            self.assertEqual(set(node),{'visible','enabled','focus_enabled','property_bag','$text_edit_box_binding_condition','bindings'}|({'max_length'} if kind!='foreign' else set()))
+            self.assertEqual(set(node),{'$enabled','visible','enabled','focus_enabled','property_bag','$text_edit_box_binding_condition','bindings'}|({'max_length'} if kind!='foreign' else set()))
+            self.assertIs(node['$enabled'], True)
             self.assertEqual(node['$text_edit_box_binding_condition'],'visible')
             if kind!='foreign':self.assertEqual(node['max_length'],BOARD_INPUT_LIMITS[kind])
             resolved=resolve_control(self.source,'settings_common.option_text_edit_control',node)
