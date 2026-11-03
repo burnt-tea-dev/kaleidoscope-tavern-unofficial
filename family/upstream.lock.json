@@ -313,15 +313,15 @@
     {
       "name": "Essentials",
       "project_id": 1285412,
-      "file_id": 8837761,
-      "sha256": "7b8a599d7d4ceda6ae403e66e2897fe6262e98d4b7e45c1628bd756d0240413c",
+      "file_id": 9384758,
+      "sha256": "5447bfd9f76ea17ad96e8a57f43065462c1450e03ddd25832ade79a84f87adcd",
       "packs": [
         {
           "uuid": "5f808eda-2eed-47b9-94ca-8486af1c5c14",
           "version": [
             1,
             8,
-            3
+            4
           ]
         },
         {
@@ -329,7 +329,7 @@
           "version": [
             1,
             8,
-            3
+            4
           ]
         }
       ],

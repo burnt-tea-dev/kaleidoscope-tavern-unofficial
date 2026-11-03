@@ -1,4 +1,4 @@
-"""Exact Essentials 1.8.3 paired identity and PBR manifest compatibility.
+"""Exact Essentials 1.8.4 paired identity and PBR manifest compatibility.
 
 The clean author archive owns every script and asset. This declaration changes
 only paired versions and the two RP fields required by the current PBR stack.
@@ -11,11 +11,11 @@ from pathlib import Path
 
 KIND = 'essentials-manifest-compatibility'
 IDENTITY = 'senluo:' + KIND
-ARCHIVE = '7b8a599d7d4ceda6ae403e66e2897fe6262e98d4b7e45c1628bd756d0240413c'
+ARCHIVE = '5447bfd9f76ea17ad96e8a57f43065462c1450e03ddd25832ade79a84f87adcd'
 UUIDS = {'BP': '5f808eda-2eed-47b9-94ca-8486af1c5c14',
          'RP': '537af6fe-a865-4603-8847-37791b81249d'}
-ORIGINALS = {'BP/manifest.json': '1e28288471494a49c3368aa25ae7ae6eba08bc17247215996c164c9c417dfc7f',
-             'RP/manifest.json': '4e1b0f45dcfef21d533e2ffc9cc5293c97d8061b670452b30eee3b161cd0ccf5'}
+ORIGINALS = {'BP/manifest.json': '228799b74c317df99a376870ad86e779610cad6cbdb6ca48ffa2825fe1d587ff',
+             'RP/manifest.json': 'ea4aec92d054338445ea0d31f5b808429ad620fcc7279e2894ea0a40500fd0eb'}
 def _sha(raw):
     return hashlib.sha256(raw).hexdigest()
 
@@ -52,7 +52,7 @@ def compile_spec(raw_pair, owner_version, local_pack_version):
         'authorization': ('Owner explicitly allocates Essentials ' + '.'.join(map(str, local_pack_version))
                           + ' for fresh-world manifest compatibility with private owner '
                           + '.'.join(map(str, owner_version))
-                          + '; clean official 8837761 scripts and assets remain unchanged.'),
+                          + '; clean official 9384758 scripts and assets remain unchanged.'),
         'feedback': 'Manifest compatibility only; upstream feedback pending.',
         'removal_condition': 'Re-review on an author update; remove the compatibility fields when the clean official RP satisfies the reviewed PBR stack.',
         'original_files': ORIGINALS.copy(),
@@ -77,7 +77,7 @@ def apply_manifest_extension(spec, bp_root, rp_root, bp_source, rp_source, owner
         raise ValueError('Essentials manifest compatibility requires its reviewed current profile')
     for source in (bp_source, rp_source):
         if (source.get('owner') != 'upstream' or source.get('archive_sha256') != ARCHIVE
-                or source.get('project_id') != 1285412 or source.get('file_id') != 8837761):
+                or source.get('project_id') != 1285412 or source.get('file_id') != 9384758):
             raise ValueError('Essentials requires the exact clean official source')
         validate_stable_source(profile, source)
     for name, raw in changed.items():

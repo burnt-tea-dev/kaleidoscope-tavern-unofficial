@@ -13,7 +13,7 @@ import stable_host_profiles as profiles
 
 class EssentialsManifestCompatibility(unittest.TestCase):
     def setUp(self):
-        fixture = json.loads((Path(__file__).parent / 'fixtures/essentials-183-manifests.json').read_bytes())
+        fixture = json.loads((Path(__file__).parent / 'fixtures/essentials-184-manifests.json').read_bytes())
         self.raw = {side: text.encode('utf-8') for side, text in fixture['manifests'].items()}
         self.spec, self.changed = extension.compile_spec(self.raw, [1, 0, 66], [1, 8, 10066])
         profile = {'id': self.spec['id'], 'host_uuid': self.spec['host_uuid'],
@@ -21,7 +21,7 @@ class EssentialsManifestCompatibility(unittest.TestCase):
                    'admission': profiles.CURATED, 'spec_sha256': profiles.declaration_sha(self.spec),
                    'source_owner': 'upstream', 'required_extensions': [], 'copies': {}}
         self.enterContext(patch.dict(profiles.PROFILES, {'essentials-current-fixture': profile}, clear=True))
-        self.source = {'owner': 'upstream', 'project_id': 1285412, 'file_id': 8837761,
+        self.source = {'owner': 'upstream', 'project_id': 1285412, 'file_id': 9384758,
                        'archive_sha256': extension.ARCHIVE, 'reviewed_extensions': []}
         temporary = tempfile.TemporaryDirectory(); self.addCleanup(temporary.cleanup)
         self.roots = {side: Path(temporary.name) / side for side in self.raw}
