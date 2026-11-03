@@ -8,6 +8,7 @@ from foundation.source_contract import check as check_foundation_sources, runtim
 from current_extension_source_contract import check as check_extension_sources, runtime_sources as extension_runtime_sources
 from creative.catalog import check_current as check_creative_sources, runtime_sources as creative_runtime_sources
 from cultivation_source_contract import check as check_cultivation_sources, runtime_sources as cultivation_runtime_sources
+from build_tavern_forms import CURRENT_FORM_SOURCES, check_or_write as check_current_forms
 ROOT=Path(__file__).resolve().parents[1]
 # These domains are maintained against their current contracts. Their behavior
 # is no longer represented by reversing source changes to the launch baseline.
@@ -17,7 +18,7 @@ EFFECT_SOURCES={'runtime/BP/scripts/bedrock/custom-effects.js'}
 BARREL_SOURCES={f'runtime/RP/entity/runtime_barrel_ingredients_{slot}.entity.json' for slot in range(4)}|{
     'runtime/RP/render_controllers/runtime_barrel_ingredients.render_controllers.json'}
 GUIDE_SOURCES={'runtime/BP/scripts/bedrock/standalone-guide.js',
-    'runtime/BP/scripts/core/standalone-guide-model.js'}
+    'runtime/BP/scripts/core/standalone-guide-model.js'} | CURRENT_FORM_SOURCES
 def read(path):return json.loads(path.read_text(encoding='utf-8-sig'))
 def sha(path):
     path=Path(path).resolve()
@@ -37,6 +38,7 @@ def main():
     extension_contract=check_extension_sources(ROOT)
     creative_sources=creative_runtime_sources()
     creative_contract=check_creative_sources(ROOT,args.java_source)
+    check_current_forms()
     for name in GUIDE_SOURCES:
         path=ROOT/name
         assert path.is_file() and not path.is_symlink(),('Missing current guide owner',name)
