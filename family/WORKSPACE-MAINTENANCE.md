@@ -120,3 +120,5 @@ current config／policy／來源／驗證傳遞引用、maintenance lock、host 
 清理器只接受輸出根目錄的這個固定名稱；逐包比對同輪 `family-lock.json`、`build-evidence.json` 與 `release-candidate/family-receipt.json` 的 receipt／lock hash、pack UUID／side／version、完整 pack 檔案 hash 及 selector 順序。
 只刪所有上述證據綁定的 pack 檔案；family lock、build evidence、raw receipt、selector JSON、目錄及任何未知額外檔保留。缺檔、額外檔落在已綁定 pack 內、hash／順序不符、來源／Git／世界／備份路徑、活動程序、lease 或現行引用均拒絕計畫或執行。
 投影 scope 使用獨立的 `lock-source-projection-retirement.json`，不擴寫或覆蓋既有 `reviewed-retirement.json` 的 targets／removed 歷史；同一輸出可以追加新的獨立明列 scope，且清單路徑與 metadata 綁定在新 marker。
+
+The stable projection reclaimer accepts the canonical candidate producer’s `third-party: reviewed-input sha256:<digest>` source label only for preserved packs whose complete receipt file map reproduces that digest. Existing source/lock/receipt/order/file checks and current rollback protections still apply. It does not relabel reviewed owner inputs as LIVE captures.
