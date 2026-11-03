@@ -7,7 +7,7 @@ on:
 permissions:
   contents: read
 env:
-  SENLUO_WORLD_LIQUOR_REF: 6743ff3c18b001f679533bfc42995121047485bf
+  SENLUO_WORLD_LIQUOR_REF: a0985ce7a7a01d80b620b384ee3aec08306163cd
   SENLUO_GRILLING_HOST_REF: 61864d017a1e4e9847325cd7313098b4379dc2e9
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
