@@ -3,7 +3,6 @@
   "tag": "v0.6.197",
   "title": "Tavern 0.6.197: preserve native board input defaults",
   "prerelease": false,
-  "expected_archive_sha256": "03131885ffa8b243146b5dd02db3fdcc60cf217df969a4d7f55f3d47f1c3b0bb",
   "publication_request": false,
   "public_notes_path": null,
   "public_notes_inline": "Preserves the native enabled default for generated board text fields. Existing native controller bindings and board limits remain. Paired release identity advances; actual client rendering acceptance remains pending.",
