@@ -1,9 +1,11 @@
 import tempfile
+import os
+import shutil
 import unittest
 from pathlib import Path
 
 from family_guard import atomic, read
-from world_backup import adopt, capture
+from world_backup import adopt, capture, register_alias
 
 
 class WorldBackupTests(unittest.TestCase):
@@ -19,7 +21,11 @@ class WorldBackupTests(unittest.TestCase):
             for name in ('old', 'new'):
                 capture(world, root / name, root / (name + '.json'))
                 adopt(state, root / name, root / (name + '.json'))
+                if name == 'old':
+                    shutil.copytree(root / name, root / 'alias', copy_function=os.link)
+                    register_alias(state, root / name, root / 'alias')
             self.assertFalse((root / 'old').exists())
+            self.assertFalse((root / 'alias').exists())
             self.assertEqual((root / 'new/level.dat').read_bytes(), b'level')
             self.assertTrue((world / 'db/CURRENT').is_file())
             self.assertEqual(read(state)['pending_retirement'], [])

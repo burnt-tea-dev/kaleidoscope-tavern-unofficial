@@ -25,6 +25,8 @@ def capture(world, destination, receipt):
         raise ValueError('World changed or backup copy differs')
     atomic(receipt, {'world': str(world.resolve()),
                      'consistent_stopped_snapshot': str(destination.resolve()),
+                     'status': 'consistent_stopped_backup', 'live_status': 'STOPPED',
+                     'recorded_at': datetime.datetime.now(datetime.timezone.utc).isoformat(),
                      'files': files})
 
 
@@ -70,6 +72,21 @@ def retirement_target(path, roots, protected):
     return path
 
 
+def register_alias(state_path, backup, alias):
+    """Track a verified hardlink view so replacing the snapshot retires it too."""
+    state_path = Path(state_path)
+    with state_path.with_suffix('.lock').open('a') as handle:
+        fcntl.flock(handle, fcntl.LOCK_EX)
+        state = read(state_path)
+        current = state['current']
+        if Path(current['backup']).resolve() != Path(backup).resolve():
+            raise ValueError('Rollback alias belongs to a different retained backup')
+        aliases = current.setdefault('aliases', [])
+        if str(Path(alias).resolve()) not in aliases:
+            aliases.append(str(Path(alias).resolve()))
+        atomic(state_path, state)
+
+
 def adopt(state_path, backup, receipt, retire=()):
     state_path, backup, receipt = map(Path, (state_path, backup, receipt))
     with state_path.with_suffix('.lock').open('a') as handle:
@@ -83,8 +100,11 @@ def adopt(state_path, backup, receipt, retire=()):
         requested = list(state.get('pending_retirement', [])) + list(retire)
         if previous and Path(previous).resolve() != backup.resolve():
             requested.append(previous)
+            requested.extend(state['current'].get('aliases', []))
+        aliases = state.get('current', {}).get('aliases', []) if previous == str(backup.resolve()) else []
         targets = [retirement_target(p, roots, protected) for p in dict.fromkeys(map(str, requested))]
         state['current'] = {'backup': str(backup.resolve()), 'receipt': str(receipt.resolve()),
+                            'aliases': aliases,
                             'world': verified['world'], 'verified_at': datetime.datetime.now(datetime.timezone.utc).isoformat()}
         state['pending_retirement'] = [str(p) for p in targets]
         atomic(state_path, state)
