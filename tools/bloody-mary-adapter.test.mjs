@@ -45,7 +45,7 @@ test('mob Bloody Mary duration uses loaded effect time and expires before the ne
 
 test('the precise living extension does not claim other player adapters or revive dead recipients',()=>{
  const wolf=actor('minecraft:wolf');
- for(const effect of ['high_heels','long_reach','vision','grass_stealth','xp_drain','tomb_raider'])assert.equal(applyCustomEffect(wolf.entity,{effect:'kaleidoscope_tavern:'+effect,duration:30,amplifier:0}),false);
+ for(const effect of ['high_heels','long_reach','grass_stealth','xp_drain'])assert.equal(applyCustomEffect(wolf.entity,{effect:'kaleidoscope_tavern:'+effect,duration:30,amplifier:0}),false);
  wolf.health.currentValue=0;assert.equal(livingEffectEntity(wolf.entity),false);assert.equal(livingEffectEntity(wolf.entity,true),true);
  assert.equal(applyCustomEffect(wolf.entity,{effect:BLOODY,duration:30,amplifier:0}),false);
 });

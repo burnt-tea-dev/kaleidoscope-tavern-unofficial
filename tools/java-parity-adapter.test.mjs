@@ -1,8 +1,8 @@
 /** Real effect adapter, equipment/DP dependency doubles, no Minecraft client. */
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {EquipmentSlot,GameMode} from '@minecraft/server';
-import {CUSTOM_TEST,ARDENT_COLLISION_COUNT,applyCustomEffect} from '../runtime/BP/scripts/bedrock/custom-effects.js';
+import {EquipmentSlot,GameMode,ItemStack,system} from '@minecraft/server';
+import {CUSTOM_TEST,ARDENT_COLLISION_COUNT,TOMB_PICKUP_UNLOCK,applyCustomEffect,handleTombRaider,blockTombPickup,clearCustomEffects,tickExternalLivingEffects} from '../runtime/BP/scripts/bedrock/custom-effects.js';
 function fixture({level=0,creative=false,damage=1,armor=true}={}){
  const durability={damage,maxDurability:10},dp=new Map(),calls=[];
  const item={getComponent(id){if(id==='minecraft:durability')return durability;if(id==='minecraft:enchantable')return {getEnchantments:()=>[{type:{id:'unbreaking'},level}]};}};
@@ -54,4 +54,43 @@ test('Upside Down keeps the complete alive AABB selection when an earlier name c
 test('a living Mob casting Upside Down is itself part of the source Mob list',()=>{
  const f=upsideFixture('minecraft:cod');
  assert.equal(f.cast(),true);assert.deepEqual(f.named,[f.caster.id]);assert.equal(f.caster.nameTag,'Grumm');
+});
+
+let tombSerial=0;
+function tombFixture(typeId='minecraft:wolf',{spawnFailure=false,mob=true}={}){
+ const properties=new Map(),drops=[];
+ const attacker={id:'tomb-attacker-'+(++tombSerial),typeId,
+  getComponent:id=>id==='minecraft:health'?{currentValue:10}:id==='minecraft:type_family'?{hasTypeFamily:family=>mob&&family==='mob'}:undefined,
+  getDynamicProperty:key=>properties.get(key),setDynamicProperty:(key,value)=>properties.set(key,value)};
+ const weapon=new ItemStack('minecraft:diamond_sword');weapon.nameTag='saved sword';weapon.setLore(['keep this lore']);weapon.setDynamicProperty('example:owner','owner-1');
+ weapon.meta.enchantments=[{type:{id:'sharpness'},level:3}];
+ let held=weapon;
+ const target={id:'tomb-target-'+(++tombSerial),typeId:'minecraft:zombie',location:{x:1,y:2,z:3},
+  getComponent:id=>id==='minecraft:equippable'?{
+   getEquipment:slot=>slot===EquipmentSlot.Mainhand?held:undefined,
+   setEquipment(slot,item){assert.equal(slot,EquipmentSlot.Mainhand);held=item;return true;}
+  }:undefined,
+  dimension:{spawnItem(item,at){if(spawnFailure)throw Error('injected drop failure');const data=new Map(),entity={item,at,getDynamicProperty:key=>data.get(key),setDynamicProperty:(key,value)=>data.set(key,value)};drops.push(entity);return entity;}}
+ };
+ return {attacker,target,weapon,drops,held:()=>held,event:{damageSource:{damagingEntity:attacker},hurtEntity:target}};
+}
+test('living mob Tomb Raider disarms once, preserves the stack and enforces its pickup delay',()=>{
+ const f=tombFixture();system.currentTick=9000;
+ assert.equal(applyCustomEffect(f.attacker,{effect:'kaleidoscope_tavern:tomb_raider',ticks:10,amplifier:0}),true);
+ assert.equal(handleTombRaider(f.event,()=>0),true);assert.equal(f.held(),undefined);assert.equal(f.drops.length,1);
+ const drop=f.drops[0];assert.notEqual(drop.item,f.weapon);assert.equal(drop.item.getComponent('minecraft:durability').damage,1560);
+ assert.equal(f.weapon.getComponent('minecraft:durability').damage,0);assert.equal(drop.item.nameTag,'saved sword');assert.deepEqual(drop.item.getLore(),['keep this lore']);
+ assert.equal(drop.item.getDynamicProperty('example:owner'),'owner-1');assert.deepEqual(drop.item.meta.enchantments,f.weapon.meta.enchantments);
+ assert.equal(drop.getDynamicProperty(TOMB_PICKUP_UNLOCK),9040);
+ const early={item:drop};assert.equal(blockTombPickup(early),true);assert.equal(early.cancel,true);
+ system.currentTick=9040;assert.equal(blockTombPickup({item:drop}),false);
+ assert.equal(handleTombRaider(f.event,()=>0),false);assert.equal(f.drops.length,1);clearCustomEffects(f.attacker);
+});
+test('Tomb Raider keeps a failed drop equipped, and expiry or non-living sources cannot disarm',()=>{
+ const failed=tombFixture('minecraft:wolf',{spawnFailure:true});
+ applyCustomEffect(failed.attacker,{effect:'kaleidoscope_tavern:tomb_raider',ticks:10,amplifier:0});
+ assert.equal(handleTombRaider(failed.event,()=>0),false);assert.equal(failed.held(),failed.weapon);assert.equal(failed.weapon.getComponent('minecraft:durability').damage,0);clearCustomEffects(failed.attacker);
+ const expired=tombFixture();applyCustomEffect(expired.attacker,{effect:'kaleidoscope_tavern:tomb_raider',ticks:1,amplifier:0});
+ system.currentTick++;tickExternalLivingEffects();assert.equal(handleTombRaider(expired.event,()=>0),false);assert.equal(expired.held(),expired.weapon);clearCustomEffects(expired.attacker);
+ const boat=tombFixture('minecraft:boat',{mob:false});assert.equal(applyCustomEffect(boat.attacker,{effect:'kaleidoscope_tavern:tomb_raider',ticks:10,amplifier:0}),false);assert.equal(handleTombRaider(boat.event,()=>0),false);
 });

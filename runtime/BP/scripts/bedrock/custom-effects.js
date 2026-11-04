@@ -80,9 +80,10 @@ export function applyCustomEffect(p,row){
   try{d.playSound('kt_java.effect.zenith',at,{volume:1,pitch:1});}catch(e){error(e);}
   applyNativeStatusWithAura(p,'hunger',600,{amplifier:0,showParticles:true});customEffectDiagnostics.teleports++;return true;
  }
- // Bloody Mary is a LivingEntity kill effect in Java. Its timer uses the
- // existing loaded-living tracks; the other own adapters remain player-only.
- if(p?.typeId!=='minecraft:player'&&row.effect!=='kaleidoscope_tavern:bloody_mary')return false;
+ // Java accepts these timed effects on LivingEntity, including splash targets.
+ // Their callbacks use the existing loaded-living clock; movement, input and
+ // XP adapters still require a Player.
+ if(p?.typeId!=='minecraft:player'&&!['kaleidoscope_tavern:bloody_mary','kaleidoscope_tavern:tomb_raider','kaleidoscope_tavern:vision'].includes(row.effect))return false;
  const ticks=Number.isInteger(row.ticks)&&row.ticks>0?row.ticks:row.duration*20;
  const state=addStatus(statusNow(p),row.effect,ticks,row.amplifier);write(p,state);if(row.effect===TIPSY_ID)pulseTipsyVisual(p,activeStatus(state,TIPSY_ID));customEffectDiagnostics.applied++;return true;
 }
@@ -104,7 +105,9 @@ export function tickExternalLivingEffects(){
   const entity=track.player;if(track.isPlayer)continue;
   try{
    if(!livingEffectEntity(entity)){tracks.delete(id);statusSnapshots.delete(id);continue;}
-   const state=statusWindow(entity).state;write(entity,state);
+   const {before,state}=statusWindow(entity);
+   pulseCountdown(entity,before,state,'kaleidoscope_tavern:vision',50,pulseVision);
+   write(entity,state);
    if(!state.entries.length){tracks.delete(id);statusSnapshots.delete(id);}
   }catch(e){tracks.delete(id);statusSnapshots.delete(id);error(e);}
  }
@@ -198,7 +201,7 @@ export function pulseVision(p,amplifier){
 export function handleTombRaider(event,rng=Math.random){
  const attacker=event.damageSource?.damagingEntity,target=event.hurtEntity;
  try{
-  if(!attacker||attacker.typeId!=='minecraft:player'||!target||attacker.id===target.id)return false;
+  if(!livingEffectEntity(attacker)||!target||attacker.id===target.id)return false;
   if(!activeStatus(statusNow(attacker),'kaleidoscope_tavern:tomb_raider')||!tombRaiderTarget(target.typeId))return false;
   customEffectDiagnostics.tombAttempts++;
   if(!tombRaiderProc(rng()))return false;
@@ -428,8 +431,9 @@ export function installCustomEffects(){
   for(const p of world.getAllPlayers())try{restoreStatusAura(p);statusNow(p);}catch(e){error(e);}
   for(const id of ['overworld','nether','the_end'])try{
    const dimension=world.getDimension(id);
-   for(const entity of dimension.getEntities({families:['mob']}))restoreLivingEffectTrack(entity);
-   for(const entity of dimension.getEntities({type:'minecraft:armor_stand'}))restoreLivingEffectTrack(entity);
+   // A single startup pass also finds saved living fish, whose native family
+   // can omit "mob". Later loads use entityLoad; ticking only visits tracks.
+   for(const entity of dimension.getEntities())restoreLivingEffectTrack(entity);
   }catch(e){error(e);}
  });
  system.runInterval(tickExternalLivingEffects,1);
