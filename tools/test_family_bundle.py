@@ -50,6 +50,28 @@ class SourceGateEnvironmentTests(unittest.TestCase):
      assemble(lock,{},[],out,working=working,source_identities=identities)
     self.assertFalse(out.exists())
 
+class HostSourceTests(unittest.TestCase):
+ def test_host_declarations_can_be_kept_outside_exported_pack(self):
+  from host_extensions import host_source_root
+  from family_bundle import host_declarations
+  with tempfile.TemporaryDirectory() as tmp:
+   repo=Path(tmp);pack=repo/'runtime/BP';pack.mkdir(parents=True)
+   sources=repo/'addon-sources';(sources/'host-extensions').mkdir(parents=True)
+   (sources/'host-extensions/repair.json').write_text(json.dumps({'host_uuid':'author'}))
+   config={'runtime':{'BP':'runtime/BP'},'host_sources':'addon-sources'}
+   self.assertEqual([spec['host_uuid'] for _,spec in host_declarations(host_source_root(repo,config),'addon')],['author'])
+   self.assertEqual(list(host_declarations(pack,'addon')),[])
+   del config['host_sources']
+   self.assertEqual(host_source_root(repo,config),pack)
+
+ def test_source_directory_cannot_escape_through_path_or_symlink(self):
+  from host_extensions import host_source_root
+  with tempfile.TemporaryDirectory() as tmp:
+   repo=Path(tmp);(repo/'linked').symlink_to(repo.parent,target_is_directory=True)
+   for path in ['../outside','/outside','linked',None,'']:
+    with self.subTest(path=path),self.assertRaises(ValueError):
+     host_source_root(repo,{'runtime':{'BP':'runtime/BP'},'host_sources':path})
+
 class PlayerPresentationContractTests(unittest.TestCase):
  def test_client_presentation_is_not_applied_as_a_host_patch(self):
   from family_bundle import host_declarations

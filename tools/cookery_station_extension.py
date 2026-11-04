@@ -167,7 +167,8 @@ def collect_station_handoffs(owned, sources):
     plans = {}
     for own in owned:
         repo = Path(sources[own['key']]); config = json.loads((repo / 'baseline.json').read_text())
-        root = repo / config['runtime']['BP']; path = root / SPEC
+        from host_extensions import host_source_root
+        root = host_source_root(repo, config); path = root / SPEC
         if not path.exists():
             continue
         require(config['repository'] == LOGICAL_PRIVATE and own['repository'] == LOGICAL_PRIVATE, 'foreign private source')
