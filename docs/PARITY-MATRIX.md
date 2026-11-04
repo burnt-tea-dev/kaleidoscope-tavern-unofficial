@@ -14,6 +14,14 @@ Adopt the official Bedrock Tavern1.0.7 unique-reference rule. Preserve the curre
 
 來源回歸呼叫實際效果入口、卸裝、脈衝與載入事件，驗證武器 metadata、剩 1 耐久、40 ticks 拾取延遲、掉落失敗回裝、到期及卸載時間暫停，見 [java-parity-adapter.test.mjs](../tools/java-parity-adapter.test.mjs) 與 [vision-feedback-adapter.test.mjs](../tools/vision-feedback-adapter.test.mjs)。感知仍使用現有偵測／聲音適配；穿牆輪廓沒有因此完成。摸金校尉仍是 Bedrock 傷害後事件，並非 Java 傷害前階段；實際聲畫與完整傷害時序不宣稱等價。引擎與保存重啟結果另由同批部署證據記錄。
 
+## 龍頭完成時的來源（2026-11-05）
+
+Java 1.2.0 Forge `c4ec1880`、NeoForge `a1afba34` 的 `TapBlock.tick` 在完成時重新讀取目前來源、重選 `TapBehaviorManager`，並由該來源決定產物。先前 Bedrock 把開啟時的來源種類保留在 session，水鍋在 30 ticks 內換成西瓜後仍按舊水鍋完成，結果只關閉龍頭、不產生西瓜汁。
+
+現在開啟與完成共用當前來源選擇，session 只保留計時、取消及原本是否正在取液的狀態。水鍋／西瓜／酒桶間切換在完成時使用目前的交易，不扣舊酒桶存量。西瓜照原作保留；蜂巢等來源仍用各自原有耗材規則。30 ticks、原本空轉、手動取消、無效來源及交易回滾維持，保存格式與鍵不變。
+
+[tap-regression.test.mjs](../tools/tap/tap-regression.test.mjs) 已改用真實 `tap-sources` 交易，經實際開啟／計時完成入口重現修前失敗，再驗證換來源、無效來源、空轉、取消及原有 carrier／metadata／回滾。這些回歸已接入正常 PR 的 mechanics job。引擎與保存結果由 [隔離觀察模組](../tools/native/tap-source-swap-capability.js) 記錄，不以來源測試宣稱原生或 LIVE 通過；前批 T199 的部署輸入保持固定。
+
 ## T182 指南設定導航來源（2026-10-25）
 
 取消設定視窗會返回相同指南，既有 session 若已清除則仍退出；取消不寫入偏好，也不提前觸發返回 Cookery。首頁設定按鈕顯示實際使用的語言名稱，與既有三語選單共用字串。七大內容入口、Cookery 臨時語言優先、原玩家／世界資料鍵及 Java 玩法／音效保持。這是獨立吸收介面設計，沒有複製第三方腳本，也未新增 29 語、維度音效／粒子設定或蹲下放置選項。現有 controller／偏好定向測試通過；完整家族保存／BDS、實際畫面與操作仍待驗收，`client=false`、`production_ready=false`。詳見[本次吸收範圍](THIRD-PARTY-TAVERN-REVIEW.md)。以下保留原候選範圍。
