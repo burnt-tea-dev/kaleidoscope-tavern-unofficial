@@ -67,9 +67,20 @@ def _version(value):
             and all(type(part) is int and part >= 0 for part in value))
 
 
-def _manifest_updates(original, uuids, author_version, local_version, manifest_names):
-    """Only own versions and the exact reviewed display names may change."""
+def _manifest_updates(original, uuids, author_version, local_version, manifest_names, dependency_rewrites=()):
+    """Only pair identity, reviewed names and declared dependencies may change."""
     updates = []
+    if not isinstance(dependency_rewrites, (list, tuple)):
+        raise ValueError('paired dependency rewrites must be a list')
+    rules = {}
+    for rule in dependency_rewrites:
+        if (not isinstance(rule, dict) or set(rule) != {'uuid', 'before', 'after'}
+                or not isinstance(rule['uuid'], str) or rule['uuid'] in rules
+                or rule['uuid'] in uuids.values()
+                or not all(_version(rule[key]) for key in ('before', 'after'))):
+            raise ValueError('invalid paired dependency rewrite')
+        rules[rule['uuid']] = rule
+    seen = set()
     for side in ('BP', 'RP'):
         name = side + '/manifest.json'
         manifest = json.loads(original[name])
@@ -92,10 +103,19 @@ def _manifest_updates(original, uuids, author_version, local_version, manifest_n
                 if not _version(dependency.get('version')) or dependency.get('version') != author_version:
                     raise ValueError('paired author dependency version differs')
                 pointers.append(['dependencies', str(index), 'version'])
+            elif dependency.get('uuid') in rules:
+                rule = rules[dependency['uuid']]
+                if dependency.get('version') != rule['before']:
+                    raise ValueError('paired dependency rewrite preimage differs')
+                seen.add(rule['uuid'])
+                updates.append({'path': name, 'pointer': ['dependencies', str(index), 'version'],
+                                'mode': 'reviewed_set', 'value': rule['after']})
         updates.extend({'path': name, 'pointer': pointer, 'mode': 'reviewed_set',
                         'value': local_version} for pointer in pointers)
         updates.append({'path': name, 'pointer': ['header', 'name'], 'mode': 'reviewed_set',
                         'value': manifest_names[side]})
+    if seen != set(rules):
+        raise ValueError('unused paired dependency rewrite')
     return updates
 
 
@@ -115,7 +135,7 @@ def apply_owned_data_extension(spec, owned_root, bp_root, rp_root, bp_source, rp
         raise ValueError('addon-owned data requires its committed reviewed declaration')
     stable.validate_stable_source(profile, bp_source)
     if any(source.get('archive_sha256') != spec.get('archive_sha256')
-           or source.get('owner') not in ('upstream', 'upstream_extended', 'preserved')
+           or source.get('owner') not in ('upstream', 'upstream_extended', 'preserved', 'owned')
            for source in (bp_source, rp_source)):
         raise ValueError('addon-owned data targets another source pair')
     if any(source.get('owner') == 'preserved' for source in (bp_source, rp_source)):
@@ -133,6 +153,19 @@ def apply_owned_data_extension(spec, owned_root, bp_root, rp_root, bp_source, rp
             or spec.get('copies', {}) or not isinstance(removed, dict)
             or set(removed) & set(sources)):
         raise ValueError('addon-owned data requires exact paired input and output files')
+    owned_pair = any(source.get('owner') == 'owned' for source in (bp_source, rp_source))
+    canonical = spec.get('canonical_host')
+    if owned_pair:
+        if (not isinstance(canonical, dict) or set(canonical) != {'key', 'repository', 'commit'}
+                or not isinstance(canonical['key'], str) or not canonical['key']
+                or any(source.get('owner') != 'owned'
+                       or source.get('repository') != canonical['repository']
+                       or source.get('commit') != canonical['commit']
+                       for source in (bp_source, rp_source))
+                or set(sources) != {'BP/manifest.json', 'RP/manifest.json'} or removed):
+            raise ValueError('canonical owned pair permits only its declared manifest release')
+    elif canonical is not None:
+        raise ValueError('canonical owned declaration targets another source')
     roots = {'BP': Path(bp_root), 'RP': Path(rp_root)}
     def local_path(root, name, *, must_exist=True):
         if not isinstance(name, str) or '\\' in name:
@@ -174,7 +207,10 @@ def apply_owned_data_extension(spec, owned_root, bp_root, rp_root, bp_source, rp
         removals.append(path)
     uuids = dict(zip(('BP', 'RP'), pair_uuids(spec)))
     author_version = json.loads(originals['BP/manifest.json'])['header']['version']
-    updates = _manifest_updates(originals, uuids, author_version, spec['local_pack_version'], spec['manifest_names'])
+    if owned_pair and spec['local_pack_version'] <= author_version:
+        raise ValueError('canonical owned metadata needs a fresh paired version')
+    updates = _manifest_updates(originals, uuids, author_version, spec['local_pack_version'],
+                                spec['manifest_names'], spec.get('dependency_rewrites', ()))
     for side in ('BP', 'RP'):
         name = side + '/manifest.json'
         expected = json.loads(originals[name])

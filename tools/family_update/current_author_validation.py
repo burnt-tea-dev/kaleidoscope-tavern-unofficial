@@ -800,6 +800,36 @@ def validate_public_api_source(api,catalog,grilling,spec,path,*,curated):
     assert api['copies_hashes']==public['copies'],'Public API helper proof differs'
     return public
 
+def validate_owned_pair_metadata(spec, records, sources, owner, spec_sha):
+    """Bind a local manifest release to its canonical, otherwise unchanged pair."""
+    canonical=spec['canonical_host'];root=sources[canonical['key']]
+    base=c.read(root/'baseline.json')
+    assert canonical['repository']==base['repository'] and canonical['commit']==c.git(root,'rev-parse','HEAD'),'Owned metadata canonical source differs'
+    assert spec['kind']=='addon-owned-data' and spec['archive_sha256'] is None
+    names={'BP/manifest.json','RP/manifest.json'}
+    assert set(spec['source_files'])==set(spec['original_files'])==set(spec['patched_files'])==names and not spec.get('removed_files'),'Owned metadata changed gameplay data'
+    assert spec['local_pack_version']>base['version'],'Owned metadata must have a fresh output identity'
+    proofs=[]
+    for side,label in [('BP','behavior'),('RP','resource')]:
+        uid=base['packs'][side]['uuid'];pack=records[uid];source=pack['source']
+        assert uid==spec['behavior_uuid' if side=='BP' else 'resource_uuid']
+        assert source['owner']=='owned' and source['repository']==canonical['repository'] and source['commit']==canonical['commit'] and source['working_candidate'] is False,'Owned metadata lost its source identity'
+        extensions=source.get('reviewed_extensions',[])
+        assert len(extensions)==1 and extensions[0]['id']==spec['id'],'Owned pair has an unreviewed transformation'
+        proof=extensions[0];proofs.append(proof)
+        assert proof['repository']==owner['repository'] and proof['commit']==owner['commit'] and proof['spec_sha256']==spec_sha and proof['working_candidate'] is False,'Owned metadata declaration source differs'
+        validate_pair_receipt(spec,proof,owner['version'],pack['version'],spec['behavior_uuid'],spec['resource_uuid'])
+        for key in ('original_files','patched_files','canonical_host','dependency_rewrites'):
+            assert proof.get(key)==spec.get(key),'Owned metadata receipt differs from its declaration'
+        current=c.hashes(root/base['runtime'][side])
+        assert tree(current)==base['source_trees'][side],'Owned metadata source baseline changed'
+        name=side+'/manifest.json'
+        assert current['manifest.json']==spec['original_files'][name],'Owned metadata preimage differs'
+        current['manifest.json']=spec['patched_files'][name]
+        assert pack['side']==label and pack['files']==current,'Owned metadata changed non-manifest bytes'
+    assert proofs[0]==proofs[1],'Owned pair metadata receipts differ'
+
+
 def validate_candidate(receipt,proof,baseline,binding,catalog):
     """Validate every output and the exact ordered chain, not just changed paths."""
     VERSION,PROFILE,CATALOG_KEY=settings()
@@ -857,6 +887,12 @@ def validate_candidate(receipt,proof,baseline,binding,catalog):
     api=proof['public_api'];g=c.SOURCES['grilling']
     public=validate_public_api_source(api,catalog,g,public_spec,public_path,curated=curated_selected())
     seen=set();replaced=replacement_author_keys()
+    for identity,(declared,profile,spec_sha) in specs.items():
+        if profile.get('source_owner')=='owned':
+            validate_owned_pair_metadata(declared,rows,c.SOURCES,
+                {'repository':baseline['repository'],'version':component_version,
+                 'commit':binding['actual_current_source_commit']},spec_sha)
+            seen.add(identity)
     replacement_uids=set(replacement_rows())
     for key,pin in catalog['authors'].items():
         if key in replaced:continue

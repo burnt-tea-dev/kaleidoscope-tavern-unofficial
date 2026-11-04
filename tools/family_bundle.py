@@ -144,7 +144,7 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
    if not isinstance(uids,list) or any(not isinstance(uid,str) or not uid for uid in uids) or len(uids)!=len(set(uids)):fail('invalid reviewed pack order')
   lock['order']=json.loads(json.dumps(reviewed_order))
  # Optional local integrations have their own committed runtime and release
- # history. They never rewrite an owned port or an upstream author archive.
+ # history. They never rewrite owned source checkouts or input author archives.
  for repo in extensions:
   config=read(repo/'baseline.json');key=config['repository']
   if key in sources:fail('duplicate extension source')
@@ -325,7 +325,7 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
   for row in (bp,rp):
    root=out/(row['side']+'_packs')/row['uuid'];manifest=read(root/'manifest.json')
    row.update(version=manifest['header']['version'],dependencies=manifest.get('dependencies',[]),files=files_hash(root))
-   owner='preserved' if row['source']['owner']=='preserved' else 'upstream_extended'
+   owner=row['source']['owner'] if row['source']['owner'] in ('preserved','owned') else 'upstream_extended'
    row['source']={**row['source'],'owner':owner,'official_author_release':False,'reviewed_extensions':[*row['source'].get('reviewed_extensions',[]),proof]}
  for row in records:
   for dep in row['dependencies']:
