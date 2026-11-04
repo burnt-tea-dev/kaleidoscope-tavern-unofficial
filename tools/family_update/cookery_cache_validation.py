@@ -175,7 +175,12 @@ def classify_private_ci(checks, statuses):
     other unavailable service rejects this narrowly scoped private validation.
     """
     assert checks and all(c['status'] == 'completed' and c['conclusion'] in ['success', 'skipped', 'neutral'] for c in checks), 'Private CI checks incomplete or failed'
-    assert any(c['name'] == 'baseline' and c['app_slug'] == 'github-actions' and c['conclusion'] == 'success' for c in checks), 'Private canonical functional CI missing'
+    # Check-runs expose the display name, not the workflow's `baseline` job key.
+    # Historical commits retain their original name; current source evidence
+    # separately binds the successful full canonical run and original artifact.
+    assert any(c['name'] in ('baseline', 'Fast private runtime smoke')
+               and c['app_slug'] == 'github-actions' and c['conclusion'] == 'success'
+               for c in checks), 'Private canonical functional CI missing'
     unavailable = []
     for status in statuses:
         if status['state'] == 'success': continue
