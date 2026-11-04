@@ -8,7 +8,7 @@ Adopt the official Bedrock Tavern1.0.7 unique-reference rule. Preserve the curre
 
 ## 活體特殊效果入口（2026-11-05）
 
-對照發布版 Java 1.2.0 的 Forge 1.20.1 `c4ec1880` 及 NeoForge 1.21.1 `a1afba34`：`EffectEvent.onLivingHurt` 的摸金校尉來源是 LivingEntity，`VisionEffect.applyEffectTick` 也接受 LivingEntity。先前 Bedrock 只接受玩家，導致潑濺後生物的這兩種效果不生效。
+對照發布版 Java 1.2.0 的 Forge 1.20.1 `c4ec1880` 及 NeoForge 1.21.1 `a1afba34`：`EffectEvent.onLivingHurt` 的摸金校尉來源是 LivingEntity，`VisionEffect.applyEffectTick` 也接受 LivingEntity。先前 Bedrock 的這兩種效果入口只接受玩家；瓶裝感知酒雖已能潑濺到生物，效果仍被入口拒絕。摸金校尉的活體效果入口與傷害回呼也有同樣限制。
 
 現在非玩家活體可保存、執行摸金校尉和感知；感知沿剩餘時間每 50 ticks 脈衝。啟動時一次恢復已載入活體的資料，包括原生 `mob` 家族以外的魚類；之後沿 entityLoad 與既有活體時計處理，不逐 tick 掃全世界。保存格式與資料鍵不變。
 
