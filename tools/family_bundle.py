@@ -180,6 +180,7 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
    for name,b in data.items():
     target=dest/name;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(b)
   row={'uuid':uid,'side':side,'version':manifest['header']['version'],'source':source,'dependencies':manifest.get('dependencies',[]),'files':copied if root else files_hash(dest)};records.append(row);by_uuid[uid]=row
+ owned_data=[]
  for own in lock['owned']:
   repo=sources[own['key']]
   config=read(repo/'baseline.json')
@@ -225,6 +226,9 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
   repo=sources[own['key']];config=read(repo/'baseline.json');owned_root=host_source_root(repo,config)
   source_component,retained_runtime=components[own['key']]
   for path,spec in host_declarations(owned_root,own['key']):
+   if spec.get('kind')=='addon-owned-data':
+    owned_data.append((repo,config,owned_root,path,spec))
+    continue
    if spec.get('kind') in PAIRED_KINDS:
     pair=set(pair_uuids(spec))
     if pair & replacements:
@@ -307,6 +311,19 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
   label=by_uuid[uid]['side']
   if reviewed_order is None and uid not in lock['order'][label]:lock['order'][label].append(uid)
  if used_preserved_sources!=set(preserved_sources):fail('preserved source descriptor has no exact input UUID')
+ # Definition sources run last so earlier host repairs cannot overwrite them.
+ for repo,config,owned_root,path,spec in owned_data:
+  from paired_host_extension import apply_owned_data_extension
+  bp_uuid,rp_uuid=pair_uuids(spec)
+  bp=by_uuid.get(bp_uuid);rp=by_uuid.get(rp_uuid)
+  if not bp or not rp:fail('addon-owned data requires its complete host pair')
+  try:proof=apply_owned_data_extension(spec,owned_root,out/'behavior_packs'/bp_uuid,out/'resource_packs'/rp_uuid,bp['source'],rp['source'],config['version'])
+  except (ValueError,KeyError) as error:fail('addon-owned data rejected: '+str(error))
+  proof.update(repository=config['repository'],commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip(),source_package_version=config['version'],spec_sha256=hashlib.sha256(path.read_bytes()).hexdigest(),working_candidate=working)
+  for row in (bp,rp):
+   root=out/(row['side']+'_packs')/row['uuid'];manifest=read(root/'manifest.json')
+   row.update(version=manifest['header']['version'],dependencies=manifest.get('dependencies',[]),files=files_hash(root))
+   row['source']={**row['source'],'owner':'upstream_extended','official_author_release':False,'reviewed_extensions':[*row['source'].get('reviewed_extensions',[]),proof]}
  for row in records:
   for dep in row['dependencies']:
    if 'uuid' in dep and (dep['uuid'] not in by_uuid or by_uuid[dep['uuid']]['version']!=dep['version']):fail('unresolved exact dependency '+row['uuid']+' -> '+dep['uuid'])

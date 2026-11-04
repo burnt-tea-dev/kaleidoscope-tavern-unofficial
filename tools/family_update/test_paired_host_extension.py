@@ -238,5 +238,70 @@ class PairedDataRepair(unittest.TestCase):
         self.assertIs(receipt['production_ready'], False)
 
 
+class OwnedDataSources(unittest.TestCase):
+    def setUp(self):
+        PairedDataRepair.setUp(self)
+        self.spec['kind'] = 'addon-owned-data'
+        self.spec['id'] = 'fixture:owned-data'
+        self.spec['manifest_names'] = self.names
+        self.spec['source_files'] = {name: 'authored/' + name for name in self.after}
+        for key in ('imports', 'insertions', 'json_updates', 'text_replacements'):
+            self.spec.pop(key)
+        self.owned = self.root / 'addon-sources'
+        for name, raw in self.after.items():
+            path = self.owned / self.spec['source_files'][name]
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(raw)
+        self.register(self.spec)
+
+    register = PairedDataRepair.register
+    snapshot = PairedDataRepair.snapshot
+
+    def apply(self, spec=None):
+        return extension.apply_owned_data_extension(
+            self.spec if spec is None else spec, self.owned, self.root / 'BP',
+            self.root / 'RP', self.source, self.source, self.owner)
+
+    def test_data_is_owned_by_pair_with_one_shared_receipt(self):
+        receipt = self.apply()
+        for name, raw in self.after.items():
+            self.assertEqual((self.root / name).read_bytes(), raw)
+        self.assertEqual((self.root / 'RP/untouched.bin').read_bytes(), b'untouched invented body')
+        extension.validate_pair_receipt(self.spec, receipt, self.owner, self.local,
+                                        self.ids['BP'], self.ids['RP'])
+
+    def test_newer_host_data_or_damaged_source_cannot_partially_write(self):
+        path = self.root / 'RP/manifest.json'
+        path.write_bytes(path.read_bytes() + b'\n')
+        before = self.snapshot()
+        with self.assertRaisesRegex(ValueError, 'preimage differs'):
+            self.apply()
+        self.assertEqual(self.snapshot(), before)
+        path.write_bytes(self.before['RP/manifest.json'])
+        path = self.owned / self.spec['source_files']['RP/manifest.json']
+        path.write_bytes(path.read_bytes() + b'\n')
+        before = self.snapshot()
+        with self.assertRaisesRegex(ValueError, 'source differs'):
+            self.apply()
+        self.assertEqual(self.snapshot(), before)
+
+    def test_sources_cannot_escape_and_manifests_keep_pack_and_module_ids(self):
+        for mutation in ('escape', 'module'):
+            spec = copy.deepcopy(self.spec)
+            if mutation == 'escape':
+                spec['source_files']['BP/manifest.json'] = '../BP/manifest.json'
+            else:
+                name = 'BP/manifest.json'
+                value = json.loads(self.after[name]);value['modules'][0]['uuid'] = 'foreign'
+                raw = encoded(value)
+                (self.owned / spec['source_files'][name]).write_bytes(raw)
+                spec['patched_files'][name] = sha(raw)
+            self.register(spec)
+            before = self.snapshot()
+            with self.subTest(mutation=mutation), self.assertRaises(ValueError):
+                self.apply(spec)
+            self.assertEqual(self.snapshot(), before)
+
+
 if __name__ == '__main__':
     unittest.main()

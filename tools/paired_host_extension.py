@@ -3,7 +3,7 @@ import copy
 import hashlib
 import json
 from datetime import date
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 import stable_host_profiles as stable
 
@@ -30,7 +30,7 @@ DATA_REPAIRS = {
 }
 PAIRED_KINDS = frozenset({
     'chinesefood-doll-renderer-cleanup', 'nether-placeable-drinks-schema-repair',
-    'essentials-manifest-compatibility', *DATA_REPAIRS,
+    'essentials-manifest-compatibility', 'addon-owned-data', *DATA_REPAIRS,
 })
 
 
@@ -54,7 +54,7 @@ def validate_pair_receipt(spec, receipt, owner_version, pack_version, behavior_u
             or receipt.get('local_pack_version') != spec.get('local_pack_version')
             or receipt.get('local_pack_version') != pack_version):
         raise ValueError('paired receipt owner or installed version differs')
-    if spec.get('kind') in DATA_REPAIRS:
+    if spec.get('kind') in DATA_REPAIRS or spec.get('kind') == 'addon-owned-data':
         if receipt.get('official_author_release') is not False:
             raise ValueError('paired data receipt must retain its local author identity')
         for key in ('kind', 'host_uuid', 'behavior_uuid', 'resource_uuid', 'official_author_release'):
@@ -97,6 +97,80 @@ def _manifest_updates(original, uuids, author_version, local_version, manifest_n
         updates.append({'path': name, 'pointer': ['header', 'name'], 'mode': 'reviewed_set',
                         'value': manifest_names[side]})
     return updates
+
+
+def apply_owned_data_extension(spec, owned_root, bp_root, rp_root, bp_source, rp_source, owner_version):
+    """Install committed data into its owning pair after the host's script repairs.
+
+    Exact preimages prevent a full definition from hiding a newer host change.
+    Source files are ordinary addon data, not another patch implementation.
+    """
+    if (spec.get('kind') != 'addon-owned-data' or spec.get('schema') != 1
+            or spec.get('owner_version') != owner_version
+            or any(not _version(spec.get(key)) for key in ('version', 'owner_version', 'local_pack_version'))
+            or spec.get('official_author_release') is not False):
+        raise ValueError('invalid addon-owned data identity')
+    profile = stable.match_stable_profile(spec, owned_root)
+    if profile is None or profile.get('admission') != stable.CURATED:
+        raise ValueError('addon-owned data requires its committed reviewed declaration')
+    stable.validate_stable_source(profile, bp_source)
+    if any(source.get('archive_sha256') != spec.get('archive_sha256')
+           or source.get('owner') not in ('upstream', 'upstream_extended')
+           for source in (bp_source, rp_source)):
+        raise ValueError('addon-owned data targets another source pair')
+    sources = spec.get('source_files')
+    before, after = spec.get('original_files'), spec.get('patched_files')
+    if (not isinstance(sources, dict) or not sources or set(sources) != set(before or {})
+            or set(sources) != set(after or {})
+            or not {'BP/manifest.json', 'RP/manifest.json'} <= set(sources)
+            or spec.get('copies', {}) or spec.get('removed_files', {})):
+        raise ValueError('addon-owned data requires exact paired input and output files')
+    roots = {'BP': Path(bp_root), 'RP': Path(rp_root)}
+    def local_path(root, name):
+        if not isinstance(name, str) or '\\' in name:
+            raise ValueError('invalid addon-owned data path')
+        relative = PurePosixPath(name)
+        if relative.is_absolute() or '..' in relative.parts or relative.as_posix() != name:
+            raise ValueError('addon-owned data path escapes source')
+        path = root
+        for part in relative.parts:
+            path = path / part
+            if path.is_symlink():
+                raise ValueError('linked addon-owned data path')
+        if not path.is_file():
+            raise ValueError('addon-owned data file is missing: ' + name)
+        return path
+    paths, originals, changed = {}, {}, {}
+    for name, source_name in sources.items():
+        side, relative = name.split('/', 1)
+        if side not in roots:
+            raise ValueError('unknown addon-owned data pack side')
+        path = local_path(roots[side], relative)
+        raw = path.read_bytes()
+        replacement = local_path(Path(owned_root), source_name).read_bytes()
+        if hashlib.sha256(raw).hexdigest() != before[name]:
+            raise ValueError('addon-owned data preimage differs: ' + name)
+        if hashlib.sha256(replacement).hexdigest() != after[name]:
+            raise ValueError('addon-owned data source differs: ' + name)
+        paths[name], originals[name], changed[name] = path, raw, replacement
+    uuids = dict(zip(('BP', 'RP'), pair_uuids(spec)))
+    author_version = json.loads(originals['BP/manifest.json'])['header']['version']
+    updates = _manifest_updates(originals, uuids, author_version, spec['local_pack_version'], spec['manifest_names'])
+    for side in ('BP', 'RP'):
+        name = side + '/manifest.json'
+        expected = json.loads(originals[name])
+        for operation in updates:
+            if operation['path'] != name:
+                continue
+            target = expected
+            for key in operation['pointer'][:-1]:
+                target = target[int(key)] if isinstance(target, list) else target[key]
+            target[operation['pointer'][-1]] = copy.deepcopy(operation['value'])
+        if json.loads(changed[name]) != expected:
+            raise ValueError('addon-owned data changes manifest identity or unrelated metadata')
+    for name, raw in changed.items():
+        paths[name].write_bytes(raw)
+    return {key: copy.deepcopy(value) for key, value in spec.items() if key != 'source_files'}
 
 
 def apply_paired_data_extension(spec, bp_root, rp_root, bp_source, rp_source, owner_version):

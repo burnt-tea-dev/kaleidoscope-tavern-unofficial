@@ -905,7 +905,6 @@ def validate_candidate(receipt,proof,baseline,binding,catalog):
                     del current[name]
                 for name,record in copies.items():assert name not in current,'Current author helper overwrote existing data';current[name]=record['sha256']
             assert current==pack['files'],'Current author complete output differs from exact hook replay'
-            if key in ['Nether','End','PresenceFootsteps','Deco']:assert not extensions and authored['original_files'][side]==pack['files']
     expected_seen={identity for identity,(spec,_,_) in specs.items() if spec['host_uuid'] not in replacement_uids}
     assert seen==expected_seen,'Current author host profile omitted or applied to a replaced author'
 
