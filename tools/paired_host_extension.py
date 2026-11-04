@@ -126,10 +126,12 @@ def apply_owned_data_extension(spec, owned_root, bp_root, rp_root, bp_source, rp
             raise ValueError('addon-owned data requires the complete accepted replacement pair')
     sources = spec.get('source_files')
     before, after = spec.get('original_files'), spec.get('patched_files')
+    removed = spec.get('removed_files', {})
     if (not isinstance(sources, dict) or not sources or set(sources) != set(before or {})
             or set(sources) != set(after or {})
             or not {'BP/manifest.json', 'RP/manifest.json'} <= set(sources)
-            or spec.get('copies', {}) or spec.get('removed_files', {})):
+            or spec.get('copies', {}) or not isinstance(removed, dict)
+            or set(removed) & set(sources)):
         raise ValueError('addon-owned data requires exact paired input and output files')
     roots = {'BP': Path(bp_root), 'RP': Path(rp_root)}
     def local_path(root, name, *, must_exist=True):
@@ -161,6 +163,15 @@ def apply_owned_data_extension(spec, owned_root, bp_root, rp_root, bp_source, rp
         if hashlib.sha256(replacement).hexdigest() != after[name]:
             raise ValueError('addon-owned data source differs: ' + name)
         paths[name], originals[name], changed[name] = path, raw, replacement
+    removals = []
+    for name, expected in removed.items():
+        side, relative = name.split('/', 1)
+        if side not in roots:
+            raise ValueError('unknown addon-owned data pack side')
+        path = local_path(roots[side], relative)
+        if hashlib.sha256(path.read_bytes()).hexdigest() != expected:
+            raise ValueError('addon-owned data removal preimage differs: ' + name)
+        removals.append(path)
     uuids = dict(zip(('BP', 'RP'), pair_uuids(spec)))
     author_version = json.loads(originals['BP/manifest.json'])['header']['version']
     updates = _manifest_updates(originals, uuids, author_version, spec['local_pack_version'], spec['manifest_names'])
@@ -179,6 +190,8 @@ def apply_owned_data_extension(spec, owned_root, bp_root, rp_root, bp_source, rp
     for name, raw in changed.items():
         paths[name].parent.mkdir(parents=True, exist_ok=True)
         paths[name].write_bytes(raw)
+    for path in removals:
+        path.unlink()
     return {key: copy.deepcopy(value) for key, value in spec.items() if key != 'source_files'}
 
 

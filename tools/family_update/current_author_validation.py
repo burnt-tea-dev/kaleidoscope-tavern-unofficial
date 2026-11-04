@@ -928,6 +928,9 @@ def validate_candidate(receipt,proof,baseline,binding,catalog):
                         name=name[3:]
                     current[name]=value
                 for name,value in declared.get('removed_files',{}).items():
+                    if paired:
+                        if not name.startswith(side+'/'):continue
+                        name=name[3:]
                     assert current.get(name)==value,'Current author removal preimage differs'
                     del current[name]
                 for name,record in copies.items():assert name not in current,'Current author helper overwrote existing data';current[name]=record['sha256']

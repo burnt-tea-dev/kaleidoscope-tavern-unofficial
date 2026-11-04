@@ -299,6 +299,23 @@ class OwnedDataSources(unittest.TestCase):
         self.apply()
         self.assertEqual(target.read_bytes(),raw)
 
+    def test_retiring_duplicate_checks_all_preimages_before_writing(self):
+        name = 'RP/models/legacy.json'
+        target = self.root / name
+        target.parent.mkdir(parents=True)
+        target.write_bytes(b'newer host model')
+        self.spec['removed_files'] = {name: sha(b'old duplicate')}
+        self.register(self.spec)
+        before = self.snapshot()
+        with self.assertRaisesRegex(ValueError, 'removal preimage differs'):
+            self.apply()
+        self.assertEqual(self.snapshot(), before)
+        target.write_bytes(b'old duplicate')
+        receipt = self.apply()
+        self.assertFalse(target.exists())
+        self.assertEqual(receipt['removed_files'], self.spec['removed_files'])
+        self.assertEqual((self.root / 'RP/untouched.bin').read_bytes(), b'untouched invented body')
+
     def test_newer_host_data_or_damaged_source_cannot_partially_write(self):
         path = self.root / 'RP/manifest.json'
         path.write_bytes(path.read_bytes() + b'\n')
