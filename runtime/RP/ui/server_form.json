@@ -26,7 +26,7 @@
     "$control_name": "server_form.kt_board_input_branches"
   },
   "kt_board_input_foreign@settings_common.option_text_edit_control": {
-    "visible": false,
+    "visible": true,
     "enabled": "$enabled",
     "focus_enabled": true,
     "property_bag": {

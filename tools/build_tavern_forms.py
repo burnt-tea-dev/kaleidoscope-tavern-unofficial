@@ -46,6 +46,9 @@ def board_input_ui(root,vanilla,reference):
         # Branches inherit the widget directly, so its enclosing option's
         # $enabled default must be supplied here before native bindings resolve.
         node['$enabled']=True
+        # Foreign forms keep the native visible fallback when the optional
+        # title/field bindings have not resolved on this client yet.
+        if kind=='foreign':node['visible']=True
         if kind!='foreign':node['max_length']=BOARD_INPUT_LIMITS[kind]
         # Every branch inherits the ORIGINAL edit widget, bindings, placeholder,
         # collection name, textbox name and button mappings. No multiline swap.
