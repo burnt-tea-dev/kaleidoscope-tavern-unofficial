@@ -295,7 +295,7 @@ class CuratedProfileAdmission(unittest.TestCase):
    'functional_checks':{'cookery-station-performance':{'source':'Cookery','cases':10}},
    'functional_contract':{'path':self.contract,'sha256':m.digest((self.root/self.contract).read_bytes())},'authors':{},'pack_versions':{},'station_profile':'curated-station'}
   self.write(stable.CURATED_INPUT,self.value)
-  self.baseline={'repository':m.LOGICAL,'version':[1,0,66],'current_author_profile':stable.CURATED_INPUT,'source_trees':{side:m.tree(files) for side,files in self.after.items()}}
+  self.baseline={'repository':m.LOGICAL,'version':[1,0,66],'runtime':{'BP':'runtime/BP','RP':'runtime/RP'},'current_author_profile':stable.CURATED_INPUT,'source_trees':{side:m.tree(files) for side,files in self.after.items()}}
   self.write('baseline.json',self.baseline)
   self.catalog={'profile':self.value['profile'],'version':self.value['version'],'authors':{},'previous_commit':previous,
    'exact_changed_paths':['runtime/BP/manifest.json','runtime/RP/manifest.json',self.hud],'added_paths':[],'retired_paths':[self.recipe],
@@ -417,7 +417,6 @@ class CuratedProfileAdmission(unittest.TestCase):
 
  def test_independent_bundle_validates_current_pair_without_global_config_or_p58_context(self):
   import family_bundle
-  self.baseline['runtime']={'BP':'runtime/BP','RP':'runtime/RP'};self.write('baseline.json',self.baseline);self.commit('Actual source roots')
   with self.producer_output(),patch.object(m.c,'CONFIG',{}),patch.object(m.c,'EXTENSION',Path('/unconfigured-global-source')):
    component,anchor=family_bundle.retained_component_config(self.root,self.baseline,{'private':self.root})
    self.assertEqual(component,self.baseline);self.assertIsNone(anchor)

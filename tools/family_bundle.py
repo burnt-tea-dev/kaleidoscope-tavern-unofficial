@@ -323,7 +323,8 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
   for row in (bp,rp):
    root=out/(row['side']+'_packs')/row['uuid'];manifest=read(root/'manifest.json')
    row.update(version=manifest['header']['version'],dependencies=manifest.get('dependencies',[]),files=files_hash(root))
-   row['source']={**row['source'],'owner':'upstream_extended','official_author_release':False,'reviewed_extensions':[*row['source'].get('reviewed_extensions',[]),proof]}
+   owner='preserved' if row['source']['owner']=='preserved' else 'upstream_extended'
+   row['source']={**row['source'],'owner':owner,'official_author_release':False,'reviewed_extensions':[*row['source'].get('reviewed_extensions',[]),proof]}
  for row in records:
   for dep in row['dependencies']:
    if 'uuid' in dep and (dep['uuid'] not in by_uuid or by_uuid[dep['uuid']]['version']!=dep['version']):fail('unresolved exact dependency '+row['uuid']+' -> '+dep['uuid'])

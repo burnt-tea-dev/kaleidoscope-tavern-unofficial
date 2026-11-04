@@ -115,9 +115,15 @@ def apply_owned_data_extension(spec, owned_root, bp_root, rp_root, bp_source, rp
         raise ValueError('addon-owned data requires its committed reviewed declaration')
     stable.validate_stable_source(profile, bp_source)
     if any(source.get('archive_sha256') != spec.get('archive_sha256')
-           or source.get('owner') not in ('upstream', 'upstream_extended')
+           or source.get('owner') not in ('upstream', 'upstream_extended', 'preserved')
            for source in (bp_source, rp_source)):
         raise ValueError('addon-owned data targets another source pair')
+    if any(source.get('owner') == 'preserved' for source in (bp_source, rp_source)):
+        if any(source.get('owner') != 'preserved'
+               or source.get('role') != 'owner_accepted_author_replacement'
+               or source.get('official_author_release') is not False
+               for source in (bp_source, rp_source)):
+            raise ValueError('addon-owned data requires the complete accepted replacement pair')
     sources = spec.get('source_files')
     before, after = spec.get('original_files'), spec.get('patched_files')
     if (not isinstance(sources, dict) or not sources or set(sources) != set(before or {})

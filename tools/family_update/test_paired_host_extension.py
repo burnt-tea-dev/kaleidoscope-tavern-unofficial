@@ -270,6 +270,18 @@ class OwnedDataSources(unittest.TestCase):
         extension.validate_pair_receipt(self.spec, receipt, self.owner, self.local,
                                         self.ids['BP'], self.ids['RP'])
 
+    def test_complete_owner_replacement_keeps_its_own_data_and_provenance(self):
+        self.spec['archive_sha256'] = None
+        self.register(self.spec)
+        self.registry['fixture']['source_owner'] = 'preserved'
+        self.source = {'owner': 'preserved', 'role': 'owner_accepted_author_replacement',
+                       'official_author_release': False}
+        self.apply()
+        self.assertEqual((self.root / 'RP/untouched.bin').read_bytes(), b'untouched invented body')
+        self.source['role'] = 'unchanged_external_dependency'
+        with self.assertRaisesRegex(ValueError, 'complete accepted replacement'):
+            self.apply()
+
     def test_newer_host_data_or_damaged_source_cannot_partially_write(self):
         path = self.root / 'RP/manifest.json'
         path.write_bytes(path.read_bytes() + b'\n')

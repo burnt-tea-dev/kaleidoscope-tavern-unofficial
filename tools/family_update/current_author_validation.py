@@ -398,8 +398,35 @@ def verify_replacement_inputs(receipt,selection):
     actual={row['uuid']:row for row in receipt['packs']}
     for uid,row in rows.items():
         pack=actual.get(uid);expected={'side':row['side'],'version':row['version'],'tree':row['tree'],'source':{'owner':'preserved','role':'owner_accepted_author_replacement','official_author_release':False}}
-        assert pack and {key:pack[key] for key in ('side','version')}=={'side':row['side'],'version':row['version']} and tree(pack['files'])==row['tree'],'Replacement candidate output differs: '+uid
-        assert pack['source']==expected['source'],'Replacement candidate provenance differs: '+uid
+        assert pack and pack['side']==row['side'],'Replacement candidate output differs: '+uid
+        extensions=pack['source'].get('reviewed_extensions',[])
+        if not extensions:
+            assert pack['version']==row['version'] and tree(pack['files'])==row['tree'],'Replacement candidate output differs: '+uid
+            assert pack['source']==expected['source'],'Replacement candidate provenance differs: '+uid
+            continue
+        # A retained whole pair may accept the same declared data move as an
+        # archive pair. Replay against its captured input, never an old author.
+        assert {key:value for key,value in pack['source'].items() if key!='reviewed_extensions'}==expected['source'],'Replacement candidate provenance differs: '+uid
+        original=c.hashes(Path(selection['packs'][uid]['path']))
+        assert tree(original)==row['tree'],'Replacement input changed after selection'
+        from host_extensions import host_source_root
+        baseline=c.read(c.EXTENSION/'baseline.json');root=host_source_root(c.EXTENSION,baseline)
+        declared={spec['id']:(path,spec) for path in (root/'host-extensions').glob('*.json') for spec in [c.read(path)]}
+        side='BP' if row['side']=='behavior' else 'RP'
+        for extension in extensions:
+            path,spec=declared[extension['id']]
+            assert spec['kind']=='addon-owned-data' and extension['spec_sha256']==c.sha(path),'Replacement has an undeclared data change'
+            assert extension['repository']==baseline['repository'] and extension['commit']==c.git(c.EXTENSION,'rev-parse','HEAD') and extension['working_candidate'] is False,'Replacement data source differs'
+            peer=next(item['uuid'] for item in rows.values() if item['author']==row['author'] and item['side']!=row['side'])
+            bp,rp=(uid,peer) if side=='BP' else (peer,uid)
+            assert [item for item in actual[peer]['source'].get('reviewed_extensions',[]) if item['id']==extension['id']]==[extension],'Replacement pair data receipts differ'
+            validate_pair_receipt(spec,extension,baseline['version'],pack['version'],bp,rp)
+            for key in ('original_files','patched_files'):
+                assert extension[key]==spec[key],'Replacement data declaration differs'
+            for name,value in spec['original_files'].items():
+                if name.startswith(side+'/'):assert original.get(name[3:])==value,'Replacement data preimage differs'
+            original.update({name[3:]:value for name,value in spec['patched_files'].items() if name.startswith(side+'/')})
+        assert original==pack['files'],'Replacement data changed undeclared files'
 
 def select_curated_inputs(original):
     """Select only declared captured inputs or a complete canonical Fishing pair.
