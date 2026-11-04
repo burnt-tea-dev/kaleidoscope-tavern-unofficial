@@ -330,31 +330,37 @@ export function finishWaterCauldronTap(tap,expectedSourceLocation){
  tapComplete(tap,'water_cauldron',destination.kind==='bottle');
  diagnostics.tap.waterCauldronExtracted++;return true;
 }
+function currentTapExtraction(tap,player){
+ const core=findTapCore(tap);
+ if(core&&tapCanExtract(core,tap,player)){
+  const batch=store.load(keyFor(core))?.batch,out=batch?.output?.item??batch?.output?.byQuality?.[batch.quality-1];
+  return {kind:'barrel',core,fluid:out===NS+':molotov'?'lava':'water'};
+ }
+ const source=waterCauldronSource(tap),destination=waterCauldronDestination(tap);
+ if(source&&destination)return {kind:'water_cauldron',source:source.block,destination:destination.block,fluid:'water'};
+ const match=inspectTapSource(tap);
+ return match?{kind:match.kind,source:match.source,destination:match.destination,fluid:match.particle}:{kind:'empty',fluid:'water'};
+}
 function finishTapSession(key){
  const s=tapSessions.get(key);if(!s)return;tapSessions.delete(key);
  const tap=blockAt(s.dimension,s.location);if(!tap||tap.typeId!==TAP)return;
  if(tapOpen(tap)){setTapOpen(tap,false);tapSound(tap,false);}
- if(s.kind==='barrel')guarded(undefined,()=>finishTapExtraction(tap,s.coreLocation));
- else if(s.kind==='water_cauldron')guarded(undefined,()=>finishWaterCauldronTap(tap,s.sourceLocation));
- else if(s.kind!=='empty')guarded(undefined,()=>finishSourceTap(tap,{kind:s.kind,sourceLocation:s.sourceLocation,destinationLocation:s.destinationLocation}));
+ if(!s.extracting)return;
+ guarded(undefined,()=>{
+  // Java's scheduled tick reselects the behavior from the current blocks.
+  // The opening owns its timer/cancellation, not a stale source kind.
+  const current=currentTapExtraction(tap);
+  if(current.kind==='barrel')return finishTapExtraction(tap,current.core.location);
+  if(current.kind==='water_cauldron')return finishWaterCauldronTap(tap,current.source.location);
+  if(current.kind!=='empty')return finishSourceTap(tap,{kind:current.kind,sourceLocation:current.source.location,destinationLocation:current.destination.location});
+ });
 }
 export function tryOpenTap(tap,player,{redstone=false}={}){
  check(tap?.typeId===TAP,'NOT_TAP');if(tapOpen(tap))return false;
- const key=tapKey(tap),core=findTapCore(tap);let kind='empty',coreLocation,sourceLocation,destinationLocation,fluid='water';
- if(core&&tapCanExtract(core,tap,player)){
-  kind='barrel';coreLocation={...core.location};
-  const batch=store.load(keyFor(core))?.batch,out=batch?.output?.item??batch?.output?.byQuality?.[batch.quality-1];
-  if(out===NS+':molotov')fluid='lava';
- }
- else{
-  const source=waterCauldronSource(tap),destination=waterCauldronDestination(tap);
-  if(source&&destination){kind='water_cauldron';sourceLocation={...source.block.location};destinationLocation={...destination.block.location};}
-  else{const match=inspectTapSource(tap);if(match){kind=match.kind;sourceLocation={...match.source.location};destinationLocation={...match.destination.location};fluid=match.particle;}}
- }
- const extract=kind!=='empty',ticks=extract?TAP_EFFECT_TIMING.extract:TAP_EFFECT_TIMING.empty;
+ const key=tapKey(tap),current=currentTapExtraction(tap,player),extract=current.kind!=='empty',ticks=extract?TAP_EFFECT_TIMING.extract:TAP_EFFECT_TIMING.empty;
  setTapOpen(tap,true);tapSound(tap,true);diagnostics.tap.opened++;if(redstone)diagnostics.tap.redstoneOpens++;if(!extract)diagnostics.tap.emptyOpens++;
- const session={kind,dimension:tap.dimension,location:{...tap.location},coreLocation,sourceLocation,destinationLocation,start:system.currentTick};
- tapSessions.set(key,session);scheduleTapParticles(tap,key,session,!extract,fluid);
+ const session={extracting:extract,dimension:tap.dimension,location:{...tap.location}};
+ tapSessions.set(key,session);scheduleTapParticles(tap,key,session,!extract,current.fluid);
  // Register closing after tick6's particle: Java emits before shutting off.
  session.timer=system.runTimeout(()=>{if(tapSessions.get(key)===session)finishTapSession(key);},ticks);return true;
 }

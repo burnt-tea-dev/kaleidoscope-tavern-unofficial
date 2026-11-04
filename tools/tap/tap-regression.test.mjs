@@ -48,8 +48,7 @@ export async function fixture({synchronous=false}={}){
   'pressing-feedback.js':{pressFeedback:no,spawnRejectedIngredients:no,ingredientFeedback:no},
   'barrel-ingredients.js':{barrelIngredientVisuals:empty,configureBarrelIngredients:no},
   'protected-break-router.js':{registerProtectedBreakRoute:no},
-  'transactions.js':{inventory:p=>p.getComponent('minecraft:inventory').container,makeStack:(id,count=1)=>new ItemStack(id,count),hand:no,canWrite:no,canInteract:no,handSnapshot:()=>({slot:0,id:'',amount:0}),sameHand:no,placementTake:()=>1,safe:(p,fn)=>fn(),blockAt:no,requireBlockReach:no,pickupOutputs:no,commitPickupInventory:no,pickupFeedback:no},
-  'tap-sources.js':{inspectTapSource:no,finishSourceTap:no},
+  'transactions.js':{inventory:p=>p.getComponent('minecraft:inventory').container,makeStack:(id,count=1)=>new ItemStack(id,count),hand:no,canWrite:no,canInteract:no,handSnapshot:()=>({slot:0,id:'',amount:0}),sameHand:no,placementTake:()=>1,safe:(p,fn)=>fn(),blockAt:no,requireBlockReach:no,pickupOutputs:no,commitPickupInventory:no,pickupFeedback:no,exchangeBlocks:no},
   'potions.js':{restorePotion:()=>new ItemStack('minecraft:potion'),potionDisplayInput:no,potionDisplayRemoval:no,
    potionIdentity(){throw Error('Potion identity is outside the tap regression fixture');}},
   // Tap cases use real naturalBreak but never destroy a shaker. Match the
@@ -102,6 +101,36 @@ test('genuine destruction of filled bottle still releases its stored quality onc
 test('missing carrier at completion preserves the barrel output',async()=>{const f=await fixture();f.bottle.permutation=f.Permutation.resolve('minecraft:air');const old=f.records.get(f.key);assert.throws(()=>f.machines.finishTapExtraction(f.tap),/TAP_CARRIER_CHANGED/);assert.equal(f.records.get(f.key),old);assert.equal(f.items().length,0);});
 test('successful session remains 30 ticks and emits drip parents only during ticks 1..5',async()=>{const f=await fixture();f.machines.tryOpenTap(f.tap);f.advance(29);assert.equal(f.bottle.typeId,EMPTY);assert.equal(f.state().batch.remaining,4);assert.deepEqual(f.particles.map(p=>p.tick),[1,2,3,4,5]);f.advance(1);assert.equal(f.bottle.typeId,NS+':bottle_wine');f.advance(5);assert.equal(f.items().length,0);assert.equal(f.state().batch.remaining,3);});
 test('manually cancelling before completion does not consume a carrier or output',async()=>{const f=await fixture();f.machines.tryOpenTap(f.tap);f.advance(10);f.machines.toggleTap(f.tap);f.advance(30);assert.equal(f.bottle.typeId,EMPTY);assert.equal(f.state().batch.remaining,4);assert.equal(f.items().length,0);});
+
+const sourcePos={x:0,y:1,z:-1};
+function setSource(f,kind){
+ if(kind==='water')return f.block('minecraft:cauldron',sourcePos,{cauldron_liquid:'water',fill_level:6});
+ return f.block(kind==='melon'?'minecraft:melon_block':'minecraft:stone',sourcePos);
+}
+for(const [initial,current,output]of [['water','melon',NS+':bottle_watermelon_juice'],['melon','water',NS+':bottle_water'],['barrel','water',NS+':bottle_water']])test(`completion selects current ${current} after opening on ${initial}`,async()=>{
+ const f=await fixture();if(initial!=='barrel')setSource(f,initial);
+ f.machines.tryOpenTap(f.tap);f.advance(10);setSource(f,current);f.advance(19);
+ assert.equal(f.bottle.typeId,EMPTY,'a new source does not finish the old 30-tick session early');
+ f.advance(1);assert.equal(f.bottle.typeId,output);f.advance(5);
+ assert.equal(f.state().batch.remaining,4,'completion must not charge the old barrel');assert.equal(f.items().length,0);
+ if(current==='melon'){
+  assert.equal(f.dimension.getBlock(sourcePos).typeId,'minecraft:melon_block','Java does not consume the melon');
+  assert.deepEqual(f.display().items,[NS+':watermelon_juice']);
+ }
+});
+test('a source replaced with an unsupported block produces nothing',async()=>{
+ const f=await fixture();setSource(f,'water');f.machines.tryOpenTap(f.tap);f.advance(10);setSource(f,'stone');f.advance(25);
+ assert.equal(f.bottle.typeId,EMPTY);assert.equal(f.state().batch.remaining,4);assert.equal(f.items().length,0);assert.equal(f.tap.permutation.getState(NS+':open'),0);
+});
+test('an initially empty opening does not become an extraction when a valid source arrives',async()=>{
+ const f=await fixture();setSource(f,'stone');f.machines.tryOpenTap(f.tap);f.advance(1);setSource(f,'water');f.advance(5);
+ assert.equal(f.tap.permutation.getState(NS+':open'),0,'empty openings still close after six ticks');f.advance(30);
+ assert.equal(f.bottle.typeId,EMPTY);assert.equal(f.state().batch.remaining,4);assert.equal(f.items().length,0);
+});
+test('cancelling after a source swap retires the same session without extracting',async()=>{
+ const f=await fixture();setSource(f,'water');f.machines.tryOpenTap(f.tap);f.advance(10);setSource(f,'melon');f.machines.toggleTap(f.tap);f.advance(35);
+ assert.equal(f.bottle.typeId,EMPTY);assert.equal(f.state().batch.remaining,4);assert.equal(f.items().length,0);
+});
 
 // These are synchronous script adapters, not Minecraft players or client tests.
 function recoveryAdapter(f,mode='Survival'){

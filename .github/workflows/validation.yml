@@ -525,7 +525,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p test-results
-          node --experimental-vm-modules --test tools/mechanics/mechanics-regression.test.mjs | tee test-results/mechanics.tap
+          node --experimental-vm-modules --test tools/mechanics/mechanics-regression.test.mjs tools/tap/tap-regression.test.mjs | tee test-results/mechanics.tap
       - uses: actions/upload-artifact@v4
         if: always()
         with:
