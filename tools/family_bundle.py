@@ -2,7 +2,7 @@
 """Assemble exact owned runtimes plus hash-pinned upstream archives and declared canonical host extensions."""
 from pathlib import Path,PurePosixPath
 import argparse,hashlib,io,json,os,re,shutil,subprocess,zipfile
-from host_extensions import apply_host_extension
+from host_extensions import apply_host_extension,host_source_root
 from retained_host_profiles import retained_host_source
 from paired_host_extension import DATA_REPAIRS,PAIRED_KINDS,pair_uuids
 ROOT=Path(__file__).resolve().parents[1]
@@ -222,7 +222,7 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
  # Only committed owned runtimes may declare a reviewed extension of a pinned host.
  # Spec and module bytes are in that runtime's versioned baseline, never a BSM hook.
  for own in lock['owned']:
-  repo=sources[own['key']];config=read(repo/'baseline.json');owned_root=repo/config['runtime']['BP']
+  repo=sources[own['key']];config=read(repo/'baseline.json');owned_root=host_source_root(repo,config)
   source_component,retained_runtime=components[own['key']]
   for path,spec in host_declarations(owned_root,own['key']):
    if spec.get('kind') in PAIRED_KINDS:

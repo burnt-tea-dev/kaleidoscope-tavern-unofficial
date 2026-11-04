@@ -26,6 +26,7 @@ flowchart LR
 
 - `baseline_gate.py` 阻止未提交打包、未追蹤來源、同版本換內容、歷史鎖改寫、打包後補丁。CI 和實際打包器共同執行。
 - `family_bundle.py` 只複製已提交的自移植 runtime 與雜湊相符的原包；不替換第三方 UUID。重複 identifier 必須列出有效來源。
+- `baseline.json.host_sources` 可指定倉庫內獨立的宿主修復來源目錄，包含 `host-extensions/` 及宣告引用的模組／資產。組裝器從這裡讀取修復，僅把實際 addon 的 runtime 匯入世界；未設定時沿用該 addon 的 BP 來源。來源必須提交，宣告、拷貝內容與最終輸出仍逐項核對。
 - 私有 owner 可由其 `baseline.json` 的 `host_catalog` 指向同一提交內的私有雜湊目錄。完整私服組合留在該倉庫；公開工具只提供讀取與核對。目錄不能取代既有公開宣告，來源身分、CI、整家族收據與部署門檻照舊。
 - `family_guard.py` 由 BSM `addon_quality/policy.py` 的 `validate_incoming` 在寫入前呼叫；家族差異的處理與必要功能證據依現行更新流程。版本、manifest 及實際相依檢查仍在入口執行。
 - 准入與巡檢同時識別新 UUID 的森羅定義或家族相依，避免重新命名私服包繞過家族清單；單獨語言包不應攜帶方塊／物品／實體定義。

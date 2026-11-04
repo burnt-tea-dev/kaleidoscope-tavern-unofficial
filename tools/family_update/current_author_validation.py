@@ -561,11 +561,13 @@ def validate_functional_artifacts(path,proof,baseline,members):
         assert row['exit_code']==0 and isinstance(row['command'],list)
         for ref in [row['log'],*([row['report']] if row.get('report') else [])]:assert digest(members[ref['name']])==ref['sha256']
     if 'Cookery' in policy['sources']:
-        cookery=current['sources']['Cookery'];station=committed('runtime/BP/host-extensions/cookery-station-performance.json')
+        from host_extensions import host_source_root
+        host_root=host_source_root(c.EXTENSION,baseline).relative_to(c.EXTENSION).as_posix()
+        cookery=current['sources']['Cookery'];station=committed(host_root+'/host-extensions/cookery-station-performance.json')
         closure=cookery['input_closure'];target='scripts/custom_components/blocks/directStation.js'
-        assert closure['repair_spec_sha256']==committed_digest('runtime/BP/host-extensions/cookery-station-performance.json')
+        assert closure['repair_spec_sha256']==committed_digest(host_root+'/host-extensions/cookery-station-performance.json')
         assert closure['station_output_sha256']==station['patched_files'][target]
-        assert closure['owned_helper_sha256']==station['helper_sha256']==committed_digest('runtime/BP/scripts/host_api/cookery-station-performance.js')
+        assert closure['owned_helper_sha256']==station['helper_sha256']==committed_digest(host_root+'/scripts/host_api/cookery-station-performance.js')
         report=json.loads(members[cookery['report']['name']]);assert digest(members[cookery['report']['name']])==cookery['report']['sha256']
         assert report['ok'] is True and report['completeSuite'] is True and report['caseCount']==len(report['results'])==policy['functional_checks']['cookery-station-performance']['cases']
         assert report['input_closure']==closure and report['native'] is False and report['client'] is False
@@ -774,6 +776,9 @@ def validate_public_api_source(api,catalog,grilling,spec,path,*,curated):
 def validate_candidate(receipt,proof,baseline,binding,catalog):
     """Validate every output and the exact ordered chain, not just changed paths."""
     VERSION,PROFILE,CATALOG_KEY=settings()
+    from host_extensions import host_source_root
+    host_root=host_source_root(c.EXTENSION,baseline)
+    host_path=host_root.relative_to(c.EXTENSION).as_posix()
     component_version=VERSION
     active=functional_selected(baseline)
     if retained_selected():
@@ -804,18 +809,18 @@ def validate_candidate(receipt,proof,baseline,binding,catalog):
     if active and not curated_selected():
         name='cookery-station-performance.json'
         contract=committed(CURRENT_CONTRACT)
-        raw_sha=contract['domains']['cookery-station-performance']['runtime/BP/host-extensions/'+name]['after']
-        spec=committed('runtime/BP/host-extensions/'+name,raw_sha)
-        profile=current_station_profile(spec,c.EXTENSION/baseline['runtime']['BP'],public_spec,public_path.read_bytes(),c.SOURCES['grilling'])
+        raw_sha=proof['host_specs'][name]['sha256']
+        spec=committed(host_path+'/host-extensions/'+name,raw_sha)
+        profile=current_station_profile(spec,host_root,public_spec,public_path.read_bytes(),c.SOURCES['grilling'])
         records[name]={'profile':profile['admission'],'sha256':raw_sha,'declaration_sha256':profile['spec_sha256']}
     assert set(proof['host_specs'])==set(records)
     for name,record in records.items():
-        spec=committed('runtime/BP/host-extensions/'+name,record['sha256'])
+        spec=committed(host_path+'/host-extensions/'+name,record['sha256'])
         if spec.get('kind')==STATION_KIND:
-            profile=current_station_profile(spec,c.EXTENSION/baseline['runtime']['BP'],public_spec,public_path.read_bytes(),c.SOURCES['grilling'])
+            profile=current_station_profile(spec,host_root,public_spec,public_path.read_bytes(),c.SOURCES['grilling'])
             assert record['profile']==profile['admission'] and profile['spec_sha256']==record['declaration_sha256']
         else:
-            profile=match_stable_profile(spec,c.EXTENSION/baseline['runtime']['BP'])
+            profile=match_stable_profile(spec,host_root)
             assert profile==PROFILES[record['profile']] and profile['spec_sha256']==record['declaration_sha256']
         expected={'sha256':record['sha256'],'id':spec['id'],'host_uuid':spec['host_uuid'],'archive_sha256':spec['archive_sha256'],'original_files':spec['original_files'],'patched_files':spec['patched_files'],'copies_hashes':profile['copies']}
         if spec.get('kind')==STATION_KIND:expected['owner_handoff']=spec['owner_handoff']

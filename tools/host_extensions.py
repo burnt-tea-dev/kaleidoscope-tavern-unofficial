@@ -5,6 +5,21 @@ import hashlib,json,re,subprocess
 from stable_host_profiles import CURATED,curated_profile,declaration_sha,match_stable_profile
 from native_freezer_extension import LOWER_TITLE,apply_native_26_60_update
 
+def host_source_root(repo,config):
+ """Host adaptation sources need not be shipped as a separate gameplay pack."""
+ relative=config.get('host_sources',config['runtime']['BP'])
+ if not isinstance(relative,str) or not relative or '\\' in relative:
+  raise ValueError('invalid host source directory')
+ path=PurePosixPath(relative)
+ if path.is_absolute() or '..' in path.parts:
+  raise ValueError('host source directory escapes repository')
+ root=Path(repo)
+ for part in path.parts:
+  root=root/part
+  if root.is_symlink():raise ValueError('linked host source directory')
+ if not root.is_dir():raise ValueError('host source directory is missing')
+ return root
+
 def validate_recipe_cache_profile(spec,source):
  """Admit only the reviewed cache delta after the pinned public Cookery API.
 
