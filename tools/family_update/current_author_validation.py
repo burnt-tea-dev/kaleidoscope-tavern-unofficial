@@ -346,12 +346,16 @@ def curated_owner_inputs():
                           'companion_of':row.get('companion_of')} for row in retained}
     expected.update({uid:{**row,'group':row['author']} for uid,row in replacements.items()})
     assert set(configured)<=set(expected), 'Unreviewed owner input identity'
+    standalone=set()
     for group in {expected[uid]['group'] for uid in configured}:
         pair={uid for uid,row in expected.items() if row['group']==group}
         companion=next(iter(pair)) if len(pair)==1 else None
         parent=expected[companion].get('companion_of') if companion else None
         if parent:
             assert expected[companion]['side']=='behavior' and parent in configured and expected[parent]['side']=='behavior' and not expected[parent].get('companion_of'), 'Owner data companion requires its declared parent pair'
+        elif companion:
+            assert expected[companion]['side']=='behavior','A standalone owner input must be a data behavior pack'
+            standalone.add(companion)
         else:
             assert pair<=set(configured) and len(pair)==2 and {expected[uid]['side'] for uid in pair}=={'behavior','resource'}, 'Owner inputs require a complete declared BP/RP pair'
     protected=[c.B,c.W,c.Q,*c.SOURCES.values(),*([c.EXTENSION] if c.EXTENSION else [])]
@@ -366,6 +370,8 @@ def curated_owner_inputs():
         files=c.hashes(root)
         assert manifest['header']['uuid']==uid and version==pin['version'] and side==pin['side'] and tree(files)==pin['tree'], 'Owner input differs from the committed profile'
         assert all(row['version']==version for row in manifest['modules']), 'Owner input module identity differs'
+        if uid in standalone:
+            assert manifest['modules'] and all(row['type']=='data' for row in manifest['modules']),'A standalone owner input must contain only data modules'
         if pin.get('companion_of'):
             parent=pin['companion_of']
             assert all(row['type']=='data' for row in manifest['modules']) and manifest['dependencies']==[{'uuid':parent,'version':expected[parent]['version']}], 'Owner data companion modules or exact parent dependency differ'

@@ -617,6 +617,27 @@ class CuratedRetainedInputs(unittest.TestCase):
   self.owner_companion(dependency_version=[1,0,1])
   with self.assertRaisesRegex(AssertionError,'companion modules'):m.curated_owner_inputs()
 
+ def owner_standalone(self,modules=None):
+  uid=self.owner_companion(modules=modules);root=Path(m.c.CONFIG['curated_owner_inputs'][uid])
+  row=next(row for row in self.rows if row['uuid']==uid);row.pop('companion_of')
+  manifest=self.guard.read(root/'manifest.json')
+  manifest['dependencies'].append({'uuid':'reviewed-resource','version':[1,0,2]})
+  self.guard.atomic(root/'manifest.json',manifest)
+  row['input_tree']=row['output_tree']=m.tree(self.guard.hashes(root))
+  self.write(stable.CURATED_INPUT,self.value)
+  self.catalog['selection']['sha256']=m.digest((self.root/stable.CURATED_INPUT).read_bytes())
+  self.commit('Explicit standalone data input')
+  return uid
+
+ def test_standalone_data_input_can_preserve_multiple_dependencies(self):
+  uid=self.owner_standalone();before=copy.deepcopy(self.original)
+  selected=m.curated_owner_inputs();self.assertIn(uid,selected)
+  self.assertEqual(self.original,before)
+
+ def test_standalone_owner_input_cannot_add_script_execution(self):
+  self.owner_standalone(modules=[{'type':'script','version':[1,0,3]}])
+  with self.assertRaisesRegex(AssertionError,'only data modules'):m.curated_owner_inputs()
+
  def test_only_selected_roots_and_complete_canonical_fishing_are_used(self):
   roots,sources,report,receipt=self.selected()
   self.assertEqual(len(roots),5);self.assertNotIn(Path(self.excluded['path']),roots)
