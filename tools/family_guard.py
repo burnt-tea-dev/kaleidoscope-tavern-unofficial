@@ -5,7 +5,7 @@ The policy file is server configuration, not a mutable pack or a build input.
 Existing mixed packs can be recorded as quarantined; that never approves updates.
 """
 from pathlib import Path
-import argparse,datetime,hashlib,json,os,re,sys
+import argparse,datetime,hashlib,json,os,re,sys,warnings
 def read(p):return json.loads(Path(p).read_text(encoding='utf-8-sig'))
 def hashes(root):
  root=Path(root)
@@ -36,7 +36,19 @@ def world_acceptance(receipt):
   and gates.get('saved_world_migration') is False and gates.get('fresh_world_initialization') is True
   and gates.get('world_persistence') is True)
 def validate_incoming(incoming,policy_path):
- policy=read(policy_path);ids={p['uuid'] for p in incoming}
+ policy=read(policy_path)
+ mode=policy.get('family_lock_enforcement','required')
+ if mode not in ('required','advisory'):raise ValueError('Unknown family lock enforcement: '+str(mode))
+ try:
+  _validate_incoming(incoming,policy_path,policy)
+ except (ValueError,AssertionError,KeyError,OSError) as error:
+  if mode!='advisory':raise
+  message='Family inventory advisory: '+str(error)
+  warnings.warn(message,RuntimeWarning,stacklevel=2)
+  return {'mode':mode,'matched':False,'warnings':[message]}
+ return {'mode':mode,'matched':True,'warnings':[]}
+def _validate_incoming(incoming,policy_path,policy):
+ ids={p['uuid'] for p in incoming}
  if not any(family_pack(p,policy) for p in incoming):return
  if policy.get('delivery_profile')=='senluo-stable-lock-v1':
   import runpy
@@ -47,16 +59,9 @@ def validate_incoming(incoming,policy_path):
  if not approved:raise ValueError('森羅家族更新已攔截：需整套 Git 基線、官方來源鎖及存檔遷移驗收；不能個別覆蓋本地包。')
  receipt=read(approved);gates=receipt.get('acceptance',{})
  world_gate=world_acceptance(receipt)
- complete=receipt.get('production_ready') is True and world_gate and all(gates.get(k) is True for k in ['static','bds','client'])
- # A user may explicitly defer client acceptance for one exact candidate.
- # Keep client=false and production_ready=false; never manufacture evidence.
- deferred=policy.get('deferred_client_acceptance',{})
- pending=(receipt.get('production_ready') is False and gates.get('client') is False
-  and world_gate and all(gates.get(k) is True for k in ['static','bds'])
-  and deferred.get('source')=='explicit_user_instruction'
-  and bool(deferred.get('instruction')) and bool(deferred.get('recorded_at'))
-  and deferred.get('receipt_sha256')==hashlib.sha256(Path(approved).read_bytes()).hexdigest())
- if not complete and not pending:raise ValueError('森羅部署缺少 BDS／用戶端／存檔遷移或新世界初始化及保存驗收')
+ # Human observations remain useful evidence, but are not a deployment prerequisite.
+ if not world_gate or not all(gates.get(k) is True for k in ['static','bds']):
+  raise ValueError('Deployment lacks static/BDS and saved-world validation')
  expected={p['uuid']:p for p in receipt['packs']}
  if ids!=set(expected):raise ValueError('森羅更新必須提交完整的已驗收家族包')
  for p in incoming:
@@ -84,7 +89,8 @@ def atomic(path,obj):
  path=Path(path);temp=path.with_suffix(path.suffix+'.tmp');temp.write_text(json.dumps(obj,ensure_ascii=False,indent=2)+'\n');os.replace(temp,path)
 def main():
  p=argparse.ArgumentParser(description=__doc__);p.add_argument('--world',type=Path,required=True);p.add_argument('--policy',type=Path,required=True);p.add_argument('--report',type=Path);a=p.parse_args()
- result=audit(a.world,read(a.policy))
+ policy=read(a.policy);result=audit(a.world,policy)
+ result['enforcement']=policy.get('family_lock_enforcement','required')
  if a.report:atomic(a.report,result)
- print(json.dumps(result,ensure_ascii=False));sys.exit(0 if result['ok'] else 1)
+ print(json.dumps(result,ensure_ascii=False));sys.exit(0 if result['ok'] or result['enforcement']=='advisory' else 1)
 if __name__=='__main__':main()

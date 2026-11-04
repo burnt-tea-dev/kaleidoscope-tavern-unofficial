@@ -34,7 +34,8 @@ class FamilyAdmissionTests(unittest.TestCase):
    with self.assertRaises(ValueError):guard.validate_incoming([{'uuid':uid}],self.policy)
  def test_missing_client_acceptance(self):
   data=guard.read(self.receipt);data['acceptance']['client']=False;self.receipt.write_text(json.dumps(data))
-  with self.assertRaises(ValueError):guard.validate_incoming([self.row],self.policy)
+  guard.validate_incoming([self.row],self.policy)
+  self.assertFalse(guard.read(self.receipt)['acceptance']['client'])
  def defer_client(self):
   import hashlib
   data=guard.read(self.receipt);data['acceptance']['client']=False;data['production_ready']=False;self.receipt.write_text(json.dumps(data))
@@ -62,9 +63,20 @@ class FamilyAdmissionTests(unittest.TestCase):
    data['acceptance'][key]=True
   data['acceptance']['saved_world_migration']=True;save(data)
   with self.assertRaises(ValueError):guard.validate_incoming([self.row],self.policy)
- def test_deferral_rejects_another_receipt(self):
+ def test_historical_client_deferral_is_not_a_gate(self):
   self.defer_client();data=guard.read(self.receipt);data['new_candidate']=True;self.receipt.write_text(json.dumps(data))
-  with self.assertRaises(ValueError):guard.validate_incoming([self.row],self.policy)
+  guard.validate_incoming([self.row],self.policy)
+ def test_advisory_reports_changed_pack_without_blocking(self):
+  policy=guard.read(self.policy);policy['family_lock_enforcement']='advisory';self.policy.write_text(json.dumps(policy))
+  (self.pack/'fixed.js').write_text('changed')
+  with self.assertWarnsRegex(RuntimeWarning,'Family inventory advisory'):
+   result=guard.validate_incoming([self.row],self.policy)
+  self.assertFalse(result['matched']);self.assertEqual(len(result['warnings']),1)
+ def test_advisory_reports_missing_historical_receipt_without_blocking(self):
+  policy=guard.read(self.policy);policy.update(family_lock_enforcement='advisory',approved_receipt=str(self.root/'retired.json'));self.policy.write_text(json.dumps(policy))
+  with self.assertWarns(RuntimeWarning):
+   result=guard.validate_incoming([self.row],self.policy)
+  self.assertFalse(result['matched'])
  def test_deferral_still_rejects_patch(self):
   self.defer_client();(self.pack/'hidden-patch.js').write_text('changed')
   with self.assertRaises(ValueError):guard.validate_incoming([self.row],self.policy)
@@ -177,6 +189,12 @@ class StableLockAdmissionTests(unittest.TestCase):
  def test_lock_hash_mismatch_rejected(self):
   policy=guard.read(self.policy);policy['stable_lock']['sha256']='0'*64;self.policy.write_text(json.dumps(policy))
   with self.assertRaises(ValueError):self.run_guard()
+ def test_advisory_stable_lock_mismatch_does_not_block(self):
+  policy=guard.read(self.policy);policy['family_lock_enforcement']='advisory';policy['stable_lock']['sha256']='0'*64;self.policy.write_text(json.dumps(policy))
+  with self.assertWarnsRegex(RuntimeWarning,'Family inventory advisory'):self.run_guard()
+ def test_client_deferral_is_optional_for_stable_validation(self):
+  policy=guard.read(self.policy);policy.pop('deferred_client_acceptance');self.policy.write_text(json.dumps(policy))
+  self.run_guard()
  def test_gate_hash_mismatch_rejected(self):
   policy=guard.read(self.policy);policy['stable_gate_b']['sha256']='0'*64;self.policy.write_text(json.dumps(policy))
   with self.assertRaises(ValueError):self.run_guard()

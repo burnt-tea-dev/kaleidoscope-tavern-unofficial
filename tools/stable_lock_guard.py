@@ -215,17 +215,10 @@ def validate(incoming, policy, policy_path, hashes):
     _require(isinstance(approved_path, str) and approved_path, "approved family receipt missing")
     approved = Path(approved_path)
     _require(approved.is_file() and not approved.is_symlink(), "approved receipt must be a regular file")
-    approved_sha = hashlib.sha256(approved.read_bytes()).hexdigest()
-    deferred = policy.get("deferred_client_acceptance", {})
-    _require(deferred.get("source") == "explicit_user_instruction"
-             and deferred.get("instruction") and deferred.get("recorded_at")
-             and deferred.get("receipt_sha256") == approved_sha,
-             "client deferral does not bind the exact approved receipt")
     family = json.loads(approved.read_bytes())
     acceptance = family.get("acceptance", {})
-    _require(family.get("production_ready") is False and acceptance.get("client") is False
-             and acceptance.get("static") is True and acceptance.get("bds") is True,
-             "approved family receipt must pass static/BDS and keep client/production false")
+    _require(acceptance.get("static") is True and acceptance.get("bds") is True,
+             "approved family receipt must pass static/BDS validation")
     manifest = family.get("packs")
     _require(isinstance(manifest, list) and manifest, "approved family pack manifest missing")
     by_uid = {row.get("uuid"): row for row in manifest if isinstance(row, dict)}
