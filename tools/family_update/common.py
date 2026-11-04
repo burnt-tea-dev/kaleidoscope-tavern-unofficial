@@ -271,6 +271,13 @@ def action(name):
     raise RuntimeError(name + ' timed out')
 
 
+def require_merged_source(path, commit, remote_head):
+    """A completed batch stays usable when later work reaches main."""
+    git(path, 'fetch', '--no-tags', 'origin', 'main')
+    merged = subprocess.run(['git', '-C', str(path), 'merge-base', '--is-ancestor', commit, remote_head], capture_output=True)
+    assert merged.returncode == 0, 'Selected source is not merged into its remote main'
+
+
 def source_state(verify_remote=False):
     result = {}
     from family_update.source_holds import selected,verify_source,selected_extension,verify_extension_source
@@ -284,14 +291,12 @@ def source_state(verify_remote=False):
     paths = {**SOURCES, **({'extension': EXTENSION} if EXTENSION else {})}
     for name, path in paths.items():
         config = read(path / 'baseline.json')
-        branch = git(path, 'branch', '--show-current')
         commit = git(path, 'rev-parse', 'HEAD')
         assert not git(path, 'status', '--porcelain'), f'Canonical {name} must be clean'
         if name in holds:
             hold=holds[name];reason_root=Path(hold.get('_private_metadata_root',T));reason=reason_root/hold['reason_file']
             assert git(reason_root,'show','HEAD:'+hold['reason_file'])==reason.read_text().strip(),'Hold reason must be committed and unchanged'
             assert commit==hold['commit'] and config['version']==hold['version'] and config['source_trees']==hold['source_trees'],'Held revision differs from canonical declaration'
-        else:assert branch=='main',f'Canonical {name} must be clean main'
         row = {'path': str(path), 'commit': commit, 'tree': git(path, 'rev-parse', 'HEAD^{tree}'), 'repository': config['repository'], 'version': config['version'], 'baseline_sha256': sha(path / 'baseline.json'), 'source_trees': config['source_trees']}
         if verify_remote:
             if name == 'extension':
@@ -322,7 +327,7 @@ def source_state(verify_remote=False):
             elif name in holds:
                 assert verify_source(path,config,holds[name],git)==remote_head
                 row['held_revision']=holds[name]
-            else:assert remote_head == commit, f'{name} canonical main differs from remote'
+            else:require_merged_source(path, commit, remote_head)
             row['remote_main'] = remote_head
         result[name] = row
     return result

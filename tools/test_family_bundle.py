@@ -72,6 +72,30 @@ class HostSourceTests(unittest.TestCase):
     with self.subTest(path=path),self.assertRaises(ValueError):
      host_source_root(repo,{'runtime':{'BP':'runtime/BP'},'host_sources':path})
 
+class SelectedBaselineTests(unittest.TestCase):
+ def test_old_family_versions_are_advisory_and_selected_baseline_is_not_rewritten(self):
+  import copy,subprocess
+  from baseline_gate import fingerprint
+  with tempfile.TemporaryDirectory() as tmp:
+   repo=Path(tmp)/'source';repo.mkdir()
+   root=repo/'runtime/BP';root.mkdir(parents=True)
+   (root/'manifest.json').write_text(json.dumps({'header':{'uuid':'selected-pack','version':[1,0,2]},'modules':[{'type':'data','version':[1,0,2]}]}))
+   trees={'BP':fingerprint(root)[0]}
+   config={'repository':'fixture/selected','version':[1,0,2],'runtime':{'BP':'runtime/BP'},'source_trees':trees}
+   raw=json.dumps(config);(repo/'baseline.json').write_text(raw)
+   subprocess.run(['git','init','--quiet',str(repo)],check=True)
+   subprocess.run(['git','-C',str(repo),'add','.'],check=True)
+   subprocess.run(['git','-C',str(repo),'-c','user.name=Fixture','-c','user.email=fixture@example.invalid','-c','commit.gpgsign=false','commit','--quiet','-m','Selected source'],check=True)
+   lock={'owned':[{'key':'selected','repository':config['repository'],'version':[1,0,1],'source_trees':{'BP':{'sha256':'old'}}}],
+         'upstream':[],'order':{'behavior':['selected-pack'],'resource':[]}}
+   original=copy.deepcopy(lock)
+   with contextlib.redirect_stdout(io.StringIO()):
+    receipt=assemble(lock,{'selected':repo},[],Path(tmp)/'candidate',working=True)
+   self.assertEqual(receipt['packs'][0]['version'],[1,0,2])
+   self.assertEqual(receipt['source_advisories'],[{'source':'selected','locked_version':[1,0,1],'selected_version':[1,0,2]}])
+   self.assertEqual(lock,original)
+   self.assertEqual((repo/'baseline.json').read_text(),raw)
+
 class PlayerPresentationContractTests(unittest.TestCase):
  def test_client_presentation_is_not_applied_as_a_host_patch(self):
   from family_bundle import host_declarations

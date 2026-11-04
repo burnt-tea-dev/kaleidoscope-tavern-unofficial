@@ -161,7 +161,7 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
    fail('expected gate repository identities must cover exactly the selected owned sources')
   for own in lock['owned']:source_gate_environment(own,source_identities)
  if out.exists():fail('output exists; never replace another candidate')
- out.mkdir(parents=True);records=[];by_uuid={};components={}
+ out.mkdir(parents=True);records=[];by_uuid={};components={};source_advisories=[]
  # Index every candidate archive once. Read and recheck the selected bytes at
  # use time so a concurrent file replacement cannot exploit the index.
  archive_index={}
@@ -184,7 +184,9 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
  for own in lock['owned']:
   repo=sources[own['key']]
   config=read(repo/'baseline.json')
-  if own.get('version')!=config['version'] or own.get('source_trees')!=config['source_trees']:fail('owned source differs from family lock')
+  if own.get('version')!=config['version'] or own.get('source_trees')!=config['source_trees']:
+   source_advisories.append({'source':own['key'],'locked_version':own.get('version'),'selected_version':config['version']})
+   own.update(version=config['version'],source_trees=config['source_trees'])
   if not working:subprocess.run(['python3',str(repo/'tools/baseline_gate.py'),'check','--release'],check=True,env=source_gate_environment(own,source_identities,repo))
   if config['repository']!=own['repository']:fail('wrong owned repository')
   try:components[own['key']]=retained_component_config(repo,config,sources)
@@ -354,6 +356,7 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
      else:definitions[identity]=uid
  behavior_player,player_contract=select_behavior_player(behavior_players)
  receipt={'schema':1,'lock_sha256':hashlib.sha256(json.dumps(lock,sort_keys=True).encode()).hexdigest(),'packs':records,'order':lock['order'],'definition_overlaps':overlaps,'behavior_player_definition':behavior_player,'acceptance':{'static':True,'bds':False,'client':False,'saved_world_migration':False},'production_ready':False}
+ if source_advisories:receipt['source_advisories']=source_advisories
  if player_contract is not None:receipt['reviewed_player_compatibility']=player_contract
  (out/'family-receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');print(json.dumps({'candidate':str(out),'packs':len(records),'overlaps':len(overlaps),'production_ready':False}))
  return receipt
