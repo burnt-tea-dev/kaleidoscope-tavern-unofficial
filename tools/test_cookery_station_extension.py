@@ -204,8 +204,9 @@ class CurrentStationOwnership(unittest.TestCase):
                  'checks': ['current-source-api', 'current-runtime-functional.json'],
                  'check_commands': {'current-source-api': ['node', 'real-source-test.mjs'], 'current-runtime-functional.json': ['python', 'real-producer.py']},
                  'functional_contract': {'path': 'companion-sources/current-author-curated/runtime-contract.json', 'sha256': 'a' * 64},
-                 'authors': {}, 'pack_versions': {}, 'station_profile': 'reviewed-current-station'}
+                 'authors': {}, 'pack_versions': {}}
         catalog = {'profile': value['profile'], 'version': value['version'], 'authors': {},
+                   'host_specs': {'cookery-station-performance.json': {'declaration_sha256': station.declaration_digest(spec)}},
                    'selection': {'path': stable.CURATED_INPUT, 'sha256': 'b' * 64, 'value': value}}
         with patch.object(stable, 'CATALOG', {}), self.assertRaisesRegex(ValueError, 'no reviewed catalog'):
             station.current_station_profile(spec, self.owned, api, api_raw, api_root)
