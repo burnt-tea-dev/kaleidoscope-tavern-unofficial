@@ -181,7 +181,7 @@ def collect_station_handoffs(owned, sources):
         grilling = Path(sources['grilling']); api_path = grilling / API_SPEC
         api_raw = api_path.read_bytes(); api = json.loads(api_raw)
         spec = json.loads(path.read_text()); profile = current_station_profile(spec, root, api, api_raw, grilling)
-        manifest = json.loads((root / 'manifest.json').read_text())
+        manifest = json.loads((repo / config['runtime']['BP'] / 'manifest.json').read_text())
         require(manifest['header']['version'] == config['version'], 'private runtime identity differs')
         host=spec['host_uuid'];author=spec['original_files'][TARGET]
         require(host not in plans, 'two private station owners')

@@ -132,7 +132,7 @@ def apply_owned_data_extension(spec, owned_root, bp_root, rp_root, bp_source, rp
             or spec.get('copies', {}) or spec.get('removed_files', {})):
         raise ValueError('addon-owned data requires exact paired input and output files')
     roots = {'BP': Path(bp_root), 'RP': Path(rp_root)}
-    def local_path(root, name):
+    def local_path(root, name, *, must_exist=True):
         if not isinstance(name, str) or '\\' in name:
             raise ValueError('invalid addon-owned data path')
         relative = PurePosixPath(name)
@@ -143,7 +143,7 @@ def apply_owned_data_extension(spec, owned_root, bp_root, rp_root, bp_source, rp
             path = path / part
             if path.is_symlink():
                 raise ValueError('linked addon-owned data path')
-        if not path.is_file():
+        if must_exist and not path.is_file():
             raise ValueError('addon-owned data file is missing: ' + name)
         return path
     paths, originals, changed = {}, {}, {}
@@ -151,10 +151,12 @@ def apply_owned_data_extension(spec, owned_root, bp_root, rp_root, bp_source, rp
         side, relative = name.split('/', 1)
         if side not in roots:
             raise ValueError('unknown addon-owned data pack side')
-        path = local_path(roots[side], relative)
-        raw = path.read_bytes()
+        path = local_path(roots[side], relative, must_exist=before[name] is not None)
+        if before[name] is None and path.exists():
+            raise ValueError('addon-owned data addition is occupied: ' + name)
+        raw = path.read_bytes() if before[name] is not None else None
         replacement = local_path(Path(owned_root), source_name).read_bytes()
-        if hashlib.sha256(raw).hexdigest() != before[name]:
+        if (hashlib.sha256(raw).hexdigest() if raw is not None else None) != before[name]:
             raise ValueError('addon-owned data preimage differs: ' + name)
         if hashlib.sha256(replacement).hexdigest() != after[name]:
             raise ValueError('addon-owned data source differs: ' + name)
@@ -175,6 +177,7 @@ def apply_owned_data_extension(spec, owned_root, bp_root, rp_root, bp_source, rp
         if json.loads(changed[name]) != expected:
             raise ValueError('addon-owned data changes manifest identity or unrelated metadata')
     for name, raw in changed.items():
+        paths[name].parent.mkdir(parents=True, exist_ok=True)
         paths[name].write_bytes(raw)
     return {key: copy.deepcopy(value) for key, value in spec.items() if key != 'source_files'}
 

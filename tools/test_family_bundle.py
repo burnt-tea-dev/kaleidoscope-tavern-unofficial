@@ -603,7 +603,7 @@ class RetainedAssemblyTests(unittest.TestCase):
           'order':{'behavior':['owned-BP','host-b'],'resource':['owned-RP','host-r']}}
     calls=[]
     def apply(spec,owned,host,source,**context):
-     self.assertEqual(context,{'retained_owner':{'source_root':str(repo),'source_commit':'d'*40,'sources':{'private':str(repo)}}} if kind=='chinesefood-reviewed-repairs' else {})
+     self.assertEqual(context,{'source_repo':repo,**({'retained_owner':{'source_root':str(repo),'source_commit':'d'*40,'sources':{'private':str(repo)}}} if kind=='chinesefood-reviewed-repairs' else {})})
      calls.append('single');return {'id':spec['id'],'kind':spec['kind'],'version':spec['version'],'owner_version':spec['owner_version']}
     def apply_pair(spec,bp,rp,bps,rps,owner):
      self.assertEqual(owner,[1,0,58]);calls.append('paired')

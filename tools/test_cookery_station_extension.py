@@ -173,6 +173,7 @@ class CurrentStationOwnership(unittest.TestCase):
             return station.current_station_profile(value, self.owned, api, api_raw, api_root)
         with patch.object(station, 'WIRE_OPS', station.declaration_digest(operations)):
             self.assertEqual(validate(spec)['copies'], self.profile['copies'])
+
             changes = [lambda x: x['owner_handoff'].update(from_commit='b' * 40),
                        lambda x: x['owner_handoff']['retained_modules'].pop(next(iter(self.modules))),
                        lambda x: x['insertions'][0].update(text='changed-hook'),
@@ -185,6 +186,29 @@ class CurrentStationOwnership(unittest.TestCase):
                 with self.assertRaises(ValueError): validate(changed)
             (self.owned / station.HELPER).write_bytes(b'changed-helper')
             with self.assertRaisesRegex(ValueError, 'helper differs'): validate(spec)
+
+
+    def test_collection_reads_runtime_identity_separately_from_host_sources(self):
+        spec,api,api_raw,api_root,operations=self.current_profile_fixture()
+        repo=self.root/'private-owner';sources=repo/'addon-sources'
+        helper=sources/station.HELPER;helper.parent.mkdir(parents=True)
+        helper.write_bytes((self.owned/station.HELPER).read_bytes())
+        declaration=sources/station.SPEC;declaration.parent.mkdir(parents=True)
+        declaration.write_text(json.dumps(spec))
+        manifest=repo/'runtime/BP/manifest.json';manifest.parent.mkdir(parents=True)
+        manifest.write_text(json.dumps({'header':{'version':[1,0,66]}}))
+        (repo/'baseline.json').write_text(json.dumps({'repository':station.LOGICAL_PRIVATE,
+            'version':[1,0,66],'runtime':{'BP':'runtime/BP'},'host_sources':'addon-sources'}))
+        (repo/'.repo-target.json').write_text(json.dumps({'repository':'burnt-tea-dev/senluo-family-integration-private',
+            'repository_id':1406868911,'private':True,'logical_runtime_repository':station.LOGICAL_PRIVATE,
+            'owner':{'id':344456559}}))
+        self.git(repo,'init','--quiet');self.git(repo,'config','user.name','Fixture')
+        self.git(repo,'config','user.email','fixture@example.invalid');self.commit(repo,'Separated source roots')
+        self.assertFalse((sources/'manifest.json').exists())
+        with patch.object(station,'WIRE_OPS',station.declaration_digest(operations)):
+            plans=station.collect_station_handoffs([{'key':'private','repository':station.LOGICAL_PRIVATE}],
+                                                   {'private':repo,'grilling':api_root})
+        self.assertEqual(plans[station.HOST]['binding']['owner_version'],[1,0,66])
 
     def test_new_author_requires_the_exact_registered_current_owner(self):
         import stable_host_profiles as stable

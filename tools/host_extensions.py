@@ -102,7 +102,7 @@ def retained_owner_version(context, owned_root, component_version):
   if raw!=subprocess.check_output(['git','show','HEAD:baseline.json'],cwd=root):
    raise ValueError('retained owner baseline is uncommitted')
   config=json.loads(raw)
-  if (root/config['runtime']['BP']).resolve()!=owned_root.resolve():
+  if host_source_root(root,config).resolve()!=owned_root.resolve():
    raise ValueError('retained owner pack root differs')
   component,anchor=retained_component_config(root,config,{key:Path(value)for key,value in sources.items()})
   if component['version']!=component_version or (not anchor and config.get('current_author_profile') is None):
@@ -112,7 +112,7 @@ def retained_owner_version(context, owned_root, component_version):
   raise ValueError('retained salt owner validation failed: '+str(error)) from error
 
 
-def validate_recipe_removals(spec, owned_root, host_root, stable, *, retained_owner=None):
+def validate_recipe_removals(spec, owned_root, host_root, stable, *, retained_owner=None, source_repo=None):
  removed = spec.get('removed_files', {})
  if not removed:
   return {}
@@ -124,12 +124,16 @@ def validate_recipe_removals(spec, owned_root, host_root, stable, *, retained_ow
      or spec.get('archive_sha256') != 'dea708dd6443ea30d23e5791860a50181e8eeb560dcd7ec5a8e80fe22743e659'
      or removed != allowed):
   raise ValueError('recipe removal is outside the exact reviewed coexistence profile')
- manifest = json.loads((owned_root / 'manifest.json').read_text())
+ manifest_root=owned_root
+ if source_repo is not None:
+  owner_config=json.loads((Path(source_repo)/'baseline.json').read_bytes())
+  manifest_root=Path(source_repo)/owner_config['runtime']['BP']
+ manifest = json.loads((manifest_root / 'manifest.json').read_text())
  if current:
   from family_update.current_author_validation import current_selection
   owner=stable['owner_version']
   if retained_owner is not None:owner=retained_owner_version(retained_owner,owned_root,owner)
-  root=Path(retained_owner['source_root']) if retained_owner is not None else owned_root.parents[1]
+  root=Path(retained_owner['source_root']) if retained_owner is not None else Path(source_repo) if source_repo is not None else owned_root.parents[1]
   selected=current_selection(source_root=root);catalog=curated_profile()
   record=catalog['host_specs']['chinesefood-reviewed-repairs.json']
   if owner!=selected['version'] or spec.get('owner_version')!=owner or declaration_sha(spec)!=record['declaration_sha256'] or stable['spec_sha256']!=record['declaration_sha256']:
@@ -154,7 +158,7 @@ def validate_recipe_removals(spec, owned_root, host_root, stable, *, retained_ow
  return removed
 
 
-def apply_host_extension(spec,owned_root,host_root,source,*,retained_owner=None,station_handoff=None):
+def apply_host_extension(spec,owned_root,host_root,source,*,retained_owner=None,station_handoff=None,source_repo=None):
  if spec.get('kind')=='cookery-station-performance':
   from cookery_station_extension import apply_station_extension
   return apply_station_extension(spec,owned_root,host_root,source,station_handoff)
@@ -191,7 +195,7 @@ def apply_host_extension(spec,owned_root,host_root,source,*,retained_owner=None,
  engine_context=bool(guide and stable and spec.get('id')=='senluo:cookery-guide-startup-repair')
  if spec.get('text_replacements') and not stable:
   raise ValueError('script replacements require an exact reviewed stable profile')
- removed=validate_recipe_removals(spec,owned_root,host_root,stable,retained_owner=retained_owner)
+ removed=validate_recipe_removals(spec,owned_root,host_root,stable,retained_owner=retained_owner,source_repo=source_repo)
  if cache and not stable:validate_recipe_cache_profile(spec,source)
  if guide and not stable:validate_guide_startup_profile(spec,source)
  if dough and not stable and (spec.get('host_uuid'),spec['archive_sha256']) not in {('d322809c-a51e-4742-bfc4-16d3c1491c9d','9e5b617cc4c7a08ecd429fb9e42ec10e8d40a1ed5fc1f6f6687c3aff8a45a5d5'),('5df753c9-3436-4fba-87f1-a2da3651cfcf','da12fe6d39d7514aff1de3c963d69899324d771be5ca0fc3da1ccb759c7ad458')}:raise ValueError('dough repair requires the pinned Cookery host')

@@ -282,6 +282,23 @@ class OwnedDataSources(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'complete accepted replacement'):
             self.apply()
 
+    def test_new_data_is_added_only_to_an_unoccupied_target(self):
+        name='BP/entities/restored.json';raw=b'{"fixture":"restored owner data"}\n'
+        source='authored/'+name
+        self.spec['source_files'][name]=source
+        self.spec['original_files'][name]=None
+        self.spec['patched_files'][name]=sha(raw)
+        target=self.owned/source;target.parent.mkdir(parents=True);target.write_bytes(raw)
+        self.register(self.spec)
+        target=self.root/name;target.parent.mkdir(parents=True);target.write_bytes(b'newer host data')
+        before=self.snapshot()
+        with self.assertRaisesRegex(ValueError,'addition is occupied'):
+            self.apply()
+        self.assertEqual(self.snapshot(),before)
+        target.unlink()
+        self.apply()
+        self.assertEqual(target.read_bytes(),raw)
+
     def test_newer_host_data_or_damaged_source_cannot_partially_write(self):
         path = self.root / 'RP/manifest.json'
         path.write_bytes(path.read_bytes() + b'\n')

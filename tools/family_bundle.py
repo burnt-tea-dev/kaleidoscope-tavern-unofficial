@@ -288,7 +288,7 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
    host=by_uuid.get(spec['host_uuid'])
    if host is None:fail('host extension target missing')
    host_root=out/(host['side']+'_packs')/host['uuid']
-   context={}
+   context={'source_repo':repo}
    station=station_handoffs.get(spec.get('host_uuid'))
    if station is not None and ((own['key']==station['api_key'] and spec.get('id')==station['api']['id']) or (own['key']==station['private_key'] and spec.get('kind')=='cookery-station-performance')):
     context['station_handoff']=station
