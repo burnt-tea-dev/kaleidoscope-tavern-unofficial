@@ -300,6 +300,44 @@
       ],
       "source": "https://github.com/burnt-tea-dev/cute-blocky-silverfish/pull/30",
       "scope": "Private owner LIVE preview. CBS0.4.9 canonical host composition preserves every existing TACZ/G219 property, component, group and event, adding the two independently held egg visual properties (28 to30). Exact hashes and32-property budget required. Full family/save/rollback gates remain; client=false, author distribution permission NOT_CONFIRMED."
+    },
+    {
+      "id": "cbs049-current-tacz20018-g219",
+      "owner_uuid": "a86f0ff8-71f6-590b-aac9-312a162440ca",
+      "definitions": [
+        {
+          "uuid": "a86f0ff8-71f6-590b-aac9-312a162440ca",
+          "version": [
+            0,
+            4,
+            9
+          ],
+          "path": "entities/player.json",
+          "sha256": "9046a9c7137077240ebde83448503b8ef143b2bfc89b0508a7b2ba9ec44aff10"
+        },
+        {
+          "uuid": "4f2a831e-9d12-4c6b-96e5-22a83b9f1a01",
+          "version": [
+            1,
+            0,
+            20018
+          ],
+          "path": "entities/player.json",
+          "sha256": "1481c316b702afcb009d332136ff6340d983c539963dcc19dbb0536eab8064d3"
+        },
+        {
+          "uuid": "c68005c5-23ff-54e8-a3ff-da6349ad43c2",
+          "version": [
+            2,
+            8,
+            219
+          ],
+          "path": "entities/player.json",
+          "sha256": "589df66236c178c5456f7bd8de8cc247d0fc94482aa628ed51d699dca8fb856d"
+        }
+      ],
+      "source": "Canonical Core0.31 manifest-only current-owner dependency refresh. Complete G219 resource payload is byte-identical to G212 except its manifest. No player/schema/controller or owner TACZRP20017 payload was changed.",
+      "scope": "Private owner CBS preview with current G219/IE20006/TACZ20018 pair. Exact player definitions and priority retain all30 properties/components/groups/events and the32-property cap. Source, full-family saved-world/rollback and actual client acceptance remain separate; author distribution permission NOT_CONFIRMED."
     }
   ]
 }
