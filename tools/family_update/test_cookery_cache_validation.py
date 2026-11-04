@@ -47,6 +47,19 @@ class CacheBoundary(unittest.TestCase):
         for key, value in [('state', 'failure'), ('context', 'functional tests'), ('description', 'lint failed'), ('target_url', 'https://example.org')]:
             with self.subTest(key=key), self.assertRaises(AssertionError): m.classify_private_ci(checks, [{**status, key: value}])
 
+    def test_current_canonical_job_display_names_are_accepted(self):
+        checks = [{'name': name, 'app_slug': 'github-actions', 'status': 'completed', 'conclusion': 'success'}
+                  for name in ('Fast private runtime smoke', 'Documentation advisory',
+                               'Historical source and full-family diagnostics (manual)')]
+        self.assertEqual(m.classify_private_ci(checks, []), [])
+        for key, value in [('conclusion', 'failure'), ('conclusion', 'skipped'),
+                           ('conclusion', 'neutral'), ('status', 'in_progress'),
+                           ('name', 'unrelated smoke'), ('app_slug', 'another-app')]:
+            with self.subTest(key=key, value=value), self.assertRaises(AssertionError):
+                m.classify_private_ci([{**checks[0], key: value}, *checks[1:]], [])
+        with self.assertRaises(AssertionError):
+            m.classify_private_ci([*checks[:-1], {**checks[-1], 'conclusion': 'failure'}], [])
+
     def test_even_a_new_frozen_tree_cannot_hide_gameplay_or_an_extra_file(self):
         for mode in ['mutate', 'add', 'remove']:
             with self.subTest(mode=mode):
