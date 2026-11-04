@@ -65,7 +65,7 @@ class TavernForms(unittest.TestCase):
             self.assertEqual(bindings[9:11],[{'binding_name':'#title_text','binding_name_override':'#kt_board_title'},
                 {'binding_type':'collection','binding_collection_name':'custom_form','binding_name':'#custom_text','binding_name_override':'#kt_board_field'}])
             self.assertEqual([b['target_property_name'] for b in bindings[-3:]],['#visible','#enabled','#focus_enabled'])
-            self.assertEqual([node[key] for key in ('visible','enabled','focus_enabled')],[False,native['enabled'],native['focus_enabled']])
+            self.assertEqual([node[key] for key in ('visible','enabled','focus_enabled')],[kind=='foreign',native['enabled'],native['focus_enabled']])
             for row in bindings[-3:]:self.assertNotIn(row['target_property_name'],row['source_property_name'])
             if kind=='foreign':self.assertEqual(resolved['max_length'],'$max_text_edit_length')
         def gate(kind,target,title,label,enabled=True,native_enabled=True,native_focus=True,native_visible=True):
