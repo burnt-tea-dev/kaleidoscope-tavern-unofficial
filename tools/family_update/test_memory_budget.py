@@ -144,6 +144,51 @@ class PhasedMemoryBudgetTests(unittest.TestCase):
         self.assertTrue(record['ok'])
         self.set_cap.assert_not_called(); self.lease.assert_not_called(); self.server.assert_not_called()
 
+    def test_recurring_cleanup_keeps_recent_history_after_more_than_256_runs(self):
+        first = m.require('cleanup-copies')
+        target = m.c.R / 'memory-admissions.json'
+        history = {'schema': 1, 'observations': [
+            {**first, 'recorded_at': f'run-{index}'} for index in range(256)]}
+        target.write_text(json.dumps(history))
+        second = m.require('cleanup-engine-inputs')
+        third = m.require('cleanup-copies')
+        rows = json.loads(target.read_text())['observations']
+        self.assertEqual(len(rows), 256)
+        self.assertEqual(rows[0]['recorded_at'], 'run-2')
+        self.assertEqual(rows[-2:], [second, third])
+        self.set_cap.assert_not_called(); self.lease.assert_not_called()
+
+    def test_full_deployment_transaction_is_not_rotated_by_cleanup(self):
+        first = m.require('saved-world')
+        target = m.c.R / 'memory-admissions.json'
+        raw = json.dumps({'schema': 1, 'observations': [first] * 256})
+        target.write_text(raw)
+        with self.assertRaisesRegex(ValueError, 'transaction budget'):
+            m.require('cleanup-copies')
+        self.assertEqual(target.read_text(), raw)
+
+    def test_non_cleanup_phase_still_rejects_a_full_journal(self):
+        first = m.require('cleanup-copies')
+        target = m.c.R / 'memory-admissions.json'
+        raw = json.dumps({'schema': 1, 'observations': [first] * 256})
+        target.write_text(raw)
+        with self.assertRaisesRegex(ValueError, 'transaction budget'):
+            m.require('update')
+        self.assertEqual(target.read_text(), raw)
+
+    def test_cleanup_rotation_does_not_bypass_insufficient_memory(self):
+        first = m.require('cleanup-copies')
+        target = m.c.R / 'memory-admissions.json'
+        target.write_text(json.dumps({'schema': 1, 'observations': [first] * 256}))
+        self.available = 2 * GIB + self.light - 1024
+        with self.assertRaisesRegex(RuntimeError, 'insufficient memory'):
+            m.require('cleanup-engine-inputs')
+        rows = json.loads(target.read_text())['observations']
+        self.assertEqual(len(rows), 256)
+        self.assertFalse(rows[-1]['ok'])
+        self.assertEqual(rows[-1]['phase'], 'cleanup-engine-inputs')
+        self.set_cap.assert_not_called()
+
     def test_preinstall_recovery_preserves_original_failure_history_bytes(self):
         m.c.R.mkdir()
         original = m.c.R / 'memory-admissions.json'
