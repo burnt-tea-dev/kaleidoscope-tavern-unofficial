@@ -9,7 +9,9 @@ const TAG='kt_incense_order_qa',CURE='kaleidoscope_tavern:incense_curing',MARKER
 const CURE_EVENT='kaleidoscope_tavern:incense_cure',SAVE='kaleidoscope_tavern:incense_native_qa';
 const ZOMBIES=new Set(['minecraft:zombie_villager','minecraft:zombie_villager_v2']);
 const VILLAGERS=new Set(['minecraft:villager','minecraft:villager_v2']);
-const roles=[{role:'lethal',x:82.5,z:2.5,health:1},{role:'survivor',x:86.5,z:2.5,health:2},{role:'damage_control',x:82.5,z:10.5,health:2},{role:'reset_control',x:82.5,z:18.5,health:2}];
+const roles=[{role:'lethal',x:82.5,z:2.5,health:1},{role:'survivor',x:86.5,z:2.5,health:2},{role:'damage_control',x:82.5,z:10.5,health:2},{role:'reset_control',x:82.5,z:18.5,health:2},
+ {role:'village_survivor',x:86.5,z:18.5,health:2,spawnEvent:'from_village'},
+ {role:'zombified_survivor',x:86.5,z:26.5,health:2,zombify:true}];
 const pending={role:'save_pending',x:86.5,z:10.5,health:1,ids:new Set()};
 const pause=ticks=>new Promise(resolve=>system.runTimeout(resolve,ticks));
 const out=(stage,data={})=>console.warn('[KT-INCENSE-LIFECYCLE] '+JSON.stringify({stage,tick:system.currentTick,...data}));
@@ -43,7 +45,7 @@ function componentAccess(entity){
  });
 }
 function completed(row,entity,evidence){
- if(!VILLAGERS.has(entity.typeId))return;
+ if(!VILLAGERS.has(entity.typeId)||row.zombify&&!row.before)return;
  row.ids.add(entity.id);row.entity=entity;
  const state=snapshot(entity);
  if(row.completeTick===undefined){row.completeTick=system.currentTick;out('actual_villager',{role:row.role,evidence,typeId:entity.typeId,...state});}
@@ -127,15 +129,21 @@ world.afterEvents.worldLoad.subscribe(()=>system.runTimeout(async()=>{try{
  d.runCommand('tickingarea add circle 84 300 6 1 kt_incense_order_qa true');
  let loaded=false;for(let i=0;i<60&&!loaded;i++){await pause(5);try{loaded=!!d.getBlock({x:84,y:300,z:6});}catch{}}
  require(loaded,'QA chunk unavailable');
- d.fillBlocks(new BlockVolume({x:80,y:299,z:0},{x:88,y:304,z:20}),'minecraft:stone');
+ d.fillBlocks(new BlockVolume({x:80,y:299,z:0},{x:88,y:304,z:28}),'minecraft:stone');
  for(const row of [...roles,pending]){row.ids=new Set();d.fillBlocks(new BlockVolume({x:Math.floor(row.x)-1,y:300,z:Math.floor(row.z)-1},{x:Math.floor(row.x)+1,y:303,z:Math.floor(row.z)+1}),'minecraft:air');}
  const block=d.getBlock({x:84,y:300,z:2});block.setPermutation(BlockPermutation.resolve('kaleidoscope_tavern:butterfly_incense'));
  active=true;out('capabilities',{signals,cureEvent:CURE_EVENT,javaConfiguredTicks:60,nativeWindowTicks:240});
+ d.runCommand('difficulty hard');
  for(const row of roles){
-  // Public summonable identity; record native resolution to v2 before setup.
-  const entity=d.spawnEntity('minecraft:zombie_villager',{x:row.x,y:300,z:row.z});row.entity=entity;row.ids.add(entity.id);
+  // Real native entry points: public summon, abandoned-village spawn, and
+  // villager zombification. Count observed types, not requested identifiers.
+  const entity=d.spawnEntity(row.zombify?'minecraft:villager':'minecraft:zombie_villager',{x:row.x,y:300,z:row.z},row.spawnEvent?{spawnEvent:row.spawnEvent}:undefined);
+  row.entity=entity;row.ids.add(entity.id);
  }
  await pause(5);
+ const zombified=roles.find(row=>row.zombify);sample(zombified,d);
+ require(zombified.entity?.isValid&&VILLAGERS.has(zombified.entity.typeId),'native villager setup did not resolve');
+ zombified.entity.triggerEvent('become_zombie');await pause(5);
  for(const row of roles){
   sample(row,d);const entity=row.entity;require(entity?.isValid&&ZOMBIES.has(entity.typeId),'native zombie setup did not resolve: '+row.role);
   entity.nameTag='KT incense '+row.role;entity.addTag(TAG);entity.setDynamicProperty(MARKER,row.role);
@@ -160,7 +168,7 @@ world.afterEvents.worldLoad.subscribe(()=>system.runTimeout(async()=>{try{
    require(reset.entity?.isValid&&ZOMBIES.has(reset.entity.typeId),'reset recipient transformed too early');
    reset.entity.triggerEvent(CURE_EVENT);out('reset_during_cure',{role:reset.role,...snapshot(reset.entity)});
   }
-  if(survivor.completeTick!==undefined&&reset.completeTick!==undefined){
+  if([survivor,reset,...roles.slice(4)].every(row=>row.completeTick!==undefined)){
    // Native Spawn/Transformed callbacks may arrive after the per-tick type read.
    // Keep the first completion tick, then read metadata after those callbacks.
    await pause(2);for(const row of roles)sample(row,d);break;
@@ -177,8 +185,9 @@ world.afterEvents.worldLoad.subscribe(()=>system.runTimeout(async()=>{try{
  const externalDamageMatches=control.controlledHurt?.accepted&&control.death?.cause==='magic';
  const nativeEventConfirmed=survivor.completionEvidence?.some(row=>row.evidence!=='perTick:villager_type');
  const resetElapsed=reset.completeTick!==undefined&&reset.requestTicks?.length===2?reset.completeTick-reset.requestTicks[1]:null,resetMatches=resetElapsed===60;
- const result={kind:nativeComplete&&javaDelayMatches&&lethalMatches&&externalDamageMatches&&nativeEventConfirmed&&resetMatches?'done':'partial',phase:'first',players:world.getAllPlayers().length,
-  nativeObservationComplete:nativeComplete,javaConfiguredTicks:60,nativeElapsedTicks:elapsed,javaDelayMatches,lethalMatches,externalDamageMatches,nativeEventConfirmed,resetElapsed,resetMatches,observations};
+ const dualCases=[survivor,...roles.slice(4)],nativeTypesCovered=[...new Set(dualCases.filter(row=>row.completeTick-row.requestTick===60&&row.completionEvidence?.some(e=>e.evidence!=='perTick:villager_type')).map(row=>row.before.typeId))],bothNativeTypes=ZOMBIES.size===nativeTypesCovered.length&&nativeTypesCovered.every(type=>ZOMBIES.has(type));
+ const result={kind:nativeComplete&&javaDelayMatches&&lethalMatches&&externalDamageMatches&&nativeEventConfirmed&&resetMatches&&bothNativeTypes?'done':'partial',phase:'first',players:world.getAllPlayers().length,
+  nativeObservationComplete:nativeComplete,javaConfiguredTicks:60,nativeElapsedTicks:elapsed,javaDelayMatches,lethalMatches,externalDamageMatches,nativeEventConfirmed,resetElapsed,resetMatches,nativeTypesCovered,bothNativeTypes,observations};
  if(nativeComplete){
   block.setPermutation(block.permutation.withState('kaleidoscope_tavern:open',0));
   // Keep the completed actor and save one owned native conversion in flight.
