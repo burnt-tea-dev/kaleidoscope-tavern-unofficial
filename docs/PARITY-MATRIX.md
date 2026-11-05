@@ -10,9 +10,11 @@ Adopt the official Bedrock Tavern1.0.7 unique-reference rule. Preserve the curre
 
 對照發布版 Java 1.2.0 的 Forge 1.20.1 `c4ec1880` 及 NeoForge 1.21.1 `a1afba34`：`EffectEvent.onLivingHurt` 的摸金校尉來源是 LivingEntity，`VisionEffect.applyEffectTick` 也接受 LivingEntity。先前 Bedrock 的這兩種效果入口只接受玩家；瓶裝感知酒雖已能潑濺到生物，效果仍被入口拒絕。摸金校尉的活體效果入口與傷害回呼也有同樣限制。
 
-現在非玩家活體可保存、執行摸金校尉和感知；感知沿剩餘時間每 50 ticks 脈衝。啟動時一次恢復已載入活體的資料，包括原生 `mob` 家族以外的魚類；之後沿 entityLoad 與既有活體時計處理，不逐 tick 掃全世界。保存格式與資料鍵不變。
+來源已為非玩家活體接通摸金校尉和感知的保存及執行入口；感知沿剩餘時間每 50 ticks 脈衝。啟動時一次恢復已載入活體的資料，包括原生 `mob` 家族以外的魚類；之後沿 entityLoad 與既有活體時計處理，不逐 tick 掃全世界。保存格式與資料鍵不變。
 
-來源回歸呼叫實際效果入口、卸裝、脈衝與載入事件，驗證武器 metadata、剩 1 耐久、40 ticks 拾取延遲、掉落失敗回裝、到期及卸載時間暫停，見 [java-parity-adapter.test.mjs](../tools/java-parity-adapter.test.mjs) 與 [vision-feedback-adapter.test.mjs](../tools/vision-feedback-adapter.test.mjs)。感知仍使用現有偵測／聲音適配；穿牆輪廓沒有因此完成。摸金校尉仍是 Bedrock 傷害後事件，並非 Java 傷害前階段；實際聲畫與完整傷害時序不宣稱等價。引擎與保存重啟結果另由同批部署證據記錄。
+來源回歸呼叫實際效果入口、卸裝、脈衝與載入事件，驗證武器 metadata、剩 1 耐久、40 ticks 拾取延遲、掉落失敗回裝、到期及卸載時間暫停，見 [java-parity-adapter.test.mjs](../tools/java-parity-adapter.test.mjs) 與 [vision-feedback-adapter.test.mjs](../tools/vision-feedback-adapter.test.mjs)。感知仍使用現有偵測／聲音適配；穿牆輪廓沒有因此完成。摸金校尉仍是 Bedrock 傷害後事件，並非 Java 傷害前階段；實際聲畫與完整傷害時序不宣稱等價。原生檢查（2026-11-05，BDS 1.26.60.6、T200／W187、零玩家隔離世界）：魚類感知完成首次兩次脈衝、保存重啟自動恢復，重啟後計時 5832 → 5822。殭屍沒有公開的 `minecraft:equippable`，所以摸金校尉的原生卸裝仍未通過；同引擎的 SDK 2.7.0、2.11.0、2.12.0-beta 對殭屍、骷髏、盔甲座及豬，在生成當下及五 ticks 後都沒有該元件。這只描述本次版本與生物，不推論其他版本永久不支援。
+
+隔離觀察器 [living-effects-capability.js](../tools/native/living-effects-capability.js) 會分別報告感知與摸金校尉。缺少裝備元件時仍跑完感知與重啟，總結果保持 `partial`，執行器回傳失敗；不再因裝備 fixture 的 TypeError 遮住另一項結果。正式 runtime 未改。
 
 ## 龍頭完成時的來源（2026-11-05）
 
