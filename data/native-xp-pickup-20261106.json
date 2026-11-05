@@ -1,0 +1,238 @@
+{
+  "schema": 1,
+  "observed_date_hkt": "2026-11-06",
+  "bdsVersion": "1.26.60.6",
+  "scriptAPI": "@minecraft/server2.7.0",
+  "gametestAPI": "@minecraft/server-gametest1.0.0-beta",
+  "qaExperiments": [
+    "gametest",
+    "upcoming_creator_features"
+  ],
+  "runtime_reference_commit": "6c7539689664b87f3f66ef0e93d99f2d4bd1be69",
+  "observer_reference_commit": "bf8a6dd32b5c655da09bbc2a264af7b018d5bbd3",
+  "scope": "One actual native Survival Player; OFF versus formal completeCocktail Allium ON; native death XP only; cadence and total value, not Mending or multiplayer",
+  "runtimeChanged": false,
+  "liveChanged": false,
+  "javaPickupParityEstablished": false,
+  "javaReference": {
+    "forge": "https://github.com/KaleidoscopeMods/KaleidoscopeTavern/blob/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/effect/XpDrainEffect.java",
+    "neo": "https://github.com/KaleidoscopeMods/KaleidoscopeTavern/blob/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/effect/XpDrainEffect.java",
+    "bothBranches": "Clear Player takeXpDelay every tick; scan inflated AABB8 every5 ticks; inside1.5 call playerTouch and clear cooldown after each orb.",
+    "vanillaVersionsInspected": [
+      "1.20.1",
+      "1.21.1"
+    ],
+    "vanillaSemantics": "playerTouch respects and sets cooldown, repairs Mending/awards remainder, decrements orb count and discards only at count0. 5XP splits3+1+1; equal-value merging means entity count is not total XP.",
+    "boundedSourceInference": "In the separated5XP-per-cell reference, same-value count is at most2 before collection. With the initial owner pass aligned and no new cross-cell merge during the first two scans, two Java owner passes suffice, at most5 ticks apart. This is a source-derived bound, not a native Java measurement or a proof of Bedrock cooldown internals."
+  },
+  "fixture": {
+    "mob": "minecraft:silverfish",
+    "nativeRewardEach": 5,
+    "nativeDeathsPerCase": 8,
+    "allDeathsAttributedToNativePlayer": true,
+    "allEightCellsLoaded": true,
+    "allEightActorsValidBeforeDamage": true,
+    "selectedVanillaDefinition": "vanilla_1.21.50/entities/silverfish.json: despawn_from_distance={} and experience_reward last_hit_by_player?5:0"
+  },
+  "setupFailures": [
+    {
+      "attempt": 1,
+      "observation": "Only21 native orbs, seven cells with3+1+1=35XP; no Allium comparison performed."
+    },
+    {
+      "attempt": 2,
+      "observation": "After actor initialization the damage target was invalid; no Allium comparison performed."
+    },
+    {
+      "attempt": 3,
+      "observation": "Glass wall control still lost only the farthest actor, rejecting stone burrowing as the cause."
+    }
+  ],
+  "fixtureCorrection": {
+    "observation": "The only invalid actor was44.72 blocks from the parked Player. Moving the park makes the farthest distance36.88; all eight actors remain valid and reward correctly.",
+    "officialDespawnReference": "https://feedback.minecraft.net/hc/en-us/articles/360044928311-Minecraft-Nether-Update-1-16-0-Bedrock",
+    "officialDespawnComponentReference": "https://learn.microsoft.com/en-us/minecraft/creator/reference/content/entityreference/examples/entitycomponents/minecraftcomponent_despawn?view=minecraft-bedrock-stable"
+  },
+  "cases": [
+    {
+      "allium": false,
+      "nativeRewardInput": {
+        "entity": "minecraft:silverfish",
+        "kills": 8,
+        "vanillaRewardEach": 5,
+        "expectedXp": 40
+      },
+      "setupXpUnchanged": true,
+      "settledOrbObservedAges": {
+        "youngest": 85,
+        "oldest": 85
+      },
+      "initialOrbCount": 24,
+      "settledItem": null,
+      "finishTick": 21,
+      "totalXp": 40,
+      "remaining": 0,
+      "samples": [
+        {
+          "ticks": 0,
+          "xp": 0,
+          "remaining": 24
+        },
+        {
+          "ticks": 1,
+          "xp": 4,
+          "remaining": 20
+        },
+        {
+          "ticks": 2,
+          "xp": 12,
+          "remaining": 16
+        },
+        {
+          "ticks": 3,
+          "xp": 18,
+          "remaining": 12
+        },
+        {
+          "ticks": 4,
+          "xp": 21,
+          "remaining": 11
+        },
+        {
+          "ticks": 5,
+          "xp": 21,
+          "remaining": 11
+        },
+        {
+          "ticks": 6,
+          "xp": 21,
+          "remaining": 9
+        },
+        {
+          "ticks": 7,
+          "xp": 25,
+          "remaining": 7
+        },
+        {
+          "ticks": 8,
+          "xp": 26,
+          "remaining": 6
+        },
+        {
+          "ticks": 10,
+          "xp": 31,
+          "remaining": 4
+        },
+        {
+          "ticks": 11,
+          "xp": 35,
+          "remaining": 3
+        },
+        {
+          "ticks": 12,
+          "xp": 38,
+          "remaining": 2
+        },
+        {
+          "ticks": 18,
+          "xp": 39,
+          "remaining": 1
+        },
+        {
+          "ticks": 20,
+          "xp": 39,
+          "remaining": 1
+        },
+        {
+          "ticks": 21,
+          "xp": 40,
+          "remaining": 0
+        }
+      ]
+    },
+    {
+      "allium": true,
+      "nativeRewardInput": {
+        "entity": "minecraft:silverfish",
+        "kills": 8,
+        "vanillaRewardEach": 5,
+        "expectedXp": 40
+      },
+      "setupXpUnchanged": true,
+      "settledOrbObservedAges": {
+        "youngest": 85,
+        "oldest": 85
+      },
+      "initialOrbCount": 24,
+      "settledItem": "kaleidoscope_tavern:empty_glassware",
+      "finishTick": 11,
+      "totalXp": 40,
+      "remaining": 0,
+      "samples": [
+        {
+          "ticks": 0,
+          "xp": 0,
+          "remaining": 24
+        },
+        {
+          "ticks": 1,
+          "xp": 12,
+          "remaining": 18
+        },
+        {
+          "ticks": 2,
+          "xp": 17,
+          "remaining": 13
+        },
+        {
+          "ticks": 3,
+          "xp": 19,
+          "remaining": 11
+        },
+        {
+          "ticks": 4,
+          "xp": 25,
+          "remaining": 7
+        },
+        {
+          "ticks": 5,
+          "xp": 28,
+          "remaining": 6
+        },
+        {
+          "ticks": 6,
+          "xp": 28,
+          "remaining": 5
+        },
+        {
+          "ticks": 7,
+          "xp": 29,
+          "remaining": 4
+        },
+        {
+          "ticks": 9,
+          "xp": 32,
+          "remaining": 3
+        },
+        {
+          "ticks": 10,
+          "xp": 35,
+          "remaining": 2
+        },
+        {
+          "ticks": 11,
+          "xp": 40,
+          "remaining": 0
+        }
+      ]
+    }
+  ],
+  "interpretation": "The formal Allium path speeds collection in this fixture without XP loss. It still does not establish Java-equivalent immediate playerTouch/cooldown behavior. The native trace exceeds the bounded source expectation; it does not identify the Bedrock internal cause. Orb physics, merge state and callback timing are not measured as Java native traces.",
+  "completion": {
+    "observationCompleted": true,
+    "normalStop": true,
+    "finalPlayers": 0,
+    "generatedQAWorldRemoved": true
+  },
+  "evidenceBoundary": "Public record contains gameplay observations only. Original logs, native reports, actor IDs, host/service details and failed-fixture artifacts remain local; no raw host logs are published."
+}
