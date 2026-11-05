@@ -164,9 +164,9 @@ class BindingTests(unittest.TestCase):
                     self.binding()
                 self.responses = saved
 
-    def test_stopped_changed_runtime_is_rejected_before_validation_or_server_actions(self):
+    def test_transitional_runtime_is_rejected_before_validation_or_server_actions(self):
         with (
-            patch.object(deploy_live, 'summary', return_value={'status': 'STOPPED'}),
+            patch.object(deploy_live, 'summary', return_value={'status': 'STARTING'}),
             patch.object(deploy_live, 'verify_predeploy') as inventory,
             patch.object(deploy_live, 'verify_candidate_sources') as candidate,
             patch.object(workflow, 'same_runtime', return_value=False),
@@ -174,7 +174,7 @@ class BindingTests(unittest.TestCase):
             patch.object(workflow, 'verify_native') as native,
             patch.object(deploy_live, 'action') as action,
         ):
-            with self.assertRaisesRegex(AssertionError, 'initially be RUNNING'):
+            with self.assertRaisesRegex(AssertionError, 'initially be RUNNING or STOPPED'):
                 deploy_live.preflight()
             inventory.assert_called_once_with()
             candidate.assert_called_once_with()
@@ -185,7 +185,7 @@ class BindingTests(unittest.TestCase):
     def test_preflight_propagates_static_failure_without_launching_native_or_server_actions(self):
         receipt = {'packs': [{'uuid': 'fixture-pack'}]}
         with (
-            patch.object(deploy_live, 'summary', return_value={'status': 'RUNNING'}),
+            patch.object(deploy_live, 'summary', return_value={'status': 'STOPPED'}),
             patch.object(deploy_live, 'verify_predeploy', return_value=receipt),
             patch.object(deploy_live, 'verify_candidate_sources', return_value=receipt),
             patch.object(workflow, 'same_runtime', return_value=False),

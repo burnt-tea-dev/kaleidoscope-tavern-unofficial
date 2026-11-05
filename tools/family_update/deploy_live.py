@@ -29,7 +29,7 @@ def preflight():
     receipt = verify_candidate_sources()
     from family_update.workflow import no_update_needed
     if not CONFIG.get('fresh_world') and no_update_needed(receipt, original):
-        return original, receipt
+        return original, receipt, initial_status
     if CONFIG.get('fresh_world'):
         target = B / 'worlds' / CONFIG['fresh_world']['level_name']
         assert not target.exists(), 'Never replace an existing fresh-world target'
@@ -40,7 +40,7 @@ def preflight():
         from family_update.managed_drift_recovery import validate_initial_status
         validate_initial_status(initial)
     else:
-        assert initial_status == 'RUNNING', 'Live must initially be RUNNING; never start an intentionally stopped server during recovery'
+        assert initial_status in {'RUNNING', 'STOPPED'}, 'Live must initially be RUNNING or STOPPED; wait for an in-progress lifecycle operation'
     assert sha(Q / 'family_guard.py') == sha(T / 'tools/family_guard.py'), 'BSM guard differs from canonical; investigate, never silently replace'
     # Every entry point uses the same evidence validator; share the already
     # verified immutable candidate within this preflight instead of rescanning.
@@ -65,7 +65,7 @@ def preflight():
         trusted, _ = rollback_metadata(review)
         allocation += allocated(trusted)
     require_space(R, "Stopped backup and saved-world rehearsal", allocation)
-    return original,receipt
+    return original,receipt,initial_status
 
 def acquire_lease(receipt):
     old = lease_available()
@@ -317,7 +317,7 @@ def verify_original_before_restart(original):
     assert live_inventory()==original, 'Original complete pack inventory/order not restored; do not start'
     assert sha(Q/'senluo-policy.json')==sha(R/'production-before/senluo-policy.json'), 'Original policy not restored; do not start'
 
-def recover_after_failure(original,changed,retired,installed,rollback_failed=False):
+def recover_after_failure(original,changed,retired,installed,rollback_failed=False,initial_status='RUNNING'):
     """Only restart a verified original stack; persist failed recovery honestly."""
     phase='inspect_failure'
     try:
@@ -351,10 +351,16 @@ def recover_after_failure(original,changed,retired,installed,rollback_failed=Fal
             from family_update.managed_drift_recovery import restart_original_allowed
             if not restart_original_allowed():
                 raise RecoveryRequired('The server was initially stopped or its owner evidence is incomplete; retain stopped state and active lease after trusted pack-only recovery')
-        phase='restart_verified_original_stack'
-        if summary()['status']=='STOPPED': action('start')
-        assert summary()['status']=='RUNNING', 'Original stack restart is not confirmed'
-        state='trusted_approved_stack_running_after_failure' if CONFIG.get('managed_drift_recovery') else 'original_stack_running_after_failure'
+        if initial_status=='STOPPED':
+            phase='retain_verified_original_stack_stopped'
+            if summary()['status']!='STOPPED': action('stop')
+            assert summary()['status']=='STOPPED', 'Originally stopped runtime must remain stopped after recovery'
+            state='original_stack_stopped_after_failure'
+        else:
+            phase='restart_verified_original_stack'
+            if summary()['status']=='STOPPED': action('start')
+            assert summary()['status']=='RUNNING', 'Original stack restart is not confirmed'
+            state='trusted_approved_stack_running_after_failure' if CONFIG.get('managed_drift_recovery') else 'original_stack_running_after_failure'
         atomic(R/'deployment-recovery.json',{'state':state,'recorded_at':now(),'original_inventory_verified':not bool(CONFIG.get('managed_drift_recovery')),'trusted_approved_inventory_verified':bool(CONFIG.get('managed_drift_recovery')),'original_policy_verified':True,'save_database_restored':False,'original_drift_approved':False,'client':False,'production_ready':False})
         lease=read(LEASE); lease.update(state='failed',failed_at=now(),status=state); atomic(LEASE,lease)
         return True
@@ -543,7 +549,7 @@ def main(argv=None):
     # also protects against other existing deployment scripts and must be free.
     with open(str(LOCK), 'a+') as lock:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        lease_available(); original,receipt=preflight()
+        lease_available(); original,receipt,initial_status=preflight()
         from family_update.workflow import no_update_needed
         if not CONFIG.get('fresh_world') and no_update_needed(receipt, original):
             print('NO_RUNTIME_CHANGES: full live bytes and order already match; no restart', flush=True)
@@ -570,7 +576,7 @@ def main(argv=None):
                 from family_update.managed_drift_recovery import prepare_rollback
                 prepare_rollback(original)
             print(f'Preparing {SERVER} for a fresh stopped backup and saved-world rehearsal',flush=True)
-            if not (CONFIG.get('fresh_world') or CONFIG.get('managed_drift_recovery') or CONFIG.get('normal_idle_update')) or summary()['status']!='STOPPED':
+            if summary()['status']!='STOPPED':
                 action('stop')
             assert summary()['status']=='STOPPED'; verify_predeploy()
             # Admit the larger native ceiling only after normal production stop.
@@ -597,7 +603,7 @@ def main(argv=None):
         except BaseException as failure:
             traceback.print_exc()
             try:
-                restored=recover_after_failure(original,changed,retired,installed,rollback_failed=isinstance(failure,RecoveryRequired))
+                restored=recover_after_failure(original,changed,retired,installed,rollback_failed=isinstance(failure,RecoveryRequired),initial_status=initial_status)
                 if changed and restored:
                     atomic(R/'deployment-result.json',{'state':'trusted_stack_restored_after_candidate_start' if CONFIG.get('managed_drift_recovery') else 'rolled_back_after_candidate_start','save_database_restored':False,'note':'Verified rollback package inventory and original policy before restart. Newest database retained; stopped backup is available for explicit data recovery.','client':False,'production_ready':False})
             except BaseException:

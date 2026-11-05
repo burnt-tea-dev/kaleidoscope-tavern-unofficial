@@ -221,7 +221,7 @@ class NormalIdleTests(unittest.TestCase):
             for name in ['R', 'B', 'W', 'Q', 'EXTENSION', 'LEASE', 'LOCK', 'SERVER', 'OWNER', 'CONFIG', 'summary', 'atomic']:
                 stack.enter_context(patch.object(deploy, name, getattr(c, name)))
             stack.enter_context(patch.object(deploy, 'AUTHORIZATION', self.authorization))
-            stack.enter_context(patch.object(deploy, 'preflight', return_value=({}, {})))
+            stack.enter_context(patch.object(deploy, 'preflight', return_value=({}, {}, 'STOPPED')))
             stack.enter_context(patch.object(deploy, 'acquire_lease', side_effect=self.lease_handoff))
             stack.enter_context(patch.object(deploy, 'verify_predeploy', return_value={}))
             stack.enter_context(patch('family_update.workflow.same_runtime', return_value=False))
