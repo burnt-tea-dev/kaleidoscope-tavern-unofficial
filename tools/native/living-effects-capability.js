@@ -1,6 +1,6 @@
 /** Isolated saved-world observer only. Copy to BP/scripts/living-effects-capability.js
  * and import once from that QA copy's entrypoint. Never install this probe on LIVE.
- * First load: native mob-attributed hurt -> Tomb Raider drop, plus saved fish Vision.
+ * First load: fish Vision independently; native Tomb Raider drop if equipment exists.
  * Restart: startup track restoration and loaded timer advance, then remove QA actors.
  */
 import {world,system,ItemStack,EquipmentSlot,EntityDamageCause,BlockVolume} from '@minecraft/server';
@@ -8,6 +8,7 @@ import {applyCustomEffect,statusNow,effectSnapshotEntities,customEffectDiagnosti
 const KEY='kaleidoscope_tavern:living_effects_qa',TAG='kt_living_effects_qa';
 const VISION='kaleidoscope_tavern:vision',TOMB='kaleidoscope_tavern:tomb_raider';
 const out=(stage,data={})=>console.warn('[KT-LIVING-QA] '+stage+' '+JSON.stringify(data));
+const finish=(phase,data)=>{const complete=data.tombRaider.status==='pass';out(phase+(complete?'_done':'_partial'),data);console.warn('[LIVING_EFFECT_QA] '+JSON.stringify({kind:complete?'done':'partial',phase,...data}));};
 const pause=ticks=>new Promise(resolve=>system.runTimeout(resolve,ticks));
 function require(value,message){if(!value)throw Error(message);}
 const effect=(entity,id)=>statusNow(entity).entries.find(row=>row.id===id);
@@ -25,9 +26,9 @@ world.afterEvents.worldLoad.subscribe(()=>system.runTimeout(async()=>{try{
   require(before>0&&before<=saved.vision&&tomb>0&&tomb<=saved.tomb,'saved effect data missing or increased');
   await pause(10);const after=effect(fish,VISION)?.ticks;
   require(after===before-10,'restored timer did not advance by loaded ticks');
-  const result={fish:fish.typeId,before,after,tomb,players:world.getAllPlayers().length};
+  const result={fish:fish.typeId,before,after,tomb,vision:{status:'pass',restored:true},tombRaider:saved.tombRaider,players:world.getAllPlayers().length};
   for(const entity of entities)entity.remove();
-  world.setDynamicProperty(KEY,undefined);dimension.runCommand('tickingarea remove kt_living_effects_qa');out('restart_done',result);return;
+  world.setDynamicProperty(KEY,undefined);dimension.runCommand('tickingarea remove kt_living_effects_qa');finish('restart',result);return;
  }
  dimension.runCommand('tickingarea add circle 6 300 2 1 kt_living_effects_qa true');
  let loaded=false;
@@ -42,23 +43,29 @@ world.afterEvents.worldLoad.subscribe(()=>system.runTimeout(async()=>{try{
  const fish=dimension.spawnEntity('minecraft:cod',{x:10.5,y:300,z:2.5});fish.addTag(TAG);
  const weapon=new ItemStack('minecraft:diamond_sword');weapon.nameTag='Tavern living QA';weapon.setLore(['native metadata witness']);weapon.setDynamicProperty('example:qa_owner','living-probe');
  weapon.getComponent('minecraft:durability').damage=7;
- const equipment=target.getComponent('minecraft:equippable');require(equipment?.setEquipment(EquipmentSlot.Mainhand,weapon)!==false,'native equipment write rejected');
+ const equipment=target.getComponent('minecraft:equippable');
+ const tombRaider={status:equipment?'pending':'unavailable',target:target.typeId,component:'minecraft:equippable'};
+ if(equipment)require(equipment.setEquipment(EquipmentSlot.Mainhand,weapon)!==false,'native equipment write rejected');
+ else out('capability_unavailable',tombRaider);
  require(applyCustomEffect(attacker,{effect:TOMB,ticks:6000,amplifier:0}),'mob Tomb Raider rejected');
  require(applyCustomEffect(fish,{effect:VISION,ticks:6000,amplifier:0}),'fish Vision rejected');
  const pulses=customEffectDiagnostics.visionPulses,disarms=customEffectDiagnostics.tombDisarms;
- for(let i=0;i<64&&equipment.getEquipment(EquipmentSlot.Mainhand);i++){
-  target.getComponent('minecraft:health').resetToMaxValue();
-  target.applyDamage(1,{cause:EntityDamageCause.entityAttack,damagingEntity:attacker});await pause(11);
- }
- require(!equipment.getEquipment(EquipmentSlot.Mainhand),'native hurt events did not disarm after 64 trials');
- const drops=dimension.getEntities({type:'minecraft:item',location:target.location,maxDistance:8}).filter(entity=>entity.getComponent('minecraft:item')?.itemStack?.nameTag===weapon.nameTag);
- require(drops.length===1&&customEffectDiagnostics.tombDisarms===disarms+1,'native event must produce one drop');
- const dropped=drops[0].getComponent('minecraft:item').itemStack,durability=dropped.getComponent('minecraft:durability');
- require(dropped.typeId===weapon.typeId&&dropped.getDynamicProperty('example:qa_owner')==='living-probe'&&dropped.getLore()[0]==='native metadata witness','native drop metadata changed');
- require(durability.damage===durability.maxDurability-1,'native drop durability differs');
- require(typeof drops[0].getDynamicProperty(TOMB_PICKUP_UNLOCK)==='number','native pickup delay missing');
- drops[0].addTag(TAG);
  await pause(55);require(customEffectDiagnostics.visionPulses>pulses,'fish Vision did not pulse');
- const saved={fish:fish.id,attacker:attacker.id,vision:effect(fish,VISION).ticks,tomb:effect(attacker,TOMB).ticks};world.setDynamicProperty(KEY,JSON.stringify(saved));
- out('first_done',{...saved,disarms:customEffectDiagnostics.tombDisarms-disarms,visionPulses:customEffectDiagnostics.visionPulses-pulses,weapon:dropped.typeId,metadata:true});
-}catch(error){out('failure',{error:String(error),stack:error.stack});}},100));
+ out('case',{feature:'fish_vision',status:'pass',visionPulses:customEffectDiagnostics.visionPulses-pulses});
+ if(equipment){
+  for(let i=0;i<64&&equipment.getEquipment(EquipmentSlot.Mainhand);i++){
+   target.getComponent('minecraft:health').resetToMaxValue();
+   target.applyDamage(1,{cause:EntityDamageCause.entityAttack,damagingEntity:attacker});await pause(11);
+  }
+  require(!equipment.getEquipment(EquipmentSlot.Mainhand),'native hurt events did not disarm after 64 trials');
+  const drops=dimension.getEntities({type:'minecraft:item',location:target.location,maxDistance:8}).filter(entity=>entity.getComponent('minecraft:item')?.itemStack?.nameTag===weapon.nameTag);
+  require(drops.length===1&&customEffectDiagnostics.tombDisarms===disarms+1,'native event must produce one drop');
+  const dropped=drops[0].getComponent('minecraft:item').itemStack,durability=dropped.getComponent('minecraft:durability');
+  require(dropped.typeId===weapon.typeId&&dropped.getDynamicProperty('example:qa_owner')==='living-probe'&&dropped.getLore()[0]==='native metadata witness','native drop metadata changed');
+  require(durability.damage===durability.maxDurability-1,'native drop durability differs');
+  require(typeof drops[0].getDynamicProperty(TOMB_PICKUP_UNLOCK)==='number','native pickup delay missing');
+  drops[0].addTag(TAG);tombRaider.status='pass';tombRaider.metadata=true;
+ }
+ const saved={fish:fish.id,attacker:attacker.id,vision:effect(fish,VISION).ticks,tomb:effect(attacker,TOMB).ticks,tombRaider};world.setDynamicProperty(KEY,JSON.stringify(saved));
+ finish('first',{...saved,vision:{status:'pass',visionPulses:customEffectDiagnostics.visionPulses-pulses},players:world.getAllPlayers().length});
+}catch(error){out('failure',{error:String(error),stack:error.stack});console.warn('[LIVING_EFFECT_QA] '+JSON.stringify({kind:'failure',error:String(error)}));}},100));

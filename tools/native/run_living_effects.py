@@ -4,7 +4,7 @@
 The observer is an explicit test-only overlay in the copied host pack scope.
 It never edits the source packs, live server, or existing worlds.
 """
-import argparse, hashlib, json, os, pathlib, re, shutil, subprocess, sys, time, zipfile
+import argparse, hashlib, json, os, pathlib, re, shutil, socket, subprocess, sys, time, zipfile
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT/'tools'))
@@ -33,8 +33,12 @@ def main():
     parser.add_argument('--work', type=pathlib.Path, required=True)
     parser.add_argument('--port', type=int, default=27200)
     parser.add_argument('--probe', type=pathlib.Path, default=ROOT/'tools/native/living-effects-probe.js')
+    parser.add_argument('--world-metadata', type=pathlib.Path, help='Read only level.dat from an existing isolated world; no DB is copied')
+    parser.add_argument('--offline', action='store_true', help='Only inside an isolated loopback network namespace')
     parser.add_argument('--phases', nargs='+', choices=['first', 'restart'], default=['first', 'restart'])
     args = parser.parse_args()
+    if args.offline:
+        assert os.readlink('/proc/self/ns/net') != os.readlink('/proc/1/ns/net') and {name for _,name in socket.if_nameindex()} == {'lo'}, 'Offline QA requires a loopback-only network namespace'
     engine, liquor, work = args.engine.resolve(), args.liquor.resolve(), args.work.resolve()
     assert not work.exists(), 'Use a new isolated directory; retain failed evidence'
     engine_identity = {'executable_sha256': hashlib.sha256((engine/'bedrock_server').read_bytes()).hexdigest()}
@@ -61,15 +65,19 @@ def main():
     for name in ['config', 'minecraftpe', 'treatments']:
         # This is engine configuration, never the live world or its pack cache.
         shutil.copytree(engine/name, work/name, ignore=shutil.ignore_patterns('packcache'))
+    if (engine/'data').is_dir():
+        shutil.copytree(engine/'data', work/'data')
     (work/'allowlist.json').write_text('[]\n')
-    (work/'server.properties').write_text(f'server-name=Living effect native QA\nlevel-name=living-effect-qa\nserver-port={args.port}\nserver-portv6={args.port+1}\nallow-cheats=true\nonline-mode=true\nallow-list=true\nenable-lan-visibility=false\ntransport=nethernet\nview-distance=5\ntick-distance=4\nmax-threads=2\ncontent-log-file-enabled=true\ncontent-log-console-output-enabled=true\n')
+    authentication = 'false' if args.offline else 'true'
+    (work/'server.properties').write_text(f'server-name=Living effect native QA\nlevel-name=living-effect-qa\nserver-port={args.port}\nserver-portv6={args.port+1}\nallow-cheats=true\nonline-mode={authentication}\nallow-list={authentication}\nenable-lan-visibility=false\ntransport=nethernet\nview-distance=5\ntick-distance=4\nmax-threads=2\ncontent-log-file-enabled=true\ncontent-log-console-output-enabled=true\n')
     world = work/'worlds/living-effect-qa'
     world.mkdir(parents=True)
-    # Reuse only the stopped zero-player pickup QA world's level metadata.
+    # Reuse only level metadata from a stopped isolated QA world.
     # No DB, old test entities or player data enter this new isolated world.
     from family_update.world_experiments import transition, write_metadata, observe
     flags=json.loads((liquor/'config.json').read_text())['experimentalGameplay']
-    raw,experiment_transition=transition((engine/'worlds/pickup-smoke/level.dat').read_bytes(),flags)
+    metadata=args.world_metadata if args.world_metadata is not None else engine/'worlds/pickup-smoke/level.dat'
+    raw,experiment_transition=transition(metadata.read_bytes(),flags)
     write_metadata(world/'level.dat',raw)
     assert observe(raw,flags) is not None if flags else True
     (work/'world-experiment-transition.json').write_text(json.dumps(experiment_transition,indent=2)+'\n')
@@ -128,7 +136,7 @@ def main():
                     text = log.read_text(errors='replace')
                     if process.poll() is not None or '[LIVING_EFFECT_QA] {"kind":"failure"' in text or ' ERROR]' in text or '[error]' in text.lower():
                         break
-                    if f'"kind":"done","phase":"{phase}"' in text:
+                    if any(f'"kind":"{kind}","phase":"{phase}"' in text for kind in ('done','partial')):
                         break
                 if process.poll() is None:
                     process.communicate('stop\n', timeout=30)
@@ -142,13 +150,15 @@ def main():
         errors = [line for line in text.splitlines() if re.search(r'\bERROR\]|\[error\]', line, re.IGNORECASE)]
         connections = len(re.findall(r'\bplayer[ _]?(?:connected|joined|spawned)\b', text, re.IGNORECASE))
         ok = normal_stop and not errors and not connections and any(row.get('kind') == 'done' and row.get('phase') == phase and row.get('players') == 0 for row in rows) and not any(row.get('kind') == 'failure' for row in rows)
-        reports.append({'phase': phase, 'ok': ok, 'normal_stop': normal_stop, 'player_connections': connections, 'errors': errors, 'observations': rows})
+        completed=any(row.get('kind') in ('done','partial') and row.get('phase')==phase and row.get('players')==0 for row in rows)
+        reports.append({'phase': phase, 'completed': completed, 'ok': ok, 'normal_stop': normal_stop, 'player_connections': connections, 'errors': errors, 'observations': rows})
         (work/'native-living-report.json').write_text(json.dumps({'native_script_behavior': len(reports)==len(args.phases) and all(row['ok'] for row in reports),
             'client': False, 'full_family': False, 'live': False, 'test_only_host_overlay': True,
             'engine': engine_identity, 'sources': sources, 'copied_runtime_matches_frozen_source': True, 'test_only_overlays': overlays,
             'reports': reports}, indent=2)+'\n')
         print(json.dumps(reports[-1]), flush=True)
-        assert ok, f'{phase} failed: see {log}'
+        assert normal_stop and not errors and not connections and completed, f'{phase} did not complete: see {log}'
+    assert all(row['ok'] for row in reports), 'One or more native capabilities remain unavailable; see native-living-report.json'
 
 
 if __name__ == '__main__':
