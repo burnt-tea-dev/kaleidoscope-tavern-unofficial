@@ -565,8 +565,8 @@ class CuratedRetainedInputs(unittest.TestCase):
    order=migration.assembly_order(original)
    for uid,row in inputs.items():self.assertEqual(order[row['side']][0],uid)
    candidate={'packs':[*self.original['packs'],*inputs.values()]};self.assertIsNone(migration.candidate_plan(candidate,original))
-   changed=copy.deepcopy(candidate);changed['packs'][-1]['files']['payload.js']='wrong'
-   with self.assertRaisesRegex(AssertionError,'candidate differs'):migration.candidate_plan(changed,original)
+   changed=copy.deepcopy(candidate);changed['packs'][-1]['side']='behavior' if changed['packs'][-1]['side']=='resource' else 'resource'
+   with self.assertRaisesRegex(AssertionError,'candidate identity differs'):migration.candidate_plan(changed,original)
    candidate['packs'].pop(0)
    with self.assertRaisesRegex(AssertionError,'UUID change'):migration.candidate_plan(candidate,original)
 
@@ -672,17 +672,51 @@ class CuratedRetainedInputs(unittest.TestCase):
 
  def test_curated_candidate_also_checks_the_declared_whole_author_replacement(self):
   _,_,report,receipt=self.selected()
-  replacements={}
+  replacements={};selected={}
   for side in ('behavior','resource'):
    uid='replacement-'+side
    actual=self.pack(self.root/'replacement'/side,uid,side,[1,8,10071],b'exact owner replacement')
    replacements[uid]={'side':side,'version':actual['version'],'tree':m.tree(actual['files'])}
+   selected[uid]={**replacements[uid],'path':actual['path']}
    receipt['packs'].append({**actual,'source':{'owner':'preserved','role':'owner_accepted_author_replacement','official_author_release':False}})
+  selection={'kind':'author_replacement_selection','packs':selected}
   with patch.object(m,'replacement_rows',return_value=replacements):
-   m.verify_curated_inputs(receipt,report)
+   with self.assertRaises(AssertionError):m.verify_curated_inputs(receipt,report)
+   m.verify_curated_inputs(receipt,report,selection)
    altered=copy.deepcopy(receipt);altered['packs'][-1]['files']['content.bin']='0'*64
    with self.assertRaisesRegex(AssertionError,'Replacement candidate output differs'):
-    m.verify_curated_inputs(altered,report)
+    m.verify_curated_inputs(altered,report,selection)
+
+ def test_retained_pair_data_changes_replay_from_actual_selected_paths(self):
+  _,_,report,receipt=self.selected();rows={};selected={};outputs={}
+  for side,label in [('BP','behavior'),('RP','resource')]:
+   uid='data-owner-'+side
+   before=self.pack(self.root/'replacement'/side,uid,label,[1,0,0],b'retain this extra file')
+   after=self.pack(self.root/'output'/side,uid,label,[1,0,10001],b'retain this extra file')
+   rows[uid]={'uuid':uid,'author':'DataOwner','side':label,'version':before['version'],'tree':m.tree(before['files'])}
+   selected[uid]={**rows[uid],'path':before['path']};outputs[side]=after
+  block='blocks/owned.json';payload=b'{"owned":true}'
+  outputs['BP']['files'][block]=hashlib.sha256(payload).hexdigest()
+  spec={'kind':'addon-owned-data','id':'data-owner','host_uuid':'data-owner-BP',
+        'behavior_uuid':'data-owner-BP','resource_uuid':'data-owner-RP',
+        'owner_version':self.baseline['version'],'local_pack_version':[1,0,10001],
+        'official_author_release':False,
+        'original_files':{side+'/manifest.json':self.guard.hashes(Path(selected['data-owner-'+side]['path']))['manifest.json'] for side in outputs},
+        'patched_files':{side+'/'+name:value for side,out in outputs.items() for name,value in out['files'].items() if name=='manifest.json' or name==block}}
+  path=self.root/'runtime/BP/host-extensions/data-owner.json';path.parent.mkdir();self.guard.atomic(path,spec)
+  self.commit('Declared owner data move')
+  extension={**spec,'spec_sha256':m.c.sha(path),'repository':self.baseline['repository'],
+             'commit':self.git('rev-parse','HEAD'),'working_candidate':False}
+  for out in outputs.values():
+   receipt['packs'].append({**out,'source':{'owner':'preserved','role':'owner_accepted_author_replacement',
+                                          'official_author_release':False,'reviewed_extensions':[extension]}})
+  selection={'kind':'author_replacement_selection','packs':selected}
+  with patch.object(m,'replacement_rows',return_value=rows):
+   m.verify_curated_inputs(receipt,report,selection)
+   altered=copy.deepcopy(receipt);altered['packs'][-1]['files']['unreviewed.bin']='0'*64
+   with self.assertRaisesRegex(AssertionError,'undeclared files'):m.verify_curated_inputs(altered,report,selection)
+   (Path(selected['data-owner-BP']['path'])/'content.bin').write_bytes(b'changed captured input')
+   with self.assertRaisesRegex(AssertionError,'input changed after selection'):m.verify_curated_inputs(receipt,report,selection)
 
  def test_new_owner_fishing_pair_is_retained_without_the_legacy_adapter(self):
   for row in self.rows:
