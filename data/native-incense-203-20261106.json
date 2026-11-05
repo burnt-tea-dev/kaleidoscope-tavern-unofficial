@@ -4,7 +4,7 @@
   "bdsVersion": "1.26.60.6",
   "scriptAPI": "@minecraft/server2.7.0",
   "runtime_reference_commit": "30614b0a8da4ac9e76156dd8f8ef62d37e726c9e",
-  "observer_reference_commit": "276c620aea283d7c58afe5fd429abfab89554148",
+  "observer_reference_commit": "30614b0a8da4ac9e76156dd8f8ef62d37e726c9e",
   "scope": "T203 native v2 conversion and reset; original first/restart retained with incomplete saved-state readback",
   "native_report": {
     "native_script_behavior": false,
