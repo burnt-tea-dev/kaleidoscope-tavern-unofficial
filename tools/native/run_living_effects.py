@@ -40,6 +40,8 @@ def main():
     args = parser.parse_args()
     if args.timeout_seconds <= 0:
         parser.error('--timeout-seconds must be positive')
+    if args.liquor is None and args.probe.resolve() == (ROOT/'tools/native/living-effects-probe.js').resolve():
+        parser.error('--liquor is required for the default probe; choose --probe for a Tavern-only observer')
     if args.offline:
         assert os.readlink('/proc/self/ns/net') != os.readlink('/proc/1/ns/net') and {name for _,name in socket.if_nameindex()} == {'lo'}, 'Offline QA requires a loopback-only network namespace'
     engine, work = args.engine.resolve(), args.work.resolve()
