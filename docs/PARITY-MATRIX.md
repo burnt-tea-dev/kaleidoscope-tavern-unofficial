@@ -85,6 +85,8 @@ SDK現在接受已通過逐段驗證的完整快照；每段32列、最多8段�
 
 隔離觀察器 [living-effects-capability.js](../tools/native/living-effects-capability.js) 會分別報告感知與摸金校尉。缺少裝備元件時仍跑完感知與重啟，總結果保持 `partial`，執行器回傳失敗；不再因裝備 fixture 的 TypeError 遮住另一項結果。正式 runtime 未改。
 
+2026-11-06 另核有資料層裝備欄的真原版羊駝：最高內建 `vanilla_1.26.30/entities/llama.json` 的 equippable 只在原生 tamed group，slot1接受carpet；舊測試未涵蓋它。[窄原生結果](../data/native-llama-equippable-20261106.json)／[observer](../tools/native/llama-equippable-capability.js)：BDS1.26.60.6／server2.7，生成→既有on_tame→5tick後同actor，is_tamed與inventory已出現，但getComponents、enum與literal getComponent都無equippable。資料層同名元件不等於Script可讀裝備；關閉本引擎／API的這條羊駝入口，不推論其他版本。首輪observer方法名錯誤保留為失敗，不算API陰性；沒有新Player／其他mob／三API重跑／vanilla覆寫／升T。
+
 ## 龍頭完成時的來源（2026-11-05）
 
 Java 1.2.0 Forge `c4ec1880`、NeoForge `a1afba34` 的 `TapBlock.tick` 在完成時重新讀取目前來源、重選 `TapBehaviorManager`，並由該來源決定產物。先前 Bedrock 把開啟時的來源種類保留在 session，水鍋在 30 ticks 內換成西瓜後仍按舊水鍋完成，結果只關閉龍頭、不產生西瓜汁。
