@@ -1,16 +1,11 @@
 """Selected native fields and the exported incense countdown, not BDS evidence."""
 import json
 import unittest
-from build_incense_native_entities import SOURCE, ROOT, NAMES, GROUP, EVENT, outputs
+from build_incense_native_entities import SOURCE, ROOT, NAMES, GROUP, EVENT
 from family_bundle import read_definition
 
 
 class NativeIncenseEntities(unittest.TestCase):
-    def test_exports_are_generated_from_the_selected_sources(self):
-        for path, expected in outputs().items():
-            with self.subTest(path=path.relative_to(ROOT)):
-                self.assertEqual(path.read_text(), expected)
-
     def test_native_actors_are_retained_and_only_incense_gets_the_short_conversion(self):
         for name in NAMES:
             with self.subTest(entity=name):

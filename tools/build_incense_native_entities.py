@@ -31,19 +31,20 @@ def configure(original):
     return result
 
 
-def outputs():
+def outputs(root=ROOT):
+    source = root / 'art/native-incense'
     result = {}
     for name in NAMES:
-        original = read_definition(SOURCE / (name + '.json'), jsonc=True)
-        result[ROOT / 'runtime/BP/entities' / (name + '.json')] = (
+        original = read_definition(source / (name + '.json'), jsonc=True)
+        result[root / 'runtime/BP/entities' / (name + '.json')] = (
             json.dumps(configure(original), ensure_ascii=False, indent=2) + '\n')
-    result[ROOT / 'runtime/BP/NOTICE-Mojang-native-incense.txt'] = (
+    result[root / 'runtime/BP/NOTICE-Mojang-native-incense.txt'] = (
         'entities/zombie_villager.json and entities/zombie_villager_v2.json preserve\n'
         'Mojang/bedrock-samples v1.26.60.5 native definitions with the owned\n'
         'kaleidoscope_tavern:incense_to_villager group and incense_cure event added.\n'
         'Source and additions: art/native-incense/README.md and\n'
         'tools/build_incense_native_entities.py in the matching source repository.\n\n'
-        + (SOURCE / 'LICENSE.md').read_text())
+        + (source / 'LICENSE.md').read_text())
     return result
 
 
