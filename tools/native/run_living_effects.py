@@ -25,7 +25,29 @@ def render_world_liquor_probe_inputs(baseline, headers):
     return 'export const WORLD_LIQUOR_PROBE_INPUTS=Object.freeze(' + json.dumps(row, separators=(',', ':')) + ');\n'
 
 
-def run_phase(engine, work, phase, timeout_seconds, log_name=None):
+def gametest_manifest(raw):
+    manifest = json.loads(raw)
+    manifest['dependencies'].append({'module_name': '@minecraft/server-gametest', 'version': '1.0.0-beta'})
+    return (json.dumps(manifest, ensure_ascii=False, indent=2)+'\n').encode()
+
+
+def analyse_phase_log(text, phase, normal_stop, *, gametest=False):
+    rows = [json.loads(line.split('[LIVING_EFFECT_QA] ', 1)[1]) for line in text.splitlines() if '[LIVING_EFFECT_QA] {' in line]
+    normal_stop = normal_stop and bool(re.search(r'^Quit correctly\s*$', text, re.MULTILINE))
+    errors = [line for line in text.splitlines() if re.search(r'\bERROR\]|\[error\]', line, re.IGNORECASE)]
+    connections = len(re.findall(r'\bplayer[ _]?(?:connected|joined)\b', text, re.IGNORECASE))
+    spawns = len(re.findall(r'\bplayer[ _]?spawned\b', text, re.IGNORECASE))
+    # A native GameTest Player emits "Player Spawned" without a network login.
+    # Keep physical connections forbidden and require final players=0 in either mode.
+    unexpected_players = connections + (0 if gametest else spawns)
+    ok = normal_stop and not errors and not unexpected_players and any(row.get('kind') == 'done' and row.get('phase') == phase and row.get('players') == 0 for row in rows) and not any(row.get('kind') == 'failure' for row in rows)
+    completed = any(row.get('kind') in ('done', 'partial') and row.get('phase') == phase and row.get('players') == 0 for row in rows)
+    return {'phase': phase, 'completed': completed, 'ok': ok, 'normal_stop': normal_stop,
+            'player_connections': unexpected_players, 'player_spawn_logs': spawns,
+            'gametest_fixture': gametest, 'errors': errors, 'observations': rows}
+
+
+def run_phase(engine, work, phase, timeout_seconds, log_name=None, *, gametest=False):
     # Keep the same extracted engine executable for each launch. Its bytes
     # remain bound to engine_identity; no source pack or world is rewritten.
     (engine/'bedrock_server').chmod(0o755)
@@ -39,7 +61,7 @@ def run_phase(engine, work, phase, timeout_seconds, log_name=None):
                 text = log.read_text(errors='replace')
                 if process.poll() is not None or '[LIVING_EFFECT_QA] {"kind":"failure"' in text or ' ERROR]' in text or '[error]' in text.lower():
                     break
-                if any(f'"kind":"{kind}","phase":"{phase}"' in text for kind in ('done','partial')):
+                if analyse_phase_log(text, phase, False, gametest=gametest)['completed']:
                     break
             if process.poll() is None:
                 process.communicate('stop\n', timeout=30)
@@ -48,14 +70,7 @@ def run_phase(engine, work, phase, timeout_seconds, log_name=None):
             if process.poll() is None:
                 process.kill(); process.wait()
     text = log.read_text(errors='replace')
-    rows = [json.loads(line.split('[LIVING_EFFECT_QA] ', 1)[1]) for line in text.splitlines() if '[LIVING_EFFECT_QA] {' in line]
-    normal_stop = normal_stop and bool(re.search(r'^Quit correctly\s*$', text, re.MULTILINE))
-    errors = [line for line in text.splitlines() if re.search(r'\bERROR\]|\[error\]', line, re.IGNORECASE)]
-    connections = len(re.findall(r'\bplayer[ _]?(?:connected|joined|spawned)\b', text, re.IGNORECASE))
-    ok = normal_stop and not errors and not connections and any(row.get('kind') == 'done' and row.get('phase') == phase and row.get('players') == 0 for row in rows) and not any(row.get('kind') == 'failure' for row in rows)
-    completed=any(row.get('kind') in ('done','partial') and row.get('phase')==phase and row.get('players')==0 for row in rows)
-    return {'phase': phase, 'log': log.name, 'completed': completed, 'ok': ok, 'normal_stop': normal_stop,
-            'player_connections': connections, 'errors': errors, 'observations': rows}
+    return {**analyse_phase_log(text, phase, normal_stop, gametest=gametest), 'log': log.name}
 
 
 def resume_restart(args, engine, work, liquor, engine_identity):
@@ -119,12 +134,15 @@ def main():
     parser.add_argument('--probe', type=pathlib.Path, default=ROOT/'tools/native/living-effects-probe.js')
     parser.add_argument('--world-metadata', type=pathlib.Path, help='Read only level.dat from an existing isolated world; no DB is copied')
     parser.add_argument('--offline', action='store_true', help='Only inside an isolated loopback network namespace')
+    parser.add_argument('--gametest', action='store_true', help='Declare a transient native Player fixture; fresh offline first phase only')
     parser.add_argument('--resume', action='store_true', help='Continue only restart in an existing stopped QA; keep original evidence and world unchanged')
     parser.add_argument('--phases', nargs='+', choices=['first', 'restart'], default=['first', 'restart'])
     parser.add_argument('--timeout-seconds', type=int, default=180, help='Normal-stop deadline per phase; use 420 for full native incense conversion')
     args = parser.parse_args()
     if args.timeout_seconds <= 0:
         parser.error('--timeout-seconds must be positive')
+    if args.gametest and (not args.offline or args.resume or args.phases != ['first']):
+        parser.error('--gametest requires --offline --phases first without --resume')
     if args.liquor is None and args.probe.resolve() == (ROOT/'tools/native/living-effects-probe.js').resolve():
         parser.error('--liquor is required for the default probe; choose --probe for a Tavern-only observer')
     if args.offline:
@@ -169,7 +187,9 @@ def main():
     # Reuse only level metadata from a stopped isolated QA world.
     # No DB, old test entities or player data enter this new isolated world.
     from family_update.world_experiments import transition, write_metadata, observe
-    flags=json.loads(((liquor or ROOT)/'config.json').read_text())['experimentalGameplay']
+    flags=dict(json.loads(((liquor or ROOT)/'config.json').read_text())['experimentalGameplay'])
+    if args.gametest:
+        flags.update(gametest=True, upcoming_creator_features=True)
     metadata=args.world_metadata if args.world_metadata is not None else engine/'worlds/pickup-smoke/level.dat'
     raw,experiment_transition=transition(metadata.read_bytes(),flags)
     write_metadata(world/'level.dat',raw)
@@ -207,6 +227,10 @@ def main():
                 'entities/living-probe.json': hashlib.sha256((ROOT/'tools/native/living-probe-entity.json').read_bytes()).hexdigest(),
                 'entities/health-helper-probe.json': hashlib.sha256((ROOT/'tools/native/health-helper-entity.json').read_bytes()).hexdigest(),
                 'scripts/main.js': 'Append only the declared disposable observer import after verifying the complete copied runtime.'}
+    if args.gametest:
+        manifest = host/'manifest.json'
+        manifest.write_bytes(gametest_manifest(manifest.read_bytes()))
+        overlays['manifest.json'] = hashlib.sha256(manifest.read_bytes()).hexdigest()
     if probe_inputs is not None:
         overlays['scripts/native-probe-inputs.js'] = hashlib.sha256(probe_inputs.encode()).hexdigest()
     if args.probe.resolve() == (ROOT/'tools/native/shaker-migration-probe.js').resolve():
@@ -218,7 +242,7 @@ def main():
         (world/filename).write_text(json.dumps(manifests[kind], indent=2)+'\n')
     reports = []
     for phase in args.phases:
-        result = run_phase(engine, work, phase, args.timeout_seconds)
+        result = run_phase(engine, work, phase, args.timeout_seconds, gametest=args.gametest)
         reports.append(result)
         (work/'native-living-report.json').write_text(json.dumps({'native_script_behavior': len(reports)==len(args.phases) and all(row['ok'] for row in reports),
             'client': False, 'full_family': False, 'live': False, 'test_only_host_overlay': True,
