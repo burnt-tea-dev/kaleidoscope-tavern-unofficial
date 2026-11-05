@@ -12,7 +12,28 @@ Forge `c4ec1880`、NeoForge `a1afba34` 的 `IncenseBlockEntity.serverTick`先選
 
 現在保留原有查詢範圍、開關、120tick脈衝、原生治療事件與防重入標記，只修目標存活判斷和傷害／治療順序。[真實註冊tick回歸](../tools/incense-damage-order.test.mjs)重現修前的1點生命／死亡目標失敗，並驗證2→1生命後治療及傷害拒絕後的判斷順序。這些是腳本與API double證據，不是原生完成治療證據。
 
-[窄原生觀察器](../tools/native/incense-damage-order.js)交共同槽，使用真擺放香薰、原生1／2生命目標與magic死亡事件；本聊天未開BDS。它只區分致死傷害及存活者的原生治療請求，Java60tick轉化延遲與完整聲畫仍未確認。本次不替換原版殭屍村民定義，也不以自製轉化玩法補洞。
+[窄原生觀察器](../tools/native/incense-damage-order.js)沿同一QA場景，使用真擺放香薰、原生1／2生命目標與magic死亡事件，追蹤真正村民生成及期間生命；另以獨立目標在治療開始30ticks後受一次外來傷害，區分原生傷害與Tavern標記的早退。尚未執行本輪完整觀察，Java60tick轉化延遲與完整聲畫未確認。不替換原版殭屍村民定義，也不手工生成村民取代原目標。
+
+2026-11-06唯讀核對：兩個Java版本的原版`ZombieVillager.startConverting(UUID,int)`都直接保存傳入倒數，活著且正在轉化時每tick扣`getConversionProgress()`，到期才呼叫原版finishConversion。一般進度為1，附近鐵欄杆／床可加速；酒館兩分支都傳60。`IncenseBlockEntity`沒有按isConverting跳過hurt；這不代表每次hurt都會扣血，原版傷害冷卻仍有效。T202的curing標記則直接跳過後續香薰傷害，尚不能當作Java固有的轉化免疫。
+
+所選BDS1.26.60.6安裝內有不同原版定義，不能只看一份舊JSON推斷實際載入：
+
+| 原版路徑／群組 | 靜態設定 | 適用範圍 |
+| --- | --- | --- |
+| `behavior_packs/vanilla/entities/zombie_villager{,_v2}.json`／`to_villager` | delay.value100，strength/heal100秒 | base定義，未冒稱目前選中 |
+| `behavior_packs/vanilla_1.26.20/entities/zombie_villager_v2.json`／`to_villager` | value100＋range_min80／range_max200；strength/heal300秒，drop_equipment=true | 1.26.20定義；按[官方delay單位與範圍](https://learn.microsoft.com/en-us/minecraft/creator/reference/content/entityreference/examples/entitycomponents/minecraftcomponent_transformation?view=minecraft-bedrock-stable)為180..300秒，仍待真入口實測確認 |
+
+`villager_converted`只加入上述群組。官方[資料事件](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/datadrivenentitytriggerafterevent?view=minecraft-bedrock-stable)可記錄開始；[原生Transformed生成事件](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/entityinitializationcause?view=minecraft-bedrock-stable)及實際Villager類型才作完成證據。觀察器同時記錄首次shaking、60tick／後續里程碑、生命變化和QA名稱／動態資料保留；事件未報錯或原handle消失均不算完成。2.12.0-beta型別及官方experimental元件表未見轉化／timer寫入入口；這是靜態能力核對，並非所有API版本的原生否定結論，觀察器另讀選定引擎實際元件形狀。
+
+沿原窄執行器使用`--phases first --timeout-seconds 420`，預設仍180秒。這次香薰可不傳`--liquor`、只載入凍結T202 BP/RP，避免混入仍精確依賴T201的W191；實驗設定仍由來源config及原QA metadata保留。正常stop／來源逐檔核對不變。本次只改QA／執行器／證據，不回寫T202身份或重跑其來源回歸。
+
+**2026-11-06實測，BDS1.26.60.6／server2.7.0／T202單獨QA／零玩家**：[完整結果](../data/native-incense-conversion-20261106.json)、[裁剪原始log](evidence/native-incense-conversion-20261106.log)。public zombie_villager在tick26原生解析為v2；真香薰在tick130呼叫原生villager_converted，tick131看見shaking。1hp目標tick130死於magic；survivor受傷2→1hp，在+60、+120、+2000、+3600仍未完成，期間只有初次香薰hurt。獨立control在+30外來magic1令1→0並死亡，因此不是原生全傷害免疫。tick5830真正出現villager_v2，原生Transformed生成／entity_transformed亦同tick；**5700ticks＝285秒**，javaDelayMatches=false。首次生成讀回有名稱、沒有QA tag／DP marker；本輪沒有下一tick／保存後讀回，不據此宣稱永久遺失或所有metadata等價。
+
+本輪normal_stop=true／引擎exit0／Quit correctly、errors空、players0、SwapPeak0、peak786837504 bytes。wrapper exit1來自已完成觀察但Java時長不符的partial，不是服務崩潰。完整log、report及實際observer留在既有主機證據；QA世界／引擎連結已清理，沒有重啟或第二世界。
+
+能力邊界：原生timer／transformation在事件tick130讀值未暴露，但同tick的is_shaking也尚未套用、下一tick才出現；不能把這次事件階段讀值說成active狀態的API否定。現在沒有已驗證可縮至60tick且保留資料的原生入口，仍未完成。後續若取得active狀態的可寫timer／原生快速轉化事件，需再測真完成與資料保留；不以手工spawn村民或全域原版mob覆寫繞過。
+
+本輪observer輸入固定為e17b3b44。由實際log確認原生Spawn／Transformed通知晚於首次類型讀回，後續observer已補active-shaking時的元件讀取、完成後兩tick的metadata再讀，並保留首次完成tick；這些補讀尚未在BDS執行，不冒充本輪已驗欄位。等下一次確有必要的原生觀察一併補證，不重跑285秒等待來製造相同結論。
 
 ## 多包飲酒效果的共用容量（2026-11-05）
 
