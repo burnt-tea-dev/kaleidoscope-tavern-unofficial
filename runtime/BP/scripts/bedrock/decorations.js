@@ -51,7 +51,14 @@ function interactToggle(player,block,event){
  return true;
 }
 function startIncenseCure(entity){if(entity.hasTag(INCENSE_CURE_TAG))return false;entity.addTag(INCENSE_CURE_TAG);try{entity.triggerEvent('villager_converted');diagnostics.incenseCures++;return true;}catch(error){entity.removeTag(INCENSE_CURE_TAG);throw error;}}
-function damageIncenseTarget(entity){if(!entity?.isValid||entity.hasTag(INCENSE_CURE_TAG))return;const zombieVillager=ZOMBIE_VILLAGER_IDS.has(entity.typeId),health=entity.getComponent?.('minecraft:health'),before=Number(health?.currentValue);if(zombieVillager&&Number.isFinite(before)&&before<=1){startIncenseCure(entity);return;}if(entity.applyDamage(1,{cause:EntityDamageCause.magic})){diagnostics.undeadHits++;const after=Number(health?.currentValue);if(zombieVillager&&Number.isFinite(after)&&after>0&&after<=1)startIncenseCure(entity);}}
+function damageIncenseTarget(entity){
+ if(!entity?.isValid||entity.hasTag(INCENSE_CURE_TAG))return;
+ const health=entity.getComponent('minecraft:health');if(!health||health.currentValue<=0)return;
+ // Java hurts each living target before checking conversion. Pre-curing a
+ // one-health zombie villager incorrectly protects it from this damage.
+ if(entity.applyDamage(1,{cause:EntityDamageCause.magic}))diagnostics.undeadHits++;
+ if(ZOMBIE_VILLAGER_IDS.has(entity.typeId)&&health.currentValue>0&&health.currentValue<=1)startIncenseCure(entity);
+}
 function incensePulseDue(block){const period=Math.floor(system.currentTick/120),key=`${block.dimension.id}|${block.location.x}_${block.location.y}_${block.location.z}`,previous=incensePulsePeriods.get(key);incensePulsePeriods.set(key,period);if(incensePulsePeriods.size>1024){for(const[k,v]of incensePulsePeriods)if(v<period-2)incensePulsePeriods.delete(k);while(incensePulsePeriods.size>1024)incensePulsePeriods.delete(incensePulsePeriods.keys().next().value);}return previous!==undefined&&period>previous;}
 function emitIncenseSample(player,block){
  const spec=INCENSE[block.typeId.slice(NS.length+1)];if(!spec)return;
