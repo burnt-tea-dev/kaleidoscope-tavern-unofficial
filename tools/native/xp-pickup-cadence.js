@@ -38,6 +38,7 @@ async function stageBatch(player,d){
  // Let all eight spawned actors initialize before attributing native deaths.
  // The previous same-tick spawn/kill fixture produced only seven rewards.
  await pause(2);
+ out('actors-initialized',{actors:mobs.map((mob,index)=>({cell:CELLS[index].x,id:mob.id,valid:mob.isValid}))});
  const deathsBefore=nativeDeaths.length;
  for(const [index,cell] of CELLS.entries()){
   // The selected vanilla silverfish rewards exactly 5 XP when killed by a
@@ -106,7 +107,9 @@ world.afterEvents.worldLoad.subscribe(()=>system.runTimeout(async()=>{
   let loaded=false;for(let i=0;i<60&&!loaded;i++){await pause(5);try{loaded=!!d.getBlock(PICKUP)&&!!d.getBlock(PARK);}catch{}}
   require(loaded,'QA chunks did not load');
   d.runCommand('gamerule doMobLoot true');d.runCommand('gamerule doMobSpawning false');
-  d.fillBlocks(new BlockVolume({x:30,y:299,z:28},{x:80,y:303,z:44}),'minecraft:stone');
+  // Silverfish merge into stone. Glass keeps the actual reward mobs present
+  // without changing their definition, damage or native XP reward.
+  d.fillBlocks(new BlockVolume({x:30,y:299,z:28},{x:80,y:303,z:44}),'minecraft:glass');
   for(const cell of CELLS)d.fillBlocks(new BlockVolume(cell,{...cell,y:302}),'minecraft:air');
   for(const at of [PARK,PICKUP])d.fillBlocks(new BlockVolume({x:Math.floor(at.x)-1,y:300,z:Math.floor(at.z)-1},{x:Math.floor(at.x)+1,y:302,z:Math.floor(at.z)+1}),'minecraft:air');
   player=gameTest.spawnSimulatedPlayer({dimension:d,...PARK},'TavernXpPickupQA',GameMode.Survival);
