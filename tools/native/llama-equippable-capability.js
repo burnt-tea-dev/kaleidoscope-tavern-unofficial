@@ -19,7 +19,7 @@ function itemData(item){
 function inspect(entity,stage){
  require(entity?.isValid,'native llama unavailable at '+stage);
  const byEnum=entity.getComponent(EntityComponentTypes.Equippable),byId=entity.getComponent('minecraft:equippable');
- const result={stage,typeId:entity.typeId,components:entity.getAllComponents().map(c=>c.typeId).sort(),
+ const result={stage,typeId:entity.typeId,components:entity.getComponents().map(c=>c.typeId).sort(),
   isTamedComponent:!!entity.getComponent('minecraft:is_tamed'),enumComponentId:EntityComponentTypes.Equippable,
   enumPresent:!!byEnum,literalPresent:!!byId,slots:[]};
  const equippable=byEnum??byId;
