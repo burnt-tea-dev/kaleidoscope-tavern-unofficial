@@ -551,6 +551,7 @@ jobs:
         run: |
           python tools/test_incense_native_entities.py
           python tools/native/test_run_living_resume.py
+          python tools/native/test_run_living_gametest.py
           node --experimental-loader ./tools/foundation/mock-loader.mjs --test tools/native/incense-restart-loading.test.mjs
       - name: Verify pinned sound content
         run: python tools/pickup/check_audio.py
