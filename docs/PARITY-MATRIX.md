@@ -51,6 +51,10 @@ Tavern BP會接管 `minecraft:zombie_villager` 及 `minecraft:zombie_villager_v2
 
 公開zombie生成、from_village及原生villager zombification三條入口均實際變成v2，因此只確認v2，不能稱兩個native類型均通過。first的partial來自bothNativeTypes=false，不代表真60tick／reset未通過。
 
+**舊v1邊界已收斂（2026-11-06）**：[來源與窄原生結果](../data/native-incense-v1-boundary-20261106.json)／[observer](../tools/native/incense-v1-boundary.js)。v1所選原版仍宣告spawn/summon，正式owner也接受該ID；原T203 early spawn記錄其實在tick25見真v1、26即原生升v2。新場景僅在生成當tick手動呼叫canonical註冊factory的真正onTick，block／actor／time／資料都是真原生；這不證原生Block自然派發順序。tick120的owned CURE事件真命中v1，到122封閉場景已是v2新actor，因此partial立即正常停，不再量v2、reset或保存重啟。不能宣稱v1的60tick／reset／保存通過，也不能據此判v1 event/timer失效。
+
+本次現代QA配置與已查三條入口的「穩定舊v1待驗」收斂為正常類型升級邊界，不設永久兼容待辦、不改runtime或升T。歷史template中保留v1的配置未測，本輪不引入這類世界。生成器仍保留原生差異：v1目標villager、未帶v2的keep_level/drop_equipment。實讀升級後保留名稱，QA tags／三個DP不在新actor；health／variant也改變，這些是native升級讀值，不是香薰完成或存檔後比較。裝備／交易未暴露，沒有mock補值或任意Java data等價主張。
+
 **保存終態讀回已確認；原失敗保留。** first正常停服前，另存一個已開始原生治療的actor及已完成村民。restart observer在worldLoad+1直接按已保存的completed ID查詢，沒有等待區塊／actor載入便報missing；這個結果尚未分辨載入時序與真缺失。稍後同一原始restart log已記錄pending actor真正Transformed／villager_v2，所以它的舊pending ID不能當作仍未轉化重播。兩階段引擎均正常stop／Quit correctly、players0、errors空，wrapper exit1保留不完整觀察。
 
 後續只沿同一停服QA驗剩餘保存讀回：[observer](../tools/native/incense-damage-order.js)先等區塊與原completed saved ID，不用名稱fallback掩蓋缺失；pending已完成時只驗穩定終態，不聲稱這次又見治療。既有runner的 `--resume --phases restart` 只替換明列QA觀察器，先確認原runtime及舊overlay未變，保留原世界／原報告／兩份log，新結果另存；不重跑已通過的first60tick／reset，也不重建世界。[PR571](https://github.com/burnt-tea-dev/kaleidoscope-tavern-unofficial/pull/571)工具／證據已正常CI合併，T203 runtime不變。其後沿同一世界只續restart：tick262開始等，tick265在chunk／actor載入後，以原saved ID `-4294967254`找回同一完成村民，全部已記錄欄位一致；未用名稱fallback。原pending已是前次restart生成的 `-8589934591`，本次只確認名稱、variant7、skin0等穩定終態，nativeTransformationThisRun=false，沒有再跑治療。這分辨了原missing為過早讀取，不是已保存actor永久遺失。resume normal_stop=true／Quit correctly、players0、errors空、wrapper exit0；原first partial與restart failure未改寫，不能據此宣稱雙native類型或任意DP／交易／裝備等價。精確停服剩餘倒數與聲畫仍未量測。QA世界／複製引擎資料／engine links已清理，只留小型原始證據，共用槽已交還，不再重跑成功案例。
