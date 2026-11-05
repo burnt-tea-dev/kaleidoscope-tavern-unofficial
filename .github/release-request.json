@@ -5,7 +5,7 @@
   "prerelease": false,
   "publication_request": false,
   "public_notes_path": null,
-  "public_notes_inline": "Incense requests a dedicated three-second native zombie-villager conversion while ordinary golden-apple conversion retains its selected vanilla definitions. Later incense damage is no longer skipped by a curing tag. Source regressions pass; exact native timing, restart and data behavior remain pending targeted validation.",
+  "public_notes_inline": "Incense uses a dedicated three-second native conversion without curing-tag damage immunity. BDS1.26.60.6 observed exactly 60 ticks for v2 conversion and 60 ticks after resetting it. Legacy-type coverage, saved-state readback, trade/equipment preservation and client audiovisual behavior remain incomplete. Ordinary golden-apple definitions are retained.",
   "client_acceptance": "pending",
   "full_client_acceptance": "pending",
   "client": false,

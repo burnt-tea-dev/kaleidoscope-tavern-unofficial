@@ -109,8 +109,18 @@ world.afterEvents.worldLoad.subscribe(()=>system.runTimeout(async()=>{try{
  const d=world.getDimension('overworld'),previous=world.getDynamicProperty(SAVE);
  if(previous){
   const saved=JSON.parse(previous);active=true;pending.ids.add(saved.pending.id);
-  const completedVillager=world.getEntity(saved.completed.id);
-  require(completedVillager?.isValid&&VILLAGERS.has(completedVillager.typeId),'saved completed villager missing');
+  const waitStarted=system.currentTick;let loaded=false,completedVillager;
+  // worldLoad precedes ticking-area actor loading. Keep the exact saved ID:
+  // a name/location fallback here would conceal a genuinely missing actor.
+  for(let i=0;i<100;i++){
+   try{loaded=!!d.getBlock({x:84,y:300,z:6});}catch{}
+   if(loaded)completedVillager=world.getEntity(saved.completed.id);
+   if(completedVillager?.isValid)break;
+   await pause(1);
+  }
+  out('restart_saved_id_read',{waitStarted,chunkLoaded:loaded,savedId:saved.completed.id,state:completedVillager?snapshot(completedVillager):null});
+  require(loaded,'saved QA chunk did not load');
+  require(completedVillager?.isValid&&VILLAGERS.has(completedVillager.typeId),'saved completed villager missing after chunk/actor wait');
   const after=snapshot(completedVillager);
   for(const key of ['nameTag','marker','qaTag','variant','markVariant','skinId'])require(after[key]===saved.completed[key],'saved completed villager changed '+key);
   pending.entity=world.getEntity(saved.pending.id);sample(pending,d);
@@ -119,9 +129,13 @@ world.afterEvents.worldLoad.subscribe(()=>system.runTimeout(async()=>{try{
   require(pending.completeTick!==undefined,'saved native conversion did not finish');
   await pause(2);sample(pending,d);
   require(pending.complete.nameTag===saved.pending.nameTag,'saved conversion lost name');
-  require(pending.completionEvidence.some(row=>row.evidence!=='perTick:villager_type'),'saved conversion lacks native Transformed evidence');
   out('restart_pending_completed',{state:pending.complete,completionEvidence:pending.completionEvidence});
-  const result={kind:'done',phase:'restart',players:world.getAllPlayers().length,completedBefore: saved.completed,completedAfter:after,pendingBefore:saved.pending,pendingAfter:pending.complete};
+  // An earlier failed observer may already have witnessed its transformation.
+  // This restart then verifies saved final state, not another cure in flight.
+  const nativeTransformationThisRun=pending.completionEvidence.some(row=>row.evidence!=='perTick:villager_type');
+  const result={kind:'done',phase:'restart',players:world.getAllPlayers().length,
+   scope:'saved final-state readback; native cure timing belongs to the original observation',nativeTransformationThisRun,
+   completedBefore:saved.completed,completedAfter:after,pendingBefore:saved.pending,pendingAfter:pending.complete};
   for(const entity of [completedVillager,pending.entity])if(entity?.isValid)entity.remove();
   world.setDynamicProperty(SAVE,undefined);d.runCommand('tickingarea remove kt_incense_order_qa');active=false;
   console.warn('[LIVING_EFFECT_QA] '+JSON.stringify(result));return;

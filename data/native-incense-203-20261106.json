@@ -1,0 +1,556 @@
+{
+  "schema": 1,
+  "observed_date_hkt": "2026-11-06",
+  "bdsVersion": "1.26.60.6",
+  "scriptAPI": "@minecraft/server2.7.0",
+  "runtime_reference_commit": "30614b0a8da4ac9e76156dd8f8ef62d37e726c9e",
+  "observer_reference_commit": "276c620aea283d7c58afe5fd429abfab89554148",
+  "scope": "T203 native v2 conversion and reset; original first/restart retained with incomplete saved-state readback",
+  "native_report": {
+    "native_script_behavior": false,
+    "client": false,
+    "full_family": false,
+    "live": false,
+    "test_only_host_overlay": true,
+    "engine": {
+      "executable_sha256": "ea16b541a448e07c337848d2c5f37321b706554b5216dd942f3f11e7a8ed2bad"
+    },
+    "sources": {
+      "tavern": {
+        "commit": "30614b0a8da4ac9e76156dd8f8ef62d37e726c9e",
+        "repository": "casama233/kaleidoscope-tavern-unofficial",
+        "version": [
+          0,
+          6,
+          203
+        ],
+        "source_trees": {
+          "BP": {
+            "sha256": "a712e69889b48d0df1293c835cc90f6ebc2fb759322e8d068efeeecbb4f410ec",
+            "files": 838
+          },
+          "RP": {
+            "sha256": "c6a3b3c459075092db900233bc53723359fee11afde187c74b6083e9f599f302",
+            "files": 3232
+          }
+        }
+      }
+    },
+    "copied_runtime_matches_frozen_source": true,
+    "test_only_overlays": {
+      "scripts/living-effects-probe.js": "7bbb69b3bd4e30e0512c07671f4c240da07f369c371548a803f9f0ac174d0181",
+      "entities/living-probe.json": "bdc56e29b59f80c3fd017f2e75581562ac1ca1ba4a272c101294fc48f533d789",
+      "entities/health-helper-probe.json": "c45525baae1359d21a4a38df13e1758ce7f8340ea36845817f3fd7844503cb16",
+      "scripts/main.js": "Append only the declared disposable observer import after verifying the complete copied runtime."
+    },
+    "reports": [
+      {
+        "phase": "first",
+        "completed": true,
+        "ok": false,
+        "normal_stop": true,
+        "player_connections": 0,
+        "errors": [],
+        "observations": [
+          {
+            "kind": "partial",
+            "phase": "first",
+            "players": 0,
+            "nativeObservationComplete": true,
+            "javaConfiguredTicks": 60,
+            "nativeElapsedTicks": 60,
+            "javaDelayMatches": true,
+            "lethalMatches": true,
+            "externalDamageMatches": true,
+            "nativeEventConfirmed": true,
+            "resetElapsed": 60,
+            "resetMatches": true,
+            "nativeTypesCovered": [
+              "minecraft:zombie_villager_v2"
+            ],
+            "bothNativeTypes": false,
+            "observations": [
+              {
+                "role": "lethal",
+                "before": {
+                  "id": "-4294967259",
+                  "valid": true,
+                  "typeId": "minecraft:zombie_villager_v2",
+                  "health": 1,
+                  "cureTag": false,
+                  "shaking": false,
+                  "strength": null,
+                  "nameTag": "KT incense lethal",
+                  "marker": "lethal",
+                  "qaTag": true,
+                  "variant": 5,
+                  "markVariant": null,
+                  "skinId": 0
+                },
+                "requestTick": null,
+                "requestTicks": [],
+                "firstCureTagTick": null,
+                "firstShakingTick": null,
+                "completeTick": null,
+                "elapsedFromNativeEvent": null,
+                "actualVillager": null,
+                "metadataReadTick": null,
+                "completionEvidence": [],
+                "death": {
+                  "tick": 135,
+                  "cause": "magic"
+                },
+                "hurts": [
+                  {
+                    "tick": 135,
+                    "damage": 1,
+                    "cause": "magic"
+                  }
+                ],
+                "controlledHurt": null,
+                "metadata": null
+              },
+              {
+                "role": "survivor",
+                "before": {
+                  "id": "-4294967260",
+                  "valid": true,
+                  "typeId": "minecraft:zombie_villager_v2",
+                  "health": 2,
+                  "cureTag": false,
+                  "shaking": false,
+                  "strength": null,
+                  "nameTag": "KT incense survivor",
+                  "marker": "survivor",
+                  "qaTag": true,
+                  "variant": 2,
+                  "markVariant": null,
+                  "skinId": 0
+                },
+                "requestTick": 135,
+                "requestTicks": [
+                  135
+                ],
+                "firstCureTagTick": null,
+                "firstShakingTick": 136,
+                "completeTick": 195,
+                "elapsedFromNativeEvent": 60,
+                "actualVillager": {
+                  "id": "-4294967254",
+                  "valid": true,
+                  "typeId": "minecraft:villager_v2",
+                  "health": 20,
+                  "cureTag": false,
+                  "shaking": false,
+                  "strength": null,
+                  "nameTag": "KT incense survivor",
+                  "marker": null,
+                  "qaTag": false,
+                  "variant": 2,
+                  "markVariant": 0,
+                  "skinId": 0
+                },
+                "metadataReadTick": 217,
+                "completionEvidence": [
+                  {
+                    "tick": 195,
+                    "evidence": "perTick:villager_type"
+                  },
+                  {
+                    "tick": 195,
+                    "evidence": "entitySpawn:Transformed"
+                  },
+                  {
+                    "tick": 195,
+                    "evidence": "dataDriven:entity_transformed"
+                  }
+                ],
+                "death": null,
+                "hurts": [
+                  {
+                    "tick": 135,
+                    "damage": 1,
+                    "cause": "magic"
+                  }
+                ],
+                "controlledHurt": null,
+                "metadata": {
+                  "nameTagPreserved": true,
+                  "markerPreserved": false,
+                  "qaTagPreserved": false
+                }
+              },
+              {
+                "role": "damage_control",
+                "before": {
+                  "id": "-4294967261",
+                  "valid": true,
+                  "typeId": "minecraft:zombie_villager_v2",
+                  "health": 2,
+                  "cureTag": false,
+                  "shaking": false,
+                  "strength": null,
+                  "nameTag": "KT incense damage_control",
+                  "marker": "damage_control",
+                  "qaTag": true,
+                  "variant": 9,
+                  "markVariant": null,
+                  "skinId": 0
+                },
+                "requestTick": 135,
+                "requestTicks": [
+                  135
+                ],
+                "firstCureTagTick": null,
+                "firstShakingTick": 136,
+                "completeTick": null,
+                "elapsedFromNativeEvent": null,
+                "actualVillager": null,
+                "metadataReadTick": null,
+                "completionEvidence": [],
+                "death": {
+                  "tick": 165,
+                  "cause": "magic"
+                },
+                "hurts": [
+                  {
+                    "tick": 135,
+                    "damage": 1,
+                    "cause": "magic"
+                  },
+                  {
+                    "tick": 165,
+                    "damage": 1,
+                    "cause": "magic"
+                  }
+                ],
+                "controlledHurt": {
+                  "tick": 165,
+                  "accepted": true,
+                  "beforeHealth": 1,
+                  "immediateHealth": 0
+                },
+                "metadata": null
+              },
+              {
+                "role": "reset_control",
+                "before": {
+                  "id": "-4294967262",
+                  "valid": true,
+                  "typeId": "minecraft:zombie_villager_v2",
+                  "health": 2,
+                  "cureTag": false,
+                  "shaking": false,
+                  "strength": null,
+                  "nameTag": "KT incense reset_control",
+                  "marker": "reset_control",
+                  "qaTag": true,
+                  "variant": 1,
+                  "markVariant": null,
+                  "skinId": 0
+                },
+                "requestTick": 135,
+                "requestTicks": [
+                  135,
+                  155
+                ],
+                "firstCureTagTick": null,
+                "firstShakingTick": 136,
+                "completeTick": 215,
+                "elapsedFromNativeEvent": 80,
+                "actualVillager": {
+                  "id": "-4294967253",
+                  "valid": true,
+                  "typeId": "minecraft:villager_v2",
+                  "health": 20,
+                  "cureTag": false,
+                  "shaking": false,
+                  "strength": null,
+                  "nameTag": "KT incense reset_control",
+                  "marker": null,
+                  "qaTag": false,
+                  "variant": 1,
+                  "markVariant": 0,
+                  "skinId": 0
+                },
+                "metadataReadTick": 217,
+                "completionEvidence": [
+                  {
+                    "tick": 215,
+                    "evidence": "perTick:villager_type"
+                  },
+                  {
+                    "tick": 215,
+                    "evidence": "entitySpawn:Transformed"
+                  },
+                  {
+                    "tick": 215,
+                    "evidence": "dataDriven:entity_transformed"
+                  }
+                ],
+                "death": null,
+                "hurts": [
+                  {
+                    "tick": 135,
+                    "damage": 1,
+                    "cause": "magic"
+                  }
+                ],
+                "controlledHurt": null,
+                "metadata": {
+                  "nameTagPreserved": true,
+                  "markerPreserved": false,
+                  "qaTagPreserved": false
+                }
+              },
+              {
+                "role": "village_survivor",
+                "before": {
+                  "id": "-4294967263",
+                  "valid": true,
+                  "typeId": "minecraft:zombie_villager_v2",
+                  "health": 2,
+                  "cureTag": false,
+                  "shaking": false,
+                  "strength": null,
+                  "nameTag": "KT incense village_survivor",
+                  "marker": "village_survivor",
+                  "qaTag": true,
+                  "variant": 1,
+                  "markVariant": null,
+                  "skinId": 0
+                },
+                "requestTick": 135,
+                "requestTicks": [
+                  135
+                ],
+                "firstCureTagTick": null,
+                "firstShakingTick": 136,
+                "completeTick": 195,
+                "elapsedFromNativeEvent": 60,
+                "actualVillager": {
+                  "id": "-4294967255",
+                  "valid": true,
+                  "typeId": "minecraft:villager_v2",
+                  "health": 20,
+                  "cureTag": false,
+                  "shaking": false,
+                  "strength": null,
+                  "nameTag": "KT incense village_survivor",
+                  "marker": null,
+                  "qaTag": false,
+                  "variant": 1,
+                  "markVariant": 0,
+                  "skinId": 0
+                },
+                "metadataReadTick": 217,
+                "completionEvidence": [
+                  {
+                    "tick": 195,
+                    "evidence": "perTick:villager_type"
+                  },
+                  {
+                    "tick": 195,
+                    "evidence": "entitySpawn:Transformed"
+                  },
+                  {
+                    "tick": 195,
+                    "evidence": "dataDriven:entity_transformed"
+                  }
+                ],
+                "death": null,
+                "hurts": [
+                  {
+                    "tick": 135,
+                    "damage": 1,
+                    "cause": "magic"
+                  }
+                ],
+                "controlledHurt": null,
+                "metadata": {
+                  "nameTagPreserved": true,
+                  "markerPreserved": false,
+                  "qaTagPreserved": false
+                }
+              },
+              {
+                "role": "zombified_survivor",
+                "before": {
+                  "id": "-4294967258",
+                  "valid": true,
+                  "typeId": "minecraft:zombie_villager_v2",
+                  "health": 2,
+                  "cureTag": false,
+                  "shaking": false,
+                  "strength": null,
+                  "nameTag": "KT incense zombified_survivor",
+                  "marker": "zombified_survivor",
+                  "qaTag": true,
+                  "variant": 6,
+                  "markVariant": null,
+                  "skinId": 1
+                },
+                "requestTick": 135,
+                "requestTicks": [
+                  135
+                ],
+                "firstCureTagTick": null,
+                "firstShakingTick": 136,
+                "completeTick": 195,
+                "elapsedFromNativeEvent": 60,
+                "actualVillager": {
+                  "id": "-4294967256",
+                  "valid": true,
+                  "typeId": "minecraft:villager_v2",
+                  "health": 20,
+                  "cureTag": false,
+                  "shaking": false,
+                  "strength": null,
+                  "nameTag": "KT incense zombified_survivor",
+                  "marker": null,
+                  "qaTag": false,
+                  "variant": 6,
+                  "markVariant": 0,
+                  "skinId": 1
+                },
+                "metadataReadTick": 217,
+                "completionEvidence": [
+                  {
+                    "tick": 195,
+                    "evidence": "perTick:villager_type"
+                  },
+                  {
+                    "tick": 195,
+                    "evidence": "entitySpawn:Transformed"
+                  },
+                  {
+                    "tick": 195,
+                    "evidence": "dataDriven:entity_transformed"
+                  }
+                ],
+                "death": null,
+                "hurts": [
+                  {
+                    "tick": 135,
+                    "damage": 1,
+                    "cause": "magic"
+                  }
+                ],
+                "controlledHurt": null,
+                "metadata": {
+                  "nameTagPreserved": true,
+                  "markerPreserved": false,
+                  "qaTagPreserved": false
+                }
+              }
+            ],
+            "savedConversion": {
+              "completed": {
+                "id": "-4294967254",
+                "valid": true,
+                "typeId": "minecraft:villager_v2",
+                "health": 20,
+                "cureTag": false,
+                "shaking": false,
+                "strength": null,
+                "nameTag": "KT incense survivor",
+                "marker": null,
+                "qaTag": false,
+                "variant": 2,
+                "markVariant": 0,
+                "skinId": 0
+              },
+              "pending": {
+                "id": "-4294967251",
+                "valid": true,
+                "typeId": "minecraft:zombie_villager_v2",
+                "health": 1,
+                "cureTag": false,
+                "shaking": true,
+                "strength": {
+                  "amplifier": 0,
+                  "ticks": 5999
+                },
+                "nameTag": "KT incense saved conversion",
+                "marker": null,
+                "qaTag": false,
+                "variant": 7,
+                "markVariant": null,
+                "skinId": 0
+              }
+            }
+          }
+        ]
+      },
+      {
+        "phase": "restart",
+        "completed": false,
+        "ok": false,
+        "normal_stop": true,
+        "player_connections": 0,
+        "errors": [],
+        "observations": [
+          {
+            "kind": "failure",
+            "error": "Error: saved completed villager missing"
+          }
+        ]
+      }
+    ]
+  },
+  "late_restart_events": [
+    {
+      "stage": "entity_spawn",
+      "tick": 241,
+      "role": "save_pending",
+      "cause": "Transformed",
+      "id": "-8589934591",
+      "typeId": "minecraft:villager_v2"
+    },
+    {
+      "stage": "actual_villager",
+      "tick": 241,
+      "role": "save_pending",
+      "evidence": "entitySpawn:Transformed",
+      "typeId": "minecraft:villager_v2",
+      "id": "-8589934591",
+      "valid": true,
+      "health": 20,
+      "cureTag": false,
+      "shaking": false,
+      "strength": null,
+      "nameTag": "KT incense saved conversion",
+      "marker": null,
+      "qaTag": false,
+      "variant": 7,
+      "markVariant": 0,
+      "skinId": 0
+    },
+    {
+      "stage": "native_event",
+      "tick": 241,
+      "role": "save_pending",
+      "eventId": "minecraft:entity_transformed",
+      "typeId": "minecraft:villager_v2"
+    }
+  ],
+  "process": {
+    "unit": "senluo-tavern-incense-203-20261106-r2.service",
+    "invocation": "4bb1d31f694947b687b28d64d88dc4e7",
+    "wrapper_exit": 1,
+    "main_pid_after": 0,
+    "memory_peak_bytes": 741892096,
+    "swap_peak_bytes": 0
+  },
+  "limits": [
+    "All three supported setup paths resolved to zombie_villager_v2; legacy type not verified.",
+    "Initial restart observer queried the saved completed ID at worldLoad+1 without waiting for chunk/actor loading. Its failure is not proof of lost persisted data.",
+    "After that observer failure, the same restart log witnessed the saved curing actor transform. Its old pending ID must not be replayed as an unfinished fixture.",
+    "QA tags and custom dynamic-property marker were absent after the native transformation. No arbitrary metadata, trade or equipment preservation claim.",
+    "The retained same world is reserved for exact saved-ID readback after load; original successful first cases must not be rerun."
+  ],
+  "log": "docs/evidence/native-incense-203-20261106.log",
+  "full_parity": false,
+  "client": false,
+  "live": false
+}
