@@ -4,7 +4,7 @@ from pathlib import Path
 from unittest.mock import patch
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from family_update import deploy_live as m
-from family_update import managed_drift_recovery
+from family_update import managed_drift_recovery, current_author_validation
 import family_guard
 
 class InstallationTests(unittest.TestCase):
@@ -27,6 +27,16 @@ class InstallationTests(unittest.TestCase):
  def test_reviewed_preserved_pairs_join_owned_install_and_rollback_members(self):
   family,foreign=self.selection();self.assertEqual({p['uuid']for p in family},{'owned',*self.outputs});self.assertEqual([p['uuid']for p in foreign],['unrelated'])
   self.assertEqual([p['version']for p in self.original['packs']],[[0,0,1]]*5)
+ def test_verified_curated_changes_join_install_while_exact_unchanged_packs_stay_put(self):
+  with patch.object(m,'R',self.root),patch.object(m,'CONFIG',{'extension_stable_validation':'source-proof.json'}),patch('family_update.stable_author_validation.verify_installation'),patch.object(current_author_validation,'installation_targets',return_value=set(self.outputs)) as verify:
+   family,unchanged=m.installation_selection(self.receipt,self.original)
+   verify.assert_called_once_with(self.receipt)
+   self.assertEqual({row['uuid'] for row in family},{'owned',*self.outputs})
+   self.assertEqual([row['uuid'] for row in unchanged],['unrelated'])
+   self.receipt['packs'][4]['files']={'payload':'unreviewed'}
+   with self.assertRaisesRegex(AssertionError,'Unreviewed'):
+    m.installation_selection(self.receipt,self.original)
+
  def test_no_review_cannot_upgrade_preserved_files(self):
   with self.assertRaisesRegex(AssertionError,'Unreviewed'):self.selection(False)
  def test_actual_old_live_drift_is_rejected_even_when_the_new_candidate_is_reviewed(self):

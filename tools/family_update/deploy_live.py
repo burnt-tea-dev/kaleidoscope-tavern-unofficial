@@ -228,12 +228,18 @@ def installation_selection(receipt,original):
         relocations=global_relocations(original)
         local_targets=verify_local_target(receipt,original)
         assert not local_targets & set(prospective), 'A local repair cannot also use another prospective producer'
+    curated_targets=set()
+    if CONFIG.get('extension_stable_validation'):
+        from family_update.current_author_validation import installation_targets
+        curated_targets=installation_targets(receipt)
     family=[];unchanged=[]
     for p in receipt['packs']:
         if p['source']['owner']!='preserved':family.append(p);continue
         old=prior.get(p['uuid']);assert old and old['side']==p['side'], 'Preserved identity or side changed'
         assert hashes(old['path'])==old['files'], 'Installed preserved pack drifted from its captured original'
-        if p['uuid'] in prospective or p['uuid'] in relocations or p['uuid'] in local_targets:
+        curated_change=(p['uuid'] in curated_targets and
+                        (p['files']!=old['files'] or p['version']!=old['version']))
+        if p['uuid'] in prospective or p['uuid'] in relocations or p['uuid'] in local_targets or curated_change:
             if p['uuid'] in relocations and p['uuid'] not in local_targets:
                 assert p['files']==old['files'] and p['version']==old['version'], 'Relocation cannot alter existing global input'
             family.append(p)
