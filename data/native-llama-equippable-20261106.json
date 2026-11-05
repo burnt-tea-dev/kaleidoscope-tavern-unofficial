@@ -1,0 +1,160 @@
+{
+  "schema": 1,
+  "observed_date_hkt": "2026-11-06",
+  "bdsVersion": "1.26.60.6",
+  "scriptAPI": "@minecraft/server2.7.0",
+  "runtime_reference_commit": "b1cc1eb44ea782b7564392b0e18d1b6466e00e9c",
+  "observer_reference_commit": "e85202316a9bfcf88dda704968a3b85ae6b0bb96",
+  "scope": "One unchanged vanilla llama; native data-layer tamed group versus Script API equippable access. No new Player, other mob, API comparison, vanilla override or gameplay change.",
+  "runtimeChanged": false,
+  "liveChanged": false,
+  "newPlayerCreated": false,
+  "gametestUsed": false,
+  "officialSources": {
+    "dataComponent": "https://learn.microsoft.com/en-us/minecraft/creator/reference/content/entityreference/examples/entitycomponents/minecraftcomponent_equippable?view=minecraft-bedrock-stable",
+    "scriptComponent": "https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/entityequippablecomponent?view=minecraft-bedrock-stable",
+    "componentEnumeration": "https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/entity?view=minecraft-bedrock-stable#getcomponents"
+  },
+  "selectedBundledDefinition": {
+    "path": "vanilla_1.26.30/entities/llama.json",
+    "formatVersion": "1.26.30",
+    "baseEquippablePresent": false,
+    "originalGroup": "minecraft:llama_tamed",
+    "groupEquippable": {
+      "slots": [
+        {
+          "slot": 1,
+          "item": "carpet",
+          "accepted_items": [
+            "carpet"
+          ]
+        }
+      ]
+    },
+    "originalNativeEventsUsed": [
+      "minecraft:ageable_grow_up",
+      "minecraft:on_tame"
+    ]
+  },
+  "priorEvidence": {
+    "publicRecord": "native-cocktail-effects-capabilities-20261008.json",
+    "llamaPreviouslyCovered": false,
+    "previousSdkComparison": "The prior server2.7/2.11/2.12-beta zombie/skeleton/armor-stand/pig record did not include a llama; those cases and Player controls were not rerun."
+  },
+  "failedObserverAttempt": {
+    "kind": "failure",
+    "observations": [],
+    "normalStop": true,
+    "players": 0,
+    "reason": "Observer mistakenly called nonexistent getAllComponents and raised TypeError. Corrected to the existing getComponents API used by the earlier probe. This is not a capability result."
+  },
+  "nativeObservation": {
+    "kind": "done",
+    "phase": "first",
+    "players": 0,
+    "observationOnly": true,
+    "unchangedVanillaDefinition": true,
+    "nativeTamedGroupActivated": true,
+    "scriptEquippableAvailable": false,
+    "nativeCarpetSetup": null,
+    "observations": [
+      {
+        "stage": "spawn",
+        "typeId": "minecraft:llama",
+        "components": [
+          "minecraft:breathable",
+          "minecraft:healable",
+          "minecraft:health",
+          "minecraft:is_hidden_when_invisible",
+          "minecraft:lava_movement",
+          "minecraft:leashable",
+          "minecraft:mark_variant",
+          "minecraft:movement",
+          "minecraft:movement.basic",
+          "minecraft:navigation.walk",
+          "minecraft:rideable",
+          "minecraft:strength",
+          "minecraft:tamemount",
+          "minecraft:type_family",
+          "minecraft:underwater_movement",
+          "minecraft:variant"
+        ],
+        "isTamedComponent": false,
+        "enumComponentId": "minecraft:equippable",
+        "enumPresent": false,
+        "literalPresent": false,
+        "slots": []
+      },
+      {
+        "stage": "native_tamed_event",
+        "typeId": "minecraft:llama",
+        "components": [
+          "minecraft:breathable",
+          "minecraft:healable",
+          "minecraft:health",
+          "minecraft:is_hidden_when_invisible",
+          "minecraft:lava_movement",
+          "minecraft:leashable",
+          "minecraft:mark_variant",
+          "minecraft:movement",
+          "minecraft:movement.basic",
+          "minecraft:navigation.walk",
+          "minecraft:rideable",
+          "minecraft:strength",
+          "minecraft:tamemount",
+          "minecraft:type_family",
+          "minecraft:underwater_movement",
+          "minecraft:variant"
+        ],
+        "isTamedComponent": false,
+        "enumComponentId": "minecraft:equippable",
+        "enumPresent": false,
+        "literalPresent": false,
+        "slots": []
+      },
+      {
+        "stage": "native_tamed_after_five_ticks",
+        "typeId": "minecraft:llama",
+        "components": [
+          "minecraft:breathable",
+          "minecraft:healable",
+          "minecraft:health",
+          "minecraft:inventory",
+          "minecraft:is_hidden_when_invisible",
+          "minecraft:is_tamed",
+          "minecraft:lava_movement",
+          "minecraft:leashable",
+          "minecraft:mark_variant",
+          "minecraft:movement",
+          "minecraft:movement.basic",
+          "minecraft:navigation.walk",
+          "minecraft:rideable",
+          "minecraft:strength",
+          "minecraft:type_family",
+          "minecraft:underwater_movement",
+          "minecraft:variant"
+        ],
+        "isTamedComponent": true,
+        "enumComponentId": "minecraft:equippable",
+        "enumPresent": false,
+        "literalPresent": false,
+        "slots": []
+      }
+    ],
+    "scope": "one vanilla llama; server2.7.0; no new Player, other mob, API comparison or gameplay repair"
+  },
+  "conclusions": [
+    "After five ticks the same actor exposes is_tamed and inventory, confirming activation of the original native tamed group.",
+    "getComponents never lists equippable; both EntityComponentTypes.Equippable and the literal minecraft:equippable lookup return undefined in all three snapshots.",
+    "The data-layer carpet slot does not provide Script equipment access on this BDS1.26.60.6/server2.7.0 llama. Close this specific Tomb Raider route; do not generalize to all entities or future APIs.",
+    "No native carpet injection or slot/stack readback was attempted because the Script component was absent."
+  ],
+  "completion": {
+    "observationCompleted": true,
+    "capabilityAvailable": false,
+    "normalStop": true,
+    "players": 0,
+    "ownGeneratedWorldRemoved": true
+  },
+  "evidenceBoundary": "Public record contains gameplay/API observations only. Original logs, native reports and host/service metadata remain local."
+}
