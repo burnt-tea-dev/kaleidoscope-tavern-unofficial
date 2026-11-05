@@ -12,9 +12,11 @@ from build_tavern_forms import CURRENT_FORM_SOURCES, check_or_write as check_cur
 ROOT=Path(__file__).resolve().parents[1]
 # These domains are maintained against their current contracts. Their behavior
 # is no longer represented by reversing source changes to the launch baseline.
-# The efficiency CI job runs the actual effect adapter, including effect-clock
-# and expiry/recipient scenarios; this static command does not claim that result.
-EFFECT_SOURCES={'runtime/BP/scripts/bedrock/custom-effects.js'}
+# The normal PR scripts job runs actual effect callbacks and capacity/reload
+# scenarios; efficiency/foundation add clock and recipient coverage separately.
+# This static command does not claim those behavior results.
+EFFECT_SOURCES={'runtime/BP/scripts/bedrock/custom-effects.js',
+                'runtime/BP/scripts/core/custom-effects.js'}
 BARREL_SOURCES={f'runtime/RP/entity/runtime_barrel_ingredients_{slot}.entity.json' for slot in range(4)}|{
     'runtime/RP/render_controllers/runtime_barrel_ingredients.render_controllers.json'}
 GUIDE_SOURCES={'runtime/BP/scripts/bedrock/standalone-guide.js',
@@ -168,7 +170,7 @@ def main():
                             'creativeCatalog':creative_contract,
                             'guide':{'sources':sorted(GUIDE_SOURCES),'behaviorAndResources':'actual standalone-guide.test.mjs, presentation-settings.test.mjs and check_guide.mjs in the existing package suite; not run by this static command'},
                             'potionVisual':{**potion_contract,'sources':sorted(potion_sources),'adapterScenarios':'separate foundation CI; not run by this command'},
-                            'customEffects':{'sources':sorted(EFFECT_SOURCES),'behaviorScenarios':'separate efficiency and foundation CI; not run by this command'}},
+                            'customEffects':{'sources':sorted(EFFECT_SOURCES),'behaviorScenarios':'normal PR scripts plus separate efficiency/foundation CI; not run by this command'}},
         'pureRules':pure,'nativeMolotovResources':'source/schema aligned; device acceptance pending',
         'tipsyCameraOnlyRoll':'NOT_RESTORED','tipsyChanges':'diagnostics, immediate status hook and bounded transient-error retry only',
         'bdsTest':'NOT_RUN','clientTest':'NOT_RUN','simulatedPlayerTests':False,'limits':ref['limits']}
