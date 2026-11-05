@@ -15,7 +15,9 @@ import {clearCustomEffects,statusNow,tickCustomEffects} from './bedrock/custom-e
 import {activeStatus} from './core/custom-effects.js';
 import {EMPTY_CUP} from './core/mixology.js';
 const XP='kaleidoscope_tavern:xp_drain',ALLIUM='kaleidoscope_tavern:allium_garden';
-const PARK={x:32.5,y:300,z:40.5},PICKUP={x:64.5,y:300,z:40.5};
+// Keep every reward actor inside the simulation-distance-4 despawn radius,
+// while the nearest reward cell remains outside native XP attraction range.
+const PARK={x:40.5,y:300,z:40.5},PICKUP={x:64.5,y:300,z:40.5};
 const CELLS=Array.from({length:8},(_,i)=>({x:48+i*4,y:300,z:32}));
 const EXPECTED_XP=40,SETTLE_TICKS=85;
 const stagedMobs=new Set(),nativeDeaths=[];
@@ -38,7 +40,8 @@ async function stageBatch(player,d){
  // Let all eight spawned actors initialize before attributing native deaths.
  // The previous same-tick spawn/kill fixture produced only seven rewards.
  await pause(2);
- out('actors-initialized',{actors:mobs.map((mob,index)=>({cell:CELLS[index].x,id:mob.id,valid:mob.isValid}))});
+ out('actors-initialized',{player:player.location,actors:mobs.map((mob,index)=>({cell:CELLS[index].x,id:mob.id,valid:mob.isValid,
+  cellLoaded:!!d.getBlock(CELLS[index]),distanceFromPark:Math.hypot(CELLS[index].x+.5-PARK.x,CELLS[index].z+.5-PARK.z)}))});
  const deathsBefore=nativeDeaths.length;
  for(const [index,cell] of CELLS.entries()){
   // The selected vanilla silverfish rewards exactly 5 XP when killed by a
