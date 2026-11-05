@@ -1,5 +1,6 @@
 /** Isolated QA only; never LIVE. One v1 boundary, not another v2 cure test.
- * run_living_effects.py --probe tools/native/incense-v1-boundary.js --offline
+ * run_living_effects.py --probe tools/native/incense-v1-boundary.js --offline --phases first
+ * Resume the same QA only if both controlled v1 cases complete successfully.
  * Reuse the canonical registration factory's actual incense onTick callback.
  * The receiver only captures that callback: blocks, actors, time and metadata
  * are native. No gameplay implementation or entity definition is substituted.
@@ -126,5 +127,6 @@ world.afterEvents.worldLoad.subscribe(()=>system.runTimeout(async()=>{try{
  const complete=cases.length===2&&cases.every(row=>row.status==='v1_cure_completed');
  if(complete)world.setDynamicProperty(SAVE,JSON.stringify(cases.map(row=>row.final)));
  console.warn('[LIVING_EFFECT_QA] '+JSON.stringify({kind:complete?'done':'partial',phase:'first',players:world.getAllPlayers().length,
-  observationOnly:true,v1Verified:complete,metadataScope:'actual native name/tags/DP and exposed equipment/inventory only; no arbitrary Java data/trade claim',cases}));
+  observationOnly:true,sameTickV1CureAndResetObserved:complete,naturalBlockDispatchEstablished:false,
+  metadataScope:'actual native name/tags/DP and exposed equipment/inventory only; no arbitrary Java data/trade claim',cases}));
 }catch(error){console.warn('[LIVING_EFFECT_QA] '+JSON.stringify({kind:'failure',phase:world.getDynamicProperty(SAVE)?'restart':'first',players:world.getAllPlayers().length,error:String(error)}));}},20));
