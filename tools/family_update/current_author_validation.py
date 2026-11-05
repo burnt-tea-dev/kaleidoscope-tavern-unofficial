@@ -346,12 +346,16 @@ def curated_owner_inputs():
                           'companion_of':row.get('companion_of')} for row in retained}
     expected.update({uid:{**row,'group':row['author']} for uid,row in replacements.items()})
     assert set(configured)<=set(expected), 'Unreviewed owner input identity'
+    standalone=set()
     for group in {expected[uid]['group'] for uid in configured}:
         pair={uid for uid,row in expected.items() if row['group']==group}
         companion=next(iter(pair)) if len(pair)==1 else None
         parent=expected[companion].get('companion_of') if companion else None
         if parent:
             assert expected[companion]['side']=='behavior' and parent in configured and expected[parent]['side']=='behavior' and not expected[parent].get('companion_of'), 'Owner data companion requires its declared parent pair'
+        elif companion:
+            assert expected[companion]['side']=='behavior','A standalone owner input must be a data behavior pack'
+            standalone.add(companion)
         else:
             assert pair<=set(configured) and len(pair)==2 and {expected[uid]['side'] for uid in pair}=={'behavior','resource'}, 'Owner inputs require a complete declared BP/RP pair'
     protected=[c.B,c.W,c.Q,*c.SOURCES.values(),*([c.EXTENSION] if c.EXTENSION else [])]
@@ -366,6 +370,8 @@ def curated_owner_inputs():
         files=c.hashes(root)
         assert manifest['header']['uuid']==uid and version==pin['version'] and side==pin['side'] and tree(files)==pin['tree'], 'Owner input differs from the committed profile'
         assert all(row['version']==version for row in manifest['modules']), 'Owner input module identity differs'
+        if uid in standalone:
+            assert manifest['modules'] and all(row['type']=='data' for row in manifest['modules']),'A standalone owner input must contain only data modules'
         if pin.get('companion_of'):
             parent=pin['companion_of']
             assert all(row['type']=='data' for row in manifest['modules']) and manifest['dependencies']==[{'uuid':parent,'version':expected[parent]['version']}], 'Owner data companion modules or exact parent dependency differ'
@@ -398,8 +404,35 @@ def verify_replacement_inputs(receipt,selection):
     actual={row['uuid']:row for row in receipt['packs']}
     for uid,row in rows.items():
         pack=actual.get(uid);expected={'side':row['side'],'version':row['version'],'tree':row['tree'],'source':{'owner':'preserved','role':'owner_accepted_author_replacement','official_author_release':False}}
-        assert pack and {key:pack[key] for key in ('side','version')}=={'side':row['side'],'version':row['version']} and tree(pack['files'])==row['tree'],'Replacement candidate output differs: '+uid
-        assert pack['source']==expected['source'],'Replacement candidate provenance differs: '+uid
+        assert pack and pack['side']==row['side'],'Replacement candidate output differs: '+uid
+        extensions=pack['source'].get('reviewed_extensions',[])
+        if not extensions:
+            assert pack['version']==row['version'] and tree(pack['files'])==row['tree'],'Replacement candidate output differs: '+uid
+            assert pack['source']==expected['source'],'Replacement candidate provenance differs: '+uid
+            continue
+        # A retained whole pair may accept the same declared data move as an
+        # archive pair. Replay against its captured input, never an old author.
+        assert {key:value for key,value in pack['source'].items() if key!='reviewed_extensions'}==expected['source'],'Replacement candidate provenance differs: '+uid
+        original=c.hashes(Path(selection['packs'][uid]['path']))
+        assert tree(original)==row['tree'],'Replacement input changed after selection'
+        from host_extensions import host_source_root
+        baseline=c.read(c.EXTENSION/'baseline.json');root=host_source_root(c.EXTENSION,baseline)
+        declared={spec['id']:(path,spec) for path in (root/'host-extensions').glob('*.json') for spec in [c.read(path)]}
+        side='BP' if row['side']=='behavior' else 'RP'
+        for extension in extensions:
+            path,spec=declared[extension['id']]
+            assert spec['kind']=='addon-owned-data' and extension['spec_sha256']==c.sha(path),'Replacement has an undeclared data change'
+            assert extension['repository']==baseline['repository'] and extension['commit']==c.git(c.EXTENSION,'rev-parse','HEAD') and extension['working_candidate'] is False,'Replacement data source differs'
+            peer=next(item['uuid'] for item in rows.values() if item['author']==row['author'] and item['side']!=row['side'])
+            bp,rp=(uid,peer) if side=='BP' else (peer,uid)
+            assert [item for item in actual[peer]['source'].get('reviewed_extensions',[]) if item['id']==extension['id']]==[extension],'Replacement pair data receipts differ'
+            validate_pair_receipt(spec,extension,baseline['version'],pack['version'],bp,rp)
+            for key in ('original_files','patched_files'):
+                assert extension[key]==spec[key],'Replacement data declaration differs'
+            for name,value in spec['original_files'].items():
+                if name.startswith(side+'/'):assert original.get(name[3:])==value,'Replacement data preimage differs'
+            original.update({name[3:]:value for name,value in spec['patched_files'].items() if name.startswith(side+'/')})
+        assert original==pack['files'],'Replacement data changed undeclared files'
 
 def select_curated_inputs(original):
     """Select only declared captured inputs or a complete canonical Fishing pair.
@@ -773,6 +806,36 @@ def validate_public_api_source(api,catalog,grilling,spec,path,*,curated):
     assert api['copies_hashes']==public['copies'],'Public API helper proof differs'
     return public
 
+def validate_owned_pair_metadata(spec, records, sources, owner, spec_sha):
+    """Bind a local manifest release to its canonical, otherwise unchanged pair."""
+    canonical=spec['canonical_host'];root=sources[canonical['key']]
+    base=c.read(root/'baseline.json')
+    assert canonical['repository']==base['repository'] and canonical['commit']==c.git(root,'rev-parse','HEAD'),'Owned metadata canonical source differs'
+    assert spec['kind']=='addon-owned-data' and spec['archive_sha256'] is None
+    names={'BP/manifest.json','RP/manifest.json'}
+    assert set(spec['source_files'])==set(spec['original_files'])==set(spec['patched_files'])==names and not spec.get('removed_files'),'Owned metadata changed gameplay data'
+    assert spec['local_pack_version']>base['version'],'Owned metadata must have a fresh output identity'
+    proofs=[]
+    for side,label in [('BP','behavior'),('RP','resource')]:
+        uid=base['packs'][side]['uuid'];pack=records[uid];source=pack['source']
+        assert uid==spec['behavior_uuid' if side=='BP' else 'resource_uuid']
+        assert source['owner']=='owned' and source['repository']==canonical['repository'] and source['commit']==canonical['commit'] and source['working_candidate'] is False,'Owned metadata lost its source identity'
+        extensions=source.get('reviewed_extensions',[])
+        assert len(extensions)==1 and extensions[0]['id']==spec['id'],'Owned pair has an unreviewed transformation'
+        proof=extensions[0];proofs.append(proof)
+        assert proof['repository']==owner['repository'] and proof['commit']==owner['commit'] and proof['spec_sha256']==spec_sha and proof['working_candidate'] is False,'Owned metadata declaration source differs'
+        validate_pair_receipt(spec,proof,owner['version'],pack['version'],spec['behavior_uuid'],spec['resource_uuid'])
+        for key in ('original_files','patched_files','canonical_host','dependency_rewrites'):
+            assert proof.get(key)==spec.get(key),'Owned metadata receipt differs from its declaration'
+        current=c.hashes(root/base['runtime'][side])
+        assert tree(current)==base['source_trees'][side],'Owned metadata source baseline changed'
+        name=side+'/manifest.json'
+        assert current['manifest.json']==spec['original_files'][name],'Owned metadata preimage differs'
+        current['manifest.json']=spec['patched_files'][name]
+        assert pack['side']==label and pack['files']==current,'Owned metadata changed non-manifest bytes'
+    assert proofs[0]==proofs[1],'Owned pair metadata receipts differ'
+
+
 def validate_candidate(receipt,proof,baseline,binding,catalog):
     """Validate every output and the exact ordered chain, not just changed paths."""
     VERSION,PROFILE,CATALOG_KEY=settings()
@@ -830,6 +893,12 @@ def validate_candidate(receipt,proof,baseline,binding,catalog):
     api=proof['public_api'];g=c.SOURCES['grilling']
     public=validate_public_api_source(api,catalog,g,public_spec,public_path,curated=curated_selected())
     seen=set();replaced=replacement_author_keys()
+    for identity,(declared,profile,spec_sha) in specs.items():
+        if profile.get('source_owner')=='owned':
+            validate_owned_pair_metadata(declared,rows,c.SOURCES,
+                {'repository':baseline['repository'],'version':component_version,
+                 'commit':binding['actual_current_source_commit']},spec_sha)
+            seen.add(identity)
     replacement_uids=set(replacement_rows())
     for key,pin in catalog['authors'].items():
         if key in replaced:continue
@@ -901,11 +970,13 @@ def validate_candidate(receipt,proof,baseline,binding,catalog):
                         name=name[3:]
                     current[name]=value
                 for name,value in declared.get('removed_files',{}).items():
+                    if paired:
+                        if not name.startswith(side+'/'):continue
+                        name=name[3:]
                     assert current.get(name)==value,'Current author removal preimage differs'
                     del current[name]
                 for name,record in copies.items():assert name not in current,'Current author helper overwrote existing data';current[name]=record['sha256']
             assert current==pack['files'],'Current author complete output differs from exact hook replay'
-            if key in ['Nether','End','PresenceFootsteps','Deco']:assert not extensions and authored['original_files'][side]==pack['files']
     expected_seen={identity for identity,(spec,_,_) in specs.items() if spec['host_uuid'] not in replacement_uids}
     assert seen==expected_seen,'Current author host profile omitted or applied to a replaced author'
 

@@ -3,7 +3,7 @@ import copy
 import hashlib
 import json
 from datetime import date
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 import stable_host_profiles as stable
 
@@ -30,7 +30,7 @@ DATA_REPAIRS = {
 }
 PAIRED_KINDS = frozenset({
     'chinesefood-doll-renderer-cleanup', 'nether-placeable-drinks-schema-repair',
-    'essentials-manifest-compatibility', *DATA_REPAIRS,
+    'essentials-manifest-compatibility', 'addon-owned-data', *DATA_REPAIRS,
 })
 
 
@@ -54,7 +54,7 @@ def validate_pair_receipt(spec, receipt, owner_version, pack_version, behavior_u
             or receipt.get('local_pack_version') != spec.get('local_pack_version')
             or receipt.get('local_pack_version') != pack_version):
         raise ValueError('paired receipt owner or installed version differs')
-    if spec.get('kind') in DATA_REPAIRS:
+    if spec.get('kind') in DATA_REPAIRS or spec.get('kind') == 'addon-owned-data':
         if receipt.get('official_author_release') is not False:
             raise ValueError('paired data receipt must retain its local author identity')
         for key in ('kind', 'host_uuid', 'behavior_uuid', 'resource_uuid', 'official_author_release'):
@@ -67,9 +67,20 @@ def _version(value):
             and all(type(part) is int and part >= 0 for part in value))
 
 
-def _manifest_updates(original, uuids, author_version, local_version, manifest_names):
-    """Only own versions and the exact reviewed display names may change."""
+def _manifest_updates(original, uuids, author_version, local_version, manifest_names, dependency_rewrites=()):
+    """Only pair identity, reviewed names and declared dependencies may change."""
     updates = []
+    if not isinstance(dependency_rewrites, (list, tuple)):
+        raise ValueError('paired dependency rewrites must be a list')
+    rules = {}
+    for rule in dependency_rewrites:
+        if (not isinstance(rule, dict) or set(rule) != {'uuid', 'before', 'after'}
+                or not isinstance(rule['uuid'], str) or rule['uuid'] in rules
+                or rule['uuid'] in uuids.values()
+                or not all(_version(rule[key]) for key in ('before', 'after'))):
+            raise ValueError('invalid paired dependency rewrite')
+        rules[rule['uuid']] = rule
+    seen = set()
     for side in ('BP', 'RP'):
         name = side + '/manifest.json'
         manifest = json.loads(original[name])
@@ -92,11 +103,132 @@ def _manifest_updates(original, uuids, author_version, local_version, manifest_n
                 if not _version(dependency.get('version')) or dependency.get('version') != author_version:
                     raise ValueError('paired author dependency version differs')
                 pointers.append(['dependencies', str(index), 'version'])
+            elif dependency.get('uuid') in rules:
+                rule = rules[dependency['uuid']]
+                if dependency.get('version') != rule['before']:
+                    raise ValueError('paired dependency rewrite preimage differs')
+                seen.add(rule['uuid'])
+                updates.append({'path': name, 'pointer': ['dependencies', str(index), 'version'],
+                                'mode': 'reviewed_set', 'value': rule['after']})
         updates.extend({'path': name, 'pointer': pointer, 'mode': 'reviewed_set',
                         'value': local_version} for pointer in pointers)
         updates.append({'path': name, 'pointer': ['header', 'name'], 'mode': 'reviewed_set',
                         'value': manifest_names[side]})
+    if seen != set(rules):
+        raise ValueError('unused paired dependency rewrite')
     return updates
+
+
+def apply_owned_data_extension(spec, owned_root, bp_root, rp_root, bp_source, rp_source, owner_version):
+    """Install committed data into its owning pair after the host's script repairs.
+
+    Exact preimages prevent a full definition from hiding a newer host change.
+    Source files are ordinary addon data, not another patch implementation.
+    """
+    if (spec.get('kind') != 'addon-owned-data' or spec.get('schema') != 1
+            or spec.get('owner_version') != owner_version
+            or any(not _version(spec.get(key)) for key in ('version', 'owner_version', 'local_pack_version'))
+            or spec.get('official_author_release') is not False):
+        raise ValueError('invalid addon-owned data identity')
+    profile = stable.match_stable_profile(spec, owned_root)
+    if profile is None or profile.get('admission') != stable.CURATED:
+        raise ValueError('addon-owned data requires its committed reviewed declaration')
+    stable.validate_stable_source(profile, bp_source)
+    if any(source.get('archive_sha256') != spec.get('archive_sha256')
+           or source.get('owner') not in ('upstream', 'upstream_extended', 'preserved', 'owned')
+           for source in (bp_source, rp_source)):
+        raise ValueError('addon-owned data targets another source pair')
+    if any(source.get('owner') == 'preserved' for source in (bp_source, rp_source)):
+        if any(source.get('owner') != 'preserved'
+               or source.get('role') != 'owner_accepted_author_replacement'
+               or source.get('official_author_release') is not False
+               for source in (bp_source, rp_source)):
+            raise ValueError('addon-owned data requires the complete accepted replacement pair')
+    sources = spec.get('source_files')
+    before, after = spec.get('original_files'), spec.get('patched_files')
+    removed = spec.get('removed_files', {})
+    if (not isinstance(sources, dict) or not sources or set(sources) != set(before or {})
+            or set(sources) != set(after or {})
+            or not {'BP/manifest.json', 'RP/manifest.json'} <= set(sources)
+            or spec.get('copies', {}) or not isinstance(removed, dict)
+            or set(removed) & set(sources)):
+        raise ValueError('addon-owned data requires exact paired input and output files')
+    owned_pair = any(source.get('owner') == 'owned' for source in (bp_source, rp_source))
+    canonical = spec.get('canonical_host')
+    if owned_pair:
+        if (not isinstance(canonical, dict) or set(canonical) != {'key', 'repository', 'commit'}
+                or not isinstance(canonical['key'], str) or not canonical['key']
+                or any(source.get('owner') != 'owned'
+                       or source.get('repository') != canonical['repository']
+                       or source.get('commit') != canonical['commit']
+                       for source in (bp_source, rp_source))
+                or set(sources) != {'BP/manifest.json', 'RP/manifest.json'} or removed):
+            raise ValueError('canonical owned pair permits only its declared manifest release')
+    elif canonical is not None:
+        raise ValueError('canonical owned declaration targets another source')
+    roots = {'BP': Path(bp_root), 'RP': Path(rp_root)}
+    def local_path(root, name, *, must_exist=True):
+        if not isinstance(name, str) or '\\' in name:
+            raise ValueError('invalid addon-owned data path')
+        relative = PurePosixPath(name)
+        if relative.is_absolute() or '..' in relative.parts or relative.as_posix() != name:
+            raise ValueError('addon-owned data path escapes source')
+        path = root
+        for part in relative.parts:
+            path = path / part
+            if path.is_symlink():
+                raise ValueError('linked addon-owned data path')
+        if must_exist and not path.is_file():
+            raise ValueError('addon-owned data file is missing: ' + name)
+        return path
+    paths, originals, changed = {}, {}, {}
+    for name, source_name in sources.items():
+        side, relative = name.split('/', 1)
+        if side not in roots:
+            raise ValueError('unknown addon-owned data pack side')
+        path = local_path(roots[side], relative, must_exist=before[name] is not None)
+        if before[name] is None and path.exists():
+            raise ValueError('addon-owned data addition is occupied: ' + name)
+        raw = path.read_bytes() if before[name] is not None else None
+        replacement = local_path(Path(owned_root), source_name).read_bytes()
+        if (hashlib.sha256(raw).hexdigest() if raw is not None else None) != before[name]:
+            raise ValueError('addon-owned data preimage differs: ' + name)
+        if hashlib.sha256(replacement).hexdigest() != after[name]:
+            raise ValueError('addon-owned data source differs: ' + name)
+        paths[name], originals[name], changed[name] = path, raw, replacement
+    removals = []
+    for name, expected in removed.items():
+        side, relative = name.split('/', 1)
+        if side not in roots:
+            raise ValueError('unknown addon-owned data pack side')
+        path = local_path(roots[side], relative)
+        if hashlib.sha256(path.read_bytes()).hexdigest() != expected:
+            raise ValueError('addon-owned data removal preimage differs: ' + name)
+        removals.append(path)
+    uuids = dict(zip(('BP', 'RP'), pair_uuids(spec)))
+    author_version = json.loads(originals['BP/manifest.json'])['header']['version']
+    if owned_pair and spec['local_pack_version'] <= author_version:
+        raise ValueError('canonical owned metadata needs a fresh paired version')
+    updates = _manifest_updates(originals, uuids, author_version, spec['local_pack_version'],
+                                spec['manifest_names'], spec.get('dependency_rewrites', ()))
+    for side in ('BP', 'RP'):
+        name = side + '/manifest.json'
+        expected = json.loads(originals[name])
+        for operation in updates:
+            if operation['path'] != name:
+                continue
+            target = expected
+            for key in operation['pointer'][:-1]:
+                target = target[int(key)] if isinstance(target, list) else target[key]
+            target[operation['pointer'][-1]] = copy.deepcopy(operation['value'])
+        if json.loads(changed[name]) != expected:
+            raise ValueError('addon-owned data changes manifest identity or unrelated metadata')
+    for name, raw in changed.items():
+        paths[name].parent.mkdir(parents=True, exist_ok=True)
+        paths[name].write_bytes(raw)
+    for path in removals:
+        path.unlink()
+    return {key: copy.deepcopy(value) for key, value in spec.items() if key != 'source_files'}
 
 
 def apply_paired_data_extension(spec, bp_root, rp_root, bp_source, rp_source, owner_version):

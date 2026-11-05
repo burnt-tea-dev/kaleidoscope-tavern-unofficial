@@ -24,7 +24,7 @@ class PrivateHostCatalog(unittest.TestCase):
         old_station = selection['selection']['value']['station_profile']
         self.station = 'fixture-private-station'
         selection['profile'] = selection['selection']['value']['profile'] = 'fixture-owner'
-        selection['selection']['value']['station_profile'] = self.station
+        selection['selection']['value'].pop('station_profile')
         self.catalog = {'schema': 1, 'profiles': {self.station: public['profiles'][old_station]},
                         stable.CURATED_KEY: selection}
         self.path = self.root / 'private-catalog.json'

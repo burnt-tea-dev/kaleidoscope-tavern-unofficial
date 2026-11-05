@@ -276,6 +276,34 @@ class ReplacementSelectionTests(unittest.TestCase):
         with self.assertRaisesRegex(AssertionError,'Replacement candidate output differs'):
             v.verify_replacement_inputs(receipt,proof)
 
+    def test_declared_data_move_replays_on_current_replacement_and_preserves_extra_files(self):
+        v,_,original=self.replacement_fixture()
+        original['packs'][0]['files']['extra-owner-data.json']='keep-owner-data'
+        selected=v.current_selection()
+        selected['replacement_packs']['Essentials']['BP']['tree']=tree(original['packs'][0]['files'])
+        _,sources,proof=v.select_replacement_inputs(original)
+        spec={'schema':1,'kind':'addon-owned-data','id':'fixture:data','version':[1,0,1],
+              'host_uuid':'rp','behavior_uuid':'bp','resource_uuid':'rp','owner_version':[1,0,77],
+              'local_pack_version':[1,8,10070],'official_author_release':False,
+              'original_files':{'BP/script.js':'bp-script'},'patched_files':{'BP/script.js':'new-data'}}
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);write(root/'addon-sources/host-extensions/data.json',spec)
+            baseline={'repository':'local/fixture','version':[1,0,77],
+                      'runtime':{'BP':'runtime/BP'},'host_sources':'addon-sources'}
+            write(root/'baseline.json',baseline)
+            extension={**spec,'spec_sha256':hashlib.sha256((root/'addon-sources/host-extensions/data.json').read_bytes()).hexdigest(),
+                       'repository':baseline['repository'],'commit':'source','working_candidate':False}
+            receipt={'packs':[{**row,'files':dict(row['files']),
+                              'source':{**sources[row['uuid']],'reviewed_extensions':[extension]}}
+                             for row in original['packs']]}
+            receipt['packs'][0]['files']['script.js']='new-data'
+            hashes={Path(row['path']):row['files'] for row in original['packs']}
+            with patch.object(v.c,'EXTENSION',root),patch.object(v.c,'git',return_value='source'),patch.object(v.c,'hashes',side_effect=lambda path:dict(hashes[path])):
+                v.verify_replacement_inputs(receipt,proof)
+                receipt['packs'][0]['files']['extra-owner-data.json']='lost-owner-data'
+                with self.assertRaisesRegex(AssertionError,'undeclared files'):
+                    v.verify_replacement_inputs(receipt,proof)
+
 
 if __name__ == '__main__':
     unittest.main()

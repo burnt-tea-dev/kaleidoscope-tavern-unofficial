@@ -1,4 +1,4 @@
-"""Build exact full family only from clean canonical main and pinned archives."""
+"""Build an exact family from clean merged sources and pinned archives."""
 import argparse
 from family_update.common import *
 from family_bundle import assemble

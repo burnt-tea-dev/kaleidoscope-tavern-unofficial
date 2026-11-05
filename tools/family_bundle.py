@@ -144,7 +144,7 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
    if not isinstance(uids,list) or any(not isinstance(uid,str) or not uid for uid in uids) or len(uids)!=len(set(uids)):fail('invalid reviewed pack order')
   lock['order']=json.loads(json.dumps(reviewed_order))
  # Optional local integrations have their own committed runtime and release
- # history. They never rewrite an owned port or an upstream author archive.
+ # history. They never rewrite owned source checkouts or input author archives.
  for repo in extensions:
   config=read(repo/'baseline.json');key=config['repository']
   if key in sources:fail('duplicate extension source')
@@ -161,7 +161,7 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
    fail('expected gate repository identities must cover exactly the selected owned sources')
   for own in lock['owned']:source_gate_environment(own,source_identities)
  if out.exists():fail('output exists; never replace another candidate')
- out.mkdir(parents=True);records=[];by_uuid={};components={}
+ out.mkdir(parents=True);records=[];by_uuid={};components={};source_advisories=[]
  # Index every candidate archive once. Read and recheck the selected bytes at
  # use time so a concurrent file replacement cannot exploit the index.
  archive_index={}
@@ -180,10 +180,13 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
    for name,b in data.items():
     target=dest/name;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(b)
   row={'uuid':uid,'side':side,'version':manifest['header']['version'],'source':source,'dependencies':manifest.get('dependencies',[]),'files':copied if root else files_hash(dest)};records.append(row);by_uuid[uid]=row
+ owned_data=[]
  for own in lock['owned']:
   repo=sources[own['key']]
   config=read(repo/'baseline.json')
-  if own.get('version')!=config['version'] or own.get('source_trees')!=config['source_trees']:fail('owned source differs from family lock')
+  if own.get('version')!=config['version'] or own.get('source_trees')!=config['source_trees']:
+   source_advisories.append({'source':own['key'],'locked_version':own.get('version'),'selected_version':config['version']})
+   own.update(version=config['version'],source_trees=config['source_trees'])
   if not working:subprocess.run(['python3',str(repo/'tools/baseline_gate.py'),'check','--release'],check=True,env=source_gate_environment(own,source_identities,repo))
   if config['repository']!=own['repository']:fail('wrong owned repository')
   try:components[own['key']]=retained_component_config(repo,config,sources)
@@ -225,6 +228,9 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
   repo=sources[own['key']];config=read(repo/'baseline.json');owned_root=host_source_root(repo,config)
   source_component,retained_runtime=components[own['key']]
   for path,spec in host_declarations(owned_root,own['key']):
+   if spec.get('kind')=='addon-owned-data':
+    owned_data.append((repo,config,owned_root,path,spec))
+    continue
    if spec.get('kind') in PAIRED_KINDS:
     pair=set(pair_uuids(spec))
     if pair & replacements:
@@ -282,7 +288,7 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
    host=by_uuid.get(spec['host_uuid'])
    if host is None:fail('host extension target missing')
    host_root=out/(host['side']+'_packs')/host['uuid']
-   context={}
+   context={'source_repo':repo}
    station=station_handoffs.get(spec.get('host_uuid'))
    if station is not None and ((own['key']==station['api_key'] and spec.get('id')==station['api']['id']) or (own['key']==station['private_key'] and spec.get('kind')=='cookery-station-performance')):
     context['station_handoff']=station
@@ -307,6 +313,20 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
   label=by_uuid[uid]['side']
   if reviewed_order is None and uid not in lock['order'][label]:lock['order'][label].append(uid)
  if used_preserved_sources!=set(preserved_sources):fail('preserved source descriptor has no exact input UUID')
+ # Definition sources run last so earlier host repairs cannot overwrite them.
+ for repo,config,owned_root,path,spec in owned_data:
+  from paired_host_extension import apply_owned_data_extension
+  bp_uuid,rp_uuid=pair_uuids(spec)
+  bp=by_uuid.get(bp_uuid);rp=by_uuid.get(rp_uuid)
+  if not bp or not rp:fail('addon-owned data requires its complete host pair')
+  try:proof=apply_owned_data_extension(spec,owned_root,out/'behavior_packs'/bp_uuid,out/'resource_packs'/rp_uuid,bp['source'],rp['source'],config['version'])
+  except (ValueError,KeyError) as error:fail('addon-owned data rejected: '+str(error))
+  proof.update(repository=config['repository'],commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip(),source_package_version=config['version'],spec_sha256=hashlib.sha256(path.read_bytes()).hexdigest(),working_candidate=working)
+  for row in (bp,rp):
+   root=out/(row['side']+'_packs')/row['uuid'];manifest=read(root/'manifest.json')
+   row.update(version=manifest['header']['version'],dependencies=manifest.get('dependencies',[]),files=files_hash(root))
+   owner=row['source']['owner'] if row['source']['owner'] in ('preserved','owned') else 'upstream_extended'
+   row['source']={**row['source'],'owner':owner,'official_author_release':False,'reviewed_extensions':[*row['source'].get('reviewed_extensions',[]),proof]}
  for row in records:
   for dep in row['dependencies']:
    if 'uuid' in dep and (dep['uuid'] not in by_uuid or by_uuid[dep['uuid']]['version']!=dep['version']):fail('unresolved exact dependency '+row['uuid']+' -> '+dep['uuid'])
@@ -336,6 +356,7 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
      else:definitions[identity]=uid
  behavior_player,player_contract=select_behavior_player(behavior_players)
  receipt={'schema':1,'lock_sha256':hashlib.sha256(json.dumps(lock,sort_keys=True).encode()).hexdigest(),'packs':records,'order':lock['order'],'definition_overlaps':overlaps,'behavior_player_definition':behavior_player,'acceptance':{'static':True,'bds':False,'client':False,'saved_world_migration':False},'production_ready':False}
+ if source_advisories:receipt['source_advisories']=source_advisories
  if player_contract is not None:receipt['reviewed_player_compatibility']=player_contract
  (out/'family-receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');print(json.dumps({'candidate':str(out),'packs':len(records),'overlaps':len(overlaps),'production_ready':False}))
  return receipt

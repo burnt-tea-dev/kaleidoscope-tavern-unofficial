@@ -295,7 +295,7 @@ class CuratedProfileAdmission(unittest.TestCase):
    'functional_checks':{'cookery-station-performance':{'source':'Cookery','cases':10}},
    'functional_contract':{'path':self.contract,'sha256':m.digest((self.root/self.contract).read_bytes())},'authors':{},'pack_versions':{},'station_profile':'curated-station'}
   self.write(stable.CURATED_INPUT,self.value)
-  self.baseline={'repository':m.LOGICAL,'version':[1,0,66],'current_author_profile':stable.CURATED_INPUT,'source_trees':{side:m.tree(files) for side,files in self.after.items()}}
+  self.baseline={'repository':m.LOGICAL,'version':[1,0,66],'runtime':{'BP':'runtime/BP','RP':'runtime/RP'},'current_author_profile':stable.CURATED_INPUT,'source_trees':{side:m.tree(files) for side,files in self.after.items()}}
   self.write('baseline.json',self.baseline)
   self.catalog={'profile':self.value['profile'],'version':self.value['version'],'authors':{},'previous_commit':previous,
    'exact_changed_paths':['runtime/BP/manifest.json','runtime/RP/manifest.json',self.hud],'added_paths':[],'retired_paths':[self.recipe],
@@ -417,7 +417,6 @@ class CuratedProfileAdmission(unittest.TestCase):
 
  def test_independent_bundle_validates_current_pair_without_global_config_or_p58_context(self):
   import family_bundle
-  self.baseline['runtime']={'BP':'runtime/BP','RP':'runtime/RP'};self.write('baseline.json',self.baseline);self.commit('Actual source roots')
   with self.producer_output(),patch.object(m.c,'CONFIG',{}),patch.object(m.c,'EXTENSION',Path('/unconfigured-global-source')):
    component,anchor=family_bundle.retained_component_config(self.root,self.baseline,{'private':self.root})
    self.assertEqual(component,self.baseline);self.assertIsNone(anchor)
@@ -617,6 +616,27 @@ class CuratedRetainedInputs(unittest.TestCase):
  def test_data_companion_rejects_stale_parent_version(self):
   self.owner_companion(dependency_version=[1,0,1])
   with self.assertRaisesRegex(AssertionError,'companion modules'):m.curated_owner_inputs()
+
+ def owner_standalone(self,modules=None):
+  uid=self.owner_companion(modules=modules);root=Path(m.c.CONFIG['curated_owner_inputs'][uid])
+  row=next(row for row in self.rows if row['uuid']==uid);row.pop('companion_of')
+  manifest=self.guard.read(root/'manifest.json')
+  manifest['dependencies'].append({'uuid':'reviewed-resource','version':[1,0,2]})
+  self.guard.atomic(root/'manifest.json',manifest)
+  row['input_tree']=row['output_tree']=m.tree(self.guard.hashes(root))
+  self.write(stable.CURATED_INPUT,self.value)
+  self.catalog['selection']['sha256']=m.digest((self.root/stable.CURATED_INPUT).read_bytes())
+  self.commit('Explicit standalone data input')
+  return uid
+
+ def test_standalone_data_input_can_preserve_multiple_dependencies(self):
+  uid=self.owner_standalone();before=copy.deepcopy(self.original)
+  selected=m.curated_owner_inputs();self.assertIn(uid,selected)
+  self.assertEqual(self.original,before)
+
+ def test_standalone_owner_input_cannot_add_script_execution(self):
+  self.owner_standalone(modules=[{'type':'script','version':[1,0,3]}])
+  with self.assertRaisesRegex(AssertionError,'only data modules'):m.curated_owner_inputs()
 
  def test_only_selected_roots_and_complete_canonical_fishing_are_used(self):
   roots,sources,report,receipt=self.selected()

@@ -72,12 +72,13 @@ class LaterRetainedHostTests(unittest.TestCase):
                 paired = kind in PROFILES
                 module = ('doll_renderer_extension.apply_renderer_extension' if kind.startswith('chinesefood') else 'nether_placeable_extension.apply_nether_extension') if paired else 'family_bundle.apply_host_extension'
 
-                def apply(spec, *args):
+                def apply(spec, *args, source_repo=None):
                     self.assertEqual(spec['owner_version'], profile['owner_version'])
                     if paired:
                         self.assertEqual(args[-1], profile['owner_version'])
                     else:
                         self.assertEqual(len(args), 3)
+                        self.assertEqual(source_repo, repo)
                     return {'id': spec['id'], 'owner_version': profile['owner_version']}
                 with patch('family_bundle.retained_host_source', return_value=copy.deepcopy(profile)), patch(module, side_effect=apply), patch('family_bundle.subprocess.check_output', return_value='source-commit'), contextlib.redirect_stdout(io.StringIO()):
                     receipt = assemble(lock, {}, [archive], root / 'candidate', working=True, extensions=[repo])

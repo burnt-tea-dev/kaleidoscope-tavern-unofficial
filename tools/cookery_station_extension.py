@@ -113,11 +113,11 @@ def station_inputs(spec):
     """A new author input needs the exact reviewed declaration, never a UUID fallback."""
     if spec.get('host_uuid', HOST) == HOST and spec.get('archive_sha256', ARCHIVE) == ARCHIVE:
         return HOST, ARCHIVE, AUTHOR, [1, 0, 1], WIRE_OPS
-    from stable_host_profiles import curated_profile, PROFILES
+    from stable_host_profiles import curated_profile
     catalog = curated_profile()
-    profile = PROFILES[catalog['selection']['value']['station_profile']]
-    require(profile['spec_sha256'] == declaration_digest(spec), 'curated station declaration differs')
-    return profile['host_uuid'], profile['archive_sha256'], profile['original_files'][TARGET], profile['version'], profile['wire_ops_sha256']
+    record = catalog.get('host_specs', {}).get('cookery-station-performance.json', {})
+    require(record.get('declaration_sha256') == declaration_digest(spec), 'curated station declaration differs')
+    return spec['host_uuid'], spec['archive_sha256'], spec['original_files'][TARGET], spec['version'], declaration_digest(spec['text_replacements'])
 
 
 def current_station_profile(spec, owned_root, api, api_raw, grilling_root):
@@ -181,7 +181,7 @@ def collect_station_handoffs(owned, sources):
         grilling = Path(sources['grilling']); api_path = grilling / API_SPEC
         api_raw = api_path.read_bytes(); api = json.loads(api_raw)
         spec = json.loads(path.read_text()); profile = current_station_profile(spec, root, api, api_raw, grilling)
-        manifest = json.loads((root / 'manifest.json').read_text())
+        manifest = json.loads((repo / config['runtime']['BP'] / 'manifest.json').read_text())
         require(manifest['header']['version'] == config['version'], 'private runtime identity differs')
         host=spec['host_uuid'];author=spec['original_files'][TARGET]
         require(host not in plans, 'two private station owners')
