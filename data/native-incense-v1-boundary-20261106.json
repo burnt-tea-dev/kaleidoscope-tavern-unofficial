@@ -1,0 +1,310 @@
+{
+  "schema": 1,
+  "reviewed_date_hkt": "2026-11-06",
+  "bdsVersion": "1.26.60.6",
+  "scriptAPI": "@minecraft/server2.7.0",
+  "runtime_reference_commit": "b07e4f1420d6831518d15205ca71e5e936d7af15",
+  "observer_reference_commit": "060b24e5fed9b4b2018a03184fb365798ddb27d1",
+  "scope": "Current v1 reachability and controlled same-tick canonical-owner observation; not natural block-tick dispatch parity.",
+  "sourceReview": {
+    "definitions": {
+      "zombie_villager": {
+        "description": {
+          "identifier": "minecraft:zombie_villager",
+          "is_experimental": false,
+          "is_summonable": true,
+          "is_spawnable": true,
+          "spawn_category": "monster"
+        },
+        "ownedTransformation": {
+          "begin_transform_sound": "remedy",
+          "delay": {
+            "block_assist_chance": 0.01,
+            "block_radius": 4,
+            "block_chance": 0.3,
+            "block_types": [
+              "minecraft:bed",
+              "minecraft:iron_bars"
+            ],
+            "value": 3
+          },
+          "into": "minecraft:villager",
+          "transformation_sound": "unfect"
+        },
+        "ownedEvent": {
+          "sequence": [
+            {
+              "remove": {
+                "component_groups": [
+                  "to_villager",
+                  "kaleidoscope_tavern:incense_to_villager"
+                ]
+              }
+            },
+            {
+              "add": {
+                "component_groups": [
+                  "kaleidoscope_tavern:incense_to_villager"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "zombie_villager_v2": {
+        "description": {
+          "identifier": "minecraft:zombie_villager_v2",
+          "is_summonable": false,
+          "is_spawnable": true,
+          "spawn_category": "monster"
+        },
+        "ownedTransformation": {
+          "begin_transform_sound": "remedy",
+          "keep_level": true,
+          "delay": {
+            "block_assist_chance": 0.01,
+            "block_radius": 4,
+            "block_chance": 0.3,
+            "block_types": [
+              "minecraft:bed",
+              "minecraft:iron_bars"
+            ],
+            "value": 3
+          },
+          "drop_equipment": true,
+          "into": "minecraft:villager_v2",
+          "transformation_sound": "unfect"
+        },
+        "ownedEvent": {
+          "sequence": [
+            {
+              "remove": {
+                "component_groups": [
+                  "to_villager",
+                  "kaleidoscope_tavern:incense_to_villager"
+                ]
+              }
+            },
+            {
+              "add": {
+                "component_groups": [
+                  "kaleidoscope_tavern:incense_to_villager"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    "generator": "tools/build_incense_native_entities.py::configure",
+    "functionalOwner": "runtime/BP/scripts/bedrock/decorations.js::damageIncenseTarget accepts both native identifiers.",
+    "nativeDifferences": "Both owned delays are3 seconds and both events remove/add the cure group. v1 targets villager and omits keep_level/drop_equipment; v2 targets villager_v2 and keeps the reviewed native options. These native differences are not defects by themselves."
+  },
+  "priorNativeEvidence": {
+    "record": "native-incense-203-20261106.json",
+    "scope": "Original T203 QA; unchanged historical observations, no new BDS run",
+    "earlyLifecycleEvents": [
+      {
+        "stage": "entity_spawn",
+        "tick": 25,
+        "role": "lethal",
+        "cause": "Spawned",
+        "typeId": "minecraft:zombie_villager"
+      },
+      {
+        "stage": "entity_spawn",
+        "tick": 25,
+        "role": "survivor",
+        "cause": "Spawned",
+        "typeId": "minecraft:zombie_villager"
+      },
+      {
+        "stage": "entity_spawn",
+        "tick": 25,
+        "role": "damage_control",
+        "cause": "Spawned",
+        "typeId": "minecraft:zombie_villager"
+      },
+      {
+        "stage": "entity_spawn",
+        "tick": 25,
+        "role": "reset_control",
+        "cause": "Spawned",
+        "typeId": "minecraft:zombie_villager"
+      },
+      {
+        "stage": "entity_spawn",
+        "tick": 25,
+        "role": "village_survivor",
+        "cause": "Event",
+        "typeId": "minecraft:zombie_villager"
+      },
+      {
+        "stage": "entity_spawn",
+        "tick": 25,
+        "role": "zombified_survivor",
+        "cause": "Spawned",
+        "typeId": "minecraft:villager"
+      },
+      {
+        "stage": "entity_spawn",
+        "tick": 26,
+        "role": "zombified_survivor",
+        "cause": "Transformed",
+        "typeId": "minecraft:villager_v2"
+      },
+      {
+        "stage": "entity_spawn",
+        "tick": 26,
+        "role": "village_survivor",
+        "cause": "Transformed",
+        "typeId": "minecraft:zombie_villager_v2"
+      },
+      {
+        "stage": "entity_spawn",
+        "tick": 26,
+        "role": "reset_control",
+        "cause": "Transformed",
+        "typeId": "minecraft:zombie_villager_v2"
+      },
+      {
+        "stage": "entity_spawn",
+        "tick": 26,
+        "role": "damage_control",
+        "cause": "Transformed",
+        "typeId": "minecraft:zombie_villager_v2"
+      },
+      {
+        "stage": "entity_spawn",
+        "tick": 26,
+        "role": "survivor",
+        "cause": "Transformed",
+        "typeId": "minecraft:zombie_villager_v2"
+      },
+      {
+        "stage": "entity_spawn",
+        "tick": 26,
+        "role": "lethal",
+        "cause": "Transformed",
+        "typeId": "minecraft:zombie_villager_v2"
+      },
+      {
+        "stage": "entity_spawn",
+        "tick": 31,
+        "role": "zombified_survivor",
+        "cause": "Transformed",
+        "typeId": "minecraft:zombie_villager_v2"
+      }
+    ],
+    "interpretation": "The current engine exposes v1 on the spawn tick, then normally transforms it to v2 on the next tick. Existing60-tick cure measurements therefore cover v2, not sustained v1."
+  },
+  "observationBoundary": {
+    "registeredCallbackAcquisition": "Canonical registerDecorationComponents callback; registration receiver captures it without substituting native actor, block, time or metadata.",
+    "sameTickOnly": true,
+    "naturalBlockDispatchEstablished": false,
+    "stopOnAutomaticUpgrade": true,
+    "v2CureRetestAllowed": false,
+    "metadata": "Read native name/tags/DP and only actually exposed equipment/inventory/trade components. No arbitrary Java data claim or metadata mocks."
+  },
+  "nativeObservation": {
+    "kind": "partial",
+    "phase": "first",
+    "players": 0,
+    "observationOnly": true,
+    "sameTickV1CureAndResetObserved": false,
+    "naturalBlockDispatchEstablished": false,
+    "metadataScope": "actual native name/tags/DP and exposed equipment/inventory only; no arbitrary Java data/trade claim",
+    "cases": [
+      {
+        "role": "normal",
+        "nativeRequests": [
+          {
+            "tick": 120,
+            "typeId": "minecraft:zombie_villager"
+          }
+        ],
+        "events": [
+          {
+            "tick": 120,
+            "cause": "Spawned",
+            "typeId": "minecraft:zombie_villager"
+          }
+        ],
+        "spawnedType": "minecraft:zombie_villager",
+        "before": {
+          "typeId": "minecraft:zombie_villager",
+          "nameTag": "KT v1 normal",
+          "tags": [
+            "kt_incense_v1_qa",
+            "kt_v1_normal"
+          ],
+          "dynamicProperties": {
+            "kaleidoscope_tavern:v1_qa_boolean": true,
+            "kaleidoscope_tavern:v1_qa_number": 42,
+            "kaleidoscope_tavern:v1_qa_role": "normal"
+          },
+          "health": 2,
+          "variant": 4,
+          "markVariant": null,
+          "skinId": null,
+          "equipmentExposed": false,
+          "equipmentSlots": [],
+          "inventoryExposed": false,
+          "inventory": null,
+          "tradeComponents": []
+        },
+        "ownerTick": 120,
+        "ownerCureRequests": 1,
+        "status": "automatic_v1_to_v2_upgrade",
+        "upgraded": {
+          "typeId": "minecraft:zombie_villager_v2",
+          "nameTag": "KT v1 normal",
+          "tags": [],
+          "dynamicProperties": {},
+          "health": 20,
+          "variant": 11,
+          "markVariant": null,
+          "skinId": 0,
+          "equipmentExposed": false,
+          "equipmentSlots": [],
+          "inventoryExposed": false,
+          "inventory": null,
+          "tradeComponents": []
+        },
+        "actorIdentityChanged": true
+      }
+    ]
+  },
+  "runtimeChanged": false,
+  "liveChanged": false,
+  "currentScopeDecision": {
+    "acceptedNativeRequestOnV1": true,
+    "normalModernUpgradeObservedByTick": 122,
+    "sustainedV1CureTimingMeasured": false,
+    "v1ResetMeasured": false,
+    "v1SavedFinalStateMeasured": false,
+    "interpretation": "The controlled canonical-owner request reached a genuine v1 actor, but the selected modern QA profile upgraded it to v2 before a v1 cure completed. Stop here; do not measure v2 again or treat the copied v1 group as defective from this observation.",
+    "currentWork": "Close the blanket pending v1 cure item for the reviewed modern creation routes as a native type-upgrade boundary. This is not v1 parity success, a natural Block onTick dispatch counterexample, or a new legacy compatibility task.",
+    "legacyTemplates": "Historical/template profiles that retain v1 were not tested; no such world profile is introduced by this work."
+  },
+  "metadataScopeResult": {
+    "comparison": "spawned v1 versus the observed v2 replacement only; not a cure-final or saved-state comparison",
+    "namePreserved": true,
+    "qaTagsAfterUpgrade": [],
+    "dynamicPropertiesAfterUpgrade": {},
+    "equipmentInventoryTradeAccess": "Not exposed in either snapshot; no fake values or writeback was used.",
+    "meaning": "The recorded tag/DP/health/variant differences belong to this native type-upgrade observation. They do not establish arbitrary Java metadata parity or an owned incense preservation defect."
+  },
+  "completion": {
+    "kind": "partial",
+    "runnerCompleted": true,
+    "runnerOk": false,
+    "normalStop": true,
+    "players": 0,
+    "scriptErrors": [],
+    "resetAttempted": false,
+    "restartAttempted": false,
+    "generatedQAWorldRemoved": true
+  },
+  "evidenceBoundary": "Public record contains source and API observations only. Original log/report/observer, actor IDs, unit and host metadata remain local."
+}
