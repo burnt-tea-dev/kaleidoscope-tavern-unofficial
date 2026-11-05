@@ -25,7 +25,13 @@ Forge `c4ec1880`、NeoForge `a1afba34` 的 `IncenseBlockEntity.serverTick`先選
 
 `villager_converted`只加入上述群組。官方[資料事件](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/datadrivenentitytriggerafterevent?view=minecraft-bedrock-stable)可記錄開始；[原生Transformed生成事件](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/entityinitializationcause?view=minecraft-bedrock-stable)及實際Villager類型才作完成證據。觀察器同時記錄首次shaking、60tick／後續里程碑、生命變化和QA名稱／動態資料保留；事件未報錯或原handle消失均不算完成。2.12.0-beta型別及官方experimental元件表未見轉化／timer寫入入口；這是靜態能力核對，並非所有API版本的原生否定結論，觀察器另讀選定引擎實際元件形狀。
 
-沿原窄執行器使用`--phases first --timeout-seconds 420`，預設仍180秒。這次香薰可不傳`--liquor`、只載入凍結T202 BP/RP，避免混入仍精確依賴T201的W191；實驗設定仍由來源config及原QA metadata保留。正常stop／來源逐檔核對不變。若真轉化完成但不是60tick，結果保持partial／javaDelayMatches=false；runner非零不能混稱BDS崩潰，需另看normal_stop及引擎exit0。本次只改QA／執行器／本段，不回寫T202身份或重跑其來源回歸。
+沿原窄執行器使用`--phases first --timeout-seconds 420`，預設仍180秒。這次香薰可不傳`--liquor`、只載入凍結T202 BP/RP，避免混入仍精確依賴T201的W191；實驗設定仍由來源config及原QA metadata保留。正常stop／來源逐檔核對不變。本次只改QA／執行器／證據，不回寫T202身份或重跑其來源回歸。
+
+**2026-11-06實測，BDS1.26.60.6／server2.7.0／T202單獨QA／零玩家**：[完整結果](../data/native-incense-conversion-20261106.json)、[裁剪原始log](evidence/native-incense-conversion-20261106.log)。public zombie_villager在tick26原生解析為v2；真香薰在tick130呼叫原生villager_converted，tick131看見shaking。1hp目標tick130死於magic；survivor受傷2→1hp，在+60、+120、+2000、+3600仍未完成，期間只有初次香薰hurt。獨立control在+30外來magic1令1→0並死亡，因此不是原生全傷害免疫。tick5830真正出現villager_v2，原生Transformed生成／entity_transformed亦同tick；**5700ticks＝285秒**，javaDelayMatches=false。名稱保留，QA tag／DP marker不保留；這是測試標記的實測，不推論其他未觀察metadata都相同或都遺失。
+
+本輪normal_stop=true／引擎exit0／Quit correctly、errors空、players0、SwapPeak0、peak786837504 bytes。wrapper exit1來自已完成觀察但Java時長不符的partial，不是服務崩潰。完整log、report及實際observer留在既有主機證據；QA世界／引擎連結已清理，沒有重啟或第二世界。
+
+能力邊界：原生timer／transformation在事件tick130讀值未暴露，但同tick的is_shaking也尚未套用、下一tick才出現；不能把這次事件階段讀值說成active狀態的API否定。現在沒有已驗證可縮至60tick且保留資料的原生入口，仍未完成。後續若取得active狀態的可寫timer／原生快速轉化事件，需再測真完成與資料保留；不以手工spawn村民或全域原版mob覆寫繞過。
 
 ## 多包飲酒效果的共用容量（2026-11-05）
 
