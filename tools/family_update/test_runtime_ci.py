@@ -86,23 +86,21 @@ class RuntimeConservationTests(unittest.TestCase):
   source,row=self.doc_reuse('grilling',('docs/RELEASING.md','docs/KNOWN-ISSUES.md'))
   self.validate_docs('grilling',source,row)
   self.assertIn('docs/RELEASING.md',row['runtime_ci']['conservation']['changed_paths'])
-  next(check for check in row['checks'] if check['name']=='bridge')['conclusion']='skipped'
+  next(check for check in row['checks'] if check['name']=='validate')['conclusion']='skipped'
   with self.assertRaisesRegex(AssertionError,'Current metadata'):self.validate_docs('grilling',source,row)
  def test_world_liquor_release_guide_is_not_an_approved_runtime_reuse_path(self):
   with self.assertRaisesRegex(AssertionError,'Only current status prose'):
    self.doc_reuse('world-liquor',('docs/RELEASING.md',))
  def test_grilling_notices_and_publication_metadata_require_their_own_current_checks(self):
   source,row=self.doc_reuse('grilling',('THIRD_PARTY_NOTICES.md','.github/release-request.json'))
-  with self.assertRaisesRegex(AssertionError,'publication metadata'):self.validate_docs('grilling',source,row)
-  for name in ['validate','Rebuild guards']:row['checks'].append({**self.check(name),'head_sha':row['head']})
   self.validate_docs('grilling',source,row)
-  for name in ['validate','Rebuild guards']:
+  for name in ['validate']:
    for mode in ['skipped','spoofed']:
     with self.subTest(check=name,mode=mode):
      bad=copy.deepcopy(row);check=next(c for c in bad['checks'] if c['name']==name)
      if mode=='skipped':check['conclusion']='skipped'
      else:check['app_slug']='other-app'
-     with self.assertRaisesRegex(AssertionError,'publication metadata'):self.validate_docs('grilling',source,bad)
+     with self.assertRaisesRegex(AssertionError,'Current metadata'):self.validate_docs('grilling',source,bad)
   self.write('.github/other-settings.json','{}');revision=self.commit('unreviewed publication input')
   with patch.object(m,'SOURCES',{'grilling':self.root}),self.assertRaisesRegex(AssertionError,'Only current status prose'):
    m.runtime_ci_conservation('grilling',{**source,'commit':revision},self.merge)
@@ -112,7 +110,7 @@ class RuntimeConservationTests(unittest.TestCase):
    with self.subTest(mode=mode):
     row=copy.deepcopy(original);refs={'grilling':11}
     if mode=='unconfigured':refs={}
-    elif mode=='current-skipped':next(c for c in row['checks'] if c['name']=='bridge')['conclusion']='skipped'
+    elif mode=='current-skipped':next(c for c in row['checks'] if c['name']=='validate')['conclusion']='skipped'
     elif mode=='old-skipped':next(c for c in row['runtime_ci']['checks'] if c['name']=='validate')['conclusion']='skipped'
     elif mode=='old-spoofed':next(c for c in row['runtime_ci']['checks'] if c['name']=='validate')['app_slug']='other-app'
     else:

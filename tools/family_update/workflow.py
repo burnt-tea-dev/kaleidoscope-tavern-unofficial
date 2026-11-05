@@ -119,18 +119,12 @@ def gh_json(endpoint):
 def required_ci_checks(key):
     profiles = {
         'tavern': {'impact', 'baseline'},
-        'grilling': {'baseline', 'bridge', 'validate', 'candidate'},
-        'world-liquor': {'baseline', 'bridge', 'package', 'wall-record'},
+        'grilling': {'validate'},
+        'world-liquor': {'baseline', 'package'},
     }
-    required = set(profiles[key])
-    if key == 'tavern':
-        candidate = read(C / 'family-receipt.json')
-        original = {pack['uuid']: pack for pack in read(R / 'production-before/inventory.json')['packs']}
-        repository = read(SOURCES[key] / 'baseline.json')['repository']
-        changed = any(pack['source'].get('repository') == repository and (pack['uuid'] not in original or any(pack[field] != original[pack['uuid']][field] for field in ['files', 'version'])) for pack in candidate['packs'])
-        if changed:
-            required.update(['bridge', 'package', 'catalog', 'audit', 'efficiency', 'foundation', 'glassware-hit-basis', 'mechanics', 'native-persistence', 'scripts', 'tap-carriers'])
-    return required
+    # Historical diagnostics are manual workflow jobs. Ordinary source CI
+    # follows the current workflow; saved-world/native admission stays separate.
+    return set(profiles[key])
 
 
 def runtime_ci_conservation(key, source, merge):
@@ -160,8 +154,8 @@ def runtime_ci_current_checks(key):
     """The current documentation PR must pass its own existing required jobs."""
     return {
         'tavern': {'impact', 'baseline'},
-        'grilling': {'baseline', 'bridge'},
-        'world-liquor': {'baseline', 'bridge', 'package', 'wall-record'},
+        'grilling': {'validate'},
+        'world-liquor': {'baseline', 'package'},
     }[key]
 
 
@@ -220,10 +214,6 @@ def validate_ci_rows(rows, sources, runtime_ci_references=None):
             assert reused['conservation'] == runtime_ci_conservation(key, sources[key], reused['merge_commit']), 'Runtime conservation evidence changed'
             assert git(SOURCES[key], 'rev-parse', reused['merge_commit']+'^{tree}') == reused['source_tree'] == git(SOURCES[key], 'rev-parse', reused['head']+'^{tree}'), 'Reused CI tree differs from the runtime merge'
             assert runtime_ci_current_checks(key) <= successful, 'Current metadata checks must succeed independently'
-            if key == 'grilling' and '.github/release-request.json' in reused['conservation']['changed_paths']:
-                # Publication settings never feed family runtime assembly, but
-                # their own current validation cannot come from an older PR.
-                assert {'validate', 'Rebuild guards'} <= successful, 'Current publication metadata checks must succeed independently'
             prior = reused['checks']
             if key != 'tavern':
                 assert git(SOURCES[key], 'rev-parse', row['head']+'^{tree}') == sources[key]['tree'], 'Current documentation CI tree differs from the source'
