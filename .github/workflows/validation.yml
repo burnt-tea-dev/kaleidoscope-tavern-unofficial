@@ -548,7 +548,10 @@ jobs:
       - name: Living effect callbacks, saved reload and player-effect regression
         run: node --experimental-loader ./tools/foundation/mock-loader.mjs --test tools/java-parity-adapter.test.mjs tools/vision-feedback-adapter.test.mjs tools/bloody-mary-adapter.test.mjs tools/ardent-heat-adapter.test.mjs tools/custom-effect-capacity.test.mjs tools/effect-snapshot-capacity.test.mjs tools/incense-damage-order.test.mjs
       - name: Selected native actors and generated incense conversion
-        run: python tools/test_incense_native_entities.py
+        run: |
+          python tools/test_incense_native_entities.py
+          python tools/native/test_run_living_resume.py
+          node --experimental-loader ./tools/foundation/mock-loader.mjs --test tools/native/incense-restart-loading.test.mjs
       - name: Verify pinned sound content
         run: python tools/pickup/check_audio.py
   native-persistence:

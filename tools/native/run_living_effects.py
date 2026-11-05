@@ -25,6 +25,90 @@ def render_world_liquor_probe_inputs(baseline, headers):
     return 'export const WORLD_LIQUOR_PROBE_INPUTS=Object.freeze(' + json.dumps(row, separators=(',', ':')) + ');\n'
 
 
+def run_phase(engine, work, phase, timeout_seconds, log_name=None):
+    # Keep the same extracted engine executable for each launch. Its bytes
+    # remain bound to engine_identity; no source pack or world is rewritten.
+    (engine/'bedrock_server').chmod(0o755)
+    log = work/(log_name or f'{phase}.log')
+    with log.open('w') as output:
+        process = subprocess.Popen(['./bedrock_server'], cwd=work, env={**os.environ, 'LD_LIBRARY_PATH': os.pathsep.join((str(work), str(engine)))}, stdin=subprocess.PIPE, stdout=output, stderr=subprocess.STDOUT, text=True)
+        normal_stop = False
+        try:
+            for _ in range(timeout_seconds):
+                time.sleep(1)
+                text = log.read_text(errors='replace')
+                if process.poll() is not None or '[LIVING_EFFECT_QA] {"kind":"failure"' in text or ' ERROR]' in text or '[error]' in text.lower():
+                    break
+                if any(f'"kind":"{kind}","phase":"{phase}"' in text for kind in ('done','partial')):
+                    break
+            if process.poll() is None:
+                process.communicate('stop\n', timeout=30)
+                normal_stop = process.returncode == 0
+        finally:
+            if process.poll() is None:
+                process.kill(); process.wait()
+    text = log.read_text(errors='replace')
+    rows = [json.loads(line.split('[LIVING_EFFECT_QA] ', 1)[1]) for line in text.splitlines() if '[LIVING_EFFECT_QA] {' in line]
+    normal_stop = normal_stop and bool(re.search(r'^Quit correctly\s*$', text, re.MULTILINE))
+    errors = [line for line in text.splitlines() if re.search(r'\bERROR\]|\[error\]', line, re.IGNORECASE)]
+    connections = len(re.findall(r'\bplayer[ _]?(?:connected|joined|spawned)\b', text, re.IGNORECASE))
+    ok = normal_stop and not errors and not connections and any(row.get('kind') == 'done' and row.get('phase') == phase and row.get('players') == 0 for row in rows) and not any(row.get('kind') == 'failure' for row in rows)
+    completed=any(row.get('kind') in ('done','partial') and row.get('phase')==phase and row.get('players')==0 for row in rows)
+    return {'phase': phase, 'log': log.name, 'completed': completed, 'ok': ok, 'normal_stop': normal_stop,
+            'player_connections': connections, 'errors': errors, 'observations': rows}
+
+
+def resume_restart(args, engine, work, liquor, engine_identity):
+    """Reobserve the stopped saved world; never rebuild its first-phase fixture."""
+    assert args.phases == ['restart'], '--resume only permits --phases restart'
+    original = json.loads((work/'native-living-report.json').read_text())
+    assert original['engine']['executable_sha256'] == engine_identity['executable_sha256'], 'Resume engine changed'
+    assert all(row['normal_stop'] and not row['player_connections'] and not row['errors'] for row in original['reports']), 'QA did not stop cleanly'
+    report_path = work/'native-living-resume-report.json'
+    assert not report_path.exists() and not (work/'restart-resume.log').exists(), 'Retain and inspect existing resume evidence'
+    world = work/'worlds/living-effect-qa'
+    roots = {'tavern': ROOT, **({'liquor': liquor} if liquor is not None else {})}
+    assert set(roots) == set(original['sources']), 'Resume pack selection changed'
+    overlays = dict(original['test_only_overlays'])
+    observer_import = b"\n// Disposable native observer; not release content.\nimport './living-effects-probe.js';\n"
+    # The observation is a new input; every canonical runtime byte must still
+    # match the original frozen packs before replacing only that declared probe.
+    for label, source in roots.items():
+        baseline = json.loads((source/'baseline.json').read_text())
+        previous = original['sources'][label]
+        assert (previous['repository'], previous['version'], previous['source_trees']) == (baseline['repository'], baseline['version'], baseline['source_trees']), 'Resume runtime identity changed'
+        for kind, folder in [('BP', 'behavior_packs'), ('RP', 'resource_packs')]:
+            assert fingerprint(source/'runtime'/kind)[0] == baseline['source_trees'][kind], 'Resume source is not the frozen runtime'
+            target = world/folder/label
+            expected_names = set()
+            for path in (source/'runtime'/kind).rglob('*'):
+                if not path.is_file():
+                    continue
+                name = path.relative_to(source/'runtime'/kind).as_posix()
+                expected_names.add(name)
+                expected = path.read_bytes()
+                if label == 'tavern' and kind == 'BP' and name == 'scripts/main.js':
+                    expected += observer_import
+                assert (target/name).read_bytes() == expected, 'Resume runtime differs: '+label+'/'+name
+            if label == 'tavern' and kind == 'BP':
+                for name, digest in overlays.items():
+                    if name == 'scripts/main.js':
+                        continue
+                    assert hashlib.sha256((target/name).read_bytes()).hexdigest() == digest, 'Previous observer overlay differs: '+name
+                expected_names.update(overlays)
+            assert {p.relative_to(target).as_posix() for p in target.rglob('*') if p.is_file()} == expected_names, 'Resume payload gained or lost files'
+    host = world/'behavior_packs/tavern'
+    shutil.copy2(args.probe, host/'scripts/living-effects-probe.js')
+    overlays['scripts/living-effects-probe.js'] = hashlib.sha256(args.probe.read_bytes()).hexdigest()
+    result = run_phase(engine, work, 'restart', args.timeout_seconds, 'restart-resume.log')
+    report = {**original, 'scope': 'restart-only continuation; original first/restart report and logs are unchanged',
+              'original_report': 'native-living-report.json', 'native_script_behavior': result['ok'],
+              'test_only_overlays': overlays, 'reports': [result]}
+    report_path.write_text(json.dumps(report, indent=2)+'\n')
+    print(json.dumps(result), flush=True)
+    assert result['ok'], 'Saved-world readback incomplete; see restart-resume.log'
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--engine', type=pathlib.Path, required=True)
@@ -35,6 +119,7 @@ def main():
     parser.add_argument('--probe', type=pathlib.Path, default=ROOT/'tools/native/living-effects-probe.js')
     parser.add_argument('--world-metadata', type=pathlib.Path, help='Read only level.dat from an existing isolated world; no DB is copied')
     parser.add_argument('--offline', action='store_true', help='Only inside an isolated loopback network namespace')
+    parser.add_argument('--resume', action='store_true', help='Continue only restart in an existing stopped QA; keep original evidence and world unchanged')
     parser.add_argument('--phases', nargs='+', choices=['first', 'restart'], default=['first', 'restart'])
     parser.add_argument('--timeout-seconds', type=int, default=180, help='Normal-stop deadline per phase; use 420 for full native incense conversion')
     args = parser.parse_args()
@@ -46,8 +131,11 @@ def main():
         assert os.readlink('/proc/self/ns/net') != os.readlink('/proc/1/ns/net') and {name for _,name in socket.if_nameindex()} == {'lo'}, 'Offline QA requires a loopback-only network namespace'
     engine, work = args.engine.resolve(), args.work.resolve()
     liquor = args.liquor.resolve() if args.liquor is not None else None
-    assert not work.exists(), 'Use a new isolated directory; retain failed evidence'
     engine_identity = {'executable_sha256': hashlib.sha256((engine/'bedrock_server').read_bytes()).hexdigest()}
+    if args.resume:
+        resume_restart(args, engine, work, liquor, engine_identity)
+        return
+    assert not work.exists(), 'Use a new isolated directory; retain failed evidence'
     if args.engine_provenance is not None:
         receipt_path = args.engine_provenance.resolve()
         assert receipt_path.parent == engine and receipt_path.name == 'native-storage-evidence.json'
@@ -130,41 +218,14 @@ def main():
         (world/filename).write_text(json.dumps(manifests[kind], indent=2)+'\n')
     reports = []
     for phase in args.phases:
-        # Keep the same extracted engine executable for each launch. Its bytes
-        # remain bound to engine_identity; no source pack or world is rewritten.
-        (engine/'bedrock_server').chmod(0o755)
-        log = work/f'{phase}.log'
-        with log.open('w') as output:
-            process = subprocess.Popen(['./bedrock_server'], cwd=work, env={**os.environ, 'LD_LIBRARY_PATH': os.pathsep.join((str(work), str(engine)))}, stdin=subprocess.PIPE, stdout=output, stderr=subprocess.STDOUT, text=True)
-            normal_stop = False
-            try:
-                for _ in range(args.timeout_seconds):
-                    time.sleep(1)
-                    text = log.read_text(errors='replace')
-                    if process.poll() is not None or '[LIVING_EFFECT_QA] {"kind":"failure"' in text or ' ERROR]' in text or '[error]' in text.lower():
-                        break
-                    if any(f'"kind":"{kind}","phase":"{phase}"' in text for kind in ('done','partial')):
-                        break
-                if process.poll() is None:
-                    process.communicate('stop\n', timeout=30)
-                    normal_stop = process.returncode == 0
-            finally:
-                if process.poll() is None:
-                    process.kill(); process.wait()
-        text = log.read_text(errors='replace')
-        rows = [json.loads(line.split('[LIVING_EFFECT_QA] ', 1)[1]) for line in text.splitlines() if '[LIVING_EFFECT_QA] {' in line]
-        normal_stop = normal_stop and bool(re.search(r'^Quit correctly\s*$', text, re.MULTILINE))
-        errors = [line for line in text.splitlines() if re.search(r'\bERROR\]|\[error\]', line, re.IGNORECASE)]
-        connections = len(re.findall(r'\bplayer[ _]?(?:connected|joined|spawned)\b', text, re.IGNORECASE))
-        ok = normal_stop and not errors and not connections and any(row.get('kind') == 'done' and row.get('phase') == phase and row.get('players') == 0 for row in rows) and not any(row.get('kind') == 'failure' for row in rows)
-        completed=any(row.get('kind') in ('done','partial') and row.get('phase')==phase and row.get('players')==0 for row in rows)
-        reports.append({'phase': phase, 'completed': completed, 'ok': ok, 'normal_stop': normal_stop, 'player_connections': connections, 'errors': errors, 'observations': rows})
+        result = run_phase(engine, work, phase, args.timeout_seconds)
+        reports.append(result)
         (work/'native-living-report.json').write_text(json.dumps({'native_script_behavior': len(reports)==len(args.phases) and all(row['ok'] for row in reports),
             'client': False, 'full_family': False, 'live': False, 'test_only_host_overlay': True,
             'engine': engine_identity, 'sources': sources, 'copied_runtime_matches_frozen_source': True, 'test_only_overlays': overlays,
             'reports': reports}, indent=2)+'\n')
         print(json.dumps(reports[-1]), flush=True)
-        assert normal_stop and not errors and not connections and completed, f'{phase} did not complete: see {log}'
+        assert result['normal_stop'] and not result['errors'] and not result['player_connections'] and result['completed'], f'{phase} did not complete: see {result["log"]}'
     assert all(row['ok'] for row in reports), 'One or more native capabilities remain unavailable; see native-living-report.json'
 
 

@@ -35,7 +35,7 @@ Forge `c4ec1880`、NeoForge `a1afba34` 的 `IncenseBlockEntity.serverTick`先選
 
 本輪observer輸入固定為e17b3b44。由實際log確認原生Spawn／Transformed通知晚於首次類型讀回，後續observer已補active-shaking時的元件讀取、完成後兩tick的metadata再讀，並保留首次完成tick；這些補讀尚未在BDS執行，不冒充本輪已驗欄位。等下一次確有必要的原生觀察一併補證，不重跑285秒等待來製造相同結論。
 
-## 香薰專用原生轉換（2026-11-06，來源已實作／原生待驗）
+## 香薰專用原生轉換（2026-11-06）
 
 T202真入口需285秒，Java兩分支傳60tick。腳本API沒有已驗證的轉換倒數寫入入口；現在改由Tavern擁有的原生事件處理。這是新來源行為，不回寫T202的歷史身份或上述實測結果。
 
@@ -45,7 +45,15 @@ Tavern BP會接管 `minecraft:zombie_villager` 及 `minecraft:zombie_villager_v2
 
 [腳本回歸](../tools/incense-damage-order.test.mjs)仍呼叫實際註冊onTick；新增第二香薰相隔15tick傷害curing actor，以及舊保存標記不阻擋傷害／治療的反例。修前6項有4項失敗，修後6項通過。[原生定義來源檢查](../tools/test_incense_native_entities.py)直接比較生成物，刪去owned新增必須還原整份原版；只允許新副本的delay差異。這兩類檢查未執行BDS，不把JSON的3秒寫成實測60tick。
 
-[同一窄觀察器](../tools/native/incense-damage-order.js)已改追新事件，準備真香薰1hp／2hp、原生Villager與Transformed完成tick、外來傷害、轉換中重設，以及同世界正常停服／重啟後的未完成轉換與已完成村民欄位。它保留首次完成tick，讀active元件及完成後metadata。尚未執行新來源原生測試；倒數、重設、保存／交易及實際聲畫不能由來源檢查宣稱完整等價。原版strength／heal等附帶設定先完整保留，短轉換後的實際效果亦待該場景觀察。
+[同一窄觀察器](../tools/native/incense-damage-order.js)已改追新事件，準備真香薰1hp／2hp、原生Villager與Transformed完成tick、外來傷害、轉換中重設，以及同世界正常停服／重啟後的未完成轉換與已完成村民欄位。它保留首次完成tick，讀active元件及完成後metadata。新來源原生結果見下方；保存／交易及實際聲畫不能由來源檢查宣稱完整等價。原版strength／heal等附帶設定完整保留。
+
+**T203實測（2026-11-06，BDS1.26.60.6／server2.7.0）**：[原始結果與範圍](../data/native-incense-203-20261106.json)、[裁剪原始log](evidence/native-incense-203-20261106.log)。真香薰要求tick135，真正villager_v2與原生Transformed於tick195，**60tick**。重設control於135／155兩次要求，tick215完成，從第二次要求再算**60tick**。1hp目標被magic殺死，2hp目標傷至1hp後完成；獨立外傷control在+30死亡。完成後strength已無；所觀察名稱、variant與skinId保留，QA tag／自訂DP marker未保留，不宣稱任意metadata／交易／裝備全部等價。
+
+公開zombie生成、from_village及原生villager zombification三條入口均實際變成v2，因此只確認v2，不能稱兩個native類型均通過。first的partial來自bothNativeTypes=false，不代表真60tick／reset未通過。
+
+**保存讀回仍待續。** first正常停服前，另存一個已開始原生治療的actor及已完成村民。restart observer在worldLoad+1直接按已保存的completed ID查詢，沒有等待區塊／actor載入便報missing；這個結果尚未分辨載入時序與真缺失。稍後同一原始restart log已記錄pending actor真正Transformed／villager_v2，所以它的舊pending ID不能當作仍未轉化重播。兩階段引擎均正常stop／Quit correctly、players0、errors空，wrapper exit1保留不完整觀察。
+
+後續只沿同一停服QA驗剩餘保存讀回：[observer](../tools/native/incense-damage-order.js)先等區塊與原completed saved ID，不用名稱fallback掩蓋缺失；pending已完成時只驗穩定終態，不聲稱這次又見治療。既有runner的 `--resume --phases restart` 只替換明列QA觀察器，先確認原runtime及舊overlay未變，保留原世界／原報告／兩份log，新結果另存；不重跑已通過的first60tick／reset，也不重建世界。這項等待邏輯的來源回歸與續測檔案邊界已驗，真實剩餘讀回仍待共同owner排程，T203 runtime不變。
 
 當前P131載入的32個BP按identifier核對，沒有其他包定義這兩種生物；這只適用該觀察輸入。下一個實際候選須核對同identifier的選定owner。未來採用新版BDS時要重看這兩份所選原版；沒有新增包組合特例或通用合併框架。
 
