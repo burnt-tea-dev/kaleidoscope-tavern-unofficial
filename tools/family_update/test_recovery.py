@@ -68,6 +68,20 @@ class RecoveryTests(unittest.TestCase):
         self.assertEqual(self.lease['state'],'failed')
         self.assertTrue(self.result()['original_inventory_verified'])
         self.assertTrue(self.result()['original_policy_verified'])
+    def test_originally_stopped_runtime_is_verified_without_starting(self):
+        self.assertTrue(module.recover_after_failure(self.original,False,[],[],initial_status='STOPPED'))
+        self.assertEqual(self.actions,[])
+        self.restore.assert_not_called()
+        self.assertEqual(self.result()['state'],'original_stack_stopped_after_failure')
+        self.assertTrue(self.result()['original_inventory_verified'])
+        self.assertTrue(self.result()['original_policy_verified'])
+    def test_failed_running_candidate_restores_the_original_stopped_state(self):
+        self.status='RUNNING'
+        self.assertTrue(module.recover_after_failure(self.original,True,[],[],initial_status='STOPPED'))
+        self.restore.assert_called_once_with(self.original,[],[])
+        self.assertEqual(self.actions,['stop'])
+        self.assertEqual(self.status,'STOPPED')
+        self.assertEqual(self.result()['state'],'original_stack_stopped_after_failure')
     def test_running_candidate_stops_before_restore_and_restart(self):
         self.status='RUNNING'
         self.assertTrue(module.recover_after_failure(self.original,True,[],[]))

@@ -74,6 +74,8 @@ LevelDB Python adapter；`gh` 需已有正常的唯讀 GitHub 認證。缺少依
 /path/to/venv/bin/python tools/family_update.py --config /local/update.json update --execute
 ```
 
+已授權的正常更新可從 RUNNING 或 STOPPED 開始；開停服進行中仍先等待。原本停服時，不先啟動舊包、不重複送 stop；候選通過既有驗證後才啟動，失敗恢復原包後仍保持停服。
+
 沒有 `--execute` 時只顯示計畫，不建立候選、不停服、不寫政策。`prepare` 不修改 live；
 `prepare` 完成來源、組裝與 static；`deploy` 從本次停服備份完成一次 BDS／保存演練與 canonical／BSM admission。
 來源必須是乾淨、與遠端相符的 main，執行中的工具 bytes 也必須與 canonical 相符。
