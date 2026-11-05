@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "observed_on": "2026-11-05",
+  "engine": "BDS1.26.60.6",
+  "modules": {
+    "@minecraft/server": "2.12.0-beta",
+    "@minecraft/server-gametest": "1.0.0-beta"
+  },
+  "experiments": [
+    "gametest",
+    "upcoming_creator_features"
+  ],
+  "fixture": "tools/native/grass-stealth-target-capability.js",
+  "subject": "Actual vanilla zombie with an acquired survival SimulatedPlayer target",
+  "observation_completed": true,
+  "clear_target_supported": false,
+  "checks": [
+    {
+      "name": "real zombie acquired survival Player target",
+      "passed": true
+    },
+    {
+      "name": "native target getter remains functional",
+      "passed": true
+    },
+    {
+      "name": "simulated Player removed",
+      "passed": true
+    }
+  ],
+  "observations": [
+    {
+      "assignment": "undefined",
+      "before_player": true,
+      "accepted": false,
+      "error": "TypeError: 'target' is read-only",
+      "immediate_target_is_player": true
+    },
+    {
+      "assignment": "null",
+      "before_player": true,
+      "accepted": false,
+      "error": "TypeError: 'target' is read-only",
+      "immediate_target_is_player": true
+    },
+    {
+      "assignment": "other native Entity",
+      "accepted": false,
+      "error": "TypeError: 'target' is read-only",
+      "immediate_target_is_pig": false
+    },
+    {
+      "descriptor_found": true,
+      "has_getter": true,
+      "has_setter": false
+    }
+  ],
+  "normal_stop": true,
+  "client": false,
+  "live_modified": false,
+  "scope": "One entity/engine/API selection. No production AI override or completed Grass Stealth target clearing. First fixture used glass that obstructed acquisition; only corrected unobstructed fixture establishes setter results."
+}
