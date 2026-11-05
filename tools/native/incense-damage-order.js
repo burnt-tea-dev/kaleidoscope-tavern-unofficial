@@ -43,7 +43,7 @@ function completed(row,entity,evidence){
  row.ids.add(entity.id);row.entity=entity;
  const state=snapshot(entity);
  if(row.completeTick===undefined){row.completeTick=system.currentTick;out('actual_villager',{role:row.role,evidence,typeId:entity.typeId,...state});}
- if(state.valid&&!state.error||!row.complete)row.complete=state;
+ if(state.valid&&!state.error||!row.complete){row.complete=state;row.metadataReadTick=system.currentTick;}
  (row.completionEvidence??=[]).push({tick:system.currentTick,evidence});
 }
 const signals={dataDriven:!!world.afterEvents.dataDrivenEntityTrigger,healthChanged:!!world.afterEvents.entityHealthChanged};
@@ -81,7 +81,9 @@ function sample(row,dimension){
  if(!entity)return;
  const state=snapshot(entity);
  if(state.cureTag&&row.tagTick===undefined)row.tagTick=system.currentTick;
- if(state.shaking&&row.shakingTick===undefined)row.shakingTick=system.currentTick;
+ if(state.shaking&&row.shakingTick===undefined){
+  row.shakingTick=system.currentTick;out('component_access_while_active',{role:row.role,components:componentAccess(entity)});
+ }
  if(state.typeId&&VILLAGERS.has(state.typeId))completed(row,entity,'perTick:villager_type');
  // Durations change every tick. Record state changes and explicit milestones,
  // not thousands of identical countdown rows.
@@ -127,12 +129,17 @@ world.afterEvents.worldLoad.subscribe(()=>system.runTimeout(async()=>{try{
     out('external_hurt_during_cure',{role:control.role,...control.controlledHurt});
    }else out('external_hurt_during_cure',{role:control.role,skipped:'recipient already removed or transformed'});
   }
-  if(survivor.completeTick!==undefined||survivor.death)break;
+  if(survivor.completeTick!==undefined){
+   // Native Spawn/Transformed callbacks may arrive after the per-tick type read.
+   // Keep the first completion tick, then read metadata after those callbacks.
+   await pause(2);for(const row of roles)sample(row,d);break;
+  }
+  if(survivor.death)break;
  }
  const observations=roles.map(row=>({role:row.role,before:row.before,requestTick:row.requestTick??null,firstCureTagTick:row.tagTick??null,
   firstShakingTick:row.shakingTick??null,completeTick:row.completeTick??null,
   elapsedFromNativeEvent:row.requestTick!==undefined&&row.completeTick!==undefined?row.completeTick-row.requestTick:null,
-  actualVillager:row.complete??null,completionEvidence:row.completionEvidence??[],death:row.death??null,hurts:row.hurts??[],controlledHurt:row.controlledHurt??null,
+  actualVillager:row.complete??null,metadataReadTick:row.metadataReadTick??null,completionEvidence:row.completionEvidence??[],death:row.death??null,hurts:row.hurts??[],controlledHurt:row.controlledHurt??null,
   metadata:row.complete?.valid&&!row.complete.error?{nameTagPreserved:row.complete.nameTag===row.before.nameTag,markerPreserved:row.complete.marker===row.before.marker,qaTagPreserved:row.complete.qaTag}:null}));
  const elapsed=survivor.requestTick!==undefined&&survivor.completeTick!==undefined?survivor.completeTick-survivor.requestTick:null;
  const nativeComplete=survivor.completeTick!==undefined,javaDelayMatches=elapsed===60,lethalMatches=one.death?.cause==='magic';

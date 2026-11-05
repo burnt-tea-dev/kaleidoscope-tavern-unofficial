@@ -349,5 +349,6 @@
   "component_read_limit": "Component reads in this trace occur inside villager_converted delivery before shaking becomes visible on the next tick. They do not prove timer access is absent after the group becomes active.",
   "log": "docs/evidence/native-incense-conversion-20261106.log",
   "full_parity": false,
-  "client": false
+  "client": false,
+  "metadata_read_limit": "Metadata comparisons are from the first observed Villager tick 5830. No later-tick or saved-world confirmation was made; these values do not establish permanent metadata loss."
 }
