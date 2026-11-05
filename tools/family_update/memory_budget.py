@@ -8,9 +8,10 @@ from family_update import common as c
 
 GIB = 1024 ** 3
 MIB = 1024 ** 2
+CLEANUP_PHASES = frozenset({'cleanup-copies', 'cleanup-engine-inputs'})
 LIGHT_PHASES = frozenset({'prepare', 'record-ci', 'deploy', 'update', 'verify-live',
-                          'cleanup-copies', 'cleanup-engine-inputs', 'capture_predeploy',
-                          'build_candidate', 'record_static', 'recover-preinstall'})
+                          'capture_predeploy',
+                          'build_candidate', 'record_static', 'recover-preinstall'}) | CLEANUP_PHASES
 NATIVE_PHASES = frozenset({'saved-world', 'rehearse_saved_world', 'saved_world_first', 'saved_world_restart'})
 SHRINK_HEADROOM = 32 * MIB
 RESIDENT_ACCOUNTING_PAD = 32 * MIB
@@ -222,7 +223,13 @@ def require(phase):
     target = c.R / ('preinstall-recovery-memory-admissions.json' if phase == 'recover-preinstall' else 'memory-admissions.json')
     history = c.read(target) if target.exists() else {'schema': 1, 'observations': []}
     if len(history['observations']) >= 256:
-        raise ValueError('Memory admission history exceeds this transaction budget')
+        # Scheduled cleanup reuses its output directory across independent runs.
+        # Keep that journal bounded without rotating a deployment transaction's
+        # admission evidence or weakening the current memory assessment.
+        if phase in CLEANUP_PHASES and all(row['phase'] in CLEANUP_PHASES for row in history['observations']):
+            history['observations'] = history['observations'][-255:]
+        else:
+            raise ValueError('Memory admission history exceeds this transaction budget')
     history['observations'].append(record)
     c.atomic(target, history)
     if not record['ok']:
