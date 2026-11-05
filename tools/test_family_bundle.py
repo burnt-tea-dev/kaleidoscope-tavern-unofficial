@@ -155,9 +155,11 @@ class PreservedDependencyTests(unittest.TestCase):
    for uid in ['a','b']:
     p=root/uid;p.mkdir();packs.append(p)
     (p/'manifest.json').write_text(json.dumps({'header':{'uuid':uid,'version':[1,0,0]},'modules':[{'type':'data'}]}))
-    (p/'player.json').write_text(json.dumps({'minecraft:entity':{'description':{'identifier':'minecraft:player'}}}))
+    definition={'description':{'identifier':'minecraft:player'}}
+    if uid=='b':definition['components']={'minecraft:health':{'value':20}}
+    (p/'player.json').write_text(json.dumps({'minecraft:entity':definition}))
    lock={'owned':[],'upstream':[],'order':{'behavior':[],'resource':[]}}
-   with self.assertRaisesRegex(SystemExit,'competing behavior minecraft:player'):
+   with self.assertRaisesRegex(SystemExit,'retained components'):
     assemble(lock,{},[],root/'conflict',preserved=packs)
    with contextlib.redirect_stdout(io.StringIO()):r=assemble(lock,{},[],root/'single',preserved=packs[:1])
    self.assertEqual(r['behavior_player_definition']['uuid'],'a')
@@ -688,48 +690,53 @@ class WholeAuthorReplacementTests(unittest.TestCase):
     receipt=assemble(lock,{'fixture':owner},[archive],root/'out',working=True,preserved=preserved,preserved_sources=descriptors)
    transform.assert_not_called();self.assertEqual(len(receipt['packs']),3)
 
-class ReviewedPlayerTests(unittest.TestCase):
+class BehaviorPlayerPreservationTests(unittest.TestCase):
  def fixture(self,root,damage=None):
-  import copy,hashlib
+  import copy
   base={'minecraft:entity':{'description':{'identifier':'minecraft:player','properties':{'base:state':{'type':'int','default':0,'range':[0,1]}}},'components':{'minecraft:health':{'value':20}},'component_groups':{'base:group':{}},'events':{'base:event':{'add':{'component_groups':['base:group']}}}}}
   merged=copy.deepcopy(base);merged['minecraft:entity']['description']['properties']['gun:state']={'type':'int','default':0,'range':[0,2]}
   if damage=='properties':del merged['minecraft:entity']['description']['properties']['base:state']
   if damage in ['components','component_groups','events']:merged['minecraft:entity'][damage]={}
+  if damage=='changed-component':merged['minecraft:entity']['components']['minecraft:health']={'value':10}
   if damage=='over-limit':merged['minecraft:entity']['description']['properties'].update({str(i):{'type':'bool','default':False,'client_sync':False}for i in range(32)})
-  packs=[];definitions=[]
+  packs=[]
   for uid,doc in [('merged',merged),('base',base)]:
    pack=root/uid;pack.mkdir();packs.append(pack)
    (pack/'manifest.json').write_text(json.dumps({'header':{'uuid':uid,'version':[1,0,0]},'modules':[{'type':'data'}]}))
    raw=json.dumps(doc).encode();(pack/'player.json').write_bytes(raw)
-   definitions.append({'uuid':uid,'version':[1,0,0],'path':'player.json','sha256':hashlib.sha256(raw).hexdigest()})
-  contract={'id':'fixture-merged','owner_uuid':'merged','definitions':definitions}
-  registry=root/'contracts.json';registry.write_text(json.dumps({'schema':1,'contracts':[contract]}))
-  if damage=='hash':(packs[0]/'player.json').write_text(json.dumps(merged)+' ')
-  if damage=='version':
-   p=packs[0]/'manifest.json';m=json.loads(p.read_bytes());m['header']['version']=[1,0,1];p.write_text(json.dumps(m))
-  return packs,registry,contract
- def test_exact_reviewed_merge_keeps_both_payloads_and_receipts_effective_owner(self):
-  from unittest.mock import patch
+  return packs
+ def test_preserving_effective_player_keeps_both_payloads_and_records_sources(self):
   with tempfile.TemporaryDirectory()as tmp:
-   root=Path(tmp);packs,registry,contract=self.fixture(root)
+   root=Path(tmp);packs=self.fixture(root)
    before=[files_hash(p)for p in packs];lock={'owned':[],'upstream':[],'order':{'behavior':[],'resource':[]}}
-   with patch('family_bundle.PLAYER_CONTRACTS',registry),contextlib.redirect_stdout(io.StringIO()):
+   with contextlib.redirect_stdout(io.StringIO()):
     result=assemble(lock,{},[],root/'out',preserved=packs)
    self.assertEqual(result['behavior_player_definition']['uuid'],'merged')
-   self.assertEqual(result['reviewed_player_compatibility'],contract)
+   proof=result['behavior_player_preservation']
+   self.assertEqual(proof['owner_uuid'],'merged')
+   self.assertEqual([row['uuid']for row in proof['definitions']],['merged','base'])
+   self.assertEqual([row['sha256']for row in proof['definitions']],[files_hash(p)['player.json']for p in packs])
    self.assertEqual(result['definition_overlaps'][0]['shadowed_uuid'],'base')
    for pack,expected in zip(packs,before):
     self.assertEqual(files_hash(pack),expected)
     self.assertEqual(files_hash(root/'out/behavior_packs'/pack.name),expected)
    self.assertFalse(result['acceptance']['client']);self.assertFalse(result['production_ready'])
- def test_fingerprint_version_priority_budget_and_retained_behavior_cannot_be_waived(self):
-  from unittest.mock import patch
-  for damage,message in [('hash','competing behavior'),('version','competing behavior'),('priority','effective priority'),('over-limit','exceeds32'),('properties','retained properties'),('components','retained components'),('component_groups','retained component_groups'),('events','retained events')]:
+ def test_metadata_release_and_json_spacing_do_not_change_preservation(self):
+  with tempfile.TemporaryDirectory()as tmp:
+   root=Path(tmp);packs=self.fixture(root)
+   manifest=packs[0]/'manifest.json';value=json.loads(manifest.read_bytes());value['header']['version']=[9,8,7];manifest.write_text(json.dumps(value))
+   player=packs[0]/'player.json';player.write_bytes(player.read_bytes()+b' ')
+   before=[files_hash(pack)for pack in packs]
+   lock={'owned':[],'upstream':[],'order':{'behavior':[],'resource':[]}}
+   with contextlib.redirect_stdout(io.StringIO()):result=assemble(lock,{},[],root/'out',preserved=packs)
+   self.assertEqual(result['behavior_player_preservation']['definitions'][0]['version'],[9,8,7])
+   for pack,expected in zip(packs,before):self.assertEqual(files_hash(root/'out/behavior_packs'/pack.name),expected)
+ def test_effective_priority_budget_and_retained_behavior_cannot_be_waived(self):
+  for damage,message in [('priority','retained properties'),('over-limit','exceeds32'),('properties','retained properties'),('components','retained components'),('changed-component','retained components'),('component_groups','retained component_groups'),('events','retained events')]:
    with self.subTest(damage=damage),tempfile.TemporaryDirectory()as tmp:
-    root=Path(tmp);packs,registry,_=self.fixture(root,damage)
+    root=Path(tmp);packs=self.fixture(root,damage)
     if damage=='priority':packs.reverse()
     lock={'owned':[],'upstream':[],'order':{'behavior':[],'resource':[]}}
-    with patch('family_bundle.PLAYER_CONTRACTS',registry),self.assertRaisesRegex(SystemExit,message):
-     assemble(lock,{},[],root/'out',preserved=packs)
+    with self.assertRaisesRegex(SystemExit,message):assemble(lock,{},[],root/'out',preserved=packs)
 
 if __name__=='__main__':unittest.main()
