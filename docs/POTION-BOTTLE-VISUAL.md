@@ -56,15 +56,48 @@ the old inverse baseline/pickup checks; their behavior is checked by the
 current potion, aura, pickup and entrypoint suites. Unrelated domains and
 release identity, history and saved-world protections retain their guards.
 
-Scope: default native potion colours follow the NeoForge 1.21.1 integer
-`PotionContents` policy. Forge 1.20.1 uses float accumulation and can differ in
-low channel values; this does not claim bit-identical colour across both
-branches. Existing aura float behavior is unchanged. `long_mundane` aliases
-Java's no-effect `mundane`. Bedrock Wither uses the original Java Wither effect
-colour, an explicit Bedrock-only adaptation because Java has no Wither potion.
+Scope reviewed on 2026-11-06: default native potion colours follow the
+NeoForge 1.21.1 integer `PotionContents` policy. The two author callbacks were
+checked independently: [Forge c4ec1880](https://github.com/KaleidoscopeMods/KaleidoscopeTavern/blob/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/misc/PotionBottleColor.java)
+calls `PotionUtils.getColor(stack)`; [NeoForge a1afba34](https://github.com/KaleidoscopeMods/KaleidoscopeTavern/blob/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/misc/PotionBottleColor.java)
+reads the saved stack's `POTION_CONTENTS.getColor()`. Both tint only layer 0
+and otherwise return white.
+
+The original Minecraft 1.20.1 methods prefer `CustomPotionColor` NBT, then
+combine visible effects with amplifier+1 weights using float arithmetic.
+Minecraft 1.21.1 prefers its optional custom colour, then uses integer weighted
+channel sums. This arithmetic distinction is not itself a reproduced adapter
+bug: this review established no differing normal native-potion input. The
+adapter's chosen Neo policy is still checked by the existing original-JVM
+vectors; it does not claim bit-identical results for arbitrary Forge custom
+effect mixtures. The exploratory float comparison was source reasoning, not
+another original-JVM oracle or native run.
+
+The production path is `potionDisplayInput` -> committed native ItemStack ->
+`potionIdentity(stack).effectId` -> `potionDisplayColor` -> the helper's RGB
+properties. JSON is not the adopted colour authority.
+`build_potion_bottle_visual.py` generates geometry, texture/shade resources and
+RGB properties; it does not calculate potion effect averages. WATER/EMPTY
+follow the stateless placement rule above, so the Forge EMPTY-item colour
+fallback is not a placed potion-liquid input.
+
+Custom colour and effect-visibility overrides are a separate input boundary.
+The published [ItemPotionComponent](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/itempotioncomponent?view=minecraft-bedrock-stable)
+provides effect/delivery identities; [PotionEffectType](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/potioneffecttype?view=minecraft-bedrock-stable)
+provides an ID and duration, and [Potions.resolve](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/potions?view=minecraft-bedrock-stable#resolve)
+creates a potion from those registered types. These interfaces do not expose
+the stack's arbitrary native custom RGB or per-effect visibility. The adapter
+preserves the native stack but cannot use those unexposed values for display.
+Test-double metadata or hand-written custom NBT does not establish a supported
+Bedrock input or a current runtime defect.
+
+Existing aura float behavior is unchanged. `long_mundane` aliases Java's
+no-effect `mundane`. Bedrock Wither uses the original Java Wither effect colour,
+an explicit Bedrock-only adaptation because Java has no Wither potion.
 Unknown native IDs preserve placement/pickup and show untinted white liquid.
-Arbitrary foreign custom colours/effect visibility are not exposed by the
-Bedrock potion identity API and are not claimed restored.
+No runtime, colour constants, generated assets or native API probes changed
+in this scope review; the existing Neo/JVM and T180 evidence retains its
+original identity and limits.
 
 The [original native-persistence job](https://github.com/burnt-tea-dev/kaleidoscope-tavern-unofficial/actions/runs/40012443439/job/120616254143)
 passed on BDS 1.26.52.3 with zero players: 24 first-load and 27 same-world restart
