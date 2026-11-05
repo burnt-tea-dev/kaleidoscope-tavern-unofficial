@@ -29,17 +29,21 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--engine', type=pathlib.Path, required=True)
     parser.add_argument('--engine-provenance', type=pathlib.Path, help='Successful pickup-native engine receipt to bind when reusing that isolated installation')
-    parser.add_argument('--liquor', type=pathlib.Path, required=True)
+    parser.add_argument('--liquor', type=pathlib.Path, help='Optional paired World Liquor source; omit for Tavern-only observers')
     parser.add_argument('--work', type=pathlib.Path, required=True)
     parser.add_argument('--port', type=int, default=27200)
     parser.add_argument('--probe', type=pathlib.Path, default=ROOT/'tools/native/living-effects-probe.js')
     parser.add_argument('--world-metadata', type=pathlib.Path, help='Read only level.dat from an existing isolated world; no DB is copied')
     parser.add_argument('--offline', action='store_true', help='Only inside an isolated loopback network namespace')
     parser.add_argument('--phases', nargs='+', choices=['first', 'restart'], default=['first', 'restart'])
+    parser.add_argument('--timeout-seconds', type=int, default=180, help='Normal-stop deadline per phase; use 420 for full native incense conversion')
     args = parser.parse_args()
+    if args.timeout_seconds <= 0:
+        parser.error('--timeout-seconds must be positive')
     if args.offline:
         assert os.readlink('/proc/self/ns/net') != os.readlink('/proc/1/ns/net') and {name for _,name in socket.if_nameindex()} == {'lo'}, 'Offline QA requires a loopback-only network namespace'
-    engine, liquor, work = args.engine.resolve(), args.liquor.resolve(), args.work.resolve()
+    engine, work = args.engine.resolve(), args.work.resolve()
+    liquor = args.liquor.resolve() if args.liquor is not None else None
     assert not work.exists(), 'Use a new isolated directory; retain failed evidence'
     engine_identity = {'executable_sha256': hashlib.sha256((engine/'bedrock_server').read_bytes()).hexdigest()}
     if args.engine_provenance is not None:
@@ -75,7 +79,7 @@ def main():
     # Reuse only level metadata from a stopped isolated QA world.
     # No DB, old test entities or player data enter this new isolated world.
     from family_update.world_experiments import transition, write_metadata, observe
-    flags=json.loads((liquor/'config.json').read_text())['experimentalGameplay']
+    flags=json.loads(((liquor or ROOT)/'config.json').read_text())['experimentalGameplay']
     metadata=args.world_metadata if args.world_metadata is not None else engine/'worlds/pickup-smoke/level.dat'
     raw,experiment_transition=transition(metadata.read_bytes(),flags)
     write_metadata(world/'level.dat',raw)
@@ -84,7 +88,7 @@ def main():
     manifests = {'BP': [], 'RP': []}
     sources = {}
     probe_inputs = None
-    for label, source in [('tavern', ROOT), ('liquor', liquor)]:
+    for label, source in [('tavern', ROOT)] + ([('liquor', liquor)] if liquor is not None else []):
         baseline = json.loads((source/'baseline.json').read_text())
         headers = {}
         source_record = {'commit': subprocess.check_output(['git', '-C', str(source), 'rev-parse', 'HEAD'], text=True).strip(),
@@ -102,18 +106,19 @@ def main():
         if label == 'liquor':
             probe_inputs = render_world_liquor_probe_inputs(baseline, headers)
     host = world/'behavior_packs/tavern'
-    assert probe_inputs is not None
-    (host/'scripts/native-probe-inputs.js').write_text(probe_inputs)
+    if probe_inputs is not None:
+        (host/'scripts/native-probe-inputs.js').write_text(probe_inputs)
     shutil.copy2(args.probe, host/'scripts/living-effects-probe.js')
     shutil.copy2(ROOT/'tools/native/living-probe-entity.json', host/'entities/living-probe.json')
     shutil.copy2(ROOT/'tools/native/health-helper-entity.json', host/'entities/health-helper-probe.json')
     with (host/'scripts/main.js').open('a') as output:
         output.write("\n// Disposable native observer; not release content.\nimport './living-effects-probe.js';\n")
     overlays = {'scripts/living-effects-probe.js': hashlib.sha256(args.probe.read_bytes()).hexdigest(),
-                'scripts/native-probe-inputs.js': hashlib.sha256(probe_inputs.encode()).hexdigest(),
                 'entities/living-probe.json': hashlib.sha256((ROOT/'tools/native/living-probe-entity.json').read_bytes()).hexdigest(),
                 'entities/health-helper-probe.json': hashlib.sha256((ROOT/'tools/native/health-helper-entity.json').read_bytes()).hexdigest(),
                 'scripts/main.js': 'Append only the declared disposable observer import after verifying the complete copied runtime.'}
+    if probe_inputs is not None:
+        overlays['scripts/native-probe-inputs.js'] = hashlib.sha256(probe_inputs.encode()).hexdigest()
     if args.probe.resolve() == (ROOT/'tools/native/shaker-migration-probe.js').resolve():
         for support_name in ('machine-ingredients-probe.js', 'status-aura-probe.js', 'potion-bottle-probe.js'):
             support = ROOT/'tools/native'/support_name
@@ -131,7 +136,7 @@ def main():
             process = subprocess.Popen(['./bedrock_server'], cwd=work, env={**os.environ, 'LD_LIBRARY_PATH': os.pathsep.join((str(work), str(engine)))}, stdin=subprocess.PIPE, stdout=output, stderr=subprocess.STDOUT, text=True)
             normal_stop = False
             try:
-                for _ in range(180):
+                for _ in range(args.timeout_seconds):
                     time.sleep(1)
                     text = log.read_text(errors='replace')
                     if process.poll() is not None or '[LIVING_EFFECT_QA] {"kind":"failure"' in text or ' ERROR]' in text or '[error]' in text.lower():
