@@ -6,6 +6,14 @@ Adopt the official Bedrock Tavern1.0.7 unique-reference rule. Preserve the curre
 
 目前維護版本與 BP／RP 身分以 [baseline.json](../baseline.json) 為準；公開下載、來源配對及部署見[家族現況](../family/BASELINE-STATUS.md)。下列日期段保留各次修補及原始證據範圍，不因較新的來源版本自動取得畫面或完整家族通過結果。真人使用不是發布、部署或完成門檻，沿用[擁有者現行規則](../family/UPDATE-WORKFLOW.md#擁有者簡化規則2026-11-04)。
 
+## 香薰先傷害再判斷治療（2026-11-05）
+
+Forge `c4ec1880`、NeoForge `a1afba34` 的 `IncenseBlockEntity.serverTick`先選活著的亡靈，造成1點magic傷害，再按傷害後的生命判斷殭屍村民治療；沒有按`hurt`回傳值跳過後續判斷。原Bedrock在生命<=1時直接治療並return，導致1點生命及仍有效的死亡actor跳過傷害，也沒有排除死亡目標。
+
+現在保留原有查詢範圍、開關、120tick脈衝、原生治療事件與防重入標記，只修目標存活判斷和傷害／治療順序。[真實註冊tick回歸](../tools/incense-damage-order.test.mjs)重現修前的1點生命／死亡目標失敗，並驗證2→1生命後治療及傷害拒絕後的判斷順序。這些是腳本與API double證據，不是原生完成治療證據。
+
+[窄原生觀察器](../tools/native/incense-damage-order.js)交共同槽，使用真擺放香薰、原生1／2生命目標與magic死亡事件；本聊天未開BDS。它只區分致死傷害及存活者的原生治療請求，Java60tick轉化延遲與完整聲畫仍未確認。本次不替換原版殭屍村民定義，也不以自製轉化玩法補洞。
+
 ## 多包飲酒效果的共用容量（2026-11-05）
 
 Java 1.2.0 Forge `c4ec1880`、NeoForge `a1afba34` 的 `DrinkBlockItem` 逐筆呼叫 `LivingEntity.addEffect`，沒有酒館自設的共用32筆門檻。T200的保存與加入入口卻把所有附加包、不同等級的效果列合計限制32筆。以現有World Liquor0.1.189酒瓶及Tavern酒瓶走真實完成入口、每瓶相隔32ticks，固定合法隨機值0，第52瓶六級螢光花釀的Vision被拒絕，但酒仍被正常結算。這是來源callback重現，不是原生玩家飲用證據。
