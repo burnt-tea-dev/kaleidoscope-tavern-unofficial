@@ -115,7 +115,9 @@ def candidate_plan(receipt, original):
             inputs=curated_owner_inputs();expected.update(inputs)
             actual={row['uuid']:row for row in receipt['packs']}
             for uid,row in inputs.items():
-                assert uid in actual and all(actual[uid][key]==row[key] for key in ('side','version','files')), 'Owner input candidate differs from its reviewed source'
+                # Payloads, including declared owner data changes, are checked by
+                # current_author_validation. This plan checks pack identity.
+                assert uid in actual and actual[uid]['side']==row['side'], 'Owner input candidate identity differs from its reviewed source'
         assert expected == {p['uuid'] for p in receipt['packs']}, 'UUID change needs a canonical reviewed migration'
         return None
     path = Path(location).resolve()

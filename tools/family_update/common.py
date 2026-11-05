@@ -590,13 +590,19 @@ def verify_candidate_sources():
         _,prospective=select_prospective(read(R/'production-before/preserved-packs.json'),read(R/'production-before/inventory.json'))
         verify_prospective(receipt,prospective)
     assert prospective==evidence.get('prospective_preserved_inputs'), 'Prospective input review changed after assembly'
-    from family_update.current_author_validation import curated_inputs_enabled,verify_curated_inputs
+    from family_update.current_author_validation import curated_inputs_enabled,verify_curated_inputs,verify_replacement_inputs
+    replacement_selection=None
+    if evidence.get('author_replacement_selection'):
+        path=R/'author-replacement-selection.json'
+        assert evidence['author_replacement_selection']==report_ref(path), 'Replacement input selection changed after assembly'
+        replacement_selection=read(path)
     if curated_inputs_enabled():
         path=R/'curated-input-selection.json'
         assert evidence.get('curated_input_selection')==report_ref(path), 'Curated input selection changed after assembly'
-        verify_curated_inputs(receipt,read(path))
+        verify_curated_inputs(receipt,read(path),replacement_selection)
     else:
         assert not evidence.get('curated_input_selection'), 'Curated input selection requires its fresh profile'
+        if replacement_selection is not None:verify_replacement_inputs(receipt,replacement_selection)
     if CONFIG.get('approved_runtime_retention'):
         original = read(R/'production-before/inventory.json')
         _, _, retention = select_approved_runtime_retention(original, current)

@@ -51,7 +51,7 @@ def main(argv=None):
         from family_update.managed_drift_recovery import verify_owner_accepted_inputs
         verify_owner_accepted_inputs(receipt, original)
     if prospective is not None:verify_prospective(receipt,prospective)
-    if curated_selection is not None:verify_curated_inputs(receipt,curated_selection)
+    if curated_selection is not None:verify_curated_inputs(receipt,curated_selection,replacement_selection)
     if replacement_selection is not None and curated_selection is None:
         verify_replacement_inputs(receipt,replacement_selection)
     if local_selection is not None:
