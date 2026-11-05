@@ -1,0 +1,9 @@
+entities/zombie_villager.json and entities/zombie_villager_v2.json preserve
+Mojang/bedrock-samples v1.26.60.5 native definitions with the owned
+kaleidoscope_tavern:incense_to_villager group and incense_cure event added.
+Source and additions: art/native-incense/README.md and
+tools/build_incense_native_entities.py in the matching source repository.
+
+(c) Mojang AB. All rights reserved.
+
+By downloading the files in this repository, you agree to the [Minecraft End User License Agreement](https://www.minecraft.net/en-us/eula) and that these files are subject to its terms.

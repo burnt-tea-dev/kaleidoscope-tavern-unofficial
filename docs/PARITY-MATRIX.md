@@ -12,7 +12,7 @@ Forge `c4ec1880`、NeoForge `a1afba34` 的 `IncenseBlockEntity.serverTick`先選
 
 現在保留原有查詢範圍、開關、120tick脈衝、原生治療事件與防重入標記，只修目標存活判斷和傷害／治療順序。[真實註冊tick回歸](../tools/incense-damage-order.test.mjs)重現修前的1點生命／死亡目標失敗，並驗證2→1生命後治療及傷害拒絕後的判斷順序。這些是腳本與API double證據，不是原生完成治療證據。
 
-[窄原生觀察器](../tools/native/incense-damage-order.js)沿同一QA場景，使用真擺放香薰、原生1／2生命目標與magic死亡事件，追蹤真正村民生成及期間生命；另以獨立目標在治療開始30ticks後受一次外來傷害，區分原生傷害與Tavern標記的早退。尚未執行本輪完整觀察，Java60tick轉化延遲與完整聲畫未確認。不替換原版殭屍村民定義，也不手工生成村民取代原目標。
+[窄原生觀察器](../tools/native/incense-damage-order.js)沿同一QA場景，使用真擺放香薰、原生1／2生命目標與magic死亡事件，追蹤真正村民生成及期間生命；另以獨立目標在治療開始30ticks後受一次外來傷害，區分原生傷害與Tavern標記的早退。T202完整觀察與實際時長見下方；該輪未改原版生物定義，沒有手工生成村民取代原目標。
 
 2026-11-06唯讀核對：兩個Java版本的原版`ZombieVillager.startConverting(UUID,int)`都直接保存傳入倒數，活著且正在轉化時每tick扣`getConversionProgress()`，到期才呼叫原版finishConversion。一般進度為1，附近鐵欄杆／床可加速；酒館兩分支都傳60。`IncenseBlockEntity`沒有按isConverting跳過hurt；這不代表每次hurt都會扣血，原版傷害冷卻仍有效。T202的curing標記則直接跳過後續香薰傷害，尚不能當作Java固有的轉化免疫。
 
@@ -21,7 +21,7 @@ Forge `c4ec1880`、NeoForge `a1afba34` 的 `IncenseBlockEntity.serverTick`先選
 | 原版路徑／群組 | 靜態設定 | 適用範圍 |
 | --- | --- | --- |
 | `behavior_packs/vanilla/entities/zombie_villager{,_v2}.json`／`to_villager` | delay.value100，strength/heal100秒 | base定義，未冒稱目前選中 |
-| `behavior_packs/vanilla_1.26.20/entities/zombie_villager_v2.json`／`to_villager` | value100＋range_min80／range_max200；strength/heal300秒，drop_equipment=true | 1.26.20定義；按[官方delay單位與範圍](https://learn.microsoft.com/en-us/minecraft/creator/reference/content/entityreference/examples/entitycomponents/minecraftcomponent_transformation?view=minecraft-bedrock-stable)為180..300秒，仍待真入口實測確認 |
+| `behavior_packs/vanilla_1.26.20/entities/zombie_villager_v2.json`／`to_villager` | value100＋range_min80／range_max200；strength/heal300秒，drop_equipment=true | 1.26.20定義；按[官方delay單位與範圍](https://learn.microsoft.com/en-us/minecraft/creator/reference/content/entityreference/examples/entitycomponents/minecraftcomponent_transformation?view=minecraft-bedrock-stable)為180..300秒；下方真入口實測285秒在此範圍內 |
 
 `villager_converted`只加入上述群組。官方[資料事件](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/datadrivenentitytriggerafterevent?view=minecraft-bedrock-stable)可記錄開始；[原生Transformed生成事件](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/entityinitializationcause?view=minecraft-bedrock-stable)及實際Villager類型才作完成證據。觀察器同時記錄首次shaking、60tick／後續里程碑、生命變化和QA名稱／動態資料保留；事件未報錯或原handle消失均不算完成。2.12.0-beta型別及官方experimental元件表未見轉化／timer寫入入口；這是靜態能力核對，並非所有API版本的原生否定結論，觀察器另讀選定引擎實際元件形狀。
 
@@ -31,9 +31,23 @@ Forge `c4ec1880`、NeoForge `a1afba34` 的 `IncenseBlockEntity.serverTick`先選
 
 本輪normal_stop=true／引擎exit0／Quit correctly、errors空、players0、SwapPeak0、peak786837504 bytes。wrapper exit1來自已完成觀察但Java時長不符的partial，不是服務崩潰。完整log、report及實際observer留在既有主機證據；QA世界／引擎連結已清理，沒有重啟或第二世界。
 
-能力邊界：原生timer／transformation在事件tick130讀值未暴露，但同tick的is_shaking也尚未套用、下一tick才出現；不能把這次事件階段讀值說成active狀態的API否定。現在沒有已驗證可縮至60tick且保留資料的原生入口，仍未完成。後續若取得active狀態的可寫timer／原生快速轉化事件，需再測真完成與資料保留；不以手工spawn村民或全域原版mob覆寫繞過。
+能力邊界：原生timer／transformation在事件tick130讀值未暴露，但同tick的is_shaking也尚未套用、下一tick才出現；不能把這次事件階段讀值說成active狀態的API否定。現在沒有已驗證可縮至60tick且保留資料的原生入口，仍未完成。後續由下節 owned 原生 group／event 繼續，需再測真完成與資料保留；這次 API 讀值不能證明原生定義無法實現。
 
 本輪observer輸入固定為e17b3b44。由實際log確認原生Spawn／Transformed通知晚於首次類型讀回，後續observer已補active-shaking時的元件讀取、完成後兩tick的metadata再讀，並保留首次完成tick；這些補讀尚未在BDS執行，不冒充本輪已驗欄位。等下一次確有必要的原生觀察一併補證，不重跑285秒等待來製造相同結論。
+
+## 香薰專用原生轉換（2026-11-06，來源已實作／原生待驗）
+
+T202真入口需285秒，Java兩分支傳60tick。腳本API沒有已驗證的轉換倒數寫入入口；現在改由Tavern擁有的原生事件處理。這是新來源行為，不回寫T202的歷史身份或上述實測結果。
+
+Tavern BP會接管 `minecraft:zombie_villager` 及 `minecraft:zombie_villager_v2` 兩份完整定義。[所選官方來源與授權](../art/native-incense/README.md)對應BDS1.26.60.6安裝中最後版本；[生成器](../tools/build_incense_native_entities.py)保留全部原版欄位，只各新增一個香薰group及event。新group複用原生transformation，delay.value=3秒，移除該副本的隨機範圍，保留床／鐵欄杆加速、原生轉換與資料處理。原金蘋果 `to_villager`／`villager_converted` 不改；新event先移除舊／新轉換group再加入owned group，以便香薰再次要求治療時重設倒數。沒有手工spawn村民或搬運交易資料。
+
+腳本改呼叫 `kaleidoscope_tavern:incense_cure`，同時移除curing-tag寫入與兩處早退；受後續香薰影響時，照常先傷害，再判斷存活及生命。舊存檔已有標記也不阻擋傷害，無需掃描清除或維護per-ID名冊。原生舊group仍保留，沒有被香薰再次命中的既有轉換繼續原本流程。
+
+[腳本回歸](../tools/incense-damage-order.test.mjs)仍呼叫實際註冊onTick；新增第二香薰相隔15tick傷害curing actor，以及舊保存標記不阻擋傷害／治療的反例。修前6項有4項失敗，修後6項通過。[原生定義來源檢查](../tools/test_incense_native_entities.py)直接比較生成物，刪去owned新增必須還原整份原版；只允許新副本的delay差異。這兩類檢查未執行BDS，不把JSON的3秒寫成實測60tick。
+
+[同一窄觀察器](../tools/native/incense-damage-order.js)已改追新事件，準備真香薰1hp／2hp、原生Villager與Transformed完成tick、外來傷害、轉換中重設，以及同世界正常停服／重啟後的未完成轉換與已完成村民欄位。它保留首次完成tick，讀active元件及完成後metadata。尚未執行新來源原生測試；倒數、重設、保存／交易及實際聲畫不能由來源檢查宣稱完整等價。原版strength／heal等附帶設定先完整保留，短轉換後的實際效果亦待該場景觀察。
+
+當前P131載入的32個BP按identifier核對，沒有其他包定義這兩種生物；這只適用該觀察輸入。下一個實際候選須核對同identifier的選定owner。未來採用新版BDS時要重看這兩份所選原版；沒有新增包組合特例或通用合併框架。
 
 ## 多包飲酒效果的共用容量（2026-11-05）
 

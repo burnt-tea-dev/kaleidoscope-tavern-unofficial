@@ -11,7 +11,7 @@ import {javaSecondaryBypass} from '../core/java-use-order.js';
 import {setWithWater} from './waterlogging.js';
 import {playWorldSound} from './feedback-diagnostics.js';
 const FACING='minecraft:cardinal_direction',OPEN=NS+':open',DIRECTIONS=Object.freeze({Up:{x:0,y:1,z:0},Down:{x:0,y:-1,z:0},North:{x:0,y:0,z:-1},South:{x:0,y:0,z:1},East:{x:1,y:0,z:0},West:{x:-1,y:0,z:0}}),yawFacing=y=>{const n=((y%360)+360)%360;return Math.round(n/90)%4;};
-const INCENSE_CURE_TAG=NS+':incense_curing',ZOMBIE_VILLAGER_IDS=new Set(['minecraft:zombie_villager','minecraft:zombie_villager_v2']);
+const ZOMBIE_VILLAGER_IDS=new Set(['minecraft:zombie_villager','minecraft:zombie_villager_v2']);
 const diagnostics={placed:0,recovered:0,incensePulses:0,undeadHits:0,incenseCures:0,errors:[]};
 let eventsInstalled=false;const recentToggleInteractions=new Map(),recentIncensePlacements=new Map(),incensePulsePeriods=new Map();
 function report(error){diagnostics.errors.push(String(error));if(diagnostics.errors.length>16)diagnostics.errors.shift();}
@@ -50,9 +50,9 @@ function interactToggle(player,block,event){
  }));
  return true;
 }
-function startIncenseCure(entity){if(entity.hasTag(INCENSE_CURE_TAG))return false;entity.addTag(INCENSE_CURE_TAG);try{entity.triggerEvent('villager_converted');diagnostics.incenseCures++;return true;}catch(error){entity.removeTag(INCENSE_CURE_TAG);throw error;}}
+function startIncenseCure(entity){entity.triggerEvent(NS+':incense_cure');diagnostics.incenseCures++;return true;}
 function damageIncenseTarget(entity){
- if(!entity?.isValid||entity.hasTag(INCENSE_CURE_TAG))return;
+ if(!entity?.isValid)return;
  const health=entity.getComponent('minecraft:health');if(!health||health.currentValue<=0)return;
  // Java hurts each living target before checking conversion. Pre-curing a
  // one-health zombie villager incorrectly protects it from this damage.
