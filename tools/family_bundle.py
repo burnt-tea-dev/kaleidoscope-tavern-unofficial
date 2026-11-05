@@ -23,19 +23,12 @@ def read_definition(path,jsonc=False,*,object_pairs_hook=None):
  raw=re.sub(r'"(?:\\.|[^"\\])*"|,\s*([}\]])',lambda m:m[0] if m[0].startswith('"') else m[1],raw)
  return json.loads(raw,object_pairs_hook=object_pairs_hook)
 def files_hash(root):return {p.relative_to(root).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(root.rglob('*')) if p.is_file()}
-PLAYER_CONTRACTS=ROOT/'family/player-compatibility.json'
 def select_behavior_player(players):
  if not players:return None,None
  selected=players[0];contract=None
  if len(players)>1:
-  registry=read(PLAYER_CONTRACTS) if PLAYER_CONTRACTS.exists() else {'schema':1,'contracts':[]}
-  if registry.get('schema')!=1 or not isinstance(registry.get('contracts'),list):fail('invalid player compatibility registry')
-  observed=[{k:row[k] for k in ('uuid','version','path','sha256')} for row in players]
-  matches=[row for row in registry['contracts'] if sorted(row['definitions'],key=lambda x:x['uuid'])==sorted(observed,key=lambda x:x['uuid'])]
-  if len(matches)!=1 or len({row['uuid'] for row in players})!=len(players):
-   fail('competing behavior minecraft:player definitions have no exact reviewed compatibility contract')
-  contract=matches[0]
-  if selected['uuid']!=contract['owner_uuid']:fail('reviewed merged player must have effective priority')
+  if len({row['uuid'] for row in players})!=len(players):
+   fail('duplicate behavior minecraft:player definitions in one pack')
   target=selected['document']['minecraft:entity']
   # The selected definition is already composed by its canonical owner. The
   # family tool only verifies it and never merges or rewrites owned payloads.
@@ -45,6 +38,7 @@ def select_behavior_player(players):
    pairs.extend((key,base.get(key,{}),target.get(key,{})) for key in ('components','component_groups','events'))
    for label,before,after in pairs:
     if any(key not in after or after[key]!=value for key,value in before.items()):fail('merged player changes retained '+label)
+  contract={'owner_uuid':selected['uuid'],'definitions':[{key:row[key] for key in ('uuid','version','path','sha256')} for row in players]}
  properties=selected['document']['minecraft:entity']['description'].get('properties',{})
  if not isinstance(properties,dict) or len(properties)>32:fail('effective player exceeds32 properties or has an invalid schema')
  return {key:selected[key] for key in ('uuid','path','sha256')},contract
@@ -357,7 +351,7 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
  behavior_player,player_contract=select_behavior_player(behavior_players)
  receipt={'schema':1,'lock_sha256':hashlib.sha256(json.dumps(lock,sort_keys=True).encode()).hexdigest(),'packs':records,'order':lock['order'],'definition_overlaps':overlaps,'behavior_player_definition':behavior_player,'acceptance':{'static':True,'bds':False,'client':False,'saved_world_migration':False},'production_ready':False}
  if source_advisories:receipt['source_advisories']=source_advisories
- if player_contract is not None:receipt['reviewed_player_compatibility']=player_contract
+ if player_contract is not None:receipt['behavior_player_preservation']=player_contract
  (out/'family-receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');print(json.dumps({'candidate':str(out),'packs':len(records),'overlaps':len(overlaps),'production_ready':False}))
  return receipt
 

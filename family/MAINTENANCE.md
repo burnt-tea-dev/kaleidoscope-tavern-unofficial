@@ -47,7 +47,7 @@ flowchart LR
 
 - 經使用者本輪油壺修復授權，已登記 API 可對 hash 釘選的作者 item JSON **僅新增** `minecraft:allow_off_hand: true`；不改原有能力、配方、identity 或 manifest。收據同樣列出原檔與改後 hash。組裝器拒絕其他 JSON 屬性、既有欄位或未列入清單的修改。
 
-- 原生 health／同步 property 擴充的 BP `minecraft:player` 必須保留版本釘選原版內容；Grilling 自身生成器檢查其增量。家族組裝器預設拒絕多份 BP 玩家定義；只有 [player-compatibility.json](player-compatibility.json) 登記的完整版本、逐檔 hash 與有效優先序完全吻合，且合併結果保留基底 property schema／components／component_groups／events、總 property 不超過 32，才可原樣納入。組裝器只核對，不合併或改寫玩家檔；收據記錄唯一 effective UUID／路徑／hash 與適用契約。畫面與聲音的證據範圍依現行更新流程記錄。
+- 原生 health／同步 property 擴充的 BP `minecraft:player` 必須保留原版內容；Grilling 自身生成器檢查其增量。家族組裝器直接確認最高優先序定義保留其他定義的 property schema、components、component_groups 與 events，總 property 不超過 32；不維護包組合或版本名冊。組裝器只核對，不合併或改寫玩家檔；收據記錄實際有效來源及保留對比。畫面與聲音的證據範圍依現行更新流程記錄。
 
 ## 統一更新入口
 
