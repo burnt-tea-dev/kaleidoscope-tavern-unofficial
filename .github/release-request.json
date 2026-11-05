@@ -5,7 +5,7 @@
   "prerelease": false,
   "publication_request": false,
   "public_notes_path": null,
-  "public_notes_inline": "Incense uses a dedicated three-second native conversion without curing-tag damage immunity. BDS1.26.60.6 observed exactly 60 ticks for v2 conversion and 60 ticks after resetting it. Legacy-type coverage, saved-state readback, trade/equipment preservation and client audiovisual behavior remain incomplete. Ordinary golden-apple definitions are retained.",
+  "public_notes_inline": "Incense uses a dedicated three-second native conversion without curing-tag damage immunity. BDS1.26.60.6 verified exactly 60 ticks for v2 conversion, 60 ticks after resetting it, and same-world saved final-state readback. Legacy type, arbitrary metadata/trade/equipment, exact remaining countdown across shutdown and client audiovisual behavior remain unverified. Ordinary golden-apple definitions are retained.",
   "client_acceptance": "pending",
   "full_client_acceptance": "pending",
   "client": false,
