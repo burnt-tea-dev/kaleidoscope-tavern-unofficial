@@ -383,12 +383,6 @@
       "after": "fe5856ffef01f03c0e5c4a5cbf6fdbf312f6b5b34e17b579b3e2fda0444b1426",
       "reason": "Reviewed reconciliation of PRs #25/#50/#69/#88 and paired version bump; preserves native pick, storage and creative metadata."
     },
-    "runtime/BP/scripts/core/custom-effects.js": {
-      "before": "8056fa6f02f82d918cf8db870ba79bda8472eb63b889075508b4f0cdc75c3c83",
-      "beforeProjected": "8056fa6f02f82d918cf8db870ba79bda8472eb63b889075508b4f0cdc75c3c83",
-      "after": "b96c30e10c53bb49f7eeb854f8744f53dff466cc5cf59c5e17de23f9d7a40339",
-      "reason": "Reviewed reconciliation of PRs #25/#50/#69/#88 and paired version bump; preserves native pick, storage and creative metadata."
-    },
     "runtime/BP/scripts/core/decorations.js": {
       "before": "371e78ab2c214690ace6d742aefdf9ea2af43a2d185450e6d5b79b492d6a0360",
       "beforeProjected": "371e78ab2c214690ace6d742aefdf9ea2af43a2d185450e6d5b79b492d6a0360",
@@ -2493,6 +2487,12 @@
       "beforeProjected": null,
       "after": "d3583a21a9b162cb3226656b24ea1b8ea8713a4433b6b54a14201c22811ee0c7",
       "reason": "Original launch baseline recorded this runtime addition; current behavior and Java parity are now owned by tools/current_extension_source_contract.py and its focused regressions."
+    },
+    "runtime/BP/scripts/core/custom-effects.js": {
+      "before": "8056fa6f02f82d918cf8db870ba79bda8472eb63b889075508b4f0cdc75c3c83",
+      "beforeProjected": "8056fa6f02f82d918cf8db870ba79bda8472eb63b889075508b4f0cdc75c3c83",
+      "after": "b96c30e10c53bb49f7eeb854f8744f53dff466cc5cf59c5e17de23f9d7a40339",
+      "reason": "Reviewed reconciliation of PRs #25/#50/#69/#88 and paired version bump; preserves native pick, storage and creative metadata."
     }
   }
 }

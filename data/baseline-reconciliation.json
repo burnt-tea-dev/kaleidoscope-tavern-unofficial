@@ -1236,12 +1236,6 @@
       "after": "6df5645c21308027595dabb889b096c6038885278bd40d7ae709b6a8be9cf6fc",
       "reason": "Current Java parity repair, tested against independent source inputs; historical preimage remains immutable."
     },
-    "runtime/BP/scripts/core/custom-effects.js": {
-      "before": "b96c30e10c53bb49f7eeb854f8744f53dff466cc5cf59c5e17de23f9d7a40339",
-      "after": "2f9ac47df27bbc0605e1c7303ce2de95193de06919b8d5bb00c13ee18c64c2b0",
-      "reason": "Tavern 0.6.89 source review: Java XP feet-distance speed and inflated AABB query; see tools/efficiency/xp-parity.test.mjs.; Java fidelity repair: paired release identity / 24-bit effect draws",
-      "beforeGzipBase64": "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"
-    },
     "runtime/BP/scripts/core/grass-stealth-plants.js": {
       "before": null,
       "after": "f6f5f2dc5da254569847c1f32bb050712595a4440c1f61cf952c67693419d5ea",
@@ -4227,33 +4221,6 @@
             ]
           ]
         },
-        "runtime/BP/scripts/core/custom-effects.js": {
-          "before": "2f9ac47df27bbc0605e1c7303ce2de95193de06919b8d5bb00c13ee18c64c2b0",
-          "after": "0ab7aaf1bf2dd5cf4238367e4939645a6a7ef9af56d56bb22993fd2d3b8507b2",
-          "reason": "Remove handcrafted Ardent Heat drop conversion and accept nonzero slow High Heels input. Keep existing effect rules and the documented collision-checked teleport adaptation boundary.",
-          "reverseOps": [
-            [
-              54,
-              54,
-              "const ARDENT_HEAT_DROPS=Object.freeze({'minecraft:stone':'minecraft:cobblestone','minecraft:deepslate':'minecraft:cobbled_deepslate'});\n"
-            ],
-            [
-              55,
-              55,
-              "export function ardentHeatDrop(typeId){return ardentHeatBreakable(typeId)?(ARDENT_HEAT_DROPS[typeId]??typeId):undefined;}\n"
-            ],
-            [
-              57,
-              60,
-              "export const HIGH_HEELS_INPUT_MIN=.55;\n"
-            ],
-            [
-              62,
-              64,
-              "export function highHeelsDirection(yaw,movement){check(Number.isFinite(yaw)&&Number.isFinite(movement?.x)&&Number.isFinite(movement?.y),'INVALID_MOVEMENT');if(Math.hypot(movement.x,movement.y)<HIGH_HEELS_INPUT_MIN)return undefined;const r=yaw*Math.PI/180,c=Math.cos(r),sn=Math.sin(r),x=c*movement.x-sn*movement.y,z=sn*movement.x+c*movement.y;if(Math.abs(x)>=Math.abs(z))return {x:Math.sign(x),z:0};return {x:0,z:Math.sign(z)};}\nexport function highHeelsBlocked(input,velocity){check(Number.isFinite(input?.x)&&Number.isFinite(input?.y)&&Number.isFinite(velocity?.x)&&Number.isFinite(velocity?.y)&&Number.isFinite(velocity?.z),'INVALID_MOVEMENT');return Math.hypot(input.x,input.y)>=HIGH_HEELS_INPUT_MIN&&Math.hypot(velocity.x,velocity.z)<=HIGH_HEELS_SPEED_MAX&&Math.abs(velocity.y)<=.08;}\n"
-            ]
-          ]
-        },
         "runtime/BP/scripts/core/inventory.js": {
           "before": "2534d63648a33dc045357352d5fdc4a45fe915a0b55e59b269bb76cc40cfb0db",
           "after": "ff21dbc539bf233aec0b07dc707f45ffd8a2cc744151e0c180a00cc0e708c8c2",
@@ -5302,21 +5269,6 @@
               80,
               81,
               "  statusTicks:status?.ticks??0,optedOut:player.hasTag(TIPSY_OPT_OUT_TAG),\n"
-            ]
-          ]
-        },
-        "runtime/BP/scripts/core/custom-effects.js": {
-          "before": "0ab7aaf1bf2dd5cf4238367e4939645a6a7ef9af56d56bb22993fd2d3b8507b2",
-          "after": "aa013defd6a103c91d943d7552e7be8db5b29b620271b33fd7c665b477807ed7",
-          "reason": "T134 appended exact source review. Bind source-owned status aura and per-tick one-tick grass invisibility leases without replacing foreign invisibility; preserve Ardent timing, source Vision recipients and explicit platform limitations.",
-          "reviewedPredecessorCommit": "625ff769f4c656ff224314bba38d26a1ef5dacc0",
-          "reviewedSourceCommit": "37ff9f12e74c6a4f3bb3a5fc40502d7e70e68c83",
-          "reviewDocument": "docs/RELEASE-NOTES-0.6.134.md",
-          "reverseOps": [
-            [
-              16,
-              17,
-              " 'kaleidoscope_tavern:slightly_tipsy':'yaw_adapter_unverified'\n"
             ]
           ]
         },

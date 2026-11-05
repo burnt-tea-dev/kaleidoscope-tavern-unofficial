@@ -6,6 +6,14 @@ Adopt the official Bedrock Tavern1.0.7 unique-reference rule. Preserve the curre
 
 目前維護版本與 BP／RP 身分以 [baseline.json](../baseline.json) 為準；公開下載、來源配對及部署見[家族現況](../family/BASELINE-STATUS.md)。下列日期段保留各次修補及原始證據範圍，不因較新的來源版本自動取得畫面或完整家族通過結果。真人使用不是發布、部署或完成門檻，沿用[擁有者現行規則](../family/UPDATE-WORKFLOW.md#擁有者簡化規則2026-11-04)。
 
+## 多包飲酒效果的共用容量（2026-11-05）
+
+Java 1.2.0 Forge `c4ec1880`、NeoForge `a1afba34` 的 `DrinkBlockItem` 逐筆呼叫 `LivingEntity.addEffect`，沒有酒館自設的共用32筆門檻。T200的保存與加入入口卻把所有附加包、不同等級的效果列合計限制32筆。以現有World Liquor0.1.189酒瓶及Tavern酒瓶走真實完成入口、每瓶相隔32ticks，固定合法隨機值0，第52瓶六級螢光花釀的Vision被拒絕，但酒仍被正常結算。這是來源callback重現，不是原生玩家飲用證據。
+
+現在移除該共用筆數門檻，仍驗證每筆效果、時間、等級及遷移欄位；保存格式／鍵不變，由原生動態屬性的容量限制最終寫入。相同飲用序列修後由32筆增為33筆，沒有效果拒絕。[正常PR回歸](../tools/custom-effect-capacity.test.mjs)另以兩個正式註冊descriptor驗證完成飲用、強弱效果、跨handle保存讀取／倒數／清除與錯誤資料拒絕，不依賴特定包組合。
+
+[隔離保存觀察器](../tools/native/custom-effect-capacity.js)只測原生實體屬性的35筆寫入、同世界重啟及清除，結果隨共同候選另記；未宣稱已部署。SDK按單一addon接收的快照仍有既有32列組裝上限，本次未修改；此修復不等於所有自訂效果數量或客戶端顯示都不受限制。已測裝備／target API限制維持下文結論。
+
 ## 活體特殊效果入口（2026-11-05）
 
 對照發布版 Java 1.2.0 的 Forge 1.20.1 `c4ec1880` 及 NeoForge 1.21.1 `a1afba34`：`EffectEvent.onLivingHurt` 的摸金校尉來源是 LivingEntity，`VisionEffect.applyEffectTick` 也接受 LivingEntity。先前 Bedrock 的這兩種效果入口只接受玩家；瓶裝感知酒雖已能潑濺到生物，效果仍被入口拒絕。摸金校尉的活體效果入口與傷害回呼也有同樣限制。
