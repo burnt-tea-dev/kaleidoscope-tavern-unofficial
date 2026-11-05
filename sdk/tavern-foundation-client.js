@@ -108,7 +108,8 @@ export function createFoundationClient(system,world,payload,ready,{log=console.w
    const key=source+'/'+row.entity;if((effects.get(key)?.sequence??-1)>row.sequence)return;
    let state=staged.get(key);if(!state||row.sequence>state.sequence){state={sequence:row.sequence,total:row.parts,parts:new Map()};staged.set(key,state);}
    if(state.sequence!==row.sequence||state.total!==row.parts)return;state.parts.set(row.part,row.rows);
-   if(state.parts.size===state.total){const rows=Array.from({length:state.total},(_,i)=>state.parts.get(i)).flat();if(rows.length<=32)effects.set(key,{sequence:row.sequence,rows});staged.delete(key);}
+   // Each part and the part count are bounded above; 32 is not the whole snapshot limit.
+   if(state.parts.size===state.total){const rows=Array.from({length:state.total},(_,i)=>state.parts.get(i)).flat();effects.set(key,{sequence:row.sequence,rows});staged.delete(key);}
   }catch(e){log('[Tavern foundation] '+e+'; old data retained');}
  },{namespaces:['kaleidoscope_tavern']});
  system.runInterval(()=>{

@@ -14,6 +14,16 @@ Java 1.2.0 Forge `c4ec1880`、NeoForge `a1afba34` 的 `DrinkBlockItem` 逐筆呼
 
 [隔離保存觀察器](../tools/native/custom-effect-capacity.js)只測原生實體屬性的35筆寫入、同世界重啟及清除，結果隨共同候選另記；未宣稱已部署。SDK按單一addon接收的快照仍有既有32列組裝上限，本次未修改；此修復不等於所有自訂效果數量或客戶端顯示都不受限制。已測裝備／target API限制維持下文結論。
 
+## 分段效果快照的組裝容量（2026-11-05）
+
+有界核對：目前W189註冊16種timed效果，酒瓶／雞尾酒及shakerInputs共31種effect ID＋amplifier組合；調酒只取既有最高等級，不創造更高等級。因此一般catalog未找到>32列的反例。讀取LIVE載入的32個BP入口，只見T200傳送端與W188消費端使用這條快照；未執行LIVE探針。
+
+但既有Server `effect_apply`入口對已註冊效果接受amp0..255，未限制為catalog等級。以現有W `continuous_heal`的amp0..32送33個合法申請，宿主保存33列，SDK卻把每段32列的界線誤用到整份組裝結果；原快照過期後，W行為讀者得到空白，並非只少最後一筆。[回歸](../tools/effect-snapshot-capacity.test.mjs)呼叫實際申請訂閱、publisher及SDK讀者，沒有捏造33種新效果或把普通酒品宣稱為觸發入口。
+
+SDK現在接受已通過逐段驗證的完整快照；每段32列、最多8段、訊息大小、欄位、來源及20tick新鮮度驗證維持。傳送端仍保留後備等級，消費端沿既有規則選最高amp／相同等級較長時間，因此強效果在兩次發布之間到期時，仍可立即接替有效弱效果，不改遊戲時序。單純刪掉後備傳輸會造成延遲，不採用此路線。
+
+此修復在Tavern SDK來源，未改T201 BP／RP及其身份，無需另造Tavern遊戲包。World Liquor內嵌SDK須由其canonical來源更新並產生新的W配對身份後才會生效；LIVE或固定候選不因SDK模板合併自動改變。超過既有分段／訊息容量仍是能力上限，本次不新增框架或無限擴容。
+
 ## 活體特殊效果入口（2026-11-05）
 
 對照發布版 Java 1.2.0 的 Forge 1.20.1 `c4ec1880` 及 NeoForge 1.21.1 `a1afba34`：`EffectEvent.onLivingHurt` 的摸金校尉來源是 LivingEntity，`VisionEffect.applyEffectTick` 也接受 LivingEntity。先前 Bedrock 的這兩種效果入口只接受玩家；瓶裝感知酒雖已能潑濺到生物，效果仍被入口拒絕。摸金校尉的活體效果入口與傷害回呼也有同樣限制。
