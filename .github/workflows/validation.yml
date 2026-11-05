@@ -546,7 +546,7 @@ jobs:
       - name: Current adapter integration against deterministic doubles (not native client tests)
         run: node --experimental-loader ./tools/pickup/mock-loader.mjs --test tools/pickup/adapters.test.mjs
       - name: Living effect callbacks, saved reload and player-effect regression
-        run: node --experimental-loader ./tools/foundation/mock-loader.mjs --test tools/java-parity-adapter.test.mjs tools/vision-feedback-adapter.test.mjs tools/bloody-mary-adapter.test.mjs tools/ardent-heat-adapter.test.mjs tools/custom-effect-capacity.test.mjs
+        run: node --experimental-loader ./tools/foundation/mock-loader.mjs --test tools/java-parity-adapter.test.mjs tools/vision-feedback-adapter.test.mjs tools/bloody-mary-adapter.test.mjs tools/ardent-heat-adapter.test.mjs tools/custom-effect-capacity.test.mjs tools/effect-snapshot-capacity.test.mjs
       - name: Verify pinned sound content
         run: python tools/pickup/check_audio.py
   native-persistence:
