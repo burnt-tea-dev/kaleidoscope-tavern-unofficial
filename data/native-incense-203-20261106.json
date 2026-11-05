@@ -5,7 +5,7 @@
   "scriptAPI": "@minecraft/server2.7.0",
   "runtime_reference_commit": "30614b0a8da4ac9e76156dd8f8ef62d37e726c9e",
   "observer_reference_commit": "30614b0a8da4ac9e76156dd8f8ef62d37e726c9e",
-  "scope": "T203 native v2 conversion and reset; original first/restart retained with incomplete saved-state readback",
+  "scope": "T203 native v2 conversion/reset and same-world saved final-state readback; legacy type and other preservation remain unverified",
   "native_report": {
     "native_script_behavior": false,
     "client": false,
@@ -544,13 +544,145 @@
   },
   "limits": [
     "All three supported setup paths resolved to zombie_villager_v2; legacy type not verified.",
-    "Initial restart observer queried the saved completed ID at worldLoad+1 without waiting for chunk/actor loading. Its failure is not proof of lost persisted data.",
-    "After that observer failure, the same restart log witnessed the saved curing actor transform. Its old pending ID must not be replayed as an unfinished fixture.",
-    "QA tags and custom dynamic-property marker were absent after the native transformation. No arbitrary metadata, trade or equipment preservation claim.",
-    "The retained same world is reserved for exact saved-ID readback after load; original successful first cases must not be rerun."
+    "The initial restart queried the saved completed ID too early. Restart-only continuation found the exact same ID after waiting for chunk/actor load; original failure/report/logs remain unchanged.",
+    "The original restart had already transformed the pending actor. Continuation only verified its persisted final state and did not replay an in-flight conversion.",
+    "QA tags and custom dynamic-property marker were absent after transformation. No arbitrary metadata, trade or equipment preservation claim.",
+    "Exact remaining countdown semantics across shutdown and client audiovisual behavior were not measured."
   ],
   "log": "docs/evidence/native-incense-203-20261106.log",
   "full_parity": false,
   "client": false,
-  "live": false
+  "live": false,
+  "restart_only_resume": {
+    "native_script_behavior": true,
+    "client": false,
+    "full_family": false,
+    "live": false,
+    "test_only_host_overlay": true,
+    "engine": {
+      "executable_sha256": "ea16b541a448e07c337848d2c5f37321b706554b5216dd942f3f11e7a8ed2bad"
+    },
+    "sources": {
+      "tavern": {
+        "commit": "30614b0a8da4ac9e76156dd8f8ef62d37e726c9e",
+        "repository": "casama233/kaleidoscope-tavern-unofficial",
+        "version": [
+          0,
+          6,
+          203
+        ],
+        "source_trees": {
+          "BP": {
+            "sha256": "a712e69889b48d0df1293c835cc90f6ebc2fb759322e8d068efeeecbb4f410ec",
+            "files": 838
+          },
+          "RP": {
+            "sha256": "c6a3b3c459075092db900233bc53723359fee11afde187c74b6083e9f599f302",
+            "files": 3232
+          }
+        }
+      }
+    },
+    "copied_runtime_matches_frozen_source": true,
+    "test_only_overlays": {
+      "scripts/living-effects-probe.js": "4f190fc1a5eca22e7b22d7e2050f76cf060173c75773d2ecca960aab43fb2821",
+      "entities/living-probe.json": "bdc56e29b59f80c3fd017f2e75581562ac1ca1ba4a272c101294fc48f533d789",
+      "entities/health-helper-probe.json": "c45525baae1359d21a4a38df13e1758ce7f8340ea36845817f3fd7844503cb16",
+      "scripts/main.js": "Append only the declared disposable observer import after verifying the complete copied runtime."
+    },
+    "reports": [
+      {
+        "phase": "restart",
+        "log": "restart-resume.log",
+        "completed": true,
+        "ok": true,
+        "normal_stop": true,
+        "player_connections": 0,
+        "errors": [],
+        "observations": [
+          {
+            "kind": "done",
+            "phase": "restart",
+            "players": 0,
+            "scope": "saved final-state readback; native cure timing belongs to the original observation",
+            "nativeTransformationThisRun": false,
+            "completedBefore": {
+              "id": "-4294967254",
+              "valid": true,
+              "typeId": "minecraft:villager_v2",
+              "health": 20,
+              "cureTag": false,
+              "shaking": false,
+              "strength": null,
+              "nameTag": "KT incense survivor",
+              "marker": null,
+              "qaTag": false,
+              "variant": 2,
+              "markVariant": 0,
+              "skinId": 0
+            },
+            "completedAfter": {
+              "id": "-4294967254",
+              "valid": true,
+              "typeId": "minecraft:villager_v2",
+              "health": 20,
+              "cureTag": false,
+              "shaking": false,
+              "strength": null,
+              "nameTag": "KT incense survivor",
+              "marker": null,
+              "qaTag": false,
+              "variant": 2,
+              "markVariant": 0,
+              "skinId": 0
+            },
+            "pendingBefore": {
+              "id": "-4294967251",
+              "valid": true,
+              "typeId": "minecraft:zombie_villager_v2",
+              "health": 1,
+              "cureTag": false,
+              "shaking": true,
+              "strength": {
+                "amplifier": 0,
+                "ticks": 5999
+              },
+              "nameTag": "KT incense saved conversion",
+              "marker": null,
+              "qaTag": false,
+              "variant": 7,
+              "markVariant": null,
+              "skinId": 0
+            },
+            "pendingAfter": {
+              "id": "-8589934591",
+              "valid": true,
+              "typeId": "minecraft:villager_v2",
+              "health": 20,
+              "cureTag": false,
+              "shaking": false,
+              "strength": null,
+              "nameTag": "KT incense saved conversion",
+              "marker": null,
+              "qaTag": false,
+              "variant": 7,
+              "markVariant": 0,
+              "skinId": 0
+            }
+          }
+        ]
+      }
+    ],
+    "scope": "restart-only continuation; original first/restart report and logs are unchanged",
+    "original_report": "native-living-report.json"
+  },
+  "resume_observer_reference_commit": "998efad46d4c448f359cb5c86b3fb59d9ea5e2c0",
+  "resume_process": {
+    "unit": "senluo-tavern-incense-203-resume-20261106.service",
+    "invocation": "c0731681ac6948b49ba11959803abe0a",
+    "wrapper_exit": 0,
+    "main_pid_after": 0,
+    "memory_peak_reported": "425.7M (systemd journal; exact bytes not retained by inactive unit)",
+    "memory_swap_max_bytes": 0
+  }
 }
