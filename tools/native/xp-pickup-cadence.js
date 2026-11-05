@@ -18,6 +18,11 @@ const XP='kaleidoscope_tavern:xp_drain',ALLIUM='kaleidoscope_tavern:allium_garde
 const PARK={x:32.5,y:300,z:40.5},PICKUP={x:64.5,y:300,z:40.5};
 const CELLS=Array.from({length:8},(_,i)=>({x:48+i*4,y:300,z:32}));
 const EXPECTED_XP=40,SETTLE_TICKS=85;
+const stagedMobs=new Set(),nativeDeaths=[];
+world.afterEvents.entityDie.subscribe(event=>{
+ if(stagedMobs.has(event.deadEntity.id))nativeDeaths.push({id:event.deadEntity.id,tick:system.currentTick,
+  cause:event.damageSource.cause,killer:event.damageSource.damagingEntity?.id});
+});
 const pause=ticks=>new Promise(resolve=>system.runTimeout(resolve,ticks));
 const out=(stage,data={})=>console.warn('[KT-XP-PICKUP] '+JSON.stringify({stage,tick:system.currentTick,...data}));
 function require(value,message){if(!value)throw Error(message);}
@@ -26,11 +31,19 @@ function onePlayer(player){require(world.getAllPlayers().length===1&&world.getAl
 async function stageBatch(player,d){
  require(orbs(d).length===0,'previous native orb batch still present');
  const before=player.getTotalXp(),firstSeen=new Map();player.teleport(PARK);
- for(const cell of CELLS){
+ const mobs=CELLS.map(cell=>{
+  const mob=d.spawnEntity('minecraft:silverfish',{x:cell.x+.5,y:300,z:cell.z+.5});
+  stagedMobs.add(mob.id);return mob;
+ });
+ // Let all eight spawned actors initialize before attributing native deaths.
+ // The previous same-tick spawn/kill fixture produced only seven rewards.
+ await pause(2);
+ const deathsBefore=nativeDeaths.length;
+ for(const [index,cell] of CELLS.entries()){
   // The selected vanilla silverfish rewards exactly 5 XP when killed by a
   // Player. Real native death creates the orbs; no XP amount is assigned here.
   player.teleport({x:cell.x+.5,y:300,z:cell.z+.5});
-  const mob=d.spawnEntity('minecraft:silverfish',{x:cell.x+.5,y:300,z:cell.z+.5});
+  const mob=mobs[index];
   require(mob.applyDamage(100,{cause:EntityDamageCause.entityAttack,damagingEntity:player}),'native reward setup damage rejected');
   player.teleport(PARK);
  }
@@ -45,7 +58,12 @@ async function stageBatch(player,d){
    if(system.currentTick-latest>=SETTLE_TICKS){ready=true;break;}
   }
  }
+ const setup={nativeDeaths:nativeDeaths.slice(deathsBefore),player:player.id,orbCount:pool.length,
+  cells:CELLS.map(cell=>({x:cell.x,orbs:pool.filter(orb=>Math.abs(orb.location.x-cell.x-.5)<1.5&&Math.abs(orb.location.z-cell.z-.5)<1.5).length})),
+  xpUnchanged:player.getTotalXp()===before};
+ out('setup',setup);
  require(ready,'native orb pool did not settle in all eight reward cells');
+ require(setup.nativeDeaths.length===CELLS.length&&setup.nativeDeaths.every(death=>death.killer===player.id),'native deaths were not all attributed to the Player');
  const times=pool.map(orb=>firstSeen.get(orb.id)),oldest=system.currentTick-Math.min(...times),youngest=system.currentTick-Math.max(...times);
  // The source reference's orb merge scan is tickCount%20==1. Keep the
  // first two five-tick scans outside that boundary in the Java comparison.
