@@ -10,6 +10,7 @@ from pathlib import Path
 from foundation.source_contract import imported, read_module
 from check_localization import check as check_localization, parse_lang, tokens
 from build_locale_aliases import PARTIAL_LOCALES
+from build_incense_native_entities import outputs as incense_outputs
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_GROUPS = {
@@ -31,11 +32,13 @@ LAMP_RECIPE = 'runtime/BP/recipes/blue_pendant_lamp_from_dye.json'
 
 
 def runtime_sources():
-    return frozenset('runtime/BP/scripts/' + name for group in SOURCE_GROUPS.values() for name in group) | LOCALE_SOURCES | {LAMP_RECIPE}
+    return frozenset('runtime/BP/scripts/' + name for group in SOURCE_GROUPS.values() for name in group) | LOCALE_SOURCES | {LAMP_RECIPE} | {path.relative_to(ROOT).as_posix() for path in incense_outputs()}
 
 
 def check(root=ROOT, *, syntax=True, localization=True):
     root = Path(root)
+    for path, expected in incense_outputs(root).items():
+        assert path.is_file() and not path.is_symlink() and path.read_text() == expected, ('Native incense output differs from generator', path)
     modules = {name: read_module(root, 'runtime/BP/scripts/' + name, syntax)
                for group in SOURCE_GROUPS.values() for name in group}
     entrypoint = read_module(root, 'runtime/BP/scripts/main.js', False)
