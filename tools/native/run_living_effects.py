@@ -78,6 +78,7 @@ def resume_restart(args, engine, work, liquor, engine_identity):
         previous = original['sources'][label]
         assert (previous['repository'], previous['version'], previous['source_trees']) == (baseline['repository'], baseline['version'], baseline['source_trees']), 'Resume runtime identity changed'
         for kind, folder in [('BP', 'behavior_packs'), ('RP', 'resource_packs')]:
+            assert fingerprint(source/'runtime'/kind)[0] == baseline['source_trees'][kind], 'Resume source is not the frozen runtime'
             target = world/folder/label
             expected_names = set()
             for path in (source/'runtime'/kind).rglob('*'):

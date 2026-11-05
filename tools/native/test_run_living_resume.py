@@ -40,7 +40,7 @@ class ResumeSavedQA(unittest.TestCase):
         self.probe = root/'new-probe.js'
         self.probe.write_bytes(b'new saved-state observer')
         self.identity = {'executable_sha256': 'selected engine'}
-        baseline = {'repository': 'selected source', 'version': [0, 6, 203], 'source_trees': {'BP': 'selected BP', 'RP': 'selected RP'}}
+        baseline = {'repository': 'selected source', 'version': [0, 6, 203], 'source_trees': {kind: runner.fingerprint(self.source/'runtime'/kind)[0] for kind in ('BP', 'RP')}}
         (self.source/'baseline.json').write_text(json.dumps(baseline))
         original = {'engine': self.identity, 'sources': {'tavern': baseline},
                     'test_only_overlays': {'scripts/main.js': 'declared append', 'scripts/living-effects-probe.js': hashlib.sha256(b'old observer').hexdigest()},
