@@ -670,6 +670,14 @@ class CuratedRetainedInputs(unittest.TestCase):
   changed=copy.deepcopy(self.original);changed['packs'][0]['files']['content.bin']='f'*64
   with self.assertRaisesRegex(AssertionError,'captured input bytes changed'):m.select_curated_inputs(changed)
 
+ def test_installation_targets_require_the_exact_selected_retained_outputs(self):
+  _,_,report,receipt=self.selected()
+  m.c.atomic(self.run/'curated-input-selection.json',report)
+  self.assertEqual(m.installation_targets(receipt),set(report['packs']))
+  changed=copy.deepcopy(receipt);changed['packs'][0]['files']['content.bin']='0'*64
+  with self.assertRaisesRegex(AssertionError,'Curated candidate output differs'):
+   m.installation_targets(changed)
+
  def test_curated_candidate_also_checks_the_declared_whole_author_replacement(self):
   _,_,report,receipt=self.selected()
   replacements={};selected={}

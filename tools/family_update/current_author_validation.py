@@ -512,6 +512,17 @@ def verify_curated_inputs(receipt,selection,replacement_selection=None):
         assert pack['side']==row['side'] and pack['version']==row['output_version'] and tree(pack['files'])==row['output_tree'], 'Curated candidate output differs: '+uid
         assert pack['source']==expected['source'], 'Curated candidate provenance differs: '+uid
 
+def installation_targets(receipt):
+    """Only exact declared retained/replacement outputs may enter installation."""
+    if not curated_inputs_enabled():
+        return set()
+    selected = c.read(c.R / 'curated-input-selection.json')
+    replacements = (c.read(c.R / 'author-replacement-selection.json')
+                    if replacement_rows() else None)
+    verify_curated_inputs(receipt, selected, replacements)
+    return set(selected['packs']) | (set(replacements['packs']) if replacements else set())
+
+
 def input_refs():
     if not curated_inputs_enabled():return {}
     rows=_curated_retained_rows();_,references=_curated_retained_recipes(rows)
