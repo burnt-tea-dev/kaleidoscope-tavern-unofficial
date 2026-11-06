@@ -570,6 +570,35 @@ class CuratedRetainedInputs(unittest.TestCase):
    candidate['packs'].pop(0)
    with self.assertRaisesRegex(AssertionError,'UUID change'):migration.candidate_plan(candidate,original)
 
+ def test_first_owner_pair_install_does_not_require_or_retire_missing_directories(self):
+  from family_update import deploy_live as deploy
+  from family_update import identity_migration as migration
+  inputs=self.owner_pair()
+  _,_,selection,receipt=self.selected()
+  original={'packs':[row for row in self.original['packs'] if row['uuid'] in selection['packs']]}
+  self.guard.atomic(self.run/'curated-input-selection.json',selection)
+  self.guard.atomic(self.run/'reviewed-family-receipt.json',receipt)
+  self.guard.atomic(self.run/'handoff-authorization.json',{})
+  self.guard.atomic(self.run/'build-evidence.json',{'sources':{}})
+  candidate=self.run/'candidate';candidate.mkdir()
+  self.guard.atomic(candidate/'family-receipt.json',receipt)
+  quality=self.run/'quality';quality.mkdir()
+  self.guard.atomic(quality/'senluo-policy.json',{'managed_uuids':[]})
+  repository=Path(__file__).resolve().parents[2]
+  with patch.object(deploy,'CONFIG',m.c.CONFIG),patch.object(migration,'CONFIG',m.c.CONFIG),\
+       patch.object(deploy,'R',self.run),patch.object(deploy,'C',candidate),\
+       patch.object(deploy,'Q',quality),patch.object(deploy,'T',repository),\
+       patch.object(deploy,'G',{'validate_incoming':lambda *args:None}),\
+       patch.object(legacy,'verify_installation'):
+   policy,_,family,sources=deploy.prepare_admission(receipt,original)
+  self.assertTrue(set(inputs)<={row['uuid'] for row in family})
+  self.assertTrue(set(inputs)<=set(policy['managed_uuids']))
+  self.assertFalse(set(inputs)&{row['uuid'] for row in sources})
+  self.assertEqual({row['uuid'] for row in sources},{row['uuid'] for row in family}-set(inputs))
+  changed=copy.deepcopy(receipt);changed['packs'][-1]['files']['payload.js']='unknown'
+  with self.assertRaisesRegex(AssertionError,'Curated candidate output differs'):
+   m.installation_targets(changed)
+
  def test_whole_owner_replacement_selects_new_pair_without_claiming_it_was_installed(self):
   inputs=self.owner_pair(replacement=True)
   captured={'packs':[dict(row,version=[1,0,1],files={'manifest.json':'old'})for row in inputs.values()]};before=copy.deepcopy(captured)
