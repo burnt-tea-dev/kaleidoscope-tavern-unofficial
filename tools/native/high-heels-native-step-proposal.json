@@ -1,0 +1,58 @@
+{
+  "schema": 1,
+  "status": "source-reviewed proposal; not executed or adopted",
+  "scope": "One selected-engine Player component-group capability check after the World Liquor respawn slot; no production player replacement",
+  "engine": "BDS1.26.60.6",
+  "script_api": "@minecraft/server2.7.0",
+  "official_reference": "https://learn.microsoft.com/en-us/minecraft/creator/reference/content/entityreference/examples/entitycomponents/minecraftcomponent_variable_max_auto_step?view=minecraft-bedrock-stable",
+  "selected_sources": [
+    {
+      "file": "vanilla_1.26.30/entities/player.json",
+      "variable_max_auto_step": "absent in base and component groups; this is not a capability failure"
+    },
+    {
+      "file": "vanilla_1.26.10/entities/enderman.json",
+      "component": { "base_value": 1.0625, "jump_prevented_value": 0.5625 }
+    },
+    {
+      "file": "vanilla_1.26.20/entities/camel.json",
+      "component": { "base_value": 1.5625, "controlled_value": 1.5625, "jump_prevented_value": 0.5625 }
+    }
+  ],
+  "prior_evidence": "No same-Player/version/group result found in the bounded existing capability records or memory lookup; mob examples do not establish Player support",
+  "qa_only_increment": {
+    "component_groups": {
+      "kaleidoscope_tavern:qa_native_step": {
+        "minecraft:variable_max_auto_step": {
+          "base_value": 1.0625,
+          "controlled_value": 1.0625,
+          "jump_prevented_value": 0.5625
+        }
+      }
+    },
+    "events": {
+      "kaleidoscope_tavern:qa_native_step_on": {
+        "add": { "component_groups": ["kaleidoscope_tavern:qa_native_step"] }
+      },
+      "kaleidoscope_tavern:qa_native_step_off": {
+        "remove": { "component_groups": ["kaleidoscope_tavern:qa_native_step"] }
+      }
+    }
+  },
+  "input_boundary": [
+    "Construct the disposable QA player definition from the exact selected vanilla source, retaining all other fields; declare the whole test-only overlay in native evidence.",
+    "The group uses the documented default0.5625 plus0.5 for ordinary/controlled stepping; the actual Player baseline is measured, not inferred from a missing JSON component.",
+    "Keep jump_prevented_value at its documented baseline for this ordinary-block capability check. Do not change jump, movement, camera, collision or native attributes elsewhere.",
+    "No added Player properties, no synthetic Script component or movement-vector override, no teleport or impulse inside measured native-step windows."
+  ],
+  "one_player_observations": [
+    "Baseline: genuine Survival Player native movement toward the same full block without High Heels or the QA group; record input, position, velocity and jump state.",
+    "Enable only the QA native group; repeat the same movement and determine whether the Player steps onto the full block without jumping or teleporting.",
+    "Disable the QA group and verify return to the original stepping behavior on the same actor.",
+    "Compare actual jump arcs before and during the group on the same level floor; record velocity/displacement, without assuming auto-step changes jump force.",
+    "Keep native input/delivery failures inconclusive; a missing getComponent result or a successful event alone does not decide capability."
+  ],
+  "relationship_to_current_fix": "The passable/liquid false-positive repair remains a separate necessary owner fix. The prepared exact Player.tryTeleport keepVelocity test remains on the actual T module version; this proposal is not evidence for or against that method.",
+  "adoption_boundary": "A successful QA result would still require the existing public Core composer and functional-owner descriptor, preserving the CBS-owned production Player definition. Do not add a Tavern player.json override or private integration gameplay implementation.",
+  "not_established": ["Player support", "unchanged jump force", "native movement timing", "full Java step-height parity", "production composition or saved-state migration"]
+}
