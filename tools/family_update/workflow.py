@@ -271,8 +271,11 @@ def verify_ci():
         verify_record(pr['head']['repo'],repository)
         reviewed_head=pr['head']['sha']
         head,revision_kind=ci_revision(source,{**pr,'_source':key})
-        ancestor = subprocess.run(['git', '-C', str(SOURCES[key]), 'merge-base', '--is-ancestor', pr['merge_commit_sha'], source['commit']], capture_output=True)
-        assert ancestor.returncode == 0, f'{key} PR merge is not on canonical main'
+        # source_state already requires the selected commit in remote main.
+        # A selected reviewed head necessarily precedes its later merge commit.
+        if source['commit'] != reviewed_head:
+            ancestor = subprocess.run(['git', '-C', str(SOURCES[key]), 'merge-base', '--is-ancestor', pr['merge_commit_sha'], source['commit']], capture_output=True)
+            assert ancestor.returncode == 0, f'{key} PR merge is not on canonical main'
         checks, statuses = actual_ci_records(repository, head)
         row = {'source':key, 'repository':repository, 'number':number, 'url':pr['html_url'], 'head':head, 'reviewed_pull_request_head':reviewed_head, 'ci_revision_kind':revision_kind, 'merge_commit':pr['merge_commit_sha'], 'source_tree':source['tree'], 'checks':checks, 'statuses':statuses}
         runtime_number = CONFIG.get('runtime_ci_pull_requests', {}).get(key)
