@@ -11,7 +11,7 @@ def main(argv=None):
     parser.add_argument('--execute',action='store_true',help='Write poststart verification in this task directory')
     args=parser.parse_args(argv)
     if not args.execute:
-        print(json.dumps({'execute':False,'world':str(W),'receipt':str(R/'reviewed-family-receipt.json'),'live':summary(),'client':False,'production_ready':False},ensure_ascii=False,indent=2)); return
+        print(json.dumps({'execute':False,'world':str(W),'receipt':str(R/'reviewed-family-receipt.json'),'live':summary(),'client':False},ensure_ascii=False,indent=2)); return
     assert_lease()
     binding=verify_server_binding() if CONFIG.get('fresh_world') else None
     world=active_world()
@@ -37,7 +37,7 @@ def main(argv=None):
     errors=[line for line in text.splitlines() if ' ERROR]' in line or '[error]' in line.lower()]
     warnings=[line for line in text.splitlines() if ' WARN]' in line or '[warning]' in line.lower()]
     live=summary()
-    result={'schema':1,'recorded_at':now(),'summary':live,'active_world_binding':binding,'versions':versions(receipt),'receipt_sha256':sha(R/'reviewed-family-receipt.json'),'exact_pack_files_and_order':True,'pack_count':len(receipt['packs']),'native_started':'Server started.' in text,'family_initialized':all(marker in text for marker in markers),'errors':errors,'warnings':warnings,'drift':drift,'whole_stack_quality':valid['ok'],'client':False,'production_ready':False}
+    result={'schema':1,'recorded_at':now(),'summary':live,'active_world_binding':binding,'versions':versions(receipt),'receipt_sha256':sha(R/'reviewed-family-receipt.json'),'exact_pack_files_and_order':True,'pack_count':len(receipt['packs']),'native_started':'Server started.' in text,'family_initialized':all(marker in text for marker in markers),'errors':errors,'warnings':warnings,'drift':drift,'whole_stack_quality':valid['ok'],'client':False}
     result['ok']=live['status']=='RUNNING' and result['family_initialized'] and not errors
     (R/'production-startup.log').write_text(text)
     atomic(R/'poststart-drift.json',drift); atomic(R/'poststart-verification.json',result)

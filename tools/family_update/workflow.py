@@ -338,7 +338,7 @@ def prepare(include_ci=True):
         receipt = verify_candidate_sources()
     inventory = verify_predeploy()
     if not CONFIG.get('fresh_world') and no_update_needed(receipt, inventory):
-        result = {'schema': 1, 'recorded_at': now(), 'state': 'no_runtime_changes', 'candidate_receipt_sha256': sha(C / 'family-receipt.json'), 'complete_files_versions_and_order_verified': True, 'live_mutated': False, 'native_rerun': False, 'saved_world_rerun': False, 'client': False, 'production_ready': False}
+        result = {'schema': 1, 'recorded_at': now(), 'state': 'no_runtime_changes', 'candidate_receipt_sha256': sha(C / 'family-receipt.json'), 'complete_files_versions_and_order_verified': True, 'live_mutated': False, 'native_rerun': False, 'saved_world_rerun': False, 'client': False}
         target = R / 'no-runtime-changes.json'
         if not target.exists():
             atomic(target, result)
@@ -390,7 +390,7 @@ def deploy():
     assert verified['ok'] and verified['summary']['status'] == 'RUNNING' and not verified['errors'], 'Deployment readback failed'
     return {'state': 'deployed_running', 'live_mutated': True,
             'verified_at': verified['recorded_at'], 'poststart_report': result['poststart_report'],
-            'client': False, 'production_ready': False}
+            'client': False}
 
 
 def plan():

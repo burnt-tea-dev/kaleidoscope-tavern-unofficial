@@ -300,7 +300,7 @@ class ResumeTests(unittest.TestCase):
         self.assertEqual(deployed['state'], 'no_runtime_changes')
         self.assertFalse(prepared['live_mutated'])
         self.assertFalse(prepared['client'])
-        self.assertFalse(prepared['production_ready'])
+        self.assertNotIn('production_ready', prepared)
         self.stages.assert_called_once_with('deploy_live')
         self.source_state.assert_called_once_with()
         self.audit.assert_called_once()
@@ -371,7 +371,7 @@ class ResumeTests(unittest.TestCase):
         self.assertEqual(result['state'], 'deployed_running')
         self.assertEqual(result['verified_at'], 'completed-before-cleanup')
         self.assertFalse(result['client'])
-        self.assertFalse(result['production_ready'])
+        self.assertNotIn('production_ready', result)
         # The stage owns its locked preflight; the wrapper does not rescan.
         self.source_state.assert_not_called()
 
