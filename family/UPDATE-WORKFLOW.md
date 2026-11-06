@@ -393,6 +393,15 @@ references and refuses cached references from a different configuration.
 不再用獨立的 Ribbits prospective profile 選包或安裝。原始來源、recipe／報告與實測提交
 保留各自範圍；來源序列相等不代表引擎減時，也不核准未知的內容或結構替換。
 
+### 當前完整清單的准入政策
+
+canonical 更新由 [`reviewed_family_policy`](../tools/family_update/deploy_live.py) 綁定本次
+`reviewed-family-receipt.json`，移除前一個 W2 交易的 `delivery_profile`、`stable_lock`、
+`stable_gate_b` 與 `stable_rollback_exercise` 路由欄位。歷史檔案保留原範圍，不拿舊包數
+判斷新的完整候選。`family_lock_enforcement` 保持既有設定：當前內容真的不同仍提醒，
+required 模式仍拒絕未驗收內容；清單、相依、順序、保存與漂移檢查沿原流程。
+獨立 stable 工具產生的 lock／Gate B 驗證不變。
+
 ### 部署中的遠端合併
 
 新部署開始與停服前仍要求 canonical main 等於遠端。取得本候選 maintenance lease
