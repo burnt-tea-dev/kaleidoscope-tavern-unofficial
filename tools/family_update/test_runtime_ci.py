@@ -163,4 +163,14 @@ class AtomicStackCITests(unittest.TestCase):
    with self.subTest(change=change),patch.object(m,'gh_json',return_value={**pr,**change}),self.assertRaises((AssertionError,subprocess.CalledProcessError)):
     m.runtime_ci_result('tavern',11,source)
 
+ def test_selected_reviewed_head_preceding_its_main_merge_uses_exact_ci(self):
+  source,pr=self.stack_fixture();source['commit']=pr['head']['sha']
+  checks=[{**self.check(n),'head_sha':pr['head']['sha']} for n in self.required]
+  run=self.root/'selected-head';candidate=run/'candidate';candidate.mkdir(parents=True)
+  (candidate/'family-receipt.json').write_text('{}')
+  (run/'build-evidence.json').write_text(json.dumps({'sources':{'tavern':source}}))
+  with patch.object(m,'gh_json',return_value=pr),patch.object(m,'actual_ci_records',return_value=(checks,[])),patch.object(m,'required_ci_checks',return_value=self.required),patch.object(m,'R',run),patch.object(m,'C',candidate),patch.object(m,'CONFIG',{'pull_requests':{'tavern':11}}),patch.object(m,'atomic',side_effect=lambda p,v:Path(p).write_text(json.dumps(v))):
+   result=m.verify_ci()
+  self.assertTrue(result['ok']);self.assertEqual(result['results'][0]['head'],pr['head']['sha'])
+
 if __name__=='__main__':unittest.main()
