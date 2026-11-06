@@ -130,9 +130,6 @@ def finalize_receipt():
         reports.extend(['saved-world-native-actor-recovery.json','saved-world-native-actor-preservation.json'])
     if CONFIG.get('identity_migration'):reports.append('saved-world-identity-migration.json')
     if (R/'saved-world-author-states.json').is_file():reports.append('saved-world-author-states.json')
-    if CONFIG.get('startup_reconciliation'):reports.append('startup-reconciliation-check.json')
-    if CONFIG.get('translation_reconciliation'):reports.append('translation-reconciliation-check.json')
-    if CONFIG.get('preserved_reconciliation'):reports.append('preserved-reconciliation-check.json')
     if CONFIG.get('preserved_additions'):reports.append('preserved-additions-check.json')
     if CONFIG.get('managed_drift_recovery'):
         from family_update.managed_drift_recovery import load_review

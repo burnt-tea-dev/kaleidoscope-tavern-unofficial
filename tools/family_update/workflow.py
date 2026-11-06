@@ -339,9 +339,6 @@ def record_static(verified_candidate=None):
         if is_saturation(selected):evidence['reports'].extend([selected['source_validation'], selected['source_log'], selected['source_diagnosis'], selected['author_file_boundary']])
     if CONFIG.get('preserved_additions'):
         evidence['reports'].extend([report_ref(Path(CONFIG['preserved_additions'])),report_ref(R/'preserved-additions-check.json')])
-    if CONFIG.get('preserved_reconciliation'):
-        review=read(Path(CONFIG['preserved_reconciliation']))
-        evidence['reports'].extend([report_ref(Path(CONFIG['preserved_reconciliation'])),report_ref(R/'preserved-reconciliation-check.json'),review['tested_family_receipt'],review['native_report'],*review['native_logs']])
     atomic(target, evidence)
     return evidence
 

@@ -372,41 +372,16 @@ def check_live_against_policy(inventory):
         else:
             check_observed(inventory)
         return policy
-    if CONFIG.get('startup_reconciliation'):
-        # The reconciliation describes the pre-deployment drift. Once the new
-        # receipt is approved, readback must compare against that receipt, not
-        # demand the retired private29 inventory again. Keep every pack, side,
-        # reference version and ordering check before accepting this path.
-        actual = {pack['uuid']: pack for pack in inventory['packs']}
-        matches_approved = (
-            len(actual) == len(inventory['packs']) == len(expected)
-            and set(actual) == set(expected)
-            and all(all(pack[key] == expected[uid][key]
-                        for key in ['side', 'version', 'files'])
-                    for uid, pack in actual.items())
-            and set(inventory['refs']) == set(receipt['order'])
-            and all(inventory['refs'][side] == [
-                {'pack_id': uid, 'version': expected[uid]['version']}
-                for uid in uids
-            ] for side, uids in receipt['order'].items())
-        )
-        if matches_approved:
-            assert G['audit'](W, policy)['ok'], 'Approved startup inventory failed family audit'
-            return policy
-        from family_update.startup26_reconciliation import review as review_startup
-        review_startup(inventory,expected,receipt['order'])
-        return policy
     from family_update.preserved_additions import review
     expected,order=review(inventory,expected,receipt['order'],policy['managed_uuids'])
-    assert all([ref['pack_id'] for ref in inventory['refs'][side]]==uids for side,uids in order.items()), 'Unreviewed pack order change'
+    assert set(inventory['refs']) == set(order) and all([ref['pack_id'] for ref in inventory['refs'][side]] == uids for side, uids in order.items()), 'Unreviewed pack order change'
+    actual = {pack['uuid']: pack for pack in inventory['packs']}
+    assert all(pack['side'] == expected[pack['uuid']]['side'] for pack in inventory['packs']), 'Unreviewed pack side change'
+    assert all(ref['version'] == actual[ref['pack_id']]['version'] for refs in inventory['refs'].values() for ref in refs), 'Pack reference version differs from inventory'
     from family_update.current_author_validation import curated_live_inputs_match
     if curated_live_inputs_match(inventory, expected):
         return policy
-    if not G['audit'](active_world(), policy)['ok'] or any(pack['files']!=expected[pack['uuid']]['files'] or pack['version']!=expected[pack['uuid']]['version'] for pack in inventory['packs']):
-        from family_update.preserved_reconciliation import reconcile
-        reviewed,dependency_pins=reconcile(inventory,expected)
-        validate_translation_reconciliation(inventory,reviewed,order,dependency_pins)
-        return policy
+    assert G['audit'](active_world(), policy)['ok'], 'Approved inventory failed family audit'
     for pack in inventory['packs']:
         row = expected[pack['uuid']]
         assert pack['files'] == row['files'] and pack['version'] == row['version'], 'Investigate full-stack drift: ' + pack['uuid']
@@ -414,7 +389,7 @@ def check_live_against_policy(inventory):
 
 
 def external_input_hashes():
-    result={key: sha(Path(CONFIG[key])) for key in ['startup_reconciliation','identity_migration','translation_reconciliation', 'container_recovery_plan','native_actor_recovery_plan','extension_validation','extension_hud_validation','extension_performance_validation','extension_stable_validation','preserved_reconciliation','preserved_additions','approved_runtime_retention','native_storage_reanchor_plan'] if CONFIG.get(key)}
+    result={key: sha(Path(CONFIG[key])) for key in ['identity_migration', 'container_recovery_plan','native_actor_recovery_plan','extension_validation','extension_hud_validation','extension_performance_validation','extension_stable_validation','preserved_additions','approved_runtime_retention','native_storage_reanchor_plan'] if CONFIG.get(key)}
     if CONFIG.get('extension_hold_source'):
         path=Path(CONFIG['extension_hold_source'])
         if path.exists():result['extension_hold_source']=sha(path)
@@ -447,75 +422,6 @@ def external_input_hashes():
     from family_update.normal_idle_update import input_refs as normal_idle_inputs
     result.update(normal_idle_inputs())
     return result
-
-
-def validate_translation_reconciliation(inventory,expected,order,dependency_pins=None):
-    """Review one preserved local translation delta; never approve its old receipt."""
-    import base64,copy,re
-    dependency_pins=dependency_pins or {}
-    path=CONFIG.get('translation_reconciliation')
-    assert path and EXTENSION, 'Investigate managed drift before preparing a release'
-    proof=read(Path(path));assert proof.get('schema')==1 and proof.get('source_provenance') and proof.get('review_reason'), 'Reconciliation provenance is required'
-    assert proof['observed_inventory']==inventory, 'Reconciled live bytes/order changed'
-    config=read(EXTENSION/'baseline.json')
-    preserved_commit=proof.get('canonical_preserved_commit')
-    if preserved_commit:
-        validation=read(Path(CONFIG['extension_validation']))
-        assert validation['history_base']==preserved_commit and validation['source_commit']==git(EXTENSION,'rev-parse','HEAD'), 'Canonical preimage needs exact separately validated integration changes'
-        subprocess.run(['git','-C',str(EXTENSION),'merge-base','--is-ancestor',preserved_commit,validation['source_commit']],check=True,capture_output=True)
-    allowed={p['uuid']:side for side,p in config['packs'].items()}
-    assert set(proof['packs'])==set(allowed), 'Only the canonical local integration may be reconciled'
-    for side,uids in order.items():
-        refs=inventory['refs'][side]
-        assert [ref['pack_id'] for ref in refs]==uids, 'Translation reconciliation cannot change pack order'
-        assert all((ref['version']==expected[ref['pack_id']]['version'] or (dependency_pins.get(ref['pack_id'])==[2,4,20] and ref['version']==[2,4,19])) for ref in refs if ref['pack_id'] not in allowed), 'Unreviewed pack reference version'
-    def clean_manifest(data):
-        value=copy.deepcopy(data)
-        value['header']['version']=[0,0,0]
-        for field in ('name','description'):
-            if field in value['header']:value['header'][field]=re.sub(r'\b\d+\.\d+\.\d+\b','<version>',value['header'][field])
-        for module in value['modules']:module['version']=[0,0,0]
-        for dep in value.get('dependencies',[]):
-            if dep.get('uuid') in allowed:dep['version']=[0,0,0]
-            elif dep.get('uuid') in dependency_pins:
-                # Only the separately reviewed preserved pair may advance.
-                from family_update.amw25_reconciliation import dependency_versions
-                assert dep['version'] in dependency_versions(dep['uuid'],dependency_pins), 'Unreviewed preserved dependency version'
-                dep['version']=[0,0,0]
-        return value
-    changed=[]
-    for live in inventory['packs']:
-        prior=expected[live['uuid']]
-        if live['uuid'] not in allowed:
-            assert live['files']==prior['files'] and live['version']==prior['version'], 'Unreviewed non-extension drift'
-            continue
-        row=proof['packs'][live['uuid']]
-        assert set(live['files'])==set(prior['files']), 'Translation reconciliation cannot add/remove exported files'
-        assert live['side']==prior['side'] and live['version']==row['observed_version'], 'Observed integration identity differs'
-        delta={name for name in live['files'] if live['files'][name]!=prior['files'][name]}
-        assert delta==set(row['changed']), 'Reconciliation delta differs'
-        assert delta<={'manifest.json','texts/en_US.lang','texts/zh_CN.lang','texts/zh_TW.lang'}, 'Gameplay drift cannot use translation reconciliation'
-        old=base64.b64decode(row['approved_manifest_base64'],validate=True)
-        assert hashlib.sha256(old).hexdigest()==prior['files']['manifest.json'], 'Original manifest evidence differs'
-        current=read(Path(live['path'])/'manifest.json')
-        for dep in current.get('dependencies',[]):
-            if dep.get('uuid') in dependency_pins:
-                assert dep['version']==dependency_pins[dep['uuid']]
-                assert any(d.get('uuid')==dep['uuid'] and d['version']==dep['version'] for d in config['packs'][allowed[live['uuid']]]['dependencies']), 'Canonical integration does not pair reviewed preserved release'
-        assert clean_manifest(json.loads(old))==clean_manifest(current), 'Integration manifest changed beyond its version'
-        root=EXTENSION/config['runtime'][allowed[live['uuid']]]
-        for name,digest in live['files'].items():
-            if name=='manifest.json':continue
-            if name in {'texts/en_US.lang','texts/zh_CN.lang','texts/zh_TW.lang'}:
-                observed=(Path(live['path'])/name).read_bytes()
-                assert hashlib.sha256(observed).hexdigest()==digest, 'Observed language changed during reconciliation'
-                assert (root/name).read_bytes().startswith(observed), 'Canonical language must preserve all observed translations before appending restorations'
-            else:
-                original=subprocess.check_output(['git','-C',str(EXTENSION),'show',preserved_commit+':'+config['runtime'][allowed[live['uuid']]]+'/'+name]) if preserved_commit else (root/name).read_bytes()
-                assert hashlib.sha256(original).hexdigest()==digest, 'Preserved live content is absent from canonical preimage'
-        changed.append({'uuid':live['uuid'],'changed':sorted(delta),'observed_version':live['version'],'canonical_version':config['version']})
-    atomic(R/'translation-reconciliation-check.json',{'source':report_ref(Path(path)),'reviewed_changes':changed,
-           'old_drift_receipt_approved':False,'policy_changed':False,'new_full_family_acceptance_still_required':True})
 
 
 def verify_predeploy():
@@ -571,10 +477,6 @@ def verify_candidate_sources():
     assert sha(CONFIG_PATH) == evidence['config_sha256'], 'Update configuration changed; use a new output directory'
     assert orchestration_hashes() == evidence['orchestration_sha256'], 'Update runner changed; rebuild with reviewed tools'
     assert external_input_hashes()==evidence.get('external_input_sha256',{}), 'Recovery/reconciliation input changed after build'
-    if CONFIG.get('preserved_reconciliation'):
-        proof=read(Path(CONFIG['preserved_reconciliation']));source=Path(proof['source_path'])
-        assert git(source,'branch','--show-current')=='main' and not git(source,'status','--porcelain'), 'Reviewed preserved source changed after build'
-        assert git(source,'rev-parse','HEAD')==proof['source_commit'], 'Reviewed preserved source commit changed after build'
     current = source_state(verify_remote=True) if CONFIG.get('approved_runtime_retention') else source_state()
     assert set(current) == set(evidence['sources']), 'Canonical source set changed'
     for name, row in evidence['sources'].items():

@@ -342,21 +342,17 @@ commit」且完整 tree 相同的情況；檢查改查該 merge commit 的實際
 必要 runtime jobs 必須對此完整來源成功，不能沿用舊 head 的綠燈。收據分別記錄
 reviewed PR head、checked commit 與 tree。其他後續來源仍要求自己的目前 merged PR。
 
-### 保留並審查另一項正在進行的修復
+### 保留另一維護線的完整輸入
 
-既有 preserved pack 與旧收據不同時，仍拒絕漂移。`preserved_reconciliation` 可引用
-Git 外的獨立審查證據，目前僅支援既有 AMW 2.4.18→2.4.19 的果汁桶、小麥配方／
-指引及配對 manifest。必須保留完整原始與目前 bytes 於乾淨 private Git；原始 tree
-逐檔等於不可變舊收據，目前 tree 逐檔等於 observed inventory，每條差異記錄原因。
-還需該完整候選在原生 BDS 首次與重啟的果汁堆疊、配方、六級成品測試，且不得
-以 probe 修改被審查的 AMW bytes。未找到原始編輯者時，來源記錄必須明說。
+目前使用[已審閱的完整本機配套](#啟用已審閱的完整本機配套)：由 committed curated
+profile 宣告完整 literal 輸入或 whole-author replacement，核對 UUID、側別、版本及
+完整內容。已安裝的合法 literal 更新可沿相同選擇核對，不改寫舊收據或政策。
+未宣告的漂移仍拒絕；相依、順序、新停服備份、保存演練與安裝讀回照常。
 
-此審查只讓新候選保留已核對的變更；不改舊政策、收據或驗收結果，也不能用來
-引入自有包 gameplay、別的 preserved pack、額外檔案或身份遷移。完整家族准入、
-新停服備份和存檔演練仍必須完成。整合包僅允許與此已審查 pair 精確同步相依。
-翻譯審查的 `canonical_preserved_commit` 只引用 separately validated integration
-的精確 history preimage，保留已觀察內容；後續 canonical 功能變更另外通過
-`extension_validation` 的全檔與原生功能驗證，不能偽裝成翻譯修補。
+舊 AMW 配對及 private startup／translation 的固定版本 reconciliation 已退役，
+不再作為准入入口。歷史 JSON 證據引用仍可供清理工具保護原始資料；它們不啟用
+舊版本例外。其他現行保留 profile、未知漂移檢查與原世界恢復規則保持原職責。
+
 # Reviewing an unrelated pack already added to live
 
 `preserved_additions` may name a schema-1 JSON review with `source_provenance`,
