@@ -40,6 +40,11 @@ jobs:
           python tools/test_release_claim.py
       - name: Verify publication request without publishing
         run: python tools/release_publication.py --event pull_request
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Replay native session observer callbacks
+        run: node --experimental-vm-modules --test tools/native/foundation-recipient-session/observer.test.mjs
 
   historical-baseline:
     name: Historical and family baseline regression (manual)
