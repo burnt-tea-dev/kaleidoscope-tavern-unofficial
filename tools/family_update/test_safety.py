@@ -112,11 +112,19 @@ class ConfigurationTests(unittest.TestCase):
                     self.configure()
                 fresh[field] = previous
 
+    def test_retired_admission_flags_are_rejected_instead_of_ignored(self):
+        for key in ['prospective_preserved_inputs', 'extension_performance_validation']:
+            with self.subTest(key=key):
+                self.config[key] = '/retired-review.json'
+                with self.assertRaisesRegex(ValueError, 'Retired prospective/performance admission'):
+                    self.configure()
+                del self.config[key]
+
     def test_fresh_world_rejects_old_world_recovery_and_retained_input_profiles(self):
         self.config['fresh_world'] = {'level_name': 'New', 'seed': '12345',
                                      'properties': {'gamemode': 'survival', 'difficulty': 'normal', 'level-type': 'DEFAULT'}}
         for key in ['identity_migration', 'native_actor_recovery_plan', 'container_recovery_plan',
-                    'managed_drift_recovery', 'prospective_preserved_inputs', 'preserved_additions']:
+                    'managed_drift_recovery', 'preserved_additions']:
             with self.subTest(key=key):
                 self.config[key] = '/old-plan.json'
                 with self.assertRaisesRegex(ValueError, 'old-world recovery'):

@@ -26,9 +26,6 @@ def verify_extension(receipt,prior):
     if CONFIG.get('extension_stable_validation'):
         from family_update.stable_author_validation import verify_static
         return verify_static(receipt,prior)
-    if CONFIG.get('extension_performance_validation'):
-        from family_update.freezer_performance_validation import verify_static
-        return verify_static(receipt,prior)
     if CONFIG.get('extension_hud_validation'):
         from family_update.explicit_hud_validation import verify_static
         return verify_static(receipt,prior)

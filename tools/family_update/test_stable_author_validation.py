@@ -199,28 +199,6 @@ class StableAuthorValidationTests(unittest.TestCase):
             self.assertEqual(extension_validation.verify_extension(receipt, {}), ['actual new source report'])
             verify.assert_called_once_with(receipt, {})
 
-    def test_stable_saturation_candidate_rejects_old_recipe_missing_pair_or_changed_files(self):
-        from family_update import prospective_preserved_inputs as prospective
-        recipe_path = self.root / m.RECIPE;recipe_path.parent.mkdir(parents=True);recipe_path.write_text('{}')
-        proof = self.root / 'stable-author-functional.json';proof.write_text('{}')
-        recipe = {'output_hashes': {side: {'manifest.json': side + '-manifest', 'unchanged': 'same'} for side in m.SAT_UUIDS}}
-        selected = {'profile': m.SAT_PROFILE, 'version': m.VERSION, 'recipe': m.c.report_ref(recipe_path),
-                    'source_validation': m.c.report_ref(proof), 'packs': {}}
-        receipt = {'packs': []}
-        for side, uid in m.SAT_UUIDS.items():
-            data = {'uuid': uid, 'side': 'behavior' if side == 'BP' else 'resource', 'version': m.SAT_VERSION}
-            selected['packs'][side] = data
-            receipt['packs'].append({**data, 'source': {'owner': 'preserved'}, 'files': recipe['output_hashes'][side]})
-        with patch.multiple(m.c, CONFIG={'extension_stable_validation': str(proof)}, EXTENSION=self.root), \
-                patch.object(m, 'reviewed_profiles', return_value=({}, recipe)), patch.object(m, 'RECIPE_SHA', m.c.sha(recipe_path)):
-            prospective.verify_candidate(receipt, selected)
-            for kind in ['files', 'version', 'missing_pair', 'old_source']:
-                value = copy.deepcopy(receipt);chosen = copy.deepcopy(selected)
-                if kind == 'files':value['packs'][0]['files']['unchanged'] = 'unreviewed'
-                elif kind == 'version':value['packs'][0]['version'] = [1, 5, 6]
-                elif kind == 'missing_pair':chosen['packs'].pop('RP')
-                else:chosen['source_validation']['sha256'] = 'old-reviewed integration-native-report'
-                with self.subTest(kind=kind), self.assertRaises(AssertionError):prospective.verify_candidate(value, chosen)
 
     def test_actual_saturation48_pair_passes_real_vibrant_validator_and_prior_pairs_fail(self):
         from vibrant_audit import audit, record
@@ -244,95 +222,6 @@ class StableAuthorValidationTests(unittest.TestCase):
                     self.assertTrue(result['scope_complete'])
                     self.assertEqual(result['unverified_external_dependencies'], [])
 
-    def test_saturation_select_reads_ownership_from_admission_not_plain_live_capture(self):
-        from family_guard import hashes
-        material_path = Path(__file__).resolve().parents[2] / 'data/stable-author-20261017-p48/saturation-manifest-materials.json'
-        materials = json.loads(material_path.read_text())['manifests']
-        parsed = {}
-        for name, row in materials.items():
-            self.assertEqual(m.digest(row['raw'].encode()), row['sha256'])
-            parsed[name], end = json.JSONDecoder().raw_decode(row['raw'])
-            # The pinned original 1.6 manifest ends with a JSONC line comment.
-            self.assertIn(row['raw'][end:].strip(), ['', '//'])
-        admitted_rp = parsed['admitted_live']
-        self.assertEqual(admitted_rp['capabilities'], ['pbr'])
-        self.assertNotIn('capabilities', parsed['clean_author'])
-        self.assertNotIn('capabilities', parsed['failed_p45'])
-        self.assertEqual(parsed['prospective_p48']['capabilities'], admitted_rp['capabilities'])
-        self.assertEqual(parsed['prospective_p48']['header']['min_engine_version'], admitted_rp['header']['min_engine_version'])
-        source = self.root / 'source';source.mkdir()
-        output = self.root / 'run';(output / 'production-before').mkdir(parents=True)
-        live = self.root / 'live';live.mkdir()
-        proof = self.root / 'source-proof.json';proof.write_text('{}')
-        preserved = [];new_roots = {};recipe = {'output_hashes': {}, 'manifest_compatibility': copy.deepcopy(m.SAT_MANIFEST_COMPATIBILITY)}
-        for side, uid in m.SAT_UUIDS.items():
-            old_root = live / side;old_root.mkdir()
-            new_root = self.root / 'prospective' / side;new_root.mkdir(parents=True)
-            for root, version in [(old_root, [1, 5, 6]), (new_root, m.SAT_VERSION)]:
-                # Preserve both actual BP/RP byte sequences, with no reconstructed
-                # identity or display formula in the fixture.
-                key = 'admitted_live' if version == [1, 5, 6] else 'prospective_p48'
-                if side == 'BP':key += '_bp'
-                raw = materials[key]['raw']
-                (root / 'manifest.json').write_text(raw)
-                (root / 'unchanged-hud.txt').write_text('identical preserved bytes')
-            preserved.append({'uuid': uid, 'side': 'behavior' if side == 'BP' else 'resource',
-                              'version': [1, 5, 6], 'path': str(old_root), 'files': hashes(old_root)})
-            new_roots[side] = {'uuid': uid, 'path': str(new_root)}
-            recipe['output_hashes'][side] = hashes(new_root)
-        # live_inventory/capture_predeploy deliberately has no provenance.
-        original = {'packs': copy.deepcopy(preserved), 'refs': {}}
-        self.assertTrue(all('source' not in p for p in original['packs']))
-        approved = {'packs': [{**p, 'source': {'owner': 'preserved'}} for p in preserved]}
-        approved_path = self.root / 'approved.json'
-        approved_path.write_text(json.dumps(approved))
-        (output / 'production-before/senluo-policy.json').write_text(json.dumps({'approved_receipt': str(approved_path)}))
-        recipe_path = source / m.RECIPE;recipe_path.parent.mkdir(parents=True);recipe_path.write_text(json.dumps(recipe))
-        review = {'schema': 1, 'profile': m.SAT_PROFILE, 'source_commit': 'actual-source',
-                  'recipe': {'path': m.RECIPE, 'sha256': m.c.sha(recipe_path)},
-                  'source_validation': m.c.report_ref(proof), 'packs': new_roots}
-        review_path = self.root / 'review.json';review_path.write_text(json.dumps(review))
-        before = copy.deepcopy(original)
-        with patch.multiple(m.c, CONFIG={'extension_stable_validation': str(proof)}, EXTENSION=source,
-                            R=output, C=output / 'candidate', B=self.root / 'server', W=live,
-                            Q=self.root / 'quality', SOURCES={'tavern': self.root / 'public-source'}), \
-                patch.object(m.c, 'git', return_value=''), patch.object(m.c, 'hashes', side_effect=hashes), \
-                patch.object(m, 'RECIPE_SHA', m.c.sha(recipe_path)), \
-                patch.object(m, 'source_proof', return_value=(proof, {}, {}, {'actual_current_source_commit': 'actual-source'}, {}, recipe, {})):
-            roots, selected = m.select_inputs(preserved, original, review_path, review)
-            self.assertEqual(set(roots), {Path(p['path']) for p in new_roots.values()})
-            self.assertFalse(selected['current_live_reconciled'])
-            self.assertEqual(original, before)
-            # Rebind the prospective recipe to each actual incompatible display
-            # preimage, reaching the metadata boundary rather than digest checks.
-            candidate_manifest = Path(new_roots['RP']['path']) / 'manifest.json'
-            good_raw = candidate_manifest.read_bytes()
-            good_recipe = copy.deepcopy(recipe)
-            for key in ['clean_author', 'failed_p45', 'failed_p46']:
-                value = json.loads(good_raw)
-                prior_capabilities = parsed[key].get('capabilities')
-                if prior_capabilities is None:value.pop('capabilities', None)
-                else:value['capabilities'] = prior_capabilities
-                value['header']['min_engine_version'] = parsed[key]['header']['min_engine_version']
-                candidate_manifest.write_text(json.dumps(value))
-                recipe['output_hashes']['RP'] = hashes(candidate_manifest.parent)
-                recipe_path.write_text(json.dumps(recipe))
-                review['recipe']['sha256'] = m.c.sha(recipe_path)
-                review_path.write_text(json.dumps(review))
-                expected = 'preserve admitted resource manifest metadata' if key == 'failed_p46' else 'preserve admitted manifest capabilities'
-                with self.subTest(material=key), patch.object(m, 'RECIPE_SHA', m.c.sha(recipe_path)), \
-                        self.assertRaisesRegex(AssertionError, expected):
-                    m.select_inputs(preserved, original, review_path, review)
-            candidate_manifest.write_bytes(good_raw)
-            recipe.clear();recipe.update(good_recipe)
-            recipe_path.write_text(json.dumps(recipe))
-            review['recipe']['sha256'] = m.c.sha(recipe_path)
-            review_path.write_text(json.dumps(review))
-            changed = copy.deepcopy(original);changed['packs'][0]['files']['unchanged-hud.txt'] = 'unapproved drift'
-            with self.assertRaisesRegex(AssertionError, 'Captured family differs'):
-                m.select_inputs(preserved, changed, review_path, review)
-            approved['packs'][0]['source']['owner'] = 'owned';approved_path.write_text(json.dumps(approved))
-            with self.assertRaises(AssertionError):m.select_inputs(preserved, original, review_path, review)
 
 
 if __name__ == '__main__':

@@ -31,7 +31,7 @@ class BuildOrderTests(unittest.TestCase):
 
 class ReplacementBuildOrderTests(unittest.TestCase):
  def test_replacement_mapping_keys_deduplicate_existing_roots_before_assembly(self):
-  from family_update import current_author_validation as v, prospective_preserved_inputs as prospective
+  from family_update import current_author_validation as v
   with tempfile.TemporaryDirectory() as tmp:
    root=Path(tmp);original={'refs':{'behavior':[{'pack_id':'bp'},{'pack_id':'extra'}],'resource':[{'pack_id':'rp'}]}}
    old=[root/'old-bp',root/'keep',root/'old-rp'];new=[root/'accepted-bp',root/'accepted-rp']
@@ -40,9 +40,9 @@ class ReplacementBuildOrderTests(unittest.TestCase):
    def read(path):
     path=Path(path)
     if path.name=='manifest.json':return {'header':{'uuid':{'old-bp':'bp','old-rp':'rp','keep':'extra'}[path.parent.name]}}
-    return [] if path.name=='preserved-packs.json' else {}
+    return [{'path':str(p)} for p in old] if path.name=='preserved-packs.json' else {}
    class AssemblyReached(Exception):pass
-   with patch.multiple(m,R=root,C=root/'candidate',T=root,SOURCES={},EXTENSION=None,CONFIG={}),patch.object(m,'lease_available'),patch.object(m,'verify_predeploy',return_value=original),patch.object(m,'source_state',return_value={}),patch.object(m,'archive_paths',return_value=[]),patch.object(m,'read',side_effect=read),patch.object(m,'atomic'),patch.object(v,'curated_inputs_enabled',return_value=False),patch.object(prospective,'select',return_value=(old,None)),patch.object(v,'select_replacement_inputs',return_value=(new,sources,selection),create=True),patch.object(v,'verify_replacement_inputs',create=True),patch.object(identity_migration,'CONFIG',{}),patch.object(m,'assemble',side_effect=AssemblyReached) as assemble:
+   with patch.multiple(m,R=root,C=root/'candidate',T=root,SOURCES={},EXTENSION=None,CONFIG={}),patch.object(m,'lease_available'),patch.object(m,'verify_predeploy',return_value=original),patch.object(m,'source_state',return_value={}),patch.object(m,'archive_paths',return_value=[]),patch.object(m,'read',side_effect=read),patch.object(m,'atomic'),patch.object(v,'curated_inputs_enabled',return_value=False),patch.object(v,'select_replacement_inputs',return_value=(new,sources,selection),create=True),patch.object(v,'verify_replacement_inputs',create=True),patch.object(identity_migration,'CONFIG',{}),patch.object(m,'assemble',side_effect=AssemblyReached) as assemble:
     with self.assertRaises(AssemblyReached):m.main(['--execute'])
    self.assertEqual(assemble.call_args.kwargs['preserved'],[root/'keep',*new])
    self.assertEqual(assemble.call_args.kwargs['preserved_sources'],sources)

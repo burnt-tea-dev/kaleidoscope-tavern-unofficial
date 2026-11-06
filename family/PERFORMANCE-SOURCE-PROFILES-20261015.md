@@ -1,4 +1,10 @@
-# reviewed integration freezer and Saturation source profiles
+# Historical reviewed integration freezer and Saturation source profiles
+
+This page preserves the original 2026-10-15 source/evidence contracts. Its
+prospective selection and installation instructions are retired. New complete
+inputs use the [current curated review](UPDATE-WORKFLOW.md#啟用已審閱的完整本機配套).
+Retained pairing anchors and original evidence keep their recorded scope;
+the configuration examples below describe the historical run.
 
 These profiles admit the reviewed reviewed integration→reviewed integration integration repair and exactly two
 Saturation 1.5.5→1.5.6 successors. Source CI proves scheduling behavior in its

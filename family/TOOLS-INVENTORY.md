@@ -1,6 +1,6 @@
 # 家族部署工具歷史盤點（W2.1，2026-10-26）
 
-本頁保留當時的盤點與未完成項，不是現行保留清單或合併門檻。舊 AMW／startup／translation reconciliation 已於後續工具收斂退役；有效入口與完整輸入審查只查 [UPDATE-WORKFLOW](UPDATE-WORKFLOW.md#啟用已審閱的完整本機配套)。
+本頁保留當時的盤點與未完成項，不是現行保留清單或合併門檻。舊 AMW／startup／translation reconciliation 及 prospective 平行選包入口已於後續工具收斂退役；有效入口與完整輸入審查只查 [UPDATE-WORKFLOW](UPDATE-WORKFLOW.md#啟用已審閱的完整本機配套)。
 
 基準：Tavern `afae50c054487d131829bacaedd4e0ea749a26c0`，2026-10-26 HKT。範圍為 `tools/family_update/*.py` 的 46 個非測試模組（包含套件入口）。本文件只盤點，不變更政策、runtime、發布身份或 LIVE。
 

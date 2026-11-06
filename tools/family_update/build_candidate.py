@@ -23,13 +23,11 @@ def main(argv=None):
     from family_update.current_author_validation import (curated_inputs_enabled,select_curated_inputs,verify_curated_inputs,
         select_replacement_inputs,verify_replacement_inputs)
     local_sources,local_selection,curated_selection={},None,None
-    prospective=None
     if curated_inputs_enabled():
         preserved_roots,local_sources,curated_selection=select_curated_inputs(original)
         atomic(R/'curated-input-selection.json',curated_selection)
     else:
-        from family_update.prospective_preserved_inputs import select as select_prospective,verify_candidate as verify_prospective
-        preserved_roots,prospective=select_prospective(preserved,original)
+        preserved_roots=[Path(pack['path']) for pack in preserved]
         if CONFIG.get('managed_drift_recovery'):
             from family_update.managed_drift_recovery import select_local_inputs
             preserved_roots,local_sources,local_selection=select_local_inputs(preserved_roots,original)
@@ -50,7 +48,6 @@ def main(argv=None):
     if CONFIG.get('managed_drift_recovery'):
         from family_update.managed_drift_recovery import verify_owner_accepted_inputs
         verify_owner_accepted_inputs(receipt, original)
-    if prospective is not None:verify_prospective(receipt,prospective)
     if curated_selection is not None:verify_curated_inputs(receipt,curated_selection,replacement_selection)
     if replacement_selection is not None and curated_selection is None:
         verify_replacement_inputs(receipt,replacement_selection)
@@ -70,9 +67,6 @@ def main(argv=None):
     tools = [name for name in tools if (T / 'tools' / name).exists()]
     evidence = {'recorded_at': now(), 'config_sha256': sha(CONFIG_PATH), 'orchestration_sha256': orchestration_hashes(), 'sources': sources, 'candidate_receipt_sha256': sha(C / 'family-receipt.json'), 'upstream_lock_sha256': sha(T / 'family/upstream.lock.json'), 'tool_sha256': {name: sha(T / 'tools' / name) for name in tools}, 'packs': len(receipt['packs']), 'versions': versions(receipt), 'static_family_assembly': True, 'functional_tests_recorded_separately': True, 'client': False, 'production_ready': False}
     if retention is not None:evidence['approved_runtime_retention'] = retention
-    if prospective is not None:
-        evidence['prospective_preserved_inputs']=prospective
-        atomic(R/'prospective-preserved-inputs-check.json',prospective)
     if local_selection is not None:
         evidence['managed_local_input_selection']=local_selection
         atomic(R/'managed-local-input-selection.json',local_selection)

@@ -817,8 +817,8 @@ def validate_owned_conservation(owned,catalog,version=None):
                 path=Path(value)
                 assert len(path.parts)>=3 and path.parts[:2] in [('runtime','BP'),('runtime','RP')] and '..' not in path.parts and path.as_posix()==value
         assert retired==[],'reviewed integration cannot retire additional content'
-        from family_update.preserved_client_assets_inputs import HELPER
-        allowed_added={'runtime/BP/'+HELPER,'runtime/BP/client-repairs/repair-plan.json'}
+        # P58 conservation still binds its original helper after selector retirement.
+        allowed_added={'runtime/BP/scripts/host_api/fishing-water-particles.js','runtime/BP/client-repairs/repair-plan.json'}
         normals=[name for name in added if name.startswith('runtime/RP/textures/integration/fishing-normal/') and name.endswith('_normal.png')]
         assert len(normals)==156 and set(added)==allowed_added|set(normals),'reviewed integration additions exceed client helper/plan/normals'
         assert set(changed)=={'runtime/BP/manifest.json','runtime/RP/manifest.json',*['runtime/BP/host-extensions/'+name for name in catalog['host_specs']]},'reviewed integration runtime changes exceed paired identity/host declarations'

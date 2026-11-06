@@ -49,6 +49,8 @@ def configure(path):
     CONFIG = read(CONFIG_PATH)
     if CONFIG.get('schema') != 1:
         raise ValueError('Unsupported update configuration schema')
+    if CONFIG.get('prospective_preserved_inputs') or CONFIG.get('extension_performance_validation'):
+        raise ValueError('Retired prospective/performance admission; use current-author-curated inputs')
     if 'fresh_world_excluded_groups' in CONFIG:
         selected = CONFIG.get('fresh_world') or CONFIG.get('delivery_profile') == 'senluo-stable-lock-v1'
         if not selected or CONFIG.get('extension_stable_profile') != 'current-author-curated':
@@ -389,7 +391,7 @@ def check_live_against_policy(inventory):
 
 
 def external_input_hashes():
-    result={key: sha(Path(CONFIG[key])) for key in ['identity_migration', 'container_recovery_plan','native_actor_recovery_plan','extension_validation','extension_hud_validation','extension_performance_validation','extension_stable_validation','preserved_additions','approved_runtime_retention','native_storage_reanchor_plan'] if CONFIG.get(key)}
+    result={key: sha(Path(CONFIG[key])) for key in ['identity_migration', 'container_recovery_plan','native_actor_recovery_plan','extension_validation','extension_hud_validation','extension_stable_validation','preserved_additions','approved_runtime_retention','native_storage_reanchor_plan'] if CONFIG.get(key)}
     if CONFIG.get('extension_hold_source'):
         path=Path(CONFIG['extension_hold_source'])
         if path.exists():result['extension_hold_source']=sha(path)
@@ -410,8 +412,6 @@ def external_input_hashes():
     if curated_inputs_enabled():
         result.update(curated_inputs())
     else:
-        from family_update.prospective_preserved_inputs import input_refs
-        result.update(input_refs())
         from family_update.managed_drift_recovery import input_refs as managed_drift_inputs
         result.update(managed_drift_inputs())
     from family_update.fishing_native_observer import input_refs as fishing_observer_inputs
@@ -489,12 +489,6 @@ def verify_candidate_sources():
     if CONFIG.get('managed_drift_recovery'):
         from family_update.managed_drift_recovery import verify_owner_accepted_inputs
         verify_owner_accepted_inputs(receipt, read(R / 'production-before/inventory.json'))
-    prospective=None
-    if CONFIG.get('prospective_preserved_inputs'):
-        from family_update.prospective_preserved_inputs import select as select_prospective,verify_candidate as verify_prospective
-        _,prospective=select_prospective(read(R/'production-before/preserved-packs.json'),read(R/'production-before/inventory.json'))
-        verify_prospective(receipt,prospective)
-    assert prospective==evidence.get('prospective_preserved_inputs'), 'Prospective input review changed after assembly'
     from family_update.current_author_validation import curated_inputs_enabled,verify_curated_inputs,verify_replacement_inputs
     replacement_selection=None
     if evidence.get('author_replacement_selection'):

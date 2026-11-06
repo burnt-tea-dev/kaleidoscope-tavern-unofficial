@@ -285,44 +285,12 @@ kernel 不抵扣。所需空間仍是剩餘受限預算加至少 2 GiB，不把�
 沒有模擬玩家；沒有把原生載入、API accepted 次數或腳本 double 當成 Windows 渲染驗收。
 完成的人工作業、版本及結果應另行記錄，不修改本次未經真人測試的原始報告。
 
-## 已審查的下一版保留包
+## 完整保留輸入的現行入口
 
-`prospective_preserved_inputs` 可引用 Git 外的審查 JSON，將四個已安裝的保留包
-換成 canonical extension recipe 的下一版輸出。它不是 live 漂移核准：目前所有
-identity、逐檔內容及順序仍須先與現行准入一致，禁止新增或替换 UUID。
-四個輸出須是兩組版本與相依同步的 BP/RP，保留 module UUID/type；來源目錄
-不能與 live、來源 Git 或候選重疊，不能使用 symlink／hardlink。
-
-審查記錄包含 `schema: 1`、`source_commit`、`recipe` 的相對路徑與摘要、
-`native_validation` 的絕對路徑與摘要，以及按 recipe output name 對應的
-`packs: {name: {path, uuid}}`。來源須為乾淨 canonical extension，recipe 必須
-已提交。`extension_validation` 必須指向同一份實際原生保存／功能證據；
-四個完整輸出都要與該次原生測試收據相同，缺少或不同證據時拒絕組裝。
-
-此模式不與保留舊 source、部署 hold、preserved reconciliation 或 additions
-併用。家族組裝器記錄原樣的 preserved ownership，另記 recipe／Native 來源；
-cache 重驗全部輸入及證據。整套 static、BDS、fresh saved-world、備份與
-family_guard 產生差異提醒；人工觀察不阻擋完成。
-
-原生證據的實測提交保持原樣。現行 source HEAD 不同時，僅允許它是實測提交的
-後代，且**完整 Git tree 完全相同**；只看 runtime 版本或輸出 hash 相同仍拒絕。
-准入記錄分別保存現行提交、實測提交及兩個 tree OID，不重寫原證據冒充新測試。
-
-`senluo-client-assets-20261019-p58` 只接受現行准入的 AMW29／Fishing120
-兩組既有 UUID，輸出配對版本分別為 2.6.10058／1.2.10058。
-private reviewed integration recipe 綁定 R5 收據、四包完整輸入／輸出檔案清單及限定差異：
-AMW 的舊 textures 定義、Fishing 水粒子五個呼叫來源與 helper、魚缸材質、
-156 個既有 item texture set 的 normal 與 156 張新 normal、三份翻譯斷行及配對身份。
-其餘保留包須與原准入完全相同；不恢復退休內容、不核准安裝漂移。
-
-此 profile 的 `source_validation` 指向 `client_assets_source` wrapper，內含
-private merged PR、完整 source tree、`differential` 和 `ci: {run_id, artifact_id}`。
-工具從 canonical main 的成功 CI 下載原始 `client-assets-functional` artifact，
-核對 ZIP digest、report／log 原 bytes、source recipe 與功能事實。
-這份 source-only 證據先允許選取下一版輸入；隨後仍只使用本次正常停服副本的
-first／restart 產生 `client-assets-native-validation.json`，才能安裝。
-`current-author-p58` 同時驗證既有作者與 private reviewed integration 的完整輸出鏈；
-source／native 成功均不提升真人畫面驗收或 `production_ready`。
+新的完整 literal 或 whole-author replacement 統一走[已審閱的完整本機配套](#啟用已審閱的完整本機配套)，
+由 committed curated profile 核對原 UUID、側別、版號、完整內容與精確相依。
+舊 `prospective_preserved_inputs` 平行選包與按版本／UUID組合的安裝分派已退役。
+原始來源證據、仍有使用者的唯讀驗證及歷史引用保護保留；它們不再選包或核准漂移。
 
 ## 驗證與維護
 
@@ -419,23 +387,11 @@ next deployment's configuration. Conservation reads that retained source's
 Git baseline. Current evidence separately records its configured runtime CI
 references and refuses cached references from a different configuration.
 
-### 固定 Ribbits 啟動來源
+### Ribbits 完整來源
 
-`senluo-ribbits-startup-20261013` 只選已准入 Ribbits1.0.10 的完整 BP/RP
-原像及私有 canonical compiler 的配對1.0.10036輸出。只允許既有
-`scripts/main.js` 的已審初始化修正與兩側生成 manifest；所有結構、玩法、
-資產及此前私服差異保留。原混合 module version 按各自原像核對後同步。
-
-private-integration本身輸出不變，不為 companion compiler 來源前進升其包。
-新的實際私有 PR／CI、完整 Git tree、原報告／TAP與固定 recipe 全檔綁定
-仍必須成功；不是重用舊cache或HUD的source報告。設定不要沿用
-`extension_cache_validation`：沒有新的cache改動就不產生或偽造新的cache報告。
-
-本候選仍經完整家族 static、停服一致備份及同一存檔副本 first／restart，
-之後寫獨立 `ribbits-startup-native-validation.json` 才允許安裝。
-來源計數29,635→158及序列相等不代表引擎減時；未知結構／尺寸／連接表維持
-原掃描，外部同名結構替換與真人結果另列。此模式不批准安裝漂移，不放寬
-既有五包HUD或四包native准入規則。
+已審啟動／FP解壓修復以完整輸入沿[現行 curated 審查](#啟用已審閱的完整本機配套)保留，
+不再用獨立的 Ribbits prospective profile 選包或安裝。原始來源、recipe／報告與實測提交
+保留各自範圍；來源序列相等不代表引擎減時，也不核准未知的內容或結構替換。
 
 ### 部署中的遠端合併
 
@@ -444,20 +400,12 @@ private-integration本身輸出不變，不為 companion compiler 來源前進�
 另一個遠端 PR 的合併不再使已安裝的健康候選回退。沒有本候選的 active lease、
 本機來源／工具／設定變動仍拒絕；完整候選、保存、准入與實際啟動檢查保持不變。
 
-### Ribbits FP 解壓接續修補
+### 歷史性能來源契約
 
-`senluo-ribbits-fp-decode-20261013` 從已准入1.0.10036完整輸出生成
-1.0.10037配對。只改同步FP解壓呼叫與配對manifest，保留存檔格式、
-原解壓fallback及所有其他內容。准入另核對上一版recipe與輸入逐檔相等、
-新私有PR完整tree／實際CI、UTF16與異常輸入差分報告；舊啟動profile
-繼續按原規則驗證。reviewed integration不升包，完整家族停服存檔演練與安裝門檻維持。
-
-### reviewed integration 性能修補准入
-
-reviewed integration→reviewed integration freezer helper 與 Saturation1.5.5→1.5.6 使用各自的精確來源
-profile；設定、三個 CI artifact、作者檔案邊界及同次存檔原生綁定見
-[性能來源 profiles](PERFORMANCE-SOURCE-PROFILES-20261015.md)。舊 HUD 與
-Ribbits profile 規則保持；來源測試不計為真人驗收。
+舊 freezer／Saturation 性能准入及其 prospective 選包已退役；完整輸入使用上方的
+current curated 入口。[性能來源 profiles](PERFORMANCE-SOURCE-PROFILES-20261015.md)
+只保留當時的來源與 artifact 記錄。後續 HUD 配對仍核對原 P41 宿主資料，
+P58 保存檢查仍核對原 helper 路徑；這些歷史錨點不代表 P137 執行舊准入。
 
 ### reviewed integration 穩定作者與飽和度相容宣告
 
