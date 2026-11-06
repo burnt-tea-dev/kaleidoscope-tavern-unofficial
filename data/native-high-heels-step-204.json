@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "source_revision": "05a3f51ba1a65af27e7c5c24d4ff9364b42ac014",
+  "engine": "BDS1.26.60.6",
+  "api": "server2.7.0/GameTest1beta",
+  "actor": "native Survival simulated Player",
+  "result": "No height change in this setup; no global capability verdict",
+  "event_delivery_independently_witnessed": false,
+  "walks": {
+    "baseline": {
+      "moved": true,
+      "stepped": false,
+      "jumpObserved": false,
+      "nativeStep": false,
+      "maxRise": 0
+    },
+    "enabled": {
+      "moved": true,
+      "stepped": false,
+      "jumpObserved": false,
+      "nativeStep": false,
+      "maxRise": 0
+    },
+    "disabled": {
+      "moved": true,
+      "stepped": false,
+      "jumpObserved": false,
+      "nativeStep": false,
+      "maxRise": 0
+    },
+    "flower": {
+      "moved": true,
+      "stepped": false,
+      "jumpObserved": false,
+      "nativeStep": false,
+      "maxRise": 0
+    },
+    "water": {
+      "moved": true,
+      "stepped": false,
+      "jumpObserved": false,
+      "nativeStep": false,
+      "maxRise": 0
+    }
+  },
+  "jump_max_rise": {
+    "baselineJump": 1.252197265625,
+    "enabledJump": 1.252197265625
+  },
+  "normal_stop": true,
+  "final_players": 0,
+  "next_boundary": "Add event-delivery witness and activate after setup teleport before drawing a selected Player/component verdict; do not replay the rejected teleport API"
+}

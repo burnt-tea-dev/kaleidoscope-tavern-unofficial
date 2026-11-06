@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "source prepared; Player component capability not yet executed or adopted",
+  "status": "Event-delivery control prepared after initial no-height-change observation; not adopted",
   "scope": "One selected-engine Player component-group capability check after actual tryTeleport keepVelocity rejection; no production Player replacement",
   "engine": "BDS1.26.60.6",
   "script_api": "@minecraft/server2.7.0",
@@ -39,18 +39,36 @@
     },
     "events": {
       "kaleidoscope_tavern:qa_native_step_on": {
-        "add": {
-          "component_groups": [
-            "kaleidoscope_tavern:qa_native_step"
-          ]
-        }
+        "sequence": [
+          {
+            "add": {
+              "component_groups": [
+                "kaleidoscope_tavern:qa_native_step"
+              ]
+            }
+          },
+          {
+            "queue_command": {
+              "command": "tag @s add kt_qa_native_step_enabled"
+            }
+          }
+        ]
       },
       "kaleidoscope_tavern:qa_native_step_off": {
-        "remove": {
-          "component_groups": [
-            "kaleidoscope_tavern:qa_native_step"
-          ]
-        }
+        "sequence": [
+          {
+            "remove": {
+              "component_groups": [
+                "kaleidoscope_tavern:qa_native_step"
+              ]
+            }
+          },
+          {
+            "queue_command": {
+              "command": "tag @s remove kt_qa_native_step_enabled"
+            }
+          }
+        ]
       }
     }
   },
@@ -61,11 +79,10 @@
     "No added Player properties, no synthetic Script component or movement-vector override, no teleport or impulse inside measured native-step windows."
   ],
   "one_player_observations": [
-    "Baseline: genuine Survival Player native movement toward the same full block without High Heels or the QA group; record input, position, velocity and jump state.",
-    "Enable only the QA native group; repeat the same movement and determine whether the Player steps onto the full block without jumping or teleporting.",
-    "Disable the QA group and verify return to the original stepping behavior on the same actor.",
-    "Compare actual jump arcs before and during the group on the same level floor; record velocity/displacement, without assuming auto-step changes jump force.",
-    "Record the known zero native input getter honestly. Physical movement must be demonstrated by native position/velocity; this component probe does not claim to enter the old Script input predicate. Missing Script getters or event acceptance alone do not decide capability."
+    "Baseline: the native Survival Player moves toward the full block before any QA event; record actual movement, position, velocity and jump state.",
+    "After setup teleport, enable only the QA group and wait for the queued on-tag response; observe the same native walk with no teleport or impulse inside the measurement.",
+    "After setup teleport, disable the group and wait for the queued off-tag response; observe the same native walk on the same actor.",
+    "If the response is absent, preserve a fixture failure rather than claiming a component limitation. If both responses arrive but motion does not change, bound the negative result to this exact selected Player/version/component/control path."
   ],
   "relationship_to_current_fix": "T204 passable guard remains provisional: actual server2.7 Player.tryTeleport rejected keepVelocity. Prove this native alternative before replacing the old path; do not layer a second physics implementation.",
   "adoption_boundary": "A successful QA result would still require the existing public Core composer and functional-owner descriptor, preserving the CBS-owned production Player definition. Do not add a Tavern player.json override or private integration gameplay implementation.",
@@ -75,5 +92,7 @@
     "native movement timing",
     "full Java step-height parity",
     "production composition or saved-state migration"
-  ]
+  ],
+  "event_witness": "QA-only queued tag on/off response proves selected Player event delivery. Trigger after setup teleport, wait for the response, then measure native walking. No new property, physics or production event.",
+  "initial_observations": "Initial source05a3f51b native samples are preserved in data/native-high-heels-step-204.json: no height change, flat flower/water walks and matching jump heights, without an independent event-delivery witness. Those flat/jump samples are not replayed by this control."
 }
