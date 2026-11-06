@@ -301,7 +301,7 @@ def _curated_retained_descriptor(row):
     return source
 
 def curated_live_inputs_match(inventory, expected):
-    """Recognize installed literal inputs from the committed next selection.
+    """Recognize reviewed installed inputs from the committed next selection.
 
     Another maintenance entry may install these after the last family receipt.
     This only admits preparation; the old policy remains unchanged and the new
@@ -313,10 +313,19 @@ def curated_live_inputs_match(inventory, expected):
     if len(actual) != len(inventory['packs']) or set(actual) != set(expected):
         return False
     literals = {row['uuid']: row for row in _curated_retained_rows() if row['kind'] == 'literal'}
+    installed = current_selection().get('owner_installed_inputs', {})
+    assert isinstance(installed, dict), 'Reviewed installed inputs must be a UUID map'
+    for uid, row in installed.items():
+        assert uid in expected and set(row) == {'side', 'version', 'tree', 'reason'}, 'Invalid reviewed installed input'
+        assert row['side'] == expected[uid]['side'] and isinstance(row['reason'], str) and row['reason'].strip(), 'Installed input requires its owner review'
     changed = False
     for uid, pack in actual.items():
         prior = expected[uid]
         if all(pack[key] == prior[key] for key in ('side', 'version', 'files')):
+            continue
+        reviewed = installed.get(uid)
+        if reviewed and (pack['side'], pack['version'], tree(pack['files'])) == (reviewed['side'], reviewed['version'], reviewed['tree']):
+            changed = True
             continue
         selected = literals.get(uid)
         if (selected is None or pack['side'] != prior['side'] or pack['side'] != selected['side']

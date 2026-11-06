@@ -319,6 +319,11 @@ profile 宣告完整 literal 輸入或 whole-author replacement，核對 UUID、
 完整內容。已安裝的合法 literal 更新可沿相同選擇核對，不改寫舊收據或政策。
 未宣告的漂移仍拒絕；相依、順序、新停服備份、保存演練與安裝讀回照常。
 
+合法臨時輸入要由正式來源取代時，在同一 committed curated profile 的
+`owner_installed_inputs` 以 UUID 明列原輸入的 `side`、`version`、完整 `tree` 及
+`reason`。這只讓 capture 識別已審閱的實裝內容；候選仍取正常來源，原 policy
+與收據不改寫，回滾保留本次實際輸入。未宣告或內容不同的輸入仍拒絕。
+
 舊 AMW 配對及 private startup／translation 的固定版本 reconciliation 已退役，
 不再作為准入入口。歷史 JSON 證據引用仍可供清理工具保護原始資料；它們不啟用
 舊版本例外。其他現行保留 profile、未知漂移檢查與原世界恢復規則保持原職責。

@@ -642,6 +642,21 @@ class CuratedRetainedInputs(unittest.TestCase):
     changed=copy.deepcopy(inventory);changed['packs'][0][field]=value
     self.assertFalse(m.curated_live_inputs_match(changed,expected))
 
+ def test_reviewed_installed_preimage_can_be_replaced_by_different_selected_output(self):
+  inputs=self.owner_pair();inventory={'packs':copy.deepcopy(list(inputs.values()))}
+  expected={uid:{**row,'version':[1,0,1],'files':{'manifest.json':'old'}}for uid,row in inputs.items()}
+  observed=inventory['packs'][0];observed['files']['content.bin']='owner-installed-content'
+  selection=copy.deepcopy(m.current_selection())
+  selection['owner_installed_inputs']={observed['uuid']:{'side':observed['side'],'version':observed['version'],
+   'tree':m.tree(observed['files']),'reason':'Owner-installed temporary fix; replace with canonical output'}}
+  before=copy.deepcopy((inventory,expected,selection))
+  with patch.object(m,'current_selection',return_value=selection):
+   self.assertTrue(m.curated_live_inputs_match(inventory,expected))
+   for field,value in [('files',{'content.bin':'unreviewed'}),('version',[1,0,3]),('side','resource')]:
+    changed=copy.deepcopy(inventory);changed['packs'][0][field]=value
+    self.assertFalse(m.curated_live_inputs_match(changed,expected))
+  self.assertEqual((inventory,expected,selection),before)
+
  def test_installed_updates_do_not_admit_undeclared_changes_in_other_packs(self):
   inputs=self.owner_pair();other=self.original['packs'][0]
   inventory={'packs':[*inputs.values(),copy.deepcopy(other)]}
