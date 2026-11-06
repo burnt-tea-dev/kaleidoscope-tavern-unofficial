@@ -29,7 +29,7 @@ class InstallationSourceTests(unittest.TestCase):
     def add_pair(self, old_uuid, new_uuid, side):
         self.original['packs'].append({'uuid': old_uuid, 'side': side,
                                        'path': str(self.root / side / old_uuid)})
-        self.family.append({'uuid': new_uuid, 'side': side})
+        self.family.append({'uuid': new_uuid, 'side': side, 'source': {'owner': 'fixture'}})
         self.expected_sources.append(old_uuid)
 
     def test_schema2_resolves_all_twenty_sources_including_all_eight_author_headers(self):

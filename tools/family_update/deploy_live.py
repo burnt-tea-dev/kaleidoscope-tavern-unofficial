@@ -235,7 +235,11 @@ def installation_selection(receipt,original):
     family=[];unchanged=[]
     for p in receipt['packs']:
         if p['source']['owner']!='preserved':family.append(p);continue
-        old=prior.get(p['uuid']);assert old and old['side']==p['side'], 'Preserved identity or side changed'
+        old=prior.get(p['uuid'])
+        if old is None and p['uuid'] in curated_targets:
+            family.append(p)
+            continue
+        assert old and old['side']==p['side'], 'Preserved identity or side changed'
         assert hashes(old['path'])==old['files'], 'Installed preserved pack drifted from its captured original'
         curated_change=(p['uuid'] in curated_targets and
                         (p['files']!=old['files'] or p['version']!=old['version']))
@@ -286,10 +290,13 @@ def prepare_admission(receipt,original):
     family = receipt['packs'] if CONFIG.get('fresh_world') else installation_selection(receipt,original)[0]
     from family_update.identity_migration import candidate_plan
     migration=candidate_plan(receipt,original)
-    additions=None
+    # Selection already verified these new preserved inputs against the exact
+    # committed profile. They have no original directory to retire.
+    prior={p['uuid'] for p in original['packs']}
+    additions={p['uuid'] for p in family if p['source']['owner']=='preserved' and p['uuid'] not in prior}
     if CONFIG.get('managed_drift_recovery'):
         from family_update.managed_drift_recovery import validate_target
-        additions=validate_target(receipt,original,migration)
+        additions.update(validate_target(receipt,original,migration))
     sources=[] if CONFIG.get('fresh_world') else installation_sources(family,original,migration,additions)
     policy['approved_receipt']=str(approved)
     policy.pop('deferred_client_acceptance', None)
