@@ -89,7 +89,20 @@ otherwise preserve `inconclusive` or the actual failure. A slow successful
 reconnect proves its observed session behavior, not that the original race was
 exercised. This tool is not a renderer, flight-permission or human-client test.
 
-Prepared verification: reuse the existing observer syntax check; this update
-checks documentation against the actual helper and fixed T205/W201 sources.
-No BDS, driver, saved world, or T205 native reconnect has been run by this source
-owner. The network instructions change no observer code or exported runtime.
+Each session records its own `leaveTick` only when its native leave arrives.
+The prior row's leave time is read directly for the critical-window calculation;
+copying it onto a new row incorrectly marks that new session as already offline.
+
+The real-module callback regression runs the observer and actual foundation SDK
+with fixture Native events/time/player handles and W registration:
+
+```sh
+node --experimental-vm-modules --test tools/native/foundation-recipient-session/observer.test.mjs
+```
+
+It covers second-session empty/SDK receipt and its own leave, different IDs with
+valid controls but an inconclusive result, and a reconnect crossing a publish.
+All three failed before removing the inherited leave time and pass after it;
+these fixture outcomes are not Native PASS. The original r3 Native timeout/fail
+remains unchanged and requires a separate run by the common owner to reassess.
+No exported runtime, publisher, SDK, timing rule or status threshold changes.

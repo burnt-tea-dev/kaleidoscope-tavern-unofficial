@@ -28,7 +28,6 @@ world.afterEvents.playerSpawn.subscribe(({player,initialSpawn})=>{
   initialSpawn,emptyCount:0,sdkAccepted:false,idleChecked:false};
  if(previous){
   row.sameId=previous.id===player.id;row.newHandle=previous.handle!==player;
-  row.leaveTick=previous.leaveTick;
   // T205's unmodified publisher runs every five ticks. Use a native sequence to
   // calibrate that phase. Boundary ticks are deliberately inconclusive: event
   // ordering there cannot prove absence was never seen by a publish.
