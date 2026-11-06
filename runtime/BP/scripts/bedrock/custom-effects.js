@@ -333,6 +333,9 @@ export function pulseHighHeels(p){
   const obstacle=d.getBlock(ahead);
   if(!obstacle||obstacle.isAir)return false;
   const last=heelsSteps.get(p.id);if(last&&Math.hypot(p.location.x-last.x,p.location.z-last.z)<.35)return false;
+  // Slow movement is not proof of a collision: flowers and liquids also
+  // occupy non-air cells. Ask the native raycast before requesting a lift.
+  if(!d.getBlockFromRay({x:p.location.x,y:p.location.y+.5,z:p.location.z},direction,{maxDistance:1,includePassableBlocks:false,includeLiquidBlocks:false}))return false;
   const target=highHeelsTarget(p.location,direction);
   // Air-only body/head tests rejected a safe step whenever a torch or plant
   // occupied either cell. Let the native collision check decide whether the
