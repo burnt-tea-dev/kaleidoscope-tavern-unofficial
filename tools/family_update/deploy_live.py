@@ -258,7 +258,7 @@ def prepare_admission(receipt,original):
     atomic(R/'admission-policy.json',policy)
     incoming=[{'uuid':p['uuid'],'version':p['version'],'path':str(C/(p['side']+'_packs')/p['uuid'])} for p in receipt['packs']]
     G['validate_incoming'](incoming,R/'admission-policy.json')
-    atomic(R/'admission-report.json',{'ok':True,'candidate_receipt_sha256':sha(C/'family-receipt.json'),'reviewed_receipt_sha256':sha(approved),'complete_packs':len(incoming),'client':False,'production_ready':False,'authorization':report_ref(R/'handoff-authorization.json')})
+    atomic(R/'admission-report.json',{'ok':True,'candidate_receipt_sha256':sha(C/'family-receipt.json'),'reviewed_receipt_sha256':sha(approved),'complete_packs':len(incoming),'client':False,'authorization':report_ref(R/'handoff-authorization.json')})
     return policy,incoming,family,sources
 
 def restore_packs(original,retired,installed):
@@ -324,13 +324,13 @@ def recover_after_failure(original,changed,retired,installed,rollback_failed=Fal
             if summary()['status']=='STOPPED': action('start')
             assert summary()['status']=='RUNNING', 'Original stack restart is not confirmed'
             state='trusted_approved_stack_running_after_failure' if CONFIG.get('managed_drift_recovery') else 'original_stack_running_after_failure'
-        atomic(R/'deployment-recovery.json',{'state':state,'recorded_at':now(),'original_inventory_verified':not bool(CONFIG.get('managed_drift_recovery')),'trusted_approved_inventory_verified':bool(CONFIG.get('managed_drift_recovery')),'original_policy_verified':True,'save_database_restored':False,'original_drift_approved':False,'client':False,'production_ready':False})
+        atomic(R/'deployment-recovery.json',{'state':state,'recorded_at':now(),'original_inventory_verified':not bool(CONFIG.get('managed_drift_recovery')),'trusted_approved_inventory_verified':bool(CONFIG.get('managed_drift_recovery')),'original_policy_verified':True,'save_database_restored':False,'original_drift_approved':False,'client':False})
         lease=read(LEASE); lease.update(state='failed',failed_at=now(),status=state); atomic(LEASE,lease)
         return True
     except BaseException as error:
         try: current_status=summary()['status']
         except BaseException: current_status='UNKNOWN'
-        atomic(R/'deployment-recovery.json',{'state':'needs_operator_recovery','recorded_at':now(),'phase':phase,'error':str(error),'server_status':current_status,'restart_attempted':phase=='restart_verified_original_stack','save_database_restored':False,'client':False,'production_ready':False})
+        atomic(R/'deployment-recovery.json',{'state':'needs_operator_recovery','recorded_at':now(),'phase':phase,'error':str(error),'server_status':current_status,'restart_attempted':phase=='restart_verified_original_stack','save_database_restored':False,'client':False})
         # Do not overwrite another maintenance owner if the lease was stolen.
         assert_lease()
         lease=read(LEASE); lease.update(state='active',failure_at=now(),status='needs_operator_recovery',recovery_report=str(R/'deployment-recovery.json')); atomic(LEASE,lease)
@@ -343,7 +343,7 @@ def retain_failed_installation(original,retired,installed,install_error):
     assert_lease()
     assert summary()['status']=='STOPPED', 'Installation recovery must remain stopped'
     atomic(R/'rollback-map.json',{'retired':[[str(a),str(b)] for a,b in retired],'installed':[str(p) for p in installed],'original_inventory':str(R/'production-before/inventory.json'),'backup':str(R/'production-snapshot'),'incomplete_installation':True,'automatic_package_restore':False})
-    atomic(R/'deployment-result.json',{'state':'needs_operator_recovery','stage':'installation_retained_stopped','install_error':str(install_error),'automatic_package_restore':False,'save_database_restored':False,'client':False,'production_ready':False})
+    atomic(R/'deployment-result.json',{'state':'needs_operator_recovery','stage':'installation_retained_stopped','install_error':str(install_error),'automatic_package_restore':False,'save_database_restored':False,'client':False})
     raise RecoveryRequired('Installation failed; preserve partial package moves and the newest database without installing or starting a rollback runtime') from install_error
 
 def adopt_native_actor_recovery():
@@ -420,7 +420,7 @@ def install_fresh_world(receipt, original):
                 'assembled_receipt_sha256':sha(C/'family-receipt.json'),'guard_admission_passed':True,
                 'fresh_world':str(target),'active_world_binding':binding,'original_database_untouched_during_install':True,
                 'original_level_dat_untouched_during_install':True,'rollback':str(rollback),
-                'client':False,'production_ready':False})
+                'client':False})
         return retired, installed
     except BaseException as error:
         retain_failed_installation(original, retired, installed, error)
@@ -480,7 +480,7 @@ def install(receipt,original):
         drift=G['audit'](W,policy); assert drift['ok']; atomic(R/'production-drift.json',drift)
         valid=runpy.run_path(str(Q/'policy.py'))['validate_world'](W); assert valid['ok']; atomic(R/'production-quality.json',valid)
         atomic(R/'rollback-map.json',{'retired':[[str(a),str(b)] for a,b in retired],'installed':[str(p) for p in installed],'original_inventory':str(R/'production-before/inventory.json'),'backup':str(R/'production-snapshot')})
-        atomic(R/'deployment-result.json',{'schema':1,'state':'installed_stopped','versions':versions(receipt),'family_packs':len(family),'preserved_packs':len(foreign),'receipt_sha256':sha(R/'reviewed-family-receipt.json'),'assembled_receipt_sha256':sha(C/'family-receipt.json'),'guard_admission_passed':True,'original_database_untouched_during_install':not bool(CONFIG.get('container_recovery_plan') or CONFIG.get('identity_migration') or CONFIG.get('native_actor_recovery_plan')),'reviewed_identity_migration':bool(CONFIG.get('identity_migration')),'reviewed_container_recovery':bool(CONFIG.get('container_recovery_plan')),'reviewed_native_actor_recovery':bool(CONFIG.get('native_actor_recovery_plan')),'world_experiments':experiment_transition,'original_level_dat_untouched_during_install':not bool(experiment_transition and experiment_transition['changed_flags']),'rollback':str(rollback),'client':False,'production_ready':False})
+        atomic(R/'deployment-result.json',{'schema':1,'state':'installed_stopped','versions':versions(receipt),'family_packs':len(family),'preserved_packs':len(foreign),'receipt_sha256':sha(R/'reviewed-family-receipt.json'),'assembled_receipt_sha256':sha(C/'family-receipt.json'),'guard_admission_passed':True,'original_database_untouched_during_install':not bool(CONFIG.get('container_recovery_plan') or CONFIG.get('identity_migration') or CONFIG.get('native_actor_recovery_plan')),'reviewed_identity_migration':bool(CONFIG.get('identity_migration')),'reviewed_container_recovery':bool(CONFIG.get('container_recovery_plan')),'reviewed_native_actor_recovery':bool(CONFIG.get('native_actor_recovery_plan')),'world_experiments':experiment_transition,'original_level_dat_untouched_during_install':not bool(experiment_transition and experiment_transition['changed_flags']),'rollback':str(rollback),'client':False})
         return retired,installed
     except BaseException as install_error:
         from family_update.world_experiments import adoption_recorded
@@ -494,12 +494,12 @@ def install(receipt,original):
         except BaseException as rollback_error:
             try:
                 atomic(R/'rollback-map.json',{'retired':[[str(a),str(b)] for a,b in retired],'installed':[str(p) for p in installed],'original_inventory':str(R/'production-before/inventory.json'),'backup':str(R/'production-snapshot'),'incomplete_rollback':True})
-                atomic(R/'deployment-result.json',{'state':'needs_operator_recovery','stage':'installation_rollback','install_error':str(install_error),'rollback_error':str(rollback_error),'client':False,'production_ready':False})
+                atomic(R/'deployment-result.json',{'state':'needs_operator_recovery','stage':'installation_rollback','install_error':str(install_error),'rollback_error':str(rollback_error),'client':False})
             finally:
                 # Even a full disk while recording the rollback failure cannot
                 # erase the signal which prohibits an automatic restart.
                 raise RecoveryRequired('Installation rollback failed: '+str(rollback_error)) from rollback_error
-        atomic(R/'deployment-result.json',{'state':'trusted_packs_restored_before_restart' if CONFIG.get('managed_drift_recovery') else 'rolled_back_before_restart','save_database_restored':False,'client':False,'production_ready':False})
+        atomic(R/'deployment-result.json',{'state':'trusted_packs_restored_before_restart' if CONFIG.get('managed_drift_recovery') else 'rolled_back_before_restart','save_database_restored':False,'client':False})
         raise
 
 def main(argv=None):
@@ -507,7 +507,7 @@ def main(argv=None):
     parser.add_argument('--execute',action='store_true',help='Perform already-authorized live development deployment after review')
     args=parser.parse_args(argv)
     if not args.execute:
-        print(json.dumps({'execute':False,'lease':read(LEASE) if LEASE.exists() else {},'live':summary(),'candidate':str(C),'fresh_backup':str(R/'production-snapshot'),'required_reports':[str(R/p) for p in ['production-before/inventory.json','build-evidence.json','static-evidence.json','compatibility-report.json']],'native_rehearsal':'Fresh stopped-world first/start and restart during deployment','authorization_source':str(AUTHORIZATION),'client':False,'production_ready':False},ensure_ascii=False,indent=2)); return
+        print(json.dumps({'execute':False,'lease':read(LEASE) if LEASE.exists() else {},'live':summary(),'candidate':str(C),'fresh_backup':str(R/'production-snapshot'),'required_reports':[str(R/p) for p in ['production-before/inventory.json','build-evidence.json','static-evidence.json','compatibility-report.json']],'native_rehearsal':'Fresh stopped-world first/start and restart during deployment','authorization_source':str(AUTHORIZATION),'client':False},ensure_ascii=False,indent=2)); return
     # A separate advisory lock protects cooperating helpers; the visible lease
     # also protects against other existing deployment scripts and must be free.
     with open(str(LOCK), 'a+') as lock:
@@ -568,7 +568,7 @@ def main(argv=None):
             try:
                 restored=recover_after_failure(original,changed,retired,installed,rollback_failed=isinstance(failure,RecoveryRequired),initial_status=initial_status)
                 if changed and restored:
-                    atomic(R/'deployment-result.json',{'state':'trusted_stack_restored_after_candidate_start' if CONFIG.get('managed_drift_recovery') else 'rolled_back_after_candidate_start','save_database_restored':False,'note':'Verified rollback package inventory and original policy before restart. Newest database retained; stopped backup is available for explicit data recovery.','client':False,'production_ready':False})
+                    atomic(R/'deployment-result.json',{'state':'trusted_stack_restored_after_candidate_start' if CONFIG.get('managed_drift_recovery') else 'rolled_back_after_candidate_start','save_database_restored':False,'note':'Verified rollback package inventory and original policy before restart. Newest database retained; stopped backup is available for explicit data recovery.','client':False})
             except BaseException:
                 traceback.print_exc()
             raise
