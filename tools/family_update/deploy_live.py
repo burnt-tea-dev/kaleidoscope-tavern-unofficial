@@ -220,9 +220,22 @@ def installation_sources(family,original,migration,additions=None):
     assert seen_additions==additions, 'Reviewed addition is absent from installation'
     return resolved
 
+def reviewed_family_policy(policy, approved):
+    """Route this canonical update through its current complete receipt.
+
+    A previous W2 transaction's lock and Gate B describe that old candidate;
+    keeping its route would hide useful current-receipt checks behind stale data.
+    """
+    projected=dict(policy)
+    projected['approved_receipt']=str(approved)
+    for key in ['delivery_profile','stable_lock','stable_gate_b','stable_rollback_exercise',
+                'deferred_client_acceptance']:
+        projected.pop(key,None)
+    return projected
+
 def prepare_admission(receipt,original):
-    policy=read(Q/'senluo-policy.json')
     approved=R/'reviewed-family-receipt.json'
+    policy=reviewed_family_policy(read(Q/'senluo-policy.json'),approved)
     if CONFIG.get('fresh_world') and CONFIG.get('extension_stable_validation'):
         from family_update.stable_author_validation import verify_installation
         verify_installation(receipt)
@@ -237,8 +250,6 @@ def prepare_admission(receipt,original):
         from family_update.managed_drift_recovery import validate_target
         additions.update(validate_target(receipt,original,migration))
     sources=[] if CONFIG.get('fresh_world') else installation_sources(family,original,migration,additions)
-    policy['approved_receipt']=str(approved)
-    policy.pop('deferred_client_acceptance', None)
     policy['managed_uuids']=sorted(set(policy['managed_uuids'])|{p['uuid'] for p in family})
     policy['upstream_lock_sha256']=sha(T/'family/upstream.lock.json')
     policy['reviewed_targets']=[{'name':name,'canonical_path':str(SOURCES[name]),'commit':row['commit'],'tree':row['tree']} for name,row in read(R/'build-evidence.json')['sources'].items() if name in SOURCES]

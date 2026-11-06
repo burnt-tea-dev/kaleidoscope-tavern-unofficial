@@ -141,7 +141,13 @@ class FreshWorldTests(unittest.TestCase):
         receipt = self.finalize(); gates = receipt['acceptance']
         self.assertFalse(gates['saved_world_migration']); self.assertTrue(gates['fresh_world_initialization'])
         self.assertTrue(gates['world_persistence']); self.assertFalse(gates['client']); self.assertFalse(receipt['production_ready'])
-        deploy.prepare_admission(receipt, self.original)  # Actual family_guard accepts exact fresh evidence.
+        policy = c.read(self.q / 'senluo-policy.json')
+        policy.update(delivery_profile='senluo-stable-lock-v1',
+                      stable_lock={'path': str(self.root / 'retired-lock.json'), 'sha256': '0' * 64})
+        guard.atomic(self.q / 'senluo-policy.json', policy)
+        _, incoming, _, _ = deploy.prepare_admission(receipt, self.original)
+        # The actual producer and guard select the newly validated world receipt.
+        self.assertTrue(guard.validate_incoming(incoming, self.r / 'admission-policy.json')['matched'])
         self.assertFalse(self.posts)
 
     def test_admission_then_exact_clean_world_promotion_and_no_restart_property_switch(self):
@@ -213,9 +219,9 @@ class FreshWorldTests(unittest.TestCase):
         (self.t / 'tools').mkdir(); shutil.copy2(self.q / 'family_guard.py', self.t / 'tools/family_guard.py')
         with patch.object(deploy, 'verify_candidate_sources', return_value=self.receipt), \
              patch.object(workflow, 'record_static'), patch.object(deploy, 'quality'), \
-             patch.object(deploy, 'source_state'), patch.object(deploy, 'deployment_authorized', return_value=True), \
+             patch.object(deploy, 'source_state'), \
              patch('family_update.storage.require_space'):
-            self.assertEqual(deploy.preflight(), (self.original, self.receipt))
+            self.assertEqual(deploy.preflight(), (self.original, self.receipt, 'STOPPED'))
         deploy.acquire_lease(self.receipt)
         handoff.record_initial_status()
         initial = c.read(self.r / 'deployment-initial-state.json')
