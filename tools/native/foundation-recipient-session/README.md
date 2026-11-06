@@ -1,8 +1,13 @@
 # T205 recipient session QA observer
 
 This is QA tooling, not a runtime export. Do not add it to LIVE or start another
-world. Use the common owner's existing saved-world first-load/restart workflow,
-with the selected T205 and its canonically paired World Liquor source.
+world. Keep the common owner's existing saved-world first-load/restart gate
+unchanged, with the selected T205 and its canonically paired World Liquor source.
+Run this observer in a separate functional phase on that same QA copy **after**
+the gate (for example, its next normal start), or the existing equivalent
+isolated staging. Network logins create player records: they must not run
+inside the before/after player-record comparison. Never weaken that comparison,
+remove real records, rerun a valid gate, or install the QA database onto LIVE.
 
 Copy `observer.js` to W's QA `BP/scripts/foundation-recipient-session-qa.js` and
 select that as W's QA script entry. It imports W's unchanged `main.js`, actual
@@ -44,4 +49,5 @@ reconnect proves its observed session behavior, not that the original race was
 exercised. This tool is not a renderer, flight-permission or human-client test.
 
 Prepared verification: JavaScript syntax and diff checks only. No BDS, driver,
-saved world, or native reconnect has been run by this source owner.
+saved world, or native reconnect has been run by this source owner. The corrected
+placement in the functional phase changes no observer code or exported runtime.
