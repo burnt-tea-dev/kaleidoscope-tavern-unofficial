@@ -1,0 +1,95 @@
+{
+  "schema": 1,
+  "source_revision": "05a3f51ba1a65af27e7c5c24d4ff9364b42ac014",
+  "engine": "BDS1.26.60.6",
+  "api": "server2.7.0/GameTest1beta",
+  "actor": "native Survival simulated Player",
+  "result": "No height change in this setup; no global capability verdict",
+  "event_delivery_independently_witnessed": false,
+  "walks": {
+    "baseline": {
+      "moved": true,
+      "stepped": false,
+      "jumpObserved": false,
+      "nativeStep": false,
+      "maxRise": 0
+    },
+    "enabled": {
+      "moved": true,
+      "stepped": false,
+      "jumpObserved": false,
+      "nativeStep": false,
+      "maxRise": 0
+    },
+    "disabled": {
+      "moved": true,
+      "stepped": false,
+      "jumpObserved": false,
+      "nativeStep": false,
+      "maxRise": 0
+    },
+    "flower": {
+      "moved": true,
+      "stepped": false,
+      "jumpObserved": false,
+      "nativeStep": false,
+      "maxRise": 0
+    },
+    "water": {
+      "moved": true,
+      "stepped": false,
+      "jumpObserved": false,
+      "nativeStep": false,
+      "maxRise": 0
+    }
+  },
+  "jump_max_rise": {
+    "baselineJump": 1.252197265625,
+    "enabledJump": 1.252197265625
+  },
+  "normal_stop": true,
+  "final_players": 0,
+  "next_boundary": "No further probe or adoption queued. Do not expand shared composition or silently replace velocity behavior without a new source-backed viable capability.",
+  "event_control": {
+    "source_revision": "e3a4198e4b4506eba1a2c89412bf29cdb28ddf8b",
+    "event_delivery_proven": true,
+    "activation_after_setup_teleport": true,
+    "supported_in_this_setup": false,
+    "walks": {
+      "baseline": {
+        "eventAcknowledged": null,
+        "moved": true,
+        "stepped": false,
+        "jumpObserved": false,
+        "nativeStep": false,
+        "maxRise": 0
+      },
+      "enabled": {
+        "event": "kaleidoscope_tavern:qa_native_step_on",
+        "eventAcknowledged": true,
+        "moved": true,
+        "stepped": false,
+        "jumpObserved": false,
+        "nativeStep": false,
+        "maxRise": 0
+      },
+      "disabled": {
+        "event": "kaleidoscope_tavern:qa_native_step_off",
+        "eventAcknowledged": true,
+        "moved": true,
+        "stepped": false,
+        "jumpObserved": false,
+        "nativeStep": false,
+        "maxRise": 0
+      }
+    },
+    "normal_stop": true,
+    "final_players": 0,
+    "script_errors": [],
+    "scope": "No full-block step-height change in this selected vanilla Player, BDS1.26.60.6/server2.7.0, component-group and simulated movement path. This does not prove every Player/control/engine version unsupported.",
+    "not_replayed": [
+      "initial flower/water/jump samples",
+      "rejected Player.tryTeleport options"
+    ]
+  }
+}

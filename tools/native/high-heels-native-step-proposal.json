@@ -1,0 +1,99 @@
+{
+  "schema": 1,
+  "status": "Selected Player event delivery proven; no step-height change observed; not adopted",
+  "scope": "One selected-engine Player component-group capability check after actual tryTeleport keepVelocity rejection; no production Player replacement",
+  "engine": "BDS1.26.60.6",
+  "script_api": "@minecraft/server2.7.0",
+  "official_reference": "https://learn.microsoft.com/en-us/minecraft/creator/reference/content/entityreference/examples/entitycomponents/minecraftcomponent_variable_max_auto_step?view=minecraft-bedrock-stable",
+  "selected_sources": [
+    {
+      "file": "vanilla_1.26.30/entities/player.json",
+      "variable_max_auto_step": "absent in base and component groups; this is not a capability failure"
+    },
+    {
+      "file": "vanilla_1.26.10/entities/enderman.json",
+      "component": {
+        "base_value": 1.0625,
+        "jump_prevented_value": 0.5625
+      }
+    },
+    {
+      "file": "vanilla_1.26.20/entities/camel.json",
+      "component": {
+        "base_value": 1.5625,
+        "controlled_value": 1.5625,
+        "jump_prevented_value": 0.5625
+      }
+    }
+  ],
+  "prior_evidence": "No same-Player/version/group result found in the bounded existing capability records or memory lookup; mob examples do not establish Player support",
+  "qa_only_increment": {
+    "component_groups": {
+      "kaleidoscope_tavern:qa_native_step": {
+        "minecraft:variable_max_auto_step": {
+          "base_value": 1.0625,
+          "controlled_value": 1.0625,
+          "jump_prevented_value": 0.5625
+        }
+      }
+    },
+    "events": {
+      "kaleidoscope_tavern:qa_native_step_on": {
+        "sequence": [
+          {
+            "add": {
+              "component_groups": [
+                "kaleidoscope_tavern:qa_native_step"
+              ]
+            }
+          },
+          {
+            "queue_command": {
+              "command": "tag @s add kt_qa_native_step_enabled"
+            }
+          }
+        ]
+      },
+      "kaleidoscope_tavern:qa_native_step_off": {
+        "sequence": [
+          {
+            "remove": {
+              "component_groups": [
+                "kaleidoscope_tavern:qa_native_step"
+              ]
+            }
+          },
+          {
+            "queue_command": {
+              "command": "tag @s remove kt_qa_native_step_enabled"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "input_boundary": [
+    "Construct the disposable QA player definition from the exact selected vanilla source, retaining all other fields; declare the whole test-only overlay in native evidence.",
+    "The group uses the documented default0.5625 plus0.5 for ordinary/controlled stepping; the actual Player baseline is measured, not inferred from a missing JSON component.",
+    "Keep jump_prevented_value at its documented baseline for this ordinary-block capability check. Do not change jump, movement, camera, collision or native attributes elsewhere.",
+    "No added Player properties, no synthetic Script component or movement-vector override, no teleport or impulse inside measured native-step windows."
+  ],
+  "one_player_observations": [
+    "Baseline: the native Survival Player moves toward the full block before any QA event; record actual movement, position, velocity and jump state.",
+    "After setup teleport, enable only the QA group and wait for the queued on-tag response; observe the same native walk with no teleport or impulse inside the measurement.",
+    "After setup teleport, disable the group and wait for the queued off-tag response; observe the same native walk on the same actor.",
+    "If the response is absent, preserve a fixture failure rather than claiming a component limitation. If both responses arrive but motion does not change, bound the negative result to this exact selected Player/version/component/control path."
+  ],
+  "relationship_to_current_fix": "T204 passable guard remains provisional: actual server2.7 Player.tryTeleport rejected keepVelocity. Prove this native alternative before replacing the old path; do not layer a second physics implementation.",
+  "adoption_boundary": "A successful QA result would still require the existing public Core composer and functional-owner descriptor, preserving the CBS-owned production Player definition. Do not add a Tavern player.json override or private integration gameplay implementation.",
+  "not_established": [
+    "Player support",
+    "unchanged jump force",
+    "native movement timing",
+    "full Java step-height parity",
+    "production composition or saved-state migration"
+  ],
+  "event_witness": "QA-only queued tag on/off response proves selected Player event delivery. Trigger after setup teleport, wait for the response, then measure native walking. No new property, physics or production event.",
+  "initial_observations": "Initial source05a3f51b native samples are preserved in data/native-high-heels-step-204.json: no height change, flat flower/water walks and matching jump heights, without an independent event-delivery witness. Those flat/jump samples are not replayed by this control.",
+  "result_source": "data/native-high-heels-step-204.json#event_control"
+}
