@@ -9,7 +9,7 @@ import zipfile
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from family_update import current_author_validation as current,stable_author_validation as historical
-from family_update import preserved_client_assets_inputs as client,workflow,cookery_cache_validation,github_reads
+from family_update import workflow,cookery_cache_validation,github_reads
 
 
 class TransferArtifacts(unittest.TestCase):
@@ -23,7 +23,7 @@ class TransferArtifacts(unittest.TestCase):
         raw=out.getvalue();prefix='repos/'+remote
         record={'id':module.REPOSITORY_ID,'full_name':remote}
         metadata={**record,'private':True,'owner':{'login':'burnt-tea-dev','id':344456559,'type':'Organization'}}
-        artifact_name={current:'current-author-functional',historical:'stable-author-functional',client:'client-assets-functional'}[module]
+        artifact_name={current:'current-author-functional',historical:'stable-author-functional'}[module]
         responses={prefix:metadata,prefix+'/actions/runs/7':{'repository':record,'status':'completed','conclusion':'success','head_sha':'source','head_branch':'main','event':'push','path':'.github/workflows/canonical.yml'},
             prefix+'/git/commits/source':{'tree':{'sha':'full-tree'}},prefix+'/actions/artifacts/8':{'name':artifact_name,'expired':False,'workflow_run':{'id':7,'head_sha':'source'},'digest':'sha256:'+module.digest(raw)}}
         if change:change(responses,prefix)
@@ -33,8 +33,8 @@ class TransferArtifacts(unittest.TestCase):
                 return module.artifact_members(7,8,'source','full-tree')
         finally:module.artifact_members.cache_clear()
 
-    def test_all_three_read_exact_same_id_current_private_organization(self):
-        for module in [current,historical,client]:
+    def test_readers_use_exact_same_id_current_private_organization(self):
+        for module in [current,historical]:
             with self.subTest(module=module.__name__):
                 members,ci=self.artifact(module);self.assertTrue(members);self.assertEqual(ci['artifact_id'],8)
                 self.assertEqual(module.REPOSITORY,'casama233/senluo-family-integration-private')
@@ -45,7 +45,7 @@ class TransferArtifacts(unittest.TestCase):
             lambda rows,p:rows[p].update(full_name='foreign/senluo-family-integration-private'),
             lambda rows,p:rows[p+'/actions/runs/7']['repository'].update(id=1),
             lambda rows,p:rows[p+'/actions/runs/7']['repository'].update(full_name='foreign/senluo-family-integration-private')]
-        for module in [current,historical,client]:
+        for module in [current,historical]:
             for index,mutate in enumerate(mutations):
                 with self.subTest(module=module.__name__,case=index),self.assertRaises(AssertionError):self.artifact(module,mutate)
 

@@ -100,10 +100,7 @@ def finalize_receipt():
     if CONFIG.get('extension_stable_validation'):
         from family_update.stable_author_validation import evidence_paths
         reports.extend(ref['path'] for ref in evidence_paths())
-    if CONFIG.get('extension_performance_validation'):
-        from family_update.freezer_performance_validation import evidence_paths
-        reports.extend(map(str,evidence_paths()))
-    if CONFIG.get('extension_hud_validation') and not CONFIG.get('extension_performance_validation'):
+    if CONFIG.get('extension_hud_validation'):
         from family_update.explicit_hud_validation import evidence_paths
         reports.extend(map(str,evidence_paths()))
     if CONFIG.get('extension_cache_validation'):
@@ -142,21 +139,6 @@ def finalize_receipt():
         reports.extend([CONFIG['normal_idle_update'], 'deployment-initial-state.json'])
     elif CONFIG.get('fresh_world'):
         reports.append('deployment-initial-state.json')
-    if CONFIG.get('prospective_preserved_inputs'):
-        reports.append('prospective-preserved-inputs-check.json')
-        prospective=read(R/'prospective-preserved-inputs-check.json')
-        from family_update.preserved_hud_inputs import is_profile
-        if is_profile(prospective):
-            reports.extend(['hud-coexistence-native-validation.json', prospective['review']['path'], prospective['recipe']['path'], prospective['source_validation']['path'], prospective['hud_differential']['path']])
-        from family_update.preserved_ribbits_inputs import is_profile as is_ribbits
-        if is_ribbits(prospective):
-            reports.extend(['ribbits-startup-native-validation.json', prospective['review']['path'], prospective['recipe']['path'], prospective['source_validation']['path'], prospective['differential']['path']])
-        from family_update.preserved_client_assets_inputs import is_profile as is_client_assets, NATIVE as client_assets_native
-        if is_client_assets(prospective):
-            reports.extend([client_assets_native, prospective['review']['path'], prospective['recipe']['path'], prospective['source_validation']['path'], prospective['differential']['path'], prospective['source_log']['path']])
-        from family_update.preserved_saturation_inputs import is_profile as is_saturation
-        if is_saturation(prospective):
-            reports.extend(['saturation-scheduling-native-validation.json', prospective['review']['path'], prospective['recipe']['path'], prospective['source_validation']['path'], prospective['source_log']['path'], prospective['source_diagnosis']['path'], prospective['author_file_boundary']['path']])
     raw['acceptance']={'static':True,'bds':True,'client':False,'saved_world_migration':not bool(CONFIG.get('fresh_world'))}
     if CONFIG.get('fresh_world'):
         raw['acceptance'].update(fresh_world_initialization=True, world_persistence=True)
@@ -171,51 +153,13 @@ def finalize_receipt():
     return raw
 
 def installation_selection(receipt,original):
-    """Reviewed future preserved inputs join the same install/rollback transaction."""
+    """Install declared curated changes and verified local repairs in one transaction."""
     if CONFIG.get('extension_stable_validation'):
         from family_update.stable_author_validation import verify_installation
         verify_installation(receipt)
-    if CONFIG.get('extension_performance_validation'):
-        from family_update.freezer_performance_validation import verify_installation
-        verify_installation(receipt)
-    if CONFIG.get('extension_hud_validation') and not CONFIG.get('extension_performance_validation'):
+    if CONFIG.get('extension_hud_validation'):
         from family_update.explicit_hud_validation import verify_installation
         verify_installation(receipt)
-    prospective={}
-    if CONFIG.get('prospective_preserved_inputs'):
-        from family_update.prospective_preserved_inputs import verify_candidate
-        proof=read(R/'prospective-preserved-inputs-check.json')
-        assert proof['review']==report_ref(Path(CONFIG['prospective_preserved_inputs'])), 'Prospective review changed before installation'
-        verify_candidate(receipt,proof)
-        prospective={p['uuid']:p for p in proof['packs'].values()}
-        from family_update.preserved_hud_inputs import is_profile, PACKS
-        from family_update import preserved_ribbits_inputs as ribbits
-        from family_update import preserved_client_assets_inputs as client_assets
-        from family_update import preserved_saturation_inputs as saturation
-        from family_update import stable_author_validation as stable
-        if is_profile(proof):
-            assert len(prospective)==5 and set(prospective)=={row[0] for row in PACKS.values()}, 'Complete five HUD outputs required'
-            native=read(R/'hud-coexistence-native-validation.json')
-            assert native['candidate_receipt_sha256']==sha(C/'family-receipt.json') and native['version']==[1,0,34] and native['source']==proof['hud_differential'], 'HUD native binding differs from this candidate'
-            assert native['source_commit']==proof['source_commit'] and native['source_tree_oid']==proof['current_source_tree_oid'], 'HUD native source changed'
-            assert native['fresh_native']==report_ref(R/'saved-world-report.json'), 'HUD native evidence changed'
-            recipe=read(Path(proof['recipe']['path']))
-            expected={name:{'uuid':row[0],'side':row[1],'version':row[3],'files':recipe['output_hashes'][name]} for name,row in PACKS.items()}
-            assert native['packs']==expected, 'HUD native outputs differ from all five current variants'
-            assert native['native_loading'] is True and native['saved_world_migration'] is True and native['client'] is False and native['production_ready'] is False
-        elif ribbits.is_profile(proof):
-            ribbits.verify_installation(receipt,proof)
-        elif client_assets.is_profile(proof):
-            assert len(prospective)==4 and set(prospective)=={row[0] for row in client_assets.PACKS.values()}
-            client_assets.verify_installation(receipt,proof)
-        elif saturation.is_profile(proof):
-            assert len(prospective)==2 and set(prospective)=={row[0] for row in saturation.PACKS.values()}
-            saturation.verify_installation(receipt,proof)
-        elif stable.is_preserved_profile(proof):
-            assert len(prospective)==2 and set(prospective)==set(stable.SAT_UUIDS.values())
-            stable.verify_installation(receipt)
-        else:
-            assert len(prospective)==4, 'Complete prospective pairs required'
     prior={p['uuid']:p for p in original['packs']}
     assert len(prior)==len(original['packs']), 'Original inventory duplicates an identity'
     relocations={}
@@ -224,7 +168,6 @@ def installation_selection(receipt,original):
         from family_update.managed_drift_recovery import global_relocations,verify_local_target
         relocations=global_relocations(original)
         local_targets=verify_local_target(receipt,original)
-        assert not local_targets & set(prospective), 'A local repair cannot also use another prospective producer'
     curated_targets=set()
     if CONFIG.get('extension_stable_validation'):
         from family_update.current_author_validation import installation_targets
@@ -240,14 +183,13 @@ def installation_selection(receipt,original):
         assert hashes(old['path'])==old['files'], 'Installed preserved pack drifted from its captured original'
         curated_change=(p['uuid'] in curated_targets and
                         (p['files']!=old['files'] or p['version']!=old['version']))
-        if p['uuid'] in prospective or p['uuid'] in relocations or p['uuid'] in local_targets or curated_change:
+        if p['uuid'] in relocations or p['uuid'] in local_targets or curated_change:
             if p['uuid'] in relocations and p['uuid'] not in local_targets:
                 assert p['files']==old['files'] and p['version']==old['version'], 'Relocation cannot alter existing global input'
             family.append(p)
         else:
             assert p['files']==old['files'] and p['version']==old['version'], 'Unreviewed preserved pack changed'
             unchanged.append(p)
-    assert set(prospective)<={p['uuid'] for p in family}, 'Prospective pair omitted from installation'
     assert set(relocations)<={p['uuid'] for p in family}, 'Reviewed global pair omitted from installation'
     assert local_targets<={p['uuid'] for p in family}, 'Reviewed local pair omitted from installation'
     return family,unchanged

@@ -188,29 +188,6 @@ class GuideReportBoundary(unittest.TestCase):
                            ('max_slice_units', 25), ('atomic_publication', False), ('client', True), ('test_exit_code', 1)]:
             with self.subTest(key=key), self.assertRaises(AssertionError): verify({**report, key: value})
 
-    def test_p34_native_binding_cannot_reuse_p33_or_omit_guide_hud_review(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp); candidate = root / 'candidate'; candidate.mkdir()
-            receipt = {'packs': [{'uuid': 'private', 'version': m.GUIDE_VERSION, 'files': {'same': 'bytes'}, 'source': {'repository': m.LOGICAL}}]}
-            (candidate / 'family-receipt.json').write_text(json.dumps(receipt))
-            digest = hashlib.sha256((candidate / 'family-receipt.json').read_bytes()).hexdigest()
-            static = {'candidate_receipt_sha256': digest, 'packs': {'private': {'same': 'bytes'}}, 'private_version': m.GUIDE_VERSION,
-                      'guide_differential': {'sha256': 'guide-source-evidence'}, 'guide_spec_sha256': 'spec', 'guide_helper_sha256': 'helper'}
-            static_path = root / 'cookery-cache-static-validation.json'; static_path.write_text(json.dumps(static))
-            valid = {'candidate_receipt_sha256': digest, 'fresh_stopped_backup': True, 'exact_files_checked': True,
-                     'bds': True, 'saved_world_migration': True, 'client': False, 'simulated_players': False,
-                     'runs': [{'phase': 'first', 'ok': True, 'errors': []}, {'phase': 'restart', 'ok': True, 'errors': []}]}
-            (root / 'saved-world-report.json').write_text(json.dumps(valid))
-            config = {'extension_cache_validation': 'explicit', 'prospective_preserved_inputs': 'reviewed-hud-sources'}
-            with patch.multiple(m, CONFIG=config, R=root, C=candidate, atomic=lambda p, value: p.write_text(json.dumps(value))):
-                for key, value in [('private_version', m.NEW_VERSION), ('guide_differential', None)]:
-                    static_path.write_text(json.dumps({**static, key: value}))
-                    with self.assertRaises(AssertionError): m.bind_native(receipt, valid)
-                static_path.write_text(json.dumps(static)); config.pop('prospective_preserved_inputs')
-                with self.assertRaises(AssertionError): m.bind_native(receipt, valid)
-                config['prospective_preserved_inputs'] = 'reviewed-hud-sources'; m.bind_native(receipt, valid)
-                result = json.loads((root / 'cookery-cache-native-validation.json').read_text())
-                self.assertEqual(result['private_version'], m.GUIDE_VERSION); self.assertFalse(result['client'])
 
 
 if __name__ == '__main__': unittest.main()

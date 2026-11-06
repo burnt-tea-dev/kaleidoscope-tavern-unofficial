@@ -96,16 +96,6 @@ def verify_native(verified_candidate=None):
     bind_native(receipt,evidence)
     from family_update.explicit_hud_validation import bind_native as bind_explicit_hud
     bind_explicit_hud(receipt,evidence)
-    from family_update.freezer_performance_validation import bind_native as bind_freezer_performance
-    bind_freezer_performance(receipt,evidence)
-    from family_update.preserved_hud_inputs import bind_native as bind_hud_native
-    bind_hud_native(receipt,evidence)
-    from family_update.preserved_ribbits_inputs import bind_native as bind_ribbits_native
-    bind_ribbits_native(receipt,evidence)
-    from family_update.preserved_client_assets_inputs import bind_native as bind_client_assets_native
-    bind_client_assets_native(receipt,evidence)
-    from family_update.preserved_saturation_inputs import bind_native as bind_saturation_native
-    bind_saturation_native(receipt,evidence)
     return evidence
 
 
@@ -326,17 +316,6 @@ def record_static(verified_candidate=None):
     if retention:
         evidence['approved_runtime_retention'] = retention
         evidence['reports'].extend([retention['control'], retention['approved_receipt'], retention['approved_build'], retention['approved_static'], retention['approved_ci']])
-    if CONFIG.get('prospective_preserved_inputs'):
-        selected=read(R/'prospective-preserved-inputs-check.json')
-        evidence['reports'].extend([report_ref(Path(CONFIG['prospective_preserved_inputs'])), report_ref(R/'prospective-preserved-inputs-check.json'), selected['recipe']])
-        from family_update.preserved_hud_inputs import is_profile
-        if is_profile(selected):evidence['reports'].extend([selected['source_validation'], selected['hud_differential']])
-        from family_update.preserved_ribbits_inputs import is_profile as is_ribbits
-        if is_ribbits(selected):evidence['reports'].extend([selected['source_validation'], selected['differential']])
-        from family_update.preserved_client_assets_inputs import is_profile as is_client_assets
-        if is_client_assets(selected):evidence['reports'].extend([selected['source_validation'], selected['differential'], selected['source_log']])
-        from family_update.preserved_saturation_inputs import is_profile as is_saturation
-        if is_saturation(selected):evidence['reports'].extend([selected['source_validation'], selected['source_log'], selected['source_diagnosis'], selected['author_file_boundary']])
     if CONFIG.get('preserved_additions'):
         evidence['reports'].extend([report_ref(Path(CONFIG['preserved_additions'])),report_ref(R/'preserved-additions-check.json')])
     atomic(target, evidence)

@@ -214,11 +214,8 @@ def verify_static(receipt, prior):
     path = Path(CONFIG['extension_cache_validation'])
     proof, config = read(path), read(EXTENSION / 'baseline.json')
     assert proof.get('kind') == 'cookery_recipe_cache', 'Unsupported private functional scope'
-    assert config['version'] in [NEW_VERSION, GUIDE_VERSION], 'Unsupported private cache/guide version'
-    guide = config['version'] == GUIDE_VERSION
-    if guide:
-        assert CONFIG.get('prospective_preserved_inputs') and isinstance(proof.get('guide_differential'), dict), 'reviewed integration requires reviewed HUD inputs and guide differential'
-    previous = GUIDE_PREVIOUS if guide else PREVIOUS
+    assert config['version'] == NEW_VERSION, 'Unsupported private cache version; P34 prospective admission is retired'
+    previous = PREVIOUS
     original_binding = source_binding(proof, config)
     binding = {'actual_current_source_commit': original_binding['actual_current_source_commit'],
                'validated_source_commit': original_binding['native_source_commit'],
@@ -274,18 +271,16 @@ def verify_static(receipt, prior):
     assert all(report.get(key) is True for key in ['ordered_views_equal', 'registration_acks_equal', 'dynamic_overwrite_equal', 'all_five_getters_fresh', 'all_author_v1_kinds', 'invalid_registrations_equal', 'unrelated_station_does_not_rebuild_pots'])
     log = Path(ref['path']).parent / report['test_log']['name']
     assert log.parent.resolve() == Path(ref['path']).parent.resolve() and sha(log) == report['test_log']['sha256'] and report['test_exit_code'] == 0
-    guide_details = verify_guide_differential(proof['guide_differential'], config, receipt, current_tree, gh_json) if guide else {}
-    result = {'schema': 1, 'private_version': config['version'], 'conservation_base': previous, **guide_details,
-              'validation_scope': 'cookery_recipe_cache_and_guide_startup' if guide else 'cookery_recipe_cache',
-              'preserved_hud_inputs_required': guide,
-              'scope': 'Pure original recipe/guide differential and conserved private gameplay; fresh current-candidate BDS/save is separately mandatory' if guide else 'Pure original recipe registry differential and unchanged private gameplay; fresh current-candidate BDS/save is separately mandatory',
+    result = {'schema': 1, 'private_version': config['version'], 'conservation_base': previous,
+              'validation_scope': 'cookery_recipe_cache',
+              'scope': 'Pure original recipe registry differential and unchanged private gameplay; fresh current-candidate BDS/save is separately mandatory',
               'source': report_ref(path), 'differential': ref, **binding, 'private_pull_request': proof['private_pull_request'],
               'private_checks': checks, 'private_statuses': statuses, 'unavailable_optional_services': unavailable, 'checked_canonical_commit': checked,
               'reviewed_pull_request_head': pr['head']['sha'], 'candidate_receipt_sha256': sha(C / 'family-receipt.json'),
               'packs': proof['packs'], 'spec_sha256': sha(spec_path), 'static_functional': True,
               'native_loading': False, 'saved_world_migration': False, 'client': False, 'production_ready': False}
     atomic(R / 'cookery-cache-static-validation.json', result)
-    return [report_ref(path), ref, *([proof['guide_differential']] if guide else []), report_ref(R / 'cookery-cache-static-validation.json')]
+    return [report_ref(path), ref, report_ref(R / 'cookery-cache-static-validation.json')]
 
 
 def bind_native(receipt, evidence):
@@ -296,9 +291,7 @@ def bind_native(receipt, evidence):
     assert static['candidate_receipt_sha256'] == sha(C / 'family-receipt.json') == evidence['candidate_receipt_sha256']
     assert static['packs'] == {p['uuid']: p['files'] for p in receipt['packs'] if p['source'].get('repository') == LOGICAL}
     version = static.get('private_version', NEW_VERSION)
-    assert version in [NEW_VERSION, GUIDE_VERSION] and all(p['version'] == version for p in receipt['packs'] if p['source'].get('repository') == LOGICAL), 'Fresh native private version differs'
-    if version == GUIDE_VERSION:
-        assert CONFIG.get('prospective_preserved_inputs') and static.get('guide_differential') and static.get('guide_spec_sha256') and static.get('guide_helper_sha256'), 'reviewed integration source/guide/HUD binding missing'
+    assert version == NEW_VERSION and all(p['version'] == version for p in receipt['packs'] if p['source'].get('repository') == LOGICAL), 'Fresh native private version differs'
     assert evidence['fresh_stopped_backup'] and evidence['exact_files_checked'] and evidence['bds'] and evidence['saved_world_migration']
     assert evidence['client'] is False and evidence['simulated_players'] is False
     assert [r['phase'] for r in evidence['runs']] == ['first', 'restart'] and all(r['ok'] and not r['errors'] for r in evidence['runs'])

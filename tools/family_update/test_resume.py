@@ -249,8 +249,8 @@ class ResumeTests(unittest.TestCase):
         with self.assertRaises(AssertionError):
             workflow.verify_native()
 
-    def test_hud_binding_only_runs_after_complete_fresh_native_validation(self):
-        with patch('family_update.preserved_hud_inputs.bind_native') as bind:
+    def test_source_binding_only_runs_after_complete_fresh_native_validation(self):
+        with patch('family_update.stable_author_validation.bind_native') as bind:
             self.assertEqual(workflow.verify_native(verified_candidate=self.receipt), self.native)
             bind.assert_called_once_with(self.receipt, self.native)
             bind.reset_mock()
