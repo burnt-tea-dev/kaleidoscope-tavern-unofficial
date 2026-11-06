@@ -1,0 +1,71 @@
+{
+  "schema": 1,
+  "scope": "Native Survival simulated Player on BDS1.26.60.6, server2.7.0 and GameTest1beta; no physical client or full-family claim",
+  "source_revision": "b3cd87660a0ec31098cc36d5704fbd9de103339c",
+  "runtime_version": [
+    0,
+    6,
+    204
+  ],
+  "result": "partial",
+  "exact_options": {
+    "method": "Player.tryTeleport",
+    "options": {
+      "checkForBlocks": true,
+      "keepVelocity": true
+    },
+    "accepted": false,
+    "error": "UnsupportedFunctionalityError: Unsupported functionality: keepVelocity is not supported for player teleportation.",
+    "nonzero_horizontal_velocity_before": true,
+    "position_changed": false,
+    "interpretation": "Rejected operation; unchanged velocity is not successful velocity preservation"
+  },
+  "owner_cases": [
+    {
+      "name": "flower",
+      "fixture_intact": true,
+      "eligible_frames": 0,
+      "steps": 0,
+      "source_errors": [],
+      "input_vectors": [
+        [
+          0,
+          0
+        ]
+      ],
+      "result": "inconclusive; native input getter stayed zero"
+    },
+    {
+      "name": "water",
+      "fixture_intact": true,
+      "eligible_frames": 0,
+      "steps": 0,
+      "source_errors": [],
+      "input_vectors": [
+        [
+          0,
+          0
+        ]
+      ],
+      "result": "inconclusive; native input getter stayed zero"
+    },
+    {
+      "name": "solid",
+      "fixture_intact": true,
+      "eligible_frames": 0,
+      "steps": 0,
+      "source_errors": [],
+      "input_vectors": [
+        [
+          0,
+          0
+        ]
+      ],
+      "result": "inconclusive; native input getter stayed zero"
+    }
+  ],
+  "normal_stop": true,
+  "final_players": 0,
+  "script_errors": [],
+  "next_boundary": "Prove selected native Player component capability before changing gameplay or shared composition; do not replay this rejected API"
+}

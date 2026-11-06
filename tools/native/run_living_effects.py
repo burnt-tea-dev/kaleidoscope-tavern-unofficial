@@ -31,6 +31,29 @@ def gametest_manifest(raw):
     return (json.dumps(manifest, ensure_ascii=False, indent=2)+'\n').encode()
 
 
+def player_component_proposal(engine, proposal_path):
+    """Add only declared QA groups/events to the selected engine's Player."""
+    proposal = json.loads(proposal_path.read_bytes())
+    relative = pathlib.PurePosixPath(proposal['selected_sources'][0]['file'])
+    assert not relative.is_absolute() and '..' not in relative.parts
+    source = engine/'behavior_packs'/relative
+    raw = source.read_bytes()
+    player = json.loads(raw)
+    entity = player['minecraft:entity']
+    assert entity['description']['identifier'] == 'minecraft:player'
+    increment = proposal['qa_only_increment']
+    assert set(increment) == {'component_groups', 'events'}
+    for section, additions in increment.items():
+        assert isinstance(additions, dict) and additions
+        target = entity.setdefault(section, {})
+        assert not target.keys() & additions.keys(), 'QA proposal replaces existing Player behavior'
+        target.update(additions)
+    return (json.dumps(player, ensure_ascii=False, indent=2)+'\n').encode(), {
+        'source': relative.as_posix(), 'source_sha256': hashlib.sha256(raw).hexdigest(),
+        'proposal_sha256': hashlib.sha256(proposal_path.read_bytes()).hexdigest(),
+        'scope': 'QA-only added component groups/events; all other selected Player fields retained'}
+
+
 def analyse_phase_log(text, phase, normal_stop, *, gametest=False):
     rows = [json.loads(line.split('[LIVING_EFFECT_QA] ', 1)[1]) for line in text.splitlines() if '[LIVING_EFFECT_QA] {' in line]
     normal_stop = normal_stop and bool(re.search(r'^Quit correctly\s*$', text, re.MULTILINE))
@@ -135,6 +158,7 @@ def main():
     parser.add_argument('--world-metadata', type=pathlib.Path, help='Read only level.dat from an existing isolated world; no DB is copied')
     parser.add_argument('--offline', action='store_true', help='Only inside an isolated loopback network namespace')
     parser.add_argument('--gametest', action='store_true', help='Declare a transient native Player fixture; fresh offline first phase only')
+    parser.add_argument('--player-component-proposal', type=pathlib.Path, help='QA-only groups/events added to the selected vanilla Player; requires --gametest')
     parser.add_argument('--resume', action='store_true', help='Continue only restart in an existing stopped QA; keep original evidence and world unchanged')
     parser.add_argument('--phases', nargs='+', choices=['first', 'restart'], default=['first', 'restart'])
     parser.add_argument('--timeout-seconds', type=int, default=180, help='Normal-stop deadline per phase; use 420 for full native incense conversion')
@@ -143,6 +167,8 @@ def main():
         parser.error('--timeout-seconds must be positive')
     if args.gametest and (not args.offline or args.resume or args.phases != ['first']):
         parser.error('--gametest requires --offline --phases first without --resume')
+    if args.player_component_proposal and not args.gametest:
+        parser.error('--player-component-proposal requires --gametest')
     if args.liquor is None and args.probe.resolve() == (ROOT/'tools/native/living-effects-probe.js').resolve():
         parser.error('--liquor is required for the default probe; choose --probe for a Tavern-only observer')
     if args.offline:
@@ -231,6 +257,11 @@ def main():
         manifest = host/'manifest.json'
         manifest.write_bytes(gametest_manifest(manifest.read_bytes()))
         overlays['manifest.json'] = hashlib.sha256(manifest.read_bytes()).hexdigest()
+    if args.player_component_proposal:
+        raw, source = player_component_proposal(engine, args.player_component_proposal)
+        (host/'entities/qa-player-component.json').write_bytes(raw)
+        overlays['entities/qa-player-component.json'] = hashlib.sha256(raw).hexdigest()
+        (work/'player-component-proposal.json').write_text(json.dumps(source, indent=2)+'\n')
     if probe_inputs is not None:
         overlays['scripts/native-probe-inputs.js'] = hashlib.sha256(probe_inputs.encode()).hexdigest()
     if args.probe.resolve() == (ROOT/'tools/native/shaker-migration-probe.js').resolve():

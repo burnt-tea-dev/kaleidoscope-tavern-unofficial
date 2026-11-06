@@ -1,10 +1,38 @@
 """Declare native Player fixtures without accepting physical player connections."""
 import json
+from pathlib import Path
+import tempfile
 import unittest
 import run_living_effects as runner
 
 
 class NativePlayerBoundary(unittest.TestCase):
+    def test_player_proposal_retains_native_fields_and_refuses_replacement(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root/'behavior_packs/vanilla/entities/player.json'
+            source.parent.mkdir(parents=True)
+            native = {'format_version': '1.26.30', 'minecraft:entity': {
+                'description': {'identifier': 'minecraft:player'},
+                'components': {'minecraft:collision_box': {'width': .6, 'height': 1.8}},
+                'component_groups': {'native:group': {}}, 'events': {'native:event': {}}}}
+            source.write_text(json.dumps(native))
+            proposal = root/'proposal.json'
+            delta = {'component_groups': {'qa:group': {}}, 'events': {'qa:on': {'add': {'component_groups': ['qa:group']}}}}
+            proposal.write_text(json.dumps({'selected_sources': [{'file': 'vanilla/entities/player.json'}], 'qa_only_increment': delta}))
+            raw, evidence = runner.player_component_proposal(root, proposal)
+            result = json.loads(raw)
+            for section, additions in delta.items():
+                for name, value in additions.items():
+                    self.assertEqual(result['minecraft:entity'][section].pop(name), value)
+            self.assertEqual(result, native)
+            self.assertEqual(json.loads(source.read_bytes()), native)
+            self.assertEqual(evidence['source'], 'vanilla/entities/player.json')
+            delta['events']['native:event'] = {}
+            proposal.write_text(json.dumps({'selected_sources': [{'file': 'vanilla/entities/player.json'}], 'qa_only_increment': delta}))
+            with self.assertRaisesRegex(AssertionError, 'replaces existing Player'):
+                runner.player_component_proposal(root, proposal)
+
     def log(self, prefix='', players=0):
         # Completion fields need not be adjacent; the observer includes measurements.
         row = {'kind': 'done', 'observationOnly': True, 'phase': 'first', 'players': players}
