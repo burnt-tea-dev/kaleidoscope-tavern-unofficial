@@ -300,6 +300,33 @@ def _curated_retained_descriptor(row):
     if row['kind']=='canonical-fishing':source['canonical_source']=row['canonical_source']
     return source
 
+def curated_live_inputs_match(inventory, expected):
+    """Recognize installed literal inputs from the committed next selection.
+
+    Another maintenance entry may install these after the last family receipt.
+    This only admits preparation; the old policy remains unchanged and the new
+    candidate still follows its normal validation and stopped-save deployment.
+    """
+    if not curated_inputs_enabled():
+        return False
+    actual = {row['uuid']: row for row in inventory['packs']}
+    if len(actual) != len(inventory['packs']) or set(actual) != set(expected):
+        return False
+    literals = {row['uuid']: row for row in _curated_retained_rows() if row['kind'] == 'literal'}
+    changed = False
+    for uid, pack in actual.items():
+        prior = expected[uid]
+        if all(pack[key] == prior[key] for key in ('side', 'version', 'files')):
+            continue
+        selected = literals.get(uid)
+        if (selected is None or pack['side'] != prior['side'] or pack['side'] != selected['side']
+                or pack['version'] != selected['input_version']
+                or tree(pack['files']) != selected['input_tree']):
+            return False
+        changed = True
+    return changed
+
+
 def replacement_rows():
     """Reviewed owner-accepted author pair supplied whole instead of its archive."""
     if not curated_selected():

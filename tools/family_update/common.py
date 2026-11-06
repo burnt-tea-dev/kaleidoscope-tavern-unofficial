@@ -399,6 +399,9 @@ def check_live_against_policy(inventory):
     from family_update.preserved_additions import review
     expected,order=review(inventory,expected,receipt['order'],policy['managed_uuids'])
     assert all([ref['pack_id'] for ref in inventory['refs'][side]]==uids for side,uids in order.items()), 'Unreviewed pack order change'
+    from family_update.current_author_validation import curated_live_inputs_match
+    if curated_live_inputs_match(inventory, expected):
+        return policy
     if not G['audit'](active_world(), policy)['ok'] or any(pack['files']!=expected[pack['uuid']]['files'] or pack['version']!=expected[pack['uuid']]['version'] for pack in inventory['packs']):
         from family_update.preserved_reconciliation import reconcile
         reviewed,dependency_pins=reconcile(inventory,expected)

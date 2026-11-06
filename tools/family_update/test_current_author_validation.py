@@ -587,6 +587,40 @@ class CuratedRetainedInputs(unittest.TestCase):
   (Path(next(iter(configured.values())))/'payload.js').write_text('changed')
   with self.assertRaisesRegex(AssertionError,'committed profile'):m.curated_owner_inputs()
 
+ def test_installed_selected_literal_update_preserves_observation_and_old_receipt(self):
+  inputs=self.owner_pair();inventory={'packs':list(inputs.values())}
+  expected={uid:{**row,'version':[1,0,1],'files':{'manifest.json':'old'}}for uid,row in inputs.items()}
+  before=copy.deepcopy((inventory,expected))
+  self.assertTrue(m.curated_live_inputs_match(inventory,expected))
+  self.assertEqual((inventory,expected),before)
+  self.assertFalse(m.curated_live_inputs_match(inventory,inputs))
+  order={side:[uid for uid,row in inputs.items()if row['side']==side]for side in ('behavior','resource')}
+  inventory['refs']={side:[{'pack_id':uid,'version':inputs[uid]['version']}for uid in uids]for side,uids in order.items()}
+  quality=self.root/'quality';quality.mkdir();receipt=self.root/'previous-family.json'
+  self.guard.atomic(receipt,{'packs':list(expected.values()),'order':order})
+  policy={'approved_receipt':str(receipt),'managed_uuids':list(expected)}
+  policy_path=quality/'senluo-policy.json';self.guard.atomic(policy_path,policy);old=policy_path.read_bytes()
+  with patch.object(m.c,'Q',quality):
+   self.assertEqual(m.c.check_live_against_policy(inventory),policy)
+  self.assertEqual(policy_path.read_bytes(),old)
+
+ def test_installed_update_rejects_unknown_bytes_versions_sides_and_identities(self):
+  inputs=self.owner_pair();inventory={'packs':list(inputs.values())}
+  expected={uid:{**row,'version':[1,0,1],'files':{'manifest.json':'old'}}for uid,row in inputs.items()}
+  for field,value in [('files',{'manifest.json':'changed'}),('version',[1,0,3]),
+                      ('side','resource'),('uuid','unknown')]:
+   with self.subTest(field=field):
+    changed=copy.deepcopy(inventory);changed['packs'][0][field]=value
+    self.assertFalse(m.curated_live_inputs_match(changed,expected))
+
+ def test_installed_updates_do_not_admit_undeclared_changes_in_other_packs(self):
+  inputs=self.owner_pair();other=self.original['packs'][0]
+  inventory={'packs':[*inputs.values(),copy.deepcopy(other)]}
+  expected={uid:{**row,'version':[1,0,1],'files':{'manifest.json':'old'}}for uid,row in inputs.items()}
+  expected[other['uuid']]=copy.deepcopy(other)
+  inventory['packs'][-1]['files']['unexpected.js']='unknown'
+  self.assertFalse(m.curated_live_inputs_match(inventory,expected))
+
  def owner_companion(self,modules=None,dependency_version=None):
   inputs=self.owner_pair();uid='reviewed-data-companion';root=Path(inputs['reviewed-behavior']['path']).parent/uid;root.mkdir()
   version=[1,0,3]
