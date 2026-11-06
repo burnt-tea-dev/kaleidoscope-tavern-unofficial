@@ -88,6 +88,10 @@ LevelDB Python adapter；`gh` 需已有正常的唯讀 GitHub 認證。缺少依
 
 這些是新候選來源，不冒充 LIVE capture。原已裝清單、政策漂移檢查與停服備份保持原狀；原有身份與順序保留，新配對加入兩側優先位置，仍由有效 player 與相依契約檢查。此選擇不執行 UUID 資料遷移，也不允許移除未列出的包；之後照常完成 fresh stopped-save、BDS、准入、安裝及讀回。來源設定／profile／候選失配會拒絕部署。
 
+另一條已授權維護線若已安裝 committed profile 中的 literal 輸入，正常更新會以
+觀測到的 UUID、側別、版本及完整檔案比對該選擇後繼續，不要求重寫上一批 policy
+或新增 reconciliation 收據。原有順序及其餘差異檢查、候選與停服存檔驗證仍照常。
+
 ### 明確交付新世界
 
 擁有者選擇放棄舊世界時，在新設定加入 `fresh_world`，並保留 `world_dir` 指向
