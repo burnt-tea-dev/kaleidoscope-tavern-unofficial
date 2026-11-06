@@ -71,6 +71,32 @@ test('idle effect snapshots stop after one clear while active changes and failed
  }finally{system.sendScriptEvent=send;console.warn=warn;players=previousPlayers;}
 });
 
+test('a same-ID reconnect between publishes receives a fresh empty snapshot without clearing idle peers',()=>{
+ const previousPlayers=players,leaving=makePlayer(),peer=makePlayer(),sent=[],send=system.sendScriptEvent;
+ players=[leaving,peer];
+ system.sendScriptEvent=(id,message)=>{
+  if(id===KT+':effect_snapshot'){const row=JSON.parse(message);if(row.source===NS&&[leaving.id,peer.id].includes(row.entity))sent.push(row);}
+  return send.call(system,id,message);
+ };
+ const count=p=>sent.filter(row=>row.entity===p.id).length;
+ try{
+  bus.publish();assert.equal(count(leaving),1);assert.equal(count(peer),1);
+  world.afterEvents.playerSpawn.emit({player:peer,initialSpawn:false});
+  system.currentTick+=5;bus.publish();assert.equal(sent.length,2,'ordinary respawn retains same-session idle deduplication');
+  players=[peer];world.afterEvents.playerLeave.emit({playerId:leaving.id});
+  const returned=new Player(leaving.id,d);players=[returned,peer];
+  world.afterEvents.playerSpawn.emit({player:returned,initialSpawn:true});
+  system.currentTick+=5;bus.publish();
+  assert.equal(count(returned),2,'leave/rejoin with no intermediate publish needs the new session clear');
+  assert.deepEqual(sent.at(-1).rows,[]);assert.equal(count(peer),1);
+  system.currentTick+=5;bus.publish();assert.equal(count(returned),2);
+  const fresh=new Player(leaving.id,d);players=[fresh,peer];
+  world.afterEvents.playerSpawn.emit({player:fresh,initialSpawn:true});
+  system.currentTick+=5;bus.publish();
+  assert.equal(count(fresh),3,'initialSpawn independently resets a recipient session');assert.equal(count(peer),1);
+ }finally{system.sendScriptEvent=send;players=previousPlayers;}
+});
+
 // Independent storage namespaces: wrappers share physical entities/inventory but NOT DP.
 function packWorld(){
  const pack=new Properties(),scoped=new Map();

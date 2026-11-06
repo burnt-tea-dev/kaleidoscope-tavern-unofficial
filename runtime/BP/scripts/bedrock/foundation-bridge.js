@@ -39,6 +39,11 @@ export function installFoundationBridge(registry,furniture){
   try{check(utf8Bytes(ev.message)<=1900,'PACKET_TOO_LARGE');packet=JSON.parse(ev.message);if(native){furniture.nativeUse(packet);return;}const result=transport.receive(id,ev.message,system.currentTick);if(result)system.sendScriptEvent(ACK,JSON.stringify({...result,source:packet.source}));}
   catch(e){warn(e,packet);if(packet?.source&&packet?.revision)system.sendScriptEvent(ACK,JSON.stringify({source:packet.source,revision:packet.revision,ok:false,code:e.code??'INVALID_PACKET'}));}
  },{namespaces:['kaleidoscope_tavern']});
+ // A leave/rejoin can fit between publishes, so absence alone cannot identify
+ // a new recipient session. Keep other recipients' idle/heartbeat caches.
+ const forgetRecipient=id=>{for(const key of snapshotCache.keys())if(key.slice(key.indexOf('/')+1)===id)snapshotCache.delete(key);};
+ world.afterEvents.playerLeave.subscribe(e=>forgetRecipient(e.playerId));
+ world.afterEvents.playerSpawn.subscribe(e=>{if(e.initialSpawn)forgetRecipient(e.player.id);});
  // Authoritative, read-only snapshots; no addon reaches into another pack's DP.
  const publish=()=>{
   const seen=new Set();
