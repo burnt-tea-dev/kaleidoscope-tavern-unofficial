@@ -183,8 +183,9 @@ cache 重用只適用於同一份不可變候選。不是只看版號、mtime、
 
 ## 每次部署仍需新的存檔證據
 
-每次真正改 live 都取得 maintenance lock／lease，確認最初為 RUNNING，正常停服，
-建立全檔一致備份，從**本次**備份建立隔離世界，載入同一個候選並重啟。
+每次真正改 live 都取得 maintenance lock／lease，記錄原始 RUNNING／STOPPED 狀態；
+過渡中的啟停操作完成後才繼續，運行中才正常停服。建立全檔一致備份，
+從**本次**備份建立隔離世界，載入同一個候選並重啟。
 `bds` 和 `saved_world_migration` 共同引用這次保存檔演練，不因有兩個欄位再多跑一次。
 取消額外新世界首次＋重啟。新完整備份驗證成功後立即取代舊備份；小型歷史紀錄不阻擋舊備份 payload 退役。
 
@@ -192,7 +193,8 @@ cache 重用只適用於同一份不可變候選。不是只看版號、mtime、
 驗收結果寫入另一份 reviewed receipt。安裝及啟動後再次比對全檔與順序。
 
 回退失敗或原始包／政策不完整時保持停服及 active `needs_operator_recovery`；
-只有核對完成的原始整套包才可重啟。新資料庫不會被舊快照自動覆蓋。
+只有核對完成且原先正在運行的原始整套包才可重啟；原先停止則保持停止，
+既有較嚴的失敗恢復規則仍優先。新資料庫不會被舊快照自動覆蓋。
 
 若既有 managed drift review 的 committed proofs 宣告
 `owner_accepted_current_exact_bytes`，本次 capture 與實際組裝收據都必須保留該記錄
