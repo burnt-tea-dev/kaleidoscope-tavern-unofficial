@@ -15,25 +15,66 @@ foundation registration and the same SDK instance used by W's normal consumer.
 Keep T's runtime/publisher untouched. No fake lifecycle events, authority rows,
 flight grants, inventory or gameplay supplies are injected.
 
+## Existing runner and verified network setup
+
+Use the existing driver/helper in
+`/root/senluo-baseline-20260930/java-parity-20261105/native-network-player-20261106/`.
+Its README owns the current connection setup. BDS1.26.60.6's G
+`native-ice-interface-r4` has reached ICE/DTLS/SCTP/login/initialSpawn with this
+setup and then closed both clients normally. That establishes the connection
+path only; its G gameplay result is not T205 session evidence.
+
+Keep the existing resource limits and identity verification. HTTP signaling
+still uses `http://127.0.0.1:QA_PORT`; ICE also uses the single address
+`192.0.2.62/32` inside the closed namespace. Pass the helper's
+`SYSTEMD_NETWORK_PROPERTIES` as separate systemd arguments:
+
+```sh
+--property=PrivateNetwork=yes --property=IPAddressDeny=any \
+--property=IPAddressAllow=localhost --property=IPAddressAllow=192.0.2.62/32
+```
+
+Inside that unit, enable loopback through the existing runner, then call
+`prepare_ice_interface(unit)` **once before starting BDS**. The helper creates
+`qaice0` and `qaice1` in that same namespace; only qaice0 receives the /32.
+There is no host/other-namespace link or default route. Controller, BDS and both
+successive driver processes remain in the same unit/cgroup/network namespace.
+Keep the existing QA settings (`online-mode=false`, `allow-list=false`,
+`max-players=2`) and the driver's fixed names/UUIDs.
+
+## Two successive sessions on the same BDS
+
 Start with zero players. Send `scriptevent tavern_qa:session_begin {}` once.
 The bounded observer emits these markers:
 
 1. `TAVERN_QA_SESSION_LOGIN_READY`: real W registration is ready; start the
-   existing `qa-network-player` driver (both fixed names/UUIDs).
+   first process with `start_network_players(bds_pid, unit, session_1_log, port)`
+   (both fixed names/UUIDs). Keep its returned process and stream.
 2. `TAVERN_QA_SESSION_DISCONNECT_READY {"session":1}`: each first session
    received one empty snapshot, the real SDK accepted it, and ten idle ticks
-   passed. SIGTERM the driver and wait for its normal exit.
+   passed. Call `stop_network_players(process, stream)` to send SIGTERM and wait
+   for normal exit; retain its `forced` and `returncode` results.
 3. `TAVERN_QA_SESSION_RECONNECT_READY`: native leave events and zero players were
-   observed. Start a **new process** with the same two login UUIDs.
-4. `TAVERN_QA_SESSION_DISCONNECT_READY {"session":2}`: close the second driver.
+   observed. On the same running BDS, call `start_network_players` again with a
+   **new process and a different, unused `session_2_log`**, using the same unit,
+   port, names and login UUIDs.
+4. `TAVERN_QA_SESSION_DISCONNECT_READY {"session":2}`: normally close the second
+   process with its own returned process/stream through `stop_network_players`.
 5. `TAVERN_QA_SESSION_RESULT`: native IDs, initialSpawn events, per-session empty
    counts, SDK observations, timing and final native player count.
 
-Driver path and resource/network limits come from the existing
-`native-network-player-20261106/README.md` in the host work index. Both processes
-remain in the same restricted unit/network namespace as the QA BDS; loopback
-only, no real account. Observer timeouts also emit a result; the common runner
-must still close a remaining driver and stop normally, preserving failures.
+Use distinct paths such as `session-1.log` and `session-2.log` under this QA's
+evidence directory. The helper opens logs with `open('x')`: reusing round one's
+path fails instead of overwriting it. Both log files remain available for
+`spawned_names(log_path)` and raw transport observations. Do not restart BDS or
+prepare its ICE interfaces again between rounds.
+
+Record both normal driver exits (`forced=false`, `returncode=0`), native leaves
+and final playersAfter=0 before normally stopping BDS. Observer timeouts also
+emit a result; the common runner must still close a remaining driver and stop
+normally, preserving the original result and any nonzero player count.
+
+## Evidence boundary
 
 `readTavernEffects()=={}` alone cannot prove receipt of an empty snapshot. The
 observer also checks `getTavernEffectEntities()` while that received snapshot is
@@ -48,6 +89,7 @@ otherwise preserve `inconclusive` or the actual failure. A slow successful
 reconnect proves its observed session behavior, not that the original race was
 exercised. This tool is not a renderer, flight-permission or human-client test.
 
-Prepared verification: JavaScript syntax and diff checks only. No BDS, driver,
-saved world, or native reconnect has been run by this source owner. The corrected
-placement in the functional phase changes no observer code or exported runtime.
+Prepared verification: reuse the existing observer syntax check; this update
+checks documentation against the actual helper and fixed T205/W201 sources.
+No BDS, driver, saved world, or T205 native reconnect has been run by this source
+owner. The network instructions change no observer code or exported runtime.
