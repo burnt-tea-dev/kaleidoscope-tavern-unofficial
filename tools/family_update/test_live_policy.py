@@ -41,7 +41,9 @@ class LivePolicyTests(unittest.TestCase):
             with self.subTest(kind=kind):
                 v = deepcopy(self.inventory)
                 if kind == 'file': v['packs'][0]['files']['main.js'] = 'drift'
-                elif kind == 'version': v['packs'][0]['version'] = [1, 2, 2]
+                elif kind == 'version':
+                    v['packs'][0]['version'] = [1, 2, 2]
+                    v['refs']['behavior'][0]['version'] = [1, 2, 2]
                 elif kind == 'side': v['packs'][0]['side'] = 'resource'
                 elif kind == 'missing': v['packs'].pop()
                 elif kind == 'extra': v['packs'].append({**v['packs'][0], 'uuid': 'foreign'})
