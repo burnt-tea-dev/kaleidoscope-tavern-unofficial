@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "Event-delivery control prepared after initial no-height-change observation; not adopted",
+  "status": "Selected Player event delivery proven; no step-height change observed; not adopted",
   "scope": "One selected-engine Player component-group capability check after actual tryTeleport keepVelocity rejection; no production Player replacement",
   "engine": "BDS1.26.60.6",
   "script_api": "@minecraft/server2.7.0",
@@ -94,5 +94,6 @@
     "production composition or saved-state migration"
   ],
   "event_witness": "QA-only queued tag on/off response proves selected Player event delivery. Trigger after setup teleport, wait for the response, then measure native walking. No new property, physics or production event.",
-  "initial_observations": "Initial source05a3f51b native samples are preserved in data/native-high-heels-step-204.json: no height change, flat flower/water walks and matching jump heights, without an independent event-delivery witness. Those flat/jump samples are not replayed by this control."
+  "initial_observations": "Initial source05a3f51b native samples are preserved in data/native-high-heels-step-204.json: no height change, flat flower/water walks and matching jump heights, without an independent event-delivery witness. Those flat/jump samples are not replayed by this control.",
+  "result_source": "data/native-high-heels-step-204.json#event_control"
 }

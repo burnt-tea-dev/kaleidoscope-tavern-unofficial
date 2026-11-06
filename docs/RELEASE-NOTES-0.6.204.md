@@ -17,7 +17,10 @@ predicate. They are inconclusive, not passed walking cases. See the
 [sanitized native result](../data/native-high-heels-player-204.json).
 
 This remains a draft with a known unavailable Player path. No LIVE deployment
-or full Java parity is claimed. A separate QA-only native component proposal
-must establish Player capability before gameplay or shared composition changes.
+or full Java parity is claimed. The QA-only native component candidate also produced no full-block stepping
+change after its on/off events were independently witnessed on the selected
+Player. This is a bounded result for the tested engine/control path; see the
+[native component observations](../data/native-high-heels-step-204.json).
+No component adoption or shared composition change follows from these results.
 Existing saved status format, API module versions and other effects are unchanged.
 See the [current High Heels row](PARITY-MATRIX.md#other-tracked-mechanics).
