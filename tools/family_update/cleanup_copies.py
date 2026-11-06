@@ -106,6 +106,7 @@ def cleanup_context(track=None):
     policy_path = c.Q / 'senluo-policy.json'
     historical = set()
     pending = [(path, None) for path in [policy_path, c.T / 'family/upstream.lock.json']]
+    # Historical review keys protect referenced data only; they grant no admission.
     pending += [(Path(current[key]), None) for key in ['extension_validation', 'preserved_reconciliation', 'preserved_additions', 'identity_migration', 'container_recovery_plan', 'translation_reconciliation'] if current.get(key)]
     # Follow actual JSON evidence references, including the private validation's
     # still-used source snapshot. Do not traverse arbitrary source/archive dirs.

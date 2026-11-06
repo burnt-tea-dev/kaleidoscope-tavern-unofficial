@@ -1,12 +1,14 @@
-# 家族部署工具盤點（W2.1）
+# 家族部署工具歷史盤點（W2.1，2026-10-26）
+
+本頁保留當時的盤點與未完成項，不是現行保留清單或合併門檻。舊 AMW／startup／translation reconciliation 已於後續工具收斂退役；有效入口與完整輸入審查只查 [UPDATE-WORKFLOW](UPDATE-WORKFLOW.md#啟用已審閱的完整本機配套)。
 
 基準：Tavern `afae50c054487d131829bacaedd4e0ea749a26c0`，2026-10-26 HKT。範圍為 `tools/family_update/*.py` 的 46 個非測試模組（包含套件入口）。本文件只盤點，不變更政策、runtime、發布身份或 LIVE。
 
 **狀態：盤點已有結論；「最後實際執行 commit」仍有證據缺口，W2.1 未達全部驗收。** Git 記錄只能證明最後修改；現存部署報告並非逐模組執行追蹤，無法可靠還原每個模組最後跑過的版本與 config。下表的 commit 均為最後修改，不能讀成使用證據。
 
-S1 規劃指定保留的六個核心模組，目前沿直接、條件與動態階段調度可達 42 個模組。CLI 另用到 `cleanup_engine_inputs`、`native_capacity_wait`；`acceptance_evidence` 有獨立 CLI，`__init__` 是套件結構。因此不能直接把保留集縮成六個檔案，也沒有已證明可孤立刪除的模組。必須先讓替代實作承接現行責任、移除舊入口，再退役檔案。
+S1 規劃指定保留的六個核心模組，當時沿直接、條件與動態階段調度可達 42 個模組。CLI 另用到 `cleanup_engine_inputs`、`native_capacity_wait`；`acceptance_evidence` 有獨立 CLI，`__init__` 是套件結構。因此當時不能直接把保留集縮成六個檔案，也未確認可孤立刪除的模組；後續應依實際使用者與替代入口退役，不由此快照推定仍在使用。
 
-配置標記 **C**＝目前 selector 的 2026-10-19 T177/G155/W154/P59 配置，**P**＝已審但尚未部署的 2026-10-25 bottle-owner 配置。兩者均選 `extension_stable_profile=current-author-retained`；C 另有 `prospective_preserved_inputs`、`normal_idle_update`、`native_capacity_wait_seconds`，P 改由 `managed_drift_recovery` 處理已觀察差異。這些是**靜態分支選擇與可達性**，不證明任何函式曾執行。
+配置標記 **C**＝當時 selector 的 2026-10-19 T177/G155/W154/P59 配置，**P**＝當時已審但尚未部署的 2026-10-25 bottle-owner 配置。兩者均選 `extension_stable_profile=current-author-retained`；C 另有 `prospective_preserved_inputs`、`normal_idle_update`、`native_capacity_wait_seconds`，P 改由 `managed_drift_recovery` 處理已觀察差異。這些是**當時的靜態分支選擇與可達性**，不證明任何函式曾執行。
 
 表內 importer 若未加目錄均指本套件的 `.py` 模組，長清單只列主要 caller。CONFIG 列保留可確認的字面 keys；「傳入」指由 caller 選取後作參數傳遞。以變數／列表索引讀取的配置並未完整涵蓋；未列出或未帶 C/P 不表示無使用。
 
