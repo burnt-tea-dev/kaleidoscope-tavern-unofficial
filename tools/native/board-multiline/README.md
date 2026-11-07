@@ -2,7 +2,7 @@
 
 這是 QA-only observer，不是另一個遊戲包，也不自行開 BDS。共同持有者在既有同 copy 的 functional phase，將 `observer.js` 複製到 **Tavern BP 的 scripts 根目錄**，在原 `main.js` 最後 import 它；正式包、LIVE 與正式 DB 不加入此檔。使用固定單一 `qaNetPlain`，原 driver 身份／限額不變。等固定來源與 root 的正常 form wire 接線 ready 才排槽，不使用舊 v12 的無表單能力路徑。
 
-observer 只在共同的單次 prepare 事件後，在 QA 區域建立小黑板與平台，使用 owner 的 `normalizeBoardData`／`boardRuntimeKey` 準備一次 seed，移動玩家至八格範圍內。不因 `getAllPlayers` 已看見 actor 就開始；登入中的 actor 也會被列出。它不呼叫 `editBoard`、不呼叫 `ModalFormData.show`、不攔截或偽造 form reply。**READY 後沒有保存鍵、方塊或玩家寫入；只觀察正常點擊與 owner 保存結果。** 開始時手上必須為空，否則明確 fail。
+observer 只在共同的單次 prepare 事件後，在 QA 區域建立小黑板與平台，使用 owner 的 `normalizeBoardData`／`boardRuntimeKey` 準備一次 seed，移動玩家至八格範圍內。不因 `getAllPlayers` 已看見 actor 就開始；登入中的 actor 也會被列出。它不呼叫 `editBoard`、不呼叫 `ModalFormData.show`、不攔截或偽造 form reply。**READY 後沒有保存鍵、方塊或玩家寫入；只觀察正常點擊與 owner 保存結果。** 開始時手上必須為空，否則記 QA setup inconclusive，不冒充 T 功能陰性。
 
 0. 等 `TAVERN_QA_BOARD_LOGIN_READY`，沿既有 driver 正常登入。**共同必須先拿到真 driver spawn 與 `initial_loading_end`，才由原 BDS console 送一次 `scriptevent kt_qa:board_prepare`。** 保留這兩個 wire 時點與 console prepare 記錄。observer 收事件後才 teleport，20tick 延遲只用來載入新位置的 QA chunk，不用來猜登入完成；收到 `PREPARING`／`READY` 後 driver 已在正常 ReadPacket 路徑觀察場景更新。沒送 prepare 就不建場景；缺 wire/loading 證據不能判功能陰性。
 

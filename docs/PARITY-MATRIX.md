@@ -21,6 +21,8 @@ Adopt the official Bedrock Tavern1.0.7 unique-reference rule. Preserve the curre
 
 黑板 raw 容量維持320／350／1500，輸入上限同步回原字數，不再用雙倍逃逸容量。`text` 保存格式、layout、顏色／glowing／waxed 與原有水平／垂直對齊延伸不變；[editBoard](../runtime/BP/scripts/bedrock/writing-boards.js)在提交後仍重查互動資格、方塊及 root identity、reach、stale data、Wax 與 layout。移除已被替代的 encode/decode，沒有舊板面遷移。
 
+`writing-boards.js` 原來仍被 launch hash／reverse delta 要求還原到歷史單行來源，必要CI因此拒絕本次變更。沿用現有 `current_extension_source_contract.py` 的板面 owner 與上述實作回歸，將該檔的舊 launch 記錄及兩層 reverse delta 原樣移到既有 historical 區；沒有新增反向投影、改舊hash或放寬其他檔案。驗證這個交接時，既有契約測試的臨時root漏複製已納入owner的香薰生成輸入；只補其三個公開fixture來源，不改香薰runtime。
+
 **來源先紅後綠**：[既有 interaction／真提交 callback 回歸](../tools/board-farm-interaction.test.mjs)修前有3個失敗：default 不是原文字、真正換行混合字面反斜線+n 被解碼、三種板面的長 default 被跳脫；修後23項全通過。[生成器回歸](../tools/test_tavern_forms.py)先拒絕沒有 enabled_newline 的輸入，再驗證原生換行／scroll／按鍵、精確三語 scope、foreign 與 disabled／focus，7項通過；必要 CI 納入此既有測試。另通過原 layout、Mojang HUD root 保留與保留的隔離工具相容檢查。
 
 這些是實際來源加 API-double 證據，**不是 Native 或 client Enter 通過**。[單人正常 wire observer 契約](../tools/native/board-multiline/README.md)要求正常 block-click、實收 ModalFormRequest/default、一次正常 ModalFormResponse 與原 owner 保存只讀回，留給共同既有 functional phase；舊 v12 沒有 form response 能力，缺表單／timeout 不作 T 功能陰性。尚無 wire 結果；實體 Enter、IME、觸控／手把、畫面／caret 未驗，不加真人門檻，不盲跑 BDS。
