@@ -112,10 +112,52 @@ for(const mode of [GameMode.Spectator,GameMode.Adventure])test(mode+' cannot use
  assert.throws(()=>withBreakInventory(p,d,at,'drop',()=>D.takeEmptyBottle(p,b)));assert.equal(b.typeId,NS+'bottle_empty');
 });
 test('Forge overflow starts without horizontal motion and is blocked for 40 world ticks only',async()=>{
- const {system}=await import('@minecraft/server');const {delayOverflowPickup,PICKUP_AFTER}=await import('../../runtime/BP/scripts/bedrock/pickup-overflow.js');const {p,d,at,b}=setup();b.setType(NS+'bottle_empty');for(let i=0;i<36;i++)p.inventory.setItem(i,new ItemStack('minecraft:stone',64));D.takeEmptyBottle(p,b);const item=d.getEntities({type:'minecraft:item',location:at,maxDistance:2})[0];assert.deepEqual(item.velocity,{x:0,y:.2,z:0});assert.equal(item.getDynamicProperty(PICKUP_AFTER),system.currentTick+40);
+ const {system}=await import('@minecraft/server');const {delayOverflowPickup,PICKUP_AFTER}=await import('../../runtime/BP/scripts/bedrock/pickup-overflow.js');const {p,d,at,b}=setup();b.setType(NS+'bottle_empty');for(let i=0;i<36;i++)p.inventory.setItem(i,new ItemStack('minecraft:stone',64));D.takeEmptyBottle(p,b);const item=d.getEntities({type:'minecraft:item',location:at,maxDistance:2})[0];assert.deepEqual(item.velocity,{x:0,y:.2,z:0});assert.equal(item.getDynamicProperty(PICKUP_AFTER),'script:'+(system.currentTick+40));
  const e={item,cancel:false};delayOverflowPickup(e);assert.equal(e.cancel,true);const previous=system.currentTick;system.currentTick+=40;const ready={item,cancel:false};delayOverflowPickup(ready);assert.equal(ready.cancel,false);system.currentTick=previous;
  const foreign=d.spawnItem(new ItemStack('minecraft:stone'),at),other={item:foreign,cancel:false};delayOverflowPickup(other);assert.equal(other.cancel,false);
 });
+async function pickupClock(run){const {system}=await import('@minecraft/server'),previous=system.currentTick;try{return await run(system);}finally{system.currentTick=previous;}}
+test('item pickup delay advances while world time is frozen or moved backward',async()=>pickupClock(async system=>{
+ const {world}=await import('@minecraft/server');const {preparePickupOverflow,delayOverflowPickup,PICKUP_AFTER}=await import('../../runtime/BP/scripts/bedrock/pickup-overflow.js');
+ const {d,at}=setup(),item=d.spawnItem(new ItemStack('minecraft:stone'),at);system.currentTick=100;
+ const originalTime=world.getAbsoluteTime;world.getAbsoluteTime=()=>100;try{
+  preparePickupOverflow(item);assert.equal(item.getDynamicProperty(PICKUP_AFTER),'script:140');world.getAbsoluteTime=()=>0;
+  system.currentTick=119;let event={item,cancel:false};delayOverflowPickup(event);assert.equal(event.cancel,true);
+  system.currentTick=120;event={item,cancel:false};delayOverflowPickup(event);assert.equal(event.cancel,true);
+  world.getAbsoluteTime=()=>-1000;
+  system.currentTick=140;event={item,cancel:false};delayOverflowPickup(event);assert.equal(event.cancel,false);
+ }finally{world.getAbsoluteTime=originalTime;}
+}));
+test('restored item handles retain the previous loaded countdown instead of waiting forty more ticks',async()=>pickupClock(async system=>{
+ const {world}=await import('@minecraft/server');
+ const {preparePickupOverflow,delayOverflowPickup,PICKUP_AFTER}=await import('../../runtime/BP/scripts/bedrock/pickup-overflow.js');
+ const {d,at}=setup(),item=d.spawnItem(new ItemStack('minecraft:stone'),at),values=new Map();
+ const handle={getDynamicProperty:key=>values.get(key),setDynamicProperty:(key,value)=>values.set(key,value),clearVelocity(){},applyImpulse(){}};system.currentTick=100;
+ preparePickupOverflow(handle);system.currentTick=109;delayOverflowPickup({item:handle,cancel:false});assert.equal(values.get(PICKUP_AFTER),'script:140');
+ const restored={...handle};system.currentTick=120;delayOverflowPickup({item:restored,cancel:false});assert.equal(values.get(PICKUP_AFTER),'script:140');
+ system.currentTick=140;const event={item:restored,cancel:false};delayOverflowPickup(event);assert.equal(event.cancel,false);
+}));
+test('legacy world-time pickup deadlines migrate without extending or reviving the wait',async()=>pickupClock(async system=>{
+ const {world}=await import('@minecraft/server');
+ const {delayOverflowPickup,PICKUP_AFTER}=await import('../../runtime/BP/scripts/bedrock/pickup-overflow.js');
+ const values=new Map([[PICKUP_AFTER,900]]),item={getDynamicProperty:key=>values.get(key),setDynamicProperty:(key,value)=>values.set(key,value)};system.currentTick=900;
+ const originalTime=world.getAbsoluteTime;try{
+  let event={item,cancel:false};delayOverflowPickup(event);assert.equal(event.cancel,false);
+  system.currentTick=1000;values.set(PICKUP_AFTER,world.getAbsoluteTime()+40);event={item,cancel:false};delayOverflowPickup(event);assert.equal(event.cancel,true);assert.equal(values.get(PICKUP_AFTER),1040);
+  system.currentTick=1040;world.getAbsoluteTime=()=>1039;event={item,cancel:false};delayOverflowPickup(event);assert.equal(event.cancel,true);assert.equal(values.get(PICKUP_AFTER),1040);
+  system.currentTick=1040;world.getAbsoluteTime=()=>1040;system.currentTick=1060;event={item,cancel:false};delayOverflowPickup(event);assert.equal(event.cancel,false);
+ }finally{world.getAbsoluteTime=originalTime;}
+}));
+test('Tomb Raider shares the loaded-item pickup clock',async()=>pickupClock(async system=>{
+ const {world}=await import('@minecraft/server');
+ const {blockOverflowPickup}=await import('../../runtime/BP/scripts/bedrock/pickup-overflow.js');
+ const {blockTombPickup,TOMB_PICKUP_UNLOCK}=await import('../../runtime/BP/scripts/bedrock/custom-effects.js');
+ system.currentTick=100;const values=new Map([[TOMB_PICKUP_UNLOCK,world.getAbsoluteTime()+40]]),item={getDynamicProperty:key=>values.get(key),setDynamicProperty:(key,value)=>values.set(key,value)};
+ const originalTime=world.getAbsoluteTime;try{
+  system.currentTick=139;world.getAbsoluteTime=()=>139;const event={item,cancel:false};blockTombPickup(event);assert.equal(event.cancel,true);
+  system.currentTick=140;blockTombPickup({item,cancel:false});assert.equal(item.getDynamicProperty(TOMB_PICKUP_UNLOCK),140);
+ }finally{world.getAbsoluteTime=originalTime;}
+}));
 import {BOTTLES} from '../../runtime/BP/scripts/data/bottles.js';
 import {COCKTAILS} from '../../runtime/BP/scripts/data/mixology.js';
 for(const [base,config]of Object.entries(BOTTLES))for(let quality=1;quality<=config.qualities;quality++)test('catalog quality display roundtrip '+base+'/'+quality,()=>{

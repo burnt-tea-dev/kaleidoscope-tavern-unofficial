@@ -153,7 +153,7 @@ test('overflow uses the shared source drop adapter and consumes no insertion RNG
  let draws=0;f.complete(()=>{draws++;return 0;});assert.equal(draws,1);assert.equal(f.player.inventory.getItem(0).amount,2);
  const dropped=[...f.player.dimension.entities.values()].filter(entity=>!before.has(entity.id));assert.equal(dropped.length,1);
  assert.equal(dropped[0].itemStack.typeId,f.empty);assert.deepEqual(dropped[0].location,{...f.player.location,y:f.player.location.y+.5});
- assert.deepEqual(dropped[0].velocity,{x:0,y:.2,z:0});assert.equal(dropped[0].getDynamicProperty(PICKUP_AFTER),world.getAbsoluteTime()+40);
+ assert.deepEqual(dropped[0].velocity,{x:0,y:.2,z:0});assert.equal(dropped[0].getDynamicProperty(PICKUP_AFTER),'script:'+(world.getAbsoluteTime()+40));
  assert.equal(completionDiagnostics.last.status,'SETTLED_DROP');
 });
 test('settlement write failure preserves post-effect changes, and the captured frame cannot be replayed',()=>{

@@ -3,6 +3,7 @@ import {check,digest} from '../core/util.js';
 import {TIPSY_ID} from '../core/tipsy-visual.js';
 import {externalEffectSource,externalEffectDefinition} from '../core/extension-content.js';
 import {pulseTipsyVisual,forgetTipsyVisual,pruneTipsyVisuals,tipsyVisualDiagnostics,tipsyVisualState} from './tipsy-visual.js';
+import {blockOverflowPickup,markPickupDeadline} from './pickup-overflow.js';
 import {performShriek} from './combat-effects.js';
 import {applyNativeStatusWithAura,indexStatusAura,restoreStatusAura,restoreLoadedStatusAura,resetStatusAuraOnSpawn,forgetStatusAura,noteSyntheticAuraInvisibility,installStatusAura,statusAuraDiagnostics} from './status-aura.js';
 /** C5 own timed effects; no player.json, fake native replacement buffs, XP fabrication or global UI writes. */
@@ -213,7 +214,7 @@ export function handleTombRaider(event,rng=Math.random){
   let itemEntity;
   try{
    itemEntity=target.dimension.spawnItem(drop,target.location);
-   itemEntity.setDynamicProperty(TOMB_PICKUP_UNLOCK,system.currentTick+40);
+   itemEntity.setDynamicProperty(TOMB_PICKUP_UNLOCK,'script:'+(system.currentTick+40));markPickupDeadline(itemEntity);
   }catch(e){
    try{itemEntity?.remove();}catch{}
    try{if(equipment.setEquipment(EquipmentSlot.Mainhand,original)===false)customEffectDiagnostics.tombRollbackFailures++;}catch{customEffectDiagnostics.tombRollbackFailures++;}
@@ -225,7 +226,7 @@ export function handleTombRaider(event,rng=Math.random){
 export function blockTombPickup(event){
  try{
   const unlock=event.item?.getDynamicProperty?.(TOMB_PICKUP_UNLOCK);
-  if(typeof unlock==='number'&&system.currentTick<unlock){event.cancel=true;customEffectDiagnostics.tombPickupBlocks++;return true;}
+  if(blockOverflowPickup(event.item,system.currentTick,TOMB_PICKUP_UNLOCK)&&['number','string'].includes(typeof unlock)){event.cancel=true;customEffectDiagnostics.tombPickupBlocks++;return true;}
  }catch(e){error(e);}
  return false;
 }
