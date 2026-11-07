@@ -209,6 +209,7 @@ class CurrentExtensionSourceTests(unittest.TestCase):
   for name in runtime_sources()|{'runtime/BP/scripts/main.js','runtime/BP/scripts/data/guide-catalog.js',
    'runtime/BP/scripts/bedrock/writing-boards.js',
    'runtime/BP/scripts/core/bottles.js','runtime/BP/scripts/bedrock/bottles.js',
+   'art/native-incense/zombie_villager.json','art/native-incense/zombie_villager_v2.json','art/native-incense/LICENSE.md',
    'data/baseline-reconciliation.json','data/launch-repair-reference.json',
    'data/efficiency-repair-reference.json','data/pickup-pick-baseline.json',
    'data/pick-block-prefixes.json'}:

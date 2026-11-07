@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Source-derived Tavern guide images and scoped native board input capacity.
+"""Source-derived Tavern guide images and scoped native multiline board inputs.
 
 The pinned Mojang UI nodes are in fixtures/mojang-server-form-reference.json.
 Java 1.20.1 SpriteContents$InterpolationData (fup$c.class, SHA256
@@ -20,11 +20,11 @@ ROOT=Path(__file__).resolve().parents[1]
 CURRENT_FORM_SOURCES={'runtime/RP/ui/server_form.json'}
 NAMES=('depth_charge','mystery_cocktail','nether_special','ice_grape')
 BOARD_TITLE_PREFIX='§r§0§r'
-BOARD_INPUT_LIMITS={'sandwich':640,'small':700,'large':3000}
+BOARD_INPUT_LIMITS={'sandwich':320,'small':350,'large':1500}
 
 def board_input_ui(root,vanilla,reference):
-    # Keep the native single-line edit control and its controller. The raw board
-    # limits are unchanged; escaped newlines/backslashes can use two code units.
+    # Keep the server-form option's textbox controller and enabled variables.
+    # Only owned fields receive the native multiline input/scroll/keyboard nodes.
     # The exact title AND field must match, including the invisible owned prefix.
     predicates={kind:[] for kind in BOARD_INPUT_LIMITS}
     for locale in ('en_US','zh_CN','zh_TW'):
@@ -40,6 +40,8 @@ def board_input_ui(root,vanilla,reference):
     ui={original:copy.deepcopy(vanilla[original])}
     ui[original]['$control_name']='server_form.kt_board_input_branches'
     controls=[]
+    multiline=reference['files']['ui_common.json']['nodes']['scrollable_multiline_text_edit_box@common.scrollable_text_edit_box']
+    scroll=reference['files']['ui_common.json']['nodes']['scrollable_text_edit_box@common.text_edit_box']
     for kind in ('foreign',*BOARD_INPUT_LIMITS):
         expression=f'(not {owned})' if kind=='foreign' else selected[kind]
         node=scoped_input(reference,'settings_common.option_text_edit_control',expression,'#kt_board')
@@ -49,9 +51,13 @@ def board_input_ui(root,vanilla,reference):
         # Foreign forms keep the native visible fallback when the optional
         # title/field bindings have not resolved on this client yet.
         if kind=='foreign':node['visible']=True
-        if kind!='foreign':node['max_length']=BOARD_INPUT_LIMITS[kind]
-        # Every branch inherits the ORIGINAL edit widget, bindings, placeholder,
-        # collection name, textbox name and button mappings. No multiline swap.
+        if kind!='foreign':
+            node.update(copy.deepcopy(multiline))
+            node.update(copy.deepcopy(scroll))
+            node['size']=['100%',120]
+            node['max_length']=BOARD_INPUT_LIMITS[kind]
+        # Inherit the original form controller, collection, textbox name and
+        # disabled rules. Foreign fields retain all native single-line children.
         name='kt_board_input_'+kind
         ui[name+'@settings_common.option_text_edit_control']=node
         controls.append({name+'@server_form.'+name:{}})
@@ -121,7 +127,7 @@ def check_or_write(write=False):
             if write:path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(data)
             else:errors.append(str(path.relative_to(ROOT)))
     if errors:raise AssertionError('Tavern native form drift: '+', '.join(errors))
-    print('4 scoped Tavern guide flipbooks and 3 native board input limits; client acceptance pending.')
+    print('4 scoped Tavern guide flipbooks and 3 native multiline board inputs; rendered client behavior not measured.')
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser();parser.add_argument('--write',action='store_true')

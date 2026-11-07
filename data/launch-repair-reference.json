@@ -1757,12 +1757,6 @@
       "after": "c8ca18954857c455d20766b5517bc67e41084cbdfaf367a6c59df003ae6a157e",
       "reason": "0.6.55: enforce seven guide roots with native child categories, split grape entries, clarify Java board alignment and use a shared alignment calculation. 0.6.60: user-requested Word-style board alignment and capacity checks; metadata-safe drink stack merging and empty-hand pickup; duplicate placement gesture coalescing."
     },
-    "runtime/BP/scripts/bedrock/writing-boards.js": {
-      "before": "28b13afc89f99694304865c6baad58b282ba7c0599cd9c70175c8efd489480c6",
-      "beforeProjected": "28b13afc89f99694304865c6baad58b282ba7c0599cd9c70175c8efd489480c6",
-      "after": "d6f3e2f84b0ac85c863b3677d732f528f4727ce159319183d54ebcd3269c6a14",
-      "reason": "0.6.55: enforce seven guide roots with native child categories, split grape entries, clarify Java board alignment and use a shared alignment calculation. 0.6.60: user-requested Word-style board alignment and capacity checks; metadata-safe drink stack merging and empty-hand pickup; duplicate placement gesture coalescing. 2026-09-28 effects review: Source-derived post-commit feedback, isolated cosmetic failures and real splash lifecycle; preserves PR93 carrier repair. See docs/EFFECTS-REPORT-FOLLOWUP-20260928.md."
-    },
     "runtime/BP/scripts/bedrock/cellar-cabinet.js": {
       "before": "fa58d24275e5742d2225e0428985d64153826a145159474696c5c795b9c94f84",
       "beforeProjected": "fa58d24275e5742d2225e0428985d64153826a145159474696c5c795b9c94f84",
@@ -2493,6 +2487,12 @@
       "beforeProjected": "8056fa6f02f82d918cf8db870ba79bda8472eb63b889075508b4f0cdc75c3c83",
       "after": "b96c30e10c53bb49f7eeb854f8744f53dff466cc5cf59c5e17de23f9d7a40339",
       "reason": "Reviewed reconciliation of PRs #25/#50/#69/#88 and paired version bump; preserves native pick, storage and creative metadata."
+    },
+    "runtime/BP/scripts/bedrock/writing-boards.js": {
+      "before": "28b13afc89f99694304865c6baad58b282ba7c0599cd9c70175c8efd489480c6",
+      "beforeProjected": "28b13afc89f99694304865c6baad58b282ba7c0599cd9c70175c8efd489480c6",
+      "after": "d6f3e2f84b0ac85c863b3677d732f528f4727ce159319183d54ebcd3269c6a14",
+      "reason": "0.6.55: enforce seven guide roots with native child categories, split grape entries, clarify Java board alignment and use a shared alignment calculation. 0.6.60: user-requested Word-style board alignment and capacity checks; metadata-safe drink stack merging and empty-hand pickup; duplicate placement gesture coalescing. 2026-09-28 effects review: Source-derived post-commit feedback, isolated cosmetic failures and real splash lifecycle; preserves PR93 carrier repair. See docs/EFFECTS-REPORT-FOLLOWUP-20260928.md."
     }
   }
 }

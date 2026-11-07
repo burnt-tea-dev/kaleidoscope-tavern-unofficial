@@ -4665,38 +4665,6 @@
             ]
           ]
         },
-        "runtime/BP/scripts/bedrock/writing-boards.js": {
-          "before": "d6f3e2f84b0ac85c863b3677d732f528f4727ce159319183d54ebcd3269c6a14",
-          "after": "4183f6a133160d37d1967aed383189a80c54f1874f3caf9a633c97930d518985",
-          "reason": "Preserve Java held-item/secondary-use interaction, root-origin reach, source flower-transform priority and waxed/out-of-range PASS behavior; settle native duplicates, commit board material consumption and saved data atomically, and keep the existing bounded form editor.",
-          "reverseOps": [
-            [
-              8,
-              9,
-              "import {canWrite,hand,handSnapshot,sameHand,exchangeBlocks,placementTake,blockAt,plus,safe,requireBlockReach,applyBlocks} from './transactions.js';\n"
-            ],
-            [
-              10,
-              12,
-              "import {nativeEmptyHandBlockUse,registerJavaBlockUseHandler} from './java-placement-router.js';\n"
-            ],
-            [
-              14,
-              15,
-              "const diagnostics={placed:0,recovered:0,transformed:0,edited:0,glyphHelpers:0,glyphRefreshes:0,errors:[]};let installed=false;const recentBoardInteractions=new Map();\n"
-            ],
-            [
-              26,
-              113,
-              "function consumeOne(player){exchangeBlocks(player,placementTake(player),[],[]);}\nfunction setBoardStyle(player,block,target){canWrite(player);const base=boardBase(block.location,block.permutation.getState(BOARD_HALF)),lower=blockAt(block.dimension,base),upper=blockAt(block.dimension,{x:base.x,y:base.y+1,z:base.z});check(lower&&upper&&isSandwich(lower.typeId)&&upper.typeId===lower.typeId,'BOARD_PAIR_MISSING');const item=hand(player);check(item&&eligibleFlower(item.typeId),'BOARD_FLOWER_REQUIRED');check(target!==lower.typeId,'BOARD_STYLE_UNCHANGED');const state=lower.permutation,top=upper.permutation;exchangeBlocks(player,placementTake(player),[],[{block:lower,permutation:BlockPermutation.resolve(target,{[BOARD_HALF]:0,[BOARD_ROTATION]:state.getState(BOARD_ROTATION),'kaleidoscope_tavern:waterlogged':state.getState('kaleidoscope_tavern:waterlogged')})},{block:upper,permutation:BlockPermutation.resolve(target,{[BOARD_HALF]:1,[BOARD_ROTATION]:top.getState(BOARD_ROTATION),'kaleidoscope_tavern:waterlogged':top.getState('kaleidoscope_tavern:waterlogged')})}]);diagnostics.transformed++;boardFeedback(block.dimension,base,'transform');return true;}\nfunction saveAndRender(block,key,data,kind,large){const clean=saveData(key,data,kind,large),info=boardKey(block);syncGlyphs(block.dimension,info,clean,block.location,key);diagnostics.edited++;return clean;}\nfunction editBoard(player,block,key,data,kind,large){const limit=maxText(kind,large),d=block.dimension,pos={...block.location},id=block.typeId,expected=JSON.stringify(data),form=new ModalFormData().title(boardText(kind)).textField(boardText(kind==='chalk'&&!large?'text_small':'text_lines',kind==='sandwich'?8:11),boardText('newline_hint'),{defaultValue:encodeBoardInput(data.text)}).dropdown(boardText('align'),BOARD_ALIGNMENTS.map(key=>boardText(key)),{defaultValueIndex:BOARD_ALIGNMENTS.indexOf(data.alignment)}).dropdown(boardText('vertical_align'),BOARD_VERTICAL_ALIGNMENTS.map(key=>boardText(key)),{defaultValueIndex:BOARD_VERTICAL_ALIGNMENTS.indexOf(data.verticalAlignment??'top')});form.show(player).then(answer=>safe(player,()=>{if(answer.canceled||!Array.isArray(answer.formValues))return;canWrite(player);requireBlockReach(player,d,pos,8);const current=blockAt(d,pos);check(current?.typeId===id,'BLOCK_CHANGED');const currentInfoNow=currentInfo(current);check(currentInfoNow.key===key,'BOARD_CHANGED');check(JSON.stringify(currentInfoNow.data)===expected,'BOARD_CHANGED');check(!currentInfoNow.data.waxed,'BOARD_WAXED');const [inputText,alignmentIndex,verticalIndex]=answer.formValues;const text=typeof inputText==='string'?decodeBoardInput(inputText):inputText;check(typeof text==='string','BOARD_TEXT_REQUIRED');check(Number.isInteger(alignmentIndex)&&BOARD_ALIGNMENTS[alignmentIndex],'BOARD_ALIGNMENT_REQUIRED');check(Number.isInteger(verticalIndex)&&BOARD_VERTICAL_ALIGNMENTS[verticalIndex],'BOARD_ALIGNMENT_REQUIRED');const layout=splitBoardLines(text,boardLayoutOptions(kind,large));if(text.length>limit||layout.overflow){player.sendMessage(boardText('overflow',kind==='sandwich'?8:11));return;}const next={...data,text,alignment:BOARD_ALIGNMENTS[alignmentIndex],verticalAlignment:BOARD_VERTICAL_ALIGNMENTS[verticalIndex]};saveAndRender(current,key,next,kind,large);})).catch(record);}\nfunction claimBoardInteraction(player,block){const k=`${player.id}|${block.dimension.id}|${block.location.x}_${block.location.y}_${block.location.z}`,tick=system.currentTick;if(recentBoardInteractions.get(k)===tick)return false;recentBoardInteractions.set(k,tick);if(recentBoardInteractions.size>128)for(const [key,value]of recentBoardInteractions)if(value<tick-2)recentBoardInteractions.delete(key);return true;}\nfunction handleBoardInteraction(player,block,{before=false,cancelled=false,first=true}={}){if(cancelled||!first||!block||(block.typeId!==CHALKBOARD&&!isSandwich(block.typeId))||!player)return false;if(!claimBoardInteraction(player,block))return false;let info;try{info=currentInfo(block);}catch(err){record(err);return false;}const item=hand(player),target=item&&eligibleFlower(item.typeId);let action;if(target&&block.typeId!==CHALKBOARD&&target!==block.typeId)action='transform';else if(item?.typeId==='minecraft:honeycomb')action='wax';else if(item?.typeId==='minecraft:glow_ink_sac'&&!info.data.glowing)action='glow';else if(item?.typeId==='minecraft:ink_sac'&&info.data.glowing)action='un_glow';else if(DYE_FROM_ITEM[item?.typeId]&&DYE_FROM_ITEM[item.typeId]!==info.data.color)action='dye';else action='edit';const hs=handSnapshot(player),d=block.dimension,pos={...block.location},id=block.typeId,key=info.key,large=info.root.large;\n const work=()=>safe(player,()=>{sameHand(player,hs);requireBlockReach(player,d,pos,8);const b=blockAt(d,pos);check(b?.typeId===id,'BLOCK_CHANGED');if(action==='transform')return setBoardStyle(player,b,target);canWrite(player);const infoNow=currentInfo(b),now=infoNow.data;if(now.waxed){boardFeedback(d,infoNow.root.root,'locked');return;}if(action==='edit')return editBoard(player,b,key,now,infoNow.root.kind,large);const next={...now};if(action==='wax')next.waxed=true;else if(action==='glow')next.glowing=true;else if(action==='un_glow')next.glowing=false;else if(action==='dye')next.color=DYE_FROM_ITEM[item.typeId];consumeOne(player);saveAndRender(b,key,next,infoNow.root.kind,large);boardFeedback(d,infoNow.root.root,action);});if(before)system.run(work);else work();return true;}\nfunction boardUseHandler(e){if(e.cancel||e.isFirstEvent===false)return;if(handleBoardInteraction(e.player,e.block,{before:true,first:true}))e.cancel=true;}\n"
-            ],
-            [
-              124,
-              125,
-              "export function registerWritingBoardComponents({blockComponentRegistry:b,itemComponentRegistry:i}){b.registerCustomComponent(NS+':writing_board',{onTick:e=>maintainBlock(e.block),onPlayerInteract:nativeEmptyHandBlockUse});i.registerCustomComponent(NS+':place_writing_board',{onUseOn:e=>safe(e.source,()=>placeBoard(e.source,e.block,e.blockFace))});}\n"
-            ]
-          ]
-        },
         "runtime/BP/scripts/core/java-use-order.js": {
           "before": "571ce3ed831b261102a967560047610614d40a69b9f39d9cb153650eb4d3dc5f",
           "after": "5755a50fa11d865700e74ab00bb828e8d7871615a7b54f5226ab1f154cbb87a8",
@@ -5703,31 +5671,6 @@
               400,
               401,
               "export const STATUS_AURA_TEST={tracks,pending,syntheticInvisibility,blockedNative};\n"
-            ]
-          ]
-        }
-      }
-    },
-    {
-      "release": "0.6.143",
-      "files": {
-        "runtime/BP/scripts/bedrock/writing-boards.js": {
-          "before": "4183f6a133160d37d1967aed383189a80c54f1874f3caf9a633c97930d518985",
-          "after": "ee8b3ea4372730a5ab1a320726e5702c5e2b644c7afb890aae0ef5025dfc65a3",
-          "reason": "T143 exact board form title marker only; retain raw text, native field order, original single-line escape handling, range/wax/stale guards and every gameplay byte. Native capacity route source review and existing interaction regressions; actual client controller remains pending.",
-          "reviewedPredecessorCommit": "82beed2658530d6c34e16fd4c7a99efa81a21b6c",
-          "reviewedSourceCommit": "73f3422e1eecaa44b42b570e55fc09e5764c3cf9",
-          "reviewDocument": "docs/RELEASE-NOTES-0.6.143.md",
-          "reverseOps": [
-            [
-              23,
-              26,
-              ""
-            ],
-            [
-              48,
-              49,
-              "function editBoard(player,block,key,data,kind,large){const limit=maxText(kind,large),d=block.dimension,pos={...block.location},id=block.typeId,expected=JSON.stringify(data),form=new ModalFormData().title(boardText(kind)).textField(boardText(kind==='chalk'&&!large?'text_small':'text_lines',kind==='sandwich'?8:11),boardText('newline_hint'),{defaultValue:encodeBoardInput(data.text)}).dropdown(boardText('align'),BOARD_ALIGNMENTS.map(key=>boardText(key)),{defaultValueIndex:BOARD_ALIGNMENTS.indexOf(data.alignment)}).dropdown(boardText('vertical_align'),BOARD_VERTICAL_ALIGNMENTS.map(key=>boardText(key)),{defaultValueIndex:BOARD_VERTICAL_ALIGNMENTS.indexOf(data.verticalAlignment??'top')});form.show(player).then(answer=>safe(player,()=>{if(answer.canceled||!Array.isArray(answer.formValues))return;canInteract(player);const current=blockAt(d,pos);check(current?.typeId===id,'BLOCK_CHANGED');const currentInfoNow=currentInfo(current);check(currentInfoNow.key===key,'BOARD_CHANGED');requireBoardReach(player,d,currentInfoNow.root.root);check(JSON.stringify(currentInfoNow.data)===expected,'BOARD_CHANGED');check(!currentInfoNow.data.waxed,'BOARD_WAXED');const [inputText,alignmentIndex,verticalIndex]=answer.formValues;const text=typeof inputText==='string'?decodeBoardInput(inputText):inputText;check(typeof text==='string','BOARD_TEXT_REQUIRED');check(Number.isInteger(alignmentIndex)&&BOARD_ALIGNMENTS[alignmentIndex],'BOARD_ALIGNMENT_REQUIRED');check(Number.isInteger(verticalIndex)&&BOARD_VERTICAL_ALIGNMENTS[verticalIndex],'BOARD_ALIGNMENT_REQUIRED');const layout=splitBoardLines(text,boardLayoutOptions(kind,large));if(text.length>limit||layout.overflow){player.sendMessage(boardText('overflow',kind==='sandwich'?8:11));return;}const next={...data,text,alignment:BOARD_ALIGNMENTS[alignmentIndex],verticalAlignment:BOARD_VERTICAL_ALIGNMENTS[verticalIndex]};saveAndRender(current,key,next,kind,large);})).catch(record);}\n"
             ]
           ]
         }
@@ -8254,6 +8197,71 @@
               657,
               659,
               " world.afterEvents.playerSpawn.subscribe(({player})=>system.run(()=>{cancelUse(player.id);releaseGuards.delete(player.id);clearShakerPlayer(player);migrateShakerInventory(player);}));\n world.afterEvents.playerLeave.subscribe(({playerId})=>{uses.delete(playerId);releaseGuards.delete(playerId);for(const [key,row]of completedBlockUses)if(row.playerId===playerId)completedBlockUses.delete(key);clearShakerPlayer(playerId);});\n"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "release": "0.6.131",
+      "reviewedPredecessorCommit": "c4453491e2f52d4b4515dda0385db204aa892c97",
+      "reviewedSourceCommit": "f08714307ea331be52a9240d8aa6473752325d1c",
+      "reviewDocument": "docs/RELEASE-NOTES-0.6.131.md",
+      "files": {
+        "runtime/BP/scripts/bedrock/writing-boards.js": {
+          "before": "d6f3e2f84b0ac85c863b3677d732f528f4727ce159319183d54ebcd3269c6a14",
+          "after": "4183f6a133160d37d1967aed383189a80c54f1874f3caf9a633c97930d518985",
+          "reason": "Preserve Java held-item/secondary-use interaction, root-origin reach, source flower-transform priority and waxed/out-of-range PASS behavior; settle native duplicates, commit board material consumption and saved data atomically, and keep the existing bounded form editor.",
+          "reverseOps": [
+            [
+              8,
+              9,
+              "import {canWrite,hand,handSnapshot,sameHand,exchangeBlocks,placementTake,blockAt,plus,safe,requireBlockReach,applyBlocks} from './transactions.js';\n"
+            ],
+            [
+              10,
+              12,
+              "import {nativeEmptyHandBlockUse,registerJavaBlockUseHandler} from './java-placement-router.js';\n"
+            ],
+            [
+              14,
+              15,
+              "const diagnostics={placed:0,recovered:0,transformed:0,edited:0,glyphHelpers:0,glyphRefreshes:0,errors:[]};let installed=false;const recentBoardInteractions=new Map();\n"
+            ],
+            [
+              26,
+              113,
+              "function consumeOne(player){exchangeBlocks(player,placementTake(player),[],[]);}\nfunction setBoardStyle(player,block,target){canWrite(player);const base=boardBase(block.location,block.permutation.getState(BOARD_HALF)),lower=blockAt(block.dimension,base),upper=blockAt(block.dimension,{x:base.x,y:base.y+1,z:base.z});check(lower&&upper&&isSandwich(lower.typeId)&&upper.typeId===lower.typeId,'BOARD_PAIR_MISSING');const item=hand(player);check(item&&eligibleFlower(item.typeId),'BOARD_FLOWER_REQUIRED');check(target!==lower.typeId,'BOARD_STYLE_UNCHANGED');const state=lower.permutation,top=upper.permutation;exchangeBlocks(player,placementTake(player),[],[{block:lower,permutation:BlockPermutation.resolve(target,{[BOARD_HALF]:0,[BOARD_ROTATION]:state.getState(BOARD_ROTATION),'kaleidoscope_tavern:waterlogged':state.getState('kaleidoscope_tavern:waterlogged')})},{block:upper,permutation:BlockPermutation.resolve(target,{[BOARD_HALF]:1,[BOARD_ROTATION]:top.getState(BOARD_ROTATION),'kaleidoscope_tavern:waterlogged':top.getState('kaleidoscope_tavern:waterlogged')})}]);diagnostics.transformed++;boardFeedback(block.dimension,base,'transform');return true;}\nfunction saveAndRender(block,key,data,kind,large){const clean=saveData(key,data,kind,large),info=boardKey(block);syncGlyphs(block.dimension,info,clean,block.location,key);diagnostics.edited++;return clean;}\nfunction editBoard(player,block,key,data,kind,large){const limit=maxText(kind,large),d=block.dimension,pos={...block.location},id=block.typeId,expected=JSON.stringify(data),form=new ModalFormData().title(boardText(kind)).textField(boardText(kind==='chalk'&&!large?'text_small':'text_lines',kind==='sandwich'?8:11),boardText('newline_hint'),{defaultValue:encodeBoardInput(data.text)}).dropdown(boardText('align'),BOARD_ALIGNMENTS.map(key=>boardText(key)),{defaultValueIndex:BOARD_ALIGNMENTS.indexOf(data.alignment)}).dropdown(boardText('vertical_align'),BOARD_VERTICAL_ALIGNMENTS.map(key=>boardText(key)),{defaultValueIndex:BOARD_VERTICAL_ALIGNMENTS.indexOf(data.verticalAlignment??'top')});form.show(player).then(answer=>safe(player,()=>{if(answer.canceled||!Array.isArray(answer.formValues))return;canWrite(player);requireBlockReach(player,d,pos,8);const current=blockAt(d,pos);check(current?.typeId===id,'BLOCK_CHANGED');const currentInfoNow=currentInfo(current);check(currentInfoNow.key===key,'BOARD_CHANGED');check(JSON.stringify(currentInfoNow.data)===expected,'BOARD_CHANGED');check(!currentInfoNow.data.waxed,'BOARD_WAXED');const [inputText,alignmentIndex,verticalIndex]=answer.formValues;const text=typeof inputText==='string'?decodeBoardInput(inputText):inputText;check(typeof text==='string','BOARD_TEXT_REQUIRED');check(Number.isInteger(alignmentIndex)&&BOARD_ALIGNMENTS[alignmentIndex],'BOARD_ALIGNMENT_REQUIRED');check(Number.isInteger(verticalIndex)&&BOARD_VERTICAL_ALIGNMENTS[verticalIndex],'BOARD_ALIGNMENT_REQUIRED');const layout=splitBoardLines(text,boardLayoutOptions(kind,large));if(text.length>limit||layout.overflow){player.sendMessage(boardText('overflow',kind==='sandwich'?8:11));return;}const next={...data,text,alignment:BOARD_ALIGNMENTS[alignmentIndex],verticalAlignment:BOARD_VERTICAL_ALIGNMENTS[verticalIndex]};saveAndRender(current,key,next,kind,large);})).catch(record);}\nfunction claimBoardInteraction(player,block){const k=`${player.id}|${block.dimension.id}|${block.location.x}_${block.location.y}_${block.location.z}`,tick=system.currentTick;if(recentBoardInteractions.get(k)===tick)return false;recentBoardInteractions.set(k,tick);if(recentBoardInteractions.size>128)for(const [key,value]of recentBoardInteractions)if(value<tick-2)recentBoardInteractions.delete(key);return true;}\nfunction handleBoardInteraction(player,block,{before=false,cancelled=false,first=true}={}){if(cancelled||!first||!block||(block.typeId!==CHALKBOARD&&!isSandwich(block.typeId))||!player)return false;if(!claimBoardInteraction(player,block))return false;let info;try{info=currentInfo(block);}catch(err){record(err);return false;}const item=hand(player),target=item&&eligibleFlower(item.typeId);let action;if(target&&block.typeId!==CHALKBOARD&&target!==block.typeId)action='transform';else if(item?.typeId==='minecraft:honeycomb')action='wax';else if(item?.typeId==='minecraft:glow_ink_sac'&&!info.data.glowing)action='glow';else if(item?.typeId==='minecraft:ink_sac'&&info.data.glowing)action='un_glow';else if(DYE_FROM_ITEM[item?.typeId]&&DYE_FROM_ITEM[item.typeId]!==info.data.color)action='dye';else action='edit';const hs=handSnapshot(player),d=block.dimension,pos={...block.location},id=block.typeId,key=info.key,large=info.root.large;\n const work=()=>safe(player,()=>{sameHand(player,hs);requireBlockReach(player,d,pos,8);const b=blockAt(d,pos);check(b?.typeId===id,'BLOCK_CHANGED');if(action==='transform')return setBoardStyle(player,b,target);canWrite(player);const infoNow=currentInfo(b),now=infoNow.data;if(now.waxed){boardFeedback(d,infoNow.root.root,'locked');return;}if(action==='edit')return editBoard(player,b,key,now,infoNow.root.kind,large);const next={...now};if(action==='wax')next.waxed=true;else if(action==='glow')next.glowing=true;else if(action==='un_glow')next.glowing=false;else if(action==='dye')next.color=DYE_FROM_ITEM[item.typeId];consumeOne(player);saveAndRender(b,key,next,infoNow.root.kind,large);boardFeedback(d,infoNow.root.root,action);});if(before)system.run(work);else work();return true;}\nfunction boardUseHandler(e){if(e.cancel||e.isFirstEvent===false)return;if(handleBoardInteraction(e.player,e.block,{before:true,first:true}))e.cancel=true;}\n"
+            ],
+            [
+              124,
+              125,
+              "export function registerWritingBoardComponents({blockComponentRegistry:b,itemComponentRegistry:i}){b.registerCustomComponent(NS+':writing_board',{onTick:e=>maintainBlock(e.block),onPlayerInteract:nativeEmptyHandBlockUse});i.registerCustomComponent(NS+':place_writing_board',{onUseOn:e=>safe(e.source,()=>placeBoard(e.source,e.block,e.blockFace))});}\n"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "release": "0.6.143",
+      "files": {
+        "runtime/BP/scripts/bedrock/writing-boards.js": {
+          "before": "4183f6a133160d37d1967aed383189a80c54f1874f3caf9a633c97930d518985",
+          "after": "ee8b3ea4372730a5ab1a320726e5702c5e2b644c7afb890aae0ef5025dfc65a3",
+          "reason": "T143 exact board form title marker only; retain raw text, native field order, original single-line escape handling, range/wax/stale guards and every gameplay byte. Native capacity route source review and existing interaction regressions; actual client controller remains pending.",
+          "reviewedPredecessorCommit": "82beed2658530d6c34e16fd4c7a99efa81a21b6c",
+          "reviewedSourceCommit": "73f3422e1eecaa44b42b570e55fc09e5764c3cf9",
+          "reviewDocument": "docs/RELEASE-NOTES-0.6.143.md",
+          "reverseOps": [
+            [
+              23,
+              26,
+              ""
+            ],
+            [
+              48,
+              49,
+              "function editBoard(player,block,key,data,kind,large){const limit=maxText(kind,large),d=block.dimension,pos={...block.location},id=block.typeId,expected=JSON.stringify(data),form=new ModalFormData().title(boardText(kind)).textField(boardText(kind==='chalk'&&!large?'text_small':'text_lines',kind==='sandwich'?8:11),boardText('newline_hint'),{defaultValue:encodeBoardInput(data.text)}).dropdown(boardText('align'),BOARD_ALIGNMENTS.map(key=>boardText(key)),{defaultValueIndex:BOARD_ALIGNMENTS.indexOf(data.alignment)}).dropdown(boardText('vertical_align'),BOARD_VERTICAL_ALIGNMENTS.map(key=>boardText(key)),{defaultValueIndex:BOARD_VERTICAL_ALIGNMENTS.indexOf(data.verticalAlignment??'top')});form.show(player).then(answer=>safe(player,()=>{if(answer.canceled||!Array.isArray(answer.formValues))return;canInteract(player);const current=blockAt(d,pos);check(current?.typeId===id,'BLOCK_CHANGED');const currentInfoNow=currentInfo(current);check(currentInfoNow.key===key,'BOARD_CHANGED');requireBoardReach(player,d,currentInfoNow.root.root);check(JSON.stringify(currentInfoNow.data)===expected,'BOARD_CHANGED');check(!currentInfoNow.data.waxed,'BOARD_WAXED');const [inputText,alignmentIndex,verticalIndex]=answer.formValues;const text=typeof inputText==='string'?decodeBoardInput(inputText):inputText;check(typeof text==='string','BOARD_TEXT_REQUIRED');check(Number.isInteger(alignmentIndex)&&BOARD_ALIGNMENTS[alignmentIndex],'BOARD_ALIGNMENT_REQUIRED');check(Number.isInteger(verticalIndex)&&BOARD_VERTICAL_ALIGNMENTS[verticalIndex],'BOARD_ALIGNMENT_REQUIRED');const layout=splitBoardLines(text,boardLayoutOptions(kind,large));if(text.length>limit||layout.overflow){player.sendMessage(boardText('overflow',kind==='sandwich'?8:11));return;}const next={...data,text,alignment:BOARD_ALIGNMENTS[alignmentIndex],verticalAlignment:BOARD_VERTICAL_ALIGNMENTS[verticalIndex]};saveAndRender(current,key,next,kind,large);})).catch(record);}\n"
             ]
           ]
         }

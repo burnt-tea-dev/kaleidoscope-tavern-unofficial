@@ -10,7 +10,6 @@ import {installFurnitureEvents} from '../runtime/BP/scripts/bedrock/furniture.js
 import {installJavaItemUseOnEvents,JAVA_PLACEMENT_TEST} from '../runtime/BP/scripts/bedrock/java-placement-router.js';
 import {exchangeBlocks,exchangeBlocksToWorld,air} from '../runtime/BP/scripts/bedrock/transactions.js';
 import {BOARD_HALF,BOARD_ROTATION,CHALK_POSITION,boardRuntimeKey} from '../runtime/BP/scripts/core/boards.js';
-import {encodeBoardInput} from '../runtime/BP/scripts/core/board-layout.js';
 
 const NS='kaleidoscope_tavern:',d=world.getDimension('overworld'),blocks=new Map(),items=new Map();let serial=0;
 registerFixtureItem('minecraft:ink_sac');
@@ -47,9 +46,9 @@ test('Adventure board dye, glow, ink, wax and flower style commit once and prese
  assert.deepEqual(p.messages,[]);
 });
 
-test('Adventure ModalForm edits retain escaped newlines and alignments, with exact root-origin reach',async()=>{
+test('Adventure ModalForm edits retain raw newlines and alignments, with exact root-origin reach',async()=>{
  const {p,lower,upper,key}=setup();p.location={...lower.location,x:lower.location.x-8};
- ui.responses.push({canceled:false,formValues:['Tea\\nToday',0,2]});interact(p,upper);system.advance(1);await flush();
+ ui.responses.push({canceled:false,formValues:['Tea\nToday',0,2]});interact(p,upper);system.advance(1);await flush();
  assert.deepEqual(read(key),{...defaults,text:'Tea\nToday',alignment:'left',verticalAlignment:'bottom'});
  // The old clicked-block-centre check would accept this point outside Java's radius.
  p.location={...lower.location,x:lower.location.x+8.1};const opened=ui.forms.length;
@@ -60,24 +59,31 @@ test('opening and saving existing literal backslashes does not change board para
  const {p,lower,key}=setup();
  const text=String.raw`Tea\n`+'\n'+String.raw`C:\new`;
  save(key,{text,alignment:'distributed',verticalAlignment:'middle'});
- ui.responses.push({canceled:false,formValues:[encodeBoardInput(text),4,1]});
+ ui.responses.push({canceled:false,formValues:[text,4,1]});
  interact(p,lower);system.advance(1);await flush();
- assert.equal(ui.forms.at(-1).fields[0].args[2].defaultValue,encodeBoardInput(text));
+ assert.equal(ui.forms.at(-1).fields[0].args[2].defaultValue,text);
  assert.deepEqual(read(key),{...defaults,text,alignment:'distributed',verticalAlignment:'middle'});
 });
 
-test('all three board editors keep complete escaped seeds beyond the old native 100-character cap',async()=>{
+test('submitting raw multiline text never decodes a literal backslash-n',async()=>{
+ const {p,lower,key}=setup(),text='Tea\n'+String.raw`C:\new`;
+ ui.responses.push({canceled:false,formValues:[text,1,0]});
+ interact(p,lower);system.advance(1);await flush();
+ assert.equal(read(key).text,text);
+});
+
+test('all three board editors keep complete raw seeds beyond the old native 100-character cap',async()=>{
  for(const [kind,lines,width]of [['sandwich',8,13],['small',11,10],['large',11,75]]){
   const {p,lower,key}=setup(),pos=lower.location;
   const board=kind==='sandwich'?lower:at({...pos,x:pos.x-(kind==='large'?1:0)},NS+'chalkboard',{[BOARD_HALF]:0,[CHALK_POSITION]:kind==='large'?1:0,'minecraft:cardinal_direction':'north'});
   const text=Array(lines).fill('i'.repeat(width)).join('\n');
   assert.ok(text.length>100);save(key,{text,alignment:'left'});
   const committed=WRITING_BOARD_DIAGNOSTICS.edited;
-  ui.responses.push({canceled:false,formValues:[encodeBoardInput(text),0,0]});
+  ui.responses.push({canceled:false,formValues:[text,0,0]});
   interact(p,board);system.advance(1);await flush();
   const form=ui.forms.at(-1);
   assert.deepEqual(form.heading,{rawtext:[{text:'§r§0§r'},{translate:'kt.board.'+(kind==='sandwich'?'sandwich':'chalk')}]});
-  assert.equal(form.fields[0].args[2].defaultValue,encodeBoardInput(text));
+  assert.equal(form.fields[0].args[2].defaultValue,text);
   assert.equal(form.fields.length,3);assert.equal(read(key).text,text);
   assert.equal(WRITING_BOARD_DIAGNOSTICS.edited,committed+1);assert.deepEqual(p.messages,[]);
  }

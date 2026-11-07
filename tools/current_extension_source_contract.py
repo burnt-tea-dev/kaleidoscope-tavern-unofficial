@@ -20,7 +20,7 @@ SOURCE_GROUPS = {
     'optionalEffectProtocol': ('data/effect-icons.js',),
     'machinesAndDecorations': ('bedrock/machines.js', 'core/machines.js', 'bedrock/decorations.js'),
     'sharedGuide': ('core/cookery-guide-publisher.js', 'data/cookery-guide-payload.js', 'data/guide-navigation.js', 'data/guide-copy.js'),
-    'boardLayoutAndText': ('data/board-font.js', 'core/board-layout.js', 'bedrock/board-text.js'),
+    'boardLayoutAndText': ('data/board-font.js', 'core/board-layout.js', 'bedrock/board-text.js', 'bedrock/writing-boards.js'),
     'mixologyLifecycle': ('bedrock/mixology.js',),
     'sharedUtilities': ('core/util.js',),
 }
@@ -63,8 +63,8 @@ def check(root=ROOT, *, syntax=True, localization=True):
 
     imported(modules['core/board-layout.js'], '../data/board-font.js', {'fontAdvance', 'fontBoldOffset'})
     imported(modules['bedrock/board-text.js'], '../data/board-font.js', {'fontBoldOffset'})
-    writing_boards = read_module(root, 'runtime/BP/scripts/bedrock/writing-boards.js', False)
-    imported(writing_boards, '../core/board-layout.js', {'boardLayoutOptions', 'splitBoardLines', 'encodeBoardInput', 'decodeBoardInput'})
+    writing_boards = modules['bedrock/writing-boards.js']
+    imported(writing_boards, '../core/board-layout.js', {'boardLayoutOptions', 'splitBoardLines'})
     imported(writing_boards, './board-text.js', {'renderBoardText', 'removeBoardText'})
     imported(modules['bedrock/extension-host.js'], '../core/transport.js', {'ExtensionTransport', 'EVENTS', 'TRANSPORT_LIMITS'})
     imported(modules['bedrock/extension-host.js'], '../core/registry.js', {'CAPABILITIES'})
@@ -119,7 +119,7 @@ def check(root=ROOT, *, syntax=True, localization=True):
         'sources': sorted(sources), 'ownershipAndWiring': 'passed',
         'syntax': 'passed' if syntax else 'not run',
         'localization': localization_result,
-        'behavior': 'existing current-extension-contract, transport-integrity, extension-bottle, furniture-interaction, standalone-guide, board-layout and mixology rejection suites; not run by this static check',
+        'behavior': 'existing current-extension-contract, transport-integrity, extension-bottle, furniture-interaction, board-farm-interaction, standalone-guide, board-layout and mixology rejection suites; not run by this static check',
         'javaResources': 'existing incense surfaces/sampling, barrel materials/collision and guide checks in the package suite; not run by this static check',
         'bds': False, 'client': False,
     }
