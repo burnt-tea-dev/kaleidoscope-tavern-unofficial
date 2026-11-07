@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {fontAdvance,fontBoldOffset} from '../runtime/BP/scripts/data/board-font.js';
-import {encodeBoardInput,decodeBoardInput,boardLayoutOptions,splitBoardLines,boardGlyphOffsets,boardAdvance,boardVerticalOffset} from '../runtime/BP/scripts/core/board-layout.js';
+import {boardLayoutOptions,splitBoardLines,boardGlyphOffsets,boardAdvance,boardVerticalOffset} from '../runtime/BP/scripts/core/board-layout.js';
 import {sameRecentBlockUse} from '../runtime/BP/scripts/core/interaction-claim.js';
 // Independent T152 glyph metrics oracle; a representation change must preserve all BMP entries.
 for(const [values,expected] of [[Array.from({length:65536},(_,code)=>fontAdvance(code)),'b81659beb5e91329a24a05b785f91a23320a7fee7349f3644db0c875284f417a'],[Array.from({length:65536},(_,code)=>fontBoldOffset(code)),'4dbb867d1f38afcb6464185eee1c2f6ba4c7f92e5c11b2e4559c1f0c3fc637e6']]){
@@ -32,6 +32,5 @@ assert(!sameRecentBlockUse(gesture,{...gesture,tick:13}));
 for(const change of [{slot:1},{block:'overworld/2_2_3'},{itemId:'another'},{sneaking:false},{face:'North'}])assert(!sameRecentBlockUse(gesture,{...gesture,...change}));
 console.log('Board capacity, five horizontal alignments, three vertical alignments and duplicate gesture policy passed.');
 
-assert.equal(decodeBoardInput(encodeBoardInput('first\n第二行')),'first\n第二行');
-assert.equal(splitBoardLines(decodeBoardInput(String.raw`first\n第二行`),small).lineCount,2);
-for(const text of ['first\n第二行',String.raw`C:\new\notes`,String.raw`literal \\n`,'line\n\nnext'])assert.equal(decodeBoardInput(encodeBoardInput(text)),text);
+assert.equal(splitBoardLines('first\n第二行',small).lineCount,2);
+assert.equal(splitBoardLines(String.raw`a\nb`,small).lineCount,1);

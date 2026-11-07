@@ -20,15 +20,28 @@ class TavernForms(unittest.TestCase):
     def test_generator_reproduces_canonical_files_without_writing(self):
         check_or_write()
 
+    def test_owned_input_accepts_newlines_and_scrolls_in_the_existing_form_controller(self):
+        native=resolve_control(self.source,'common.scrollable_multiline_text_edit_box')
+        for kind in BOARD_INPUT_LIMITS:
+            node=self.ui['kt_board_input_'+kind+'@settings_common.option_text_edit_control']
+            resolved=resolve_control(self.source,'settings_common.option_text_edit_control',node)
+            self.assertIs(resolved.get('enabled_newline'),True,kind)
+            self.assertEqual(resolved['controls'],native['controls'])
+            self.assertEqual(resolved['button_mappings'],native['button_mappings'])
+            self.assertEqual(resolved['$text_edit_box_label_size'],native['$text_edit_box_label_size'])
+            self.assertEqual(resolved['size'],['100%',120])
+        foreign=resolve_control(self.source,'settings_common.option_text_edit_control',self.ui['kt_board_input_foreign@settings_common.option_text_edit_control'])
+        self.assertNotIn('enabled_newline',foreign)
+
     def test_no_form_factory_dropdown_or_submit_overrides(self):
         self.assertEqual(self.source['commit'],'46ba6ea985fb5a92d79a9419198f10dda14c199d')
         expected={'namespace','dynamic_button/panel_name/image','dynamic_button/panel_name',
                   'custom_input@settings_common.option_text_edit','kt_board_input_branches'}|{'kt_guide_'+n+'_animation' for n in NAMES}|{'kt_board_input_'+kind+'@settings_common.option_text_edit_control' for kind in ('foreign',*BOARD_INPUT_LIMITS)}
         self.assertEqual(set(self.ui),expected)
         self.assertFalse({'generated_contents','custom_form','custom_dropdown','custom_form_scrolling_content'}.intersection(self.ui))
-        self.assertNotIn('button_mappings',json.dumps(self.ui))
+        self.assertNotIn('button_mappings',self.ui['kt_board_input_foreign@settings_common.option_text_edit_control'])
 
-    def test_board_capacity_is_exact_scoped_and_inherits_native_single_line_controller(self):
+    def test_board_capacity_is_exact_scoped_and_preserves_the_native_form_controller(self):
         key='custom_input@settings_common.option_text_edit'
         expected=copy.deepcopy(self.vanilla[key]);expected['$control_name']='server_form.kt_board_input_branches'
         self.assertEqual(self.ui[key],expected)
@@ -37,7 +50,7 @@ class TavernForms(unittest.TestCase):
         runtime=(ROOT/'runtime/BP/scripts/bedrock/writing-boards.js').read_text()
         self.assertIn("const BOARD_FORM_TITLE_PREFIX='"+BOARD_TITLE_PREFIX+"';",runtime)
         self.assertIn('title({rawtext:[{text:BOARD_FORM_TITLE_PREFIX},boardText(kind)]})',runtime)
-        self.assertEqual(BOARD_INPUT_LIMITS,{'sandwich':2*320,'small':2*350,'large':2*1500})
+        self.assertEqual(BOARD_INPUT_LIMITS,{'sandwich':320,'small':350,'large':1500})
         controls=self.ui['kt_board_input_branches']['controls']
         self.assertEqual(len(controls),4)
         nodes={kind:self.ui['kt_board_input_'+kind+'@settings_common.option_text_edit_control'] for kind in ('foreign',*BOARD_INPUT_LIMITS)}
@@ -45,16 +58,16 @@ class TavernForms(unittest.TestCase):
         original=native['bindings']
         self.assertEqual(native['type'],'edit_box');self.assertEqual(len(original),6)
         for kind,node in nodes.items():
-            self.assertEqual(set(node),{'$enabled','visible','enabled','focus_enabled','property_bag','$text_edit_box_binding_condition','bindings'}|({'max_length'} if kind!='foreign' else set()))
+            self.assertEqual(set(node),{'$enabled','visible','enabled','focus_enabled','property_bag','$text_edit_box_binding_condition','bindings'}|({'max_length','enabled_newline','$text_edit_box_label_size','button_mappings','controls','size'} if kind!='foreign' else set()))
             self.assertIs(node['$enabled'], True)
             self.assertEqual(node['$text_edit_box_binding_condition'],'visible')
             if kind!='foreign':self.assertEqual(node['max_length'],BOARD_INPUT_LIMITS[kind])
             resolved=resolve_control(self.source,'settings_common.option_text_edit_control',node)
             typed_controls(resolved)
             self.assertEqual(resolved['type'],'edit_box')
-            # Only root bindings are overridden; the full native child content,
-            # placeholder, button mappings and variable/default rules survive.
-            for key in ('controls','button_mappings','text_box_name','text_edit_box_grid_collection_name','variables'):
+            # Every branch retains the native form's controller and disabled
+            # variables. Foreign forms retain its single-line input verbatim.
+            for key in ('text_box_name','text_edit_box_grid_collection_name','variables')+ (('controls','button_mappings') if kind=='foreign' else ()):
                 self.assertEqual(resolved[key],native[key],key)
             bindings=resolved['bindings'];self.assertEqual(bindings[:6],original)
             self.assertEqual(node['property_bag'],{'#kt_board_native_enabled':'$enabled','#kt_board_native_focus':True,'#kt_board_native_visible':True})

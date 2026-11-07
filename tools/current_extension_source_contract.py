@@ -64,7 +64,7 @@ def check(root=ROOT, *, syntax=True, localization=True):
     imported(modules['core/board-layout.js'], '../data/board-font.js', {'fontAdvance', 'fontBoldOffset'})
     imported(modules['bedrock/board-text.js'], '../data/board-font.js', {'fontBoldOffset'})
     writing_boards = read_module(root, 'runtime/BP/scripts/bedrock/writing-boards.js', False)
-    imported(writing_boards, '../core/board-layout.js', {'boardLayoutOptions', 'splitBoardLines', 'encodeBoardInput', 'decodeBoardInput'})
+    imported(writing_boards, '../core/board-layout.js', {'boardLayoutOptions', 'splitBoardLines'})
     imported(writing_boards, './board-text.js', {'renderBoardText', 'removeBoardText'})
     imported(modules['bedrock/extension-host.js'], '../core/transport.js', {'ExtensionTransport', 'EVENTS', 'TRANSPORT_LIMITS'})
     imported(modules['bedrock/extension-host.js'], '../core/registry.js', {'CAPABILITIES'})

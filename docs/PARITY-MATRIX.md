@@ -6,6 +6,25 @@ Adopt the official Bedrock Tavern1.0.7 unique-reference rule. Preserve the curre
 
 目前維護版本與 BP／RP 身分以 [baseline.json](../baseline.json) 為準；公開下載、來源配對及部署見[家族現況](../family/BASELINE-STATUS.md)。下列日期段保留各次修補及原始證據範圍，不因較新的來源版本自動取得畫面或完整家族通過結果。真人使用不是發布、部署或完成門檻，沿用[擁有者現行規則](../family/UPDATE-WORKFLOW.md#擁有者簡化規則2026-11-04)。
 
+## 黑板原生多行輸入接線（2026-11-07，T206）
+
+舊版本只在單行 ModalForm 中用反斜線跳脫換行；儲存與板面 layout 已能處理真正 newline，不能據此說 editor 已對等。現在黑板專屬輸入採原生多行 edit_box 的換行、按鍵與捲動內容，表單 default／提交直接使用原文字。沒有 DDUI 遷移、自訂聊天入口、數個單行欄位或全域 server-form 替換。
+
+| 原作／接點 | 實際契約與採用方式 |
+| --- | --- |
+| [Forge1.20.1 TextScreen](https://github.com/KaleidoscopeMods/KaleidoscopeTavern/blob/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/gui/block/TextScreen.java)、[提交訊息](https://github.com/KaleidoscopeMods/KaleidoscopeTavern/blob/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/network/message/TextUpdateC2SMessage.java) | MultiLineEditBox，256×120，原文字及 character limit；Done 送 pos／text／alignment，Cancel 不送。writeUtf/readUtf 上限2048；server 重查 loaded、Wax 與編輯距離後保存、refresh。 |
+| [NeoForge1.21.1 TextScreen](https://github.com/KaleidoscopeMods/KaleidoscopeTavern/blob/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/gui/block/TextScreen.java)、[提交訊息](https://github.com/KaleidoscopeMods/KaleidoscopeTavern/blob/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/network/message/TextUpdateC2SMessage.java) | 獨立核對：同樣 MultiLineEditBox／原文字／Done-Cancel，改用 StreamCodec 與 IPayloadContext；上述文字、Wax／距離契約相同。 |
+| [Modal text field options](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server-ui/modalformdatatextfieldoptions?view=minecraft-bedrock-stable)、[DDUI TextFieldOptions](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server-ui/textfieldoptions?view=minecraft-bedrock-experimental) | 當日官方 Modal 只列 defaultValue／tooltip；DDUI 只列 description／disabled／tooltip／visible。兩者均沒有 multiline。未添加未支援的 Script API 屬性，未把多行 label 當成輸入框。 |
+| [Mojang 原生 UI](https://github.com/Mojang/bedrock-samples/blob/15701fa9c13923f12662984c32c124327e40e3d3/resource_pack/ui/ui_common.json)、[server form](https://github.com/Mojang/bedrock-samples/blob/15701fa9c13923f12662984c32c124327e40e3d3/resource_pack/ui/server_form.json)、[option owner](https://github.com/Mojang/bedrock-samples/blob/15701fa9c13923f12662984c32c124327e40e3d3/resource_pack/ui/settings_sections/settings_common.json) | 1.26.60.5 官方 sample 的 scrollable_multiline_text_edit_box 明列 enabled_newline=true。其完整節點、scrollable_text_edit_box、server form factory／custom_input、option_text_edit／control 與既有1.26.50.4 fixture 相同，故沿用 fixture。common.text_edit_box 新增 clip offset 預設；它由 client 原生繼承，本修復不覆寫該基底。這是 BDS1.26.60.6 目標的 UI 來源核對，並非已觀察該 client 執行 Enter。 |
+
+實際生成路徑維持 `ModalFormData.textField → server_form.generated_contents → custom_input → settings_common.option_text_edit → $control_name → kt_board_input_branches`。[生成器](../tools/build_tavern_forms.py)僅在完整隱形 title-prefix 與欄位標籤同時吻合時，將原生 multiline 屬性、按鍵及 scroll 子控件放進目前的 option edit_box；保留同一 textbox name／collection／六條 root bindings、原生 disabled 變數與互斥焦點。foreign 分支完全保留單行元件。兩個 dropdown、submit、form factory、其他表單與指南路由不改。
+
+黑板 raw 容量維持320／350／1500，輸入上限同步回原字數，不再用雙倍逃逸容量。`text` 保存格式、layout、顏色／glowing／waxed 與原有水平／垂直對齊延伸不變；[editBoard](../runtime/BP/scripts/bedrock/writing-boards.js)在提交後仍重查互動資格、方塊及 root identity、reach、stale data、Wax 與 layout。移除已被替代的 encode/decode，沒有舊板面遷移。
+
+**來源先紅後綠**：[既有 interaction／真提交 callback 回歸](../tools/board-farm-interaction.test.mjs)修前有3個失敗：default 不是原文字、真正換行混合字面反斜線+n 被解碼、三種板面的長 default 被跳脫；修後23項全通過。[生成器回歸](../tools/test_tavern_forms.py)先拒絕沒有 enabled_newline 的輸入，再驗證原生換行／scroll／按鍵、精確三語 scope、foreign 與 disabled／focus，7項通過；必要 CI 納入此既有測試。另通過原 layout、Mojang HUD root 保留與保留的隔離工具相容檢查。
+
+這些是實際來源加 API-double 證據，**不是 Native 或 client Enter 通過**。[單人正常 wire observer 契約](../tools/native/board-multiline/README.md)要求正常 block-click、實收 ModalFormRequest/default、一次正常 ModalFormResponse 與原 owner 保存只讀回，留給共同既有 functional phase；舊 v12 沒有 form response 能力，缺表單／timeout 不作 T 功能陰性。尚無 wire 結果；實體 Enter、IME、觸控／手把、畫面／caret 未驗，不加真人門檻，不盲跑 BDS。
+
 ## 香薰先傷害再判斷治療（2026-11-05）
 
 Forge `c4ec1880`、NeoForge `a1afba34` 的 `IncenseBlockEntity.serverTick`先選活著的亡靈，造成1點magic傷害，再按傷害後的生命判斷殭屍村民治療；沒有按`hurt`回傳值跳過後續判斷。原Bedrock在生命<=1時直接治療並return，導致1點生命及仍有效的死亡actor跳過傷害，也沒有排除死亡目標。

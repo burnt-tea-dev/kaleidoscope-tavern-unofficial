@@ -1,5 +1,7 @@
 # 板面 multiline 真人診斷候選
 
+> 此處保留早期隔離 probe 的範圍與用法，不是現行 editor 狀態或發布門檻。T206 已回正式生成器接上原生 multiline，原文字提交契約與未驗項只查 [PARITY-MATRIX](../../docs/PARITY-MATRIX.md#黑板原生多行輸入接線2026-11-07t206)；正常 wire 入口查 [board-multiline](../native/board-multiline/README.md)。以下「現行單行」及真人門檻描述屬原 probe 階段，已由上述現行來源與 owner 規則取代；此工具不重跑、不自動升為正式包。
+
 這是可產生、可拆除的 **UI 診斷 overlay**，不是已完成的板面修復。未經真人 client 驗證，`client_tested=false`、`production_ready=false`。它不改 Tavern runtime、版本、freeze、workflow 或世界板面資料，不產生沿用正式 Tavern 身份的不同 bytes。
 
 原作 `TextScreen.java` 使用 `MultiLineEditBox`，可直接編輯換行。現行 Bedrock 板面仍透過單行 ModalFormData 與 `encodeBoardInput`／`decodeBoardInput` 輸入跳脫字元。Script UI 2.0.0 的 textField options 只有 `defaultValue` 和 `tooltip`；原生 JSON UI 卻有 multiline primitive。此候選要辨別「把該 primitive 接進同一 server-form factory」是否真的能安全回傳原始文字，不把存在 primitive 誤當接線已驗收。
