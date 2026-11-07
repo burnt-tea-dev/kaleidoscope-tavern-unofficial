@@ -61,8 +61,8 @@ system.afterEvents.scriptEventReceive.subscribe(event=>{
   player.teleport(FROM,{dimension:state.dimension});
   out('PREPARING',{name:NAME,prepareEvent:PREPARE,wireSpawnAndLoadingEvidenceRequired:true});
   // This delay loads the relocated QA chunk, not the login handshake.
-  system.runTimeout(()=>{try{setup(player);}catch(error){state.issues.push(String(error));finish('fail');}},20);
- }catch(error){state.issues.push(String(error));finish('fail');}
+  system.runTimeout(()=>{try{setup(player);}catch(error){state.issues.push('QA setup: '+String(error));finish('inconclusive',{phase:'setup'});}},20);
+ }catch(error){state.issues.push('QA relocation: '+String(error));finish('inconclusive',{phase:'setup'});}
 });
 system.runInterval(()=>{
  if(state.finished)return;

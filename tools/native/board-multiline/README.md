@@ -7,7 +7,7 @@ observer 只在共同的單次 prepare 事件後，在 QA 區域建立小黑板�
 0. 等 `TAVERN_QA_BOARD_LOGIN_READY`，沿既有 driver 正常登入。**共同必須先拿到真 driver spawn 與 `initial_loading_end`，才由原 BDS console 送一次 `scriptevent kt_qa:board_prepare`。** 保留這兩個 wire 時點與 console prepare 記錄。observer 收事件後才 teleport，20tick 延遲只用來載入新位置的 QA chunk，不用來猜登入完成；收到 `PREPARING`／`READY` 後 driver 已在正常 ReadPacket 路徑觀察場景更新。沒送 prepare 就不建場景；缺 wire/loading 證據不能判功能陰性。
 
 1. 等 `TAVERN_QA_BOARD_READY`。使用其中的 `rotation`／`lookAt`，按正常 `look`、`use_block` 點 `targetBlock` 的 North 面。板面薄片的 North 表面在 block-local z=.9375，READY 的目標取板內 z=.95；位置／角度都由 log 記錄。不要用腳本事件開表單。
-2. driver 必須真正收到 **ModalFormRequest**，保存原始 packet 及 JSON 解析結果。它應是黑板專屬 `custom_form`，完整 title 有 `§r§0§r` 前綴，內容恰好 input、dropdown、dropdown。第一欄 default 必須逐字等於 READY 的 `form.defaultText`，另外兩欄 default 是 `[1,1]`。預設文字含真正 newline、字面反斜線+n 與路徑 `C:\new\log`；JSON 解碼後比較原文字，不能拿 log 中的轉義外觀判斷。
+2. driver 必須真正收到 **ModalFormRequest**，解析 JSON 並逐項核對：黑板專屬 `custom_form`、完整 title 的 `§r§0§r` 前綴、恰好 input／dropdown／dropdown、第一欄 default 逐字等於 READY 的 `form.defaultText`，另外兩欄 default 為 `[1,1]`。保留真 packet id／type／shape 與完整 default 比對成功的記錄即可；不要求把 text／body 寫進 driver log。預設文字含真正 newline、字面反斜線+n 與路徑 `C:\new\log`；JSON 解碼後比較原文字，不能拿 log 中的轉義外觀判斷。
 3. 經 root 的正常 wire **ModalFormResponse** 回覆收到的 form id **一次**，值直接取 READY 的 `form.response`：`[rawText,4,2]`。`rawText` 第一行改為 `edit`；另外兩個值是 distributed、bottom。不能在 observer 寫保存鍵、呼叫內部 edit 函式或使用 fixture response。
 4. 收 `TAVERN_QA_BOARD_RESULT`。`owner_save_observed` 表示真點擊已被觀察，原 owner 恰好保存一次，原文、對齊、blue／glowing／waxed 及兩半方塊狀態正確。**共同只有在 driver 的真 request/default/response 證據也吻合時，才可判 wire＋保存通過**。結果本身不是 Native PASS。缺少表單或沒有保存時是 inconclusive；不能略過表單，把 timeout 判成 T 功能陰性。
 
