@@ -6,7 +6,7 @@ import {world,system,BlockPermutation,BlockVolume} from '@minecraft/server';
 import {BOARD_HALF,CHALK_POSITION,CHALKBOARD,boardRuntimeKey,normalizeBoardData} from './core/boards.js';
 import {WRITING_BOARD_DIAGNOSTICS} from './bedrock/writing-boards.js';
 
-const NAME='qaNetPlain',POS={x:96,y:300,z:4},FROM={x:96.5,y:300,z:1.5};
+const NAME='qaNetPlain',PREPARE='kt_qa:board_prepare',POS={x:96,y:300,z:4},FROM={x:96.5,y:300,z:1.5};
 const seed={text:'seed\nliteral \\n\nC:\\new\\log',color:'blue',glowing:false,waxed:false,alignment:'center',verticalAlignment:'middle'};
 const submitted='edit\nliteral \\n\nC:\\new\\log';
 const expected={...seed,text:submitted,alignment:'distributed',verticalAlignment:'bottom'};
@@ -50,17 +50,23 @@ world.beforeEvents.playerInteractWithBlock.subscribe(event=>{
  if(p.x!==POS.x||p.z!==POS.z||p.y<POS.y||p.y>POS.y+1)return;
  state.clicks.push({tick:system.currentTick,block:{...p},face:event.blockFace,first:event.isFirstEvent});
 });
+system.afterEvents.scriptEventReceive.subscribe(event=>{
+ if(event.id!==PREPARE||state.started||state.finished)return;
+ // Common sends this once AFTER real driver spawn + initial_loading_end.
+ // getAllPlayers alone can see an actor that is still logging in.
+ const player=world.getAllPlayers().find(p=>p.name===NAME);
+ if(!player){state.issues.push('Prepare arrived without the expected player; no scene prepared.');finish('inconclusive');return;}
+ state.started=true;state.player=player;state.dimension=player.dimension;
+ try{
+  player.teleport(FROM,{dimension:state.dimension});
+  out('PREPARING',{name:NAME,prepareEvent:PREPARE,wireSpawnAndLoadingEvidenceRequired:true});
+  // This delay loads the relocated QA chunk, not the login handshake.
+  system.runTimeout(()=>{try{setup(player);}catch(error){state.issues.push(String(error));finish('fail');}},20);
+ }catch(error){state.issues.push(String(error));finish('fail');}
+});
 system.runInterval(()=>{
  if(state.finished)return;
  try{
-  if(!state.started){
-   const player=world.getAllPlayers().find(p=>p.name===NAME);if(!player)return;
-   state.started=true;state.player=player;state.dimension=player.dimension;
-   player.teleport(FROM,{dimension:state.dimension});
-   // Load the QA chunk before placing the scene. Setup ends before READY.
-   system.runTimeout(()=>{try{setup(player);}catch(error){state.issues.push(String(error));finish('fail');}},20);
-   return;
-  }
   if(!state.ready)return;
   const raw=world.getDynamicProperty(state.key);
   if(raw!==state.seedRaw){
@@ -76,4 +82,4 @@ system.runInterval(()=>{
   }
  }catch(error){state.issues.push(String(error));finish('fail');}
 },5);
-system.run(()=>out('LOGIN_READY',{name:NAME,players:1}));
+system.run(()=>out('LOGIN_READY',{name:NAME,players:1,prepareEvent:PREPARE}));
