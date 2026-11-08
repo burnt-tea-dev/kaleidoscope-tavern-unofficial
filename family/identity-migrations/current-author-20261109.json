@@ -1,0 +1,93 @@
+{
+  "schema": 3,
+  "kind": "author_family_uuid_migration",
+  "authorization": "Owner 2026-11-09: update the family to the current author releases, preserving saved world data. Cookery and Chinese Food identities are replaced by their reviewed new UUIDs; no block-state scheme changed.",
+  "projects": [
+    {
+      "project_id": 1673664,
+      "old_file_id": 9317031,
+      "new_file_id": 9511094,
+      "old_archive_sha256": "aa760058f43dce462778a3ac570ba5c1af629cb3b60fdc31bf457e589822eb83",
+      "new_archive_sha256": "4bd85c214d063e07ea66639edcff367337db12d59b430b26595c71d1b61b3b64",
+      "packs": [
+        {
+          "side": "behavior",
+          "old_uuid": "d5c48842-1a22-4965-861e-d8fad49b1e00",
+          "new_uuid": "9944f731-cc4c-4299-bdd5-f8799c1d832e",
+          "old_version": [
+            1,
+            6,
+            10001
+          ],
+          "new_version": [
+            1,
+            6,
+            10002
+          ],
+          "old_manifest_sha256": "138a452a76efb395bdf35891875904a91c9ba76a75267fc1ac5beb13d2781416"
+        },
+        {
+          "side": "resource",
+          "old_uuid": "66b445af-a1d0-4b2f-bd40-a0b13e17a8f0",
+          "new_uuid": "1bf09f60-7e0f-450c-9e09-81850b40db4d",
+          "old_version": [
+            1,
+            6,
+            10001
+          ],
+          "new_version": [
+            1,
+            6,
+            10002
+          ],
+          "old_manifest_sha256": "45a504e618290d8319d2dd54274a8a4ffb1e30046a5ab8ba7cee080ebde11484"
+        }
+      ]
+    },
+    {
+      "project_id": 1683300,
+      "old_file_id": 9227399,
+      "new_file_id": 9511115,
+      "old_archive_sha256": "dea708dd6443ea30d23e5791860a50181e8eeb560dcd7ec5a8e80fe22743e659",
+      "new_archive_sha256": "7d26fbb8af615ac8c531d8c76f0a49620dcfd8a427d3e38ab8fc14bfea8b4949",
+      "packs": [
+        {
+          "side": "behavior",
+          "old_uuid": "aa73502b-f806-4c11-8ef0-3f139bfc604a",
+          "new_uuid": "a45b4b96-543e-4081-888f-1b1ba4bb2b38",
+          "old_version": [
+            1,
+            0,
+            10726
+          ],
+          "new_version": [
+            1,
+            0,
+            10727
+          ],
+          "old_manifest_sha256": "8818f1d33a60fa5d3fd700a95967a42c53ba1d6f3c1acd4fe1e0acccd82ef1c1"
+        },
+        {
+          "side": "resource",
+          "old_uuid": "c170e749-0953-4dff-aef8-39e4934dc802",
+          "new_uuid": "b4078ada-717a-457a-847d-6a7ffb953689",
+          "old_version": [
+            1,
+            0,
+            10726
+          ],
+          "new_version": [
+            1,
+            0,
+            10727
+          ],
+          "old_manifest_sha256": "038d6115890979839e4410b8ee1938d7b46ea28078d2835ecb150c427b8b4e95"
+        }
+      ]
+    }
+  ],
+  "dynamic_property_owners": {
+    "d5c48842-1a22-4965-861e-d8fad49b1e00": "9944f731-cc4c-4299-bdd5-f8799c1d832e",
+    "aa73502b-f806-4c11-8ef0-3f139bfc604a": "a45b4b96-543e-4081-888f-1b1ba4bb2b38"
+  }
+}
