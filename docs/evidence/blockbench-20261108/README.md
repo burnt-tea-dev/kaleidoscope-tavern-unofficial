@@ -4,11 +4,13 @@ This is a bounded editor review of Tavern 0.6.212 at `e58b5a421d101f83418b82a960
 
 **Correction:** the six Signature Java-side review fixtures below omitted the source's `rotation.rescale` on two 45-degree planes. Their whole-cup geometry comparison is superseded by the [corrected fixtures and six new GUI captures](../blockbench-signature-rescale-20261108/README.md). The runtime side already had the scale baked in; this was an evidence-adapter error, not a runtime fix. Original files remain here as historical evidence. Shaker and furniture results retain their stated scope.
 
+**Caption correction:** the paired perspective captures show **native Bedrock on screen-left and Java on screen-right**. Java occupies the lower world-X position (furniture X=-13; Signature X=-7), while native occupies the higher position (X=+13 or +7). Blockbench's default free-format perspective camera is at [-40,32,-40], looking toward [0,12,0], so +X projects toward screen-left. Historical scene titles using `LEFT`/`RIGHT` confused world-X placement with screen direction and are not evidence of screen-side identity. Only these captions are corrected; screenshots and projects remain unchanged, with their original hashes retained. The Signature rescale withdrawal above remains in force.
+
 ## Method and source
 
 - Official Blockbench 5.2.2, Linux desktop. No plugin or server was loaded for this review.
 - Shaker: opened the committed `runtime_shaker_held.geo.json`, imported the original 64×64 PNG, and used the automatically discovered committed `runtime_shaker.animation.json` in Animate mode. First-person and third-person images use Blockbench's built-in item contexts.
-- Furniture: self-contained review-only `.bbmodel` scenes put Java on the **left**, current Bedrock on the **right**. Original PNG bytes are embedded. Only the layout translation differs; runtime files were not exported or saved from these projects.
+- Furniture: self-contained review-only `.bbmodel` scenes place the `Java authored` group at world X=-13 and the `canonical` Bedrock group at X=+13; the captured perspective shows native on screen-left and Java on screen-right. Original PNG bytes are embedded. Only the layout translation differs; runtime files were not exported or saved from these projects.
 - Bedrock decoding uses Blockbench's X-coordinate reflection, X/Y rotation signs and top/bottom UV endpoint conventions. All 24 furniture variants match Java's geometry and UV data after decoding. A zero-angle pivot is geometrically inert; numeric integer/float representations are compared by value. This data comparison does not replace looking at the rendered scene.
 - Source main/Java 1.20.1: `c4ec1880bd44cf3139d3ba744ab30bb379cf1416`; 1.21.1: `a1afba34981a00e89d57130d3dc8f1e64f1820a2`; 26.1.2: `9b8f165a4641e738e694641dd81240a0206573e1`. The 24 furniture model definitions and relevant PNG pixels match current 1.21.1 semantically. Line endings/PNG storage bytes can differ.
 - 26.1.2 lacks the four cellar cabinet model paths and the signature cocktail model path in this comparison. Absence on that branch is not treated as a direction to remove retained features.
@@ -44,7 +46,7 @@ The six historical GUI views below demonstrate what was opened, but their Java s
 
 ## Furniture
 
-All 24 pairs were opened in the native GUI with textures loaded. The inspected perspective shows matching silhouette, join-end shape and visible wood/cushion/glass details. No missing texture or mismatched visible UV was confirmed. These are one-view pair inspections, not a multi-angle or in-world connection test. Some images retain Blockbench's pointer-hover face highlight on the Java side; this editor highlight is not a texture/material difference.
+All 24 pairs were opened in the native GUI with textures loaded. The inspected perspective shows matching silhouette, join-end shape and visible wood/cushion/glass details. No missing texture or mismatched visible UV was confirmed. These are one-view pair inspections, not a multi-angle or in-world connection test. Some images retain Blockbench's pointer-hover face highlight; this editor highlight is not a texture/material difference.
 
 | Family | Variants inspected | GUI observations |
 | --- | --- | --- |

@@ -1,0 +1,42 @@
+{
+  "initial": {
+    "character_offset": 6782914,
+    "excerpt_sha256": "0d2f52edc1b6302479c790e361fea654981c5b8ed3e83e0dc74236cca166ab13",
+    "character_length": 530
+  },
+  "defaults": {
+    "character_offset": 8507943,
+    "excerpt_sha256": "b87f9239725e553fbe6eade239ab543711298d41535cff9c9f5f8f21233d179e",
+    "character_length": 105
+  },
+  "free_format": {
+    "character_offset": 8593077,
+    "excerpt_sha256": "61f2b9ea4826bf1e403c7c61279c89fc900bb37d4ae4361f02f51cd43b850d80",
+    "character_length": 900
+  },
+  "official_release": "https://github.com/JannisX11/blockbench/releases/tag/v5.2.2",
+  "bundle_sha256": "5f71b1b122b15c1ecde787a8afd473b9c4e932db3465bbf906a7699874f1b9f8",
+  "default_camera": [
+    -40,
+    32,
+    -40
+  ],
+  "default_target": [
+    0,
+    12,
+    0
+  ],
+  "forward_direction": "-z",
+  "block_size": 16,
+  "screen_right_unit_vector": [
+    -0.7071067811865476,
+    0,
+    0.7071067811865476
+  ],
+  "north_camera": [
+    0,
+    0,
+    -512
+  ],
+  "note": "The free format retains the documented model-format defaults. This identifies the shown default/NORTH orientations only, not arbitrary orbital views."
+}

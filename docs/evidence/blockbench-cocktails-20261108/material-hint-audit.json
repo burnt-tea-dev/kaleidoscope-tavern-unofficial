@@ -1,0 +1,122 @@
+[
+  {
+    "scene": "allium_garden-source-branches-bound",
+    "native_cubes": 20,
+    "unshaded_cubes": 13,
+    "mixed_face_dimming_cubes": 0
+  },
+  {
+    "scene": "bloody_mary-source-branches-bound",
+    "native_cubes": 18,
+    "unshaded_cubes": 6,
+    "mixed_face_dimming_cubes": 0
+  },
+  {
+    "scene": "brass_heart-bound",
+    "native_cubes": 25,
+    "unshaded_cubes": 18,
+    "mixed_face_dimming_cubes": 0
+  },
+  {
+    "scene": "depth_charge-frames-0-3-source-branches-bound",
+    "native_cubes": 76,
+    "unshaded_cubes": 36,
+    "mixed_face_dimming_cubes": 0
+  },
+  {
+    "scene": "emerald-bound",
+    "native_cubes": 14,
+    "unshaded_cubes": 9,
+    "mixed_face_dimming_cubes": 0
+  },
+  {
+    "scene": "empty_glassware-bound",
+    "native_cubes": 17,
+    "unshaded_cubes": 10,
+    "mixed_face_dimming_cubes": 0
+  },
+  {
+    "scene": "godfather-bound",
+    "native_cubes": 20,
+    "unshaded_cubes": 13,
+    "mixed_face_dimming_cubes": 0
+  },
+  {
+    "scene": "grasshopper-source-branches-bound",
+    "native_cubes": 17,
+    "unshaded_cubes": 9,
+    "mixed_face_dimming_cubes": 0
+  },
+  {
+    "scene": "mojito-source-branches-bound",
+    "native_cubes": 20,
+    "unshaded_cubes": 11,
+    "mixed_face_dimming_cubes": 0
+  },
+  {
+    "scene": "mystery_cocktail-frames-0-3-bound",
+    "native_cubes": 76,
+    "unshaded_cubes": 44,
+    "mixed_face_dimming_cubes": 0
+  },
+  {
+    "scene": "mystery_cocktail-frames-4-7-bound",
+    "native_cubes": 76,
+    "unshaded_cubes": 44,
+    "mixed_face_dimming_cubes": 0
+  },
+  {
+    "scene": "mystery_cocktail-frames-8-8-bound",
+    "native_cubes": 19,
+    "unshaded_cubes": 11,
+    "mixed_face_dimming_cubes": 0
+  },
+  {
+    "scene": "nether_special-frames-0-3-bound",
+    "native_cubes": 88,
+    "unshaded_cubes": 44,
+    "mixed_face_dimming_cubes": 0
+  },
+  {
+    "scene": "nether_special-frames-4-5-bound",
+    "native_cubes": 44,
+    "unshaded_cubes": 22,
+    "mixed_face_dimming_cubes": 0
+  },
+  {
+    "scene": "screwdriver-source-branches-bound",
+    "native_cubes": 13,
+    "unshaded_cubes": 6,
+    "mixed_face_dimming_cubes": 0
+  },
+  {
+    "scene": "sculk_special-frames-0-3-bound",
+    "native_cubes": 84,
+    "unshaded_cubes": 64,
+    "mixed_face_dimming_cubes": 0
+  },
+  {
+    "scene": "sculk_special-frames-4-7-bound",
+    "native_cubes": 84,
+    "unshaded_cubes": 64,
+    "mixed_face_dimming_cubes": 0
+  },
+  {
+    "scene": "sculk_special-frames-8-11-bound",
+    "native_cubes": 84,
+    "unshaded_cubes": 64,
+    "mixed_face_dimming_cubes": 0
+  },
+  {
+    "scene": "sculk_special-frames-12-15-bound",
+    "native_cubes": 84,
+    "unshaded_cubes": 64,
+    "mixed_face_dimming_cubes": 0
+  },
+  {
+    "scene": "white_lady-source-branches-bound",
+    "native_cubes": 16,
+    "unshaded_cubes": 10,
+    "mixed_face_dimming_cubes": 0
+  }
+]

@@ -2,9 +2,11 @@
 
 Review target: Tavern 0.6.212 at `b2aba0e99d30b6dec87fdd06157da03998133f2b`. This extends the [first editor review](../blockbench-20261108/README.md), with unchanged runtime and accepted held poses. No user machine, LIVE server, Minecraft client or saved world is used.
 
+**Caption correction:** the perspective captures show **native Bedrock on screen-left and Java on screen-right within each pair**. In contrast, the circular-rack **TOP** capture and all three lamp **BOTTOM** captures show **Java on screen-left and native on screen-right**, as confirmed by their +X gizmos pointing right. Historical scene titles using `LEFT`/`RIGHT` confused world-X placement with screen direction; use source-group identity and the captured view instead. Screenshots and archived projects are unchanged, with their original hashes retained.
+
 ## Inputs and scope
 
-- Official Blockbench 5.2.2 Linux desktop, no plugin or service. Paired review-only scenes place Java on the left and canonical Bedrock on the right. Textures are embedded; none of these projects is a runtime export.
+- Official Blockbench 5.2.2 Linux desktop, no plugin or service. Paired review-only scenes place the `Java authored` group at the lower world-X position and the `canonical` Bedrock group at the higher world-X position; screen order depends on the view as stated above. Textures are embedded; none of these projects is a runtime export.
 - Java main/1.20.1 source: `c4ec1880bd44cf3139d3ba744ab30bb379cf1416`. All 42 distinct Java model/texture inputs match 1.21.1 at `a1afba34981a00e89d57130d3dc8f1e64f1820a2` semantically or by RGBA pixels.
 - Source 26.1.2 at `9b8f165a4641e738e694641dd81240a0206573e1` has 24/42 identical inputs, 17 absent paths, and a different empty-bottle model (five elements instead of four). This is recorded explicitly, not treated as permission to remove retained features or as proof of parity with that branch.
 - Scope is empty circular/tilted racks; blue, yellow and bell two-block pendant lamps; six bottle shapes; and all 16 sofa colour textures on the single sofa geometry. This does not add other sofa shapes in other colours by association.
@@ -40,7 +42,7 @@ The 15 scenes were opened in the native editor and captured in 19 unmodified scr
 | sofa-colours-2 | [Perspective](screenshots/sofa-colours-2.jpg) | — |
 | sofa-colours-3 | [Perspective](screenshots/sofa-colours-3.jpg) | — |
 
-Each sofa colour appears twice, Java on the left within its pair. Sheet 0: white, orange, magenta, light blue. Sheet 1: yellow, lime, pink, gray. Sheet 2: light gray, cyan, purple, blue. Sheet 3: brown, green, red, black.
+Each sofa colour appears twice; in the captured perspective, native is on screen-left and Java on screen-right within that colour pair. These labels do not describe the order of the four colour pairs across the sheet. Sheet 0: white, orange, magenta, light blue. Sheet 1: yellow, lime, pink, gray. Sheet 2: light gray, cyan, purple, blue. Sheet 3: brown, green, red, black.
 
 ## Limits and reproduction
 

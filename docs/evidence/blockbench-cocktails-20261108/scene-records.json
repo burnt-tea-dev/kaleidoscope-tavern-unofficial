@@ -1,0 +1,985 @@
+[
+  {
+    "name": "allium_garden-source-branches-bound",
+    "frames": [
+      0
+    ],
+    "source_frame_count": 1,
+    "frame_size": [
+      32,
+      32
+    ],
+    "source_runtime_rgba_equal": true,
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/allium_garden.json",
+        "sha256": "5dedf144152e35f925c613547217b4d1b2c6866f42332ca55104e3eb687086f7"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/allium_garden.png",
+        "sha256": "8ff657298d89ab4d1b4db5b1b0e784e3e04d8ff95bc083c7ea4bc39559bd556b"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/allium_garden.geo.json",
+        "sha256": "3e3ca95a45eaddaa768503fa21098b4516a9d148b5977b22ac1f2610b28b549b"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/mixology/allium_garden.png",
+        "sha256": "8ff657298d89ab4d1b4db5b1b0e784e3e04d8ff95bc083c7ea4bc39559bd556b"
+      },
+      {
+        "path": "source/runtime/BP/blocks/cup_allium_garden.json",
+        "sha256": "c141516148efc9009dcf175b572dd2d4d059b2c0427141faa27e7bb21c70bfe2"
+      }
+    ],
+    "review_only": true,
+    "limit": "Static original frame pixels; no animation timing, interpolation, shader or render-controller execution.",
+    "layout": "Within each frame: Forge at relative world X=-16, native at X=0, NeoForge at X=+16. In the captured default perspective and NORTH view, screen order is NeoForge left / native centre / Forge right.",
+    "current_java_inputs": [
+      {
+        "path": "round3/java-121/allium_garden.json",
+        "upstream_path": "src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/allium_garden.json",
+        "upstream_commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "sha256": "80bb1a4e315a825a3f87a8caa27924fdf5ffed02ce56f417df56793d2b52ce0f"
+      },
+      {
+        "path": "round3/java-121/allium_garden.png",
+        "upstream_path": "src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/allium_garden.png",
+        "upstream_commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "sha256": "c5e7455f127a838e98cd661eb470f798ea8c8901964da3d57231ed38f9c517da"
+      }
+    ],
+    "preview_material_limit": "Uniform native face_dimming is represented by Blockbench cube shade. Geometry face tags are resolved through actual BP material_instances, not tag-name inference. No engine material, lighting, AO, alpha sorting or runtime shader execution claim.",
+    "frame_layout": "Ascending frame indices occupy (-X,-Z), (+X,-Z), (-X,+Z), (+X,+Z), when present. Default perspective projects these near/bottom, left, right, far/top respectively. Group names identify exact frame indices.",
+    "screenshot": "allium_garden-source-branches-bound.jpg",
+    "camera": "default perspective, zoom adjusted only"
+  },
+  {
+    "name": "bloody_mary-source-branches-bound",
+    "frames": [
+      0
+    ],
+    "source_frame_count": 1,
+    "frame_size": [
+      32,
+      32
+    ],
+    "source_runtime_rgba_equal": true,
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/bloody_mary.json",
+        "sha256": "940e30dd4749164a880cf3f344f4cb3db78eadea6ea92d40add05d9c4af01edf"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/bloody_mary.png",
+        "sha256": "0c7c2688e94e9dd9726158091cc3e9ebef4309f05f72d506d75b2a68c3f11583"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/bloody_mary.geo.json",
+        "sha256": "b83a72193c5930432188cb2242acafa49b96db1b9743a3aa3ebe714f858036e6"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/mixology/bloody_mary.png",
+        "sha256": "0c7c2688e94e9dd9726158091cc3e9ebef4309f05f72d506d75b2a68c3f11583"
+      },
+      {
+        "path": "source/runtime/BP/blocks/cup_bloody_mary.json",
+        "sha256": "acd0d751f7d80ea02c6f42e127eb3e5299d01bf03a2a8fb6b867a1e21eb7971f"
+      }
+    ],
+    "review_only": true,
+    "limit": "Static original frame pixels; no animation timing, interpolation, shader or render-controller execution.",
+    "layout": "Within each frame: Forge at relative world X=-16, native at X=0, NeoForge at X=+16. In the captured default perspective and NORTH view, screen order is NeoForge left / native centre / Forge right.",
+    "current_java_inputs": [
+      {
+        "path": "round3/java-121/bloody_mary.json",
+        "upstream_path": "src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/bloody_mary.json",
+        "upstream_commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "sha256": "c1e181314eb7d1cadcbeaccfa0c4ab559e744559036fc7c5828355565bfd4543"
+      },
+      {
+        "path": "round3/java-121/bloody_mary.png",
+        "upstream_path": "src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/bloody_mary.png",
+        "upstream_commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "sha256": "abc99bc755b53a9fe7b4969b30976588a4491c8aa9af6a7ef6c918336d2ed4e9"
+      }
+    ],
+    "preview_material_limit": "Uniform native face_dimming is represented by Blockbench cube shade. Geometry face tags are resolved through actual BP material_instances, not tag-name inference. No engine material, lighting, AO, alpha sorting or runtime shader execution claim.",
+    "frame_layout": "Ascending frame indices occupy (-X,-Z), (+X,-Z), (-X,+Z), (+X,+Z), when present. Default perspective projects these near/bottom, left, right, far/top respectively. Group names identify exact frame indices.",
+    "screenshot": "bloody_mary-source-branches-bound.jpg",
+    "camera": "default perspective, zoom adjusted only"
+  },
+  {
+    "name": "brass_heart-bound",
+    "frames": [
+      0
+    ],
+    "source_frame_count": 1,
+    "frame_size": [
+      32,
+      32
+    ],
+    "source_runtime_rgba_equal": true,
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/brass_heart.json",
+        "sha256": "b2d34093a4f2e5c722c4bc2c636a357e4df9543f0e7d2f57f225e4c632f50739"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/brass_heart.png",
+        "sha256": "1a5ae6a1cb35b285c7096f0f935f13ded6afb8992e6d55cc410d617f693109fb"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/brass_heart.geo.json",
+        "sha256": "91fdc5adc16f4837ad3e92a16b14278b860b7d2ec5c66132d1d1425595d61af7"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/mixology/brass_heart.png",
+        "sha256": "1a5ae6a1cb35b285c7096f0f935f13ded6afb8992e6d55cc410d617f693109fb"
+      },
+      {
+        "path": "source/runtime/BP/blocks/cup_brass_heart.json",
+        "sha256": "69a62733fb9cde208fa19f84ea5b2b870afae2f810217ce537f02c1e52517b68"
+      }
+    ],
+    "review_only": true,
+    "limit": "Static original frame pixels; no animation timing, interpolation, shader or render-controller execution.",
+    "preview_material_limit": "Uniform native face_dimming is represented by Blockbench cube shade. Geometry face tags are resolved through actual BP material_instances, not tag-name inference. No engine material, lighting, AO, alpha sorting or runtime shader execution claim.",
+    "layout": "Within each frame: Forge at relative negative world X, native at relative positive world X. In the captured default perspective, native appears screen-left of Forge.",
+    "frame_layout": "Ascending frame indices occupy (-X,-Z), (+X,-Z), (-X,+Z), (+X,+Z), when present. Default perspective projects these near/bottom, left, right, far/top respectively. Group names identify exact frame indices.",
+    "screenshot": "brass_heart-bound.jpg",
+    "camera": "default perspective, zoom adjusted only"
+  },
+  {
+    "name": "depth_charge-frames-0-3-source-branches-bound",
+    "frames": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "source_frame_count": 4,
+    "frame_size": [
+      32,
+      32
+    ],
+    "source_runtime_rgba_equal": true,
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/depth_charge.json",
+        "sha256": "26dfa4d406aa87867117f7461bc1671027a101be3a6a63fa4f32d6fdbe7f9ae4"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/depth_charge.png",
+        "sha256": "87b3259bf68da01598fd65e60c3694782b2bc73c65b30fef32c063aeee1d1aa6"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/depth_charge.geo.json",
+        "sha256": "d900054c2afb5e04df28848c0de4a2f7459b556b90456aeb76c0dc98ba8ae578"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/mixology/depth_charge.png",
+        "sha256": "87b3259bf68da01598fd65e60c3694782b2bc73c65b30fef32c063aeee1d1aa6"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/depth_charge.png.mcmeta",
+        "sha256": "7154837559a0f1d6c47d06d6632fc105b1fa2ee346d23d0d5f1763f0cb43f917"
+      },
+      {
+        "path": "source/runtime/BP/blocks/cup_depth_charge.json",
+        "sha256": "a87f7aa3c38840b404e15ab3e92993358d76814eeb901d978276f1c94d66a322"
+      }
+    ],
+    "review_only": true,
+    "limit": "Static original frame pixels; no animation timing, interpolation, shader or render-controller execution.",
+    "layout": "Within each frame: Forge at relative world X=-16, native at X=0, NeoForge at X=+16. In the captured default perspective and NORTH view, screen order is NeoForge left / native centre / Forge right.",
+    "current_java_inputs": [
+      {
+        "path": "round3/java-121/depth_charge.json",
+        "upstream_path": "src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/depth_charge.json",
+        "upstream_commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "sha256": "587d1a7e1a6183b5e178c8d3c23ae298e83e26087532b904553414fae2eeabf8"
+      },
+      {
+        "path": "round3/java-121/depth_charge.png",
+        "upstream_path": "src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/depth_charge.png",
+        "upstream_commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "sha256": "2210e114fa69f276bae7b5b4100d7ef373c1e282c68f6c94a1da665c1b6dc784"
+      }
+    ],
+    "preview_material_limit": "Uniform native face_dimming is represented by Blockbench cube shade. Geometry face tags are resolved through actual BP material_instances, not tag-name inference. No engine material, lighting, AO, alpha sorting or runtime shader execution claim.",
+    "frame_layout": "Ascending frame indices occupy (-X,-Z), (+X,-Z), (-X,+Z), (+X,+Z), when present. Default perspective projects these near/bottom, left, right, far/top respectively. Group names identify exact frame indices.",
+    "screenshot": "depth_charge-frames-0-3-source-branches-bound.jpg",
+    "camera": "default perspective, zoom adjusted only"
+  },
+  {
+    "name": "emerald-bound",
+    "frames": [
+      0
+    ],
+    "source_frame_count": 1,
+    "frame_size": [
+      32,
+      32
+    ],
+    "source_runtime_rgba_equal": true,
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/emerald.json",
+        "sha256": "a2ad8c4be0ae08b75dbd05d0593dd7590fe8adbf1fd826d9a23af3cb6aa884b2"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/emerald.png",
+        "sha256": "0b3bc44cc2d4c63dc0cd4085670c9be5cfdb5c2669e8001bb30fcd0990ecbb0c"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/emerald.geo.json",
+        "sha256": "75195ecae9bed6876de484921b1bed8597b88aa63bd562267caebad425995971"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/mixology/emerald.png",
+        "sha256": "0b3bc44cc2d4c63dc0cd4085670c9be5cfdb5c2669e8001bb30fcd0990ecbb0c"
+      },
+      {
+        "path": "source/runtime/BP/blocks/cup_emerald.json",
+        "sha256": "4bdaf943c3893f6dbc877bed0e5f1dab1ee12c772504ca047f2897aef0e645be"
+      }
+    ],
+    "review_only": true,
+    "limit": "Static original frame pixels; no animation timing, interpolation, shader or render-controller execution.",
+    "preview_material_limit": "Uniform native face_dimming is represented by Blockbench cube shade. Geometry face tags are resolved through actual BP material_instances, not tag-name inference. No engine material, lighting, AO, alpha sorting or runtime shader execution claim.",
+    "layout": "Within each frame: Forge at relative negative world X, native at relative positive world X. In the captured default perspective, native appears screen-left of Forge.",
+    "frame_layout": "Ascending frame indices occupy (-X,-Z), (+X,-Z), (-X,+Z), (+X,+Z), when present. Default perspective projects these near/bottom, left, right, far/top respectively. Group names identify exact frame indices.",
+    "screenshot": "emerald-bound.jpg",
+    "camera": "default perspective, zoom adjusted only"
+  },
+  {
+    "name": "empty_glassware-bound",
+    "frames": [
+      0
+    ],
+    "source_frame_count": 1,
+    "frame_size": [
+      32,
+      32
+    ],
+    "source_runtime_rgba_equal": true,
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/empty_glassware.json",
+        "sha256": "194d9bf6e407cea511c4ad31d0fca4b8b431c0043b4e416b48001fd4da041013"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/empty_glassware.png",
+        "sha256": "257f85b15ef4480ab800304ccd73d2627638cf246c95e2003057b31886f21673"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/empty_glassware.geo.json",
+        "sha256": "169eecffd642f72955633d05f382c04f2ffc7b3ae3db9a0ea8c6896be1cad898"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/mixology/empty_glassware.png",
+        "sha256": "257f85b15ef4480ab800304ccd73d2627638cf246c95e2003057b31886f21673"
+      },
+      {
+        "path": "source/runtime/BP/blocks/cup_empty_glassware.json",
+        "sha256": "687c36d46664736284f584c3a7f7d4db67374a919687d6e3612afdf46d7af8a2"
+      }
+    ],
+    "review_only": true,
+    "limit": "Static original frame pixels; no animation timing, interpolation, shader or render-controller execution.",
+    "preview_material_limit": "Uniform native face_dimming is represented by Blockbench cube shade. Geometry face tags are resolved through actual BP material_instances, not tag-name inference. No engine material, lighting, AO, alpha sorting or runtime shader execution claim.",
+    "layout": "Within each frame: Forge at relative negative world X, native at relative positive world X. In the captured default perspective, native appears screen-left of Forge.",
+    "frame_layout": "Ascending frame indices occupy (-X,-Z), (+X,-Z), (-X,+Z), (+X,+Z), when present. Default perspective projects these near/bottom, left, right, far/top respectively. Group names identify exact frame indices.",
+    "screenshot": "empty_glassware-bound.jpg",
+    "camera": "default perspective, zoom adjusted only"
+  },
+  {
+    "name": "godfather-bound",
+    "frames": [
+      0
+    ],
+    "source_frame_count": 1,
+    "frame_size": [
+      32,
+      32
+    ],
+    "source_runtime_rgba_equal": true,
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/godfather.json",
+        "sha256": "dd943811abb6035412979b23f79a0eeb447d29362f7dad85fb69df780d3e26f2"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/godfather.png",
+        "sha256": "a92be24a093f717f88c31c5fe6acdd404f4c7ba0964efd45b0e500f269939330"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/godfather.geo.json",
+        "sha256": "dc416a1ff95090155a14eaa50325df983c554b8b2d79f692c7e948e1a10bf10a"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/mixology/godfather.png",
+        "sha256": "a92be24a093f717f88c31c5fe6acdd404f4c7ba0964efd45b0e500f269939330"
+      },
+      {
+        "path": "source/runtime/BP/blocks/cup_godfather.json",
+        "sha256": "4a47342c71ae2f0e43aee0fb6b14fb8ba8be23c6fa06d78df08dfeb019888045"
+      }
+    ],
+    "review_only": true,
+    "limit": "Static original frame pixels; no animation timing, interpolation, shader or render-controller execution.",
+    "preview_material_limit": "Uniform native face_dimming is represented by Blockbench cube shade. Geometry face tags are resolved through actual BP material_instances, not tag-name inference. No engine material, lighting, AO, alpha sorting or runtime shader execution claim.",
+    "layout": "Within each frame: Forge at relative negative world X, native at relative positive world X. In the captured default perspective, native appears screen-left of Forge.",
+    "frame_layout": "Ascending frame indices occupy (-X,-Z), (+X,-Z), (-X,+Z), (+X,+Z), when present. Default perspective projects these near/bottom, left, right, far/top respectively. Group names identify exact frame indices.",
+    "screenshot": "godfather-bound.jpg",
+    "camera": "default perspective, zoom adjusted only"
+  },
+  {
+    "name": "grasshopper-source-branches-bound",
+    "frames": [
+      0
+    ],
+    "source_frame_count": 1,
+    "frame_size": [
+      32,
+      32
+    ],
+    "source_runtime_rgba_equal": true,
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/grasshopper.json",
+        "sha256": "2e1f57e006b0196a564343d8a111ff9067e6b30e02536bcf328bf7d6f4269c82"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/grasshopper.png",
+        "sha256": "68214410a8f7b015b115c6e22504af66a8e66723babe4e6528967089dffa7b3a"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/grasshopper.geo.json",
+        "sha256": "38ff142340b4232e8befe501d8301d96ef4d9a15f46e9af46c4cc680014f2584"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/mixology/grasshopper.png",
+        "sha256": "68214410a8f7b015b115c6e22504af66a8e66723babe4e6528967089dffa7b3a"
+      },
+      {
+        "path": "source/runtime/BP/blocks/cup_grasshopper.json",
+        "sha256": "5249d9351bc316bfde5b7ad183aaf3329eca22a1fa318414b15f6220dce35d50"
+      }
+    ],
+    "review_only": true,
+    "limit": "Static original frame pixels; no animation timing, interpolation, shader or render-controller execution.",
+    "layout": "Within each frame: Forge at relative world X=-16, native at X=0, NeoForge at X=+16. In the captured default perspective and NORTH view, screen order is NeoForge left / native centre / Forge right.",
+    "current_java_inputs": [
+      {
+        "path": "round3/java-121/grasshopper.json",
+        "upstream_path": "src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/grasshopper.json",
+        "upstream_commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "sha256": "0e8561c635097cfae84adbacb70a5c636ac624b9fe13c11de79fdc6002b862cd"
+      },
+      {
+        "path": "round3/java-121/grasshopper.png",
+        "upstream_path": "src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/grasshopper.png",
+        "upstream_commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "sha256": "cac1455deabd9de2483b2689b3e2169abc1290430e58fbb8b99db08ff2a818ed"
+      }
+    ],
+    "preview_material_limit": "Uniform native face_dimming is represented by Blockbench cube shade. Geometry face tags are resolved through actual BP material_instances, not tag-name inference. No engine material, lighting, AO, alpha sorting or runtime shader execution claim.",
+    "frame_layout": "Ascending frame indices occupy (-X,-Z), (+X,-Z), (-X,+Z), (+X,+Z), when present. Default perspective projects these near/bottom, left, right, far/top respectively. Group names identify exact frame indices.",
+    "screenshot": "grasshopper-source-branches-bound.jpg",
+    "camera": "default perspective, zoom adjusted only"
+  },
+  {
+    "name": "mojito-source-branches-bound",
+    "frames": [
+      0
+    ],
+    "source_frame_count": 1,
+    "frame_size": [
+      32,
+      32
+    ],
+    "source_runtime_rgba_equal": true,
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/mojito.json",
+        "sha256": "8770c16b649404d600b95641b7a48c92798770127562c06916c1b5929f6d9098"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/mojito.png",
+        "sha256": "e40ce8e1e450f09e2d5f5667e93904834a9e7a999be61f8264f078be50238095"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/mojito.geo.json",
+        "sha256": "50eec85689fe775fd39c9f6c1cc001859132c199cffc96091a391cda2f795c65"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/mixology/mojito.png",
+        "sha256": "e40ce8e1e450f09e2d5f5667e93904834a9e7a999be61f8264f078be50238095"
+      },
+      {
+        "path": "source/runtime/BP/blocks/cup_mojito.json",
+        "sha256": "48882fa9a41df81e0b96efeaf7aa35cb2fec574d7c0b1a1911c1bd967b1035ad"
+      }
+    ],
+    "review_only": true,
+    "limit": "Static original frame pixels; no animation timing, interpolation, shader or render-controller execution.",
+    "layout": "Within each frame: Forge at relative world X=-16, native at X=0, NeoForge at X=+16. In the captured default perspective and NORTH view, screen order is NeoForge left / native centre / Forge right.",
+    "current_java_inputs": [
+      {
+        "path": "round3/java-121/mojito.json",
+        "upstream_path": "src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/mojito.json",
+        "upstream_commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "sha256": "d7b7fecfd7b46bcf5db8bc40cb47061a8efed08b32c8362d30be61c3b6329a49"
+      },
+      {
+        "path": "round3/java-121/mojito.png",
+        "upstream_path": "src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/mojito.png",
+        "upstream_commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "sha256": "fbdc79d08e77ac27ef2e3cdf22d70410f5233b78b49e76b62393cfe661d591b4"
+      }
+    ],
+    "preview_material_limit": "Uniform native face_dimming is represented by Blockbench cube shade. Geometry face tags are resolved through actual BP material_instances, not tag-name inference. No engine material, lighting, AO, alpha sorting or runtime shader execution claim.",
+    "frame_layout": "Ascending frame indices occupy (-X,-Z), (+X,-Z), (-X,+Z), (+X,+Z), when present. Default perspective projects these near/bottom, left, right, far/top respectively. Group names identify exact frame indices.",
+    "screenshot": "mojito-source-branches-bound.jpg",
+    "camera": "default perspective, zoom adjusted only"
+  },
+  {
+    "name": "mystery_cocktail-frames-0-3-bound",
+    "frames": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "source_frame_count": 9,
+    "frame_size": [
+      32,
+      32
+    ],
+    "source_runtime_rgba_equal": true,
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/mystery_cocktail.json",
+        "sha256": "f13187698efa3a191c1384718074a2eb9a6154831359e5316baf7bda28e40c57"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/mystery_cocktail.png",
+        "sha256": "e4998f0b91491052ad373b780a6d208a932afae2a56649c674323d5ff1f3e0d7"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/mystery_cocktail.geo.json",
+        "sha256": "15479b0ca76495a365c580956b7cd7e0718d9dba0be88bc996b0988984a90350"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/mixology/mystery_cocktail.png",
+        "sha256": "e4998f0b91491052ad373b780a6d208a932afae2a56649c674323d5ff1f3e0d7"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/mystery_cocktail.png.mcmeta",
+        "sha256": "852e459acf1cd3626753856bcc56e482a73c9ef90f361e5d02d72a9e69224872"
+      },
+      {
+        "path": "source/runtime/BP/blocks/cup_mystery_cocktail.json",
+        "sha256": "719033303ba23ed9896df75062d7735de33daae4f3c20016e45029c07b9bfc2d"
+      }
+    ],
+    "review_only": true,
+    "limit": "Static original frame pixels; no animation timing, interpolation, shader or render-controller execution.",
+    "preview_material_limit": "Uniform native face_dimming is represented by Blockbench cube shade. Geometry face tags are resolved through actual BP material_instances, not tag-name inference. No engine material, lighting, AO, alpha sorting or runtime shader execution claim.",
+    "layout": "Within each frame: Forge at relative negative world X, native at relative positive world X. In the captured default perspective, native appears screen-left of Forge.",
+    "frame_layout": "Ascending frame indices occupy (-X,-Z), (+X,-Z), (-X,+Z), (+X,+Z), when present. Default perspective projects these near/bottom, left, right, far/top respectively. Group names identify exact frame indices.",
+    "screenshot": "mystery_cocktail-frames-0-3-bound.jpg",
+    "camera": "default perspective, zoom adjusted only"
+  },
+  {
+    "name": "mystery_cocktail-frames-4-7-bound",
+    "frames": [
+      4,
+      5,
+      6,
+      7
+    ],
+    "source_frame_count": 9,
+    "frame_size": [
+      32,
+      32
+    ],
+    "source_runtime_rgba_equal": true,
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/mystery_cocktail.json",
+        "sha256": "f13187698efa3a191c1384718074a2eb9a6154831359e5316baf7bda28e40c57"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/mystery_cocktail.png",
+        "sha256": "e4998f0b91491052ad373b780a6d208a932afae2a56649c674323d5ff1f3e0d7"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/mystery_cocktail.geo.json",
+        "sha256": "15479b0ca76495a365c580956b7cd7e0718d9dba0be88bc996b0988984a90350"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/mixology/mystery_cocktail.png",
+        "sha256": "e4998f0b91491052ad373b780a6d208a932afae2a56649c674323d5ff1f3e0d7"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/mystery_cocktail.png.mcmeta",
+        "sha256": "852e459acf1cd3626753856bcc56e482a73c9ef90f361e5d02d72a9e69224872"
+      },
+      {
+        "path": "source/runtime/BP/blocks/cup_mystery_cocktail.json",
+        "sha256": "719033303ba23ed9896df75062d7735de33daae4f3c20016e45029c07b9bfc2d"
+      }
+    ],
+    "review_only": true,
+    "limit": "Static original frame pixels; no animation timing, interpolation, shader or render-controller execution.",
+    "preview_material_limit": "Uniform native face_dimming is represented by Blockbench cube shade. Geometry face tags are resolved through actual BP material_instances, not tag-name inference. No engine material, lighting, AO, alpha sorting or runtime shader execution claim.",
+    "layout": "Within each frame: Forge at relative negative world X, native at relative positive world X. In the captured default perspective, native appears screen-left of Forge.",
+    "frame_layout": "Ascending frame indices occupy (-X,-Z), (+X,-Z), (-X,+Z), (+X,+Z), when present. Default perspective projects these near/bottom, left, right, far/top respectively. Group names identify exact frame indices.",
+    "screenshot": "mystery_cocktail-frames-4-7-bound.jpg",
+    "camera": "default perspective, zoom adjusted only"
+  },
+  {
+    "name": "mystery_cocktail-frames-8-8-bound",
+    "frames": [
+      8
+    ],
+    "source_frame_count": 9,
+    "frame_size": [
+      32,
+      32
+    ],
+    "source_runtime_rgba_equal": true,
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/mystery_cocktail.json",
+        "sha256": "f13187698efa3a191c1384718074a2eb9a6154831359e5316baf7bda28e40c57"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/mystery_cocktail.png",
+        "sha256": "e4998f0b91491052ad373b780a6d208a932afae2a56649c674323d5ff1f3e0d7"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/mystery_cocktail.geo.json",
+        "sha256": "15479b0ca76495a365c580956b7cd7e0718d9dba0be88bc996b0988984a90350"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/mixology/mystery_cocktail.png",
+        "sha256": "e4998f0b91491052ad373b780a6d208a932afae2a56649c674323d5ff1f3e0d7"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/mystery_cocktail.png.mcmeta",
+        "sha256": "852e459acf1cd3626753856bcc56e482a73c9ef90f361e5d02d72a9e69224872"
+      },
+      {
+        "path": "source/runtime/BP/blocks/cup_mystery_cocktail.json",
+        "sha256": "719033303ba23ed9896df75062d7735de33daae4f3c20016e45029c07b9bfc2d"
+      }
+    ],
+    "review_only": true,
+    "limit": "Static original frame pixels; no animation timing, interpolation, shader or render-controller execution.",
+    "preview_material_limit": "Uniform native face_dimming is represented by Blockbench cube shade. Geometry face tags are resolved through actual BP material_instances, not tag-name inference. No engine material, lighting, AO, alpha sorting or runtime shader execution claim.",
+    "layout": "Within each frame: Forge at relative negative world X, native at relative positive world X. In the captured default perspective, native appears screen-left of Forge.",
+    "frame_layout": "Ascending frame indices occupy (-X,-Z), (+X,-Z), (-X,+Z), (+X,+Z), when present. Default perspective projects these near/bottom, left, right, far/top respectively. Group names identify exact frame indices.",
+    "screenshot": "mystery_cocktail-frames-8-8-bound.jpg",
+    "camera": "default perspective, zoom adjusted only"
+  },
+  {
+    "name": "nether_special-frames-0-3-bound",
+    "frames": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "source_frame_count": 6,
+    "frame_size": [
+      32,
+      32
+    ],
+    "source_runtime_rgba_equal": true,
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/nether_special.json",
+        "sha256": "95df8133768abcf2620dd7a695ba436f5a4b4fb093f2843cbd566156e55cb985"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/nether_special.png",
+        "sha256": "f076259b0099ea9f9c96420d37a1e153ed39c401b6e74beedff3781ac07c5f93"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/nether_special.geo.json",
+        "sha256": "4652bc728c6cfde45f00d0e578535cafae1892204ded46e7505322abfc991cc7"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/mixology/nether_special.png",
+        "sha256": "f076259b0099ea9f9c96420d37a1e153ed39c401b6e74beedff3781ac07c5f93"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/nether_special.png.mcmeta",
+        "sha256": "027acaba8690d68a31772083d3f4169dd4771ef04a89c22505b282a3c903b044"
+      },
+      {
+        "path": "source/runtime/BP/blocks/cup_nether_special.json",
+        "sha256": "f1fbae036cd97e3beb143df60a8cf2e877f90794cb6f1e5b0fea320813134442"
+      }
+    ],
+    "review_only": true,
+    "limit": "Static original frame pixels; no animation timing, interpolation, shader or render-controller execution.",
+    "preview_material_limit": "Uniform native face_dimming is represented by Blockbench cube shade. Geometry face tags are resolved through actual BP material_instances, not tag-name inference. No engine material, lighting, AO, alpha sorting or runtime shader execution claim.",
+    "layout": "Within each frame: Forge at relative negative world X, native at relative positive world X. In the captured default perspective, native appears screen-left of Forge.",
+    "frame_layout": "Ascending frame indices occupy (-X,-Z), (+X,-Z), (-X,+Z), (+X,+Z), when present. Default perspective projects these near/bottom, left, right, far/top respectively. Group names identify exact frame indices.",
+    "screenshot": "nether_special-frames-0-3-bound.jpg",
+    "camera": "default perspective, zoom adjusted only"
+  },
+  {
+    "name": "nether_special-frames-4-5-bound",
+    "frames": [
+      4,
+      5
+    ],
+    "source_frame_count": 6,
+    "frame_size": [
+      32,
+      32
+    ],
+    "source_runtime_rgba_equal": true,
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/nether_special.json",
+        "sha256": "95df8133768abcf2620dd7a695ba436f5a4b4fb093f2843cbd566156e55cb985"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/nether_special.png",
+        "sha256": "f076259b0099ea9f9c96420d37a1e153ed39c401b6e74beedff3781ac07c5f93"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/nether_special.geo.json",
+        "sha256": "4652bc728c6cfde45f00d0e578535cafae1892204ded46e7505322abfc991cc7"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/mixology/nether_special.png",
+        "sha256": "f076259b0099ea9f9c96420d37a1e153ed39c401b6e74beedff3781ac07c5f93"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/nether_special.png.mcmeta",
+        "sha256": "027acaba8690d68a31772083d3f4169dd4771ef04a89c22505b282a3c903b044"
+      },
+      {
+        "path": "source/runtime/BP/blocks/cup_nether_special.json",
+        "sha256": "f1fbae036cd97e3beb143df60a8cf2e877f90794cb6f1e5b0fea320813134442"
+      }
+    ],
+    "review_only": true,
+    "limit": "Static original frame pixels; no animation timing, interpolation, shader or render-controller execution.",
+    "preview_material_limit": "Uniform native face_dimming is represented by Blockbench cube shade. Geometry face tags are resolved through actual BP material_instances, not tag-name inference. No engine material, lighting, AO, alpha sorting or runtime shader execution claim.",
+    "layout": "Within each frame: Forge at relative negative world X, native at relative positive world X. In the captured default perspective, native appears screen-left of Forge.",
+    "frame_layout": "Ascending frame indices occupy (-X,-Z), (+X,-Z), (-X,+Z), (+X,+Z), when present. Default perspective projects these near/bottom, left, right, far/top respectively. Group names identify exact frame indices.",
+    "screenshot": "nether_special-frames-4-5-bound.jpg",
+    "camera": "default perspective, zoom adjusted only"
+  },
+  {
+    "name": "screwdriver-source-branches-bound",
+    "frames": [
+      0
+    ],
+    "source_frame_count": 1,
+    "frame_size": [
+      32,
+      32
+    ],
+    "source_runtime_rgba_equal": true,
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/screwdriver.json",
+        "sha256": "f525d5095154dc2e7f3d316fe22bda772d54f64d25ea79e7e744a6a44039b350"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/screwdriver.png",
+        "sha256": "5f7c20fad5de62a42f7aa5477cd431ceb08eae955654ec9d94d2046b1365f79f"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/screwdriver.geo.json",
+        "sha256": "ad5050ff93d87cd5fceb41dfab41216967e7e766da0196d4c49323d59de19890"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/mixology/screwdriver.png",
+        "sha256": "5f7c20fad5de62a42f7aa5477cd431ceb08eae955654ec9d94d2046b1365f79f"
+      },
+      {
+        "path": "source/runtime/BP/blocks/cup_screwdriver.json",
+        "sha256": "20f96af0d565104786fdecb827f439b3de5aede697554adf8e19a4ba8c328ae3"
+      }
+    ],
+    "review_only": true,
+    "limit": "Static original frame pixels; no animation timing, interpolation, shader or render-controller execution.",
+    "layout": "Within each frame: Forge at relative world X=-16, native at X=0, NeoForge at X=+16. In the captured default perspective and NORTH view, screen order is NeoForge left / native centre / Forge right.",
+    "current_java_inputs": [
+      {
+        "path": "round3/java-121/screwdriver.json",
+        "upstream_path": "src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/screwdriver.json",
+        "upstream_commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "sha256": "020709e1ff839fdf848b917eb6b0afe102959159593813d7d3c6aed866c8cb1c"
+      },
+      {
+        "path": "round3/java-121/screwdriver.png",
+        "upstream_path": "src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/screwdriver.png",
+        "upstream_commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "sha256": "50b6b5b1f70f500c4d62ffa3edd27ae33978143c898c4165e22f82309ee657ce"
+      }
+    ],
+    "preview_material_limit": "Uniform native face_dimming is represented by Blockbench cube shade. Geometry face tags are resolved through actual BP material_instances, not tag-name inference. No engine material, lighting, AO, alpha sorting or runtime shader execution claim.",
+    "frame_layout": "Ascending frame indices occupy (-X,-Z), (+X,-Z), (-X,+Z), (+X,+Z), when present. Default perspective projects these near/bottom, left, right, far/top respectively. Group names identify exact frame indices.",
+    "screenshot": "screwdriver-source-branches-bound.jpg",
+    "camera": "default perspective, zoom adjusted only"
+  },
+  {
+    "name": "sculk_special-frames-0-3-bound",
+    "frames": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "source_frame_count": 16,
+    "frame_size": [
+      32,
+      32
+    ],
+    "source_runtime_rgba_equal": true,
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/sculk_special.json",
+        "sha256": "2ca82a46637a5e7a1bd998e996ba2326fa1bd3b6fec818d8a6524b920c33ae4f"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/sculk_special.png",
+        "sha256": "abe4aa5a44608939a894a16776ff22337b379f531b3febf9ce8187ef350a2a15"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/sculk_special.geo.json",
+        "sha256": "d6c5590ddfa9e5e372a1e03ab00795a8a12fac6b9584d16528168f22b4f12d00"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/mixology/sculk_special.png",
+        "sha256": "abe4aa5a44608939a894a16776ff22337b379f531b3febf9ce8187ef350a2a15"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/sculk_special.png.mcmeta",
+        "sha256": "c20a5a514f6a7c840b4c0503381b44261d6017cae210ab7fe4e77a4ded5af00d"
+      },
+      {
+        "path": "source/runtime/BP/blocks/cup_sculk_special.json",
+        "sha256": "3855d7bd23aaa05998e7e491dac692a929453c5a8bea459d85a5a6f9cde1816b"
+      }
+    ],
+    "review_only": true,
+    "limit": "Static original frame pixels; no animation timing, interpolation, shader or render-controller execution.",
+    "preview_material_limit": "Uniform native face_dimming is represented by Blockbench cube shade. Geometry face tags are resolved through actual BP material_instances, not tag-name inference. No engine material, lighting, AO, alpha sorting or runtime shader execution claim.",
+    "layout": "Within each frame: Forge at relative negative world X, native at relative positive world X. In the captured default perspective, native appears screen-left of Forge.",
+    "frame_layout": "Ascending frame indices occupy (-X,-Z), (+X,-Z), (-X,+Z), (+X,+Z), when present. Default perspective projects these near/bottom, left, right, far/top respectively. Group names identify exact frame indices.",
+    "screenshot": "sculk_special-frames-0-3-bound.jpg",
+    "camera": "default perspective, zoom adjusted only"
+  },
+  {
+    "name": "sculk_special-frames-4-7-bound",
+    "frames": [
+      4,
+      5,
+      6,
+      7
+    ],
+    "source_frame_count": 16,
+    "frame_size": [
+      32,
+      32
+    ],
+    "source_runtime_rgba_equal": true,
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/sculk_special.json",
+        "sha256": "2ca82a46637a5e7a1bd998e996ba2326fa1bd3b6fec818d8a6524b920c33ae4f"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/sculk_special.png",
+        "sha256": "abe4aa5a44608939a894a16776ff22337b379f531b3febf9ce8187ef350a2a15"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/sculk_special.geo.json",
+        "sha256": "d6c5590ddfa9e5e372a1e03ab00795a8a12fac6b9584d16528168f22b4f12d00"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/mixology/sculk_special.png",
+        "sha256": "abe4aa5a44608939a894a16776ff22337b379f531b3febf9ce8187ef350a2a15"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/sculk_special.png.mcmeta",
+        "sha256": "c20a5a514f6a7c840b4c0503381b44261d6017cae210ab7fe4e77a4ded5af00d"
+      },
+      {
+        "path": "source/runtime/BP/blocks/cup_sculk_special.json",
+        "sha256": "3855d7bd23aaa05998e7e491dac692a929453c5a8bea459d85a5a6f9cde1816b"
+      }
+    ],
+    "review_only": true,
+    "limit": "Static original frame pixels; no animation timing, interpolation, shader or render-controller execution.",
+    "preview_material_limit": "Uniform native face_dimming is represented by Blockbench cube shade. Geometry face tags are resolved through actual BP material_instances, not tag-name inference. No engine material, lighting, AO, alpha sorting or runtime shader execution claim.",
+    "layout": "Within each frame: Forge at relative negative world X, native at relative positive world X. In the captured default perspective, native appears screen-left of Forge.",
+    "frame_layout": "Ascending frame indices occupy (-X,-Z), (+X,-Z), (-X,+Z), (+X,+Z), when present. Default perspective projects these near/bottom, left, right, far/top respectively. Group names identify exact frame indices.",
+    "screenshot": "sculk_special-frames-4-7-bound.jpg",
+    "camera": "default perspective, zoom adjusted only"
+  },
+  {
+    "name": "sculk_special-frames-8-11-bound",
+    "frames": [
+      8,
+      9,
+      10,
+      11
+    ],
+    "source_frame_count": 16,
+    "frame_size": [
+      32,
+      32
+    ],
+    "source_runtime_rgba_equal": true,
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/sculk_special.json",
+        "sha256": "2ca82a46637a5e7a1bd998e996ba2326fa1bd3b6fec818d8a6524b920c33ae4f"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/sculk_special.png",
+        "sha256": "abe4aa5a44608939a894a16776ff22337b379f531b3febf9ce8187ef350a2a15"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/sculk_special.geo.json",
+        "sha256": "d6c5590ddfa9e5e372a1e03ab00795a8a12fac6b9584d16528168f22b4f12d00"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/mixology/sculk_special.png",
+        "sha256": "abe4aa5a44608939a894a16776ff22337b379f531b3febf9ce8187ef350a2a15"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/sculk_special.png.mcmeta",
+        "sha256": "c20a5a514f6a7c840b4c0503381b44261d6017cae210ab7fe4e77a4ded5af00d"
+      },
+      {
+        "path": "source/runtime/BP/blocks/cup_sculk_special.json",
+        "sha256": "3855d7bd23aaa05998e7e491dac692a929453c5a8bea459d85a5a6f9cde1816b"
+      }
+    ],
+    "review_only": true,
+    "limit": "Static original frame pixels; no animation timing, interpolation, shader or render-controller execution.",
+    "preview_material_limit": "Uniform native face_dimming is represented by Blockbench cube shade. Geometry face tags are resolved through actual BP material_instances, not tag-name inference. No engine material, lighting, AO, alpha sorting or runtime shader execution claim.",
+    "layout": "Within each frame: Forge at relative negative world X, native at relative positive world X. In the captured default perspective, native appears screen-left of Forge.",
+    "frame_layout": "Ascending frame indices occupy (-X,-Z), (+X,-Z), (-X,+Z), (+X,+Z), when present. Default perspective projects these near/bottom, left, right, far/top respectively. Group names identify exact frame indices.",
+    "screenshot": "sculk_special-frames-8-11-bound.jpg",
+    "camera": "default perspective, zoom adjusted only"
+  },
+  {
+    "name": "sculk_special-frames-12-15-bound",
+    "frames": [
+      12,
+      13,
+      14,
+      15
+    ],
+    "source_frame_count": 16,
+    "frame_size": [
+      32,
+      32
+    ],
+    "source_runtime_rgba_equal": true,
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/sculk_special.json",
+        "sha256": "2ca82a46637a5e7a1bd998e996ba2326fa1bd3b6fec818d8a6524b920c33ae4f"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/sculk_special.png",
+        "sha256": "abe4aa5a44608939a894a16776ff22337b379f531b3febf9ce8187ef350a2a15"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/sculk_special.geo.json",
+        "sha256": "d6c5590ddfa9e5e372a1e03ab00795a8a12fac6b9584d16528168f22b4f12d00"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/mixology/sculk_special.png",
+        "sha256": "abe4aa5a44608939a894a16776ff22337b379f531b3febf9ce8187ef350a2a15"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/sculk_special.png.mcmeta",
+        "sha256": "c20a5a514f6a7c840b4c0503381b44261d6017cae210ab7fe4e77a4ded5af00d"
+      },
+      {
+        "path": "source/runtime/BP/blocks/cup_sculk_special.json",
+        "sha256": "3855d7bd23aaa05998e7e491dac692a929453c5a8bea459d85a5a6f9cde1816b"
+      }
+    ],
+    "review_only": true,
+    "limit": "Static original frame pixels; no animation timing, interpolation, shader or render-controller execution.",
+    "preview_material_limit": "Uniform native face_dimming is represented by Blockbench cube shade. Geometry face tags are resolved through actual BP material_instances, not tag-name inference. No engine material, lighting, AO, alpha sorting or runtime shader execution claim.",
+    "layout": "Within each frame: Forge at relative negative world X, native at relative positive world X. In the captured default perspective, native appears screen-left of Forge.",
+    "frame_layout": "Ascending frame indices occupy (-X,-Z), (+X,-Z), (-X,+Z), (+X,+Z), when present. Default perspective projects these near/bottom, left, right, far/top respectively. Group names identify exact frame indices.",
+    "screenshot": "sculk_special-frames-12-15-bound.jpg",
+    "camera": "default perspective, zoom adjusted only"
+  },
+  {
+    "name": "white_lady-source-branches-bound",
+    "frames": [
+      0
+    ],
+    "source_frame_count": 1,
+    "frame_size": [
+      32,
+      32
+    ],
+    "source_runtime_rgba_equal": true,
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/white_lady.json",
+        "sha256": "6efaeafbe5a08c6a88bf6b1cd97f05504fb07f9006049da295289184b25ef2f1"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/white_lady.png",
+        "sha256": "ae07a940ff029816dc72437efa65e262c57b6f87427d7fd07feee4bc271f3d32"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/white_lady.geo.json",
+        "sha256": "fe2f8eade254aa8d5c4bf5e67709a6e8593f71c9b548d5720f2a70ec7e2b3829"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/mixology/white_lady.png",
+        "sha256": "ae07a940ff029816dc72437efa65e262c57b6f87427d7fd07feee4bc271f3d32"
+      },
+      {
+        "path": "source/runtime/BP/blocks/cup_white_lady.json",
+        "sha256": "b081aaf570c666a5b3f3a41db6f2690519a75e50d3618ed68be1bce7077872f0"
+      }
+    ],
+    "review_only": true,
+    "limit": "Static original frame pixels; no animation timing, interpolation, shader or render-controller execution.",
+    "layout": "Within each frame: Forge at relative world X=-16, native at X=0, NeoForge at X=+16. In the captured default perspective and NORTH view, screen order is NeoForge left / native centre / Forge right.",
+    "current_java_inputs": [
+      {
+        "path": "round3/java-121/white_lady.json",
+        "upstream_path": "src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/white_lady.json",
+        "upstream_commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "sha256": "dd124f3e055ca4944ea5519522e109d444f98c46a9f9d1434b1df06d9806fe9d"
+      },
+      {
+        "path": "round3/java-121/white_lady.png",
+        "upstream_path": "src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/white_lady.png",
+        "upstream_commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "sha256": "07d6f66440dba97f22cbaa5394b7e00846d3302cd3f73169c6c433ad454e26f9"
+      }
+    ],
+    "preview_material_limit": "Uniform native face_dimming is represented by Blockbench cube shade. Geometry face tags are resolved through actual BP material_instances, not tag-name inference. No engine material, lighting, AO, alpha sorting or runtime shader execution claim.",
+    "frame_layout": "Ascending frame indices occupy (-X,-Z), (+X,-Z), (-X,+Z), (+X,+Z), when present. Default perspective projects these near/bottom, left, right, far/top respectively. Group names identify exact frame indices.",
+    "screenshot": "white_lady-source-branches-bound.jpg",
+    "camera": "default perspective, zoom adjusted only"
+  }
+]

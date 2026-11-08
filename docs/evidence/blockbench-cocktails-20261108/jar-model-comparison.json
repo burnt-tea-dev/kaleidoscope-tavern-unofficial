@@ -1,0 +1,342 @@
+[
+  {
+    "name": "allium_garden",
+    "jar_pin": {
+      "path": "assets/kaleidoscope_tavern/models/block/mixology/allium_garden.json",
+      "bytes": 10872,
+      "sha256": "1ed8609ee3e7c68ae06b4654cc8d3b4b16f27f21f1781356680463b12de91408",
+      "git_blob_sha1": "412578e49190ab315469d6860391c936b421d291"
+    },
+    "main_semantic_equal": false,
+    "new_semantic_equal": true,
+    "main_elements_equal": false,
+    "new_elements_equal": true,
+    "jar_elements": 14,
+    "jar_render_type": "translucent",
+    "jar_keys": [
+      "format_version",
+      "credit",
+      "texture_size",
+      "textures",
+      "elements",
+      "display",
+      "render_type"
+    ]
+  },
+  {
+    "name": "bloody_mary",
+    "jar_pin": {
+      "path": "assets/kaleidoscope_tavern/models/block/mixology/bloody_mary.json",
+      "bytes": 11855,
+      "sha256": "a7def87315090ae55439902c5645200be91607f6817dfc5fdf3fe4af45c2e06d",
+      "git_blob_sha1": "3d9acb0ca1065176c8f5ef6536006f8723592537"
+    },
+    "main_semantic_equal": false,
+    "new_semantic_equal": true,
+    "main_elements_equal": false,
+    "new_elements_equal": true,
+    "jar_elements": 14,
+    "jar_render_type": "translucent",
+    "jar_keys": [
+      "format_version",
+      "credit",
+      "texture_size",
+      "textures",
+      "elements",
+      "display",
+      "render_type"
+    ]
+  },
+  {
+    "name": "brass_heart",
+    "jar_pin": {
+      "path": "assets/kaleidoscope_tavern/models/block/mixology/brass_heart.json",
+      "bytes": 11474,
+      "sha256": "d58662ec0cbc975621d89c3d207d991c8e195c630b8a48410b6aa93d713be71f",
+      "git_blob_sha1": "a0a753b14854bd9da8a4fddd86d3efd067164afc"
+    },
+    "main_semantic_equal": false,
+    "new_semantic_equal": true,
+    "main_elements_equal": false,
+    "new_elements_equal": true,
+    "jar_elements": 14,
+    "jar_render_type": "translucent",
+    "jar_keys": [
+      "format_version",
+      "credit",
+      "textures",
+      "elements",
+      "display",
+      "render_type"
+    ]
+  },
+  {
+    "name": "depth_charge",
+    "jar_pin": {
+      "path": "assets/kaleidoscope_tavern/models/block/mixology/depth_charge.json",
+      "bytes": 6222,
+      "sha256": "f8dd5a59e8390e9071c209ea2b56ea17a53a2e164282f157a36f163db4e4f534",
+      "git_blob_sha1": "a3796f0758f8d1591dd8162b3fd5492ce1c08866"
+    },
+    "main_semantic_equal": false,
+    "new_semantic_equal": true,
+    "main_elements_equal": false,
+    "new_elements_equal": true,
+    "jar_elements": 12,
+    "jar_render_type": "translucent",
+    "jar_keys": [
+      "format_version",
+      "credit",
+      "render_type",
+      "texture_size",
+      "textures",
+      "elements",
+      "display"
+    ]
+  },
+  {
+    "name": "emerald",
+    "jar_pin": {
+      "path": "assets/kaleidoscope_tavern/models/block/mixology/emerald.json",
+      "bytes": 6681,
+      "sha256": "4bf994acd6641281a595c1ca775979404ec29f0f047009831763135ba23ae707",
+      "git_blob_sha1": "4128a00df3a1bb626f442210441b5168455b4cf0"
+    },
+    "main_semantic_equal": false,
+    "new_semantic_equal": true,
+    "main_elements_equal": false,
+    "new_elements_equal": true,
+    "jar_elements": 8,
+    "jar_render_type": "translucent",
+    "jar_keys": [
+      "format_version",
+      "credit",
+      "texture_size",
+      "textures",
+      "elements",
+      "display",
+      "render_type"
+    ]
+  },
+  {
+    "name": "empty_glassware",
+    "jar_pin": {
+      "path": "assets/kaleidoscope_tavern/models/block/mixology/empty_glassware.json",
+      "bytes": 6208,
+      "sha256": "c7c5702c4d77b7818dea2b92efe2564c37c46bce6da92e02ca7a17521a438c6d",
+      "git_blob_sha1": "6d785e8a6dc2f1af86a801a3d3505417ad36dffe"
+    },
+    "main_semantic_equal": false,
+    "new_semantic_equal": true,
+    "main_elements_equal": true,
+    "new_elements_equal": true,
+    "jar_elements": 11,
+    "jar_render_type": "translucent",
+    "jar_keys": [
+      "format_version",
+      "credit",
+      "render_type",
+      "texture_size",
+      "textures",
+      "elements",
+      "display"
+    ]
+  },
+  {
+    "name": "godfather",
+    "jar_pin": {
+      "path": "assets/kaleidoscope_tavern/models/block/mixology/godfather.json",
+      "bytes": 11214,
+      "sha256": "2a629c439daef32b9fce59b58ee1de2af720645f3b7fa678392f5785ab548678",
+      "git_blob_sha1": "0d5948101881fdcd15a0343f685794377e7078f5"
+    },
+    "main_semantic_equal": false,
+    "new_semantic_equal": true,
+    "main_elements_equal": false,
+    "new_elements_equal": true,
+    "jar_elements": 14,
+    "jar_render_type": "translucent",
+    "jar_keys": [
+      "format_version",
+      "credit",
+      "texture_size",
+      "textures",
+      "elements",
+      "gui_light",
+      "display",
+      "render_type"
+    ]
+  },
+  {
+    "name": "grasshopper",
+    "jar_pin": {
+      "path": "assets/kaleidoscope_tavern/models/block/mixology/grasshopper.json",
+      "bytes": 12018,
+      "sha256": "15eceb4143bdbe4ce50e79512e0e30c6d72f5205b8ab10bd5dbb7afcb3d172b4",
+      "git_blob_sha1": "b40e3bc39ebee5c8dde5663411eb3edc80fc5310"
+    },
+    "main_semantic_equal": false,
+    "new_semantic_equal": true,
+    "main_elements_equal": false,
+    "new_elements_equal": true,
+    "jar_elements": 14,
+    "jar_render_type": "translucent",
+    "jar_keys": [
+      "format_version",
+      "credit",
+      "texture_size",
+      "textures",
+      "elements",
+      "gui_light",
+      "display",
+      "render_type"
+    ]
+  },
+  {
+    "name": "mojito",
+    "jar_pin": {
+      "path": "assets/kaleidoscope_tavern/models/block/mixology/mojito.json",
+      "bytes": 8929,
+      "sha256": "878ef220f40c12a3efdd2b0292b26fe8534577794665a0437554b732f7ddbace",
+      "git_blob_sha1": "45cd6f1399ae573dccaa4d5efc68ad499b972d22"
+    },
+    "main_semantic_equal": false,
+    "new_semantic_equal": true,
+    "main_elements_equal": false,
+    "new_elements_equal": true,
+    "jar_elements": 15,
+    "jar_render_type": "translucent",
+    "jar_keys": [
+      "format_version",
+      "credit",
+      "render_type",
+      "texture_size",
+      "textures",
+      "elements",
+      "gui_light",
+      "display"
+    ]
+  },
+  {
+    "name": "mystery_cocktail",
+    "jar_pin": {
+      "path": "assets/kaleidoscope_tavern/models/block/mixology/mystery_cocktail.json",
+      "bytes": 10661,
+      "sha256": "95de2f06ab6ac234c30ae738adf2e9dbcd4e7d14ba54a1a538462ec44c8b6baf",
+      "git_blob_sha1": "560be1a906c71fb15dcb0071f4ae27f9e9e8e5de"
+    },
+    "main_semantic_equal": false,
+    "new_semantic_equal": true,
+    "main_elements_equal": true,
+    "new_elements_equal": true,
+    "jar_elements": 13,
+    "jar_render_type": "translucent",
+    "jar_keys": [
+      "format_version",
+      "credit",
+      "texture_size",
+      "textures",
+      "elements",
+      "display",
+      "render_type"
+    ]
+  },
+  {
+    "name": "nether_special",
+    "jar_pin": {
+      "path": "assets/kaleidoscope_tavern/models/block/mixology/nether_special.json",
+      "bytes": 13283,
+      "sha256": "dfe34ee5bf94912765c012f8bd60f3ec813aa69447c2b1cb10748a061ed59aa0",
+      "git_blob_sha1": "16b41901befe2d641d25a01750fed5237fb0d6ba"
+    },
+    "main_semantic_equal": false,
+    "new_semantic_equal": true,
+    "main_elements_equal": false,
+    "new_elements_equal": true,
+    "jar_elements": 16,
+    "jar_render_type": "translucent",
+    "jar_keys": [
+      "format_version",
+      "credit",
+      "texture_size",
+      "textures",
+      "elements",
+      "display",
+      "render_type"
+    ]
+  },
+  {
+    "name": "screwdriver",
+    "jar_pin": {
+      "path": "assets/kaleidoscope_tavern/models/block/mixology/screwdriver.json",
+      "bytes": 6088,
+      "sha256": "b58604ca5a7469c793b49425bee0153fbf535435ebc0550d88a9713e51c9d344",
+      "git_blob_sha1": "1266243372e470a357ca8d37390b16467096fe33"
+    },
+    "main_semantic_equal": false,
+    "new_semantic_equal": true,
+    "main_elements_equal": false,
+    "new_elements_equal": true,
+    "jar_elements": 10,
+    "jar_render_type": "translucent",
+    "jar_keys": [
+      "format_version",
+      "credit",
+      "render_type",
+      "texture_size",
+      "textures",
+      "elements",
+      "gui_light",
+      "display"
+    ]
+  },
+  {
+    "name": "sculk_special",
+    "jar_pin": {
+      "path": "assets/kaleidoscope_tavern/models/block/mixology/sculk_special.json",
+      "bytes": 11363,
+      "sha256": "8644d6288e597cc75729b1b059226e1f730f32089f8d9c176d66471ae7d11bc9",
+      "git_blob_sha1": "2a3fe6ebdbce78f103fd3b280a5455dc7de9b018"
+    },
+    "main_semantic_equal": false,
+    "new_semantic_equal": true,
+    "main_elements_equal": true,
+    "new_elements_equal": true,
+    "jar_elements": 15,
+    "jar_render_type": "translucent",
+    "jar_keys": [
+      "format_version",
+      "credit",
+      "texture_size",
+      "textures",
+      "elements",
+      "display",
+      "render_type"
+    ]
+  },
+  {
+    "name": "white_lady",
+    "jar_pin": {
+      "path": "assets/kaleidoscope_tavern/models/block/mixology/white_lady.json",
+      "bytes": 11920,
+      "sha256": "d81ca67edf38a007a60ed42cc418e9ec9d0cc9af61d909577d397a31b2005c59",
+      "git_blob_sha1": "48578361a7377d8705cad9ad037bfba761643a01"
+    },
+    "main_semantic_equal": false,
+    "new_semantic_equal": true,
+    "main_elements_equal": false,
+    "new_elements_equal": true,
+    "jar_elements": 14,
+    "jar_render_type": "translucent",
+    "jar_keys": [
+      "format_version",
+      "credit",
+      "texture_size",
+      "textures",
+      "elements",
+      "gui_light",
+      "display",
+      "render_type"
+    ]
+  }
+]
