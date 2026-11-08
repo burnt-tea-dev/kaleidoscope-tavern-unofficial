@@ -121,7 +121,8 @@ def validate_recipe_removals(spec, owned_root, host_root, stable, *, retained_ow
  current=bool(stable and stable.get('admission')==CURATED)
  if (not stable or (stable.get('admission') not in admissions and not current)
      or spec.get('kind') != 'chinesefood-reviewed-repairs'
-     or spec.get('archive_sha256') != 'dea708dd6443ea30d23e5791860a50181e8eeb560dcd7ec5a8e80fe22743e659'
+     or spec.get('archive_sha256') not in ('dea708dd6443ea30d23e5791860a50181e8eeb560dcd7ec5a8e80fe22743e659',
+                                           '7d26fbb8af615ac8c531d8c76f0a49620dcfd8a427d3e38ab8fc14bfea8b4949')
      or removed != allowed):
   raise ValueError('recipe removal is outside the exact reviewed coexistence profile')
  manifest_root=owned_root
