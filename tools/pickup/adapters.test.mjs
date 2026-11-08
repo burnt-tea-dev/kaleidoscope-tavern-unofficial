@@ -96,6 +96,78 @@ for(const [label,id,place,put,take,recover]of cases)test(label+' native destruct
  naturalBreak({block:b,brokenBlockPermutation:perm},{});
  const drops=d.getEntities({type:'minecraft:item',location:at,maxDistance:2}).map(e=>e.itemStack);assert.equal(drops.length,2);stackEqual(drops.find(x=>x.typeId===WINE),original);assert.equal(d.getEntities({type:NS+'stored_items',location:at,maxDistance:2}).length,0);
 });
+for(const [label,id,place,put]of cases)for(const failAt of [1,2])test(label+' natural destruction rollback retains metadata when drop '+failAt+' fails',()=>{
+ const {p,d,at,b}=setup();p.inventory.setItem(7,new ItemStack(id));place(p,at);const original=held(p,WINE,'saved '+label);put(p,b);
+ const nativeKey=world.getDynamicPropertyIds().find(k=>k.startsWith('kt:native_items/')&&JSON.parse(world.getDynamicProperty(k)).position.x===at.x),key=nativeKey.slice('kt:native_items/'.length);
+ const raw=world.getDynamicProperty(key),ledger=world.getDynamicProperty(nativeKey),perm=b.permutation,spawn=d.spawnItem;let calls=0;b.setType('minecraft:air');
+ d.spawnItem=function(...args){if(++calls===failAt)throw Error('INJECTED_ITEM_SPAWN_FAILURE');return spawn.apply(this,args);};
+ try{assert.throws(()=>naturalBreak({block:b,brokenBlockPermutation:perm},{}),/INJECTED_ITEM_SPAWN_FAILURE/);}finally{d.spawnItem=spawn;}
+ assert.equal(b.typeId,id);assert.equal(world.getDynamicProperty(key),raw);assert.equal(world.getDynamicProperty(nativeKey),ledger);
+ assert.equal(d.getEntities({type:'minecraft:item',location:at,maxDistance:2}).length,0);
+ const carrier=d.getEntities({type:NS+'stored_items',location:at,maxDistance:2});assert.equal(carrier.length,1);const container=carrier[0].getComponent('minecraft:inventory').container;stackEqual(Array.from({length:container.size},(_,i)=>container.getItem(i)).find(Boolean),original);
+ b.setType('minecraft:air');naturalBreak({block:b,brokenBlockPermutation:perm},{});
+ const drops=d.getEntities({type:'minecraft:item',location:at,maxDistance:2}).map(e=>e.itemStack);assert.equal(drops.length,2);stackEqual(drops.find(x=>x.typeId===WINE),original);
+ assert.equal(world.getDynamicProperty(key),undefined);assert.equal(world.getDynamicProperty(nativeKey),undefined);assert.equal(d.getEntities({type:NS+'stored_items',location:at,maxDistance:2}).length,0);
+});
+test('failed storage destruction never replaces a foreign owner cell and retains recovery data',()=>{
+ const {p,d,at,b}=setup();p.inventory.setItem(7,new ItemStack(NS+'holder'));H.placeHolder(p,at);const original=held(p,WINE);H.putHolderBottle(p,b);
+ const nativeKey=world.getDynamicPropertyIds().find(k=>k.startsWith('kt:native_items/')&&JSON.parse(world.getDynamicProperty(k)).position.x===at.x),key=nativeKey.slice('kt:native_items/'.length),raw=world.getDynamicProperty(key),ledger=world.getDynamicProperty(nativeKey),perm=b.permutation,spawn=d.spawnItem;b.setType('minecraft:air');
+ d.spawnItem=function(){b.setType('minecraft:stone');throw Error('INJECTED_ITEM_SPAWN_FAILURE');};
+ try{assert.throws(()=>naturalBreak({block:b,brokenBlockPermutation:perm},{}),/NATIVE_DESTRUCTION_RECOVERY_REQUIRED/);}finally{d.spawnItem=spawn;}
+ assert.equal(b.typeId,'minecraft:stone');assert.equal(world.getDynamicProperty(key),raw);assert.equal(world.getDynamicProperty(nativeKey),ledger);
+ stackEqual(d.getEntities({type:NS+'stored_items',location:at,maxDistance:2})[0].getComponent('minecraft:inventory').container.getItem(0),original);
+});
+for(const cause of ['creative','doTileDrops'])test('intentional '+cause+' storage destruction retires contents without spawning',()=>{
+ const {p,d,at,b}=setup();p.inventory.setItem(7,new ItemStack(NS+'holder'));H.placeHolder(p,at);held(p,WINE);H.putHolderBottle(p,b);
+ const nativeKey=world.getDynamicPropertyIds().find(k=>k.startsWith('kt:native_items/')&&JSON.parse(world.getDynamicProperty(k)).position.x===at.x),key=nativeKey.slice('kt:native_items/'.length),perm=b.permutation,old=world.gameRules.doTileDrops;
+ b.setType('minecraft:air');d.failSpawnItem=true;if(cause==='creative')p.mode=GameMode.Creative;else world.gameRules.doTileDrops=false;
+ try{naturalBreak({block:b,brokenBlockPermutation:perm,...(cause==='creative'?{entitySource:p}:{})},{});}finally{d.failSpawnItem=false;world.gameRules.doTileDrops=old;}
+ assert.equal(b.typeId,'minecraft:air');assert.equal(world.getDynamicProperty(key),undefined);assert.equal(world.getDynamicProperty(nativeKey),undefined);
+ assert.equal(d.getEntities({type:NS+'stored_items',location:at,maxDistance:2}).length,0);assert.equal(d.getEntities({type:'minecraft:item',location:at,maxDistance:2}).length,0);
+});
+test('preparation failure restores the broken storage cell without discarding native recovery records',()=>{
+ const {p,d,at,b}=setup();p.inventory.setItem(7,new ItemStack(NS+'holder'));H.placeHolder(p,at);held(p,WINE);H.putHolderBottle(p,b);
+ const nativeKey=world.getDynamicPropertyIds().find(k=>k.startsWith('kt:native_items/')&&JSON.parse(world.getDynamicProperty(k)).position.x===at.x),key=nativeKey.slice('kt:native_items/'.length),raw=world.getDynamicProperty(key),perm=b.permutation;
+ world.setDynamicProperty(nativeKey,undefined);b.setType('minecraft:air');assert.throws(()=>naturalBreak({block:b,brokenBlockPermutation:perm},{}),/NATIVE_STORAGE_MISSING/);
+ assert.equal(b.typeId,NS+'holder');assert.equal(world.getDynamicProperty(key),raw);assert.equal(d.getEntities({type:NS+'stored_items',location:at,maxDistance:2}).length,1);
+ assert.equal(d.getEntities({type:'minecraft:item',location:at,maxDistance:2}).length,0);
+});
+test('multipart failed drop retains siblings and permits one retry in the same tick',()=>{
+ const {d,at,b}=setup(),id=NS+'blue_pendant_lamp',lower=d.getBlock({...at,y:at.y-1});b.setPermutation(BlockPermutation.resolve(id,{[NS+'half']:0}));lower.setPermutation(BlockPermutation.resolve(id,{[NS+'half']:1}));
+ const perm=b.permutation;b.setType('minecraft:air');d.failSpawnItem=true;
+ try{assert.throws(()=>naturalBreak({block:b,brokenBlockPermutation:perm},{}),/INJECTED_ITEM_SPAWN_FAILURE/);}finally{d.failSpawnItem=false;}
+ assert.equal(b.typeId,id);assert.equal(lower.typeId,id);b.setType('minecraft:air');naturalBreak({block:b,brokenBlockPermutation:perm},{});
+ assert.equal(lower.typeId,'minecraft:air');assert.equal(d.getEntities({type:'minecraft:item',location:at,maxDistance:2}).length,1);
+});
+for(const raw of [undefined,false,'null','false','0','[]'])test('missing or corrupt public storage state retains the native carrier: '+String(raw),()=>{
+ const {p,d,at,b}=setup();p.inventory.setItem(7,new ItemStack(NS+'holder'));H.placeHolder(p,at);const original=held(p,WINE);H.putHolderBottle(p,b);
+ const nativeKey=world.getDynamicPropertyIds().find(k=>k.startsWith('kt:native_items/')&&JSON.parse(world.getDynamicProperty(k)).position.x===at.x),key=nativeKey.slice('kt:native_items/'.length),ledger=world.getDynamicProperty(nativeKey),perm=b.permutation;
+ world.setDynamicProperty(key,raw);b.setType('minecraft:air');assert.throws(()=>naturalBreak({block:b,brokenBlockPermutation:perm},{}),/NATIVE_STORAGE_STATE_MISSING|CORRUPT_STORAGE_STATE/);
+ assert.equal(b.typeId,NS+'holder');assert.equal(world.getDynamicProperty(key),raw);assert.equal(world.getDynamicProperty(nativeKey),ledger);
+ stackEqual(d.getEntities({type:NS+'stored_items',location:at,maxDistance:2})[0].getComponent('minecraft:inventory').container.getItem(0),original);
+ assert.equal(d.getEntities({type:'minecraft:item',location:at,maxDistance:2}).length,0);
+});
+test('unconfirmed partial-drop compensation retains recovery data without reopening the storage owner',()=>{
+ const {p,d,at,b}=setup();p.inventory.setItem(7,new ItemStack(NS+'holder'));H.placeHolder(p,at);const original=held(p,WINE);H.putHolderBottle(p,b);
+ const nativeKey=world.getDynamicPropertyIds().find(k=>k.startsWith('kt:native_items/')&&JSON.parse(world.getDynamicProperty(k)).position.x===at.x),key=nativeKey.slice('kt:native_items/'.length),raw=world.getDynamicProperty(key),ledger=world.getDynamicProperty(nativeKey),perm=b.permutation,spawn=d.spawnItem;let calls=0;b.setType('minecraft:air');
+ d.spawnItem=function(...args){if(++calls===2)throw Error('INJECTED_ITEM_SPAWN_FAILURE');const e=spawn.apply(this,args);e.remove=()=>{throw Error('INJECTED_ITEM_REMOVE_FAILURE');};return e;};
+ try{assert.throws(()=>naturalBreak({block:b,brokenBlockPermutation:perm},{}),/NATIVE_DESTRUCTION_RECOVERY_REQUIRED: NATIVE_DESTRUCTION_ROLLBACK_FAILED/);}finally{d.spawnItem=spawn;}
+ assert.equal(b.typeId,'minecraft:air');assert.equal(world.getDynamicProperty(key),raw);assert.equal(world.getDynamicProperty(nativeKey),ledger);
+ stackEqual(d.getEntities({type:'minecraft:item',location:at,maxDistance:2})[0].itemStack,original);
+ stackEqual(d.getEntities({type:NS+'stored_items',location:at,maxDistance:2})[0].getComponent('minecraft:inventory').container.getItem(0),original);
+ p.inventory.setItem(7,new ItemStack(NS+'holder'));assert.throws(()=>H.placeHolder(p,at),/STORAGE_CONFLICT|NATIVE_STORAGE/);assert.equal(b.typeId,'minecraft:air');
+});
+test('unconfirmed wide-board compensation leaves no usable sibling to emit the full structure again',()=>{
+ const {d,at,b}=setup(),id=NS+'chalkboard',cells=[];
+ for(let x=-1;x<=1;x++)for(let y=0;y<2;y++){
+  const cell=d.getBlock({x:at.x+x,y:at.y+y,z:at.z});cell.setPermutation(BlockPermutation.resolve(id,{[NS+'half']:y,[NS+'position']:x+2,'minecraft:cardinal_direction':'north'}));cells.push(cell);
+ }
+ const perm=b.permutation,spawn=d.spawnItem;let calls=0;b.setType('minecraft:air');
+ d.spawnItem=function(...args){if(++calls===2)throw Error('INJECTED_ITEM_SPAWN_FAILURE');const e=spawn.apply(this,args);e.remove=()=>{throw Error('INJECTED_ITEM_REMOVE_FAILURE');};return e;};
+ try{assert.throws(()=>naturalBreak({block:b,brokenBlockPermutation:perm},{}),/NATIVE_DESTRUCTION_RECOVERY_REQUIRED/);}finally{d.spawnItem=spawn;}
+ assert.ok(cells.every(cell=>cell.typeId==='minecraft:air'),'unconfirmed compensation cannot reopen the other five cells');
+ assert.deepEqual(d.getEntities({type:'minecraft:item',location:at,maxDistance:3}).map(e=>e.itemStack.amount),[2]);
+});
 test('failed pickup slot write leaves original native stack and cabinet retrievable',()=>{
  const {p,at,b}=setup();p.inventory.setItem(7,new ItemStack(NS+'holder'));H.placeHolder(p,at);const original=held(p,WINE);H.putHolderBottle(p,b);p.inventory.failAt=p.inventory.writes;
  assert.throws(()=>H.takeHolderBottle(p,b));assert.equal(p.inventory.getItem(7),undefined);H.takeHolderBottle(p,b);stackEqual(p.inventory.getItem(7),original);

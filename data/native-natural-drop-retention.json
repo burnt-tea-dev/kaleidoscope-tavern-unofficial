@@ -1,0 +1,95 @@
+{
+  "engine": "BDS1.26.60.6",
+  "executable_sha256": "ea16b541a448e07c337848d2c5f37321b706554b5216dd942f3f11e7a8ed2bad",
+  "archive_sha256": "cbbd5414fa6a310353ed1fc76a0ba691c3fd1ea852fd04bb76764ee4c1afdb98",
+  "candidate_version": "0.6.209",
+  "candidate_runtime_trees": {
+    "BP": {
+      "sha256": "09e653b80362bb148c75b6a9332b89a86b0c7d3fb903ba08a293059fa95ad939",
+      "files": 838
+    },
+    "RP": {
+      "sha256": "de4d9cd7345e21df4b4fec3b92ce705441b85cae597ea04d51eea71daecafa9c",
+      "files": 3232
+    }
+  },
+  "source_module_sha256": "ca8bd1bbab4f1394ca90e2da76cd727f2991b9e9092edff594410fc34a3ec8d9",
+  "observer_sha256": "a221b4032fb9769a9d3f68b85e2c69f39c31bd1516e0f1a9717999bf6efb0af9",
+  "scope": "Complete canonical Tavern candidate copied byte-for-byte before explicit observer import. Scoped native item/carrier rollback and retry with scripted dimension-facade spawn failures; not a natural engine exception or full gameplay acceptance. No restart, clients, multiplayer, family or LIVE.",
+  "reports": [
+    {
+      "phase": "first",
+      "completed": true,
+      "ok": true,
+      "normal_stop": true,
+      "player_connections": 0,
+      "player_spawn_logs": 0,
+      "gametest_fixture": false,
+      "errors": [],
+      "observations": [
+        {
+          "kind": "case",
+          "mode": "first-drop-failure",
+          "nativeCarrier": "-4294967295",
+          "blockRestored": true,
+          "exactPublicBytes": true,
+          "exactNativeMetadata": true,
+          "partialDrops": 0
+        },
+        {
+          "kind": "case",
+          "mode": "first-drop-failure-retry",
+          "drops": 2,
+          "exactNativeMetadata": true,
+          "carrierRetired": true
+        },
+        {
+          "kind": "case",
+          "mode": "partial-drop-failure",
+          "nativeCarrier": "-4294967292",
+          "blockRestored": true,
+          "exactPublicBytes": true,
+          "exactNativeMetadata": true,
+          "partialDrops": 0
+        },
+        {
+          "kind": "case",
+          "mode": "partial-drop-failure-retry",
+          "drops": 2,
+          "exactNativeMetadata": true,
+          "carrierRetired": true
+        },
+        {
+          "kind": "case",
+          "mode": "missing-public-state",
+          "nativeCarrier": "-4294967288",
+          "blockRestored": true,
+          "exactPublicBytes": true,
+          "exactNativeMetadata": true,
+          "partialDrops": 0
+        },
+        {
+          "kind": "case",
+          "mode": "missing-public-state-retry",
+          "drops": 2,
+          "exactNativeMetadata": true,
+          "carrierRetired": true
+        },
+        {
+          "kind": "done",
+          "phase": "first",
+          "players": 0,
+          "scope": "Real canonical host/native item storage; three explicitly injected adapter paths and normal retry. No natural-engine exception, restart, multiplayer, client or LIVE proof."
+        }
+      ],
+      "log": "first.log"
+    }
+  ],
+  "observed_date": "2026-11-08",
+  "source_regressions": {
+    "related_tests": 322,
+    "current_source_contract_tests": 8,
+    "initial_red_cases": 13,
+    "scope": "Deterministic production-adapter tests, not engine exception reproduction; legacy pickup/shaker/machine and newly covered retention/compensation cases."
+  }
+}

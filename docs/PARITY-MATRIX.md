@@ -6,6 +6,18 @@ Adopt the official Bedrock Tavern1.0.7 unique-reference rule. Preserve the curre
 
 目前維護版本與 BP／RP 身分以 [baseline.json](../baseline.json) 為準；公開下載、來源配對及部署見[家族現況](../family/BASELINE-STATUS.md)。下列日期段保留各次修補及原始證據範圍，不因較新的來源版本自動取得畫面或完整家族通過結果。真人使用不是發布、部署或完成門檻，沿用[擁有者現行規則](../family/UPDATE-WORKFLOW.md#擁有者簡化規則2026-11-04)。
 
+## 自然破壞儲物保留（2026-11-08，T209）
+
+原通用 natural-break 路徑先清 native/public state、finish carrier，再建立掉落；首次 spawnItem 失敗可使 holder 內改名、有 lore 的原生酒瓶與 carrier 一起消失。部分掉落失敗也沒有撤回已產生物品。與先前有獨立保護的 shaker／machine 不同，六種 holder／rack／cabinet 通用路徑漏了提交邊界。
+
+現在所有要求的掉落均成功後才 finish 原生 carrier 和 helper。單一故障先撤回部分掉落、恢復原 native/public bytes，仍為 air 的原 owner 才還原；第三方新方塊不覆蓋。缺 public record 會核對 native adoption，已有 carrier／required marker 即 fail closed；非字串及非物件 state 不再當作空容器。這不是由缺失紀錄猜出資料。普通 Creative／doTileDrops=false 的 intentional discard 保持不變。
+
+補償本身未確認成功時保留可恢復資料、明確報 RECOVERY_REQUIRED／ROLLBACK_FAILED，不重新開放破壞的 owner。多格 sibling 在建立物品前記錄原 permutation 並退役，只有所有部分掉落都成功撤回後才復原，避免剩下五格黑板再掉完整三板。此雙故障可能留下部分掉落與保留資料，需要人工核對；不宣稱 crash-level atomicity 或自動修復所有 API 故障。
+
+13 個最初反例先紅後綠；pickup／shaker／machine 共322項通過，現有 current-source 契約8項通過。natural-break 的舊 launch hash、file preimage 與兩層 reverseOps 原樣移入既有 historical 區，以實際 registration、native owner 接線及上述行為回歸維護，沒有新版本特例或修改歷史 hash。釘選 [Java AbstractStorageBlock.getDrops](https://github.com/KaleidoscopeMods/KaleidoscopeTavern/blob/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/block/AbstractStorageBlock.java) 要求原 storage stacks 成為掉落；例外回滾是 Bedrock adapter 的保護，不宣稱 Java 具有相同交易 API。
+
+[隔離原生結果](../data/native-natural-drop-retention.json)：官方 BDS1.26.60.6，完整候選 BP/RP 複製前後一致，再加明示 observer import；零玩家、正常 stop、無引擎錯誤。真實 native ItemStack／carrier 的首次及部分 spawn 故障注入、缺 public state、各自正常重試都保留 metadata；最後每次恰兩個 drops、carrier 退役。[Observer](../tools/native/natural-drop-retention.js) 以 dimension facade 注入錯誤、以 scripted removal 模擬已破壞 cell；並非引擎自然拋錯、真玩家破壞、完整遊戲、重啟、家族、client 或 LIVE 驗收。missing-state retry 前明示修復 fixture public bytes，不把它當 production 自動推斷。
+
 ## 掉落物載入時計保存（2026-11-08，T208）
 
 T207 的 `script:` deadline 是世界腳本絕對 tick，物品卸載後世界繼續前進仍會消耗等待；舊 WeakMap 沒有保存剩餘 ticks。原生 BDS1.26.60.6 的正常重啟時計繼續前進，並未歸零；來源中的重設時計案例只是健壯性覆蓋，不是該引擎重現。
