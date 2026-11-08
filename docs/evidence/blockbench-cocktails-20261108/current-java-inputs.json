@@ -1,0 +1,86 @@
+[
+  {
+    "path": "round3/java-121/allium_garden.json",
+    "upstream_path": "src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/allium_garden.json",
+    "upstream_commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+    "sha256": "80bb1a4e315a825a3f87a8caa27924fdf5ffed02ce56f417df56793d2b52ce0f"
+  },
+  {
+    "path": "round3/java-121/allium_garden.png",
+    "upstream_path": "src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/allium_garden.png",
+    "upstream_commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+    "sha256": "c5e7455f127a838e98cd661eb470f798ea8c8901964da3d57231ed38f9c517da"
+  },
+  {
+    "path": "round3/java-121/bloody_mary.json",
+    "upstream_path": "src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/bloody_mary.json",
+    "upstream_commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+    "sha256": "c1e181314eb7d1cadcbeaccfa0c4ab559e744559036fc7c5828355565bfd4543"
+  },
+  {
+    "path": "round3/java-121/bloody_mary.png",
+    "upstream_path": "src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/bloody_mary.png",
+    "upstream_commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+    "sha256": "abc99bc755b53a9fe7b4969b30976588a4491c8aa9af6a7ef6c918336d2ed4e9"
+  },
+  {
+    "path": "round3/java-121/depth_charge.json",
+    "upstream_path": "src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/depth_charge.json",
+    "upstream_commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+    "sha256": "587d1a7e1a6183b5e178c8d3c23ae298e83e26087532b904553414fae2eeabf8"
+  },
+  {
+    "path": "round3/java-121/depth_charge.png",
+    "upstream_path": "src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/depth_charge.png",
+    "upstream_commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+    "sha256": "2210e114fa69f276bae7b5b4100d7ef373c1e282c68f6c94a1da665c1b6dc784"
+  },
+  {
+    "path": "round3/java-121/grasshopper.json",
+    "upstream_path": "src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/grasshopper.json",
+    "upstream_commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+    "sha256": "0e8561c635097cfae84adbacb70a5c636ac624b9fe13c11de79fdc6002b862cd"
+  },
+  {
+    "path": "round3/java-121/grasshopper.png",
+    "upstream_path": "src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/grasshopper.png",
+    "upstream_commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+    "sha256": "cac1455deabd9de2483b2689b3e2169abc1290430e58fbb8b99db08ff2a818ed"
+  },
+  {
+    "path": "round3/java-121/mojito.json",
+    "upstream_path": "src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/mojito.json",
+    "upstream_commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+    "sha256": "d7b7fecfd7b46bcf5db8bc40cb47061a8efed08b32c8362d30be61c3b6329a49"
+  },
+  {
+    "path": "round3/java-121/mojito.png",
+    "upstream_path": "src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/mojito.png",
+    "upstream_commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+    "sha256": "fbdc79d08e77ac27ef2e3cdf22d70410f5233b78b49e76b62393cfe661d591b4"
+  },
+  {
+    "path": "round3/java-121/screwdriver.json",
+    "upstream_path": "src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/screwdriver.json",
+    "upstream_commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+    "sha256": "020709e1ff839fdf848b917eb6b0afe102959159593813d7d3c6aed866c8cb1c"
+  },
+  {
+    "path": "round3/java-121/screwdriver.png",
+    "upstream_path": "src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/screwdriver.png",
+    "upstream_commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+    "sha256": "50b6b5b1f70f500c4d62ffa3edd27ae33978143c898c4165e22f82309ee657ce"
+  },
+  {
+    "path": "round3/java-121/white_lady.json",
+    "upstream_path": "src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/white_lady.json",
+    "upstream_commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+    "sha256": "dd124f3e055ca4944ea5519522e109d444f98c46a9f9d1434b1df06d9806fe9d"
+  },
+  {
+    "path": "round3/java-121/white_lady.png",
+    "upstream_path": "src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/white_lady.png",
+    "upstream_commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+    "sha256": "07d6f66440dba97f22cbaa5394b7e00846d3302cd3f73169c6c433ad454e26f9"
+  }
+]

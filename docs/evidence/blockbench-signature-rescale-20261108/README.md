@@ -2,6 +2,8 @@
 
 This corrects the Java side of the six Signature review fixtures in [the first Blockbench batch](../blockbench-20261108/README.md). It is documentation and review evidence only. Runtime 0.6.212, accepted held poses, release identity and deployment are unchanged from `e4cffb15010ba966f98dabf1c19cc2920bacd9bb`.
 
+**Caption correction:** all six perspective captures show **native on screen-left and Java on screen-right**, not the reverse. The `Java authored` group is at world X=-7; `Runtime glass` and the RGB-layer groups are at X=+7. The default free-format camera at [-40,32,-40] looking toward [0,12,0] projects +X toward screen-left. Historical scene titles using `LEFT`/`RIGHT` confused world-X placement with screen direction and must not identify the image sides. This is a prose-only correction; original screenshots and ZIP remain unchanged, and the earlier rescale withdrawal below remains in force.
+
 ## What was wrong
 
 The first review adapter copied Java element bounds and rotation but omitted `rotation.rescale`. Signature elements 13 and 14 are zero-thickness planes rotated -45 degrees around Y with `rescale: true`. Their authored 5-unit width must be multiplied by sqrt(2), about 7.071067812 units, around the authored pivot before rotation. The original review source side therefore was not a valid full geometric comparison. The earlier visible-pattern/geometry equivalence inference is withdrawn rather than retained as a pass.
@@ -12,7 +14,7 @@ The committed native Signature representation already bakes the approximately 7.
 
 ## New actual GUI review
 
-All six distinctly named corrected projects were newly opened in official desktop Blockbench 5.2.2, not read from the editor's cached old tabs. Each screenshot is an unmodified desktop capture. Java is on the **left**; committed runtime glass and the frame's actual ten RGB layers are on the **right**. The rim, stem, base, straw and frame-specific pattern remain assembled in these views. No additional definite assembly defect was confirmed. Different perspective depth is not a size measurement.
+All six distinctly named corrected projects were newly opened in official desktop Blockbench 5.2.2, not read from the editor's cached old tabs. Each screenshot is an unmodified desktop capture. Committed runtime glass and the frame's actual ten RGB layers are on **screen-left**; corrected Java is on **screen-right**. The rim, stem, base, straw and frame-specific pattern remain assembled in these views. No additional definite assembly defect was confirmed. Different perspective depth is not a size measurement.
 
 - [Frame 0](screenshots/signature-rescale-frame-0.jpg)
 - [Frame 1](screenshots/signature-rescale-frame-1.jpg)

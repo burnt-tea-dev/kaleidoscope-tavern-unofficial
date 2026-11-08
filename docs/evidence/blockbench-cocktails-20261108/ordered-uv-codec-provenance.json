@@ -1,0 +1,28 @@
+{
+  "source": "liquor-blockbench-review-20261108/bb-bundle.js",
+  "sha256": "5f71b1b122b15c1ecde787a8afd473b9c4e932db3465bbf906a7699874f1b9f8",
+  "snippets": {
+    "bedrock_decode": {
+      "character_offset": 8666478,
+      "examined_characters": 1500
+    },
+    "java_parse": {
+      "character_offset": 8620410,
+      "examined_characters": 4400
+    },
+    "uv_to_local": {
+      "character_offset": 7289514,
+      "examined_characters": 1500
+    },
+    "shape_adjust": {
+      "character_offset": 7309449,
+      "examined_characters": 1500
+    },
+    "uv_preview": {
+      "character_offset": 7312763,
+      "examined_characters": 1500
+    }
+  },
+  "official_release": "https://github.com/JannisX11/blockbench/releases/tag/v5.2.2",
+  "scope": "Read-only codec inspection; excerpts not redistributed. Character offsets refer to the exact SHA256 bundle above."
+}

@@ -1,0 +1,2381 @@
+[
+  {
+    "name": "allium_garden",
+    "face_counts": [
+      59,
+      59,
+      59
+    ],
+    "bounds_old_native_121": [
+      [
+        [
+          -5.5,
+          0.0,
+          -5.5
+        ],
+        [
+          5.5,
+          15.75,
+          5.5
+        ]
+      ],
+      [
+        [
+          -5.544194178737122,
+          0.0,
+          -5.544194178737121
+        ],
+        [
+          5.544194178737122,
+          15.75,
+          5.544194178737121
+        ]
+      ],
+      [
+        [
+          -5.5,
+          0.0,
+          -5.5
+        ],
+        [
+          5.5,
+          15.75,
+          5.5
+        ]
+      ]
+    ],
+    "bijective": true,
+    "all_uv_equal": true,
+    "matched_face_count": 59,
+    "max_delta": 0.0625,
+    "nonzero_matches": [
+      {
+        "java_element": 8,
+        "java_face": "up",
+        "native_cube": 11,
+        "native_face": "up",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          5.0,
+          0.0
+        ],
+        "native_centroid": [
+          0.0,
+          5.0625,
+          0.0
+        ]
+      },
+      {
+        "java_element": 8,
+        "java_face": "down",
+        "native_cube": 11,
+        "native_face": "down",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          5.0,
+          0.0
+        ],
+        "native_centroid": [
+          0.0,
+          4.9375,
+          0.0
+        ]
+      },
+      {
+        "java_element": 9,
+        "java_face": "north",
+        "native_cube": 18,
+        "native_face": "south",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          7.5,
+          -2.5
+        ],
+        "native_centroid": [
+          0.0,
+          7.5,
+          -2.4375
+        ]
+      },
+      {
+        "java_element": 9,
+        "java_face": "south",
+        "native_cube": 19,
+        "native_face": "north",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          7.5,
+          2.5
+        ],
+        "native_centroid": [
+          0.0,
+          7.5,
+          2.4375
+        ]
+      },
+      {
+        "java_element": 10,
+        "java_face": "up",
+        "native_cube": 14,
+        "native_face": "up",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          9.5,
+          0.0
+        ],
+        "native_centroid": [
+          0.0,
+          9.5625,
+          0.0
+        ]
+      },
+      {
+        "java_element": 10,
+        "java_face": "down",
+        "native_cube": 14,
+        "native_face": "down",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          9.5,
+          0.0
+        ],
+        "native_centroid": [
+          0.0,
+          9.4375,
+          0.0
+        ]
+      },
+      {
+        "java_element": 11,
+        "java_face": "up",
+        "native_cube": 15,
+        "native_face": "up",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          5.4,
+          0.0
+        ],
+        "native_centroid": [
+          0.0,
+          5.4625,
+          0.0
+        ]
+      },
+      {
+        "java_element": 11,
+        "java_face": "down",
+        "native_cube": 15,
+        "native_face": "down",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          5.4,
+          0.0
+        ],
+        "native_centroid": [
+          0.0,
+          5.3375,
+          0.0
+        ]
+      },
+      {
+        "java_element": 12,
+        "java_face": "north",
+        "native_cube": 16,
+        "native_face": "north",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          10.75,
+          0.0
+        ],
+        "native_centroid": [
+          -0.04419417382415958,
+          10.75,
+          -0.04419417382415958
+        ]
+      },
+      {
+        "java_element": 12,
+        "java_face": "south",
+        "native_cube": 16,
+        "native_face": "south",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          10.75,
+          0.0
+        ],
+        "native_centroid": [
+          0.04419417382415958,
+          10.75,
+          0.04419417382415958
+        ]
+      },
+      {
+        "java_element": 13,
+        "java_face": "east",
+        "native_cube": 17,
+        "native_face": "east",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          10.75,
+          0.0
+        ],
+        "native_centroid": [
+          0.04419417382415913,
+          10.75,
+          -0.04419417382415913
+        ]
+      },
+      {
+        "java_element": 13,
+        "java_face": "west",
+        "native_cube": 17,
+        "native_face": "west",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          10.75,
+          0.0
+        ],
+        "native_centroid": [
+          -0.04419417382415913,
+          10.75,
+          0.04419417382415913
+        ]
+      }
+    ]
+  },
+  {
+    "name": "bloody_mary",
+    "face_counts": [
+      65,
+      65,
+      65
+    ],
+    "bounds_old_native_121": [
+      [
+        [
+          -4.0,
+          0.0,
+          -5.0
+        ],
+        [
+          5.0,
+          12.156562964876375,
+          4.414213562373095
+        ]
+      ],
+      [
+        [
+          -4.0,
+          0.0,
+          -5.0
+        ],
+        [
+          5.0,
+          12.156562964876375,
+          4.414213562373095
+        ]
+      ],
+      [
+        [
+          -3.5,
+          0.0,
+          -5.0
+        ],
+        [
+          5.0,
+          12.156562964876375,
+          4.414213562373095
+        ]
+      ]
+    ],
+    "bijective": true,
+    "all_uv_equal": true,
+    "matched_face_count": 65,
+    "max_delta": 0.0625,
+    "nonzero_matches": [
+      {
+        "java_element": 12,
+        "java_face": "north",
+        "native_cube": 16,
+        "native_face": "north",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          1.5,
+          10.85,
+          3.0
+        ],
+        "native_centroid": [
+          1.5,
+          10.85,
+          2.9375
+        ]
+      },
+      {
+        "java_element": 12,
+        "java_face": "south",
+        "native_cube": 16,
+        "native_face": "south",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          1.5,
+          10.849999999999998,
+          3.0
+        ],
+        "native_centroid": [
+          1.5,
+          10.849999999999998,
+          3.0625
+        ]
+      },
+      {
+        "java_element": 13,
+        "java_face": "north",
+        "native_cube": 17,
+        "native_face": "north",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          -0.34999999999999964,
+          9.850000000000001,
+          3.1999999999999993
+        ],
+        "native_centroid": [
+          -0.35000000000000003,
+          9.850000000000001,
+          3.1375
+        ]
+      },
+      {
+        "java_element": 13,
+        "java_face": "south",
+        "native_cube": 17,
+        "native_face": "south",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          -0.34999999999999964,
+          9.85,
+          3.1999999999999993
+        ],
+        "native_centroid": [
+          -0.3500000000000001,
+          9.85,
+          3.2625
+        ]
+      }
+    ]
+  },
+  {
+    "name": "depth_charge",
+    "face_counts": [
+      52,
+      52,
+      46
+    ],
+    "bounds_old_native_121": [
+      [
+        [
+          -6.25,
+          0.0,
+          -3.75
+        ],
+        [
+          4.0,
+          14.535533905932738,
+          3.75
+        ]
+      ],
+      [
+        [
+          -6.25,
+          0.0,
+          -3.75
+        ],
+        [
+          4.0,
+          14.535533905932738,
+          3.75
+        ]
+      ],
+      [
+        [
+          -6.0,
+          0.0,
+          -3.0355339059327378
+        ],
+        [
+          4.0,
+          11.5,
+          4.035533905932738
+        ]
+      ]
+    ],
+    "bijective": true,
+    "all_uv_equal": true,
+    "matched_face_count": 52,
+    "max_delta": 0.0625,
+    "nonzero_matches": [
+      {
+        "java_element": 4,
+        "java_face": "up",
+        "native_cube": 10,
+        "native_face": "up",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.25,
+          7.5,
+          0.0
+        ],
+        "native_centroid": [
+          0.25,
+          7.5625,
+          0.0
+        ]
+      },
+      {
+        "java_element": 4,
+        "java_face": "down",
+        "native_cube": 10,
+        "native_face": "down",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.25,
+          7.5,
+          0.0
+        ],
+        "native_centroid": [
+          0.25,
+          7.4375,
+          0.0
+        ]
+      },
+      {
+        "java_element": 9,
+        "java_face": "north",
+        "native_cube": 15,
+        "native_face": "north",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.050001675075844076,
+          5.5,
+          2.220446049250313e-16
+        ],
+        "native_centroid": [
+          0.09419584890000299,
+          5.5,
+          -0.04419417382415891
+        ]
+      },
+      {
+        "java_element": 9,
+        "java_face": "south",
+        "native_cube": 15,
+        "native_face": "south",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.050001675075844076,
+          5.5,
+          2.220446049250313e-16
+        ],
+        "native_centroid": [
+          0.005807501251684499,
+          5.5,
+          0.044194173824159355
+        ]
+      },
+      {
+        "java_element": 10,
+        "java_face": "east",
+        "native_cube": 16,
+        "native_face": "east",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0500016750758443,
+          5.5,
+          -2.220446049250313e-16
+        ],
+        "native_centroid": [
+          0.09419584890000321,
+          5.5,
+          0.04419417382415891
+        ]
+      },
+      {
+        "java_element": 10,
+        "java_face": "west",
+        "native_cube": 16,
+        "native_face": "west",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0500016750758443,
+          5.5,
+          -2.220446049250313e-16
+        ],
+        "native_centroid": [
+          0.005807501251684943,
+          5.5,
+          -0.04419417382415958
+        ]
+      },
+      {
+        "java_element": 11,
+        "java_face": "north",
+        "native_cube": 17,
+        "native_face": "north",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.20711000000000018,
+          11.0,
+          0.0
+        ],
+        "native_centroid": [
+          0.20711000000000002,
+          11.0,
+          -0.0625
+        ]
+      },
+      {
+        "java_element": 11,
+        "java_face": "south",
+        "native_cube": 17,
+        "native_face": "south",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.20711000000000013,
+          11.0,
+          0.0
+        ],
+        "native_centroid": [
+          0.20711000000000013,
+          11.0,
+          0.0625
+        ]
+      }
+    ]
+  },
+  {
+    "name": "grasshopper",
+    "face_counts": [
+      60,
+      60,
+      61
+    ],
+    "bounds_old_native_121": [
+      [
+        [
+          -4.681980515339464,
+          0.0,
+          -4.0
+        ],
+        [
+          5.483578363789503,
+          12.267766952966369,
+          6.348279338752954
+        ]
+      ],
+      [
+        [
+          -4.681980515339464,
+          0.0,
+          -4.0
+        ],
+        [
+          5.507496078312322,
+          12.311961126790528,
+          6.372197053275773
+        ]
+      ],
+      [
+        [
+          -4.681980515339464,
+          0.0,
+          -3.5
+        ],
+        [
+          5.483578363789503,
+          12.181980515339465,
+          5.348279338752954
+        ]
+      ]
+    ],
+    "bijective": true,
+    "all_uv_equal": true,
+    "matched_face_count": 60,
+    "max_delta": 0.0625,
+    "nonzero_matches": [
+      {
+        "java_element": 0,
+        "java_face": "up",
+        "native_cube": 0,
+        "native_face": "up",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          3.173879532511287,
+          9.417316567634911,
+          3.25
+        ],
+        "native_centroid": [
+          3.1977972470341047,
+          9.475059038416866,
+          3.25
+        ]
+      },
+      {
+        "java_element": 0,
+        "java_face": "down",
+        "native_cube": 0,
+        "native_face": "down",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          3.1738795325112865,
+          9.417316567634911,
+          3.25
+        ],
+        "native_centroid": [
+          3.1499618179884683,
+          9.359574096852956,
+          3.25
+        ]
+      },
+      {
+        "java_element": 1,
+        "java_face": "up",
+        "native_cube": 1,
+        "native_face": "up",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.25,
+          10.443957308854003,
+          4.038580507474737
+        ],
+        "native_centroid": [
+          0.25,
+          10.50169977963596,
+          4.062498221997556
+        ]
+      },
+      {
+        "java_element": 1,
+        "java_face": "down",
+        "native_cube": 1,
+        "native_face": "down",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.25,
+          10.443957308854003,
+          4.038580507474737
+        ],
+        "native_centroid": [
+          0.25,
+          10.38621483807205,
+          4.014662792951919
+        ]
+      },
+      {
+        "java_element": 2,
+        "java_face": "north",
+        "native_cube": 2,
+        "native_face": "north",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          2.25,
+          10.5,
+          0.42157287525380993
+        ],
+        "native_centroid": [
+          2.25,
+          10.54419417382416,
+          0.3773787014296506
+        ]
+      },
+      {
+        "java_element": 2,
+        "java_face": "south",
+        "native_cube": 2,
+        "native_face": "south",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          2.25,
+          10.5,
+          0.42157287525380993
+        ],
+        "native_centroid": [
+          2.25,
+          10.45580582617584,
+          0.46576704907796884
+        ]
+      },
+      {
+        "java_element": 4,
+        "java_face": "up",
+        "native_cube": 7,
+        "native_face": "up",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          6.05,
+          0.0
+        ],
+        "native_centroid": [
+          0.0,
+          6.1125,
+          0.0
+        ]
+      },
+      {
+        "java_element": 4,
+        "java_face": "down",
+        "native_cube": 7,
+        "native_face": "down",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          6.05,
+          0.0
+        ],
+        "native_centroid": [
+          0.0,
+          5.9875,
+          0.0
+        ]
+      }
+    ]
+  },
+  {
+    "name": "mojito",
+    "face_counts": [
+      68,
+      68,
+      70
+    ],
+    "bounds_old_native_121": [
+      [
+        [
+          -6.0,
+          0.0,
+          -3.0
+        ],
+        [
+          3.0,
+          14.0,
+          3.0
+        ]
+      ],
+      [
+        [
+          -6.0,
+          0.0,
+          -3.0
+        ],
+        [
+          3.0,
+          14.0,
+          3.0
+        ]
+      ],
+      [
+        [
+          -2.5025000000000004,
+          0.0,
+          -2.5025000000000004
+        ],
+        [
+          2.5024999999999995,
+          13.0,
+          2.5024999999999995
+        ]
+      ]
+    ],
+    "bijective": true,
+    "all_uv_equal": true,
+    "matched_face_count": 68,
+    "max_delta": 0.0625,
+    "nonzero_matches": [
+      {
+        "java_element": 8,
+        "java_face": "up",
+        "native_cube": 14,
+        "native_face": "up",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          1.5,
+          0.0
+        ],
+        "native_centroid": [
+          0.0,
+          1.5625,
+          0.0
+        ]
+      },
+      {
+        "java_element": 8,
+        "java_face": "down",
+        "native_cube": 14,
+        "native_face": "down",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          1.5,
+          0.0
+        ],
+        "native_centroid": [
+          0.0,
+          1.4375,
+          0.0
+        ]
+      },
+      {
+        "java_element": 9,
+        "java_face": "up",
+        "native_cube": 15,
+        "native_face": "up",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          9.5,
+          0.0
+        ],
+        "native_centroid": [
+          0.0,
+          9.5625,
+          0.0
+        ]
+      },
+      {
+        "java_element": 9,
+        "java_face": "down",
+        "native_cube": 15,
+        "native_face": "down",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          9.5,
+          0.0
+        ],
+        "native_centroid": [
+          0.0,
+          9.4375,
+          0.0
+        ]
+      },
+      {
+        "java_element": 13,
+        "java_face": "north",
+        "native_cube": 19,
+        "native_face": "north",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          -3.5,
+          8.0,
+          0.5
+        ],
+        "native_centroid": [
+          -3.5,
+          8.0,
+          0.4375
+        ]
+      },
+      {
+        "java_element": 13,
+        "java_face": "south",
+        "native_cube": 19,
+        "native_face": "south",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          -3.5,
+          8.0,
+          0.5
+        ],
+        "native_centroid": [
+          -3.5,
+          8.0,
+          0.5625
+        ]
+      }
+    ]
+  },
+  {
+    "name": "screwdriver",
+    "face_counts": [
+      54,
+      54,
+      54
+    ],
+    "bounds_old_native_121": [
+      [
+        [
+          -5.25,
+          0.0,
+          -3.0
+        ],
+        [
+          3.4926734957160024,
+          18.0,
+          3.0
+        ]
+      ],
+      [
+        [
+          -5.25,
+          0.0,
+          -3.0
+        ],
+        [
+          3.4926734957160024,
+          18.0,
+          3.0
+        ]
+      ],
+      [
+        [
+          -5.75,
+          0.0,
+          -2.5025000000000004
+        ],
+        [
+          3.2426734957160024,
+          16.0,
+          2.5024999999999995
+        ]
+      ]
+    ],
+    "bijective": true,
+    "all_uv_equal": true,
+    "matched_face_count": 54,
+    "max_delta": 0.0625,
+    "nonzero_matches": [
+      {
+        "java_element": 7,
+        "java_face": "north",
+        "native_cube": 10,
+        "native_face": "north",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          -2.25,
+          13.5,
+          1.9000000000000004
+        ],
+        "native_centroid": [
+          -2.25,
+          13.5,
+          1.8375
+        ]
+      },
+      {
+        "java_element": 7,
+        "java_face": "south",
+        "native_cube": 10,
+        "native_face": "south",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          -2.25,
+          13.5,
+          1.9000000000000004
+        ],
+        "native_centroid": [
+          -2.25,
+          13.5,
+          1.9625
+        ]
+      }
+    ]
+  },
+  {
+    "name": "white_lady",
+    "face_counts": [
+      55,
+      55,
+      56
+    ],
+    "bounds_old_native_121": [
+      [
+        [
+          -4.0,
+          0.0,
+          -4.0
+        ],
+        [
+          4.956708580912725,
+          12.659698831278217,
+          5.421569999999999
+        ]
+      ],
+      [
+        [
+          -4.0,
+          0.0,
+          -4.0
+        ],
+        [
+          5.01445105169468,
+          12.683616545801035,
+          5.42157
+        ]
+      ],
+      [
+        [
+          -3.5,
+          0.0,
+          -3.5
+        ],
+        [
+          4.956708580912725,
+          12.659698831278217,
+          4.8215699999999995
+        ]
+      ]
+    ],
+    "bijective": true,
+    "all_uv_equal": true,
+    "matched_face_count": 55,
+    "max_delta": 0.0625,
+    "nonzero_matches": [
+      {
+        "java_element": 1,
+        "java_face": "up",
+        "native_cube": 4,
+        "native_face": "up",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          6.05,
+          0.0
+        ],
+        "native_centroid": [
+          0.0,
+          6.1125,
+          0.0
+        ]
+      },
+      {
+        "java_element": 1,
+        "java_face": "down",
+        "native_cube": 4,
+        "native_face": "down",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          6.05,
+          0.0
+        ],
+        "native_centroid": [
+          0.0,
+          5.9875,
+          0.0
+        ]
+      },
+      {
+        "java_element": 10,
+        "java_face": "north",
+        "native_cube": 13,
+        "native_face": "north",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          1.0,
+          9.35,
+          3.921569999999999
+        ],
+        "native_centroid": [
+          1.0,
+          9.326082285477181,
+          3.8638275292180446
+        ]
+      },
+      {
+        "java_element": 10,
+        "java_face": "south",
+        "native_cube": 13,
+        "native_face": "south",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          1.0,
+          9.35,
+          3.921569999999999
+        ],
+        "native_centroid": [
+          1.0,
+          9.373917714522818,
+          3.9793124707819554
+        ]
+      },
+      {
+        "java_element": 11,
+        "java_face": "up",
+        "native_cube": 14,
+        "native_face": "up",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          2.0,
+          10.35,
+          0.9215699999999996
+        ],
+        "native_centroid": [
+          2.0,
+          10.39419417382416,
+          0.8773758261758406
+        ]
+      },
+      {
+        "java_element": 11,
+        "java_face": "down",
+        "native_cube": 14,
+        "native_face": "down",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          2.0,
+          10.350000000000001,
+          0.9215699999999994
+        ],
+        "native_centroid": [
+          2.0,
+          10.30580582617584,
+          0.9657641738241594
+        ]
+      },
+      {
+        "java_element": 12,
+        "java_face": "east",
+        "native_cube": 15,
+        "native_face": "east",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          4.0,
+          10.35,
+          2.921569999999999
+        ],
+        "native_centroid": [
+          4.057742470781956,
+          10.373917714522818,
+          2.92157
+        ]
+      },
+      {
+        "java_element": 12,
+        "java_face": "west",
+        "native_cube": 15,
+        "native_face": "west",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          4.0,
+          10.35,
+          2.921569999999999
+        ],
+        "native_centroid": [
+          3.942257529218044,
+          10.326082285477181,
+          2.92157
+        ]
+      }
+    ]
+  },
+  {
+    "name": "brass_heart",
+    "face_counts": [
+      64,
+      64,
+      0
+    ],
+    "bounds_old_native_121": [
+      [
+        [
+          -3.5,
+          0.0,
+          -3.5
+        ],
+        [
+          9.841473108199338,
+          18.32087505812624,
+          3.5
+        ]
+      ],
+      [
+        [
+          -3.5,
+          0.0,
+          -3.5
+        ],
+        [
+          9.841473108199338,
+          18.32087505812624,
+          3.5
+        ]
+      ],
+      null
+    ],
+    "bijective": true,
+    "all_uv_equal": true,
+    "matched_face_count": 64,
+    "max_delta": 0.0625,
+    "nonzero_matches": [
+      {
+        "java_element": 7,
+        "java_face": "up",
+        "native_cube": 10,
+        "native_face": "up",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          5.0,
+          0.0
+        ],
+        "native_centroid": [
+          0.0,
+          5.0625,
+          0.0
+        ]
+      },
+      {
+        "java_element": 7,
+        "java_face": "down",
+        "native_cube": 10,
+        "native_face": "down",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          5.0,
+          0.0
+        ],
+        "native_centroid": [
+          0.0,
+          4.9375,
+          0.0
+        ]
+      },
+      {
+        "java_element": 8,
+        "java_face": "north",
+        "native_cube": 23,
+        "native_face": "south",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          7.5,
+          -2.5
+        ],
+        "native_centroid": [
+          0.0,
+          7.5,
+          -2.4375
+        ]
+      },
+      {
+        "java_element": 8,
+        "java_face": "south",
+        "native_cube": 24,
+        "native_face": "north",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          7.5,
+          2.5
+        ],
+        "native_centroid": [
+          0.0,
+          7.5,
+          2.4375
+        ]
+      },
+      {
+        "java_element": 9,
+        "java_face": "up",
+        "native_cube": 13,
+        "native_face": "up",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          9.6,
+          0.0
+        ],
+        "native_centroid": [
+          0.0,
+          9.6625,
+          0.0
+        ]
+      },
+      {
+        "java_element": 9,
+        "java_face": "down",
+        "native_cube": 13,
+        "native_face": "down",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          9.6,
+          0.0
+        ],
+        "native_centroid": [
+          0.0,
+          9.5375,
+          0.0
+        ]
+      },
+      {
+        "java_element": 10,
+        "java_face": "up",
+        "native_cube": 14,
+        "native_face": "up",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          5.4,
+          0.0
+        ],
+        "native_centroid": [
+          0.0,
+          5.4625,
+          0.0
+        ]
+      },
+      {
+        "java_element": 10,
+        "java_face": "down",
+        "native_cube": 14,
+        "native_face": "down",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          5.4,
+          0.0
+        ],
+        "native_centroid": [
+          0.0,
+          5.3375,
+          0.0
+        ]
+      },
+      {
+        "java_element": 11,
+        "java_face": "north",
+        "native_cube": 15,
+        "native_face": "north",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          3.5,
+          12.25,
+          1.5
+        ],
+        "native_centroid": [
+          3.5,
+          12.25,
+          1.4375
+        ]
+      },
+      {
+        "java_element": 11,
+        "java_face": "south",
+        "native_cube": 15,
+        "native_face": "south",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          3.5,
+          12.25,
+          1.5
+        ],
+        "native_centroid": [
+          3.5,
+          12.25,
+          1.5625
+        ]
+      }
+    ]
+  },
+  {
+    "name": "emerald",
+    "face_counts": [
+      35,
+      35,
+      0
+    ],
+    "bounds_old_native_121": [
+      [
+        [
+          -4.613125929752753,
+          0.0,
+          -3.0
+        ],
+        [
+          4.957749128373486,
+          14.728347178446585,
+          3.0
+        ]
+      ],
+      [
+        [
+          -4.613125929752753,
+          0.0,
+          -3.0
+        ],
+        [
+          4.957749128373486,
+          14.728347178446585,
+          3.0
+        ]
+      ],
+      null
+    ],
+    "bijective": true,
+    "all_uv_equal": true,
+    "matched_face_count": 35,
+    "max_delta": 0.0625,
+    "nonzero_matches": [
+      {
+        "java_element": 7,
+        "java_face": "north",
+        "native_cube": 13,
+        "native_face": "north",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          1.5,
+          11.0,
+          1.0
+        ],
+        "native_centroid": [
+          1.5,
+          11.0,
+          0.9375
+        ]
+      },
+      {
+        "java_element": 7,
+        "java_face": "south",
+        "native_cube": 13,
+        "native_face": "south",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          1.5,
+          11.0,
+          1.0
+        ],
+        "native_centroid": [
+          1.5,
+          11.0,
+          1.0625
+        ]
+      }
+    ]
+  },
+  {
+    "name": "empty_glassware",
+    "face_counts": [
+      54,
+      54,
+      0
+    ],
+    "bounds_old_native_121": [
+      [
+        [
+          -3.5,
+          0.0,
+          -3.5
+        ],
+        [
+          3.5,
+          10.3,
+          3.5
+        ]
+      ],
+      [
+        [
+          -3.5,
+          0.0,
+          -3.5
+        ],
+        [
+          3.5,
+          10.3,
+          3.5
+        ]
+      ],
+      null
+    ],
+    "bijective": true,
+    "all_uv_equal": true,
+    "matched_face_count": 54,
+    "max_delta": 0.0625,
+    "nonzero_matches": [
+      {
+        "java_element": 0,
+        "java_face": "north",
+        "native_cube": 15,
+        "native_face": "south",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          7.6,
+          -2.5
+        ],
+        "native_centroid": [
+          0.0,
+          7.6,
+          -2.4375
+        ]
+      },
+      {
+        "java_element": 0,
+        "java_face": "south",
+        "native_cube": 16,
+        "native_face": "north",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          7.6,
+          2.5
+        ],
+        "native_centroid": [
+          0.0,
+          7.6,
+          2.4375
+        ]
+      },
+      {
+        "java_element": 1,
+        "java_face": "up",
+        "native_cube": 2,
+        "native_face": "up",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          5.6,
+          0.0
+        ],
+        "native_centroid": [
+          0.0,
+          5.6625,
+          0.0
+        ]
+      },
+      {
+        "java_element": 1,
+        "java_face": "down",
+        "native_cube": 2,
+        "native_face": "down",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          5.6,
+          0.0
+        ],
+        "native_centroid": [
+          0.0,
+          5.5375,
+          0.0
+        ]
+      },
+      {
+        "java_element": 9,
+        "java_face": "up",
+        "native_cube": 13,
+        "native_face": "up",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          5.05,
+          0.0
+        ],
+        "native_centroid": [
+          0.0,
+          5.1125,
+          0.0
+        ]
+      },
+      {
+        "java_element": 9,
+        "java_face": "down",
+        "native_cube": 13,
+        "native_face": "down",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          5.05,
+          0.0
+        ],
+        "native_centroid": [
+          0.0,
+          4.9875,
+          0.0
+        ]
+      }
+    ]
+  },
+  {
+    "name": "godfather",
+    "face_counts": [
+      66,
+      66,
+      0
+    ],
+    "bounds_old_native_121": [
+      [
+        [
+          -5.613125929752753,
+          0.0,
+          -3.0
+        ],
+        [
+          4.957749128373486,
+          14.728347178446585,
+          3.0
+        ]
+      ],
+      [
+        [
+          -5.613125929752753,
+          0.0,
+          -3.0
+        ],
+        [
+          4.957749128373486,
+          14.728347178446585,
+          3.0
+        ]
+      ],
+      null
+    ],
+    "bijective": true,
+    "all_uv_equal": true,
+    "matched_face_count": 66,
+    "max_delta": 0.0625,
+    "nonzero_matches": [
+      {
+        "java_element": 13,
+        "java_face": "north",
+        "native_cube": 19,
+        "native_face": "north",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          1.5,
+          11.0,
+          1.0
+        ],
+        "native_centroid": [
+          1.5,
+          11.0,
+          0.9375
+        ]
+      },
+      {
+        "java_element": 13,
+        "java_face": "south",
+        "native_cube": 19,
+        "native_face": "south",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          1.5,
+          11.0,
+          1.0
+        ],
+        "native_centroid": [
+          1.5,
+          11.0,
+          1.0625
+        ]
+      }
+    ]
+  },
+  {
+    "name": "mystery_cocktail",
+    "face_counts": [
+      62,
+      62,
+      0
+    ],
+    "bounds_old_native_121": [
+      [
+        [
+          -3.5,
+          0.0,
+          -3.5
+        ],
+        [
+          3.5293337668632745,
+          14.082324017228768,
+          3.5
+        ]
+      ],
+      [
+        [
+          -3.5,
+          0.0,
+          -3.5
+        ],
+        [
+          3.5293337668632754,
+          14.082324017228768,
+          3.5
+        ]
+      ],
+      null
+    ],
+    "bijective": true,
+    "all_uv_equal": true,
+    "matched_face_count": 62,
+    "max_delta": 0.0625,
+    "nonzero_matches": [
+      {
+        "java_element": 7,
+        "java_face": "up",
+        "native_cube": 10,
+        "native_face": "up",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          5.0,
+          0.0
+        ],
+        "native_centroid": [
+          0.0,
+          5.0625,
+          0.0
+        ]
+      },
+      {
+        "java_element": 7,
+        "java_face": "down",
+        "native_cube": 10,
+        "native_face": "down",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          5.0,
+          0.0
+        ],
+        "native_centroid": [
+          0.0,
+          4.9375,
+          0.0
+        ]
+      },
+      {
+        "java_element": 8,
+        "java_face": "north",
+        "native_cube": 17,
+        "native_face": "south",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          7.6,
+          -2.5
+        ],
+        "native_centroid": [
+          0.0,
+          7.6,
+          -2.4375
+        ]
+      },
+      {
+        "java_element": 8,
+        "java_face": "south",
+        "native_cube": 18,
+        "native_face": "north",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          7.6,
+          2.5
+        ],
+        "native_centroid": [
+          0.0,
+          7.6,
+          2.4375
+        ]
+      },
+      {
+        "java_element": 9,
+        "java_face": "up",
+        "native_cube": 13,
+        "native_face": "up",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          5.6,
+          0.0
+        ],
+        "native_centroid": [
+          0.0,
+          5.6625,
+          0.0
+        ]
+      },
+      {
+        "java_element": 9,
+        "java_face": "down",
+        "native_cube": 13,
+        "native_face": "down",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          5.6,
+          0.0
+        ],
+        "native_centroid": [
+          0.0,
+          5.5375,
+          0.0
+        ]
+      },
+      {
+        "java_element": 10,
+        "java_face": "up",
+        "native_cube": 14,
+        "native_face": "up",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          9.6,
+          0.0
+        ],
+        "native_centroid": [
+          0.0,
+          9.6625,
+          0.0
+        ]
+      },
+      {
+        "java_element": 10,
+        "java_face": "down",
+        "native_cube": 14,
+        "native_face": "down",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          9.6,
+          0.0
+        ],
+        "native_centroid": [
+          0.0,
+          9.5375,
+          0.0
+        ]
+      }
+    ]
+  },
+  {
+    "name": "nether_special",
+    "face_counts": [
+      80,
+      80,
+      0
+    ],
+    "bounds_old_native_121": [
+      [
+        [
+          -5.386339572497311,
+          0.0,
+          -3.5
+        ],
+        [
+          4.598986082905361,
+          13.832324017228768,
+          3.5
+        ]
+      ],
+      [
+        [
+          -5.386339572497311,
+          0.0,
+          -3.5
+        ],
+        [
+          4.598986082905361,
+          13.832324017228768,
+          3.5
+        ]
+      ],
+      null
+    ],
+    "bijective": true,
+    "all_uv_equal": true,
+    "matched_face_count": 80,
+    "max_delta": 0.0625,
+    "nonzero_matches": [
+      {
+        "java_element": 7,
+        "java_face": "up",
+        "native_cube": 10,
+        "native_face": "up",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          5.0,
+          0.0
+        ],
+        "native_centroid": [
+          0.0,
+          5.0625,
+          0.0
+        ]
+      },
+      {
+        "java_element": 7,
+        "java_face": "down",
+        "native_cube": 10,
+        "native_face": "down",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          5.0,
+          0.0
+        ],
+        "native_centroid": [
+          0.0,
+          4.9375,
+          0.0
+        ]
+      },
+      {
+        "java_element": 8,
+        "java_face": "north",
+        "native_cube": 20,
+        "native_face": "south",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          7.6,
+          -2.5
+        ],
+        "native_centroid": [
+          0.0,
+          7.6,
+          -2.4375
+        ]
+      },
+      {
+        "java_element": 8,
+        "java_face": "south",
+        "native_cube": 21,
+        "native_face": "north",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          7.6,
+          2.5
+        ],
+        "native_centroid": [
+          0.0,
+          7.6,
+          2.4375
+        ]
+      },
+      {
+        "java_element": 9,
+        "java_face": "up",
+        "native_cube": 13,
+        "native_face": "up",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          5.6,
+          0.0
+        ],
+        "native_centroid": [
+          0.0,
+          5.6625,
+          0.0
+        ]
+      },
+      {
+        "java_element": 9,
+        "java_face": "down",
+        "native_cube": 13,
+        "native_face": "down",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          5.6,
+          0.0
+        ],
+        "native_centroid": [
+          0.0,
+          5.5375,
+          0.0
+        ]
+      },
+      {
+        "java_element": 10,
+        "java_face": "up",
+        "native_cube": 14,
+        "native_face": "up",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          9.6,
+          0.0
+        ],
+        "native_centroid": [
+          0.0,
+          9.6625,
+          0.0
+        ]
+      },
+      {
+        "java_element": 10,
+        "java_face": "down",
+        "native_cube": 14,
+        "native_face": "down",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          9.6,
+          0.0
+        ],
+        "native_centroid": [
+          0.0,
+          9.5375,
+          0.0
+        ]
+      }
+    ]
+  },
+  {
+    "name": "sculk_special",
+    "face_counts": [
+      61,
+      61,
+      0
+    ],
+    "bounds_old_native_121": [
+      [
+        [
+          -8.0,
+          0.0,
+          -8.0
+        ],
+        [
+          8.0,
+          13.5,
+          8.0
+        ]
+      ],
+      [
+        [
+          -8.0,
+          0.0,
+          -8.0
+        ],
+        [
+          8.0,
+          13.5,
+          8.0
+        ]
+      ],
+      null
+    ],
+    "bijective": true,
+    "all_uv_equal": true,
+    "matched_face_count": 61,
+    "max_delta": 0.0625,
+    "nonzero_matches": [
+      {
+        "java_element": 7,
+        "java_face": "up",
+        "native_cube": 10,
+        "native_face": "up",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          5.0,
+          0.0
+        ],
+        "native_centroid": [
+          0.0,
+          5.0625,
+          0.0
+        ]
+      },
+      {
+        "java_element": 7,
+        "java_face": "down",
+        "native_cube": 10,
+        "native_face": "down",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          5.0,
+          0.0
+        ],
+        "native_centroid": [
+          0.0,
+          4.9375,
+          0.0
+        ]
+      },
+      {
+        "java_element": 8,
+        "java_face": "north",
+        "native_cube": 19,
+        "native_face": "south",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          7.5,
+          -2.5
+        ],
+        "native_centroid": [
+          0.0,
+          7.5,
+          -2.4375
+        ]
+      },
+      {
+        "java_element": 8,
+        "java_face": "south",
+        "native_cube": 20,
+        "native_face": "north",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          7.5,
+          2.5
+        ],
+        "native_centroid": [
+          0.0,
+          7.5,
+          2.4375
+        ]
+      },
+      {
+        "java_element": 9,
+        "java_face": "up",
+        "native_cube": 13,
+        "native_face": "up",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          5.4,
+          0.0
+        ],
+        "native_centroid": [
+          0.0,
+          5.4625,
+          0.0
+        ]
+      },
+      {
+        "java_element": 9,
+        "java_face": "down",
+        "native_cube": 13,
+        "native_face": "down",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          5.4,
+          0.0
+        ],
+        "native_centroid": [
+          0.0,
+          5.3375,
+          0.0
+        ]
+      },
+      {
+        "java_element": 10,
+        "java_face": "up",
+        "native_cube": 14,
+        "native_face": "up",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          9.6,
+          0.0
+        ],
+        "native_centroid": [
+          0.0,
+          9.6625,
+          0.0
+        ]
+      },
+      {
+        "java_element": 10,
+        "java_face": "down",
+        "native_cube": 14,
+        "native_face": "down",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          0.0,
+          9.6,
+          0.0
+        ],
+        "native_centroid": [
+          0.0,
+          9.5375,
+          0.0
+        ]
+      },
+      {
+        "java_element": 13,
+        "java_face": "north",
+        "native_cube": 17,
+        "native_face": "north",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          -4.5,
+          9.5,
+          0.0
+        ],
+        "native_centroid": [
+          -4.5,
+          9.5,
+          -0.0625
+        ]
+      },
+      {
+        "java_element": 13,
+        "java_face": "south",
+        "native_cube": 17,
+        "native_face": "south",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          -4.5,
+          9.5,
+          0.0
+        ],
+        "native_centroid": [
+          -4.5,
+          9.5,
+          0.0625
+        ]
+      },
+      {
+        "java_element": 14,
+        "java_face": "north",
+        "native_cube": 18,
+        "native_face": "north",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          4.5,
+          9.5,
+          0.0
+        ],
+        "native_centroid": [
+          4.5,
+          9.5,
+          -0.0625
+        ]
+      },
+      {
+        "java_element": 14,
+        "java_face": "south",
+        "native_cube": 18,
+        "native_face": "south",
+        "vertex_max_delta": 0.0625,
+        "uv_equal": true,
+        "java_centroid": [
+          4.5,
+          9.5,
+          0.0
+        ],
+        "native_centroid": [
+          4.5,
+          9.5,
+          0.0625
+        ]
+      }
+    ]
+  }
+]
