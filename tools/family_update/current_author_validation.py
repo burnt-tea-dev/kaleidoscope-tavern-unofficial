@@ -375,7 +375,10 @@ def curated_owner_inputs():
     configured=c.CONFIG.get('curated_owner_inputs',{})
     if not configured:return {}
     assert isinstance(configured,dict) and curated_inputs_enabled() and not c.CONFIG.get('fresh_world'), 'Owner inputs require the normal curated saved-world profile'
-    assert not c.CONFIG.get('identity_migration'), 'Owner input additions cannot combine UUID migrations'
+    if c.CONFIG.get('identity_migration'):
+        from family_update.identity_migration import plan_swaps
+        migrated_old = {row['old_uuid'] for row in plan_swaps(c.read(Path(c.CONFIG['identity_migration'])))}
+        assert not (migrated_old & set(configured)), 'Owner inputs cannot retain a migrated old identity'
     retained=[row for row in _curated_retained_rows() if row['kind']=='literal']
     replacements=replacement_rows()
     expected={row['uuid']:{'side':row['side'],'version':row['input_version'],'tree':row['input_tree'],'group':row['group'],
