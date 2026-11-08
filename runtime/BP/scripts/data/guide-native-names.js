@@ -9,6 +9,7 @@ const ROWS={
  'minecraft:slime_ball':['黏液球','史萊姆球','Slimeball'],
  'minecraft:cookie':['曲奇','餅乾','Cookie'],
  'minecraft:glow_berries':['荧光莓','螢光莓','Glow Berries'],
+ 'minecraft:short_grass':['矮草丛','稀疏青草','Short Grass'],
  'minecraft:allium':['绒球葱','紫紅球花','Allium'],
  'minecraft:pitcher_plant':['猪笼草','豬籠草','Pitcher Plant'],
  'kaleidoscope_tavern:pressing_tub':['压榨桶','壓榨桶','Pressing Tub'],

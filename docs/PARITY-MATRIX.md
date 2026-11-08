@@ -6,6 +6,24 @@ Adopt the official Bedrock Tavern1.0.7 unique-reference rule. Preserve the curre
 
 目前維護版本與 BP／RP 身分以 [baseline.json](../baseline.json) 為準；公開下載、來源配對及部署見[家族現況](../family/BASELINE-STATUS.md)。下列日期段保留各次修補及原始證據範圍，不因較新的來源版本自動取得畫面或完整家族通過結果。真人使用不是發布、部署或完成門檻，沿用[擁有者現行規則](../family/UPDATE-WORKFLOW.md#擁有者簡化規則2026-11-04)。
 
+## 短草立式黑板材料與指南（2026-11-08，T212）
+
+舊互動表與配方／解鎖把短草寫成 `minecraft:grass`。官方 BDS1.26.60.6 的該 ItemStack ID 已無效；BlockPermutation 的舊 grass 則解析為草方塊，不能由方塊 alias 推斷物品材料。真短草 `minecraft:short_grass` 與舊 `minecraft:tallgrass` 物品 alias 都讀回 short_grass，原互動表均不接受，因此草飾立式黑板無法依原作換樣式。
+
+現在只把現有共用材料表及 canonical 配方／unlock 改為 short_grass；配方 ID／檔名、板面 ID、保存文字／顏色／wax／對齊與兩半狀態不改。沒有新增舊 grass fallback 或第二份材料表。來源：[Forge ModBlocks Items.GRASS 短草](https://github.com/KaleidoscopeMods/KaleidoscopeTavern/blob/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/init/ModBlocks.java#L71)、[NeoForge Items.SHORT_GRASS](https://github.com/KaleidoscopeMods/KaleidoscopeTavern/blob/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/init/ModBlocks.java#L73)及[原轉換順序](https://github.com/KaleidoscopeMods/KaleidoscopeTavern/blob/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/block/deco/SandwichBoardBlock.java)。已匯入的 Java short_grass 配方與來源 lock 原本正確，維持原始 bytes。
+
+4 個來源反例先紅後綠：Survival／Adventure／Creative 真正註冊 callback，waxed 文字與兩半朝向／水狀態保留，一次操作僅扣應扣材料，以及 Java 配方／unlock 一致；33 項 board/farm 回歸、8 項 current-source 契約和既有 guide 檢查通過。core/boards.js 舊 launch row 原樣移入 historicalChanges，由現有共用板面 owner 接線與上述行為維護，沒有更改歷史 hash 或新增逆向層。
+
+[原生前後結果](../data/native-board-short-grass.json)確認上述 ID 及 T211 實際共用表接受 short_grass／tallgrass alias、拒絕 grass_block／tall_grass；完整候選 BP/RP、零玩家、正常 stop、errors 空。before 的 ok=true 只表示唯讀辨識完成，其 observations 明列缺失映射。[Observer](../tools/native/board-short-grass.js)沒有模擬玩家點擊或合成；真正原生互動／crafting、客戶端畫面、保存重啟、完整家族與 LIVE 未驗。QA 世界／引擎連結已清理。
+
+T211 首次 CI 的玩法／腳本通過，package 被三個 T148／T152 整本指南歷史 hash 阻擋，因指南原本就從共用材料表投影操作文字。現在以當前156個唯一條目、七入口、獨立 link fixture 的完整欄位／配方順序／preparation／名稱、動態 accessor 四次讀取維護；保留 yielding 與實際 wire JSON 檢查，未改舊 hash 或加入版本特例。
+
+同時修正指南仍叫玩家輸入字面反斜線+n的過期說明，改為文字框內直接換行；補齊短草在官方引擎 vanilla `tile.tallgrass.grass.name` 的三語名稱：矮草丛／稀疏青草／Short Grass。獨立指南與 Cookery wire 投影同源，52項相關測試通過。guide-native-names 舊 file row 與 T136 reverse row 原樣移入既有 historical 區，由當前共用指南 owner 維護。
+
+配方也由現有 current-source 契約檢查 ingredient／result／unlock；motion 舊 recipe aggregate 僅縮減這一個 owner，原160檔 aggregate 與原檔 digest 保留並重建核對，其餘159檔仍受舊範圍約束。9項 current-source 契約與 motion 檢查通過。
+
+指南是 exported runtime 改動，所以最終採新配對 T212；T211 已凍結歷史保留，不覆寫。T212 的 core/boards.js、配方及其呼叫者與上述 T211 原生場景相同；只沿用不變材料辨識／映射證據，沒有重跑相同場景，也不把 T211 完整候選載入改稱 T212 原生驗收。
+
 ## 不損壞剪刀農務（2026-11-08，T210）
 
 野藤剪頂、藤架修剪、成熟葡萄剪收共用 `transactions.withToolWear`。舊 owner 沒有檢查原生 `ItemDurabilityComponent.unbreakable`，因此標記不損壞的剪刀仍磨損，最後一點耐久會從交易 plan 刪除。現在在 enchantment／RNG／刪除與 hand-write 標記前直接保留該 native stack；普通剪刀、Creative 與既有 `1/(Unbreaking+1)` 機率不改，未把該機率本身當成已證實缺陷。

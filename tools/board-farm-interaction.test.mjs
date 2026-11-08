@@ -2,6 +2,7 @@
  * checks are not native BDS, rendered forms, touch hardware or SimulatedPlayer. */
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
 import {world,system,Player,GameMode,ItemStack,BlockPermutation,registerFixtureItem} from '@minecraft/server';
 import {ui} from '@minecraft/server-ui';
 import {registerWritingBoardComponents,installWritingBoardEvents,WRITING_BOARD_DIAGNOSTICS} from '../runtime/BP/scripts/bedrock/writing-boards.js';
@@ -275,4 +276,26 @@ test('queued text rechecks distance, and the successful final honeycomb does not
  const second=setup();hold(second.p,'minecraft:honeycomb',1);const sounds=lockedSounds();interact(second.p,second.lower);system.advance(1);assert.equal(read(second.key).waxed,true);assert.equal(second.p.inventory.getItem(2),undefined);
  assert.equal(native(second.p,second.upper,'East'),true);system.advance(1);assert.equal(lockedSounds(),sounds);
  assert.equal(interact(second.p,second.upper).cancel,false);system.advance(1);assert.equal(lockedSounds(),sounds+1);
+});
+
+
+for(const mode of [GameMode.Survival,GameMode.Adventure,GameMode.Creative])test('short grass transforms both board halves once in '+mode,()=>{
+ registerFixtureItem('minecraft:short_grass');
+ const {p,lower,upper,key}=setup(mode),before={...defaults,text:'Tea today',color:'blue',glowing:true,waxed:true,alignment:'right',verticalAlignment:'bottom'};
+ save(key,before);hold(p,'minecraft:short_grass',3);
+ assert.equal(interact(p,upper).cancel,true);assert.equal(interact(p,lower).cancel,true);system.advance(1);
+ assert.equal(lower.typeId,NS+'grass_sandwich_board');assert.equal(upper.typeId,lower.typeId);
+ assert.equal(lower.permutation.getState(BOARD_ROTATION),3);assert.equal(upper.permutation.getState(BOARD_ROTATION),3);
+ assert.equal(lower.permutation.getState(NS+'waterlogged'),true);assert.equal(upper.permutation.getState(NS+'waterlogged'),false);
+ assert.deepEqual(read(key),before);assert.equal(p.inventory.getItem(2).amount,mode===GameMode.Creative?3:2);
+ assert.deepEqual(p.messages,[]);
+});
+
+test('grass board recipe and unlock use the same short plant as pinned Java, not the grass block alias',()=>{
+ const read=path=>JSON.parse(fs.readFileSync(new URL('../'+path,import.meta.url),'utf8'));
+ const java=read('data/upstream/recipes/grass_sandwich_board_from_short_grass.json');
+ const recipe=read('runtime/BP/recipes/grass_sandwich_board_from_grass.json')['minecraft:recipe_shapeless'];
+ assert.deepEqual(recipe.ingredients,java.ingredients);
+ assert.deepEqual(recipe.result,{item:java.result.id,count:java.result.count});
+ assert.deepEqual(recipe.unlock,[...java.ingredients,{item:java.result.id}]);
 });

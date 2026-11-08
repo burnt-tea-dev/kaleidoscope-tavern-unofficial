@@ -2877,11 +2877,6 @@
       "after": "ca6e65f48b564b1de41ae48cc41e416ddb2bd168eb537bbf93ce678ced6b7c97",
       "reason": "Reviewed guide readability repair: localized fluid/container names, source-derived operation and aging, preserved recipe slots and shared optional chapter. See RELEASE-NOTES-0.6.94.md and standalone-guide.test.mjs."
     },
-    "runtime/BP/scripts/data/guide-native-names.js": {
-      "before": null,
-      "after": "5a00e151f162787de81018efc412e692571ce0fbd0323e3980d4279d85a965b8",
-      "reason": "Reviewed guide readability repair: localized fluid/container names, source-derived operation and aging, preserved recipe slots and shared optional chapter. See RELEASE-NOTES-0.6.94.md and standalone-guide.test.mjs."
-    },
     "runtime/RP/textures/ui/kt_mixology/slots/00x08.png": {
       "before": null,
       "after": "3ee6398efb8eea65b429268851799a99f25077e42a9cbd8239ba8f37e73cf923",
@@ -4968,23 +4963,6 @@
               "   const name=id=>guideItemName(result,lc,id);\n   const notes=(entry.recipes??[]).flatMap(recipe=>preparationNotes(recipe,lc,name));\n    entry.mechanicsByLocale[lc]=[...new Set([...entry.mechanicsByLocale[lc],...cocktailGuideNotes(entry.id,lc),...notes])];\n"
             ]
           ]
-        },
-        "runtime/BP/scripts/data/guide-native-names.js": {
-          "before": "5a00e151f162787de81018efc412e692571ce0fbd0323e3980d4279d85a965b8",
-          "after": "273cba96d5ad6ca252961adb9b5fa8cd38a78890a4cabe6fbd7b06841a096e7a",
-          "reason": "Complete player-facing native item names for the reviewed three-language guide projection, without leaking internal identifiers. See docs/GUIDE-EDITORIAL.md and docs/RELEASE-NOTES-0.6.136.md.",
-          "reverseOps": [
-            [
-              0,
-              1,
-              "/** Native ingredients missing from the shared guide's original name table. */\n"
-            ],
-            [
-              9,
-              23,
-              " 'minecraft:cookie':['曲奇','餅乾','Cookie']\n"
-            ]
-          ]
         }
       }
     },
@@ -7024,6 +7002,11 @@
       "after": "731dbe2f75dc29b1d4323596a58436b27a0102ecb2d219ea905154c7d0fad7bc",
       "reason": "Tavern 0.6.92 reviewed native item storage repair; see data/native-storage-review-20261003.json and pickup/foundation regressions. Historical preimage remains unchanged.",
       "beforeGzipBase64": "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"
+    },
+    "runtime/BP/scripts/data/guide-native-names.js": {
+      "before": null,
+      "after": "5a00e151f162787de81018efc412e692571ce0fbd0323e3980d4279d85a965b8",
+      "reason": "Reviewed guide readability repair: localized fluid/container names, source-derived operation and aging, preserved recipe slots and shared optional chapter. See RELEASE-NOTES-0.6.94.md and standalone-guide.test.mjs."
     }
   },
   "historicalReviewedFunctionalDeltaLayers": [
@@ -8262,6 +8245,31 @@
               48,
               49,
               "function editBoard(player,block,key,data,kind,large){const limit=maxText(kind,large),d=block.dimension,pos={...block.location},id=block.typeId,expected=JSON.stringify(data),form=new ModalFormData().title(boardText(kind)).textField(boardText(kind==='chalk'&&!large?'text_small':'text_lines',kind==='sandwich'?8:11),boardText('newline_hint'),{defaultValue:encodeBoardInput(data.text)}).dropdown(boardText('align'),BOARD_ALIGNMENTS.map(key=>boardText(key)),{defaultValueIndex:BOARD_ALIGNMENTS.indexOf(data.alignment)}).dropdown(boardText('vertical_align'),BOARD_VERTICAL_ALIGNMENTS.map(key=>boardText(key)),{defaultValueIndex:BOARD_VERTICAL_ALIGNMENTS.indexOf(data.verticalAlignment??'top')});form.show(player).then(answer=>safe(player,()=>{if(answer.canceled||!Array.isArray(answer.formValues))return;canInteract(player);const current=blockAt(d,pos);check(current?.typeId===id,'BLOCK_CHANGED');const currentInfoNow=currentInfo(current);check(currentInfoNow.key===key,'BOARD_CHANGED');requireBoardReach(player,d,currentInfoNow.root.root);check(JSON.stringify(currentInfoNow.data)===expected,'BOARD_CHANGED');check(!currentInfoNow.data.waxed,'BOARD_WAXED');const [inputText,alignmentIndex,verticalIndex]=answer.formValues;const text=typeof inputText==='string'?decodeBoardInput(inputText):inputText;check(typeof text==='string','BOARD_TEXT_REQUIRED');check(Number.isInteger(alignmentIndex)&&BOARD_ALIGNMENTS[alignmentIndex],'BOARD_ALIGNMENT_REQUIRED');check(Number.isInteger(verticalIndex)&&BOARD_VERTICAL_ALIGNMENTS[verticalIndex],'BOARD_ALIGNMENT_REQUIRED');const layout=splitBoardLines(text,boardLayoutOptions(kind,large));if(text.length>limit||layout.overflow){player.sendMessage(boardText('overflow',kind==='sandwich'?8:11));return;}const next={...data,text,alignment:BOARD_ALIGNMENTS[alignmentIndex],verticalAlignment:BOARD_VERTICAL_ALIGNMENTS[verticalIndex]};saveAndRender(current,key,next,kind,large);})).catch(record);}\n"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "release": "0.6.136",
+      "reviewedPredecessorCommit": "dcebb6d3b772ba4666308c9991431180475ed53e",
+      "reviewedSourceCommit": "496ce702161fb48ab6f67ea6645ad1e4d41b2a12",
+      "reviewDocument": "docs/GUIDE-EDITORIAL.md",
+      "files": {
+        "runtime/BP/scripts/data/guide-native-names.js": {
+          "before": "5a00e151f162787de81018efc412e692571ce0fbd0323e3980d4279d85a965b8",
+          "after": "273cba96d5ad6ca252961adb9b5fa8cd38a78890a4cabe6fbd7b06841a096e7a",
+          "reason": "Complete player-facing native item names for the reviewed three-language guide projection, without leaking internal identifiers. See docs/GUIDE-EDITORIAL.md and docs/RELEASE-NOTES-0.6.136.md.",
+          "reverseOps": [
+            [
+              0,
+              1,
+              "/** Native ingredients missing from the shared guide's original name table. */\n"
+            ],
+            [
+              9,
+              23,
+              " 'minecraft:cookie':['曲奇','餅乾','Cookie']\n"
             ]
           ]
         }

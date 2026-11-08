@@ -12,7 +12,7 @@
         "item": "kaleidoscope_tavern:base_sandwich_board"
       },
       {
-        "item": "minecraft:grass"
+        "item": "minecraft:short_grass"
       }
     ],
     "result": {
@@ -24,7 +24,7 @@
         "item": "kaleidoscope_tavern:base_sandwich_board"
       },
       {
-        "item": "minecraft:grass"
+        "item": "minecraft:short_grass"
       },
       {
         "item": "kaleidoscope_tavern:grass_sandwich_board"

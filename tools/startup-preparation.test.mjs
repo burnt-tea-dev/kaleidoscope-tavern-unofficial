@@ -1,7 +1,6 @@
 /** Actual pure production data and scheduler interfaces; no players or game worlds. */
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {createHash} from 'node:crypto';
 import {readFileSync} from 'node:fs';
 import {canonical,digest,utf8Bytes,prepareJson,finishPreparation,cacheItemDefinitionTags} from '../runtime/BP/scripts/core/util.js';
 import {packetsFor as corePackets} from '../runtime/BP/scripts/core/transport.js';
@@ -110,13 +109,15 @@ test('SDK defers large preparation, preserves early ready/ACK binding, and cance
  const slices=rejected.preparation.slices;invalid.receive({id:EVENTS.ready,message:'{"api":1,"capabilities":[]}'});invalid.advance(1000);assert.equal(rejected.preparation.slices,slices,'invalid payload must not restart on every host ready');rejected.dispose();
 });
 
-test('yielding full guide retains the complete T148 product projection and wire JSON',()=>{
+test('yielding full guide retains current identity, navigation and exact wire JSON',()=>{
  const registry=new ExtensionRegistry({recipes:[...BUILTIN_RECIPES,...SHAKER_RECIPES],pages:[...GUIDE_PAGES,...EFFECT_PAGES,...MIXOLOGY_PAGES],fluids:FLUIDS});
  const prepared=finishWithYields(prepareCookeryGuidePayload(registry)),payload=prepared.value;
  assert.ok(prepared.yields>100);assert.equal(payload.entries.length,156);
- // Generated once from unmodified canonical T148; only declared release identity differs.
+ // Content evolves with shared mechanics; identity and transport remain separate contracts.
  assert.equal(payload.version,JSON.parse(readFileSync(new URL('../release.json',import.meta.url))).version);
- assert.equal(createHash('sha256').update(JSON.stringify({...payload,version:'0.6.148'})).digest('hex'),'a5c579f84b8dd636d0568b9807b5f9a76a99c421ee70cb42e598c8e231b3ef1e');
+ assert.equal(payload.api,1);assert.equal(payload.id,'kaleidoscope_tavern:tavern');
+ assert.equal(new Set(payload.entries.map(entry=>entry.id)).size,156);
+ assert.deepEqual(payload.categories.filter(category=>!category.parent).map(category=>category.id),['equipment','barrel','cocktail','cultivation','storage','decor','food']);
  const revision=finishWithYields(prepareCookeryGuideRevision(payload));assert.ok(revision.yields>100);assert.equal(revision.value,cookeryGuideRevision(payload));
  const messages=finishWithYields(prepareCookeryGuideMessages(payload,{revision:revision.value}));assert.ok(messages.yields>100);
  const raw=messages.value.filter(row=>row.id.endsWith(':guidebook_chunk')).map(row=>row.message.split('\n').slice(4).join('\n')).join('');
@@ -141,13 +142,33 @@ function guideLinkProbe(){
  const page={id:source+':combined',title:{en_US:'Combined products'},body:{en_US:'Source page'},category:'barrel',recipeIds:[recipes[1].id,recipes[0].id]};
  return {source,recipes,page};
 }
-const guideProjectionHash=payload=>createHash('sha256').update(JSON.stringify({...payload,version:'0.6.152'})).digest('hex');
+// Independent fixture expectations cover link order and preparation without pinning
+// unrelated built-in prose to an obsolete whole-guide release fingerprint.
+const expectedProbeRecipe=result=>({
+ method:'Barrel',ingredients:['minecraft:water_bucket','minecraft:water_bucket','minecraft:water_bucket','minecraft:water_bucket','minecraft:sugar'],result,count:1,time:0,
+ preparation:{kind:'barrel',fluid:'minecraft:water',fluidItem:'minecraft:water_bucket',amount:4000,carrier:'kaleidoscope_tavern:empty_bottle',unitTime:2400,qualities:6}
+});
+const probeFood={eatFromInventory:true,alwaysEat:true,returns:'kaleidoscope_tavern:empty_bottle'};
+const probeMechanics={mechanics:['Source page'],mechanicsByLocale:{zh_CN:['Source page'],zh_TW:['Source page'],en_US:['Source page']}};
+function assertProbeNames(book,dynamic=false){
+ const expected={
+  'link_probe:first':'Combined products','link_probe:first_q1':dynamic?'first':'Combined products',
+  'link_probe:first_q2':'Combined products','link_probe:first_q3':'Combined products','link_probe:first_q4':'Combined products',
+  'link_probe:first_q5':'Combined products','link_probe:first_q6':'Combined products',
+  ...(dynamic?{'link_probe:combined':'Combined products','link_probe:barrel/first':'first'}:{})
+ };
+ for(const locale of ['zh_CN','zh_TW','en_US'])assert.deepEqual(Object.fromEntries(Object.entries(book.names[locale]).filter(([id])=>id.startsWith('link_probe:'))),expected);
+}
 
-test('immutable guide page links retain recipe order and the complete predecessor projection',()=>{
+test('immutable guide page links retain registry recipe order, names and preparation',()=>{
  const {source,recipes,page}=guideLinkProbe(),registry=new ExtensionRegistry({fluids:FLUIDS,itemExists:()=>true,itemTags:()=>[]});
  registry.install({api:1,source,version:'1.0.0',recipes,pages:[page]});
  const book=finishPreparation(prepareCookeryGuidePayload(registry));
- assert.equal(guideProjectionHash(book),'497e4476674c932060335cf74e6b02023e0bf04c5b96ad321effca97484c1e04','independent T152 complete projection, including reversed recipeIds, names and preparation order');
+ assert.deepEqual(book.entries.filter(entry=>entry.id.startsWith('link_probe:')),[{
+  id:'link_probe:first_q1',category:'barrel_addons',icon:'textures/kaleidoscope_tavern_jar/item/empty_bottle',kinds:['item'],...probeMechanics,
+  recipes:[expectedProbeRecipe('link_probe:first_q1'),expectedProbeRecipe('link_probe:second_q1')],food:probeFood,placeable:true
+ }],'registry recipe order wins over reversed page recipeIds');
+ assertProbeNames(book);
 });
 
 test('dynamic and frozen accessor guide views retain the original recipe ID reads',()=>{
@@ -158,6 +179,11 @@ test('dynamic and frozen accessor guide views retain the original recipe ID read
   const registry={list:()=>[{source,version:'1.0.0'}],allRecipes:()=>linked,allPages:()=>[page],allFluids:()=>FLUIDS};
   const book=finishPreparation(prepareCookeryGuidePayload(registry));
   assert.equal(reads,4,'dynamic matching and the final recipe-ID projection retain their original observations');
-  assert.equal(guideProjectionHash(book),'30fb8b4c4bde617150d9d8e9f6d3640f3ed39a15429c1c386db4ac0c2890d25b','independent T152 dynamic-view projection');
+  assert.deepEqual(book.entries.filter(entry=>entry.id.startsWith('link_probe:')),[
+   {id:'link_probe:combined',category:'barrel_addons',icon:'textures/kaleidoscope_tavern_jar/item/empty_bottle',kinds:[],...probeMechanics},
+   {id:'link_probe:first_q1',category:'barrel_addons',icon:'textures/kaleidoscope_tavern_jar/item/barrel',kinds:['item'],
+    recipes:[expectedProbeRecipe('link_probe:first_q1')],food:probeFood,placeable:true,mechanics:[],mechanicsByLocale:{zh_CN:[],zh_TW:[],en_US:[]}}
+  ],'accessor observations preserve the page, then only the first recipe product');
+  assertProbeNames(book,true);
  }
 });

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Compare motion resources to source-derived dimensions; no game emulation."""
 from pathlib import Path
-from reviewed_changes import historical_digest,changes,reviewed_additions,historical_files,historical_preserved
+from reviewed_changes import historical_digest,changes,reviewed_additions,historical_files,historical_preserved,current_contract_sources
 import hashlib,json
 from creative.historical import LegacyMenuProjection
 ROOT=Path(__file__).resolve().parents[1]
@@ -16,13 +16,14 @@ ref=read('data/motion-source-reference.json')
 # Check the scope reduction against the untouched former aggregate. Retired
 # entries come from the original historical review, never today's block bytes.
 for name,scope in ref.get('historicalPreservedGroups',{}).items():
-    from cultivation_source_contract import runtime_sources as cultivation_sources
     retired=set(scope['retiredToCurrentContract'])
-    assert retired <= cultivation_sources(), 'Unvalidated historical handoff'
+    assert retired <= current_contract_sources(), 'Unvalidated historical handoff'
     original=read('data/launch-repair-reference.json')['historicalChanges']
     rows={p.relative_to(ROOT).as_posix():historical_digest(p,projected=True) for p in historical_files(name)}
     assert not retired & set(rows)
-    rows.update({path:original[path]['beforeProjected'] for path in retired})
+    archived=scope.get('originalFiles',{})
+    assert set(archived) <= retired, 'Unscoped historical file'
+    rows.update({path:archived[path] if path in archived else original[path]['beforeProjected'] for path in retired})
     actual={'files':len(rows),'sha256':hashlib.sha256(''.join(path+'\0'+digest+'\n' for path,digest in sorted(rows.items())).encode()).hexdigest()}
     assert actual==scope['original'], ('Historical handoff changed the former source group',name)
 for name,expected in ref['preservedGroups'].items():assert digest_group(name)==expected,('Preserved asset group changed',name)

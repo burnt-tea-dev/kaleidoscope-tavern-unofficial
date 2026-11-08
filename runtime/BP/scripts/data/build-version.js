@@ -1,2 +1,2 @@
 // Authored release identity; checked against release.json before packaging.
-export const BUILD_VERSION='0.6.210-baseline.1';
+export const BUILD_VERSION='0.6.212-baseline.1';

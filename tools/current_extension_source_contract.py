@@ -19,8 +19,8 @@ SOURCE_GROUPS = {
     'furnitureLifecycle': ('core/furniture.js',),
     'optionalEffectProtocol': ('data/effect-icons.js',),
     'machinesAndDecorations': ('bedrock/machines.js', 'core/machines.js', 'bedrock/decorations.js'),
-    'sharedGuide': ('core/cookery-guide-publisher.js', 'data/cookery-guide-payload.js', 'data/guide-navigation.js', 'data/guide-copy.js'),
-    'boardLayoutAndText': ('data/board-font.js', 'core/board-layout.js', 'bedrock/board-text.js', 'bedrock/writing-boards.js'),
+    'sharedGuide': ('core/cookery-guide-publisher.js', 'data/cookery-guide-payload.js', 'data/guide-navigation.js', 'data/guide-copy.js', 'data/guide-native-names.js'),
+    'boardLayoutAndText': ('core/boards.js', 'data/board-font.js', 'core/board-layout.js', 'bedrock/board-text.js', 'bedrock/writing-boards.js'),
     'mixologyLifecycle': ('bedrock/mixology.js',),
     'sharedUtilities': ('core/util.js',),
     'sharedItemLifecycle': ('bedrock/pickup-overflow.js', 'bedrock/natural-break.js', 'bedrock/transactions.js'),
@@ -30,10 +30,11 @@ PARTIAL_LOCALE_SOURCES = frozenset('runtime/RP/texts/' + locale + '.lang' for lo
 LOCALE_SOURCES = COMPLETE_LOCALE_SOURCES | PARTIAL_LOCALE_SOURCES
 QUALITY_UP_KEY = 'kaleidoscope_tavern.message.barrel_quality_up'
 LAMP_RECIPE = 'runtime/BP/recipes/blue_pendant_lamp_from_dye.json'
+GRASS_BOARD_RECIPE = 'runtime/BP/recipes/grass_sandwich_board_from_grass.json'
 
 
 def runtime_sources():
-    return frozenset('runtime/BP/scripts/' + name for group in SOURCE_GROUPS.values() for name in group) | LOCALE_SOURCES | {LAMP_RECIPE} | {path.relative_to(ROOT).as_posix() for path in incense_outputs()}
+    return frozenset('runtime/BP/scripts/' + name for group in SOURCE_GROUPS.values() for name in group) | LOCALE_SOURCES | {LAMP_RECIPE, GRASS_BOARD_RECIPE} | {path.relative_to(ROOT).as_posix() for path in incense_outputs()}
 
 
 def check(root=ROOT, *, syntax=True, localization=True):
@@ -80,6 +81,7 @@ def check(root=ROOT, *, syntax=True, localization=True):
     imported(modules['core/board-layout.js'], '../data/board-font.js', {'fontAdvance', 'fontBoldOffset'})
     imported(modules['bedrock/board-text.js'], '../data/board-font.js', {'fontBoldOffset'})
     writing_boards = modules['bedrock/writing-boards.js']
+    imported(writing_boards, '../core/boards.js', {'FLOWER_BOARD_TRANSFORMS', 'normalizeBoardData', 'boardRuntimeKey'})
     imported(writing_boards, '../core/board-layout.js', {'boardLayoutOptions', 'splitBoardLines'})
     imported(writing_boards, './board-text.js', {'renderBoardText', 'removeBoardText'})
     imported(modules['bedrock/extension-host.js'], '../core/transport.js', {'ExtensionTransport', 'EVENTS', 'TRANSPORT_LIMITS'})
@@ -91,6 +93,11 @@ def check(root=ROOT, *, syntax=True, localization=True):
     assert recipe['pattern']==[' L ','LGL',' L ']
     assert recipe['key']=={'L':{'item':'kaleidoscope_tavern:yellow_pendant_lamp'},'G':{'item':'minecraft:blue_dye'}}
     assert recipe['result']=={'item':'kaleidoscope_tavern:blue_pendant_lamp','count':4}
+    grass_recipe=json.loads((root/GRASS_BOARD_RECIPE).read_text())['minecraft:recipe_shapeless']
+    grass_ingredients=[{'item':'kaleidoscope_tavern:base_sandwich_board'},{'item':'minecraft:short_grass'}]
+    assert grass_recipe['ingredients']==grass_ingredients, 'Short-grass board ingredients differ'
+    assert grass_recipe['result']=={'item':'kaleidoscope_tavern:grass_sandwich_board','count':1}, 'Short-grass board result differs'
+    assert grass_recipe['unlock']==grass_ingredients+[{'item':'kaleidoscope_tavern:grass_sandwich_board'}], 'Short-grass board unlock differs'
     imported(modules['core/bottle-display-schema.js'], './extension-content.js', {'bottleBase', 'bottleBlock'})
     imported(modules['bedrock/quality-tooltip.js'], '../core/quality-tooltip.js', {'qualityBottleLore', 'isManagedQualityBottleLore', 'isLegacyManagedQualityBottleLore'})
     imported(modules['bedrock/quality-tooltip.js'], '../core/cocktail-tooltip.js', {'normalizeCocktailStack'})
@@ -98,6 +105,7 @@ def check(root=ROOT, *, syntax=True, localization=True):
     imported(modules['bedrock/machines.js'], '../core/bottle-display-schema.js', {'bottlePermutationBlock', 'bottlePermutationStates'})
     imported(modules['bedrock/decorations.js'], './java-placement-router.js', {'registerJavaBlockUseHandler', 'settleJavaBlockUse'})
     imported(modules['bedrock/decorations.js'], './waterlogging.js', {'setWithWater'})
+    imported(modules['data/guide-copy.js'], './guide-native-names.js', {'GUIDE_NATIVE_NAMES', 'guideItemName'})
     imported(modules['data/cookery-guide-payload.js'], './guide-navigation.js', {'extensionGuideCategory'})
     imported(modules['data/cookery-guide-payload.js'], './guide-catalog.js', {'prepareConsolidateGuide'})
     imported(read_module(root, 'runtime/BP/scripts/data/guide-catalog.js', False), './guide-copy.js', {'applyReviewedAddonGuideCopy'})

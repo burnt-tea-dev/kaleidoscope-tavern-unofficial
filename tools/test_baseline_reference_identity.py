@@ -222,6 +222,13 @@ class CurrentExtensionSourceTests(unittest.TestCase):
   original=Path(__file__).resolve().parents[1]
   for name in runtime_sources():
    with self.subTest(name=name):self.assertEqual(previous_bytes(original,original/name),(original/name).read_bytes())
+ def test_short_grass_recipe_and_unlock_are_current_semantic_owners(self):
+  from current_extension_source_contract import check,GRASS_BOARD_RECIPE
+  path=self.root/GRASS_BOARD_RECIPE;original=json.loads(path.read_text())
+  for field in ('ingredients','unlock'):
+   value=json.loads(json.dumps(original));value['minecraft:recipe_shapeless'][field][1]['item']='minecraft:grass';path.write_text(json.dumps(value))
+   with self.assertRaisesRegex(AssertionError,'Short-grass board'):check(self.root,syntax=False,localization=False)
+  path.write_text(json.dumps(original))
  def test_parallel_transport_or_missing_host_connection_is_rejected(self):
   from current_extension_source_contract import check
   path=self.root/'runtime/BP/scripts/bedrock/extension-host.js';original=path.read_text()
@@ -264,7 +271,9 @@ class CurrentExtensionSourceTests(unittest.TestCase):
    'runtime/BP/scripts/core/cookery-guide-publisher.js',
    'runtime/BP/scripts/bedrock/board-text.js',
    'runtime/BP/scripts/core/board-layout.js',
+   'runtime/BP/scripts/core/boards.js',
    'runtime/BP/scripts/data/board-font.js',
+   'runtime/BP/scripts/data/guide-native-names.js',
    'runtime/BP/scripts/bedrock/mixology.js',
    'runtime/BP/scripts/bedrock/pickup-overflow.js',
    'runtime/BP/scripts/bedrock/transactions.js',
