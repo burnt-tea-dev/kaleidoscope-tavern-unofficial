@@ -1,0 +1,327 @@
+[
+  {
+    "path": "screenshots/bar_cabinet_left.jpg",
+    "bytes": 111764,
+    "sha256": "3941437a7f773771fece950eb81bf8e4f2c091ab95f4f52954e8973feba157fb"
+  },
+  {
+    "path": "screenshots/bar_cabinet_middle.jpg",
+    "bytes": 112755,
+    "sha256": "f2e4ca88cf65bed89cda8b32c1a1be42f0d964eff982f5b09c0d2df4c60511a5"
+  },
+  {
+    "path": "screenshots/bar_cabinet_right.jpg",
+    "bytes": 112807,
+    "sha256": "fd147e091568896367e0ebeea6994f3faffcb14d88cac9f61cf74d1004ffff15"
+  },
+  {
+    "path": "screenshots/bar_cabinet_single.jpg",
+    "bytes": 112532,
+    "sha256": "b4145ab18b420f6b8764d637adfe16b21d2694b114f512e9180bb5f32cfd95d9"
+  },
+  {
+    "path": "screenshots/bar_counter_left.jpg",
+    "bytes": 119038,
+    "sha256": "16c03706513335a258adf0759afe1135f0b8e1348d36793e85f236919c83e8e6"
+  },
+  {
+    "path": "screenshots/bar_counter_left_corner.jpg",
+    "bytes": 120339,
+    "sha256": "3b5b59cc979655ec4a7b1c476c5e66baaa42576448741cea91161ed77a4960bd"
+  },
+  {
+    "path": "screenshots/bar_counter_middle.jpg",
+    "bytes": 115926,
+    "sha256": "41537b67694d804ad1576501edd5ca56501debabba4d8ccd3a74ff14044f2156"
+  },
+  {
+    "path": "screenshots/bar_counter_right.jpg",
+    "bytes": 118396,
+    "sha256": "f1c12bcd1c9bb7f7ff29b6b575581ddff1eeb598e446760a3935651c0eb5ab4a"
+  },
+  {
+    "path": "screenshots/bar_counter_right_corner.jpg",
+    "bytes": 120640,
+    "sha256": "071216b7c3d756c21e22a5afdf9e3ba8449387c92b404f26c9ced15def7b72d9"
+  },
+  {
+    "path": "screenshots/bar_counter_single.jpg",
+    "bytes": 118849,
+    "sha256": "a5f779974fb60008730b08db89a5a262852203b248e6a0c5617ab1737bd86d30"
+  },
+  {
+    "path": "screenshots/cellar_cabinet_left.jpg",
+    "bytes": 112766,
+    "sha256": "4d7dea0e0e4837fafd30f3a55086822809370b7ad0523ae6b1aebc290122b68d"
+  },
+  {
+    "path": "screenshots/cellar_cabinet_middle.jpg",
+    "bytes": 113381,
+    "sha256": "19771963e7a977aa4cd5df87949177120f686fec2e4f26d5858a28262599381e"
+  },
+  {
+    "path": "screenshots/cellar_cabinet_right.jpg",
+    "bytes": 113031,
+    "sha256": "42e1e4a20ac1cff093771bd9139f9b23c0440b60aafca70fde5c8eb53066a098"
+  },
+  {
+    "path": "screenshots/cellar_cabinet_single.jpg",
+    "bytes": 113210,
+    "sha256": "ae054b9be3f18acd233d639674ee3be05a4bc12cc3d6d9d278b7074d303e5120"
+  },
+  {
+    "path": "screenshots/glass_bar_cabinet_left.jpg",
+    "bytes": 116726,
+    "sha256": "621554eac40d8f70d9588def4a155fce4c257d9033791974ee1ce44bbdca5ad1"
+  },
+  {
+    "path": "screenshots/glass_bar_cabinet_middle.jpg",
+    "bytes": 116674,
+    "sha256": "e520702ee4ae183e262e3b860fd98ba0b442f84cbe19f05593a4181e7ddc1906"
+  },
+  {
+    "path": "screenshots/glass_bar_cabinet_right.jpg",
+    "bytes": 116594,
+    "sha256": "72afbd20f8c9a23ef74a4c108a45c9887815828ae0416bea4b096c7e8e925117"
+  },
+  {
+    "path": "screenshots/glass_bar_cabinet_single.jpg",
+    "bytes": 119107,
+    "sha256": "9a5f23ae75ff8a745f0696be7eedd690f969775e1667b2c12876f8280e84cc52"
+  },
+  {
+    "path": "screenshots/shaker-base-textured.jpg",
+    "bytes": 145017,
+    "sha256": "ebf32f9c53899183642dc2daaa4965f9188120bea44c1abc117d555d44a40343"
+  },
+  {
+    "path": "screenshots/shaker-hold-first.jpg",
+    "bytes": 123053,
+    "sha256": "c5e9866c7eea15f3513014bdda90b6850fbac32c77417753ab71da087abca6a3"
+  },
+  {
+    "path": "screenshots/shaker-hold-third.jpg",
+    "bytes": 128709,
+    "sha256": "8adac6fac1a17957d583d24ecdeadd6ae36943f760c14a19d02d853bd13ad265"
+  },
+  {
+    "path": "screenshots/shaker-shake-time005.jpg",
+    "bytes": 123575,
+    "sha256": "a133d2e60eae5e87ccd8bfc6df58b90e0050c3fc3e8719d5f59c313614bb185e"
+  },
+  {
+    "path": "screenshots/shaker-shake-time016.jpg",
+    "bytes": 123738,
+    "sha256": "98ed9b33f2e1df4c81127d3b583c019868267b56c0813956c26626bc10f98a14"
+  },
+  {
+    "path": "screenshots/signature-frame-0.jpg",
+    "bytes": 146758,
+    "sha256": "b4c60d269ee0511b0f925fa73aba81c588e846013d46fd4a8fffc22eb1875663"
+  },
+  {
+    "path": "screenshots/signature-frame-1.jpg",
+    "bytes": 146598,
+    "sha256": "0a1caf24cb1e7203904b52a87f6244e75f7e817274e0d501d5d8cd10a60d1291"
+  },
+  {
+    "path": "screenshots/signature-frame-2.jpg",
+    "bytes": 146702,
+    "sha256": "b3f25dfe088434e341dfa316f848a0999ba408785e6699d6ce8e6d38fe85999e"
+  },
+  {
+    "path": "screenshots/signature-frame-3.jpg",
+    "bytes": 146663,
+    "sha256": "fd5c1048404faf1d8a717d1f346a8633961f9a1ee541977949d3b2b4d8a7d10e"
+  },
+  {
+    "path": "screenshots/signature-frame-4.jpg",
+    "bytes": 146800,
+    "sha256": "89f96ea34cbb633a46d5ee564e73f3cf337f522a1605d7fabb47426b8ea7d1dd"
+  },
+  {
+    "path": "screenshots/signature-frame-5.jpg",
+    "bytes": 146740,
+    "sha256": "a1ce89f0b94936d1722e883a7ec3624fa88d4c0dd250bcf2b45255a543f497c0"
+  },
+  {
+    "path": "screenshots/sofa_left.jpg",
+    "bytes": 115539,
+    "sha256": "55f56f219f0973ab93010de744ef9713feff4698a0a1b4e70a271c1ae412c627"
+  },
+  {
+    "path": "screenshots/sofa_left_corner.jpg",
+    "bytes": 115531,
+    "sha256": "e9221de485d5bd42218b4fea7913f92fcc66c87db4d30697ebba4dfee98c7345"
+  },
+  {
+    "path": "screenshots/sofa_middle.jpg",
+    "bytes": 115843,
+    "sha256": "e57e2b00cffc418e92ee498c2afd0b3adfc75e470b390c58d77b1a60bd61ded0"
+  },
+  {
+    "path": "screenshots/sofa_right.jpg",
+    "bytes": 115720,
+    "sha256": "87107b87d78e4b4c922a411b8a40737bb6845c9392a8387d3f7f7ed74a9af726"
+  },
+  {
+    "path": "screenshots/sofa_right_corner.jpg",
+    "bytes": 115175,
+    "sha256": "1d45cfdfcda78c2629fcabf366209707fcd4c429bcc9042848cdad9dfb82c5d3"
+  },
+  {
+    "path": "screenshots/sofa_single.jpg",
+    "bytes": 115883,
+    "sha256": "7671c5afdd1462ec0ffe4fc5735d045585b8c463dd171e0bc0f37ea55c9fa0e1"
+  },
+  {
+    "path": "scenes/bar_cabinet_left.bbmodel",
+    "bytes": 15704,
+    "sha256": "1db71bf848139ac0c15b20af11ad1b66f627b9b75ac41a8cfed909221fc4bcb6"
+  },
+  {
+    "path": "scenes/bar_cabinet_middle.bbmodel",
+    "bytes": 12777,
+    "sha256": "3e118d07a933f70691101b5d5e795d29143f6df0e6c94a0f643a321a45162c69"
+  },
+  {
+    "path": "scenes/bar_cabinet_right.bbmodel",
+    "bytes": 15706,
+    "sha256": "ce08666b819ba2719121ee026e539a9175a2e0f2fe1204f568116832fc84fa75"
+  },
+  {
+    "path": "scenes/bar_cabinet_single.bbmodel",
+    "bytes": 18639,
+    "sha256": "83ac088cd7abed84992f872c2c16e5d95f49852ee3b8f4e209146921d3c0e58d"
+  },
+  {
+    "path": "scenes/bar_counter_left.bbmodel",
+    "bytes": 7635,
+    "sha256": "b37738dfb8b730af76f80626ae5fd83c53f49be659f0594f2ccbb6b395eaef91"
+  },
+  {
+    "path": "scenes/bar_counter_left_corner.bbmodel",
+    "bytes": 7649,
+    "sha256": "419f201c14d1cc595caea82599b8f74403387c3591338f102eb20cc8d5888592"
+  },
+  {
+    "path": "scenes/bar_counter_middle.bbmodel",
+    "bytes": 7643,
+    "sha256": "07dfb09d26fe6523a24688e6ee2c5403a0d7a7c86bda3b4932532e28167eb26f"
+  },
+  {
+    "path": "scenes/bar_counter_right.bbmodel",
+    "bytes": 7637,
+    "sha256": "8739a98b9d38677586290f5f7847c188b903c50faa003da1bb80bbb2f7ea7ba1"
+  },
+  {
+    "path": "scenes/bar_counter_right_corner.bbmodel",
+    "bytes": 7651,
+    "sha256": "3c0a026fc5576d82aa725d3b879bdbcddd79a617ae7608d4ddbd4489f00b34f7"
+  },
+  {
+    "path": "scenes/bar_counter_single.bbmodel",
+    "bytes": 7643,
+    "sha256": "50a738f1f1e85fc79a57246e0d9effd49fea125036d017d971b4bf28d7e35523"
+  },
+  {
+    "path": "scenes/cellar_cabinet_left.bbmodel",
+    "bytes": 22032,
+    "sha256": "7539932c981d45f2ce5a12f231118d0fe7373a6257f12a5d1027111c509b48f4"
+  },
+  {
+    "path": "scenes/cellar_cabinet_middle.bbmodel",
+    "bytes": 19085,
+    "sha256": "9790a5442f24f9dcb522a6761dd817cfab6895077b9aec59b2d7c7640503db0d"
+  },
+  {
+    "path": "scenes/cellar_cabinet_right.bbmodel",
+    "bytes": 22030,
+    "sha256": "e8ed944478dc01373ed932b281ad129539e30180ecfdf653d9319d4c3faac5ab"
+  },
+  {
+    "path": "scenes/cellar_cabinet_single.bbmodel",
+    "bytes": 24963,
+    "sha256": "38b80a640cdd276accccfd547071afe7148c4ad98f3a83ed74b1b31944135daf"
+  },
+  {
+    "path": "scenes/glass_bar_cabinet_left.bbmodel",
+    "bytes": 19885,
+    "sha256": "82cafd3f4ace0c3da68cb76f388192e6ff3115649bec35559d8b2a74f324078f"
+  },
+  {
+    "path": "scenes/glass_bar_cabinet_middle.bbmodel",
+    "bytes": 16950,
+    "sha256": "0950ce575cc23cd1f303dc46d639725ea8feae25db6719b90d1e68789ce318ba"
+  },
+  {
+    "path": "scenes/glass_bar_cabinet_right.bbmodel",
+    "bytes": 19883,
+    "sha256": "f409ba3aae3f0b80a5ff974a3e1a065297a43fcb288f46d5ac0eff1a692e6823"
+  },
+  {
+    "path": "scenes/glass_bar_cabinet_single.bbmodel",
+    "bytes": 22818,
+    "sha256": "f4e4e324f036b34cee5706a42c2f6bb55fd7b486ddf268d76734f08cc2f74f7d"
+  },
+  {
+    "path": "scenes/signature-frame-0.bbmodel",
+    "bytes": 218455,
+    "sha256": "b721aaccbb4c89a7aaf6425ac6e363b6c039fd9b2dce92a1e7da3b52f271309a"
+  },
+  {
+    "path": "scenes/signature-frame-1.bbmodel",
+    "bytes": 218461,
+    "sha256": "e4fae8153cd3359b0a56098e09369684208532087f7a0dc39de960f022fee996"
+  },
+  {
+    "path": "scenes/signature-frame-2.bbmodel",
+    "bytes": 218475,
+    "sha256": "f3327d9c64aa826a5ad327fc7457c20ea70ea176c12ff5b6b1b9da14fe595501"
+  },
+  {
+    "path": "scenes/signature-frame-3.bbmodel",
+    "bytes": 224289,
+    "sha256": "571a77ca3b4ea5539f09120672788a7fcaec5529c359af9c5653c6bb683791b3"
+  },
+  {
+    "path": "scenes/signature-frame-4.bbmodel",
+    "bytes": 224273,
+    "sha256": "a01b3d32f2d9072da8684be134c9917033e04111faa1767cc1d583e2aec5178e"
+  },
+  {
+    "path": "scenes/signature-frame-5.bbmodel",
+    "bytes": 218449,
+    "sha256": "5ebe56c552ee8bc05abb3096605d4559b2ac0652eafac518b46fd8facd2240e5"
+  },
+  {
+    "path": "scenes/sofa_left.bbmodel",
+    "bytes": 26080,
+    "sha256": "ff3430659ddf2e91985b3855781c436fc66ae8a2d908553b217495ac1a311804"
+  },
+  {
+    "path": "scenes/sofa_left_corner.bbmodel",
+    "bytes": 26036,
+    "sha256": "ec973f3b08e5ba4f2e77ac214dd726352e45b66f56fd39b5e207c417d42f59c8"
+  },
+  {
+    "path": "scenes/sofa_middle.bbmodel",
+    "bytes": 22936,
+    "sha256": "d369b9efaad066ff25a2c9a4ccbb7cc7624d2b3dad7d7d2e631251c685280932"
+  },
+  {
+    "path": "scenes/sofa_right.bbmodel",
+    "bytes": 26083,
+    "sha256": "14ca91a91ecb28f7d29920342d8d2004da599c9aaaf56a4c8bda6572fb87747a"
+  },
+  {
+    "path": "scenes/sofa_right_corner.bbmodel",
+    "bytes": 26040,
+    "sha256": "358321995bbf29547dbda47fbe10e68d6d1fa9745f6d65246dcc2b7cb4bedfce"
+  },
+  {
+    "path": "scenes/sofa_single.bbmodel",
+    "bytes": 29233,
+    "sha256": "9b6fa810f0a3cfa8fae7100c856eecb1006cdbedbe86e7679ba867818ebcb314"
+  }
+]

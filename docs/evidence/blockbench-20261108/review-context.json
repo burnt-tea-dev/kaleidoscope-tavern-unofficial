@@ -1,0 +1,7 @@
+{
+  "runtime_commit": "e58b5a421d101f83418b82a960faa1b94d0c2a73",
+  "runtime_version": "0.6.212",
+  "default_upstream_commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+  "editor": "Blockbench 5.2.2 Linux desktop",
+  "method": "Original Bedrock geometry/animations for shaker; review-only Java/Bedrock pair scenes for furniture and RGB liquid. Screenshots from native GUI; no MC client, LIVE, local desktop or addon runtime edits."
+}

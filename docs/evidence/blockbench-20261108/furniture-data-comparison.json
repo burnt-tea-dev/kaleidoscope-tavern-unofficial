@@ -1,0 +1,146 @@
+[
+  {
+    "name": "bar_counter_single",
+    "java_elements": 1,
+    "runtime_elements": 1,
+    "geometry_uv_equal_after_coordinate_decode": true
+  },
+  {
+    "name": "bar_counter_left",
+    "java_elements": 1,
+    "runtime_elements": 1,
+    "geometry_uv_equal_after_coordinate_decode": true
+  },
+  {
+    "name": "bar_counter_middle",
+    "java_elements": 1,
+    "runtime_elements": 1,
+    "geometry_uv_equal_after_coordinate_decode": true
+  },
+  {
+    "name": "bar_counter_right",
+    "java_elements": 1,
+    "runtime_elements": 1,
+    "geometry_uv_equal_after_coordinate_decode": true
+  },
+  {
+    "name": "bar_counter_left_corner",
+    "java_elements": 1,
+    "runtime_elements": 1,
+    "geometry_uv_equal_after_coordinate_decode": true
+  },
+  {
+    "name": "bar_counter_right_corner",
+    "java_elements": 1,
+    "runtime_elements": 1,
+    "geometry_uv_equal_after_coordinate_decode": true
+  },
+  {
+    "name": "bar_cabinet_single",
+    "java_elements": 5,
+    "runtime_elements": 5,
+    "geometry_uv_equal_after_coordinate_decode": true
+  },
+  {
+    "name": "bar_cabinet_left",
+    "java_elements": 4,
+    "runtime_elements": 4,
+    "geometry_uv_equal_after_coordinate_decode": true
+  },
+  {
+    "name": "bar_cabinet_middle",
+    "java_elements": 3,
+    "runtime_elements": 3,
+    "geometry_uv_equal_after_coordinate_decode": true
+  },
+  {
+    "name": "bar_cabinet_right",
+    "java_elements": 4,
+    "runtime_elements": 4,
+    "geometry_uv_equal_after_coordinate_decode": true
+  },
+  {
+    "name": "cellar_cabinet_single",
+    "java_elements": 7,
+    "runtime_elements": 7,
+    "geometry_uv_equal_after_coordinate_decode": true
+  },
+  {
+    "name": "cellar_cabinet_left",
+    "java_elements": 6,
+    "runtime_elements": 6,
+    "geometry_uv_equal_after_coordinate_decode": true
+  },
+  {
+    "name": "cellar_cabinet_middle",
+    "java_elements": 5,
+    "runtime_elements": 5,
+    "geometry_uv_equal_after_coordinate_decode": true
+  },
+  {
+    "name": "cellar_cabinet_right",
+    "java_elements": 6,
+    "runtime_elements": 6,
+    "geometry_uv_equal_after_coordinate_decode": true
+  },
+  {
+    "name": "glass_bar_cabinet_single",
+    "java_elements": 6,
+    "runtime_elements": 6,
+    "geometry_uv_equal_after_coordinate_decode": true
+  },
+  {
+    "name": "glass_bar_cabinet_left",
+    "java_elements": 5,
+    "runtime_elements": 5,
+    "geometry_uv_equal_after_coordinate_decode": true
+  },
+  {
+    "name": "glass_bar_cabinet_middle",
+    "java_elements": 4,
+    "runtime_elements": 4,
+    "geometry_uv_equal_after_coordinate_decode": true
+  },
+  {
+    "name": "glass_bar_cabinet_right",
+    "java_elements": 5,
+    "runtime_elements": 5,
+    "geometry_uv_equal_after_coordinate_decode": true
+  },
+  {
+    "name": "sofa_single",
+    "java_elements": 8,
+    "runtime_elements": 8,
+    "geometry_uv_equal_after_coordinate_decode": true
+  },
+  {
+    "name": "sofa_left",
+    "java_elements": 7,
+    "runtime_elements": 7,
+    "geometry_uv_equal_after_coordinate_decode": true
+  },
+  {
+    "name": "sofa_middle",
+    "java_elements": 6,
+    "runtime_elements": 6,
+    "geometry_uv_equal_after_coordinate_decode": true
+  },
+  {
+    "name": "sofa_right",
+    "java_elements": 7,
+    "runtime_elements": 7,
+    "geometry_uv_equal_after_coordinate_decode": true
+  },
+  {
+    "name": "sofa_left_corner",
+    "java_elements": 7,
+    "runtime_elements": 7,
+    "geometry_uv_equal_after_coordinate_decode": true
+  },
+  {
+    "name": "sofa_right_corner",
+    "java_elements": 7,
+    "runtime_elements": 7,
+    "geometry_uv_equal_after_coordinate_decode": true
+  }
+]
