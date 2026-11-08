@@ -63,7 +63,7 @@ world.afterEvents.worldLoad.subscribe(()=>system.runTimeout(async()=>{try{
   const dropped=drops[0].getComponent('minecraft:item').itemStack,durability=dropped.getComponent('minecraft:durability');
   require(dropped.typeId===weapon.typeId&&dropped.getDynamicProperty('example:qa_owner')==='living-probe'&&dropped.getLore()[0]==='native metadata witness','native drop metadata changed');
   require(durability.damage===durability.maxDurability-1,'native drop durability differs');
-  require(typeof drops[0].getDynamicProperty(TOMB_PICKUP_UNLOCK)==='number','native pickup delay missing');
+  require(/^loaded:(?:[0-9]|[1-3][0-9]|40)$/.test(drops[0].getDynamicProperty(TOMB_PICKUP_UNLOCK)),'native pickup delay missing');
   drops[0].addTag(TAG);tombRaider.status='pass';tombRaider.metadata=true;
  }
  const saved={fish:fish.id,attacker:attacker.id,vision:effect(fish,VISION).ticks,tomb:effect(attacker,TOMB).ticks,tombRaider};world.setDynamicProperty(KEY,JSON.stringify(saved));

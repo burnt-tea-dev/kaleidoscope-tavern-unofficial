@@ -23,6 +23,7 @@ SOURCE_GROUPS = {
     'boardLayoutAndText': ('data/board-font.js', 'core/board-layout.js', 'bedrock/board-text.js', 'bedrock/writing-boards.js'),
     'mixologyLifecycle': ('bedrock/mixology.js',),
     'sharedUtilities': ('core/util.js',),
+    'sharedItemPickup': ('bedrock/pickup-overflow.js',),
 }
 COMPLETE_LOCALE_SOURCES = frozenset('runtime/RP/texts/' + locale + '.lang' for locale in ('en_US', 'zh_CN', 'zh_TW'))
 PARTIAL_LOCALE_SOURCES = frozenset('runtime/RP/texts/' + locale + '.lang' for locale in PARTIAL_LOCALES)
@@ -45,6 +46,7 @@ def check(root=ROOT, *, syntax=True, localization=True):
     for module, names in (
         ('./core/registry.js', {'ExtensionRegistry'}),
         ('./bedrock/extension-host.js', {'installExtensionHost'}),
+        ('./bedrock/pickup-overflow.js', {'installPickupOverflowEvents'}),
         ('./bedrock/machines.js', {'setRegistry', 'registerMachineComponents', 'installMachineEvents'}),
         ('./bedrock/decorations.js', {'registerDecorationComponents', 'installDecorationEvents'}),
         ('./data/cookery-guide-payload.js', {'buildCookeryGuidePayload', 'prepareCookeryGuidePayload'}),
@@ -53,6 +55,11 @@ def check(root=ROOT, *, syntax=True, localization=True):
         ('./bedrock/mixology.js', {'setMixologyRegistry', 'registerMixologyComponents', 'installMixologyEvents'}),
     ):
         imported(entrypoint, module, names)
+    assert entrypoint.count('\n installPickupOverflowEvents,') == 1, 'Shared pickup event installation is disconnected'
+    imported(read_module(root, 'runtime/BP/scripts/bedrock/transactions.js', False), './pickup-overflow.js', {'preparePickupOverflow'})
+    imported(read_module(root, 'runtime/BP/scripts/bedrock/custom-effects.js', False), './pickup-overflow.js', {'blockOverflowPickup', 'startPickupDelay', 'TOMB_PICKUP_UNLOCK'})
+    for name in ('preparePickupOverflow', 'startPickupDelay', 'blockOverflowPickup', 'installPickupOverflowEvents'):
+        assert 'export function ' + name + '(' in modules['bedrock/pickup-overflow.js'], ('Shared pickup interface missing', name)
     assert entrypoint.count('installExtensionHost(registry)') == 1, 'Current extension host is disconnected'
     assert entrypoint.count('setRegistry(registry)') == 1, 'Current machine registry is disconnected'
     assert '()=>prepareCookeryGuidePayload(registry)' in entrypoint, 'Shared guide publisher is disconnected'
@@ -119,7 +126,7 @@ def check(root=ROOT, *, syntax=True, localization=True):
         'sources': sorted(sources), 'ownershipAndWiring': 'passed',
         'syntax': 'passed' if syntax else 'not run',
         'localization': localization_result,
-        'behavior': 'existing current-extension-contract, transport-integrity, extension-bottle, furniture-interaction, board-farm-interaction, standalone-guide, board-layout and mixology rejection suites; not run by this static check',
+        'behavior': 'existing current-extension-contract, transport-integrity, extension-bottle, furniture-interaction, board-farm-interaction, standalone-guide, board-layout, mixology rejection and pickup adapter persistence suites; not run by this static check',
         'javaResources': 'existing incense surfaces/sampling, barrel materials/collision and guide checks in the package suite; not run by this static check',
         'bds': False, 'client': False,
     }

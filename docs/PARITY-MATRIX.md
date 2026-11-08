@@ -6,6 +6,20 @@ Adopt the official Bedrock Tavern1.0.7 unique-reference rule. Preserve the curre
 
 目前維護版本與 BP／RP 身分以 [baseline.json](../baseline.json) 為準；公開下載、來源配對及部署見[家族現況](../family/BASELINE-STATUS.md)。下列日期段保留各次修補及原始證據範圍，不因較新的來源版本自動取得畫面或完整家族通過結果。真人使用不是發布、部署或完成門檻，沿用[擁有者現行規則](../family/UPDATE-WORKFLOW.md#擁有者簡化規則2026-11-04)。
 
+## 掉落物載入時計保存（2026-11-08，T208）
+
+T207 的 `script:` deadline 是世界腳本絕對 tick，物品卸載後世界繼續前進仍會消耗等待；舊 WeakMap 沒有保存剩餘 ticks。原生 BDS1.26.60.6 的正常重啟時計繼續前進，並未歸零；來源中的重設時計案例只是健壯性覆蓋，不是該引擎重現。
+
+現由原 `pickup-overflow.js` 單一 owner 保存 `loaded:剩餘ticks`，overflow 與摸金校尉沿原屬性鍵使用同一初始化。只對仍有等待的已載入物品逐 tick 保存，entityRemove 退役、entityLoad／一次 worldLoad 掃描恢復；到期寫零，不靠第一次拾取才結算。拾取 before-event 保持唯讀，暫時讀寫失敗沿同一排程重試；副本 handle 與兩個 owner 的時計互不覆蓋。
+
+舊 numeric 值保留各 producer 原有時計。舊 `script:` 值轉成最多40ticks的剩餘等待；已遺失的卸載時間不能從舊資料重建，不能聲稱精確恢復。沒有改物品、stack metadata、overflow 速度或摸金校尉掉落內容，沒有覆寫原版 item／player。
+
+來源反例已覆蓋卸載、保存／重設時計、無拾取時到期、重複 load、兩鍵獨立及暫時讀寫失敗。BDS 的[原始分階段結果](../data/native-pickup-delay-persistence.json)保留缺 allowlist、較慢 chunk 載入及錯誤時計假設的 fixture 失敗；同一 QA 世界後續已核對兩鍵真實倒數／保存和最後原生恢復：最初 tick180 設40，後續 tick371 載入仍有9，已到期的另一物品仍是0，再到期兩鍵均0。191是期間世界 ticks，不是精確卸載時長。最後恢復使用最終 owner，先前首次保存則保留其當時來源 hash；暫時 API 失敗恢復另由來源故障模型驗證。
+
+這是獨立原生模組／真實 item 屬性的保存與延後載入觀察，沒有自然拾取、完整addon／家族、同程序精確卸載時序、掉落合併、多人、客戶端或 LIVE 結果。[觀察器](../tools/native/pickup-delay-persistence.js)可在既有隔離 runner 使用；真人不新增為交付門檻。兩個維護 Java 分支於本輪核對仍為 Forge `c4ec1880`／NeoForge `a1afba34`。
+
+共用拾取 owner 同時移交既有 current-source contract，以主入口及兩個 producer 的實際連線、上述回歸守住行為；原 launch 新增檔雜湊移至既有 historical 區，沒有新增版本特例、改舊 hash 或逆向來源層。
+
 ## 黑板原生多行輸入接線（2026-11-07，T206）
 
 舊版本只在單行 ModalForm 中用反斜線跳脫換行；儲存與板面 layout 已能處理真正 newline，不能據此說 editor 已對等。現在黑板專屬輸入採原生多行 edit_box 的換行、按鍵與捲動內容，表單 default／提交直接使用原文字。沒有 DDUI 遷移、自訂聊天入口、數個單行欄位或全域 server-form 替換。

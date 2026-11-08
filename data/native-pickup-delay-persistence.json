@@ -1,0 +1,231 @@
+{
+  "engine": "BDS1.26.60.6",
+  "download": "https://www.minecraft.net/bedrockdedicatedserver/bin-linux/bedrock-server-1.26.60.6.zip",
+  "archive_sha256": "cbbd5414fa6a310353ed1fc76a0ba691c3fd1ea852fd04bb76764ee4c1afdb98",
+  "sources": {
+    "runtime/BP/scripts/bedrock/pickup-overflow.js": "14269e5df4fd1e77c72c2b96469674f76802b184584f4e623b6ebc3c9ac2c5c0",
+    "tools/native/pickup-delay-persistence.js": "cc735400fa39931b1ff20154d044da146833807cfe87685f635cd4206037b109"
+  },
+  "scope": "Actual shared pickup-delay module with native vanilla item properties, normal stops and delayed chunk loading across restarts of one QA world. Final restore/expiry binds final owner bytes. No full addon/family, natural pickup, same-session explicit unload timing, multiplayer, client or LIVE validation.",
+  "reports": [
+    {
+      "phase": "first",
+      "completed": false,
+      "ok": false,
+      "normal_stop": true,
+      "player_connections": 0,
+      "player_spawn_logs": 0,
+      "gametest_fixture": false,
+      "errors": [
+        "[2026-11-08 04:53:36:535 ERROR] Error opening allow list file: allowlist.json"
+      ],
+      "observations": [],
+      "log": "first.log"
+    },
+    {
+      "phase": "first",
+      "completed": true,
+      "ok": true,
+      "normal_stop": true,
+      "player_connections": 0,
+      "player_spawn_logs": 0,
+      "gametest_fixture": false,
+      "errors": [],
+      "observations": [
+        {
+          "kind": "done",
+          "phase": "first",
+          "players": 0,
+          "items": [
+            {
+              "id": "-8589934591",
+              "tick": 180,
+              "overflow": "loaded:40",
+              "tomb": "loaded:40"
+            },
+            {
+              "id": "-8589934590",
+              "tick": 180,
+              "overflow": "loaded:0"
+            }
+          ],
+          "ids": [
+            "-8589934591",
+            "-8589934590"
+          ],
+          "startedTick": 180
+        }
+      ],
+      "log": "first-retry.log"
+    },
+    {
+      "phase": "restart",
+      "completed": false,
+      "ok": false,
+      "normal_stop": true,
+      "player_connections": 0,
+      "player_spawn_logs": 0,
+      "gametest_fixture": false,
+      "errors": [],
+      "observations": [
+        {
+          "kind": "failure",
+          "error": "Error: saved native items missing",
+          "stack": "    at need (main.js:9)\n    at <anonymous> (main.js:20)\n"
+        }
+      ],
+      "log": "restart-retry.log"
+    },
+    {
+      "phase": "restart",
+      "completed": false,
+      "ok": false,
+      "normal_stop": true,
+      "player_connections": 0,
+      "player_spawn_logs": 0,
+      "gametest_fixture": false,
+      "errors": [],
+      "observations": [
+        {
+          "kind": "observation",
+          "stage": "restart-initial",
+          "tick": 246,
+          "items": [],
+          "seen": []
+        },
+        {
+          "kind": "observation",
+          "stage": "restart-loaded",
+          "tick": 303,
+          "items": [
+            {
+              "id": "-8589934591",
+              "tick": 303,
+              "overflow": "loaded:26",
+              "tomb": "loaded:26"
+            },
+            {
+              "id": "-8589934590",
+              "tick": 303,
+              "overflow": "loaded:0"
+            }
+          ],
+          "seen": [
+            {
+              "id": "-8589934591",
+              "tick": 302,
+              "overflow": "loaded:27",
+              "tomb": "loaded:27"
+            },
+            {
+              "id": "-8589934590",
+              "tick": 302,
+              "overflow": "loaded:0"
+            }
+          ]
+        },
+        {
+          "kind": "failure",
+          "error": "Error: script clock did not reset in this fixture",
+          "stack": "    at need (main.js:9)\n    at <anonymous> (main.js:27)\n"
+        }
+      ],
+      "log": "restart-load-observation.log"
+    },
+    {
+      "phase": "restart",
+      "completed": true,
+      "ok": true,
+      "normal_stop": true,
+      "player_connections": 0,
+      "player_spawn_logs": 0,
+      "gametest_fixture": false,
+      "errors": [],
+      "observations": [
+        {
+          "kind": "observation",
+          "stage": "restart-initial",
+          "tick": 321,
+          "items": [],
+          "seen": []
+        },
+        {
+          "kind": "observation",
+          "stage": "restart-loaded",
+          "tick": 372,
+          "items": [
+            {
+              "id": "-8589934591",
+              "tick": 372,
+              "overflow": "loaded:8",
+              "tomb": "loaded:8"
+            },
+            {
+              "id": "-8589934590",
+              "tick": 372,
+              "overflow": "loaded:0"
+            }
+          ],
+          "seen": [
+            {
+              "id": "-8589934591",
+              "tick": 371,
+              "overflow": "loaded:9",
+              "tomb": "loaded:9"
+            },
+            {
+              "id": "-8589934590",
+              "tick": 371,
+              "overflow": "loaded:0"
+            }
+          ]
+        },
+        {
+          "kind": "done",
+          "phase": "restart",
+          "players": 0,
+          "loaded": [
+            {
+              "id": "-8589934591",
+              "tick": 371,
+              "overflow": "loaded:9",
+              "tomb": "loaded:9"
+            },
+            {
+              "id": "-8589934590",
+              "tick": 371,
+              "overflow": "loaded:0"
+            }
+          ],
+          "after": [
+            {
+              "id": "-8589934591",
+              "tick": 417,
+              "overflow": "loaded:0",
+              "tomb": "loaded:0"
+            },
+            {
+              "id": "-8589934590",
+              "tick": 417,
+              "overflow": "loaded:0"
+            }
+          ],
+          "savedAt": 180,
+          "unloadedWorldTicks": 191
+        }
+      ],
+      "log": "restart-final.log",
+      "sources": {
+        "runtime/BP/scripts/bedrock/pickup-overflow.js": "1e6ad8d354967bf7f7afba703cc86ec7b1f5ab0b5502060fddc43eb7f17a6141",
+        "tools/native/pickup-delay-persistence.js": "0890212ae8c7e46e7177204dac837a48db6d19efb18a53c2e443019b0170d78b"
+      }
+    }
+  ],
+  "fixture_repair": "Initial allowlist.json absent; engine stopped normally before functional observation. Added empty allowlist; same QA world and exact module/observer bytes.",
+  "correction": "Native system.currentTick continued across normal restart. A source test with a reset clock is robustness coverage, not this engine behavior. The final restart observer instead distinguishes delayed chunk loading from the old absolute deadline. Pending restoration error recovery was refined between phases; final restart binds exact final owner bytes.",
+  "observed_date": "2026-11-08",
+  "runtime_version": "0.6.208",
+  "final_result": "scoped_native_restore_and_expiry_pass",
+  "native_clock": "system.currentTick continued across normal restarts; reset-clock cases are source robustness coverage only",
+  "world_ticks_field": "unloadedWorldTicks in the original observer output is total world ticks since arming, including loaded ticks. It is not an exact measurement of unloaded ticks."
+}

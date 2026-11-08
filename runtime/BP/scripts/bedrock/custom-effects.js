@@ -3,7 +3,7 @@ import {check,digest} from '../core/util.js';
 import {TIPSY_ID} from '../core/tipsy-visual.js';
 import {externalEffectSource,externalEffectDefinition} from '../core/extension-content.js';
 import {pulseTipsyVisual,forgetTipsyVisual,pruneTipsyVisuals,tipsyVisualDiagnostics,tipsyVisualState} from './tipsy-visual.js';
-import {blockOverflowPickup,markPickupDeadline} from './pickup-overflow.js';
+import {blockOverflowPickup,startPickupDelay,TOMB_PICKUP_UNLOCK} from './pickup-overflow.js';
 import {performShriek} from './combat-effects.js';
 import {applyNativeStatusWithAura,indexStatusAura,restoreStatusAura,restoreLoadedStatusAura,resetStatusAuraOnSpawn,forgetStatusAura,noteSyntheticAuraInvisibility,installStatusAura,statusAuraDiagnostics} from './status-aura.js';
 /** C5 own timed effects; no player.json, fake native replacement buffs, XP fabrication or global UI writes. */
@@ -16,7 +16,7 @@ import {motionBlockingHeight} from '../core/motion-blocking-height.js';
 import {CUSTOM_STATUS_KEY,CUSTOM_IMPLEMENTED,readStatus,addStatus,removeStatus,advanceStatus,activeStatus,killHeal,orbVelocity,inflatedAabbIntersects,countdownPulseCrossed,visionRadius,grassStealthEligible,extendedReachDistance,tombRaiderTarget,tombRaiderProc,ardentHeatBreakable,ardentFrontBlocks,highHeelsDirection,highHeelsBlocked,highHeelsNearBoundary,highHeelsTarget} from '../core/custom-effects.js';
 const tracks=new Map(),deaths=new Map(),heelsSteps=new Map(),fastPlayers=new Map(),statusSnapshots=new Map();
 const visionFeedback=createVisionFeedback();let visionNativeChecked=false,visionNativeType;
-export const TOMB_PICKUP_UNLOCK='kaleidoscope_tavern:tomb_pickup_unlock';
+export {TOMB_PICKUP_UNLOCK};
 export const ARDENT_COLLISION_COUNT='kaleidoscope_tavern:ardent_heat_collision_count';
 export const customEffectDiagnostics={applied:0,killHeals:0,orbMoves:0,teleports:0,upsideDownRenames:0,visionPulses:0,visionTargets:0,visionSounds:0,visionOutline:'unchecked',grassStealthPulses:0,grassStealthEligible:0,longReachRays:0,tombAttempts:0,tombDisarms:0,tombRollbackFailures:0,tombPickupBlocks:0,ardentPulses:0,ardentBlocks:0,ardentArmorDamage:0,ardentBareHits:0,ardentHungerEnds:0,ardentRollbackFailures:0,highHeelsChecks:0,highHeelsSteps:0,highHeelsRejected:0,tipsyVisual:tipsyVisualDiagnostics,statusAura:statusAuraDiagnostics,errors:[],supported:CUSTOM_IMPLEMENTED};
 function error(e){customEffectDiagnostics.errors.push(String(e));if(customEffectDiagnostics.errors.length>16)customEffectDiagnostics.errors.shift();}
@@ -214,7 +214,7 @@ export function handleTombRaider(event,rng=Math.random){
   let itemEntity;
   try{
    itemEntity=target.dimension.spawnItem(drop,target.location);
-   itemEntity.setDynamicProperty(TOMB_PICKUP_UNLOCK,'script:'+(system.currentTick+40));markPickupDeadline(itemEntity);
+   startPickupDelay(itemEntity,TOMB_PICKUP_UNLOCK);
   }catch(e){
    try{itemEntity?.remove();}catch{}
    try{if(equipment.setEquipment(EquipmentSlot.Mainhand,original)===false)customEffectDiagnostics.tombRollbackFailures++;}catch{customEffectDiagnostics.tombRollbackFailures++;}

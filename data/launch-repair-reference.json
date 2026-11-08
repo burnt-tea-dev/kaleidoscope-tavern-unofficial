@@ -2294,7 +2294,6 @@
     "runtime/BP/entities/stored_items.json": "f6b03ac07252288d8e058c94f811584ad5321f2af48e9e8f0bc096c61bee9f68",
     "runtime/BP/scripts/bedrock/native-item-storage.js": "11fb28849d6f6c798d20546985add6a12dde59cb3bb30b01e8fe6d1bfa4f4b5a",
     "runtime/BP/scripts/bedrock/pickup-feedback.js": "cc5fe8b7bb4af7a60f3edf2042baea3457e1bdbd25ceab8d459a1b6a007d43ad",
-    "runtime/BP/scripts/bedrock/pickup-overflow.js": "2f4682864f943bd887fdb091fa33dcbd28ca82799167e799085d97ed35060d2b",
     "runtime/BP/scripts/core/native-item-storage.js": "347b0220a9be0d796a73cbd2bf258ce5b51525ede304fadc10ce48ccf4a9573b",
     "runtime/RP/entity/stored_items.entity.json": "2ff7d6c9afd4f18c060d490954be5c870b584c5b0e41225161144b7ce1309295",
     "runtime/RP/models/entity/stored_items.geo.json": "1043baec5a1fc07c61875a5d3f45d89f4b5830bddd11297ccedbae8487abcf5c",
@@ -2493,6 +2492,12 @@
       "beforeProjected": "28b13afc89f99694304865c6baad58b282ba7c0599cd9c70175c8efd489480c6",
       "after": "d6f3e2f84b0ac85c863b3677d732f528f4727ce159319183d54ebcd3269c6a14",
       "reason": "0.6.55: enforce seven guide roots with native child categories, split grape entries, clarify Java board alignment and use a shared alignment calculation. 0.6.60: user-requested Word-style board alignment and capacity checks; metadata-safe drink stack merging and empty-hand pickup; duplicate placement gesture coalescing. 2026-09-28 effects review: Source-derived post-commit feedback, isolated cosmetic failures and real splash lifecycle; preserves PR93 carrier repair. See docs/EFFECTS-REPORT-FOLLOWUP-20260928.md."
+    },
+    "runtime/BP/scripts/bedrock/pickup-overflow.js": {
+      "before": null,
+      "beforeProjected": null,
+      "after": "2f4682864f943bd887fdb091fa33dcbd28ca82799167e799085d97ed35060d2b",
+      "reason": "Original launch baseline recorded this runtime addition; the shared loaded-item countdown is now maintained by current_extension_source_contract.py and pickup adapter persistence regressions, without a historical body projection."
     }
   }
 }
