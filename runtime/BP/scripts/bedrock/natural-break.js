@@ -115,14 +115,28 @@ export function naturalBreak(event,params){
  }
  let seenKey;
  if(cells.length||short==='pressing_tub'){seenKey=d.id+'/'+at(root)+'/'+drop;if(seen.get(seenKey)===system.currentTick)return;seen.set(seenKey,system.currentTick);for(const [k,t]of seen)if(t<system.currentTick-1)seen.delete(k);}
- const suffix=dim+'/'+at(root),record=(key)=>{keys.push(key);const raw=world.getDynamicProperty(key);return typeof raw==='string'?JSON.parse(raw):undefined;};
+ const suffix=dim+'/'+at(root),record=(key)=>{
+  keys.push(key);const raw=world.getDynamicProperty(key);
+  if(raw===undefined){
+   if(nativeItems.readAdopted({key,dimension:d,position:root}))throw new Error('NATIVE_STORAGE_STATE_MISSING');
+   return undefined;
+  }
+  if(typeof raw!=='string')throw new Error('CORRUPT_STORAGE_STATE');
+  const value=JSON.parse(raw);
+  if(!value||typeof value!=='object'||Array.isArray(value))throw new Error('CORRUPT_STORAGE_STATE');
+  if((value.deleted||value.prepared)&&nativeItems.readAdopted({key,dimension:d,position:root}))throw new Error('NATIVE_STORAGE_STATE_MISSING');
+  return value;
+ };
  const storedDrops=(key,data)=>{const plan=nativeStoragePlan(block,key,projectNativeStoredState(key,data),undefined);nativePlans.push(plan);for(const stack of plan.before)if(stack)drops.push(stack);};
  let data;
  if(short==='barrel_core'||short==='barrel_part'||short==='pressing_tub'){
   try{return naturalMachineBreak(event,{root,cells,key:'kt:machine/'+suffix,drop});}catch(error){seen.delete(seenKey);throw error;}
  }else if(short==='shaker_station'){
   const key='kt:shaker/'+suffix;keys.push(key);if(naturalShakerBreak(event,key))return;
- }else if(cupItem(id)){
+ }
+ let committed=false,recoveryRequired=false;
+ try{
+ if(cupItem(id)){
   data=record('kt:cup/'+suffix);if(data){drops.push(naturalCupStack(data));drop=undefined;}else drop=cupItem(id);
  }else if(isBottleBlock(id)&&short!=='bottle_empty'&&short!=='bottle_water'){
   // Java DrinkBlock drops its stored item stacks, never the display block.
@@ -142,30 +156,51 @@ export function naturalBreak(event,params){
  // Consume authoritative state before emitting drops; subsequent multi-part
  // destruction callbacks cannot duplicate inventory. Liquids are lost, as Java.
  if(drop)add(drop);
- const savedKeys=keys.map(key=>[key,world.getDynamicProperty(key)]);
+ const savedKeys=keys.map(key=>[key,world.getDynamicProperty(key)]),spawned=[],retiredCells=[];
+ const discard=event.entitySource?.typeId==='minecraft:player'&&event.entitySource.getGameMode()==='Creative'||world.gameRules.doTileDrops===false;
  try{
   for(const plan of nativePlans)plan.apply();
   for(const key of keys){
    if(key.startsWith('kt:extension_storage/')&&data)world.setDynamicProperty(key,JSON.stringify({schema:1,type:data.type,layout:data.layout,revision:data.revision+1,deleted:true,...(data.migrationDigest?{migrationDigest:data.migrationDigest}:{})}));
    else world.setDynamicProperty(key,undefined);
   }
+  // Retire multipart siblings before emitting items. A failed compensation
+  // must not leave another usable cell able to emit the complete structure.
+  for(const cell of cells){
+   const sibling=d.getBlock(cell.pos);if(!sibling||sibling.typeId!==cell.id)continue;
+   retiredCells.push({pos:cell.pos,permutation:sibling.permutation,visual:feedback.snapshot(sibling)});
+   replaceBlockWithoutNaturalDrops(sibling,BlockPermutation.resolve('minecraft:air'));
+   if(sibling.typeId===cell.id)throw new Error('NATIVE_DESTRUCTION_CELL_NOT_REMOVED');
+  }
+  // Native slots remain recoverable until every requested world drop exists.
+  if(!discard)for(const stack of drops)spawned.push(d.spawnItem(stack,{x:root.x+.5,y:root.y+.5,z:root.z+.5}));
  }catch(error){
-  let failed=false;for(const plan of nativePlans.slice().reverse())try{plan.rollback();}catch{failed=true;}
+  let failed=false;for(const entity of spawned.reverse())try{entity.remove();}catch{failed=true;}
+  // Reopen siblings only after every partial item drop was withdrawn.
+  if(!failed)for(const cell of retiredCells.slice().reverse())try{
+   const current=d.getBlock(cell.pos);if(current?.typeId==='minecraft:air')replaceBlockWithoutNaturalDrops(current,cell.permutation);
+   if(current?.typeId!==cell.permutation.type.id)failed=true;
+  }catch{failed=true;}
+  for(const plan of nativePlans.slice().reverse())try{plan.rollback();}catch{failed=true;}
   for(const [key,raw] of savedKeys)try{world.setDynamicProperty(key,raw);}catch{failed=true;}
-  if(failed)throw new Error('NATIVE_DESTRUCTION_ROLLBACK_FAILED');throw error;
+  if(failed){recoveryRequired=true;throw new Error('NATIVE_DESTRUCTION_RECOVERY_REQUIRED: NATIVE_DESTRUCTION_ROLLBACK_FAILED; owner not restored. '+error);}
+  throw error;
  }
+ committed=true; // Cleanup failures must never restore an owner after its drops committed.
  for(const plan of nativePlans)plan.finish();
- const feedbackCells=[];
- for(const cell of cells){
-  // The engine owns the original broken cell's feedback; only compensate siblings.
-  const b=d.getBlock(cell.pos);if(!b||b.typeId!==cell.id)continue;
-  const visual=feedback.snapshot(b);removeBlock(d,cell.pos,cell.id);
-  if(visual&&b.typeId!==cell.id)feedbackCells.push(visual);
- }
- feedback.emit(feedbackCells,{sound:false});
+ // The engine owns the original broken cell's feedback; compensate siblings.
+ feedback.emit(retiredCells.map(cell=>cell.visual).filter(Boolean),{sound:false});
  clearHelpers(d,root,[...keys,`kt:seat/${d.id}/${at(root)}`]);
- if(event.entitySource?.typeId==='minecraft:player'&&event.entitySource.getGameMode()==='Creative'||world.gameRules.doTileDrops===false)return;
- for(const stack of drops)d.spawnItem(stack,{x:root.x+.5,y:root.y+.5,z:root.z+.5});
+ }catch(error){
+  if(!committed&&!recoveryRequired){
+   if(seenKey)seen.delete(seenKey);
+   let restored=false;
+   try{const current=d.getBlock(p);if(current?.typeId==='minecraft:air')replaceBlockWithoutNaturalDrops(current,perm);restored=current?.typeId===id;}
+   catch{throw new Error('NATIVE_DESTRUCTION_ROLLBACK_FAILED: '+error);}
+   if(!restored)throw new Error('NATIVE_DESTRUCTION_RECOVERY_REQUIRED: original data retained; owner cell changed. '+error);
+  }
+  throw error;
+ }
 }
 export function registerNaturalBreak({blockComponentRegistry}){
  blockComponentRegistry.registerCustomComponent(NS+':natural_break',{onBreak:(event,params)=>{try{naturalBreak(event,params);}catch(error){console.warn('[Tavern destruction] '+error);}}});

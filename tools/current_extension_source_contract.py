@@ -23,7 +23,7 @@ SOURCE_GROUPS = {
     'boardLayoutAndText': ('data/board-font.js', 'core/board-layout.js', 'bedrock/board-text.js', 'bedrock/writing-boards.js'),
     'mixologyLifecycle': ('bedrock/mixology.js',),
     'sharedUtilities': ('core/util.js',),
-    'sharedItemPickup': ('bedrock/pickup-overflow.js',),
+    'sharedItemLifecycle': ('bedrock/pickup-overflow.js', 'bedrock/natural-break.js'),
 }
 COMPLETE_LOCALE_SOURCES = frozenset('runtime/RP/texts/' + locale + '.lang' for locale in ('en_US', 'zh_CN', 'zh_TW'))
 PARTIAL_LOCALE_SOURCES = frozenset('runtime/RP/texts/' + locale + '.lang' for locale in PARTIAL_LOCALES)
@@ -47,6 +47,7 @@ def check(root=ROOT, *, syntax=True, localization=True):
         ('./core/registry.js', {'ExtensionRegistry'}),
         ('./bedrock/extension-host.js', {'installExtensionHost'}),
         ('./bedrock/pickup-overflow.js', {'installPickupOverflowEvents'}),
+        ('./bedrock/natural-break.js', {'registerNaturalBreak'}),
         ('./bedrock/machines.js', {'setRegistry', 'registerMachineComponents', 'installMachineEvents'}),
         ('./bedrock/decorations.js', {'registerDecorationComponents', 'installDecorationEvents'}),
         ('./data/cookery-guide-payload.js', {'buildCookeryGuidePayload', 'prepareCookeryGuidePayload'}),
@@ -55,6 +56,10 @@ def check(root=ROOT, *, syntax=True, localization=True):
         ('./bedrock/mixology.js', {'setMixologyRegistry', 'registerMixologyComponents', 'installMixologyEvents'}),
     ):
         imported(entrypoint, module, names)
+    assert entrypoint.count('\n registerNaturalBreak,') == 1, 'Natural destruction registration is disconnected'
+    imported(modules['bedrock/natural-break.js'], './native-item-storage.js', {'nativeStoragePlan', 'projectNativeStoredState'})
+    imported(modules['bedrock/natural-break.js'], './machine-item-storage.js', {'machineIngredientPlan'})
+    imported(modules['bedrock/natural-break.js'], './mixology.js', {'naturalShakerRemoval'})
     assert entrypoint.count('\n installPickupOverflowEvents,') == 1, 'Shared pickup event installation is disconnected'
     imported(read_module(root, 'runtime/BP/scripts/bedrock/transactions.js', False), './pickup-overflow.js', {'preparePickupOverflow'})
     imported(read_module(root, 'runtime/BP/scripts/bedrock/custom-effects.js', False), './pickup-overflow.js', {'blockOverflowPickup', 'startPickupDelay', 'TOMB_PICKUP_UNLOCK'})
@@ -126,7 +131,7 @@ def check(root=ROOT, *, syntax=True, localization=True):
         'sources': sorted(sources), 'ownershipAndWiring': 'passed',
         'syntax': 'passed' if syntax else 'not run',
         'localization': localization_result,
-        'behavior': 'existing current-extension-contract, transport-integrity, extension-bottle, furniture-interaction, board-farm-interaction, standalone-guide, board-layout, mixology rejection and pickup adapter persistence suites; not run by this static check',
+        'behavior': 'existing current-extension-contract, transport-integrity, extension-bottle, furniture-interaction, board-farm-interaction, standalone-guide, board-layout, mixology rejection and pickup adapter persistence/destruction and native machine/shaker retention suites; not run by this static check',
         'javaResources': 'existing incense surfaces/sampling, barrel materials/collision and guide checks in the package suite; not run by this static check',
         'bds': False, 'client': False,
     }

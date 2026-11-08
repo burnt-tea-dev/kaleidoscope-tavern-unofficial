@@ -1026,12 +1026,6 @@
       "reason": "Restore functional destruction feedback after the historical merge discarded it; preserve later metadata and geometry fixes.",
       "beforeGzipBase64": "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"
     },
-    "runtime/BP/scripts/bedrock/natural-break.js": {
-      "before": "1e781e254eda6e81f1b4b326492bae6f6c2597ae6e39cf2da7cda34ba43a52f3",
-      "after": "731dbe2f75dc29b1d4323596a58436b27a0102ecb2d219ea905154c7d0fad7bc",
-      "reason": "Tavern 0.6.92 reviewed native item storage repair; see data/native-storage-review-20261003.json and pickup/foundation regressions. Historical preimage remains unchanged.",
-      "beforeGzipBase64": "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"
-    },
     "runtime/BP/scripts/bedrock/scripted-block-change.js": {
       "before": "ad067ad2193b8d8c9c79f6288857898d9d4068283b06a72041e888fab725ca6a",
       "after": "189d6b8f87c2089b590c849c859cf5f140b4fb615b4d6ac878ab542944e93e57",
@@ -4194,33 +4188,6 @@
             ]
           ]
         },
-        "runtime/BP/scripts/bedrock/natural-break.js": {
-          "before": "731dbe2f75dc29b1d4323596a58436b27a0102ecb2d219ea905154c7d0fad7bc",
-          "after": "f00f038de226424f3b44d37ed23fed81ceb22f7246f3112901bacd345471ff42",
-          "reason": "Place shaker destruction in the native outer-carrier transaction; preserve ledger/public state and restore only a still-air owner cell when drop creation fails. Missing public state cannot silently discard adopted native contents. Creative and doTileDrops=false intentional discard remains explicit.",
-          "reverseOps": [
-            [
-              10,
-              11,
-              ""
-            ],
-            [
-              14,
-              15,
-              "import {naturalCupStack,naturalShakerStack} from './mixology.js';\n"
-            ],
-            [
-              27,
-              61,
-              ""
-            ],
-            [
-              89,
-              90,
-              "  data=record('kt:shaker/'+suffix);if(data){drops.push(naturalShakerStack(data));drop=undefined;}\n"
-            ]
-          ]
-        },
         "runtime/BP/scripts/core/inventory.js": {
           "before": "2534d63648a33dc045357352d5fdc4a45fe915a0b55e59b269bb76cc40cfb0db",
           "after": "ff21dbc539bf233aec0b07dc707f45ffd8a2cc744151e0c180a00cc0e708c8c2",
@@ -5127,41 +5094,6 @@
               47,
               48,
               ""
-            ]
-          ]
-        },
-        "runtime/BP/scripts/bedrock/natural-break.js": {
-          "before": "f00f038de226424f3b44d37ed23fed81ceb22f7246f3112901bacd345471ff42",
-          "after": "264707d0c7315d8436c9aff15c7e5cd616785eecce144371ac2bf64db0ef8a39",
-          "reason": "T134 appended exact source review. Preserve counted complete native machine inputs and exact source outputs/adoption, metadata-sensitive merging, quantities and mode/game-rule handling. Rollback attempts each native slot/carrier, marker, block and public record independently; targeted production failure/retention regressions prevent duplication or plain-ID fallback.",
-          "reviewedPredecessorCommit": "625ff769f4c656ff224314bba38d26a1ef5dacc0",
-          "reviewedSourceCommit": "37ff9f12e74c6a4f3bb3a5fc40502d7e70e68c83",
-          "reviewDocument": "docs/RELEASE-NOTES-0.6.134.md",
-          "reverseOps": [
-            [
-              1,
-              2,
-              ""
-            ],
-            [
-              10,
-              11,
-              "import {barrelCells} from '../core/machines.js';\n"
-            ],
-            [
-              63,
-              95,
-              ""
-            ],
-            [
-              115,
-              117,
-              " if(cells.length){const key=d.id+'/'+at(root)+'/'+drop;if(seen.get(key)===system.currentTick)return;seen.set(key,system.currentTick);for(const [k,t]of seen)if(t<system.currentTick-1)seen.delete(k);}\n"
-            ],
-            [
-              121,
-              122,
-              "  data=record('kt:machine/'+suffix);if(data?.kind==='pressing_tub')for(const row of data.slots.filter(Boolean))add(row.id,row.count);\n"
             ]
           ]
         },
@@ -7098,6 +7030,12 @@
       "reviewedPredecessorCommit": "e02c19da3a8e29d7574c5922e142ef99775dd643",
       "reviewedSourceCommit": "054897478be3c358f8b39317627aace943681a10",
       "reviewDocument": "docs/RELEASE-NOTES-0.6.132.md"
+    },
+    "runtime/BP/scripts/bedrock/natural-break.js": {
+      "before": "1e781e254eda6e81f1b4b326492bae6f6c2597ae6e39cf2da7cda34ba43a52f3",
+      "after": "731dbe2f75dc29b1d4323596a58436b27a0102ecb2d219ea905154c7d0fad7bc",
+      "reason": "Tavern 0.6.92 reviewed native item storage repair; see data/native-storage-review-20261003.json and pickup/foundation regressions. Historical preimage remains unchanged.",
+      "beforeGzipBase64": "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"
     }
   },
   "historicalReviewedFunctionalDeltaLayers": [
@@ -7191,6 +7129,41 @@
               45,
               46,
               " const mode=player.getGameMode()===GameMode.Survival?'drop':'discard';\n"
+            ]
+          ]
+        },
+        "runtime/BP/scripts/bedrock/natural-break.js": {
+          "before": "f00f038de226424f3b44d37ed23fed81ceb22f7246f3112901bacd345471ff42",
+          "after": "264707d0c7315d8436c9aff15c7e5cd616785eecce144371ac2bf64db0ef8a39",
+          "reason": "T134 appended exact source review. Preserve counted complete native machine inputs and exact source outputs/adoption, metadata-sensitive merging, quantities and mode/game-rule handling. Rollback attempts each native slot/carrier, marker, block and public record independently; targeted production failure/retention regressions prevent duplication or plain-ID fallback.",
+          "reviewedPredecessorCommit": "625ff769f4c656ff224314bba38d26a1ef5dacc0",
+          "reviewedSourceCommit": "37ff9f12e74c6a4f3bb3a5fc40502d7e70e68c83",
+          "reviewDocument": "docs/RELEASE-NOTES-0.6.134.md",
+          "reverseOps": [
+            [
+              1,
+              2,
+              ""
+            ],
+            [
+              10,
+              11,
+              "import {barrelCells} from '../core/machines.js';\n"
+            ],
+            [
+              63,
+              95,
+              ""
+            ],
+            [
+              115,
+              117,
+              " if(cells.length){const key=d.id+'/'+at(root)+'/'+drop;if(seen.get(key)===system.currentTick)return;seen.set(key,system.currentTick);for(const [k,t]of seen)if(t<system.currentTick-1)seen.delete(k);}\n"
+            ],
+            [
+              121,
+              122,
+              "  data=record('kt:machine/'+suffix);if(data?.kind==='pressing_tub')for(const row of data.slots.filter(Boolean))add(row.id,row.count);\n"
             ]
           ]
         }
@@ -7447,6 +7420,33 @@
               445,
               449,
               "export const naturalShakerStack=state=>portable(state,'natural_'+system.currentTick);\n"
+            ]
+          ]
+        },
+        "runtime/BP/scripts/bedrock/natural-break.js": {
+          "before": "731dbe2f75dc29b1d4323596a58436b27a0102ecb2d219ea905154c7d0fad7bc",
+          "after": "f00f038de226424f3b44d37ed23fed81ceb22f7246f3112901bacd345471ff42",
+          "reason": "Place shaker destruction in the native outer-carrier transaction; preserve ledger/public state and restore only a still-air owner cell when drop creation fails. Missing public state cannot silently discard adopted native contents. Creative and doTileDrops=false intentional discard remains explicit.",
+          "reverseOps": [
+            [
+              10,
+              11,
+              ""
+            ],
+            [
+              14,
+              15,
+              "import {naturalCupStack,naturalShakerStack} from './mixology.js';\n"
+            ],
+            [
+              27,
+              61,
+              ""
+            ],
+            [
+              89,
+              90,
+              "  data=record('kt:shaker/'+suffix);if(data){drops.push(naturalShakerStack(data));drop=undefined;}\n"
             ]
           ]
         }

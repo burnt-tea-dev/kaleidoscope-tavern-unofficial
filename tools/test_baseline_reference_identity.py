@@ -241,6 +241,15 @@ class CurrentExtensionSourceTests(unittest.TestCase):
    path.write_text(original.replace("'./pickup-overflow.js'","'./parallel-pickup.js'"))
    with self.assertRaisesRegex(AssertionError,'owner import differs'):check(self.root,syntax=False,localization=False)
    path.write_text(original)
+ def test_natural_destruction_registration_and_native_owners_are_required(self):
+  from current_extension_source_contract import check
+  entry=self.root/'runtime/BP/scripts/main.js';original=entry.read_text();entry.write_text(original.replace('\n registerNaturalBreak,',''))
+  with self.assertRaisesRegex(AssertionError,'Natural destruction registration'):check(self.root,syntax=False,localization=False)
+  entry.write_text(original);path=self.root/'runtime/BP/scripts/bedrock/natural-break.js';original=path.read_text()
+  for source in ('./native-item-storage.js','./machine-item-storage.js','./mixology.js'):
+   path.write_text(original.replace("'"+source+"'","'./parallel-storage.js'"))
+   with self.assertRaisesRegex(AssertionError,'owner import differs'):check(self.root,syntax=False,localization=False)
+   path.write_text(original)
  def test_historical_body_guards_cannot_reclaim_current_owners(self):
   baseline=self.root/'data/baseline-reconciliation.json';original=json.loads(baseline.read_text())
   launch=self.root/'data/launch-repair-reference.json';launch_original=json.loads(launch.read_text())
@@ -258,6 +267,7 @@ class CurrentExtensionSourceTests(unittest.TestCase):
    'runtime/BP/scripts/data/board-font.js',
    'runtime/BP/scripts/bedrock/mixology.js',
    'runtime/BP/scripts/bedrock/pickup-overflow.js',
+   'runtime/BP/scripts/bedrock/natural-break.js',
   ):
    with self.subTest(owner=name):
     baseline.write_text(json.dumps(original));launch.write_text(json.dumps(launch_original))

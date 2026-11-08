@@ -2066,7 +2066,6 @@
     "runtime/BP/scripts/core/projectile-parity.js": "88cbe00e64c54a1a039172ae2683b6558869616fb5420302e6d93d53cc93f4d2",
     "runtime/BP/scripts/core/incense-sampling.js": "cb2571534df3cdb3f94deb8c29391b85575d092c8504f7b96909860130d73696",
     "runtime/BP/scripts/core/guide-preparation.js": "46036ece1e0a9a8c223bbc11ac379c160894245ca00e982cabf8c5fb7558e57c",
-    "runtime/BP/scripts/bedrock/natural-break.js": "1e781e254eda6e81f1b4b326492bae6f6c2597ae6e39cf2da7cda34ba43a52f3",
     "runtime/RP/textures/ui/tavern_entries/white_lady.png": "60d7a4912ed62b7a15491f559275840d3a2ff691e60faaf59622250533692317",
     "runtime/RP/textures/ui/tavern_entries/nether_special.png": "f51dbf0e22f6cfe0baf38920e8222ae87534e6f59245b45e820113861f0d7e77",
     "runtime/RP/textures/ui/tavern_entries/godfather.png": "37b08a785cc59dec08c9d91b2d097de71fb6f2711e0f532836c90ef5da2d76bc",
@@ -2498,6 +2497,12 @@
       "beforeProjected": null,
       "after": "2f4682864f943bd887fdb091fa33dcbd28ca82799167e799085d97ed35060d2b",
       "reason": "Original launch baseline recorded this runtime addition; the shared loaded-item countdown is now maintained by current_extension_source_contract.py and pickup adapter persistence regressions, without a historical body projection."
+    },
+    "runtime/BP/scripts/bedrock/natural-break.js": {
+      "before": null,
+      "beforeProjected": null,
+      "after": "1e781e254eda6e81f1b4b326492bae6f6c2597ae6e39cf2da7cda34ba43a52f3",
+      "reason": "Original launch addition; natural storage destruction is now maintained by the current source contract and current pickup/shaker/machine failure-retention regressions."
     }
   }
 }
