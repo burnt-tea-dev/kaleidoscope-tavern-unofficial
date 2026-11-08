@@ -547,7 +547,10 @@ def verify_curated_inputs(receipt,selection,replacement_selection=None):
     actual={row['uuid']:row for row in receipt['packs']}
     assert len(actual)==len(receipt['packs']), 'Candidate contains duplicate pack identities'
     replacements=replacement_rows()
-    assert {uid for uid,row in actual.items() if row['source']['owner']=='preserved'}==set(selection['packs'])|set(replacements), 'Candidate contains an unselected retained input'
+    allowed=set(selection['packs'])|set(replacements)
+    if c.CONFIG.get('preserved_additions'):
+        allowed|=set(c.read(Path(c.CONFIG['preserved_additions']))['packs'])
+    assert {uid for uid,row in actual.items() if row['source']['owner']=='preserved'}==allowed, 'Candidate contains an unselected retained input'
     if replacements:
         verify_replacement_inputs(receipt,replacement_selection)
     for row in rows:
