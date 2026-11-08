@@ -18,6 +18,8 @@ T207 的 `script:` deadline 是世界腳本絕對 tick，物品卸載後世界�
 
 這是獨立原生模組／真實 item 屬性的保存與延後載入觀察，沒有自然拾取、完整addon／家族、同程序精確卸載時序、掉落合併、多人、客戶端或 LIVE 結果。[觀察器](../tools/native/pickup-delay-persistence.js)可在既有隔離 runner 使用；真人不新增為交付門檻。兩個維護 Java 分支於本輪核對仍為 Forge `c4ec1880`／NeoForge `a1afba34`。
 
+共用拾取 owner 同時移交既有 current-source contract，以主入口及兩個 producer 的實際連線、上述回歸守住行為；原 launch 新增檔雜湊移至既有 historical 區，沒有新增版本特例、改舊 hash 或逆向來源層。
+
 ## 黑板原生多行輸入接線（2026-11-07，T206）
 
 舊版本只在單行 ModalForm 中用反斜線跳脫換行；儲存與板面 layout 已能處理真正 newline，不能據此說 editor 已對等。現在黑板專屬輸入採原生多行 edit_box 的換行、按鍵與捲動內容，表單 default／提交直接使用原文字。沒有 DDUI 遷移、自訂聊天入口、數個單行欄位或全域 server-form 替換。
