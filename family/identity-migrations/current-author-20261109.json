@@ -84,10 +84,52 @@
           "old_manifest_sha256": "038d6115890979839e4410b8ee1938d7b46ea28078d2835ecb150c427b8b4e95"
         }
       ]
+    },
+    {
+      "project_id": 1702981,
+      "old_file_id": 8931626,
+      "new_file_id": 9512031,
+      "old_archive_sha256": "a554e13edd83012a0e621a98b5ddcf065514ba1fbed6e941019ebe45628adee6",
+      "new_archive_sha256": "0b1c171c53507e694588f98c78960cea237701fb2383c48afdd43267925c1824",
+      "packs": [
+        {
+          "side": "behavior",
+          "old_uuid": "d6636182-2ca5-4ec4-9814-40dc1191c026",
+          "new_uuid": "6cf7b4df-7b5b-43ca-a5f0-58d58c9c66f2",
+          "old_version": [
+            1,
+            0,
+            30002
+          ],
+          "new_version": [
+            1,
+            0,
+            30003
+          ],
+          "old_manifest_sha256": "0eb5ed2a48e06af9de24c94cf25d03ef20ec34ec5583b9c1e0658997a2409995"
+        },
+        {
+          "side": "resource",
+          "old_uuid": "f2c4c5f1-7abd-4c36-bb0c-7705a4d93aa5",
+          "new_uuid": "aa659a56-2170-4b66-8231-ba17eff86cea",
+          "old_version": [
+            1,
+            0,
+            30002
+          ],
+          "new_version": [
+            1,
+            0,
+            30003
+          ],
+          "old_manifest_sha256": "2f882725c037d3dc014f338456fe67d6f421b353440e648e8b91ccd3db93e464"
+        }
+      ]
     }
   ],
   "dynamic_property_owners": {
     "d5c48842-1a22-4965-861e-d8fad49b1e00": "9944f731-cc4c-4299-bdd5-f8799c1d832e",
-    "aa73502b-f806-4c11-8ef0-3f139bfc604a": "a45b4b96-543e-4081-888f-1b1ba4bb2b38"
+    "aa73502b-f806-4c11-8ef0-3f139bfc604a": "a45b4b96-543e-4081-888f-1b1ba4bb2b38",
+    "d6636182-2ca5-4ec4-9814-40dc1191c026": "6cf7b4df-7b5b-43ca-a5f0-58d58c9c66f2"
   }
 }
