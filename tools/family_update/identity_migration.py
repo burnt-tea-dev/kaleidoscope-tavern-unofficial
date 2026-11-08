@@ -184,11 +184,22 @@ def admitted_original(original):
         from family_update.managed_drift_recovery import provenance_original
         return provenance_original(original, approved)
     rows = {p['uuid']: p for p in approved['packs']}
-    assert len(rows) == len(approved['packs']) and set(rows) == {p['uuid'] for p in original['packs']}, 'Original inventory differs from admitted identities'
+    assert len(rows) == len(approved['packs'])
+    from family_update.preserved_additions import review
+    from family_update.current_author_validation import curated_inputs_enabled, current_selection
+    from family_update.cookery_cache_validation import tree as file_tree
+    expected, _order = review(original, rows, approved.get('order') or {}, policy.get('managed_uuids', []),
+                              reviewed_path=CONFIG.get('preserved_additions'))
+    installed = current_selection().get('owner_installed_inputs', {}) if curated_inputs_enabled() else {}
+    assert isinstance(installed, dict), 'Reviewed owner-installed inputs are invalid'
     packs = []
     for pack in original['packs']:
-        prior = rows[pack['uuid']]
-        assert all(pack[k] == prior[k] for k in ['side', 'version', 'files']), 'Original inventory differs from admitted contents'
+        prior = expected[pack['uuid']]
+        same = all(pack[k] == prior[k] for k in ['side', 'version', 'files'])
+        reviewed = installed.get(pack['uuid'])
+        if not same and not (reviewed and (pack['side'], pack['version'], file_tree(pack['files'])) ==
+                             (reviewed['side'], reviewed['version'], reviewed['tree'])):
+            raise AssertionError('Original inventory differs from admitted contents')
         packs.append({**pack, 'source': prior['source']})
     return {**original, 'packs': packs}
 
