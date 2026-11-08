@@ -491,6 +491,13 @@ def select_curated_inputs(original):
         current_fishing=row['kind']=='canonical-fishing' and actual['version']==row['output_version']
         expected_version=row['output_version'] if current_fishing else row['input_version']
         actual_tree=tree(actual['files'])
+        installed=current_selection().get('owner_installed_inputs',{})
+        reviewed=installed.get(uid)
+        if reviewed and (actual['side'],actual['version'],actual_tree)==(reviewed['side'],reviewed['version'],reviewed['tree']):
+            # A reviewed owner rolling input replaces the older literal boundary.
+            row={**row,'input_version':actual['version'],'output_version':actual['version'],
+                 'input_tree':actual_tree,'output_tree':actual_tree}
+            expected_version=actual['version']
         assert actual['side']==row['side'] and actual['version']==expected_version, 'Curated captured input identity changed: '+uid
         assert actual_tree==(row['output_tree'] if current_fishing else row['input_tree']), 'Curated captured input bytes changed: '+uid
         root=Path(actual['path'])
