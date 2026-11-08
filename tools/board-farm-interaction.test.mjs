@@ -174,6 +174,17 @@ test('Adventure ripe harvesting and wild-vine clipping retain drops and tool wea
  const wild=at({...pos,z:pos.z+3},NS+'wild_grapevine',{[NS+'sheared']:false});assert.equal(farmUse(p,wild,{rng:()=>.9}),'sheared');assert.equal(wild.permutation.getState(NS+'sheared'),true);assert.equal(p.inventory.getItem(2).getComponent('minecraft:durability').damage,14);
 });
 
+for(const action of ['clip','prune','harvest'])for(const damage of [12,237])test('unbreakable shears retain their native stack when '+action+' at damage '+damage,()=>{
+ const {p,lower}=setup(GameMode.Survival),pos={...lower.location,z:lower.location.z+4};
+ let crop;if(action==='clip')crop=at(pos,NS+'wild_grapevine',{[NS+'sheared']:false});
+ else if(action==='prune'){crop=d.getBlock(pos);crop.setPermutation(framePermutation(NS+'grapevine_trellis','single',3));}
+ else{at({...pos,y:pos.y+1},NS+'grapevine_trellis',{[NS+'age']:3});crop=at(pos,NS+'grape_crop',{[NS+'age']:5});}
+ const shears=withMetadata(new ItemStack('minecraft:shears'));Object.assign(shears.getComponent('minecraft:durability'),{damage,unbreakable:true});p.inventory.setItem(2,shears);const writes=p.inventory.writes;
+ const result=farmUse(p,crop,{rng:()=>.9});assert.deepEqual(p.inventory.getItem(2),shears);assert.equal(p.inventory.writes,writes,'protected tool must not be rewritten');
+ if(action==='clip'){assert.equal(result,'sheared');assert.equal(crop.permutation.getState(NS+'sheared'),true);}
+ else{assert.equal(crop.typeId,action==='prune'?NS+'trellis':'minecraft:air');const drops=d.getEntities({type:'minecraft:item',location:pos,maxDistance:2}).map(e=>e.itemStack);assert.deepEqual(drops.map(x=>[x.typeId,x.amount]),[[NS+(action==='prune'?'grapevine':'grape'),action==='prune'?1:3]]);}
+});
+
 test('both actual wild-vine components register immediate break callbacks and retain growth ticks',()=>{
  const components=new Map();
  registerCultivation({blockComponentRegistry:{registerCustomComponent:(id,component)=>components.set(id,component)}});

@@ -23,7 +23,7 @@ SOURCE_GROUPS = {
     'boardLayoutAndText': ('data/board-font.js', 'core/board-layout.js', 'bedrock/board-text.js', 'bedrock/writing-boards.js'),
     'mixologyLifecycle': ('bedrock/mixology.js',),
     'sharedUtilities': ('core/util.js',),
-    'sharedItemLifecycle': ('bedrock/pickup-overflow.js', 'bedrock/natural-break.js'),
+    'sharedItemLifecycle': ('bedrock/pickup-overflow.js', 'bedrock/natural-break.js', 'bedrock/transactions.js'),
 }
 COMPLETE_LOCALE_SOURCES = frozenset('runtime/RP/texts/' + locale + '.lang' for locale in ('en_US', 'zh_CN', 'zh_TW'))
 PARTIAL_LOCALE_SOURCES = frozenset('runtime/RP/texts/' + locale + '.lang' for locale in PARTIAL_LOCALES)
@@ -61,7 +61,11 @@ def check(root=ROOT, *, syntax=True, localization=True):
     imported(modules['bedrock/natural-break.js'], './machine-item-storage.js', {'machineIngredientPlan'})
     imported(modules['bedrock/natural-break.js'], './mixology.js', {'naturalShakerRemoval'})
     assert entrypoint.count('\n installPickupOverflowEvents,') == 1, 'Shared pickup event installation is disconnected'
-    imported(read_module(root, 'runtime/BP/scripts/bedrock/transactions.js', False), './pickup-overflow.js', {'preparePickupOverflow'})
+    imported(modules['bedrock/transactions.js'], './pickup-overflow.js', {'preparePickupOverflow'})
+    imported(modules['bedrock/transactions.js'], '../core/inventory.js', {'planInventory', 'commitInventory'})
+    imported(modules['bedrock/transactions.js'], './native-item-storage.js', {'nativeStoragePlan'})
+    for name in ('withToolWear', 'exchangeBlocks', 'exchangeBlocksToWorld'):
+        assert 'export function ' + name + '(' in modules['bedrock/transactions.js'], ('Shared transaction interface missing', name)
     imported(read_module(root, 'runtime/BP/scripts/bedrock/custom-effects.js', False), './pickup-overflow.js', {'blockOverflowPickup', 'startPickupDelay', 'TOMB_PICKUP_UNLOCK'})
     for name in ('preparePickupOverflow', 'startPickupDelay', 'blockOverflowPickup', 'installPickupOverflowEvents'):
         assert 'export function ' + name + '(' in modules['bedrock/pickup-overflow.js'], ('Shared pickup interface missing', name)
