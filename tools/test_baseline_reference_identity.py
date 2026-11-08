@@ -266,6 +266,7 @@ class CurrentExtensionSourceTests(unittest.TestCase):
    'runtime/BP/scripts/core/board-layout.js',
    'runtime/BP/scripts/core/boards.js',
    'runtime/BP/scripts/data/board-font.js',
+   'runtime/BP/scripts/data/guide-native-names.js',
    'runtime/BP/scripts/bedrock/mixology.js',
    'runtime/BP/scripts/bedrock/pickup-overflow.js',
    'runtime/BP/scripts/bedrock/transactions.js',

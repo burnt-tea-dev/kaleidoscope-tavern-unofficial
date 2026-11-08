@@ -144,7 +144,7 @@ const VINE_START={
  gold_grape:['种下葡萄藤时，藤架紧贴下方放下界岩或岩浆块，可得到金葡萄。','種下葡萄藤時，藤架緊貼下方放地獄岩或岩漿塊，可得到金葡萄。','Plant a grapevine with netherrack or a magma block directly below the trellis to grow gold grapes.']
 };
 const BOARD_STYLE=[
- ['空手操作可编辑文字与对齐；输入反斜线加 n 换行，长行会自动折行。文字过长时须修改后再保存，原文字不会被截断。','空手操作可編輯文字與對齊；輸入反斜線加 n 換行，長行會自動折行。文字過長時須修改後再儲存，原文字不會被截斷。','Use an empty hand to edit text and alignment. Type a backslash followed by n for a new line; long lines wrap. If the text does not fit, revise it before saving; existing text is kept.'],
+ ['空手操作可编辑文字与对齐；在文字框内直接换行，长行会自动折行。文字过长时须修改后再保存，原文字不会被截断。','空手操作可編輯文字與對齊；在文字框內直接換行，長行會自動折行。文字過長時須修改後再儲存，原文字不會被截斷。','Use an empty hand to edit text and alignment. Enter newlines directly in the text box; long lines wrap. If the text does not fit, revise it before saving; existing text is kept.'],
  ['染料改变文字颜色，荧光墨囊开启荧光、墨囊关闭荧光。蜜脾锁定文字、颜色与对齐；仍可更换立式告示牌的花饰。','染料改變文字顏色，螢光墨囊開啟螢光、墨囊關閉螢光。蜂巢鎖定文字、顏色與對齊；仍可更換立式告示牌的花飾。','Dye changes text color; glow ink enables glowing text and ink disables it. Honeycomb locks text, color and alignment. A sandwich board’s floral style can still be changed.']
 ];
 const INCENSE_ROWS=[

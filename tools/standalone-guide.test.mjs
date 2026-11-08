@@ -234,3 +234,20 @@ test('Cookery handoff opens only after a matching player start and echoes return
  for(const [responses,outcome]of [[[{canceled:true}],'closed'],[[{selection:9}],'closed']]){const closed=adapter(responses);closed.receive(event('open'),row);closed.receive(event('start'),row);await closed.advance(1);assert.deepEqual(closed.sent.at(-1),{id:event('return'),row:{...row,outcome}});}
  const unavailable=adapter([]);unavailable.receive(event('open'),row);unavailable.receive(event('start'),row);unavailable.ready=false;await unavailable.advance(1);assert.deepEqual(unavailable.sent.at(-1),{id:event('return'),row:{...row,outcome:'unavailable'}});
 });
+
+test('both guide projections name the native short plant and explain raw board newlines',async()=>{
+ const {cookery106WirePayload}=await import('../runtime/BP/scripts/core/cookery-guide-publisher.js');
+ for(const [locale,name]of [['zh_CN','矮草丛'],['zh_TW','稀疏青草'],['en_US','Short Grass']]){
+  assert.equal(payload.names[locale]['minecraft:short_grass'],name);
+  for(const projection of [payload,cookery106WirePayload(payload)]){
+   for(const id of [N+'grass_sandwich_board',N+'chalkboard']){
+    const entry=projection.entries.find(row=>row.id===id),text=entry.mechanicsByLocale[locale].join('\n');
+    assert.ok(!/反斜|backslash/.test(text),text);
+    assert.ok(text.includes(locale==='en_US'?'directly':locale==='zh_CN'?'直接换行':'直接換行'),text);
+    if(id===N+'grass_sandwich_board')assert.ok(text.includes(name),text);
+   }
+  }
+  const text=standaloneGuideView(payload,locale,{type:'entry',id:N+'grass_sandwich_board'}).body;
+  assert.ok(text.includes(name));assert.ok(!/反斜|backslash/.test(text));
+ }
+});

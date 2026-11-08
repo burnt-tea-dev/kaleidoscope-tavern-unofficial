@@ -19,7 +19,7 @@ SOURCE_GROUPS = {
     'furnitureLifecycle': ('core/furniture.js',),
     'optionalEffectProtocol': ('data/effect-icons.js',),
     'machinesAndDecorations': ('bedrock/machines.js', 'core/machines.js', 'bedrock/decorations.js'),
-    'sharedGuide': ('core/cookery-guide-publisher.js', 'data/cookery-guide-payload.js', 'data/guide-navigation.js', 'data/guide-copy.js'),
+    'sharedGuide': ('core/cookery-guide-publisher.js', 'data/cookery-guide-payload.js', 'data/guide-navigation.js', 'data/guide-copy.js', 'data/guide-native-names.js'),
     'boardLayoutAndText': ('core/boards.js', 'data/board-font.js', 'core/board-layout.js', 'bedrock/board-text.js', 'bedrock/writing-boards.js'),
     'mixologyLifecycle': ('bedrock/mixology.js',),
     'sharedUtilities': ('core/util.js',),
@@ -99,6 +99,7 @@ def check(root=ROOT, *, syntax=True, localization=True):
     imported(modules['bedrock/machines.js'], '../core/bottle-display-schema.js', {'bottlePermutationBlock', 'bottlePermutationStates'})
     imported(modules['bedrock/decorations.js'], './java-placement-router.js', {'registerJavaBlockUseHandler', 'settleJavaBlockUse'})
     imported(modules['bedrock/decorations.js'], './waterlogging.js', {'setWithWater'})
+    imported(modules['data/guide-copy.js'], './guide-native-names.js', {'GUIDE_NATIVE_NAMES', 'guideItemName'})
     imported(modules['data/cookery-guide-payload.js'], './guide-navigation.js', {'extensionGuideCategory'})
     imported(modules['data/cookery-guide-payload.js'], './guide-catalog.js', {'prepareConsolidateGuide'})
     imported(read_module(root, 'runtime/BP/scripts/data/guide-catalog.js', False), './guide-copy.js', {'applyReviewedAddonGuideCopy'})
