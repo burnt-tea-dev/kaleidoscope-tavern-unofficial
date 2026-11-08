@@ -177,7 +177,7 @@ for(const amount of [1,2])test(`full-inventory ingredient insertion returns a wo
  assert.equal(next.slots.length,1);assert.equal(f.player.inventory.getItem(0)?.amount,amount===1?undefined:amount-1);
  assert.equal(f.drops().length,1);assert.equal(f.drops()[0].itemStack.typeId,'kaleidoscope_tavern:empty_bottle');
  assert.deepEqual(f.drops()[0].location,{...f.player.location,y:f.player.location.y+.5});
- assert.equal(f.drops()[0].getDynamicProperty('kaleidoscope_tavern:pickup_after'),'script:'+(system.currentTick+40));
+ assert.equal(f.drops()[0].getDynamicProperty('kaleidoscope_tavern:pickup_after'),'loaded:40');
 });
 test('failed bottle spawn and failed station save both roll back ingredient and station contents',()=>{
  for(const fail of ['spawn','save']){

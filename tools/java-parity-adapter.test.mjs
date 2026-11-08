@@ -70,7 +70,7 @@ function tombFixture(typeId='minecraft:wolf',{spawnFailure=false,mob=true}={}){
    getEquipment:slot=>slot===EquipmentSlot.Mainhand?held:undefined,
    setEquipment(slot,item){assert.equal(slot,EquipmentSlot.Mainhand);held=item;return true;}
   }:undefined,
-  dimension:{spawnItem(item,at){if(spawnFailure)throw Error('injected drop failure');const data=new Map(),entity={item,at,getDynamicProperty:key=>data.get(key),setDynamicProperty:(key,value)=>data.set(key,value)};drops.push(entity);return entity;}}
+  dimension:{spawnItem(item,at){if(spawnFailure)throw Error('injected drop failure');const data=new Map(),entity={id:'tomb-drop-'+(++tombSerial),typeId:'minecraft:item',item,at,getDynamicProperty:key=>data.get(key),setDynamicProperty:(key,value)=>data.set(key,value)};drops.push(entity);return entity;}}
  };
  return {attacker,target,weapon,drops,held:()=>held,event:{damageSource:{damagingEntity:attacker},hurtEntity:target}};
 }
@@ -81,7 +81,7 @@ test('living mob Tomb Raider disarms once, preserves the stack and enforces its 
  const drop=f.drops[0];assert.notEqual(drop.item,f.weapon);assert.equal(drop.item.getComponent('minecraft:durability').damage,1560);
  assert.equal(f.weapon.getComponent('minecraft:durability').damage,0);assert.equal(drop.item.nameTag,'saved sword');assert.deepEqual(drop.item.getLore(),['keep this lore']);
  assert.equal(drop.item.getDynamicProperty('example:owner'),'owner-1');assert.deepEqual(drop.item.meta.enchantments,f.weapon.meta.enchantments);
- assert.equal(drop.getDynamicProperty(TOMB_PICKUP_UNLOCK),'script:9040');
+ assert.equal(drop.getDynamicProperty(TOMB_PICKUP_UNLOCK),'loaded:40');
  const early={item:drop};assert.equal(blockTombPickup(early),true);assert.equal(early.cancel,true);
  system.currentTick=9040;assert.equal(blockTombPickup({item:drop}),false);
  assert.equal(handleTombRaider(f.event,()=>0),false);assert.equal(f.drops.length,1);clearCustomEffects(f.attacker);

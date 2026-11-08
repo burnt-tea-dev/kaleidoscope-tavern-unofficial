@@ -111,51 +111,107 @@ for(const mode of [GameMode.Spectator,GameMode.Adventure])test(mode+' cannot use
  const {p,d,at,b}=setup();b.setType(NS+'bottle_empty');p.mode=mode;
  assert.throws(()=>withBreakInventory(p,d,at,'drop',()=>D.takeEmptyBottle(p,b)));assert.equal(b.typeId,NS+'bottle_empty');
 });
-test('Forge overflow starts without horizontal motion and is blocked for 40 world ticks only',async()=>{
- const {system}=await import('@minecraft/server');const {delayOverflowPickup,PICKUP_AFTER}=await import('../../runtime/BP/scripts/bedrock/pickup-overflow.js');const {p,d,at,b}=setup();b.setType(NS+'bottle_empty');for(let i=0;i<36;i++)p.inventory.setItem(i,new ItemStack('minecraft:stone',64));D.takeEmptyBottle(p,b);const item=d.getEntities({type:'minecraft:item',location:at,maxDistance:2})[0];assert.deepEqual(item.velocity,{x:0,y:.2,z:0});assert.equal(item.getDynamicProperty(PICKUP_AFTER),'script:'+(system.currentTick+40));
+test('Forge overflow starts without horizontal motion and is blocked for forty loaded ticks',async()=>{
+ const {system}=await import('@minecraft/server');const {delayOverflowPickup,PICKUP_AFTER}=await import('../../runtime/BP/scripts/bedrock/pickup-overflow.js');const {p,d,at,b}=setup();b.setType(NS+'bottle_empty');for(let i=0;i<36;i++)p.inventory.setItem(i,new ItemStack('minecraft:stone',64));D.takeEmptyBottle(p,b);const item=d.getEntities({type:'minecraft:item',location:at,maxDistance:2})[0];assert.deepEqual(item.velocity,{x:0,y:.2,z:0});assert.equal(item.getDynamicProperty(PICKUP_AFTER),'loaded:40');
  const e={item,cancel:false};delayOverflowPickup(e);assert.equal(e.cancel,true);const previous=system.currentTick;system.currentTick+=40;const ready={item,cancel:false};delayOverflowPickup(ready);assert.equal(ready.cancel,false);system.currentTick=previous;
  const foreign=d.spawnItem(new ItemStack('minecraft:stone'),at),other={item:foreign,cancel:false};delayOverflowPickup(other);assert.equal(other.cancel,false);
 });
-async function pickupClock(run){const {system}=await import('@minecraft/server'),previous=system.currentTick;try{return await run(system);}finally{system.currentTick=previous;}}
+function setPickupTick(system,tick){const shift=tick-system.currentTick;for(const task of system.queue.values())task.tick+=shift;system.currentTick=tick;}
+async function pickupClock(run){const {system}=await import('@minecraft/server'),previous=system.currentTick;try{return await run(system);}finally{setPickupTick(system,previous);}}
 test('item pickup delay advances while world time is frozen or moved backward',async()=>pickupClock(async system=>{
  const {world}=await import('@minecraft/server');const {preparePickupOverflow,delayOverflowPickup,PICKUP_AFTER}=await import('../../runtime/BP/scripts/bedrock/pickup-overflow.js');
- const {d,at}=setup(),item=d.spawnItem(new ItemStack('minecraft:stone'),at);system.currentTick=100;
+ const {d,at}=setup(),item=d.spawnItem(new ItemStack('minecraft:stone'),at);setPickupTick(system,100);
  const originalTime=world.getAbsoluteTime;world.getAbsoluteTime=()=>100;try{
-  preparePickupOverflow(item);assert.equal(item.getDynamicProperty(PICKUP_AFTER),'script:140');world.getAbsoluteTime=()=>0;
-  system.currentTick=119;let event={item,cancel:false};delayOverflowPickup(event);assert.equal(event.cancel,true);
-  system.currentTick=120;event={item,cancel:false};delayOverflowPickup(event);assert.equal(event.cancel,true);
+  preparePickupOverflow(item);assert.equal(item.getDynamicProperty(PICKUP_AFTER),'loaded:40');world.getAbsoluteTime=()=>0;
+  setPickupTick(system,119);let event={item,cancel:false};delayOverflowPickup(event);assert.equal(event.cancel,true);
+  setPickupTick(system,120);event={item,cancel:false};delayOverflowPickup(event);assert.equal(event.cancel,true);
   world.getAbsoluteTime=()=>-1000;
-  system.currentTick=140;event={item,cancel:false};delayOverflowPickup(event);assert.equal(event.cancel,false);
+  setPickupTick(system,140);event={item,cancel:false};delayOverflowPickup(event);assert.equal(event.cancel,false);
  }finally{world.getAbsoluteTime=originalTime;}
 }));
-test('restored item handles retain the previous loaded countdown instead of waiting forty more ticks',async()=>pickupClock(async system=>{
- const {world}=await import('@minecraft/server');
- const {preparePickupOverflow,delayOverflowPickup,PICKUP_AFTER}=await import('../../runtime/BP/scripts/bedrock/pickup-overflow.js');
- const {d,at}=setup(),item=d.spawnItem(new ItemStack('minecraft:stone'),at),values=new Map();
- const handle={getDynamicProperty:key=>values.get(key),setDynamicProperty:(key,value)=>values.set(key,value),clearVelocity(){},applyImpulse(){}};system.currentTick=100;
- preparePickupOverflow(handle);system.currentTick=109;delayOverflowPickup({item:handle,cancel:false});assert.equal(values.get(PICKUP_AFTER),'script:140');
- const restored={...handle};system.currentTick=120;delayOverflowPickup({item:restored,cancel:false});assert.equal(values.get(PICKUP_AFTER),'script:140');
- system.currentTick=140;const event={item:restored,cancel:false};delayOverflowPickup(event);assert.equal(event.cancel,false);
+test('pickup remaining delay survives unloaded time and a restarted script clock',async()=>pickupClock(async system=>{
+ const {preparePickupOverflow,delayOverflowPickup,installPickupOverflowEvents}=await import('../../runtime/BP/scripts/bedrock/pickup-overflow.js');
+ const {d,at}=setup(),item=d.spawnItem(new ItemStack('minecraft:stone'),at);
+ installPickupOverflowEvents();setPickupTick(system,9000);preparePickupOverflow(item);system.advance(10);
+ world.afterEvents.entityRemove.emit({removedEntityId:item.id,typeId:'minecraft:item'});item.loaded=false;
+ const saved=new Map(item.dp);
+ setPickupTick(system,0);item.dp=new Map(saved);item.loaded=true;
+ world.afterEvents.entityLoad.emit({entity:item});system.advance(29);
+ const early={item,cancel:false};delayOverflowPickup(early);assert.equal(early.cancel,true);
+ system.advance(1);const ready={item,cancel:false};delayOverflowPickup(ready);assert.equal(ready.cancel,false,'only the thirty saved loaded ticks remain after restart');
 }));
-test('legacy world-time pickup deadlines migrate without extending or reviving the wait',async()=>pickupClock(async system=>{
+test('unloaded item keeps its unspent pickup delay while other chunks tick',async()=>pickupClock(async system=>{
+ const {preparePickupOverflow,delayOverflowPickup,installPickupOverflowEvents}=await import('../../runtime/BP/scripts/bedrock/pickup-overflow.js');
+ const {d,at}=setup(),item=d.spawnItem(new ItemStack('minecraft:stone'),at);
+ installPickupOverflowEvents();setPickupTick(system,100);preparePickupOverflow(item);system.advance(10);
+ world.afterEvents.entityRemove.emit({removedEntityId:item.id,typeId:'minecraft:item'});item.loaded=false;
+ system.advance(1000);item.loaded=true;world.afterEvents.entityLoad.emit({entity:item});
+ const early={item,cancel:false};delayOverflowPickup(early);assert.equal(early.cancel,true,'an unloaded item must not finish its countdown');
+ system.advance(30);const ready={item,cancel:false};delayOverflowPickup(ready);assert.equal(ready.cancel,false);
+}));
+test('both delay owners persist expiry without pickup attempts and do not revive after reload',async()=>pickupClock(async system=>{
+ const {startPickupDelay,PICKUP_AFTER,TOMB_PICKUP_UNLOCK,blockOverflowPickup,installPickupOverflowEvents}=await import('../../runtime/BP/scripts/bedrock/pickup-overflow.js');
+ const {d,at}=setup(),item=d.spawnItem(new ItemStack('minecraft:stone'),at);
+ installPickupOverflowEvents();setPickupTick(system,2000);
+ startPickupDelay(item);system.advance(10);startPickupDelay(item,TOMB_PICKUP_UNLOCK);
+ assert.equal(item.getDynamicProperty(PICKUP_AFTER),'loaded:30');
+ system.advance(30);assert.equal(item.getDynamicProperty(PICKUP_AFTER),'loaded:0');
+ assert.equal(item.getDynamicProperty(TOMB_PICKUP_UNLOCK),'loaded:10');
+ assert.equal(blockOverflowPickup(item,undefined,TOMB_PICKUP_UNLOCK),true);
+ system.advance(10);assert.equal(item.getDynamicProperty(TOMB_PICKUP_UNLOCK),'loaded:0');
+ world.afterEvents.entityRemove.emit({removedEntityId:item.id,typeId:'minecraft:item'});setPickupTick(system,0);
+ world.afterEvents.entityLoad.emit({entity:item});
+ assert.equal(blockOverflowPickup(item),false);assert.equal(blockOverflowPickup(item,0,TOMB_PICKUP_UNLOCK),false);
+}));
+test('startup restores saved remaining while old session deadlines receive only bounded conversion',async()=>pickupClock(async system=>{
+ const {PICKUP_AFTER,TOMB_PICKUP_UNLOCK,blockOverflowPickup,installPickupOverflowEvents}=await import('../../runtime/BP/scripts/bedrock/pickup-overflow.js');
+ const {d,at}=setup(),item=d.spawnItem(new ItemStack('minecraft:stone'),at);
+ item.setDynamicProperty(PICKUP_AFTER,'loaded:12');item.setDynamicProperty(TOMB_PICKUP_UNLOCK,'script:999999');
+ installPickupOverflowEvents();setPickupTick(system,30);world.afterEvents.worldLoad.emit({});
+ assert.equal(item.getDynamicProperty(TOMB_PICKUP_UNLOCK),'loaded:40');
+ const before=[...item.dp];for(let i=0;i<5;i++)assert.equal(blockOverflowPickup(item),true);
+ assert.deepEqual([...item.dp],before,'restricted pickup checks do not write native properties');
+ system.advance(12);assert.equal(blockOverflowPickup(item),false);assert.equal(blockOverflowPickup(item,0,TOMB_PICKUP_UNLOCK),true);
+ system.advance(28);assert.equal(blockOverflowPickup(item,0,TOMB_PICKUP_UNLOCK),false);
+}));
+test('a transient loaded-item save failure retries without leaving a permanent pickup lock',async()=>pickupClock(async system=>{
+ const {preparePickupOverflow,PICKUP_AFTER,installPickupOverflowEvents}=await import('../../runtime/BP/scripts/bedrock/pickup-overflow.js');
+ const {d,at}=setup(),item=d.spawnItem(new ItemStack('minecraft:stone'),at);
+ installPickupOverflowEvents();setPickupTick(system,100);preparePickupOverflow(item);item.failSet=true;
+ system.advance(1);assert.equal(item.getDynamicProperty(PICKUP_AFTER),'loaded:40');
+ world.afterEvents.entityLoad.emit({entity:item});
+ system.advance(1);assert.equal(item.getDynamicProperty(PICKUP_AFTER),'loaded:38');
+ system.advance(38);assert.equal(item.getDynamicProperty(PICKUP_AFTER),'loaded:0');
+}));
+test('failed load reads and legacy conversions retry through the existing scheduler',async()=>pickupClock(async system=>{
+ const {PICKUP_AFTER,TOMB_PICKUP_UNLOCK,installPickupOverflowEvents}=await import('../../runtime/BP/scripts/bedrock/pickup-overflow.js');
+ const {d,at}=setup(),item=d.spawnItem(new ItemStack('minecraft:stone'),at);
+ item.setDynamicProperty(PICKUP_AFTER,'loaded:30');item.setDynamicProperty(TOMB_PICKUP_UNLOCK,'script:999999');
+ const read=item.getDynamicProperty.bind(item);let failedReads=0;
+ item.getDynamicProperty=key=>{if(key===PICKUP_AFTER&&failedReads++<11){throw Error('transient load read');}return read(key);};
+ item.failSet=true;installPickupOverflowEvents();setPickupTick(system,10);world.afterEvents.entityLoad.emit({entity:item});
+ system.advance(30);assert.equal(item.getDynamicProperty(PICKUP_AFTER),'loaded:0','failed reads must not extend the loaded clock');
+ system.advance(15);assert.equal(item.getDynamicProperty(TOMB_PICKUP_UNLOCK),'loaded:0');
+}));
+test('legacy numeric world-time pickup deadlines preserve their existing clock',async()=>pickupClock(async system=>{
  const {world}=await import('@minecraft/server');
  const {delayOverflowPickup,PICKUP_AFTER}=await import('../../runtime/BP/scripts/bedrock/pickup-overflow.js');
- const values=new Map([[PICKUP_AFTER,900]]),item={getDynamicProperty:key=>values.get(key),setDynamicProperty:(key,value)=>values.set(key,value)};system.currentTick=900;
+ const values=new Map([[PICKUP_AFTER,900]]),item={getDynamicProperty:key=>values.get(key),setDynamicProperty:(key,value)=>values.set(key,value)};setPickupTick(system,900);
  const originalTime=world.getAbsoluteTime;try{
   let event={item,cancel:false};delayOverflowPickup(event);assert.equal(event.cancel,false);
-  system.currentTick=1000;values.set(PICKUP_AFTER,world.getAbsoluteTime()+40);event={item,cancel:false};delayOverflowPickup(event);assert.equal(event.cancel,true);assert.equal(values.get(PICKUP_AFTER),1040);
-  system.currentTick=1040;world.getAbsoluteTime=()=>1039;event={item,cancel:false};delayOverflowPickup(event);assert.equal(event.cancel,true);assert.equal(values.get(PICKUP_AFTER),1040);
-  system.currentTick=1040;world.getAbsoluteTime=()=>1040;system.currentTick=1060;event={item,cancel:false};delayOverflowPickup(event);assert.equal(event.cancel,false);
+  setPickupTick(system,1000);values.set(PICKUP_AFTER,world.getAbsoluteTime()+40);event={item,cancel:false};delayOverflowPickup(event);assert.equal(event.cancel,true);assert.equal(values.get(PICKUP_AFTER),1040);
+  setPickupTick(system,1040);world.getAbsoluteTime=()=>1039;event={item,cancel:false};delayOverflowPickup(event);assert.equal(event.cancel,true);assert.equal(values.get(PICKUP_AFTER),1040);
+  setPickupTick(system,1040);world.getAbsoluteTime=()=>1040;setPickupTick(system,1060);event={item,cancel:false};delayOverflowPickup(event);assert.equal(event.cancel,false);
  }finally{world.getAbsoluteTime=originalTime;}
 }));
 test('Tomb Raider shares the loaded-item pickup clock',async()=>pickupClock(async system=>{
  const {world}=await import('@minecraft/server');
  const {blockOverflowPickup}=await import('../../runtime/BP/scripts/bedrock/pickup-overflow.js');
  const {blockTombPickup,TOMB_PICKUP_UNLOCK}=await import('../../runtime/BP/scripts/bedrock/custom-effects.js');
- system.currentTick=100;const values=new Map([[TOMB_PICKUP_UNLOCK,world.getAbsoluteTime()+40]]),item={getDynamicProperty:key=>values.get(key),setDynamicProperty:(key,value)=>values.set(key,value)};
+ setPickupTick(system,100);const values=new Map([[TOMB_PICKUP_UNLOCK,world.getAbsoluteTime()+40]]),item={getDynamicProperty:key=>values.get(key),setDynamicProperty:(key,value)=>values.set(key,value)};
  const originalTime=world.getAbsoluteTime;try{
-  system.currentTick=139;world.getAbsoluteTime=()=>139;const event={item,cancel:false};blockTombPickup(event);assert.equal(event.cancel,true);
-  system.currentTick=140;blockTombPickup({item,cancel:false});assert.equal(item.getDynamicProperty(TOMB_PICKUP_UNLOCK),140);
+  setPickupTick(system,139);world.getAbsoluteTime=()=>139;const event={item,cancel:false};blockTombPickup(event);assert.equal(event.cancel,true);
+  setPickupTick(system,140);blockTombPickup({item,cancel:false});assert.equal(item.getDynamicProperty(TOMB_PICKUP_UNLOCK),140);
  }finally{world.getAbsoluteTime=originalTime;}
 }));
 import {BOTTLES} from '../../runtime/BP/scripts/data/bottles.js';
