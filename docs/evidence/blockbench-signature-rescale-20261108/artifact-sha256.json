@@ -1,0 +1,15 @@
+{
+  "README.md": "1114b982610f7935705f62b19b494684a1d91c0e778a1b42e9f9ffe68905ae9d",
+  "check_review_correction.py": "3255752b29a9a7a360715338fec0bb7d8b892730a4375c93ce604911de90e0a2",
+  "fixture-audit.json": "80797a70264ada609ec8cf4cc878a1ce5a724056fcbe5b94da0efa6aca8d9726",
+  "java-signature-cocktail.json": "6d58729dc256aed8d438763fadb628d91597dba71f73267ce1644beeda8f529b",
+  "scene-entry-sha256.json": "70fa1ef2eb07a56917aed2519b621013b0b09e018e0f3f0a7784bd71a638ba71",
+  "scene-records.json": "215e55d61d57349db1117fa5e73c33ee1868145ef3567b859f6decf4d09d6d45",
+  "scenes.zip": "10f10c4507430847ac6e1968783dfffc10b76bacb9905cbac51ac9fdf50db5be",
+  "screenshots/signature-rescale-frame-0.jpg": "bb78b1a3927522e23c89dad1811dfc878c0e1cbefca8cc0c0f0db00e81ea5a40",
+  "screenshots/signature-rescale-frame-1.jpg": "33c439c51dd22f093e84e8651947981607d60bbdfa6f39f467af5f1372e371f4",
+  "screenshots/signature-rescale-frame-2.jpg": "d9ad24ac33d320294af346fc0b92b29fc4f7d6e2f0cf038e3342c8e9be96ef64",
+  "screenshots/signature-rescale-frame-3.jpg": "7ed5ae47d6a6e164d7ab8dd88b2a4c8c29776ea2a02d84c035d497400c9014fb",
+  "screenshots/signature-rescale-frame-4.jpg": "2f3749c2f3257a73d47790fef7b5db76c4382aee5900afeae05dc1aabc058306",
+  "screenshots/signature-rescale-frame-5.jpg": "f90738ceff8b40f39e23879f5e3d401bda7a090431db505e9dda6bb899ee7db4"
+}

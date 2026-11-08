@@ -1,0 +1,72 @@
+{
+  "passed": true,
+  "scope": "review fixture bounds, pivots, rotations, face UV, shade, texture bytes and unchanged native-side data; not client rendering",
+  "frames": [
+    {
+      "frame": 0,
+      "java_elements": 15,
+      "rescale_elements": [
+        13,
+        14
+      ],
+      "baked_width": 7.0710678118654755,
+      "runtime_elements_unchanged": 126,
+      "texture_bytes_unchanged": true
+    },
+    {
+      "frame": 1,
+      "java_elements": 15,
+      "rescale_elements": [
+        13,
+        14
+      ],
+      "baked_width": 7.0710678118654755,
+      "runtime_elements_unchanged": 126,
+      "texture_bytes_unchanged": true
+    },
+    {
+      "frame": 2,
+      "java_elements": 15,
+      "rescale_elements": [
+        13,
+        14
+      ],
+      "baked_width": 7.0710678118654755,
+      "runtime_elements_unchanged": 126,
+      "texture_bytes_unchanged": true
+    },
+    {
+      "frame": 3,
+      "java_elements": 15,
+      "rescale_elements": [
+        13,
+        14
+      ],
+      "baked_width": 7.0710678118654755,
+      "runtime_elements_unchanged": 130,
+      "texture_bytes_unchanged": true
+    },
+    {
+      "frame": 4,
+      "java_elements": 15,
+      "rescale_elements": [
+        13,
+        14
+      ],
+      "baked_width": 7.0710678118654755,
+      "runtime_elements_unchanged": 130,
+      "texture_bytes_unchanged": true
+    },
+    {
+      "frame": 5,
+      "java_elements": 15,
+      "rescale_elements": [
+        13,
+        14
+      ],
+      "baked_width": 7.0710678118654755,
+      "runtime_elements_unchanged": 126,
+      "texture_bytes_unchanged": true
+    }
+  ]
+}

@@ -2,6 +2,8 @@
 
 This is a bounded editor review of Tavern 0.6.212 at `e58b5a421d101f83418b82a960faa1b94d0c2a73`, not an all-addon or Minecraft-client acceptance certificate. Runtime, release identity, accepted held poses and deployment are unchanged.
 
+**Correction:** the six Signature Java-side review fixtures below omitted the source's `rotation.rescale` on two 45-degree planes. Their whole-cup geometry comparison is superseded by the [corrected fixtures and six new GUI captures](../blockbench-signature-rescale-20261108/README.md). The runtime side already had the scale baked in; this was an evidence-adapter error, not a runtime fix. Original files remain here as historical evidence. Shaker and furniture results retain their stated scope.
+
 ## Method and source
 
 - Official Blockbench 5.2.2, Linux desktop. No plugin or server was loaded for this review.
@@ -25,11 +27,13 @@ The focused source-pose check evaluated 2,016 cases; 15 held-frame/native-frame 
 
 ## Signature cup
 
+**Superseded visual comparison.** Use the [corrected Signature review](../blockbench-signature-rescale-20261108/README.md). The original six source-side fixtures did not apply Java `rotation.rescale`; they also did not preserve the source's `shade` flags. The old geometry/visible-pattern equivalence inference is withdrawn. The unchanged shipped-data regression below checks its own native source-face/RGB contract, not the omitted Java rescale transform.
+
 Six review scenes compare the Java whole cup against the committed runtime glass plus all ten RGB geometry layers for each animation frame. Every frame PNG matches the corresponding source strip pixels. The RGB case is the untinted `(255,255,255)` case: editor-only solid swatches represent the output of each actual layer's overlay colour. This is a geometry/texture composition check, **not** execution of render controllers, arbitrary mixture colours, PBR or Bedrock material shaders.
 
 The independent shipped-data regression passed 2,856 source-face texel samples and 7,680 RGB channel cases across six frames and ten colour groups. The 1.21.1 source has the same geometry but uses `translucent` instead of main's `cutout`; relevant source alpha values are 0 or 255. No engine material/sorting equivalence is inferred from that fact.
 
-The six actual GUI views show a complete rim, stem, base and straw on both sides, with the same visible cutout pattern and frame-specific highlights. No additional liquid-plane, UV or assembly defect was confirmed in these untinted scenes. Perspective makes the nearer right object appear larger; no size correction was made.
+The six historical GUI views below demonstrate what was opened, but their Java side is incomplete and must not be used to infer whole-cup geometric equivalence or a runtime size defect. No runtime size correction was made. Corrected views are linked above.
 
 - [Frame 0](screenshots/signature-frame-0.jpg) · [Review scene](scenes/signature-frame-0.bbmodel)
 - [Frame 1](screenshots/signature-frame-1.jpg) · [Review scene](scenes/signature-frame-1.bbmodel)

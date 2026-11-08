@@ -1,0 +1,266 @@
+[
+  {
+    "name": "signature-rescale-frame-0",
+    "frames_equal_to_java_rgba": true,
+    "rgb_layers": [
+      "geometry.kt_runtime.signature_rgb_5d6062_0",
+      "geometry.kt_runtime.signature_rgb_82c5d9_0",
+      "geometry.kt_runtime.signature_rgb_88c9dc_0",
+      "geometry.kt_runtime.signature_rgb_999999_0",
+      "geometry.kt_runtime.signature_rgb_a1a4a6_0",
+      "geometry.kt_runtime.signature_rgb_a8dae4_0",
+      "geometry.kt_runtime.signature_rgb_d1d8dd_0",
+      "geometry.kt_runtime.signature_rgb_d8efef_0",
+      "geometry.kt_runtime.signature_rgb_fafeff_0",
+      "geometry.kt_runtime.signature_rgb_ffffff_0"
+    ],
+    "colour": [
+      255,
+      255,
+      255
+    ],
+    "rendering_limit": "solid editor textures represent static RGB overlay output; not engine shader/controller/PBR proof",
+    "inputs": [
+      {
+        "path": "source/runtime/RP/models/entity/signature_rgb_texels.geo.json",
+        "sha256": "a4252c78a9473e1f28c6e87a46d4923434111fdb51ef21e53a5cb442a2fa72ac"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/rig_signature_glass.geo.json",
+        "sha256": "304235b7d225601bb4b9a646fd93570acf03720f78d51a0bf7ea0e8d0c72ded1"
+      },
+      {
+        "path": "source/runtime/RP/textures/kt_runtime/signature/frame_0.png",
+        "sha256": "f9e88c2d7ffcd145d0b7233d3c0636e9f7d7a56c7ee3dfbb4118ced2b146f94a"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/signature_cocktail.json",
+        "sha256": "6d58729dc256aed8d438763fadb628d91597dba71f73267ce1644beeda8f529b"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/signature_cocktail.png",
+        "sha256": "092d193e95d49b2cdd914421e6e5d2f97fe2869d093efb234f174a10f7da1051"
+      }
+    ]
+  },
+  {
+    "name": "signature-rescale-frame-1",
+    "frames_equal_to_java_rgba": true,
+    "rgb_layers": [
+      "geometry.kt_runtime.signature_rgb_5d6062_1",
+      "geometry.kt_runtime.signature_rgb_82c5d9_1",
+      "geometry.kt_runtime.signature_rgb_88c9dc_1",
+      "geometry.kt_runtime.signature_rgb_999999_1",
+      "geometry.kt_runtime.signature_rgb_a1a4a6_1",
+      "geometry.kt_runtime.signature_rgb_a8dae4_1",
+      "geometry.kt_runtime.signature_rgb_d1d8dd_1",
+      "geometry.kt_runtime.signature_rgb_d8efef_1",
+      "geometry.kt_runtime.signature_rgb_fafeff_1",
+      "geometry.kt_runtime.signature_rgb_ffffff_1"
+    ],
+    "colour": [
+      255,
+      255,
+      255
+    ],
+    "rendering_limit": "solid editor textures represent static RGB overlay output; not engine shader/controller/PBR proof",
+    "inputs": [
+      {
+        "path": "source/runtime/RP/models/entity/signature_rgb_texels.geo.json",
+        "sha256": "a4252c78a9473e1f28c6e87a46d4923434111fdb51ef21e53a5cb442a2fa72ac"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/rig_signature_glass.geo.json",
+        "sha256": "304235b7d225601bb4b9a646fd93570acf03720f78d51a0bf7ea0e8d0c72ded1"
+      },
+      {
+        "path": "source/runtime/RP/textures/kt_runtime/signature/frame_1.png",
+        "sha256": "3710c0d06e62f9d33b8d423e3692209e5a12f2d16d96bfc16830dc018656fdd7"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/signature_cocktail.json",
+        "sha256": "6d58729dc256aed8d438763fadb628d91597dba71f73267ce1644beeda8f529b"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/signature_cocktail.png",
+        "sha256": "092d193e95d49b2cdd914421e6e5d2f97fe2869d093efb234f174a10f7da1051"
+      }
+    ]
+  },
+  {
+    "name": "signature-rescale-frame-2",
+    "frames_equal_to_java_rgba": true,
+    "rgb_layers": [
+      "geometry.kt_runtime.signature_rgb_5d6062_2",
+      "geometry.kt_runtime.signature_rgb_82c5d9_2",
+      "geometry.kt_runtime.signature_rgb_88c9dc_2",
+      "geometry.kt_runtime.signature_rgb_999999_2",
+      "geometry.kt_runtime.signature_rgb_a1a4a6_2",
+      "geometry.kt_runtime.signature_rgb_a8dae4_2",
+      "geometry.kt_runtime.signature_rgb_d1d8dd_2",
+      "geometry.kt_runtime.signature_rgb_d8efef_2",
+      "geometry.kt_runtime.signature_rgb_fafeff_2",
+      "geometry.kt_runtime.signature_rgb_ffffff_2"
+    ],
+    "colour": [
+      255,
+      255,
+      255
+    ],
+    "rendering_limit": "solid editor textures represent static RGB overlay output; not engine shader/controller/PBR proof",
+    "inputs": [
+      {
+        "path": "source/runtime/RP/models/entity/signature_rgb_texels.geo.json",
+        "sha256": "a4252c78a9473e1f28c6e87a46d4923434111fdb51ef21e53a5cb442a2fa72ac"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/rig_signature_glass.geo.json",
+        "sha256": "304235b7d225601bb4b9a646fd93570acf03720f78d51a0bf7ea0e8d0c72ded1"
+      },
+      {
+        "path": "source/runtime/RP/textures/kt_runtime/signature/frame_2.png",
+        "sha256": "4ec93fa25c327a4f37919fa498378b801028e8aae6eb334ac02778f6ab432ef5"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/signature_cocktail.json",
+        "sha256": "6d58729dc256aed8d438763fadb628d91597dba71f73267ce1644beeda8f529b"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/signature_cocktail.png",
+        "sha256": "092d193e95d49b2cdd914421e6e5d2f97fe2869d093efb234f174a10f7da1051"
+      }
+    ]
+  },
+  {
+    "name": "signature-rescale-frame-3",
+    "frames_equal_to_java_rgba": true,
+    "rgb_layers": [
+      "geometry.kt_runtime.signature_rgb_5d6062_3",
+      "geometry.kt_runtime.signature_rgb_82c5d9_3",
+      "geometry.kt_runtime.signature_rgb_88c9dc_3",
+      "geometry.kt_runtime.signature_rgb_999999_3",
+      "geometry.kt_runtime.signature_rgb_a1a4a6_3",
+      "geometry.kt_runtime.signature_rgb_a8dae4_3",
+      "geometry.kt_runtime.signature_rgb_d1d8dd_3",
+      "geometry.kt_runtime.signature_rgb_d8efef_3",
+      "geometry.kt_runtime.signature_rgb_fafeff_3",
+      "geometry.kt_runtime.signature_rgb_ffffff_3"
+    ],
+    "colour": [
+      255,
+      255,
+      255
+    ],
+    "rendering_limit": "solid editor textures represent static RGB overlay output; not engine shader/controller/PBR proof",
+    "inputs": [
+      {
+        "path": "source/runtime/RP/models/entity/signature_rgb_texels.geo.json",
+        "sha256": "a4252c78a9473e1f28c6e87a46d4923434111fdb51ef21e53a5cb442a2fa72ac"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/rig_signature_glass.geo.json",
+        "sha256": "304235b7d225601bb4b9a646fd93570acf03720f78d51a0bf7ea0e8d0c72ded1"
+      },
+      {
+        "path": "source/runtime/RP/textures/kt_runtime/signature/frame_3.png",
+        "sha256": "80ffe3ca27898609fd02f3157a44610fd47d1689c84cbce2e41e729567caeac3"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/signature_cocktail.json",
+        "sha256": "6d58729dc256aed8d438763fadb628d91597dba71f73267ce1644beeda8f529b"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/signature_cocktail.png",
+        "sha256": "092d193e95d49b2cdd914421e6e5d2f97fe2869d093efb234f174a10f7da1051"
+      }
+    ]
+  },
+  {
+    "name": "signature-rescale-frame-4",
+    "frames_equal_to_java_rgba": true,
+    "rgb_layers": [
+      "geometry.kt_runtime.signature_rgb_5d6062_4",
+      "geometry.kt_runtime.signature_rgb_82c5d9_4",
+      "geometry.kt_runtime.signature_rgb_88c9dc_4",
+      "geometry.kt_runtime.signature_rgb_999999_4",
+      "geometry.kt_runtime.signature_rgb_a1a4a6_4",
+      "geometry.kt_runtime.signature_rgb_a8dae4_4",
+      "geometry.kt_runtime.signature_rgb_d1d8dd_4",
+      "geometry.kt_runtime.signature_rgb_d8efef_4",
+      "geometry.kt_runtime.signature_rgb_fafeff_4",
+      "geometry.kt_runtime.signature_rgb_ffffff_4"
+    ],
+    "colour": [
+      255,
+      255,
+      255
+    ],
+    "rendering_limit": "solid editor textures represent static RGB overlay output; not engine shader/controller/PBR proof",
+    "inputs": [
+      {
+        "path": "source/runtime/RP/models/entity/signature_rgb_texels.geo.json",
+        "sha256": "a4252c78a9473e1f28c6e87a46d4923434111fdb51ef21e53a5cb442a2fa72ac"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/rig_signature_glass.geo.json",
+        "sha256": "304235b7d225601bb4b9a646fd93570acf03720f78d51a0bf7ea0e8d0c72ded1"
+      },
+      {
+        "path": "source/runtime/RP/textures/kt_runtime/signature/frame_4.png",
+        "sha256": "3c1bb5201f8151cd7c49479cb2d41c989f5a882688931a8b9cc662cccfd84b2c"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/signature_cocktail.json",
+        "sha256": "6d58729dc256aed8d438763fadb628d91597dba71f73267ce1644beeda8f529b"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/signature_cocktail.png",
+        "sha256": "092d193e95d49b2cdd914421e6e5d2f97fe2869d093efb234f174a10f7da1051"
+      }
+    ]
+  },
+  {
+    "name": "signature-rescale-frame-5",
+    "frames_equal_to_java_rgba": true,
+    "rgb_layers": [
+      "geometry.kt_runtime.signature_rgb_5d6062_5",
+      "geometry.kt_runtime.signature_rgb_82c5d9_5",
+      "geometry.kt_runtime.signature_rgb_88c9dc_5",
+      "geometry.kt_runtime.signature_rgb_999999_5",
+      "geometry.kt_runtime.signature_rgb_a1a4a6_5",
+      "geometry.kt_runtime.signature_rgb_a8dae4_5",
+      "geometry.kt_runtime.signature_rgb_d1d8dd_5",
+      "geometry.kt_runtime.signature_rgb_d8efef_5",
+      "geometry.kt_runtime.signature_rgb_fafeff_5",
+      "geometry.kt_runtime.signature_rgb_ffffff_5"
+    ],
+    "colour": [
+      255,
+      255,
+      255
+    ],
+    "rendering_limit": "solid editor textures represent static RGB overlay output; not engine shader/controller/PBR proof",
+    "inputs": [
+      {
+        "path": "source/runtime/RP/models/entity/signature_rgb_texels.geo.json",
+        "sha256": "a4252c78a9473e1f28c6e87a46d4923434111fdb51ef21e53a5cb442a2fa72ac"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/rig_signature_glass.geo.json",
+        "sha256": "304235b7d225601bb4b9a646fd93570acf03720f78d51a0bf7ea0e8d0c72ded1"
+      },
+      {
+        "path": "source/runtime/RP/textures/kt_runtime/signature/frame_5.png",
+        "sha256": "ab9526eb5b29df6f1cb10386e3a562baeb6b69f490d4e6a23c484f98d4697566"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/signature_cocktail.json",
+        "sha256": "6d58729dc256aed8d438763fadb628d91597dba71f73267ce1644beeda8f529b"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/signature_cocktail.png",
+        "sha256": "092d193e95d49b2cdd914421e6e5d2f97fe2869d093efb234f174a10f7da1051"
+      }
+    ]
+  }
+]

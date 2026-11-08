@@ -49,3 +49,5 @@ Download [the 15 self-contained review projects](scenes.zip), extract them, then
 `artifact-sha256.json` hashes the 19 screenshots, the archive and each of its 15 model entries. No screenshot is cropped, repainted or reconstructed.
 
 This work does not test PBR, light emission, engine transparency/sorting, potion tint/controller selection, rack contents or placement/interaction, hand/inventory contexts, seat passengers, runtime colour routing, or Minecraft rendering. Bar-stool entity geometry and seating dynamics are not included. No runtime fix, version bump, release or deployment is justified solely by passing these editor views.
+
+Fixture audit note: none of this batch's Java inputs uses `rotation.rescale`, so the [Signature rescale correction](../blockbench-signature-rescale-20261108/README.md) does not change these bounds. The original adapter did not copy Java `shade: false` flags present in the circular rack, lamp bottom and experience bottle inputs. Accordingly, these images must not be used as Java lighting/shading equivalence evidence; the stated geometry, UV and visible-texture review remains bounded as above.
