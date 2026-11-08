@@ -7,6 +7,8 @@ from family_update.common import CONFIG, T, R, W, read, sha, hashes, atomic, rep
 def validate_plan(spec, receipt, original):
     if spec.get('schema') == 2:
         return validate_family_plan(spec, receipt, original)
+    if spec.get('schema') == 3:
+        return validate_family_uuid_plan(spec, receipt, original)
     assert spec['schema'] == 1 and spec['kind'] == 'author_uuid_owner_migration'
     assert spec['authorization']
     pins = [p for p in read(T / 'family/upstream.lock.json')['upstream']
@@ -48,11 +50,58 @@ def plan_swaps(spec):
         assert spec['kind'] == 'author_uuid_owner_migration'
         assert len(spec['packs']) == 2
         return spec['packs']
+    if spec.get('schema') == 3:
+        assert spec['kind'] == 'author_family_uuid_migration'
+        return [swap for project in spec['projects'] for swap in project['packs']]
     assert spec.get('schema') == 2 and spec['kind'] == 'author_family_uuid_and_state_migration'
     projects = spec['projects']
     assert len(projects) == 4 and {p['project_id'] for p in projects} == {1673664, 1683300, 1710501, 1710505}
     assert all(len(p['packs']) == 2 and {s['side'] for s in p['packs']} == {'behavior', 'resource'} for p in projects)
     return [s for p in projects for s in p['packs']]
+
+
+def validate_family_uuid_plan(spec, receipt, original):
+    """Reviewed author UUID/version changes without block-state conversion.
+
+    Pins the old admitted manifests and archives and the new canonical release
+    from the lock. Candidate manifest bytes are verified by the receipt; this
+    migration only owns the pack identity and dynamic-property remap.
+    """
+    assert spec['kind'] == 'author_family_uuid_migration'
+    assert spec['authorization']
+    projects = spec['projects']
+    assert projects and len({p['project_id'] for p in projects}) == len(projects)
+    pins = {p['project_id']: p for p in read(T / 'family/upstream.lock.json')['upstream']}
+    old = {p['uuid']: p for p in original['packs']}
+    new = {p['uuid']: p for p in receipt['packs']}
+    swaps = [swap for project in projects for swap in project['packs']]
+    before = {row['old_uuid'] for row in swaps}; after = {row['new_uuid'] for row in swaps}
+    assert len(before) == len(after) == 2 * len(projects) and not before & after
+    assert set(old) - before == set(new) - after, 'Unreviewed identity additions/removals'
+    for project in projects:
+        pin = pins[project['project_id']]
+        assert pin['file_id'] == project['new_file_id'] and pin['sha256'] == project['new_archive_sha256']
+        assert {p['uuid'] for p in pin['packs']} == {row['new_uuid'] for row in project['packs']}
+        digests = [project['old_archive_sha256'], project['new_archive_sha256'],
+                   *(row['old_manifest_sha256'] for row in project['packs'])]
+        assert all(re.fullmatch(r'[0-9a-f]{64}', value or '') for value in digests), 'Migration requires complete SHA256 values'
+        assert len(project['packs']) == 2 and {row['side'] for row in project['packs']} == {'behavior', 'resource'}
+        for swap in project['packs']:
+            a, b = old[swap['old_uuid']], new[swap['new_uuid']]
+            assert a['side'] == b['side'] == swap['side']
+            assert a['version'] == swap['old_version'], 'Observed author version differs: ' + str(project['project_id']) + '/' + swap['side']
+            assert b['version'] == swap['new_version'], 'Candidate author version differs: ' + str(project['project_id']) + '/' + swap['side']
+            assert a['files']['manifest.json'] == swap['old_manifest_sha256']
+            for pack, prefix in ((a, 'old'), (b, 'new')):
+                source = pack['source']
+                assert source['owner'] in ('upstream', 'upstream_extended')
+                assert source['project_id'] == project['project_id']
+                assert source['file_id'] == project[prefix + '_file_id']
+                assert source['archive_sha256'] == project[prefix + '_archive_sha256']
+    expected = {row['old_uuid']: row['new_uuid'] for row in swaps if row['side'] == 'behavior'}
+    assert spec['dynamic_property_owners'] == expected, 'Only author BP owns migrated data'
+    assert not spec.get('block_states'), 'This migration converts no reviewed block states'
+    return spec
 
 
 def validate_family_plan(spec, receipt, original):

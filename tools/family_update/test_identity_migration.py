@@ -134,3 +134,31 @@ class FamilyIdentityTests(unittest.TestCase):
   with self.assertRaisesRegex(AssertionError,'block-state definition'):self.check()
 
 if __name__=='__main__':unittest.main()
+
+class FamilyUuidMigrationV3(unittest.TestCase):
+ def setUp(self):
+  target=patch.object(m,'T',Path(__file__).resolve().parents[2]);target.start();self.addCleanup(target.stop)
+  self.spec=json.loads((m.T/'family/identity-migrations/current-author-20261109.json').read_text())
+  lock={'upstream':[{'project_id':p['project_id'],'file_id':p['new_file_id'],'sha256':p['new_archive_sha256'],
+                     'packs':[{'uuid':s['new_uuid']} for s in p['packs']]} for p in self.spec['projects']]}
+  original_read=m.read
+  fixture=patch.object(m,'read',side_effect=lambda path:lock if path==m.T/'family/upstream.lock.json' else original_read(path));fixture.start();self.addCleanup(fixture.stop)
+  self.old={'packs':[{'uuid':'preserved','side':'behavior','version':[1,0,0],'files':{'manifest.json':'0'*64},'source':{'owner':'preserved','project_id':1,'file_id':1,'archive_sha256':'0'*64}}]}
+  self.new={'packs':[{'uuid':'preserved','side':'behavior','version':[1,0,0],'files':{'manifest.json':'0'*64},'source':{'owner':'preserved','project_id':1,'file_id':1,'archive_sha256':'0'*64}}]}
+  for project in self.spec['projects']:
+   for swap in project['packs']:
+    self.old['packs'].append({'uuid':swap['old_uuid'],'side':swap['side'],'version':swap['old_version'],'files':{'manifest.json':swap['old_manifest_sha256']},'source':{'owner':'upstream_extended','project_id':project['project_id'],'file_id':project['old_file_id'],'archive_sha256':project['old_archive_sha256']}})
+    self.new['packs'].append({'uuid':swap['new_uuid'],'side':swap['side'],'version':swap['new_version'],'source':{'owner':'upstream_extended','project_id':project['project_id'],'file_id':project['new_file_id'],'archive_sha256':project['new_archive_sha256']}})
+ def test_exact_two_project_identity_change(self):
+  self.assertEqual(m.validate_plan(self.spec,self.new,self.old),self.spec)
+ def test_version_and_manifest_pins_are_required(self):
+  self.new['packs'][1]['version']=[1,6,10003]
+  with self.assertRaisesRegex(AssertionError,'Candidate author version differs'):m.validate_plan(self.spec,self.new,self.old)
+  self.new['packs'][1]['version']=self.spec['projects'][0]['packs'][0]['new_version'];self.old['packs'][1]['files']['manifest.json']='f'*64
+  with self.assertRaises(AssertionError):m.validate_plan(self.spec,self.new,self.old)
+ def test_unreviewed_identity_additions_are_rejected(self):
+  self.new['packs'].append({'uuid':'extra','side':'behavior','version':[1,0,0],'files':{'manifest.json':'0'*64},'source':{'owner':'upstream','project_id':1,'file_id':1,'archive_sha256':'0'*64}})
+  with self.assertRaisesRegex(AssertionError,'Unreviewed identity additions/removals'):m.validate_plan(self.spec,self.new,self.old)
+ def test_no_block_state_profile_is_admitted(self):
+  self.spec['block_states']={'kind':'identity','blocks':[]}
+  with self.assertRaisesRegex(AssertionError,'converts no reviewed block states'):m.validate_plan(self.spec,self.new,self.old)
