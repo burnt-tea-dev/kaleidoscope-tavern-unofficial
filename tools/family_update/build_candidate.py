@@ -38,6 +38,17 @@ def main(argv=None):
                          if read(Path(root)/'manifest.json')['header']['uuid'] not in replaced]+replacement_roots
         local_sources={**local_sources,**replacement_sources}
         atomic(R/'author-replacement-selection.json',replacement_selection)
+    if curated_selection is not None:
+        from family_update.identity_migration import plan_swaps
+        swapped=set()
+        if CONFIG.get('identity_migration'):
+            swaps=plan_swaps(read(Path(CONFIG['identity_migration'])))
+            swapped={row['old_uuid'] for row in swaps}|{row['new_uuid'] for row in swaps}
+        selected_ids=set(curated_selection['packs'])|(set(replacement_selection['packs']) if replacement_selection else set())
+        for pack in preserved:
+            uid=pack['uuid']
+            if uid in selected_ids or uid in swapped:continue
+            preserved_roots.append(Path(pack['path']))
     from family_update.identity_migration import assembly_order, candidate_plan
     requested=CONFIG.get('held_sources',[])
     assembly_lock, assembly_sources, retention = read(T / 'family/upstream.lock.json'), SOURCES.copy(), None
