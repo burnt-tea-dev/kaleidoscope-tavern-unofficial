@@ -94,6 +94,13 @@ def validate_family_uuid_plan(spec, receipt, original):
             assert a['files']['manifest.json'] == swap['old_manifest_sha256']
             for pack, prefix in ((a, 'old'), (b, 'new')):
                 source = pack['source']
+                if source['owner'] == 'preserved':
+                    # A declared owner pair replaces an installed preserved input;
+                    # its exact bytes are pinned by the replacement selection and
+                    # the admitted manifest/version above.
+                    if prefix == 'new':
+                        assert source.get('role') == 'owner_accepted_author_replacement', 'Preserved migration target needs the owner replacement role'
+                    continue
                 assert source['owner'] in ('upstream', 'upstream_extended')
                 assert source['project_id'] == project['project_id']
                 assert source['file_id'] == project[prefix + '_file_id']

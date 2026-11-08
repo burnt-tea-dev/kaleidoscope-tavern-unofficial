@@ -147,8 +147,9 @@ class FamilyUuidMigrationV3(unittest.TestCase):
   self.new={'packs':[{'uuid':'preserved','side':'behavior','version':[1,0,0],'files':{'manifest.json':'0'*64},'source':{'owner':'preserved','project_id':1,'file_id':1,'archive_sha256':'0'*64}}]}
   for project in self.spec['projects']:
    for swap in project['packs']:
-    self.old['packs'].append({'uuid':swap['old_uuid'],'side':swap['side'],'version':swap['old_version'],'files':{'manifest.json':swap['old_manifest_sha256']},'source':{'owner':'upstream_extended','project_id':project['project_id'],'file_id':project['old_file_id'],'archive_sha256':project['old_archive_sha256']}})
-    self.new['packs'].append({'uuid':swap['new_uuid'],'side':swap['side'],'version':swap['new_version'],'source':{'owner':'upstream_extended','project_id':project['project_id'],'file_id':project['new_file_id'],'archive_sha256':project['new_archive_sha256']}})
+    preserved = project['project_id'] == 1702981
+    self.old['packs'].append({'uuid':swap['old_uuid'],'side':swap['side'],'version':swap['old_version'],'files':{'manifest.json':swap['old_manifest_sha256']},'source':{'owner':'preserved'} if preserved else {'owner':'upstream_extended','project_id':project['project_id'],'file_id':project['old_file_id'],'archive_sha256':project['old_archive_sha256']}})
+    self.new['packs'].append({'uuid':swap['new_uuid'],'side':swap['side'],'version':swap['new_version'],'source':({'owner':'preserved','role':'owner_accepted_author_replacement'} if preserved else {'owner':'upstream_extended','project_id':project['project_id'],'file_id':project['new_file_id'],'archive_sha256':project['new_archive_sha256']})})
  def test_exact_two_project_identity_change(self):
   self.assertEqual(m.validate_plan(self.spec,self.new,self.old),self.spec)
  def test_version_and_manifest_pins_are_required(self):
