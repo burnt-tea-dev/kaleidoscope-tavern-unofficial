@@ -1,0 +1,299 @@
+{
+  "meta": {
+    "format_version": "5.0",
+    "model_format": "free",
+    "box_uv": false
+  },
+  "name": "Java LEFT / Tavern 0.6.212 RIGHT - bar_counter_middle",
+  "resolution": {
+    "width": 128,
+    "height": 128
+  },
+  "elements": [
+    {
+      "name": "Java element 0",
+      "uuid": "6e527225-cf68-443d-bcde-8f47f4591175",
+      "type": "cube",
+      "box_uv": false,
+      "from": [
+        -21,
+        0,
+        -8
+      ],
+      "to": [
+        -5,
+        16,
+        8
+      ],
+      "origin": [
+        -13,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "autouv": 0,
+      "faces": {
+        "north": {
+          "uv": [
+            48.0,
+            16.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0,
+          "rotation": 0
+        },
+        "east": {
+          "uv": [
+            48.0,
+            16.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0,
+          "rotation": 0
+        },
+        "south": {
+          "uv": [
+            0.0,
+            0.0,
+            16.0,
+            16.0
+          ],
+          "texture": 0,
+          "rotation": 0
+        },
+        "west": {
+          "uv": [
+            48.0,
+            16.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0,
+          "rotation": 0
+        },
+        "up": {
+          "uv": [
+            32.0,
+            0.0,
+            48.0,
+            16.0
+          ],
+          "texture": 0,
+          "rotation": 0
+        },
+        "down": {
+          "uv": [
+            16.0,
+            0.0,
+            32.0,
+            16.0
+          ],
+          "texture": 0,
+          "rotation": 0
+        }
+      },
+      "visibility": true
+    },
+    {
+      "name": "root_0",
+      "uuid": "8a001f06-528e-47db-805c-61c0a3f8b918",
+      "type": "cube",
+      "box_uv": false,
+      "from": [
+        5,
+        0,
+        -8
+      ],
+      "to": [
+        21,
+        16,
+        8
+      ],
+      "origin": [
+        13,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "autouv": 0,
+      "faces": {
+        "north": {
+          "uv": [
+            48.0,
+            16.0,
+            64.0,
+            32.0
+          ],
+          "texture": 1,
+          "rotation": 0
+        },
+        "east": {
+          "uv": [
+            48.0,
+            16.0,
+            64.0,
+            32.0
+          ],
+          "texture": 1,
+          "rotation": 0
+        },
+        "south": {
+          "uv": [
+            0.0,
+            0.0,
+            16.0,
+            16.0
+          ],
+          "texture": 1,
+          "rotation": 0
+        },
+        "west": {
+          "uv": [
+            48.0,
+            16.0,
+            64.0,
+            32.0
+          ],
+          "texture": 1,
+          "rotation": 0
+        },
+        "up": {
+          "uv": [
+            32.0,
+            0.0,
+            48.0,
+            16.0
+          ],
+          "texture": 1,
+          "rotation": 0
+        },
+        "down": {
+          "uv": [
+            16.0,
+            0.0,
+            32.0,
+            16.0
+          ],
+          "texture": 1,
+          "rotation": 0
+        }
+      },
+      "visibility": true
+    }
+  ],
+  "groups": [
+    {
+      "name": "Java authored middle",
+      "uuid": "0334feca-7985-4dbc-97de-8589272acdf7",
+      "origin": [
+        -13,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "visibility": true,
+      "export": true,
+      "isOpen": false
+    },
+    {
+      "name": "canonical",
+      "uuid": "b9d7df86-6fff-44c1-99a8-3283d53d6f0d",
+      "origin": [
+        13,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "visibility": true,
+      "export": true,
+      "isOpen": false
+    },
+    {
+      "name": "root",
+      "uuid": "6cc7691f-e74d-4e5d-92e4-68996aa3e107",
+      "origin": [
+        13,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "visibility": true,
+      "export": true,
+      "isOpen": false
+    }
+  ],
+  "outliner": [
+    {
+      "uuid": "0334feca-7985-4dbc-97de-8589272acdf7",
+      "isOpen": false,
+      "children": [
+        "6e527225-cf68-443d-bcde-8f47f4591175"
+      ]
+    },
+    {
+      "uuid": "b9d7df86-6fff-44c1-99a8-3283d53d6f0d",
+      "isOpen": false,
+      "children": [
+        {
+          "uuid": "6cc7691f-e74d-4e5d-92e4-68996aa3e107",
+          "isOpen": false,
+          "children": [
+            "8a001f06-528e-47db-805c-61c0a3f8b918"
+          ]
+        }
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "name": "bar_counter.png",
+      "id": "0",
+      "uuid": "9cccf408-7076-4d26-a33f-9bb1a5cd0fb4",
+      "width": 64,
+      "height": 32,
+      "uv_width": 64,
+      "uv_height": 32,
+      "render_mode": "default",
+      "render_sides": "front",
+      "internal": true,
+      "saved": true,
+      "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAgCAYAAACinX6EAAAAAXNSR0IArs4c6QAAAw5JREFUaIHdWUFrE0EU/jZsSZymBJJKk7i5Cz0oLYT24qkXFelFeiwJeBd78Cd4a4p3/QPFg3jx0nuh0ICIIDl4yRINNVGJTgMt1EM6k9nNbrI7b5KI3yX7Zua9yXvz9s17b6319bUrEOC6TQr73GF3ux2SAMYYstmcFq/rNuE4JdL+FLhuEzbnnCSEMQYAiGtIYTTqAehC7G/XX23KweLD58MVZ/VAxtbJEYrlLbROjgAAa0+OAQCccxwevsHe3rPQ18JxSqjVDrCz81iOUQ9AB+LQAMDavlu8yi8vyoFv3/8gDv32408wxsA5h+OUJsYEsUbwhP3BaRpGvLau24TdaPfkRH55EV9/9XEjZeO8f+mhASCTTqLR7nloFVEC4qQ1VOXj8icASIUAoNe/8CwQ9Hn/UvtPxcEslQeAxFJqQWuzWRkkDnSMlxAPqhf4lVNpXYP9q0gAkxVUjfO/IRE0qCrsN4g/RswS6vVlCtIAfrcfd+ph73+UrE438zNxOwRh5BagoFY7GKugSIR0MK3bwRYuLYygXnuZdHLE5ZdSCzJPEMJFWlmp7MqxIHS7HVQqu5KHc27MrccZaNycDQBf2r8BAIVrpQQtoNK9/oVvfhAjdAsiXb4g6HiJvV8t4M7mbTlQLG8NHnKrg9/OJw+DqAE+HH8GAFRf/yC5p4lymlJRWisrN0n9gHb7zIrLQ+1BnJ7W5Z5UWTbFerqlrMkSmCpLuyFCeXdNVnpUWZEbIsJT1Hped3NPD+L+0+GEEm9ErAGGcUmM3Xr0Ts5tFGipeWAMCLs31TparNGJAZQexHbZwoMXDcuELOD6GvQrGXaynHMj7kvpQQApY7Iy6eRoLTCrFpVuD0K9sqmygJBiaNow2YOgypqLAQRM9iB0Zc3NACZ7EBRZc/UAFSZ7EHFkxTIAY8zolxwTPQiqrMgGcJwSstmcdj3vh24PQhRhJmQBgB21Hhcps1rP64LagzApyzZZj8eBfg8ibVAWYM/j8/Z+tSCfRWIz0ocA0Hr/0sMX5P73VvMeWk1zo9B/AXEH679ZmVYHAAAAAElFTkSuQmCC"
+    },
+    {
+      "name": "bar_counter.png",
+      "id": "1",
+      "uuid": "870ae5c7-76db-464f-aec1-ab91a93e2ca1",
+      "width": 64,
+      "height": 32,
+      "uv_width": 64,
+      "uv_height": 32,
+      "render_mode": "default",
+      "render_sides": "front",
+      "internal": true,
+      "saved": true,
+      "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAgCAYAAACinX6EAAAAAXNSR0IArs4c6QAAAw5JREFUaIHdWUFrE0EU/jZsSZymBJJKk7i5Cz0oLYT24qkXFelFeiwJeBd78Cd4a4p3/QPFg3jx0nuh0ICIIDl4yRINNVGJTgMt1EM6k9nNbrI7b5KI3yX7Zua9yXvz9s17b6319bUrEOC6TQr73GF3ux2SAMYYstmcFq/rNuE4JdL+FLhuEzbnnCSEMQYAiGtIYTTqAehC7G/XX23KweLD58MVZ/VAxtbJEYrlLbROjgAAa0+OAQCccxwevsHe3rPQ18JxSqjVDrCz81iOUQ9AB+LQAMDavlu8yi8vyoFv3/8gDv32408wxsA5h+OUJsYEsUbwhP3BaRpGvLau24TdaPfkRH55EV9/9XEjZeO8f+mhASCTTqLR7nloFVEC4qQ1VOXj8icASIUAoNe/8CwQ9Hn/UvtPxcEslQeAxFJqQWuzWRkkDnSMlxAPqhf4lVNpXYP9q0gAkxVUjfO/IRE0qCrsN4g/RswS6vVlCtIAfrcfd+ph73+UrE438zNxOwRh5BagoFY7GKugSIR0MK3bwRYuLYygXnuZdHLE5ZdSCzJPEMJFWlmp7MqxIHS7HVQqu5KHc27MrccZaNycDQBf2r8BAIVrpQQtoNK9/oVvfhAjdAsiXb4g6HiJvV8t4M7mbTlQLG8NHnKrg9/OJw+DqAE+HH8GAFRf/yC5p4lymlJRWisrN0n9gHb7zIrLQ+1BnJ7W5Z5UWTbFerqlrMkSmCpLuyFCeXdNVnpUWZEbIsJT1Hped3NPD+L+0+GEEm9ErAGGcUmM3Xr0Ts5tFGipeWAMCLs31TparNGJAZQexHbZwoMXDcuELOD6GvQrGXaynHMj7kvpQQApY7Iy6eRoLTCrFpVuD0K9sqmygJBiaNow2YOgypqLAQRM9iB0Zc3NACZ7EBRZc/UAFSZ7EHFkxTIAY8zolxwTPQiqrMgGcJwSstmcdj3vh24PQhRhJmQBgB21Hhcps1rP64LagzApyzZZj8eBfg8ibVAWYM/j8/Z+tSCfRWIz0ocA0Hr/0sMX5P73VvMeWk1zo9B/AXEH679ZmVYHAAAAAElFTkSuQmCC"
+    }
+  ]
+}

@@ -1,0 +1,794 @@
+[
+  {
+    "name": "bar_counter_single",
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/bar_counter/single.json",
+        "sha256": "24011d96bd54b33614c0c3c17aaf95cc99fe9a40ca62424eea8f16a43a79d646"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/bar_counter_single.geo.json",
+        "sha256": "f9fa1866fb36d397fedf71ffa88889f99f237dca7ebb629a268017fd8bd689f4"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/bar_counter.png",
+        "sha256": "34f733e6da356c9652ded34288bd10da4843c3c6a4ffd0a09862449df9446f33"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/deco/bar_counter.png",
+        "sha256": "34f733e6da356c9652ded34288bd10da4843c3c6a4ffd0a09862449df9446f33"
+      }
+    ],
+    "review_only": true
+  },
+  {
+    "name": "bar_counter_left",
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/bar_counter/left.json",
+        "sha256": "a249e723793581b5c1826003c4e3f46f9080638ff4c8c489dea7fcec48cd1be1"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/bar_counter_left.geo.json",
+        "sha256": "8eebf337c98e6dee050a035aee1163709c03291d35fd5091a97786f1b99cd387"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/bar_counter.png",
+        "sha256": "34f733e6da356c9652ded34288bd10da4843c3c6a4ffd0a09862449df9446f33"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/deco/bar_counter.png",
+        "sha256": "34f733e6da356c9652ded34288bd10da4843c3c6a4ffd0a09862449df9446f33"
+      }
+    ],
+    "review_only": true
+  },
+  {
+    "name": "bar_counter_middle",
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/bar_counter/middle.json",
+        "sha256": "d5c0e9b23736518267fd34552b7b6d3921156ec9482501d50f03d3ef3fa77600"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/bar_counter_middle.geo.json",
+        "sha256": "9b3854c159b94414d7a42236e1a250e605020cc97ad4c0fefecf35e9885f8bf3"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/bar_counter.png",
+        "sha256": "34f733e6da356c9652ded34288bd10da4843c3c6a4ffd0a09862449df9446f33"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/deco/bar_counter.png",
+        "sha256": "34f733e6da356c9652ded34288bd10da4843c3c6a4ffd0a09862449df9446f33"
+      }
+    ],
+    "review_only": true
+  },
+  {
+    "name": "bar_counter_right",
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/bar_counter/right.json",
+        "sha256": "56f7944f79d99f1adb31a38975b2673ba8d8ce89cc2093662861f99b9e5b443a"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/bar_counter_right.geo.json",
+        "sha256": "0a9d31b6706ae6b384d69b3fd8e5ea23c9cc696af2c5df292f48f857393decfa"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/bar_counter.png",
+        "sha256": "34f733e6da356c9652ded34288bd10da4843c3c6a4ffd0a09862449df9446f33"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/deco/bar_counter.png",
+        "sha256": "34f733e6da356c9652ded34288bd10da4843c3c6a4ffd0a09862449df9446f33"
+      }
+    ],
+    "review_only": true
+  },
+  {
+    "name": "bar_counter_left_corner",
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/bar_counter/left_corner.json",
+        "sha256": "dc8a350dc6573e820c917274b0c2d9464ddeb057432a2934fd86db1530b219d6"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/bar_counter_left_corner.geo.json",
+        "sha256": "2139cef03c3916d5544f0e5f45cf02c6ed5bc917ed54d31978c19c3cf5ea908d"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/bar_counter.png",
+        "sha256": "34f733e6da356c9652ded34288bd10da4843c3c6a4ffd0a09862449df9446f33"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/deco/bar_counter.png",
+        "sha256": "34f733e6da356c9652ded34288bd10da4843c3c6a4ffd0a09862449df9446f33"
+      }
+    ],
+    "review_only": true
+  },
+  {
+    "name": "bar_counter_right_corner",
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/bar_counter/right_corner.json",
+        "sha256": "951cd47ddefc9e4cf24d648ccbee39c45c9fa9dd788a2b28c80130966702c95a"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/bar_counter_right_corner.geo.json",
+        "sha256": "7bde928c08e207cdd89767127c8e5dba0454f9e9ab731488b889c7b559985b06"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/bar_counter.png",
+        "sha256": "34f733e6da356c9652ded34288bd10da4843c3c6a4ffd0a09862449df9446f33"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/deco/bar_counter.png",
+        "sha256": "34f733e6da356c9652ded34288bd10da4843c3c6a4ffd0a09862449df9446f33"
+      }
+    ],
+    "review_only": true
+  },
+  {
+    "name": "bar_cabinet_single",
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/bar_cabinet/single.json",
+        "sha256": "eb155cebca489042197a4b826fa6c9f2d519ce3d9ad485200139340f13b8475b"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/bar_cabinet_single.geo.json",
+        "sha256": "712a0256db82efa4b900ab91c81e6b6a80022f8a4675c98831d951bf6541411c"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/bar_cabinet.png",
+        "sha256": "e67f5aa6995e6c6e843829bfa246db25aef50862d06ab147d16784d84cd9e6b0"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/brew/bar_cabinet.png",
+        "sha256": "e67f5aa6995e6c6e843829bfa246db25aef50862d06ab147d16784d84cd9e6b0"
+      }
+    ],
+    "review_only": true
+  },
+  {
+    "name": "bar_cabinet_left",
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/bar_cabinet/left.json",
+        "sha256": "028e15a4c093e64b571962a486df3739cc499dc680576dc99e7837338042a04a"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/bar_cabinet_left.geo.json",
+        "sha256": "78d775c227339ed0215e96c686e884a16c3b4664a02a01470e87bc4a46fee6d0"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/bar_cabinet.png",
+        "sha256": "e67f5aa6995e6c6e843829bfa246db25aef50862d06ab147d16784d84cd9e6b0"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/brew/bar_cabinet.png",
+        "sha256": "e67f5aa6995e6c6e843829bfa246db25aef50862d06ab147d16784d84cd9e6b0"
+      }
+    ],
+    "review_only": true
+  },
+  {
+    "name": "bar_cabinet_middle",
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/bar_cabinet/middle.json",
+        "sha256": "d530485ca72740209281c9daeb8486cca96b2667d017a3a2d2fb35b5b63c4913"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/bar_cabinet_middle.geo.json",
+        "sha256": "70fde476b0550148ceda368459a12e828c209e3cf75ec81ad48eb5fb806b8c89"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/bar_cabinet.png",
+        "sha256": "e67f5aa6995e6c6e843829bfa246db25aef50862d06ab147d16784d84cd9e6b0"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/brew/bar_cabinet.png",
+        "sha256": "e67f5aa6995e6c6e843829bfa246db25aef50862d06ab147d16784d84cd9e6b0"
+      }
+    ],
+    "review_only": true
+  },
+  {
+    "name": "bar_cabinet_right",
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/bar_cabinet/right.json",
+        "sha256": "1f8b4ae2538cd0f50d339cfb1b1e43cb7b03a43d39318c32f4533dd459905324"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/bar_cabinet_right.geo.json",
+        "sha256": "baf543f56003459b12f6ed55ca006dac533444e9d5900c11072de8cbfb7d7881"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/bar_cabinet.png",
+        "sha256": "e67f5aa6995e6c6e843829bfa246db25aef50862d06ab147d16784d84cd9e6b0"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/brew/bar_cabinet.png",
+        "sha256": "e67f5aa6995e6c6e843829bfa246db25aef50862d06ab147d16784d84cd9e6b0"
+      }
+    ],
+    "review_only": true
+  },
+  {
+    "name": "cellar_cabinet_single",
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/cellar_cabinet/single.json",
+        "sha256": "eb8141eeec42d64a3bf6ac38b5af90f18c392f9998c19f2f16856ddc7a1fc0b4"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/cellar_cabinet_single.geo.json",
+        "sha256": "1ec046bf527a81b718295304d3c77449b954865710e6f57fea82f4f72237cde0"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/bar_cabinet.png",
+        "sha256": "e67f5aa6995e6c6e843829bfa246db25aef50862d06ab147d16784d84cd9e6b0"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/brew/bar_cabinet.png",
+        "sha256": "e67f5aa6995e6c6e843829bfa246db25aef50862d06ab147d16784d84cd9e6b0"
+      }
+    ],
+    "review_only": true
+  },
+  {
+    "name": "cellar_cabinet_left",
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/cellar_cabinet/left.json",
+        "sha256": "f84b6b4e114328081695818d5d6a8c15bad262fdf79118cc2f793281935a9f27"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/cellar_cabinet_left.geo.json",
+        "sha256": "a6a728ce38a00e5111e1ad9e0267cd0ee4aa4f05e76f3bef2a4b6b0b2d69e495"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/bar_cabinet.png",
+        "sha256": "e67f5aa6995e6c6e843829bfa246db25aef50862d06ab147d16784d84cd9e6b0"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/brew/bar_cabinet.png",
+        "sha256": "e67f5aa6995e6c6e843829bfa246db25aef50862d06ab147d16784d84cd9e6b0"
+      }
+    ],
+    "review_only": true
+  },
+  {
+    "name": "cellar_cabinet_middle",
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/cellar_cabinet/middle.json",
+        "sha256": "1de99195daa4672c946de8c2e05f5c1d2096ad8344c4a34e93cac57dd4a57280"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/cellar_cabinet_middle.geo.json",
+        "sha256": "2c7786fc51b53557b2ceabfef8e2e21aaab73175ab71d409e92d98124ef2059d"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/bar_cabinet.png",
+        "sha256": "e67f5aa6995e6c6e843829bfa246db25aef50862d06ab147d16784d84cd9e6b0"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/brew/bar_cabinet.png",
+        "sha256": "e67f5aa6995e6c6e843829bfa246db25aef50862d06ab147d16784d84cd9e6b0"
+      }
+    ],
+    "review_only": true
+  },
+  {
+    "name": "cellar_cabinet_right",
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/cellar_cabinet/right.json",
+        "sha256": "072aa6c789aef482c9d7ffcad96154853a3eadec88f485db4af30a7b69883b34"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/cellar_cabinet_right.geo.json",
+        "sha256": "dd44c28f180435e5c7708dbcb3c1246251ae27e7b70354a7bfbd2964bd67fab0"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/bar_cabinet.png",
+        "sha256": "e67f5aa6995e6c6e843829bfa246db25aef50862d06ab147d16784d84cd9e6b0"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/brew/bar_cabinet.png",
+        "sha256": "e67f5aa6995e6c6e843829bfa246db25aef50862d06ab147d16784d84cd9e6b0"
+      }
+    ],
+    "review_only": true
+  },
+  {
+    "name": "glass_bar_cabinet_single",
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/glass_bar_cabinet/single.json",
+        "sha256": "6662fb9c22daf8e24de0e1d7bcea504b5c928cef43b3ce27993cb42f8ce7a7d9"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/glass_bar_cabinet_single.geo.json",
+        "sha256": "0b83c3aa5b68ec87b57510f0a1f201ecbbdc376efa75df80e10918578e569f6d"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/glass_bar_cabinet.png",
+        "sha256": "e580d1027a0bc3d47123768a59f9ce0fec6f9523c44d3ff42325485a1c78f422"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/brew/glass_bar_cabinet.png",
+        "sha256": "e580d1027a0bc3d47123768a59f9ce0fec6f9523c44d3ff42325485a1c78f422"
+      }
+    ],
+    "review_only": true
+  },
+  {
+    "name": "glass_bar_cabinet_left",
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/glass_bar_cabinet/left.json",
+        "sha256": "430c3de30124e7d1218d7c81988beb9f9089de1d800d9c873ec421cd55c96942"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/glass_bar_cabinet_left.geo.json",
+        "sha256": "ff52d5cf5853b7a27466b61839b758a364b84d5d72451c91586737888ddd9af9"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/glass_bar_cabinet.png",
+        "sha256": "e580d1027a0bc3d47123768a59f9ce0fec6f9523c44d3ff42325485a1c78f422"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/brew/glass_bar_cabinet.png",
+        "sha256": "e580d1027a0bc3d47123768a59f9ce0fec6f9523c44d3ff42325485a1c78f422"
+      }
+    ],
+    "review_only": true
+  },
+  {
+    "name": "glass_bar_cabinet_middle",
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/glass_bar_cabinet/middle.json",
+        "sha256": "aeab0b95f0ee9cc7fbf1b0ea833506ca0e3ea48e8f886c2af16742cfc7dc5781"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/glass_bar_cabinet_middle.geo.json",
+        "sha256": "c0b82a9b40b35dddac5fbfccaef7a86a599b40a2f33aceecb0c9cfdcaabfa5c2"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/glass_bar_cabinet.png",
+        "sha256": "e580d1027a0bc3d47123768a59f9ce0fec6f9523c44d3ff42325485a1c78f422"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/brew/glass_bar_cabinet.png",
+        "sha256": "e580d1027a0bc3d47123768a59f9ce0fec6f9523c44d3ff42325485a1c78f422"
+      }
+    ],
+    "review_only": true
+  },
+  {
+    "name": "glass_bar_cabinet_right",
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/glass_bar_cabinet/right.json",
+        "sha256": "e8cb64d96c1acfdb01a117ddc97a5696ca60cc51efb9fd38b52f532721ad84bd"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/glass_bar_cabinet_right.geo.json",
+        "sha256": "355ba09c8d6c2c1978226e4a30e996de96e23d14b89f4d0bf7af0a82447c01e7"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/glass_bar_cabinet.png",
+        "sha256": "e580d1027a0bc3d47123768a59f9ce0fec6f9523c44d3ff42325485a1c78f422"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/brew/glass_bar_cabinet.png",
+        "sha256": "e580d1027a0bc3d47123768a59f9ce0fec6f9523c44d3ff42325485a1c78f422"
+      }
+    ],
+    "review_only": true
+  },
+  {
+    "name": "sofa_single",
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/sofa/base/single.json",
+        "sha256": "bd23b661b2157047d82c78bd7ad5eefb348d727e4651c441c3ba7a2832ed7ae9"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/sofa_single.geo.json",
+        "sha256": "0c1849954922445be841674c1eae0d3644c5f8354e958fe11d89a9e4b6fa5a89"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/sofa/blue.png",
+        "sha256": "cdd8defd796513d2cff18f53ae57077525cb1d9812de55a4f8705fe262207de8"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/deco/sofa/blue.png",
+        "sha256": "cdd8defd796513d2cff18f53ae57077525cb1d9812de55a4f8705fe262207de8"
+      }
+    ],
+    "review_only": true
+  },
+  {
+    "name": "sofa_left",
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/sofa/base/left.json",
+        "sha256": "7c610540dd95b0bdb34dff87a7e438f94f8e37747d795cd5479289e3951bd28a"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/sofa_left.geo.json",
+        "sha256": "ce18e817f891c470d7b619f7924b94726bef2d8087f4079f6a18fa150d46525a"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/sofa/blue.png",
+        "sha256": "cdd8defd796513d2cff18f53ae57077525cb1d9812de55a4f8705fe262207de8"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/deco/sofa/blue.png",
+        "sha256": "cdd8defd796513d2cff18f53ae57077525cb1d9812de55a4f8705fe262207de8"
+      }
+    ],
+    "review_only": true
+  },
+  {
+    "name": "sofa_middle",
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/sofa/base/middle.json",
+        "sha256": "88e6def408e4ab8faaffbc61d389c4808ae56ca126dc315522d470fa07eb4b06"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/sofa_middle.geo.json",
+        "sha256": "da37dcc670a1c228e318d6c32d481e05ac0c36d8c0b9502d0c741d12ea9eff78"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/sofa/blue.png",
+        "sha256": "cdd8defd796513d2cff18f53ae57077525cb1d9812de55a4f8705fe262207de8"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/deco/sofa/blue.png",
+        "sha256": "cdd8defd796513d2cff18f53ae57077525cb1d9812de55a4f8705fe262207de8"
+      }
+    ],
+    "review_only": true
+  },
+  {
+    "name": "sofa_right",
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/sofa/base/right.json",
+        "sha256": "0e3bd9f3064b80ed66a24d2c865c03bcee29e9e86c9f51245d48d80b812ff6ef"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/sofa_right.geo.json",
+        "sha256": "36a6d3f44bdb8f95986ad768a39273e204d7a04a892171dd5bb573fd8394b7ff"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/sofa/blue.png",
+        "sha256": "cdd8defd796513d2cff18f53ae57077525cb1d9812de55a4f8705fe262207de8"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/deco/sofa/blue.png",
+        "sha256": "cdd8defd796513d2cff18f53ae57077525cb1d9812de55a4f8705fe262207de8"
+      }
+    ],
+    "review_only": true
+  },
+  {
+    "name": "sofa_left_corner",
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/sofa/base/left_corner.json",
+        "sha256": "9d116cd498c0e57a3adf68d34ce0b77978029fdf1d4145c0cc6f422f7cd9e5b9"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/sofa_left_corner.geo.json",
+        "sha256": "65c80196f21c9c68926c0cc3fd77d63a00c48b1aa7d7a31a2505c2af3a0c3bd9"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/sofa/blue.png",
+        "sha256": "cdd8defd796513d2cff18f53ae57077525cb1d9812de55a4f8705fe262207de8"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/deco/sofa/blue.png",
+        "sha256": "cdd8defd796513d2cff18f53ae57077525cb1d9812de55a4f8705fe262207de8"
+      }
+    ],
+    "review_only": true
+  },
+  {
+    "name": "sofa_right_corner",
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/sofa/base/right_corner.json",
+        "sha256": "320dc9611224ec477fee814b74cba09a01da5c48f5f6306ffcc4ef1d95a80b8a"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/sofa_right_corner.geo.json",
+        "sha256": "09a5a1812f412fc4d0eba350256a547cf80ea1df9aab6f645a83155d43fc1f48"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/sofa/blue.png",
+        "sha256": "cdd8defd796513d2cff18f53ae57077525cb1d9812de55a4f8705fe262207de8"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/deco/sofa/blue.png",
+        "sha256": "cdd8defd796513d2cff18f53ae57077525cb1d9812de55a4f8705fe262207de8"
+      }
+    ],
+    "review_only": true
+  },
+  {
+    "name": "signature-frame-0",
+    "frames_equal_to_java_rgba": true,
+    "rgb_layers": [
+      "geometry.kt_runtime.signature_rgb_5d6062_0",
+      "geometry.kt_runtime.signature_rgb_82c5d9_0",
+      "geometry.kt_runtime.signature_rgb_88c9dc_0",
+      "geometry.kt_runtime.signature_rgb_999999_0",
+      "geometry.kt_runtime.signature_rgb_a1a4a6_0",
+      "geometry.kt_runtime.signature_rgb_a8dae4_0",
+      "geometry.kt_runtime.signature_rgb_d1d8dd_0",
+      "geometry.kt_runtime.signature_rgb_d8efef_0",
+      "geometry.kt_runtime.signature_rgb_fafeff_0",
+      "geometry.kt_runtime.signature_rgb_ffffff_0"
+    ],
+    "colour": [
+      255,
+      255,
+      255
+    ],
+    "rendering_limit": "solid editor textures represent static RGB overlay output; not engine shader/controller/PBR proof",
+    "inputs": [
+      {
+        "path": "source/runtime/RP/models/entity/signature_rgb_texels.geo.json",
+        "sha256": "a4252c78a9473e1f28c6e87a46d4923434111fdb51ef21e53a5cb442a2fa72ac"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/rig_signature_glass.geo.json",
+        "sha256": "304235b7d225601bb4b9a646fd93570acf03720f78d51a0bf7ea0e8d0c72ded1"
+      },
+      {
+        "path": "source/runtime/RP/textures/kt_runtime/signature/frame_0.png",
+        "sha256": "f9e88c2d7ffcd145d0b7233d3c0636e9f7d7a56c7ee3dfbb4118ced2b146f94a"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/signature_cocktail.json",
+        "sha256": "6d58729dc256aed8d438763fadb628d91597dba71f73267ce1644beeda8f529b"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/signature_cocktail.png",
+        "sha256": "092d193e95d49b2cdd914421e6e5d2f97fe2869d093efb234f174a10f7da1051"
+      }
+    ]
+  },
+  {
+    "name": "signature-frame-1",
+    "frames_equal_to_java_rgba": true,
+    "rgb_layers": [
+      "geometry.kt_runtime.signature_rgb_5d6062_1",
+      "geometry.kt_runtime.signature_rgb_82c5d9_1",
+      "geometry.kt_runtime.signature_rgb_88c9dc_1",
+      "geometry.kt_runtime.signature_rgb_999999_1",
+      "geometry.kt_runtime.signature_rgb_a1a4a6_1",
+      "geometry.kt_runtime.signature_rgb_a8dae4_1",
+      "geometry.kt_runtime.signature_rgb_d1d8dd_1",
+      "geometry.kt_runtime.signature_rgb_d8efef_1",
+      "geometry.kt_runtime.signature_rgb_fafeff_1",
+      "geometry.kt_runtime.signature_rgb_ffffff_1"
+    ],
+    "colour": [
+      255,
+      255,
+      255
+    ],
+    "rendering_limit": "solid editor textures represent static RGB overlay output; not engine shader/controller/PBR proof",
+    "inputs": [
+      {
+        "path": "source/runtime/RP/models/entity/signature_rgb_texels.geo.json",
+        "sha256": "a4252c78a9473e1f28c6e87a46d4923434111fdb51ef21e53a5cb442a2fa72ac"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/rig_signature_glass.geo.json",
+        "sha256": "304235b7d225601bb4b9a646fd93570acf03720f78d51a0bf7ea0e8d0c72ded1"
+      },
+      {
+        "path": "source/runtime/RP/textures/kt_runtime/signature/frame_1.png",
+        "sha256": "3710c0d06e62f9d33b8d423e3692209e5a12f2d16d96bfc16830dc018656fdd7"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/signature_cocktail.json",
+        "sha256": "6d58729dc256aed8d438763fadb628d91597dba71f73267ce1644beeda8f529b"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/signature_cocktail.png",
+        "sha256": "092d193e95d49b2cdd914421e6e5d2f97fe2869d093efb234f174a10f7da1051"
+      }
+    ]
+  },
+  {
+    "name": "signature-frame-2",
+    "frames_equal_to_java_rgba": true,
+    "rgb_layers": [
+      "geometry.kt_runtime.signature_rgb_5d6062_2",
+      "geometry.kt_runtime.signature_rgb_82c5d9_2",
+      "geometry.kt_runtime.signature_rgb_88c9dc_2",
+      "geometry.kt_runtime.signature_rgb_999999_2",
+      "geometry.kt_runtime.signature_rgb_a1a4a6_2",
+      "geometry.kt_runtime.signature_rgb_a8dae4_2",
+      "geometry.kt_runtime.signature_rgb_d1d8dd_2",
+      "geometry.kt_runtime.signature_rgb_d8efef_2",
+      "geometry.kt_runtime.signature_rgb_fafeff_2",
+      "geometry.kt_runtime.signature_rgb_ffffff_2"
+    ],
+    "colour": [
+      255,
+      255,
+      255
+    ],
+    "rendering_limit": "solid editor textures represent static RGB overlay output; not engine shader/controller/PBR proof",
+    "inputs": [
+      {
+        "path": "source/runtime/RP/models/entity/signature_rgb_texels.geo.json",
+        "sha256": "a4252c78a9473e1f28c6e87a46d4923434111fdb51ef21e53a5cb442a2fa72ac"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/rig_signature_glass.geo.json",
+        "sha256": "304235b7d225601bb4b9a646fd93570acf03720f78d51a0bf7ea0e8d0c72ded1"
+      },
+      {
+        "path": "source/runtime/RP/textures/kt_runtime/signature/frame_2.png",
+        "sha256": "4ec93fa25c327a4f37919fa498378b801028e8aae6eb334ac02778f6ab432ef5"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/signature_cocktail.json",
+        "sha256": "6d58729dc256aed8d438763fadb628d91597dba71f73267ce1644beeda8f529b"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/signature_cocktail.png",
+        "sha256": "092d193e95d49b2cdd914421e6e5d2f97fe2869d093efb234f174a10f7da1051"
+      }
+    ]
+  },
+  {
+    "name": "signature-frame-3",
+    "frames_equal_to_java_rgba": true,
+    "rgb_layers": [
+      "geometry.kt_runtime.signature_rgb_5d6062_3",
+      "geometry.kt_runtime.signature_rgb_82c5d9_3",
+      "geometry.kt_runtime.signature_rgb_88c9dc_3",
+      "geometry.kt_runtime.signature_rgb_999999_3",
+      "geometry.kt_runtime.signature_rgb_a1a4a6_3",
+      "geometry.kt_runtime.signature_rgb_a8dae4_3",
+      "geometry.kt_runtime.signature_rgb_d1d8dd_3",
+      "geometry.kt_runtime.signature_rgb_d8efef_3",
+      "geometry.kt_runtime.signature_rgb_fafeff_3",
+      "geometry.kt_runtime.signature_rgb_ffffff_3"
+    ],
+    "colour": [
+      255,
+      255,
+      255
+    ],
+    "rendering_limit": "solid editor textures represent static RGB overlay output; not engine shader/controller/PBR proof",
+    "inputs": [
+      {
+        "path": "source/runtime/RP/models/entity/signature_rgb_texels.geo.json",
+        "sha256": "a4252c78a9473e1f28c6e87a46d4923434111fdb51ef21e53a5cb442a2fa72ac"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/rig_signature_glass.geo.json",
+        "sha256": "304235b7d225601bb4b9a646fd93570acf03720f78d51a0bf7ea0e8d0c72ded1"
+      },
+      {
+        "path": "source/runtime/RP/textures/kt_runtime/signature/frame_3.png",
+        "sha256": "80ffe3ca27898609fd02f3157a44610fd47d1689c84cbce2e41e729567caeac3"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/signature_cocktail.json",
+        "sha256": "6d58729dc256aed8d438763fadb628d91597dba71f73267ce1644beeda8f529b"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/signature_cocktail.png",
+        "sha256": "092d193e95d49b2cdd914421e6e5d2f97fe2869d093efb234f174a10f7da1051"
+      }
+    ]
+  },
+  {
+    "name": "signature-frame-4",
+    "frames_equal_to_java_rgba": true,
+    "rgb_layers": [
+      "geometry.kt_runtime.signature_rgb_5d6062_4",
+      "geometry.kt_runtime.signature_rgb_82c5d9_4",
+      "geometry.kt_runtime.signature_rgb_88c9dc_4",
+      "geometry.kt_runtime.signature_rgb_999999_4",
+      "geometry.kt_runtime.signature_rgb_a1a4a6_4",
+      "geometry.kt_runtime.signature_rgb_a8dae4_4",
+      "geometry.kt_runtime.signature_rgb_d1d8dd_4",
+      "geometry.kt_runtime.signature_rgb_d8efef_4",
+      "geometry.kt_runtime.signature_rgb_fafeff_4",
+      "geometry.kt_runtime.signature_rgb_ffffff_4"
+    ],
+    "colour": [
+      255,
+      255,
+      255
+    ],
+    "rendering_limit": "solid editor textures represent static RGB overlay output; not engine shader/controller/PBR proof",
+    "inputs": [
+      {
+        "path": "source/runtime/RP/models/entity/signature_rgb_texels.geo.json",
+        "sha256": "a4252c78a9473e1f28c6e87a46d4923434111fdb51ef21e53a5cb442a2fa72ac"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/rig_signature_glass.geo.json",
+        "sha256": "304235b7d225601bb4b9a646fd93570acf03720f78d51a0bf7ea0e8d0c72ded1"
+      },
+      {
+        "path": "source/runtime/RP/textures/kt_runtime/signature/frame_4.png",
+        "sha256": "3c1bb5201f8151cd7c49479cb2d41c989f5a882688931a8b9cc662cccfd84b2c"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/signature_cocktail.json",
+        "sha256": "6d58729dc256aed8d438763fadb628d91597dba71f73267ce1644beeda8f529b"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/signature_cocktail.png",
+        "sha256": "092d193e95d49b2cdd914421e6e5d2f97fe2869d093efb234f174a10f7da1051"
+      }
+    ]
+  },
+  {
+    "name": "signature-frame-5",
+    "frames_equal_to_java_rgba": true,
+    "rgb_layers": [
+      "geometry.kt_runtime.signature_rgb_5d6062_5",
+      "geometry.kt_runtime.signature_rgb_82c5d9_5",
+      "geometry.kt_runtime.signature_rgb_88c9dc_5",
+      "geometry.kt_runtime.signature_rgb_999999_5",
+      "geometry.kt_runtime.signature_rgb_a1a4a6_5",
+      "geometry.kt_runtime.signature_rgb_a8dae4_5",
+      "geometry.kt_runtime.signature_rgb_d1d8dd_5",
+      "geometry.kt_runtime.signature_rgb_d8efef_5",
+      "geometry.kt_runtime.signature_rgb_fafeff_5",
+      "geometry.kt_runtime.signature_rgb_ffffff_5"
+    ],
+    "colour": [
+      255,
+      255,
+      255
+    ],
+    "rendering_limit": "solid editor textures represent static RGB overlay output; not engine shader/controller/PBR proof",
+    "inputs": [
+      {
+        "path": "source/runtime/RP/models/entity/signature_rgb_texels.geo.json",
+        "sha256": "a4252c78a9473e1f28c6e87a46d4923434111fdb51ef21e53a5cb442a2fa72ac"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/rig_signature_glass.geo.json",
+        "sha256": "304235b7d225601bb4b9a646fd93570acf03720f78d51a0bf7ea0e8d0c72ded1"
+      },
+      {
+        "path": "source/runtime/RP/textures/kt_runtime/signature/frame_5.png",
+        "sha256": "ab9526eb5b29df6f1cb10386e3a562baeb6b69f490d4e6a23c484f98d4697566"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/signature_cocktail.json",
+        "sha256": "6d58729dc256aed8d438763fadb628d91597dba71f73267ce1644beeda8f529b"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/signature_cocktail.png",
+        "sha256": "092d193e95d49b2cdd914421e6e5d2f97fe2869d093efb234f174a10f7da1051"
+      }
+    ]
+  }
+]

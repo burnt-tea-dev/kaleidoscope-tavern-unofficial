@@ -1,0 +1,716 @@
+[
+  {
+    "file": "src/main/resources/assets/kaleidoscope_tavern/models/block/brew/bar_cabinet/left.json",
+    "default_sha256": "028e15a4c093e64b571962a486df3739cc499dc680576dc99e7837338042a04a",
+    "branches": {
+      "1.20.1-main": {
+        "commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "1.21.1": {
+        "commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "26.1.2": {
+        "commit": "9b8f165a4641e738e694641dd81240a0206573e1",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      }
+    }
+  },
+  {
+    "file": "src/main/resources/assets/kaleidoscope_tavern/models/block/brew/bar_cabinet/middle.json",
+    "default_sha256": "d530485ca72740209281c9daeb8486cca96b2667d017a3a2d2fb35b5b63c4913",
+    "branches": {
+      "1.20.1-main": {
+        "commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "1.21.1": {
+        "commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "26.1.2": {
+        "commit": "9b8f165a4641e738e694641dd81240a0206573e1",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      }
+    }
+  },
+  {
+    "file": "src/main/resources/assets/kaleidoscope_tavern/models/block/brew/bar_cabinet/right.json",
+    "default_sha256": "1f8b4ae2538cd0f50d339cfb1b1e43cb7b03a43d39318c32f4533dd459905324",
+    "branches": {
+      "1.20.1-main": {
+        "commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "1.21.1": {
+        "commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "26.1.2": {
+        "commit": "9b8f165a4641e738e694641dd81240a0206573e1",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      }
+    }
+  },
+  {
+    "file": "src/main/resources/assets/kaleidoscope_tavern/models/block/brew/bar_cabinet/single.json",
+    "default_sha256": "eb155cebca489042197a4b826fa6c9f2d519ce3d9ad485200139340f13b8475b",
+    "branches": {
+      "1.20.1-main": {
+        "commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "1.21.1": {
+        "commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "26.1.2": {
+        "commit": "9b8f165a4641e738e694641dd81240a0206573e1",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      }
+    }
+  },
+  {
+    "file": "src/main/resources/assets/kaleidoscope_tavern/models/block/brew/cellar_cabinet/left.json",
+    "default_sha256": "f84b6b4e114328081695818d5d6a8c15bad262fdf79118cc2f793281935a9f27",
+    "branches": {
+      "1.20.1-main": {
+        "commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "1.21.1": {
+        "commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "26.1.2": {
+        "commit": "9b8f165a4641e738e694641dd81240a0206573e1",
+        "available": false,
+        "byte_equal_to_main": false
+      }
+    }
+  },
+  {
+    "file": "src/main/resources/assets/kaleidoscope_tavern/models/block/brew/cellar_cabinet/middle.json",
+    "default_sha256": "1de99195daa4672c946de8c2e05f5c1d2096ad8344c4a34e93cac57dd4a57280",
+    "branches": {
+      "1.20.1-main": {
+        "commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "1.21.1": {
+        "commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "26.1.2": {
+        "commit": "9b8f165a4641e738e694641dd81240a0206573e1",
+        "available": false,
+        "byte_equal_to_main": false
+      }
+    }
+  },
+  {
+    "file": "src/main/resources/assets/kaleidoscope_tavern/models/block/brew/cellar_cabinet/right.json",
+    "default_sha256": "072aa6c789aef482c9d7ffcad96154853a3eadec88f485db4af30a7b69883b34",
+    "branches": {
+      "1.20.1-main": {
+        "commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "1.21.1": {
+        "commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "26.1.2": {
+        "commit": "9b8f165a4641e738e694641dd81240a0206573e1",
+        "available": false,
+        "byte_equal_to_main": false
+      }
+    }
+  },
+  {
+    "file": "src/main/resources/assets/kaleidoscope_tavern/models/block/brew/cellar_cabinet/single.json",
+    "default_sha256": "eb8141eeec42d64a3bf6ac38b5af90f18c392f9998c19f2f16856ddc7a1fc0b4",
+    "branches": {
+      "1.20.1-main": {
+        "commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "1.21.1": {
+        "commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "26.1.2": {
+        "commit": "9b8f165a4641e738e694641dd81240a0206573e1",
+        "available": false,
+        "byte_equal_to_main": false
+      }
+    }
+  },
+  {
+    "file": "src/main/resources/assets/kaleidoscope_tavern/models/block/brew/glass_bar_cabinet/left.json",
+    "default_sha256": "430c3de30124e7d1218d7c81988beb9f9089de1d800d9c873ec421cd55c96942",
+    "branches": {
+      "1.20.1-main": {
+        "commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "1.21.1": {
+        "commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "26.1.2": {
+        "commit": "9b8f165a4641e738e694641dd81240a0206573e1",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      }
+    }
+  },
+  {
+    "file": "src/main/resources/assets/kaleidoscope_tavern/models/block/brew/glass_bar_cabinet/middle.json",
+    "default_sha256": "aeab0b95f0ee9cc7fbf1b0ea833506ca0e3ea48e8f886c2af16742cfc7dc5781",
+    "branches": {
+      "1.20.1-main": {
+        "commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "1.21.1": {
+        "commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "26.1.2": {
+        "commit": "9b8f165a4641e738e694641dd81240a0206573e1",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      }
+    }
+  },
+  {
+    "file": "src/main/resources/assets/kaleidoscope_tavern/models/block/brew/glass_bar_cabinet/right.json",
+    "default_sha256": "e8cb64d96c1acfdb01a117ddc97a5696ca60cc51efb9fd38b52f532721ad84bd",
+    "branches": {
+      "1.20.1-main": {
+        "commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "1.21.1": {
+        "commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "26.1.2": {
+        "commit": "9b8f165a4641e738e694641dd81240a0206573e1",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      }
+    }
+  },
+  {
+    "file": "src/main/resources/assets/kaleidoscope_tavern/models/block/brew/glass_bar_cabinet/single.json",
+    "default_sha256": "6662fb9c22daf8e24de0e1d7bcea504b5c928cef43b3ce27993cb42f8ce7a7d9",
+    "branches": {
+      "1.20.1-main": {
+        "commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "1.21.1": {
+        "commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "26.1.2": {
+        "commit": "9b8f165a4641e738e694641dd81240a0206573e1",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      }
+    }
+  },
+  {
+    "file": "src/main/resources/assets/kaleidoscope_tavern/models/block/deco/bar_counter/left.json",
+    "default_sha256": "a249e723793581b5c1826003c4e3f46f9080638ff4c8c489dea7fcec48cd1be1",
+    "branches": {
+      "1.20.1-main": {
+        "commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "1.21.1": {
+        "commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "26.1.2": {
+        "commit": "9b8f165a4641e738e694641dd81240a0206573e1",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      }
+    }
+  },
+  {
+    "file": "src/main/resources/assets/kaleidoscope_tavern/models/block/deco/bar_counter/left_corner.json",
+    "default_sha256": "dc8a350dc6573e820c917274b0c2d9464ddeb057432a2934fd86db1530b219d6",
+    "branches": {
+      "1.20.1-main": {
+        "commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "1.21.1": {
+        "commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "26.1.2": {
+        "commit": "9b8f165a4641e738e694641dd81240a0206573e1",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      }
+    }
+  },
+  {
+    "file": "src/main/resources/assets/kaleidoscope_tavern/models/block/deco/bar_counter/middle.json",
+    "default_sha256": "d5c0e9b23736518267fd34552b7b6d3921156ec9482501d50f03d3ef3fa77600",
+    "branches": {
+      "1.20.1-main": {
+        "commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "1.21.1": {
+        "commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "26.1.2": {
+        "commit": "9b8f165a4641e738e694641dd81240a0206573e1",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      }
+    }
+  },
+  {
+    "file": "src/main/resources/assets/kaleidoscope_tavern/models/block/deco/bar_counter/right.json",
+    "default_sha256": "56f7944f79d99f1adb31a38975b2673ba8d8ce89cc2093662861f99b9e5b443a",
+    "branches": {
+      "1.20.1-main": {
+        "commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "1.21.1": {
+        "commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "26.1.2": {
+        "commit": "9b8f165a4641e738e694641dd81240a0206573e1",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      }
+    }
+  },
+  {
+    "file": "src/main/resources/assets/kaleidoscope_tavern/models/block/deco/bar_counter/right_corner.json",
+    "default_sha256": "951cd47ddefc9e4cf24d648ccbee39c45c9fa9dd788a2b28c80130966702c95a",
+    "branches": {
+      "1.20.1-main": {
+        "commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "1.21.1": {
+        "commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "26.1.2": {
+        "commit": "9b8f165a4641e738e694641dd81240a0206573e1",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      }
+    }
+  },
+  {
+    "file": "src/main/resources/assets/kaleidoscope_tavern/models/block/deco/bar_counter/single.json",
+    "default_sha256": "24011d96bd54b33614c0c3c17aaf95cc99fe9a40ca62424eea8f16a43a79d646",
+    "branches": {
+      "1.20.1-main": {
+        "commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "1.21.1": {
+        "commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "26.1.2": {
+        "commit": "9b8f165a4641e738e694641dd81240a0206573e1",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      }
+    }
+  },
+  {
+    "file": "src/main/resources/assets/kaleidoscope_tavern/models/block/deco/sofa/base/left.json",
+    "default_sha256": "7c610540dd95b0bdb34dff87a7e438f94f8e37747d795cd5479289e3951bd28a",
+    "branches": {
+      "1.20.1-main": {
+        "commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "1.21.1": {
+        "commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "26.1.2": {
+        "commit": "9b8f165a4641e738e694641dd81240a0206573e1",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      }
+    }
+  },
+  {
+    "file": "src/main/resources/assets/kaleidoscope_tavern/models/block/deco/sofa/base/left_corner.json",
+    "default_sha256": "9d116cd498c0e57a3adf68d34ce0b77978029fdf1d4145c0cc6f422f7cd9e5b9",
+    "branches": {
+      "1.20.1-main": {
+        "commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "1.21.1": {
+        "commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "26.1.2": {
+        "commit": "9b8f165a4641e738e694641dd81240a0206573e1",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      }
+    }
+  },
+  {
+    "file": "src/main/resources/assets/kaleidoscope_tavern/models/block/deco/sofa/base/middle.json",
+    "default_sha256": "88e6def408e4ab8faaffbc61d389c4808ae56ca126dc315522d470fa07eb4b06",
+    "branches": {
+      "1.20.1-main": {
+        "commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "1.21.1": {
+        "commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "26.1.2": {
+        "commit": "9b8f165a4641e738e694641dd81240a0206573e1",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      }
+    }
+  },
+  {
+    "file": "src/main/resources/assets/kaleidoscope_tavern/models/block/deco/sofa/base/right.json",
+    "default_sha256": "0e3bd9f3064b80ed66a24d2c865c03bcee29e9e86c9f51245d48d80b812ff6ef",
+    "branches": {
+      "1.20.1-main": {
+        "commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "1.21.1": {
+        "commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "26.1.2": {
+        "commit": "9b8f165a4641e738e694641dd81240a0206573e1",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      }
+    }
+  },
+  {
+    "file": "src/main/resources/assets/kaleidoscope_tavern/models/block/deco/sofa/base/right_corner.json",
+    "default_sha256": "320dc9611224ec477fee814b74cba09a01da5c48f5f6306ffcc4ef1d95a80b8a",
+    "branches": {
+      "1.20.1-main": {
+        "commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "1.21.1": {
+        "commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "26.1.2": {
+        "commit": "9b8f165a4641e738e694641dd81240a0206573e1",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      }
+    }
+  },
+  {
+    "file": "src/main/resources/assets/kaleidoscope_tavern/models/block/deco/sofa/base/single.json",
+    "default_sha256": "bd23b661b2157047d82c78bd7ad5eefb348d727e4651c441c3ba7a2832ed7ae9",
+    "branches": {
+      "1.20.1-main": {
+        "commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "1.21.1": {
+        "commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "26.1.2": {
+        "commit": "9b8f165a4641e738e694641dd81240a0206573e1",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      }
+    }
+  },
+  {
+    "file": "src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/signature_cocktail.json",
+    "default_sha256": "6d58729dc256aed8d438763fadb628d91597dba71f73267ce1644beeda8f529b",
+    "branches": {
+      "1.20.1-main": {
+        "commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": true
+      },
+      "1.21.1": {
+        "commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "available": true,
+        "byte_equal_to_main": false,
+        "semantic_equal_to_main": false
+      },
+      "26.1.2": {
+        "commit": "9b8f165a4641e738e694641dd81240a0206573e1",
+        "available": false,
+        "byte_equal_to_main": false
+      }
+    }
+  },
+  {
+    "file": "src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/bar_cabinet.png",
+    "default_sha256": "e67f5aa6995e6c6e843829bfa246db25aef50862d06ab147d16784d84cd9e6b0",
+    "branches": {
+      "1.20.1-main": {
+        "commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+        "available": true,
+        "byte_equal_to_main": true,
+        "rgba_equal_to_main": true
+      },
+      "1.21.1": {
+        "commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "available": true,
+        "byte_equal_to_main": true,
+        "rgba_equal_to_main": true
+      },
+      "26.1.2": {
+        "commit": "9b8f165a4641e738e694641dd81240a0206573e1",
+        "available": true,
+        "byte_equal_to_main": true,
+        "rgba_equal_to_main": true
+      }
+    }
+  },
+  {
+    "file": "src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/glass_bar_cabinet.png",
+    "default_sha256": "e580d1027a0bc3d47123768a59f9ce0fec6f9523c44d3ff42325485a1c78f422",
+    "branches": {
+      "1.20.1-main": {
+        "commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+        "available": true,
+        "byte_equal_to_main": true,
+        "rgba_equal_to_main": true
+      },
+      "1.21.1": {
+        "commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "available": true,
+        "byte_equal_to_main": false,
+        "rgba_equal_to_main": true
+      },
+      "26.1.2": {
+        "commit": "9b8f165a4641e738e694641dd81240a0206573e1",
+        "available": true,
+        "byte_equal_to_main": false,
+        "rgba_equal_to_main": true
+      }
+    }
+  },
+  {
+    "file": "src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/bar_counter.png",
+    "default_sha256": "34f733e6da356c9652ded34288bd10da4843c3c6a4ffd0a09862449df9446f33",
+    "branches": {
+      "1.20.1-main": {
+        "commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+        "available": true,
+        "byte_equal_to_main": true,
+        "rgba_equal_to_main": true
+      },
+      "1.21.1": {
+        "commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "available": true,
+        "byte_equal_to_main": false,
+        "rgba_equal_to_main": true
+      },
+      "26.1.2": {
+        "commit": "9b8f165a4641e738e694641dd81240a0206573e1",
+        "available": true,
+        "byte_equal_to_main": false,
+        "rgba_equal_to_main": true
+      }
+    }
+  },
+  {
+    "file": "src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/sofa/blue.png",
+    "default_sha256": "cdd8defd796513d2cff18f53ae57077525cb1d9812de55a4f8705fe262207de8",
+    "branches": {
+      "1.20.1-main": {
+        "commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+        "available": true,
+        "byte_equal_to_main": true,
+        "rgba_equal_to_main": true
+      },
+      "1.21.1": {
+        "commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "available": true,
+        "byte_equal_to_main": true,
+        "rgba_equal_to_main": true
+      },
+      "26.1.2": {
+        "commit": "9b8f165a4641e738e694641dd81240a0206573e1",
+        "available": true,
+        "byte_equal_to_main": true,
+        "rgba_equal_to_main": true
+      }
+    }
+  },
+  {
+    "file": "src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/signature_cocktail.png",
+    "default_sha256": "092d193e95d49b2cdd914421e6e5d2f97fe2869d093efb234f174a10f7da1051",
+    "branches": {
+      "1.20.1-main": {
+        "commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+        "available": true,
+        "byte_equal_to_main": true,
+        "rgba_equal_to_main": true
+      },
+      "1.21.1": {
+        "commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+        "available": true,
+        "byte_equal_to_main": true,
+        "rgba_equal_to_main": true
+      },
+      "26.1.2": {
+        "commit": "9b8f165a4641e738e694641dd81240a0206573e1",
+        "available": false,
+        "byte_equal_to_main": false
+      }
+    }
+  }
+]
