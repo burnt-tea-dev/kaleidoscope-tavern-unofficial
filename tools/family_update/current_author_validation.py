@@ -719,6 +719,26 @@ def artifact_members(run_id,artifact_id,source,full_tree):
         members={name:archive.read(name) for name in names}
     return members,{'run_id':run_id,'artifact_id':artifact_id,'artifact_digest':artifact['digest'],'checks':checks,'statuses':statuses,'unavailable_optional_services':unavailable}
 
+@lru_cache(maxsize=2)
+def local_artifact_members(path,source,full_tree):
+    """Bind a locally produced evidence bundle when no hosted artifact is used.
+
+    The bundle is the exact canonical build output; the merged source tree must
+    equal the proof tree, and every member is re-hashed from the zip. No hosted
+    run or artifact storage is consulted.
+    """
+    path=Path(path)
+    assert path.is_absolute() and path.is_file() and not path.is_symlink(),'Local evidence bundle missing or unsafe'
+    assert c.git(c.EXTENSION,'rev-parse',source+'^{tree}')==full_tree,'Local evidence source tree differs'
+    raw=path.read_bytes()
+    assert len(raw)<=32*1024**2,'Local evidence bundle exceeds bounded scope'
+    with zipfile.ZipFile(io.BytesIO(raw)) as archive:
+        names=archive.namelist();assert len(names)<=32 and len(names)==len(set(names)) and all(Path(n).name==n for n in names)
+        assert sum(i.file_size for i in archive.infolist())<=32*1024**2,'Local evidence exceeds bounded evidence scope'
+        members={name:archive.read(name) for name in names}
+    return members,{'run_id':0,'artifact_id':0,'artifact_digest':'sha256:'+digest(raw),'mode':'local_bundle',
+                    'checks':[],'statuses':[],'unavailable_optional_services':[]}
+
 def validate_merged_source(pr,binding,full_tree):
     """Bind canonical evidence to the merged result, including current base changes."""
     verify_record(pr['head']['repo'],REPOSITORY);verify_record(pr['base']['repo'],REPOSITORY)
@@ -761,7 +781,12 @@ def source_proof():
     assert authors['profile']==PROFILE and authors['authors']==catalog['authors']
     pr=gh_json(f'repos/{current_name(REPOSITORY)}/pulls/{c.CONFIG["extension_stable_pull_request"]}')
     validate_merged_source(pr,binding,proof['git_tree'])
-    members,ci=artifact_members(int(c.CONFIG['extension_stable_run_id']),int(c.CONFIG['extension_stable_artifact_id']),proof['source_commit'],proof['git_tree'])
+    local_bundle=c.CONFIG.get('extension_stable_local_artifact')
+    if local_bundle:
+        assert not int(c.CONFIG.get('extension_stable_run_id') or 0) and not int(c.CONFIG.get('extension_stable_artifact_id') or 0),'Local evidence replaces the hosted artifact'
+        members,ci=local_artifact_members(str(Path(local_bundle).resolve()),proof['source_commit'],proof['git_tree'])
+    else:
+        members,ci=artifact_members(int(c.CONFIG['extension_stable_run_id']),int(c.CONFIG['extension_stable_artifact_id']),proof['source_commit'],proof['git_tree'])
     assert members.get(path.name)==raw,'Current author proof differs from original CI artifact'
     active=functional_selected(baseline)
     expected_checks=set(current_selection()['checks']) if curated_selected() else CHECKS|({'current-runtime-functional.json'} if active else set())

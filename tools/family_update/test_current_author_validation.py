@@ -878,4 +878,34 @@ class LockedArchiveReplacementTests(unittest.TestCase):
     selection['replacement_packs']={'Unknown':pair}
     with self.assertRaisesRegex(AssertionError,'reviewed upstream lock'):m.replacement_rows()
 
+class LocalEvidenceBundle(unittest.TestCase):
+ def setUp(self):
+  temporary=tempfile.TemporaryDirectory();self.addCleanup(temporary.cleanup);self.root=Path(temporary.name)
+  self.repo=self.root/'source';self.repo.mkdir()
+  self.git('init','--quiet');(self.repo/'runtime.txt').write_text('runtime\n');self.git('add','.');self.commit('source')
+  self.source=self.git('rev-parse','HEAD');self.tree=self.git('rev-parse','HEAD^{tree}')
+  patcher=patch.object(m.c,'EXTENSION',self.repo);patcher.start();self.addCleanup(patcher.stop)
+  self.zip=self.root/'bundle.zip'
+ def git(self,*args):
+  return subprocess.check_output(['git','-C',str(self.repo),'-c','user.name=Fixture','-c','user.email=fixture@example.invalid','-c','commit.gpgsign=false',*args],text=True).strip()
+ def commit(self,label):self.git('commit','--quiet','-m',label)
+ def write(self,members):
+  import zipfile
+  with zipfile.ZipFile(self.zip,'w',zipfile.ZIP_DEFLATED) as archive:
+   for name,raw in members.items():archive.writestr(name,raw)
+ def test_bundle_members_bind_to_the_exact_source_tree(self):
+  self.write({'current-author-functional.json':b'{"schema":1}','report.json':b'ok'})
+  members,ci=m.local_artifact_members(str(self.zip),self.source,self.tree)
+  self.assertEqual(members['current-author-functional.json'],b'{"schema":1}')
+  self.assertEqual(ci['mode'],'local_bundle')
+  self.assertEqual(ci['artifact_digest'],'sha256:'+hashlib.sha256(self.zip.read_bytes()).hexdigest())
+ def test_changed_source_tree_is_rejected(self):
+  self.write({'proof.json':b'x'})
+  with self.assertRaisesRegex(AssertionError,'source tree differs'):m.local_artifact_members(str(self.zip),self.source,'0'*40)
+ def test_unsafe_member_paths_are_rejected(self):
+  self.write({'dir/proof.json':b'x'})
+  with self.assertRaises(AssertionError):m.local_artifact_members(str(self.zip),self.source,self.tree)
+ def test_missing_bundle_is_rejected(self):
+  with self.assertRaisesRegex(AssertionError,'missing or unsafe'):m.local_artifact_members(str(self.root/'none.zip'),self.source,self.tree)
+
 if __name__=='__main__':unittest.main()
