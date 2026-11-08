@@ -1,0 +1,174 @@
+{
+  "scope": "Official BDS1.26.60.6 complete canonical candidates copied before explicit QA observer import. Native ItemStack and BlockPermutation identity plus production board transform map. Not actual player interaction, crafting, rendered view, restart, family or LIVE.",
+  "before_result_meaning": "ok=true means the read-only identity inspection completed. Observations demonstrate missing short-grass mapping, not successful decoration.",
+  "before": {
+    "engine": "BDS1.26.60.6",
+    "executable_sha256": "ea16b541a448e07c337848d2c5f37321b706554b5216dd942f3f11e7a8ed2bad",
+    "archive_sha256": "cbbd5414fa6a310353ed1fc76a0ba691c3fd1ea852fd04bb76764ee4c1afdb98",
+    "candidate_version": "0.6.210",
+    "candidate_runtime_trees": {
+      "BP": {
+        "sha256": "a87fb905611c1ffa178d9497ad751ba710d163c88fb7f10fe74fbe034cced7d9",
+        "files": 838
+      },
+      "RP": {
+        "sha256": "680985430ada0e6a17f97a748232dd8a552b28c44dc1dff1eacee3705aa596c1",
+        "files": 3232
+      }
+    },
+    "source_module_sha256": "c8ca18954857c455d20766b5517bc67e41084cbdfaf367a6c59df003ae6a157e",
+    "observer_sha256": "1ea1844bb1e56a7c83099f655cc2dbb90eef7ada290b6b959b22dd39fadd86f1",
+    "scope": "Complete canonical Tavern candidate copied byte-for-byte before explicit observer import. Read native item ID aliases and current board transform mapping. No player interactions, crafting, restart, family, client or LIVE.",
+    "reports": [
+      {
+        "phase": "first",
+        "completed": true,
+        "ok": true,
+        "normal_stop": true,
+        "player_connections": 0,
+        "player_spawn_logs": 0,
+        "gametest_fixture": false,
+        "errors": [],
+        "observations": [
+          {
+            "kind": "case",
+            "input": "minecraft:grass",
+            "itemTypeId": null,
+            "itemError": "Error: Invalid item identifier 'minecraft:grass'.",
+            "blockTypeId": "minecraft:grass_block",
+            "blockError": null,
+            "boardTransform": null
+          },
+          {
+            "kind": "case",
+            "input": "minecraft:grass_block",
+            "itemTypeId": "minecraft:grass_block",
+            "itemError": null,
+            "blockTypeId": "minecraft:grass_block",
+            "blockError": null,
+            "boardTransform": null
+          },
+          {
+            "kind": "case",
+            "input": "minecraft:short_grass",
+            "itemTypeId": "minecraft:short_grass",
+            "itemError": null,
+            "blockTypeId": "minecraft:short_grass",
+            "blockError": null,
+            "boardTransform": null
+          },
+          {
+            "kind": "case",
+            "input": "minecraft:tallgrass",
+            "itemTypeId": "minecraft:short_grass",
+            "itemError": null,
+            "blockTypeId": "minecraft:short_grass",
+            "blockError": null,
+            "boardTransform": null
+          },
+          {
+            "kind": "case",
+            "input": "minecraft:tall_grass",
+            "itemTypeId": "minecraft:tall_grass",
+            "itemError": null,
+            "blockTypeId": "minecraft:tall_grass",
+            "blockError": null,
+            "boardTransform": null
+          },
+          {
+            "kind": "done",
+            "phase": "first",
+            "players": 0,
+            "scope": "Native item aliases and production board transform map only. Not real player interaction or crafting."
+          }
+        ],
+        "log": "first.log"
+      }
+    ]
+  },
+  "fixed": {
+    "engine": "BDS1.26.60.6",
+    "executable_sha256": "ea16b541a448e07c337848d2c5f37321b706554b5216dd942f3f11e7a8ed2bad",
+    "archive_sha256": "cbbd5414fa6a310353ed1fc76a0ba691c3fd1ea852fd04bb76764ee4c1afdb98",
+    "candidate_version": "0.6.211",
+    "candidate_runtime_trees": {
+      "BP": {
+        "sha256": "1cb2f19b82620257dfc0ea3a8bede7c5b605c5c4889b8c05aa121758ea4197ab",
+        "files": 838
+      },
+      "RP": {
+        "sha256": "b361bcd93483ce2a0e5e0d435c3ee6da7fabb4aafb35ab83867905c5ea13d85b",
+        "files": 3232
+      }
+    },
+    "source_module_sha256": "22adab6429fc0712d9f1a09ca38ec2aac5b2c272505d6741729f508458d6c988",
+    "observer_sha256": "cb0814a5218b30f04f16d70121ed00d29aa8956a6dfc2b83743ddf203b1f12a6",
+    "scope": "Complete canonical Tavern candidate copied byte-for-byte before explicit observer import. Read native item ID aliases and current board transform mapping. No player interactions, crafting, restart, family, client or LIVE.",
+    "reports": [
+      {
+        "phase": "first",
+        "completed": true,
+        "ok": true,
+        "normal_stop": true,
+        "player_connections": 0,
+        "player_spawn_logs": 0,
+        "gametest_fixture": false,
+        "errors": [],
+        "observations": [
+          {
+            "kind": "case",
+            "input": "minecraft:grass",
+            "itemTypeId": null,
+            "itemError": "Error: Invalid item identifier 'minecraft:grass'.",
+            "blockTypeId": "minecraft:grass_block",
+            "blockError": null,
+            "boardTransform": null
+          },
+          {
+            "kind": "case",
+            "input": "minecraft:grass_block",
+            "itemTypeId": "minecraft:grass_block",
+            "itemError": null,
+            "blockTypeId": "minecraft:grass_block",
+            "blockError": null,
+            "boardTransform": null
+          },
+          {
+            "kind": "case",
+            "input": "minecraft:short_grass",
+            "itemTypeId": "minecraft:short_grass",
+            "itemError": null,
+            "blockTypeId": "minecraft:short_grass",
+            "blockError": null,
+            "boardTransform": "kaleidoscope_tavern:grass_sandwich_board"
+          },
+          {
+            "kind": "case",
+            "input": "minecraft:tallgrass",
+            "itemTypeId": "minecraft:short_grass",
+            "itemError": null,
+            "blockTypeId": "minecraft:short_grass",
+            "blockError": null,
+            "boardTransform": "kaleidoscope_tavern:grass_sandwich_board"
+          },
+          {
+            "kind": "case",
+            "input": "minecraft:tall_grass",
+            "itemTypeId": "minecraft:tall_grass",
+            "itemError": null,
+            "blockTypeId": "minecraft:tall_grass",
+            "blockError": null,
+            "boardTransform": null
+          },
+          {
+            "kind": "done",
+            "phase": "first",
+            "players": 0,
+            "scope": "Native item aliases and production board transform map only. Not real player interaction or crafting."
+          }
+        ],
+        "log": "first.log"
+      }
+    ]
+  }
+}

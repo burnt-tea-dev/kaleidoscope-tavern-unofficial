@@ -20,7 +20,7 @@ SOURCE_GROUPS = {
     'optionalEffectProtocol': ('data/effect-icons.js',),
     'machinesAndDecorations': ('bedrock/machines.js', 'core/machines.js', 'bedrock/decorations.js'),
     'sharedGuide': ('core/cookery-guide-publisher.js', 'data/cookery-guide-payload.js', 'data/guide-navigation.js', 'data/guide-copy.js'),
-    'boardLayoutAndText': ('data/board-font.js', 'core/board-layout.js', 'bedrock/board-text.js', 'bedrock/writing-boards.js'),
+    'boardLayoutAndText': ('core/boards.js', 'data/board-font.js', 'core/board-layout.js', 'bedrock/board-text.js', 'bedrock/writing-boards.js'),
     'mixologyLifecycle': ('bedrock/mixology.js',),
     'sharedUtilities': ('core/util.js',),
     'sharedItemLifecycle': ('bedrock/pickup-overflow.js', 'bedrock/natural-break.js', 'bedrock/transactions.js'),
@@ -80,6 +80,7 @@ def check(root=ROOT, *, syntax=True, localization=True):
     imported(modules['core/board-layout.js'], '../data/board-font.js', {'fontAdvance', 'fontBoldOffset'})
     imported(modules['bedrock/board-text.js'], '../data/board-font.js', {'fontBoldOffset'})
     writing_boards = modules['bedrock/writing-boards.js']
+    imported(writing_boards, '../core/boards.js', {'FLOWER_BOARD_TRANSFORMS', 'normalizeBoardData', 'boardRuntimeKey'})
     imported(writing_boards, '../core/board-layout.js', {'boardLayoutOptions', 'splitBoardLines'})
     imported(writing_boards, './board-text.js', {'renderBoardText', 'removeBoardText'})
     imported(modules['bedrock/extension-host.js'], '../core/transport.js', {'ExtensionTransport', 'EVENTS', 'TRANSPORT_LIMITS'})

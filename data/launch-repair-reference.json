@@ -1751,12 +1751,6 @@
       "after": "1e4f18ab2ff491f46e70748adc7559d0708a78d75e8a400840a7b4ed5634106d",
       "reason": "0.6.54: correct barrel/tap/aging instructions; derive legacy pages from the canonical Cookery chapter; expose feedback failures and truthful guide delivery state.; follow-up real-client shaker clip: use native player perspective variable; local non-positional and observer positional sounds. 2026-09-28 effects review: Source-derived post-commit feedback, isolated cosmetic failures and real splash lifecycle; preserves PR93 carrier repair. See docs/EFFECTS-REPORT-FOLLOWUP-20260928.md."
     },
-    "runtime/BP/scripts/core/boards.js": {
-      "before": "7e21c1d99ddf944c11cfe443cf74fe45451ae1d68888eb34e992fd3a82e9fb7d",
-      "beforeProjected": "7e21c1d99ddf944c11cfe443cf74fe45451ae1d68888eb34e992fd3a82e9fb7d",
-      "after": "c8ca18954857c455d20766b5517bc67e41084cbdfaf367a6c59df003ae6a157e",
-      "reason": "0.6.55: enforce seven guide roots with native child categories, split grape entries, clarify Java board alignment and use a shared alignment calculation. 0.6.60: user-requested Word-style board alignment and capacity checks; metadata-safe drink stack merging and empty-hand pickup; duplicate placement gesture coalescing."
-    },
     "runtime/BP/scripts/bedrock/cellar-cabinet.js": {
       "before": "fa58d24275e5742d2225e0428985d64153826a145159474696c5c795b9c94f84",
       "beforeProjected": "fa58d24275e5742d2225e0428985d64153826a145159474696c5c795b9c94f84",
@@ -2503,6 +2497,12 @@
       "beforeProjected": "96f413aa32f637cd0b7c2ab6c0cc8fd0ef9a41ec5d02728eb05176f0a3b44ab3",
       "after": "e5c53bc595eb77975e1b484f040aebb2032260a326c27cf9644c60b235e43185",
       "reason": "Pickup parity audit 2026-09-29: native ItemStack persistence, Java storage/main-hand versus Forge inventory delivery, per-block creative handling, exact Java slot boundaries and feedback; details in docs/PICKUP-PARITY-20260929.md. Pickup follow-up: registered external cabinets share native slot persistence, main-hand delivery, Adventure interaction and Java cabinet feedback."
+    },
+    "runtime/BP/scripts/core/boards.js": {
+      "before": "7e21c1d99ddf944c11cfe443cf74fe45451ae1d68888eb34e992fd3a82e9fb7d",
+      "beforeProjected": "7e21c1d99ddf944c11cfe443cf74fe45451ae1d68888eb34e992fd3a82e9fb7d",
+      "after": "c8ca18954857c455d20766b5517bc67e41084cbdfaf367a6c59df003ae6a157e",
+      "reason": "0.6.55: enforce seven guide roots with native child categories, split grape entries, clarify Java board alignment and use a shared alignment calculation. 0.6.60: user-requested Word-style board alignment and capacity checks; metadata-safe drink stack merging and empty-hand pickup; duplicate placement gesture coalescing."
     }
   }
 }

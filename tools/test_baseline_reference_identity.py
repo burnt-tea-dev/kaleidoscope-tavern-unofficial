@@ -264,6 +264,7 @@ class CurrentExtensionSourceTests(unittest.TestCase):
    'runtime/BP/scripts/core/cookery-guide-publisher.js',
    'runtime/BP/scripts/bedrock/board-text.js',
    'runtime/BP/scripts/core/board-layout.js',
+   'runtime/BP/scripts/core/boards.js',
    'runtime/BP/scripts/data/board-font.js',
    'runtime/BP/scripts/bedrock/mixology.js',
    'runtime/BP/scripts/bedrock/pickup-overflow.js',

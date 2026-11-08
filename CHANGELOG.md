@@ -1,3 +1,7 @@
+## 0.6.211 — 2026-11-08
+
+Restore short grass as the grass-style sandwich-board interaction, crafting and unlock ingredient. Preserve existing board content, paired state and material-consumption behavior; the obsolete grass ItemStack identifier was invalid on the selected engine. Source callbacks and scoped native item-identity/map checks passed. Native player crafting, rendered client, family and LIVE acceptance are not claimed.
+
 ## 0.6.208 — 2026-11-08
 
 Save overflow and Tomb Raider pickup waits as remaining loaded-item ticks. Unloaded time no longer consumes the countdown, expiry persists, and both producers share key-aware initialization and recovery. Source regressions and scoped native item-property restore/expiry passed; see the current parity matrix for migration and validation limits. No LIVE or client operation.
