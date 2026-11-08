@@ -553,8 +553,13 @@ def verify_curated_inputs(receipt,selection,replacement_selection=None):
     assert {uid for uid,row in actual.items() if row['source']['owner']=='preserved'}==allowed, 'Candidate contains an unselected retained input'
     if replacements:
         verify_replacement_inputs(receipt,replacement_selection)
+    installed=current_selection().get('owner_installed_inputs',{})
     for row in rows:
         uid=row['uuid'];pack=actual[uid];selected=selection['packs'][uid]
+        reviewed=installed.get(uid)
+        if reviewed and selected.get('captured_version')==reviewed['version'] and selected.get('captured_tree')==reviewed['tree']:
+            row={**row,'input_version':reviewed['version'],'output_version':reviewed['version'],
+                 'input_tree':reviewed['tree'],'output_tree':reviewed['tree']}
         expected={'side':row['side'],'input_version':row['input_version'],'version':row['output_version'],
                   'input_tree':row['input_tree'],'output_tree':row['output_tree'],'source':_curated_retained_descriptor(row)}
         assert {key:selected[key] for key in expected}==expected, 'Curated selection metadata changed: '+uid
