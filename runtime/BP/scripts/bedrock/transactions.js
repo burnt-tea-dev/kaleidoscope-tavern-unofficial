@@ -67,6 +67,7 @@ export function safe(p,fn){try{return fn();}catch(e){tell(p,{rawtext:[{text:'§e
 export function withToolWear(plan,slot,creative=false,rng=Math.random) {
  if(creative)return;
  const item=plan.after[slot];check(item,'NO_TOOL');const durability=item.getComponent('minecraft:durability');check(durability,'NO_DURABILITY');
+ if(durability.unbreakable)return;
  const unbreaking=item.getComponent('minecraft:enchantable')?.getEnchantments?.().find(e=>e.type?.id==='unbreaking'||e.type?.id==='minecraft:unbreaking')?.level??0;
  if(rng()>=1/(unbreaking+1))return;
  if(durability.damage+1>=durability.maxDurability)plan.after[slot]=undefined;

@@ -1991,12 +1991,6 @@
       "after": "75843f9c942d29bd878b241878a955f6b5fb88de1d2ff3bc5a3e96eb6a6d51a1",
       "reason": "2026-09-28 effects review: Pinned Java constructors, finite per-sample emission and source 20Hz dynamics. See docs/EFFECTS-REPORT-FOLLOWUP-20260928.md. 0.6.64 Molang hotfix: expand compound assignments to explicit assignments; arithmetic order and all other JSON values retained."
     },
-    "runtime/BP/scripts/bedrock/transactions.js": {
-      "before": "96f413aa32f637cd0b7c2ab6c0cc8fd0ef9a41ec5d02728eb05176f0a3b44ab3",
-      "beforeProjected": "96f413aa32f637cd0b7c2ab6c0cc8fd0ef9a41ec5d02728eb05176f0a3b44ab3",
-      "after": "e5c53bc595eb77975e1b484f040aebb2032260a326c27cf9644c60b235e43185",
-      "reason": "Pickup parity audit 2026-09-29: native ItemStack persistence, Java storage/main-hand versus Forge inventory delivery, per-block creative handling, exact Java slot boundaries and feedback; details in docs/PICKUP-PARITY-20260929.md. Pickup follow-up: registered external cabinets share native slot persistence, main-hand delivery, Adventure interaction and Java cabinet feedback."
-    },
     "runtime/BP/scripts/core/cellar-cabinet.js": {
       "before": "73252e69e884a628256a3d2f7220db4fb67edeee746df20254f85bb9ff8ebd8e",
       "beforeProjected": "73252e69e884a628256a3d2f7220db4fb67edeee746df20254f85bb9ff8ebd8e",
@@ -2503,6 +2497,12 @@
       "beforeProjected": null,
       "after": "1e781e254eda6e81f1b4b326492bae6f6c2597ae6e39cf2da7cda34ba43a52f3",
       "reason": "Original launch addition; natural storage destruction is now maintained by the current source contract and current pickup/shaker/machine failure-retention regressions."
+    },
+    "runtime/BP/scripts/bedrock/transactions.js": {
+      "before": "96f413aa32f637cd0b7c2ab6c0cc8fd0ef9a41ec5d02728eb05176f0a3b44ab3",
+      "beforeProjected": "96f413aa32f637cd0b7c2ab6c0cc8fd0ef9a41ec5d02728eb05176f0a3b44ab3",
+      "after": "e5c53bc595eb77975e1b484f040aebb2032260a326c27cf9644c60b235e43185",
+      "reason": "Pickup parity audit 2026-09-29: native ItemStack persistence, Java storage/main-hand versus Forge inventory delivery, per-block creative handling, exact Java slot boundaries and feedback; details in docs/PICKUP-PARITY-20260929.md. Pickup follow-up: registered external cabinets share native slot persistence, main-hand delivery, Adventure interaction and Java cabinet feedback."
     }
   }
 }

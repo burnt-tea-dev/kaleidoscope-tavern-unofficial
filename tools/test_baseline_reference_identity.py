@@ -267,6 +267,7 @@ class CurrentExtensionSourceTests(unittest.TestCase):
    'runtime/BP/scripts/data/board-font.js',
    'runtime/BP/scripts/bedrock/mixology.js',
    'runtime/BP/scripts/bedrock/pickup-overflow.js',
+   'runtime/BP/scripts/bedrock/transactions.js',
    'runtime/BP/scripts/bedrock/natural-break.js',
   ):
    with self.subTest(owner=name):

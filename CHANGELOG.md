@@ -2,6 +2,10 @@
 
 Save overflow and Tomb Raider pickup waits as remaining loaded-item ticks. Unloaded time no longer consumes the countdown, expiry persists, and both producers share key-aware initialization and recovery. Source regressions and scoped native item-property restore/expiry passed; see the current parity matrix for migration and validation limits. No LIVE or client operation.
 
+## 0.6.210
+
+Preserve unbreakable shears during wild-vine clipping, trellis pruning and ripe-grape shearing, including the final durability point. The shared durability owner skips wear/RNG/hand writes for that native flag; ordinary tools and the existing Unbreaking probability remain unchanged. Native ItemStack before/after observation and source-adapter regressions pass; crop/player/client/LIVE acceptance is not claimed.
+
 ## 0.6.209
 
 Keep stored item stacks and metadata recoverable until natural-destruction drops commit. Failed first/partial drops roll back exact records and safe owner cells; missing public state cannot erase adopted carriers. Unconfirmed compensation does not reopen the owner or multipart siblings. Current-source contracts replace obsolete natural-break body projections. Scoped native fault-injection and retry passed; no client, full-family or LIVE acceptance is claimed.

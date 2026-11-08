@@ -4620,18 +4620,6 @@
             ]
           ]
         },
-        "runtime/BP/scripts/bedrock/transactions.js": {
-          "before": "e5c53bc595eb77975e1b484f040aebb2032260a326c27cf9644c60b235e43185",
-          "after": "bacdac12f246c9141b779231a8653cf6b0e0c50b8e674e8f555f226e6b20d37e",
-          "reason": "Allow explicitly requested Java block interactions in the existing world-output transaction while retaining default placement/write restrictions and rollback.",
-          "reverseOps": [
-            [
-              91,
-              93,
-              "export function exchangeBlocksToWorld(player,outputs,changes,location,{wear=false,rng=Math.random}={}) {\n canWrite(player);\n"
-            ]
-          ]
-        },
         "runtime/BP/scripts/core/java-use-order.js": {
           "before": "571ce3ed831b261102a967560047610614d40a69b9f39d9cb153650eb4d3dc5f",
           "after": "5755a50fa11d865700e74ab00bb828e8d7871615a7b54f5226ab1f154cbb87a8",
@@ -7104,6 +7092,18 @@
               186,
               191,
               "   check(e.player.dimension.id===d.id,'DIMENSION_CHANGED');const b=blockAt(d,p);check(b&&current(b)===sig,'BLOCK_CHANGED');sameHand(e.player,hs);\n   return farmUse(e.player,b);\n"
+            ]
+          ]
+        },
+        "runtime/BP/scripts/bedrock/transactions.js": {
+          "before": "e5c53bc595eb77975e1b484f040aebb2032260a326c27cf9644c60b235e43185",
+          "after": "bacdac12f246c9141b779231a8653cf6b0e0c50b8e674e8f555f226e6b20d37e",
+          "reason": "Allow explicitly requested Java block interactions in the existing world-output transaction while retaining default placement/write restrictions and rollback.",
+          "reverseOps": [
+            [
+              91,
+              93,
+              "export function exchangeBlocksToWorld(player,outputs,changes,location,{wear=false,rng=Math.random}={}) {\n canWrite(player);\n"
             ]
           ]
         }

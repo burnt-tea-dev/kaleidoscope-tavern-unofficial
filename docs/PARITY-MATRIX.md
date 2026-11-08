@@ -6,6 +6,16 @@ Adopt the official Bedrock Tavern1.0.7 unique-reference rule. Preserve the curre
 
 目前維護版本與 BP／RP 身分以 [baseline.json](../baseline.json) 為準；公開下載、來源配對及部署見[家族現況](../family/BASELINE-STATUS.md)。下列日期段保留各次修補及原始證據範圍，不因較新的來源版本自動取得畫面或完整家族通過結果。真人使用不是發布、部署或完成門檻，沿用[擁有者現行規則](../family/UPDATE-WORKFLOW.md#擁有者簡化規則2026-11-04)。
 
+## 不損壞剪刀農務（2026-11-08，T210）
+
+野藤剪頂、藤架修剪、成熟葡萄剪收共用 `transactions.withToolWear`。舊 owner 沒有檢查原生 `ItemDurabilityComponent.unbreakable`，因此標記不損壞的剪刀仍磨損，最後一點耐久會從交易 plan 刪除。現在在 enchantment／RNG／刪除與 hand-write 標記前直接保留該 native stack；普通剪刀、Creative 與既有 `1/(Unbreaking+1)` 機率不改，未把該機率本身當成已證實缺陷。
+
+原作三個入口均使用 hurtAndBreak：[WildGrapevineBlock](https://github.com/KaleidoscopeMods/KaleidoscopeTavern/blob/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/block/plant/WildGrapevineBlock.java#L53-L65)、[GrapevineTrellisBlock](https://github.com/KaleidoscopeMods/KaleidoscopeTavern/blob/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/block/plant/GrapevineTrellisBlock.java#L106)、[GrapeCropBlock](https://github.com/KaleidoscopeMods/KaleidoscopeTavern/blob/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/block/plant/GrapeCropBlock.java#L91)。本輪重查維護 Java refs 仍為 Forge c4ec188／NeoForge a1afba34；官方 @minecraft/server2.7.0 typings 明列 unbreakable:boolean。沒有增加實驗或 API 需求。
+
+三入口各在 damage12與237/max238的6個反例先紅後綠；保留工具與 metadata 且沒有 hand rewrite，農務與掉落仍完成。相關299項來源回歸、8項現有 current-source 契約通過。transactions 的舊 launch row 與 T131 reverseOps 原樣移入既有 historical 區，改由共用 inventory/native-storage/pickup 接線與實際行為維護，沒有新版本特例、改歷史 hash 或新反向層。
+
+[原生前後結果](../data/native-tool-wear-unbreakable.json)：官方 BDS1.26.60.6，完整 canonical 候選 BP/RP 加明示 observer import，兩次均零玩家、正常 stop、無引擎錯誤。T209 真實 native 剪刀 unbreakable=true 仍12→13、237→刪除；T210 同一 [observer](../tools/native/tool-wear-unbreakable.js) 保留12／237，RNG及 changes 均0，普通剪刀仍12→13。這是直接呼叫共用 owner 的原生 ItemStack 觀察，不是玩家實際農務／自然原生互動、重啟、完整家族、客戶端或 LIVE 驗收。
+
 ## 自然破壞儲物保留（2026-11-08，T209）
 
 原通用 natural-break 路徑先清 native/public state、finish carrier，再建立掉落；首次 spawnItem 失敗可使 holder 內改名、有 lore 的原生酒瓶與 carrier 一起消失。部分掉落失敗也沒有撤回已產生物品。與先前有獨立保護的 shaker／machine 不同，六種 holder／rack／cabinet 通用路徑漏了提交邊界。

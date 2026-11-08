@@ -1,0 +1,212 @@
+{
+  "observed_date": "2026-11-08",
+  "runtime_version": "0.6.210",
+  "result": "native_unbreakable_guard_pass",
+  "before": {
+    "engine": "BDS1.26.60.6",
+    "executable_sha256": "ea16b541a448e07c337848d2c5f37321b706554b5216dd942f3f11e7a8ed2bad",
+    "archive_sha256": "cbbd5414fa6a310353ed1fc76a0ba691c3fd1ea852fd04bb76764ee4c1afdb98",
+    "candidate_version": "0.6.209",
+    "candidate_runtime_trees": {
+      "BP": {
+        "sha256": "09e653b80362bb148c75b6a9332b89a86b0c7d3fb903ba08a293059fa95ad939",
+        "files": 838
+      },
+      "RP": {
+        "sha256": "de4d9cd7345e21df4b4fec3b92ce705441b85cae597ea04d51eea71daecafa9c",
+        "files": 3232
+      }
+    },
+    "source_module_sha256": "bacdac12f246c9141b779231a8653cf6b0e0c50b8e674e8f555f226e6b20d37e",
+    "observer_sha256": "ecefa482d79c0978d3374abcbb6642fcfd3a8ae54f922c61b0b5c80ea26b4e06",
+    "scope": "Complete canonical Tavern candidate copied byte-for-byte before explicit observer import. Direct shared utility calls on real native ItemStack shears. Not crop/player interactions, restart, multiplayer, family, client or LIVE.",
+    "reports": [
+      {
+        "phase": "first",
+        "completed": false,
+        "ok": false,
+        "normal_stop": true,
+        "player_connections": 0,
+        "player_spawn_logs": 0,
+        "gametest_fixture": false,
+        "errors": [],
+        "observations": [
+          {
+            "kind": "case",
+            "label": "ordinary",
+            "unbreakable": false,
+            "creative": false,
+            "beforeDamage": 12,
+            "maxDurability": 238,
+            "deleted": false,
+            "afterDamage": 13,
+            "afterUnbreakable": false,
+            "changes": [
+              0
+            ],
+            "rolls": 1,
+            "metadata": true
+          },
+          {
+            "kind": "case",
+            "label": "unbreakable",
+            "unbreakable": true,
+            "creative": false,
+            "beforeDamage": 12,
+            "maxDurability": 238,
+            "deleted": false,
+            "afterDamage": 13,
+            "afterUnbreakable": true,
+            "changes": [
+              0
+            ],
+            "rolls": 1,
+            "metadata": true
+          },
+          {
+            "kind": "case",
+            "label": "unbreakable-final-point",
+            "unbreakable": true,
+            "creative": false,
+            "beforeDamage": 237,
+            "maxDurability": 238,
+            "deleted": true,
+            "afterDamage": null,
+            "afterUnbreakable": null,
+            "changes": [
+              0
+            ],
+            "rolls": 1,
+            "metadata": false
+          },
+          {
+            "kind": "case",
+            "label": "creative-final-point",
+            "unbreakable": false,
+            "creative": true,
+            "beforeDamage": 237,
+            "maxDurability": 238,
+            "deleted": false,
+            "afterDamage": 237,
+            "afterUnbreakable": false,
+            "changes": [],
+            "rolls": 0,
+            "metadata": true
+          },
+          {
+            "kind": "failure",
+            "error": "Error: protected native shears were worn, removed or rewritten",
+            "stack": "    at <anonymous> (tool-wear-unbreakable.js:19)\n"
+          }
+        ],
+        "log": "first.log"
+      }
+    ]
+  },
+  "fixed": {
+    "engine": "BDS1.26.60.6",
+    "executable_sha256": "ea16b541a448e07c337848d2c5f37321b706554b5216dd942f3f11e7a8ed2bad",
+    "archive_sha256": "cbbd5414fa6a310353ed1fc76a0ba691c3fd1ea852fd04bb76764ee4c1afdb98",
+    "candidate_version": "0.6.210",
+    "candidate_runtime_trees": {
+      "BP": {
+        "sha256": "a87fb905611c1ffa178d9497ad751ba710d163c88fb7f10fe74fbe034cced7d9",
+        "files": 838
+      },
+      "RP": {
+        "sha256": "680985430ada0e6a17f97a748232dd8a552b28c44dc1dff1eacee3705aa596c1",
+        "files": 3232
+      }
+    },
+    "source_module_sha256": "1e6e013c715baca9e2cfe15b620e18d6ed005f3437d58c24db7fd78623d9398b",
+    "observer_sha256": "ecefa482d79c0978d3374abcbb6642fcfd3a8ae54f922c61b0b5c80ea26b4e06",
+    "scope": "Complete canonical Tavern candidate copied byte-for-byte before explicit observer import. Direct shared utility calls on real native ItemStack shears. Not crop/player interactions, restart, multiplayer, family, client or LIVE.",
+    "reports": [
+      {
+        "phase": "first",
+        "completed": true,
+        "ok": true,
+        "normal_stop": true,
+        "player_connections": 0,
+        "player_spawn_logs": 0,
+        "gametest_fixture": false,
+        "errors": [],
+        "observations": [
+          {
+            "kind": "case",
+            "label": "ordinary",
+            "unbreakable": false,
+            "creative": false,
+            "beforeDamage": 12,
+            "maxDurability": 238,
+            "deleted": false,
+            "afterDamage": 13,
+            "afterUnbreakable": false,
+            "changes": [
+              0
+            ],
+            "rolls": 1,
+            "metadata": true
+          },
+          {
+            "kind": "case",
+            "label": "unbreakable",
+            "unbreakable": true,
+            "creative": false,
+            "beforeDamage": 12,
+            "maxDurability": 238,
+            "deleted": false,
+            "afterDamage": 12,
+            "afterUnbreakable": true,
+            "changes": [],
+            "rolls": 0,
+            "metadata": true
+          },
+          {
+            "kind": "case",
+            "label": "unbreakable-final-point",
+            "unbreakable": true,
+            "creative": false,
+            "beforeDamage": 237,
+            "maxDurability": 238,
+            "deleted": false,
+            "afterDamage": 237,
+            "afterUnbreakable": true,
+            "changes": [],
+            "rolls": 0,
+            "metadata": true
+          },
+          {
+            "kind": "case",
+            "label": "creative-final-point",
+            "unbreakable": false,
+            "creative": true,
+            "beforeDamage": 237,
+            "maxDurability": 238,
+            "deleted": false,
+            "afterDamage": 237,
+            "afterUnbreakable": false,
+            "changes": [],
+            "rolls": 0,
+            "metadata": true
+          },
+          {
+            "kind": "done",
+            "phase": "first",
+            "players": 0,
+            "nativeItemStacks": true,
+            "scope": "Direct shared utility calls only, not native crop/player interactions."
+          }
+        ],
+        "log": "first.log"
+      }
+    ]
+  },
+  "source_tests": {
+    "initial_failures": 6,
+    "related_passed": 299,
+    "current_source_contract_passed": 8
+  },
+  "scope": "Native direct calls of withToolWear on real ItemStack shears in full copied canonical Tavern packs. Actual clip/prune/harvest routes are source-adapter regressions, not player/crop BDS interactions. No restart, family, client or LIVE acceptance.",
+  "metadata_observation_limit": "The native observer name/lore comparison uses the same native item reference, so it is not independent evidence against in-place metadata mutation. Native evidence establishes durability, retained stack, dynamic property, RNG and write-plan behavior. Original metadata retention is independently covered by the cloned-inventory source-adapter comparisons."
+}
