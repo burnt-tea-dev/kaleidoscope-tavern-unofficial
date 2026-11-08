@@ -1,0 +1,455 @@
+[
+  {
+    "name": "circular_rack",
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/circular_rack.json",
+        "sha256": "82ac3b6ba47d4d46bfafe7fdabede9365319ec01d2b94579ec05d5c12c928336"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/circular_rack.geo.json",
+        "sha256": "2e463db022ea8b175f98e8149fde93ad5c4c1263b2125993df6c9719d3b8a745"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/circular_rack.png",
+        "sha256": "bfc7e7cf21fde7b44c660c13654bd6040574d6f95b44220b1c829bd33ac0d571"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/deco/circular_rack.png",
+        "sha256": "bfc7e7cf21fde7b44c660c13654bd6040574d6f95b44220b1c829bd33ac0d571"
+      }
+    ],
+    "note": "Empty rack only; dynamic contents and attachment transforms not executed.",
+    "review_only": true
+  },
+  {
+    "name": "tilted_rack",
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/tilted_rack.json",
+        "sha256": "e074078a638096c122f6724fba1872f75d347a2a79f29aff4c6621349aa93ace"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/tilted_rack.geo.json",
+        "sha256": "42af00c3035a21f688d968ae30b6061ff159098840993ed6278df7db91ea06b5"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/tilted_rack.png",
+        "sha256": "f2765637938b8d9a8c5134609647aae21d312d6084b981b9f819df2782b697d4"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/deco/tilted_rack.png",
+        "sha256": "f2765637938b8d9a8c5134609647aae21d312d6084b981b9f819df2782b697d4"
+      }
+    ],
+    "note": "Empty rack only; dynamic contents and attachment transforms not executed.",
+    "review_only": true
+  },
+  {
+    "name": "blue_pendant_lamp_assembled",
+    "inputs": [
+      {
+        "path": "source/runtime/RP/models/entity/blue_pendant_lamp_assembled.geo.json",
+        "sha256": "3c4cdf701d3e54f0c2c3736f58d63d003a568408f48607f39c8242ca6e097ab2"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/blue_pendant_lamp.png",
+        "sha256": "f91925bb23b139477dda23ad4a0bb44df1f8230975fcb0858d4a6306c6bcfe0e"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/deco/blue_pendant_lamp.png",
+        "sha256": "f91925bb23b139477dda23ad4a0bb44df1f8230975fcb0858d4a6306c6bcfe0e"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/blue_pendant_lamp/bottom.json",
+        "sha256": "7cc008bf29897942ccc12c254be5fc4bcf3578dddb7511913007a74c82ea18e3"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/blue_pendant_lamp/top.json",
+        "sha256": "cfe5f11b878c68e26c6dd5fdc527fdc447c215b7ccc47b36b68045f31f682375"
+      }
+    ],
+    "note": "Two-block assembled shape; no light emission, PBR or placement validation.",
+    "review_only": true
+  },
+  {
+    "name": "bell_pendant_lamp_assembled",
+    "inputs": [
+      {
+        "path": "source/runtime/RP/models/entity/bell_pendant_lamp_assembled.geo.json",
+        "sha256": "0d1ee14586e19d6de0532dd21de0c4fb1f4d2ec2a6951c6662d2810effba1651"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/bell_pendant_lamp.png",
+        "sha256": "f91925bb23b139477dda23ad4a0bb44df1f8230975fcb0858d4a6306c6bcfe0e"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/deco/bell_pendant_lamp.png",
+        "sha256": "f91925bb23b139477dda23ad4a0bb44df1f8230975fcb0858d4a6306c6bcfe0e"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/bell_pendant_lamp/bottom.json",
+        "sha256": "e57845d632179ea51cd54250976ff2deba3574291041e29a103a9875171d7e1b"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/bell_pendant_lamp/top.json",
+        "sha256": "2e39784cd7de05a520b08d39b9f715373607bf8771cbb2c5c3bde94a30c85333"
+      }
+    ],
+    "note": "Two-block assembled shape; no light emission, PBR or placement validation.",
+    "review_only": true
+  },
+  {
+    "name": "yellow_pendant_lamp_assembled",
+    "inputs": [
+      {
+        "path": "source/runtime/RP/models/entity/yellow_pendant_lamp_assembled.geo.json",
+        "sha256": "b6f11f6387da5036afabbfc232e702e8ac48a9172c3098a35c8acb66e6d492d9"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/yellow_pendant_lamp.png",
+        "sha256": "f91925bb23b139477dda23ad4a0bb44df1f8230975fcb0858d4a6306c6bcfe0e"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/deco/yellow_pendant_lamp.png",
+        "sha256": "f91925bb23b139477dda23ad4a0bb44df1f8230975fcb0858d4a6306c6bcfe0e"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/yellow_pendant_lamp/bottom.json",
+        "sha256": "4967e3337f38c371f2853d191a4119fca8bb06c078d34b621a2a21fb238afd70"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/yellow_pendant_lamp/top.json",
+        "sha256": "634f1b0ad43b3afc86ee980e56b9945a3d1192a4230dd25b2a5d39b26e009ec9"
+      }
+    ],
+    "note": "Two-block assembled shape; no light emission, PBR or placement validation.",
+    "review_only": true
+  },
+  {
+    "name": "empty_bottle",
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/empty_bottle.json",
+        "sha256": "d00269f48c65932ad3d0871dcdad5d14f5f1791d4bde4262bb3ff680b1d5b5e4"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/empty_bottle_faces.geo.json",
+        "sha256": "1bc6f773b827758abf79095d7951ed6874b930cdfa94883f1ce15fe7f5f439de"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/empty_bottle.png",
+        "sha256": "74f3fd70e07956d1c0a624526f6a4fe5579b1859f85e1147a915adc5235c9a14"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/brew/empty_bottle.png",
+        "sha256": "74f3fd70e07956d1c0a624526f6a4fe5579b1859f85e1147a915adc5235c9a14"
+      }
+    ],
+    "note": "Untinted original texture only. No potion shader/property, fluid, interaction or item context claim.",
+    "review_only": true
+  },
+  {
+    "name": "water_bottle",
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/water_bottle.json",
+        "sha256": "609a6e30fd088e30773d34908830c65a8ad7136ff0af2c255530352d4155a8d0"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/water_bottle.geo.json",
+        "sha256": "fb655acdc41091d44ff17495f13af6277d346e298cd077977040dd30cce756fc"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/water_bottle.png",
+        "sha256": "ef82e83ed9d69d1e45121ed97b29353d0525f53b9411d59b6653992291b03732"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern_jar/block/brew/water_bottle.png",
+        "sha256": "ef82e83ed9d69d1e45121ed97b29353d0525f53b9411d59b6653992291b03732"
+      }
+    ],
+    "note": "Untinted original texture only. No potion shader/property, fluid, interaction or item context claim.",
+    "review_only": true
+  },
+  {
+    "name": "xp_bottle",
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/xp_bottle.json",
+        "sha256": "62d0e49befb8e7c279d506e447f7644ff64f158f8fefc19198431ecfe1f041a9"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/xp_bottle.geo.json",
+        "sha256": "3e3929f3ea981e6601c0a09e64eee29d83a1ac26a10968beeb3cdf2c5131e08b"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/xp_bottle.png",
+        "sha256": "525b903094b952c0c5fda2f35f184b6886c86033983a937b11eb82af034121ff"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern_jar/block/brew/xp_bottle.png",
+        "sha256": "525b903094b952c0c5fda2f35f184b6886c86033983a937b11eb82af034121ff"
+      }
+    ],
+    "note": "Untinted original texture only. No potion shader/property, fluid, interaction or item context claim.",
+    "review_only": true
+  },
+  {
+    "name": "potion_bottle",
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/potion_bottle.json",
+        "sha256": "ab77fd66598ef56309903f0a43bc4be8a40058b0ede5fb11c132231026dad5b9"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/potion_bottle.geo.json",
+        "sha256": "740c3ab2de96188c1f3fe1440437299090939f691ccaa18b586b410f8a04a7c3"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/potion_bottle.png",
+        "sha256": "6b765e59ce99cdf9ea5a1e70c8a39d3c6bb18c63dbcc48d4f1cd02f9a8ccdb9c"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern_jar/block/brew/potion_bottle.png",
+        "sha256": "6b765e59ce99cdf9ea5a1e70c8a39d3c6bb18c63dbcc48d4f1cd02f9a8ccdb9c"
+      }
+    ],
+    "note": "Untinted original texture only. No potion shader/property, fluid, interaction or item context claim.",
+    "review_only": true
+  },
+  {
+    "name": "honey_bottle",
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/honey_bottle.json",
+        "sha256": "65b1c8104a49999c58936e8dc883d6bfc1bd5be8a425c6a363c9e158495c2999"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/honey_bottle.geo.json",
+        "sha256": "d464348d6d2bbfe47e4337c6fcef210eb43c1a0b23de07a737cd1cf1952999d1"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/honey_bottle.png",
+        "sha256": "c21a718f90714863bb2baf0416e45c726fc1286b338282d42013914b5c0c11e4"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern_jar/block/brew/honey_bottle.png",
+        "sha256": "c21a718f90714863bb2baf0416e45c726fc1286b338282d42013914b5c0c11e4"
+      }
+    ],
+    "note": "Untinted original texture only. No potion shader/property, fluid, interaction or item context claim.",
+    "review_only": true
+  },
+  {
+    "name": "dragon_breath_bottle",
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/dragon_breath_bottle.json",
+        "sha256": "75403df70376823ca70c9f1e343582194a34369c573cb9e5ba917af5c42c5dfc"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/dragon_breath_bottle.geo.json",
+        "sha256": "d13ef17e840ed925c6b9bed73d99abc2a1235fcd19b67c554ef13470a82c7b0a"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/dragon_breath_bottle.png",
+        "sha256": "d0645a26239bd22e1940e5cd6533533e09067c0c092b3ba7dad2a8148635b3be"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern_jar/block/brew/dragon_breath_bottle.png",
+        "sha256": "d0645a26239bd22e1940e5cd6533533e09067c0c092b3ba7dad2a8148635b3be"
+      }
+    ],
+    "note": "Untinted original texture only. No potion shader/property, fluid, interaction or item context claim.",
+    "review_only": true
+  },
+  {
+    "name": "sofa-colours-0",
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/sofa/base/single.json",
+        "sha256": "bd23b661b2157047d82c78bd7ad5eefb348d727e4651c441c3ba7a2832ed7ae9"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/sofa_single.geo.json",
+        "sha256": "0c1849954922445be841674c1eae0d3644c5f8354e958fe11d89a9e4b6fa5a89"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/sofa/white.png",
+        "sha256": "fe00fbadd9c3c2ff5c195e86941a2386a5e9de79d00fe53f1c175384f5bfe76c"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/deco/sofa/white.png",
+        "sha256": "fe00fbadd9c3c2ff5c195e86941a2386a5e9de79d00fe53f1c175384f5bfe76c"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/sofa/orange.png",
+        "sha256": "cfdfefee61653c865ed661a14b8bda5bd2ab2fc74c3679b1a78ccd488adc5c5b"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/deco/sofa/orange.png",
+        "sha256": "cfdfefee61653c865ed661a14b8bda5bd2ab2fc74c3679b1a78ccd488adc5c5b"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/sofa/magenta.png",
+        "sha256": "501412d49fc394ec1181387fe1b2537328b209aec55c986da8a76f864afc7595"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/deco/sofa/magenta.png",
+        "sha256": "501412d49fc394ec1181387fe1b2537328b209aec55c986da8a76f864afc7595"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/sofa/light_blue.png",
+        "sha256": "76e7b3ed43bf8751b576982ab7327a549c81918f2e67682696e637dfeb7258d1"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/deco/sofa/light_blue.png",
+        "sha256": "76e7b3ed43bf8751b576982ab7327a549c81918f2e67682696e637dfeb7258d1"
+      }
+    ],
+    "note": "Row-major pairs: ['white', 'orange', 'magenta', 'light_blue']; single shape only, material assignment not engine-executed.",
+    "review_only": true
+  },
+  {
+    "name": "sofa-colours-1",
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/sofa/base/single.json",
+        "sha256": "bd23b661b2157047d82c78bd7ad5eefb348d727e4651c441c3ba7a2832ed7ae9"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/sofa_single.geo.json",
+        "sha256": "0c1849954922445be841674c1eae0d3644c5f8354e958fe11d89a9e4b6fa5a89"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/sofa/yellow.png",
+        "sha256": "cac222ffcf34e8b0fe6ac260b91d0ab5a7ce2d62ff8a4b2ccbc734043d275e21"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/deco/sofa/yellow.png",
+        "sha256": "cac222ffcf34e8b0fe6ac260b91d0ab5a7ce2d62ff8a4b2ccbc734043d275e21"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/sofa/lime.png",
+        "sha256": "12988b778839a9ff9b3de4f547b50d99d8fa22d1ee62364a30461e7093525832"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/deco/sofa/lime.png",
+        "sha256": "12988b778839a9ff9b3de4f547b50d99d8fa22d1ee62364a30461e7093525832"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/sofa/pink.png",
+        "sha256": "4ecc9f528b469e1cc1edceb68b302dcecd86aeac6c0bca275f88dc0ea1791902"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/deco/sofa/pink.png",
+        "sha256": "4ecc9f528b469e1cc1edceb68b302dcecd86aeac6c0bca275f88dc0ea1791902"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/sofa/gray.png",
+        "sha256": "ed999eee3659ce0494a2d062acbfa1cf52db1ef7960af7b31bc17c5481026329"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/deco/sofa/gray.png",
+        "sha256": "ed999eee3659ce0494a2d062acbfa1cf52db1ef7960af7b31bc17c5481026329"
+      }
+    ],
+    "note": "Row-major pairs: ['yellow', 'lime', 'pink', 'gray']; single shape only, material assignment not engine-executed.",
+    "review_only": true
+  },
+  {
+    "name": "sofa-colours-2",
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/sofa/base/single.json",
+        "sha256": "bd23b661b2157047d82c78bd7ad5eefb348d727e4651c441c3ba7a2832ed7ae9"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/sofa_single.geo.json",
+        "sha256": "0c1849954922445be841674c1eae0d3644c5f8354e958fe11d89a9e4b6fa5a89"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/sofa/light_gray.png",
+        "sha256": "3d92765eb2b417519bf0fafaae8d3aa0c56f76f055078395fdd8ca46ba606f1b"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/deco/sofa/light_gray.png",
+        "sha256": "3d92765eb2b417519bf0fafaae8d3aa0c56f76f055078395fdd8ca46ba606f1b"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/sofa/cyan.png",
+        "sha256": "ff32a13a30a46cc2c92dd175d7a4f005af453571f42f9042ec2fbc0517a0ca7b"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/deco/sofa/cyan.png",
+        "sha256": "ff32a13a30a46cc2c92dd175d7a4f005af453571f42f9042ec2fbc0517a0ca7b"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/sofa/purple.png",
+        "sha256": "bfaaa024562eaeac0585e9fb50de97884d40dc825741b27223206a5acd081ce5"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/deco/sofa/purple.png",
+        "sha256": "bfaaa024562eaeac0585e9fb50de97884d40dc825741b27223206a5acd081ce5"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/sofa/blue.png",
+        "sha256": "cdd8defd796513d2cff18f53ae57077525cb1d9812de55a4f8705fe262207de8"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/deco/sofa/blue.png",
+        "sha256": "cdd8defd796513d2cff18f53ae57077525cb1d9812de55a4f8705fe262207de8"
+      }
+    ],
+    "note": "Row-major pairs: ['light_gray', 'cyan', 'purple', 'blue']; single shape only, material assignment not engine-executed.",
+    "review_only": true
+  },
+  {
+    "name": "sofa-colours-3",
+    "inputs": [
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/sofa/base/single.json",
+        "sha256": "bd23b661b2157047d82c78bd7ad5eefb348d727e4651c441c3ba7a2832ed7ae9"
+      },
+      {
+        "path": "source/runtime/RP/models/entity/sofa_single.geo.json",
+        "sha256": "0c1849954922445be841674c1eae0d3644c5f8354e958fe11d89a9e4b6fa5a89"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/sofa/brown.png",
+        "sha256": "bda490c682a931172affd649547b3490dceb2b522c5fb834df62b7c052a7aecb"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/deco/sofa/brown.png",
+        "sha256": "bda490c682a931172affd649547b3490dceb2b522c5fb834df62b7c052a7aecb"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/sofa/green.png",
+        "sha256": "fb04815fe18094cbf9ec72fa6e0eaa3fb7e3ab3a39ef2728fb39371c950b3180"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/deco/sofa/green.png",
+        "sha256": "fb04815fe18094cbf9ec72fa6e0eaa3fb7e3ab3a39ef2728fb39371c950b3180"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/sofa/red.png",
+        "sha256": "b89c1973412861cc14eedb7b04dfa13d941758b6b8273b0d2b49292642716731"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/deco/sofa/red.png",
+        "sha256": "b89c1973412861cc14eedb7b04dfa13d941758b6b8273b0d2b49292642716731"
+      },
+      {
+        "path": "java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/sofa/black.png",
+        "sha256": "393630ec914bf4e88d55f72af548d5d6e57c44794c9b11fc5d7dab764f33df9b"
+      },
+      {
+        "path": "source/runtime/RP/textures/kaleidoscope_tavern/block/deco/sofa/black.png",
+        "sha256": "393630ec914bf4e88d55f72af548d5d6e57c44794c9b11fc5d7dab764f33df9b"
+      }
+    ],
+    "note": "Row-major pairs: ['brown', 'green', 'red', 'black']; single shape only, material assignment not engine-executed.",
+    "review_only": true
+  }
+]

@@ -1,0 +1,20 @@
+{
+  "scope": "Static normalized cube geometry, face UV and rotations; not rendered or material acceptance",
+  "exact_pairs": {
+    "circular_rack": 9,
+    "tilted_rack": 5,
+    "blue_pendant_lamp_assembled": 14,
+    "bell_pendant_lamp_assembled": 14,
+    "yellow_pendant_lamp_assembled": 14,
+    "water_bottle": 7,
+    "potion_bottle": 8,
+    "honey_bottle": 7,
+    "dragon_breath_bottle": 7
+  },
+  "sofa_source_and_runtime_rgba_equal_colours": 16,
+  "excluded_from_cube_count_equality": [
+    "empty_bottle",
+    "xp_bottle"
+  ],
+  "excluded_reason": "The Java models contain inverted (negative-size) boxes. Runtime represents their faces as nonnegative zero-thickness cubes. Different cube counts are not themselves a defect; the editor comparison remains separately scoped."
+}
