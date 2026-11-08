@@ -20,6 +20,8 @@ T211 首次 CI 的玩法／腳本通過，package 被三個 T148／T152 整本�
 
 同時修正指南仍叫玩家輸入字面反斜線+n的過期說明，改為文字框內直接換行；補齊短草在官方引擎 vanilla `tile.tallgrass.grass.name` 的三語名稱：矮草丛／稀疏青草／Short Grass。獨立指南與 Cookery wire 投影同源，52項相關測試通過。guide-native-names 舊 file row 與 T136 reverse row 原樣移入既有 historical 區，由當前共用指南 owner 維護。
 
+配方也由現有 current-source 契約檢查 ingredient／result／unlock；motion 舊 recipe aggregate 僅縮減這一個 owner，原160檔 aggregate 與原檔 digest 保留並重建核對，其餘159檔仍受舊範圍約束。9項 current-source 契約與 motion 檢查通過。
+
 指南是 exported runtime 改動，所以最終採新配對 T212；T211 已凍結歷史保留，不覆寫。T212 的 core/boards.js、配方及其呼叫者與上述 T211 原生場景相同；只沿用不變材料辨識／映射證據，沒有重跑相同場景，也不把 T211 完整候選載入改稱 T212 原生驗收。
 
 ## 不損壞剪刀農務（2026-11-08，T210）
