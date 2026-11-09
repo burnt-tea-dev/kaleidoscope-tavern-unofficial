@@ -1,0 +1,262 @@
+{
+  "files": [
+    {
+      "file": "LICENSE-ASSETS",
+      "bytes": 1604,
+      "sha256": "9779f7520aa9bb4888d8216933e482722d6b2c839e96ca338322e11c9fd3c286",
+      "git_blob_sha1": "fad84ad72d7cbb5ca93faa376ccd61e686dd8e01"
+    },
+    {
+      "file": "LICENSE-CODE",
+      "bytes": 1545,
+      "sha256": "e4b0341c2f974280d80bbd56d6d12e2f3e4d755f3a5cfeed9725771415e0d3ed",
+      "git_blob_sha1": "b69f3261e664ee21c9ff549bc0f5fc3f5dee85a8"
+    },
+    {
+      "file": "README.md",
+      "bytes": 9149,
+      "sha256": "878bc49c0d123b16d3ee18a9831a614252d0ce957f7c324833eda85436c10ab7",
+      "git_blob_sha1": "72dbf98506f597914b322704294e567a00a7b296"
+    },
+    {
+      "file": "archive-entries.json",
+      "bytes": 75904,
+      "sha256": "0f51219fcc257914e0520deb0f9772b5c611c4e00516215b87d2218b78a86ead",
+      "git_blob_sha1": "cded5dc567072608628f7732c92b27ec1906af46"
+    },
+    {
+      "file": "archives/original-inputs-01.zip",
+      "bytes": 175465,
+      "sha256": "da9929f44b8c63327bda61628eff19fe9a6b3dcd3cb954badaf0f7d1a64dbc0a",
+      "git_blob_sha1": "b43776e3bca697419e9b12ed5d1bb14a565d98a3"
+    },
+    {
+      "file": "archives/original-inputs-02.zip",
+      "bytes": 178126,
+      "sha256": "ec232852111618064900643c6b6ac17dd78ad7720916a0aff5a9831032c77e55",
+      "git_blob_sha1": "733299bcc71a7af9b70ad66fdfc08445b3849e3c"
+    },
+    {
+      "file": "audit-portability.json",
+      "bytes": 855,
+      "sha256": "afbe5c2aef9367ae5a7d5bc8afd4d683a8719eea2ea16520b9d5da323fec574c",
+      "git_blob_sha1": "7b7ae53167e6eeeb8cdefc042bc19a262575e4d9"
+    },
+    {
+      "file": "audit-portability.patch",
+      "bytes": 6244,
+      "sha256": "efc7a0423eae01624b081a07ca0310be37473d839c7d3aaa06879c5ee1c83608",
+      "git_blob_sha1": "5e6c66d70233d7b18619c7c2a7c009614e66f08a"
+    },
+    {
+      "file": "audits/finalize_provenance.py",
+      "bytes": 8995,
+      "sha256": "460a31bb5ca8c718f1c71c1b234a35c59463d1d652daf9c6d766fbce23a9ad59",
+      "git_blob_sha1": "3f8649c644a26620e1ede893db6366d8ac938479"
+    },
+    {
+      "file": "audits/portable_context.py",
+      "bytes": 2630,
+      "sha256": "71c1d4f619e3ca98925faaf1c0ebd6811b838918d5ba4b68ab5ecf4511e01685",
+      "git_blob_sha1": "6182d8af66505cd0bb68b1fbb6ebe1758999a087"
+    },
+    {
+      "file": "audits/validate_scenes.py",
+      "bytes": 14638,
+      "sha256": "eef6de3cc67bc90db422606d9ca3f3065940691e1c548b8be27e44e70a4e2ab6",
+      "git_blob_sha1": "a226b31a6f9e023f260734d4b8ef1671e25f23f3"
+    },
+    {
+      "file": "capture-index.csv",
+      "bytes": 14131,
+      "sha256": "7d1bdd36d6c14d4a03b18bdb0230fc5991444c971e7cc971b47b972e3fa57741",
+      "git_blob_sha1": "29e2d75c473e3484fe4f422289da520026d7ee0c"
+    },
+    {
+      "file": "current-input-verification.json",
+      "bytes": 14516,
+      "sha256": "839622c23fcf39d7323cb29b11174f1c85ddf8ddbabc01dc922de5dd2d6464cc",
+      "git_blob_sha1": "a4574f104b0fd80084b96203d68ee0d9655ee5c8"
+    },
+    {
+      "file": "gui-review-README.md",
+      "bytes": 1898,
+      "sha256": "f7812784985dbb06064cf17a6cf769d41fd27b36ef159b5b8cf86fdc550ab56a",
+      "git_blob_sha1": "8b5e2c65e1cfaeed825cefd406b27cf3ac05db85"
+    },
+    {
+      "file": "gui-review.json",
+      "bytes": 31848,
+      "sha256": "08f8ee91f9b086ae206b37c816e8171abd06d2772bfd13120a5099eb463445af",
+      "git_blob_sha1": "2055c8f2263a414e14964cf91fb95a76a5071422"
+    },
+    {
+      "file": "images/diagnostic/02-barrel-closed-top-clipped.jpg",
+      "bytes": 100118,
+      "sha256": "9b9e1fedcdb89823d8db042efc0f0adb4fb0a98a4b0956eb281a4cb9f2594846",
+      "git_blob_sha1": "e9410af0655d39ac55089b2aad49fc66d1861b73"
+    },
+    {
+      "file": "images/diagnostic/06-barrel-open-north-clipped.jpg",
+      "bytes": 93115,
+      "sha256": "2d07a753cb4432772d7b31be68799d0d0e46c2dacab29dc8b5322ad87f2e430e",
+      "git_blob_sha1": "46170a8fd717df8a2c65a737f2b5ec571769bc5e"
+    },
+    {
+      "file": "images/diagnostic/09-pressing-tubs-top-clipped.jpg",
+      "bytes": 97861,
+      "sha256": "aa1a342ce0b46d801c3da25f02d8fb6ded3d531cdfff2aef8d885d36937f50cd",
+      "git_blob_sha1": "08187128e3ce5f3fb7a07376893e7b9463a48b4a"
+    },
+    {
+      "file": "images/diagnostic/13-taps-true-isometric-left-clipped.jpg",
+      "bytes": 86083,
+      "sha256": "258640f00ab63d6179d1c9f12c5afda41ad52203fb643ed95c8b5036148be084",
+      "git_blob_sha1": "5406638ffad537bef6ed32d1af32e18e2fc37769"
+    },
+    {
+      "file": "images/diagnostic/17-stepladder-true-isometric-left-clipped.jpg",
+      "bytes": 109742,
+      "sha256": "946ce5b80eedc13257d6aa7b8e9f75db4f945e5cc9c09b7fd8a263295638fcc2",
+      "git_blob_sha1": "6248fa417f62b8035cd6296d2e0d7da9e675d9ae"
+    },
+    {
+      "file": "images/screenshots/01-barrel-closed-perspective.jpg",
+      "bytes": 96102,
+      "sha256": "7fa9aa37f8fc91499ca94336e796e941d07c6a7f5837959af045e40030688006",
+      "git_blob_sha1": "d4d256059ea2aebbcb591b9862c158ebd3457a74"
+    },
+    {
+      "file": "images/screenshots/02-barrel-closed-top.jpg",
+      "bytes": 103214,
+      "sha256": "86a88469d24fdbf3329215039242ed167d05d004139f23e95a19df18258764be",
+      "git_blob_sha1": "d8b2f95dd93195cf883a5ea259f16f304e572cf6"
+    },
+    {
+      "file": "images/screenshots/03-barrel-closed-bottom.jpg",
+      "bytes": 89754,
+      "sha256": "32cb2f75f6d270735c4d2433130902929c0f9afdd3de7d5ff8d66a5bb7f32ec9",
+      "git_blob_sha1": "2be995875ee8aea8e14ddcd179cbbc2010af5e70"
+    },
+    {
+      "file": "images/screenshots/04-barrel-open-perspective.jpg",
+      "bytes": 97549,
+      "sha256": "c2a7464a58add9eea60edc4a5b4691e8fd899512eda62b338d2eaea7cb61c788",
+      "git_blob_sha1": "b7a05a8014302a310baf587558e48de6f0535542"
+    },
+    {
+      "file": "images/screenshots/05-barrel-open-top.jpg",
+      "bytes": 102033,
+      "sha256": "e21086001146ece0a17b24cd45d259bdc1542ae5fd7753364b35b01289e36ae9",
+      "git_blob_sha1": "74ecf239e60e219858f74ae20831a0518259d45e"
+    },
+    {
+      "file": "images/screenshots/06-barrel-open-north.jpg",
+      "bytes": 98950,
+      "sha256": "760e37c5f872f091000d8db1718266e81cc53a0e4bec9a58e80b768bd07e913e",
+      "git_blob_sha1": "9085f5ebf9794c5977431f0b21d4b78a6d53bd0b"
+    },
+    {
+      "file": "images/screenshots/07-barrel-open-south.jpg",
+      "bytes": 99254,
+      "sha256": "52fe33a9860ae5164c75e49053f43cbcb5e98703c47e630aa37ea8625ebe129a",
+      "git_blob_sha1": "e80bed4ecd6a2b2894f2607e08f8d675156d84e4"
+    },
+    {
+      "file": "images/screenshots/08-pressing-tubs-perspective.jpg",
+      "bytes": 96575,
+      "sha256": "1ccc7309e2291e1d54fd153fb03444af4074fb2d6fa0772b340a203051461daf",
+      "git_blob_sha1": "fdeefd34a4090c10da808e566525cb6d4075de14"
+    },
+    {
+      "file": "images/screenshots/09-pressing-tubs-top.jpg",
+      "bytes": 94460,
+      "sha256": "68a3b06985b06f0fbb478a51569b1381fa3ea0b60b5e0aa822e74f6ad7b829bc",
+      "git_blob_sha1": "15c2157939a761d3758a322b316a9266eb3f6ec1"
+    },
+    {
+      "file": "images/screenshots/10-pressing-tubs-bottom.jpg",
+      "bytes": 85659,
+      "sha256": "818ef066babb029b1ee6d3c889fb94c590310d192fdf7f34d5ec75e90fc5b1b8",
+      "git_blob_sha1": "b30b1e68468ec92d18cb41ddcd0bf60da837841d"
+    },
+    {
+      "file": "images/screenshots/11-taps-perspective.jpg",
+      "bytes": 79755,
+      "sha256": "af2338dd6377ad4578b6d0b683abc7b03d7c2a5c3152f00c2e067c1e1d26f0dd",
+      "git_blob_sha1": "d13e3e5054996bd5f3026ec19246881131e2f5a7"
+    },
+    {
+      "file": "images/screenshots/12-taps-top.jpg",
+      "bytes": 79194,
+      "sha256": "a7586b7f84f56978071e10087d86e18b4c8c5b43a2ea467a907342ed0670df7b",
+      "git_blob_sha1": "6438a41394a49c1a63bbe9c4679725294361ff34"
+    },
+    {
+      "file": "images/screenshots/13-taps-true-isometric-left.jpg",
+      "bytes": 82746,
+      "sha256": "69c1ae30535d49c66281c159a0fdf6fe0677617445644b5ce4da834f4a617638",
+      "git_blob_sha1": "c88458b057e39eae9318480f94e6b50d3dccf567"
+    },
+    {
+      "file": "images/screenshots/14-stepladder-perspective.jpg",
+      "bytes": 92572,
+      "sha256": "039ed472e6011e687060184d3c0b0a740dd6d2c10fbd8de66ac6bdad0f0a6c12",
+      "git_blob_sha1": "2bb6a66180dedbf1042ef5198459a1a912046f83"
+    },
+    {
+      "file": "images/screenshots/15-stepladder-north-join.jpg",
+      "bytes": 89680,
+      "sha256": "0f6c814bcdccdabdaa1c0f7dc83f06f3d557cdb7d65270f4fa2ec3b86be10a40",
+      "git_blob_sha1": "013ba56c325497d06eb1b08d5edd95060ab87f40"
+    },
+    {
+      "file": "images/screenshots/16-stepladder-bottom.jpg",
+      "bytes": 81252,
+      "sha256": "acb831098b4049bce01bfe964ea5cd872303838834e573e318d02a6c104b0b4e",
+      "git_blob_sha1": "14b621f8d370090eed070749d8b3cb7da082c6fd"
+    },
+    {
+      "file": "images/screenshots/18-shaker-put-perspective.jpg",
+      "bytes": 94429,
+      "sha256": "591eb7f537b36a26fd8c55db5f53d28a5dfde4f17a8a26b8ff165881dd0e921e",
+      "git_blob_sha1": "120ab5bf82e4435831154ab1054a955d8004357c"
+    },
+    {
+      "file": "images/screenshots/19-shaker-put-top.jpg",
+      "bytes": 83147,
+      "sha256": "271b4fa34bc4c85681167c92f27d5a1e74d5ac17fe20de8b9df8d154951ff2e5",
+      "git_blob_sha1": "7472e21b53ca905458e8a3e5f0777584070543de"
+    },
+    {
+      "file": "images/screenshots/20-shaker-put-true-isometric-left.jpg",
+      "bytes": 97912,
+      "sha256": "031f544e203da1b69f5db5ad0b77e8f84b9cfacf013b1cdb63220e9cf128ab99",
+      "git_blob_sha1": "6b843e120e31558917c152471fef9b116099b663"
+    },
+    {
+      "file": "scene-index.md",
+      "bytes": 12068,
+      "sha256": "ee1dfe1353cbdf2ddd21f2a2cc7a10c7367658ee847a43320e24ef6625c14a08",
+      "git_blob_sha1": "db503d5a998a154c1b94b82408d7b4f8ab778279"
+    },
+    {
+      "file": "source-snapshot-index.json",
+      "bytes": 48420,
+      "sha256": "388839111114af60ea7ba2041de6f2bbf70f9d8a3682be59504f7e8fdbad022b",
+      "git_blob_sha1": "d54fd62150ff3ff2af78b41f29147f2194de57d2"
+    },
+    {
+      "file": "test_verifier_boundaries.py",
+      "bytes": 10212,
+      "sha256": "5193606d807db9c204b0460446c6db96d4666b0102f6ad0e6e1caa594b38ecb0",
+      "git_blob_sha1": "678446c5dbc003bcf5dc94218d547d0061524bc5"
+    },
+    {
+      "file": "validate_evidence.py",
+      "bytes": 25034,
+      "sha256": "7a7568ca8120a7743e7a916c86c8cc50b7f9f252067a77757c6542dfa442bade",
+      "git_blob_sha1": "40dce5e8537e5302c26d794d4181b02e14f03fce"
+    }
+  ]
+}

@@ -1,0 +1,884 @@
+{
+  "scope": "N02 actual cloud Blockbench 5.2.2 GUI review of prepared Free-format fixtures only",
+  "main_evidence_pin": "d42a39745f25082aa129f4d4bb823684e4174771",
+  "runtime_tree": "38c5977dd6bfe14b1824734612e3c601e1e41028",
+  "gui_completed": true,
+  "accepted_original_screenshots": 19,
+  "diagnostic_original_screenshots": 5,
+  "scene_count": 6,
+  "case_count": 10,
+  "finding": "No new body geometry or UV discrepancy observed in the bounded views. This is not Minecraft/runtime visual acceptance.",
+  "captures": [
+    {
+      "file": "screenshots/01-barrel-closed-perspective.jpg",
+      "sha256": "7fa9aa37f8fc91499ca94336e796e941d07c6a7f5837959af045e40030688006",
+      "bytes": 96102,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T02:30:23.002746+00:00",
+      "scene": "scenes/barrel-closed.bbmodel",
+      "scene_sha256": "60569e4a61ef12a5e96aee1050bb212a30bc913687a32b5a925653a4d77c4b48",
+      "camera": "Initial perspective, centered all elements; zoom out net 1520 pixels",
+      "camera_numeric_coordinates": "Not queried; preset name and visible interaction sequence retained.",
+      "case_positions": [
+        {
+          "id": "barrel-closed",
+          "source_offset": [
+            -32,
+            0,
+            0
+          ],
+          "current_offset": [
+            32,
+            0,
+            0
+          ]
+        }
+      ],
+      "findings": "Paired closed fronts, lid bands, body edges and feet show matching shapes and texture placement.",
+      "status": "accepted bounded preview observation",
+      "original_capture": "Original app.getScreenshot Uint8Array bytes written unchanged; same saved bytes emitted and visually inspected; no crop, repaint, resize or reencode."
+    },
+    {
+      "file": "screenshots/02-barrel-closed-top.jpg",
+      "sha256": "86a88469d24fdbf3329215039242ed167d05d004139f23e95a19df18258764be",
+      "bytes": 103214,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T02:31:02.323285+00:00",
+      "scene": "scenes/barrel-closed.bbmodel",
+      "scene_sha256": "60569e4a61ef12a5e96aee1050bb212a30bc913687a32b5a925653a4d77c4b48",
+      "camera": "Top orthographic preset; zoom out 1200 pixels",
+      "camera_numeric_coordinates": "Not queried; preset name and visible interaction sequence retained.",
+      "case_positions": [
+        {
+          "id": "barrel-closed",
+          "source_offset": [
+            -32,
+            0,
+            0
+          ],
+          "current_offset": [
+            32,
+            0,
+            0
+          ]
+        }
+      ],
+      "findings": "Both lid surfaces show matching plank, band and fastener UV placement.",
+      "status": "accepted bounded preview observation",
+      "original_capture": "Original app.getScreenshot Uint8Array bytes written unchanged; same saved bytes emitted and visually inspected; no crop, repaint, resize or reencode."
+    },
+    {
+      "file": "screenshots/03-barrel-closed-bottom.jpg",
+      "sha256": "32cb2f75f6d270735c4d2433130902929c0f9afdd3de7d5ff8d66a5bb7f32ec9",
+      "bytes": 89754,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T02:31:38.603782+00:00",
+      "scene": "scenes/barrel-closed.bbmodel",
+      "scene_sha256": "60569e4a61ef12a5e96aee1050bb212a30bc913687a32b5a925653a4d77c4b48",
+      "camera": "Bottom orthographic preset",
+      "camera_numeric_coordinates": "Not queried; preset name and visible interaction sequence retained.",
+      "case_positions": [
+        {
+          "id": "barrel-closed",
+          "source_offset": [
+            -32,
+            0,
+            0
+          ],
+          "current_offset": [
+            32,
+            0,
+            0
+          ]
+        }
+      ],
+      "findings": "Paired base planks, metal bands and foot ends match in the visible projection.",
+      "status": "accepted bounded preview observation",
+      "original_capture": "Original app.getScreenshot Uint8Array bytes written unchanged; same saved bytes emitted and visually inspected; no crop, repaint, resize or reencode."
+    },
+    {
+      "file": "screenshots/04-barrel-open-perspective.jpg",
+      "sha256": "c2a7464a58add9eea60edc4a5b4691e8fd899512eda62b338d2eaea7cb61c788",
+      "bytes": 97549,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T02:32:24.372407+00:00",
+      "scene": "scenes/barrel-open.bbmodel",
+      "scene_sha256": "512826dd34104dcc894a86c52dc1f7fe645835734e4983daadbd766c8323655d",
+      "camera": "Initial perspective; centered all elements; zoom out 1520 pixels",
+      "camera_numeric_coordinates": "Not queried; preset name and visible interaction sequence retained.",
+      "case_positions": [
+        {
+          "id": "barrel-open",
+          "source_offset": [
+            -32,
+            0,
+            0
+          ],
+          "current_offset": [
+            32,
+            0,
+            0
+          ]
+        }
+      ],
+      "findings": "Raised lid, zero-width strut silhouette, body opening, shell and feet agree in the visible oblique projection.",
+      "status": "accepted bounded preview observation",
+      "original_capture": "Original app.getScreenshot Uint8Array bytes written unchanged; same saved bytes emitted and visually inspected; no crop, repaint, resize or reencode."
+    },
+    {
+      "file": "screenshots/05-barrel-open-top.jpg",
+      "sha256": "e21086001146ece0a17b24cd45d259bdc1542ae5fd7753364b35b01289e36ae9",
+      "bytes": 102033,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T02:32:44.224678+00:00",
+      "scene": "scenes/barrel-open.bbmodel",
+      "scene_sha256": "512826dd34104dcc894a86c52dc1f7fe645835734e4983daadbd766c8323655d",
+      "camera": "Top orthographic preset; zoom out 1200 pixels",
+      "camera_numeric_coordinates": "Not queried; preset name and visible interaction sequence retained.",
+      "case_positions": [
+        {
+          "id": "barrel-open",
+          "source_offset": [
+            -32,
+            0,
+            0
+          ],
+          "current_offset": [
+            32,
+            0,
+            0
+          ]
+        }
+      ],
+      "findings": "Matching open cavity extent, lid projection and surrounding band/plank UV placement. Dark cavity is only this Front-sided preview.",
+      "status": "accepted bounded preview observation",
+      "original_capture": "Original app.getScreenshot Uint8Array bytes written unchanged; same saved bytes emitted and visually inspected; no crop, repaint, resize or reencode."
+    },
+    {
+      "file": "screenshots/06-barrel-open-north.jpg",
+      "sha256": "760e37c5f872f091000d8db1718266e81cc53a0e4bec9a58e80b768bd07e913e",
+      "bytes": 98950,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T02:33:15.549106+00:00",
+      "scene": "scenes/barrel-open.bbmodel",
+      "scene_sha256": "512826dd34104dcc894a86c52dc1f7fe645835734e4983daadbd766c8323655d",
+      "camera": "North orthographic preset; centered all elements",
+      "camera_numeric_coordinates": "Not queried; preset name and visible interaction sequence retained.",
+      "case_positions": [
+        {
+          "id": "barrel-open",
+          "source_offset": [
+            -32,
+            0,
+            0
+          ],
+          "current_offset": [
+            32,
+            0,
+            0
+          ]
+        }
+      ],
+      "findings": "Paired raised lid and front body/feet align. This is the editor North preset, not native world-facing validation.",
+      "status": "accepted bounded preview observation",
+      "original_capture": "Original app.getScreenshot Uint8Array bytes written unchanged; same saved bytes emitted and visually inspected; no crop, repaint, resize or reencode."
+    },
+    {
+      "file": "screenshots/07-barrel-open-south.jpg",
+      "sha256": "52fe33a9860ae5164c75e49053f43cbcb5e98703c47e630aa37ea8625ebe129a",
+      "bytes": 99254,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T02:33:32.657336+00:00",
+      "scene": "scenes/barrel-open.bbmodel",
+      "scene_sha256": "512826dd34104dcc894a86c52dc1f7fe645835734e4983daadbd766c8323655d",
+      "camera": "South orthographic preset; centered all elements",
+      "camera_numeric_coordinates": "Not queried; preset name and visible interaction sequence retained.",
+      "case_positions": [
+        {
+          "id": "barrel-open",
+          "source_offset": [
+            -32,
+            0,
+            0
+          ],
+          "current_offset": [
+            32,
+            0,
+            0
+          ]
+        }
+      ],
+      "findings": "Opposite barrel shell and lid projection match.",
+      "status": "accepted bounded preview observation",
+      "original_capture": "Original app.getScreenshot Uint8Array bytes written unchanged; same saved bytes emitted and visually inspected; no crop, repaint, resize or reencode."
+    },
+    {
+      "file": "screenshots/08-pressing-tubs-perspective.jpg",
+      "sha256": "1ccc7309e2291e1d54fd153fb03444af4074fb2d6fa0772b340a203051461daf",
+      "bytes": 96575,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T02:34:08.965811+00:00",
+      "scene": "scenes/pressing-tubs.bbmodel",
+      "scene_sha256": "11bd907fc372f8d197f547dfadacc4ba21d659a769c46b3656959c59e678c072",
+      "camera": "Initial perspective; centered all elements; zoom out 600 pixels",
+      "camera_numeric_coordinates": "Not queried; preset name and visible interaction sequence retained.",
+      "case_positions": [
+        {
+          "id": "pressing_tub-upright",
+          "source_offset": [
+            -15,
+            0,
+            0
+          ],
+          "current_offset": [
+            15,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "pressing_tub-tilt",
+          "source_offset": [
+            -15,
+            0,
+            32
+          ],
+          "current_offset": [
+            15,
+            0,
+            32
+          ]
+        }
+      ],
+      "findings": "Both upright and tilted source/current pairs show matching rim thickness, cavity, band and tilt geometry.",
+      "status": "accepted bounded preview observation",
+      "original_capture": "Original app.getScreenshot Uint8Array bytes written unchanged; same saved bytes emitted and visually inspected; no crop, repaint, resize or reencode."
+    },
+    {
+      "file": "screenshots/09-pressing-tubs-top.jpg",
+      "sha256": "68a3b06985b06f0fbb478a51569b1381fa3ea0b60b5e0aa822e74f6ad7b829bc",
+      "bytes": 94460,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T02:34:49.594362+00:00",
+      "scene": "scenes/pressing-tubs.bbmodel",
+      "scene_sha256": "11bd907fc372f8d197f547dfadacc4ba21d659a769c46b3656959c59e678c072",
+      "camera": "Top orthographic preset; centered all elements; zoom out total 700 pixels",
+      "camera_numeric_coordinates": "Not queried; preset name and visible interaction sequence retained.",
+      "case_positions": [
+        {
+          "id": "pressing_tub-upright",
+          "source_offset": [
+            -15,
+            0,
+            0
+          ],
+          "current_offset": [
+            15,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "pressing_tub-tilt",
+          "source_offset": [
+            -15,
+            0,
+            32
+          ],
+          "current_offset": [
+            15,
+            0,
+            32
+          ]
+        }
+      ],
+      "findings": "Upright at Z0 and tilted at Z32 show matching top projections and UVs.",
+      "status": "accepted bounded preview observation",
+      "original_capture": "Original app.getScreenshot Uint8Array bytes written unchanged; same saved bytes emitted and visually inspected; no crop, repaint, resize or reencode."
+    },
+    {
+      "file": "screenshots/10-pressing-tubs-bottom.jpg",
+      "sha256": "818ef066babb029b1ee6d3c889fb94c590310d192fdf7f34d5ec75e90fc5b1b8",
+      "bytes": 85659,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T02:35:01.394521+00:00",
+      "scene": "scenes/pressing-tubs.bbmodel",
+      "scene_sha256": "11bd907fc372f8d197f547dfadacc4ba21d659a769c46b3656959c59e678c072",
+      "camera": "Bottom orthographic preset; centered all elements",
+      "camera_numeric_coordinates": "Not queried; preset name and visible interaction sequence retained.",
+      "case_positions": [
+        {
+          "id": "pressing_tub-upright",
+          "source_offset": [
+            -15,
+            0,
+            0
+          ],
+          "current_offset": [
+            15,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "pressing_tub-tilt",
+          "source_offset": [
+            -15,
+            0,
+            32
+          ],
+          "current_offset": [
+            15,
+            0,
+            32
+          ]
+        }
+      ],
+      "findings": "Upright and tilted bases show matching plank and band UV layout.",
+      "status": "accepted bounded preview observation",
+      "original_capture": "Original app.getScreenshot Uint8Array bytes written unchanged; same saved bytes emitted and visually inspected; no crop, repaint, resize or reencode."
+    },
+    {
+      "file": "screenshots/11-taps-perspective.jpg",
+      "sha256": "af2338dd6377ad4578b6d0b683abc7b03d7c2a5c3152f00c2e067c1e1d26f0dd",
+      "bytes": 79755,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T02:35:37.883014+00:00",
+      "scene": "scenes/taps.bbmodel",
+      "scene_sha256": "50671fdeb7ff874b92e34c68b2842854a4e5fe719dd8a99907c23028b30198ac",
+      "camera": "Initial perspective; centered all elements; zoom out 300 pixels",
+      "camera_numeric_coordinates": "Not queried; preset name and visible interaction sequence retained.",
+      "case_positions": [
+        {
+          "id": "tap-closed",
+          "source_offset": [
+            -15,
+            0,
+            0
+          ],
+          "current_offset": [
+            15,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "tap-open",
+          "source_offset": [
+            -15,
+            0,
+            32
+          ],
+          "current_offset": [
+            15,
+            0,
+            32
+          ]
+        }
+      ],
+      "findings": "Open and closed handle states, spout and mount block are represented in paired geometry with no visible discrepancy.",
+      "status": "accepted bounded preview observation",
+      "original_capture": "Original app.getScreenshot Uint8Array bytes written unchanged; same saved bytes emitted and visually inspected; no crop, repaint, resize or reencode."
+    },
+    {
+      "file": "screenshots/12-taps-top.jpg",
+      "sha256": "a7586b7f84f56978071e10087d86e18b4c8c5b43a2ea467a907342ed0670df7b",
+      "bytes": 79194,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T02:36:00.243314+00:00",
+      "scene": "scenes/taps.bbmodel",
+      "scene_sha256": "50671fdeb7ff874b92e34c68b2842854a4e5fe719dd8a99907c23028b30198ac",
+      "camera": "Top orthographic preset; centered all elements; zoom out 500 pixels",
+      "camera_numeric_coordinates": "Not queried; preset name and visible interaction sequence retained.",
+      "case_positions": [
+        {
+          "id": "tap-closed",
+          "source_offset": [
+            -15,
+            0,
+            0
+          ],
+          "current_offset": [
+            15,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "tap-open",
+          "source_offset": [
+            -15,
+            0,
+            32
+          ],
+          "current_offset": [
+            15,
+            0,
+            32
+          ]
+        }
+      ],
+      "findings": "Closed at Z0 and open at Z32 show equal paired handle orientation and surface texture.",
+      "status": "accepted bounded preview observation",
+      "original_capture": "Original app.getScreenshot Uint8Array bytes written unchanged; same saved bytes emitted and visually inspected; no crop, repaint, resize or reencode."
+    },
+    {
+      "file": "screenshots/13-taps-true-isometric-left.jpg",
+      "sha256": "69c1ae30535d49c66281c159a0fdf6fe0677617445644b5ce4da834f4a617638",
+      "bytes": 82746,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T02:36:28.619689+00:00",
+      "scene": "scenes/taps.bbmodel",
+      "scene_sha256": "50671fdeb7ff874b92e34c68b2842854a4e5fe719dd8a99907c23028b30198ac",
+      "camera": "True Isometric Left (30 degrees) preset; centered all elements; zoom out 400 pixels",
+      "camera_numeric_coordinates": "Not queried; preset name and visible interaction sequence retained.",
+      "case_positions": [
+        {
+          "id": "tap-closed",
+          "source_offset": [
+            -15,
+            0,
+            0
+          ],
+          "current_offset": [
+            15,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "tap-open",
+          "source_offset": [
+            -15,
+            0,
+            32
+          ],
+          "current_offset": [
+            15,
+            0,
+            32
+          ]
+        }
+      ],
+      "findings": "Opposite oblique side shows matched handle, rear mount and spout edge geometry.",
+      "status": "accepted bounded preview observation",
+      "original_capture": "Original app.getScreenshot Uint8Array bytes written unchanged; same saved bytes emitted and visually inspected; no crop, repaint, resize or reencode."
+    },
+    {
+      "file": "screenshots/14-stepladder-perspective.jpg",
+      "sha256": "039ed472e6011e687060184d3c0b0a740dd6d2c10fbd8de66ac6bdad0f0a6c12",
+      "bytes": 92572,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T02:37:19.280372+00:00",
+      "scene": "scenes/stepladder-placed-assembly.bbmodel",
+      "scene_sha256": "e8bdb81fd731efa184fb4ad586c85088031d8cf5b4df8433df80e992173ce884",
+      "camera": "Initial perspective; centered all elements; zoom out 800 pixels",
+      "camera_numeric_coordinates": "Not queried; preset name and visible interaction sequence retained.",
+      "case_positions": [
+        {
+          "id": "stepladder-placed-assembly",
+          "source_offset": [
+            -20,
+            0,
+            0
+          ],
+          "current_offset": [
+            20,
+            0,
+            0
+          ]
+        }
+      ],
+      "findings": "Actual bottom and Y+16 top blocks form matching paired ladder silhouettes; sloping side rails and joining band remain continuous in this oblique view.",
+      "status": "accepted bounded preview observation",
+      "original_capture": "Original app.getScreenshot Uint8Array bytes written unchanged; same saved bytes emitted and visually inspected; no crop, repaint, resize or reencode."
+    },
+    {
+      "file": "screenshots/15-stepladder-north-join.jpg",
+      "sha256": "0f6c814bcdccdabdaa1c0f7dc83f06f3d557cdb7d65270f4fa2ec3b86be10a40",
+      "bytes": 89680,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T02:37:45.712725+00:00",
+      "scene": "scenes/stepladder-placed-assembly.bbmodel",
+      "scene_sha256": "e8bdb81fd731efa184fb4ad586c85088031d8cf5b4df8433df80e992173ce884",
+      "camera": "North orthographic preset; centered all elements; zoom out 300 pixels",
+      "camera_numeric_coordinates": "Not queried; preset name and visible interaction sequence retained.",
+      "case_positions": [
+        {
+          "id": "stepladder-placed-assembly",
+          "source_offset": [
+            -20,
+            0,
+            0
+          ],
+          "current_offset": [
+            20,
+            0,
+            0
+          ]
+        }
+      ],
+      "findings": "Step heights, rail edges and two-block join region align with matching texture bands.",
+      "status": "accepted bounded preview observation",
+      "original_capture": "Original app.getScreenshot Uint8Array bytes written unchanged; same saved bytes emitted and visually inspected; no crop, repaint, resize or reencode."
+    },
+    {
+      "file": "screenshots/16-stepladder-bottom.jpg",
+      "sha256": "acb831098b4049bce01bfe964ea5cd872303838834e573e318d02a6c104b0b4e",
+      "bytes": 81252,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T02:37:57.400883+00:00",
+      "scene": "scenes/stepladder-placed-assembly.bbmodel",
+      "scene_sha256": "e8bdb81fd731efa184fb4ad586c85088031d8cf5b4df8433df80e992173ce884",
+      "camera": "Bottom orthographic preset; centered all elements",
+      "camera_numeric_coordinates": "Not queried; preset name and visible interaction sequence retained.",
+      "case_positions": [
+        {
+          "id": "stepladder-placed-assembly",
+          "source_offset": [
+            -20,
+            0,
+            0
+          ],
+          "current_offset": [
+            20,
+            0,
+            0
+          ]
+        }
+      ],
+      "findings": "Tread undersides, rear/front leg projections and base plank UVs match.",
+      "status": "accepted bounded preview observation",
+      "original_capture": "Original app.getScreenshot Uint8Array bytes written unchanged; same saved bytes emitted and visually inspected; no crop, repaint, resize or reencode."
+    },
+    {
+      "file": "screenshots/18-shaker-put-perspective.jpg",
+      "sha256": "591eb7f537b36a26fd8c55db5f53d28a5dfde4f17a8a26b8ff165881dd0e921e",
+      "bytes": 94429,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T02:38:51.313606+00:00",
+      "scene": "scenes/shaker-placed-put-keyframes.bbmodel",
+      "scene_sha256": "ab4cc958331714026f72404624ef6ce65d58df51fafd8c3036130e29b1f9df15",
+      "camera": "Initial perspective; centered all elements; zoom out 600 pixels",
+      "camera_numeric_coordinates": "Not queried; preset name and visible interaction sequence retained.",
+      "case_positions": [
+        {
+          "id": "shaker-put-0",
+          "source_offset": [
+            -12,
+            0,
+            0
+          ],
+          "current_offset": [
+            12,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "shaker-put-0.0833",
+          "source_offset": [
+            -12,
+            0,
+            26
+          ],
+          "current_offset": [
+            12,
+            0,
+            26
+          ]
+        },
+        {
+          "id": "shaker-put-0.2083",
+          "source_offset": [
+            -12,
+            0,
+            52
+          ],
+          "current_offset": [
+            12,
+            0,
+            52
+          ]
+        }
+      ],
+      "findings": "Frozen idle, 0.0833 and 0.2083 second bodies and lid lifts are visible. Some perspective overlap is resolved by top and opposite oblique captures.",
+      "status": "accepted bounded preview observation",
+      "original_capture": "Original app.getScreenshot Uint8Array bytes written unchanged; same saved bytes emitted and visually inspected; no crop, repaint, resize or reencode."
+    },
+    {
+      "file": "screenshots/19-shaker-put-top.jpg",
+      "sha256": "271b4fa34bc4c85681167c92f27d5a1e74d5ac17fe20de8b9df8d154951ff2e5",
+      "bytes": 83147,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T02:39:17.521959+00:00",
+      "scene": "scenes/shaker-placed-put-keyframes.bbmodel",
+      "scene_sha256": "ab4cc958331714026f72404624ef6ce65d58df51fafd8c3036130e29b1f9df15",
+      "camera": "Top orthographic preset; centered all elements; zoom out 1000 pixels",
+      "camera_numeric_coordinates": "Not queried; preset name and visible interaction sequence retained.",
+      "case_positions": [
+        {
+          "id": "shaker-put-0",
+          "source_offset": [
+            -12,
+            0,
+            0
+          ],
+          "current_offset": [
+            12,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "shaker-put-0.0833",
+          "source_offset": [
+            -12,
+            0,
+            26
+          ],
+          "current_offset": [
+            12,
+            0,
+            26
+          ]
+        },
+        {
+          "id": "shaker-put-0.2083",
+          "source_offset": [
+            -12,
+            0,
+            52
+          ],
+          "current_offset": [
+            12,
+            0,
+            52
+          ]
+        }
+      ],
+      "findings": "All three paired root-yaw/lid projections match, including the rotated 0.0833 second sample.",
+      "status": "accepted bounded preview observation",
+      "original_capture": "Original app.getScreenshot Uint8Array bytes written unchanged; same saved bytes emitted and visually inspected; no crop, repaint, resize or reencode."
+    },
+    {
+      "file": "screenshots/20-shaker-put-true-isometric-left.jpg",
+      "sha256": "031f544e203da1b69f5db5ad0b77e8f84b9cfacf013b1cdb63220e9cf128ab99",
+      "bytes": 97912,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T02:39:31.590147+00:00",
+      "scene": "scenes/shaker-placed-put-keyframes.bbmodel",
+      "scene_sha256": "ab4cc958331714026f72404624ef6ce65d58df51fafd8c3036130e29b1f9df15",
+      "camera": "True Isometric Left (30 degrees) preset; centered all elements; zoom out 900 pixels",
+      "camera_numeric_coordinates": "Not queried; preset name and visible interaction sequence retained.",
+      "case_positions": [
+        {
+          "id": "shaker-put-0",
+          "source_offset": [
+            -12,
+            0,
+            0
+          ],
+          "current_offset": [
+            12,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "shaker-put-0.0833",
+          "source_offset": [
+            -12,
+            0,
+            26
+          ],
+          "current_offset": [
+            12,
+            0,
+            26
+          ]
+        },
+        {
+          "id": "shaker-put-0.2083",
+          "source_offset": [
+            -12,
+            0,
+            52
+          ],
+          "current_offset": [
+            12,
+            0,
+            52
+          ]
+        }
+      ],
+      "findings": "Six separated visible shakers show matching lid lift and pitch at each frozen sample. No interpolation or running animation is tested.",
+      "status": "accepted bounded preview observation",
+      "original_capture": "Original app.getScreenshot Uint8Array bytes written unchanged; same saved bytes emitted and visually inspected; no crop, repaint, resize or reencode."
+    }
+  ],
+  "diagnostics": [
+    {
+      "file": "diagnostic/02-barrel-closed-top-clipped.jpg",
+      "sha256": "9b9e1fedcdb89823d8db042efc0f0adb4fb0a98a4b0956eb281a4cb9f2594846",
+      "bytes": 100118,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "status": "excluded",
+      "reason": "Framing clipped part of model at viewport boundary; preserved only as diagnostic. Not an asset defect or accepted capture."
+    },
+    {
+      "file": "diagnostic/06-barrel-open-north-clipped.jpg",
+      "sha256": "2d07a753cb4432772d7b31be68799d0d0e46c2dacab29dc8b5322ad87f2e430e",
+      "bytes": 93115,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "status": "excluded",
+      "reason": "Framing clipped part of model at viewport boundary; preserved only as diagnostic. Not an asset defect or accepted capture."
+    },
+    {
+      "file": "diagnostic/09-pressing-tubs-top-clipped.jpg",
+      "sha256": "aa1a342ce0b46d801c3da25f02d8fb6ded3d531cdfff2aef8d885d36937f50cd",
+      "bytes": 97861,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "status": "excluded",
+      "reason": "Framing clipped part of model at viewport boundary; preserved only as diagnostic. Not an asset defect or accepted capture."
+    },
+    {
+      "file": "diagnostic/13-taps-true-isometric-left-clipped.jpg",
+      "sha256": "258640f00ab63d6179d1c9f12c5afda41ad52203fb643ed95c8b5036148be084",
+      "bytes": 86083,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "status": "excluded",
+      "reason": "Framing clipped part of model at viewport boundary; preserved only as diagnostic. Not an asset defect or accepted capture."
+    },
+    {
+      "file": "diagnostic/17-stepladder-true-isometric-left-clipped.jpg",
+      "sha256": "946ce5b80eedc13257d6aa7b8e9f75db4f945e5cc9c09b7fd8a263295638fcc2",
+      "bytes": 109742,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "status": "excluded",
+      "reason": "Framing clipped part of model at viewport boundary; preserved only as diagnostic. Not an asset defect or accepted capture."
+    }
+  ],
+  "post_review_scene_hashes": {
+    "scenes/barrel-closed.bbmodel": "60569e4a61ef12a5e96aee1050bb212a30bc913687a32b5a925653a4d77c4b48",
+    "scenes/barrel-open.bbmodel": "512826dd34104dcc894a86c52dc1f7fe645835734e4983daadbd766c8323655d",
+    "scenes/pressing-tubs.bbmodel": "11bd907fc372f8d197f547dfadacc4ba21d659a769c46b3656959c59e678c072",
+    "scenes/shaker-placed-put-keyframes.bbmodel": "ab4cc958331714026f72404624ef6ce65d58df51fafd8c3036130e29b1f9df15",
+    "scenes/stepladder-placed-assembly.bbmodel": "e8bdb81fd731efa184fb4ad586c85088031d8cf5b4df8433df80e992173ce884",
+    "scenes/taps.bbmodel": "50671fdeb7ff874b92e34c68b2842854a4e5fe719dd8a99907c23028b30198ac"
+  },
+  "all_scene_bytes_unchanged": true,
+  "source_current_identity": "Use group names SOURCE world -X and CURRENT world +X, manifest offsets and camera labels. No universal screen-left/right identity caption is used.",
+  "materials_and_shading": [
+    "All embedded fixture textures explicitly request render_sides front.",
+    "View Shading was checked and inherited throughout. This is Blockbench preview shading, not source or native engine lighting/material execution.",
+    "Free preview cannot certify Java entityCutoutNoCull or Bedrock entity_alphatest, transparency, sorting, backface behavior, PBR, selection or controller transitions.",
+    "Dark or absent backfaces are not inferred to be native engine defects."
+  ],
+  "boundaries": [
+    "Body/reference frames only. External Bedrock entity yaw and controller material application not simulated.",
+    "Actual two-block placed ladder route reviewed, not unused assembled helper.",
+    "Placed shaker snapshots are exact frozen keyframes, not animation interpolation, timing or held-view acceptance.",
+    "Previously accepted held-shaker poses and tilted-rack +6 pose were not reopened or modified.",
+    "No runtime/source file edits, exports, plugin or settings installation, engine launch, BDS, user computer, server, deployment or publication."
+  ],
+  "gui_final_state": "All six review tabs closed without saving; only original Champagne tab remains visibly normal in Blockbench window 29360132, no modal. Terminal 41949001 untouched. Explicit handoff to plant culling worker before N03.",
+  "capture_errors": "Five clipped views excluded. No blank/stale or crash condition observed in this batch.",
+  "completion_summary_sent": true
+}

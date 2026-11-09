@@ -1,0 +1,38 @@
+--- original/validate_scenes.py
++++ audits/validate_scenes.py
+@@ -10 +10,3 @@
+-H=Path(__file__).resolve().parent; M=json.loads((H/'manifest.json').read_text()); checks={'input_hashes':0,'scenes':0,'textures':0,'cubes':0,'nested_group_vertices':0,'direct_source_modelpart_vertices':0,'direct_source_json_vertices':0,'direct_modelpart_uv_faces':0,'direct_native_vertices':0,'direct_native_uv_faces':0,'gui_reviewed':False}
++from portable_context import context
++H, OUT, M = context()
++checks={'input_hashes':0,'scenes':0,'textures':0,'cubes':0,'nested_group_vertices':0,'direct_source_modelpart_vertices':0,'direct_source_json_vertices':0,'direct_modelpart_uv_faces':0,'direct_native_vertices':0,'direct_native_uv_faces':0,'gui_reviewed':False}
+@@ -191,2 +193,2 @@
+-(H/'ordered-face-world-audit.json').write_text(json.dumps({'method':'Raw Java ModelPart local transforms evaluated directly; independent saved-scene homogeneous group matrices; ordered UV-parametric corners including signed extents and quarter-turn UV; one-to-one minimum vertex distance constrained by UV. Zero-area faces excluded, not silently thickened.','summary':summary,'cases':rows},indent=2)+'\n')
+-(H/'structural-validation.json').write_text(json.dumps(checks,indent=2)+'\n');print(summary);print(checks)
++(OUT/'ordered-face-world-audit.json').write_text(json.dumps({'method':'Raw Java ModelPart local transforms evaluated directly; independent saved-scene homogeneous group matrices; ordered UV-parametric corners including signed extents and quarter-turn UV; one-to-one minimum vertex distance constrained by UV. Zero-area faces excluded, not silently thickened.','summary':summary,'cases':rows},indent=2)+'\n')
++(OUT/'structural-validation.json').write_text(json.dumps(checks,indent=2)+'\n');print(summary);print(checks)
+--- original/finalize_provenance.py
++++ audits/finalize_provenance.py
+@@ -4,2 +4,3 @@
+-H=Path(__file__).resolve().parent;W=H.parent;R=H/'snapshot';REPO=W/'tavern-bottles-publication-20261109';M=json.loads((H/'manifest.json').read_text());MAIN=M['main'];sha=lambda b:hashlib.sha256(b).hexdigest()
+-def git(*args):return subprocess.check_output(['git','-C',str(REPO),*args])
++from portable_context import context, git
++H, OUT, M = context()
++R=H/'snapshot';MAIN=M['main'];sha=lambda b:hashlib.sha256(b).hexdigest()
+@@ -8 +9 @@
+- if not p.exists():p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(git('show',MAIN+':'+rel))
++ if not p.is_file():raise ValueError('Missing declared original input: '+rel)
+@@ -17 +18 @@
+-(H/'prior-evidence-reuse.json').write_text(json.dumps({'shaker_held':reuse,'tilted_rack':rack_reuse,'t174':'Read for scope only. No T174 item fixtures are duplicated by this body review. No current reuse claim is made for unexamined T174 model bytes.','allium':'Recorded first-person clipping is still unresolved. N02 makes no held/FOV claim.'},indent=2)+'\n')
++(OUT/'prior-evidence-reuse.json').write_text(json.dumps({'shaker_held':reuse,'tilted_rack':rack_reuse,'t174':'Read for scope only. No T174 item fixtures are duplicated by this body review. No current reuse claim is made for unexamined T174 model bytes.','allium':'Recorded first-person clipping is still unresolved. N02 makes no held/FOV claim.'},indent=2)+'\n')
+@@ -29 +30 @@
+-(H/'author-archive-verification.json').write_text(json.dumps({'archive_input':lock['input'],'assets':jar},indent=2)+'\n')
++(OUT/'author-archive-verification.json').write_text(json.dumps({'archive_input':lock['input'],'assets':jar},indent=2)+'\n')
+@@ -39 +40 @@
+-(H/'source-branch-semantics.json').write_text(json.dumps({'checks':semantic,'notes':['Relevant model JSONs and PNG pixels are equal across both pinned source branches; see manifest source_comparison.','API/render colour signatures differ. NeoForge adds a barrel render bounding box. PUT definitions and body poses are unchanged.','This does not assert identical engine culling, renderer APIs or held animation implementations.']},indent=2)+'\n')
++(OUT/'source-branch-semantics.json').write_text(json.dumps({'checks':semantic,'notes':['Relevant model JSONs and PNG pixels are equal across both pinned source branches; see manifest source_comparison.','API/render colour signatures differ. NeoForge adds a barrel render bounding box. PUT definitions and body poses are unchanged.','This does not assert identical engine culling, renderer APIs or held animation implementations.']},indent=2)+'\n')
+@@ -61 +62 @@
+-(H/'routing-validation.json').write_text(json.dumps({'block_routes':routes,'barrel':'machines.syncVisuals selects open/closed shell; core invisible; anchor x+0.5,y,z+0.5; north maps bottleFacingFromCardinal=0, facingYaw=180. External entity orientation remains an engine limit.','shaker':'Base block and helper reference the same shaker geometry/texture. put_visual=1 selects empty hidden geometry, controller runs PUT until 0.375 seconds; helper has 0.4 second lifetime and host recovery after 8 ticks.','stepladder':'Two native blocks at y and y+1; assembled entity is not spawned by current decorations helper.','controller':'controller.render.kt_assets_a1.static uses geometry.default, material.default, texture.default.','run_scope':'Read/static resolution only; no runtime state transitions executed.'},indent=2)+'\n')
++(OUT/'routing-validation.json').write_text(json.dumps({'block_routes':routes,'barrel':'machines.syncVisuals selects open/closed shell; core invisible; anchor x+0.5,y,z+0.5; north maps bottleFacingFromCardinal=0, facingYaw=180. External entity orientation remains an engine limit.','shaker':'Base block and helper reference the same shaker geometry/texture. put_visual=1 selects empty hidden geometry, controller runs PUT until 0.375 seconds; helper has 0.4 second lifetime and host recovery after 8 ticks.','stepladder':'Two native blocks at y and y+1; assembled entity is not spawned by current decorations helper.','controller':'controller.render.kt_assets_a1.static uses geometry.default, material.default, texture.default.','run_scope':'Read/static resolution only; no runtime state transitions executed.'},indent=2)+'\n')
+@@ -63 +64 @@
+-(H/'manifest.json').write_text(json.dumps(M,indent=2)+'\n')
++# Preserve the original final manifest; repeated in-memory additions are not saved.

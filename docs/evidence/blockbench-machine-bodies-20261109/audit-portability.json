@@ -1,0 +1,14 @@
+[
+  {
+    "file": "validate_scenes.py",
+    "original_sha256": "e6953ec144716d047689db92c2b2c4c4c3b07df3e705a7e27cbf98e7e27c31bb",
+    "portable_sha256": "eef6de3cc67bc90db422606d9ca3f3065940691e1c548b8be27e44e70a4e2ab6",
+    "changes": "Declared input relocation and output redirection only; bounded Git reads replay exact archived blobs. No audit calculations, tolerances, case order or acceptance predicates changed."
+  },
+  {
+    "file": "finalize_provenance.py",
+    "original_sha256": "a8f8e7650e9d8b3cbeb221ed2d0254ad1b31eabbaf66c65d4f7dfe8de130510e",
+    "portable_sha256": "460a31bb5ca8c718f1c71c1b234a35c59463d1d652daf9c6d766fbce23a9ad59",
+    "changes": "Declared input relocation and output redirection only; bounded Git reads replay exact archived blobs. No audit calculations, tolerances, case order or acceptance predicates changed."
+  }
+]

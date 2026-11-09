@@ -1,0 +1,350 @@
+{
+  "base_commit": "682a9dd01cc8d5ad26b714c0b279d04cbafeb205",
+  "base_tree": "dd322fc23aca7beb1f36650ba5dc6cb674c412b9",
+  "runtime_version": "0.6.214",
+  "runtime_tree": "870c0596cc2f0244d0e6ee17a0905d4b75734620",
+  "historical_main": "d42a39745f25082aa129f4d4bb823684e4174771",
+  "historical_runtime_tree": "38c5977dd6bfe14b1824734612e3c601e1e41028",
+  "original_input_count": 94,
+  "canonical_input_count": 48,
+  "all_canonical_inputs_unchanged": true,
+  "canonical_inputs": [
+    {
+      "path": "runtime/RP/textures/terrain_texture.json",
+      "original_input": "snapshot/runtime/RP/textures/terrain_texture.json",
+      "bytes": 43736,
+      "sha256": "46797fb0157dfb71c29ae78d385cdcebc3edfaec673e1292bd4eb826183e01c9",
+      "unchanged": true
+    },
+    {
+      "path": "runtime/RP/entity/runtime_barrel_closed.entity.json",
+      "original_input": "snapshot/runtime/RP/entity/runtime_barrel_closed.entity.json",
+      "bytes": 498,
+      "sha256": "0414bb3072db43d4a78f47904709c3e8d7e02e7ba68137877677051cb16acf73",
+      "unchanged": true
+    },
+    {
+      "path": "runtime/RP/textures/kaleidoscope_tavern/entity/brew/barrel.png",
+      "original_input": "snapshot/runtime/RP/textures/kaleidoscope_tavern/entity/brew/barrel.png",
+      "bytes": 4939,
+      "sha256": "4b436a5512c3d4a45887913b5fbf24ce915d5c74ee801674299c4ace9622c5fd",
+      "unchanged": true
+    },
+    {
+      "path": "runtime/RP/models/entity/barrel_closed.geo.json",
+      "original_input": "snapshot/runtime/RP/models/entity/barrel_closed.geo.json",
+      "bytes": 5058,
+      "sha256": "9236d1e5cd33d2ef53f25654e4ca8fe5c29653b6b21b03540274076b0d0039b5",
+      "unchanged": true
+    },
+    {
+      "path": "runtime/RP/entity/runtime_barrel_open.entity.json",
+      "original_input": "snapshot/runtime/RP/entity/runtime_barrel_open.entity.json",
+      "bytes": 494,
+      "sha256": "8bb955121fd993f53d7794e429bc128a02bbc687b82ed90e6c62217b66a8c54c",
+      "unchanged": true
+    },
+    {
+      "path": "runtime/RP/models/entity/barrel_open.geo.json",
+      "original_input": "snapshot/runtime/RP/models/entity/barrel_open.geo.json",
+      "bytes": 6042,
+      "sha256": "573e8f928485d17a492f0257496a134847dbd2f4ee89aa74c3456bbaee52d60f",
+      "unchanged": true
+    },
+    {
+      "path": "runtime/BP/blocks/pressing_tub.json",
+      "original_input": "snapshot/runtime/BP/blocks/pressing_tub.json",
+      "bytes": 10368,
+      "sha256": "8552c0158e7fb822649285402fd96eb93ffeb7fce26c90ee2f40389b43597f13",
+      "unchanged": true
+    },
+    {
+      "path": "runtime/RP/textures/kaleidoscope_tavern/block/brew/pressing_tub.png",
+      "original_input": "snapshot/runtime/RP/textures/kaleidoscope_tavern/block/brew/pressing_tub.png",
+      "bytes": 626,
+      "sha256": "854cfd07dc5322c787ded88144d6cd76bf21b05f275a6b402ee4465ca0babc19",
+      "unchanged": true
+    },
+    {
+      "path": "runtime/RP/models/entity/pressing_tub.geo.json",
+      "original_input": "snapshot/runtime/RP/models/entity/pressing_tub.geo.json",
+      "bytes": 8226,
+      "sha256": "1c328b9e3e47adb986b47462e0a3f4332f4d4580ed153764e628e06fa98f6845",
+      "unchanged": true
+    },
+    {
+      "path": "runtime/RP/models/entity/pressing_tub_tilt.geo.json",
+      "original_input": "snapshot/runtime/RP/models/entity/pressing_tub_tilt.geo.json",
+      "bytes": 10018,
+      "sha256": "6c1bcdcfbf70f8c385855df9f843ff71c40dc641e8683bb8303950e8ed6ca557",
+      "unchanged": true
+    },
+    {
+      "path": "runtime/BP/blocks/tap.json",
+      "original_input": "snapshot/runtime/BP/blocks/tap.json",
+      "bytes": 5689,
+      "sha256": "0273cb914aa731b855ade3e76b9f1db5aa563bb97758d6d209138c42497fce7c",
+      "unchanged": true
+    },
+    {
+      "path": "runtime/RP/textures/kaleidoscope_tavern/block/brew/tap.png",
+      "original_input": "snapshot/runtime/RP/textures/kaleidoscope_tavern/block/brew/tap.png",
+      "bytes": 237,
+      "sha256": "ff76d7ef4a7d6979e04b858a35103b204883e66eec9acc357bde977c879d21e7",
+      "unchanged": true
+    },
+    {
+      "path": "runtime/RP/models/entity/tap_closed.geo.json",
+      "original_input": "snapshot/runtime/RP/models/entity/tap_closed.geo.json",
+      "bytes": 12210,
+      "sha256": "a406593f50889f70269ba50c039f05e6279425048a7e331a73bfe66d11287b25",
+      "unchanged": true
+    },
+    {
+      "path": "runtime/RP/models/entity/tap_open.geo.json",
+      "original_input": "snapshot/runtime/RP/models/entity/tap_open.geo.json",
+      "bytes": 12413,
+      "sha256": "d43f46aa468758757509637b0638ae5a3358aeb06e04c393a3b81efcd5c49207",
+      "unchanged": true
+    },
+    {
+      "path": "runtime/BP/blocks/stepladder.json",
+      "original_input": "snapshot/runtime/BP/blocks/stepladder.json",
+      "bytes": 4972,
+      "sha256": "be77b3698435c43bdd6c109b6a06265cac83df856c828dd9e0f80abf800cb269",
+      "unchanged": true
+    },
+    {
+      "path": "runtime/RP/textures/kaleidoscope_tavern/block/deco/stepladder.png",
+      "original_input": "snapshot/runtime/RP/textures/kaleidoscope_tavern/block/deco/stepladder.png",
+      "bytes": 610,
+      "sha256": "8af33124e2a31c0e95f5a18713ed1957dc47aec48e7be77fb68559b6e61a8ce3",
+      "unchanged": true
+    },
+    {
+      "path": "runtime/RP/models/entity/stepladder_bottom.geo.json",
+      "original_input": "snapshot/runtime/RP/models/entity/stepladder_bottom.geo.json",
+      "bytes": 17512,
+      "sha256": "2dd3faf7648ea5ccf934034d0ddec0e07072cde42fd5cfaed33d87990f51ca98",
+      "unchanged": true
+    },
+    {
+      "path": "runtime/RP/models/entity/stepladder_top.geo.json",
+      "original_input": "snapshot/runtime/RP/models/entity/stepladder_top.geo.json",
+      "bytes": 19265,
+      "sha256": "2b378bf2a0b29068d9c3b46678f0b7673762ca52626901daf67b96f36bbbfe6a",
+      "unchanged": true
+    },
+    {
+      "path": "runtime/RP/entity/stepladder_assembled.entity.json",
+      "original_input": "snapshot/runtime/RP/entity/stepladder_assembled.entity.json",
+      "bytes": 503,
+      "sha256": "38190c31c4e08d9c912f9d70b8b6fb2434e6ea284d42ba3c284864abfae4bab1",
+      "unchanged": true
+    },
+    {
+      "path": "runtime/RP/models/entity/stepladder_assembled.geo.json",
+      "original_input": "snapshot/runtime/RP/models/entity/stepladder_assembled.geo.json",
+      "bytes": 36218,
+      "sha256": "bb527897d7f39dbb675f14667c695ae1c666bd3e642ee3dc681685437eadb316",
+      "unchanged": true
+    },
+    {
+      "path": "runtime/RP/animations/shaker.animation.json",
+      "original_input": "snapshot/runtime/RP/animations/shaker.animation.json",
+      "bytes": 2700,
+      "sha256": "cabc41987866e1eed81a8ee4e0ba0ef17ba0ad64c210a110f7c541e7fdb07e2b",
+      "unchanged": true
+    },
+    {
+      "path": "runtime/RP/entity/runtime_shaker.entity.json",
+      "original_input": "snapshot/runtime/RP/entity/runtime_shaker.entity.json",
+      "bytes": 707,
+      "sha256": "e7af1c0e2c8c7c22d53605e9b7756903b8edade3ea77a641a05dda55364d724d",
+      "unchanged": true
+    },
+    {
+      "path": "runtime/RP/textures/kaleidoscope_tavern/block/mixology/shaker.png",
+      "original_input": "snapshot/runtime/RP/textures/kaleidoscope_tavern/block/mixology/shaker.png",
+      "bytes": 941,
+      "sha256": "8cf12cd2ab194d976735419a1366799f6260399fecf4f65f926d59157e311e6f",
+      "unchanged": true
+    },
+    {
+      "path": "runtime/RP/models/entity/shaker.geo.json",
+      "original_input": "snapshot/runtime/RP/models/entity/shaker.geo.json",
+      "bytes": 2582,
+      "sha256": "5b4cc2b4acb585297ac2cde88a4dce9c50fd62be5cddb377ba1347c9538fbc0e",
+      "unchanged": true
+    },
+    {
+      "path": "runtime/BP/blocks/barrel_core.json",
+      "original_input": "snapshot/runtime/BP/blocks/barrel_core.json",
+      "bytes": 2339,
+      "sha256": "1c1659a8161fdddfd36fb77a48c6d427c2ce9d04349d622807f30c30e73d4aed",
+      "unchanged": true
+    },
+    {
+      "path": "runtime/BP/blocks/shaker_station.json",
+      "original_input": "snapshot/runtime/BP/blocks/shaker_station.json",
+      "bytes": 3752,
+      "sha256": "04dafa9afd4c65f90dd5be078d35e5fe94f384ef002f80fc8d72661bc0206431",
+      "unchanged": true
+    },
+    {
+      "path": "runtime/BP/scripts/bedrock/machines.js",
+      "original_input": "snapshot/runtime/BP/scripts/bedrock/machines.js",
+      "bytes": 39959,
+      "sha256": "242902fa70131ca8ef8b9994977f876729dac98422373dfd546e14094c123b07",
+      "unchanged": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/machine-visuals.js",
+      "original_input": "snapshot/runtime/BP/scripts/core/machine-visuals.js",
+      "bytes": 2060,
+      "sha256": "20c3eaf7658badc7f01a246c07f964d329c2e415890e9c174d9b9a57cfe19d0e",
+      "unchanged": true
+    },
+    {
+      "path": "runtime/BP/scripts/bedrock/decorations.js",
+      "original_input": "snapshot/runtime/BP/scripts/bedrock/decorations.js",
+      "bytes": 11185,
+      "sha256": "38a8dbe3378c5f7133e27e1785ed9d877be5232af4006c25490fa33a25f3fa53",
+      "unchanged": true
+    },
+    {
+      "path": "runtime/BP/scripts/bedrock/immersion.js",
+      "original_input": "snapshot/runtime/BP/scripts/bedrock/immersion.js",
+      "bytes": 5623,
+      "sha256": "264a1be4549e4cc4a0572f8ec28404e3357b9e945306e4203a0a17eaee0ec1ad",
+      "unchanged": true
+    },
+    {
+      "path": "runtime/RP/animation_controllers/runtime_shaker_put.controller.json",
+      "original_input": "snapshot/runtime/RP/animation_controllers/runtime_shaker_put.controller.json",
+      "bytes": 373,
+      "sha256": "256f6f7f58b890593cb9213a5fcb847c429f4e65440558691b1da0e16a289fe0",
+      "unchanged": true
+    },
+    {
+      "path": "runtime/RP/attachables/shaker.attachable.json",
+      "original_input": "snapshot/runtime/RP/attachables/shaker.attachable.json",
+      "bytes": 2231,
+      "sha256": "24f6036ff424ae59ddb9fc98c5a175a57a186c24bfa9230058e42ed6f584042d",
+      "unchanged": true
+    },
+    {
+      "path": "runtime/RP/animations/runtime_shaker.animation.json",
+      "original_input": "snapshot/runtime/RP/animations/runtime_shaker.animation.json",
+      "bytes": 3645,
+      "sha256": "2740cf7f4bc4a05c432e98e591d964169b992bf8cb1553ecb4425be91f54fb06",
+      "unchanged": true
+    },
+    {
+      "path": "runtime/RP/models/entity/runtime_shaker_held.geo.json",
+      "original_input": "snapshot/runtime/RP/models/entity/runtime_shaker_held.geo.json",
+      "bytes": 2204,
+      "sha256": "800ead78afb5e6de1950749231b1f841b29222305ba21705f79fee425add6a3f",
+      "unchanged": true
+    },
+    {
+      "path": "runtime/RP/models/entity/runtime_shaker_put_hidden.geo.json",
+      "original_input": "snapshot/runtime/RP/models/entity/runtime_shaker_put_hidden.geo.json",
+      "bytes": 889,
+      "sha256": "a12747f48cfb910e49ef8f928fa8f99be7bd28ef5cd6a414deebb2e88a321f07",
+      "unchanged": true
+    },
+    {
+      "path": "runtime/BP/entities/shaker_visual.json",
+      "original_input": "snapshot/runtime/BP/entities/shaker_visual.json",
+      "bytes": 1362,
+      "sha256": "6cf715ea6d456d96bd8ff24e030bdedd1554cd9aea69d00e717fa5fecede406a",
+      "unchanged": true
+    },
+    {
+      "path": "runtime/BP/entities/barrel_open_visual.json",
+      "original_input": "snapshot/runtime/BP/entities/barrel_open_visual.json",
+      "bytes": 928,
+      "sha256": "02644f13d998e0632489c7881224679496a224f46d0fde7aefac87f22180f04f",
+      "unchanged": true
+    },
+    {
+      "path": "runtime/BP/entities/barrel_closed_visual.json",
+      "original_input": "snapshot/runtime/BP/entities/barrel_closed_visual.json",
+      "bytes": 930,
+      "sha256": "d86579a75a576f1c65653079cd31f72e77a7cf6d6f98733a97b97b25e842ab62",
+      "unchanged": true
+    },
+    {
+      "path": "docs/evidence/blockbench-20261108/README.md",
+      "original_input": "snapshot/docs/evidence/blockbench-20261108/README.md",
+      "bytes": 12207,
+      "sha256": "d4c816ab5f2584566c2ebec1c9945dde972723ffd893f569e3db3a0d435c3c89",
+      "unchanged": true
+    },
+    {
+      "path": "docs/evidence/blockbench-20261108/scene-records.json",
+      "original_input": "snapshot/docs/evidence/blockbench-20261108/scene-records.json",
+      "bytes": 32808,
+      "sha256": "8047e3d7d92dbda83291e6e22717c8a92389b9efff5b795f7ea75813e1f2474e",
+      "unchanged": true
+    },
+    {
+      "path": "docs/evidence/t174-held-shells/native-review.json",
+      "original_input": "snapshot/docs/evidence/t174-held-shells/native-review.json",
+      "bytes": 12915,
+      "sha256": "f372e6ac52f5a353d99c9d308d5f9e20c899f9a77780e98a7e9f8504d6e63da6",
+      "unchanged": true
+    },
+    {
+      "path": "docs/evidence/t175-rack-lift/native-review.json",
+      "original_input": "snapshot/docs/evidence/t175-rack-lift/native-review.json",
+      "bytes": 1659,
+      "sha256": "1c29da88c4704054ff67da1609d720b36489d6650319e3e6791108eba2c6aeb1",
+      "unchanged": true
+    },
+    {
+      "path": "docs/NATIVE-ITEM-VIEW-LIMITS.md",
+      "original_input": "snapshot/docs/NATIVE-ITEM-VIEW-LIMITS.md",
+      "bytes": 4153,
+      "sha256": "e81810741558bd5bb2b61c87962e38295a17077617ef0a6bcfdc7166506e236f",
+      "unchanged": true
+    },
+    {
+      "path": "runtime/RP/render_controllers/static.render_controllers.json",
+      "original_input": "snapshot/runtime/RP/render_controllers/static.render_controllers.json",
+      "bytes": 292,
+      "sha256": "2b90b4ac21d7ebd44e4d5b8969aef2b53d28613e3a5b39d0b19cb49965b0b605",
+      "unchanged": true
+    },
+    {
+      "path": "art/source-jar.lock.json",
+      "original_input": "snapshot/art/source-jar.lock.json",
+      "bytes": 348537,
+      "sha256": "5d1567b8416bf2927e25d44bab7304cc49a0cd58787a338a0cc95c58d670ea85",
+      "unchanged": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/furniture.js",
+      "original_input": "snapshot/runtime/BP/scripts/core/furniture.js",
+      "bytes": 11346,
+      "sha256": "7cbabb1fc4ec830851aa1bbf4e6bab08a72cd44f14e2f020920b3c04290e9b08",
+      "unchanged": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/decorations.js",
+      "original_input": "snapshot/runtime/BP/scripts/core/decorations.js",
+      "bytes": 2327,
+      "sha256": "ee68b9970e1427d81e9e4cde41894c5596b88717ec75ece7ca400786685ef9ab",
+      "unchanged": true
+    },
+    {
+      "path": "runtime/RP/models/entity/item_display_tilted_rack.geo.json",
+      "original_input": "snapshot/runtime/RP/models/entity/item_display_tilted_rack.geo.json",
+      "bytes": 11969,
+      "sha256": "93030bd4f8289be846eea898052b36ed81c33626355c8e42fbcac95a73968ff7",
+      "unchanged": true
+    }
+  ],
+  "scope": "Exact input reuse only. Global historical runtime identity is provenance, not current runtime identity."
+}
