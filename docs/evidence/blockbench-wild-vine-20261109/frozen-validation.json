@@ -1,0 +1,32 @@
+{
+  "version": "0.6.214",
+  "frozen_source_commit": "0f526618ae087a3f8f2ce3fbc1e70df4fbcd7f91",
+  "frozen_source_tree": "fe6d2111a88f8475768e9528446e9be0ba40d594",
+  "runtime_tree": "870c0596cc2f0244d0e6ee17a0905d4b75734620",
+  "bp_git_tree": "fe4705b8a548c25b717baef5c3c785e0d24d3bac",
+  "rp_git_tree": "bfe265057e0bfcd69679033939696af81f5c3071",
+  "baseline_source_trees": {
+    "BP": {
+      "sha256": "e695aaa641bea5a85234dd2c0f144293f04eab472314b18407e6510d63961221",
+      "files": 838
+    },
+    "RP": {
+      "sha256": "6c1353466d069953747c06c67737466941288aa4c23ecee39bebceb34ee02aeb",
+      "files": 3232
+    }
+  },
+  "history_append_only": true,
+  "archive_name": "Kaleidoscope_Tavern_Unofficial_0.6.214_baseline1.mcaddon",
+  "archive_sha256": "db21cc94b0ec907863e9fd39ac6e8c1cb3e36d8dedd1fa079a523649df8bf551",
+  "archive_bytes": 5913355,
+  "archive_exact_runtime_equality": true,
+  "strict_release_check": "passed_from_clean_commit",
+  "canonical_packager": "passed_from_clean_commit",
+  "snapshot_scope": "Frozen source snapshot before additive final evidence status documentation. Final handoff records the final commit, whose runtime tree must remain identical.",
+  "candidate_geometry_sha256": "e7e8c23f421aba7d8082c6952d6599bc5fb99231c9a656ff1566b4303cbd0d0b",
+  "client": false,
+  "bds": false,
+  "live": false,
+  "remote_writes": false,
+  "ci": "required remote PR suites not run locally"
+}

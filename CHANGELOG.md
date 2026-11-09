@@ -1,3 +1,8 @@
+## 0.6.214 — 2026-11-09
+
+- Restore the source-rescaled wild-grapevine cross and all four directed UV faces for the growing head and body. Their world/item materials now cull reverse faces as Java cutout does. Preserve textures, lighting flags, growth, drops and held transforms.
+- The centered 0.16-unit slab remains an explicit adaptation. Source/resource checks and bounded Blockbench controls do not certify native Minecraft rendering, gameplay, saved worlds or LIVE deployment.
+
 ## 0.6.213 — 2026-11-09
 
 Restore the source-authored fill underside on the shared closed/open incense models for all eight types. Preserve the original textures, upper faces, single-sided cutouts and gameplay. Current source geometry, alpha, effective-state lifecycle and visible consumer contracts replace the superseded hidden-bottom projection. Source and Blockbench comparisons passed; no Minecraft client, BDS, saved-world or LIVE acceptance is claimed.
