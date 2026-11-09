@@ -246,6 +246,9 @@ def prepare_admission(receipt,original):
     # committed profile. They have no original directory to retire.
     prior={p['uuid'] for p in original['packs']}
     additions={p['uuid'] for p in family if p['source']['owner']=='preserved' and p['uuid'] not in prior}
+    if migration:
+        from family_update.identity_migration import plan_swaps
+        additions-={row['new_uuid'] for row in plan_swaps(migration)}
     if CONFIG.get('managed_drift_recovery'):
         from family_update.managed_drift_recovery import validate_target
         additions.update(validate_target(receipt,original,migration))
