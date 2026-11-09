@@ -1,0 +1,2395 @@
+{
+  "checked_at_utc": "2026-11-09T04:03:49.155759+00:00",
+  "frozen_artifacts_checked": 266,
+  "frozen_mismatches": [],
+  "records": [
+    {
+      "file": "luminous-adaptation-reuse.json",
+      "sha256": "6a51c7b572829d01501a38c92ac920ba7312fca34341cf8fd9db545bbbaddcb1",
+      "expected_sha256": "6a51c7b572829d01501a38c92ac920ba7312fca34341cf8fd9db545bbbaddcb1",
+      "unchanged": true
+    },
+    {
+      "file": "pose-snapshot.json",
+      "sha256": "a333bf4d2effa84db06cc3f402e049938635cbba7f61ffeb0780c647fc3748f2",
+      "expected_sha256": "a333bf4d2effa84db06cc3f402e049938635cbba7f61ffeb0780c647fc3748f2",
+      "unchanged": true
+    },
+    {
+      "file": "geometry-index.json",
+      "sha256": "ae1a497aabe3cc0c49f6a863102f7fb9e9205289896689501099ccd7ed6cb17a",
+      "expected_sha256": "ae1a497aabe3cc0c49f6a863102f7fb9e9205289896689501099ccd7ed6cb17a",
+      "unchanged": true
+    },
+    {
+      "file": "author-resource-verification.json",
+      "sha256": "57112fa43a96aabbcaa8fdeb2c195a48fb614946a684f5766c01a1999e9ed853",
+      "expected_sha256": "57112fa43a96aabbcaa8fdeb2c195a48fb614946a684f5766c01a1999e9ed853",
+      "unchanged": true
+    },
+    {
+      "file": "finalize_provenance.py",
+      "sha256": "09da8227e26e204b95f9b4f822326b51529a743da643a36d7d39014c3feb4824",
+      "expected_sha256": "09da8227e26e204b95f9b4f822326b51529a743da643a36d7d39014c3feb4824",
+      "unchanged": true
+    },
+    {
+      "file": "held-pose-preservation.json",
+      "sha256": "91555092d7a2ecc2bc809bbdf8751153b642e052acda69582f8e2e1dc0e9359f",
+      "expected_sha256": "91555092d7a2ecc2bc809bbdf8751153b642e052acda69582f8e2e1dc0e9359f",
+      "unchanged": true
+    },
+    {
+      "file": "independent-geometric-uv-audit.json",
+      "sha256": "bca5fa5baf763ec15a44a0d029226297d04cadafb61ad8e0cec4bc19ab3c74c3",
+      "expected_sha256": "bca5fa5baf763ec15a44a0d029226297d04cadafb61ad8e0cec4bc19ab3c74c3",
+      "unchanged": true
+    },
+    {
+      "file": "README.md",
+      "sha256": "fc9d72e2618399b2ca1342ea092e0d6616e52fe994046c0288b528484c1e9052",
+      "expected_sha256": "fc9d72e2618399b2ca1342ea092e0d6616e52fe994046c0288b528484c1e9052",
+      "unchanged": true
+    },
+    {
+      "file": "routing-and-transform-audit.json",
+      "sha256": "9e41ad6e33ffaa838354f756107f4d3ae2146061bd7517c61f72949d16e4bf40",
+      "expected_sha256": "9e41ad6e33ffaa838354f756107f4d3ae2146061bd7517c61f72949d16e4bf40",
+      "unchanged": true
+    },
+    {
+      "file": "audit_routes.py",
+      "sha256": "ab43aa9cf01a4c9fff331166760fbe399ad47c11015bfed8d40bc37b11eae2b4",
+      "expected_sha256": "ab43aa9cf01a4c9fff331166760fbe399ad47c11015bfed8d40bc37b11eae2b4",
+      "unchanged": true
+    },
+    {
+      "file": "preparation-receipt.json",
+      "sha256": "89ec58d5371ecbfd377608c80dfa03e9fa42defc55fc898d7de7c604bde50126",
+      "expected_sha256": "89ec58d5371ecbfd377608c80dfa03e9fa42defc55fc898d7de7c604bde50126",
+      "unchanged": true
+    },
+    {
+      "file": "capture-queue.json",
+      "sha256": "f924fefe8f099598128008f406ddd9d1d874fb120d97bc94bc3e9ab007fffd91",
+      "expected_sha256": "f924fefe8f099598128008f406ddd9d1d874fb120d97bc94bc3e9ab007fffd91",
+      "unchanged": true
+    },
+    {
+      "file": "source-branch-renderer-audit.json",
+      "sha256": "1fa1726ed6a6eefcd5b76fb6bec2d9b38db2f6916b756e29269ba405c26d2f71",
+      "expected_sha256": "1fa1726ed6a6eefcd5b76fb6bec2d9b38db2f6916b756e29269ba405c26d2f71",
+      "unchanged": true
+    },
+    {
+      "file": "manifest.json",
+      "sha256": "262d9388dd9c58a5e55a708e8b65798cd8047108f0cde61a047464bb616debbf",
+      "expected_sha256": "262d9388dd9c58a5e55a708e8b65798cd8047108f0cde61a047464bb616debbf",
+      "unchanged": true
+    },
+    {
+      "file": "validate_scenes.py",
+      "sha256": "014af1eff835a7203f8e8b19b2871c5e55615589d3416994f079f8642d9dbb88",
+      "expected_sha256": "014af1eff835a7203f8e8b19b2871c5e55615589d3416994f079f8642d9dbb88",
+      "unchanged": true
+    },
+    {
+      "file": "glassware-world-slot-audit.json",
+      "sha256": "7c8e2ee853a5f93d7f6117daf7c55cc01269e616f14ee2fccf808e50aafe52fc",
+      "expected_sha256": "7c8e2ee853a5f93d7f6117daf7c55cc01269e616f14ee2fccf808e50aafe52fc",
+      "unchanged": true
+    },
+    {
+      "file": "build_scenes.py",
+      "sha256": "6822df6bc5ee2ee2709b61c1e3f0289241c4aed157413bb599b6dace90b7c633",
+      "expected_sha256": "6822df6bc5ee2ee2709b61c1e3f0289241c4aed157413bb599b6dace90b7c633",
+      "unchanged": true
+    },
+    {
+      "file": "prepare_inputs.py",
+      "sha256": "32740ef4655dfbf9484d2194be3c4c7ad9a876f2cf5756a42b422c6c2972adef",
+      "expected_sha256": "32740ef4655dfbf9484d2194be3c4c7ad9a876f2cf5756a42b422c6c2972adef",
+      "unchanged": true
+    },
+    {
+      "file": "audit.log",
+      "sha256": "bca5fa5baf763ec15a44a0d029226297d04cadafb61ad8e0cec4bc19ab3c74c3",
+      "expected_sha256": "bca5fa5baf763ec15a44a0d029226297d04cadafb61ad8e0cec4bc19ab3c74c3",
+      "unchanged": true
+    },
+    {
+      "file": "scenes/glass-bar-material.bbmodel",
+      "sha256": "3c6c804b2d0d6ddf82cd697b423f0e3cfc408c68843aa7e8694b3a0c123728cc",
+      "expected_sha256": "3c6c804b2d0d6ddf82cd697b423f0e3cfc408c68843aa7e8694b3a0c123728cc",
+      "unchanged": true
+    },
+    {
+      "file": "scenes/bar-twin-cardinal.bbmodel",
+      "sha256": "1b4c5d4c4fc243721b94925671c35fbc131d5328922e5fd1ff6d29bfae7a8835",
+      "expected_sha256": "1b4c5d4c4fc243721b94925671c35fbc131d5328922e5fd1ff6d29bfae7a8835",
+      "unchanged": true
+    },
+    {
+      "file": "scenes/circular-full.bbmodel",
+      "sha256": "ae64257ed3885936c1b92242c9104396397f4d9fdd5fa4e467385385139607ad",
+      "expected_sha256": "ae64257ed3885936c1b92242c9104396397f4d9fdd5fa4e467385385139607ad",
+      "unchanged": true
+    },
+    {
+      "file": "scenes/tilted-full.bbmodel",
+      "sha256": "d9a5f942a3e97da5793018ae992287ffc6d4a91a119d24cbd99621c13a358174",
+      "expected_sha256": "d9a5f942a3e97da5793018ae992287ffc6d4a91a119d24cbd99621c13a358174",
+      "unchanged": true
+    },
+    {
+      "file": "scenes/bar-single-irregular.bbmodel",
+      "sha256": "ec1b07ccc32ce0913eaede484226c9dbc72f00e4c6666bbb8f55b04bfb5a612a",
+      "expected_sha256": "ec1b07ccc32ce0913eaede484226c9dbc72f00e4c6666bbb8f55b04bfb5a612a",
+      "unchanged": true
+    },
+    {
+      "file": "scenes/holder-occupied.bbmodel",
+      "sha256": "70a017a879916cac38988bbf14b416eaf623decd0ce082a0976fa49bd0089e48",
+      "expected_sha256": "70a017a879916cac38988bbf14b416eaf623decd0ce082a0976fa49bd0089e48",
+      "unchanged": true
+    },
+    {
+      "file": "scenes/glassware-occupied.bbmodel",
+      "sha256": "e92520bbe0933685faf2db8c9b390c7faa9c2c3175271fade66c84deab9ddbb7",
+      "expected_sha256": "e92520bbe0933685faf2db8c9b390c7faa9c2c3175271fade66c84deab9ddbb7",
+      "unchanged": true
+    },
+    {
+      "file": "scenes/cellar-full.bbmodel",
+      "sha256": "b4447cf0968597973a5aada650aa9d3ad4fa9b45ac34bb055e289a4fb32df6ed",
+      "expected_sha256": "b4447cf0968597973a5aada650aa9d3ad4fa9b45ac34bb055e289a4fb32df6ed",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/author-resources/assets/kaleidoscope_tavern/models/block/brew/drink/wine/count1.json",
+      "sha256": "0c48897cd66a194774354a2afea81b07263428796665c173d8e5f483e8d63c7c",
+      "expected_sha256": "0c48897cd66a194774354a2afea81b07263428796665c173d8e5f483e8d63c7c",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/author-resources/assets/kaleidoscope_tavern/models/block/brew/drink/luminous_bride/count1.json",
+      "sha256": "2ba58764783534b7af168549bb0903e0c38c1d84afac15be84254380b8ab72ef",
+      "expected_sha256": "2ba58764783534b7af168549bb0903e0c38c1d84afac15be84254380b8ab72ef",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/author-resources/assets/kaleidoscope_tavern/models/block/brew/drink/brandy/count1.json",
+      "sha256": "408943dea4aaaf80d386816e689a314d745fa30e87caf29f1f0fdc45bcf22c8a",
+      "expected_sha256": "408943dea4aaaf80d386816e689a314d745fa30e87caf29f1f0fdc45bcf22c8a",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/author-resources/assets/kaleidoscope_tavern/textures/block/brew/luminous_bride.png",
+      "sha256": "922d169fc32462a1462fb6fbc6a887674a9c61dfe9bae008ef12153916fd4882",
+      "expected_sha256": "922d169fc32462a1462fb6fbc6a887674a9c61dfe9bae008ef12153916fd4882",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/author-resources/assets/kaleidoscope_tavern/textures/block/brew/brandy.png",
+      "sha256": "3f69bdbcc189458f48c398e4ea3771809c68757a7e63695d965addd71ee7763f",
+      "expected_sha256": "3f69bdbcc189458f48c398e4ea3771809c68757a7e63695d965addd71ee7763f",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/author-resources/assets/kaleidoscope_tavern/textures/block/brew/wine.png",
+      "sha256": "366115b7dc86edee86fd1908854a9f3a866d843b3f0644691e983dad1c1974f7",
+      "expected_sha256": "366115b7dc86edee86fd1908854a9f3a866d843b3f0644691e983dad1c1974f7",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/data/storage-render-source.json",
+      "sha256": "30380a126eb64526e460de69f592766abb302b199d1feb4471b36c8f6ad0c6bf",
+      "expected_sha256": "30380a126eb64526e460de69f592766abb302b199d1feb4471b36c8f6ad0c6bf",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/tools/check_glassware_slots.py",
+      "sha256": "3c2126ba9bd1501936b7041420f36d475a5d0b975bf6a01d0cce08bb2e4a1f7a",
+      "expected_sha256": "3c2126ba9bd1501936b7041420f36d475a5d0b975bf6a01d0cce08bb2e4a1f7a",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/tools/check_storage_rendering.py",
+      "sha256": "2556419955e3e73f8dd20b46c4695b02d27d3cd6695b420c694552e5387d930d",
+      "expected_sha256": "2556419955e3e73f8dd20b46c4695b02d27d3cd6695b420c694552e5387d930d",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/docs/evidence/t175-rack-lift/native-review.json",
+      "sha256": "1c29da88c4704054ff67da1609d720b36489d6650319e3e6791108eba2c6aeb1",
+      "expected_sha256": "1c29da88c4704054ff67da1609d720b36489d6650319e3e6791108eba2c6aeb1",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/RP/textures/terrain_texture.json",
+      "sha256": "46797fb0157dfb71c29ae78d385cdcebc3edfaec673e1292bd4eb826183e01c9",
+      "expected_sha256": "46797fb0157dfb71c29ae78d385cdcebc3edfaec673e1292bd4eb826183e01c9",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/RP/render_controllers/runtime_cellar_cabinet.render_controllers.json",
+      "sha256": "63ec5af8111e6af96d9bb10d7df21a982a6e72056a963ba9a09358ab796f4aa6",
+      "expected_sha256": "63ec5af8111e6af96d9bb10d7df21a982a6e72056a963ba9a09358ab796f4aa6",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/RP/render_controllers/runtime_circular_rack.render_controllers.json",
+      "sha256": "77db72847efda554f6c47fb744dabf5e416f144ebc48314a5a3df96498c1013a",
+      "expected_sha256": "77db72847efda554f6c47fb744dabf5e416f144ebc48314a5a3df96498c1013a",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/RP/render_controllers/runtime_tilted_rack.render_controllers.json",
+      "sha256": "fed764a988b2499c6a6742f046ba347ae464611f33b6f4af39028c13d93cfb6d",
+      "expected_sha256": "fed764a988b2499c6a6742f046ba347ae464611f33b6f4af39028c13d93cfb6d",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/RP/render_controllers/runtime_bar_cabinet.render_controllers.json",
+      "sha256": "7edb5c8f7858aba928fb4e03c9b9435d2292ab94f98af088fd5158f69fa88c64",
+      "expected_sha256": "7edb5c8f7858aba928fb4e03c9b9435d2292ab94f98af088fd5158f69fa88c64",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/RP/render_controllers/runtime_holder.render_controllers.json",
+      "sha256": "2e5226d826f052e1edda1df4ad2661362371d60ad97e28cb045f34e7543bc3cb",
+      "expected_sha256": "2e5226d826f052e1edda1df4ad2661362371d60ad97e28cb045f34e7543bc3cb",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/RP/animations/runtime_storage_bottle.animation.json",
+      "sha256": "1422c578eab33404abe356beef5d0e3e0ae098520cb9cc247708929066b28776",
+      "expected_sha256": "1422c578eab33404abe356beef5d0e3e0ae098520cb9cc247708929066b28776",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/RP/entity/runtime_circular_rack_bottle_visual.entity.json",
+      "sha256": "604529e5128de2dc4600318332d21702ee5fe4faaa50e45a6c1681bd53348c03",
+      "expected_sha256": "604529e5128de2dc4600318332d21702ee5fe4faaa50e45a6c1681bd53348c03",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/RP/entity/runtime_tilted_rack_bottle_visual.entity.json",
+      "sha256": "dc17da06353decc545e6b8b8353884bc28c77b951a9099e7924852e12a89b220",
+      "expected_sha256": "dc17da06353decc545e6b8b8353884bc28c77b951a9099e7924852e12a89b220",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/RP/entity/runtime_cellar_cabinet_bottle_visual.entity.json",
+      "sha256": "b05c67d3c92342e11a4add250f5a4142cd3b595d1d829ba18b7f31f1912bf171",
+      "expected_sha256": "b05c67d3c92342e11a4add250f5a4142cd3b595d1d829ba18b7f31f1912bf171",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/RP/entity/runtime_holder_bottle_visual.entity.json",
+      "sha256": "117a8c13260f1c4999c78011a95f42bc8237f843101922d9fceeb48ae252dbcd",
+      "expected_sha256": "117a8c13260f1c4999c78011a95f42bc8237f843101922d9fceeb48ae252dbcd",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/RP/entity/runtime_bar_cabinet_bottle_visual.entity.json",
+      "sha256": "db4f7f8e2e0a4fe9eda24fa39beabe1bd2948e2f309ca969f1004dff0577d948",
+      "expected_sha256": "db4f7f8e2e0a4fe9eda24fa39beabe1bd2948e2f309ca969f1004dff0577d948",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/RP/models/entity/bar_cabinet_middle.geo.json",
+      "sha256": "70fde476b0550148ceda368459a12e828c209e3cf75ec81ad48eb5fb806b8c89",
+      "expected_sha256": "70fde476b0550148ceda368459a12e828c209e3cf75ec81ad48eb5fb806b8c89",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/RP/models/entity/cellar_cabinet_left.geo.json",
+      "sha256": "a6a728ce38a00e5111e1ad9e0267cd0ee4aa4f05e76f3bef2a4b6b0b2d69e495",
+      "expected_sha256": "a6a728ce38a00e5111e1ad9e0267cd0ee4aa4f05e76f3bef2a4b6b0b2d69e495",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/RP/models/entity/wine_1.geo.json",
+      "sha256": "330b306571e4bec1fedad11f2ef455e1df0f511597d1d2d9e6ad36a9c291cab7",
+      "expected_sha256": "330b306571e4bec1fedad11f2ef455e1df0f511597d1d2d9e6ad36a9c291cab7",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/RP/models/entity/runtime_glassware_holder.geo.json",
+      "sha256": "34576dfc8cb7803b867d640059d86158c467d67acb21a6b73dd532ef90301c7f",
+      "expected_sha256": "34576dfc8cb7803b867d640059d86158c467d67acb21a6b73dd532ef90301c7f",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/RP/models/entity/cellar_cabinet_middle.geo.json",
+      "sha256": "2c7786fc51b53557b2ceabfef8e2e21aaab73175ab71d409e92d98124ef2059d",
+      "expected_sha256": "2c7786fc51b53557b2ceabfef8e2e21aaab73175ab71d409e92d98124ef2059d",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/RP/models/entity/luminous_bride_1.geo.json",
+      "sha256": "6557407955161cc933db87557a62dee08eb43cd638a6e2176b893a0c7da3d2a9",
+      "expected_sha256": "6557407955161cc933db87557a62dee08eb43cd638a6e2176b893a0c7da3d2a9",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/RP/models/entity/glass_bar_cabinet_right.geo.json",
+      "sha256": "355ba09c8d6c2c1978226e4a30e996de96e23d14b89f4d0bf7af0a82447c01e7",
+      "expected_sha256": "355ba09c8d6c2c1978226e4a30e996de96e23d14b89f4d0bf7af0a82447c01e7",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/RP/models/entity/holder.geo.json",
+      "sha256": "0ee968d64d7191e908cda54014535135d2df44347200417053b7f18bf6a743e9",
+      "expected_sha256": "0ee968d64d7191e908cda54014535135d2df44347200417053b7f18bf6a743e9",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/RP/models/entity/item_display_tilted_rack.geo.json",
+      "sha256": "93030bd4f8289be846eea898052b36ed81c33626355c8e42fbcac95a73968ff7",
+      "expected_sha256": "93030bd4f8289be846eea898052b36ed81c33626355c8e42fbcac95a73968ff7",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/RP/models/entity/bar_cabinet_right.geo.json",
+      "sha256": "baf543f56003459b12f6ed55ca006dac533444e9d5900c11072de8cbfb7d7881",
+      "expected_sha256": "baf543f56003459b12f6ed55ca006dac533444e9d5900c11072de8cbfb7d7881",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/RP/models/entity/glass_bar_cabinet_middle.geo.json",
+      "sha256": "c0b82a9b40b35dddac5fbfccaef7a86a599b40a2f33aceecb0c9cfdcaabfa5c2",
+      "expected_sha256": "c0b82a9b40b35dddac5fbfccaef7a86a599b40a2f33aceecb0c9cfdcaabfa5c2",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/RP/models/entity/circular_rack.geo.json",
+      "sha256": "2e463db022ea8b175f98e8149fde93ad5c4c1263b2125993df6c9719d3b8a745",
+      "expected_sha256": "2e463db022ea8b175f98e8149fde93ad5c4c1263b2125993df6c9719d3b8a745",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/RP/models/entity/cellar_cabinet_single.geo.json",
+      "sha256": "1ec046bf527a81b718295304d3c77449b954865710e6f57fea82f4f72237cde0",
+      "expected_sha256": "1ec046bf527a81b718295304d3c77449b954865710e6f57fea82f4f72237cde0",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/RP/models/entity/cellar_cabinet_right.geo.json",
+      "sha256": "dd44c28f180435e5c7708dbcb3c1246251ae27e7b70354a7bfbd2964bd67fab0",
+      "expected_sha256": "dd44c28f180435e5c7708dbcb3c1246251ae27e7b70354a7bfbd2964bd67fab0",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/RP/models/entity/brandy_1.geo.json",
+      "sha256": "a451f649620addd476f5e56b84e68c74ea358ea9be1baadf21d757ea16a9ebdc",
+      "expected_sha256": "a451f649620addd476f5e56b84e68c74ea358ea9be1baadf21d757ea16a9ebdc",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/RP/models/entity/tilted_rack.geo.json",
+      "sha256": "42af00c3035a21f688d968ae30b6061ff159098840993ed6278df7db91ea06b5",
+      "expected_sha256": "42af00c3035a21f688d968ae30b6061ff159098840993ed6278df7db91ea06b5",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/RP/models/entity/glass_bar_cabinet_single.geo.json",
+      "sha256": "0b83c3aa5b68ec87b57510f0a1f201ecbbdc376efa75df80e10918578e569f6d",
+      "expected_sha256": "0b83c3aa5b68ec87b57510f0a1f201ecbbdc376efa75df80e10918578e569f6d",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/RP/models/entity/bar_cabinet_left.geo.json",
+      "sha256": "78d775c227339ed0215e96c686e884a16c3b4664a02a01470e87bc4a46fee6d0",
+      "expected_sha256": "78d775c227339ed0215e96c686e884a16c3b4664a02a01470e87bc4a46fee6d0",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/RP/models/entity/glass_bar_cabinet_left.geo.json",
+      "sha256": "ff52d5cf5853b7a27466b61839b758a364b84d5d72451c91586737888ddd9af9",
+      "expected_sha256": "ff52d5cf5853b7a27466b61839b758a364b84d5d72451c91586737888ddd9af9",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/RP/models/entity/bar_cabinet_single.geo.json",
+      "sha256": "712a0256db82efa4b900ab91c81e6b6a80022f8a4675c98831d951bf6541411c",
+      "expected_sha256": "712a0256db82efa4b900ab91c81e6b6a80022f8a4675c98831d951bf6541411c",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/RP/textures/kaleidoscope_tavern/block/deco/circular_rack.png",
+      "sha256": "bfc7e7cf21fde7b44c660c13654bd6040574d6f95b44220b1c829bd33ac0d571",
+      "expected_sha256": "bfc7e7cf21fde7b44c660c13654bd6040574d6f95b44220b1c829bd33ac0d571",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/RP/textures/kaleidoscope_tavern/block/deco/glassware_holder.png",
+      "sha256": "b76b74300136ecc606a3a53ff94798a29644203f224800db9f00e8a95cfa3e5b",
+      "expected_sha256": "b76b74300136ecc606a3a53ff94798a29644203f224800db9f00e8a95cfa3e5b",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/RP/textures/kaleidoscope_tavern/block/deco/holder.png",
+      "sha256": "bc5595b4edfc333ce7c6fedbfb5970fce371ea835faba532a9326f65e0b44ba1",
+      "expected_sha256": "bc5595b4edfc333ce7c6fedbfb5970fce371ea835faba532a9326f65e0b44ba1",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/RP/textures/kaleidoscope_tavern/block/deco/tilted_rack.png",
+      "sha256": "f2765637938b8d9a8c5134609647aae21d312d6084b981b9f819df2782b697d4",
+      "expected_sha256": "f2765637938b8d9a8c5134609647aae21d312d6084b981b9f819df2782b697d4",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/RP/textures/kaleidoscope_tavern/block/brew/luminous_bride.png",
+      "sha256": "6fa826ae5e18f525f10ba523b13ab4b9494728be89b3af84eccd2ac57ae58370",
+      "expected_sha256": "6fa826ae5e18f525f10ba523b13ab4b9494728be89b3af84eccd2ac57ae58370",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/RP/textures/kaleidoscope_tavern/block/brew/glass_bar_cabinet.png",
+      "sha256": "e580d1027a0bc3d47123768a59f9ce0fec6f9523c44d3ff42325485a1c78f422",
+      "expected_sha256": "e580d1027a0bc3d47123768a59f9ce0fec6f9523c44d3ff42325485a1c78f422",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/RP/textures/kaleidoscope_tavern/block/brew/brandy.png",
+      "sha256": "5d7421149033d6937df517c9b717551be8bc20a545108f65d48df8d67844ae85",
+      "expected_sha256": "5d7421149033d6937df517c9b717551be8bc20a545108f65d48df8d67844ae85",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/RP/textures/kaleidoscope_tavern/block/brew/wine.png",
+      "sha256": "b5615c0411c284f826f702a77d8e87eed645a43d3a6c893f5a194b8f7082a3fe",
+      "expected_sha256": "b5615c0411c284f826f702a77d8e87eed645a43d3a6c893f5a194b8f7082a3fe",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/RP/textures/kaleidoscope_tavern/block/brew/bar_cabinet.png",
+      "sha256": "e67f5aa6995e6c6e843829bfa246db25aef50862d06ab147d16784d84cd9e6b0",
+      "expected_sha256": "e67f5aa6995e6c6e843829bfa246db25aef50862d06ab147d16784d84cd9e6b0",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/RP/textures/kaleidoscope_tavern/block/mixology/empty_glassware.png",
+      "sha256": "257f85b15ef4480ab800304ccd73d2627638cf246c95e2003057b31886f21673",
+      "expected_sha256": "257f85b15ef4480ab800304ccd73d2627638cf246c95e2003057b31886f21673",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/entities/cellar_cabinet_bottle_visual.json",
+      "sha256": "fc64c499203e0551e830ca59cc561feba7dc9c2aa6c3e763cbdacec2fc5715e8",
+      "expected_sha256": "fc64c499203e0551e830ca59cc561feba7dc9c2aa6c3e763cbdacec2fc5715e8",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/entities/holder_bottle_visual.json",
+      "sha256": "150a95bf5edd7c16d6afb5526cf8270c99c70856535e98594dcba3dd2a2f89bf",
+      "expected_sha256": "150a95bf5edd7c16d6afb5526cf8270c99c70856535e98594dcba3dd2a2f89bf",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/entities/circular_rack_bottle_visual.json",
+      "sha256": "d444479a4c77f8821714a13e4e76b39db19368dc5fe907f1aabc8a1b1d515763",
+      "expected_sha256": "d444479a4c77f8821714a13e4e76b39db19368dc5fe907f1aabc8a1b1d515763",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/entities/bar_cabinet_bottle_visual.json",
+      "sha256": "a0ae298b2b7fe3941421c18768ee8e74a926bca0bf3af34cf60cf1f807a000ab",
+      "expected_sha256": "a0ae298b2b7fe3941421c18768ee8e74a926bca0bf3af34cf60cf1f807a000ab",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/entities/tilted_rack_bottle_visual.json",
+      "sha256": "1adf946f59532a0a5b4d47abf14e9abd7d9705b9956cc15f47bdab7c6b586200",
+      "expected_sha256": "1adf946f59532a0a5b4d47abf14e9abd7d9705b9956cc15f47bdab7c6b586200",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/blocks/circular_rack.json",
+      "sha256": "a13e053d5ec9f6cbcfda37cf404ba2ce72fbf6bfaf4005f296f6ef9ad074f265",
+      "expected_sha256": "a13e053d5ec9f6cbcfda37cf404ba2ce72fbf6bfaf4005f296f6ef9ad074f265",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/blocks/holder.json",
+      "sha256": "5750f2f7fc0a67217b969bae11540ef7189b5d4c98d3afff4593256623c2302d",
+      "expected_sha256": "5750f2f7fc0a67217b969bae11540ef7189b5d4c98d3afff4593256623c2302d",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/blocks/tilted_rack.json",
+      "sha256": "ea48783e4545e780decf48e003f1b944a662d3397c7349d57e3759434fa4a08a",
+      "expected_sha256": "ea48783e4545e780decf48e003f1b944a662d3397c7349d57e3759434fa4a08a",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/blocks/glassware_holder.json",
+      "sha256": "814f7a5b59c753b4814ff7336ffe6074e874b99e1cdece5c201ad4e21cd6400f",
+      "expected_sha256": "814f7a5b59c753b4814ff7336ffe6074e874b99e1cdece5c201ad4e21cd6400f",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/blocks/cellar_cabinet.json",
+      "sha256": "8f6f9c5b790019a1b665bf40134fc6bf8703389be38f269120f3d232007fe4e9",
+      "expected_sha256": "8f6f9c5b790019a1b665bf40134fc6bf8703389be38f269120f3d232007fe4e9",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/blocks/glass_bar_cabinet.json",
+      "sha256": "f09de7a46b77c25635a2c69489ae8b1a632b01ee8defee8240f631eecaeb945a",
+      "expected_sha256": "f09de7a46b77c25635a2c69489ae8b1a632b01ee8defee8240f631eecaeb945a",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/blocks/bar_cabinet.json",
+      "sha256": "cd41098805aaf66e08c9837c4157ce243225c51d191d8902e34b87987a0640fc",
+      "expected_sha256": "cd41098805aaf66e08c9837c4157ce243225c51d191d8902e34b87987a0640fc",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/data/break-feedback.js",
+      "sha256": "25d4699daeb3ec8a9c76843880d7e85b450859ff350e4d37b149ec516b7b4067",
+      "expected_sha256": "25d4699daeb3ec8a9c76843880d7e85b450859ff350e4d37b149ec516b7b4067",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/data/bottles.js",
+      "sha256": "6a1ca4742d59d1fd9de6652641128cd3f5c10db6eac1e2c0ebe97310ebc91e6b",
+      "expected_sha256": "6a1ca4742d59d1fd9de6652641128cd3f5c10db6eac1e2c0ebe97310ebc91e6b",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/data/vanilla-instant-entities.js",
+      "sha256": "cbcb4b04a041dcf8a2354e4ab746007a2bfcb4b64eb30d2c77489017203b913f",
+      "expected_sha256": "cbcb4b04a041dcf8a2354e4ab746007a2bfcb4b64eb30d2c77489017203b913f",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/data/mixology.js",
+      "sha256": "c269618c892289b359e7d5067ecca4d9241c47ab4d2aadeb37ae20f33007f3e8",
+      "expected_sha256": "c269618c892289b359e7d5067ecca4d9241c47ab4d2aadeb37ae20f33007f3e8",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/data/drink-effects.js",
+      "sha256": "c048fee5a8073964ba9d3c81e115fa1d9d845764388e78893ba33f234f3fba31",
+      "expected_sha256": "c048fee5a8073964ba9d3c81e115fa1d9d845764388e78893ba33f234f3fba31",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/core/tipsy-visual.js",
+      "sha256": "c0c40eb38a25d4f7a4d7a05ce273a9d0150950fd18d77d4326f183714b495407",
+      "expected_sha256": "c0c40eb38a25d4f7a4d7a05ce273a9d0150950fd18d77d4326f183714b495407",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/core/java-placement.js",
+      "sha256": "060629854fa80cab887e8dae40642e5a9f745bde7e697d3717755ee4851a5647",
+      "expected_sha256": "060629854fa80cab887e8dae40642e5a9f745bde7e697d3717755ee4851a5647",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/core/effect-colors.js",
+      "sha256": "68cdc888bc3b0fdde0c094dcc024c28c44b54602605bf32c0a65bdd9605da6fa",
+      "expected_sha256": "68cdc888bc3b0fdde0c094dcc024c28c44b54602605bf32c0a65bdd9605da6fa",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/core/grass-stealth-plants.js",
+      "sha256": "f6f5f2dc5da254569847c1f32bb050712595a4440c1f61cf952c67693419d5ea",
+      "expected_sha256": "f6f5f2dc5da254569847c1f32bb050712595a4440c1f61cf952c67693419d5ea",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/core/projectile-parity.js",
+      "sha256": "88cbe00e64c54a1a039172ae2683b6558869616fb5420302e6d93d53cc93f4d2",
+      "expected_sha256": "88cbe00e64c54a1a039172ae2683b6558869616fb5420302e6d93d53cc93f4d2",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/core/aim-hit.js",
+      "sha256": "a68e34096d2d5428f0562616e612e117a415df9437bf316caa91a53c0684b47f",
+      "expected_sha256": "a68e34096d2d5428f0562616e612e117a415df9437bf316caa91a53c0684b47f",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/core/native-item-storage.js",
+      "sha256": "c6d9450445f8c4c476fabc47f14945062edb7abd349ac4dccaef518bcf0d8c9d",
+      "expected_sha256": "c6d9450445f8c4c476fabc47f14945062edb7abd349ac4dccaef518bcf0d8c9d",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/core/inventory.js",
+      "sha256": "ff21dbc539bf233aec0b07dc707f45ffd8a2cc744151e0c180a00cc0e708c8c2",
+      "expected_sha256": "ff21dbc539bf233aec0b07dc707f45ffd8a2cc744151e0c180a00cc0e708c8c2",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/core/interaction-claim.js",
+      "sha256": "99d0089205f812265a1c95d86daa82479bb56b9faa415867b4a745af399886c6",
+      "expected_sha256": "99d0089205f812265a1c95d86daa82479bb56b9faa415867b4a745af399886c6",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/core/java-random.js",
+      "sha256": "18714a924b79609982deb2fd9359dbb9acc1685684150bc758f16fe0ac4cbbb5",
+      "expected_sha256": "18714a924b79609982deb2fd9359dbb9acc1685684150bc758f16fe0ac4cbbb5",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/core/circular-rack.js",
+      "sha256": "d2cffbf792ea62a03bfba481ab75c4ba010fc261caaf502757df511bdbb48869",
+      "expected_sha256": "d2cffbf792ea62a03bfba481ab75c4ba010fc261caaf502757df511bdbb48869",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/core/java-instant-effect.js",
+      "sha256": "9ca5fb62dcefbe36ef8e94e2ac10b591e05eead2ae650086af788180b7e2f11b",
+      "expected_sha256": "9ca5fb62dcefbe36ef8e94e2ac10b591e05eead2ae650086af788180b7e2f11b",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/core/status-aura.js",
+      "sha256": "50231d097370093266805649b0ed15146b9bab8828530a11f08920ecb234aaf4",
+      "expected_sha256": "50231d097370093266805649b0ed15146b9bab8828530a11f08920ecb234aaf4",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/core/furniture.js",
+      "sha256": "7cbabb1fc4ec830851aa1bbf4e6bab08a72cd44f14e2f020920b3c04290e9b08",
+      "expected_sha256": "7cbabb1fc4ec830851aa1bbf4e6bab08a72cd44f14e2f020920b3c04290e9b08",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/core/util.js",
+      "sha256": "f7eb593312c97450a715f4003c06008ba852a841454c1b043b091002850c7169",
+      "expected_sha256": "f7eb593312c97450a715f4003c06008ba852a841454c1b043b091002850c7169",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/core/bottles.js",
+      "sha256": "21f2cf17295a0bf943b62d6b3d7e10e9400a83476517849ccacc82a70434d27b",
+      "expected_sha256": "21f2cf17295a0bf943b62d6b3d7e10e9400a83476517849ccacc82a70434d27b",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/core/tilted-rack.js",
+      "sha256": "4a3aac93065626d1a15c5b401b1e89c4fa1a391855664e17c7ee5e289568a36d",
+      "expected_sha256": "4a3aac93065626d1a15c5b401b1e89c4fa1a391855664e17c7ee5e289568a36d",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/core/extension-content.js",
+      "sha256": "58725676113ccc49ff89d465db9b15bf8d88f51e0aa9dd3e6d7eb6f3bf775c6b",
+      "expected_sha256": "58725676113ccc49ff89d465db9b15bf8d88f51e0aa9dd3e6d7eb6f3bf775c6b",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/core/holder.js",
+      "sha256": "c453a8b68eacdaaa1bc4bc634d209c3675a8e00fe77b3b1d7509db055f4f4e58",
+      "expected_sha256": "c453a8b68eacdaaa1bc4bc634d209c3675a8e00fe77b3b1d7509db055f4f4e58",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/core/bar-cabinet.js",
+      "sha256": "e0e02a1ea258c01819d986f890b43b1b6eb7f3a1a7850a903aebf1acc81acfa7",
+      "expected_sha256": "e0e02a1ea258c01819d986f890b43b1b6eb7f3a1a7850a903aebf1acc81acfa7",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/core/quality-tooltip.js",
+      "sha256": "e20491b299695cc04bc779d2962a2057a2c537a268fa0aaaa6e28b1ef35832cc",
+      "expected_sha256": "e20491b299695cc04bc779d2962a2057a2c537a268fa0aaaa6e28b1ef35832cc",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/core/machines.js",
+      "sha256": "cf43c87cfd3d9dfa2e0920ed516ba47ba912135d163b5fafb9aaf9116ab592c3",
+      "expected_sha256": "cf43c87cfd3d9dfa2e0920ed516ba47ba912135d163b5fafb9aaf9116ab592c3",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/core/java-use-order.js",
+      "sha256": "5755a50fa11d865700e74ab00bb828e8d7871615a7b54f5226ab1f154cbb87a8",
+      "expected_sha256": "5755a50fa11d865700e74ab00bb828e8d7871615a7b54f5226ab1f154cbb87a8",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/core/cocktail-colors.js",
+      "sha256": "0076a137d139c7d61aa67848129a18567dfcd92cba62295646969387ecc80218",
+      "expected_sha256": "0076a137d139c7d61aa67848129a18567dfcd92cba62295646969387ecc80218",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/core/effect-feedback.js",
+      "sha256": "32468dfbda917724a99f219014fbe38e96bf73e53c13f4d6fdb682605a5ae1de",
+      "expected_sha256": "32468dfbda917724a99f219014fbe38e96bf73e53c13f4d6fdb682605a5ae1de",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/core/interaction-particles.js",
+      "sha256": "b7b67cd3f4df3df4f8fd0eb98607541797f7591ebbf4fd5bd39c912609b57bcd",
+      "expected_sha256": "b7b67cd3f4df3df4f8fd0eb98607541797f7591ebbf4fd5bd39c912609b57bcd",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/core/living-effect-entity.js",
+      "sha256": "5ffed0483c22af6aa6e56a57ab040bde8a07abcaf963da34a8f30ee55ae32931",
+      "expected_sha256": "5ffed0483c22af6aa6e56a57ab040bde8a07abcaf963da34a8f30ee55ae32931",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/core/armor-wear.js",
+      "sha256": "6df5645c21308027595dabb889b096c6038885278bd40d7ae709b6a8be9cf6fc",
+      "expected_sha256": "6df5645c21308027595dabb889b096c6038885278bd40d7ae709b6a8be9cf6fc",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/core/storage.js",
+      "sha256": "07b7ee337a8649d4a0791882bd84049c61ab6c80e9ea6c235874272545795058",
+      "expected_sha256": "07b7ee337a8649d4a0791882bd84049c61ab6c80e9ea6c235874272545795058",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/core/extension-foundation.js",
+      "sha256": "bf4ed849835d5f6ef205a231eef7b557ff90ae1c63d395a96840f15af3ea05c1",
+      "expected_sha256": "bf4ed849835d5f6ef205a231eef7b557ff90ae1c63d395a96840f15af3ea05c1",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/core/motion-blocking-height.js",
+      "sha256": "18a2299ede7f996d263569bd8c1669d43e95a2feb283d75b06ee47d8466c28ac",
+      "expected_sha256": "18a2299ede7f996d263569bd8c1669d43e95a2feb283d75b06ee47d8466c28ac",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/core/cellar-cabinet.js",
+      "sha256": "8c4b8b38dfb95999bbaf6a8379b45fce78ef17d2c5d4e86ac0e732360eaf4de4",
+      "expected_sha256": "8c4b8b38dfb95999bbaf6a8379b45fce78ef17d2c5d4e86ac0e732360eaf4de4",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/core/hit-basis.js",
+      "sha256": "f2343c08cbc86dced67ae436c52094cea5bc35af993c605a045b206c1bc8ec1a",
+      "expected_sha256": "f2343c08cbc86dced67ae436c52094cea5bc35af993c605a045b206c1bc8ec1a",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/core/combat-effects.js",
+      "sha256": "23988c0d6c0089ebba832211f2e999202d1ba2f91de8cc765cf3358520ffed51",
+      "expected_sha256": "23988c0d6c0089ebba832211f2e999202d1ba2f91de8cc765cf3358520ffed51",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/core/vision-feedback.js",
+      "sha256": "6ddeaea67651cab9c02e47057352ef309eb2524f3894c026b6e9041d3ff02003",
+      "expected_sha256": "6ddeaea67651cab9c02e47057352ef309eb2524f3894c026b6e9041d3ff02003",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/core/break-feedback-engine.js",
+      "sha256": "85fc1cacd7fa71fe8136db0210657e9ad160471ff7ffdfc66bdd0edf0bf3931f",
+      "expected_sha256": "85fc1cacd7fa71fe8136db0210657e9ad160471ff7ffdfc66bdd0edf0bf3931f",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/core/block-hit.js",
+      "sha256": "e7e97fe13ac31861182389746c6dfd913cf053bbf07a77db31286b7d590e09ec",
+      "expected_sha256": "e7e97fe13ac31861182389746c6dfd913cf053bbf07a77db31286b7d590e09ec",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/core/custom-effects.js",
+      "sha256": "f8bcb73925d6c3244798c51171c3aa3249eea020c2981422f72baca8cd412092",
+      "expected_sha256": "f8bcb73925d6c3244798c51171c3aa3249eea020c2981422f72baca8cd412092",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/core/java-ambient-sampling.js",
+      "sha256": "e147dc0aed978e1f18fee60efdf2f9265bef6506f1a727fccaa15d76209dedb3",
+      "expected_sha256": "e147dc0aed978e1f18fee60efdf2f9265bef6506f1a727fccaa15d76209dedb3",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/core/drink-effects.js",
+      "sha256": "8ebb3d9944b571b477e7fd4f170d58a1f69ed741cbe6bf405d0ec9e224a25d26",
+      "expected_sha256": "8ebb3d9944b571b477e7fd4f170d58a1f69ed741cbe6bf405d0ec9e224a25d26",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/core/storage-item-projection.js",
+      "sha256": "8a550071b6a9761e3e7ecbcaf6f6c717115a8e88e864a295dacb9d27530ea0ee",
+      "expected_sha256": "8a550071b6a9761e3e7ecbcaf6f6c717115a8e88e864a295dacb9d27530ea0ee",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/bedrock/tipsy-visual.js",
+      "sha256": "5e7cb2b1ba06c086fd53f11e1ad8a898b50283c8bb5ffece288f290b4466feb0",
+      "expected_sha256": "5e7cb2b1ba06c086fd53f11e1ad8a898b50283c8bb5ffece288f290b4466feb0",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/bedrock/break-feedback.js",
+      "sha256": "4ad9e89f3de99b2139978cde2aeacaa94139408d34c0847cda355c389936ac6e",
+      "expected_sha256": "4ad9e89f3de99b2139978cde2aeacaa94139408d34c0847cda355c389936ac6e",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/bedrock/pickup-overflow.js",
+      "sha256": "1e6ad8d354967bf7f7afba703cc86ec7b1f5ab0b5502060fddc43eb7f17a6141",
+      "expected_sha256": "1e6ad8d354967bf7f7afba703cc86ec7b1f5ab0b5502060fddc43eb7f17a6141",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/bedrock/native-item-storage.js",
+      "sha256": "0c50d0529b521eca9b4ba81213207ad82902a6cf6cfd1a9f779a28696500ee4b",
+      "expected_sha256": "0c50d0529b521eca9b4ba81213207ad82902a6cf6cfd1a9f779a28696500ee4b",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/bedrock/pickup-feedback.js",
+      "sha256": "32e06d1fe165119d31a735ba39f25bacc71dad2b4c4de87621054de613c5162f",
+      "expected_sha256": "32e06d1fe165119d31a735ba39f25bacc71dad2b4c4de87621054de613c5162f",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/bedrock/waterlogging.js",
+      "sha256": "7d3fa76a489c4f1476f330a248696f94a5343c271e221c9d2716dc5e65408b4d",
+      "expected_sha256": "7d3fa76a489c4f1476f330a248696f94a5343c271e221c9d2716dc5e65408b4d",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/bedrock/java-placement-router.js",
+      "sha256": "982c3715ee37222690957ddaafabc6da54e7203ad1531a4603807faa1de894a7",
+      "expected_sha256": "982c3715ee37222690957ddaafabc6da54e7203ad1531a4603807faa1de894a7",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/bedrock/transactions.js",
+      "sha256": "1e6e013c715baca9e2cfe15b620e18d6ed005f3437d58c24db7fd78623d9398b",
+      "expected_sha256": "1e6e013c715baca9e2cfe15b620e18d6ed005f3437d58c24db7fd78623d9398b",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/bedrock/circular-rack.js",
+      "sha256": "d37f204ec525142a38d3e3cac0c87c76788886bdab5bfadc78b1f6341ff62253",
+      "expected_sha256": "d37f204ec525142a38d3e3cac0c87c76788886bdab5bfadc78b1f6341ff62253",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/bedrock/feedback-diagnostics.js",
+      "sha256": "e776da556900ad529d0af14086413f73e8281f08d6b066d5d88d220c7dbc312b",
+      "expected_sha256": "e776da556900ad529d0af14086413f73e8281f08d6b066d5d88d220c7dbc312b",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/bedrock/stateful-storage-router.js",
+      "sha256": "939d75316fc7737fba77a63fc4db9f66671574a4e9819e10c73dfa1c4ab581b5",
+      "expected_sha256": "939d75316fc7737fba77a63fc4db9f66671574a4e9819e10c73dfa1c4ab581b5",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/bedrock/status-aura.js",
+      "sha256": "ec262d3bfdc4a1342ea29ab3c067eadb8b4fc18821a7f5ed241b53a1ab00cc96",
+      "expected_sha256": "ec262d3bfdc4a1342ea29ab3c067eadb8b4fc18821a7f5ed241b53a1ab00cc96",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/bedrock/furniture.js",
+      "sha256": "cc1141b2315b4ed9f1aba51f56c47abba0ef9a9426485d52d81d261a6997bfad",
+      "expected_sha256": "cc1141b2315b4ed9f1aba51f56c47abba0ef9a9426485d52d81d261a6997bfad",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/bedrock/storage-visual-maintenance.js",
+      "sha256": "e08548dab33a8103b8926160baa9504ba211697289c6d2302183dd1c8c813bf2",
+      "expected_sha256": "e08548dab33a8103b8926160baa9504ba211697289c6d2302183dd1c8c813bf2",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/bedrock/tilted-rack.js",
+      "sha256": "56a56075f9206d0c6cf3a29fc4668adb56cdab596f51b2606a6ada8bf59061db",
+      "expected_sha256": "56a56075f9206d0c6cf3a29fc4668adb56cdab596f51b2606a6ada8bf59061db",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/bedrock/storage-projectile.js",
+      "sha256": "95d3092655158822abacf927ba5e9d813d2fc0e12176ddce6f4c6440deace0d4",
+      "expected_sha256": "95d3092655158822abacf927ba5e9d813d2fc0e12176ddce6f4c6440deace0d4",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/bedrock/holder.js",
+      "sha256": "d05d4ade88d7470dbbd3ee173902ea1a2d7f161f61ad4b3438970cb865fead18",
+      "expected_sha256": "d05d4ade88d7470dbbd3ee173902ea1a2d7f161f61ad4b3438970cb865fead18",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/bedrock/bar-cabinet.js",
+      "sha256": "379917c66f734e087714e953d121b7edec6a487e9ced37f4b572b6097a1ce69e",
+      "expected_sha256": "379917c66f734e087714e953d121b7edec6a487e9ced37f4b572b6097a1ce69e",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/bedrock/instant-effects.js",
+      "sha256": "3efc5060395fcaac984a2aa87dd12c65df569e4aaf4e2e0fe74ffe0230b6c5a1",
+      "expected_sha256": "3efc5060395fcaac984a2aa87dd12c65df569e4aaf4e2e0fe74ffe0230b6c5a1",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/bedrock/effect-feedback.js",
+      "sha256": "da270ff1430589bcf324b0acee033d557aa4750911d733be49b6b518f5fd49da",
+      "expected_sha256": "da270ff1430589bcf324b0acee033d557aa4750911d733be49b6b518f5fd49da",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/bedrock/interaction-particles.js",
+      "sha256": "28bca29f15001539ff88118d301e3bd0a1da92f53321054349ed59eeae1ac64b",
+      "expected_sha256": "28bca29f15001539ff88118d301e3bd0a1da92f53321054349ed59eeae1ac64b",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/bedrock/java-ambient.js",
+      "sha256": "aad430777698482fb0483387b91db1829d6460eab07726d22be82d2015483763",
+      "expected_sha256": "aad430777698482fb0483387b91db1829d6460eab07726d22be82d2015483763",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/bedrock/protected-break-router.js",
+      "sha256": "9763b6c53f3c66fa92403df843e04e4de97b06c040acb6a972c954a576bce750",
+      "expected_sha256": "9763b6c53f3c66fa92403df843e04e4de97b06c040acb6a972c954a576bce750",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/bedrock/cellar-cabinet.js",
+      "sha256": "b568a2576ff66f2b0ca1ab13323fde8d9bf9188c147a1d3d3db0d755ed889498",
+      "expected_sha256": "b568a2576ff66f2b0ca1ab13323fde8d9bf9188c147a1d3d3db0d755ed889498",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/bedrock/combat-effects.js",
+      "sha256": "29b0d4e75e0f1ed770e01d6e4eba9370045c95455655e2dae05114d3a63a4602",
+      "expected_sha256": "29b0d4e75e0f1ed770e01d6e4eba9370045c95455655e2dae05114d3a63a4602",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/bedrock/custom-effects.js",
+      "sha256": "ceb04d004acbbb41743479648cd8400851a5c8f1d1bcabc5e39532e03ba0afe5",
+      "expected_sha256": "ceb04d004acbbb41743479648cd8400851a5c8f1d1bcabc5e39532e03ba0afe5",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/current/runtime/BP/scripts/bedrock/scripted-block-change.js",
+      "sha256": "189d6b8f87c2089b590c849c859cf5f140b4fb615b4d6ac878ab542944e93e57",
+      "expected_sha256": "189d6b8f87c2089b590c849c859cf5f140b4fb615b4d6ac878ab542944e93e57",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/generated/resources/assets/kaleidoscope_tavern/blockstates/circular_rack.json",
+      "sha256": "c6b5ff15849e221d178744771fc6afcfd2c16a2b6eb0f3708ff5ab105c176297",
+      "expected_sha256": "c6b5ff15849e221d178744771fc6afcfd2c16a2b6eb0f3708ff5ab105c176297",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/generated/resources/assets/kaleidoscope_tavern/blockstates/wine.json",
+      "sha256": "5440a2e22ace84a995016afe9d447bb169277a37ae5f307c4a5a63bcd0c019c5",
+      "expected_sha256": "5440a2e22ace84a995016afe9d447bb169277a37ae5f307c4a5a63bcd0c019c5",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/generated/resources/assets/kaleidoscope_tavern/blockstates/holder.json",
+      "sha256": "d2eea2f43ba4f71538a7a90be5436d9d2cd702f75c0b2e19683eefac481ccd78",
+      "expected_sha256": "d2eea2f43ba4f71538a7a90be5436d9d2cd702f75c0b2e19683eefac481ccd78",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/generated/resources/assets/kaleidoscope_tavern/blockstates/luminous_bride.json",
+      "sha256": "5f3d2b5d11424869836f6a30e0c749f3d57ed7769a8213486d5ca01ca793a125",
+      "expected_sha256": "5f3d2b5d11424869836f6a30e0c749f3d57ed7769a8213486d5ca01ca793a125",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/generated/resources/assets/kaleidoscope_tavern/blockstates/tilted_rack.json",
+      "sha256": "7f0f0da09b0d0b92dec0bb8da9b6f57e790e88ab9588d1bc0c9104f0e6760674",
+      "expected_sha256": "7f0f0da09b0d0b92dec0bb8da9b6f57e790e88ab9588d1bc0c9104f0e6760674",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/generated/resources/assets/kaleidoscope_tavern/blockstates/glassware_holder.json",
+      "sha256": "c38d6ebf18867f0e4e16256a34e918dac52a01a23a0dca66efd69bc8e765641a",
+      "expected_sha256": "c38d6ebf18867f0e4e16256a34e918dac52a01a23a0dca66efd69bc8e765641a",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/generated/resources/assets/kaleidoscope_tavern/blockstates/cellar_cabinet.json",
+      "sha256": "f52e0f4c4d0b651fe70dfe6d7fe49de9295ba9bdfb60f9d8062e914469ebdbdc",
+      "expected_sha256": "f52e0f4c4d0b651fe70dfe6d7fe49de9295ba9bdfb60f9d8062e914469ebdbdc",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/generated/resources/assets/kaleidoscope_tavern/blockstates/brandy.json",
+      "sha256": "f51be320c248d66c58ec92d6f87c7cee9627082a6ca97b35081fe1fd673b66ea",
+      "expected_sha256": "f51be320c248d66c58ec92d6f87c7cee9627082a6ca97b35081fe1fd673b66ea",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/generated/resources/assets/kaleidoscope_tavern/blockstates/glass_bar_cabinet.json",
+      "sha256": "cc0cd3b482abb39eb09a65f885253bdd39e8b8f27029a04f1ea886886ef42466",
+      "expected_sha256": "cc0cd3b482abb39eb09a65f885253bdd39e8b8f27029a04f1ea886886ef42466",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/generated/resources/assets/kaleidoscope_tavern/blockstates/bar_cabinet.json",
+      "sha256": "00ffd81e691841c76ac7a664e4f1cdadfc8b4f2bb55984e2d0e1d3b71e89aefe",
+      "expected_sha256": "00ffd81e691841c76ac7a664e4f1cdadfc8b4f2bb55984e2d0e1d3b71e89aefe",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/block/BarCabinetBlockEntityRender.java",
+      "sha256": "4d922d8b265f736f462f94f3015e75a2e8219e8993bb12ff865c024983642b9a",
+      "expected_sha256": "4d922d8b265f736f462f94f3015e75a2e8219e8993bb12ff865c024983642b9a",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/block/TiltedRackBlockEntityRender.java",
+      "sha256": "cbddce298db0645728e7d8c16f57e8ff110a5cf5ed08a8faa5cb32ae365de032",
+      "expected_sha256": "cbddce298db0645728e7d8c16f57e8ff110a5cf5ed08a8faa5cb32ae365de032",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/block/CellarCabinetBlockEntityRender.java",
+      "sha256": "3b0272c41ae062c391afe0c02235e18d26eeaeb88c9c661d32f653506e8e873a",
+      "expected_sha256": "3b0272c41ae062c391afe0c02235e18d26eeaeb88c9c661d32f653506e8e873a",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/block/HolderBlockEntityRender.java",
+      "sha256": "d18eca7633075fd026cef558a6a3d5156526b67a5a2d451505649a88fb57c350",
+      "expected_sha256": "d18eca7633075fd026cef558a6a3d5156526b67a5a2d451505649a88fb57c350",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/block/CircularRackBlockEntityRender.java",
+      "sha256": "6cd3f728a0dd8de04ef5a8ea308c763b02b9cc0edad918ab9122c4991731d0f1",
+      "expected_sha256": "6cd3f728a0dd8de04ef5a8ea308c763b02b9cc0edad918ab9122c4991731d0f1",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/block/GlasswareHolderBlockEntityRender.java",
+      "sha256": "57455b427f0cb11944107e08d8f7b38b0005b5b6f7255ed16fcdcfa0da04a740",
+      "expected_sha256": "57455b427f0cb11944107e08d8f7b38b0005b5b6f7255ed16fcdcfa0da04a740",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/block/StorageBlockEntityRender.java",
+      "sha256": "03802d1a22ca7e900fc213c2588a03a8ef58a37b88093cc0daf65c58a726d7c5",
+      "expected_sha256": "03802d1a22ca7e900fc213c2588a03a8ef58a37b88093cc0daf65c58a726d7c5",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/block/deco/GlasswareHolderBlock.java",
+      "sha256": "e28c7ccb09b801660fb4aebea7656f0f435bcaa33dfac9db72b5bde8bb3bf663",
+      "expected_sha256": "e28c7ccb09b801660fb4aebea7656f0f435bcaa33dfac9db72b5bde8bb3bf663",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/block/deco/HolderBlock.java",
+      "sha256": "4cea761e5663f69118c09c7150f9f90fba9958bbea922fa06466979cbeb7bb9b",
+      "expected_sha256": "4cea761e5663f69118c09c7150f9f90fba9958bbea922fa06466979cbeb7bb9b",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/block/deco/TiltedRackBlock.java",
+      "sha256": "1ba15f8b9b6399082495caf94076394416266a678a0efb9c6cd66015135fb2a5",
+      "expected_sha256": "1ba15f8b9b6399082495caf94076394416266a678a0efb9c6cd66015135fb2a5",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/block/deco/CircularRackBlock.java",
+      "sha256": "e6fae7f3a65620da225671d72f0053d66b906570c9a8f389557e67935d21a1e5",
+      "expected_sha256": "e6fae7f3a65620da225671d72f0053d66b906570c9a8f389557e67935d21a1e5",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/block/brew/CellarCabinetBlock.java",
+      "sha256": "944d42fd080af1b2a688e2d58b2a5f1cecc609ff9c64177ac5c14441e340a574",
+      "expected_sha256": "944d42fd080af1b2a688e2d58b2a5f1cecc609ff9c64177ac5c14441e340a574",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/block/brew/BarCabinetBlock.java",
+      "sha256": "211fbcc39cc9a32f9784095e2e98d4c58169fbedff8a861bdf79b1c02b4aff2c",
+      "expected_sha256": "211fbcc39cc9a32f9784095e2e98d4c58169fbedff8a861bdf79b1c02b4aff2c",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/blockentity/deco/HolderBlockEntity.java",
+      "sha256": "16e26ccfdd8ed26c32fd4cb8ac74d3b20ff18a5ec1d4de06b897d8793095dd00",
+      "expected_sha256": "16e26ccfdd8ed26c32fd4cb8ac74d3b20ff18a5ec1d4de06b897d8793095dd00",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/blockentity/deco/TiltedRackBlockEntity.java",
+      "sha256": "fe5dd304ef5c8256e0a5f05ffa3afcfb774a15754979ca0efb3e12dd5da739f4",
+      "expected_sha256": "fe5dd304ef5c8256e0a5f05ffa3afcfb774a15754979ca0efb3e12dd5da739f4",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/blockentity/deco/CircularRackBlockEntity.java",
+      "sha256": "889f2655c4a99f82b45eeeb354f6707e0d216e40c03bfbd6c0ddd1dbda069a08",
+      "expected_sha256": "889f2655c4a99f82b45eeeb354f6707e0d216e40c03bfbd6c0ddd1dbda069a08",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/blockentity/deco/GlasswareHolderBlockEntity.java",
+      "sha256": "81d23176d7487436ca9584bc03f284c7c4ac98ae9a6b6ac5ff57975871a26730",
+      "expected_sha256": "81d23176d7487436ca9584bc03f284c7c4ac98ae9a6b6ac5ff57975871a26730",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/blockentity/brew/BarCabinetBlockEntity.java",
+      "sha256": "701b0df086defa6fa26ccd2660c074e01239c9d8fb8d423563e6a5b09a050fa8",
+      "expected_sha256": "701b0df086defa6fa26ccd2660c074e01239c9d8fb8d423563e6a5b09a050fa8",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/blockentity/brew/CellarCabinetBlockEntity.java",
+      "sha256": "dd066f078cc70a64c3ee9056a6033e7fa636e8605c91fdb8b07c6c28683a9ea4",
+      "expected_sha256": "dd066f078cc70a64c3ee9056a6033e7fa636e8605c91fdb8b07c6c28683a9ea4",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/circular_rack.json",
+      "sha256": "57b26adbeebb538eba89c64b0c59e7fe504b03ab8fdca69eaa6604c07d2e0f05",
+      "expected_sha256": "57b26adbeebb538eba89c64b0c59e7fe504b03ab8fdca69eaa6604c07d2e0f05",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/holder.json",
+      "sha256": "cfc77b2dbeb987135945dfbaf03348b5a06d0dd1eb37f69ff021a02f69c8f2c1",
+      "expected_sha256": "cfc77b2dbeb987135945dfbaf03348b5a06d0dd1eb37f69ff021a02f69c8f2c1",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/tilted_rack.json",
+      "sha256": "5f0dce9aa5e2d2e877a274e17e06b04623b9bed3173c7606cb4f1b48f0c5ec4b",
+      "expected_sha256": "5f0dce9aa5e2d2e877a274e17e06b04623b9bed3173c7606cb4f1b48f0c5ec4b",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/glassware_holder.json",
+      "sha256": "8064089ee620a27e80a83fadcb79729787ca976f5329de58710501ab310f58d2",
+      "expected_sha256": "8064089ee620a27e80a83fadcb79729787ca976f5329de58710501ab310f58d2",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/empty_glassware.json",
+      "sha256": "4ce4f847424eb97d9f26c93f0864c372700a0151fc4214275b6bda96300e3d39",
+      "expected_sha256": "4ce4f847424eb97d9f26c93f0864c372700a0151fc4214275b6bda96300e3d39",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/cellar_cabinet/single.json",
+      "sha256": "006fd6ae138eb95059360814d523a6263361b821b83abe6d2ccc67abcb434b3d",
+      "expected_sha256": "006fd6ae138eb95059360814d523a6263361b821b83abe6d2ccc67abcb434b3d",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/glass_bar_cabinet/single.json",
+      "sha256": "08b06230899b2e52749ad5492164f83386e429650bdd4fed15961a448e7b7669",
+      "expected_sha256": "08b06230899b2e52749ad5492164f83386e429650bdd4fed15961a448e7b7669",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/bar_cabinet/single.json",
+      "sha256": "7cd9b34f7063b728887773531a767b47fdd4ad04ee16933f342381b9a5fcaaa3",
+      "expected_sha256": "7cd9b34f7063b728887773531a767b47fdd4ad04ee16933f342381b9a5fcaaa3",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/drink/wine/count1.json",
+      "sha256": "b6e8051ea1eac63cd4e2c79c5d262e9b95c6cfbdd7b236b7277587d24ab5dbc6",
+      "expected_sha256": "b6e8051ea1eac63cd4e2c79c5d262e9b95c6cfbdd7b236b7277587d24ab5dbc6",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/drink/luminous_bride/count1.json",
+      "sha256": "bf0a54930ac4bb98de9b86fef24782ed5724d0035b898c4505715cf15e4f5dc1",
+      "expected_sha256": "bf0a54930ac4bb98de9b86fef24782ed5724d0035b898c4505715cf15e4f5dc1",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/drink/brandy/count1.json",
+      "sha256": "d6ee34797e0f0caab89fb2a82b90b9fe489aef51b65d4e41fda7c43dbec1b4b4",
+      "expected_sha256": "d6ee34797e0f0caab89fb2a82b90b9fe489aef51b65d4e41fda7c43dbec1b4b4",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/circular_rack.png",
+      "sha256": "7257e9e06d41359c104165f58ccda7ea4f3c510205b3b3983a23dc02e851e060",
+      "expected_sha256": "7257e9e06d41359c104165f58ccda7ea4f3c510205b3b3983a23dc02e851e060",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/glassware_holder.png",
+      "sha256": "b76b74300136ecc606a3a53ff94798a29644203f224800db9f00e8a95cfa3e5b",
+      "expected_sha256": "b76b74300136ecc606a3a53ff94798a29644203f224800db9f00e8a95cfa3e5b",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/holder.png",
+      "sha256": "bc5595b4edfc333ce7c6fedbfb5970fce371ea835faba532a9326f65e0b44ba1",
+      "expected_sha256": "bc5595b4edfc333ce7c6fedbfb5970fce371ea835faba532a9326f65e0b44ba1",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/tilted_rack.png",
+      "sha256": "f2765637938b8d9a8c5134609647aae21d312d6084b981b9f819df2782b697d4",
+      "expected_sha256": "f2765637938b8d9a8c5134609647aae21d312d6084b981b9f819df2782b697d4",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/glassware_holder_particle.png",
+      "sha256": "b1b051b8ce61bb6fdc237cbfd6e09452a9f6a268c2b1dc312f3bbc5094520ba3",
+      "expected_sha256": "b1b051b8ce61bb6fdc237cbfd6e09452a9f6a268c2b1dc312f3bbc5094520ba3",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/luminous_bride.png",
+      "sha256": "922d169fc32462a1462fb6fbc6a887674a9c61dfe9bae008ef12153916fd4882",
+      "expected_sha256": "922d169fc32462a1462fb6fbc6a887674a9c61dfe9bae008ef12153916fd4882",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/glass_bar_cabinet.png",
+      "sha256": "588904c6ada23824903f254b1875f926974f88ba032b239969d172d1572c3148",
+      "expected_sha256": "588904c6ada23824903f254b1875f926974f88ba032b239969d172d1572c3148",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/brandy.png",
+      "sha256": "3f69bdbcc189458f48c398e4ea3771809c68757a7e63695d965addd71ee7763f",
+      "expected_sha256": "3f69bdbcc189458f48c398e4ea3771809c68757a7e63695d965addd71ee7763f",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/wine.png",
+      "sha256": "366115b7dc86edee86fd1908854a9f3a866d843b3f0644691e983dad1c1974f7",
+      "expected_sha256": "366115b7dc86edee86fd1908854a9f3a866d843b3f0644691e983dad1c1974f7",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/bar_cabinet.png",
+      "sha256": "e67f5aa6995e6c6e843829bfa246db25aef50862d06ab147d16784d84cd9e6b0",
+      "expected_sha256": "e67f5aa6995e6c6e843829bfa246db25aef50862d06ab147d16784d84cd9e6b0",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/neoforge/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/empty_glassware.png",
+      "sha256": "257f85b15ef4480ab800304ccd73d2627638cf246c95e2003057b31886f21673",
+      "expected_sha256": "257f85b15ef4480ab800304ccd73d2627638cf246c95e2003057b31886f21673",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/generated/resources/assets/kaleidoscope_tavern/blockstates/circular_rack.json",
+      "sha256": "c6b5ff15849e221d178744771fc6afcfd2c16a2b6eb0f3708ff5ab105c176297",
+      "expected_sha256": "c6b5ff15849e221d178744771fc6afcfd2c16a2b6eb0f3708ff5ab105c176297",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/generated/resources/assets/kaleidoscope_tavern/blockstates/wine.json",
+      "sha256": "5440a2e22ace84a995016afe9d447bb169277a37ae5f307c4a5a63bcd0c019c5",
+      "expected_sha256": "5440a2e22ace84a995016afe9d447bb169277a37ae5f307c4a5a63bcd0c019c5",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/generated/resources/assets/kaleidoscope_tavern/blockstates/holder.json",
+      "sha256": "d2eea2f43ba4f71538a7a90be5436d9d2cd702f75c0b2e19683eefac481ccd78",
+      "expected_sha256": "d2eea2f43ba4f71538a7a90be5436d9d2cd702f75c0b2e19683eefac481ccd78",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/generated/resources/assets/kaleidoscope_tavern/blockstates/luminous_bride.json",
+      "sha256": "5f3d2b5d11424869836f6a30e0c749f3d57ed7769a8213486d5ca01ca793a125",
+      "expected_sha256": "5f3d2b5d11424869836f6a30e0c749f3d57ed7769a8213486d5ca01ca793a125",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/generated/resources/assets/kaleidoscope_tavern/blockstates/tilted_rack.json",
+      "sha256": "7f0f0da09b0d0b92dec0bb8da9b6f57e790e88ab9588d1bc0c9104f0e6760674",
+      "expected_sha256": "7f0f0da09b0d0b92dec0bb8da9b6f57e790e88ab9588d1bc0c9104f0e6760674",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/generated/resources/assets/kaleidoscope_tavern/blockstates/glassware_holder.json",
+      "sha256": "c38d6ebf18867f0e4e16256a34e918dac52a01a23a0dca66efd69bc8e765641a",
+      "expected_sha256": "c38d6ebf18867f0e4e16256a34e918dac52a01a23a0dca66efd69bc8e765641a",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/generated/resources/assets/kaleidoscope_tavern/blockstates/cellar_cabinet.json",
+      "sha256": "f52e0f4c4d0b651fe70dfe6d7fe49de9295ba9bdfb60f9d8062e914469ebdbdc",
+      "expected_sha256": "f52e0f4c4d0b651fe70dfe6d7fe49de9295ba9bdfb60f9d8062e914469ebdbdc",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/generated/resources/assets/kaleidoscope_tavern/blockstates/brandy.json",
+      "sha256": "f51be320c248d66c58ec92d6f87c7cee9627082a6ca97b35081fe1fd673b66ea",
+      "expected_sha256": "f51be320c248d66c58ec92d6f87c7cee9627082a6ca97b35081fe1fd673b66ea",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/generated/resources/assets/kaleidoscope_tavern/blockstates/glass_bar_cabinet.json",
+      "sha256": "cc0cd3b482abb39eb09a65f885253bdd39e8b8f27029a04f1ea886886ef42466",
+      "expected_sha256": "cc0cd3b482abb39eb09a65f885253bdd39e8b8f27029a04f1ea886886ef42466",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/generated/resources/assets/kaleidoscope_tavern/blockstates/bar_cabinet.json",
+      "sha256": "00ffd81e691841c76ac7a664e4f1cdadfc8b4f2bb55984e2d0e1d3b71e89aefe",
+      "expected_sha256": "00ffd81e691841c76ac7a664e4f1cdadfc8b4f2bb55984e2d0e1d3b71e89aefe",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/block/BarCabinetBlockEntityRender.java",
+      "sha256": "4d922d8b265f736f462f94f3015e75a2e8219e8993bb12ff865c024983642b9a",
+      "expected_sha256": "4d922d8b265f736f462f94f3015e75a2e8219e8993bb12ff865c024983642b9a",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/block/TiltedRackBlockEntityRender.java",
+      "sha256": "cbddce298db0645728e7d8c16f57e8ff110a5cf5ed08a8faa5cb32ae365de032",
+      "expected_sha256": "cbddce298db0645728e7d8c16f57e8ff110a5cf5ed08a8faa5cb32ae365de032",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/block/CellarCabinetBlockEntityRender.java",
+      "sha256": "f24b0ecb482461306d825221aea74baa6cf7545c5298e7704fe2176be4261c00",
+      "expected_sha256": "f24b0ecb482461306d825221aea74baa6cf7545c5298e7704fe2176be4261c00",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/block/HolderBlockEntityRender.java",
+      "sha256": "d18eca7633075fd026cef558a6a3d5156526b67a5a2d451505649a88fb57c350",
+      "expected_sha256": "d18eca7633075fd026cef558a6a3d5156526b67a5a2d451505649a88fb57c350",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/block/CircularRackBlockEntityRender.java",
+      "sha256": "96c0746f757c30be813e2dd82a0a4eda6caf83f3edee550d34d59d44e936fcbd",
+      "expected_sha256": "96c0746f757c30be813e2dd82a0a4eda6caf83f3edee550d34d59d44e936fcbd",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/block/GlasswareHolderBlockEntityRender.java",
+      "sha256": "1a43602d03186178de2b0022b7ba5aba9090ee605cc75ddb05e76ccd135f1fde",
+      "expected_sha256": "1a43602d03186178de2b0022b7ba5aba9090ee605cc75ddb05e76ccd135f1fde",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/block/StorageBlockEntityRender.java",
+      "sha256": "03802d1a22ca7e900fc213c2588a03a8ef58a37b88093cc0daf65c58a726d7c5",
+      "expected_sha256": "03802d1a22ca7e900fc213c2588a03a8ef58a37b88093cc0daf65c58a726d7c5",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/block/deco/GlasswareHolderBlock.java",
+      "sha256": "1ee087013af78f874b2ddcaadeaef3387a62cf73e541dc544455d752b5321291",
+      "expected_sha256": "1ee087013af78f874b2ddcaadeaef3387a62cf73e541dc544455d752b5321291",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/block/deco/HolderBlock.java",
+      "sha256": "19a01f0c523892dd6ed03046e5ff73a85dd0e0650c74f46603593ad495b8ad07",
+      "expected_sha256": "19a01f0c523892dd6ed03046e5ff73a85dd0e0650c74f46603593ad495b8ad07",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/block/deco/TiltedRackBlock.java",
+      "sha256": "54d45590b4e29d7ed52bed993ea8e01abf26e29463417ebfc1dd11397b7a22dd",
+      "expected_sha256": "54d45590b4e29d7ed52bed993ea8e01abf26e29463417ebfc1dd11397b7a22dd",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/block/deco/CircularRackBlock.java",
+      "sha256": "77e537584a4faec24cad7b4d7293282908d273fd00d73a41b9e4f02da18f5c79",
+      "expected_sha256": "77e537584a4faec24cad7b4d7293282908d273fd00d73a41b9e4f02da18f5c79",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/block/brew/CellarCabinetBlock.java",
+      "sha256": "fcedc7b79fa253d8b1717337d0589ca8e499e5d7af251cf5d2eb00db6f15b0f3",
+      "expected_sha256": "fcedc7b79fa253d8b1717337d0589ca8e499e5d7af251cf5d2eb00db6f15b0f3",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/block/brew/BarCabinetBlock.java",
+      "sha256": "aa526631f8d38be0928759f9aad8b6a85d7aec33d6e571bf214edba62a75a587",
+      "expected_sha256": "aa526631f8d38be0928759f9aad8b6a85d7aec33d6e571bf214edba62a75a587",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/blockentity/deco/HolderBlockEntity.java",
+      "sha256": "16e26ccfdd8ed26c32fd4cb8ac74d3b20ff18a5ec1d4de06b897d8793095dd00",
+      "expected_sha256": "16e26ccfdd8ed26c32fd4cb8ac74d3b20ff18a5ec1d4de06b897d8793095dd00",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/blockentity/deco/TiltedRackBlockEntity.java",
+      "sha256": "fe5dd304ef5c8256e0a5f05ffa3afcfb774a15754979ca0efb3e12dd5da739f4",
+      "expected_sha256": "fe5dd304ef5c8256e0a5f05ffa3afcfb774a15754979ca0efb3e12dd5da739f4",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/blockentity/deco/CircularRackBlockEntity.java",
+      "sha256": "889f2655c4a99f82b45eeeb354f6707e0d216e40c03bfbd6c0ddd1dbda069a08",
+      "expected_sha256": "889f2655c4a99f82b45eeeb354f6707e0d216e40c03bfbd6c0ddd1dbda069a08",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/blockentity/deco/GlasswareHolderBlockEntity.java",
+      "sha256": "548c4cdbd00e30b58f6afa56ffb8d752d00940bec090b5b2f654023ac9789faa",
+      "expected_sha256": "548c4cdbd00e30b58f6afa56ffb8d752d00940bec090b5b2f654023ac9789faa",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/blockentity/brew/BarCabinetBlockEntity.java",
+      "sha256": "a217c2abc149be024f6c0bd5ab84a89466d3482264210ea86e32051656bc29c9",
+      "expected_sha256": "a217c2abc149be024f6c0bd5ab84a89466d3482264210ea86e32051656bc29c9",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/blockentity/brew/CellarCabinetBlockEntity.java",
+      "sha256": "dd066f078cc70a64c3ee9056a6033e7fa636e8605c91fdb8b07c6c28683a9ea4",
+      "expected_sha256": "dd066f078cc70a64c3ee9056a6033e7fa636e8605c91fdb8b07c6c28683a9ea4",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/circular_rack.json",
+      "sha256": "57b26adbeebb538eba89c64b0c59e7fe504b03ab8fdca69eaa6604c07d2e0f05",
+      "expected_sha256": "57b26adbeebb538eba89c64b0c59e7fe504b03ab8fdca69eaa6604c07d2e0f05",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/holder.json",
+      "sha256": "cfc77b2dbeb987135945dfbaf03348b5a06d0dd1eb37f69ff021a02f69c8f2c1",
+      "expected_sha256": "cfc77b2dbeb987135945dfbaf03348b5a06d0dd1eb37f69ff021a02f69c8f2c1",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/tilted_rack.json",
+      "sha256": "5f0dce9aa5e2d2e877a274e17e06b04623b9bed3173c7606cb4f1b48f0c5ec4b",
+      "expected_sha256": "5f0dce9aa5e2d2e877a274e17e06b04623b9bed3173c7606cb4f1b48f0c5ec4b",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/glassware_holder.json",
+      "sha256": "8064089ee620a27e80a83fadcb79729787ca976f5329de58710501ab310f58d2",
+      "expected_sha256": "8064089ee620a27e80a83fadcb79729787ca976f5329de58710501ab310f58d2",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/models/block/mixology/empty_glassware.json",
+      "sha256": "9b99b9bc8c4d5859649f6fbe539baaa6d4557dd93768cc5088f4e12d2e047f34",
+      "expected_sha256": "9b99b9bc8c4d5859649f6fbe539baaa6d4557dd93768cc5088f4e12d2e047f34",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/cellar_cabinet/single.json",
+      "sha256": "006fd6ae138eb95059360814d523a6263361b821b83abe6d2ccc67abcb434b3d",
+      "expected_sha256": "006fd6ae138eb95059360814d523a6263361b821b83abe6d2ccc67abcb434b3d",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/glass_bar_cabinet/single.json",
+      "sha256": "08b06230899b2e52749ad5492164f83386e429650bdd4fed15961a448e7b7669",
+      "expected_sha256": "08b06230899b2e52749ad5492164f83386e429650bdd4fed15961a448e7b7669",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/bar_cabinet/single.json",
+      "sha256": "7cd9b34f7063b728887773531a767b47fdd4ad04ee16933f342381b9a5fcaaa3",
+      "expected_sha256": "7cd9b34f7063b728887773531a767b47fdd4ad04ee16933f342381b9a5fcaaa3",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/drink/wine/count1.json",
+      "sha256": "b6e8051ea1eac63cd4e2c79c5d262e9b95c6cfbdd7b236b7277587d24ab5dbc6",
+      "expected_sha256": "b6e8051ea1eac63cd4e2c79c5d262e9b95c6cfbdd7b236b7277587d24ab5dbc6",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/drink/luminous_bride/count1.json",
+      "sha256": "bf0a54930ac4bb98de9b86fef24782ed5724d0035b898c4505715cf15e4f5dc1",
+      "expected_sha256": "bf0a54930ac4bb98de9b86fef24782ed5724d0035b898c4505715cf15e4f5dc1",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/drink/brandy/count1.json",
+      "sha256": "d6ee34797e0f0caab89fb2a82b90b9fe489aef51b65d4e41fda7c43dbec1b4b4",
+      "expected_sha256": "d6ee34797e0f0caab89fb2a82b90b9fe489aef51b65d4e41fda7c43dbec1b4b4",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/circular_rack.png",
+      "sha256": "bfc7e7cf21fde7b44c660c13654bd6040574d6f95b44220b1c829bd33ac0d571",
+      "expected_sha256": "bfc7e7cf21fde7b44c660c13654bd6040574d6f95b44220b1c829bd33ac0d571",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/glassware_holder.png",
+      "sha256": "b76b74300136ecc606a3a53ff94798a29644203f224800db9f00e8a95cfa3e5b",
+      "expected_sha256": "b76b74300136ecc606a3a53ff94798a29644203f224800db9f00e8a95cfa3e5b",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/holder.png",
+      "sha256": "bc5595b4edfc333ce7c6fedbfb5970fce371ea835faba532a9326f65e0b44ba1",
+      "expected_sha256": "bc5595b4edfc333ce7c6fedbfb5970fce371ea835faba532a9326f65e0b44ba1",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/tilted_rack.png",
+      "sha256": "f2765637938b8d9a8c5134609647aae21d312d6084b981b9f819df2782b697d4",
+      "expected_sha256": "f2765637938b8d9a8c5134609647aae21d312d6084b981b9f819df2782b697d4",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/glassware_holder_particle.png",
+      "sha256": "7f79bf1431df3e847bdcbda9aca777ce47a7a3ba609a2c1a3f24379b911cdb57",
+      "expected_sha256": "7f79bf1431df3e847bdcbda9aca777ce47a7a3ba609a2c1a3f24379b911cdb57",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/luminous_bride.png",
+      "sha256": "6fa826ae5e18f525f10ba523b13ab4b9494728be89b3af84eccd2ac57ae58370",
+      "expected_sha256": "6fa826ae5e18f525f10ba523b13ab4b9494728be89b3af84eccd2ac57ae58370",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/glass_bar_cabinet.png",
+      "sha256": "e580d1027a0bc3d47123768a59f9ce0fec6f9523c44d3ff42325485a1c78f422",
+      "expected_sha256": "e580d1027a0bc3d47123768a59f9ce0fec6f9523c44d3ff42325485a1c78f422",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/brandy.png",
+      "sha256": "5d7421149033d6937df517c9b717551be8bc20a545108f65d48df8d67844ae85",
+      "expected_sha256": "5d7421149033d6937df517c9b717551be8bc20a545108f65d48df8d67844ae85",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/wine.png",
+      "sha256": "b5615c0411c284f826f702a77d8e87eed645a43d3a6c893f5a194b8f7082a3fe",
+      "expected_sha256": "b5615c0411c284f826f702a77d8e87eed645a43d3a6c893f5a194b8f7082a3fe",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/bar_cabinet.png",
+      "sha256": "e67f5aa6995e6c6e843829bfa246db25aef50862d06ab147d16784d84cd9e6b0",
+      "expected_sha256": "e67f5aa6995e6c6e843829bfa246db25aef50862d06ab147d16784d84cd9e6b0",
+      "unchanged": true
+    },
+    {
+      "file": "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/empty_glassware.png",
+      "sha256": "257f85b15ef4480ab800304ccd73d2627638cf246c95e2003057b31886f21673",
+      "expected_sha256": "257f85b15ef4480ab800304ccd73d2627638cf246c95e2003057b31886f21673",
+      "unchanged": true
+    }
+  ],
+  "selected_local_worktree_path": "/workspace/scratch/f31f84fbb9ff/tavern-wild-vine-repair-20261109",
+  "selected_local_worktree_files_checked": 131,
+  "selected_local_worktree_mismatches": [],
+  "selected_local_worktree_records": [
+    {
+      "path": "runtime/RP/textures/terrain_texture.json",
+      "snapshot_sha256": "46797fb0157dfb71c29ae78d385cdcebc3edfaec673e1292bd4eb826183e01c9",
+      "worktree_sha256": "46797fb0157dfb71c29ae78d385cdcebc3edfaec673e1292bd4eb826183e01c9",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/blocks/holder.json",
+      "snapshot_sha256": "5750f2f7fc0a67217b969bae11540ef7189b5d4c98d3afff4593256623c2302d",
+      "worktree_sha256": "5750f2f7fc0a67217b969bae11540ef7189b5d4c98d3afff4593256623c2302d",
+      "equal": true
+    },
+    {
+      "path": "runtime/RP/models/entity/holder.geo.json",
+      "snapshot_sha256": "0ee968d64d7191e908cda54014535135d2df44347200417053b7f18bf6a743e9",
+      "worktree_sha256": "0ee968d64d7191e908cda54014535135d2df44347200417053b7f18bf6a743e9",
+      "equal": true
+    },
+    {
+      "path": "runtime/RP/textures/kaleidoscope_tavern/block/deco/holder.png",
+      "snapshot_sha256": "bc5595b4edfc333ce7c6fedbfb5970fce371ea835faba532a9326f65e0b44ba1",
+      "worktree_sha256": "bc5595b4edfc333ce7c6fedbfb5970fce371ea835faba532a9326f65e0b44ba1",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/blocks/circular_rack.json",
+      "snapshot_sha256": "a13e053d5ec9f6cbcfda37cf404ba2ce72fbf6bfaf4005f296f6ef9ad074f265",
+      "worktree_sha256": "a13e053d5ec9f6cbcfda37cf404ba2ce72fbf6bfaf4005f296f6ef9ad074f265",
+      "equal": true
+    },
+    {
+      "path": "runtime/RP/models/entity/circular_rack.geo.json",
+      "snapshot_sha256": "2e463db022ea8b175f98e8149fde93ad5c4c1263b2125993df6c9719d3b8a745",
+      "worktree_sha256": "2e463db022ea8b175f98e8149fde93ad5c4c1263b2125993df6c9719d3b8a745",
+      "equal": true
+    },
+    {
+      "path": "runtime/RP/textures/kaleidoscope_tavern/block/deco/circular_rack.png",
+      "snapshot_sha256": "bfc7e7cf21fde7b44c660c13654bd6040574d6f95b44220b1c829bd33ac0d571",
+      "worktree_sha256": "bfc7e7cf21fde7b44c660c13654bd6040574d6f95b44220b1c829bd33ac0d571",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/blocks/tilted_rack.json",
+      "snapshot_sha256": "ea48783e4545e780decf48e003f1b944a662d3397c7349d57e3759434fa4a08a",
+      "worktree_sha256": "ea48783e4545e780decf48e003f1b944a662d3397c7349d57e3759434fa4a08a",
+      "equal": true
+    },
+    {
+      "path": "runtime/RP/models/entity/tilted_rack.geo.json",
+      "snapshot_sha256": "42af00c3035a21f688d968ae30b6061ff159098840993ed6278df7db91ea06b5",
+      "worktree_sha256": "42af00c3035a21f688d968ae30b6061ff159098840993ed6278df7db91ea06b5",
+      "equal": true
+    },
+    {
+      "path": "runtime/RP/textures/kaleidoscope_tavern/block/deco/tilted_rack.png",
+      "snapshot_sha256": "f2765637938b8d9a8c5134609647aae21d312d6084b981b9f819df2782b697d4",
+      "worktree_sha256": "f2765637938b8d9a8c5134609647aae21d312d6084b981b9f819df2782b697d4",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/blocks/bar_cabinet.json",
+      "snapshot_sha256": "cd41098805aaf66e08c9837c4157ce243225c51d191d8902e34b87987a0640fc",
+      "worktree_sha256": "cd41098805aaf66e08c9837c4157ce243225c51d191d8902e34b87987a0640fc",
+      "equal": true
+    },
+    {
+      "path": "runtime/RP/models/entity/bar_cabinet_single.geo.json",
+      "snapshot_sha256": "712a0256db82efa4b900ab91c81e6b6a80022f8a4675c98831d951bf6541411c",
+      "worktree_sha256": "712a0256db82efa4b900ab91c81e6b6a80022f8a4675c98831d951bf6541411c",
+      "equal": true
+    },
+    {
+      "path": "runtime/RP/textures/kaleidoscope_tavern/block/brew/bar_cabinet.png",
+      "snapshot_sha256": "e67f5aa6995e6c6e843829bfa246db25aef50862d06ab147d16784d84cd9e6b0",
+      "worktree_sha256": "e67f5aa6995e6c6e843829bfa246db25aef50862d06ab147d16784d84cd9e6b0",
+      "equal": true
+    },
+    {
+      "path": "runtime/RP/models/entity/bar_cabinet_left.geo.json",
+      "snapshot_sha256": "78d775c227339ed0215e96c686e884a16c3b4664a02a01470e87bc4a46fee6d0",
+      "worktree_sha256": "78d775c227339ed0215e96c686e884a16c3b4664a02a01470e87bc4a46fee6d0",
+      "equal": true
+    },
+    {
+      "path": "runtime/RP/models/entity/bar_cabinet_middle.geo.json",
+      "snapshot_sha256": "70fde476b0550148ceda368459a12e828c209e3cf75ec81ad48eb5fb806b8c89",
+      "worktree_sha256": "70fde476b0550148ceda368459a12e828c209e3cf75ec81ad48eb5fb806b8c89",
+      "equal": true
+    },
+    {
+      "path": "runtime/RP/models/entity/bar_cabinet_right.geo.json",
+      "snapshot_sha256": "baf543f56003459b12f6ed55ca006dac533444e9d5900c11072de8cbfb7d7881",
+      "worktree_sha256": "baf543f56003459b12f6ed55ca006dac533444e9d5900c11072de8cbfb7d7881",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/blocks/cellar_cabinet.json",
+      "snapshot_sha256": "8f6f9c5b790019a1b665bf40134fc6bf8703389be38f269120f3d232007fe4e9",
+      "worktree_sha256": "8f6f9c5b790019a1b665bf40134fc6bf8703389be38f269120f3d232007fe4e9",
+      "equal": true
+    },
+    {
+      "path": "runtime/RP/models/entity/cellar_cabinet_single.geo.json",
+      "snapshot_sha256": "1ec046bf527a81b718295304d3c77449b954865710e6f57fea82f4f72237cde0",
+      "worktree_sha256": "1ec046bf527a81b718295304d3c77449b954865710e6f57fea82f4f72237cde0",
+      "equal": true
+    },
+    {
+      "path": "runtime/RP/models/entity/cellar_cabinet_left.geo.json",
+      "snapshot_sha256": "a6a728ce38a00e5111e1ad9e0267cd0ee4aa4f05e76f3bef2a4b6b0b2d69e495",
+      "worktree_sha256": "a6a728ce38a00e5111e1ad9e0267cd0ee4aa4f05e76f3bef2a4b6b0b2d69e495",
+      "equal": true
+    },
+    {
+      "path": "runtime/RP/models/entity/cellar_cabinet_middle.geo.json",
+      "snapshot_sha256": "2c7786fc51b53557b2ceabfef8e2e21aaab73175ab71d409e92d98124ef2059d",
+      "worktree_sha256": "2c7786fc51b53557b2ceabfef8e2e21aaab73175ab71d409e92d98124ef2059d",
+      "equal": true
+    },
+    {
+      "path": "runtime/RP/models/entity/cellar_cabinet_right.geo.json",
+      "snapshot_sha256": "dd44c28f180435e5c7708dbcb3c1246251ae27e7b70354a7bfbd2964bd67fab0",
+      "worktree_sha256": "dd44c28f180435e5c7708dbcb3c1246251ae27e7b70354a7bfbd2964bd67fab0",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/blocks/glass_bar_cabinet.json",
+      "snapshot_sha256": "f09de7a46b77c25635a2c69489ae8b1a632b01ee8defee8240f631eecaeb945a",
+      "worktree_sha256": "f09de7a46b77c25635a2c69489ae8b1a632b01ee8defee8240f631eecaeb945a",
+      "equal": true
+    },
+    {
+      "path": "runtime/RP/models/entity/glass_bar_cabinet_single.geo.json",
+      "snapshot_sha256": "0b83c3aa5b68ec87b57510f0a1f201ecbbdc376efa75df80e10918578e569f6d",
+      "worktree_sha256": "0b83c3aa5b68ec87b57510f0a1f201ecbbdc376efa75df80e10918578e569f6d",
+      "equal": true
+    },
+    {
+      "path": "runtime/RP/textures/kaleidoscope_tavern/block/brew/glass_bar_cabinet.png",
+      "snapshot_sha256": "e580d1027a0bc3d47123768a59f9ce0fec6f9523c44d3ff42325485a1c78f422",
+      "worktree_sha256": "e580d1027a0bc3d47123768a59f9ce0fec6f9523c44d3ff42325485a1c78f422",
+      "equal": true
+    },
+    {
+      "path": "runtime/RP/models/entity/glass_bar_cabinet_left.geo.json",
+      "snapshot_sha256": "ff52d5cf5853b7a27466b61839b758a364b84d5d72451c91586737888ddd9af9",
+      "worktree_sha256": "ff52d5cf5853b7a27466b61839b758a364b84d5d72451c91586737888ddd9af9",
+      "equal": true
+    },
+    {
+      "path": "runtime/RP/models/entity/glass_bar_cabinet_middle.geo.json",
+      "snapshot_sha256": "c0b82a9b40b35dddac5fbfccaef7a86a599b40a2f33aceecb0c9cfdcaabfa5c2",
+      "worktree_sha256": "c0b82a9b40b35dddac5fbfccaef7a86a599b40a2f33aceecb0c9cfdcaabfa5c2",
+      "equal": true
+    },
+    {
+      "path": "runtime/RP/models/entity/glass_bar_cabinet_right.geo.json",
+      "snapshot_sha256": "355ba09c8d6c2c1978226e4a30e996de96e23d14b89f4d0bf7af0a82447c01e7",
+      "worktree_sha256": "355ba09c8d6c2c1978226e4a30e996de96e23d14b89f4d0bf7af0a82447c01e7",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/blocks/glassware_holder.json",
+      "snapshot_sha256": "814f7a5b59c753b4814ff7336ffe6074e874b99e1cdece5c201ad4e21cd6400f",
+      "worktree_sha256": "814f7a5b59c753b4814ff7336ffe6074e874b99e1cdece5c201ad4e21cd6400f",
+      "equal": true
+    },
+    {
+      "path": "runtime/RP/models/entity/runtime_glassware_holder.geo.json",
+      "snapshot_sha256": "34576dfc8cb7803b867d640059d86158c467d67acb21a6b73dd532ef90301c7f",
+      "worktree_sha256": "34576dfc8cb7803b867d640059d86158c467d67acb21a6b73dd532ef90301c7f",
+      "equal": true
+    },
+    {
+      "path": "runtime/RP/textures/kaleidoscope_tavern/block/deco/glassware_holder.png",
+      "snapshot_sha256": "b76b74300136ecc606a3a53ff94798a29644203f224800db9f00e8a95cfa3e5b",
+      "worktree_sha256": "b76b74300136ecc606a3a53ff94798a29644203f224800db9f00e8a95cfa3e5b",
+      "equal": true
+    },
+    {
+      "path": "runtime/RP/textures/kaleidoscope_tavern/block/mixology/empty_glassware.png",
+      "snapshot_sha256": "257f85b15ef4480ab800304ccd73d2627638cf246c95e2003057b31886f21673",
+      "worktree_sha256": "257f85b15ef4480ab800304ccd73d2627638cf246c95e2003057b31886f21673",
+      "equal": true
+    },
+    {
+      "path": "runtime/RP/entity/runtime_holder_bottle_visual.entity.json",
+      "snapshot_sha256": "117a8c13260f1c4999c78011a95f42bc8237f843101922d9fceeb48ae252dbcd",
+      "worktree_sha256": "117a8c13260f1c4999c78011a95f42bc8237f843101922d9fceeb48ae252dbcd",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/entities/holder_bottle_visual.json",
+      "snapshot_sha256": "150a95bf5edd7c16d6afb5526cf8270c99c70856535e98594dcba3dd2a2f89bf",
+      "worktree_sha256": "150a95bf5edd7c16d6afb5526cf8270c99c70856535e98594dcba3dd2a2f89bf",
+      "equal": true
+    },
+    {
+      "path": "runtime/RP/render_controllers/runtime_holder.render_controllers.json",
+      "snapshot_sha256": "2e5226d826f052e1edda1df4ad2661362371d60ad97e28cb045f34e7543bc3cb",
+      "worktree_sha256": "2e5226d826f052e1edda1df4ad2661362371d60ad97e28cb045f34e7543bc3cb",
+      "equal": true
+    },
+    {
+      "path": "runtime/RP/models/entity/luminous_bride_1.geo.json",
+      "snapshot_sha256": "6557407955161cc933db87557a62dee08eb43cd638a6e2176b893a0c7da3d2a9",
+      "worktree_sha256": "6557407955161cc933db87557a62dee08eb43cd638a6e2176b893a0c7da3d2a9",
+      "equal": true
+    },
+    {
+      "path": "runtime/RP/textures/kaleidoscope_tavern/block/brew/luminous_bride.png",
+      "snapshot_sha256": "6fa826ae5e18f525f10ba523b13ab4b9494728be89b3af84eccd2ac57ae58370",
+      "worktree_sha256": "6fa826ae5e18f525f10ba523b13ab4b9494728be89b3af84eccd2ac57ae58370",
+      "equal": true
+    },
+    {
+      "path": "runtime/RP/models/entity/wine_1.geo.json",
+      "snapshot_sha256": "330b306571e4bec1fedad11f2ef455e1df0f511597d1d2d9e6ad36a9c291cab7",
+      "worktree_sha256": "330b306571e4bec1fedad11f2ef455e1df0f511597d1d2d9e6ad36a9c291cab7",
+      "equal": true
+    },
+    {
+      "path": "runtime/RP/textures/kaleidoscope_tavern/block/brew/wine.png",
+      "snapshot_sha256": "b5615c0411c284f826f702a77d8e87eed645a43d3a6c893f5a194b8f7082a3fe",
+      "worktree_sha256": "b5615c0411c284f826f702a77d8e87eed645a43d3a6c893f5a194b8f7082a3fe",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/holder.js",
+      "snapshot_sha256": "c453a8b68eacdaaa1bc4bc634d209c3675a8e00fe77b3b1d7509db055f4f4e58",
+      "worktree_sha256": "c453a8b68eacdaaa1bc4bc634d209c3675a8e00fe77b3b1d7509db055f4f4e58",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/extension-content.js",
+      "snapshot_sha256": "58725676113ccc49ff89d465db9b15bf8d88f51e0aa9dd3e6d7eb6f3bf775c6b",
+      "worktree_sha256": "58725676113ccc49ff89d465db9b15bf8d88f51e0aa9dd3e6d7eb6f3bf775c6b",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/data/bottles.js",
+      "snapshot_sha256": "6a1ca4742d59d1fd9de6652641128cd3f5c10db6eac1e2c0ebe97310ebc91e6b",
+      "worktree_sha256": "6a1ca4742d59d1fd9de6652641128cd3f5c10db6eac1e2c0ebe97310ebc91e6b",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/data/drink-effects.js",
+      "snapshot_sha256": "c048fee5a8073964ba9d3c81e115fa1d9d845764388e78893ba33f234f3fba31",
+      "worktree_sha256": "c048fee5a8073964ba9d3c81e115fa1d9d845764388e78893ba33f234f3fba31",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/data/mixology.js",
+      "snapshot_sha256": "c269618c892289b359e7d5067ecca4d9241c47ab4d2aadeb37ae20f33007f3e8",
+      "worktree_sha256": "c269618c892289b359e7d5067ecca4d9241c47ab4d2aadeb37ae20f33007f3e8",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/util.js",
+      "snapshot_sha256": "f7eb593312c97450a715f4003c06008ba852a841454c1b043b091002850c7169",
+      "worktree_sha256": "f7eb593312c97450a715f4003c06008ba852a841454c1b043b091002850c7169",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/bottles.js",
+      "snapshot_sha256": "21f2cf17295a0bf943b62d6b3d7e10e9400a83476517849ccacc82a70434d27b",
+      "worktree_sha256": "21f2cf17295a0bf943b62d6b3d7e10e9400a83476517849ccacc82a70434d27b",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/bedrock/holder.js",
+      "snapshot_sha256": "d05d4ade88d7470dbbd3ee173902ea1a2d7f161f61ad4b3438970cb865fead18",
+      "worktree_sha256": "d05d4ade88d7470dbbd3ee173902ea1a2d7f161f61ad4b3438970cb865fead18",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/bedrock/native-item-storage.js",
+      "snapshot_sha256": "0c50d0529b521eca9b4ba81213207ad82902a6cf6cfd1a9f779a28696500ee4b",
+      "worktree_sha256": "0c50d0529b521eca9b4ba81213207ad82902a6cf6cfd1a9f779a28696500ee4b",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/quality-tooltip.js",
+      "snapshot_sha256": "e20491b299695cc04bc779d2962a2057a2c537a268fa0aaaa6e28b1ef35832cc",
+      "worktree_sha256": "e20491b299695cc04bc779d2962a2057a2c537a268fa0aaaa6e28b1ef35832cc",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/cocktail-colors.js",
+      "snapshot_sha256": "0076a137d139c7d61aa67848129a18567dfcd92cba62295646969387ecc80218",
+      "worktree_sha256": "0076a137d139c7d61aa67848129a18567dfcd92cba62295646969387ecc80218",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/native-item-storage.js",
+      "snapshot_sha256": "c6d9450445f8c4c476fabc47f14945062edb7abd349ac4dccaef518bcf0d8c9d",
+      "worktree_sha256": "c6d9450445f8c4c476fabc47f14945062edb7abd349ac4dccaef518bcf0d8c9d",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/storage-item-projection.js",
+      "snapshot_sha256": "8a550071b6a9761e3e7ecbcaf6f6c717115a8e88e864a295dacb9d27530ea0ee",
+      "worktree_sha256": "8a550071b6a9761e3e7ecbcaf6f6c717115a8e88e864a295dacb9d27530ea0ee",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/tilted-rack.js",
+      "snapshot_sha256": "4a3aac93065626d1a15c5b401b1e89c4fa1a391855664e17c7ee5e289568a36d",
+      "worktree_sha256": "4a3aac93065626d1a15c5b401b1e89c4fa1a391855664e17c7ee5e289568a36d",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/circular-rack.js",
+      "snapshot_sha256": "d2cffbf792ea62a03bfba481ab75c4ba010fc261caaf502757df511bdbb48869",
+      "worktree_sha256": "d2cffbf792ea62a03bfba481ab75c4ba010fc261caaf502757df511bdbb48869",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/cellar-cabinet.js",
+      "snapshot_sha256": "8c4b8b38dfb95999bbaf6a8379b45fce78ef17d2c5d4e86ac0e732360eaf4de4",
+      "worktree_sha256": "8c4b8b38dfb95999bbaf6a8379b45fce78ef17d2c5d4e86ac0e732360eaf4de4",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/bar-cabinet.js",
+      "snapshot_sha256": "e0e02a1ea258c01819d986f890b43b1b6eb7f3a1a7850a903aebf1acc81acfa7",
+      "worktree_sha256": "e0e02a1ea258c01819d986f890b43b1b6eb7f3a1a7850a903aebf1acc81acfa7",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/projectile-parity.js",
+      "snapshot_sha256": "88cbe00e64c54a1a039172ae2683b6558869616fb5420302e6d93d53cc93f4d2",
+      "worktree_sha256": "88cbe00e64c54a1a039172ae2683b6558869616fb5420302e6d93d53cc93f4d2",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/furniture.js",
+      "snapshot_sha256": "7cbabb1fc4ec830851aa1bbf4e6bab08a72cd44f14e2f020920b3c04290e9b08",
+      "worktree_sha256": "7cbabb1fc4ec830851aa1bbf4e6bab08a72cd44f14e2f020920b3c04290e9b08",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/java-placement.js",
+      "snapshot_sha256": "060629854fa80cab887e8dae40642e5a9f745bde7e697d3717755ee4851a5647",
+      "worktree_sha256": "060629854fa80cab887e8dae40642e5a9f745bde7e697d3717755ee4851a5647",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/hit-basis.js",
+      "snapshot_sha256": "f2343c08cbc86dced67ae436c52094cea5bc35af993c605a045b206c1bc8ec1a",
+      "worktree_sha256": "f2343c08cbc86dced67ae436c52094cea5bc35af993c605a045b206c1bc8ec1a",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/bedrock/java-placement-router.js",
+      "snapshot_sha256": "982c3715ee37222690957ddaafabc6da54e7203ad1531a4603807faa1de894a7",
+      "worktree_sha256": "982c3715ee37222690957ddaafabc6da54e7203ad1531a4603807faa1de894a7",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/interaction-claim.js",
+      "snapshot_sha256": "99d0089205f812265a1c95d86daa82479bb56b9faa415867b4a745af399886c6",
+      "worktree_sha256": "99d0089205f812265a1c95d86daa82479bb56b9faa415867b4a745af399886c6",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/bedrock/transactions.js",
+      "snapshot_sha256": "1e6e013c715baca9e2cfe15b620e18d6ed005f3437d58c24db7fd78623d9398b",
+      "worktree_sha256": "1e6e013c715baca9e2cfe15b620e18d6ed005f3437d58c24db7fd78623d9398b",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/bedrock/pickup-overflow.js",
+      "snapshot_sha256": "1e6ad8d354967bf7f7afba703cc86ec7b1f5ab0b5502060fddc43eb7f17a6141",
+      "worktree_sha256": "1e6ad8d354967bf7f7afba703cc86ec7b1f5ab0b5502060fddc43eb7f17a6141",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/bedrock/pickup-feedback.js",
+      "snapshot_sha256": "32e06d1fe165119d31a735ba39f25bacc71dad2b4c4de87621054de613c5162f",
+      "worktree_sha256": "32e06d1fe165119d31a735ba39f25bacc71dad2b4c4de87621054de613c5162f",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/java-random.js",
+      "snapshot_sha256": "18714a924b79609982deb2fd9359dbb9acc1685684150bc758f16fe0ac4cbbb5",
+      "worktree_sha256": "18714a924b79609982deb2fd9359dbb9acc1685684150bc758f16fe0ac4cbbb5",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/bedrock/waterlogging.js",
+      "snapshot_sha256": "7d3fa76a489c4f1476f330a248696f94a5343c271e221c9d2716dc5e65408b4d",
+      "worktree_sha256": "7d3fa76a489c4f1476f330a248696f94a5343c271e221c9d2716dc5e65408b4d",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/bedrock/scripted-block-change.js",
+      "snapshot_sha256": "189d6b8f87c2089b590c849c859cf5f140b4fb615b4d6ac878ab542944e93e57",
+      "worktree_sha256": "189d6b8f87c2089b590c849c859cf5f140b4fb615b4d6ac878ab542944e93e57",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/bedrock/break-feedback.js",
+      "snapshot_sha256": "4ad9e89f3de99b2139978cde2aeacaa94139408d34c0847cda355c389936ac6e",
+      "worktree_sha256": "4ad9e89f3de99b2139978cde2aeacaa94139408d34c0847cda355c389936ac6e",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/break-feedback-engine.js",
+      "snapshot_sha256": "85fc1cacd7fa71fe8136db0210657e9ad160471ff7ffdfc66bdd0edf0bf3931f",
+      "worktree_sha256": "85fc1cacd7fa71fe8136db0210657e9ad160471ff7ffdfc66bdd0edf0bf3931f",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/data/break-feedback.js",
+      "snapshot_sha256": "25d4699daeb3ec8a9c76843880d7e85b450859ff350e4d37b149ec516b7b4067",
+      "worktree_sha256": "25d4699daeb3ec8a9c76843880d7e85b450859ff350e4d37b149ec516b7b4067",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/inventory.js",
+      "snapshot_sha256": "ff21dbc539bf233aec0b07dc707f45ffd8a2cc744151e0c180a00cc0e708c8c2",
+      "worktree_sha256": "ff21dbc539bf233aec0b07dc707f45ffd8a2cc744151e0c180a00cc0e708c8c2",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/bedrock/custom-effects.js",
+      "snapshot_sha256": "ceb04d004acbbb41743479648cd8400851a5c8f1d1bcabc5e39532e03ba0afe5",
+      "worktree_sha256": "ceb04d004acbbb41743479648cd8400851a5c8f1d1bcabc5e39532e03ba0afe5",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/extension-foundation.js",
+      "snapshot_sha256": "bf4ed849835d5f6ef205a231eef7b557ff90ae1c63d395a96840f15af3ea05c1",
+      "worktree_sha256": "bf4ed849835d5f6ef205a231eef7b557ff90ae1c63d395a96840f15af3ea05c1",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/tipsy-visual.js",
+      "snapshot_sha256": "c0c40eb38a25d4f7a4d7a05ce273a9d0150950fd18d77d4326f183714b495407",
+      "worktree_sha256": "c0c40eb38a25d4f7a4d7a05ce273a9d0150950fd18d77d4326f183714b495407",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/bedrock/tipsy-visual.js",
+      "snapshot_sha256": "5e7cb2b1ba06c086fd53f11e1ad8a898b50283c8bb5ffece288f290b4466feb0",
+      "worktree_sha256": "5e7cb2b1ba06c086fd53f11e1ad8a898b50283c8bb5ffece288f290b4466feb0",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/bedrock/combat-effects.js",
+      "snapshot_sha256": "29b0d4e75e0f1ed770e01d6e4eba9370045c95455655e2dae05114d3a63a4602",
+      "worktree_sha256": "29b0d4e75e0f1ed770e01d6e4eba9370045c95455655e2dae05114d3a63a4602",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/bedrock/effect-feedback.js",
+      "snapshot_sha256": "da270ff1430589bcf324b0acee033d557aa4750911d733be49b6b518f5fd49da",
+      "worktree_sha256": "da270ff1430589bcf324b0acee033d557aa4750911d733be49b6b518f5fd49da",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/effect-feedback.js",
+      "snapshot_sha256": "32468dfbda917724a99f219014fbe38e96bf73e53c13f4d6fdb682605a5ae1de",
+      "worktree_sha256": "32468dfbda917724a99f219014fbe38e96bf73e53c13f4d6fdb682605a5ae1de",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/bedrock/feedback-diagnostics.js",
+      "snapshot_sha256": "e776da556900ad529d0af14086413f73e8281f08d6b066d5d88d220c7dbc312b",
+      "worktree_sha256": "e776da556900ad529d0af14086413f73e8281f08d6b066d5d88d220c7dbc312b",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/combat-effects.js",
+      "snapshot_sha256": "23988c0d6c0089ebba832211f2e999202d1ba2f91de8cc765cf3358520ffed51",
+      "worktree_sha256": "23988c0d6c0089ebba832211f2e999202d1ba2f91de8cc765cf3358520ffed51",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/custom-effects.js",
+      "snapshot_sha256": "f8bcb73925d6c3244798c51171c3aa3249eea020c2981422f72baca8cd412092",
+      "worktree_sha256": "f8bcb73925d6c3244798c51171c3aa3249eea020c2981422f72baca8cd412092",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/living-effect-entity.js",
+      "snapshot_sha256": "5ffed0483c22af6aa6e56a57ab040bde8a07abcaf963da34a8f30ee55ae32931",
+      "worktree_sha256": "5ffed0483c22af6aa6e56a57ab040bde8a07abcaf963da34a8f30ee55ae32931",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/data/vanilla-instant-entities.js",
+      "snapshot_sha256": "cbcb4b04a041dcf8a2354e4ab746007a2bfcb4b64eb30d2c77489017203b913f",
+      "worktree_sha256": "cbcb4b04a041dcf8a2354e4ab746007a2bfcb4b64eb30d2c77489017203b913f",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/bedrock/status-aura.js",
+      "snapshot_sha256": "ec262d3bfdc4a1342ea29ab3c067eadb8b4fc18821a7f5ed241b53a1ab00cc96",
+      "worktree_sha256": "ec262d3bfdc4a1342ea29ab3c067eadb8b4fc18821a7f5ed241b53a1ab00cc96",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/status-aura.js",
+      "snapshot_sha256": "50231d097370093266805649b0ed15146b9bab8828530a11f08920ecb234aaf4",
+      "worktree_sha256": "50231d097370093266805649b0ed15146b9bab8828530a11f08920ecb234aaf4",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/effect-colors.js",
+      "snapshot_sha256": "68cdc888bc3b0fdde0c094dcc024c28c44b54602605bf32c0a65bdd9605da6fa",
+      "worktree_sha256": "68cdc888bc3b0fdde0c094dcc024c28c44b54602605bf32c0a65bdd9605da6fa",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/vision-feedback.js",
+      "snapshot_sha256": "6ddeaea67651cab9c02e47057352ef309eb2524f3894c026b6e9041d3ff02003",
+      "worktree_sha256": "6ddeaea67651cab9c02e47057352ef309eb2524f3894c026b6e9041d3ff02003",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/grass-stealth-plants.js",
+      "snapshot_sha256": "f6f5f2dc5da254569847c1f32bb050712595a4440c1f61cf952c67693419d5ea",
+      "worktree_sha256": "f6f5f2dc5da254569847c1f32bb050712595a4440c1f61cf952c67693419d5ea",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/armor-wear.js",
+      "snapshot_sha256": "6df5645c21308027595dabb889b096c6038885278bd40d7ae709b6a8be9cf6fc",
+      "worktree_sha256": "6df5645c21308027595dabb889b096c6038885278bd40d7ae709b6a8be9cf6fc",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/motion-blocking-height.js",
+      "snapshot_sha256": "18a2299ede7f996d263569bd8c1669d43e95a2feb283d75b06ee47d8466c28ac",
+      "worktree_sha256": "18a2299ede7f996d263569bd8c1669d43e95a2feb283d75b06ee47d8466c28ac",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/bedrock/stateful-storage-router.js",
+      "snapshot_sha256": "939d75316fc7737fba77a63fc4db9f66671574a4e9819e10c73dfa1c4ab581b5",
+      "worktree_sha256": "939d75316fc7737fba77a63fc4db9f66671574a4e9819e10c73dfa1c4ab581b5",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/java-use-order.js",
+      "snapshot_sha256": "5755a50fa11d865700e74ab00bb828e8d7871615a7b54f5226ab1f154cbb87a8",
+      "worktree_sha256": "5755a50fa11d865700e74ab00bb828e8d7871615a7b54f5226ab1f154cbb87a8",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/bedrock/protected-break-router.js",
+      "snapshot_sha256": "9763b6c53f3c66fa92403df843e04e4de97b06c040acb6a972c954a576bce750",
+      "worktree_sha256": "9763b6c53f3c66fa92403df843e04e4de97b06c040acb6a972c954a576bce750",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/block-hit.js",
+      "snapshot_sha256": "e7e97fe13ac31861182389746c6dfd913cf053bbf07a77db31286b7d590e09ec",
+      "worktree_sha256": "e7e97fe13ac31861182389746c6dfd913cf053bbf07a77db31286b7d590e09ec",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/aim-hit.js",
+      "snapshot_sha256": "a68e34096d2d5428f0562616e612e117a415df9437bf316caa91a53c0684b47f",
+      "worktree_sha256": "a68e34096d2d5428f0562616e612e117a415df9437bf316caa91a53c0684b47f",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/bedrock/storage-projectile.js",
+      "snapshot_sha256": "95d3092655158822abacf927ba5e9d813d2fc0e12176ddce6f4c6440deace0d4",
+      "worktree_sha256": "95d3092655158822abacf927ba5e9d813d2fc0e12176ddce6f4c6440deace0d4",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/bedrock/interaction-particles.js",
+      "snapshot_sha256": "28bca29f15001539ff88118d301e3bd0a1da92f53321054349ed59eeae1ac64b",
+      "worktree_sha256": "28bca29f15001539ff88118d301e3bd0a1da92f53321054349ed59eeae1ac64b",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/interaction-particles.js",
+      "snapshot_sha256": "b7b67cd3f4df3df4f8fd0eb98607541797f7591ebbf4fd5bd39c912609b57bcd",
+      "worktree_sha256": "b7b67cd3f4df3df4f8fd0eb98607541797f7591ebbf4fd5bd39c912609b57bcd",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/drink-effects.js",
+      "snapshot_sha256": "8ebb3d9944b571b477e7fd4f170d58a1f69ed741cbe6bf405d0ec9e224a25d26",
+      "worktree_sha256": "8ebb3d9944b571b477e7fd4f170d58a1f69ed741cbe6bf405d0ec9e224a25d26",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/bedrock/instant-effects.js",
+      "snapshot_sha256": "3efc5060395fcaac984a2aa87dd12c65df569e4aaf4e2e0fe74ffe0230b6c5a1",
+      "worktree_sha256": "3efc5060395fcaac984a2aa87dd12c65df569e4aaf4e2e0fe74ffe0230b6c5a1",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/java-instant-effect.js",
+      "snapshot_sha256": "9ca5fb62dcefbe36ef8e94e2ac10b591e05eead2ae650086af788180b7e2f11b",
+      "worktree_sha256": "9ca5fb62dcefbe36ef8e94e2ac10b591e05eead2ae650086af788180b7e2f11b",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/bedrock/storage-visual-maintenance.js",
+      "snapshot_sha256": "e08548dab33a8103b8926160baa9504ba211697289c6d2302183dd1c8c813bf2",
+      "worktree_sha256": "e08548dab33a8103b8926160baa9504ba211697289c6d2302183dd1c8c813bf2",
+      "equal": true
+    },
+    {
+      "path": "runtime/RP/entity/runtime_circular_rack_bottle_visual.entity.json",
+      "snapshot_sha256": "604529e5128de2dc4600318332d21702ee5fe4faaa50e45a6c1681bd53348c03",
+      "worktree_sha256": "604529e5128de2dc4600318332d21702ee5fe4faaa50e45a6c1681bd53348c03",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/entities/circular_rack_bottle_visual.json",
+      "snapshot_sha256": "d444479a4c77f8821714a13e4e76b39db19368dc5fe907f1aabc8a1b1d515763",
+      "worktree_sha256": "d444479a4c77f8821714a13e4e76b39db19368dc5fe907f1aabc8a1b1d515763",
+      "equal": true
+    },
+    {
+      "path": "runtime/RP/render_controllers/runtime_circular_rack.render_controllers.json",
+      "snapshot_sha256": "77db72847efda554f6c47fb744dabf5e416f144ebc48314a5a3df96498c1013a",
+      "worktree_sha256": "77db72847efda554f6c47fb744dabf5e416f144ebc48314a5a3df96498c1013a",
+      "equal": true
+    },
+    {
+      "path": "runtime/RP/models/entity/brandy_1.geo.json",
+      "snapshot_sha256": "a451f649620addd476f5e56b84e68c74ea358ea9be1baadf21d757ea16a9ebdc",
+      "worktree_sha256": "a451f649620addd476f5e56b84e68c74ea358ea9be1baadf21d757ea16a9ebdc",
+      "equal": true
+    },
+    {
+      "path": "runtime/RP/textures/kaleidoscope_tavern/block/brew/brandy.png",
+      "snapshot_sha256": "5d7421149033d6937df517c9b717551be8bc20a545108f65d48df8d67844ae85",
+      "worktree_sha256": "5d7421149033d6937df517c9b717551be8bc20a545108f65d48df8d67844ae85",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/bedrock/circular-rack.js",
+      "snapshot_sha256": "d37f204ec525142a38d3e3cac0c87c76788886bdab5bfadc78b1f6341ff62253",
+      "worktree_sha256": "d37f204ec525142a38d3e3cac0c87c76788886bdab5bfadc78b1f6341ff62253",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/bedrock/java-ambient.js",
+      "snapshot_sha256": "aad430777698482fb0483387b91db1829d6460eab07726d22be82d2015483763",
+      "worktree_sha256": "aad430777698482fb0483387b91db1829d6460eab07726d22be82d2015483763",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/java-ambient-sampling.js",
+      "snapshot_sha256": "e147dc0aed978e1f18fee60efdf2f9265bef6506f1a727fccaa15d76209dedb3",
+      "worktree_sha256": "e147dc0aed978e1f18fee60efdf2f9265bef6506f1a727fccaa15d76209dedb3",
+      "equal": true
+    },
+    {
+      "path": "runtime/RP/entity/runtime_tilted_rack_bottle_visual.entity.json",
+      "snapshot_sha256": "dc17da06353decc545e6b8b8353884bc28c77b951a9099e7924852e12a89b220",
+      "worktree_sha256": "dc17da06353decc545e6b8b8353884bc28c77b951a9099e7924852e12a89b220",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/entities/tilted_rack_bottle_visual.json",
+      "snapshot_sha256": "1adf946f59532a0a5b4d47abf14e9abd7d9705b9956cc15f47bdab7c6b586200",
+      "worktree_sha256": "1adf946f59532a0a5b4d47abf14e9abd7d9705b9956cc15f47bdab7c6b586200",
+      "equal": true
+    },
+    {
+      "path": "runtime/RP/render_controllers/runtime_tilted_rack.render_controllers.json",
+      "snapshot_sha256": "fed764a988b2499c6a6742f046ba347ae464611f33b6f4af39028c13d93cfb6d",
+      "worktree_sha256": "fed764a988b2499c6a6742f046ba347ae464611f33b6f4af39028c13d93cfb6d",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/bedrock/tilted-rack.js",
+      "snapshot_sha256": "56a56075f9206d0c6cf3a29fc4668adb56cdab596f51b2606a6ada8bf59061db",
+      "worktree_sha256": "56a56075f9206d0c6cf3a29fc4668adb56cdab596f51b2606a6ada8bf59061db",
+      "equal": true
+    },
+    {
+      "path": "runtime/RP/entity/runtime_bar_cabinet_bottle_visual.entity.json",
+      "snapshot_sha256": "db4f7f8e2e0a4fe9eda24fa39beabe1bd2948e2f309ca969f1004dff0577d948",
+      "worktree_sha256": "db4f7f8e2e0a4fe9eda24fa39beabe1bd2948e2f309ca969f1004dff0577d948",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/entities/bar_cabinet_bottle_visual.json",
+      "snapshot_sha256": "a0ae298b2b7fe3941421c18768ee8e74a926bca0bf3af34cf60cf1f807a000ab",
+      "worktree_sha256": "a0ae298b2b7fe3941421c18768ee8e74a926bca0bf3af34cf60cf1f807a000ab",
+      "equal": true
+    },
+    {
+      "path": "runtime/RP/render_controllers/runtime_bar_cabinet.render_controllers.json",
+      "snapshot_sha256": "7edb5c8f7858aba928fb4e03c9b9435d2292ab94f98af088fd5158f69fa88c64",
+      "worktree_sha256": "7edb5c8f7858aba928fb4e03c9b9435d2292ab94f98af088fd5158f69fa88c64",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/bedrock/bar-cabinet.js",
+      "snapshot_sha256": "379917c66f734e087714e953d121b7edec6a487e9ced37f4b572b6097a1ce69e",
+      "worktree_sha256": "379917c66f734e087714e953d121b7edec6a487e9ced37f4b572b6097a1ce69e",
+      "equal": true
+    },
+    {
+      "path": "runtime/RP/entity/runtime_cellar_cabinet_bottle_visual.entity.json",
+      "snapshot_sha256": "b05c67d3c92342e11a4add250f5a4142cd3b595d1d829ba18b7f31f1912bf171",
+      "worktree_sha256": "b05c67d3c92342e11a4add250f5a4142cd3b595d1d829ba18b7f31f1912bf171",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/entities/cellar_cabinet_bottle_visual.json",
+      "snapshot_sha256": "fc64c499203e0551e830ca59cc561feba7dc9c2aa6c3e763cbdacec2fc5715e8",
+      "worktree_sha256": "fc64c499203e0551e830ca59cc561feba7dc9c2aa6c3e763cbdacec2fc5715e8",
+      "equal": true
+    },
+    {
+      "path": "runtime/RP/render_controllers/runtime_cellar_cabinet.render_controllers.json",
+      "snapshot_sha256": "63ec5af8111e6af96d9bb10d7df21a982a6e72056a963ba9a09358ab796f4aa6",
+      "worktree_sha256": "63ec5af8111e6af96d9bb10d7df21a982a6e72056a963ba9a09358ab796f4aa6",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/bedrock/cellar-cabinet.js",
+      "snapshot_sha256": "b568a2576ff66f2b0ca1ab13323fde8d9bf9188c147a1d3d3db0d755ed889498",
+      "worktree_sha256": "b568a2576ff66f2b0ca1ab13323fde8d9bf9188c147a1d3d3db0d755ed889498",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/bedrock/furniture.js",
+      "snapshot_sha256": "cc1141b2315b4ed9f1aba51f56c47abba0ef9a9426485d52d81d261a6997bfad",
+      "worktree_sha256": "cc1141b2315b4ed9f1aba51f56c47abba0ef9a9426485d52d81d261a6997bfad",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/storage.js",
+      "snapshot_sha256": "07b7ee337a8649d4a0791882bd84049c61ab6c80e9ea6c235874272545795058",
+      "worktree_sha256": "07b7ee337a8649d4a0791882bd84049c61ab6c80e9ea6c235874272545795058",
+      "equal": true
+    },
+    {
+      "path": "runtime/BP/scripts/core/machines.js",
+      "snapshot_sha256": "cf43c87cfd3d9dfa2e0920ed516ba47ba912135d163b5fafb9aaf9116ab592c3",
+      "worktree_sha256": "cf43c87cfd3d9dfa2e0920ed516ba47ba912135d163b5fafb9aaf9116ab592c3",
+      "equal": true
+    },
+    {
+      "path": "runtime/RP/animations/runtime_storage_bottle.animation.json",
+      "snapshot_sha256": "1422c578eab33404abe356beef5d0e3e0ae098520cb9cc247708929066b28776",
+      "worktree_sha256": "1422c578eab33404abe356beef5d0e3e0ae098520cb9cc247708929066b28776",
+      "equal": true
+    },
+    {
+      "path": "data/storage-render-source.json",
+      "snapshot_sha256": "30380a126eb64526e460de69f592766abb302b199d1feb4471b36c8f6ad0c6bf",
+      "worktree_sha256": "30380a126eb64526e460de69f592766abb302b199d1feb4471b36c8f6ad0c6bf",
+      "equal": true
+    },
+    {
+      "path": "tools/check_storage_rendering.py",
+      "snapshot_sha256": "2556419955e3e73f8dd20b46c4695b02d27d3cd6695b420c694552e5387d930d",
+      "worktree_sha256": "2556419955e3e73f8dd20b46c4695b02d27d3cd6695b420c694552e5387d930d",
+      "equal": true
+    },
+    {
+      "path": "tools/check_glassware_slots.py",
+      "snapshot_sha256": "3c2126ba9bd1501936b7041420f36d475a5d0b975bf6a01d0cce08bb2e4a1f7a",
+      "worktree_sha256": "3c2126ba9bd1501936b7041420f36d475a5d0b975bf6a01d0cce08bb2e4a1f7a",
+      "equal": true
+    },
+    {
+      "path": "docs/evidence/t175-rack-lift/native-review.json",
+      "snapshot_sha256": "1c29da88c4704054ff67da1609d720b36489d6650319e3e6791108eba2c6aeb1",
+      "worktree_sha256": "1c29da88c4704054ff67da1609d720b36489d6650319e3e6791108eba2c6aeb1",
+      "equal": true
+    },
+    {
+      "path": "runtime/RP/models/entity/item_display_tilted_rack.geo.json",
+      "snapshot_sha256": "93030bd4f8289be846eea898052b36ed81c33626355c8e42fbcac95a73968ff7",
+      "worktree_sha256": "93030bd4f8289be846eea898052b36ed81c33626355c8e42fbcac95a73968ff7",
+      "equal": true
+    }
+  ],
+  "scope": "Only the selected local files were rechecked. No remote canonical HEAD lookup, lazy fetching, optional author archive fetch, runtime-wide compatibility test, or engine execution occurred."
+}

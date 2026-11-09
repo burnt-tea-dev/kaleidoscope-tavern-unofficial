@@ -1,0 +1,21 @@
+{
+  "validated_at_utc": "2026-11-09T04:04:19.701796+00:00",
+  "accepted_jpegs": 27,
+  "diagnostic_jpegs_excluded": 19,
+  "all_accepted_dimensions": [
+    1188,
+    848
+  ],
+  "all_accepted_format": "JPEG",
+  "all_scenes_and_frozen_inputs_unchanged": true,
+  "errors": [],
+  "identical_raw_capture_groups": [
+    [
+      "18-cellar-east-source-bottles-only.jpg",
+      "19-cellar-east-current-bottles-only.jpg"
+    ]
+  ],
+  "identical_group_explanation": "Cellar source/current East bottle-only screenshots were captured separately; their pictured projection is identical, including UI. No screenshot was duplicated to stand in for another capture.",
+  "screenshots_26_27_dirty_origin": "Temporary visibility isolation of the four sparse glassware root groups; discarded without saving.",
+  "gui_interaction_after_handoff": false
+}
