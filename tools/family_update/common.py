@@ -301,6 +301,12 @@ def source_state(verify_remote=False):
             assert commit==hold['commit'] and config['version']==hold['version'] and config['source_trees']==hold['source_trees'],'Held revision differs from canonical declaration'
         row = {'path': str(path), 'commit': commit, 'tree': git(path, 'rev-parse', 'HEAD^{tree}'), 'repository': config['repository'], 'version': config['version'], 'baseline_sha256': sha(path / 'baseline.json'), 'source_trees': config['source_trees']}
         if verify_remote:
+            # CI evidence resolves the pinned PR's head tree, which may not be
+            # reachable from main after a squash merge.
+            numbers = [CONFIG.get('pull_requests', {}).get(name),
+                       CONFIG.get('runtime_ci_pull_requests', {}).get(name)]
+            for number in sorted({number for number in numbers if number}):
+                git(path, 'fetch', '--quiet', '--no-tags', 'origin', f'refs/pull/{int(number)}/head')
             if name == 'extension':
                 from family_update.repository_identity import current_name, verify_remote as verify_repository
                 target=read(path/'.repo-target.json')
