@@ -1,0 +1,44 @@
+(node:12) ExperimentalWarning: `--experimental-loader` may be removed in the future; instead use `register()`:
+--import 'data:text/javascript,import { register } from "node:module"; import { pathToFileURL } from "node:url"; register("./tools/foundation/mock-loader.mjs", pathToFileURL("./")); register("./tools/foundation/mock-loader.mjs", pathToFileURL("./"));'
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ Adventure board dye, glow, ink, wax and flower style commit once and preserve existing content (10.012338ms)
+✔ Adventure ModalForm edits retain raw newlines and alignments, with exact root-origin reach (9.737706ms)
+✔ opening and saving existing literal backslashes does not change board paragraphs (1.138339ms)
+✔ submitting raw multiline text never decodes a literal backslash-n (0.888044ms)
+✔ all three board editors keep complete raw seeds beyond the old native 100-character cap (15.534042ms)
+✔ large chalkboard roots share one form and form submission rechecks mode, range and stale data (1.392952ms)
+✔ board save failure restores complete material and prior data, then releases the gesture for retry (3.251087ms)
+✔ committed board data survives glyph failure and native echoes without consuming material twice (2.371071ms)
+✔ flower style rolls back a partial pair change and preserves metadata on failure (3.744444ms)
+✔ native held board use does not place items; secondary use and foreign cancellation stay untouched (8.665626ms)
+✔ Adventure board placement and breaking stay prohibited; Spectator ordinary use is rejected (1.874491ms)
+✔ Adventure can wax and unwax trellises without spending honeycomb or axe durability, matching Java (2.535959ms)
+✔ Adventure grape planting and shearing work, while Spectator, construction and break recovery remain locked (2.895319ms)
+✔ Adventure ripe harvesting and wild-vine clipping retain drops and tool wear, and failed drop rolls back (0.957819ms)
+✔ unbreakable shears retain their native stack when clip at damage 12 (0.389354ms)
+✔ unbreakable shears retain their native stack when clip at damage 237 (0.218699ms)
+✔ unbreakable shears retain their native stack when prune at damage 12 (0.514783ms)
+✔ unbreakable shears retain their native stack when prune at damage 237 (0.501654ms)
+✔ unbreakable shears retain their native stack when harvest at damage 12 (0.396004ms)
+✔ unbreakable shears retain their native stack when harvest at damage 237 (0.361202ms)
+✔ both actual wild-vine components register immediate break callbacks and retain growth ticks (0.259329ms)
+✔ Survival wild-vine breaks yield one grapevine with empty hand, dirt or a tool, preserving held metadata (2.140074ms)
+✔ Creative and disabled tile drops discard the clicked vine drop (0.791358ms)
+✔ waxed PASS allows scripted item placement and its itemUse echo cannot place or sound twice (2.319764ms)
+✔ waxed PASS supports itemUse-only routing, while native held after callbacks never replay placement (0.645509ms)
+✔ waxed PASS leaves native item placement available and coalesces halves even after the held count changes (0.606961ms)
+✔ waxed PASS preserves external cancel and secondary use, and failed item placement can retry immediately (0.761443ms)
+✔ initial root-range PASS is quiet and permits item routing, while flower styles precede text range and wax (0.726371ms)
+✔ queued text rechecks distance, and the successful final honeycomb does not become an upper-half locked echo (0.966982ms)
+✔ short grass transforms both board halves once in Survival (0.428654ms)
+✔ short grass transforms both board halves once in Adventure (0.278809ms)
+✔ short grass transforms both board halves once in Creative (0.265078ms)
+✔ grass board recipe and unlock use the same short plant as pinned Java, not the grass block alias (0.95892ms)
+ℹ tests 33
+ℹ suites 0
+ℹ pass 33
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 515.27773

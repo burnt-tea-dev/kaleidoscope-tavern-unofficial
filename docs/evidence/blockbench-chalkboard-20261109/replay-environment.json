@@ -1,0 +1,11 @@
+{
+  "python": "3.12.14",
+  "numpy": "2.3.5",
+  "pillow": "13.0.0",
+  "threads": 1,
+  "network": false,
+  "gui": false,
+  "engine": false,
+  "boundary_tests": 16,
+  "boundary_tests_passed": true
+}

@@ -1,0 +1,8 @@
+{
+  "baseline_commit": "cedfaedf6140bae61b24afb658869b1d0e6ea1a9",
+  "verified_runtime_files": 3644,
+  "exact_git_blob_sha1_verified": true,
+  "network": false,
+  "source_checkout_forge_head": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+  "javac": "Existing verified javac21.0.13; available only on single-command PATH for required aggregate, no install."
+}

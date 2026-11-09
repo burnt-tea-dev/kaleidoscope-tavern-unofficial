@@ -1,0 +1,42 @@
+{
+  "status": "passed",
+  "archive_members": 1043,
+  "archive_parts": 28,
+  "gui": {
+    "original": {
+      "raw_jpegs": 29,
+      "frozen_preparation_files": 863,
+      "bounded_editor_review": true,
+      "engine_reviewed": false
+    },
+    "candidate": {
+      "raw_jpegs": 52,
+      "frozen_preparation_files": 85,
+      "bounded_editor_review": true,
+      "engine_reviewed": false
+    }
+  },
+  "audits": {
+    "original": {
+      "inputs": 841,
+      "scenes": 7,
+      "meshes": 392,
+      "faces": 2056,
+      "vertices": 8224,
+      "max_vertex_error": 1.4210854715202004e-14,
+      "max_uv_error": 0.0
+    },
+    "candidate": {
+      "inputs_verified": 42,
+      "saved_scenes": 16,
+      "saved_meshes": 72,
+      "saved_faces": 304,
+      "saved_vertices": 1216,
+      "max_vertex_error": 7.993605777301127e-15,
+      "max_uv_error": 0.0,
+      "original_files_preserved": 863
+    }
+  },
+  "engine_reviewed": false,
+  "bottom_v_visual_proof": false
+}

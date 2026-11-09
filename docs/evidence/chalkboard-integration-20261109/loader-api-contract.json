@@ -1,0 +1,31 @@
+{
+  "branches": [
+    {
+      "branch": "forge",
+      "properties": {
+        "minecraft_version": "1.20.1",
+        "forge_version": "47.3.0",
+        "mod_id": "kaleidoscope_tavern",
+        "mod_license": "BSD-3-Clause + CC BY-NC-SA 4.0",
+        "mod_version": "1.2.0-forge+mc1.20.1"
+      }
+    },
+    {
+      "branch": "neoforge",
+      "properties": {
+        "minecraft_version": "1.21.1",
+        "neo_version": "21.1.152",
+        "mod_id": "kaleidoscope_tavern",
+        "mod_license": "BSD-3-Clause + CC BY-NC-SA 4.0",
+        "mod_version": "1.2.0-neoforge+mc1.21.1"
+      }
+    }
+  ],
+  "source_renderer_identity": "Both loader branches construct SmallChalkboardModel with SmallChalkboardModel.LAYER_LOCATION for small and LargeChalkboardModel.LAYER_LOCATION for large. Both render entityCutoutNoCull with the same translate/ZN/YN pose chain. Forge RGBA white arguments become Neo packed-white -1.",
+  "mirror": false,
+  "source_deformation": 0,
+  "native_api_dependencies_unchanged": true,
+  "native_materials_unchanged": true,
+  "material_or_engine_acceptance": false,
+  "native_manifest_identity_check": "Both manifest JSONs equal merged base after normalizing only paired version217 to216; UUIDs, engine requirements and API dependencies are unchanged."
+}

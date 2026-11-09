@@ -1,0 +1,64 @@
+Original local source: otc-appliance-visual-prep-20261108/review-decoder-candidate/official-source/js__util__three_custom.js.txt
+Full source SHA256: 2e4d460ba30003e6906b474f4cbca547e8b5c2d1cdae7bd2737d91196be36131
+Lines 1-61
+import { THREE } from "../lib/libs";
+
+THREE.BufferGeometry.prototype.setShape = function(from, to) {
+	let {position} = this.attributes;
+
+	// East
+	position.array.set([
+		to[0], to[1], to[2],
+		to[0], to[1], from[2],
+		to[0], from[1], to[2],
+		to[0], from[1], from[2],
+	], 0)
+	// West
+	position.array.set([
+		from[0], to[1], from[2],
+		from[0], to[1], to[2],
+		from[0], from[1], from[2],
+		from[0], from[1], to[2],
+	], 12)
+
+	// Up
+	position.array.set([
+		from[0], to[1], from[2],
+		to[0], to[1], from[2],
+		from[0], to[1], to[2],
+		to[0], to[1], to[2],
+	], 24)
+	// Down
+	position.array.set([
+		from[0], from[1], to[2],
+		to[0], from[1], to[2],
+		from[0], from[1], from[2],
+		to[0], from[1], from[2],
+	], 36)
+
+	// South
+	position.array.set([
+		from[0], to[1], to[2],
+		to[0], to[1], to[2],
+		from[0], from[1], to[2],
+		to[0], from[1], to[2],
+	], 48)
+	// North
+	position.array.set([
+		to[0], to[1], from[2],
+		from[0], to[1], from[2],
+		to[0], from[1], from[2],
+		from[0], from[1], from[2],
+	], 60)
+
+	position.needsUpdate = true;
+}
+Object.assign( THREE.Euler.prototype, {
+	setFromDegreeArray: function ( arr, invert ) {
+
+		this._x = Math.degToRad(arr[0]) * (invert ? -1 : 1);
+		this._y = Math.degToRad(arr[1]) * (invert ? -1 : 1);
+		this._z = Math.degToRad(arr[2]) * (invert ? -1 : 1);
+
+		this._onChangeCallback();
+

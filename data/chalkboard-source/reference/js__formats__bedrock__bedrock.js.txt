@@ -1,0 +1,99 @@
+Original local source: otc-customer-remaining-prep-20261109/official-source/js__formats__bedrock__bedrock.js.txt
+Original SHA256: d77fa9edfaaa042cd5f72211aea34cce19ff88ec477364d9bbc237355374d347
+Lines 685-780
+	function parseCube(s, group, bone_data) {
+		var base_cube = new Cube({
+			name: s.name || group.name,
+			autouv: 0,
+			color: group.color,
+			rotation: s.rotation,
+			origin: s.pivot
+		})
+		base_cube.rotation.forEach(function(br, axis) {
+			if (axis != 2) base_cube.rotation[axis] *= -1
+		})
+		base_cube.origin[0] *= -1;
+		if (s.origin) {
+			base_cube.from.V3_set(s.origin)
+			base_cube.from[0] = -(base_cube.from[0] + s.size[0])
+			if (s.size) {
+				base_cube.to[0] = s.size[0] + base_cube.from[0]
+				base_cube.to[1] = s.size[1] + base_cube.from[1]
+				base_cube.to[2] = s.size[2] + base_cube.from[2]
+			}
+		}
+		if (s.uv instanceof Array) {
+			base_cube.uv_offset[0] = s.uv[0]
+			base_cube.uv_offset[1] = s.uv[1]
+			base_cube.box_uv = true;
+		} else if (s.uv) {
+			base_cube.box_uv = false;
+			for (var key in base_cube.faces) {
+				var face = base_cube.faces[key]
+				if (s.uv[key]) {
+					face.extend({
+						material_name: s.uv[key].material_instance,
+						uv: [
+							s.uv[key].uv[0],
+							s.uv[key].uv[1]
+						],
+						rotation: s.uv[key].uv_rotation
+					})
+					if (s.uv[key].uv_size) {
+						face.uv_size = [
+							s.uv[key].uv_size[0],
+							s.uv[key].uv_size[1]
+						]
+					} else {
+						base_cube.autouv = 1;
+						base_cube.mapAutoUV();
+					}
+					if (key == 'up' || key == 'down') {
+						face.uv = [face.uv[2], face.uv[3], face.uv[0], face.uv[1]]
+					}
+				} else {
+					face.texture = null;
+					face.uv = [0, 0, 0, 0],
+					face.rotation = 0;
+				}
+			}
+			
+		}
+		let inflate = s.inflate ?? bone_data?.inflate
+		if (typeof inflate === 'number') {
+			base_cube.inflate = inflate;
+		}
+		if (s.mirror === undefined) {
+			base_cube.mirror_uv = group.mirror_uv;
+		} else {
+			base_cube.mirror_uv = s.mirror === true;
+		}
+		base_cube.addTo(group).init();
+		return base_cube;
+	}
+	function parseBone(b, bones, parent_list) {
+		var group = new Group({
+			name: b.name,
+			origin: b.pivot,
+			rotation: b.rotation,
+			material: b.material,
+			bedrock_binding: b.binding,
+			color: Group.all.length%markerColors.length
+		}).init()
+		group.createUniqueName();
+		bones[b.name.toLowerCase()] = group
+		if (b.pivot) {
+			group.origin[0] *= -1
+		}
+		group.rotation.forEach(function(br, axis) {
+			if (axis !== 2) group.rotation[axis] *= -1
+		})
+		
+		group.mirror_uv = b.mirror === true
+		group.reset = b.reset === true
+
+		if (b.cubes) {
+			b.cubes.forEach(function(s) {
+				parseCube(s, group, b)
+			})
+		}

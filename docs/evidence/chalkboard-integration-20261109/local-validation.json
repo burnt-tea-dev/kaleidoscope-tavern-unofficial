@@ -1,0 +1,77 @@
+{
+  "version": "0.6.217",
+  "base": "d72b7f572d7da5bdc78e2c33bfc3c73b4d17b5db",
+  "formal_aggregate": {
+    "command": "PATH=<existing verified javac directory>:$PATH python -B tools/check_release.py --java-source <clean Forge c4ec1880 checkout> --baseline <cedfaedf original integration baseline>",
+    "exit_code": 0,
+    "finished_utc": "2026-11-09T05:07:55Z",
+    "default_node_parallelism_preserved": true,
+    "conditional_skips": [
+      "\ufe63 paired World Liquor timed effects use host state and existing localized names (0.198127ms) # SKIP"
+    ],
+    "skip_reason": "Existing paired World Liquor timed-effects test requires LIQUOR_SOURCE, unset in this standalone aggregate. No new skip or bypass.",
+    "static_json_files": 2074,
+    "geometries": 1254,
+    "engine_or_gameplay_acceptance": false
+  },
+  "targeted_receipt": "targeted-validation.json",
+  "portable_evidence_receipt": "portable-evidence.json",
+  "runtime_geometry_changed_files": 7,
+  "unchanged_geometry_control": "runtime/RP/models/entity/java_chalk_large_1_1.geo.json",
+  "runtime_other_changes": "Only required paired version identity in BP/RP manifests, build-version.js and guide payload version.",
+  "frozen": "See freeze.json; packaging and clean-commit/archive receipts are separate delivery outputs.",
+  "logs": {
+    "raw/publication-tests.log": {
+      "bytes": 106,
+      "sha256": "c6352adff70a6982c739a1cd77bbb43d2425eefd2dc2112b92b0ceebf2a6ca31"
+    },
+    "raw/formal-aggregate.log": {
+      "bytes": 56704,
+      "sha256": "6642300c277931f81a6a4d8e3c2376f8d39c852be2d408319315e708e361008b"
+    },
+    "raw/baseline-gate-tests.log": {
+      "bytes": 119,
+      "sha256": "5bda26208758a384656b0ceb6a291bb9088d145ea723dcb258eb346816665cce"
+    },
+    "raw/tests.log": {
+      "bytes": 105,
+      "sha256": "10ee3622c01a1d5cf96bfd7113c60095bfa1b27843417cfb397b318675c16055"
+    },
+    "raw/reference-identity.log": {
+      "bytes": 134,
+      "sha256": "f5d1e698595ce7017ad59c5f05d5d04623768d92d242a44296608a19835bef7b"
+    },
+    "raw/release-cli.log": {
+      "bytes": 113,
+      "sha256": "c10a766f3e7a0ec929a21c5527c7ba11e408c88f15e286f1698166ace027bc2f"
+    },
+    "raw/board-layout.log": {
+      "bytes": 107,
+      "sha256": "5af7ca6cdb29551bcad23e544f4525904345969444ae7a7865a7ff822c25b09a"
+    },
+    "raw/surface.log": {
+      "bytes": 108,
+      "sha256": "8bc674482efe44b5c7480a798e2ab2849d86e9df4bbe5aa3549426bf40b7a380"
+    },
+    "raw/board-interaction-corrected.tap": {
+      "bytes": 3962,
+      "sha256": "c5ce908af11d1305b240b46ac63fb1602200fe5fe73234d2f6e29a50873d8feb"
+    },
+    "raw/pressing-tests.log": {
+      "bytes": 107,
+      "sha256": "7cfff4f58b2b22ef410f82a3ca93a6226dcc36d087171baca0f0b3ed56f36986"
+    },
+    "raw/development-gate.log": {
+      "bytes": 74,
+      "sha256": "61ae4181041e78d2ffc426d1763ac76ebbc4911a1b8c1e660305dc79c2e2d85c"
+    },
+    "raw/board-interaction.tap": {
+      "bytes": 1405,
+      "sha256": "d04378088ec58642500bebd90dbf7695d0fb4a5bddd38877725e90da43cee5a6"
+    },
+    "raw/incense-tests.log": {
+      "bytes": 117,
+      "sha256": "9b9e2f9e1382606049d2b06c144bc572e32502ecbe1a4bba5d9c639940773774"
+    }
+  }
+}

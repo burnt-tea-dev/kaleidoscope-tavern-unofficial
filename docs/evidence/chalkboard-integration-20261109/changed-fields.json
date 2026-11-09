@@ -1,0 +1,257 @@
+{
+  "geometry_changes": [
+    {
+      "path": "runtime/RP/models/entity/java_chalk_large_0_0.geo.json",
+      "before_sha256": "277a6a5c96de7219c9b1a6aed80ee3c06f2d78236fae9c15677313df3ae37f2f",
+      "after_sha256": "91712842f46d17ad54c1ae0368b24551f119c95a953062840380345b44fd6205",
+      "changed": true,
+      "exact_delta": [
+        {
+          "path": "/minecraft:geometry/0/bones/0/cubes/0/uv/down/uv/1",
+          "before": 0,
+          "after": 1
+        },
+        {
+          "path": "/minecraft:geometry/0/bones/0/cubes/0/uv/down/uv_size/1",
+          "before": 1,
+          "after": -1
+        },
+        {
+          "path": "/minecraft:geometry/0/bones/0/cubes/0/uv/east",
+          "operation": "add",
+          "after": {
+            "uv": [
+              0,
+              15
+            ],
+            "uv_size": [
+              1,
+              14
+            ]
+          }
+        },
+        {
+          "path": "/minecraft:geometry/0/bones/0/cubes/0/uv/west",
+          "operation": "remove",
+          "before": {
+            "uv": [
+              0,
+              15
+            ],
+            "uv_size": [
+              1,
+              14
+            ]
+          }
+        }
+      ],
+      "all_other_fields_unchanged": true,
+      "north_south_up_unchanged": true
+    },
+    {
+      "path": "runtime/RP/models/entity/java_chalk_large_0_1.geo.json",
+      "before_sha256": "be19f5152bf245ec5aaab95e87e1f0f0ca28f676c59e0d875b767aaa0837043e",
+      "after_sha256": "9758da2109e4d98bcbb38adccb111998d29719d4130012fe13769e45d1d2edec",
+      "changed": true,
+      "exact_delta": [
+        {
+          "path": "/minecraft:geometry/0/bones/0/cubes/0/uv/east",
+          "operation": "add",
+          "after": {
+            "uv": [
+              0,
+              1
+            ],
+            "uv_size": [
+              1,
+              14
+            ]
+          }
+        },
+        {
+          "path": "/minecraft:geometry/0/bones/0/cubes/0/uv/west",
+          "operation": "remove",
+          "before": {
+            "uv": [
+              0,
+              1
+            ],
+            "uv_size": [
+              1,
+              14
+            ]
+          }
+        }
+      ],
+      "all_other_fields_unchanged": true,
+      "north_south_up_unchanged": true
+    },
+    {
+      "path": "runtime/RP/models/entity/java_chalk_large_1_0.geo.json",
+      "before_sha256": "12d511c2fb8486192a7aa0fe9ce0104fd65dd62fe461cfd30ef6a5a961050c35",
+      "after_sha256": "5df26ba54f61394186fb0baa8777a22038da65a4a17bcecff14460720066f219",
+      "changed": true,
+      "exact_delta": [
+        {
+          "path": "/minecraft:geometry/0/bones/0/cubes/0/uv/down/uv/1",
+          "before": 0,
+          "after": 1
+        },
+        {
+          "path": "/minecraft:geometry/0/bones/0/cubes/0/uv/down/uv_size/1",
+          "before": 1,
+          "after": -1
+        }
+      ],
+      "all_other_fields_unchanged": true,
+      "north_south_up_unchanged": true
+    },
+    {
+      "path": "runtime/RP/models/entity/java_chalk_large_1_1.geo.json",
+      "before_sha256": "416a157520911d1cd79b538a68084f50d45725d23492c79e247426e37948748a",
+      "after_sha256": "416a157520911d1cd79b538a68084f50d45725d23492c79e247426e37948748a",
+      "changed": false,
+      "exact_delta": [],
+      "all_other_fields_unchanged": true,
+      "north_south_up_unchanged": true
+    },
+    {
+      "path": "runtime/RP/models/entity/java_chalk_large_2_0.geo.json",
+      "before_sha256": "9d5e7e6e8f894330e2b9e2c01b6133be7db736a79bc27db61b5470a9b47c0abc",
+      "after_sha256": "476fffe19e4216a0ec2a10ee82027fd180cb781ca469fe87ea3dd77871ffec37",
+      "changed": true,
+      "exact_delta": [
+        {
+          "path": "/minecraft:geometry/0/bones/0/cubes/0/uv/down/uv/1",
+          "before": 0,
+          "after": 1
+        },
+        {
+          "path": "/minecraft:geometry/0/bones/0/cubes/0/uv/down/uv_size/1",
+          "before": 1,
+          "after": -1
+        },
+        {
+          "path": "/minecraft:geometry/0/bones/0/cubes/0/uv/east",
+          "operation": "remove",
+          "before": {
+            "uv": [
+              49,
+              15
+            ],
+            "uv_size": [
+              1,
+              14
+            ]
+          }
+        },
+        {
+          "path": "/minecraft:geometry/0/bones/0/cubes/0/uv/west",
+          "operation": "add",
+          "after": {
+            "uv": [
+              49,
+              15
+            ],
+            "uv_size": [
+              1,
+              14
+            ]
+          }
+        }
+      ],
+      "all_other_fields_unchanged": true,
+      "north_south_up_unchanged": true
+    },
+    {
+      "path": "runtime/RP/models/entity/java_chalk_large_2_1.geo.json",
+      "before_sha256": "b58783c268a0d6c29aa2753aea91ee63b819dfb83b75fdca256255d104d79eac",
+      "after_sha256": "34f926a16642d9da93c1c11fe7b20bbc285414c96428815fc3d40568fcfb6fef",
+      "changed": true,
+      "exact_delta": [
+        {
+          "path": "/minecraft:geometry/0/bones/0/cubes/0/uv/east",
+          "operation": "remove",
+          "before": {
+            "uv": [
+              49,
+              1
+            ],
+            "uv_size": [
+              1,
+              14
+            ]
+          }
+        },
+        {
+          "path": "/minecraft:geometry/0/bones/0/cubes/0/uv/west",
+          "operation": "add",
+          "after": {
+            "uv": [
+              49,
+              1
+            ],
+            "uv_size": [
+              1,
+              14
+            ]
+          }
+        }
+      ],
+      "all_other_fields_unchanged": true,
+      "north_south_up_unchanged": true
+    },
+    {
+      "path": "runtime/RP/models/entity/java_chalk_small_0_0.geo.json",
+      "before_sha256": "0ad89710661a092f85bd081a51de07d0a8210d423e858115cc385b5f19a64439",
+      "after_sha256": "f9a3c8bf556099dfc40cbc8b225fbeaf45d8754af342463dc4fd3fe5f1fe3c46",
+      "changed": true,
+      "exact_delta": [
+        {
+          "path": "/minecraft:geometry/0/bones/0/cubes/0/uv/down/uv/1",
+          "before": 0,
+          "after": 1
+        },
+        {
+          "path": "/minecraft:geometry/0/bones/0/cubes/0/uv/down/uv_size/1",
+          "before": 1,
+          "after": -1
+        },
+        {
+          "path": "/minecraft:geometry/0/bones/0/cubes/0/uv/east/uv/0",
+          "before": 17,
+          "after": 0
+        },
+        {
+          "path": "/minecraft:geometry/0/bones/0/cubes/0/uv/west/uv/0",
+          "before": 0,
+          "after": 17
+        }
+      ],
+      "all_other_fields_unchanged": true,
+      "north_south_up_unchanged": true
+    },
+    {
+      "path": "runtime/RP/models/entity/java_chalk_small_0_1.geo.json",
+      "before_sha256": "d197db3047e55c1dc515efb530d7e1e889e655f2df9f0030964be30f85ea2711",
+      "after_sha256": "b0392e84c2a89b81cb039bc1ba28b0dc14e2a2c6c0f6a7524cc82a1162c6a06b",
+      "changed": true,
+      "exact_delta": [
+        {
+          "path": "/minecraft:geometry/0/bones/0/cubes/0/uv/east/uv/0",
+          "before": 17,
+          "after": 0
+        },
+        {
+          "path": "/minecraft:geometry/0/bones/0/cubes/0/uv/west/uv/0",
+          "before": 0,
+          "after": 17
+        }
+      ],
+      "all_other_fields_unchanged": true,
+      "north_south_up_unchanged": true
+    }
+  ],
+  "json_delta_operations": 20,
+  "runtime_nonidentity_scope": "Seven exact candidate geometry copies; all other runtime resources unchanged before paired version synchronization."
+}

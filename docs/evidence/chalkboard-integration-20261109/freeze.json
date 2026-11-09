@@ -1,0 +1,29 @@
+{
+  "version": "0.6.217",
+  "freeze_operations": 1,
+  "base_commit": "d72b7f572d7da5bdc78e2c33bfc3c73b4d17b5db",
+  "source_trees": {
+    "BP": {
+      "sha256": "7c5b1f7bece231d59b7f76697ba478a2008eaf44f4214d6904619a077dcddcb3",
+      "files": 838
+    },
+    "RP": {
+      "sha256": "1a31d6b6a21fdd89f2508c8d97b23431a361d16c75e8b6deb7bfd3913f35d53d",
+      "files": 3232
+    }
+  },
+  "history_append_only": true,
+  "frozen_identity_check": "passed",
+  "no_site_suite": "5 tests passed after freeze, with real dirty-release clean-commit rejection preserved; no Pillow availability or mocks. Clean commit packaging remains the next release boundary.",
+  "native_client_or_engine_verified": false,
+  "logs": {
+    "raw/frozen-identity.log": {
+      "bytes": 37,
+      "sha256": "1e39f5226c6f3be6857054263a270025d555c97584f80d077cde52ecd8c9326b"
+    },
+    "raw/no-site-tests-final.log": {
+      "bytes": 103,
+      "sha256": "19bebe21bf2f6d8dc012f32a7985709b29ca0f06fbf139e55b78544174ce350a"
+    }
+  }
+}

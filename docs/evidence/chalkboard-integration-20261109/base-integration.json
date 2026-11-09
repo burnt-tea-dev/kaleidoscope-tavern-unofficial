@@ -1,0 +1,11 @@
+{
+  "base_commit": "d72b7f572d7da5bdc78e2c33bfc3c73b4d17b5db",
+  "base_tree": "ac150cf99e33037ce7923a35ae0d2a9a4c6ee84d",
+  "base_runtime_tree": "fe2aa4c3c0e4f7b90f6998470cdb2a7b25ef331a",
+  "base_version": "0.6.216",
+  "prior_base": "2e14d0f348e9ad3f93a679d4c66fee1af8ab6051",
+  "N04_docs_additions_preserved": 68,
+  "N04_runtime_unchanged": true,
+  "next_paired_version": "0.6.217",
+  "base_confirmation": "Parent independently confirmed remote main and exact tree after PR618 merge; locally fast-forwarded and all68 new doc bytes compared to Git."
+}
