@@ -1,0 +1,2127 @@
+{
+  "status": "completed_editor_control_review",
+  "reviewed_utc": "2026-11-09T03:01:52.463654+00:00",
+  "application": "Official Blockbench 5.2.2, existing cloud review profile",
+  "window_id": 29360132,
+  "preserved_terminal_id": 41949001,
+  "accepted_model_view_count": 18,
+  "paired_view_count": 9,
+  "supporting_original_JPEG_count": 24,
+  "native_engine_acceptance": false,
+  "runtime_edits": false,
+  "publication": false,
+  "source_policy_proof": "Separate frozen preparation artifacts: ../route-audit.json, ../face-ownership.json, ../proposal.json and ../independent-diff.json. These editor controls do not execute BP material_instances.",
+  "method": "Opened four exact policy-front files, verified native texture index/order and visible Outside setting, captured each Front view, changed only that native texture through supported UI to Inside and Outside, then captured the unchanged camera. Undo restored Outside before the next view and the setting was inspected again. All scene tabs were discarded unsaved.",
+  "invariant_vine_texture": "Texture[2] stayed Outside/Front before and after the native texture[1] toggle. Its 18 north_south face bindings and PNG identity are independently verified in integrity-before.json.",
+  "cameras": {
+    "oblique": {
+      "position_displayed": [
+        -512,
+        264,
+        -512
+      ],
+      "target_displayed": [
+        0,
+        8,
+        0
+      ],
+      "zoom_displayed": 0.1986,
+      "projection": "orthographic",
+      "direction": "From negative world X and Z, above the models.",
+      "axes": "World +X projects screen-left/up; +Z screen-right/up; +Y screen-up.",
+      "pair_sides": "Native screen-left, source screen-right within each pair.",
+      "evidence_method": "Supported Save Angle UI exposed these values; numeric display precision is retained, not an internal matrix. Orthographic checkbox and configured preset projection independently confirmed.",
+      "pair_camera_identity": "Same live camera preserved between Front and Double captures. Only native texture[1] changed; opening and rehiding sidebars restored the same viewport. No camera action occurred within a pair.",
+      "historical_camera_limit": "Same direction as the queue, but no claim of exact historical JPEG camera reconstruction."
+    },
+    "reverse": {
+      "position_displayed": [
+        512,
+        264,
+        512
+      ],
+      "target_displayed": [
+        0,
+        8,
+        0
+      ],
+      "zoom_displayed": 0.1986,
+      "projection": "orthographic",
+      "direction": "From positive world X and Z, above the models.",
+      "axes": "World +X projects screen-right/down; +Z screen-left/down; +Y screen-up.",
+      "pair_sides": "Source screen-left, native screen-right within each pair.",
+      "evidence_method": "Supported Save Angle UI exposed these values; numeric display precision is retained, not an internal matrix. Orthographic checkbox and configured preset projection independently confirmed.",
+      "pair_camera_identity": "Same live camera preserved between Front and Double captures. Only native texture[1] changed; opening and rehiding sidebars restored the same viewport. No camera action occurred within a pair.",
+      "historical_camera_limit": "Same direction as the queue, but no claim of exact historical JPEG camera reconstruction."
+    },
+    "reverse-low": {
+      "position_displayed": [
+        512,
+        -248,
+        512
+      ],
+      "target_displayed": [
+        0,
+        8,
+        0
+      ],
+      "zoom_displayed": 0.1986,
+      "projection": "orthographic",
+      "direction": "From positive world X and Z, below the models.",
+      "axes": "World +X projects screen-right/up; +Z screen-left/up; +Y screen-up.",
+      "pair_sides": "Source screen-left, native screen-right within each pair.",
+      "evidence_method": "Supported Save Angle UI exposed these values; numeric display precision is retained, not an internal matrix. Orthographic checkbox and configured preset projection independently confirmed.",
+      "pair_camera_identity": "Same live camera preserved between Front and Double captures. Only native texture[1] changed; opening and rehiding sidebars restored the same viewport. No camera action occurred within a pair.",
+      "historical_camera_limit": "Same direction as the queue, but no claim of exact historical JPEG camera reconstruction."
+    }
+  },
+  "camera_setup_caveat": "The initial oblique preset definition screenshot contains a typed 0.23 zoom, but every actual observed camera after application read 0.1986. All captions and comparisons use the actual observed 0.1986. No exact historical-camera claim is made. Three supported temporary camera presets were removed afterward.",
+  "pairs": [
+    {
+      "id": "grape-crop-stages-2/oblique",
+      "scene": "grape-crop-stages-2",
+      "view": "oblique",
+      "camera_id": "oblique",
+      "front_file": "grape-crop-stages-2-oblique-front.jpg",
+      "double_file": "grape-crop-stages-2-oblique-double.jpg",
+      "scene_policy_front": "scenes/grape-crop-stages-2--policy-front.bbmodel",
+      "scene_policy_front_sha256": "fa8cf0dbf767f9dfc87dc437abdddbaeedd97914ff364464f10e62b8d686d027",
+      "equivalent_double_file": "scenes/grape-crop-stages-2--old-policy-double.bbmodel",
+      "equivalent_double_sha256": "8ef812c0407219e0e59a9c7bf07e0d15c575500da18720b7e967591036b4ce3d",
+      "variable": "textures[1].render_sides: front -> double",
+      "UI_labels": "Render Sides: Outside -> Inside and Outside",
+      "double_state": "Unsaved UI state of the exact policy-front input; corresponds to the independently verified sole-field delta in old-policy-double. That latter file was not separately imported.",
+      "cases": [
+        {
+          "label": "grape crop stage 4",
+          "block": "grape_crop",
+          "states": {
+            "age": 4
+          },
+          "source_world_offset": [
+            -54,
+            0,
+            0.0
+          ],
+          "native_world_offset": [
+            -26,
+            0,
+            0.0
+          ]
+        },
+        {
+          "label": "grape crop stage 5",
+          "block": "grape_crop",
+          "states": {
+            "age": 5
+          },
+          "source_world_offset": [
+            22,
+            0,
+            0.0
+          ],
+          "native_world_offset": [
+            50,
+            0,
+            0.0
+          ]
+        }
+      ],
+      "observation": "Double visibly adds leaf/fruit coverage to both native crop stages, filling parts of transparent gaps. Source crop silhouettes and pixels remain unchanged. The amount is view- and texture-dependent.",
+      "arrangement": "Stage 5 pair on the left, stage 4 pair on the right.",
+      "no_visible_change": false,
+      "unchanged_controls": "Both source crop stages.",
+      "numeric_camera_evidence": "settings/grape-oblique-camera-observed.jpg",
+      "decoded_pixel_check": {
+        "review_rectangle_xyxy_exclusive": [
+          0,
+          136,
+          1188,
+          740
+        ],
+        "changed_pixels": 7112,
+        "changed_bbox_xyxy_inclusive": [
+          248,
+          272,
+          807,
+          551
+        ],
+        "changes_outside_native_control_rectangles": 0,
+        "regions": {
+          "source_stage5": {
+            "rectangle_xyxy_exclusive": [
+              396,
+              312,
+              550,
+              464
+            ],
+            "changed_decoded_pixels": 0
+          },
+          "source_stage4": {
+            "rectangle_xyxy_exclusive": [
+              816,
+              460,
+              984,
+              624
+            ],
+            "changed_decoded_pixels": 0
+          },
+          "native_stage5": {
+            "rectangle_xyxy_exclusive": [
+              232,
+              260,
+              392,
+              416
+            ],
+            "changed_decoded_pixels": 3438
+          },
+          "native_stage4": {
+            "rectangle_xyxy_exclusive": [
+              656,
+              400,
+              816,
+              560
+            ],
+            "changed_decoded_pixels": 3674
+          }
+        },
+        "meaning": "Read-only comparison of decoded original JPEGs. Counts include JPEG block effects and are not counts of model texels. No comparison image was produced or altered."
+      }
+    },
+    {
+      "id": "grape-crop-stages-2/reverse",
+      "scene": "grape-crop-stages-2",
+      "view": "reverse",
+      "camera_id": "reverse",
+      "front_file": "grape-crop-stages-2-reverse-front.jpg",
+      "double_file": "grape-crop-stages-2-reverse-double.jpg",
+      "scene_policy_front": "scenes/grape-crop-stages-2--policy-front.bbmodel",
+      "scene_policy_front_sha256": "fa8cf0dbf767f9dfc87dc437abdddbaeedd97914ff364464f10e62b8d686d027",
+      "equivalent_double_file": "scenes/grape-crop-stages-2--old-policy-double.bbmodel",
+      "equivalent_double_sha256": "8ef812c0407219e0e59a9c7bf07e0d15c575500da18720b7e967591036b4ce3d",
+      "variable": "textures[1].render_sides: front -> double",
+      "UI_labels": "Render Sides: Outside -> Inside and Outside",
+      "double_state": "Unsaved UI state of the exact policy-front input; corresponds to the independently verified sole-field delta in old-policy-double. That latter file was not separately imported.",
+      "cases": [
+        {
+          "label": "grape crop stage 4",
+          "block": "grape_crop",
+          "states": {
+            "age": 4
+          },
+          "source_world_offset": [
+            -54,
+            0,
+            0.0
+          ],
+          "native_world_offset": [
+            -26,
+            0,
+            0.0
+          ]
+        },
+        {
+          "label": "grape crop stage 5",
+          "block": "grape_crop",
+          "states": {
+            "age": 5
+          },
+          "source_world_offset": [
+            22,
+            0,
+            0.0
+          ],
+          "native_world_offset": [
+            50,
+            0,
+            0.0
+          ]
+        }
+      ],
+      "observation": "Double visibly adds leaf/fruit coverage to both native crop stages, filling parts of transparent gaps. Source crop silhouettes and pixels remain unchanged. The amount is view- and texture-dependent.",
+      "arrangement": "Stage 4 pair on the left, stage 5 pair on the right.",
+      "no_visible_change": false,
+      "unchanged_controls": "Both source crop stages.",
+      "numeric_camera_evidence": "settings/grape-reverse-camera-observed.jpg",
+      "decoded_pixel_check": {
+        "review_rectangle_xyxy_exclusive": [
+          0,
+          136,
+          1188,
+          740
+        ],
+        "changed_pixels": 6687,
+        "changed_bbox_xyxy_inclusive": [
+          384,
+          312,
+          943,
+          591
+        ],
+        "changes_outside_native_control_rectangles": 0,
+        "regions": {
+          "source_stage4": {
+            "rectangle_xyxy_exclusive": [
+              208,
+              250,
+              368,
+              408
+            ],
+            "changed_decoded_pixels": 0
+          },
+          "native_stage4": {
+            "rectangle_xyxy_exclusive": [
+              368,
+              305,
+              536,
+              465
+            ],
+            "changed_decoded_pixels": 3370
+          },
+          "source_stage5": {
+            "rectangle_xyxy_exclusive": [
+              640,
+              400,
+              800,
+              552
+            ],
+            "changed_decoded_pixels": 0
+          },
+          "native_stage5": {
+            "rectangle_xyxy_exclusive": [
+              800,
+              455,
+              960,
+              615
+            ],
+            "changed_decoded_pixels": 3317
+          }
+        },
+        "meaning": "Read-only comparison of decoded original JPEGs. Counts include JPEG block effects and are not counts of model texels. No comparison image was produced or altered."
+      }
+    },
+    {
+      "id": "gold_grape-crop-stages-2/oblique",
+      "scene": "gold_grape-crop-stages-2",
+      "view": "oblique",
+      "camera_id": "oblique",
+      "front_file": "gold_grape-crop-stages-2-oblique-front.jpg",
+      "double_file": "gold_grape-crop-stages-2-oblique-double.jpg",
+      "scene_policy_front": "scenes/gold_grape-crop-stages-2--policy-front.bbmodel",
+      "scene_policy_front_sha256": "ebdd3b2eff4790adaad88b6e6873f2ba42796de9e37c638b2392e4a66b0139ad",
+      "equivalent_double_file": "scenes/gold_grape-crop-stages-2--old-policy-double.bbmodel",
+      "equivalent_double_sha256": "844c19f6b0211e901e4faa7b8e775fa9ae9bec4fdf3488d05242e5fb74acb509",
+      "variable": "textures[1].render_sides: front -> double",
+      "UI_labels": "Render Sides: Outside -> Inside and Outside",
+      "double_state": "Unsaved UI state of the exact policy-front input; corresponds to the independently verified sole-field delta in old-policy-double. That latter file was not separately imported.",
+      "cases": [
+        {
+          "label": "gold_grape crop stage 4",
+          "block": "gold_grape_crop",
+          "states": {
+            "age": 4
+          },
+          "source_world_offset": [
+            -54,
+            0,
+            0.0
+          ],
+          "native_world_offset": [
+            -26,
+            0,
+            0.0
+          ]
+        },
+        {
+          "label": "gold_grape crop stage 5",
+          "block": "gold_grape_crop",
+          "states": {
+            "age": 5
+          },
+          "source_world_offset": [
+            22,
+            0,
+            0.0
+          ],
+          "native_world_offset": [
+            50,
+            0,
+            0.0
+          ]
+        }
+      ],
+      "observation": "Double visibly adds leaf/fruit coverage to both native crop stages, filling parts of transparent gaps. Source crop silhouettes and pixels remain unchanged. The amount is view- and texture-dependent.",
+      "arrangement": "Stage 5 pair on the left, stage 4 pair on the right.",
+      "no_visible_change": false,
+      "unchanged_controls": "Both source crop stages.",
+      "numeric_camera_evidence": "settings/gold-oblique-camera-observed.jpg",
+      "decoded_pixel_check": {
+        "review_rectangle_xyxy_exclusive": [
+          0,
+          136,
+          1188,
+          740
+        ],
+        "changed_pixels": 6964,
+        "changed_bbox_xyxy_inclusive": [
+          240,
+          272,
+          815,
+          551
+        ],
+        "changes_outside_native_control_rectangles": 0,
+        "regions": {
+          "source_stage5": {
+            "rectangle_xyxy_exclusive": [
+              396,
+              312,
+              550,
+              464
+            ],
+            "changed_decoded_pixels": 0
+          },
+          "source_stage4": {
+            "rectangle_xyxy_exclusive": [
+              816,
+              460,
+              984,
+              624
+            ],
+            "changed_decoded_pixels": 0
+          },
+          "native_stage5": {
+            "rectangle_xyxy_exclusive": [
+              232,
+              260,
+              392,
+              416
+            ],
+            "changed_decoded_pixels": 3710
+          },
+          "native_stage4": {
+            "rectangle_xyxy_exclusive": [
+              656,
+              400,
+              816,
+              560
+            ],
+            "changed_decoded_pixels": 3254
+          }
+        },
+        "meaning": "Read-only comparison of decoded original JPEGs. Counts include JPEG block effects and are not counts of model texels. No comparison image was produced or altered."
+      }
+    },
+    {
+      "id": "gold_grape-crop-stages-2/reverse",
+      "scene": "gold_grape-crop-stages-2",
+      "view": "reverse",
+      "camera_id": "reverse",
+      "front_file": "gold_grape-crop-stages-2-reverse-front.jpg",
+      "double_file": "gold_grape-crop-stages-2-reverse-double.jpg",
+      "scene_policy_front": "scenes/gold_grape-crop-stages-2--policy-front.bbmodel",
+      "scene_policy_front_sha256": "ebdd3b2eff4790adaad88b6e6873f2ba42796de9e37c638b2392e4a66b0139ad",
+      "equivalent_double_file": "scenes/gold_grape-crop-stages-2--old-policy-double.bbmodel",
+      "equivalent_double_sha256": "844c19f6b0211e901e4faa7b8e775fa9ae9bec4fdf3488d05242e5fb74acb509",
+      "variable": "textures[1].render_sides: front -> double",
+      "UI_labels": "Render Sides: Outside -> Inside and Outside",
+      "double_state": "Unsaved UI state of the exact policy-front input; corresponds to the independently verified sole-field delta in old-policy-double. That latter file was not separately imported.",
+      "cases": [
+        {
+          "label": "gold_grape crop stage 4",
+          "block": "gold_grape_crop",
+          "states": {
+            "age": 4
+          },
+          "source_world_offset": [
+            -54,
+            0,
+            0.0
+          ],
+          "native_world_offset": [
+            -26,
+            0,
+            0.0
+          ]
+        },
+        {
+          "label": "gold_grape crop stage 5",
+          "block": "gold_grape_crop",
+          "states": {
+            "age": 5
+          },
+          "source_world_offset": [
+            22,
+            0,
+            0.0
+          ],
+          "native_world_offset": [
+            50,
+            0,
+            0.0
+          ]
+        }
+      ],
+      "observation": "Double visibly adds leaf/fruit coverage to both native crop stages, filling parts of transparent gaps. Source crop silhouettes and pixels remain unchanged. The amount is view- and texture-dependent.",
+      "arrangement": "Stage 4 pair on the left, stage 5 pair on the right.",
+      "no_visible_change": false,
+      "unchanged_controls": "Both source crop stages.",
+      "numeric_camera_evidence": "settings/gold-reverse-camera-observed.jpg",
+      "decoded_pixel_check": {
+        "review_rectangle_xyxy_exclusive": [
+          0,
+          136,
+          1188,
+          740
+        ],
+        "changed_pixels": 7199,
+        "changed_bbox_xyxy_inclusive": [
+          376,
+          312,
+          951,
+          591
+        ],
+        "changes_outside_native_control_rectangles": 0,
+        "regions": {
+          "source_stage4": {
+            "rectangle_xyxy_exclusive": [
+              208,
+              250,
+              368,
+              408
+            ],
+            "changed_decoded_pixels": 0
+          },
+          "native_stage4": {
+            "rectangle_xyxy_exclusive": [
+              368,
+              305,
+              536,
+              465
+            ],
+            "changed_decoded_pixels": 3389
+          },
+          "source_stage5": {
+            "rectangle_xyxy_exclusive": [
+              640,
+              400,
+              800,
+              552
+            ],
+            "changed_decoded_pixels": 0
+          },
+          "native_stage5": {
+            "rectangle_xyxy_exclusive": [
+              800,
+              455,
+              960,
+              615
+            ],
+            "changed_decoded_pixels": 3810
+          }
+        },
+        "meaning": "Read-only comparison of decoded original JPEGs. Counts include JPEG block effects and are not counts of model texels. No comparison image was produced or altered."
+      }
+    },
+    {
+      "id": "ice_grape-crop-stages-2/oblique",
+      "scene": "ice_grape-crop-stages-2",
+      "view": "oblique",
+      "camera_id": "oblique",
+      "front_file": "ice_grape-crop-stages-2-oblique-front.jpg",
+      "double_file": "ice_grape-crop-stages-2-oblique-double.jpg",
+      "scene_policy_front": "scenes/ice_grape-crop-stages-2--policy-front.bbmodel",
+      "scene_policy_front_sha256": "a6dc908c177081e2e9288da8b9d969a84d48c3db131af1d59dcb51e996a183b7",
+      "equivalent_double_file": "scenes/ice_grape-crop-stages-2--old-policy-double.bbmodel",
+      "equivalent_double_sha256": "14fb14698105629f5a4651d6155dc714b00ad51bb24facc2c71c9b6f7f693ad1",
+      "variable": "textures[1].render_sides: front -> double",
+      "UI_labels": "Render Sides: Outside -> Inside and Outside",
+      "double_state": "Unsaved UI state of the exact policy-front input; corresponds to the independently verified sole-field delta in old-policy-double. That latter file was not separately imported.",
+      "cases": [
+        {
+          "label": "ice_grape crop stage 4",
+          "block": "ice_grape_crop",
+          "states": {
+            "age": 4
+          },
+          "source_world_offset": [
+            -54,
+            0,
+            0.0
+          ],
+          "native_world_offset": [
+            -26,
+            0,
+            0.0
+          ]
+        },
+        {
+          "label": "ice_grape crop stage 5",
+          "block": "ice_grape_crop",
+          "states": {
+            "age": 5
+          },
+          "source_world_offset": [
+            22,
+            0,
+            0.0
+          ],
+          "native_world_offset": [
+            50,
+            0,
+            0.0
+          ]
+        }
+      ],
+      "observation": "Double visibly adds leaf/fruit coverage to both native crop stages, filling parts of transparent gaps. Source crop silhouettes and pixels remain unchanged. The amount is view- and texture-dependent.",
+      "arrangement": "Stage 5 pair on the left, stage 4 pair on the right.",
+      "no_visible_change": false,
+      "unchanged_controls": "Both source crop stages.",
+      "numeric_camera_evidence": "settings/ice-oblique-camera-observed.jpg",
+      "decoded_pixel_check": {
+        "review_rectangle_xyxy_exclusive": [
+          0,
+          136,
+          1188,
+          740
+        ],
+        "changed_pixels": 7048,
+        "changed_bbox_xyxy_inclusive": [
+          248,
+          272,
+          807,
+          551
+        ],
+        "changes_outside_native_control_rectangles": 0,
+        "regions": {
+          "source_stage5": {
+            "rectangle_xyxy_exclusive": [
+              396,
+              312,
+              550,
+              464
+            ],
+            "changed_decoded_pixels": 0
+          },
+          "source_stage4": {
+            "rectangle_xyxy_exclusive": [
+              816,
+              460,
+              984,
+              624
+            ],
+            "changed_decoded_pixels": 0
+          },
+          "native_stage5": {
+            "rectangle_xyxy_exclusive": [
+              232,
+              260,
+              392,
+              416
+            ],
+            "changed_decoded_pixels": 3411
+          },
+          "native_stage4": {
+            "rectangle_xyxy_exclusive": [
+              656,
+              400,
+              816,
+              560
+            ],
+            "changed_decoded_pixels": 3637
+          }
+        },
+        "meaning": "Read-only comparison of decoded original JPEGs. Counts include JPEG block effects and are not counts of model texels. No comparison image was produced or altered."
+      }
+    },
+    {
+      "id": "ice_grape-crop-stages-2/reverse",
+      "scene": "ice_grape-crop-stages-2",
+      "view": "reverse",
+      "camera_id": "reverse",
+      "front_file": "ice_grape-crop-stages-2-reverse-front.jpg",
+      "double_file": "ice_grape-crop-stages-2-reverse-double.jpg",
+      "scene_policy_front": "scenes/ice_grape-crop-stages-2--policy-front.bbmodel",
+      "scene_policy_front_sha256": "a6dc908c177081e2e9288da8b9d969a84d48c3db131af1d59dcb51e996a183b7",
+      "equivalent_double_file": "scenes/ice_grape-crop-stages-2--old-policy-double.bbmodel",
+      "equivalent_double_sha256": "14fb14698105629f5a4651d6155dc714b00ad51bb24facc2c71c9b6f7f693ad1",
+      "variable": "textures[1].render_sides: front -> double",
+      "UI_labels": "Render Sides: Outside -> Inside and Outside",
+      "double_state": "Unsaved UI state of the exact policy-front input; corresponds to the independently verified sole-field delta in old-policy-double. That latter file was not separately imported.",
+      "cases": [
+        {
+          "label": "ice_grape crop stage 4",
+          "block": "ice_grape_crop",
+          "states": {
+            "age": 4
+          },
+          "source_world_offset": [
+            -54,
+            0,
+            0.0
+          ],
+          "native_world_offset": [
+            -26,
+            0,
+            0.0
+          ]
+        },
+        {
+          "label": "ice_grape crop stage 5",
+          "block": "ice_grape_crop",
+          "states": {
+            "age": 5
+          },
+          "source_world_offset": [
+            22,
+            0,
+            0.0
+          ],
+          "native_world_offset": [
+            50,
+            0,
+            0.0
+          ]
+        }
+      ],
+      "observation": "Double visibly adds leaf/fruit coverage to both native crop stages, filling parts of transparent gaps. Source crop silhouettes and pixels remain unchanged. The amount is view- and texture-dependent.",
+      "arrangement": "Stage 4 pair on the left, stage 5 pair on the right.",
+      "no_visible_change": false,
+      "unchanged_controls": "Both source crop stages.",
+      "numeric_camera_evidence": "settings/ice-reverse-camera-observed.jpg",
+      "decoded_pixel_check": {
+        "review_rectangle_xyxy_exclusive": [
+          0,
+          136,
+          1188,
+          740
+        ],
+        "changed_pixels": 6645,
+        "changed_bbox_xyxy_inclusive": [
+          384,
+          312,
+          943,
+          591
+        ],
+        "changes_outside_native_control_rectangles": 0,
+        "regions": {
+          "source_stage4": {
+            "rectangle_xyxy_exclusive": [
+              208,
+              250,
+              368,
+              408
+            ],
+            "changed_decoded_pixels": 0
+          },
+          "native_stage4": {
+            "rectangle_xyxy_exclusive": [
+              368,
+              305,
+              536,
+              465
+            ],
+            "changed_decoded_pixels": 3357
+          },
+          "source_stage5": {
+            "rectangle_xyxy_exclusive": [
+              640,
+              400,
+              800,
+              552
+            ],
+            "changed_decoded_pixels": 0
+          },
+          "native_stage5": {
+            "rectangle_xyxy_exclusive": [
+              800,
+              455,
+              960,
+              615
+            ],
+            "changed_decoded_pixels": 3288
+          }
+        },
+        "meaning": "Read-only comparison of decoded original JPEGs. Counts include JPEG block effects and are not counts of model texels. No comparison image was produced or altered."
+      }
+    },
+    {
+      "id": "grapevine-shapes-stages-2/oblique",
+      "scene": "grapevine-shapes-stages-2",
+      "view": "oblique",
+      "camera_id": "oblique",
+      "front_file": "grapevine-shapes-stages-2-oblique-front.jpg",
+      "double_file": "grapevine-shapes-stages-2-oblique-double.jpg",
+      "scene_policy_front": "scenes/grapevine-shapes-stages-2--policy-front.bbmodel",
+      "scene_policy_front_sha256": "957256e16845844821dd3f980979fdc04a776ef498fc4e44ed7f820d32a6fbcd",
+      "equivalent_double_file": "scenes/grapevine-shapes-stages-2--old-policy-double.bbmodel",
+      "equivalent_double_sha256": "f056efb79373d21b7574e95d51caded41cd126946f25d18182390a8719b9edbe",
+      "variable": "textures[1].render_sides: front -> double",
+      "UI_labels": "Render Sides: Outside -> Inside and Outside",
+      "double_state": "Unsaved UI state of the exact policy-front input; corresponds to the independently verified sole-field delta in old-policy-double. That latter file was not separately imported.",
+      "cases": [
+        {
+          "label": "grapevine north_south",
+          "block": "grapevine_trellis",
+          "states": {
+            "shape": "north_south",
+            "age": 3,
+            "waterlogged": false
+          },
+          "source_world_offset": [
+            -54,
+            0,
+            -20.0
+          ],
+          "native_world_offset": [
+            -26,
+            0,
+            -20.0
+          ]
+        },
+        {
+          "label": "grapevine single_stage0",
+          "block": "grapevine_trellis",
+          "states": {
+            "shape": "single",
+            "age": 0,
+            "waterlogged": false
+          },
+          "source_world_offset": [
+            22,
+            0,
+            -20.0
+          ],
+          "native_world_offset": [
+            50,
+            0,
+            -20.0
+          ]
+        },
+        {
+          "label": "grapevine single_stage1",
+          "block": "grapevine_trellis",
+          "states": {
+            "shape": "single",
+            "age": 1,
+            "waterlogged": false
+          },
+          "source_world_offset": [
+            -54,
+            0,
+            20.0
+          ],
+          "native_world_offset": [
+            -26,
+            0,
+            20.0
+          ]
+        },
+        {
+          "label": "grapevine single_stage2",
+          "block": "grapevine_trellis",
+          "states": {
+            "shape": "single",
+            "age": 2,
+            "waterlogged": false
+          },
+          "source_world_offset": [
+            22,
+            0,
+            20.0
+          ],
+          "native_world_offset": [
+            50,
+            0,
+            20.0
+          ]
+        }
+      ],
+      "observation": "Double fills additional mirrored leaf pixels around all three single-stage native trellises. The source trellises and both already-Front north_south connected controls remain unchanged.",
+      "arrangement": "Single stage 0 pair at left, stage 2 pair upper-middle, stage 1 pair at right; north_south connected pair lower-middle.",
+      "no_visible_change": false,
+      "unchanged_controls": "All source controls; additionally north_south source and native in all three vine views.",
+      "numeric_camera_evidence": "settings/vine-oblique-camera-observed.jpg",
+      "decoded_pixel_check": {
+        "review_rectangle_xyxy_exclusive": [
+          0,
+          136,
+          1188,
+          740
+        ],
+        "changed_pixels": 10489,
+        "changed_bbox_xyxy_inclusive": [
+          128,
+          272,
+          919,
+          519
+        ],
+        "changes_outside_native_control_rectangles": 0,
+        "regions": {
+          "source_single0": {
+            "rectangle_xyxy_exclusive": [
+              280,
+              384,
+              432,
+              536
+            ],
+            "changed_decoded_pixels": 0
+          },
+          "source_single1": {
+            "rectangle_xyxy_exclusive": [
+              928,
+              450,
+              1090,
+              608
+            ],
+            "changed_decoded_pixels": 0
+          },
+          "source_single2": {
+            "rectangle_xyxy_exclusive": [
+              512,
+              304,
+              680,
+              464
+            ],
+            "changed_decoded_pixels": 0
+          },
+          "native_single0": {
+            "rectangle_xyxy_exclusive": [
+              120,
+              328,
+              280,
+              488
+            ],
+            "changed_decoded_pixels": 3630
+          },
+          "native_single1": {
+            "rectangle_xyxy_exclusive": [
+              776,
+              392,
+              928,
+              552
+            ],
+            "changed_decoded_pixels": 2597
+          },
+          "native_single2": {
+            "rectangle_xyxy_exclusive": [
+              336,
+              256,
+              512,
+              408
+            ],
+            "changed_decoded_pixels": 4262
+          },
+          "connected_native": {
+            "rectangle_xyxy_exclusive": [
+              544,
+              472,
+              712,
+              632
+            ],
+            "changed_decoded_pixels": 0
+          },
+          "connected_source": {
+            "rectangle_xyxy_exclusive": [
+              704,
+              528,
+              888,
+              696
+            ],
+            "changed_decoded_pixels": 0
+          }
+        },
+        "meaning": "Read-only comparison of decoded original JPEGs. Counts include JPEG block effects and are not counts of model texels. No comparison image was produced or altered."
+      }
+    },
+    {
+      "id": "grapevine-shapes-stages-2/reverse",
+      "scene": "grapevine-shapes-stages-2",
+      "view": "reverse",
+      "camera_id": "reverse",
+      "front_file": "grapevine-shapes-stages-2-reverse-front.jpg",
+      "double_file": "grapevine-shapes-stages-2-reverse-double.jpg",
+      "scene_policy_front": "scenes/grapevine-shapes-stages-2--policy-front.bbmodel",
+      "scene_policy_front_sha256": "957256e16845844821dd3f980979fdc04a776ef498fc4e44ed7f820d32a6fbcd",
+      "equivalent_double_file": "scenes/grapevine-shapes-stages-2--old-policy-double.bbmodel",
+      "equivalent_double_sha256": "f056efb79373d21b7574e95d51caded41cd126946f25d18182390a8719b9edbe",
+      "variable": "textures[1].render_sides: front -> double",
+      "UI_labels": "Render Sides: Outside -> Inside and Outside",
+      "double_state": "Unsaved UI state of the exact policy-front input; corresponds to the independently verified sole-field delta in old-policy-double. That latter file was not separately imported.",
+      "cases": [
+        {
+          "label": "grapevine north_south",
+          "block": "grapevine_trellis",
+          "states": {
+            "shape": "north_south",
+            "age": 3,
+            "waterlogged": false
+          },
+          "source_world_offset": [
+            -54,
+            0,
+            -20.0
+          ],
+          "native_world_offset": [
+            -26,
+            0,
+            -20.0
+          ]
+        },
+        {
+          "label": "grapevine single_stage0",
+          "block": "grapevine_trellis",
+          "states": {
+            "shape": "single",
+            "age": 0,
+            "waterlogged": false
+          },
+          "source_world_offset": [
+            22,
+            0,
+            -20.0
+          ],
+          "native_world_offset": [
+            50,
+            0,
+            -20.0
+          ]
+        },
+        {
+          "label": "grapevine single_stage1",
+          "block": "grapevine_trellis",
+          "states": {
+            "shape": "single",
+            "age": 1,
+            "waterlogged": false
+          },
+          "source_world_offset": [
+            -54,
+            0,
+            20.0
+          ],
+          "native_world_offset": [
+            -26,
+            0,
+            20.0
+          ]
+        },
+        {
+          "label": "grapevine single_stage2",
+          "block": "grapevine_trellis",
+          "states": {
+            "shape": "single",
+            "age": 2,
+            "waterlogged": false
+          },
+          "source_world_offset": [
+            22,
+            0,
+            20.0
+          ],
+          "native_world_offset": [
+            50,
+            0,
+            20.0
+          ]
+        }
+      ],
+      "observation": "Double fills additional mirrored leaf pixels around all three single-stage native trellises. The source trellises and both already-Front north_south connected controls remain unchanged.",
+      "arrangement": "Single stage 1 pair at left, stage 0 pair at right, stage 2 pair lower-middle; north_south connected pair upper-middle.",
+      "no_visible_change": false,
+      "unchanged_controls": "All source controls; additionally north_south source and native in all three vine views.",
+      "numeric_camera_evidence": "settings/vine-reverse-camera-observed.jpg",
+      "decoded_pixel_check": {
+        "review_rectangle_xyxy_exclusive": [
+          0,
+          136,
+          1188,
+          740
+        ],
+        "changed_pixels": 10106,
+        "changed_bbox_xyxy_inclusive": [
+          272,
+          416,
+          1055,
+          647
+        ],
+        "changes_outside_native_control_rectangles": 0,
+        "regions": {
+          "source_single0": {
+            "rectangle_xyxy_exclusive": [
+              760,
+              384,
+              912,
+              544
+            ],
+            "changed_decoded_pixels": 0
+          },
+          "source_single1": {
+            "rectangle_xyxy_exclusive": [
+              104,
+              320,
+              248,
+              480
+            ],
+            "changed_decoded_pixels": 0
+          },
+          "source_single2": {
+            "rectangle_xyxy_exclusive": [
+              528,
+              464,
+              680,
+              616
+            ],
+            "changed_decoded_pixels": 0
+          },
+          "native_single0": {
+            "rectangle_xyxy_exclusive": [
+              912,
+              440,
+              1064,
+              600
+            ],
+            "changed_decoded_pixels": 2935
+          },
+          "native_single1": {
+            "rectangle_xyxy_exclusive": [
+              264,
+              376,
+              408,
+              536
+            ],
+            "changed_decoded_pixels": 2786
+          },
+          "native_single2": {
+            "rectangle_xyxy_exclusive": [
+              680,
+              520,
+              840,
+              672
+            ],
+            "changed_decoded_pixels": 4385
+          },
+          "connected_source": {
+            "rectangle_xyxy_exclusive": [
+              304,
+              232,
+              488,
+              408
+            ],
+            "changed_decoded_pixels": 0
+          },
+          "connected_native": {
+            "rectangle_xyxy_exclusive": [
+              472,
+              288,
+              648,
+              456
+            ],
+            "changed_decoded_pixels": 0
+          }
+        },
+        "meaning": "Read-only comparison of decoded original JPEGs. Counts include JPEG block effects and are not counts of model texels. No comparison image was produced or altered."
+      }
+    },
+    {
+      "id": "grapevine-shapes-stages-2/reverse-low",
+      "scene": "grapevine-shapes-stages-2",
+      "view": "reverse-low",
+      "camera_id": "reverse-low",
+      "front_file": "grapevine-shapes-stages-2-reverse-low-front.jpg",
+      "double_file": "grapevine-shapes-stages-2-reverse-low-double.jpg",
+      "scene_policy_front": "scenes/grapevine-shapes-stages-2--policy-front.bbmodel",
+      "scene_policy_front_sha256": "957256e16845844821dd3f980979fdc04a776ef498fc4e44ed7f820d32a6fbcd",
+      "equivalent_double_file": "scenes/grapevine-shapes-stages-2--old-policy-double.bbmodel",
+      "equivalent_double_sha256": "f056efb79373d21b7574e95d51caded41cd126946f25d18182390a8719b9edbe",
+      "variable": "textures[1].render_sides: front -> double",
+      "UI_labels": "Render Sides: Outside -> Inside and Outside",
+      "double_state": "Unsaved UI state of the exact policy-front input; corresponds to the independently verified sole-field delta in old-policy-double. That latter file was not separately imported.",
+      "cases": [
+        {
+          "label": "grapevine north_south",
+          "block": "grapevine_trellis",
+          "states": {
+            "shape": "north_south",
+            "age": 3,
+            "waterlogged": false
+          },
+          "source_world_offset": [
+            -54,
+            0,
+            -20.0
+          ],
+          "native_world_offset": [
+            -26,
+            0,
+            -20.0
+          ]
+        },
+        {
+          "label": "grapevine single_stage0",
+          "block": "grapevine_trellis",
+          "states": {
+            "shape": "single",
+            "age": 0,
+            "waterlogged": false
+          },
+          "source_world_offset": [
+            22,
+            0,
+            -20.0
+          ],
+          "native_world_offset": [
+            50,
+            0,
+            -20.0
+          ]
+        },
+        {
+          "label": "grapevine single_stage1",
+          "block": "grapevine_trellis",
+          "states": {
+            "shape": "single",
+            "age": 1,
+            "waterlogged": false
+          },
+          "source_world_offset": [
+            -54,
+            0,
+            20.0
+          ],
+          "native_world_offset": [
+            -26,
+            0,
+            20.0
+          ]
+        },
+        {
+          "label": "grapevine single_stage2",
+          "block": "grapevine_trellis",
+          "states": {
+            "shape": "single",
+            "age": 2,
+            "waterlogged": false
+          },
+          "source_world_offset": [
+            22,
+            0,
+            20.0
+          ],
+          "native_world_offset": [
+            50,
+            0,
+            20.0
+          ]
+        }
+      ],
+      "observation": "Double fills additional mirrored leaf pixels around all three single-stage native trellises. The source trellises and both already-Front north_south connected controls remain unchanged.",
+      "arrangement": "Single stage 1 pair at left, stage 0 pair at right, stage 2 pair upper-middle; north_south connected pair lower-middle.",
+      "no_visible_change": false,
+      "unchanged_controls": "All source controls; additionally north_south source and native in all three vine views.",
+      "numeric_camera_evidence": "settings/vine-reverse-low-camera-observed.jpg",
+      "decoded_pixel_check": {
+        "review_rectangle_xyxy_exclusive": [
+          0,
+          136,
+          1188,
+          740
+        ],
+        "changed_pixels": 10303,
+        "changed_bbox_xyxy_inclusive": [
+          272,
+          272,
+          1055,
+          519
+        ],
+        "changes_outside_native_control_rectangles": 0,
+        "regions": {
+          "source_single0": {
+            "rectangle_xyxy_exclusive": [
+              760,
+              384,
+              912,
+              536
+            ],
+            "changed_decoded_pixels": 0
+          },
+          "source_single1": {
+            "rectangle_xyxy_exclusive": [
+              104,
+              448,
+              248,
+              600
+            ],
+            "changed_decoded_pixels": 0
+          },
+          "source_single2": {
+            "rectangle_xyxy_exclusive": [
+              528,
+              304,
+              680,
+              456
+            ],
+            "changed_decoded_pixels": 0
+          },
+          "native_single0": {
+            "rectangle_xyxy_exclusive": [
+              912,
+              328,
+              1064,
+              480
+            ],
+            "changed_decoded_pixels": 3038
+          },
+          "native_single1": {
+            "rectangle_xyxy_exclusive": [
+              264,
+              392,
+              408,
+              544
+            ],
+            "changed_decoded_pixels": 3066
+          },
+          "native_single2": {
+            "rectangle_xyxy_exclusive": [
+              680,
+              256,
+              840,
+              408
+            ],
+            "changed_decoded_pixels": 4199
+          },
+          "connected_source": {
+            "rectangle_xyxy_exclusive": [
+              304,
+              520,
+              488,
+              696
+            ],
+            "changed_decoded_pixels": 0
+          },
+          "connected_native": {
+            "rectangle_xyxy_exclusive": [
+              472,
+              464,
+              648,
+              632
+            ],
+            "changed_decoded_pixels": 0
+          }
+        },
+        "meaning": "Read-only comparison of decoded original JPEGs. Counts include JPEG block effects and are not counts of model texels. No comparison image was produced or altered."
+      }
+    }
+  ],
+  "accepted": [
+    {
+      "file": "grape-crop-stages-2-oblique-front.jpg",
+      "sha256": "06533c8cd0b0ff0c87675a90dd7b6d43554497f04398da4c0b23e3b0091381b3",
+      "bytes": 87763,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "written_utc": "2026-11-09T02:44:39.794361+00:00",
+      "provenance": "Original app.getScreenshot() JPEG bytes written directly, without crop, stitch, edit, or re-encoding.",
+      "pair_id": "grape-crop-stages-2/oblique",
+      "scene": "grape-crop-stages-2",
+      "camera_id": "oblique",
+      "variant": "front",
+      "backing_input": "scenes/grape-crop-stages-2--policy-front.bbmodel",
+      "backing_input_sha256": "fa8cf0dbf767f9dfc87dc437abdddbaeedd97914ff364464f10e62b8d686d027",
+      "state_equivalent_file": "scenes/grape-crop-stages-2--policy-front.bbmodel",
+      "state_equivalent_sha256": "fa8cf0dbf767f9dfc87dc437abdddbaeedd97914ff364464f10e62b8d686d027",
+      "unsaved_UI_state": false,
+      "state_note": "Front values were verified in UI after any Undo; the unsaved marker can remain even when the texture value is restored to Outside.",
+      "caption": "grape-crop-stages-2, oblique, native FRONT. Native screen-left, source screen-right within each pair. Stage 5 pair on the left, stage 4 pair on the right.",
+      "visually_reviewed": true,
+      "accepted_evidence": true,
+      "selection_overlay": false,
+      "model_clipping": false,
+      "native_engine_execution": false
+    },
+    {
+      "file": "grape-crop-stages-2-oblique-double.jpg",
+      "sha256": "1af81ad11c1ba2f4900b20edab6e0b392886b710550402b734e5ca0bdb4cbf2f",
+      "bytes": 88349,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "written_utc": "2026-11-09T02:45:06.494725+00:00",
+      "provenance": "Original app.getScreenshot() JPEG bytes written directly, without crop, stitch, edit, or re-encoding.",
+      "pair_id": "grape-crop-stages-2/oblique",
+      "scene": "grape-crop-stages-2",
+      "camera_id": "oblique",
+      "variant": "double",
+      "backing_input": "scenes/grape-crop-stages-2--policy-front.bbmodel",
+      "backing_input_sha256": "fa8cf0dbf767f9dfc87dc437abdddbaeedd97914ff364464f10e62b8d686d027",
+      "state_equivalent_file": "scenes/grape-crop-stages-2--old-policy-double.bbmodel",
+      "state_equivalent_sha256": "8ef812c0407219e0e59a9c7bf07e0d15c575500da18720b7e967591036b4ce3d",
+      "unsaved_UI_state": true,
+      "state_note": "Only native texture[1] set to Inside and Outside; edits discarded when this scene closed.",
+      "caption": "grape-crop-stages-2, oblique, native DOUBLE. Native screen-left, source screen-right within each pair. Stage 5 pair on the left, stage 4 pair on the right.",
+      "visually_reviewed": true,
+      "accepted_evidence": true,
+      "selection_overlay": false,
+      "model_clipping": false,
+      "native_engine_execution": false
+    },
+    {
+      "file": "grape-crop-stages-2-reverse-front.jpg",
+      "sha256": "a279e8e0653f728361c8b753e570b34172b0ff779526cc76af6d629f8655e99e",
+      "bytes": 87888,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "written_utc": "2026-11-09T02:46:31.271882+00:00",
+      "provenance": "Original app.getScreenshot() JPEG bytes written directly, without crop, stitch, edit, or re-encoding.",
+      "pair_id": "grape-crop-stages-2/reverse",
+      "scene": "grape-crop-stages-2",
+      "camera_id": "reverse",
+      "variant": "front",
+      "backing_input": "scenes/grape-crop-stages-2--policy-front.bbmodel",
+      "backing_input_sha256": "fa8cf0dbf767f9dfc87dc437abdddbaeedd97914ff364464f10e62b8d686d027",
+      "state_equivalent_file": "scenes/grape-crop-stages-2--policy-front.bbmodel",
+      "state_equivalent_sha256": "fa8cf0dbf767f9dfc87dc437abdddbaeedd97914ff364464f10e62b8d686d027",
+      "unsaved_UI_state": true,
+      "state_note": "Front values were verified in UI after any Undo; the unsaved marker can remain even when the texture value is restored to Outside.",
+      "caption": "grape-crop-stages-2, reverse, native FRONT. Source screen-left, native screen-right within each pair. Stage 4 pair on the left, stage 5 pair on the right.",
+      "visually_reviewed": true,
+      "accepted_evidence": true,
+      "selection_overlay": false,
+      "model_clipping": false,
+      "native_engine_execution": false
+    },
+    {
+      "file": "grape-crop-stages-2-reverse-double.jpg",
+      "sha256": "ab84b80dd05827d792ff5e2ed8fe43f25ba126a66023cfb88f4bc739488446ed",
+      "bytes": 88296,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "written_utc": "2026-11-09T02:46:50.796150+00:00",
+      "provenance": "Original app.getScreenshot() JPEG bytes written directly, without crop, stitch, edit, or re-encoding.",
+      "pair_id": "grape-crop-stages-2/reverse",
+      "scene": "grape-crop-stages-2",
+      "camera_id": "reverse",
+      "variant": "double",
+      "backing_input": "scenes/grape-crop-stages-2--policy-front.bbmodel",
+      "backing_input_sha256": "fa8cf0dbf767f9dfc87dc437abdddbaeedd97914ff364464f10e62b8d686d027",
+      "state_equivalent_file": "scenes/grape-crop-stages-2--old-policy-double.bbmodel",
+      "state_equivalent_sha256": "8ef812c0407219e0e59a9c7bf07e0d15c575500da18720b7e967591036b4ce3d",
+      "unsaved_UI_state": true,
+      "state_note": "Only native texture[1] set to Inside and Outside; edits discarded when this scene closed.",
+      "caption": "grape-crop-stages-2, reverse, native DOUBLE. Source screen-left, native screen-right within each pair. Stage 4 pair on the left, stage 5 pair on the right.",
+      "visually_reviewed": true,
+      "accepted_evidence": true,
+      "selection_overlay": false,
+      "model_clipping": false,
+      "native_engine_execution": false
+    },
+    {
+      "file": "gold_grape-crop-stages-2-oblique-front.jpg",
+      "sha256": "ad1fcfd3333956db1aeb7406ee5b430e762431158cc3c44b668af5e7f633edf8",
+      "bytes": 94252,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "written_utc": "2026-11-09T02:48:23.461417+00:00",
+      "provenance": "Original app.getScreenshot() JPEG bytes written directly, without crop, stitch, edit, or re-encoding.",
+      "pair_id": "gold_grape-crop-stages-2/oblique",
+      "scene": "gold_grape-crop-stages-2",
+      "camera_id": "oblique",
+      "variant": "front",
+      "backing_input": "scenes/gold_grape-crop-stages-2--policy-front.bbmodel",
+      "backing_input_sha256": "ebdd3b2eff4790adaad88b6e6873f2ba42796de9e37c638b2392e4a66b0139ad",
+      "state_equivalent_file": "scenes/gold_grape-crop-stages-2--policy-front.bbmodel",
+      "state_equivalent_sha256": "ebdd3b2eff4790adaad88b6e6873f2ba42796de9e37c638b2392e4a66b0139ad",
+      "unsaved_UI_state": false,
+      "state_note": "Front values were verified in UI after any Undo; the unsaved marker can remain even when the texture value is restored to Outside.",
+      "caption": "gold_grape-crop-stages-2, oblique, native FRONT. Native screen-left, source screen-right within each pair. Stage 5 pair on the left, stage 4 pair on the right.",
+      "visually_reviewed": true,
+      "accepted_evidence": true,
+      "selection_overlay": false,
+      "model_clipping": false,
+      "native_engine_execution": false
+    },
+    {
+      "file": "gold_grape-crop-stages-2-oblique-double.jpg",
+      "sha256": "73aa2ace02a66f03b7df6e9518356b9fd8298f3acd6e786989a10d0af72cbc68",
+      "bytes": 94346,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "written_utc": "2026-11-09T02:48:41.773665+00:00",
+      "provenance": "Original app.getScreenshot() JPEG bytes written directly, without crop, stitch, edit, or re-encoding.",
+      "pair_id": "gold_grape-crop-stages-2/oblique",
+      "scene": "gold_grape-crop-stages-2",
+      "camera_id": "oblique",
+      "variant": "double",
+      "backing_input": "scenes/gold_grape-crop-stages-2--policy-front.bbmodel",
+      "backing_input_sha256": "ebdd3b2eff4790adaad88b6e6873f2ba42796de9e37c638b2392e4a66b0139ad",
+      "state_equivalent_file": "scenes/gold_grape-crop-stages-2--old-policy-double.bbmodel",
+      "state_equivalent_sha256": "844c19f6b0211e901e4faa7b8e775fa9ae9bec4fdf3488d05242e5fb74acb509",
+      "unsaved_UI_state": true,
+      "state_note": "Only native texture[1] set to Inside and Outside; edits discarded when this scene closed.",
+      "caption": "gold_grape-crop-stages-2, oblique, native DOUBLE. Native screen-left, source screen-right within each pair. Stage 5 pair on the left, stage 4 pair on the right.",
+      "visually_reviewed": true,
+      "accepted_evidence": true,
+      "selection_overlay": false,
+      "model_clipping": false,
+      "native_engine_execution": false
+    },
+    {
+      "file": "gold_grape-crop-stages-2-reverse-front.jpg",
+      "sha256": "0b3ac11c96587bad4f04d8f626b928a1aa76a0c292ecdc01ef9105dbd2f8d1f5",
+      "bytes": 94530,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "written_utc": "2026-11-09T02:49:31.626342+00:00",
+      "provenance": "Original app.getScreenshot() JPEG bytes written directly, without crop, stitch, edit, or re-encoding.",
+      "pair_id": "gold_grape-crop-stages-2/reverse",
+      "scene": "gold_grape-crop-stages-2",
+      "camera_id": "reverse",
+      "variant": "front",
+      "backing_input": "scenes/gold_grape-crop-stages-2--policy-front.bbmodel",
+      "backing_input_sha256": "ebdd3b2eff4790adaad88b6e6873f2ba42796de9e37c638b2392e4a66b0139ad",
+      "state_equivalent_file": "scenes/gold_grape-crop-stages-2--policy-front.bbmodel",
+      "state_equivalent_sha256": "ebdd3b2eff4790adaad88b6e6873f2ba42796de9e37c638b2392e4a66b0139ad",
+      "unsaved_UI_state": true,
+      "state_note": "Front values were verified in UI after any Undo; the unsaved marker can remain even when the texture value is restored to Outside.",
+      "caption": "gold_grape-crop-stages-2, reverse, native FRONT. Source screen-left, native screen-right within each pair. Stage 4 pair on the left, stage 5 pair on the right.",
+      "visually_reviewed": true,
+      "accepted_evidence": true,
+      "selection_overlay": false,
+      "model_clipping": false,
+      "native_engine_execution": false
+    },
+    {
+      "file": "gold_grape-crop-stages-2-reverse-double.jpg",
+      "sha256": "2db294fa41fdbc974e2b3e5ebb6b0fc571155fb05b1ca1f54eee29ef286d9307",
+      "bytes": 94672,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "written_utc": "2026-11-09T02:49:47.766560+00:00",
+      "provenance": "Original app.getScreenshot() JPEG bytes written directly, without crop, stitch, edit, or re-encoding.",
+      "pair_id": "gold_grape-crop-stages-2/reverse",
+      "scene": "gold_grape-crop-stages-2",
+      "camera_id": "reverse",
+      "variant": "double",
+      "backing_input": "scenes/gold_grape-crop-stages-2--policy-front.bbmodel",
+      "backing_input_sha256": "ebdd3b2eff4790adaad88b6e6873f2ba42796de9e37c638b2392e4a66b0139ad",
+      "state_equivalent_file": "scenes/gold_grape-crop-stages-2--old-policy-double.bbmodel",
+      "state_equivalent_sha256": "844c19f6b0211e901e4faa7b8e775fa9ae9bec4fdf3488d05242e5fb74acb509",
+      "unsaved_UI_state": true,
+      "state_note": "Only native texture[1] set to Inside and Outside; edits discarded when this scene closed.",
+      "caption": "gold_grape-crop-stages-2, reverse, native DOUBLE. Source screen-left, native screen-right within each pair. Stage 4 pair on the left, stage 5 pair on the right.",
+      "visually_reviewed": true,
+      "accepted_evidence": true,
+      "selection_overlay": false,
+      "model_clipping": false,
+      "native_engine_execution": false
+    },
+    {
+      "file": "ice_grape-crop-stages-2-oblique-front.jpg",
+      "sha256": "9fab2e8e6a36cd0f1eda18e21ad9e60b6e4a96e853d0b378b35428a846a50b25",
+      "bytes": 87476,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "written_utc": "2026-11-09T02:51:08.399653+00:00",
+      "provenance": "Original app.getScreenshot() JPEG bytes written directly, without crop, stitch, edit, or re-encoding.",
+      "pair_id": "ice_grape-crop-stages-2/oblique",
+      "scene": "ice_grape-crop-stages-2",
+      "camera_id": "oblique",
+      "variant": "front",
+      "backing_input": "scenes/ice_grape-crop-stages-2--policy-front.bbmodel",
+      "backing_input_sha256": "a6dc908c177081e2e9288da8b9d969a84d48c3db131af1d59dcb51e996a183b7",
+      "state_equivalent_file": "scenes/ice_grape-crop-stages-2--policy-front.bbmodel",
+      "state_equivalent_sha256": "a6dc908c177081e2e9288da8b9d969a84d48c3db131af1d59dcb51e996a183b7",
+      "unsaved_UI_state": false,
+      "state_note": "Front values were verified in UI after any Undo; the unsaved marker can remain even when the texture value is restored to Outside.",
+      "caption": "ice_grape-crop-stages-2, oblique, native FRONT. Native screen-left, source screen-right within each pair. Stage 5 pair on the left, stage 4 pair on the right.",
+      "visually_reviewed": true,
+      "accepted_evidence": true,
+      "selection_overlay": false,
+      "model_clipping": false,
+      "native_engine_execution": false
+    },
+    {
+      "file": "ice_grape-crop-stages-2-oblique-double.jpg",
+      "sha256": "3cfe764a4d7f57b4fd0b10dddbaac477113461755d3b635f6923ee7d1697d45b",
+      "bytes": 87984,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "written_utc": "2026-11-09T02:51:21.699819+00:00",
+      "provenance": "Original app.getScreenshot() JPEG bytes written directly, without crop, stitch, edit, or re-encoding.",
+      "pair_id": "ice_grape-crop-stages-2/oblique",
+      "scene": "ice_grape-crop-stages-2",
+      "camera_id": "oblique",
+      "variant": "double",
+      "backing_input": "scenes/ice_grape-crop-stages-2--policy-front.bbmodel",
+      "backing_input_sha256": "a6dc908c177081e2e9288da8b9d969a84d48c3db131af1d59dcb51e996a183b7",
+      "state_equivalent_file": "scenes/ice_grape-crop-stages-2--old-policy-double.bbmodel",
+      "state_equivalent_sha256": "14fb14698105629f5a4651d6155dc714b00ad51bb24facc2c71c9b6f7f693ad1",
+      "unsaved_UI_state": true,
+      "state_note": "Only native texture[1] set to Inside and Outside; edits discarded when this scene closed.",
+      "caption": "ice_grape-crop-stages-2, oblique, native DOUBLE. Native screen-left, source screen-right within each pair. Stage 5 pair on the left, stage 4 pair on the right.",
+      "visually_reviewed": true,
+      "accepted_evidence": true,
+      "selection_overlay": false,
+      "model_clipping": false,
+      "native_engine_execution": false
+    },
+    {
+      "file": "ice_grape-crop-stages-2-reverse-front.jpg",
+      "sha256": "cf9a6731ddcecc9fe56a89eaadd82771b9ade058852633ae39ee3174eaa70e7d",
+      "bytes": 87616,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "written_utc": "2026-11-09T02:51:44.808129+00:00",
+      "provenance": "Original app.getScreenshot() JPEG bytes written directly, without crop, stitch, edit, or re-encoding.",
+      "pair_id": "ice_grape-crop-stages-2/reverse",
+      "scene": "ice_grape-crop-stages-2",
+      "camera_id": "reverse",
+      "variant": "front",
+      "backing_input": "scenes/ice_grape-crop-stages-2--policy-front.bbmodel",
+      "backing_input_sha256": "a6dc908c177081e2e9288da8b9d969a84d48c3db131af1d59dcb51e996a183b7",
+      "state_equivalent_file": "scenes/ice_grape-crop-stages-2--policy-front.bbmodel",
+      "state_equivalent_sha256": "a6dc908c177081e2e9288da8b9d969a84d48c3db131af1d59dcb51e996a183b7",
+      "unsaved_UI_state": true,
+      "state_note": "Front values were verified in UI after any Undo; the unsaved marker can remain even when the texture value is restored to Outside.",
+      "caption": "ice_grape-crop-stages-2, reverse, native FRONT. Source screen-left, native screen-right within each pair. Stage 4 pair on the left, stage 5 pair on the right.",
+      "visually_reviewed": true,
+      "accepted_evidence": true,
+      "selection_overlay": false,
+      "model_clipping": false,
+      "native_engine_execution": false
+    },
+    {
+      "file": "ice_grape-crop-stages-2-reverse-double.jpg",
+      "sha256": "7eef1f3744763e1acfbde96bc3e5c84927c39e480cd80df9bf41eeae323b389d",
+      "bytes": 88024,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "written_utc": "2026-11-09T02:51:56.516287+00:00",
+      "provenance": "Original app.getScreenshot() JPEG bytes written directly, without crop, stitch, edit, or re-encoding.",
+      "pair_id": "ice_grape-crop-stages-2/reverse",
+      "scene": "ice_grape-crop-stages-2",
+      "camera_id": "reverse",
+      "variant": "double",
+      "backing_input": "scenes/ice_grape-crop-stages-2--policy-front.bbmodel",
+      "backing_input_sha256": "a6dc908c177081e2e9288da8b9d969a84d48c3db131af1d59dcb51e996a183b7",
+      "state_equivalent_file": "scenes/ice_grape-crop-stages-2--old-policy-double.bbmodel",
+      "state_equivalent_sha256": "14fb14698105629f5a4651d6155dc714b00ad51bb24facc2c71c9b6f7f693ad1",
+      "unsaved_UI_state": true,
+      "state_note": "Only native texture[1] set to Inside and Outside; edits discarded when this scene closed.",
+      "caption": "ice_grape-crop-stages-2, reverse, native DOUBLE. Source screen-left, native screen-right within each pair. Stage 4 pair on the left, stage 5 pair on the right.",
+      "visually_reviewed": true,
+      "accepted_evidence": true,
+      "selection_overlay": false,
+      "model_clipping": false,
+      "native_engine_execution": false
+    },
+    {
+      "file": "grapevine-shapes-stages-2-oblique-front.jpg",
+      "sha256": "df7ec692d57a2429bf7f55e800cae0a9c43c216ca30fc26e4d2649f2e6cf5e2a",
+      "bytes": 104656,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "written_utc": "2026-11-09T02:52:58.177116+00:00",
+      "provenance": "Original app.getScreenshot() JPEG bytes written directly, without crop, stitch, edit, or re-encoding.",
+      "pair_id": "grapevine-shapes-stages-2/oblique",
+      "scene": "grapevine-shapes-stages-2",
+      "camera_id": "oblique",
+      "variant": "front",
+      "backing_input": "scenes/grapevine-shapes-stages-2--policy-front.bbmodel",
+      "backing_input_sha256": "957256e16845844821dd3f980979fdc04a776ef498fc4e44ed7f820d32a6fbcd",
+      "state_equivalent_file": "scenes/grapevine-shapes-stages-2--policy-front.bbmodel",
+      "state_equivalent_sha256": "957256e16845844821dd3f980979fdc04a776ef498fc4e44ed7f820d32a6fbcd",
+      "unsaved_UI_state": false,
+      "state_note": "Front values were verified in UI after any Undo; the unsaved marker can remain even when the texture value is restored to Outside.",
+      "caption": "grapevine-shapes-stages-2, oblique, native FRONT. Native screen-left, source screen-right within each pair. Single stage 0 pair at left, stage 2 pair upper-middle, stage 1 pair at right; north_south connected pair lower-middle.",
+      "visually_reviewed": true,
+      "accepted_evidence": true,
+      "selection_overlay": false,
+      "model_clipping": false,
+      "native_engine_execution": false
+    },
+    {
+      "file": "grapevine-shapes-stages-2-oblique-double.jpg",
+      "sha256": "e1e56e0c8652febc5ccd467ddadfcf58dfa1c19e8ead16abd8d41d9d9eac0ebe",
+      "bytes": 105111,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "written_utc": "2026-11-09T02:53:37.117640+00:00",
+      "provenance": "Original app.getScreenshot() JPEG bytes written directly, without crop, stitch, edit, or re-encoding.",
+      "pair_id": "grapevine-shapes-stages-2/oblique",
+      "scene": "grapevine-shapes-stages-2",
+      "camera_id": "oblique",
+      "variant": "double",
+      "backing_input": "scenes/grapevine-shapes-stages-2--policy-front.bbmodel",
+      "backing_input_sha256": "957256e16845844821dd3f980979fdc04a776ef498fc4e44ed7f820d32a6fbcd",
+      "state_equivalent_file": "scenes/grapevine-shapes-stages-2--old-policy-double.bbmodel",
+      "state_equivalent_sha256": "f056efb79373d21b7574e95d51caded41cd126946f25d18182390a8719b9edbe",
+      "unsaved_UI_state": true,
+      "state_note": "Only native texture[1] set to Inside and Outside; edits discarded when this scene closed.",
+      "caption": "grapevine-shapes-stages-2, oblique, native DOUBLE. Native screen-left, source screen-right within each pair. Single stage 0 pair at left, stage 2 pair upper-middle, stage 1 pair at right; north_south connected pair lower-middle.",
+      "visually_reviewed": true,
+      "accepted_evidence": true,
+      "selection_overlay": false,
+      "model_clipping": false,
+      "native_engine_execution": false
+    },
+    {
+      "file": "grapevine-shapes-stages-2-reverse-front.jpg",
+      "sha256": "d2137b69e6adb1ee7edc3bcf54c5cfb293aa51dce2ae4fc6642efe08b8daf740",
+      "bytes": 105239,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "written_utc": "2026-11-09T02:54:06.022025+00:00",
+      "provenance": "Original app.getScreenshot() JPEG bytes written directly, without crop, stitch, edit, or re-encoding.",
+      "pair_id": "grapevine-shapes-stages-2/reverse",
+      "scene": "grapevine-shapes-stages-2",
+      "camera_id": "reverse",
+      "variant": "front",
+      "backing_input": "scenes/grapevine-shapes-stages-2--policy-front.bbmodel",
+      "backing_input_sha256": "957256e16845844821dd3f980979fdc04a776ef498fc4e44ed7f820d32a6fbcd",
+      "state_equivalent_file": "scenes/grapevine-shapes-stages-2--policy-front.bbmodel",
+      "state_equivalent_sha256": "957256e16845844821dd3f980979fdc04a776ef498fc4e44ed7f820d32a6fbcd",
+      "unsaved_UI_state": true,
+      "state_note": "Front values were verified in UI after any Undo; the unsaved marker can remain even when the texture value is restored to Outside.",
+      "caption": "grapevine-shapes-stages-2, reverse, native FRONT. Source screen-left, native screen-right within each pair. Single stage 1 pair at left, stage 0 pair at right, stage 2 pair lower-middle; north_south connected pair upper-middle.",
+      "visually_reviewed": true,
+      "accepted_evidence": true,
+      "selection_overlay": false,
+      "model_clipping": false,
+      "native_engine_execution": false
+    },
+    {
+      "file": "grapevine-shapes-stages-2-reverse-double.jpg",
+      "sha256": "a4fd840db5ac1574842fd09a7fb439730249e94e7afbca756f8b81d9bb83e5a6",
+      "bytes": 105631,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "written_utc": "2026-11-09T02:54:16.794168+00:00",
+      "provenance": "Original app.getScreenshot() JPEG bytes written directly, without crop, stitch, edit, or re-encoding.",
+      "pair_id": "grapevine-shapes-stages-2/reverse",
+      "scene": "grapevine-shapes-stages-2",
+      "camera_id": "reverse",
+      "variant": "double",
+      "backing_input": "scenes/grapevine-shapes-stages-2--policy-front.bbmodel",
+      "backing_input_sha256": "957256e16845844821dd3f980979fdc04a776ef498fc4e44ed7f820d32a6fbcd",
+      "state_equivalent_file": "scenes/grapevine-shapes-stages-2--old-policy-double.bbmodel",
+      "state_equivalent_sha256": "f056efb79373d21b7574e95d51caded41cd126946f25d18182390a8719b9edbe",
+      "unsaved_UI_state": true,
+      "state_note": "Only native texture[1] set to Inside and Outside; edits discarded when this scene closed.",
+      "caption": "grapevine-shapes-stages-2, reverse, native DOUBLE. Source screen-left, native screen-right within each pair. Single stage 1 pair at left, stage 0 pair at right, stage 2 pair lower-middle; north_south connected pair upper-middle.",
+      "visually_reviewed": true,
+      "accepted_evidence": true,
+      "selection_overlay": false,
+      "model_clipping": false,
+      "native_engine_execution": false
+    },
+    {
+      "file": "grapevine-shapes-stages-2-reverse-low-front.jpg",
+      "sha256": "e68bf2654cf88f671293f01cbb49e70e57faceb7e828c02c2296126703b6f4c0",
+      "bytes": 102569,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "written_utc": "2026-11-09T02:55:06.018828+00:00",
+      "provenance": "Original app.getScreenshot() JPEG bytes written directly, without crop, stitch, edit, or re-encoding.",
+      "pair_id": "grapevine-shapes-stages-2/reverse-low",
+      "scene": "grapevine-shapes-stages-2",
+      "camera_id": "reverse-low",
+      "variant": "front",
+      "backing_input": "scenes/grapevine-shapes-stages-2--policy-front.bbmodel",
+      "backing_input_sha256": "957256e16845844821dd3f980979fdc04a776ef498fc4e44ed7f820d32a6fbcd",
+      "state_equivalent_file": "scenes/grapevine-shapes-stages-2--policy-front.bbmodel",
+      "state_equivalent_sha256": "957256e16845844821dd3f980979fdc04a776ef498fc4e44ed7f820d32a6fbcd",
+      "unsaved_UI_state": true,
+      "state_note": "Front values were verified in UI after any Undo; the unsaved marker can remain even when the texture value is restored to Outside.",
+      "caption": "grapevine-shapes-stages-2, reverse-low, native FRONT. Source screen-left, native screen-right within each pair. Single stage 1 pair at left, stage 0 pair at right, stage 2 pair upper-middle; north_south connected pair lower-middle.",
+      "visually_reviewed": true,
+      "accepted_evidence": true,
+      "selection_overlay": false,
+      "model_clipping": false,
+      "native_engine_execution": false
+    },
+    {
+      "file": "grapevine-shapes-stages-2-reverse-low-double.jpg",
+      "sha256": "cb32bb006ad0a9e08b59cdb1458ab8ab1da3db2480d69e8a93d4f63b6c4bc2a9",
+      "bytes": 102918,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "written_utc": "2026-11-09T02:55:19.379007+00:00",
+      "provenance": "Original app.getScreenshot() JPEG bytes written directly, without crop, stitch, edit, or re-encoding.",
+      "pair_id": "grapevine-shapes-stages-2/reverse-low",
+      "scene": "grapevine-shapes-stages-2",
+      "camera_id": "reverse-low",
+      "variant": "double",
+      "backing_input": "scenes/grapevine-shapes-stages-2--policy-front.bbmodel",
+      "backing_input_sha256": "957256e16845844821dd3f980979fdc04a776ef498fc4e44ed7f820d32a6fbcd",
+      "state_equivalent_file": "scenes/grapevine-shapes-stages-2--old-policy-double.bbmodel",
+      "state_equivalent_sha256": "f056efb79373d21b7574e95d51caded41cd126946f25d18182390a8719b9edbe",
+      "unsaved_UI_state": true,
+      "state_note": "Only native texture[1] set to Inside and Outside; edits discarded when this scene closed.",
+      "caption": "grapevine-shapes-stages-2, reverse-low, native DOUBLE. Source screen-left, native screen-right within each pair. Single stage 1 pair at left, stage 0 pair at right, stage 2 pair upper-middle; north_south connected pair lower-middle.",
+      "visually_reviewed": true,
+      "accepted_evidence": true,
+      "selection_overlay": false,
+      "model_clipping": false,
+      "native_engine_execution": false
+    }
+  ],
+  "excluded": [],
+  "supporting_evidence": [
+    {
+      "file": "settings/camera-oblique-definition.jpg",
+      "sha256": "24aacb14ba4826e0cfd4d9bc2b2307487c05e9138bdf21d1970c37de12ec93f8",
+      "bytes": 67397,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "written_utc": "2026-11-09T02:44:22.266120+00:00",
+      "provenance": "Original app.getScreenshot() JPEG bytes written directly, without crop, stitch, edit, or re-encoding."
+    },
+    {
+      "file": "settings/camera-reverse-definition.jpg",
+      "sha256": "df9b88b321b9a97da314d3b23bc410543405934b3ece8cffd03bafcb11318ff2",
+      "bytes": 67204,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "written_utc": "2026-11-09T02:46:02.791493+00:00",
+      "provenance": "Original app.getScreenshot() JPEG bytes written directly, without crop, stitch, edit, or re-encoding."
+    },
+    {
+      "file": "settings/camera-reverse-low-definition.jpg",
+      "sha256": "d7184beb7f6cd19f764cb5c1a771e78f6b97fba3b1097bd557ce748546b1a5a7",
+      "bytes": 72776,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "written_utc": "2026-11-09T02:54:34.258400+00:00",
+      "provenance": "Original app.getScreenshot() JPEG bytes written directly, without crop, stitch, edit, or re-encoding."
+    },
+    {
+      "file": "settings/champagne-preserved-after-capture.jpg",
+      "sha256": "96da7347a04854d3c27087c80c256180f4cbc706e87c5640945c7ae5f2c0d5e3",
+      "bytes": 126629,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "written_utc": "2026-11-09T02:57:42.828935+00:00",
+      "provenance": "Original app.getScreenshot() JPEG bytes written directly, without crop, stitch, edit, or re-encoding."
+    },
+    {
+      "file": "settings/gold-native-double-properties.jpg",
+      "sha256": "9f3e32204ab9ad41aaa41c592465c829f6125fefb95912b40e6a3bb788ec8fb0",
+      "bytes": 79922,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "written_utc": "2026-11-09T02:48:33.349551+00:00",
+      "provenance": "Original app.getScreenshot() JPEG bytes written directly, without crop, stitch, edit, or re-encoding."
+    },
+    {
+      "file": "settings/gold-native-front-properties.jpg",
+      "sha256": "8e1fb5380cfb24cd9b989f431ab4bc185632c88b53ea52ff5ac2ad5f58a9f0f8",
+      "bytes": 79504,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "written_utc": "2026-11-09T02:48:16.577323+00:00",
+      "provenance": "Original app.getScreenshot() JPEG bytes written directly, without crop, stitch, edit, or re-encoding."
+    },
+    {
+      "file": "settings/gold-oblique-camera-observed.jpg",
+      "sha256": "243aeafd557acecae4a0857cf90bbff994ce84aba1c6b1a745c4c6a58ffca400",
+      "bytes": 68125,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "written_utc": "2026-11-09T02:49:04.985981+00:00",
+      "provenance": "Original app.getScreenshot() JPEG bytes written directly, without crop, stitch, edit, or re-encoding."
+    },
+    {
+      "file": "settings/gold-reverse-camera-observed.jpg",
+      "sha256": "437f3a5645d3e8b1139bfce0b91c1402211ca662b6d827e095878cbc3925e9f6",
+      "bytes": 68389,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "written_utc": "2026-11-09T02:49:49.290581+00:00",
+      "provenance": "Original app.getScreenshot() JPEG bytes written directly, without crop, stitch, edit, or re-encoding."
+    },
+    {
+      "file": "settings/grape-native-double-properties.jpg",
+      "sha256": "70d13075a7109196c29bb6a744644f544a3312e79ff73b20e25a8dc0e55aaf9c",
+      "bytes": 78441,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "written_utc": "2026-11-09T02:44:58.854621+00:00",
+      "provenance": "Original app.getScreenshot() JPEG bytes written directly, without crop, stitch, edit, or re-encoding."
+    },
+    {
+      "file": "settings/grape-native-front-properties.jpg",
+      "sha256": "6410cc38cb876332d56d89d9ac8660a8593d5017d46e050aeba8d440da2b91f0",
+      "bytes": 76172,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "written_utc": "2026-11-09T02:41:50.596015+00:00",
+      "provenance": "Original app.getScreenshot() JPEG bytes written directly, without crop, stitch, edit, or re-encoding."
+    },
+    {
+      "file": "settings/grape-oblique-camera-observed.jpg",
+      "sha256": "debc21a2c2907ad4d3a7561c4178e7f4b932fc0ddbf9df0b96f71780171bb868",
+      "bytes": 65911,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "written_utc": "2026-11-09T02:45:45.611259+00:00",
+      "provenance": "Original app.getScreenshot() JPEG bytes written directly, without crop, stitch, edit, or re-encoding."
+    },
+    {
+      "file": "settings/grape-reverse-camera-observed.jpg",
+      "sha256": "774e5358ae7d4e3b15abe8ce00fa19f1bc69786a617cb3bf8371069f0b1a0711",
+      "bytes": 66078,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "written_utc": "2026-11-09T02:47:01.172292+00:00",
+      "provenance": "Original app.getScreenshot() JPEG bytes written directly, without crop, stitch, edit, or re-encoding."
+    },
+    {
+      "file": "settings/ice-native-double-properties.jpg",
+      "sha256": "18282addda4c0f1ce8b2d41dd1d1d7968bf294b86e7683a8f4f04b68fe5fc9f6",
+      "bytes": 77393,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "written_utc": "2026-11-09T02:51:11.627685+00:00",
+      "provenance": "Original app.getScreenshot() JPEG bytes written directly, without crop, stitch, edit, or re-encoding."
+    },
+    {
+      "file": "settings/ice-native-front-properties.jpg",
+      "sha256": "458c72ba5d399e39b141c77dcaedc1253ec097f20e62a9d4bd2c20e79a347901",
+      "bytes": 76894,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "written_utc": "2026-11-09T02:50:58.551520+00:00",
+      "provenance": "Original app.getScreenshot() JPEG bytes written directly, without crop, stitch, edit, or re-encoding."
+    },
+    {
+      "file": "settings/ice-oblique-camera-observed.jpg",
+      "sha256": "6cc6d57090bbc3b1d90f8614816508248b79d703147298367421c11ec38ccb1c",
+      "bytes": 66055,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "written_utc": "2026-11-09T02:51:23.199839+00:00",
+      "provenance": "Original app.getScreenshot() JPEG bytes written directly, without crop, stitch, edit, or re-encoding."
+    },
+    {
+      "file": "settings/ice-reverse-camera-observed.jpg",
+      "sha256": "7560d1430d1173eb79fabd01a1a7f64d8cb07f0b2091b4f5356368e5d7b3f9de",
+      "bytes": 66274,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "written_utc": "2026-11-09T02:51:58.012307+00:00",
+      "provenance": "Original app.getScreenshot() JPEG bytes written directly, without crop, stitch, edit, or re-encoding."
+    },
+    {
+      "file": "settings/temporary-camera-presets-removed.jpg",
+      "sha256": "e41da213e0fa6d03bc3d8a92c25182d48d5314647d25cdc92d9eda90c79acf9e",
+      "bytes": 122201,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "written_utc": "2026-11-09T02:57:27.248725+00:00",
+      "provenance": "Original app.getScreenshot() JPEG bytes written directly, without crop, stitch, edit, or re-encoding."
+    },
+    {
+      "file": "settings/vine-connected-invariant-after-double.jpg",
+      "sha256": "bad3cbecec7046ce5e020de6d628418a3e70352733b0a11db5cd70b663d39079",
+      "bytes": 87162,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "written_utc": "2026-11-09T02:55:23.739066+00:00",
+      "provenance": "Original app.getScreenshot() JPEG bytes written directly, without crop, stitch, edit, or re-encoding."
+    },
+    {
+      "file": "settings/vine-connected-invariant-front-properties.jpg",
+      "sha256": "c1f1f7c875c89b51bb579311ae5b8643e5cb95475aeb0d206d4df88df3984271",
+      "bytes": 87781,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "written_utc": "2026-11-09T02:52:48.596987+00:00",
+      "provenance": "Original app.getScreenshot() JPEG bytes written directly, without crop, stitch, edit, or re-encoding."
+    },
+    {
+      "file": "settings/vine-native-double-properties.jpg",
+      "sha256": "9cc963f0c52c6cc1923eacda2758134808eb038f738d795edc11272f31944bc1",
+      "bytes": 88239,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "written_utc": "2026-11-09T02:53:20.717419+00:00",
+      "provenance": "Original app.getScreenshot() JPEG bytes written directly, without crop, stitch, edit, or re-encoding."
+    },
+    {
+      "file": "settings/vine-native-front-properties.jpg",
+      "sha256": "981baf2aed27d014a826fe4e97de506aab47ce539083faedd6d4edefea63f5ea",
+      "bytes": 87783,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "written_utc": "2026-11-09T02:52:51.045020+00:00",
+      "provenance": "Original app.getScreenshot() JPEG bytes written directly, without crop, stitch, edit, or re-encoding."
+    },
+    {
+      "file": "settings/vine-oblique-camera-observed.jpg",
+      "sha256": "001e51720f06a40334b07d93b409004de0dae7a8d9cedb14c2dfda7f91afb6b1",
+      "bytes": 74121,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "written_utc": "2026-11-09T02:53:38.613659+00:00",
+      "provenance": "Original app.getScreenshot() JPEG bytes written directly, without crop, stitch, edit, or re-encoding."
+    },
+    {
+      "file": "settings/vine-reverse-camera-observed.jpg",
+      "sha256": "7f96b28135d6d43d11abac87449dc055e1884e1cf693cbabb3b40e77c5d7dc6e",
+      "bytes": 71085,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "written_utc": "2026-11-09T02:54:18.318187+00:00",
+      "provenance": "Original app.getScreenshot() JPEG bytes written directly, without crop, stitch, edit, or re-encoding."
+    },
+    {
+      "file": "settings/vine-reverse-low-camera-observed.jpg",
+      "sha256": "1f9eed884bbdf802d85547632e2437b2c48c50d8a3dbb147f1fb3ed6827530a9",
+      "bytes": 72783,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "written_utc": "2026-11-09T02:55:20.923028+00:00",
+      "provenance": "Original app.getScreenshot() JPEG bytes written directly, without crop, stitch, edit, or re-encoding."
+    }
+  ],
+  "cleanup": {
+    "own_scene_tabs_discarded": 4,
+    "temporary_camera_presets_removed": 3,
+    "Champagne_tab_preserved": true,
+    "Terminal_41949001_untouched": true,
+    "other_windows_untouched": true,
+    "white_viewport_seen": false,
+    "GUI_handed_back_to": "/root/inspect_tavern_visuals",
+    "next_GUI_task": "N03 machine contents, to be resumed by parent"
+  },
+  "limitations": [
+    "Editor sidedness only; no Bedrock renderer, BP material, BDS, Minecraft client, item pose, or LIVE test.",
+    "No geometry, UV, texture PNG, runtime or source changes were made. Existing native thickness adaptation remains as frozen.",
+    "All nine native view pairs have a visible change. No full view pair was visually unchanged. The source controls and connected vine controls do not change.",
+    "The 18 model captures and 24 supporting JPEGs are original bytes. Supporting UI screenshots are not model-view acceptance shots."
+  ]
+}

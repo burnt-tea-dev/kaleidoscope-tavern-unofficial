@@ -1,0 +1,32 @@
+{
+  "base_commit": "682a9dd01cc8d5ad26b714c0b279d04cbafeb205",
+  "base_remaining_group": {
+    "files": 149,
+    "sha256": "20d101a7b1d038a9957df90bab4d2595b5490b63f5ac496f5df87ce056060cb3"
+  },
+  "current_remaining_group": {
+    "files": 145,
+    "sha256": "7aea71da1836ab379ed6f0bae60abae723f31551a5acfd10464bae011cb0a790"
+  },
+  "unchanged_original_group": {
+    "files": 159,
+    "sha256": "76bf7e1f8bcd9b7c60f14152302c3571bcf95cc02f1e2e1bc98d145ceafd9801"
+  },
+  "retired_historical_beforeProjected": {
+    "runtime/BP/blocks/gold_grape_crop.json": "1ddea70e9a5ac19992e925d678aa787be1fda29a6c8d0424a0621d8fee0fe627",
+    "runtime/BP/blocks/grape_crop.json": "b616d7175555672b2df80fc9902523b43834e3faf95a5c8e3a7fa7122426711e",
+    "runtime/BP/blocks/grapevine_trellis.json": "391b7ab4b9fcb077ed4979082f3677f06a8006f4962482ed344adfe78148f3b8",
+    "runtime/BP/blocks/ice_grape_crop.json": "216e8f11c01a1c7415438e55d676bcfa7dbc47e43cd7e5b3c21bf0dc40926d5e"
+  },
+  "current_plus_four_historical_equals_base": true,
+  "current_plus_all_historical_retirements_equals_original": true,
+  "historical_hashes_not_derived_from_current_bytes": true,
+  "current_owner_negative_tests": "204 individual material declarations plus route/item/shading/texture negatives in tools/test_cultivation_source_contract.py",
+  "remaining_historical_negative": {
+    "path": "runtime/BP/blocks/trellis.json",
+    "mutation": "minecraft:light_dampening set to 1 through an in-memory file-read replacement",
+    "result": "rejected",
+    "message": "('Reconciled source mutated', 'runtime/BP/blocks/trellis.json')",
+    "disk_modified": false
+  }
+}

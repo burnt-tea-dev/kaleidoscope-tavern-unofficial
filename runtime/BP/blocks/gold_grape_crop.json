@@ -21,7 +21,7 @@
       "minecraft:material_instances": {
         "*": {
           "texture": "kt_assets_a2_gold_grape_crop_stage0",
-          "render_method": "alpha_test",
+          "render_method": "alpha_test_single_sided",
           "ambient_occlusion": 0.0,
           "face_dimming": true
         }
@@ -33,7 +33,7 @@
         "material_instances": {
           "*": {
             "texture": "kt_assets_a2_gold_grape_crop_stage0",
-            "render_method": "alpha_test",
+            "render_method": "alpha_test_single_sided",
             "ambient_occlusion": 0.0,
             "face_dimming": true
           }
@@ -88,7 +88,7 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kt_assets_a2_gold_grape_crop_stage0",
-              "render_method": "alpha_test",
+              "render_method": "alpha_test_single_sided",
               "ambient_occlusion": 0.0,
               "face_dimming": true
             }
@@ -104,7 +104,7 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kt_assets_a2_gold_grape_crop_stage1",
-              "render_method": "alpha_test",
+              "render_method": "alpha_test_single_sided",
               "ambient_occlusion": 0.0,
               "face_dimming": true
             }
@@ -120,7 +120,7 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kt_assets_a2_gold_grape_crop_stage2",
-              "render_method": "alpha_test",
+              "render_method": "alpha_test_single_sided",
               "ambient_occlusion": 0.0,
               "face_dimming": true
             }
@@ -136,7 +136,7 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kt_assets_a2_gold_grape_crop_stage3",
-              "render_method": "alpha_test",
+              "render_method": "alpha_test_single_sided",
               "ambient_occlusion": 0.0,
               "face_dimming": true
             }
@@ -152,7 +152,7 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kt_assets_a2_gold_grape_crop_stage4",
-              "render_method": "alpha_test",
+              "render_method": "alpha_test_single_sided",
               "ambient_occlusion": 0.0,
               "face_dimming": true
             }
@@ -168,7 +168,7 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kt_assets_a2_gold_grape_crop_stage5",
-              "render_method": "alpha_test",
+              "render_method": "alpha_test_single_sided",
               "ambient_occlusion": 0.0,
               "face_dimming": true
             }
