@@ -11,6 +11,8 @@ import {installFurnitureEvents} from '../runtime/BP/scripts/bedrock/furniture.js
 import {installJavaItemUseOnEvents,JAVA_PLACEMENT_TEST} from '../runtime/BP/scripts/bedrock/java-placement-router.js';
 import {exchangeBlocks,exchangeBlocksToWorld,air} from '../runtime/BP/scripts/bedrock/transactions.js';
 import {BOARD_HALF,BOARD_ROTATION,CHALK_POSITION,boardRuntimeKey} from '../runtime/BP/scripts/core/boards.js';
+import {naturalBreak} from '../runtime/BP/scripts/bedrock/natural-break.js';
+import {boardTextDiagnostics} from '../runtime/BP/scripts/bedrock/board-text.js';
 
 const NS='kaleidoscope_tavern:',d=world.getDimension('overworld'),blocks=new Map(),items=new Map();let serial=0;
 registerFixtureItem('minecraft:ink_sac');
@@ -121,6 +123,45 @@ test('committed board data survives glyph failure and native echoes without cons
  try{interact(p,lower);system.advance(1);assert.equal(read(key).color,'red');assert.equal(p.inventory.getItem(2).amount,2);assert.ok(WRITING_BOARD_DIAGNOSTICS.errors.some(x=>x.includes('INJECTED_ENTITY_SPAWN_FAILURE')));assert.equal(JAVA_PLACEMENT_TEST.blockUses.get(p.id).pending,false);assert.equal(native(p,lower,'East'),false);system.advance(1);assert.equal(p.inventory.getItem(2).amount,2);}
  finally{d.failSpawn=false;}
  blocks.get(NS+'writing_board').onTick({block:lower});assert.ok(d.getEntities({type:NS+'board_glyph_visual',location:lower.location,maxDistance:3}).length>0);assert.equal(p.inventory.getItem(2).amount,2);
+});
+
+test('natural destruction retires every board glyph and its layout cache without touching a nearby board',()=>{
+ for(const kind of ['sandwich','small','large']){
+  const {lower,upper,key}=setup(),root={...lower.location},count=kind==='large'?300:30;
+  let broken=upper;
+  if(kind!=='sandwich'){
+   for(let x=kind==='large'?-1:0;x<=(kind==='large'?1:0);x++)for(let y=0;y<2;y++){
+    const b=at({...root,x:root.x+x,y:root.y+y},NS+'chalkboard',{[BOARD_HALF]:y,[CHALK_POSITION]:kind==='large'?x+2:0,'minecraft:cardinal_direction':'north'});
+    if(x===(kind==='large'?1:0)&&y===1)broken=b;
+   }
+  }
+  const neighbor=at({...root,x:root.x+3},NS+'base_sandwich_board',{[BOARD_HALF]:0,[BOARD_ROTATION]:0});
+  at({...neighbor.location,y:root.y+1},neighbor.typeId,{[BOARD_HALF]:1,[BOARD_ROTATION]:0});
+  const neighborKey=boardRuntimeKey(d.id,neighbor.location);save(neighborKey,{text:'KEEP'});save(key,{text:'A'.repeat(count)});
+  const tick=b=>blocks.get(NS+'writing_board').onTick({block:b});tick(lower);tick(neighbor);
+  const ownGlyphs=()=>d.getEntities({type:NS+'board_glyph_visual',location:root,maxDistance:4}).filter(e=>e.getDynamicProperty('kt:writingBoard/anchor').startsWith(key+'|'));
+  const neighborGlyphs=d.getEntities({type:NS+'board_glyph_visual',location:neighbor.location,maxDistance:1}).map(e=>e.id);
+  assert.equal(ownGlyphs().length,count);assert.equal(neighborGlyphs.length,4);
+  const beforeBuilds=boardTextDiagnostics.layoutBuilds,lowerPermutation=lower.permutation,upperPermutation=upper.permutation,brokenBlockPermutation=broken.permutation;
+  broken.setType('minecraft:air');naturalBreak({block:broken,brokenBlockPermutation},{});
+  assert.equal(ownGlyphs().length,0,'destroyed board must not retain persistent glyph actors');
+  assert.equal(world.getDynamicProperty(key),undefined);assert.equal(lower.typeId,'minecraft:air');assert.equal(upper.typeId,'minecraft:air');
+  assert.ok(neighborGlyphs.every(id=>d.entities.has(id)));assert.equal(read(neighborKey).text,'KEEP');
+  // Reusing the exact old content/position must rebuild after the owner retired.
+  lower.setPermutation(lowerPermutation);upper.setPermutation(upperPermutation);save(key,{text:'A'.repeat(count)});tick(lower);
+  assert.equal(ownGlyphs().length,count);assert.equal(boardTextDiagnostics.layoutBuilds,beforeBuilds+1);
+ }
+});
+
+test('failed natural board destruction retains glyphs and data; successful player recovery still clears them',()=>{
+ const {p,lower,upper,key}=setup(GameMode.Survival);save(key,{text:'KEEP'});
+ blocks.get(NS+'writing_board').onTick({block:lower});
+ const glyphs=d.getEntities({type:NS+'board_glyph_visual',location:lower.location,maxDistance:2}).map(e=>e.id),raw=world.getDynamicProperty(key),brokenBlockPermutation=upper.permutation;
+ upper.setType('minecraft:air');d.failSpawnItem=true;
+ try{assert.throws(()=>naturalBreak({block:upper,brokenBlockPermutation},{}),/INJECTED_ITEM_SPAWN_FAILURE/);}finally{d.failSpawnItem=false;}
+ assert.equal(world.getDynamicProperty(key),raw);assert.equal(upper.typeId,lower.typeId);assert.ok(glyphs.every(id=>d.entities.has(id)));
+ const event={player:p,block:lower,cancel:false};world.beforeEvents.playerBreakBlock.emit(event);assert.equal(event.cancel,true);system.advance(1);
+ assert.equal(lower.typeId,'minecraft:air');assert.equal(upper.typeId,'minecraft:air');assert.equal(world.getDynamicProperty(key),undefined);assert.ok(glyphs.every(id=>!d.entities.has(id)));
 });
 
 test('flower style rolls back a partial pair change and preserves metadata on failure',()=>{
