@@ -18935,6 +18935,109 @@
       },
       "required_extensions": [],
       "source_owner": "upstream"
+    },
+    "curated-public-api-cookery-166-g257": {
+      "id": "kaleidoscope_grilling:family-api-0.2.15",
+      "version": [
+        0,
+        2,
+        15
+      ],
+      "host_uuid": "9944f731-cc4c-4299-bdd5-f8799c1d832e",
+      "archive_sha256": "4bd85c214d063e07ea66639edcff367337db12d59b430b26595c71d1b61b3b64",
+      "original_files": {
+        "scripts/api/extensionRegistry.js": "d1a2a364ed817a2b2f95a0bd6a7c394b7eed3f9933fd6cf8767c3ec0e0a27c89",
+        "scripts/custom_components/blocks/directStation.js": "2be90f873cbf780e5a8d32151242af2b41239a985ad9c9bf74a3fe5779bc3620",
+        "scripts/custom_components/blocks/oilPot.js": "c34d1cb0c6f125db7ebbe4e7dc1d251efd92a261dac964e4bf9d09d6e981222c",
+        "items/kitchen/oil_pot.json": "f881cc3144f2b46fe075339a0713af8f627dbdb80c31a33a32cea3e7a4010b17",
+        "items/kitchen/oil_pot_filled.json": "12eacddb8ad48c8f8d3510f78f0e6489244e7bc1d4ff7ca4aa0d73c44776f1f2",
+        "scripts/events/guidebook.js": "06a8bd85610479cc3cf1bf1b135eaf1555a6b4b687a2b05a2131474abc2e4e3a",
+        "scripts/events/foodItemReturns.js": "4b02c6ba37e41a311ebfc9fbac3dbbbbb6c36c33658ab2588e169e63ff1604fe",
+        "scripts/data/foodEffects.js": "f0a1750a2f22ee9335e15ef17a0d0f5791435564aad8e85aea69cfbc764b2149",
+        "scripts/api/guidebookExtensionRegistry.js": "5ed1002fcece629df140da5fc480f43af6109fefef09457cfa8a88b5e9a83f12",
+        "scripts/custom_components/blocks/millstone.js": "24a348ac26c379d4e9d6726d169a88f943e2c0e649ee7e69dd11bfb8bcd2340f"
+      },
+      "patched_files": {
+        "scripts/api/extensionRegistry.js": "994d7e7d7685183a57ef1fd9a2e64646b2aaa4453869f0e248a4b56280353b6a",
+        "scripts/custom_components/blocks/directStation.js": "c49d1d82960eae231cd32508c0b2588a7cf8ebf6c69e268f55aa3b2f6068751e",
+        "scripts/custom_components/blocks/oilPot.js": "09a82c98f105472f7e4c1d12fe0e561d7185ff3e707b3c701367427d90a4a582",
+        "items/kitchen/oil_pot.json": "fba383920613d0e153bfd1438eaf2825b97bbce2c26486995448b14d35b83f0f",
+        "items/kitchen/oil_pot_filled.json": "0296061e7db00b0979303f6800f829daf628cab4929e7e0825125a3a470ff7f3",
+        "scripts/events/guidebook.js": "4d43f39cd59255b44e0c2f7dcd9662ee9420298697ee9065951584eca4a2cf1a",
+        "scripts/events/foodItemReturns.js": "54d25ce087ea2c502023072ea6f3b9fa800bd35189cd0db7addb4a82abe4d087",
+        "scripts/data/foodEffects.js": "5c43d22512262e288f88e752903fc88ea46c50d6f575ebac312422abd903cf35",
+        "scripts/api/guidebookExtensionRegistry.js": "5ed1002fcece629df140da5fc480f43af6109fefef09457cfa8a88b5e9a83f12",
+        "scripts/custom_components/blocks/millstone.js": "36767b01f6ef0d2300ae16713b4496f906cdca90b9679091a394f0659af3d22e"
+      },
+      "spec_sha256": "8467da1015d319837acf9f44db6e5f97526a4bf9754cf24f8b46862edb618cc3",
+      "copies": {
+        "scripts/api/board_api_core.js": {
+          "source": "scripts/host_api/board_api_core.js",
+          "sha256": "bc7298ec2843f9eb0948da6dc99e52fe71ae9ffcb1afd313b85bd8cf91717017"
+        },
+        "scripts/api/board_api_runtime.js": {
+          "source": "scripts/host_api/board_api_runtime.js",
+          "sha256": "be127f35dd42676729cfc059d6af05bd08d32ab71e3d8199a4bcfa4b3ef6705b"
+        },
+        "scripts/api/oil_api_core.js": {
+          "source": "scripts/host_api/oil_api_core.js",
+          "sha256": "26fb0d08566314fe5d0644eb371ce1f6694c85d291ed69b482045a5b194f362c"
+        },
+        "scripts/api/oil_api_host.js": {
+          "source": "scripts/host_api/oil_api_host.js",
+          "sha256": "21ed621fc7eb622ac91dfd2093ce19fc6f72f469dbaa78314f12c28337f21bdc"
+        },
+        "scripts/api/food_api_core.js": {
+          "source": "scripts/host_api/food_api_core.js",
+          "sha256": "63794a5c86263a058f1424119cd3a5445db7a70fc64bb9d32c6a11fc9a160542"
+        },
+        "scripts/api/cuisine_api_host.js": {
+          "source": "scripts/host_api/cuisine_api_host.js",
+          "sha256": "ca7a1108fa3e136262fc566c579ddd43c43bdbf4cb62e2144ee530c13f3d9d40"
+        },
+        "scripts/api/guide_labels_core.js": {
+          "source": "scripts/host_api/guide_labels_core.js",
+          "sha256": "f1a301c0fc23f778568710e8ff322b1c93cae02d42df3c8119901d41f0e3cd4e"
+        },
+        "scripts/api/ingredient_api_host.js": {
+          "source": "scripts/host_api/ingredient_api_host.js",
+          "sha256": "d65de1186d4c761122b871b11f9941d9c90af7c445e3c2d67d848682ee484fcf"
+        },
+        "scripts/food/wok_food_core.js": {
+          "source": "scripts/food/wok_food_core.js",
+          "sha256": "0b99b672acce389f3831107bcea4f6cfbf4cd66770cd1e8bf4528224c9aceffe"
+        },
+        "scripts/api/pot_api_core.js": {
+          "source": "scripts/host_api/pot_api_core.js",
+          "sha256": "177d343ae463b0751ca3a4d75b50f9581a9da0ce99bea22c943e7784e91df4fa"
+        },
+        "scripts/core/persist.js": {
+          "source": "scripts/core/persist.js",
+          "sha256": "a61fa54a72a055165c7e381522ca57929094b73d4d967ab677a1a5fed3a26194"
+        },
+        "scripts/core/persist_keys.js": {
+          "source": "scripts/core/persist_keys.js",
+          "sha256": "c9286bd2459ba820caf0d8a04806c96917a112c4a8b6f5ab025a07c29c11f4ad"
+        },
+        "scripts/api/pot_api_host.js": {
+          "source": "scripts/host_api/pot_api_host.js",
+          "sha256": "eb2372a104b90a959b0dec531d90e432b21610909de1e614b94c52dc6c6aa886"
+        },
+        "scripts/api/cuisine_quality_core.js": {
+          "source": "scripts/host_api/cuisine_quality_core.js",
+          "sha256": "5819297f2c64d238cd34cf6c8ba04b35fb2ac7daefd445b4ea7b58219b7ccda2"
+        },
+        "scripts/api/millstone_api_core.js": {
+          "source": "scripts/host_api/millstone_api_core.js",
+          "sha256": "bb43b3a7fd9c172171fac83c3821787fb53e4a8e0047da5c4bd77d2718b4009b"
+        },
+        "scripts/api/event_router.js": {
+          "source": "scripts/host_api/event_router.js",
+          "sha256": "666bc03cdd7bc93a9843feba71de5b0c48e5f1b5173c6529d6beeb43308227b9"
+        }
+      },
+      "required_extensions": [],
+      "source_owner": "upstream"
     }
   },
   "public_api_predecessors": {
