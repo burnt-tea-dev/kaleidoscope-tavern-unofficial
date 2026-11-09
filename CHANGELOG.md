@@ -1,3 +1,7 @@
+## 0.6.213 — 2026-11-09
+
+Restore the source-authored fill underside on the shared closed/open incense models for all eight types. Preserve the original textures, upper faces, single-sided cutouts and gameplay. Current source geometry, alpha, effective-state lifecycle and visible consumer contracts replace the superseded hidden-bottom projection. Source and Blockbench comparisons passed; no Minecraft client, BDS, saved-world or LIVE acceptance is claimed.
+
 ## 0.6.212 — 2026-11-08
 
 Complete the short-grass board repair with official native ingredient names in all three guide languages and direct multiline instructions matching the current editor. Replace obsolete whole-guide output hashes with current navigation, independent link/preparation fixtures and exact wire checks. Preserve the frozen T211 history and reuse its unchanged native material-map evidence, without claiming a new full-candidate native run.

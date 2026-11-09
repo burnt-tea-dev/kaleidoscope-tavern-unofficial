@@ -289,6 +289,7 @@ def main(argv=None):
 
     subprocess.run(['node',str(ROOT/'tools/check_incense_sampling.mjs')],cwd=ROOT,check=True)
     subprocess.run([sys.executable,str(ROOT/'tools/check_incense_surfaces.py')],cwd=ROOT,check=True)
+    subprocess.run([sys.executable,str(ROOT/'tools/test_incense_surfaces.py')],cwd=ROOT,check=True)
     subprocess.run([sys.executable,str(ROOT/'tools/check_animated_hands.py')],cwd=ROOT,check=True)
 
     barrel_check=[sys.executable,str(ROOT/'tools/check_barrel_collision.py')]

@@ -1,0 +1,82 @@
+{
+  "date": "2026-11-09",
+  "status": "PASS",
+  "method": "Reconstructed in a new temporary directory using only docs-ready raw image/index files and the two compact ZIPs. All 107 recovered files match the corrected payload. Compared against the original snapshot, 102 files remain byte-identical; the README and two image indexes have a documentation-only green-mark correction, and two hash manifests are regenerated. The original unmodified offline verifier then passed.",
+  "direct_raw_jpegs": 24,
+  "jpeg_archive_entries": 0,
+  "original_scene_files_restored": 11,
+  "original_scene_bytes_unchanged": true,
+  "original_verifier_bytes_unchanged": true,
+  "original_inventory_bytes_unchanged": false,
+  "source_and_audit_archives": [
+    {
+      "file": "archives/incense-scenes.zip",
+      "bytes": 138066,
+      "sha256": "080cd1ad81550751f1dc0aed24a9b1c75f52da6fa3e65c65b6ea67046dea2cb6",
+      "entries": 14,
+      "jpeg_entries": 0
+    },
+    {
+      "file": "archives/portable-source-audits.zip",
+      "bytes": 91112,
+      "sha256": "c53577a2b69f3b68ff5fa415c4db0a744b36d9152ed8e9251596920cb7238e71",
+      "entries": 67,
+      "jpeg_entries": 0
+    }
+  ],
+  "verification_result": {
+    "python": "3.12.14",
+    "Pillow": "13.0.0",
+    "inventory_files_verified": 105,
+    "candidate_inputs_verified": 36,
+    "geometry_delta": "Exactly cube 3/down in both shared models; open unshaded retained.",
+    "source_asset_receipts_verified": 24,
+    "author_code_inputs_verified": 8,
+    "exact_scene_files_verified": 11,
+    "embedded_png_entries_verified": 28,
+    "raw_jpeg_files_verified": 24,
+    "jpeg_visual_inspection": "Recorded manual pixel inspection; this script does not replace visual review.",
+    "scene_zip_entries_verified": 11,
+    "stored_input_rebuild": "PASS: 6 scenes, 16 unique states; all scene data equal after UUID rebasing.",
+    "captured_scene_bytes_unchanged": true,
+    "minecraft_or_release_acceptance": false
+  },
+  "original_complete_bundle_not_included": true,
+  "runtime_source_changed": false,
+  "gui_opened": false,
+  "published": false,
+  "reviewed_payload_files_restored": 107,
+  "original_payload_files_byte_identical": 102,
+  "documentation_correction": {
+    "reason": "The green mark was visible but its origin was not diagnosed. The previous viewport-marker/non-model attribution was unsupported.",
+    "replacement": "A small green mark is visible near the current model; origin was not diagnosed, and it is not used as defect evidence.",
+    "changes": [
+      {
+        "file": "review/README.md",
+        "original_sha256": "d8521fb2e6a84ca430cf8fd1d826d6b75a975b4f9a8f80c2f4c97ba108f7015c",
+        "corrected_sha256": "014c01d1f78bfaa6dade94b04909b0951870f2b351ead84313a2f843d740c25a"
+      },
+      {
+        "file": "review/SHA256SUMS",
+        "original_sha256": "75eeea4f0931b79644ecdb63cb0ab72f628fe4f782dc530dd8f46f0b7152bca9",
+        "corrected_sha256": "c6ff087d83ecab35aade26eeaa49bcaa69d58f3ef4a9972ffd2906e266e1f7fe"
+      },
+      {
+        "file": "review/image-index.json",
+        "original_sha256": "e6c1776212ccf45f7e5f77c6d1fad61a5c7e955f1753041f19d44aace9fa08f1",
+        "corrected_sha256": "e165fa626fe51196685d9887653473a280af104868889d34684f81f927757733"
+      },
+      {
+        "file": "review/image-index.md",
+        "original_sha256": "65a91e28f9bf1a0e3ef78f14f470409c8f99e06170e37c106329c2664eb37704",
+        "corrected_sha256": "844e13c9a1bfbb2f2d968f346fec3e28e213e0323c3671565c058eb52e438454"
+      },
+      {
+        "file": "review/inventory.json",
+        "original_sha256": "9d1b4aef69ba2f920ea86095e4f1191bf8d4e120d62c0647f9059eaab3d24736",
+        "corrected_sha256": "47319713330c1cfe25014e621aafe08d979d3ea5037007053c2836f6c411830b"
+      }
+    ],
+    "raw_images_scenes_inputs_unchanged": true
+  }
+}

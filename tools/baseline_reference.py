@@ -10,6 +10,7 @@ from functools import lru_cache
 from collision_shape_projection import collision_preimage
 from current_extension_source_contract import check as check_current_extensions, runtime_sources as extension_runtime_sources
 from cultivation_source_contract import check as check_cultivation, runtime_sources as cultivation_runtime_sources
+from check_incense_surfaces import check as check_incense, runtime_sources as incense_runtime_sources
 from build_tavern_forms import CURRENT_FORM_SOURCES, check_or_write as check_current_forms
 
 # Only exact reviewed non-script assets and opt-in command entry points.
@@ -54,12 +55,6 @@ COCKTAIL_ASSET_PATHS=frozenset({
    'runtime/RP/render_controllers/signature_tint.json',
    'runtime/BP/functions/kt_tipsy_motion_off.mcfunction',
    'runtime/BP/functions/kt_tipsy_motion_on.mcfunction'})
-
-# T158: exact eight incense blocks and their two shared geometries.
-INCENSE_ASSET_PATHS=frozenset({'runtime/BP/blocks/'+kind+'_incense.json'
- for kind in ('butterfly','catnip','firefly','ginkgo','pine','sakura','snow','spore')}
- |{'runtime/RP/models/entity/incense_closed.geo.json',
-   'runtime/RP/models/entity/incense_open.geo.json'})
 
 ANIMATED_SPRITE_ASSET_PATHS=frozenset('runtime/RP/models/entity/item_sprite_'+name+'.geo.json'
  for name in ('depth_charge','mystery_cocktail','nether_special','ice_grape'))
@@ -182,7 +177,7 @@ def asset_layers(root):
  for layer in layers:
   assert isinstance(layer.get('release'),str) and layer['release'].strip()
   assert isinstance(layer.get('files'),dict) and layer['files']
-  assert set(layer['files'])<=(COCKTAIL_ASSET_PATHS|INCENSE_ASSET_PATHS|ANIMATED_SPRITE_ASSET_PATHS|frozenset({'runtime/BP/blocks/xp_bottle.json','runtime/RP/models/entity/item_display_tilted_rack.geo.json'})|FREEZER_SURFACE_ASSET_PATHS|LIQUID_SURFACE_ASSET_PATHS),'Unsupported reviewed asset path'
+  assert set(layer['files'])<=(COCKTAIL_ASSET_PATHS|ANIMATED_SPRITE_ASSET_PATHS|frozenset({'runtime/BP/blocks/xp_bottle.json','runtime/RP/models/entity/item_display_tilted_rack.geo.json'})|FREEZER_SURFACE_ASSET_PATHS|LIQUID_SURFACE_ASSET_PATHS),'Unsupported reviewed asset path'
   if layer['release']=='0.6.169':
    assert set(layer['files'])=={T169_PATH},'T169 review scope differs'
    assert layer['reviewedPredecessorCommit']==T169_BEFORE and layer['reviewedSourceCommit']==T169_AFTER,'T169 immutable review commits differ'
@@ -267,6 +262,9 @@ def previous_bytes(root,path):
   return data
  if root==Path(__file__).resolve().parents[1] and name in cultivation_runtime_sources():
   check_cultivation(root,syntax=False)
+  return data
+ if root==Path(__file__).resolve().parents[1] and name in incense_runtime_sources():
+  check_incense(root)
   return data
  data=t176_preimage(root,name,data)
  data=collision_preimage(root,name,data)

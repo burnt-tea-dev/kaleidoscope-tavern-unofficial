@@ -8,6 +8,7 @@ from foundation.source_contract import check as check_foundation_sources, runtim
 from current_extension_source_contract import check as check_extension_sources, runtime_sources as extension_runtime_sources
 from creative.catalog import check_current as check_creative_sources, runtime_sources as creative_runtime_sources
 from cultivation_source_contract import check as check_cultivation_sources, runtime_sources as cultivation_runtime_sources
+from check_incense_surfaces import check as check_incense_sources, runtime_sources as incense_runtime_sources
 from build_tavern_forms import CURRENT_FORM_SOURCES, check_or_write as check_current_forms
 ROOT=Path(__file__).resolve().parents[1]
 # These domains are maintained against their current contracts. Their behavior
@@ -30,6 +31,8 @@ def main():
     parser.add_argument('--java-source',type=Path)
     parser.add_argument('--baseline',type=Path)
     args=parser.parse_args()
+    incense_sources=incense_runtime_sources()
+    incense_contract=check_incense_sources(ROOT,args.java_source)
     cultivation_sources=cultivation_runtime_sources()
     cultivation_contract=check_cultivation_sources(ROOT,args.java_source)
     potion_sources=potion_runtime_sources()
@@ -92,12 +95,12 @@ def main():
     if args.baseline:
         old_names={p.relative_to(args.baseline).as_posix() for p in (args.baseline/'runtime').rglob('*') if p.is_file()}
         new_names={p.relative_to(ROOT).as_posix() for p in (ROOT/'runtime').rglob('*') if p.is_file()}
-        assert new_names==(old_names|set(ref['newRuntimeFiles'])|potion_sources|foundation_sources|extension_sources|creative_sources|cultivation_sources|GUIDE_SOURCES)-set(removed),'Unlisted runtime addition or removal'
-        assert (EFFECT_SOURCES|BARREL_SOURCES|potion_sources|foundation_sources|extension_sources|creative_sources|cultivation_sources|GUIDE_SOURCES)<=new_names,'Missing current-contract source'
+        assert new_names==(old_names|set(ref['newRuntimeFiles'])|potion_sources|foundation_sources|extension_sources|creative_sources|cultivation_sources|incense_sources|GUIDE_SOURCES)-set(removed),'Unlisted runtime addition or removal'
+        assert (EFFECT_SOURCES|BARREL_SOURCES|potion_sources|foundation_sources|extension_sources|creative_sources|cultivation_sources|incense_sources|GUIDE_SOURCES)<=new_names,'Missing current-contract source'
         for old in (args.baseline/'runtime').rglob('*'):
             if not old.is_file():continue
             name=old.relative_to(args.baseline).as_posix()
-            if name not in ref['reviewedChanges'] and name not in removed and name not in (EFFECT_SOURCES|BARREL_SOURCES|potion_sources|foundation_sources|extension_sources|creative_sources|cultivation_sources|GUIDE_SOURCES):
+            if name not in ref['reviewedChanges'] and name not in removed and name not in (EFFECT_SOURCES|BARREL_SOURCES|potion_sources|foundation_sources|extension_sources|creative_sources|cultivation_sources|incense_sources|GUIDE_SOURCES):
                 assert previous_bytes(ROOT,ROOT/name)==old.read_bytes(),('Unreviewed existing-runtime change',name)
                 unchanged+=1
     components=read(ROOT/'runtime/BP/items/molotov.json')['minecraft:item']['components']
@@ -167,6 +170,7 @@ def main():
                             'foundation':foundation_contract,
                             'extensions':extension_contract,
                             'cultivation':cultivation_contract,
+                            'incenseResources':incense_contract,
                             'creativeCatalog':creative_contract,
                             'guide':{'sources':sorted(GUIDE_SOURCES),'behaviorAndResources':'actual standalone-guide.test.mjs, presentation-settings.test.mjs and check_guide.mjs in the existing package suite; not run by this static command'},
                             'potionVisual':{**potion_contract,'sources':sorted(potion_sources),'adapterScenarios':'separate foundation CI; not run by this command'},

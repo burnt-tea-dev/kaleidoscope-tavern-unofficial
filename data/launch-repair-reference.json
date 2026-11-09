@@ -491,22 +491,10 @@
       "after": "35301a5ca8a11fdd64426e15863cfa70fcfcec86a6b5979e7ffad462c24f4576",
       "reason": "0.6.47 reviewed repair: Java viewer sampling and particle classes; bound full-UV animated item cards; missing barrel/status HUD label. See docs/REPAIR-0.6.47.md. 2026-09-28 effects review: Pinned Java constructors, finite per-sample emission and source 20Hz dynamics. See docs/EFFECTS-REPORT-FOLLOWUP-20260928.md. 0.6.64 Molang hotfix: expand compound assignments to explicit assignments; arithmetic order and all other JSON values retained."
     },
-    "runtime/BP/blocks/pine_incense.json": {
-      "before": "0001e93157150d410824e8c95445f52946b9991ee96f33a0a4399cc67b3c85cd",
-      "beforeProjected": "beba8822f877a6c85132db8529582d92cc4439180f3193ad6016263e6ee78e69",
-      "after": "56fe1ca62f3310099704e1df50ba537706b81134917708774bcae42a809eec66",
-      "reason": "0.6.46: shared Cookery-style creative taxonomy and product guide cleanup; menu metadata/text only, gameplay IDs and mechanics preserved. 0.6.48: reviewed native product preparations, destruction cleanup, Java resistance/selection and native potion delivery IDs as applicable."
-    },
     "runtime/BP/blocks/base_sandwich_board.json": {
       "before": "89221f4c5d834b76cb8ee0d530cae9f9a90ae05a307b8831d4750dc4ef055977",
       "beforeProjected": "0acd02fdb0b7d392056d8d99176956dc9c5aa2b267c43450d266604e5dd69120",
       "after": "e2057714ac2c136fa9b22b142ca450ed4c920020549cbc73b568c4520a653149",
-      "reason": "0.6.46: shared Cookery-style creative taxonomy and product guide cleanup; menu metadata/text only, gameplay IDs and mechanics preserved. 0.6.48: reviewed native product preparations, destruction cleanup, Java resistance/selection and native potion delivery IDs as applicable."
-    },
-    "runtime/BP/blocks/butterfly_incense.json": {
-      "before": "02a20865eb0815951da58084b03e6c5ed1e46dfb1673a4c521bcf41579d0471f",
-      "beforeProjected": "48404ff05096011134e15b1ae7c074e85ffd684392ccd27601c5cd6394adfb2f",
-      "after": "0935e8eab874f0cf312065459733d2d62e8682930baf0c42b9d95196950e0462",
       "reason": "0.6.46: shared Cookery-style creative taxonomy and product guide cleanup; menu metadata/text only, gameplay IDs and mechanics preserved. 0.6.48: reviewed native product preparations, destruction cleanup, Java resistance/selection and native potion delivery IDs as applicable."
     },
     "runtime/BP/blocks/dragon_breath_bottle.json": {
@@ -567,12 +555,6 @@
       "before": "5442ef1b344fe7cea61f2ebf0cd531aac3c650dac52529d4185daa8f02b43db3",
       "beforeProjected": "bb027c03dc465ae75946288e5d67d269aabb6064914f9ea3f0069393db0613bd",
       "after": "1c081707ba1913529812de3799f56f7aea0780b2425bb475027bc34706b2f802",
-      "reason": "0.6.46: shared Cookery-style creative taxonomy and product guide cleanup; menu metadata/text only, gameplay IDs and mechanics preserved. 0.6.48: reviewed native product preparations, destruction cleanup, Java resistance/selection and native potion delivery IDs as applicable."
-    },
-    "runtime/BP/blocks/ginkgo_incense.json": {
-      "before": "db777e47cf8b18e6f7c3ef7e0c7d15ce03d599622119cf4ed792e3ec38d14568",
-      "beforeProjected": "88208f11f96431a948463f70fb786109b1dc4b685b9fd5669fe899eeabe90f51",
-      "after": "8410542019a5850a652873503aea706e6aacefc9f5e17a2c15e74b90483191c5",
       "reason": "0.6.46: shared Cookery-style creative taxonomy and product guide cleanup; menu metadata/text only, gameplay IDs and mechanics preserved. 0.6.48: reviewed native product preparations, destruction cleanup, Java resistance/selection and native potion delivery IDs as applicable."
     },
     "runtime/BP/blocks/son_of_man_painting.json": {
@@ -683,12 +665,6 @@
       "after": "2e7c8763548653546ba3aad9b03e50a47de23899ddc7fc23ba4269331862f612",
       "reason": "0.6.46: shared Cookery-style creative taxonomy and product guide cleanup; menu metadata/text only, gameplay IDs and mechanics preserved. 0.6.48: reviewed native product preparations, destruction cleanup, Java resistance/selection and native potion delivery IDs as applicable."
     },
-    "runtime/BP/blocks/sakura_incense.json": {
-      "before": "b40a45f65c54f8856fc16df3cec34b42e83e5dab4adda298bddc2cccd08d2372",
-      "beforeProjected": "b209c9a0a0f3940adf4e3151d4f5d0fa022bcad7a03143ac9c6c690149ef6f74",
-      "after": "d5ee5ea96f9bae047de87903eb809eb79d3fc77850c1aabab287d88a4e18aa52",
-      "reason": "0.6.46: shared Cookery-style creative taxonomy and product guide cleanup; menu metadata/text only, gameplay IDs and mechanics preserved. 0.6.48: reviewed native product preparations, destruction cleanup, Java resistance/selection and native potion delivery IDs as applicable."
-    },
     "runtime/BP/blocks/azure_bluet_sandwich_board.json": {
       "before": "0a772b99c76212fcea92dceafd6a9bc2e94fb3439410ef67f20432b6facbc0c1",
       "beforeProjected": "ff7083c9526b21cb31101e8c3dbb9d88825f00781daff060e59aa03b54aca58f",
@@ -705,18 +681,6 @@
       "before": "fb1f30983fece2905be3f481acd556836a29e2f0fc2b239a82736ae5f26c3dd9",
       "beforeProjected": "54a76321e5429c71062a76523385bce3440137c92ead2a972aa1e6f223894c85",
       "after": "78b235731dee23fc0eea98a14442465811df5390c9d59c483f18cdbc1adf4eb6",
-      "reason": "0.6.46: shared Cookery-style creative taxonomy and product guide cleanup; menu metadata/text only, gameplay IDs and mechanics preserved. 0.6.48: reviewed native product preparations, destruction cleanup, Java resistance/selection and native potion delivery IDs as applicable."
-    },
-    "runtime/BP/blocks/spore_incense.json": {
-      "before": "b35c11421aee3e6f0d96d19860d06bba2fba7cbb7cd0ad5ea6570636f9fb8647",
-      "beforeProjected": "98e13b76ad4a564654c547a946e6089acae709519356f8ace5199f75e314c76f",
-      "after": "f5a601107cba98788c736f21746b35f714d5779c2c0f6cb3fbdec25a84385e2c",
-      "reason": "0.6.46: shared Cookery-style creative taxonomy and product guide cleanup; menu metadata/text only, gameplay IDs and mechanics preserved. 0.6.48: reviewed native product preparations, destruction cleanup, Java resistance/selection and native potion delivery IDs as applicable."
-    },
-    "runtime/BP/blocks/firefly_incense.json": {
-      "before": "6254b2c90541d569868b36804ea1a7214c27e8bc69c540c9c2669bf175798fba",
-      "beforeProjected": "785ca1fce87b8182591f29c791bc5e0a3dd744b6e178cfbe2c273d8d4aefab7b",
-      "after": "f81dcf4b60cc8abc523b82a37de700b36d2a9f0cb96a6597a7cd5a238dc11d60",
       "reason": "0.6.46: shared Cookery-style creative taxonomy and product guide cleanup; menu metadata/text only, gameplay IDs and mechanics preserved. 0.6.48: reviewed native product preparations, destruction cleanup, Java resistance/selection and native potion delivery IDs as applicable."
     },
     "runtime/BP/blocks/chalkboard.json": {
@@ -741,12 +705,6 @@
       "before": "1f9a4ae5d0ab5d4a4eceefa2d4bbd464092ad7bea8c8e81c1a17e48636f28bf2",
       "beforeProjected": "50704db7c1d8d9d0bd673639a3edb2de256b5683079d317d12318d525295c0ae",
       "after": "2ef02d9265f7a4347f9215de35149d046d96e952313da37c2b477996da7ac0eb",
-      "reason": "0.6.46: shared Cookery-style creative taxonomy and product guide cleanup; menu metadata/text only, gameplay IDs and mechanics preserved. 0.6.48: reviewed native product preparations, destruction cleanup, Java resistance/selection and native potion delivery IDs as applicable."
-    },
-    "runtime/BP/blocks/snow_incense.json": {
-      "before": "dc0a22782d482fe4eeab86d2928f6ac9f6b417d074048968913c393232be868e",
-      "beforeProjected": "ef07e8101c9fd9307b368fadba827bf2cfe74661f7b5d442e0fed169d6c4f3f9",
-      "after": "4bc1f067c3410927b95679e25ea9413b342a5a9aa827056a2a72a609d230ce29",
       "reason": "0.6.46: shared Cookery-style creative taxonomy and product guide cleanup; menu metadata/text only, gameplay IDs and mechanics preserved. 0.6.48: reviewed native product preparations, destruction cleanup, Java resistance/selection and native potion delivery IDs as applicable."
     },
     "runtime/BP/blocks/david_painting.json": {
@@ -795,12 +753,6 @@
       "before": "f2755abc8afac1c6a0530422b1bef8957c96e28c685bd6f535489c9b5b743aea",
       "beforeProjected": "5e2f3b336bf6a2af26cecff8b19931d0888a6b845fbcdca6824631cb630de30e",
       "after": "7e79d1b5939bc0bf75fb4c54273eec0987066d9e4c0c149088f09854f0e5c2e3",
-      "reason": "0.6.46: shared Cookery-style creative taxonomy and product guide cleanup; menu metadata/text only, gameplay IDs and mechanics preserved. 0.6.48: reviewed native product preparations, destruction cleanup, Java resistance/selection and native potion delivery IDs as applicable."
-    },
-    "runtime/BP/blocks/catnip_incense.json": {
-      "before": "f6bdf8720b99eff521d118a4f54537a26c4b17c80ab1a7fbd4c796b5d9f66d21",
-      "beforeProjected": "96b5bdf45f38e71c686571611a495a6b6ef8e3169cb48f81eba8b7fc7e9e6456",
-      "after": "b3a2fd323d3edd7edcc2155c6f2a75c73b3b34db75c9af0d71bb122a4b53f994",
       "reason": "0.6.46: shared Cookery-style creative taxonomy and product guide cleanup; menu metadata/text only, gameplay IDs and mechanics preserved. 0.6.48: reviewed native product preparations, destruction cleanup, Java resistance/selection and native potion delivery IDs as applicable."
     },
     "runtime/BP/blocks/ysbb_painting.json": {

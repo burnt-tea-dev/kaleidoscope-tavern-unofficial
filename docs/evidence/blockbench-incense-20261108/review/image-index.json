@@ -1,0 +1,554 @@
+[
+  {
+    "file": "candidate/evidence/catnip-closed-bottom.jpg",
+    "sha256": "9add7dec996eb292ac4a1e51208cf2a33ad355d0eb450a5efc0c49e1943466ac",
+    "bytes": 108663,
+    "dimensions": [
+      1364,
+      1024
+    ],
+    "scene": "candidate/scenes/catnip-closed-source-current-candidate.bbmodel",
+    "scene_sha256": "3d8f65982e8e7afb86c77f74264550be309d6533f69f429e5d0d09cbea376b39",
+    "view": "bottom",
+    "states": [
+      "catnip closed"
+    ],
+    "screen_order": "source / current / candidate",
+    "caption": "Catnip closed underside. Source left and candidate right have the matching purple centre; current middle exposes the brown lid. All three pots fully visible.",
+    "visual_inspection": "Actual JPEG pixels inspected individually; not filename-only review.",
+    "framing": "Three separated pot footprints, approximately 120 pixels wide, fully framed.",
+    "limitations": "BOTTOM hides the upper geometry and cannot by itself distinguish the closed/open top state.",
+    "raw_bytes_preserved": true
+  },
+  {
+    "file": "candidate/evidence/catnip-closed-perspective.jpg",
+    "sha256": "aaa45808ef5ed007e6e9cb2d9a92e8b430205c61220b22484da1edcf7fd67506",
+    "bytes": 121190,
+    "dimensions": [
+      1364,
+      1024
+    ],
+    "scene": "candidate/scenes/catnip-closed-source-current-candidate.bbmodel",
+    "scene_sha256": "3d8f65982e8e7afb86c77f74264550be309d6533f69f429e5d0d09cbea376b39",
+    "view": "perspective",
+    "states": [
+      "catnip closed"
+    ],
+    "screen_order": "candidate / current / source within each triplet",
+    "caption": "Catnip closed, default perspective. Candidate screen-left, current middle, source right. All three complete models are visible; tops, foliage and base outlines retain their appearance.",
+    "visual_inspection": "Actual JPEG pixels inspected individually; not filename-only review.",
+    "framing": "All three complete models and foliage tips fully within viewport, with clear separation.",
+    "limitations": "Underside is naturally hidden; this view checks visible preservation only.",
+    "raw_bytes_preserved": true
+  },
+  {
+    "file": "candidate/evidence/catnip-closed-tilted-bottom.jpg",
+    "sha256": "612f92436a10e18c38bb0bdb4248737ee15dec023adca21687be358c3ecf4b23",
+    "bytes": 115268,
+    "dimensions": [
+      1364,
+      1024
+    ],
+    "scene": "candidate/scenes/catnip-closed-source-current-candidate.bbmodel",
+    "scene_sha256": "3d8f65982e8e7afb86c77f74264550be309d6533f69f429e5d0d09cbea376b39",
+    "view": "tilted-bottom",
+    "states": [
+      "catnip closed"
+    ],
+    "screen_order": "source / current / candidate",
+    "caption": "Catnip closed, shallow orbit from BOTTOM. Source left and candidate right retain purple undersides; current middle exposes brown. All three pots fully visible.",
+    "visual_inspection": "Actual JPEG pixels inspected individually; not filename-only review.",
+    "framing": "All three enlarged pots, base rims and adjacent foliage within viewport. A small green mark is visible near the current model; origin was not diagnosed, and it is not used as defect evidence.",
+    "limitations": "Unmeasured manual gizmo orbit; no exact angle is claimed. The green mark and perspective lighting are not used for pixel comparisons.",
+    "raw_bytes_preserved": true
+  },
+  {
+    "file": "candidate/evidence/catnip-open-bottom.jpg",
+    "sha256": "6ba092dcd2905c3b22ab2f050f3d5c75bec68305da4701c745a2bad5be7386e7",
+    "bytes": 108562,
+    "dimensions": [
+      1364,
+      1024
+    ],
+    "scene": "candidate/scenes/catnip-open-source-current-candidate.bbmodel",
+    "scene_sha256": "f26968c4b8f149e93d4068e3bb08aaaf15a2f4b4376d7b729e2525dd12db0607",
+    "view": "bottom",
+    "states": [
+      "catnip open"
+    ],
+    "screen_order": "source / current / candidate",
+    "caption": "Catnip open underside. Source left and candidate right have the matching purple centre; current middle exposes the brown lid. All three pots fully visible.",
+    "visual_inspection": "Actual JPEG pixels inspected individually; not filename-only review.",
+    "framing": "Three separated pot footprints, approximately 120 pixels wide, fully framed.",
+    "limitations": "BOTTOM hides the upper geometry and cannot by itself distinguish the closed/open top state.",
+    "raw_bytes_preserved": true
+  },
+  {
+    "file": "candidate/evidence/catnip-open-perspective.jpg",
+    "sha256": "299b8ade2eae895e05c565c4db41f59fb5732166f7ad5b7fb7f07a46a163447b",
+    "bytes": 122264,
+    "dimensions": [
+      1364,
+      1024
+    ],
+    "scene": "candidate/scenes/catnip-open-source-current-candidate.bbmodel",
+    "scene_sha256": "f26968c4b8f149e93d4068e3bb08aaaf15a2f4b4376d7b729e2525dd12db0607",
+    "view": "perspective",
+    "states": [
+      "catnip open"
+    ],
+    "screen_order": "candidate / current / source within each triplet",
+    "caption": "Catnip open, default perspective. Candidate screen-left, current middle, source right. All three complete models are visible; tops, foliage and base outlines retain their appearance.",
+    "visual_inspection": "Actual JPEG pixels inspected individually; not filename-only review.",
+    "framing": "All three complete models and foliage tips fully within viewport, with clear separation.",
+    "limitations": "Underside is naturally hidden; this view checks visible preservation only.",
+    "raw_bytes_preserved": true
+  },
+  {
+    "file": "candidate/evidence/incense-all16-triplets-1-bottom.jpg",
+    "sha256": "5c08359574471b54e5bb0f3f3d72e891aff90156451fe81b544575f1a435474c",
+    "bytes": 109589,
+    "dimensions": [
+      1364,
+      1024
+    ],
+    "scene": "candidate/scenes/incense-all16-triplets-1.bbmodel",
+    "scene_sha256": "1130c510626ea193554e79b2844a62825bce859e0f4d982a1f3461d2dd1aa2ab",
+    "view": "bottom",
+    "states": [
+      "butterfly closed",
+      "butterfly open",
+      "catnip closed",
+      "catnip open"
+    ],
+    "screen_order": "source / current / candidate",
+    "caption": "Butterfly and Catnip, closed/open. Top to bottom: catnip open; catnip closed; butterfly open; butterfly closed. Left to right: source, current, candidate. All four triplet rows are visible. Source/candidate centre patterns agree; current differs.",
+    "visual_inspection": "Actual JPEG pixels inspected individually; not filename-only review.",
+    "framing": "All 12 underside squares fully within viewport, with margin. Four rows clear and separate.",
+    "limitations": "Approximately 48-pixel-wide pot footprints; adequate for the missing-bottom colour/pattern comparison, not pixel-perfect UV acceptance or fine side details.",
+    "raw_bytes_preserved": true
+  },
+  {
+    "file": "candidate/evidence/incense-all16-triplets-1-perspective.jpg",
+    "sha256": "477555a6cb85eec5a4be90fa975f56181b557d66d9dc50781bc8970a537177a0",
+    "bytes": 123735,
+    "dimensions": [
+      1364,
+      1024
+    ],
+    "scene": "candidate/scenes/incense-all16-triplets-1.bbmodel",
+    "scene_sha256": "1130c510626ea193554e79b2844a62825bce859e0f4d982a1f3461d2dd1aa2ab",
+    "view": "perspective",
+    "states": [
+      "butterfly closed",
+      "butterfly open",
+      "catnip closed",
+      "catnip open"
+    ],
+    "screen_order": "candidate / current / source within each triplet",
+    "caption": "Butterfly and Catnip, closed/open overview. Each world-X triplet appears candidate/current/source from screen-left to right. All 12 models are present; visible outlines, foliage and top colours show no new candidate/source mismatch.",
+    "visual_inspection": "Actual JPEG pixels inspected individually; not filename-only review.",
+    "framing": "All 12 models fully within viewport, with margin. Perspective depth makes rows diagonal and some foliage overlaps.",
+    "limitations": "Overview only: small projected models and partial foliage overlap prevent an exhaustive all-face or pixel-level verdict.",
+    "raw_bytes_preserved": true
+  },
+  {
+    "file": "candidate/evidence/incense-all16-triplets-2-bottom.jpg",
+    "sha256": "8c6468095639826bfb92fe88ed2c2874b79af38d4cfea1939a4b0a7aa51c18e2",
+    "bytes": 109994,
+    "dimensions": [
+      1364,
+      1024
+    ],
+    "scene": "candidate/scenes/incense-all16-triplets-2.bbmodel",
+    "scene_sha256": "c722d7a0d6f0b59429e5d9bf8277d44c981b3826efaab2a1d7637a7b12db018b",
+    "view": "bottom",
+    "states": [
+      "firefly closed",
+      "firefly open",
+      "ginkgo closed",
+      "ginkgo open"
+    ],
+    "screen_order": "source / current / candidate",
+    "caption": "Firefly and Ginkgo, closed/open. Top to bottom: ginkgo open; ginkgo closed; firefly open; firefly closed. Left to right: source, current, candidate. All four triplet rows are visible. Source/candidate centre patterns agree; current differs.",
+    "visual_inspection": "Actual JPEG pixels inspected individually; not filename-only review.",
+    "framing": "All 12 underside squares fully within viewport, with margin. Four rows clear and separate.",
+    "limitations": "Approximately 48-pixel-wide pot footprints; adequate for the missing-bottom colour/pattern comparison, not pixel-perfect UV acceptance or fine side details.",
+    "raw_bytes_preserved": true
+  },
+  {
+    "file": "candidate/evidence/incense-all16-triplets-2-perspective.jpg",
+    "sha256": "4fbefa0758705de9682e03bb4b1b46fcbfd15a0b32b0cd20fac32543fe318544",
+    "bytes": 129130,
+    "dimensions": [
+      1364,
+      1024
+    ],
+    "scene": "candidate/scenes/incense-all16-triplets-2.bbmodel",
+    "scene_sha256": "c722d7a0d6f0b59429e5d9bf8277d44c981b3826efaab2a1d7637a7b12db018b",
+    "view": "perspective",
+    "states": [
+      "firefly closed",
+      "firefly open",
+      "ginkgo closed",
+      "ginkgo open"
+    ],
+    "screen_order": "candidate / current / source within each triplet",
+    "caption": "Firefly and Ginkgo, closed/open overview. Each world-X triplet appears candidate/current/source from screen-left to right. All 12 models are present; visible outlines, foliage and top colours show no new candidate/source mismatch.",
+    "visual_inspection": "Actual JPEG pixels inspected individually; not filename-only review.",
+    "framing": "All 12 models fully within viewport, with margin. Perspective depth makes rows diagonal and some foliage overlaps.",
+    "limitations": "Overview only: small projected models and partial foliage overlap prevent an exhaustive all-face or pixel-level verdict.",
+    "raw_bytes_preserved": true
+  },
+  {
+    "file": "candidate/evidence/incense-all16-triplets-3-bottom.jpg",
+    "sha256": "e183aa811324874aaf37831c493c5a0f1a1aade18a23cb2826c8cbab32c0b9b1",
+    "bytes": 109714,
+    "dimensions": [
+      1364,
+      1024
+    ],
+    "scene": "candidate/scenes/incense-all16-triplets-3.bbmodel",
+    "scene_sha256": "cb5cee1ac54cb34f0b64a266ed091d109461dd18a889447824efc20e092966ec",
+    "view": "bottom",
+    "states": [
+      "pine closed",
+      "pine open",
+      "sakura closed",
+      "sakura open"
+    ],
+    "screen_order": "source / current / candidate",
+    "caption": "Pine and Sakura, closed/open. Top to bottom: sakura open; sakura closed; pine open; pine closed. Left to right: source, current, candidate. All four triplet rows are visible. Source/candidate centre patterns agree; current differs.",
+    "visual_inspection": "Actual JPEG pixels inspected individually; not filename-only review.",
+    "framing": "All 12 underside squares fully within viewport, with margin. Four rows clear and separate.",
+    "limitations": "Approximately 48-pixel-wide pot footprints; adequate for the missing-bottom colour/pattern comparison, not pixel-perfect UV acceptance or fine side details.",
+    "raw_bytes_preserved": true
+  },
+  {
+    "file": "candidate/evidence/incense-all16-triplets-3-perspective.jpg",
+    "sha256": "c73acbe39e50acaa213350ce293b6691c948052ca44b3c1515fc2f030fe9bb81",
+    "bytes": 119828,
+    "dimensions": [
+      1364,
+      1024
+    ],
+    "scene": "candidate/scenes/incense-all16-triplets-3.bbmodel",
+    "scene_sha256": "cb5cee1ac54cb34f0b64a266ed091d109461dd18a889447824efc20e092966ec",
+    "view": "perspective",
+    "states": [
+      "pine closed",
+      "pine open",
+      "sakura closed",
+      "sakura open"
+    ],
+    "screen_order": "candidate / current / source within each triplet",
+    "caption": "Pine and Sakura, closed/open overview. Each world-X triplet appears candidate/current/source from screen-left to right. All 12 models are present; visible outlines, foliage and top colours show no new candidate/source mismatch.",
+    "visual_inspection": "Actual JPEG pixels inspected individually; not filename-only review.",
+    "framing": "All 12 models fully within viewport, with margin. Perspective depth makes rows diagonal and some foliage overlaps.",
+    "limitations": "Overview only: small projected models and partial foliage overlap prevent an exhaustive all-face or pixel-level verdict.",
+    "raw_bytes_preserved": true
+  },
+  {
+    "file": "candidate/evidence/incense-all16-triplets-4-bottom.jpg",
+    "sha256": "2769394eeeb935dea8e1ad27ac7ea3d207046960f0e31262ccab27b3ed8c5401",
+    "bytes": 109033,
+    "dimensions": [
+      1364,
+      1024
+    ],
+    "scene": "candidate/scenes/incense-all16-triplets-4.bbmodel",
+    "scene_sha256": "d6775852cdf72f734daa55ec7028ae1ed79458e93519bb594c9378573eb7b65a",
+    "view": "bottom",
+    "states": [
+      "snow closed",
+      "snow open",
+      "spore closed",
+      "spore open"
+    ],
+    "screen_order": "source / current / candidate",
+    "caption": "Snow and Spore, closed/open. Top to bottom: spore open; spore closed; snow open; snow closed. Left to right: source, current, candidate. All four triplet rows are visible. Source/candidate centre patterns agree; current differs.",
+    "visual_inspection": "Actual JPEG pixels inspected individually; not filename-only review.",
+    "framing": "All 12 underside squares fully within viewport, with margin. Four rows clear and separate.",
+    "limitations": "Approximately 48-pixel-wide pot footprints; adequate for the missing-bottom colour/pattern comparison, not pixel-perfect UV acceptance or fine side details.",
+    "raw_bytes_preserved": true
+  },
+  {
+    "file": "candidate/evidence/incense-all16-triplets-4-perspective.jpg",
+    "sha256": "7627f98bcf92e34cf5f369a8cfb23b8ebf308fa27f4d9b49062b6238ddfe9d3e",
+    "bytes": 123731,
+    "dimensions": [
+      1364,
+      1024
+    ],
+    "scene": "candidate/scenes/incense-all16-triplets-4.bbmodel",
+    "scene_sha256": "d6775852cdf72f734daa55ec7028ae1ed79458e93519bb594c9378573eb7b65a",
+    "view": "perspective",
+    "states": [
+      "snow closed",
+      "snow open",
+      "spore closed",
+      "spore open"
+    ],
+    "screen_order": "candidate / current / source within each triplet",
+    "caption": "Snow and Spore, closed/open overview. Each world-X triplet appears candidate/current/source from screen-left to right. All 12 models are present; visible outlines, foliage and top colours show no new candidate/source mismatch.",
+    "visual_inspection": "Actual JPEG pixels inspected individually; not filename-only review.",
+    "framing": "All 12 models fully within viewport, with margin. Perspective depth makes rows diagonal and some foliage overlaps.",
+    "limitations": "Overview only: small projected models and partial foliage overlap prevent an exhaustive all-face or pixel-level verdict.",
+    "raw_bytes_preserved": true
+  },
+  {
+    "file": "baseline/evidence/catnip-close-bottom.jpg",
+    "sha256": "1b8611dd0d50fe0e3e5de6f2f9e92fee2b802f5d271ba10465f5ebe577d55743",
+    "bytes": 106687,
+    "dimensions": [
+      1364,
+      1024
+    ],
+    "scene": "baseline/scenes/catnip-closed-underside-close-pair.bbmodel",
+    "scene_sha256": "7293c8d8640786ffafee34fa86dc8a7234d60ba7c4f1ce9f51f8cfe4106b2365",
+    "view": "bottom",
+    "states": [
+      "catnip closed"
+    ],
+    "screen_order": "source / current within each pair",
+    "caption": "Historical Catnip closed underside: source purple on the left, current brown on the right. This is the original failure evidence.",
+    "visual_inspection": "Actual JPEG pixels inspected individually; not filename-only review.",
+    "framing": "Both enlarged pot footprints fully framed and clearly separate.",
+    "limitations": "No repaired candidate is present.",
+    "raw_bytes_preserved": true
+  },
+  {
+    "file": "baseline/evidence/catnip-close-perspective.jpg",
+    "sha256": "a55317b00384c5ff18c3b1bb8cbe1d4c18fd74fec643b07c01dc8b5863d907f0",
+    "bytes": 114624,
+    "dimensions": [
+      1364,
+      1024
+    ],
+    "scene": "baseline/scenes/catnip-closed-underside-close-pair.bbmodel",
+    "scene_sha256": "7293c8d8640786ffafee34fa86dc8a7234d60ba7c4f1ce9f51f8cfe4106b2365",
+    "view": "perspective",
+    "states": [
+      "catnip closed"
+    ],
+    "screen_order": "current / source within each pair",
+    "caption": "Historical Catnip closed perspective: current screen-left, source screen-right. Both complete models remain visible.",
+    "visual_inspection": "Actual JPEG pixels inspected individually; not filename-only review.",
+    "framing": "Both complete models and foliage fully within viewport.",
+    "limitations": "No repaired candidate is present; underside is hidden.",
+    "raw_bytes_preserved": true
+  },
+  {
+    "file": "baseline/evidence/catnip-close-tilted-bottom.jpg",
+    "sha256": "900fe44e562546c04d184d057098ae8ba09d3eee0bcd152b3a52544100549f45",
+    "bytes": 108682,
+    "dimensions": [
+      1364,
+      1024
+    ],
+    "scene": "baseline/scenes/catnip-closed-underside-close-pair.bbmodel",
+    "scene_sha256": "7293c8d8640786ffafee34fa86dc8a7234d60ba7c4f1ce9f51f8cfe4106b2365",
+    "view": "tilted-bottom",
+    "states": [
+      "catnip closed"
+    ],
+    "screen_order": "source / current within each pair",
+    "caption": "Historical Catnip closed tilted underside: source left/current right. Purple source versus brown current remains visible at a shallow orbit.",
+    "visual_inspection": "Actual JPEG pixels inspected individually; not filename-only review.",
+    "framing": "Both enlarged pots fully within viewport. A small green mark is visible near the current model; origin was not diagnosed, and it is not used as defect evidence.",
+    "limitations": "Unmeasured orbit, not an exact angle. No repaired candidate is present.",
+    "raw_bytes_preserved": true
+  },
+  {
+    "file": "baseline/evidence/incenses-1-bottom.jpg",
+    "sha256": "5f961e535b5e1e0698eebe221c56021554e43d8e2f6a76030352fee78f6cb5ce",
+    "bytes": 106463,
+    "dimensions": [
+      1364,
+      1024
+    ],
+    "scene": "baseline/scenes/incenses-1.bbmodel",
+    "scene_sha256": "a1d526848f7e300fbd19f0689d0e11ef0b40f3d46b76607bea9a77c2544dcb14",
+    "view": "bottom",
+    "states": [
+      "butterfly closed",
+      "butterfly open",
+      "catnip closed",
+      "catnip open"
+    ],
+    "screen_order": "source / current within each pair",
+    "caption": "Historical source/current baseline for Butterfly and Catnip. Top row: catnip closed pair then open pair. Bottom row: butterfly closed pair then open pair. Each pair is source left/current right; all four pairs show the underside difference.",
+    "visual_inspection": "Actual JPEG pixels inspected individually; not filename-only review.",
+    "framing": "All eight underside squares are fully within viewport; outer columns have smaller but adequate side margins.",
+    "limitations": "Baseline sheets use a two-row/two-pair layout, unlike the candidate four-row triplets. Do not compare screen positions across layouts.",
+    "raw_bytes_preserved": true
+  },
+  {
+    "file": "baseline/evidence/incenses-1-perspective.jpg",
+    "sha256": "1cd5d89557989bc7986469f6f0c72ed8b6507372b84177e1f3d15aed4b665281",
+    "bytes": 117469,
+    "dimensions": [
+      1364,
+      1024
+    ],
+    "scene": "baseline/scenes/incenses-1.bbmodel",
+    "scene_sha256": "a1d526848f7e300fbd19f0689d0e11ef0b40f3d46b76607bea9a77c2544dcb14",
+    "view": "perspective",
+    "states": [
+      "butterfly closed",
+      "butterfly open",
+      "catnip closed",
+      "catnip open"
+    ],
+    "screen_order": "current / source within each pair",
+    "caption": "Historical source/current overview for Butterfly and Catnip, closed/open. Each pair appears current screen-left/source screen-right; all eight models are visible.",
+    "visual_inspection": "Actual JPEG pixels inspected individually; not filename-only review.",
+    "framing": "All eight models and foliage tips fully within viewport, with margin.",
+    "limitations": "Historical baseline only; not evidence of the repaired candidate. Perspective hides underside.",
+    "raw_bytes_preserved": true
+  },
+  {
+    "file": "baseline/evidence/incenses-2-bottom.jpg",
+    "sha256": "bba13e74fc888b551b49acffee42668b9ae8effea2894191bd30e2a0a266174d",
+    "bytes": 106643,
+    "dimensions": [
+      1364,
+      1024
+    ],
+    "scene": "baseline/scenes/incenses-2.bbmodel",
+    "scene_sha256": "115ba69c1b912daa0b66a303ec1053908602c2d7e5ae9e2518d907edc48997ab",
+    "view": "bottom",
+    "states": [
+      "firefly closed",
+      "firefly open",
+      "ginkgo closed",
+      "ginkgo open"
+    ],
+    "screen_order": "source / current within each pair",
+    "caption": "Historical source/current baseline for Firefly and Ginkgo. Top row: ginkgo closed pair then open pair. Bottom row: firefly closed pair then open pair. Each pair is source left/current right; all four pairs show the underside difference.",
+    "visual_inspection": "Actual JPEG pixels inspected individually; not filename-only review.",
+    "framing": "All eight underside squares are fully within viewport; outer columns have smaller but adequate side margins.",
+    "limitations": "Baseline sheets use a two-row/two-pair layout, unlike the candidate four-row triplets. Do not compare screen positions across layouts.",
+    "raw_bytes_preserved": true
+  },
+  {
+    "file": "baseline/evidence/incenses-2-perspective.jpg",
+    "sha256": "06eca31d507b7638b48b764c59dcb53cff1fb8814fd3ae86e837de0b61f80ceb",
+    "bytes": 121875,
+    "dimensions": [
+      1364,
+      1024
+    ],
+    "scene": "baseline/scenes/incenses-2.bbmodel",
+    "scene_sha256": "115ba69c1b912daa0b66a303ec1053908602c2d7e5ae9e2518d907edc48997ab",
+    "view": "perspective",
+    "states": [
+      "firefly closed",
+      "firefly open",
+      "ginkgo closed",
+      "ginkgo open"
+    ],
+    "screen_order": "current / source within each pair",
+    "caption": "Historical source/current overview for Firefly and Ginkgo, closed/open. Each pair appears current screen-left/source screen-right; all eight models are visible.",
+    "visual_inspection": "Actual JPEG pixels inspected individually; not filename-only review.",
+    "framing": "All eight models and foliage tips fully within viewport, with margin.",
+    "limitations": "Historical baseline only; not evidence of the repaired candidate. Perspective hides underside.",
+    "raw_bytes_preserved": true
+  },
+  {
+    "file": "baseline/evidence/incenses-3-bottom.jpg",
+    "sha256": "c708e414f9cdbdc7e3ee92bb4625f5c1edc3a9477b6f729b775fb21344b26504",
+    "bytes": 106347,
+    "dimensions": [
+      1364,
+      1024
+    ],
+    "scene": "baseline/scenes/incenses-3.bbmodel",
+    "scene_sha256": "0ced8907674779737aa7f108c207ef16cd38b2332418ee0fe7035b328aa93269",
+    "view": "bottom",
+    "states": [
+      "pine closed",
+      "pine open",
+      "sakura closed",
+      "sakura open"
+    ],
+    "screen_order": "source / current within each pair",
+    "caption": "Historical source/current baseline for Pine and Sakura. Top row: sakura closed pair then open pair. Bottom row: pine closed pair then open pair. Each pair is source left/current right; all four pairs show the underside difference.",
+    "visual_inspection": "Actual JPEG pixels inspected individually; not filename-only review.",
+    "framing": "All eight underside squares are fully within viewport; outer columns have smaller but adequate side margins.",
+    "limitations": "Baseline sheets use a two-row/two-pair layout, unlike the candidate four-row triplets. Do not compare screen positions across layouts.",
+    "raw_bytes_preserved": true
+  },
+  {
+    "file": "baseline/evidence/incenses-3-perspective.jpg",
+    "sha256": "78752442ea90e090a6dd6d13376f046029fdaccca169171790fbf186724c4140",
+    "bytes": 114753,
+    "dimensions": [
+      1364,
+      1024
+    ],
+    "scene": "baseline/scenes/incenses-3.bbmodel",
+    "scene_sha256": "0ced8907674779737aa7f108c207ef16cd38b2332418ee0fe7035b328aa93269",
+    "view": "perspective",
+    "states": [
+      "pine closed",
+      "pine open",
+      "sakura closed",
+      "sakura open"
+    ],
+    "screen_order": "current / source within each pair",
+    "caption": "Historical source/current overview for Pine and Sakura, closed/open. Each pair appears current screen-left/source screen-right; all eight models are visible.",
+    "visual_inspection": "Actual JPEG pixels inspected individually; not filename-only review.",
+    "framing": "All eight models and foliage tips fully within viewport, with margin.",
+    "limitations": "Historical baseline only; not evidence of the repaired candidate. Perspective hides underside.",
+    "raw_bytes_preserved": true
+  },
+  {
+    "file": "baseline/evidence/incenses-4-bottom.jpg",
+    "sha256": "c986bb8dbdaf61ae95d3d3a5f843547d04896dc8fa6ae498ceace0ef9a77dc1b",
+    "bytes": 105966,
+    "dimensions": [
+      1364,
+      1024
+    ],
+    "scene": "baseline/scenes/incenses-4.bbmodel",
+    "scene_sha256": "307111e69f63e77d8ab9539b2c4da31811b3a706749e1c08537ed0d41955fc87",
+    "view": "bottom",
+    "states": [
+      "snow closed",
+      "snow open",
+      "spore closed",
+      "spore open"
+    ],
+    "screen_order": "source / current within each pair",
+    "caption": "Historical source/current baseline for Snow and Spore. Top row: spore closed pair then open pair. Bottom row: snow closed pair then open pair. Each pair is source left/current right; all four pairs show the underside difference.",
+    "visual_inspection": "Actual JPEG pixels inspected individually; not filename-only review.",
+    "framing": "All eight underside squares are fully within viewport; outer columns have smaller but adequate side margins.",
+    "limitations": "Baseline sheets use a two-row/two-pair layout, unlike the candidate four-row triplets. Do not compare screen positions across layouts.",
+    "raw_bytes_preserved": true
+  },
+  {
+    "file": "baseline/evidence/incenses-4-perspective.jpg",
+    "sha256": "c3adb45fd9cf34cb65c4226bc21e20189519588ffd71fecedd0b3763401ab2cf",
+    "bytes": 117372,
+    "dimensions": [
+      1364,
+      1024
+    ],
+    "scene": "baseline/scenes/incenses-4.bbmodel",
+    "scene_sha256": "307111e69f63e77d8ab9539b2c4da31811b3a706749e1c08537ed0d41955fc87",
+    "view": "perspective",
+    "states": [
+      "snow closed",
+      "snow open",
+      "spore closed",
+      "spore open"
+    ],
+    "screen_order": "current / source within each pair",
+    "caption": "Historical source/current overview for Snow and Spore, closed/open. Each pair appears current screen-left/source screen-right; all eight models are visible.",
+    "visual_inspection": "Actual JPEG pixels inspected individually; not filename-only review.",
+    "framing": "All eight models and foliage tips fully within viewport, with margin.",
+    "limitations": "Historical baseline only; not evidence of the repaired candidate. Perspective hides underside.",
+    "raw_bytes_preserved": true
+  }
+]
