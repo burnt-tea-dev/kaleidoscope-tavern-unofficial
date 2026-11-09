@@ -437,7 +437,7 @@ def select_replacement_inputs(original):
     binding=CATALOG[CURATED_KEY]['selection']
     return roots,descriptors,{'schema':1,'kind':'author_replacement_selection','profile':{'path':binding['path'],'sha256':binding['sha256']},'packs':selected,'native_loading':False,'client':False,'production_ready':False}
 
-def verify_replacement_inputs(receipt,selection):
+def verify_replacement_inputs(receipt,selection,prior_uuids=None):
     rows=replacement_rows();assert selection and selection.get('kind')=='author_replacement_selection'
     assert set(selection['packs'])==set(rows),'Replacement selection set changed'
     actual={row['uuid']:row for row in receipt['packs']}
@@ -578,7 +578,9 @@ def installation_targets(receipt):
     selected = c.read(c.R / 'curated-input-selection.json')
     replacements = (c.read(c.R / 'author-replacement-selection.json')
                     if replacement_rows() else None)
-    verify_curated_inputs(receipt, selected, replacements)
+    prior = c.R / 'production-before/inventory.json'
+    prior_uuids = {pack['uuid'] for pack in c.read(prior)['packs']} if prior.exists() else None
+    verify_curated_inputs(receipt, selected, replacements, prior_uuids=prior_uuids)
     return set(selected['packs']) | (set(replacements['packs']) if replacements else set())
 
 
