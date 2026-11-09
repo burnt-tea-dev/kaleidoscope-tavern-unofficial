@@ -1,0 +1,406 @@
+{
+  "files": [
+    {
+      "file": "LICENSE-ASSETS",
+      "bytes": 1604,
+      "sha256": "9779f7520aa9bb4888d8216933e482722d6b2c839e96ca338322e11c9fd3c286",
+      "git_blob_sha1": "fad84ad72d7cbb5ca93faa376ccd61e686dd8e01"
+    },
+    {
+      "file": "LICENSE-CODE",
+      "bytes": 1545,
+      "sha256": "e4b0341c2f974280d80bbd56d6d12e2f3e4d755f3a5cfeed9725771415e0d3ed",
+      "git_blob_sha1": "b69f3261e664ee21c9ff549bc0f5fc3f5dee85a8"
+    },
+    {
+      "file": "README.md",
+      "bytes": 11675,
+      "sha256": "928e9e92e51d048e0af6409540ed4f933b48faf396ce3b2cae842b4d61b38d07",
+      "git_blob_sha1": "3e4707e16b92f603c9925a3f6e55e1c7d3a2c061"
+    },
+    {
+      "file": "archive-entries.json",
+      "bytes": 126186,
+      "sha256": "38f876e022249afc8ec9f3cc8452547e614f7eab3801a0ff76b1cac39347349e",
+      "git_blob_sha1": "b9f6435ffd821133743a38c6f0bd22116915b7cc"
+    },
+    {
+      "file": "archives/evidence-01.zip",
+      "bytes": 179442,
+      "sha256": "127ecbfd2e7e4bed3f3607e61d2bb477c56c9473e217dbd324adae824f75d46b",
+      "git_blob_sha1": "795149dc20f70b8d01a73f6ca7ee036fab6249ba"
+    },
+    {
+      "file": "archives/evidence-02.zip",
+      "bytes": 179657,
+      "sha256": "71f40f3edbedd23356a7ca2ce61a6d6d58ec605b2b8378ad691d167094413b50",
+      "git_blob_sha1": "15513419de049769d73195e26486e06dc6b4c1ed"
+    },
+    {
+      "file": "archives/evidence-03.zip",
+      "bytes": 135169,
+      "sha256": "4d82f3745d86c8aa2cc1c59b692fda625e4420affe6e8844a05b0519b2cbd34f",
+      "git_blob_sha1": "2d87dd0df15c3e14580e9387eacf65c8530a00fb"
+    },
+    {
+      "file": "archives/evidence-04.zip",
+      "bytes": 128604,
+      "sha256": "798e10bf6f8358129a19570be5cf54d720aab5d17dbd02623a7f4f163337682e",
+      "git_blob_sha1": "bb600dc2334b883c01ebcf6d072a1f2e5ee62d04"
+    },
+    {
+      "file": "archives/evidence-05.zip",
+      "bytes": 104399,
+      "sha256": "a564d3b63f1e695020299e03d6981de2b998931831b0398b78a9408a199bdc08",
+      "git_blob_sha1": "d68c03f9a36c1bcc838def99768e1026fa3fa5cf"
+    },
+    {
+      "file": "base-reuse-0.6.216.json",
+      "bytes": 31774,
+      "sha256": "c6de92fa357ea3ec8e9376fe95242703717407ba87d7c70cf7a16250a5f4ad06",
+      "git_blob_sha1": "7b686dc15a76a42d9e27d9e93808e66dcf1c664b"
+    },
+    {
+      "file": "current-input-verification.json",
+      "bytes": 48433,
+      "sha256": "c00699706437e91471c2967b363e55ad473d411001eb9ba07552b4b7456d567b",
+      "git_blob_sha1": "0641e21bf313b212c79ea68f51918216787d5c7c"
+    },
+    {
+      "file": "gui/01-circular-true-isometric-right.jpg",
+      "bytes": 107188,
+      "sha256": "88f4794a911a83cc70a5946d1d8ebd73744b0a8999bf8ae9b2bb36591e6fc569",
+      "git_blob_sha1": "02aac89faed054dadfb522ca905d7e8e96f9eef5"
+    },
+    {
+      "file": "gui/02-circular-top.jpg",
+      "bytes": 92947,
+      "sha256": "54ba962d6653428eaff6c9a1c4152de1839e80687a356985002ab36832b65a0c",
+      "git_blob_sha1": "8bf54b5bd44f5cd35f951205f4c3f20692d8061b"
+    },
+    {
+      "file": "gui/03-circular-north.jpg",
+      "bytes": 88676,
+      "sha256": "878c08442940d46ea6dd1e9e6a2c9d953e450a3c5a1692fed3874f6bbd300b5a",
+      "git_blob_sha1": "8cc19b53683abdda244bb3f40740b2aae9c197b9"
+    },
+    {
+      "file": "gui/04-tilted-true-isometric-right.jpg",
+      "bytes": 96230,
+      "sha256": "01a52c01a3bfe5bff9a66b2245f44b22c1bb36e66a563c3ac0ef3381241e5b80",
+      "git_blob_sha1": "e0847540374a948b40d7ff5a0e068026d3eb8094"
+    },
+    {
+      "file": "gui/05-tilted-top.jpg",
+      "bytes": 84550,
+      "sha256": "4889af131db18f4c6de694244a4847d4b07dd0163950b7e1215824a45bace646",
+      "git_blob_sha1": "ecf00afd9ba01fa85967ee6ef9ee24927f84c6c1"
+    },
+    {
+      "file": "gui/06-tilted-east-current-only.jpg",
+      "bytes": 90173,
+      "sha256": "7f4fe778a678bdea71388cfdc2f0d7dd25e193354519b21630684a84b1a7b7f6",
+      "git_blob_sha1": "c2e2581a3442269ab4ac6b4f0735e6ef7480a2a7"
+    },
+    {
+      "file": "gui/07-tilted-east-source-only.jpg",
+      "bytes": 90220,
+      "sha256": "6dee27a2a80d49c62fa6356c5780579de0cab096d4fc5a421f4e5074a769a77e",
+      "git_blob_sha1": "dc33518b3059757fa65c4358514e347f08f2b93d"
+    },
+    {
+      "file": "gui/08-bar-twin-true-isometric-left.jpg",
+      "bytes": 90855,
+      "sha256": "e6e14c63136f81e284c7c48e5f20fd95d86c37ee5afbf2b277e38ec757d6eccb",
+      "git_blob_sha1": "40818080f19b189d24016c471492073cc1ab034c"
+    },
+    {
+      "file": "gui/09-bar-twin-north-case0.jpg",
+      "bytes": 86339,
+      "sha256": "a5ae5c22d0c04dc613298a35836a8c2c1a2f52ba867eb3a708010e17ddff8f95",
+      "git_blob_sha1": "f0c7044c5bf85bb78e400db602df8ad77b0c2b82"
+    },
+    {
+      "file": "gui/10-bar-twin-east-source-case1.jpg",
+      "bytes": 79814,
+      "sha256": "0f55dac4bfca1f5a5a5e660254876990eba2c9b06b82191a2433d5105987d1b5",
+      "git_blob_sha1": "d02dd5bb43754709f3d94003c73c8c9576e83748"
+    },
+    {
+      "file": "gui/11-bar-twin-east-current-case1.jpg",
+      "bytes": 81836,
+      "sha256": "e1bb9aefb7899b748d048c63cabca8fdb0b61254e61ab0aa514a727b9f42583b",
+      "git_blob_sha1": "44a09f9fb12ef9ec8e80cb12bea0b6b19a4c2ba4"
+    },
+    {
+      "file": "gui/12-bar-single-true-isometric-left.jpg",
+      "bytes": 86518,
+      "sha256": "c08c4ea4341a37e74c03d958f937300df4564b233e542bb017a776120485e173",
+      "git_blob_sha1": "8903334b72225c8d925ec9187e04bda1f6827793"
+    },
+    {
+      "file": "gui/13-bar-single-north.jpg",
+      "bytes": 85083,
+      "sha256": "69627b05d31089fabb708070617ed211880ae68ce3adf0d5b83c30b8f96709fd",
+      "git_blob_sha1": "d9f854e5bf5b87c53567861d1e6a90cf4312cf25"
+    },
+    {
+      "file": "gui/14-glass-bar-true-isometric-left.jpg",
+      "bytes": 89827,
+      "sha256": "80fc1d9d560c9bf55025b0abf0b1a292c7088abac8e03dbb0dd49818aab6b601",
+      "git_blob_sha1": "b0b2056ca671e841e5000ec1ff69f9dbe35f3989"
+    },
+    {
+      "file": "gui/15-glass-bar-north.jpg",
+      "bytes": 89665,
+      "sha256": "2eb31cd52a142f01ee5872c2689103ce3e127d3364345fb88561c119f9ee87ce",
+      "git_blob_sha1": "2af48062a3dc5dd6f4bb1d51308d2d3a0ebd0922"
+    },
+    {
+      "file": "gui/16-cellar-true-isometric-left.jpg",
+      "bytes": 92796,
+      "sha256": "452882378e8c6aa798dd3ff0eb53cb2727956a629dd8ae801e46d6fc86b36000",
+      "git_blob_sha1": "16fbef7d9b7afe04846410aa45020879ff3bf9a3"
+    },
+    {
+      "file": "gui/17-cellar-north.jpg",
+      "bytes": 86259,
+      "sha256": "bb772e737301a039b7ca70a2bca86de5251d8ed2c93df2e9c0e3904b44f972bf",
+      "git_blob_sha1": "6f583b1278ab39a2e53981e7c01b56a14e421d91"
+    },
+    {
+      "file": "gui/18-cellar-east-source-bottles-only.jpg",
+      "bytes": 82024,
+      "sha256": "929432f27c649b70912a55ee0accd7ddff93e7c973e0d6a06000464d68b57456",
+      "git_blob_sha1": "68a1d03314b333e90c347e0d3a515bf697a107e6"
+    },
+    {
+      "file": "gui/19-cellar-east-current-bottles-only.jpg",
+      "bytes": 82024,
+      "sha256": "929432f27c649b70912a55ee0accd7ddff93e7c973e0d6a06000464d68b57456",
+      "git_blob_sha1": "68a1d03314b333e90c347e0d3a515bf697a107e6"
+    },
+    {
+      "file": "gui/20-holder-true-isometric-left.jpg",
+      "bytes": 90304,
+      "sha256": "43fe83de1d0a9018eae5b81d39d729d13e8e872ee339835313d99e0224ef8a0c",
+      "git_blob_sha1": "7f3b2f14dce0b0e882c7306e7619d81f993a704c"
+    },
+    {
+      "file": "gui/21-holder-bottom.jpg",
+      "bytes": 81184,
+      "sha256": "e9f134a017d00ebec255b27878f94da7daee2e6938cad7116b130a39edfdff63",
+      "git_blob_sha1": "0870e5a729ad85c88b46c21c2f991ac9c4f30592"
+    },
+    {
+      "file": "gui/22-holder-east-source-only.jpg",
+      "bytes": 83001,
+      "sha256": "7895c3a83cb6f610c38d764cfb3d0512dab142ea1bd16acc6d6c1b3bfdf592a5",
+      "git_blob_sha1": "1c0b9efca0cd5c7d46113e7973b921e04b667886"
+    },
+    {
+      "file": "gui/23-holder-east-current-only.jpg",
+      "bytes": 84980,
+      "sha256": "c5aadbbad0f992766549242a7f117f785cc0cb8e3f0b8516bba1a385151caf2d",
+      "git_blob_sha1": "70f25b7a985ad366e6b575befcf8ea6e747ab5b2"
+    },
+    {
+      "file": "gui/24-glassware-true-isometric-left.jpg",
+      "bytes": 100665,
+      "sha256": "a034dc2a0c511791b79d6235835afab37c3723109c60292ba64fb06407697ac4",
+      "git_blob_sha1": "7b4fadbc858e3afd4da507a0ff61ea11f6bdd4f2"
+    },
+    {
+      "file": "gui/25-glassware-bottom-all-cases.jpg",
+      "bytes": 87764,
+      "sha256": "243734f9e49a7fa8a0c4062508015d52b55cea22016fcbcb7acc5ebeb11a088d",
+      "git_blob_sha1": "9aa3844b9e4270024495a490a1b22b3db6743687"
+    },
+    {
+      "file": "gui/26-glassware-full-pair-isometric.jpg",
+      "bytes": 99652,
+      "sha256": "0866cad524de9cc19f4b7e67b01ce2400bf7a11bdfc3d645c0c5baad333f9210",
+      "git_blob_sha1": "ded3428d5aacc151f9edd0a3a907fe903f53549d"
+    },
+    {
+      "file": "gui/27-glassware-full-pair-bottom.jpg",
+      "bytes": 84604,
+      "sha256": "863dcab2375fb92420ac03b18c7dbf30f8015882d5eb40709dbce24693542cd4",
+      "git_blob_sha1": "ed8f9c9d056f9414c456dccc7132e43a1576be36"
+    },
+    {
+      "file": "gui/README.md",
+      "bytes": 8925,
+      "sha256": "e166c99e0a2b55b149447989f67984b0883ffe5ccfa12d734cb6ed4d7b042fd9",
+      "git_blob_sha1": "647c25dd63e7324d6ee943d9a0434ada02b13429"
+    },
+    {
+      "file": "gui/artifact-sha256.json",
+      "bytes": 5516,
+      "sha256": "bcf303c10f7514ea5cf02b5fff889ad1dae2ba441c3fa0f223fcbb97eed0f448",
+      "git_blob_sha1": "259202dced2575f5cd700c0b015caa0bc3e6f8af"
+    },
+    {
+      "file": "gui/diagnostics/bar-single-isometric-tight-framing.jpg",
+      "bytes": 86566,
+      "sha256": "d55dff5de6921e2617eaf0a8357c0ebc05016fbfb6281a619311478f6a6a6462",
+      "git_blob_sha1": "06c87badd09a23dac3edfb4ab5d3dc83f312d800"
+    },
+    {
+      "file": "gui/diagnostics/bar-twin-east-current-isolation.jpg",
+      "bytes": 92828,
+      "sha256": "6e2a6f6a184c0543cf0fa56281150926c2317d3a3f4efc102f24a46a0fa87647",
+      "git_blob_sha1": "70b6d8f8ecc200130a902ca439d8c61d0f5f7c2a"
+    },
+    {
+      "file": "gui/diagnostics/bar-twin-east-source-isolation.jpg",
+      "bytes": 91652,
+      "sha256": "08ddeb682ecbcece57675bf3fed32d949ce4fdcc4ecaa6cf4b190453117df765",
+      "git_blob_sha1": "28372ae9138f7df2cc25f2f399e2925435313e38"
+    },
+    {
+      "file": "gui/diagnostics/bar-twin-unsaved-state-discard-dialog.jpg",
+      "bytes": 60682,
+      "sha256": "0b36a0eff07fd0f6fd5eb4073844033132a7d5c50d1d22b8d6abd1bd38dbf72d",
+      "git_blob_sha1": "e2fb16339c3bd9a2db609d83f928649fd7aee864"
+    },
+    {
+      "file": "gui/diagnostics/cellar-current-bottles-only-isolation.jpg",
+      "bytes": 116799,
+      "sha256": "659f3ccc218414af771a531b1a8e665793708c40936171a0898f4f64b0d74e93",
+      "git_blob_sha1": "8e9a6bc61448ab5960708106d92dbbb503d8c9df"
+    },
+    {
+      "file": "gui/diagnostics/cellar-source-bottles-only-isolation.jpg",
+      "bytes": 115127,
+      "sha256": "656c52df045dffd7010ccf03059205282258aeb5b2dc2bf5f1344c89bf511fc6",
+      "git_blob_sha1": "55b62c3442217c8de01c4c2dc1a38db642c3106c"
+    },
+    {
+      "file": "gui/diagnostics/cellar-source-profile-clipped.jpg",
+      "bytes": 80044,
+      "sha256": "87ad015e109d0c93601d23914a7e92218b8658d1b807609484f6c450c4a1b67d",
+      "git_blob_sha1": "d4b9255866e418f325928193994079734ee6eee6"
+    },
+    {
+      "file": "gui/diagnostics/circular-isometric-camera.jpg",
+      "bytes": 75079,
+      "sha256": "3ef1836b90251f8655848fc1af8103d5b9b6aae87e734ea900545e780740427a",
+      "git_blob_sha1": "499526138a886172f2c8e948ed2980a1c9e6a00c"
+    },
+    {
+      "file": "gui/diagnostics/circular-isometric-source-selection.jpg",
+      "bytes": 131797,
+      "sha256": "f30ac4852f1883ebd9038c958e3c6400d3681caaa0728272089c987a41446a4c",
+      "git_blob_sha1": "943392a2ab25426cb84f238413f6a2ece44d34a9"
+    },
+    {
+      "file": "gui/diagnostics/circular-top-source-selection.jpg",
+      "bytes": 106489,
+      "sha256": "30487fe7affc5ae69564e1450eadda375e3af86b550a30c56293043b5e862743",
+      "git_blob_sha1": "8294995114356bbf0967d1f48dc4d8b005ef1004"
+    },
+    {
+      "file": "gui/diagnostics/glassware-bottom-camera.jpg",
+      "bytes": 65418,
+      "sha256": "28060cf990d6ac735e5fcf78cfda64db051fcfa185e7f34b8dbf4e265cd4fdc0",
+      "git_blob_sha1": "ef9dfc08bd21fb396d36efd4762af849b06b5690"
+    },
+    {
+      "file": "gui/diagnostics/glassware-full-bottom-camera.jpg",
+      "bytes": 67204,
+      "sha256": "fc586af2747c59bbd420638e9fe5067a4572564fbe53eb4d77a935e98a898bb5",
+      "git_blob_sha1": "c3af4f74c493626089952fac4c3b4b7f2d95d4cd"
+    },
+    {
+      "file": "gui/diagnostics/glassware-full-pair-selection.jpg",
+      "bytes": 124779,
+      "sha256": "df12c503153dfdaaf9a6010751d39e177f1c8b7b09a9a774a49a17eb258c3505",
+      "git_blob_sha1": "f8c689100911df3faaee2f6a876a4a36d069eda8"
+    },
+    {
+      "file": "gui/diagnostics/glassware-isometric-camera.jpg",
+      "bytes": 72390,
+      "sha256": "9948486214905cc351af5ddfe319e82572956472a6be055480cff1421221f928",
+      "git_blob_sha1": "14032310dc8740fa012b4580a708e94cde7b3823"
+    },
+    {
+      "file": "gui/diagnostics/holder-bottom-clipped.jpg",
+      "bytes": 83005,
+      "sha256": "6e7919af4fa4e3ff6891641df8988dcf0b0bfd091e2468ecb2fe92713104d28d",
+      "git_blob_sha1": "31ca599fb90e77e09cb20861be487254bd24b3b6"
+    },
+    {
+      "file": "gui/diagnostics/holder-east-camera.jpg",
+      "bytes": 65037,
+      "sha256": "75435949beca3286a7cb092dd498a44d3481056ef945a33b44fcd5ceaa97a38e",
+      "git_blob_sha1": "a0dd7c9655ba88e7131de857b72eff0548d414e2"
+    },
+    {
+      "file": "gui/diagnostics/holder-east-current-isolation.jpg",
+      "bytes": 94445,
+      "sha256": "4a79604a260364f47efcea34ec5b9396d8c703bb7bd5f85e1bca2057c2387c06",
+      "git_blob_sha1": "550c72d7216c5564640112083631fd396b15c689"
+    },
+    {
+      "file": "gui/diagnostics/holder-isometric-camera.jpg",
+      "bytes": 67747,
+      "sha256": "3cd99b98c6b7aec26ac31196f5350593e4336465e8d35f232ea6381fcb9a18de",
+      "git_blob_sha1": "a462c22403e57ad2025ff7bb830cec4aaf8eff1c"
+    },
+    {
+      "file": "gui/diagnostics/temporary-camera-removed.jpg",
+      "bytes": 108335,
+      "sha256": "8dcba6f5c80e1851c7fb80093c8a43a22aab1fab88dd6841a5e93fa6ff83dceb",
+      "git_blob_sha1": "4f6a17be83a805c84ce9ef6a10757586d5cfc027"
+    },
+    {
+      "file": "gui/gui-index.json",
+      "bytes": 68459,
+      "sha256": "ae63321fcda9de348959f196436a738314386c5d089f16fd7d2c9382ee8fde94",
+      "git_blob_sha1": "3221ace10430d2f50536f21ee1b734e1d67e47be"
+    },
+    {
+      "file": "gui/postflight.json",
+      "bytes": 119379,
+      "sha256": "0065b3871e109a8bafd119dcf07fdf4fd3e4be82d241d8ea2899ab65731714aa",
+      "git_blob_sha1": "fb508c0a22d1d0138dc91270a5e7ddddb69ad071"
+    },
+    {
+      "file": "gui/preflight.json",
+      "bytes": 40167,
+      "sha256": "8ae17c82d9d3bbc8aaea858f5df5b9c449f63f3a03c77e75bc3a1b7c9fe27b83",
+      "git_blob_sha1": "dee33401c1829e537d6dbd49cd24f794efd3fa05"
+    },
+    {
+      "file": "gui/validation-receipt.json",
+      "bytes": 831,
+      "sha256": "b06dff1f227c616938bd3ed70841aafd9cb0f8db6139a452ff185c4ead36b737",
+      "git_blob_sha1": "753293b5e4b72ef62ade964d051ccf92351a39a3"
+    },
+    {
+      "file": "scene-index.md",
+      "bytes": 7155,
+      "sha256": "fc98cd72bcbf487df199b218114489f7bdaf6920bffb2acd609540cbfba8bd7a",
+      "git_blob_sha1": "744423450533bc7fa3f47cc54a7d18587bd92fde"
+    },
+    {
+      "file": "source-snapshot-index.json",
+      "bytes": 104985,
+      "sha256": "714d647cdbfcbd30484393e09d781985e871432d94e39b3d3eacf3dc2e7cd4c6",
+      "git_blob_sha1": "385759f681efebb2350b81d0c4f26ab12f7775ae"
+    },
+    {
+      "file": "test_verifier_boundaries.py",
+      "bytes": 9728,
+      "sha256": "a72c2af20685657b762faaef4dfd6192ffd1045e7949c34285eee4b01382b238",
+      "git_blob_sha1": "b336bdefbc98e633cc80a32392e6196d6cacd72f"
+    },
+    {
+      "file": "validate_evidence.py",
+      "bytes": 25307,
+      "sha256": "2518b2d7291d6725e0c4904aa472bf60302189f06800362d24c373775dd69662",
+      "git_blob_sha1": "5bdbd765f64dbe6fab1678f22bda32df57ec4d3d"
+    }
+  ]
+}

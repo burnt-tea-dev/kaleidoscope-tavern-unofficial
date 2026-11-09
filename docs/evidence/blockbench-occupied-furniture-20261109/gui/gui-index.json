@@ -1,0 +1,1871 @@
+{
+  "batch": "N04",
+  "batch_label_date": "2026-11-09",
+  "status": "gui_review_complete_with_scope_limits",
+  "accepted_images": 27,
+  "scene_count": 8,
+  "case_count": 12,
+  "window": {
+    "id": 29360132,
+    "app": "Blockbench",
+    "dimensions": [
+      1188,
+      848
+    ]
+  },
+  "frozen_source_manifest_sha256": "262d9388dd9c58a5e55a708e8b65798cd8047108f0cde61a047464bb616debbf",
+  "frozen_preparation_inventory_sha256": "95d5ce298597fa09040021e6c5b38bad1f13a9ce1e29c9940097e78f479c1a63",
+  "input_identity": {
+    "prepared_canonical_commit": "cb2b37dfa2181ee042a090d8dbd434758a762afb",
+    "prepared_version": "0.6.213",
+    "source_pins": {
+      "Forge": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+      "NeoForge": "a1afba34981a00e89d57130d3dc8f1e64f1820a2"
+    },
+    "current_canonical_limit": "Parent reported later canonical progress; this batch directly rechecks the frozen selected bytes and the 131 selected local worktree files, not a new global runtime revision claim."
+  },
+  "captures": [
+    {
+      "number": 1,
+      "file": "01-circular-true-isometric-right.jpg",
+      "sha256": "88f4794a911a83cc70a5946d1d8ebd73744b0a8999bf8ae9b2bb36591e6fc569",
+      "bytes": 107188,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "raw_capture": "Original bytes returned by the native Blockbench window screenshot API; no crop, re-encoding, stitching or image editing.",
+      "capture_file_mtime_utc": "2026-11-09T03:40:12.903556+00:00",
+      "scene": "../scenes/circular-full.bbmodel",
+      "scene_sha256": "ae64257ed3885936c1b92242c9104396397f4d9fdd5fa4e467385385139607ad",
+      "scene_case_ids": [
+        "circular-full-0"
+      ],
+      "camera_view": "True Isometric Right (30\u00b0), orthographic",
+      "observations": "All six bottle positions, central rack and mixed Wine/Luminous occupancy are visible in oblique projection. Current is upper-left, source lower-right.",
+      "selection": "Unselected. No transform/selection outline in accepted image.",
+      "temporary_visibility": "All scene groups visible.",
+      "review_result": "No new mismatch established within the documented editor reconstruction scope.",
+      "camera_numeric_ui": {
+        "position": [
+          -512,
+          520,
+          -512
+        ],
+        "focal_point": [
+          0,
+          8,
+          0
+        ],
+        "zoom": 0.3969,
+        "precision": "as displayed by Save Angle UI",
+        "diagnostic": "diagnostics/circular-isometric-camera.jpg"
+      },
+      "camera_limits": "Named view is the actual Blockbench UI angle. Numeric fields are provided only when read/set through the UI; omitted fields are not guessed. These editor camera labels do not by themselves name a runtime block facing.",
+      "case_metadata": [
+        {
+          "id": "circular-full-0",
+          "facing": "north",
+          "source_translation": [
+            -24,
+            0,
+            0
+          ],
+          "current_translation": [
+            24,
+            0,
+            0
+          ],
+          "mask": null,
+          "visible_native_bones": null
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "file": "02-circular-top.jpg",
+      "sha256": "54ba962d6653428eaff6c9a1c4152de1839e80687a356985002ab36832b65a0c",
+      "bytes": 92947,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "raw_capture": "Original bytes returned by the native Blockbench window screenshot API; no crop, re-encoding, stitching or image editing.",
+      "capture_file_mtime_utc": "2026-11-09T03:40:44.315985+00:00",
+      "scene": "../scenes/circular-full.bbmodel",
+      "scene_sha256": "ae64257ed3885936c1b92242c9104396397f4d9fdd5fa4e467385385139607ad",
+      "scene_case_ids": [
+        "circular-full-0"
+      ],
+      "camera_view": "Top, orthographic",
+      "observations": "Six extrema and bottle yaw pattern match visually. Source is screen-left, current screen-right. Luminous is the lower slot in this projection.",
+      "selection": "Unselected. No transform/selection outline in accepted image.",
+      "temporary_visibility": "All scene groups visible.",
+      "review_result": "No new mismatch established within the documented editor reconstruction scope.",
+      "camera_limits": "Named view is the actual Blockbench UI angle. Numeric fields are provided only when read/set through the UI; omitted fields are not guessed. These editor camera labels do not by themselves name a runtime block facing.",
+      "case_metadata": [
+        {
+          "id": "circular-full-0",
+          "facing": "north",
+          "source_translation": [
+            -24,
+            0,
+            0
+          ],
+          "current_translation": [
+            24,
+            0,
+            0
+          ],
+          "mask": null,
+          "visible_native_bones": null
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "file": "03-circular-north.jpg",
+      "sha256": "878c08442940d46ea6dd1e9e6a2c9d953e450a3c5a1692fed3874f6bbd300b5a",
+      "bytes": 88676,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "raw_capture": "Original bytes returned by the native Blockbench window screenshot API; no crop, re-encoding, stitching or image editing.",
+      "capture_file_mtime_utc": "2026-11-09T03:41:51.936901+00:00",
+      "scene": "../scenes/circular-full.bbmodel",
+      "scene_sha256": "ae64257ed3885936c1b92242c9104396397f4d9fdd5fa4e467385385139607ad",
+      "scene_case_ids": [
+        "circular-full-0"
+      ],
+      "camera_view": "North, orthographic",
+      "observations": "Neck and base-height comparison agrees in this front projection. Current is screen-left, source screen-right; depth-overlapping slots are not individually separable here.",
+      "selection": "Unselected. No transform/selection outline in accepted image.",
+      "temporary_visibility": "All scene groups visible.",
+      "review_result": "No new mismatch established within the documented editor reconstruction scope.",
+      "camera_limits": "Named view is the actual Blockbench UI angle. Numeric fields are provided only when read/set through the UI; omitted fields are not guessed. These editor camera labels do not by themselves name a runtime block facing.",
+      "case_metadata": [
+        {
+          "id": "circular-full-0",
+          "facing": "north",
+          "source_translation": [
+            -24,
+            0,
+            0
+          ],
+          "current_translation": [
+            24,
+            0,
+            0
+          ],
+          "mask": null,
+          "visible_native_bones": null
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "file": "04-tilted-true-isometric-right.jpg",
+      "sha256": "01a52c01a3bfe5bff9a66b2245f44b22c1bb36e66a563c3ac0ef3381241e5b80",
+      "bytes": 96230,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "raw_capture": "Original bytes returned by the native Blockbench window screenshot API; no crop, re-encoding, stitching or image editing.",
+      "capture_file_mtime_utc": "2026-11-09T03:42:24.709349+00:00",
+      "scene": "../scenes/tilted-full.bbmodel",
+      "scene_sha256": "d9a5f942a3e97da5793018ae992287ffc6d4a91a119d24cbd99621c13a358174",
+      "scene_case_ids": [
+        "tilted-full-0"
+      ],
+      "camera_view": "True Isometric Right (30\u00b0), orthographic",
+      "observations": "Three bottles show consistent rack pitch, base seating and material control. Current upper-left, source lower-right.",
+      "selection": "Unselected. No transform/selection outline in accepted image.",
+      "temporary_visibility": "All scene groups visible.",
+      "review_result": "No new mismatch established within the documented editor reconstruction scope.",
+      "camera_limits": "Named view is the actual Blockbench UI angle. Numeric fields are provided only when read/set through the UI; omitted fields are not guessed. These editor camera labels do not by themselves name a runtime block facing.",
+      "case_metadata": [
+        {
+          "id": "tilted-full-0",
+          "facing": "north",
+          "source_translation": [
+            -24,
+            0,
+            0
+          ],
+          "current_translation": [
+            24,
+            0,
+            0
+          ],
+          "mask": null,
+          "visible_native_bones": null
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "file": "05-tilted-top.jpg",
+      "sha256": "4889af131db18f4c6de694244a4847d4b07dd0163950b7e1215824a45bace646",
+      "bytes": 84550,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "raw_capture": "Original bytes returned by the native Blockbench window screenshot API; no crop, re-encoding, stitching or image editing.",
+      "capture_file_mtime_utc": "2026-11-09T03:42:37.105517+00:00",
+      "scene": "../scenes/tilted-full.bbmodel",
+      "scene_sha256": "d9a5f942a3e97da5793018ae992287ffc6d4a91a119d24cbd99621c13a358174",
+      "scene_case_ids": [
+        "tilted-full-0"
+      ],
+      "camera_view": "Top, orthographic",
+      "observations": "Three-slot spacing/extrema agree visually; source left, current right.",
+      "selection": "Unselected. No transform/selection outline in accepted image.",
+      "temporary_visibility": "All scene groups visible.",
+      "review_result": "No new mismatch established within the documented editor reconstruction scope.",
+      "camera_limits": "Named view is the actual Blockbench UI angle. Numeric fields are provided only when read/set through the UI; omitted fields are not guessed. These editor camera labels do not by themselves name a runtime block facing.",
+      "case_metadata": [
+        {
+          "id": "tilted-full-0",
+          "facing": "north",
+          "source_translation": [
+            -24,
+            0,
+            0
+          ],
+          "current_translation": [
+            24,
+            0,
+            0
+          ],
+          "mask": null,
+          "visible_native_bones": null
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "file": "06-tilted-east-current-only.jpg",
+      "sha256": "7f4fe778a678bdea71388cfdc2f0d7dd25e193354519b21630684a84b1a7b7f6",
+      "bytes": 90173,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "raw_capture": "Original bytes returned by the native Blockbench window screenshot API; no crop, re-encoding, stitching or image editing.",
+      "capture_file_mtime_utc": "2026-11-09T03:43:05.809899+00:00",
+      "scene": "../scenes/tilted-full.bbmodel",
+      "scene_sha256": "d9a5f942a3e97da5793018ae992287ffc6d4a91a119d24cbd99621c13a358174",
+      "scene_case_ids": [
+        "tilted-full-0"
+      ],
+      "camera_view": "East, orthographic, current isolated",
+      "observations": "Current tilted rack side profile, with source hidden, exposes the sloping bottle line and support contact. Side projection overlaps bottles along X.",
+      "selection": "Unselected. No transform/selection outline in accepted image.",
+      "temporary_visibility": "SOURCE world -X group hidden. CURRENT remains fully visible. Sidebars shown so group eyes identify the isolation.",
+      "review_result": "No new mismatch established within the documented editor reconstruction scope.",
+      "camera_limits": "Named view is the actual Blockbench UI angle. Numeric fields are provided only when read/set through the UI; omitted fields are not guessed. These editor camera labels do not by themselves name a runtime block facing.",
+      "case_metadata": [
+        {
+          "id": "tilted-full-0",
+          "facing": "north",
+          "source_translation": [
+            -24,
+            0,
+            0
+          ],
+          "current_translation": [
+            24,
+            0,
+            0
+          ],
+          "mask": null,
+          "visible_native_bones": null
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "file": "07-tilted-east-source-only.jpg",
+      "sha256": "6dee27a2a80d49c62fa6356c5780579de0cab096d4fc5a421f4e5074a769a77e",
+      "bytes": 90220,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "raw_capture": "Original bytes returned by the native Blockbench window screenshot API; no crop, re-encoding, stitching or image editing.",
+      "capture_file_mtime_utc": "2026-11-09T03:43:12.589989+00:00",
+      "scene": "../scenes/tilted-full.bbmodel",
+      "scene_sha256": "d9a5f942a3e97da5793018ae992287ffc6d4a91a119d24cbd99621c13a358174",
+      "scene_case_ids": [
+        "tilted-full-0"
+      ],
+      "camera_view": "East, orthographic, source isolated",
+      "observations": "Source counterpart at the same camera confirms the pictured pitch/seat silhouette. No held-item pose is executed.",
+      "selection": "Unselected. No transform/selection outline in accepted image.",
+      "temporary_visibility": "CURRENT world +X group hidden. SOURCE remains fully visible. Sidebars shown. Both temporary visibility states were discarded on close.",
+      "review_result": "No new mismatch established within the documented editor reconstruction scope.",
+      "camera_limits": "Named view is the actual Blockbench UI angle. Numeric fields are provided only when read/set through the UI; omitted fields are not guessed. These editor camera labels do not by themselves name a runtime block facing.",
+      "case_metadata": [
+        {
+          "id": "tilted-full-0",
+          "facing": "north",
+          "source_translation": [
+            -24,
+            0,
+            0
+          ],
+          "current_translation": [
+            24,
+            0,
+            0
+          ],
+          "mask": null,
+          "visible_native_bones": null
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "file": "08-bar-twin-true-isometric-left.jpg",
+      "sha256": "e6e14c63136f81e284c7c48e5f20fd95d86c37ee5afbf2b277e38ec757d6eccb",
+      "bytes": 90855,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "raw_capture": "Original bytes returned by the native Blockbench window screenshot API; no crop, re-encoding, stitching or image editing.",
+      "capture_file_mtime_utc": "2026-11-09T03:45:31.023851+00:00",
+      "scene": "../scenes/bar-twin-cardinal.bbmodel",
+      "scene_sha256": "1b4c5d4c4fc243721b94925671c35fbc131d5328922e5fd1ff6d29bfae7a8835",
+      "scene_case_ids": [
+        "bar-twin-cardinal-0",
+        "bar-twin-cardinal-1"
+      ],
+      "camera_view": "True Isometric Left (30\u00b0), orthographic; all four groups",
+      "observations": "Both north and east cabinet opening directions are visible. Each opening partly occludes one bottle at this oblique angle; cardinal captures provide the twin-order check.",
+      "selection": "Unselected. No transform/selection outline in accepted image.",
+      "temporary_visibility": "All scene groups visible.",
+      "review_result": "No new mismatch established within the documented editor reconstruction scope.",
+      "camera_limits": "Named view is the actual Blockbench UI angle. Numeric fields are provided only when read/set through the UI; omitted fields are not guessed. These editor camera labels do not by themselves name a runtime block facing.",
+      "case_metadata": [
+        {
+          "id": "bar-twin-cardinal-0",
+          "facing": "north",
+          "source_translation": [
+            -24,
+            0,
+            0
+          ],
+          "current_translation": [
+            24,
+            0,
+            0
+          ],
+          "mask": null,
+          "visible_native_bones": null
+        },
+        {
+          "id": "bar-twin-cardinal-1",
+          "facing": "east",
+          "source_translation": [
+            -24,
+            0,
+            34
+          ],
+          "current_translation": [
+            24,
+            0,
+            34
+          ],
+          "mask": null,
+          "visible_native_bones": null
+        }
+      ]
+    },
+    {
+      "number": 9,
+      "file": "09-bar-twin-north-case0.jpg",
+      "sha256": "a5ae5c22d0c04dc613298a35836a8c2c1a2f52ba867eb3a708010e17ddff8f95",
+      "bytes": 86339,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "raw_capture": "Original bytes returned by the native Blockbench window screenshot API; no crop, re-encoding, stitching or image editing.",
+      "capture_file_mtime_utc": "2026-11-09T03:46:02.708275+00:00",
+      "scene": "../scenes/bar-twin-cardinal.bbmodel",
+      "scene_sha256": "1b4c5d4c4fc243721b94925671c35fbc131d5328922e5fd1ff6d29bfae7a8835",
+      "scene_case_ids": [
+        "bar-twin-cardinal-0",
+        "bar-twin-cardinal-1"
+      ],
+      "camera_view": "North, orthographic; case 0 only",
+      "observations": "North case: Wine is screen-left within each cavity, Luminous screen-right. Current cabinet screen-left and source screen-right.",
+      "selection": "Unselected. No transform/selection outline in accepted image.",
+      "temporary_visibility": "Both case-1/east groups hidden; both case-0/north groups visible.",
+      "review_result": "No new mismatch established within the documented editor reconstruction scope.",
+      "camera_limits": "Named view is the actual Blockbench UI angle. Numeric fields are provided only when read/set through the UI; omitted fields are not guessed. These editor camera labels do not by themselves name a runtime block facing.",
+      "case_metadata": [
+        {
+          "id": "bar-twin-cardinal-0",
+          "facing": "north",
+          "source_translation": [
+            -24,
+            0,
+            0
+          ],
+          "current_translation": [
+            24,
+            0,
+            0
+          ],
+          "mask": null,
+          "visible_native_bones": null
+        },
+        {
+          "id": "bar-twin-cardinal-1",
+          "facing": "east",
+          "source_translation": [
+            -24,
+            0,
+            34
+          ],
+          "current_translation": [
+            24,
+            0,
+            34
+          ],
+          "mask": null,
+          "visible_native_bones": null
+        }
+      ]
+    },
+    {
+      "number": 10,
+      "file": "10-bar-twin-east-source-case1.jpg",
+      "sha256": "0f55dac4bfca1f5a5a5e660254876990eba2c9b06b82191a2433d5105987d1b5",
+      "bytes": 79814,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "raw_capture": "Original bytes returned by the native Blockbench window screenshot API; no crop, re-encoding, stitching or image editing.",
+      "capture_file_mtime_utc": "2026-11-09T03:46:59.389036+00:00",
+      "scene": "../scenes/bar-twin-cardinal.bbmodel",
+      "scene_sha256": "1b4c5d4c4fc243721b94925671c35fbc131d5328922e5fd1ff6d29bfae7a8835",
+      "scene_case_ids": [
+        "bar-twin-cardinal-0",
+        "bar-twin-cardinal-1"
+      ],
+      "camera_view": "East, orthographic; source case 1 only",
+      "observations": "East source case: Luminous screen-left within the cavity, Wine screen-right, demonstrating the projected directional order.",
+      "selection": "Unselected. No transform/selection outline in accepted image.",
+      "temporary_visibility": "Only SOURCE world -X | bar-twin-cardinal-1 visible; the three other root groups hidden.",
+      "review_result": "No new mismatch established within the documented editor reconstruction scope.",
+      "camera_limits": "Named view is the actual Blockbench UI angle. Numeric fields are provided only when read/set through the UI; omitted fields are not guessed. These editor camera labels do not by themselves name a runtime block facing.",
+      "case_metadata": [
+        {
+          "id": "bar-twin-cardinal-0",
+          "facing": "north",
+          "source_translation": [
+            -24,
+            0,
+            0
+          ],
+          "current_translation": [
+            24,
+            0,
+            0
+          ],
+          "mask": null,
+          "visible_native_bones": null
+        },
+        {
+          "id": "bar-twin-cardinal-1",
+          "facing": "east",
+          "source_translation": [
+            -24,
+            0,
+            34
+          ],
+          "current_translation": [
+            24,
+            0,
+            34
+          ],
+          "mask": null,
+          "visible_native_bones": null
+        }
+      ]
+    },
+    {
+      "number": 11,
+      "file": "11-bar-twin-east-current-case1.jpg",
+      "sha256": "e1bb9aefb7899b748d048c63cabca8fdb0b61254e61ab0aa514a727b9f42583b",
+      "bytes": 81836,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "raw_capture": "Original bytes returned by the native Blockbench window screenshot API; no crop, re-encoding, stitching or image editing.",
+      "capture_file_mtime_utc": "2026-11-09T03:47:18.273289+00:00",
+      "scene": "../scenes/bar-twin-cardinal.bbmodel",
+      "scene_sha256": "1b4c5d4c4fc243721b94925671c35fbc131d5328922e5fd1ff6d29bfae7a8835",
+      "scene_case_ids": [
+        "bar-twin-cardinal-0",
+        "bar-twin-cardinal-1"
+      ],
+      "camera_view": "East, orthographic; current case 1 only",
+      "observations": "East current case matches the source cavity arrangement and clearance at the same camera.",
+      "selection": "Unselected. No transform/selection outline in accepted image.",
+      "temporary_visibility": "Only CURRENT world +X | bar-twin-cardinal-1 visible; the three other root groups hidden. All temporary visibility discarded.",
+      "review_result": "No new mismatch established within the documented editor reconstruction scope.",
+      "camera_limits": "Named view is the actual Blockbench UI angle. Numeric fields are provided only when read/set through the UI; omitted fields are not guessed. These editor camera labels do not by themselves name a runtime block facing.",
+      "case_metadata": [
+        {
+          "id": "bar-twin-cardinal-0",
+          "facing": "north",
+          "source_translation": [
+            -24,
+            0,
+            0
+          ],
+          "current_translation": [
+            24,
+            0,
+            0
+          ],
+          "mask": null,
+          "visible_native_bones": null
+        },
+        {
+          "id": "bar-twin-cardinal-1",
+          "facing": "east",
+          "source_translation": [
+            -24,
+            0,
+            34
+          ],
+          "current_translation": [
+            24,
+            0,
+            34
+          ],
+          "mask": null,
+          "visible_native_bones": null
+        }
+      ]
+    },
+    {
+      "number": 12,
+      "file": "12-bar-single-true-isometric-left.jpg",
+      "sha256": "c08c4ea4341a37e74c03d958f937300df4564b233e542bb017a776120485e173",
+      "bytes": 86518,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "raw_capture": "Original bytes returned by the native Blockbench window screenshot API; no crop, re-encoding, stitching or image editing.",
+      "capture_file_mtime_utc": "2026-11-09T03:48:42.298418+00:00",
+      "scene": "../scenes/bar-single-irregular.bbmodel",
+      "scene_sha256": "ec1b07ccc32ce0913eaede484226c9dbc72f00e4c6666bbb8f55b04bfb5a612a",
+      "scene_case_ids": [
+        "bar-single-irregular-0"
+      ],
+      "camera_view": "True Isometric Left (30\u00b0), orthographic",
+      "observations": "Broad Brandy is centered in the single-bottle cabinet layout; source upper-right and current lower-left.",
+      "selection": "Unselected. No transform/selection outline in accepted image.",
+      "temporary_visibility": "All scene groups visible.",
+      "review_result": "No new mismatch established within the documented editor reconstruction scope.",
+      "camera_limits": "Named view is the actual Blockbench UI angle. Numeric fields are provided only when read/set through the UI; omitted fields are not guessed. These editor camera labels do not by themselves name a runtime block facing.",
+      "case_metadata": [
+        {
+          "id": "bar-single-irregular-0",
+          "facing": "north",
+          "source_translation": [
+            -24,
+            0,
+            0
+          ],
+          "current_translation": [
+            24,
+            0,
+            0
+          ],
+          "mask": null,
+          "visible_native_bones": null
+        }
+      ]
+    },
+    {
+      "number": 13,
+      "file": "13-bar-single-north.jpg",
+      "sha256": "69627b05d31089fabb708070617ed211880ae68ce3adf0d5b83c30b8f96709fd",
+      "bytes": 85083,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "raw_capture": "Original bytes returned by the native Blockbench window screenshot API; no crop, re-encoding, stitching or image editing.",
+      "capture_file_mtime_utc": "2026-11-09T03:48:32.094280+00:00",
+      "scene": "../scenes/bar-single-irregular.bbmodel",
+      "scene_sha256": "ec1b07ccc32ce0913eaede484226c9dbc72f00e4c6666bbb8f55b04bfb5a612a",
+      "scene_case_ids": [
+        "bar-single-irregular-0"
+      ],
+      "camera_view": "North, orthographic",
+      "observations": "Broad silhouette, cavity centering and seating agree visually. Current screen-left, source screen-right. No second bottle is present.",
+      "selection": "Unselected. No transform/selection outline in accepted image.",
+      "temporary_visibility": "All scene groups visible.",
+      "review_result": "No new mismatch established within the documented editor reconstruction scope.",
+      "camera_limits": "Named view is the actual Blockbench UI angle. Numeric fields are provided only when read/set through the UI; omitted fields are not guessed. These editor camera labels do not by themselves name a runtime block facing.",
+      "case_metadata": [
+        {
+          "id": "bar-single-irregular-0",
+          "facing": "north",
+          "source_translation": [
+            -24,
+            0,
+            0
+          ],
+          "current_translation": [
+            24,
+            0,
+            0
+          ],
+          "mask": null,
+          "visible_native_bones": null
+        }
+      ]
+    },
+    {
+      "number": 14,
+      "file": "14-glass-bar-true-isometric-left.jpg",
+      "sha256": "80fc1d9d560c9bf55025b0abf0b1a292c7088abac8e03dbb0dd49818aab6b601",
+      "bytes": 89827,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "raw_capture": "Original bytes returned by the native Blockbench window screenshot API; no crop, re-encoding, stitching or image editing.",
+      "capture_file_mtime_utc": "2026-11-09T03:49:06.002736+00:00",
+      "scene": "../scenes/glass-bar-material.bbmodel",
+      "scene_sha256": "3c6c804b2d0d6ddf82cd697b423f0e3cfc408c68843aa7e8694b3a0c123728cc",
+      "scene_case_ids": [
+        "glass-bar-material-0"
+      ],
+      "camera_view": "True Isometric Left (30\u00b0), orthographic",
+      "observations": "Distinct glass-front cabinet body is visible with the shared twin-layout arrangement. Source upper-right, current lower-left.",
+      "selection": "Unselected. No transform/selection outline in accepted image.",
+      "temporary_visibility": "All scene groups visible.",
+      "review_result": "No new mismatch established within the documented editor reconstruction scope.",
+      "camera_limits": "Named view is the actual Blockbench UI angle. Numeric fields are provided only when read/set through the UI; omitted fields are not guessed. These editor camera labels do not by themselves name a runtime block facing.",
+      "case_metadata": [
+        {
+          "id": "glass-bar-material-0",
+          "facing": "north",
+          "source_translation": [
+            -24,
+            0,
+            0
+          ],
+          "current_translation": [
+            24,
+            0,
+            0
+          ],
+          "mask": null,
+          "visible_native_bones": null
+        }
+      ]
+    },
+    {
+      "number": 15,
+      "file": "15-glass-bar-north.jpg",
+      "sha256": "2eb31cd52a142f01ee5872c2689103ce3e127d3364345fb88561c119f9ee87ce",
+      "bytes": 89665,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "raw_capture": "Original bytes returned by the native Blockbench window screenshot API; no crop, re-encoding, stitching or image editing.",
+      "capture_file_mtime_utc": "2026-11-09T03:49:14.518850+00:00",
+      "scene": "../scenes/glass-bar-material.bbmodel",
+      "scene_sha256": "3c6c804b2d0d6ddf82cd697b423f0e3cfc408c68843aa7e8694b3a0c123728cc",
+      "scene_case_ids": [
+        "glass-bar-material-0"
+      ],
+      "camera_view": "North, orthographic",
+      "observations": "The window border/highlights overlap Wine/Luminous consistently at this angle. Current screen-left, source screen-right. Preview alpha compositing does not execute native engine material behavior.",
+      "selection": "Unselected. No transform/selection outline in accepted image.",
+      "temporary_visibility": "All scene groups visible.",
+      "review_result": "No new mismatch established within the documented editor reconstruction scope.",
+      "camera_limits": "Named view is the actual Blockbench UI angle. Numeric fields are provided only when read/set through the UI; omitted fields are not guessed. These editor camera labels do not by themselves name a runtime block facing.",
+      "case_metadata": [
+        {
+          "id": "glass-bar-material-0",
+          "facing": "north",
+          "source_translation": [
+            -24,
+            0,
+            0
+          ],
+          "current_translation": [
+            24,
+            0,
+            0
+          ],
+          "mask": null,
+          "visible_native_bones": null
+        }
+      ]
+    },
+    {
+      "number": 16,
+      "file": "16-cellar-true-isometric-left.jpg",
+      "sha256": "452882378e8c6aa798dd3ff0eb53cb2727956a629dd8ae801e46d6fc86b36000",
+      "bytes": 92796,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "raw_capture": "Original bytes returned by the native Blockbench window screenshot API; no crop, re-encoding, stitching or image editing.",
+      "capture_file_mtime_utc": "2026-11-09T03:49:40.947205+00:00",
+      "scene": "../scenes/cellar-full.bbmodel",
+      "scene_sha256": "b4447cf0968597973a5aada650aa9d3ad4fa9b45ac34bb055e289a4fb32df6ed",
+      "scene_case_ids": [
+        "cellar-full-0"
+      ],
+      "camera_view": "True Isometric Left (30\u00b0), orthographic",
+      "observations": "Nine necks protrude in the three-by-three arrangement, with Luminous at the center. Source upper-right, current lower-left.",
+      "selection": "Unselected. No transform/selection outline in accepted image.",
+      "temporary_visibility": "All scene groups visible.",
+      "review_result": "No new mismatch established within the documented editor reconstruction scope.",
+      "camera_limits": "Named view is the actual Blockbench UI angle. Numeric fields are provided only when read/set through the UI; omitted fields are not guessed. These editor camera labels do not by themselves name a runtime block facing.",
+      "case_metadata": [
+        {
+          "id": "cellar-full-0",
+          "facing": "north",
+          "source_translation": [
+            -24,
+            0,
+            0
+          ],
+          "current_translation": [
+            24,
+            0,
+            0
+          ],
+          "mask": null,
+          "visible_native_bones": null
+        }
+      ]
+    },
+    {
+      "number": 17,
+      "file": "17-cellar-north.jpg",
+      "sha256": "bb772e737301a039b7ca70a2bca86de5251d8ed2c93df2e9c0e3904b44f972bf",
+      "bytes": 86259,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "raw_capture": "Original bytes returned by the native Blockbench window screenshot API; no crop, re-encoding, stitching or image editing.",
+      "capture_file_mtime_utc": "2026-11-09T03:49:49.135315+00:00",
+      "scene": "../scenes/cellar-full.bbmodel",
+      "scene_sha256": "b4447cf0968597973a5aada650aa9d3ad4fa9b45ac34bb055e289a4fb32df6ed",
+      "scene_case_ids": [
+        "cellar-full-0"
+      ],
+      "camera_view": "North, orthographic",
+      "observations": "Three-by-three row/column spacing agrees; center Luminous diamond/cap remains distinct. Current screen-left, source screen-right.",
+      "selection": "Unselected. No transform/selection outline in accepted image.",
+      "temporary_visibility": "All scene groups visible.",
+      "review_result": "No new mismatch established within the documented editor reconstruction scope.",
+      "camera_limits": "Named view is the actual Blockbench UI angle. Numeric fields are provided only when read/set through the UI; omitted fields are not guessed. These editor camera labels do not by themselves name a runtime block facing.",
+      "case_metadata": [
+        {
+          "id": "cellar-full-0",
+          "facing": "north",
+          "source_translation": [
+            -24,
+            0,
+            0
+          ],
+          "current_translation": [
+            24,
+            0,
+            0
+          ],
+          "mask": null,
+          "visible_native_bones": null
+        }
+      ]
+    },
+    {
+      "number": 18,
+      "file": "18-cellar-east-source-bottles-only.jpg",
+      "sha256": "929432f27c649b70912a55ee0accd7ddff93e7c973e0d6a06000464d68b57456",
+      "bytes": 82024,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "raw_capture": "Original bytes returned by the native Blockbench window screenshot API; no crop, re-encoding, stitching or image editing.",
+      "capture_file_mtime_utc": "2026-11-09T03:52:03.965125+00:00",
+      "scene": "../scenes/cellar-full.bbmodel",
+      "scene_sha256": "b4447cf0968597973a5aada650aa9d3ad4fa9b45ac34bb055e289a4fb32df6ed",
+      "scene_case_ids": [
+        "cellar-full-0"
+      ],
+      "camera_view": "East, orthographic; source bottles only",
+      "observations": "Source horizontal pitch exposed by hiding seven cabinet body meshes and all current meshes. X columns project on top of one another, so this is a pitch profile rather than an independent nine-bottle count.",
+      "selection": "Unselected. No transform/selection outline in accepted image.",
+      "temporary_visibility": "SOURCE body element 0 through 6 hidden, all CURRENT hidden. Source bottle meshes remain. Group re-enabling was followed by re-hiding the seven body meshes before capture.",
+      "review_result": "No new mismatch established within the documented editor reconstruction scope.",
+      "camera_numeric_ui": {
+        "position": [
+          512,
+          7.75,
+          0
+        ],
+        "focal_point": [
+          0,
+          7.75,
+          0
+        ],
+        "zoom": 0.5,
+        "precision": "temporary preset set via visible Save Angle UI; later deleted",
+        "temporary_preset": "N04 temporary east zero"
+      },
+      "camera_limits": "Named view is the actual Blockbench UI angle. Numeric fields are provided only when read/set through the UI; omitted fields are not guessed. These editor camera labels do not by themselves name a runtime block facing.",
+      "case_metadata": [
+        {
+          "id": "cellar-full-0",
+          "facing": "north",
+          "source_translation": [
+            -24,
+            0,
+            0
+          ],
+          "current_translation": [
+            24,
+            0,
+            0
+          ],
+          "mask": null,
+          "visible_native_bones": null
+        }
+      ]
+    },
+    {
+      "number": 19,
+      "file": "19-cellar-east-current-bottles-only.jpg",
+      "sha256": "929432f27c649b70912a55ee0accd7ddff93e7c973e0d6a06000464d68b57456",
+      "bytes": 82024,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "raw_capture": "Original bytes returned by the native Blockbench window screenshot API; no crop, re-encoding, stitching or image editing.",
+      "capture_file_mtime_utc": "2026-11-09T03:51:43.440850+00:00",
+      "scene": "../scenes/cellar-full.bbmodel",
+      "scene_sha256": "b4447cf0968597973a5aada650aa9d3ad4fa9b45ac34bb055e289a4fb32df6ed",
+      "scene_case_ids": [
+        "cellar-full-0"
+      ],
+      "camera_view": "East, orthographic; current bottles only",
+      "observations": "Current horizontal profile captured independently at the same centered camera. Its raw screenshot bytes are identical to #18 at this projection; the two captures were not copied.",
+      "selection": "Unselected. No transform/selection outline in accepted image.",
+      "temporary_visibility": "CURRENT body root cube 0 through 6 hidden, all SOURCE hidden. Current bottle meshes remain. Temporary visibility discarded.",
+      "review_result": "No new mismatch established within the documented editor reconstruction scope.",
+      "camera_numeric_ui": {
+        "position": [
+          512,
+          7.75,
+          0
+        ],
+        "focal_point": [
+          0,
+          7.75,
+          0
+        ],
+        "zoom": 0.5,
+        "precision": "temporary preset set via visible Save Angle UI; later deleted",
+        "temporary_preset": "N04 temporary east zero"
+      },
+      "camera_limits": "Named view is the actual Blockbench UI angle. Numeric fields are provided only when read/set through the UI; omitted fields are not guessed. These editor camera labels do not by themselves name a runtime block facing.",
+      "case_metadata": [
+        {
+          "id": "cellar-full-0",
+          "facing": "north",
+          "source_translation": [
+            -24,
+            0,
+            0
+          ],
+          "current_translation": [
+            24,
+            0,
+            0
+          ],
+          "mask": null,
+          "visible_native_bones": null
+        }
+      ]
+    },
+    {
+      "number": 20,
+      "file": "20-holder-true-isometric-left.jpg",
+      "sha256": "43fe83de1d0a9018eae5b81d39d729d13e8e872ee339835313d99e0224ef8a0c",
+      "bytes": 90304,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "raw_capture": "Original bytes returned by the native Blockbench window screenshot API; no crop, re-encoding, stitching or image editing.",
+      "capture_file_mtime_utc": "2026-11-09T03:53:27.402246+00:00",
+      "scene": "../scenes/holder-occupied.bbmodel",
+      "scene_sha256": "70a017a879916cac38988bbf14b416eaf623decd0ce082a0976fa49bd0089e48",
+      "scene_case_ids": [
+        "holder-occupied-0",
+        "holder-occupied-1"
+      ],
+      "camera_view": "True Isometric Left (30\u00b0), orthographic, all groups",
+      "observations": "Wine at case 0/Z0 and Luminous at case 1/Z34 occupy the pitched holder. Source groups are right/up of their current counterparts.",
+      "selection": "Unselected. No transform/selection outline in accepted image.",
+      "temporary_visibility": "All scene groups visible.",
+      "review_result": "No new mismatch established within the documented editor reconstruction scope.",
+      "camera_numeric_ui": {
+        "position": [
+          512,
+          517.57,
+          -495.53
+        ],
+        "focal_point": [
+          0,
+          5.57,
+          16.47
+        ],
+        "zoom": 0.3403,
+        "precision": "rounded values displayed in UI",
+        "diagnostic": "diagnostics/holder-isometric-camera.jpg"
+      },
+      "camera_limits": "Named view is the actual Blockbench UI angle. Numeric fields are provided only when read/set through the UI; omitted fields are not guessed. These editor camera labels do not by themselves name a runtime block facing.",
+      "case_metadata": [
+        {
+          "id": "holder-occupied-0",
+          "facing": "north",
+          "source_translation": [
+            -24,
+            0,
+            0
+          ],
+          "current_translation": [
+            24,
+            0,
+            0
+          ],
+          "mask": null,
+          "visible_native_bones": null
+        },
+        {
+          "id": "holder-occupied-1",
+          "facing": "north",
+          "source_translation": [
+            -24,
+            0,
+            34
+          ],
+          "current_translation": [
+            24,
+            0,
+            34
+          ],
+          "mask": null,
+          "visible_native_bones": null
+        }
+      ]
+    },
+    {
+      "number": 21,
+      "file": "21-holder-bottom.jpg",
+      "sha256": "e9f134a017d00ebec255b27878f94da7daee2e6938cad7116b130a39edfdff63",
+      "bytes": 81184,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "raw_capture": "Original bytes returned by the native Blockbench window screenshot API; no crop, re-encoding, stitching or image editing.",
+      "capture_file_mtime_utc": "2026-11-09T03:54:04.334742+00:00",
+      "scene": "../scenes/holder-occupied.bbmodel",
+      "scene_sha256": "70a017a879916cac38988bbf14b416eaf623decd0ce082a0976fa49bd0089e48",
+      "scene_case_ids": [
+        "holder-occupied-0",
+        "holder-occupied-1"
+      ],
+      "camera_view": "Bottom, orthographic, all groups",
+      "observations": "Underside rails, straps and bottle occlusion are compared without hiding body geometry. Source left/current right; Luminous row above Wine row.",
+      "selection": "Unselected. No transform/selection outline in accepted image.",
+      "temporary_visibility": "All scene groups visible.",
+      "review_result": "No new mismatch established within the documented editor reconstruction scope.",
+      "camera_limits": "Named view is the actual Blockbench UI angle. Numeric fields are provided only when read/set through the UI; omitted fields are not guessed. These editor camera labels do not by themselves name a runtime block facing.",
+      "case_metadata": [
+        {
+          "id": "holder-occupied-0",
+          "facing": "north",
+          "source_translation": [
+            -24,
+            0,
+            0
+          ],
+          "current_translation": [
+            24,
+            0,
+            0
+          ],
+          "mask": null,
+          "visible_native_bones": null
+        },
+        {
+          "id": "holder-occupied-1",
+          "facing": "north",
+          "source_translation": [
+            -24,
+            0,
+            34
+          ],
+          "current_translation": [
+            24,
+            0,
+            34
+          ],
+          "mask": null,
+          "visible_native_bones": null
+        }
+      ]
+    },
+    {
+      "number": 22,
+      "file": "22-holder-east-source-only.jpg",
+      "sha256": "7895c3a83cb6f610c38d764cfb3d0512dab142ea1bd16acc6d6c1b3bfdf592a5",
+      "bytes": 83001,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "raw_capture": "Original bytes returned by the native Blockbench window screenshot API; no crop, re-encoding, stitching or image editing.",
+      "capture_file_mtime_utc": "2026-11-09T03:54:17.782926+00:00",
+      "scene": "../scenes/holder-occupied.bbmodel",
+      "scene_sha256": "70a017a879916cac38988bbf14b416eaf623decd0ce082a0976fa49bd0089e48",
+      "scene_case_ids": [
+        "holder-occupied-0",
+        "holder-occupied-1"
+      ],
+      "camera_view": "East, orthographic, source cases only",
+      "observations": "Two source holders show the same -45\u00b0 contract pitch and cage contact. Luminous is screen-left (Z34), Wine screen-right (Z0).",
+      "selection": "Unselected. No transform/selection outline in accepted image.",
+      "temporary_visibility": "Both CURRENT root groups hidden; both SOURCE groups fully visible.",
+      "review_result": "No new mismatch established within the documented editor reconstruction scope.",
+      "camera_numeric_ui": {
+        "position": [
+          512,
+          7.75,
+          20.75
+        ],
+        "focal_point": [
+          0,
+          7.75,
+          20.75
+        ],
+        "zoom": 0.3969,
+        "precision": "as displayed in UI",
+        "diagnostic": "diagnostics/holder-east-camera.jpg"
+      },
+      "camera_limits": "Named view is the actual Blockbench UI angle. Numeric fields are provided only when read/set through the UI; omitted fields are not guessed. These editor camera labels do not by themselves name a runtime block facing.",
+      "case_metadata": [
+        {
+          "id": "holder-occupied-0",
+          "facing": "north",
+          "source_translation": [
+            -24,
+            0,
+            0
+          ],
+          "current_translation": [
+            24,
+            0,
+            0
+          ],
+          "mask": null,
+          "visible_native_bones": null
+        },
+        {
+          "id": "holder-occupied-1",
+          "facing": "north",
+          "source_translation": [
+            -24,
+            0,
+            34
+          ],
+          "current_translation": [
+            24,
+            0,
+            34
+          ],
+          "mask": null,
+          "visible_native_bones": null
+        }
+      ]
+    },
+    {
+      "number": 23,
+      "file": "23-holder-east-current-only.jpg",
+      "sha256": "c5aadbbad0f992766549242a7f117f785cc0cb8e3f0b8516bba1a385151caf2d",
+      "bytes": 84980,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "raw_capture": "Original bytes returned by the native Blockbench window screenshot API; no crop, re-encoding, stitching or image editing.",
+      "capture_file_mtime_utc": "2026-11-09T03:54:28.911078+00:00",
+      "scene": "../scenes/holder-occupied.bbmodel",
+      "scene_sha256": "70a017a879916cac38988bbf14b416eaf623decd0ce082a0976fa49bd0089e48",
+      "scene_case_ids": [
+        "holder-occupied-0",
+        "holder-occupied-1"
+      ],
+      "camera_view": "East, orthographic, current cases only",
+      "observations": "Current counterpart at the identical East camera preserves the pictured cage contact and pitch. Luminous remains the accepted adapted model.",
+      "selection": "Unselected. No transform/selection outline in accepted image.",
+      "temporary_visibility": "Both SOURCE root groups hidden; both CURRENT groups fully visible. Temporary visibility discarded.",
+      "review_result": "No new mismatch established within the documented editor reconstruction scope.",
+      "camera_numeric_ui": {
+        "position": [
+          512,
+          7.75,
+          20.75
+        ],
+        "focal_point": [
+          0,
+          7.75,
+          20.75
+        ],
+        "zoom": 0.3969,
+        "precision": "as displayed in UI",
+        "diagnostic": "diagnostics/holder-east-camera.jpg"
+      },
+      "camera_limits": "Named view is the actual Blockbench UI angle. Numeric fields are provided only when read/set through the UI; omitted fields are not guessed. These editor camera labels do not by themselves name a runtime block facing.",
+      "case_metadata": [
+        {
+          "id": "holder-occupied-0",
+          "facing": "north",
+          "source_translation": [
+            -24,
+            0,
+            0
+          ],
+          "current_translation": [
+            24,
+            0,
+            0
+          ],
+          "mask": null,
+          "visible_native_bones": null
+        },
+        {
+          "id": "holder-occupied-1",
+          "facing": "north",
+          "source_translation": [
+            -24,
+            0,
+            34
+          ],
+          "current_translation": [
+            24,
+            0,
+            34
+          ],
+          "mask": null,
+          "visible_native_bones": null
+        }
+      ]
+    },
+    {
+      "number": 24,
+      "file": "24-glassware-true-isometric-left.jpg",
+      "sha256": "a034dc2a0c511791b79d6235835afab37c3723109c60292ba64fb06407697ac4",
+      "bytes": 100665,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "raw_capture": "Original bytes returned by the native Blockbench window screenshot API; no crop, re-encoding, stitching or image editing.",
+      "capture_file_mtime_utc": "2026-11-09T03:55:45.676192+00:00",
+      "scene": "../scenes/glassware-occupied.bbmodel",
+      "scene_sha256": "e92520bbe0933685faf2db8c9b390c7faa9c2c3175271fade66c84deab9ddbb7",
+      "scene_case_ids": [
+        "glassware-0",
+        "glassware-1",
+        "glassware-2"
+      ],
+      "camera_view": "True Isometric Left (30\u00b0), orthographic, all groups",
+      "observations": "All three case pairs are present. Full north has four hanging cups. Sparse east/west retain their documented Java-world versus literal BB-decoded reference frames; apparent left/right reversal is expected in this fixture and is not a runtime-facing defect.",
+      "selection": "Unselected. No transform/selection outline in accepted image.",
+      "temporary_visibility": "All scene groups visible.",
+      "review_result": "No new mismatch established within the documented editor reconstruction scope.",
+      "camera_numeric_ui": {
+        "position": [
+          512,
+          519.25,
+          -478
+        ],
+        "focal_point": [
+          0,
+          7.25,
+          34
+        ],
+        "zoom": 0.2145,
+        "precision": "as displayed in UI",
+        "diagnostic": "diagnostics/glassware-isometric-camera.jpg"
+      },
+      "camera_limits": "Named view is the actual Blockbench UI angle. Numeric fields are provided only when read/set through the UI; omitted fields are not guessed. These editor camera labels do not by themselves name a runtime block facing.",
+      "case_metadata": [
+        {
+          "id": "glassware-0",
+          "facing": "north",
+          "source_translation": [
+            -24,
+            0,
+            0
+          ],
+          "current_translation": [
+            24,
+            0,
+            0
+          ],
+          "mask": 15,
+          "visible_native_bones": [
+            "holder",
+            "slot_0",
+            "slot_1",
+            "slot_2",
+            "slot_3"
+          ]
+        },
+        {
+          "id": "glassware-1",
+          "facing": "east",
+          "source_translation": [
+            -24,
+            0,
+            34
+          ],
+          "current_translation": [
+            24,
+            0,
+            34
+          ],
+          "mask": 1,
+          "visible_native_bones": [
+            "holder",
+            "slot_1"
+          ]
+        },
+        {
+          "id": "glassware-2",
+          "facing": "west",
+          "source_translation": [
+            -24,
+            0,
+            68
+          ],
+          "current_translation": [
+            24,
+            0,
+            68
+          ],
+          "mask": 8,
+          "visible_native_bones": [
+            "holder",
+            "slot_1"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 25,
+      "file": "25-glassware-bottom-all-cases.jpg",
+      "sha256": "243734f9e49a7fa8a0c4062508015d52b55cea22016fcbcb7acc5ebeb11a088d",
+      "bytes": 87764,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "raw_capture": "Original bytes returned by the native Blockbench window screenshot API; no crop, re-encoding, stitching or image editing.",
+      "capture_file_mtime_utc": "2026-11-09T03:56:06.252474+00:00",
+      "scene": "../scenes/glassware-occupied.bbmodel",
+      "scene_sha256": "e92520bbe0933685faf2db8c9b390c7faa9c2c3175271fade66c84deab9ddbb7",
+      "scene_case_ids": [
+        "glassware-0",
+        "glassware-1",
+        "glassware-2"
+      ],
+      "camera_view": "Bottom, orthographic, all groups",
+      "observations": "Three rows: top west/mask8/Z68; middle east/mask1/Z34; bottom full north/mask15/Z0. Source screen-left/current screen-right. Cup counts 1,1,4 are visible in each column; sparse quadrant differences retain the deliberate reference-frame split.",
+      "selection": "Unselected. No transform/selection outline in accepted image.",
+      "temporary_visibility": "All scene groups visible.",
+      "review_result": "No new mismatch established within the documented editor reconstruction scope.",
+      "camera_numeric_ui": {
+        "position": [
+          0,
+          -504.75,
+          34
+        ],
+        "focal_point": [
+          0,
+          7.25,
+          34
+        ],
+        "zoom": 0.1703,
+        "precision": "as displayed in UI",
+        "diagnostic": "diagnostics/glassware-bottom-camera.jpg"
+      },
+      "camera_limits": "Named view is the actual Blockbench UI angle. Numeric fields are provided only when read/set through the UI; omitted fields are not guessed. These editor camera labels do not by themselves name a runtime block facing.",
+      "case_metadata": [
+        {
+          "id": "glassware-0",
+          "facing": "north",
+          "source_translation": [
+            -24,
+            0,
+            0
+          ],
+          "current_translation": [
+            24,
+            0,
+            0
+          ],
+          "mask": 15,
+          "visible_native_bones": [
+            "holder",
+            "slot_0",
+            "slot_1",
+            "slot_2",
+            "slot_3"
+          ]
+        },
+        {
+          "id": "glassware-1",
+          "facing": "east",
+          "source_translation": [
+            -24,
+            0,
+            34
+          ],
+          "current_translation": [
+            24,
+            0,
+            34
+          ],
+          "mask": 1,
+          "visible_native_bones": [
+            "holder",
+            "slot_1"
+          ]
+        },
+        {
+          "id": "glassware-2",
+          "facing": "west",
+          "source_translation": [
+            -24,
+            0,
+            68
+          ],
+          "current_translation": [
+            24,
+            0,
+            68
+          ],
+          "mask": 8,
+          "visible_native_bones": [
+            "holder",
+            "slot_1"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 26,
+      "file": "26-glassware-full-pair-isometric.jpg",
+      "sha256": "0866cad524de9cc19f4b7e67b01ce2400bf7a11bdfc3d645c0c5baad333f9210",
+      "bytes": 99652,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "raw_capture": "Original bytes returned by the native Blockbench window screenshot API; no crop, re-encoding, stitching or image editing.",
+      "capture_file_mtime_utc": "2026-11-09T03:57:10.857357+00:00",
+      "scene": "../scenes/glassware-occupied.bbmodel",
+      "scene_sha256": "e92520bbe0933685faf2db8c9b390c7faa9c2c3175271fade66c84deab9ddbb7",
+      "scene_case_ids": [
+        "glassware-0",
+        "glassware-1",
+        "glassware-2"
+      ],
+      "camera_view": "True Isometric Left (30\u00b0), orthographic, full north pair only",
+      "observations": "Larger full north pair shows four-cup silhouette, bowl openings, stems and holder contacts. Source upper-right/current lower-left. This is visual shape/texture-feature evidence, not engine face/material parity.",
+      "selection": "Unselected. No transform/selection outline in accepted image.",
+      "temporary_visibility": "Both east and both west case groups hidden; SOURCE and CURRENT full north groups visible. Both root groups were explicitly selected (124 meshes) for centering, then Edit > Unselect All before capture.",
+      "review_result": "No new mismatch established within the documented editor reconstruction scope.",
+      "camera_limits": "Named view is the actual Blockbench UI angle. Numeric fields are provided only when read/set through the UI; omitted fields are not guessed. These editor camera labels do not by themselves name a runtime block facing.",
+      "case_metadata": [
+        {
+          "id": "glassware-0",
+          "facing": "north",
+          "source_translation": [
+            -24,
+            0,
+            0
+          ],
+          "current_translation": [
+            24,
+            0,
+            0
+          ],
+          "mask": 15,
+          "visible_native_bones": [
+            "holder",
+            "slot_0",
+            "slot_1",
+            "slot_2",
+            "slot_3"
+          ]
+        },
+        {
+          "id": "glassware-1",
+          "facing": "east",
+          "source_translation": [
+            -24,
+            0,
+            34
+          ],
+          "current_translation": [
+            24,
+            0,
+            34
+          ],
+          "mask": 1,
+          "visible_native_bones": [
+            "holder",
+            "slot_1"
+          ]
+        },
+        {
+          "id": "glassware-2",
+          "facing": "west",
+          "source_translation": [
+            -24,
+            0,
+            68
+          ],
+          "current_translation": [
+            24,
+            0,
+            68
+          ],
+          "mask": 8,
+          "visible_native_bones": [
+            "holder",
+            "slot_1"
+          ]
+        }
+      ],
+      "dirty_marker_explanation": "The unsaved dot in the title/tab comes from hiding the four sparse east/west root groups in this own read-only review tab. No geometry, UV, texture or source file was saved. Camera changes and centering were review-only. The entire temporary state was discarded on close."
+    },
+    {
+      "number": 27,
+      "file": "27-glassware-full-pair-bottom.jpg",
+      "sha256": "863dcab2375fb92420ac03b18c7dbf30f8015882d5eb40709dbce24693542cd4",
+      "bytes": 84604,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "raw_capture": "Original bytes returned by the native Blockbench window screenshot API; no crop, re-encoding, stitching or image editing.",
+      "capture_file_mtime_utc": "2026-11-09T03:57:41.029766+00:00",
+      "scene": "../scenes/glassware-occupied.bbmodel",
+      "scene_sha256": "e92520bbe0933685faf2db8c9b390c7faa9c2c3175271fade66c84deab9ddbb7",
+      "scene_case_ids": [
+        "glassware-0",
+        "glassware-1",
+        "glassware-2"
+      ],
+      "camera_view": "Bottom, orthographic, full north pair only",
+      "observations": "Full north pair underside exposes the four cup extrema and UV/color features. Source screen-left/current screen-right. No assertion that sparse editor quadrants directly equal client world quadrants.",
+      "selection": "Unselected. No transform/selection outline in accepted image.",
+      "temporary_visibility": "Same full-north-only visibility as #26. Temporary visibility discarded on close.",
+      "review_result": "No new mismatch established within the documented editor reconstruction scope.",
+      "camera_numeric_ui": {
+        "position": [
+          0,
+          -504.75,
+          0
+        ],
+        "focal_point": [
+          0,
+          7.25,
+          0
+        ],
+        "zoom": 0.3675,
+        "precision": "as displayed in UI",
+        "diagnostic": "diagnostics/glassware-full-bottom-camera.jpg"
+      },
+      "camera_limits": "Named view is the actual Blockbench UI angle. Numeric fields are provided only when read/set through the UI; omitted fields are not guessed. These editor camera labels do not by themselves name a runtime block facing.",
+      "case_metadata": [
+        {
+          "id": "glassware-0",
+          "facing": "north",
+          "source_translation": [
+            -24,
+            0,
+            0
+          ],
+          "current_translation": [
+            24,
+            0,
+            0
+          ],
+          "mask": 15,
+          "visible_native_bones": [
+            "holder",
+            "slot_0",
+            "slot_1",
+            "slot_2",
+            "slot_3"
+          ]
+        },
+        {
+          "id": "glassware-1",
+          "facing": "east",
+          "source_translation": [
+            -24,
+            0,
+            34
+          ],
+          "current_translation": [
+            24,
+            0,
+            34
+          ],
+          "mask": 1,
+          "visible_native_bones": [
+            "holder",
+            "slot_1"
+          ]
+        },
+        {
+          "id": "glassware-2",
+          "facing": "west",
+          "source_translation": [
+            -24,
+            0,
+            68
+          ],
+          "current_translation": [
+            24,
+            0,
+            68
+          ],
+          "mask": 8,
+          "visible_native_bones": [
+            "holder",
+            "slot_1"
+          ]
+        }
+      ],
+      "dirty_marker_explanation": "The unsaved dot in the title/tab comes from hiding the four sparse east/west root groups in this own read-only review tab. No geometry, UV, texture or source file was saved. Camera changes and centering were review-only. The entire temporary state was discarded on close."
+    }
+  ],
+  "diagnostics": [
+    {
+      "file": "diagnostics/bar-single-isometric-tight-framing.jpg",
+      "sha256": "d55dff5de6921e2617eaf0a8357c0ebc05016fbfb6281a619311478f6a6a6462",
+      "bytes": 86566,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "accepted_visual_evidence": false
+    },
+    {
+      "file": "diagnostics/bar-twin-east-current-isolation.jpg",
+      "sha256": "6e2a6f6a184c0543cf0fa56281150926c2317d3a3f4efc102f24a46a0fa87647",
+      "bytes": 92828,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "accepted_visual_evidence": false
+    },
+    {
+      "file": "diagnostics/bar-twin-east-source-isolation.jpg",
+      "sha256": "08ddeb682ecbcece57675bf3fed32d949ce4fdcc4ecaa6cf4b190453117df765",
+      "bytes": 91652,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "accepted_visual_evidence": false
+    },
+    {
+      "file": "diagnostics/bar-twin-unsaved-state-discard-dialog.jpg",
+      "sha256": "0b36a0eff07fd0f6fd5eb4073844033132a7d5c50d1d22b8d6abd1bd38dbf72d",
+      "bytes": 60682,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "accepted_visual_evidence": false
+    },
+    {
+      "file": "diagnostics/cellar-current-bottles-only-isolation.jpg",
+      "sha256": "659f3ccc218414af771a531b1a8e665793708c40936171a0898f4f64b0d74e93",
+      "bytes": 116799,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "accepted_visual_evidence": false
+    },
+    {
+      "file": "diagnostics/cellar-source-bottles-only-isolation.jpg",
+      "sha256": "656c52df045dffd7010ccf03059205282258aeb5b2dc2bf5f1344c89bf511fc6",
+      "bytes": 115127,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "accepted_visual_evidence": false
+    },
+    {
+      "file": "diagnostics/cellar-source-profile-clipped.jpg",
+      "sha256": "87ad015e109d0c93601d23914a7e92218b8658d1b807609484f6c450c4a1b67d",
+      "bytes": 80044,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "accepted_visual_evidence": false
+    },
+    {
+      "file": "diagnostics/circular-isometric-camera.jpg",
+      "sha256": "3ef1836b90251f8655848fc1af8103d5b9b6aae87e734ea900545e780740427a",
+      "bytes": 75079,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "accepted_visual_evidence": false
+    },
+    {
+      "file": "diagnostics/circular-isometric-source-selection.jpg",
+      "sha256": "f30ac4852f1883ebd9038c958e3c6400d3681caaa0728272089c987a41446a4c",
+      "bytes": 131797,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "accepted_visual_evidence": false
+    },
+    {
+      "file": "diagnostics/circular-top-source-selection.jpg",
+      "sha256": "30487fe7affc5ae69564e1450eadda375e3af86b550a30c56293043b5e862743",
+      "bytes": 106489,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "accepted_visual_evidence": false
+    },
+    {
+      "file": "diagnostics/glassware-bottom-camera.jpg",
+      "sha256": "28060cf990d6ac735e5fcf78cfda64db051fcfa185e7f34b8dbf4e265cd4fdc0",
+      "bytes": 65418,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "accepted_visual_evidence": false
+    },
+    {
+      "file": "diagnostics/glassware-full-bottom-camera.jpg",
+      "sha256": "fc586af2747c59bbd420638e9fe5067a4572564fbe53eb4d77a935e98a898bb5",
+      "bytes": 67204,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "accepted_visual_evidence": false
+    },
+    {
+      "file": "diagnostics/glassware-full-pair-selection.jpg",
+      "sha256": "df12c503153dfdaaf9a6010751d39e177f1c8b7b09a9a774a49a17eb258c3505",
+      "bytes": 124779,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "accepted_visual_evidence": false
+    },
+    {
+      "file": "diagnostics/glassware-isometric-camera.jpg",
+      "sha256": "9948486214905cc351af5ddfe319e82572956472a6be055480cff1421221f928",
+      "bytes": 72390,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "accepted_visual_evidence": false
+    },
+    {
+      "file": "diagnostics/holder-bottom-clipped.jpg",
+      "sha256": "6e7919af4fa4e3ff6891641df8988dcf0b0bfd091e2468ecb2fe92713104d28d",
+      "bytes": 83005,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "accepted_visual_evidence": false
+    },
+    {
+      "file": "diagnostics/holder-east-camera.jpg",
+      "sha256": "75435949beca3286a7cb092dd498a44d3481056ef945a33b44fcd5ceaa97a38e",
+      "bytes": 65037,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "accepted_visual_evidence": false
+    },
+    {
+      "file": "diagnostics/holder-east-current-isolation.jpg",
+      "sha256": "4a79604a260364f47efcea34ec5b9396d8c703bb7bd5f85e1bca2057c2387c06",
+      "bytes": 94445,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "accepted_visual_evidence": false
+    },
+    {
+      "file": "diagnostics/holder-isometric-camera.jpg",
+      "sha256": "3cd99b98c6b7aec26ac31196f5350593e4336465e8d35f232ea6381fcb9a18de",
+      "bytes": 67747,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "accepted_visual_evidence": false
+    },
+    {
+      "file": "diagnostics/temporary-camera-removed.jpg",
+      "sha256": "8dcba6f5c80e1851c7fb80093c8a43a22aab1fab88dd6841a5e93fa6ff83dceb",
+      "bytes": 108335,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "accepted_visual_evidence": false
+    }
+  ],
+  "gui_handoff": {
+    "state": "released to parent",
+    "healthy_retained_tab": "champagne.bbmodel",
+    "review_tabs_open": 0,
+    "modal_open": false,
+    "terminal_windows_untouched": [
+      41943043,
+      41945477,
+      41946153,
+      41946973,
+      41949001
+    ],
+    "temporary_preset_created_then_removed": "N04 temporary east zero",
+    "preset_removal_proof": "diagnostics/temporary-camera-removed.jpg",
+    "source_or_scene_files_saved": false,
+    "runtime_edits": false,
+    "exports": false,
+    "remote_publication": false,
+    "plugin_or_security_setting_changes": false
+  },
+  "incidents": [
+    {
+      "detail": "An early bar-twin viewport context-menu attempt landed on geometry after its framing changed and left an unintended unsaved editor state. The tab was discarded and the frozen scene reopened before any accepted bar-twin image.",
+      "diagnostic": "diagnostics/bar-twin-unsaved-state-discard-dialog.jpg",
+      "outcome": "No saved input change; clean reload used for accepted evidence."
+    },
+    {
+      "detail": "Tight/clipped exploratory screenshots are retained only under diagnostics. Accepted replacements were freshly captured after framing correction.",
+      "outcome": "No image crop or editing used."
+    }
+  ],
+  "remaining_limits": [
+    "Offline placed-layout reconstruction, not Minecraft/Bedrock/Forge execution.",
+    "Native materials, culling/sorting, AO, shaders, lighting and FOV not executed. All scene textures retain explicit Front rendering.",
+    "Luminous preserves the exact accepted #611 four hidden-bottom-strip crop faces and four separated cap surfaces at \u00b10.0625 model units. No new tolerance or repair.",
+    "Sparse glassware compares deliberately different coordinate reference frames. Historical 2026-09-29 client convention was not re-observed.",
+    "Six previously local bottle author members verified in preparation; 26 optional author-archive member comparisons remain not run. Denied optional blob route and author JAR were not retried.",
+    "Held display transformations were not tested or changed; accepted tilted-rack +6 first-person Y lift remains frozen.",
+    "These core occupied cases do not accept unpictured externalVisual addon helpers or all addon ports."
+  ]
+}

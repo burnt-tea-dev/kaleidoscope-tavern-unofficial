@@ -1,0 +1,815 @@
+{
+  "scope": "Docs-only preserving base update after pressing #617. This is a new selected-input identity check, not a new GUI, source, engine or all-addon acceptance.",
+  "base_commit": "2e14d0f348e9ad3f93a679d4c66fee1af8ab6051",
+  "base_tree": "ffc0d9aaf7787580888bf2f29a5ef436c085e376",
+  "runtime_tree": "fe2aa4c3c0e4f7b90f6998470cdb2a7b25ef331a",
+  "runtime_version": "0.6.216",
+  "prior_candidate_commit": "5b995014b4f27d363b0625c3b93478d5d23dc731",
+  "prior_candidate_tree": "e0d5bd717c869d67b02e0fc17492bc9ecc955a9c",
+  "historical_input_receipt": "current-input-verification.json",
+  "historical_input_receipt_sha256": "c00699706437e91471c2967b363e55ad473d411001eb9ba07552b4b7456d567b",
+  "historical_input_base_commit": "7fb1afc86439d67703df202d04923d4bcdc4466b",
+  "historical_input_runtime_version": "0.6.215",
+  "relevant_input_count": 131,
+  "all_relevant_inputs_unchanged": true,
+  "changed_relevant_inputs": [],
+  "runtime_paths_changed_between_bases": [
+    "runtime/BP/manifest.json",
+    "runtime/BP/scripts/data/build-version.js",
+    "runtime/BP/scripts/data/cookery-guide-payload.js",
+    "runtime/RP/manifest.json",
+    "runtime/RP/models/entity/runtime_pressing_card.geo.json"
+  ],
+  "runtime_change_intersects_selected_inputs": false,
+  "original_candidate_files_verified_identical_before_supplement": 67,
+  "original_archives_captures_and_gui_receipts_unchanged": true,
+  "portable_replay_note": "The unchanged verifier retains the historical 0.6.215 documented identity in its output and verifies all 131 relevant bytes in the supplied 0.6.216 checkout. This supplemental receipt records the newer base; it does not rewrite the original current-input receipt.",
+  "files": [
+    {
+      "file": "runtime/RP/textures/terrain_texture.json",
+      "sha256": "46797fb0157dfb71c29ae78d385cdcebc3edfaec673e1292bd4eb826183e01c9",
+      "bytes": 43736,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/blocks/holder.json",
+      "sha256": "5750f2f7fc0a67217b969bae11540ef7189b5d4c98d3afff4593256623c2302d",
+      "bytes": 3535,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/RP/models/entity/holder.geo.json",
+      "sha256": "0ee968d64d7191e908cda54014535135d2df44347200417053b7f18bf6a743e9",
+      "bytes": 46684,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/RP/textures/kaleidoscope_tavern/block/deco/holder.png",
+      "sha256": "bc5595b4edfc333ce7c6fedbfb5970fce371ea835faba532a9326f65e0b44ba1",
+      "bytes": 202,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/blocks/circular_rack.json",
+      "sha256": "a13e053d5ec9f6cbcfda37cf404ba2ce72fbf6bfaf4005f296f6ef9ad074f265",
+      "bytes": 5560,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/RP/models/entity/circular_rack.geo.json",
+      "sha256": "2e463db022ea8b175f98e8149fde93ad5c4c1263b2125993df6c9719d3b8a745",
+      "bytes": 16541,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/RP/textures/kaleidoscope_tavern/block/deco/circular_rack.png",
+      "sha256": "bfc7e7cf21fde7b44c660c13654bd6040574d6f95b44220b1c829bd33ac0d571",
+      "bytes": 387,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/blocks/tilted_rack.json",
+      "sha256": "ea48783e4545e780decf48e003f1b944a662d3397c7349d57e3759434fa4a08a",
+      "bytes": 3605,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/RP/models/entity/tilted_rack.geo.json",
+      "sha256": "42af00c3035a21f688d968ae30b6061ff159098840993ed6278df7db91ea06b5",
+      "bytes": 9560,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/RP/textures/kaleidoscope_tavern/block/deco/tilted_rack.png",
+      "sha256": "f2765637938b8d9a8c5134609647aae21d312d6084b981b9f819df2782b697d4",
+      "bytes": 279,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/blocks/bar_cabinet.json",
+      "sha256": "cd41098805aaf66e08c9837c4157ce243225c51d191d8902e34b87987a0640fc",
+      "bytes": 4469,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/RP/models/entity/bar_cabinet_single.geo.json",
+      "sha256": "712a0256db82efa4b900ab91c81e6b6a80022f8a4675c98831d951bf6541411c",
+      "bytes": 8145,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/RP/textures/kaleidoscope_tavern/block/brew/bar_cabinet.png",
+      "sha256": "e67f5aa6995e6c6e843829bfa246db25aef50862d06ab147d16784d84cd9e6b0",
+      "bytes": 414,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/RP/models/entity/bar_cabinet_left.geo.json",
+      "sha256": "78d775c227339ed0215e96c686e884a16c3b4664a02a01470e87bc4a46fee6d0",
+      "bytes": 7104,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/RP/models/entity/bar_cabinet_middle.geo.json",
+      "sha256": "70fde476b0550148ceda368459a12e828c209e3cf75ec81ad48eb5fb806b8c89",
+      "bytes": 6070,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/RP/models/entity/bar_cabinet_right.geo.json",
+      "sha256": "baf543f56003459b12f6ed55ca006dac533444e9d5900c11072de8cbfb7d7881",
+      "bytes": 7106,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/blocks/cellar_cabinet.json",
+      "sha256": "8f6f9c5b790019a1b665bf40134fc6bf8703389be38f269120f3d232007fe4e9",
+      "bytes": 4608,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/RP/models/entity/cellar_cabinet_single.geo.json",
+      "sha256": "1ec046bf527a81b718295304d3c77449b954865710e6f57fea82f4f72237cde0",
+      "bytes": 11886,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/RP/models/entity/cellar_cabinet_left.geo.json",
+      "sha256": "a6a728ce38a00e5111e1ad9e0267cd0ee4aa4f05e76f3bef2a4b6b0b2d69e495",
+      "bytes": 10906,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/RP/models/entity/cellar_cabinet_middle.geo.json",
+      "sha256": "2c7786fc51b53557b2ceabfef8e2e21aaab73175ab71d409e92d98124ef2059d",
+      "bytes": 9840,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/RP/models/entity/cellar_cabinet_right.geo.json",
+      "sha256": "dd44c28f180435e5c7708dbcb3c1246251ae27e7b70354a7bfbd2964bd67fab0",
+      "bytes": 10886,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/blocks/glass_bar_cabinet.json",
+      "sha256": "f09de7a46b77c25635a2c69489ae8b1a632b01ee8defee8240f631eecaeb945a",
+      "bytes": 4535,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/RP/models/entity/glass_bar_cabinet_single.geo.json",
+      "sha256": "0b83c3aa5b68ec87b57510f0a1f201ecbbdc376efa75df80e10918578e569f6d",
+      "bytes": 8663,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/RP/textures/kaleidoscope_tavern/block/brew/glass_bar_cabinet.png",
+      "sha256": "e580d1027a0bc3d47123768a59f9ce0fec6f9523c44d3ff42325485a1c78f422",
+      "bytes": 923,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/RP/models/entity/glass_bar_cabinet_left.geo.json",
+      "sha256": "ff52d5cf5853b7a27466b61839b758a364b84d5d72451c91586737888ddd9af9",
+      "bytes": 7620,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/RP/models/entity/glass_bar_cabinet_middle.geo.json",
+      "sha256": "c0b82a9b40b35dddac5fbfccaef7a86a599b40a2f33aceecb0c9cfdcaabfa5c2",
+      "bytes": 6587,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/RP/models/entity/glass_bar_cabinet_right.geo.json",
+      "sha256": "355ba09c8d6c2c1978226e4a30e996de96e23d14b89f4d0bf7af0a82447c01e7",
+      "bytes": 7626,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/blocks/glassware_holder.json",
+      "sha256": "814f7a5b59c753b4814ff7336ffe6074e874b99e1cdece5c201ad4e21cd6400f",
+      "bytes": 6650,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/RP/models/entity/runtime_glassware_holder.geo.json",
+      "sha256": "34576dfc8cb7803b867d640059d86158c467d67acb21a6b73dd532ef90301c7f",
+      "bytes": 99890,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/RP/textures/kaleidoscope_tavern/block/deco/glassware_holder.png",
+      "sha256": "b76b74300136ecc606a3a53ff94798a29644203f224800db9f00e8a95cfa3e5b",
+      "bytes": 606,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/RP/textures/kaleidoscope_tavern/block/mixology/empty_glassware.png",
+      "sha256": "257f85b15ef4480ab800304ccd73d2627638cf246c95e2003057b31886f21673",
+      "bytes": 469,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/RP/entity/runtime_holder_bottle_visual.entity.json",
+      "sha256": "117a8c13260f1c4999c78011a95f42bc8237f843101922d9fceeb48ae252dbcd",
+      "bytes": 2864,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/entities/holder_bottle_visual.json",
+      "sha256": "150a95bf5edd7c16d6afb5526cf8270c99c70856535e98594dcba3dd2a2f89bf",
+      "bytes": 1192,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/RP/render_controllers/runtime_holder.render_controllers.json",
+      "sha256": "2e5226d826f052e1edda1df4ad2661362371d60ad97e28cb045f34e7543bc3cb",
+      "bytes": 1688,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/RP/models/entity/luminous_bride_1.geo.json",
+      "sha256": "6557407955161cc933db87557a62dee08eb43cd638a6e2176b893a0c7da3d2a9",
+      "bytes": 11939,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/RP/textures/kaleidoscope_tavern/block/brew/luminous_bride.png",
+      "sha256": "6fa826ae5e18f525f10ba523b13ab4b9494728be89b3af84eccd2ac57ae58370",
+      "bytes": 421,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/RP/models/entity/wine_1.geo.json",
+      "sha256": "330b306571e4bec1fedad11f2ef455e1df0f511597d1d2d9e6ad36a9c291cab7",
+      "bytes": 3996,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/RP/textures/kaleidoscope_tavern/block/brew/wine.png",
+      "sha256": "b5615c0411c284f826f702a77d8e87eed645a43d3a6c893f5a194b8f7082a3fe",
+      "bytes": 445,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/core/holder.js",
+      "sha256": "c453a8b68eacdaaa1bc4bc634d209c3675a8e00fe77b3b1d7509db055f4f4e58",
+      "bytes": 3788,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/core/extension-content.js",
+      "sha256": "58725676113ccc49ff89d465db9b15bf8d88f51e0aa9dd3e6d7eb6f3bf775c6b",
+      "bytes": 4501,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/data/bottles.js",
+      "sha256": "6a1ca4742d59d1fd9de6652641128cd3f5c10db6eac1e2c0ebe97310ebc91e6b",
+      "bytes": 3628,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/data/drink-effects.js",
+      "sha256": "c048fee5a8073964ba9d3c81e115fa1d9d845764388e78893ba33f234f3fba31",
+      "bytes": 38847,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/data/mixology.js",
+      "sha256": "c269618c892289b359e7d5067ecca4d9241c47ab4d2aadeb37ae20f33007f3e8",
+      "bytes": 65005,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/core/util.js",
+      "sha256": "f7eb593312c97450a715f4003c06008ba852a841454c1b043b091002850c7169",
+      "bytes": 6723,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/core/bottles.js",
+      "sha256": "21f2cf17295a0bf943b62d6b3d7e10e9400a83476517849ccacc82a70434d27b",
+      "bytes": 2563,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/bedrock/holder.js",
+      "sha256": "d05d4ade88d7470dbbd3ee173902ea1a2d7f161f61ad4b3438970cb865fead18",
+      "bytes": 10004,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/bedrock/native-item-storage.js",
+      "sha256": "0c50d0529b521eca9b4ba81213207ad82902a6cf6cfd1a9f779a28696500ee4b",
+      "bytes": 2368,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/core/quality-tooltip.js",
+      "sha256": "e20491b299695cc04bc779d2962a2057a2c537a268fa0aaaa6e28b1ef35832cc",
+      "bytes": 4688,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/core/cocktail-colors.js",
+      "sha256": "0076a137d139c7d61aa67848129a18567dfcd92cba62295646969387ecc80218",
+      "bytes": 324,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/core/native-item-storage.js",
+      "sha256": "c6d9450445f8c4c476fabc47f14945062edb7abd349ac4dccaef518bcf0d8c9d",
+      "bytes": 9273,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/core/storage-item-projection.js",
+      "sha256": "8a550071b6a9761e3e7ecbcaf6f6c717115a8e88e864a295dacb9d27530ea0ee",
+      "bytes": 1674,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/core/tilted-rack.js",
+      "sha256": "4a3aac93065626d1a15c5b401b1e89c4fa1a391855664e17c7ee5e289568a36d",
+      "bytes": 3833,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/core/circular-rack.js",
+      "sha256": "d2cffbf792ea62a03bfba481ab75c4ba010fc261caaf502757df511bdbb48869",
+      "bytes": 4406,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/core/cellar-cabinet.js",
+      "sha256": "8c4b8b38dfb95999bbaf6a8379b45fce78ef17d2c5d4e86ac0e732360eaf4de4",
+      "bytes": 4321,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/core/bar-cabinet.js",
+      "sha256": "e0e02a1ea258c01819d986f890b43b1b6eb7f3a1a7850a903aebf1acc81acfa7",
+      "bytes": 4916,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/core/projectile-parity.js",
+      "sha256": "88cbe00e64c54a1a039172ae2683b6558869616fb5420302e6d93d53cc93f4d2",
+      "bytes": 2359,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/core/furniture.js",
+      "sha256": "7cbabb1fc4ec830851aa1bbf4e6bab08a72cd44f14e2f020920b3c04290e9b08",
+      "bytes": 11346,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/core/java-placement.js",
+      "sha256": "060629854fa80cab887e8dae40642e5a9f745bde7e697d3717755ee4851a5647",
+      "bytes": 1095,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/core/hit-basis.js",
+      "sha256": "f2343c08cbc86dced67ae436c52094cea5bc35af993c605a045b206c1bc8ec1a",
+      "bytes": 3176,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/bedrock/java-placement-router.js",
+      "sha256": "982c3715ee37222690957ddaafabc6da54e7203ad1531a4603807faa1de894a7",
+      "bytes": 14506,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/core/interaction-claim.js",
+      "sha256": "99d0089205f812265a1c95d86daa82479bb56b9faa415867b4a745af399886c6",
+      "bytes": 414,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/bedrock/transactions.js",
+      "sha256": "1e6e013c715baca9e2cfe15b620e18d6ed005f3437d58c24db7fd78623d9398b",
+      "bytes": 9078,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/bedrock/pickup-overflow.js",
+      "sha256": "1e6ad8d354967bf7f7afba703cc86ec7b1f5ab0b5502060fddc43eb7f17a6141",
+      "bytes": 5037,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/bedrock/pickup-feedback.js",
+      "sha256": "32e06d1fe165119d31a735ba39f25bacc71dad2b4c4de87621054de613c5162f",
+      "bytes": 1713,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/core/java-random.js",
+      "sha256": "18714a924b79609982deb2fd9359dbb9acc1685684150bc758f16fe0ac4cbbb5",
+      "bytes": 411,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/bedrock/waterlogging.js",
+      "sha256": "7d3fa76a489c4f1476f330a248696f94a5343c271e221c9d2716dc5e65408b4d",
+      "bytes": 1110,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/bedrock/scripted-block-change.js",
+      "sha256": "189d6b8f87c2089b590c849c859cf5f140b4fb615b4d6ac878ab542944e93e57",
+      "bytes": 1386,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/bedrock/break-feedback.js",
+      "sha256": "4ad9e89f3de99b2139978cde2aeacaa94139408d34c0847cda355c389936ac6e",
+      "bytes": 330,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/core/break-feedback-engine.js",
+      "sha256": "85fc1cacd7fa71fe8136db0210657e9ad160471ff7ffdfc66bdd0edf0bf3931f",
+      "bytes": 3207,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/data/break-feedback.js",
+      "sha256": "25d4699daeb3ec8a9c76843880d7e85b450859ff350e4d37b149ec516b7b4067",
+      "bytes": 27141,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/core/inventory.js",
+      "sha256": "ff21dbc539bf233aec0b07dc707f45ffd8a2cc744151e0c180a00cc0e708c8c2",
+      "bytes": 4703,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/bedrock/custom-effects.js",
+      "sha256": "ceb04d004acbbb41743479648cd8400851a5c8f1d1bcabc5e39532e03ba0afe5",
+      "bytes": 30915,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/core/extension-foundation.js",
+      "sha256": "bf4ed849835d5f6ef205a231eef7b557ff90ae1c63d395a96840f15af3ea05c1",
+      "bytes": 6586,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/core/tipsy-visual.js",
+      "sha256": "c0c40eb38a25d4f7a4d7a05ce273a9d0150950fd18d77d4326f183714b495407",
+      "bytes": 2130,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/bedrock/tipsy-visual.js",
+      "sha256": "5e7cb2b1ba06c086fd53f11e1ad8a898b50283c8bb5ffece288f290b4466feb0",
+      "bytes": 4503,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/bedrock/combat-effects.js",
+      "sha256": "29b0d4e75e0f1ed770e01d6e4eba9370045c95455655e2dae05114d3a63a4602",
+      "bytes": 2778,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/bedrock/effect-feedback.js",
+      "sha256": "da270ff1430589bcf324b0acee033d557aa4750911d733be49b6b518f5fd49da",
+      "bytes": 1846,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/core/effect-feedback.js",
+      "sha256": "32468dfbda917724a99f219014fbe38e96bf73e53c13f4d6fdb682605a5ae1de",
+      "bytes": 2318,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/bedrock/feedback-diagnostics.js",
+      "sha256": "e776da556900ad529d0af14086413f73e8281f08d6b066d5d88d220c7dbc312b",
+      "bytes": 1426,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/core/combat-effects.js",
+      "sha256": "23988c0d6c0089ebba832211f2e999202d1ba2f91de8cc765cf3358520ffed51",
+      "bytes": 1691,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/core/custom-effects.js",
+      "sha256": "f8bcb73925d6c3244798c51171c3aa3249eea020c2981422f72baca8cd412092",
+      "bytes": 8822,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/core/living-effect-entity.js",
+      "sha256": "5ffed0483c22af6aa6e56a57ab040bde8a07abcaf963da34a8f30ee55ae32931",
+      "bytes": 1459,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/data/vanilla-instant-entities.js",
+      "sha256": "cbcb4b04a041dcf8a2354e4ab746007a2bfcb4b64eb30d2c77489017203b913f",
+      "bytes": 2196,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/bedrock/status-aura.js",
+      "sha256": "ec262d3bfdc4a1342ea29ab3c067eadb8b4fc18821a7f5ed241b53a1ab00cc96",
+      "bytes": 25534,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/core/status-aura.js",
+      "sha256": "50231d097370093266805649b0ed15146b9bab8828530a11f08920ecb234aaf4",
+      "bytes": 3364,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/core/effect-colors.js",
+      "sha256": "68cdc888bc3b0fdde0c094dcc024c28c44b54602605bf32c0a65bdd9605da6fa",
+      "bytes": 1068,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/core/vision-feedback.js",
+      "sha256": "6ddeaea67651cab9c02e47057352ef309eb2524f3894c026b6e9041d3ff02003",
+      "bytes": 758,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/core/grass-stealth-plants.js",
+      "sha256": "f6f5f2dc5da254569847c1f32bb050712595a4440c1f61cf952c67693419d5ea",
+      "bytes": 947,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/core/armor-wear.js",
+      "sha256": "6df5645c21308027595dabb889b096c6038885278bd40d7ae709b6a8be9cf6fc",
+      "bytes": 507,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/core/motion-blocking-height.js",
+      "sha256": "18a2299ede7f996d263569bd8c1669d43e95a2feb283d75b06ee47d8466c28ac",
+      "bytes": 1076,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/bedrock/stateful-storage-router.js",
+      "sha256": "939d75316fc7737fba77a63fc4db9f66671574a4e9819e10c73dfa1c4ab581b5",
+      "bytes": 10021,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/core/java-use-order.js",
+      "sha256": "5755a50fa11d865700e74ab00bb828e8d7871615a7b54f5226ab1f154cbb87a8",
+      "bytes": 743,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/bedrock/protected-break-router.js",
+      "sha256": "9763b6c53f3c66fa92403df843e04e4de97b06c040acb6a972c954a576bce750",
+      "bytes": 6066,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/core/block-hit.js",
+      "sha256": "e7e97fe13ac31861182389746c6dfd913cf053bbf07a77db31286b7d590e09ec",
+      "bytes": 1536,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/core/aim-hit.js",
+      "sha256": "a68e34096d2d5428f0562616e612e117a415df9437bf316caa91a53c0684b47f",
+      "bytes": 4713,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/bedrock/storage-projectile.js",
+      "sha256": "95d3092655158822abacf927ba5e9d813d2fc0e12176ddce6f4c6440deace0d4",
+      "bytes": 7538,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/bedrock/interaction-particles.js",
+      "sha256": "28bca29f15001539ff88118d301e3bd0a1da92f53321054349ed59eeae1ac64b",
+      "bytes": 2683,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/core/interaction-particles.js",
+      "sha256": "b7b67cd3f4df3df4f8fd0eb98607541797f7591ebbf4fd5bd39c912609b57bcd",
+      "bytes": 3604,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/core/drink-effects.js",
+      "sha256": "8ebb3d9944b571b477e7fd4f170d58a1f69ed741cbe6bf405d0ec9e224a25d26",
+      "bytes": 1619,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/bedrock/instant-effects.js",
+      "sha256": "3efc5060395fcaac984a2aa87dd12c65df569e4aaf4e2e0fe74ffe0230b6c5a1",
+      "bytes": 10990,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/core/java-instant-effect.js",
+      "sha256": "9ca5fb62dcefbe36ef8e94e2ac10b591e05eead2ae650086af788180b7e2f11b",
+      "bytes": 1618,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/bedrock/storage-visual-maintenance.js",
+      "sha256": "e08548dab33a8103b8926160baa9504ba211697289c6d2302183dd1c8c813bf2",
+      "bytes": 2508,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/RP/entity/runtime_circular_rack_bottle_visual.entity.json",
+      "sha256": "604529e5128de2dc4600318332d21702ee5fe4faaa50e45a6c1681bd53348c03",
+      "bytes": 4045,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/entities/circular_rack_bottle_visual.json",
+      "sha256": "d444479a4c77f8821714a13e4e76b39db19368dc5fe907f1aabc8a1b1d515763",
+      "bytes": 1207,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/RP/render_controllers/runtime_circular_rack.render_controllers.json",
+      "sha256": "77db72847efda554f6c47fb744dabf5e416f144ebc48314a5a3df96498c1013a",
+      "bytes": 2328,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/RP/models/entity/brandy_1.geo.json",
+      "sha256": "a451f649620addd476f5e56b84e68c74ea358ea9be1baadf21d757ea16a9ebdc",
+      "bytes": 11902,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/RP/textures/kaleidoscope_tavern/block/brew/brandy.png",
+      "sha256": "5d7421149033d6937df517c9b717551be8bc20a545108f65d48df8d67844ae85",
+      "bytes": 518,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/bedrock/circular-rack.js",
+      "sha256": "d37f204ec525142a38d3e3cac0c87c76788886bdab5bfadc78b1f6341ff62253",
+      "bytes": 11132,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/bedrock/java-ambient.js",
+      "sha256": "aad430777698482fb0483387b91db1829d6460eab07726d22be82d2015483763",
+      "bytes": 4596,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/core/java-ambient-sampling.js",
+      "sha256": "e147dc0aed978e1f18fee60efdf2f9265bef6506f1a727fccaa15d76209dedb3",
+      "bytes": 2167,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/RP/entity/runtime_tilted_rack_bottle_visual.entity.json",
+      "sha256": "dc17da06353decc545e6b8b8353884bc28c77b951a9099e7924852e12a89b220",
+      "bytes": 4181,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/entities/tilted_rack_bottle_visual.json",
+      "sha256": "1adf946f59532a0a5b4d47abf14e9abd7d9705b9956cc15f47bdab7c6b586200",
+      "bytes": 1203,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/RP/render_controllers/runtime_tilted_rack.render_controllers.json",
+      "sha256": "fed764a988b2499c6a6742f046ba347ae464611f33b6f4af39028c13d93cfb6d",
+      "bytes": 2326,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/bedrock/tilted-rack.js",
+      "sha256": "56a56075f9206d0c6cf3a29fc4668adb56cdab596f51b2606a6ada8bf59061db",
+      "bytes": 10343,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/RP/entity/runtime_bar_cabinet_bottle_visual.entity.json",
+      "sha256": "db4f7f8e2e0a4fe9eda24fa39beabe1bd2948e2f309ca969f1004dff0577d948",
+      "bytes": 4040,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/entities/bar_cabinet_bottle_visual.json",
+      "sha256": "a0ae298b2b7fe3941421c18768ee8e74a926bca0bf3af34cf60cf1f807a000ab",
+      "bytes": 1203,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/RP/render_controllers/runtime_bar_cabinet.render_controllers.json",
+      "sha256": "7edb5c8f7858aba928fb4e03c9b9435d2292ab94f98af088fd5158f69fa88c64",
+      "bytes": 2326,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/bedrock/bar-cabinet.js",
+      "sha256": "379917c66f734e087714e953d121b7edec6a487e9ced37f4b572b6097a1ce69e",
+      "bytes": 10368,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/RP/entity/runtime_cellar_cabinet_bottle_visual.entity.json",
+      "sha256": "b05c67d3c92342e11a4add250f5a4142cd3b595d1d829ba18b7f31f1912bf171",
+      "bytes": 2879,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/entities/cellar_cabinet_bottle_visual.json",
+      "sha256": "fc64c499203e0551e830ca59cc561feba7dc9c2aa6c3e763cbdacec2fc5715e8",
+      "bytes": 1209,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/RP/render_controllers/runtime_cellar_cabinet.render_controllers.json",
+      "sha256": "63ec5af8111e6af96d9bb10d7df21a982a6e72056a963ba9a09358ab796f4aa6",
+      "bytes": 1699,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/bedrock/cellar-cabinet.js",
+      "sha256": "b568a2576ff66f2b0ca1ab13323fde8d9bf9188c147a1d3d3db0d755ed889498",
+      "bytes": 11981,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/bedrock/furniture.js",
+      "sha256": "cc1141b2315b4ed9f1aba51f56c47abba0ef9a9426485d52d81d261a6997bfad",
+      "bytes": 23330,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/core/storage.js",
+      "sha256": "07b7ee337a8649d4a0791882bd84049c61ab6c80e9ea6c235874272545795058",
+      "bytes": 1602,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/BP/scripts/core/machines.js",
+      "sha256": "cf43c87cfd3d9dfa2e0920ed516ba47ba912135d163b5fafb9aaf9116ab592c3",
+      "bytes": 8728,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/RP/animations/runtime_storage_bottle.animation.json",
+      "sha256": "1422c578eab33404abe356beef5d0e3e0ae098520cb9cc247708929066b28776",
+      "bytes": 629,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "data/storage-render-source.json",
+      "sha256": "30380a126eb64526e460de69f592766abb302b199d1feb4471b36c8f6ad0c6bf",
+      "bytes": 10952,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "tools/check_storage_rendering.py",
+      "sha256": "2556419955e3e73f8dd20b46c4695b02d27d3cd6695b420c694552e5387d930d",
+      "bytes": 14918,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "tools/check_glassware_slots.py",
+      "sha256": "3c2126ba9bd1501936b7041420f36d475a5d0b975bf6a01d0cce08bb2e4a1f7a",
+      "bytes": 3802,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "docs/evidence/t175-rack-lift/native-review.json",
+      "sha256": "1c29da88c4704054ff67da1609d720b36489d6650319e3e6791108eba2c6aeb1",
+      "bytes": 1659,
+      "unchanged_from_original_receipt": true
+    },
+    {
+      "file": "runtime/RP/models/entity/item_display_tilted_rack.geo.json",
+      "sha256": "93030bd4f8289be846eea898052b36ed81c33626355c8e42fbcac95a73968ff7",
+      "bytes": 11969,
+      "unchanged_from_original_receipt": true
+    }
+  ]
+}
