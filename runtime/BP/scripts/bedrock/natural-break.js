@@ -14,11 +14,15 @@ import {furnitureBlock,itemId,GLASSWARE_SLOTS} from '../core/furniture.js';
 import {boardRuntimeKey,chalkCenter} from '../core/boards.js';
 import {cupItem,isBottleBlock} from '../core/extension-content.js';
 import {naturalCupStack,naturalShakerRemoval} from './mixology.js';
+import {removeBoardText} from './board-text.js';
 const NS='kaleidoscope_tavern',seen=new Map();
 const at=p=>`${p.x}_${p.y}_${p.z}`;
 const state=(permutation,key,fallback=0)=>permutation.getState(NS+':'+key)??fallback;
 function removeBlock(d,p,id){try{const b=d.getBlock(p);if(b?.typeId===id)replaceBlockWithoutNaturalDrops(b,BlockPermutation.resolve('minecraft:air'));}catch{}}
 function clearHelpers(d,origin,keys){
+ // Board glyphs use pipe-delimited anchors and keep a bounded layout cache.
+ // Retire both through their owner after destruction has committed.
+ for(const key of keys)if(key.startsWith('kt:writingBoard/'))removeBoardText(d,key,origin);
  for(const entity of d.getEntities({location:origin,maxDistance:5})){
   if(!entity.typeId.startsWith(NS+':')&&!entity.hasTag(NS+':visual_helper'))continue;
   try{
