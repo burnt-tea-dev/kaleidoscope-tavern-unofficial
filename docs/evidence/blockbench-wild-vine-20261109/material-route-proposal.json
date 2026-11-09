@@ -1,0 +1,117 @@
+{
+  "checked_utc": "2026-11-09T02:18:58.787300+00:00",
+  "state": "review_only_not_applied",
+  "proposal": [
+    {
+      "path": "runtime/BP/blocks/wild_grapevine.json",
+      "before_sha256": "ea1c3f23e7dc1394c7505424dc67d7d7c256a757cc3960c5f8e24bcecc8890f4",
+      "proposal_sha256": "aeb184c1a53af82abce84d09dd0d1678c21e0b8435a175f421d6bf7810d5e15c",
+      "fields": [
+        "minecraft:block.components.minecraft:material_instances.*.render_method",
+        "minecraft:block.components.minecraft:item_visual.material_instances.*.render_method"
+      ],
+      "other_fields_equal": true
+    },
+    {
+      "path": "runtime/BP/blocks/wild_grapevine_plant.json",
+      "before_sha256": "9b22c1a77820c9fd0e4af4b9f6d0944cf9c3cb148d84da44de1b656ae27556b6",
+      "proposal_sha256": "b9a9ff70fad95a6846b9f7398c757a3c10e1f7077e0c97a2f7f5097463eca96b",
+      "fields": [
+        "minecraft:block.components.minecraft:material_instances.*.render_method",
+        "minecraft:block.components.minecraft:item_visual.material_instances.*.render_method"
+      ],
+      "other_fields_equal": true
+    }
+  ],
+  "geometry_sha256": "e7e8c23f421aba7d8082c6952d6599bc5fb99231c9a656ff1566b4303cbd0d0b",
+  "bedrock": {
+    "url": "https://learn.microsoft.com/en-us/minecraft/creator/reference/content/blockreference/examples/blockcomponents/minecraftblock_material_instances?view=minecraft-bedrock-stable",
+    "alpha_test": "Cutout with backface culling disabled.",
+    "alpha_test_single_sided": "Cutout with backface culling enabled.",
+    "explanation_url": "https://learn.microsoft.com/en-us/minecraft/creator/documents/customblockrenderlighting?view=minecraft-bedrock-stable"
+  },
+  "java_world": {
+    "versions": [
+      "1.20.1",
+      "1.21.1"
+    ],
+    "proof": "Official class bytes parsed as data using SHA-1/size verified official mappings. CompositeStateBuilder defaults to CULL; RenderType.cutout construction has no cull override. CULL is true; NO_CULL false disables GL culling on setup and restores it on clear.",
+    "artifacts": [
+      "java-1.20.1-culling.json",
+      "java-1.21.1-culling.json"
+    ],
+    "class_execution": false,
+    "mappings_1_20_1": {
+      "url": "https://piston-data.mojang.com/v1/objects/6c48521eed01fe2e8ecdadbd5ae348415f3c47da/client.txt",
+      "sha1": "6c48521eed01fe2e8ecdadbd5ae348415f3c47da",
+      "bytes": 8001795
+    },
+    "mappings_1_21_1": {
+      "sha1": "2244b6f072256667bcd9a73df124d6c58de77992",
+      "size": 9598610,
+      "url": "https://piston-data.mojang.com/v1/objects/2244b6f072256667bcd9a73df124d6c58de77992/client.txt",
+      "sha256": "140c47931cccc8fc9e4c22d7603e2d714d1a953a146f51ea7397d95c955536ec",
+      "executed": false,
+      "publish_whole_mappings": false
+    }
+  },
+  "forge_mapping": {
+    "docs": "https://docs.minecraftforge.net/en/1.20.1/rendering/modelextensions/rendertypes/",
+    "commit": "8bdaec882b9bfd76e9dfdf67a22a924f677b1062",
+    "branch": "1.20.x",
+    "sources": [
+      {
+        "file": "ForgeRenderTypes.java",
+        "url": "https://github.com/MinecraftForge/MinecraftForge/blob/8bdaec882b9bfd76e9dfdf67a22a924f677b1062/src/main/java/net/minecraftforge/client/ForgeRenderTypes.java",
+        "sha256": "cefd550956017d8c35efdaba2a96bfb23354c4e9e086af71e960c3a3613aa84f"
+      },
+      {
+        "file": "NamedRenderTypeManager.java",
+        "url": "https://github.com/MinecraftForge/MinecraftForge/blob/8bdaec882b9bfd76e9dfdf67a22a924f677b1062/src/main/java/net/minecraftforge/client/NamedRenderTypeManager.java",
+        "sha256": "09b6ec4d3a79a944868af86d28b5b7e4b62986a253cecea82acff4287051bfee"
+      }
+    ],
+    "result": "Named cutout routes world to vanilla cutout, and items to ITEM_LAYERED_CUTOUT; layeredItemCutout does not override default CULL.",
+    "limit": "Current maintained Forge 1.20.x source inspected. Attempt to retrieve exact 47.3.0 source archive returned HTTP 403; archive was not read. No claim of exact 47.3.0 source archive verification."
+  },
+  "reason": "Four explicit opposing source-directed faces remain. Disabling backface culling lets a farther reverse face contribute its mirrored texture through a transparent near-face texel. Source culled rendering avoids this contribution; do not remove the explicit back-directed faces.",
+  "limits": [
+    "Proposal does not prove native Bedrock rendering.",
+    "No 26.1.2 renderer proof.",
+    "Native item appearance is not reviewed; route follows preserved geometry and source cutout policy, not a claim of every Java item context.",
+    "Missing-back runtime defect is not established; original Free BEFORE differed from native because its texture was Front-sided.",
+    "No runtime BP change or release freeze yet."
+  ],
+  "source_face_policy": {
+    "authored_faces": [
+      [
+        "north",
+        "south"
+      ],
+      [
+        "west",
+        "east"
+      ]
+    ],
+    "neighbor_cullface": false,
+    "note": "No neighbor cullface means quads are submitted regardless of adjacent block occlusion; GPU backface culling remains enabled. Opposite source faces supply both visible directions without double-siding each face."
+  },
+  "neoforge_mapping": {
+    "branch": "1.21.1",
+    "commit": "624c929f49920c250166e2a8df7af87f16d220ef",
+    "result": "Maintained 1.21.1 named cutout maps world to RenderType.cutout and item to ITEM_LAYERED_CUTOUT; layeredItemCutout leaves default CULL unchanged.",
+    "source_scope": "Maintained version branch, not a claim to have fetched the exact dependency release archive.",
+    "sources": [
+      {
+        "file": "Neo-NeoForgeRenderTypes.java",
+        "url": "https://github.com/neoforged/NeoForge/blob/624c929f49920c250166e2a8df7af87f16d220ef/src/main/java/net/neoforged/neoforge/client/NeoForgeRenderTypes.java",
+        "sha256": "4d9671d3ddc54db98b5cc35914d497f90f4ebac2ab7a110a44503c7ced0d4c98"
+      },
+      {
+        "file": "Neo-NamedRenderTypeManager.java",
+        "url": "https://github.com/neoforged/NeoForge/blob/624c929f49920c250166e2a8df7af87f16d220ef/src/main/java/net/neoforged/neoforge/client/NamedRenderTypeManager.java",
+        "sha256": "5dfcc187cff58cb432dd9dea42d37daa4454f21207c0d433ea059eff16fd129b"
+      }
+    ]
+  }
+}

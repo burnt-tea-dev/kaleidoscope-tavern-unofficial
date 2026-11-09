@@ -1,0 +1,49 @@
+{
+  "candidate_sha256": "e7e8c23f421aba7d8082c6952d6599bc5fb99231c9a656ff1566b4303cbd0d0b",
+  "method": "Independent complex-number transforms; no generator, converter or scene helper imported. Every declared face checked at four UV corners and all 256 texel centers after explicit slab center projection.",
+  "face_samples": [
+    {
+      "element": 0,
+      "face": "north",
+      "samples": 260,
+      "maximum_center_plane_sample_error": 5.091371536500717e-08
+    },
+    {
+      "element": 0,
+      "face": "south",
+      "samples": 260,
+      "maximum_center_plane_sample_error": 5.091371348089621e-08
+    },
+    {
+      "element": 1,
+      "face": "west",
+      "samples": 260,
+      "maximum_center_plane_sample_error": 5.091371536500717e-08
+    },
+    {
+      "element": 1,
+      "face": "east",
+      "samples": 260,
+      "maximum_center_plane_sample_error": 5.091371536500717e-08
+    }
+  ],
+  "total_corner_samples": 16,
+  "total_texel_center_samples": 1024,
+  "mutations": {
+    "missing_rescale_width": "rejected",
+    "old_simplified_width": "rejected",
+    "moved_plane": "rejected",
+    "wrong_rotation_sign": "rejected",
+    "wrong_pivot": "rejected",
+    "mirrored_uv": "rejected",
+    "offset_reverse_uv": "rejected",
+    "unmapped_material_alias": "rejected",
+    "added_slab_cap_face": "rejected",
+    "removed_reverse_face": "rejected",
+    "box_uv_reintroduced": "rejected",
+    "inactive_a3_identity": "rejected",
+    "undisclosed_thickness": "rejected"
+  },
+  "gui_reviewed": false,
+  "minecraft_rendered": false
+}

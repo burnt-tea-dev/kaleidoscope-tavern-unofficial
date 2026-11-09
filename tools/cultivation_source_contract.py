@@ -6,6 +6,7 @@ cascade evidence is recorded separately. No old source body is reconstructed.
 import json
 from pathlib import Path
 from foundation.source_contract import read_module
+from wild_vine_surfaces import GEOMETRY, check as check_surfaces
 
 ROOT = Path(__file__).resolve().parents[1]
 BLOCKS = ('wild_grapevine', 'wild_grapevine_plant')
@@ -15,12 +16,13 @@ SCRIPTS = ('bedrock/cultivation.js', 'bedrock/protected-break-router.js')
 
 def runtime_sources():
     return frozenset({'runtime/BP/blocks/' + name + '.json' for name in BLOCKS}
-                     | {'runtime/BP/' + LOOT}
+                     | {'runtime/BP/' + LOOT, GEOMETRY}
                      | {'runtime/BP/scripts/' + name for name in SCRIPTS})
 
 
 def check_resources(root=ROOT, java_source=None):
     root = Path(root)
+    check_surfaces(root, java_source)
     for name in BLOCKS:
         block = json.loads((root / 'runtime/BP/blocks' / (name + '.json')).read_text())['minecraft:block']
         assert block['description']['identifier'] == 'kaleidoscope_tavern:' + name

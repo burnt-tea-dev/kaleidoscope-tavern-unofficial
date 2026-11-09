@@ -1,0 +1,43 @@
+{
+  "version": "0.6.214",
+  "runtime_changed_paths": [
+    "runtime/BP/blocks/wild_grapevine.json",
+    "runtime/BP/blocks/wild_grapevine_plant.json",
+    "runtime/BP/manifest.json",
+    "runtime/BP/scripts/data/build-version.js",
+    "runtime/BP/scripts/data/cookery-guide-payload.js",
+    "runtime/RP/manifest.json",
+    "runtime/RP/models/entity/wild_grapevine.geo.json"
+  ],
+  "checks": {
+    "identity_and_resource_unittests": {
+      "passed": 100,
+      "failed": 0
+    },
+    "board_farm_adapter": {
+      "passed": 33,
+      "failed": 0
+    },
+    "pinned_java_launch": "passed",
+    "motion_current_owner_aggregate": "passed",
+    "storage_current_owner_aggregate": "passed",
+    "portable_geometry_replay": "passed",
+    "optimized_replay": "rejected_as_expected",
+    "unfrozen_identity": "rejected_as_expected",
+    "structural_baseline": "passed"
+  },
+  "uuid_api_dependency_and_engine_preserved": true,
+  "accepted_transforms_and_other_runtime_preserved": true,
+  "source_geometry_sha256": "e7e8c23f421aba7d8082c6952d6599bc5fb99231c9a656ff1566b4303cbd0d0b",
+  "strict_frozen_build": "passed; see frozen-validation.json",
+  "ci": "not_run_locally_full_required_suites_belong_to_PR",
+  "not_performed": [
+    "Minecraft client",
+    "BDS",
+    "saved world",
+    "LIVE",
+    "deployment",
+    "GitHub release",
+    "remote writes"
+  ]
+}

@@ -1,0 +1,122 @@
+{
+  "checked_utc": "2026-11-09T02:13:47.561503+00:00",
+  "canonical_head": "cb2b37dfa2181ee042a090d8dbd434758a762afb\trefs/heads/main",
+  "java_heads": [
+    "a1afba34981a00e89d57130d3dc8f1e64f1820a2\trefs/heads/1.21.1",
+    "9b8f165a4641e738e694641dd81240a0206573e1\trefs/heads/26.1.2",
+    "c4ec1880bd44cf3139d3ba744ab30bb379cf1416\trefs/heads/main"
+  ],
+  "base_runtime_tree": "38c5977dd6bfe14b1824734612e3c601e1e41028",
+  "inputs": [
+    {
+      "input": "inputs/canonical/runtime/RP/textures/terrain_texture.json",
+      "checked_commit": "cb2b37dfa2181ee042a090d8dbd434758a762afb",
+      "source_path": "runtime/RP/textures/terrain_texture.json",
+      "sha256": "46797fb0157dfb71c29ae78d385cdcebc3edfaec673e1292bd4eb826183e01c9",
+      "exact": true
+    },
+    {
+      "input": "inputs/canonical/runtime/RP/models/entity/wild_grapevine.geo.json",
+      "checked_commit": "cb2b37dfa2181ee042a090d8dbd434758a762afb",
+      "source_path": "runtime/RP/models/entity/wild_grapevine.geo.json",
+      "sha256": "616a43bde020d4088d3306ad43ea69f9e22b6e9690a387f9533bf8acdc94b076",
+      "exact": true
+    },
+    {
+      "input": "inputs/forge/src/generated/resources/assets/kaleidoscope_tavern/models/block/plant/wild_grapevine.json",
+      "checked_commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+      "source_path": "src/generated/resources/assets/kaleidoscope_tavern/models/block/plant/wild_grapevine.json",
+      "sha256": "c59a35dfe32947332db292c02f6a30f963603ece04243432c764b7cfae56097f",
+      "exact": true
+    },
+    {
+      "input": "inputs/forge/src/generated/resources/assets/kaleidoscope_tavern/blockstates/wild_grapevine.json",
+      "checked_commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+      "source_path": "src/generated/resources/assets/kaleidoscope_tavern/blockstates/wild_grapevine.json",
+      "sha256": "8963aeb79c0e4aefc8d2c0643b30353180398801d162164c67b926b6b5741cba",
+      "exact": true
+    },
+    {
+      "input": "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/textures/block/plant/wild_grapevine.png",
+      "checked_commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+      "source_path": "src/main/resources/assets/kaleidoscope_tavern/textures/block/plant/wild_grapevine.png",
+      "sha256": "9125df61fb4fdb6b14cd8df5b9ed289a1448b6158738f66eb666c5d3cbcc4fc0",
+      "exact": true
+    },
+    {
+      "input": "inputs/canonical/runtime/BP/blocks/wild_grapevine.json",
+      "checked_commit": "cb2b37dfa2181ee042a090d8dbd434758a762afb",
+      "source_path": "runtime/BP/blocks/wild_grapevine.json",
+      "sha256": "ea1c3f23e7dc1394c7505424dc67d7d7c256a757cc3960c5f8e24bcecc8890f4",
+      "exact": true
+    },
+    {
+      "input": "inputs/canonical/runtime/RP/textures/kaleidoscope_tavern/block/plant/wild_grapevine.png",
+      "checked_commit": "cb2b37dfa2181ee042a090d8dbd434758a762afb",
+      "source_path": "runtime/RP/textures/kaleidoscope_tavern/block/plant/wild_grapevine.png",
+      "sha256": "9125df61fb4fdb6b14cd8df5b9ed289a1448b6158738f66eb666c5d3cbcc4fc0",
+      "exact": true
+    },
+    {
+      "input": "inputs/forge/src/generated/resources/assets/kaleidoscope_tavern/models/block/plant/wild_grapevine_plant.json",
+      "checked_commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+      "source_path": "src/generated/resources/assets/kaleidoscope_tavern/models/block/plant/wild_grapevine_plant.json",
+      "sha256": "8db54c0c275d1e52b17cfc543282f17e7b9b3abf66c80bda2f33b3966e9ada0d",
+      "exact": true
+    },
+    {
+      "input": "inputs/forge/src/generated/resources/assets/kaleidoscope_tavern/blockstates/wild_grapevine_plant.json",
+      "checked_commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+      "source_path": "src/generated/resources/assets/kaleidoscope_tavern/blockstates/wild_grapevine_plant.json",
+      "sha256": "616b1df2afb7f56cae88ac4c7476f05c9e5b1eb685f82dc502031bf1685eccd3",
+      "exact": true
+    },
+    {
+      "input": "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/textures/block/plant/wild_grapevine_plant.png",
+      "checked_commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+      "source_path": "src/main/resources/assets/kaleidoscope_tavern/textures/block/plant/wild_grapevine_plant.png",
+      "sha256": "966caf54921b77b67e64a801fd18d0e93bc5fb1fea471475eb56310682ea95bb",
+      "exact": true
+    },
+    {
+      "input": "inputs/canonical/runtime/BP/blocks/wild_grapevine_plant.json",
+      "checked_commit": "cb2b37dfa2181ee042a090d8dbd434758a762afb",
+      "source_path": "runtime/BP/blocks/wild_grapevine_plant.json",
+      "sha256": "9b22c1a77820c9fd0e4af4b9f6d0944cf9c3cb148d84da44de1b656ae27556b6",
+      "exact": true
+    },
+    {
+      "input": "inputs/canonical/runtime/RP/textures/kaleidoscope_tavern/block/plant/wild_grapevine_plant.png",
+      "checked_commit": "cb2b37dfa2181ee042a090d8dbd434758a762afb",
+      "source_path": "runtime/RP/textures/kaleidoscope_tavern/block/plant/wild_grapevine_plant.png",
+      "sha256": "966caf54921b77b67e64a801fd18d0e93bc5fb1fea471475eb56310682ea95bb",
+      "exact": true
+    }
+  ],
+  "official_parents": [
+    {
+      "minecraft": "1.20.1",
+      "archive_sha1": "0c3ec587af28e5a785c0b4a7b8a30f9a8f78f838",
+      "archive_sha256": "56b71336d2b4fdffd197f56595b0da93e32a946f78f382a299b8f4b92758bb0f",
+      "archive_bytes": 23028853,
+      "parent_sha256": "34c9fa7f9ff7562553ee0cb74c4f9a5d9d520189d1293d1ef6177afdf5af1640",
+      "archive_executed": false,
+      "archive_to_publish": false
+    },
+    {
+      "minecraft": "1.21.1",
+      "archive_sha1": "30c73b1c5da787909b2f73340419fdf13b9def88",
+      "archive_sha256": "499f6897d1837516680f3114072d8106e11c9adcd933fe5cf051b551089b0c99",
+      "archive_bytes": 26836906,
+      "parent_sha256": "34c9fa7f9ff7562553ee0cb74c4f9a5d9d520189d1293d1ef6177afdf5af1640",
+      "archive_executed": false,
+      "archive_to_publish": false
+    }
+  ],
+  "candidate_sha256": "e7e8c23f421aba7d8082c6952d6599bc5fb99231c9a656ff1566b4303cbd0d0b",
+  "limits": [
+    "No 26.1.2 vanilla parent or renderer check.",
+    "Locked JAR member checks reused from independent source verification; complete uploaded JAR not newly rehashed.",
+    "GUI acceptance pending."
+  ]
+}

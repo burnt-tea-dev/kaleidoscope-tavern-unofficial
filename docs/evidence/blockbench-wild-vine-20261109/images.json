@@ -1,0 +1,158 @@
+[
+  {
+    "path": "images/accepted/head-triad-north-accepted.jpg",
+    "category": "accepted",
+    "sha256": "6bcd3a9b0709c5f9a08bd91846ca139a9f883847d0c6ec170d5cbe21ca98bb7a",
+    "bytes": 85086
+  },
+  {
+    "path": "images/accepted/head-triad-south.jpg",
+    "category": "accepted",
+    "sha256": "4bf7521726631bdf211d3df813e805249ee3fc0f45b665b1ee5c7cdae9863aa6",
+    "bytes": 82791
+  },
+  {
+    "path": "images/accepted/head-pair-isometric-right.jpg",
+    "category": "accepted",
+    "sha256": "8bdd5f0238800eef694a676c50b39bac5f04af64513a8e708bbbd52772d7e365",
+    "bytes": 83925
+  },
+  {
+    "path": "images/accepted/head-pair-isometric-left.jpg",
+    "category": "accepted",
+    "sha256": "47f99313804065683e6bb7bdeed2114817bb9cc1326b7799f2de0c36c56b395c",
+    "bytes": 84008
+  },
+  {
+    "path": "images/accepted/head-native-before-north.jpg",
+    "category": "accepted",
+    "sha256": "d1ae09b776abde2fb37b172504f53cf7dcbbb07afd883ec3f4fcaed546131448",
+    "bytes": 80117
+  },
+  {
+    "path": "images/accepted/head-native-before-south.jpg",
+    "category": "accepted",
+    "sha256": "7624284386f60c0bad5a4f1d9d023de5ecdac844944f0d58c63ea1968c29cd1d",
+    "bytes": 80373
+  },
+  {
+    "path": "images/accepted/head-native-candidate-north.jpg",
+    "category": "accepted",
+    "sha256": "e6665a61aaf44e4a1859e15c3cc0c8819f5c7673f715e353f85b7d97a420e3c5",
+    "bytes": 80269
+  },
+  {
+    "path": "images/accepted/head-native-candidate-south-recheck.jpg",
+    "category": "accepted",
+    "sha256": "efdd5a700006c2e01a929680d01f9948c8a6070dce3cfda13f36f6a110bc3eaa",
+    "bytes": 80344
+  },
+  {
+    "path": "images/accepted/head-before-double-sided-south.jpg",
+    "category": "accepted",
+    "sha256": "3d128ad2e4ab24767f5821a0b90ea5469c50d33cfcf58e310e3a49a121fac29d",
+    "bytes": 85972
+  },
+  {
+    "path": "images/accepted/head-pair-double-sided-south.jpg",
+    "category": "accepted",
+    "sha256": "f95dd3f546b6918f4fc5e77bbfcd93a8d9c840a96a9d1bd4c67ac3b67b054e6e",
+    "bytes": 87411
+  },
+  {
+    "path": "images/accepted/body-triad-north.jpg",
+    "category": "accepted",
+    "sha256": "bd5057680f4c23da8d582ab7df4f93c6d1cbff2e6d1671ddc96a1876ce9250ab",
+    "bytes": 90179
+  },
+  {
+    "path": "images/accepted/body-triad-south.jpg",
+    "category": "accepted",
+    "sha256": "057d59d5101891cbcfaf4e070cce53a303fd42c60bbe5b288c2531d2ca0550ba",
+    "bytes": 86640
+  },
+  {
+    "path": "images/accepted/body-pair-isometric-right.jpg",
+    "category": "accepted",
+    "sha256": "63fd64c3e1a379b50b481f3d6f8da5662a3262c517cb40fdce78e77e9b8d9b33",
+    "bytes": 88448
+  },
+  {
+    "path": "images/accepted/body-pair-isometric-left.jpg",
+    "category": "accepted",
+    "sha256": "a3b304d6df1e61d4ce61911ed4ef58aca6ae2f00c818ef6508f86af6ed4618da",
+    "bytes": 88814
+  },
+  {
+    "path": "images/accepted/body-native-before-north.jpg",
+    "category": "accepted",
+    "sha256": "4cf0da3ac88689f287f317d35a15508ddf0b5e73ec528b5301b5b4d555642aff",
+    "bytes": 82760
+  },
+  {
+    "path": "images/accepted/body-native-before-south.jpg",
+    "category": "accepted",
+    "sha256": "7bc04d38a4bfdaab683dbcecf6d6427e8e0a0ac1c6fbc129b1f517bdf0f104f0",
+    "bytes": 83064
+  },
+  {
+    "path": "images/accepted/body-native-candidate-north.jpg",
+    "category": "accepted",
+    "sha256": "f7b335888cd891e5b02430e89d1e3934305a4261d268e7b9474f4c31d20f0851",
+    "bytes": 83257
+  },
+  {
+    "path": "images/accepted/body-native-candidate-south.jpg",
+    "category": "accepted",
+    "sha256": "6f183b912ac329fe8014a0488255808d24248132a3b70f34df1678bcbb5f24ab",
+    "bytes": 83388
+  },
+  {
+    "path": "images/accepted/body-before-double-sided-south.jpg",
+    "category": "accepted",
+    "sha256": "89d93f07fdbbc095f0d1ce51bf623a8d4205da0aee44dbe8e79fe1f02531e0c1",
+    "bytes": 90577
+  },
+  {
+    "path": "images/accepted/body-pair-double-sided-south.jpg",
+    "category": "accepted",
+    "sha256": "615932a8778ae4e010458e70fe7d3db696d4368cd3c10fd1e49d6b35e3aa7ebc",
+    "bytes": 91997
+  },
+  {
+    "path": "images/excluded/head-triad-north.jpg",
+    "category": "excluded",
+    "sha256": "d66ada9d5ef3b82fe6e2c57f4ffafa49f7035e3e5a3a98dd5e87ab3490625131",
+    "bytes": 83640
+  },
+  {
+    "path": "images/excluded/head-triad-north-framed.jpg",
+    "category": "excluded",
+    "sha256": "2addf6e7600d2abb6f1faec83475676275f072d1a0ee39d38ce9acef85e4a308",
+    "bytes": 85178
+  },
+  {
+    "path": "images/excluded/head-native-candidate-south.jpg",
+    "category": "excluded",
+    "sha256": "960050b545aaf619f5de50f0f7120daeb8f9434c8fbf4de400ae31ea5415fd21",
+    "bytes": 80356
+  },
+  {
+    "path": "images/diagnostics/head-native-candidate-south-desktop.jpg",
+    "category": "diagnostics",
+    "sha256": "e3252cc101802281645c88d7499b5846ad6828293c9e72569360ab636f34963a",
+    "bytes": 100399
+  },
+  {
+    "path": "images/diagnostics/body-native-candidate-texture-properties.jpg",
+    "category": "diagnostics",
+    "sha256": "3dd452731f085482aaf51d62ffdf1baa9900ae8e22b0792aabacc3a3152ac0e2",
+    "bytes": 77634
+  },
+  {
+    "path": "images/diagnostics/final-champagne-control.jpg",
+    "category": "diagnostics",
+    "sha256": "96da7347a04854d3c27087c80c256180f4cbc706e87c5640945c7ae5f2c0d5e3",
+    "bytes": 126629
+  }
+]

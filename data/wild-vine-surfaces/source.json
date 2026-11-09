@@ -1,0 +1,48 @@
+{
+  "repository": "KaleidoscopeMods/KaleidoscopeTavern",
+  "forge_commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+  "neoforge_commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+  "files": {
+    "wild_grapevine-model.json": {
+      "path": "src/generated/resources/assets/kaleidoscope_tavern/models/block/plant/wild_grapevine.json",
+      "sha256": "c59a35dfe32947332db292c02f6a30f963603ece04243432c764b7cfae56097f"
+    },
+    "wild_grapevine-blockstate.json": {
+      "path": "src/generated/resources/assets/kaleidoscope_tavern/blockstates/wild_grapevine.json",
+      "sha256": "8963aeb79c0e4aefc8d2c0643b30353180398801d162164c67b926b6b5741cba"
+    },
+    "wild_grapevine.png": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/textures/block/plant/wild_grapevine.png",
+      "sha256": "9125df61fb4fdb6b14cd8df5b9ed289a1448b6158738f66eb666c5d3cbcc4fc0",
+      "canonical_path": "runtime/RP/textures/kaleidoscope_tavern/block/plant/wild_grapevine.png"
+    },
+    "wild_grapevine_plant-model.json": {
+      "path": "src/generated/resources/assets/kaleidoscope_tavern/models/block/plant/wild_grapevine_plant.json",
+      "sha256": "8db54c0c275d1e52b17cfc543282f17e7b9b3abf66c80bda2f33b3966e9ada0d"
+    },
+    "wild_grapevine_plant-blockstate.json": {
+      "path": "src/generated/resources/assets/kaleidoscope_tavern/blockstates/wild_grapevine_plant.json",
+      "sha256": "616b1df2afb7f56cae88ac4c7476f05c9e5b1eb685f82dc502031bf1685eccd3"
+    },
+    "wild_grapevine_plant.png": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/textures/block/plant/wild_grapevine_plant.png",
+      "sha256": "966caf54921b77b67e64a801fd18d0e93bc5fb1fea471475eb56310682ea95bb",
+      "canonical_path": "runtime/RP/textures/kaleidoscope_tavern/block/plant/wild_grapevine_plant.png"
+    }
+  },
+  "official_parent": {
+    "path": "assets/minecraft/models/block/cross.json",
+    "sha256": "34c9fa7f9ff7562553ee0cb74c4f9a5d9d520189d1293d1ef6177afdf5af1640",
+    "minecraft_versions": [
+      "1.20.1",
+      "1.21.1"
+    ],
+    "source_receipt": "../../docs/evidence/blockbench-wild-vine-20261109/source-verification.json"
+  },
+  "limits": [
+    "26.1.2 vanilla parent and renderer not checked.",
+    "Complete official archives must not be published.",
+    "Source-member checks do not newly verify the complete uploaded mod JAR."
+  ],
+  "client": false
+}

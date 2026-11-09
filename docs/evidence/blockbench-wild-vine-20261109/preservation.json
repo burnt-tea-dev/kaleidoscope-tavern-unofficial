@@ -1,0 +1,27 @@
+{
+  "baseline_count": 75,
+  "baseline_changed_files": [],
+  "all_original_inputs_scenes_and_screenshots_unchanged": true,
+  "sidedness_controls": [
+    {
+      "control": "sidedness-control/wild_grapevine-before-double-sided-control.bbmodel",
+      "hash_matches_manifest": true,
+      "exactly_declared_single_value_change": true
+    },
+    {
+      "control": "sidedness-control/wild_grapevine_plant-before-double-sided-control.bbmodel",
+      "hash_matches_manifest": true,
+      "exactly_declared_single_value_change": true
+    },
+    {
+      "control": "sidedness-control/wild_grapevine-source-candidate-double-sided-control.bbmodel",
+      "hash_matches_manifest": true,
+      "exactly_declared_single_value_change": true
+    },
+    {
+      "control": "sidedness-control/wild_grapevine_plant-source-candidate-double-sided-control.bbmodel",
+      "hash_matches_manifest": true,
+      "exactly_declared_single_value_change": true
+    }
+  ]
+}

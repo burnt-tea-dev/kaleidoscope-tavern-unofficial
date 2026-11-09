@@ -1,0 +1,29 @@
+{
+  "accepted_views": 20,
+  "excluded_views": 3,
+  "diagnostic_views": 3,
+  "archive_entries": 105,
+  "archive_sha256": "bf3170c22dcc3d66730a02f3af780addd1df6375863254da39d2f91067b21ab1",
+  "archive_bytes": 149383,
+  "geometry_sha256": "e7e8c23f421aba7d8082c6952d6599bc5fb99231c9a656ff1566b4303cbd0d0b",
+  "final_route": "alpha_test_single_sided for four head/body world/item wildcard fields",
+  "proposal_applied": true,
+  "all_other_bp_fields_preserved": true,
+  "original_geometry_and_gui_artifacts_unchanged": true,
+  "earlier_supplemental_views": "Five redundant older head-before captures omitted; the current 20 views cover the complete controls. Original receipt records their identities.",
+  "not_included": [
+    "Full official client archives",
+    "Whole Mojang mappings",
+    "Uploaded mod JAR",
+    "Any game world, credentials or private author archive"
+  ],
+  "gui_capture_limits": [
+    "Official Blockbench editor inspection only; no Minecraft, BDS, LIVE, game engine, gameplay, growth or held/item context was run.",
+    "Native Bedrock import does not include BP face_dimming=false or other material settings. Do not certify lighting from these controls.",
+    "Free front-only and native default material sidedness differ. Original Free BEFORE South loss is an adapter/material-preview difference, NOT an established runtime defect.",
+    "The candidate uses open slabs 0.16 model units thick, surfaces +/-0.08 from exact source center planes. Full X/Z span is about 14.513137, not source-exact 14.4 solid bounds.",
+    "Double-sided zero-thickness source controls show thin vertical striping/overlap artifacts. Do not assert pixel-exact native/source equality.",
+    "Each accepted screenshot was visibly inspected. Camera preset action and final evidence capture occurred in separate CUA calls. A transient native candidate South blank was excluded after a settled app/desktop recheck.",
+    "No source/model save, export, runtime modification, publishing, plugin, server, renderer/security flag or user-machine operation was performed."
+  ]
+}
