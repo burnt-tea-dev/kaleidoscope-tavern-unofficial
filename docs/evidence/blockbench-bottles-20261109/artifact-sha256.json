@@ -1,0 +1,490 @@
+{
+  "scope": "Files supplied for this evidence-only change; this inventory and the generated verification.json are excluded to avoid self-reference. Archive entries retain their separate original hashes.",
+  "files": [
+    {
+      "file": "README.md",
+      "bytes": 10082,
+      "sha256": "354c5a97065d4fbaf64273ee07d4e3701d5efac909bd3d2f85adf2071e28be0a"
+    },
+    {
+      "file": "analyze_surfaces.py",
+      "bytes": 11027,
+      "sha256": "23c91e3d739ed750c89bf70ad03ddb8a3b75353d8989a670c93567d52eead8b8"
+    },
+    {
+      "file": "archive-entries.json",
+      "bytes": 153459,
+      "sha256": "53b8700f6cb367e09ebe75b77db9a5024dba3ba153f585d86a877832e98f8e45"
+    },
+    {
+      "file": "archives/exact-bottle-scenes.zip",
+      "bytes": 131231,
+      "sha256": "728f589c0cded4dede58f74a0144fbeadb6dfbdc84a21aca180f455c3562346b"
+    },
+    {
+      "file": "archives/source-audits-01.zip",
+      "bytes": 168777,
+      "sha256": "d7d02e78a62a68ca56a6123c4461aeff3a84c1f1a07aacae6316ba65d78cf737"
+    },
+    {
+      "file": "archives/source-audits-02.zip",
+      "bytes": 176060,
+      "sha256": "1b358587a5f512b1d7abd264ac83437b3f8238019d253b01670ec679d8a1de73"
+    },
+    {
+      "file": "archives/source-audits-03.zip",
+      "bytes": 151739,
+      "sha256": "6434e495abba8137a0be87b5a859072c82c9c75086be844bd8c4eb1d8fd3ad30"
+    },
+    {
+      "file": "archives/source-audits-04.zip",
+      "bytes": 141160,
+      "sha256": "d31c69b194d30941eebe3b4cb824726fa4a2d5a8fa8f846bd8d75c813138a56a"
+    },
+    {
+      "file": "archives/source-audits-05.zip",
+      "bytes": 128749,
+      "sha256": "a0babb21deb9a8a4854c9b2d1efc1a80ec35da205a4abc503a50401b6eeee0e1"
+    },
+    {
+      "file": "archives/source-audits-06.zip",
+      "bytes": 54785,
+      "sha256": "f342ac95420f945ecd338d87e0a8275cc82df27dc7bd7fbf140647f5195e7c94"
+    },
+    {
+      "file": "baseline-input-verification.json",
+      "bytes": 42488,
+      "sha256": "c50999f683bb1a2a114fd3075090de6c566a8310d1fe1562e156b6c0b1123dfc"
+    },
+    {
+      "file": "capture-index.csv",
+      "bytes": 24365,
+      "sha256": "74a0d34790d1b5c2378f28f8f1100257572d0e7d25ed8e4e4bd42e8ab8d9a1a0"
+    },
+    {
+      "file": "capture-provenance.json",
+      "bytes": 2640,
+      "sha256": "7079d369b81ee4860ff7df806219f49597f53cc792905e48532b53cd834e4820"
+    },
+    {
+      "file": "gui-progress-completion-correction.json",
+      "bytes": 433,
+      "sha256": "54e8fbe1dbdf2ffb6466adcde8d79d93210a30cde540e756ff5a2dc541d176f0"
+    },
+    {
+      "file": "gui-progress.json",
+      "bytes": 38919,
+      "sha256": "a1e4ae96d2893166304db2ae38546c4a4573a08171feb289517d2b3cf582b575"
+    },
+    {
+      "file": "portable-validation.json",
+      "bytes": 1928,
+      "sha256": "6211880def1320cac7a5819f70a534ba0e4ee22b862cdfda693dd92b7b1df99e"
+    },
+    {
+      "file": "review/bottles/evidence/brandy-bottom.jpg",
+      "bytes": 96348,
+      "sha256": "c414c9dfa1c24edaeef924fa01e50bd29f6945bc1ca85d46046930c9cd6ed98a"
+    },
+    {
+      "file": "review/bottles/evidence/brandy-perspective.jpg",
+      "bytes": 115167,
+      "sha256": "4e632944ff7706b4ac46638c53b9a51b12eda88695432490a15021795728781c"
+    },
+    {
+      "file": "review/bottles/evidence/brandy-top.jpg",
+      "bytes": 100925,
+      "sha256": "3b5179cd49b41390d321ed134dc9833e2ccabb41ec803fc91e99d74a6224d990"
+    },
+    {
+      "file": "review/bottles/evidence/carignan-bottom.jpg",
+      "bytes": 95835,
+      "sha256": "b76e3945aaf65279a26e954d7a0efb9f034bfa89fccccc5d8ab6c99e34874cd6"
+    },
+    {
+      "file": "review/bottles/evidence/carignan-perspective.jpg",
+      "bytes": 110820,
+      "sha256": "989a2ea0bd32147c2d2131182ca863ae39217dc25beba369a20ca246616b3f90"
+    },
+    {
+      "file": "review/bottles/evidence/carignan-top.jpg",
+      "bytes": 98083,
+      "sha256": "a32e96d9c8b2d6b82adc4911178ce5cedb083afc7f3b698103808f58227dd3c5"
+    },
+    {
+      "file": "review/bottles/evidence/champagne-bottom.jpg",
+      "bytes": 96256,
+      "sha256": "3edbfddc818973f584c8ae7d3644b836f1025ebdab06de72a3ddadc79c4a3dbd"
+    },
+    {
+      "file": "review/bottles/evidence/champagne-perspective.jpg",
+      "bytes": 118507,
+      "sha256": "cff5ba70a3e3f6dc34aeef7d342b9248f8aed39909d88324e9c09c07ebf751e6"
+    },
+    {
+      "file": "review/bottles/evidence/champagne-top.jpg",
+      "bytes": 103594,
+      "sha256": "96b228e650a5194afe7c762368cb6334a37b08f803474fac847dbff33a38c697"
+    },
+    {
+      "file": "review/bottles/evidence/glowflower_brew-bottom.jpg",
+      "bytes": 113124,
+      "sha256": "a91a92591784beaa8a306b82b177a6530ab75423eb1dc669e5c0628c5e9944b5"
+    },
+    {
+      "file": "review/bottles/evidence/glowflower_brew-perspective.jpg",
+      "bytes": 125764,
+      "sha256": "01636d32c7a30c87ecd176afe57b2c7b86b09d2108aa5e24ed18a0061a25a986"
+    },
+    {
+      "file": "review/bottles/evidence/glowflower_brew-top.jpg",
+      "bytes": 121354,
+      "sha256": "d14350d4c1c358b0f8fe64dbf21bf2aefe1ccbce1403d139442ef9420553bd82"
+    },
+    {
+      "file": "review/bottles/evidence/honey_wine-bottom.jpg",
+      "bytes": 87619,
+      "sha256": "bbf5c844d2b4d9eb1fcb2cd7f1b4890e581313e6c5b15bac98498c9f65b79f89"
+    },
+    {
+      "file": "review/bottles/evidence/honey_wine-perspective.jpg",
+      "bytes": 124249,
+      "sha256": "57a11925a9fe1eb93277dfadf9c8ad1b2fc3dea43f3a513ef4b69a58ebb65baa"
+    },
+    {
+      "file": "review/bottles/evidence/honey_wine-top.jpg",
+      "bytes": 107430,
+      "sha256": "9b0e4d8a785a1511f76b4c7ac7e39e3693748dde7ebb53dd1a133fda77fd34b6"
+    },
+    {
+      "file": "review/bottles/evidence/ice_wine-bottom.jpg",
+      "bytes": 80649,
+      "sha256": "da599b2941f3203d41213e9ef54fbfcc0b62dfb65b87caa9330b3ffd06fde791"
+    },
+    {
+      "file": "review/bottles/evidence/ice_wine-perspective.jpg",
+      "bytes": 88673,
+      "sha256": "13ff3647a6aa0a4ca064f7f80a21b08a73b489a5d79d49fde79c51320b59ece2"
+    },
+    {
+      "file": "review/bottles/evidence/ice_wine-top.jpg",
+      "bytes": 84867,
+      "sha256": "f4444c3768a656402676805898d13311ef8a1bf51c690835e4dbbb3533e365ed"
+    },
+    {
+      "file": "review/bottles/evidence/luminous_bride-bottom.jpg",
+      "bytes": 112922,
+      "sha256": "dae43c72d776ad5684734ca575c9a5903cf1f74a13b09faafcc4cea93038a6a8"
+    },
+    {
+      "file": "review/bottles/evidence/luminous_bride-perspective.jpg",
+      "bytes": 126912,
+      "sha256": "585984d15e96ceaf36538907067140b9e408dbd417ebaff9b90eec998b91f0ec"
+    },
+    {
+      "file": "review/bottles/evidence/luminous_bride-top.jpg",
+      "bytes": 122560,
+      "sha256": "72266c37540a91581708fc8ed473d78cf44e6ac174d2215bfa4e3e0d3e3b6c06"
+    },
+    {
+      "file": "review/bottles/evidence/madame_shexiang-bottom.jpg",
+      "bytes": 121037,
+      "sha256": "90d976e0011983f139cf6c474365920b82ef9c3d32d77bc32db6f52f8390862e"
+    },
+    {
+      "file": "review/bottles/evidence/madame_shexiang-perspective.jpg",
+      "bytes": 133644,
+      "sha256": "f444048ac179dea0ea3c0a8f508302add5a0be7bffb3c32c360c716639c14a4b"
+    },
+    {
+      "file": "review/bottles/evidence/madame_shexiang-top.jpg",
+      "bytes": 124727,
+      "sha256": "5cf9f9626120fa032543c4d90a0b9d928c630cf6e6c0dcb3219282d15331db3a"
+    },
+    {
+      "file": "review/bottles/evidence/miners_star-bottom.jpg",
+      "bytes": 94684,
+      "sha256": "aad369c316753fd2d5496fbd0e11dff5facedf82ba92d457b48ea53b79521f74"
+    },
+    {
+      "file": "review/bottles/evidence/miners_star-perspective.jpg",
+      "bytes": 113872,
+      "sha256": "82d7c30bc13e3517dffd5e2e7aeb593db0508dac20562f41bebfd0a73a62efd0"
+    },
+    {
+      "file": "review/bottles/evidence/miners_star-top.jpg",
+      "bytes": 111056,
+      "sha256": "49e093b1f3e6050b267f2059eb48832da189d2542e767f1f2d57da322894731b"
+    },
+    {
+      "file": "review/bottles/evidence/mother_snow-bottom.jpg",
+      "bytes": 87109,
+      "sha256": "e0226adcf54bb4103c8ab936bd1451acf664e34a0b23f20473a8dd8c9d8843e2"
+    },
+    {
+      "file": "review/bottles/evidence/mother_snow-perspective.jpg",
+      "bytes": 102075,
+      "sha256": "9a717ecc0911c6e134f98511bcaeaddbb8ecf6406b5d8ef703dffccda5f82a18"
+    },
+    {
+      "file": "review/bottles/evidence/mother_snow-top.jpg",
+      "bytes": 98651,
+      "sha256": "c4737e8c13476e80c094395a977443d88d114bb3254ae97892a3bb8b737e717b"
+    },
+    {
+      "file": "review/bottles/evidence/plum_wine-bottom.jpg",
+      "bytes": 82267,
+      "sha256": "ac31f3ff184b613fcef7988a3e0d219804dfaac2b2cb53100246501965be8153"
+    },
+    {
+      "file": "review/bottles/evidence/plum_wine-perspective.jpg",
+      "bytes": 89752,
+      "sha256": "c5adc8e3259580fa6aa643801c8c3165536290c5f09172fbf0cc9604ac5f8140"
+    },
+    {
+      "file": "review/bottles/evidence/plum_wine-top.jpg",
+      "bytes": 88589,
+      "sha256": "a8a7860cc9baaf53192068f10e3f3a0b2a094d50d26e6b79f9314c2c5ce1e2c9"
+    },
+    {
+      "file": "review/bottles/evidence/polaris_sweet_white-bottom.jpg",
+      "bytes": 84742,
+      "sha256": "75cedaa5ccfea281cc710a3fe47dab4c576b4de18cf2d0c01aae9168471f9a1b"
+    },
+    {
+      "file": "review/bottles/evidence/polaris_sweet_white-perspective.jpg",
+      "bytes": 97096,
+      "sha256": "b185a0c7495e3441907688153adea351402a4a0f853c66fa667464bb5438f489"
+    },
+    {
+      "file": "review/bottles/evidence/polaris_sweet_white-top.jpg",
+      "bytes": 88972,
+      "sha256": "d6676ebe71e606521159515903a550652f982f978b1e4faf0a84e05126b66c41"
+    },
+    {
+      "file": "review/bottles/evidence/red_queen-bottom.jpg",
+      "bytes": 80587,
+      "sha256": "0eccb3f5b62ca19469ba9070cfc35b60ff10420f2d259f65320e80d251aca9b9"
+    },
+    {
+      "file": "review/bottles/evidence/red_queen-perspective.jpg",
+      "bytes": 89818,
+      "sha256": "fecf7b22d60e86795618de08c4a002ad01cfd0bcd0e9e82af5f3abf4a4e72646"
+    },
+    {
+      "file": "review/bottles/evidence/red_queen-top.jpg",
+      "bytes": 83730,
+      "sha256": "9358934e82f3d33ed2213307064c5dd3242d3bcef85971d81a7ae9da17ffbe58"
+    },
+    {
+      "file": "review/bottles/evidence/riesling_dry_white-bottom.jpg",
+      "bytes": 93645,
+      "sha256": "cd52ea7cbc21a1245050ab6ebb3125317579a7ea178a33cba0bbec3519d960b7"
+    },
+    {
+      "file": "review/bottles/evidence/riesling_dry_white-perspective.jpg",
+      "bytes": 104531,
+      "sha256": "140ea5e9b168b1dcba0f0f548afb41a016ad74e75408f3ebf24ad34a302e4fe6"
+    },
+    {
+      "file": "review/bottles/evidence/riesling_dry_white-top.jpg",
+      "bytes": 109656,
+      "sha256": "d1258456c54c2dc7ef0a9d0fb570a55f1a2e308a67b4a0deed3d1d9a20af2228"
+    },
+    {
+      "file": "review/bottles/evidence/rum-bottom.jpg",
+      "bytes": 81364,
+      "sha256": "574c48a1eca2275ec4c176ff9ed97015d4842f368255026b2a617685831b7a58"
+    },
+    {
+      "file": "review/bottles/evidence/rum-perspective.jpg",
+      "bytes": 105045,
+      "sha256": "dff1017255679491430a0bd59347fb20171b9591e0fdbcedf0861255ee40d9b0"
+    },
+    {
+      "file": "review/bottles/evidence/rum-top.jpg",
+      "bytes": 100480,
+      "sha256": "ffcdc3968cf2c57455954b92ac4f9f4ffa2b10617afd81e202195758689573d5"
+    },
+    {
+      "file": "review/bottles/evidence/sakura_wine-bottom.jpg",
+      "bytes": 85120,
+      "sha256": "33e1fc563f6a1058dcd080287b6d51bb7c72b19747c808988617bbd518f19b7c"
+    },
+    {
+      "file": "review/bottles/evidence/sakura_wine-perspective.jpg",
+      "bytes": 97438,
+      "sha256": "08c1468ceeeba2651d6fc2ecc53b91969a80524135d855ce012005070a7a2d6f"
+    },
+    {
+      "file": "review/bottles/evidence/sakura_wine-top.jpg",
+      "bytes": 88528,
+      "sha256": "fb15dfbabf17128a91ea6a3a9b4757fde0d65ba2ddd3e186da69817fe482fdff"
+    },
+    {
+      "file": "review/bottles/evidence/sauvignon_blanc_dry_white-bottom.jpg",
+      "bytes": 82142,
+      "sha256": "123a28d9cfdbf11df097fe0a16f325e254ce5d3fb3c939b5b7165b87d3995948"
+    },
+    {
+      "file": "review/bottles/evidence/sauvignon_blanc_dry_white-perspective.jpg",
+      "bytes": 99943,
+      "sha256": "03ec2dc66e739e34d23804c69f968842deddeb2f4077c24850fd64230efbd171"
+    },
+    {
+      "file": "review/bottles/evidence/sauvignon_blanc_dry_white-top.jpg",
+      "bytes": 92464,
+      "sha256": "1f25b489e3e4f216f7cd24e335e80c536c247f17e3c9c05f8f0542f94827a7da"
+    },
+    {
+      "file": "review/bottles/evidence/sherry-bottom.jpg",
+      "bytes": 82242,
+      "sha256": "3c3d62aa8856850b7d0c44f375bd176f9c22cbba34440a5b51495a06b9290958"
+    },
+    {
+      "file": "review/bottles/evidence/sherry-perspective.jpg",
+      "bytes": 95367,
+      "sha256": "73488a74f10995586c3967c32331e72672063de1ca9dbf0208bc3f05d6b5495e"
+    },
+    {
+      "file": "review/bottles/evidence/sherry-top.jpg",
+      "bytes": 88945,
+      "sha256": "58c934fe2afa0df7e61182fc42e77115472da92388e3eebaaf9b702a1b7219a3"
+    },
+    {
+      "file": "review/bottles/evidence/sunset_glow-bottom.jpg",
+      "bytes": 109847,
+      "sha256": "8c9a89620f9bf88f6feb1bff2faed390c13a2925e5bcdba2a6617468ab7a1c5d"
+    },
+    {
+      "file": "review/bottles/evidence/sunset_glow-perspective.jpg",
+      "bytes": 120842,
+      "sha256": "5e49501cabe5cf8a27ac5a22f3db5bc57c4b86919906c52a67f70de3ee10aa51"
+    },
+    {
+      "file": "review/bottles/evidence/sunset_glow-top.jpg",
+      "bytes": 122823,
+      "sha256": "30573f2aa8936bab855db28b10508b2423d5ee174f0c0b7585b2e49bc9ab1970"
+    },
+    {
+      "file": "review/bottles/evidence/sweet_berry_wine-bottom.jpg",
+      "bytes": 87362,
+      "sha256": "0c3f4f03fadc0971be9855d885391abea70af1e369d2d42199bbb43c8034e142"
+    },
+    {
+      "file": "review/bottles/evidence/sweet_berry_wine-perspective.jpg",
+      "bytes": 98800,
+      "sha256": "4cca31a9c498f7d84f15290d6e3b70a09144c8c7a1c5b4f1de7b190b0f6d4599"
+    },
+    {
+      "file": "review/bottles/evidence/sweet_berry_wine-top.jpg",
+      "bytes": 96163,
+      "sha256": "e22d0cf40a276e01433a04fbd4f1e2f2498bc7b82931310a945d2990654ce7ac"
+    },
+    {
+      "file": "review/bottles/evidence/vinegar-bottom.jpg",
+      "bytes": 79985,
+      "sha256": "be4529c092c51730840bf05cbc34ffd13ec31cd63796297029c16c952907f976"
+    },
+    {
+      "file": "review/bottles/evidence/vinegar-perspective.jpg",
+      "bytes": 90431,
+      "sha256": "8819fef45a2b411b3bf64e3ff37d2baac6172ba72c069e5c49ce2d845e3297b3"
+    },
+    {
+      "file": "review/bottles/evidence/vinegar-top.jpg",
+      "bytes": 85541,
+      "sha256": "f7c052af7734689bc4216c7bb999ecff833c40f3b5b3b5efd059e1eb63755692"
+    },
+    {
+      "file": "review/bottles/evidence/vodka-bottom.jpg",
+      "bytes": 79350,
+      "sha256": "59bee2077e9c88e29ea0cd13fff1c2cb4a35eecc5f9223f01a19ac3a379bfa1a"
+    },
+    {
+      "file": "review/bottles/evidence/vodka-perspective.jpg",
+      "bytes": 96450,
+      "sha256": "044ef1333f3989886f3f7530fce139875ba954d9f62a3f19be51566dc8588258"
+    },
+    {
+      "file": "review/bottles/evidence/vodka-top.jpg",
+      "bytes": 95802,
+      "sha256": "b19247e93e5869cc1d607ec5b2f18b2a7f5b6d785aef9ee8f4109f622e5b3470"
+    },
+    {
+      "file": "review/bottles/evidence/watermelon_juice-bottom.jpg",
+      "bytes": 81255,
+      "sha256": "b66fd9d55d84b4b6680074b17cac50f7916a2837aeff48033f162fb278992408"
+    },
+    {
+      "file": "review/bottles/evidence/watermelon_juice-perspective.jpg",
+      "bytes": 105710,
+      "sha256": "823da32873dee0a817e86c20f596d33c469e7c5a64c4e6112a7954d9e10a2a25"
+    },
+    {
+      "file": "review/bottles/evidence/watermelon_juice-top.jpg",
+      "bytes": 96797,
+      "sha256": "6605ce8b9aae8ae1398302bcfdc9738ea7dc242f1564af01c247c0bef2884c20"
+    },
+    {
+      "file": "review/bottles/evidence/whiskey-bottom.jpg",
+      "bytes": 87112,
+      "sha256": "040b59b9e687e9cc6359f2cb9f11e4614d3c075fc43963c8201c8ea6e2db56dd"
+    },
+    {
+      "file": "review/bottles/evidence/whiskey-perspective.jpg",
+      "bytes": 97747,
+      "sha256": "4c2164f30e070045436c13e7c0abccd4c87bc5d8e30f5ec83d09073a33128290"
+    },
+    {
+      "file": "review/bottles/evidence/whiskey-top.jpg",
+      "bytes": 92917,
+      "sha256": "21b290b74dd5e280f6dfe7923ea6bdf3f795be75815bc60ad12210c5d4eee064"
+    },
+    {
+      "file": "review/bottles/evidence/wine-bottom.jpg",
+      "bytes": 79044,
+      "sha256": "8e1b1d48cf78054841581e2564f8993882625408639c85f21733ecb52be034f1"
+    },
+    {
+      "file": "review/bottles/evidence/wine-perspective.jpg",
+      "bytes": 90412,
+      "sha256": "28a8af42047bc0160fb2cdb66ccf3c12b32eb5674269d67c7d8c99c609390e74"
+    },
+    {
+      "file": "review/bottles/evidence/wine-top.jpg",
+      "bytes": 84234,
+      "sha256": "e557aedfc1ebc9ae35743140cced31afb7102017c89435ae29b55c080cc67c56"
+    },
+    {
+      "file": "scene-index.md",
+      "bytes": 7475,
+      "sha256": "babfc7d48a78021152b0d8e666b2d3bc6a9fb9896e1ccd7712fbd44d4302fda9"
+    },
+    {
+      "file": "surface-analysis.json",
+      "bytes": 56409,
+      "sha256": "de72bd1aec8567fd37bd22791c254e39e7071169a03492c34229b33bf1fbe205"
+    },
+    {
+      "file": "surface-portability-validation.json",
+      "bytes": 614,
+      "sha256": "fceb8a75e4ae519b5eea4d38751b38a767c3bb5888a71d6bea9570ec0288dd0c"
+    },
+    {
+      "file": "surface-portability.patch",
+      "bytes": 2487,
+      "sha256": "befcc71c317238e3821b61e479bdb5d735c7133236e7a7af8a8983e283db7000"
+    },
+    {
+      "file": "test_verifier_boundaries.py",
+      "bytes": 4241,
+      "sha256": "545e9bc2b33c50a64fbf43e4f0716224baff9519fc3d86e4dcc98214c68504bf"
+    },
+    {
+      "file": "validate_evidence.py",
+      "bytes": 14045,
+      "sha256": "16479265ca926b6381f1f9dfdfeddb5b8daa4acadefd0f849cedc622aed160d0"
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "source_record": "gui-progress.json from the completed 2026-11-09 capture set",
+  "source_record_sha256": "c0c7b82c9ce79c07b2c53946751b7bb4f9ace2ace36cd991629c22f8c13f337d",
+  "portable_record_sha256": "a1e4ae96d2893166304db2ae38546c4a4573a08171feb289517d2b3cf582b575",
+  "portable_changes": "Prefix image/scene paths with review/bottles/ and point surface_analysis at surface-analysis.json. Completion fields and all 75 image/scene hashes are unchanged.",
+  "completion_correction": "gui-progress-completion-correction.json",
+  "accepted_images": 75,
+  "families": 25,
+  "count_states": 97,
+  "raw_bytes_preserved": true,
+  "capture_dimensions": {
+    "1364x1024": 23,
+    "1188x848": 52
+  },
+  "capture_methods": {
+    "1364x1024": "23 original full-desktop JPEGs, including the valid Honey Wine perspective/TOP captures.",
+    "1188x848": "52 original app.getScreenshot JPEGs; not crops or re-encodes of the full-desktop images."
+  },
+  "honey_wine": "Perspective and TOP reuse the valid earlier raw captures; BOTTOM is the new distinct capture.",
+  "per_family_three_distinct_image_hashes": true,
+  "excluded_diagnostics": [
+    {
+      "original_basename": "honey_wine-bottom.invalid-duplicate-top.jpg",
+      "bytes": 107430,
+      "sha256": "9b0e4d8a785a1511f76b4c7ac7e39e3693748dde7ebb53dd1a133fda77fd34b6",
+      "reason": "Stale duplicate of the accepted TOP image, not a bottom view. Its bytes legitimately equal the TOP image; the invalid bottom filename is not accepted.",
+      "included_in_published_files": false
+    },
+    {
+      "original_basename": "honey_wine-renderer-white-20261109.jpg",
+      "bytes": 73729,
+      "sha256": "24c7ece8fe286b3982b8dfa14245cdb47009d6a469259fd129a5359a13f25e0f",
+      "reason": "White viewport diagnostic; no accepted bottle capture.",
+      "included_in_published_files": false
+    },
+    {
+      "original_basename": "champagne-control-renderer-white-20261109.jpg",
+      "bytes": 73764,
+      "sha256": "65a39ba06557f0353aa4736e22c2bead96bc0b4a8921a7549c3e2c71d1f764b2",
+      "reason": "White viewport control diagnostic; no accepted bottle capture.",
+      "included_in_published_files": false
+    }
+  ],
+  "recovery": "An unchanged Champagne control also showed the old white viewport. A fresh official Blockbench instance restored the textured control. The root cause remains undetermined; no browser/GPU attribution is made. Renderer flags, assets and security settings were not changed.",
+  "scope": "GUI inspection is recorded by the capture reviewer. Packaging verifies exact bytes, associations, coverage and reproducibility, without opening or controlling the GUI."
+}

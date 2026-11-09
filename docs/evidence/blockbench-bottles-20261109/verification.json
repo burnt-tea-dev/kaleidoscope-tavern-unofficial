@@ -1,0 +1,67 @@
+{
+  "passed": true,
+  "archive_count": 7,
+  "archive_entries_verified": 673,
+  "all_archives_under_200000_bytes": true,
+  "scene_files_unchanged": 25,
+  "count_states": 97,
+  "accepted_raw_jpegs": 75,
+  "capture_dimensions": {
+    "1364x1024": 23,
+    "1188x848": 52
+  },
+  "each_family_three_views_and_distinct_hashes": true,
+  "invalid_and_white_diagnostics_excluded": 3,
+  "base_commit": "d42a39745f25082aa129f4d4bb823684e4174771",
+  "base_runtime_git_tree": "38c5977dd6bfe14b1824734612e3c601e1e41028",
+  "base_runtime_inputs_recorded_equal": 148,
+  "current_repository_runtime_inputs_rechecked": 148,
+  "numerical_audits": [
+    {
+      "audit": "validate_scenes.py",
+      "report": "static-checks.json",
+      "json_values_and_types_identical_saved_report": true,
+      "byte_identical_saved_report": true,
+      "saved_sha256": "d0d8cb1552cde4fd3a966eb827270ae9094d4977e06cb18d9277ff7de16ba598",
+      "rerun_sha256": "d0d8cb1552cde4fd3a966eb827270ae9094d4977e06cb18d9277ff7de16ba598",
+      "serialization_note": "Identical bytes."
+    },
+    {
+      "audit": "check_routing.py",
+      "report": "routing.json",
+      "json_values_and_types_identical_saved_report": true,
+      "byte_identical_saved_report": false,
+      "saved_sha256": "183d1546c8fd6dc917c49614a4124cca43bf39fb4dca597a26ed804cb95327f5",
+      "rerun_sha256": "1d5ae6b9ebe15918feaac073acbddcfeff1b8864af8c7d185a16b852ea98b36d",
+      "serialization_note": "Only JSON object-key order differs. The unchanged routing audit iterates filesystem glob order; complete parsed JSON values, types and array order are exactly equal."
+    },
+    {
+      "audit": "compare_faces.py",
+      "report": "face-uv-diagnostic.json",
+      "json_values_and_types_identical_saved_report": true,
+      "byte_identical_saved_report": true,
+      "saved_sha256": "3d478eace459b78cdddcea7bb1760c0c10b549f4db752e30173baea358b11fd7",
+      "rerun_sha256": "3d478eace459b78cdddcea7bb1760c0c10b549f4db752e30173baea358b11fd7",
+      "serialization_note": "Identical bytes."
+    },
+    {
+      "audit": "verify_face_adaptations.py",
+      "report": "face-adaptation-verification.json",
+      "json_values_and_types_identical_saved_report": true,
+      "byte_identical_saved_report": true,
+      "saved_sha256": "6e3fd1919f2638b8ecd29e855ae5fa9e6d6fc34cf4d30003f3172f2b14b44a7c",
+      "rerun_sha256": "6e3fd1919f2638b8ecd29e855ae5fa9e6d6fc34cf4d30003f3172f2b14b44a7c",
+      "serialization_note": "Identical bytes."
+    }
+  ],
+  "surface_analysis_byte_identical_saved_report": true,
+  "surface_analysis_sha256": "de72bd1aec8567fd37bd22791c254e39e7071169a03492c34229b33bf1fbe205",
+  "surface_state_views": 30,
+  "surface_covered_rays": 111188,
+  "exact_original_rgb_crop_proofs": 3,
+  "surface_algorithm_changed": false,
+  "gui_opened_by_verifier": false,
+  "engine_acceptance": false,
+  "scene_rebuilt": false,
+  "runtime_changed": false
+}
