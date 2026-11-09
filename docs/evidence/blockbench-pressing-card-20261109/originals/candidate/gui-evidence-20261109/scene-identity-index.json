@@ -1,0 +1,2957 @@
+[
+  {
+    "scene": "scenes/01-upright-isolated.bbmodel",
+    "sha256": "6c2e4438d05b488abc07d2f9fe11e5795314b67d3eb742279441e5c0e1370be0",
+    "metadata": {
+      "fixture_only": true,
+      "front_sides_are_editor_hints": true,
+      "actual_BP_execution": false,
+      "item_scene_offsets": {
+        "source": [
+          -24,
+          0,
+          0
+        ],
+        "before": [
+          0,
+          0,
+          0
+        ],
+        "after": [
+          24,
+          0,
+          0
+        ]
+      },
+      "source_native_reference_frames_differ": true,
+      "body_clearance_not_tested": true,
+      "candidate_sha256": "d93249923210a8711fa038105816380407b9d70811c23313d4ddb56d68b83eea"
+    },
+    "meshes": [
+      {
+        "name": "SOURCE grape global=0 helper=0 local=0 tilt=None",
+        "uuid": "a225ad3b-a9be-435d-988c-80adeac3f202",
+        "faces": 35,
+        "world_vertex_bounds": [
+          [
+            -31.858637752688832,
+            2.416963845876537,
+            -7.859075522052132
+          ],
+          [
+            -20.94136243804603,
+            3.931385248514332,
+            3.059075331317269
+          ]
+        ],
+        "review": {
+          "kind": "source_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 0,
+          "slot": 0,
+          "count": 64,
+          "location": {
+            "x": 3,
+            "y": 64,
+            "z": -5
+          },
+          "time_ticks": 0,
+          "layout": [
+            -2.4000000953674316,
+            3.1741745471954346,
+            -2.4000000953674316,
+            5.342572212219238,
+            -209.80455017089844
+          ],
+          "tilt_facing": null,
+          "texture_bound": "owned texture exact bytes",
+          "size": [
+            8,
+            8,
+            0.5
+          ],
+          "fixed_scale": 1,
+          "fixed_yaw": 180,
+          "matrix_chain": "tilt / translation / half scale / XN90 / YNrandom / ZNrandom / FIXED / center",
+          "pre_atlas_uv": true,
+          "matrix": [
+            [
+              0.4319781995074981,
+              0.24744180732967735,
+              0.04655520524799534,
+              -32.2078017920488
+            ],
+            [
+              0.04039716124759226,
+              0.023139932990806234,
+              -0.4978278948234189,
+              6.648500951875597
+            ],
+            [
+              -0.2485214367280943,
+              0.4338629916074933,
+              -4.8068695232042053e-20,
+              -3.882732534402624
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "texture_input": "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/textures/item/grape.png",
+          "quad_count": 35,
+          "variant": "source"
+        }
+      },
+      {
+        "name": "BEFORE grape global=0 helper=0 local=0 tilt=None",
+        "uuid": "7edbb954-9fe4-4e89-9155-772cf5a83ff3",
+        "faces": 2,
+        "world_vertex_bounds": [
+          [
+            -0.3308285192321101,
+            2.7956961460062053,
+            -5.127916328792967
+          ],
+          [
+            5.12770351923211,
+            3.5526529185823414,
+            0.3310413287929672
+          ]
+        ],
+        "review": {
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 0,
+          "slot": 0,
+          "count": 64,
+          "location": {
+            "x": 3,
+            "y": 64,
+            "z": -5
+          },
+          "time_ticks": 0,
+          "layout": [
+            -2.3984375,
+            3.1741745322942734,
+            -2.3984375,
+            5.34,
+            -209.79999999999998
+          ],
+          "tilt_facing": null,
+          "texture_bound": "owned texture exact bytes",
+          "geometry_input": "inputs/current/runtime/RP/models/entity/runtime_pressing_card.geo.json",
+          "size": [
+            4,
+            4,
+            0.25
+          ],
+          "transform_basis": "Blockbench Bedrock decoder; external entity-to-world transform not simulated",
+          "matrix_chain": "tilt_yaw / tilt / offset / ingredient / item_y / item_z",
+          "matrix": [
+            [
+              -0.8639993241423679,
+              0.49481707848262385,
+              0.09306571185701269,
+              2.3984375
+            ],
+            [
+              -0.08075920964270274,
+              0.046251235457428624,
+              -0.9956599687024419,
+              3.1741745322942734
+            ],
+            [
+              -0.49697396102755487,
+              -0.8677654533689287,
+              6.096658968552996e-17,
+              -2.3984375
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "texture_input": "inputs/current/runtime/RP/textures/kaleidoscope_tavern/item/grape.png",
+          "quad_count": 2,
+          "variant": "before"
+        }
+      },
+      {
+        "name": "AFTER grape global=0 helper=0 local=0 tilt=None",
+        "uuid": "fed019a9-2e02-4d10-8a9c-73703d283a4a",
+        "faces": 2,
+        "world_vertex_bounds": [
+          [
+            20.93990546153578,
+            2.4172177597181377,
+            -7.857395157585934
+          ],
+          [
+            31.85696953846422,
+            3.931131304870409,
+            3.0605201575859344
+          ]
+        ],
+        "review": {
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 0,
+          "slot": 0,
+          "count": 64,
+          "location": {
+            "x": 3,
+            "y": 64,
+            "z": -5
+          },
+          "time_ticks": 0,
+          "layout": [
+            -2.3984375,
+            3.1741745322942734,
+            -2.3984375,
+            5.34,
+            -209.79999999999998
+          ],
+          "tilt_facing": null,
+          "texture_bound": "owned texture exact bytes",
+          "geometry_input": "candidate/runtime/RP/models/entity/runtime_pressing_card.geo.json",
+          "size": [
+            8,
+            8,
+            0.5
+          ],
+          "transform_basis": "Blockbench Bedrock decoder; external entity-to-world transform not simulated",
+          "matrix_chain": "tilt_yaw / tilt / offset / ingredient / item_y / item_z",
+          "matrix": [
+            [
+              -0.8639993241423679,
+              0.49481707848262385,
+              0.09306571185701269,
+              26.3984375
+            ],
+            [
+              -0.08075920964270274,
+              0.046251235457428624,
+              -0.9956599687024419,
+              3.1741745322942734
+            ],
+            [
+              -0.49697396102755487,
+              -0.8677654533689287,
+              6.096658968552996e-17,
+              -2.3984375
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "texture_input": "inputs/current/runtime/RP/textures/kaleidoscope_tavern/item/grape.png",
+          "quad_count": 2,
+          "variant": "after"
+        }
+      }
+    ]
+  },
+  {
+    "scene": "scenes/02-upright-helper-boundaries.bbmodel",
+    "sha256": "4045fc46333b29143102035416fa35adfd040b868ccced314989c46dcdca3f10",
+    "metadata": {
+      "fixture_only": true,
+      "front_sides_are_editor_hints": true,
+      "actual_BP_execution": false,
+      "item_scene_offsets": {
+        "source": [
+          -24,
+          0,
+          0
+        ],
+        "before": [
+          0,
+          0,
+          0
+        ],
+        "after": [
+          24,
+          0,
+          0
+        ]
+      },
+      "source_native_reference_frames_differ": true,
+      "body_clearance_not_tested": true,
+      "candidate_sha256": "d93249923210a8711fa038105816380407b9d70811c23313d4ddb56d68b83eea"
+    },
+    "meshes": [
+      {
+        "name": "SOURCE grape global=0 helper=0 local=0 tilt=None",
+        "uuid": "491673fc-333e-4d7a-a9ef-b8ed9d505bfb",
+        "faces": 35,
+        "world_vertex_bounds": [
+          [
+            -31.858637752688832,
+            2.416963845876537,
+            -7.859075522052132
+          ],
+          [
+            -20.94136243804603,
+            3.931385248514332,
+            3.059075331317269
+          ]
+        ],
+        "review": {
+          "kind": "source_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 0,
+          "slot": 0,
+          "count": 64,
+          "location": {
+            "x": 3,
+            "y": 64,
+            "z": -5
+          },
+          "time_ticks": 0,
+          "layout": [
+            -2.4000000953674316,
+            3.1741745471954346,
+            -2.4000000953674316,
+            5.342572212219238,
+            -209.80455017089844
+          ],
+          "tilt_facing": null,
+          "texture_bound": "owned texture exact bytes",
+          "size": [
+            8,
+            8,
+            0.5
+          ],
+          "fixed_scale": 1,
+          "fixed_yaw": 180,
+          "matrix_chain": "tilt / translation / half scale / XN90 / YNrandom / ZNrandom / FIXED / center",
+          "pre_atlas_uv": true,
+          "matrix": [
+            [
+              0.4319781995074981,
+              0.24744180732967735,
+              0.04655520524799534,
+              -32.2078017920488
+            ],
+            [
+              0.04039716124759226,
+              0.023139932990806234,
+              -0.4978278948234189,
+              6.648500951875597
+            ],
+            [
+              -0.2485214367280943,
+              0.4338629916074933,
+              -4.8068695232042053e-20,
+              -3.882732534402624
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "texture_input": "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/textures/item/grape.png",
+          "quad_count": 35,
+          "variant": "source"
+        }
+      },
+      {
+        "name": "BEFORE grape global=0 helper=0 local=0 tilt=None",
+        "uuid": "9ea9375a-89a1-4c86-aae0-bfb815eee9a6",
+        "faces": 2,
+        "world_vertex_bounds": [
+          [
+            -0.3308285192321101,
+            2.7956961460062053,
+            -5.127916328792967
+          ],
+          [
+            5.12770351923211,
+            3.5526529185823414,
+            0.3310413287929672
+          ]
+        ],
+        "review": {
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 0,
+          "slot": 0,
+          "count": 64,
+          "location": {
+            "x": 3,
+            "y": 64,
+            "z": -5
+          },
+          "time_ticks": 0,
+          "layout": [
+            -2.3984375,
+            3.1741745322942734,
+            -2.3984375,
+            5.34,
+            -209.79999999999998
+          ],
+          "tilt_facing": null,
+          "texture_bound": "owned texture exact bytes",
+          "geometry_input": "inputs/current/runtime/RP/models/entity/runtime_pressing_card.geo.json",
+          "size": [
+            4,
+            4,
+            0.25
+          ],
+          "transform_basis": "Blockbench Bedrock decoder; external entity-to-world transform not simulated",
+          "matrix_chain": "tilt_yaw / tilt / offset / ingredient / item_y / item_z",
+          "matrix": [
+            [
+              -0.8639993241423679,
+              0.49481707848262385,
+              0.09306571185701269,
+              2.3984375
+            ],
+            [
+              -0.08075920964270274,
+              0.046251235457428624,
+              -0.9956599687024419,
+              3.1741745322942734
+            ],
+            [
+              -0.49697396102755487,
+              -0.8677654533689287,
+              6.096658968552996e-17,
+              -2.3984375
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "texture_input": "inputs/current/runtime/RP/textures/kaleidoscope_tavern/item/grape.png",
+          "quad_count": 2,
+          "variant": "before"
+        }
+      },
+      {
+        "name": "AFTER grape global=0 helper=0 local=0 tilt=None",
+        "uuid": "43f30491-7866-40c7-812d-9af8a9c4626a",
+        "faces": 2,
+        "world_vertex_bounds": [
+          [
+            20.93990546153578,
+            2.4172177597181377,
+            -7.857395157585934
+          ],
+          [
+            31.85696953846422,
+            3.931131304870409,
+            3.0605201575859344
+          ]
+        ],
+        "review": {
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 0,
+          "slot": 0,
+          "count": 64,
+          "location": {
+            "x": 3,
+            "y": 64,
+            "z": -5
+          },
+          "time_ticks": 0,
+          "layout": [
+            -2.3984375,
+            3.1741745322942734,
+            -2.3984375,
+            5.34,
+            -209.79999999999998
+          ],
+          "tilt_facing": null,
+          "texture_bound": "owned texture exact bytes",
+          "geometry_input": "candidate/runtime/RP/models/entity/runtime_pressing_card.geo.json",
+          "size": [
+            8,
+            8,
+            0.5
+          ],
+          "transform_basis": "Blockbench Bedrock decoder; external entity-to-world transform not simulated",
+          "matrix_chain": "tilt_yaw / tilt / offset / ingredient / item_y / item_z",
+          "matrix": [
+            [
+              -0.8639993241423679,
+              0.49481707848262385,
+              0.09306571185701269,
+              26.3984375
+            ],
+            [
+              -0.08075920964270274,
+              0.046251235457428624,
+              -0.9956599687024419,
+              3.1741745322942734
+            ],
+            [
+              -0.49697396102755487,
+              -0.8677654533689287,
+              6.096658968552996e-17,
+              -2.3984375
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "texture_input": "inputs/current/runtime/RP/textures/kaleidoscope_tavern/item/grape.png",
+          "quad_count": 2,
+          "variant": "after"
+        }
+      },
+      {
+        "name": "SOURCE grape global=7 helper=0 local=7 tilt=None",
+        "uuid": "f97ec01e-35fd-4af8-80ba-fc03e17e9b3c",
+        "faces": 35,
+        "world_vertex_bounds": [
+          [
+            -27.646040290508587,
+            3.2686769237607205,
+            -3.1018648452321664
+          ],
+          [
+            -16.356355339374225,
+            4.8439968356997305,
+            8.191639930681385
+          ]
+        ],
+        "review": {
+          "kind": "source_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 7,
+          "slot": 0,
+          "count": 64,
+          "location": {
+            "x": 3,
+            "y": 64,
+            "z": -5
+          },
+          "time_ticks": 0,
+          "layout": [
+            1.9988021850585938,
+            4.056336879730225,
+            2.5448875427246094,
+            -5.475366592407227,
+            -48.424644470214844
+          ],
+          "tilt_facing": null,
+          "texture_bound": "owned texture exact bytes",
+          "size": [
+            8,
+            8,
+            0.5
+          ],
+          "fixed_scale": 1,
+          "fixed_yaw": 180,
+          "matrix_chain": "tilt / translation / half scale / XN90 / YNrandom / ZNrandom / FIXED / center",
+          "pre_atlas_uv": true,
+          "matrix": [
+            [
+              -0.3302883419138858,
+              -0.3723351616277034,
+              -0.0477088944689361,
+              -15.998538630857205
+            ],
+            [
+              0.031659837202078725,
+              0.03569024124023196,
+              -0.4977186568620388,
+              7.49928550708805
+            ],
+            [
+              0.37404179700150353,
+              -0.33180225149309345,
+              -7.628338694462232e-17,
+              2.206971178657329
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "texture_input": "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/textures/item/grape.png",
+          "quad_count": 35,
+          "variant": "source"
+        }
+      },
+      {
+        "name": "BEFORE grape global=7 helper=0 local=7 tilt=None",
+        "uuid": "4b86dca3-ac41-4802-8392-adede1942d95",
+        "faces": 2,
+        "world_vertex_bounds": [
+          [
+            -4.8224815864061075,
+            3.662273791880353,
+            -0.27657360630154715
+          ],
+          [
+            0.8224815864061079,
+            4.450400205998676,
+            5.370323606301548
+          ]
+        ],
+        "review": {
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 7,
+          "slot": 0,
+          "count": 64,
+          "location": {
+            "x": 3,
+            "y": 64,
+            "z": -5
+          },
+          "time_ticks": 0,
+          "layout": [
+            2.0,
+            4.056336998939514,
+            2.546875,
+            -5.48,
+            -48.39999999999998
+          ],
+          "tilt_facing": null,
+          "texture_bound": "owned texture exact bytes",
+          "geometry_input": "inputs/current/runtime/RP/models/entity/runtime_pressing_card.geo.json",
+          "size": [
+            4,
+            4,
+            0.25
+          ],
+          "transform_basis": "Blockbench Bedrock decoder; external entity-to-world transform not simulated",
+          "matrix_chain": "tilt_yaw / tilt / offset / ingredient / item_y / item_z",
+          "matrix": [
+            [
+              0.6608918004408945,
+              -0.7443803497704372,
+              -0.09549828786755618,
+              -2.0
+            ],
+            [
+              -0.06340381657868008,
+              0.07141343731323764,
+              -0.9954295942026062,
+              4.056336998939514
+            ],
+            [
+              0.7477980904985316,
+              0.6639262126522419,
+              6.095248331583852e-17,
+              2.546875
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "texture_input": "inputs/current/runtime/RP/textures/kaleidoscope_tavern/item/grape.png",
+          "quad_count": 2,
+          "variant": "before"
+        }
+      },
+      {
+        "name": "AFTER grape global=7 helper=0 local=7 tilt=None",
+        "uuid": "3c723f03-f602-4bbb-b30b-81c175c2c4fb",
+        "faces": 2,
+        "world_vertex_bounds": [
+          [
+            16.355036827187785,
+            3.2682105848211913,
+            -3.1000222126030943
+          ],
+          [
+            27.644963172812215,
+            4.844463413057836,
+            8.193772212603095
+          ]
+        ],
+        "review": {
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 7,
+          "slot": 0,
+          "count": 64,
+          "location": {
+            "x": 3,
+            "y": 64,
+            "z": -5
+          },
+          "time_ticks": 0,
+          "layout": [
+            2.0,
+            4.056336998939514,
+            2.546875,
+            -5.48,
+            -48.39999999999998
+          ],
+          "tilt_facing": null,
+          "texture_bound": "owned texture exact bytes",
+          "geometry_input": "candidate/runtime/RP/models/entity/runtime_pressing_card.geo.json",
+          "size": [
+            8,
+            8,
+            0.5
+          ],
+          "transform_basis": "Blockbench Bedrock decoder; external entity-to-world transform not simulated",
+          "matrix_chain": "tilt_yaw / tilt / offset / ingredient / item_y / item_z",
+          "matrix": [
+            [
+              0.6608918004408945,
+              -0.7443803497704372,
+              -0.09549828786755618,
+              22.0
+            ],
+            [
+              -0.06340381657868008,
+              0.07141343731323764,
+              -0.9954295942026062,
+              4.056336998939514
+            ],
+            [
+              0.7477980904985316,
+              0.6639262126522419,
+              6.095248331583852e-17,
+              2.546875
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "texture_input": "inputs/current/runtime/RP/textures/kaleidoscope_tavern/item/grape.png",
+          "quad_count": 2,
+          "variant": "after"
+        }
+      },
+      {
+        "name": "SOURCE grape global=8 helper=1 local=0 tilt=None",
+        "uuid": "6c130cbc-f7c9-431e-a3d5-3fc31c17c6b7",
+        "faces": 35,
+        "world_vertex_bounds": [
+          [
+            -31.935514974005336,
+            4.086713504291349,
+            -7.937494648454676
+          ],
+          [
+            -20.86448521672953,
+            5.663064289592927,
+            3.137494457719813
+          ]
+        ],
+        "review": {
+          "kind": "source_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 8,
+          "slot": 0,
+          "count": 64,
+          "location": {
+            "x": 3,
+            "y": 64,
+            "z": -5
+          },
+          "time_ticks": 0,
+          "layout": [
+            -2.4000000953674316,
+            4.874888896942139,
+            -2.4000000953674316,
+            5.589596748352051,
+            146.79086303710938
+          ],
+          "tilt_facing": null,
+          "texture_bound": "owned texture exact bytes",
+          "size": [
+            8,
+            8,
+            0.5
+          ],
+          "fixed_scale": 1,
+          "fixed_yaw": 180,
+          "matrix_chain": "tilt / translation / half scale / XN90 / YNrandom / ZNrandom / FIXED / center",
+          "pre_atlas_uv": true,
+          "matrix": [
+            [
+              0.4163493344929101,
+              0.27254620678297947,
+              0.04870109686157217,
+              -32.30077320046713
+            ],
+            [
+              0.040747086784365845,
+              0.026673427865716692,
+              -0.4976225509002579,
+              8.316505186943541
+            ],
+            [
+              -0.2738483277033077,
+              0.4183384914325979,
+              3.066154590194034e-18,
+              -3.555921405201753
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "texture_input": "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/textures/item/grape.png",
+          "quad_count": 35,
+          "variant": "source"
+        }
+      },
+      {
+        "name": "BEFORE grape global=8 helper=1 local=0 tilt=None",
+        "uuid": "bea95aa7-f499-4674-b0d9-07426c57f97b",
+        "faces": 2,
+        "world_vertex_bounds": [
+          [
+            -0.36922715262171213,
+            4.480790682990033,
+            -5.167092573903023
+          ],
+          [
+            5.166102152621712,
+            5.268986729424519,
+            0.3702175739030238
+          ]
+        ],
+        "review": {
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 8,
+          "slot": 0,
+          "count": 64,
+          "location": {
+            "x": 3,
+            "y": 64,
+            "z": -5
+          },
+          "time_ticks": 0,
+          "layout": [
+            -2.3984375,
+            4.874888706207276,
+            -2.3984375,
+            5.59,
+            146.8
+          ],
+          "tilt_facing": null,
+          "texture_bound": "owned texture exact bytes",
+          "geometry_input": "inputs/current/runtime/RP/models/entity/runtime_pressing_card.geo.json",
+          "size": [
+            4,
+            4,
+            0.25
+          ],
+          "transform_basis": "Blockbench Bedrock decoder; external entity-to-world transform not simulated",
+          "matrix_chain": "tilt_yaw / tilt / offset / ingredient / item_y / item_z",
+          "matrix": [
+            [
+              -0.8327850106893957,
+              0.5449592407261853,
+              0.09740919832440133,
+              2.3984375
+            ],
+            [
+              -0.08150854096050554,
+              0.053337694632334266,
+              -0.995244416252509,
+              4.874888706207276
+            ],
+            [
+              -0.5475632234925503,
+              -0.8367643134589616,
+              6.094114443664556e-17,
+              -2.3984375
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "texture_input": "inputs/current/runtime/RP/textures/kaleidoscope_tavern/item/grape.png",
+          "quad_count": 2,
+          "variant": "before"
+        }
+      },
+      {
+        "name": "AFTER grape global=8 helper=1 local=0 tilt=None",
+        "uuid": "b5ff60e5-362e-4099-9506-07a7e563b396",
+        "faces": 2,
+        "world_vertex_bounds": [
+          [
+            20.863108194756578,
+            4.0866926597727895,
+            -7.935747647806047
+          ],
+          [
+            31.933766805243422,
+            5.663084752641763,
+            3.1388726478060476
+          ]
+        ],
+        "review": {
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 8,
+          "slot": 0,
+          "count": 64,
+          "location": {
+            "x": 3,
+            "y": 64,
+            "z": -5
+          },
+          "time_ticks": 0,
+          "layout": [
+            -2.3984375,
+            4.874888706207276,
+            -2.3984375,
+            5.59,
+            146.8
+          ],
+          "tilt_facing": null,
+          "texture_bound": "owned texture exact bytes",
+          "geometry_input": "candidate/runtime/RP/models/entity/runtime_pressing_card.geo.json",
+          "size": [
+            8,
+            8,
+            0.5
+          ],
+          "transform_basis": "Blockbench Bedrock decoder; external entity-to-world transform not simulated",
+          "matrix_chain": "tilt_yaw / tilt / offset / ingredient / item_y / item_z",
+          "matrix": [
+            [
+              -0.8327850106893957,
+              0.5449592407261853,
+              0.09740919832440133,
+              26.3984375
+            ],
+            [
+              -0.08150854096050554,
+              0.053337694632334266,
+              -0.995244416252509,
+              4.874888706207276
+            ],
+            [
+              -0.5475632234925503,
+              -0.8367643134589616,
+              6.094114443664556e-17,
+              -2.3984375
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "texture_input": "inputs/current/runtime/RP/textures/kaleidoscope_tavern/item/grape.png",
+          "quad_count": 2,
+          "variant": "after"
+        }
+      },
+      {
+        "name": "SOURCE grape global=63 helper=7 local=7 tilt=None",
+        "uuid": "b217a330-75ab-41db-bb7a-913ae47303b4",
+        "faces": 35,
+        "world_vertex_bounds": [
+          [
+            -27.547084018234933,
+            11.058888460668612,
+            -3.5784675517939273
+          ],
+          [
+            -16.894757107253344,
+            11.892415021387052,
+            7.063412849035139
+          ]
+        ],
+        "review": {
+          "kind": "source_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 63,
+          "slot": 0,
+          "count": 64,
+          "location": {
+            "x": 3,
+            "y": 64,
+            "z": -5
+          },
+          "time_ticks": 0,
+          "layout": [
+            1.7790794372558594,
+            11.475651741027832,
+            1.7424726486206055,
+            -1.7973228693008423,
+            205.1556396484375
+          ],
+          "tilt_facing": null,
+          "texture_bound": "owned texture exact bytes",
+          "size": [
+            8,
+            8,
+            0.5
+          ],
+          "fixed_scale": 1,
+          "fixed_yaw": 180,
+          "matrix_chain": "tilt / translation / half scale / XN90 / YNrandom / ZNrandom / FIXED / center",
+          "pre_atlas_uv": true,
+          "matrix": [
+            [
+              0.45235556076951855,
+              -0.21243474437450302,
+              -0.015682028677246027,
+              -24.014830864486296
+            ],
+            [
+              -0.014194689157338831,
+              0.0066660950458641245,
+              -0.4997540134671917,
+              15.533912601657164
+            ],
+            [
+              0.21253930798941859,
+              0.45257821706239804,
+              -5.662966596990548e-17,
+              -3.578467551793927
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "texture_input": "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/textures/item/grape.png",
+          "quad_count": 35,
+          "variant": "source"
+        }
+      },
+      {
+        "name": "BEFORE grape global=63 helper=7 local=7 tilt=None",
+        "uuid": "6f6b01b2-ad66-415b-aa2c-d51cba7fa1cd",
+        "faces": 2,
+        "world_vertex_bounds": [
+          [
+            -4.445075885131443,
+            11.26712333027004,
+            -0.9190251880621852
+          ],
+          [
+            0.8825758851314435,
+            11.684181391562232,
+            4.403400188062185
+          ]
+        ],
+        "review": {
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 63,
+          "slot": 0,
+          "count": 64,
+          "location": {
+            "x": 3,
+            "y": 64,
+            "z": -5
+          },
+          "time_ticks": 0,
+          "layout": [
+            1.78125,
+            11.475652360916136,
+            1.7421875,
+            -1.7999999999999998,
+            205.20000000000005
+          ],
+          "tilt_facing": null,
+          "texture_bound": "owned texture exact bytes",
+          "geometry_input": "inputs/current/runtime/RP/models/entity/runtime_pressing_card.geo.json",
+          "size": [
+            4,
+            4,
+            0.25
+          ],
+          "transform_basis": "Blockbench Bedrock decoder; external entity-to-world transform not simulated",
+          "matrix_chain": "tilt_yaw / tilt / offset / ingredient / item_y / item_z",
+          "matrix": [
+            [
+              -0.9043805749361742,
+              -0.4255691951871646,
+              -0.031410759078128285,
+              -1.78125
+            ],
+            [
+              0.028421304552383096,
+              0.013374050747806607,
+              -0.9995065603657316,
+              11.475652360916136
+            ],
+            [
+              0.4257792915650735,
+              -0.9048270524660191,
+              6.12021254939337e-17,
+              1.7421875
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "texture_input": "inputs/current/runtime/RP/textures/kaleidoscope_tavern/item/grape.png",
+          "quad_count": 2,
+          "variant": "before"
+        }
+      },
+      {
+        "name": "AFTER grape global=63 helper=7 local=7 tilt=None",
+        "uuid": "272d39ec-59a4-4c44-ac0b-93a25c1b1244",
+        "faces": 2,
+        "world_vertex_bounds": [
+          [
+            16.891098229737114,
+            11.058594299623945,
+            -3.5802378761243707
+          ],
+          [
+            27.546401770262886,
+            11.892710422208328,
+            7.064612876124371
+          ]
+        ],
+        "review": {
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 63,
+          "slot": 0,
+          "count": 64,
+          "location": {
+            "x": 3,
+            "y": 64,
+            "z": -5
+          },
+          "time_ticks": 0,
+          "layout": [
+            1.78125,
+            11.475652360916136,
+            1.7421875,
+            -1.7999999999999998,
+            205.20000000000005
+          ],
+          "tilt_facing": null,
+          "texture_bound": "owned texture exact bytes",
+          "geometry_input": "candidate/runtime/RP/models/entity/runtime_pressing_card.geo.json",
+          "size": [
+            8,
+            8,
+            0.5
+          ],
+          "transform_basis": "Blockbench Bedrock decoder; external entity-to-world transform not simulated",
+          "matrix_chain": "tilt_yaw / tilt / offset / ingredient / item_y / item_z",
+          "matrix": [
+            [
+              -0.9043805749361742,
+              -0.4255691951871646,
+              -0.031410759078128285,
+              22.21875
+            ],
+            [
+              0.028421304552383096,
+              0.013374050747806607,
+              -0.9995065603657316,
+              11.475652360916136
+            ],
+            [
+              0.4257792915650735,
+              -0.9048270524660191,
+              6.12021254939337e-17,
+              1.7421875
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "texture_input": "inputs/current/runtime/RP/textures/kaleidoscope_tavern/item/grape.png",
+          "quad_count": 2,
+          "variant": "after"
+        }
+      }
+    ]
+  },
+  {
+    "scene": "scenes/03-north-tilt-layers.bbmodel",
+    "sha256": "6648b887c27ab99dd36efb102609a6fc79401a1c6bdf47b6bbc5e8603bdaa2a8",
+    "metadata": {
+      "fixture_only": true,
+      "front_sides_are_editor_hints": true,
+      "actual_BP_execution": false,
+      "item_scene_offsets": {
+        "source": [
+          -24,
+          0,
+          0
+        ],
+        "before": [
+          0,
+          0,
+          0
+        ],
+        "after": [
+          24,
+          0,
+          0
+        ]
+      },
+      "source_native_reference_frames_differ": true,
+      "body_clearance_not_tested": true,
+      "candidate_sha256": "d93249923210a8711fa038105816380407b9d70811c23313d4ddb56d68b83eea"
+    },
+    "meshes": [
+      {
+        "name": "SOURCE grape global=0 helper=0 local=0 tilt=0",
+        "uuid": "98bd4ba8-fc5c-43d8-ba91-519c442271d3",
+        "faces": 35,
+        "world_vertex_bounds": [
+          [
+            -31.858637752688832,
+            2.2657418858358698,
+            -4.76160780865273
+          ],
+          [
+            -20.94136243804603,
+            10.142814622566807,
+            3.5059514280736477
+          ]
+        ],
+        "review": {
+          "kind": "source_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 0,
+          "slot": 0,
+          "count": 64,
+          "location": {
+            "x": 3,
+            "y": 64,
+            "z": -5
+          },
+          "time_ticks": 0,
+          "layout": [
+            -2.4000000953674316,
+            3.1741745471954346,
+            -2.4000000953674316,
+            5.342572212219238,
+            -209.80455017089844
+          ],
+          "tilt_facing": 0,
+          "texture_bound": "owned texture exact bytes",
+          "size": [
+            8,
+            8,
+            0.5
+          ],
+          "fixed_scale": 1,
+          "fixed_yaw": 180,
+          "matrix_chain": "tilt / translation / half scale / XN90 / YNrandom / ZNrandom / FIXED / center",
+          "pre_atlas_uv": true,
+          "matrix": [
+            [
+              0.4319781995074981,
+              0.24744180732967735,
+              0.04655520524799534,
+              -32.2078017920488
+            ],
+            [
+              -0.14716608652180008,
+              0.32314986700554205,
+              -0.35201748029346286,
+              7.612547852679105
+            ],
+            [
+              -0.2042962998395179,
+              0.2904250599375393,
+              0.3520174802934628,
+              -4.132998113421415
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "texture_input": "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/textures/item/grape.png",
+          "quad_count": 35,
+          "variant": "source"
+        }
+      },
+      {
+        "name": "BEFORE grape global=0 helper=0 local=0 tilt=0",
+        "uuid": "f670b81a-ddf1-4339-bea3-9a1ab0738e93",
+        "faces": 2,
+        "world_vertex_bounds": [
+          [
+            -0.3308285192321101,
+            -9.342512825322704,
+            -3.861456208055454
+          ],
+          [
+            5.12770351923211,
+            -5.404040658732757,
+            0.2722225389458326
+          ]
+        ],
+        "review": {
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 0,
+          "slot": 0,
+          "count": 64,
+          "location": {
+            "x": 3,
+            "y": 64,
+            "z": -5
+          },
+          "time_ticks": 0,
+          "layout": [
+            -2.3984375,
+            3.1741745322942734,
+            -2.3984375,
+            5.34,
+            -209.79999999999998
+          ],
+          "tilt_facing": 0,
+          "texture_bound": "owned texture exact bytes",
+          "geometry_input": "inputs/current/runtime/RP/models/entity/runtime_pressing_card.geo.json",
+          "size": [
+            4,
+            4,
+            0.25
+          ],
+          "transform_basis": "Blockbench Bedrock decoder; external entity-to-world transform not simulated",
+          "matrix_chain": "tilt_yaw / tilt / offset / ingredient / item_y / item_z",
+          "matrix": [
+            [
+              -0.8639993241423679,
+              0.49481707848262385,
+              0.09306571185701269,
+              2.3984375
+            ],
+            [
+              0.2943082731341019,
+              0.6463073987867918,
+              -0.7040379156254823,
+              -7.3732767420277305
+            ],
+            [
+              -0.4085190426973442,
+              -0.5808982743263849,
+              -0.7040379156254822,
+              -1.7946168345548108
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "texture_input": "inputs/current/runtime/RP/textures/kaleidoscope_tavern/item/grape.png",
+          "quad_count": 2,
+          "variant": "before"
+        }
+      },
+      {
+        "name": "AFTER grape global=0 helper=0 local=0 tilt=0",
+        "uuid": "01923ab9-e0e2-414b-8ca4-3dcaac2c01f3",
+        "faces": 2,
+        "world_vertex_bounds": [
+          [
+            20.93990546153578,
+            -11.311748908617677,
+            -5.928295581556098
+          ],
+          [
+            31.85696953846422,
+            -3.434804575437785,
+            2.3390619124464758
+          ]
+        ],
+        "review": {
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 0,
+          "slot": 0,
+          "count": 64,
+          "location": {
+            "x": 3,
+            "y": 64,
+            "z": -5
+          },
+          "time_ticks": 0,
+          "layout": [
+            -2.3984375,
+            3.1741745322942734,
+            -2.3984375,
+            5.34,
+            -209.79999999999998
+          ],
+          "tilt_facing": 0,
+          "texture_bound": "owned texture exact bytes",
+          "geometry_input": "candidate/runtime/RP/models/entity/runtime_pressing_card.geo.json",
+          "size": [
+            8,
+            8,
+            0.5
+          ],
+          "transform_basis": "Blockbench Bedrock decoder; external entity-to-world transform not simulated",
+          "matrix_chain": "tilt_yaw / tilt / offset / ingredient / item_y / item_z",
+          "matrix": [
+            [
+              -0.8639993241423679,
+              0.49481707848262385,
+              0.09306571185701269,
+              26.3984375
+            ],
+            [
+              0.2943082731341019,
+              0.6463073987867918,
+              -0.7040379156254823,
+              -7.3732767420277305
+            ],
+            [
+              -0.4085190426973442,
+              -0.5808982743263849,
+              -0.7040379156254822,
+              -1.7946168345548108
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "texture_input": "inputs/current/runtime/RP/textures/kaleidoscope_tavern/item/grape.png",
+          "quad_count": 2,
+          "variant": "after"
+        }
+      },
+      {
+        "name": "SOURCE grape global=63 helper=7 local=7 tilt=0",
+        "uuid": "c640d68d-16ec-4335-9241-f5b6b8d0a2ee",
+        "faces": 35,
+        "world_vertex_bounds": [
+          [
+            -27.547084018234933,
+            11.106905175647137,
+            -7.550439223276861
+          ],
+          [
+            -16.894757107253344,
+            18.900054104313032,
+            0.41306234375782847
+          ]
+        ],
+        "review": {
+          "kind": "source_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 63,
+          "slot": 0,
+          "count": 64,
+          "location": {
+            "x": 3,
+            "y": 64,
+            "z": -5
+          },
+          "time_ticks": 0,
+          "layout": [
+            1.7790794372558594,
+            11.475651741027832,
+            1.7424726486206055,
+            -1.7973228693008423,
+            205.1556396484375
+          ],
+          "tilt_facing": 0,
+          "texture_bound": "owned texture exact bytes",
+          "size": [
+            8,
+            8,
+            0.5
+          ],
+          "fixed_scale": 1,
+          "fixed_yaw": 180,
+          "matrix_chain": "tilt / translation / half scale / XN90 / YNrandom / ZNrandom / FIXED / center",
+          "pre_atlas_uv": true,
+          "matrix": [
+            [
+              0.45235556076951855,
+              -0.21243474437450302,
+              -0.015682028677246027,
+              -24.014830864486296
+            ],
+            [
+              0.14025082498802457,
+              0.32473476731310347,
+              -0.3533794518478445,
+              14.110630516353815
+            ],
+            [
+              0.1603251469080035,
+              0.3153074852911743,
+              0.3533794518478444,
+              -10.200785112135694
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "texture_input": "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/textures/item/grape.png",
+          "quad_count": 35,
+          "variant": "source"
+        }
+      },
+      {
+        "name": "BEFORE grape global=63 helper=7 local=7 tilt=0",
+        "uuid": "3c1acc3b-fcad-4846-b1b8-287761ac6d68",
+        "faces": 2,
+        "world_vertex_bounds": [
+          [
+            -4.445075885131443,
+            -6.379935732225914,
+            5.011892146134298
+          ],
+          [
+            0.8825758851314435,
+            -2.4822832505540537,
+            8.994664749433769
+          ]
+        ],
+        "review": {
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 63,
+          "slot": 0,
+          "count": 64,
+          "location": {
+            "x": 3,
+            "y": 64,
+            "z": -5
+          },
+          "time_ticks": 0,
+          "layout": [
+            1.78125,
+            11.475652360916136,
+            1.7421875,
+            -1.7999999999999998,
+            205.20000000000005
+          ],
+          "tilt_facing": 0,
+          "texture_bound": "owned texture exact bytes",
+          "geometry_input": "inputs/current/runtime/RP/models/entity/runtime_pressing_card.geo.json",
+          "size": [
+            4,
+            4,
+            0.25
+          ],
+          "transform_basis": "Blockbench Bedrock decoder; external entity-to-world transform not simulated",
+          "matrix_chain": "tilt_yaw / tilt / offset / ingredient / item_y / item_z",
+          "matrix": [
+            [
+              -0.9043805749361742,
+              -0.4255691951871646,
+              -0.031410759078128285,
+              -1.78125
+            ],
+            [
+              -0.2809745271753094,
+              0.6492662265754652,
+              -0.7067578666750501,
+              -4.431109491389984
+            ],
+            [
+              0.32116832153362584,
+              -0.6303524626240511,
+              -0.70675786667505,
+              7.003278447784034
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "texture_input": "inputs/current/runtime/RP/textures/kaleidoscope_tavern/item/grape.png",
+          "quad_count": 2,
+          "variant": "before"
+        }
+      },
+      {
+        "name": "AFTER grape global=63 helper=7 local=7 tilt=0",
+        "uuid": "37a4570e-e098-4d5e-b6ea-c5648a9746c8",
+        "faces": 2,
+        "world_vertex_bounds": [
+          [
+            16.891098229737114,
+            -8.328761973061845,
+            3.0205058444845636
+          ],
+          [
+            27.546401770262886,
+            -0.533457009718123,
+            10.986051051083505
+          ]
+        ],
+        "review": {
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 63,
+          "slot": 0,
+          "count": 64,
+          "location": {
+            "x": 3,
+            "y": 64,
+            "z": -5
+          },
+          "time_ticks": 0,
+          "layout": [
+            1.78125,
+            11.475652360916136,
+            1.7421875,
+            -1.7999999999999998,
+            205.20000000000005
+          ],
+          "tilt_facing": 0,
+          "texture_bound": "owned texture exact bytes",
+          "geometry_input": "candidate/runtime/RP/models/entity/runtime_pressing_card.geo.json",
+          "size": [
+            8,
+            8,
+            0.5
+          ],
+          "transform_basis": "Blockbench Bedrock decoder; external entity-to-world transform not simulated",
+          "matrix_chain": "tilt_yaw / tilt / offset / ingredient / item_y / item_z",
+          "matrix": [
+            [
+              -0.9043805749361742,
+              -0.4255691951871646,
+              -0.031410759078128285,
+              22.21875
+            ],
+            [
+              -0.2809745271753094,
+              0.6492662265754652,
+              -0.7067578666750501,
+              -4.431109491389984
+            ],
+            [
+              0.32116832153362584,
+              -0.6303524626240511,
+              -0.70675786667505,
+              7.003278447784034
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "texture_input": "inputs/current/runtime/RP/textures/kaleidoscope_tavern/item/grape.png",
+          "quad_count": 2,
+          "variant": "after"
+        }
+      }
+    ]
+  },
+  {
+    "scene": "scenes/04-east-tilt-layers.bbmodel",
+    "sha256": "1d94073c982476d1583ab2972ec447d86ba6a0adcdf03882e08c571f4fb03c48",
+    "metadata": {
+      "fixture_only": true,
+      "front_sides_are_editor_hints": true,
+      "actual_BP_execution": false,
+      "item_scene_offsets": {
+        "source": [
+          -24,
+          0,
+          0
+        ],
+        "before": [
+          0,
+          0,
+          0
+        ],
+        "after": [
+          24,
+          0,
+          0
+        ]
+      },
+      "source_native_reference_frames_differ": true,
+      "body_clearance_not_tested": true,
+      "candidate_sha256": "d93249923210a8711fa038105816380407b9d70811c23313d4ddb56d68b83eea"
+    },
+    "meshes": [
+      {
+        "name": "SOURCE grape global=0 helper=0 local=0 tilt=1",
+        "uuid": "4e0b8cc1-b9d4-4f8a-812b-2258f794dab7",
+        "faces": 35,
+        "world_vertex_bounds": [
+          [
+            -29.734258114164128,
+            5.4646113204034945,
+            -3.0586375619539696
+          ],
+          [
+            -21.85718537743319,
+            13.73217055712987,
+            7.858637752688833
+          ]
+        ],
+        "review": {
+          "kind": "source_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 0,
+          "slot": 0,
+          "count": 64,
+          "location": {
+            "x": 3,
+            "y": 64,
+            "z": -5
+          },
+          "time_ticks": 0,
+          "layout": [
+            -2.4000000953674316,
+            3.1741745471954346,
+            -2.4000000953674316,
+            5.342572212219238,
+            -209.80455017089844
+          ],
+          "tilt_facing": 1,
+          "texture_bound": "owned texture exact bytes",
+          "size": [
+            8,
+            8,
+            0.5
+          ],
+          "fixed_scale": 1,
+          "fixed_yaw": 180,
+          "matrix_chain": "tilt / translation / half scale / XN90 / YNrandom / ZNrandom / FIXED / center",
+          "pre_atlas_uv": true,
+          "matrix": [
+            [
+              -0.1471660865218001,
+              0.3231498670055421,
+              -0.3520174802934628,
+              -24.387452147320893
+            ],
+            [
+              0.20429629983951786,
+              -0.29042505993753925,
+              -0.35201748029346286,
+              13.103560861898556
+            ],
+            [
+              -0.4319781995074981,
+              -0.24744180732967733,
+              -0.04655520524799536,
+              8.207801792048798
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "texture_input": "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/textures/item/grape.png",
+          "quad_count": 35,
+          "variant": "source"
+        }
+      },
+      {
+        "name": "BEFORE grape global=0 helper=0 local=0 tilt=1",
+        "uuid": "bd006123-0eb7-4a1c-8af9-c7172f4bcb87",
+        "faces": 2,
+        "world_vertex_bounds": [
+          [
+            15.628049923154432,
+            4.138543791944547,
+            -0.3308285192321119
+          ],
+          [
+            19.566522089744378,
+            8.272222538945833,
+            5.127703519232108
+          ]
+        ],
+        "review": {
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 0,
+          "slot": 0,
+          "count": 64,
+          "location": {
+            "x": 3,
+            "y": 64,
+            "z": -5
+          },
+          "time_ticks": 0,
+          "layout": [
+            -2.3984375,
+            3.1741745322942734,
+            -2.3984375,
+            5.34,
+            -209.79999999999998
+          ],
+          "tilt_facing": 1,
+          "texture_bound": "owned texture exact bytes",
+          "geometry_input": "inputs/current/runtime/RP/models/entity/runtime_pressing_card.geo.json",
+          "size": [
+            4,
+            4,
+            0.25
+          ],
+          "transform_basis": "Blockbench Bedrock decoder; external entity-to-world transform not simulated",
+          "matrix_chain": "tilt_yaw / tilt / offset / ingredient / item_y / item_z",
+          "matrix": [
+            [
+              0.2943082731341019,
+              0.6463073987867919,
+              -0.7040379156254822,
+              17.597286006449405
+            ],
+            [
+              -0.4085190426973441,
+              -0.5808982743263847,
+              -0.7040379156254823,
+              6.205383165445189
+            ],
+            [
+              -0.8639993241423679,
+              0.4948170784826238,
+              0.09306571185701273,
+              2.3984374999999982
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "texture_input": "inputs/current/runtime/RP/textures/kaleidoscope_tavern/item/grape.png",
+          "quad_count": 2,
+          "variant": "before"
+        }
+      },
+      {
+        "name": "AFTER grape global=0 helper=0 local=0 tilt=1",
+        "uuid": "5f180b44-620f-41b9-b533-bbbd4a951a37",
+        "faces": 2,
+        "world_vertex_bounds": [
+          [
+            37.658813839859455,
+            2.071704418443903,
+            -3.060094538464222
+          ],
+          [
+            45.53575817303935,
+            10.339061912446475,
+            7.856969538464218
+          ]
+        ],
+        "review": {
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 0,
+          "slot": 0,
+          "count": 64,
+          "location": {
+            "x": 3,
+            "y": 64,
+            "z": -5
+          },
+          "time_ticks": 0,
+          "layout": [
+            -2.3984375,
+            3.1741745322942734,
+            -2.3984375,
+            5.34,
+            -209.79999999999998
+          ],
+          "tilt_facing": 1,
+          "texture_bound": "owned texture exact bytes",
+          "geometry_input": "candidate/runtime/RP/models/entity/runtime_pressing_card.geo.json",
+          "size": [
+            8,
+            8,
+            0.5
+          ],
+          "transform_basis": "Blockbench Bedrock decoder; external entity-to-world transform not simulated",
+          "matrix_chain": "tilt_yaw / tilt / offset / ingredient / item_y / item_z",
+          "matrix": [
+            [
+              0.2943082731341019,
+              0.6463073987867919,
+              -0.7040379156254822,
+              41.5972860064494
+            ],
+            [
+              -0.4085190426973441,
+              -0.5808982743263847,
+              -0.7040379156254823,
+              6.205383165445189
+            ],
+            [
+              -0.8639993241423679,
+              0.4948170784826238,
+              0.09306571185701273,
+              2.3984374999999982
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "texture_input": "inputs/current/runtime/RP/textures/kaleidoscope_tavern/item/grape.png",
+          "quad_count": 2,
+          "variant": "after"
+        }
+      },
+      {
+        "name": "SOURCE grape global=63 helper=7 local=7 tilt=1",
+        "uuid": "936765fb-c45f-4bd5-9ab2-e1e01e8e2025",
+        "faces": 35,
+        "world_vertex_bounds": [
+          [
+            -20.893094824352858,
+            8.557500404719312,
+            -7.105242892746656
+          ],
+          [
+            -13.099945895686963,
+            16.521001971754,
+            3.547084018234936
+          ]
+        ],
+        "review": {
+          "kind": "source_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 63,
+          "slot": 0,
+          "count": 64,
+          "location": {
+            "x": 3,
+            "y": 64,
+            "z": -5
+          },
+          "time_ticks": 0,
+          "layout": [
+            1.7790794372558594,
+            11.475651741027832,
+            1.7424726486206055,
+            -1.7973228693008423,
+            205.1556396484375
+          ],
+          "tilt_facing": 1,
+          "texture_bound": "owned texture exact bytes",
+          "size": [
+            8,
+            8,
+            0.5
+          ],
+          "fixed_scale": 1,
+          "fixed_yaw": 180,
+          "matrix_chain": "tilt / translation / half scale / XN90 / YNrandom / ZNrandom / FIXED / center",
+          "pre_atlas_uv": true,
+          "matrix": [
+            [
+              0.14025082498802463,
+              0.3247347673131035,
+              -0.3533794518478444,
+              -17.88936948364618
+            ],
+            [
+              -0.16032514690800348,
+              -0.31530748529117425,
+              -0.3533794518478445,
+              19.171347860612833
+            ],
+            [
+              -0.45235556076951855,
+              0.21243474437450305,
+              0.015682028677246006,
+              0.014830864486296225
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "texture_input": "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/textures/item/grape.png",
+          "quad_count": 35,
+          "variant": "source"
+        }
+      },
+      {
+        "name": "BEFORE grape global=63 helper=7 local=7 tilt=1",
+        "uuid": "981b04f1-cf9d-4553-b756-ff11f20efe76",
+        "faces": 2,
+        "world_vertex_bounds": [
+          [
+            18.590627016251222,
+            13.011892146134299,
+            -4.445075885131446
+          ],
+          [
+            22.488279497923084,
+            16.99466474943377,
+            0.8825758851314416
+          ]
+        ],
+        "review": {
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 63,
+          "slot": 0,
+          "count": 64,
+          "location": {
+            "x": 3,
+            "y": 64,
+            "z": -5
+          },
+          "time_ticks": 0,
+          "layout": [
+            1.78125,
+            11.475652360916136,
+            1.7421875,
+            -1.7999999999999998,
+            205.20000000000005
+          ],
+          "tilt_facing": 1,
+          "texture_bound": "owned texture exact bytes",
+          "geometry_input": "inputs/current/runtime/RP/models/entity/runtime_pressing_card.geo.json",
+          "size": [
+            4,
+            4,
+            0.25
+          ],
+          "transform_basis": "Blockbench Bedrock decoder; external entity-to-world transform not simulated",
+          "matrix_chain": "tilt_yaw / tilt / offset / ingredient / item_y / item_z",
+          "matrix": [
+            [
+              -0.2809745271753095,
+              0.6492662265754652,
+              -0.70675786667505,
+              20.539453257087153
+            ],
+            [
+              0.3211683215336258,
+              -0.630352462624051,
+              -0.7067578666750501,
+              15.003278447784034
+            ],
+            [
+              -0.9043805749361742,
+              -0.42556919518716463,
+              -0.03141075907812824,
+              -1.781250000000002
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "texture_input": "inputs/current/runtime/RP/textures/kaleidoscope_tavern/item/grape.png",
+          "quad_count": 2,
+          "variant": "before"
+        }
+      },
+      {
+        "name": "AFTER grape global=63 helper=7 local=7 tilt=1",
+        "uuid": "9316982d-e533-4367-80b2-8a0b39de7fbf",
+        "faces": 2,
+        "world_vertex_bounds": [
+          [
+            40.64180077541529,
+            11.020505844484564,
+            -7.108901770262889
+          ],
+          [
+            48.437105738759016,
+            18.986051051083503,
+            3.546401770262885
+          ]
+        ],
+        "review": {
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 63,
+          "slot": 0,
+          "count": 64,
+          "location": {
+            "x": 3,
+            "y": 64,
+            "z": -5
+          },
+          "time_ticks": 0,
+          "layout": [
+            1.78125,
+            11.475652360916136,
+            1.7421875,
+            -1.7999999999999998,
+            205.20000000000005
+          ],
+          "tilt_facing": 1,
+          "texture_bound": "owned texture exact bytes",
+          "geometry_input": "candidate/runtime/RP/models/entity/runtime_pressing_card.geo.json",
+          "size": [
+            8,
+            8,
+            0.5
+          ],
+          "transform_basis": "Blockbench Bedrock decoder; external entity-to-world transform not simulated",
+          "matrix_chain": "tilt_yaw / tilt / offset / ingredient / item_y / item_z",
+          "matrix": [
+            [
+              -0.2809745271753095,
+              0.6492662265754652,
+              -0.70675786667505,
+              44.53945325708715
+            ],
+            [
+              0.3211683215336258,
+              -0.630352462624051,
+              -0.7067578666750501,
+              15.003278447784034
+            ],
+            [
+              -0.9043805749361742,
+              -0.42556919518716463,
+              -0.03141075907812824,
+              -1.781250000000002
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "texture_input": "inputs/current/runtime/RP/textures/kaleidoscope_tavern/item/grape.png",
+          "quad_count": 2,
+          "variant": "after"
+        }
+      }
+    ]
+  },
+  {
+    "scene": "scenes/05-animated-ice-grape-tick1.bbmodel",
+    "sha256": "b4ac9551fe8bed23593b2e5d08caf357496f775ba4cd90cf0c4a9e553cc1c9fb",
+    "metadata": {
+      "fixture_only": true,
+      "front_sides_are_editor_hints": true,
+      "actual_BP_execution": false,
+      "item_scene_offsets": {
+        "source": [
+          -24,
+          0,
+          0
+        ],
+        "before": [
+          0,
+          0,
+          0
+        ],
+        "after": [
+          24,
+          0,
+          0
+        ]
+      },
+      "source_native_reference_frames_differ": true,
+      "body_clearance_not_tested": true,
+      "candidate_sha256": "d93249923210a8711fa038105816380407b9d70811c23313d4ddb56d68b83eea"
+    },
+    "meshes": [
+      {
+        "name": "SOURCE ice_grape global=0 helper=0 local=0 tilt=None",
+        "uuid": "4e0b7a3f-96db-4ca1-97de-f5874293b361",
+        "faces": 43,
+        "world_vertex_bounds": [
+          [
+            -31.859433967980785,
+            2.9162211577783346,
+            -7.859075522052132
+          ],
+          [
+            -20.94056622275408,
+            3.4321279366125346,
+            3.059075331317269
+          ]
+        ],
+        "review": {
+          "kind": "source_ingredient",
+          "machine": "pressing_tub",
+          "item": "ice_grape",
+          "index": 0,
+          "slot": 0,
+          "count": 1,
+          "location": {
+            "x": 3,
+            "y": 64,
+            "z": -5
+          },
+          "time_ticks": 0,
+          "layout": [
+            -2.4000000953674316,
+            3.1741745471954346,
+            -2.4000000953674316,
+            0.0834776908159256,
+            -209.80455017089844
+          ],
+          "tilt_facing": null,
+          "texture_bound": "owned texture exact bytes",
+          "texture_tick": 1,
+          "size": [
+            8,
+            8,
+            0.5
+          ],
+          "fixed_scale": 1,
+          "fixed_yaw": 180,
+          "matrix_chain": "tilt / translation / half scale / XN90 / YNrandom / ZNrandom / FIXED / center",
+          "pre_atlas_uv": true,
+          "matrix": [
+            [
+              0.4338625311196991,
+              0.24852117295568127,
+              0.000728480020621524,
+              -31.864897568135447
+            ],
+            [
+              0.0006321210421462856,
+              0.0003620858027051456,
+              -0.4999994693165779,
+              7.1662166469692465
+            ],
+            [
+              -0.2485214367280943,
+              0.4338629916074933,
+              -1.8103928283990252e-19,
+              -3.882732534402624
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "texture_input": "derived/source-ice-grape-tick1.png",
+          "quad_count": 43,
+          "variant": "source"
+        }
+      },
+      {
+        "name": "BEFORE ice_grape global=0 helper=0 local=0 tilt=None",
+        "uuid": "37837721-2d89-467c-bb1a-baa07608d44f",
+        "faces": 2,
+        "world_vertex_bounds": [
+          [
+            -0.3312132010321347,
+            3.045363583985462,
+            -5.127916328792967
+          ],
+          [
+            5.128088201032135,
+            3.302985480603085,
+            0.3310413287929672
+          ]
+        ],
+        "review": {
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "ice_grape",
+          "index": 0,
+          "slot": 0,
+          "count": 1,
+          "location": {
+            "x": 3,
+            "y": 64,
+            "z": -5
+          },
+          "time_ticks": 0,
+          "layout": [
+            -2.3984375,
+            3.1741745322942734,
+            -2.3984375,
+            0.08000000000000007,
+            -209.79999999999998
+          ],
+          "tilt_facing": null,
+          "texture_bound": "owned texture exact bytes",
+          "texture_tick": 1,
+          "geometry_input": "inputs/current/runtime/RP/models/entity/runtime_pressing_card.geo.json",
+          "size": [
+            4,
+            4,
+            0.25
+          ],
+          "transform_basis": "Blockbench Bedrock decoder; external entity-to-world transform not simulated",
+          "matrix_chain": "tilt_yaw / tilt / offset / ingredient / item_y / item_z",
+          "matrix": [
+            [
+              -0.8677646074923514,
+              0.49697347658947133,
+              0.0013962629479142773,
+              2.3984375
+            ],
+            [
+              -0.0012116287500191002,
+              0.0006939063278609158,
+              -0.9999990252244151,
+              3.1741745322942734
+            ],
+            [
+              -0.49697396102755487,
+              -0.8677654533689287,
+              6.123228026957767e-17,
+              -2.3984375
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "texture_input": "inputs/current/runtime/RP/textures/kt_runtime/machine_ingredients/ice_grape/tick_01.png",
+          "quad_count": 2,
+          "variant": "before"
+        }
+      },
+      {
+        "name": "AFTER ice_grape global=0 helper=0 local=0 tilt=None",
+        "uuid": "a4e8cdae-81fa-4e5d-b020-122eec884f30",
+        "faces": 2,
+        "world_vertex_bounds": [
+          [
+            20.93913609793573,
+            2.9165526356766494,
+            -7.857395157585934
+          ],
+          [
+            31.85773890206427,
+            3.4317964289118974,
+            3.0605201575859344
+          ]
+        ],
+        "review": {
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "ice_grape",
+          "index": 0,
+          "slot": 0,
+          "count": 1,
+          "location": {
+            "x": 3,
+            "y": 64,
+            "z": -5
+          },
+          "time_ticks": 0,
+          "layout": [
+            -2.3984375,
+            3.1741745322942734,
+            -2.3984375,
+            0.08000000000000007,
+            -209.79999999999998
+          ],
+          "tilt_facing": null,
+          "texture_bound": "owned texture exact bytes",
+          "texture_tick": 1,
+          "geometry_input": "candidate/runtime/RP/models/entity/runtime_pressing_card.geo.json",
+          "size": [
+            8,
+            8,
+            0.5
+          ],
+          "transform_basis": "Blockbench Bedrock decoder; external entity-to-world transform not simulated",
+          "matrix_chain": "tilt_yaw / tilt / offset / ingredient / item_y / item_z",
+          "matrix": [
+            [
+              -0.8677646074923514,
+              0.49697347658947133,
+              0.0013962629479142773,
+              26.3984375
+            ],
+            [
+              -0.0012116287500191002,
+              0.0006939063278609158,
+              -0.9999990252244151,
+              3.1741745322942734
+            ],
+            [
+              -0.49697396102755487,
+              -0.8677654533689287,
+              6.123228026957767e-17,
+              -2.3984375
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "texture_input": "inputs/current/runtime/RP/textures/kt_runtime/machine_ingredients/ice_grape/tick_01.png",
+          "quad_count": 2,
+          "variant": "after"
+        }
+      }
+    ]
+  },
+  {
+    "scene": "scenes/06-unchanged-controls.bbmodel",
+    "sha256": "3f015ed46603e0e658b03f975a9e45978ca60d4d53c99e9c99eec77589e96f9a",
+    "metadata": {
+      "fixture_only": true,
+      "front_sides_are_editor_hints": true,
+      "actual_BP_execution": false,
+      "source_native_reference_frames_differ": true,
+      "before_after_controls_identical_except_scene_x": true
+    },
+    "meshes": [
+      {
+        "name": "SOURCE UNCHANGED CONTROL barrel grape",
+        "uuid": "502b36bc-cf26-4ebf-8816-f874f1ff1fc3",
+        "faces": 35,
+        "world_vertex_bounds": [
+          [
+            -25.8982821816359,
+            42.527507060115354,
+            -4.875057673083626
+          ],
+          [
+            -14.972697127446127,
+            43.82084346478699,
+            6.043093180285775
+          ]
+        ],
+        "review": {
+          "kind": "source_ingredient",
+          "machine": "barrel",
+          "item": "grape",
+          "index": 0,
+          "slot": 0,
+          "count": 1,
+          "location": {
+            "x": 3,
+            "y": 64,
+            "z": -5
+          },
+          "time_ticks": 0,
+          "layout": [
+            3.5645103454589844,
+            43.17417526245117,
+            0.5840177536010742,
+            4.173884868621826,
+            -209.80455017089844
+          ],
+          "tilt_facing": null,
+          "texture_bound": "owned texture exact bytes",
+          "size": [
+            8,
+            8,
+            0.5
+          ],
+          "fixed_scale": 1,
+          "fixed_yaw": 180,
+          "matrix_chain": "tilt / translation / half scale / XN90 / YNrandom / ZNrandom / FIXED / center",
+          "pre_atlas_uv": true,
+          "matrix": [
+            [
+              0.4327122807587352,
+              0.24786229704823268,
+              0.036391809278286245,
+              -26.171220751223046
+            ],
+            [
+              0.03157811848697321,
+              0.01808828945394898,
+              -0.4986738776168778,
+              46.76623501985882
+            ],
+            [
+              -0.2485214367280943,
+              0.4338629916074933,
+              -9.987020123920246e-20,
+              -0.8987146854341179
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "texture_input": "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/textures/item/grape.png",
+          "quad_count": 35,
+          "variant": "source"
+        }
+      },
+      {
+        "name": "BEFORE UNCHANGED CONTROL barrel grape",
+        "uuid": "721e3737-f18b-4a51-8a21-e8e99ccf2353",
+        "faces": 2,
+        "world_vertex_bounds": [
+          [
+            -7.401018031588505,
+            40.830048082264106,
+            -3.6943372296653445
+          ],
+          [
+            0.27601803158850524,
+            45.51830098232444,
+            4.866212229665345
+          ]
+        ],
+        "review": {
+          "kind": "current_ingredient",
+          "machine": "barrel",
+          "item": "grape",
+          "index": 0,
+          "slot": 0,
+          "count": 1,
+          "location": {
+            "x": 3,
+            "y": 64,
+            "z": -5
+          },
+          "time_ticks": 0,
+          "layout": [
+            3.5625,
+            43.17417453229427,
+            0.5859375,
+            4.17,
+            -209.79999999999998
+          ],
+          "tilt_facing": null,
+          "texture_bound": "owned texture exact bytes",
+          "geometry_input": "inputs/current/runtime/RP/models/entity/runtime_barrel_ingredients_card.geo.json",
+          "size": [
+            8,
+            8,
+            0.5
+          ],
+          "transform_basis": "Blockbench Bedrock decoder; external entity-to-world transform not simulated",
+          "matrix_chain": "item single native ZYX Euler",
+          "matrix": [
+            [
+              -0.8654682074218711,
+              0.06310042791103299,
+              0.49697396102755487,
+              -3.5625
+            ],
+            [
+              0.49565831586868,
+              -0.036137955803303305,
+              0.8677654533689287,
+              43.17417453229427
+            ],
+            [
+              0.07271599447299729,
+              0.9973526879433389,
+              6.107023884554095e-17,
+              0.5859375
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "texture_input": "inputs/current/runtime/RP/textures/kaleidoscope_tavern/item/grape.png",
+          "quad_count": 2,
+          "variant": "before"
+        }
+      },
+      {
+        "name": "AFTER UNCHANGED CONTROL barrel grape",
+        "uuid": "987164ec-01b2-4896-bb72-42298b382df3",
+        "faces": 2,
+        "world_vertex_bounds": [
+          [
+            16.598981968411493,
+            40.830048082264106,
+            -3.6943372296653445
+          ],
+          [
+            24.276018031588507,
+            45.51830098232444,
+            4.866212229665345
+          ]
+        ],
+        "review": {
+          "kind": "current_ingredient",
+          "machine": "barrel",
+          "item": "grape",
+          "index": 0,
+          "slot": 0,
+          "count": 1,
+          "location": {
+            "x": 3,
+            "y": 64,
+            "z": -5
+          },
+          "time_ticks": 0,
+          "layout": [
+            3.5625,
+            43.17417453229427,
+            0.5859375,
+            4.17,
+            -209.79999999999998
+          ],
+          "tilt_facing": null,
+          "texture_bound": "owned texture exact bytes",
+          "geometry_input": "inputs/current/runtime/RP/models/entity/runtime_barrel_ingredients_card.geo.json",
+          "size": [
+            8,
+            8,
+            0.5
+          ],
+          "transform_basis": "Blockbench Bedrock decoder; external entity-to-world transform not simulated",
+          "matrix_chain": "item single native ZYX Euler",
+          "matrix": [
+            [
+              -0.8654682074218711,
+              0.06310042791103299,
+              0.49697396102755487,
+              20.4375
+            ],
+            [
+              0.49565831586868,
+              -0.036137955803303305,
+              0.8677654533689287,
+              43.17417453229427
+            ],
+            [
+              0.07271599447299729,
+              0.9973526879433389,
+              6.107023884554095e-17,
+              0.5859375
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "texture_input": "inputs/current/runtime/RP/textures/kaleidoscope_tavern/item/grape.png",
+          "quad_count": 2,
+          "variant": "after"
+        }
+      },
+      {
+        "name": "SOURCE UNCHANGED CONTROL pressing_tub stone",
+        "uuid": "6e7ca1a0-cbab-4b12-a621-4f58d96e0a73",
+        "faces": 6,
+        "world_vertex_bounds": [
+          [
+            -29.13244883175144,
+            1.1701998425497169,
+            38.870462191290216
+          ],
+          [
+            -23.667551358983424,
+            5.178149251841152,
+            44.329537617974914
+          ]
+        ],
+        "review": {
+          "kind": "source_ingredient",
+          "machine": "pressing_tub",
+          "item": "stone",
+          "index": 0,
+          "slot": 0,
+          "count": 1,
+          "location": {
+            "x": 3,
+            "y": 64,
+            "z": -5
+          },
+          "time_ticks": 0,
+          "layout": [
+            -2.4000000953674316,
+            3.1741745471954346,
+            -2.4000000953674316,
+            0.0834776908159256,
+            -209.80455017089844
+          ],
+          "tilt_facing": null,
+          "texture_bound": "owned texture exact bytes",
+          "size": [
+            4,
+            4,
+            4
+          ],
+          "fixed_scale": 0.5,
+          "fixed_yaw": 0,
+          "matrix_chain": "tilt / translation / half scale / XN90 / YNrandom / ZNrandom / FIXED / center",
+          "pre_atlas_uv": true,
+          "matrix": [
+            [
+              -0.21693126555984954,
+              0.12426058647784063,
+              -0.00036424001031078857,
+              -25.655720742628873
+            ],
+            [
+              -0.00031606052107317344,
+              0.0001810429013525728,
+              0.24999973465828895,
+              1.1752568108868877
+            ],
+            [
+              0.12426071836404715,
+              0.21693149580374665,
+              1.5308068741848058e-17,
+              38.870462191290216
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "texture_input": "inputs/mojang-1.20.1/assets/minecraft/textures/block/stone.png",
+          "quad_count": 6,
+          "variant": "source"
+        }
+      },
+      {
+        "name": "BEFORE UNCHANGED CONTROL pressing_tub stone",
+        "uuid": "37edae07-dad8-43fa-9805-7acadd848ac8",
+        "faces": 6,
+        "world_vertex_bounds": [
+          [
+            -0.33383119405947403,
+            1.1703654116896836,
+            38.87208367120704
+          ],
+          [
+            5.130706194059474,
+            5.177983652898863,
+            44.33104132879296
+          ]
+        ],
+        "review": {
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "stone",
+          "index": 0,
+          "slot": 0,
+          "count": 1,
+          "location": {
+            "x": 3,
+            "y": 64,
+            "z": -5
+          },
+          "time_ticks": 0,
+          "layout": [
+            -2.3984375,
+            3.1741745322942734,
+            -2.3984375,
+            0.08000000000000007,
+            -209.79999999999998
+          ],
+          "tilt_facing": null,
+          "texture_bound": "neutral official Java texture control; active native texture is external",
+          "geometry_input": "inputs/current/runtime/RP/models/entity/runtime_pressing_cube.geo.json",
+          "size": [
+            4,
+            4,
+            4
+          ],
+          "transform_basis": "Blockbench Bedrock decoder; external entity-to-world transform not simulated",
+          "matrix_chain": "tilt_yaw / tilt / offset / ingredient / item_y / item_z",
+          "matrix": [
+            [
+              -0.8677646074923514,
+              0.49697347658947133,
+              0.0013962629479142773,
+              2.3984375
+            ],
+            [
+              -0.0012116287500191002,
+              0.0006939063278609158,
+              -0.9999990252244151,
+              3.1741745322942734
+            ],
+            [
+              -0.49697396102755487,
+              -0.8677654533689287,
+              6.123228026957767e-17,
+              41.6015625
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "texture_input": "inputs/mojang-1.20.1/assets/minecraft/textures/block/stone.png",
+          "quad_count": 6,
+          "variant": "before"
+        }
+      },
+      {
+        "name": "AFTER UNCHANGED CONTROL pressing_tub stone",
+        "uuid": "1d2d2c5d-2557-41a5-88e7-294998b59379",
+        "faces": 6,
+        "world_vertex_bounds": [
+          [
+            23.666168805940526,
+            1.1703654116896836,
+            38.87208367120704
+          ],
+          [
+            29.130706194059474,
+            5.177983652898863,
+            44.33104132879296
+          ]
+        ],
+        "review": {
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "stone",
+          "index": 0,
+          "slot": 0,
+          "count": 1,
+          "location": {
+            "x": 3,
+            "y": 64,
+            "z": -5
+          },
+          "time_ticks": 0,
+          "layout": [
+            -2.3984375,
+            3.1741745322942734,
+            -2.3984375,
+            0.08000000000000007,
+            -209.79999999999998
+          ],
+          "tilt_facing": null,
+          "texture_bound": "neutral official Java texture control; active native texture is external",
+          "geometry_input": "inputs/current/runtime/RP/models/entity/runtime_pressing_cube.geo.json",
+          "size": [
+            4,
+            4,
+            4
+          ],
+          "transform_basis": "Blockbench Bedrock decoder; external entity-to-world transform not simulated",
+          "matrix_chain": "tilt_yaw / tilt / offset / ingredient / item_y / item_z",
+          "matrix": [
+            [
+              -0.8677646074923514,
+              0.49697347658947133,
+              0.0013962629479142773,
+              26.3984375
+            ],
+            [
+              -0.0012116287500191002,
+              0.0006939063278609158,
+              -0.9999990252244151,
+              3.1741745322942734
+            ],
+            [
+              -0.49697396102755487,
+              -0.8677654533689287,
+              6.123228026957767e-17,
+              41.6015625
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "texture_input": "inputs/mojang-1.20.1/assets/minecraft/textures/block/stone.png",
+          "quad_count": 6,
+          "variant": "after"
+        }
+      }
+    ]
+  }
+]

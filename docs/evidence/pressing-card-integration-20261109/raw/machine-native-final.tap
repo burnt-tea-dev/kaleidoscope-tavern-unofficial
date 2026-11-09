@@ -1,0 +1,34 @@
+(node:12) ExperimentalWarning: `--experimental-loader` may be removed in the future; instead use `register()`:
+--import 'data:text/javascript,import { register } from "node:module"; import { pathToFileURL } from "node:url"; register("./tools/foundation/mock-loader.mjs", pathToFileURL("./")); register("./tools/foundation/mock-loader.mjs", pathToFileURL("./"));'
+(Use `node --trace-warnings ...` to show where the warning was created)
+[Tavern effects] No registered item particle: minecraft:stone
+[Tavern] machine-native-10: Error: INJECTED_ITEM_SPAWN_FAILURE
+✔ counted named ingredients survive a fresh reader and removal goes straight to the empty selected hand (8.766686ms)
+✔ barrel does not merge different names and returns the precise last native slot (7.21711ms)
+✔ matching native stacks merge to Java capacity and nonstackable damage/enchants/properties remain complete (2.956219ms)
+✔ pre-upgrade ID/count slots migrate once without resetting quantities (0.973152ms)
+✔ a missing adopted carrier or quantity mismatch never falls back to plain IDs (1.152531ms)
+✔ placing or initializing over a surviving orphan carrier cannot replace its native contents (0.854614ms)
+✔ partial native writes and a save that throws after mutation both restore exact native inputs (2.818318ms)
+✔ pressing consumes exactly one original unit and rejects preserve all metadata across eight drops (3.730914ms)
+✔ a rejected-ingredient drop failure restores the original counted carrier and can retry (1.196978ms)
+✔ fermentation consumes the original native slots once, retaining the ordinary recipe count (2.120775ms)
+✔ Creative fluid exchanges keep the exact source bucket; Survival consumes it and Creative ingredients still debit (1.980063ms)
+✔ Creative fluid overflow follows the Java world-delivery branch with the input unchanged (1.003327ms)
+✔ Adventure ordinary machine use and pressing work; placement/dismantle and Spectator use remain blocked (1.488896ms)
+✔ protected full-inventory tub break drops complete ingredients once and retains the held tool (4.033618ms)
+✔ the actual protected break entry honors doTileDrops and retires the original native contents (1.871922ms)
+✔ natural machine break rolls failed item spawn back, then emits original native data only once (1.896128ms)
+✔ machine carrier reanchor retains quantities and full native metadata without recreating slots (2.042097ms)
+✔ counted rollback clears every staged slot and retires the carrier despite the first cleanup failure (0.982225ms)
+✔ counted rollback attempts the native-required marker after manifest restoration fails and can retry (0.982886ms)
+✔ dismantle rollback attempts all later blocks and the public record after one block restoration fails (1.906173ms)
+✔ partial barrel creation restores later cells and the original record after the first rollback cell fails (0.793942ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 21
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 474.280126

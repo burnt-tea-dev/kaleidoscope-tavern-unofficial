@@ -1,0 +1,1 @@
+{"barrelShapeStates": 108, "oracle": "original Java getShape", "client": false}

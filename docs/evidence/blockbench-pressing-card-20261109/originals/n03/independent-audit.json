@@ -1,0 +1,49 @@
+{
+  "hashes": 239,
+  "textures": 54,
+  "meshes": 56,
+  "directed_faces": 742,
+  "vertices": 2968,
+  "max_matrix_error": 7.105427357601002e-15,
+  "max_vertex_error": 1.4210854715202004e-14,
+  "body_instances": 30,
+  "route_checks": {
+    "BP_helpers_checked": 12,
+    "RP_helpers_checked": 12,
+    "compensating_scale_fields": [],
+    "pressing_card_final_directed_edges": [
+      {
+        "kind": "source_ingredient",
+        "edge_lengths": [
+          7.999999999999999,
+          7.999999999999999,
+          7.999999999999999,
+          7.999999999999999
+        ]
+      },
+      {
+        "kind": "current_ingredient",
+        "edge_lengths": [
+          4.000000000000001,
+          4.0,
+          4.0,
+          4.0
+        ]
+      }
+    ],
+    "pressing_ice_material": "Material.default -> entity_alphatest",
+    "barrel_ice_material": "Material.translucent -> entity_alphablend",
+    "source_ice_alpha": [
+      190
+    ],
+    "native_ice_texture": "external inheritance, not validated; neutral Java-PNG control only"
+  },
+  "cases": [],
+  "gui_reviewed": false,
+  "animated_frame_pixel_check": {
+    "ticks_checked": 24,
+    "RGB_interpolation_current_alpha": true,
+    "mismatches": [],
+    "clock_executed": false
+  }
+}

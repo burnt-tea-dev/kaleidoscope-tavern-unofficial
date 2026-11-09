@@ -1,0 +1,75 @@
+{
+  "gui_reviewed": false,
+  "scene_identity": "Source is negative X; current positive X. Do not infer identity from screen-left/right. All previews explicit front-sided.",
+  "priority": [
+    {
+      "file": "scenes/pressing-card-upright.bbmodel",
+      "views": [
+        "perspective with only source/current global index0 contents visible",
+        "near side to distinguish8 versus4 size and generated edge strips"
+      ],
+      "captures": 2,
+      "note": "Size check is basis-invariant. Native world-facing and bone execution are not accepted."
+    },
+    {
+      "file": "scenes/barrel-liquids.bbmodel",
+      "views": [
+        "top / oblique water1000, lava4000, grape4000"
+      ],
+      "captures": 2,
+      "note": "Frame0, water tint baked and labelled. No live animation or material execution."
+    },
+    {
+      "file": "scenes/pressing_tub-liquids.bbmodel",
+      "views": [
+        "top and side water250, lava1000, grape1000"
+      ],
+      "captures": 2
+    },
+    {
+      "file": "scenes/barrel-card-edge-slots.bbmodel",
+      "views": [
+        "perspective/top for source slot0 indices0,8 and slot3 indices9,17"
+      ],
+      "captures": 1
+    },
+    {
+      "file": "scenes/pressing-card-tilt-north.bbmodel",
+      "views": [
+        "side or oblique, indices0,7,8,63"
+      ],
+      "captures": 1
+    },
+    {
+      "file": "scenes/pressing-card-tilt-east.bbmodel",
+      "views": [
+        "contents-only oblique control"
+      ],
+      "captures": 1,
+      "note": "No north body is reused in east control; no body-clearance claim."
+    },
+    {
+      "file": "scenes/cube-material-controls.bbmodel",
+      "views": [
+        "oblique stone/ice paired controls"
+      ],
+      "captures": 1,
+      "note": "Native inherited ice/stone PNGs not present. Both sides deliberately use official Java texture. No native alpha acceptance."
+    },
+    {
+      "file": "scenes/animated-card-frame-controls.bbmodel",
+      "views": [
+        "close source/current frozen ice-grape tick1"
+      ],
+      "captures": 1,
+      "note": "Pixels at all24 ticks verified; clock and interpolation execution not run."
+    }
+  ],
+  "total_suggested_captures": 11,
+  "do_not": [
+    "Do not export fixtures over runtime files.",
+    "Do not change plugins or shared GUI settings.",
+    "Do not interpret front-sided preview as Java/Bedrock engine culling.",
+    "Do not infer in-world facing from current decoded model-reference controls."
+  ]
+}

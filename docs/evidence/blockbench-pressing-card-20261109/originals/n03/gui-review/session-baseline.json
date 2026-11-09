@@ -1,0 +1,19 @@
+{
+  "created_utc": "2026-11-09T02:21:40.786958+00:00",
+  "scope": "Actual Blockbench cloud GUI; read-only review fixtures; no runtime/export/game acceptance",
+  "pre_review_scene_hashes": {
+    "scenes/animated-card-frame-controls.bbmodel": "9dec7a6ff86d82b014748a702802488e40b38c3b86b929bef122814f3ca0c732",
+    "scenes/barrel-card-edge-slots.bbmodel": "e2e3c9a64b523f9cda5f84f37bcc3af55b34553b4edc4a2a476d736ca246ae79",
+    "scenes/barrel-liquids.bbmodel": "f26de34abe68ea3c19d2428d633b131f54e0c0ead12fdc5ea11141dffc5cc29e",
+    "scenes/cube-material-controls.bbmodel": "193b1a2f9ce4a85fbb558bc68dc0e9d39ffe85a50bbf3e55cc4bca3a8e5d6727",
+    "scenes/pressing-card-tilt-east.bbmodel": "99917f01ebca6ec6edb278b2847079e43426dc7ed03fa3ebbf1edc68e02886e1",
+    "scenes/pressing-card-tilt-north.bbmodel": "29497408d8804c6bf7149d5ee236d745c71102c44260b7759e0eea7a44efee2e",
+    "scenes/pressing-card-upright.bbmodel": "a169ea476b961e542282782ba965f2e410d0ab4773783caa6ef4a2dae50f5208",
+    "scenes/pressing_tub-liquids.bbmodel": "18fd8f232361519c125e1ebd15e2b763ecb3ec9006ebfdd55abc03c60ab6e42c"
+  },
+  "source_current_identity": "Source negative world X, current positive world X. Per-scene offsets and group names are authoritative, screen positions change with camera.",
+  "material": "All fixture embedded textures request render_sides front. Free editor preview only; not Java/Bedrock runtime culling, alpha/blend, light or controllers.",
+  "screenshots": [],
+  "diagnostics": [],
+  "completed": false
+}

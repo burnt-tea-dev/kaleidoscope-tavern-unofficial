@@ -1,0 +1,655 @@
+{
+  "location": {
+    "x": 3,
+    "y": 64,
+    "z": -5
+  },
+  "count": 64,
+  "slots": [
+    {
+      "global": 0,
+      "helper": 0,
+      "local": 0,
+      "properties": {
+        "xz0": 210125,
+        "y0": 3.1741745322942734,
+        "rot0": 8455476
+      }
+    },
+    {
+      "global": 1,
+      "helper": 0,
+      "local": 1,
+      "properties": {
+        "xz1": 737485,
+        "y1": 3.381342625617981,
+        "rot1": 4432328
+      }
+    },
+    {
+      "global": 2,
+      "helper": 0,
+      "local": 2,
+      "properties": {
+        "xz2": 210784,
+        "y2": 2.912009119987488,
+        "rot2": 3141388
+      }
+    },
+    {
+      "global": 3,
+      "helper": 0,
+      "local": 3,
+      "properties": {
+        "xz3": 783126,
+        "y3": 3.271521842479706,
+        "rot3": 4614143
+      }
+    },
+    {
+      "global": 4,
+      "helper": 0,
+      "local": 4,
+      "properties": {
+        "xz4": 210125,
+        "y4": 4.230804491043091,
+        "rot4": 4326008
+      }
+    },
+    {
+      "global": 5,
+      "helper": 0,
+      "local": 5,
+      "properties": {
+        "xz5": 877773,
+        "y5": 4.467627048492432,
+        "rot5": 7901659
+      }
+    },
+    {
+      "global": 6,
+      "helper": 0,
+      "local": 6,
+      "properties": {
+        "xz6": 210829,
+        "y6": 3.9854682207107546,
+        "rot6": 3373880
+      }
+    },
+    {
+      "global": 7,
+      "helper": 0,
+      "local": 7,
+      "properties": {
+        "xz7": 787270,
+        "y7": 4.056336998939514,
+        "rot7": 665608
+      }
+    },
+    {
+      "global": 8,
+      "helper": 1,
+      "local": 0,
+      "properties": {
+        "xz0": 210125,
+        "y0": 4.874888706207276,
+        "rot0": 8639067
+      }
+    },
+    {
+      "global": 9,
+      "helper": 1,
+      "local": 1,
+      "properties": {
+        "xz1": 773325,
+        "y1": 4.331196963787079,
+        "rot1": 7141890
+      }
+    },
+    {
+      "global": 10,
+      "helper": 1,
+      "local": 2,
+      "properties": {
+        "xz2": 210718,
+        "y2": 3.4674044609069825,
+        "rot2": 3629811
+      }
+    },
+    {
+      "global": 11,
+      "helper": 1,
+      "local": 3,
+      "properties": {
+        "xz3": 778938,
+        "y3": 3.8155432224273684,
+        "rot3": 6457940
+      }
+    },
+    {
+      "global": 12,
+      "helper": 1,
+      "local": 4,
+      "properties": {
+        "xz4": 210125,
+        "y4": 4.026930856704712,
+        "rot4": 2559880
+      }
+    },
+    {
+      "global": 13,
+      "helper": 1,
+      "local": 5,
+      "properties": {
+        "xz5": 858317,
+        "y5": 5.47207465171814,
+        "rot5": 7982583
+      }
+    },
+    {
+      "global": 14,
+      "helper": 1,
+      "local": 6,
+      "properties": {
+        "xz6": 210758,
+        "y6": 4.75386917591095,
+        "rot6": 1117257
+      }
+    },
+    {
+      "global": 15,
+      "helper": 1,
+      "local": 7,
+      "properties": {
+        "xz7": 844479,
+        "y7": 4.180391311645508,
+        "rot7": 1425428
+      }
+    },
+    {
+      "global": 16,
+      "helper": 2,
+      "local": 0,
+      "properties": {
+        "xz0": 210125,
+        "y0": 4.553670406341553,
+        "rot0": 3322242
+      }
+    },
+    {
+      "global": 17,
+      "helper": 2,
+      "local": 1,
+      "properties": {
+        "xz1": 752845,
+        "y1": 4.871450877189637,
+        "rot1": 2749211
+      }
+    },
+    {
+      "global": 18,
+      "helper": 2,
+      "local": 2,
+      "properties": {
+        "xz2": 210634,
+        "y2": 4.841166996955872,
+        "rot2": 7542900
+      }
+    },
+    {
+      "global": 19,
+      "helper": 2,
+      "local": 3,
+      "properties": {
+        "xz3": 784289,
+        "y3": 5.087681460380554,
+        "rot3": 1040591
+      }
+    },
+    {
+      "global": 20,
+      "helper": 2,
+      "local": 4,
+      "properties": {
+        "xz4": 210125,
+        "y4": 6.452772808074951,
+        "rot4": 4112275
+      }
+    },
+    {
+      "global": 21,
+      "helper": 2,
+      "local": 5,
+      "properties": {
+        "xz5": 918733,
+        "y5": 6.308641004562379,
+        "rot5": 7104363
+      }
+    },
+    {
+      "global": 22,
+      "helper": 2,
+      "local": 6,
+      "properties": {
+        "xz6": 210676,
+        "y6": 5.042660760879516,
+        "rot6": 4019759
+      }
+    },
+    {
+      "global": 23,
+      "helper": 2,
+      "local": 7,
+      "properties": {
+        "xz7": 869062,
+        "y7": 5.748615810275078,
+        "rot7": 5603866
+      }
+    },
+    {
+      "global": 24,
+      "helper": 3,
+      "local": 0,
+      "properties": {
+        "xz0": 210125,
+        "y0": 6.383809328079224,
+        "rot0": 8323489
+      }
+    },
+    {
+      "global": 25,
+      "helper": 3,
+      "local": 1,
+      "properties": {
+        "xz1": 792781,
+        "y1": 6.1510420620441435,
+        "rot1": 5195591
+      }
+    },
+    {
+      "global": 26,
+      "helper": 3,
+      "local": 2,
+      "properties": {
+        "xz2": 210855,
+        "y2": 5.4856959819793705,
+        "rot2": 1715041
+      }
+    },
+    {
+      "global": 27,
+      "helper": 3,
+      "local": 3,
+      "properties": {
+        "xz3": 934775,
+        "y3": 6.338350558280945,
+        "rot3": 7036936
+      }
+    },
+    {
+      "global": 28,
+      "helper": 3,
+      "local": 4,
+      "properties": {
+        "xz4": 210125,
+        "y4": 7.378431415557862,
+        "rot4": 203966
+      }
+    },
+    {
+      "global": 29,
+      "helper": 3,
+      "local": 5,
+      "properties": {
+        "xz5": 869581,
+        "y5": 7.440130043029786,
+        "rot5": 7653123
+      }
+    },
+    {
+      "global": 30,
+      "helper": 3,
+      "local": 6,
+      "properties": {
+        "xz6": 210753,
+        "y6": 7.4764063358306885,
+        "rot6": 355002
+      }
+    },
+    {
+      "global": 31,
+      "helper": 3,
+      "local": 7,
+      "properties": {
+        "xz7": 850807,
+        "y7": 7.3384911060333256,
+        "rot7": 3390688
+      }
+    },
+    {
+      "global": 32,
+      "helper": 4,
+      "local": 0,
+      "properties": {
+        "xz0": 210125,
+        "y0": 7.134558922052384,
+        "rot0": 4306721
+      }
+    },
+    {
+      "global": 33,
+      "helper": 4,
+      "local": 1,
+      "properties": {
+        "xz1": 776397,
+        "y1": 7.857861661911011,
+        "rot1": 2806974
+      }
+    },
+    {
+      "global": 34,
+      "helper": 4,
+      "local": 2,
+      "properties": {
+        "xz2": 210817,
+        "y2": 7.0312274456024175,
+        "rot2": 2641262
+      }
+    },
+    {
+      "global": 35,
+      "helper": 4,
+      "local": 3,
+      "properties": {
+        "xz3": 727764,
+        "y3": 7.644297885894775,
+        "rot3": 3110359
+      }
+    },
+    {
+      "global": 36,
+      "helper": 4,
+      "local": 4,
+      "properties": {
+        "xz4": 210125,
+        "y4": 7.217106771469116,
+        "rot4": 8207038
+      }
+    },
+    {
+      "global": 37,
+      "helper": 4,
+      "local": 5,
+      "properties": {
+        "xz5": 935117,
+        "y5": 7.996514368057251,
+        "rot5": 7829686
+      }
+    },
+    {
+      "global": 38,
+      "helper": 4,
+      "local": 6,
+      "properties": {
+        "xz6": 210625,
+        "y6": 7.50632266998291,
+        "rot6": 5666335
+      }
+    },
+    {
+      "global": 39,
+      "helper": 4,
+      "local": 7,
+      "properties": {
+        "xz7": 805599,
+        "y7": 8.241655540466308,
+        "rot7": 6880325
+      }
+    },
+    {
+      "global": 40,
+      "helper": 5,
+      "local": 0,
+      "properties": {
+        "xz0": 210125,
+        "y0": 8.429338240623473,
+        "rot0": 32314
+      }
+    },
+    {
+      "global": 41,
+      "helper": 5,
+      "local": 1,
+      "properties": {
+        "xz1": 964813,
+        "y1": 7.808758878707885,
+        "rot1": 3821297
+      }
+    },
+    {
+      "global": 42,
+      "helper": 5,
+      "local": 2,
+      "properties": {
+        "xz2": 210811,
+        "y2": 7.490778684616088,
+        "rot2": 6876843
+      }
+    },
+    {
+      "global": 43,
+      "helper": 5,
+      "local": 3,
+      "properties": {
+        "xz3": 901850,
+        "y3": 7.754279708862304,
+        "rot3": 3732209
+      }
+    },
+    {
+      "global": 44,
+      "helper": 5,
+      "local": 4,
+      "properties": {
+        "xz4": 210125,
+        "y4": 8.858981752395628,
+        "rot4": 3643123
+      }
+    },
+    {
+      "global": 45,
+      "helper": 5,
+      "local": 5,
+      "properties": {
+        "xz5": 841933,
+        "y5": 8.918658375740051,
+        "rot5": 6018706
+      }
+    },
+    {
+      "global": 46,
+      "helper": 5,
+      "local": 6,
+      "properties": {
+        "xz6": 210611,
+        "y6": 9.412235116958618,
+        "rot6": 20989
+      }
+    },
+    {
+      "global": 47,
+      "helper": 5,
+      "local": 7,
+      "properties": {
+        "xz7": 794477,
+        "y7": 9.48604130744934,
+        "rot7": 8924840
+      }
+    },
+    {
+      "global": 48,
+      "helper": 6,
+      "local": 0,
+      "properties": {
+        "xz0": 210125,
+        "y0": 9.963476610183715,
+        "rot0": 1825122
+      }
+    },
+    {
+      "global": 49,
+      "helper": 6,
+      "local": 1,
+      "properties": {
+        "xz1": 931021,
+        "y1": 8.542405939102172,
+        "rot1": 6069129
+      }
+    },
+    {
+      "global": 50,
+      "helper": 6,
+      "local": 2,
+      "properties": {
+        "xz2": 210710,
+        "y2": 9.797059535980225,
+        "rot2": 6724981
+      }
+    },
+    {
+      "global": 51,
+      "helper": 6,
+      "local": 3,
+      "properties": {
+        "xz3": 807657,
+        "y3": 9.418199038505554,
+        "rot3": 7190195
+      }
+    },
+    {
+      "global": 52,
+      "helper": 6,
+      "local": 4,
+      "properties": {
+        "xz4": 210125,
+        "y4": 10.404168605804443,
+        "rot4": 3257368
+      }
+    },
+    {
+      "global": 53,
+      "helper": 6,
+      "local": 5,
+      "properties": {
+        "xz5": 764109,
+        "y5": 9.636799257993697,
+        "rot5": 7693934
+      }
+    },
+    {
+      "global": 54,
+      "helper": 6,
+      "local": 6,
+      "properties": {
+        "xz6": 210821,
+        "y6": 9.162330627441406,
+        "rot6": 1991648
+      }
+    },
+    {
+      "global": 55,
+      "helper": 6,
+      "local": 7,
+      "properties": {
+        "xz7": 798587,
+        "y7": 9.745204877853393,
+        "rot7": 8873913
+      }
+    },
+    {
+      "global": 56,
+      "helper": 7,
+      "local": 0,
+      "properties": {
+        "xz0": 210125,
+        "y0": 9.472844648361205,
+        "rot0": 8153757
+      }
+    },
+    {
+      "global": 57,
+      "helper": 7,
+      "local": 1,
+      "properties": {
+        "xz1": 727245,
+        "y1": 10.722343587875365,
+        "rot1": 6068780
+      }
+    },
+    {
+      "global": 58,
+      "helper": 7,
+      "local": 2,
+      "properties": {
+        "xz2": 210831,
+        "y2": 10.236816346645355,
+        "rot2": 1201584
+      }
+    },
+    {
+      "global": 59,
+      "helper": 7,
+      "local": 3,
+      "properties": {
+        "xz3": 738163,
+        "y3": 10.174044460058212,
+        "rot3": 1209719
+      }
+    },
+    {
+      "global": 60,
+      "helper": 7,
+      "local": 4,
+      "properties": {
+        "xz4": 210125,
+        "y4": 10.15377926826477,
+        "rot4": 5668647
+      }
+    },
+    {
+      "global": 61,
+      "helper": 7,
+      "local": 5,
+      "properties": {
+        "xz5": 801997,
+        "y5": 11.482373523712157,
+        "rot5": 8821477
+      }
+    },
+    {
+      "global": 62,
+      "helper": 7,
+      "local": 6,
+      "properties": {
+        "xz6": 210662,
+        "y6": 9.921363067626952,
+        "rot6": 2426644
+      }
+    },
+    {
+      "global": 63,
+      "helper": 7,
+      "local": 7,
+      "properties": {
+        "xz7": 758495,
+        "y7": 11.475652360916136,
+        "rot7": 3318112
+      }
+    }
+  ],
+  "provenance": {
+    "source": "Independent source float32/RNG reconstruction in pose-bounds-audit.json",
+    "source_sha256": "6797e7881a40c5623b0f6276a067a531983973a9556fb658ee7b5f0ac54a038f",
+    "scope": "One location and count; adapter properties only, not engine/model/world frame acceptance."
+  }
+}

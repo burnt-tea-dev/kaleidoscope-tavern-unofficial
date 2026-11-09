@@ -1,0 +1,1208 @@
+{
+  "schema": 1,
+  "main": "d42a39745f25082aa129f4d4bb823684e4174771",
+  "runtime_version": "0.6.213",
+  "runtime_tree": "38c5977dd6bfe14b1824734612e3c601e1e41028",
+  "source_pins": {
+    "Forge": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+    "NeoForge": "a1afba34981a00e89d57130d3dc8f1e64f1820a2"
+  },
+  "inputs": {
+    "snapshot/runtime/RP/textures/terrain_texture.json": {
+      "sha256": "46797fb0157dfb71c29ae78d385cdcebc3edfaec673e1292bd4eb826183e01c9",
+      "bytes": 43736,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "runtime/RP/textures/terrain_texture.json"
+    },
+    "snapshot/runtime/RP/entity/runtime_barrel_closed.entity.json": {
+      "sha256": "0414bb3072db43d4a78f47904709c3e8d7e02e7ba68137877677051cb16acf73",
+      "bytes": 498,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "runtime/RP/entity/runtime_barrel_closed.entity.json"
+    },
+    "snapshot/runtime/RP/textures/kaleidoscope_tavern/entity/brew/barrel.png": {
+      "sha256": "4b436a5512c3d4a45887913b5fbf24ce915d5c74ee801674299c4ace9622c5fd",
+      "bytes": 4939,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "runtime/RP/textures/kaleidoscope_tavern/entity/brew/barrel.png"
+    },
+    "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/textures/entity/brew/barrel.png": {
+      "sha256": "4b436a5512c3d4a45887913b5fbf24ce915d5c74ee801674299c4ace9622c5fd",
+      "bytes": 4939,
+      "owner": "Forge c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+      "original_path": "src/main/resources/assets/kaleidoscope_tavern/textures/entity/brew/barrel.png"
+    },
+    "inputs/neoforge/src/main/resources/assets/kaleidoscope_tavern/textures/entity/brew/barrel.png": {
+      "sha256": "4b436a5512c3d4a45887913b5fbf24ce915d5c74ee801674299c4ace9622c5fd",
+      "bytes": 4939,
+      "owner": "NeoForge a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+      "original_path": "src/main/resources/assets/kaleidoscope_tavern/textures/entity/brew/barrel.png"
+    },
+    "inputs/forge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/model/brew/BarrelModel.java": {
+      "sha256": "be19ccf6bc17d272042feb2fdc0a0c23c5cfe3ed44b89479993bdd89df1af99f",
+      "bytes": 4281,
+      "owner": "Forge c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+      "original_path": "src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/model/brew/BarrelModel.java"
+    },
+    "inputs/neoforge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/model/brew/BarrelModel.java": {
+      "sha256": "87a13b88b639d537989ddb889c10a76ea73e3f16535d0618c4b421f9c2cc6d47",
+      "bytes": 4194,
+      "owner": "NeoForge a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+      "original_path": "src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/model/brew/BarrelModel.java"
+    },
+    "snapshot/runtime/RP/models/entity/barrel_closed.geo.json": {
+      "sha256": "9236d1e5cd33d2ef53f25654e4ca8fe5c29653b6b21b03540274076b0d0039b5",
+      "bytes": 5058,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "runtime/RP/models/entity/barrel_closed.geo.json"
+    },
+    "snapshot/runtime/RP/entity/runtime_barrel_open.entity.json": {
+      "sha256": "8bb955121fd993f53d7794e429bc128a02bbc687b82ed90e6c62217b66a8c54c",
+      "bytes": 494,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "runtime/RP/entity/runtime_barrel_open.entity.json"
+    },
+    "snapshot/runtime/RP/models/entity/barrel_open.geo.json": {
+      "sha256": "573e8f928485d17a492f0257496a134847dbd2f4ee89aa74c3456bbaee52d60f",
+      "bytes": 6042,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "runtime/RP/models/entity/barrel_open.geo.json"
+    },
+    "snapshot/runtime/BP/blocks/pressing_tub.json": {
+      "sha256": "8552c0158e7fb822649285402fd96eb93ffeb7fce26c90ee2f40389b43597f13",
+      "bytes": 10368,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "runtime/BP/blocks/pressing_tub.json"
+    },
+    "snapshot/runtime/RP/textures/kaleidoscope_tavern/block/brew/pressing_tub.png": {
+      "sha256": "854cfd07dc5322c787ded88144d6cd76bf21b05f275a6b402ee4465ca0babc19",
+      "bytes": 626,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "runtime/RP/textures/kaleidoscope_tavern/block/brew/pressing_tub.png"
+    },
+    "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/pressing_tub.json": {
+      "sha256": "9baca77b6312ae19814a86d25ab88a9395431cfbcf745c39dcf163cfb9d2fb8b",
+      "bytes": 2959,
+      "owner": "Forge c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+      "original_path": "src/main/resources/assets/kaleidoscope_tavern/models/block/brew/pressing_tub.json"
+    },
+    "inputs/neoforge/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/pressing_tub.json": {
+      "sha256": "9baca77b6312ae19814a86d25ab88a9395431cfbcf745c39dcf163cfb9d2fb8b",
+      "bytes": 2959,
+      "owner": "NeoForge a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+      "original_path": "src/main/resources/assets/kaleidoscope_tavern/models/block/brew/pressing_tub.json"
+    },
+    "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/pressing_tub.png": {
+      "sha256": "854cfd07dc5322c787ded88144d6cd76bf21b05f275a6b402ee4465ca0babc19",
+      "bytes": 626,
+      "owner": "Forge c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+      "original_path": "src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/pressing_tub.png"
+    },
+    "inputs/neoforge/src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/pressing_tub.png": {
+      "sha256": "854cfd07dc5322c787ded88144d6cd76bf21b05f275a6b402ee4465ca0babc19",
+      "bytes": 626,
+      "owner": "NeoForge a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+      "original_path": "src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/pressing_tub.png"
+    },
+    "snapshot/runtime/RP/models/entity/pressing_tub.geo.json": {
+      "sha256": "1c328b9e3e47adb986b47462e0a3f4332f4d4580ed153764e628e06fa98f6845",
+      "bytes": 8226,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "runtime/RP/models/entity/pressing_tub.geo.json"
+    },
+    "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/tilt_pressing_tub.json": {
+      "sha256": "a24f0d6746eb023cb0ee20d2289f53a37e4d0232fe38adb2e41289ee81465554",
+      "bytes": 3637,
+      "owner": "Forge c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+      "original_path": "src/main/resources/assets/kaleidoscope_tavern/models/block/brew/tilt_pressing_tub.json"
+    },
+    "inputs/neoforge/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/tilt_pressing_tub.json": {
+      "sha256": "a24f0d6746eb023cb0ee20d2289f53a37e4d0232fe38adb2e41289ee81465554",
+      "bytes": 3637,
+      "owner": "NeoForge a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+      "original_path": "src/main/resources/assets/kaleidoscope_tavern/models/block/brew/tilt_pressing_tub.json"
+    },
+    "snapshot/runtime/RP/models/entity/pressing_tub_tilt.geo.json": {
+      "sha256": "6c1bcdcfbf70f8c385855df9f843ff71c40dc641e8683bb8303950e8ed6ca557",
+      "bytes": 10018,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "runtime/RP/models/entity/pressing_tub_tilt.geo.json"
+    },
+    "snapshot/runtime/BP/blocks/tap.json": {
+      "sha256": "0273cb914aa731b855ade3e76b9f1db5aa563bb97758d6d209138c42497fce7c",
+      "bytes": 5689,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "runtime/BP/blocks/tap.json"
+    },
+    "snapshot/runtime/RP/textures/kaleidoscope_tavern/block/brew/tap.png": {
+      "sha256": "ff76d7ef4a7d6979e04b858a35103b204883e66eec9acc357bde977c879d21e7",
+      "bytes": 237,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "runtime/RP/textures/kaleidoscope_tavern/block/brew/tap.png"
+    },
+    "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/tap/close.json": {
+      "sha256": "9a1a86a531c5bdf86fa33439314ed1a6c2a60f65f2a5c866f5fab53896a1bfbc",
+      "bytes": 3651,
+      "owner": "Forge c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+      "original_path": "src/main/resources/assets/kaleidoscope_tavern/models/block/brew/tap/close.json"
+    },
+    "inputs/neoforge/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/tap/close.json": {
+      "sha256": "9a1a86a531c5bdf86fa33439314ed1a6c2a60f65f2a5c866f5fab53896a1bfbc",
+      "bytes": 3651,
+      "owner": "NeoForge a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+      "original_path": "src/main/resources/assets/kaleidoscope_tavern/models/block/brew/tap/close.json"
+    },
+    "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/tap.png": {
+      "sha256": "ff76d7ef4a7d6979e04b858a35103b204883e66eec9acc357bde977c879d21e7",
+      "bytes": 237,
+      "owner": "Forge c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+      "original_path": "src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/tap.png"
+    },
+    "inputs/neoforge/src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/tap.png": {
+      "sha256": "ff76d7ef4a7d6979e04b858a35103b204883e66eec9acc357bde977c879d21e7",
+      "bytes": 237,
+      "owner": "NeoForge a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+      "original_path": "src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/tap.png"
+    },
+    "snapshot/runtime/RP/models/entity/tap_closed.geo.json": {
+      "sha256": "a406593f50889f70269ba50c039f05e6279425048a7e331a73bfe66d11287b25",
+      "bytes": 12210,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "runtime/RP/models/entity/tap_closed.geo.json"
+    },
+    "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/tap/open.json": {
+      "sha256": "8085afdef4cc70882518dc387f287278d1b37866df7695da3032633a79be9f28",
+      "bytes": 3649,
+      "owner": "Forge c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+      "original_path": "src/main/resources/assets/kaleidoscope_tavern/models/block/brew/tap/open.json"
+    },
+    "inputs/neoforge/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/tap/open.json": {
+      "sha256": "8085afdef4cc70882518dc387f287278d1b37866df7695da3032633a79be9f28",
+      "bytes": 3649,
+      "owner": "NeoForge a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+      "original_path": "src/main/resources/assets/kaleidoscope_tavern/models/block/brew/tap/open.json"
+    },
+    "snapshot/runtime/RP/models/entity/tap_open.geo.json": {
+      "sha256": "d43f46aa468758757509637b0638ae5a3358aeb06e04c393a3b81efcd5c49207",
+      "bytes": 12413,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "runtime/RP/models/entity/tap_open.geo.json"
+    },
+    "snapshot/runtime/BP/blocks/stepladder.json": {
+      "sha256": "be77b3698435c43bdd6c109b6a06265cac83df856c828dd9e0f80abf800cb269",
+      "bytes": 4972,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "runtime/BP/blocks/stepladder.json"
+    },
+    "snapshot/runtime/RP/textures/kaleidoscope_tavern/block/deco/stepladder.png": {
+      "sha256": "8af33124e2a31c0e95f5a18713ed1957dc47aec48e7be77fb68559b6e61a8ce3",
+      "bytes": 610,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "runtime/RP/textures/kaleidoscope_tavern/block/deco/stepladder.png"
+    },
+    "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/stepladder/bottom.json": {
+      "sha256": "0347d61f602b80c904dd1f1f5cf5d61f382dc2d01e69198fd24a010adedfbb86",
+      "bytes": 5638,
+      "owner": "Forge c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+      "original_path": "src/main/resources/assets/kaleidoscope_tavern/models/block/deco/stepladder/bottom.json"
+    },
+    "inputs/neoforge/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/stepladder/bottom.json": {
+      "sha256": "0347d61f602b80c904dd1f1f5cf5d61f382dc2d01e69198fd24a010adedfbb86",
+      "bytes": 5638,
+      "owner": "NeoForge a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+      "original_path": "src/main/resources/assets/kaleidoscope_tavern/models/block/deco/stepladder/bottom.json"
+    },
+    "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/stepladder.png": {
+      "sha256": "8af33124e2a31c0e95f5a18713ed1957dc47aec48e7be77fb68559b6e61a8ce3",
+      "bytes": 610,
+      "owner": "Forge c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+      "original_path": "src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/stepladder.png"
+    },
+    "inputs/neoforge/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/stepladder.png": {
+      "sha256": "8af33124e2a31c0e95f5a18713ed1957dc47aec48e7be77fb68559b6e61a8ce3",
+      "bytes": 610,
+      "owner": "NeoForge a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+      "original_path": "src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/stepladder.png"
+    },
+    "snapshot/runtime/RP/models/entity/stepladder_bottom.geo.json": {
+      "sha256": "2dd3faf7648ea5ccf934034d0ddec0e07072cde42fd5cfaed33d87990f51ca98",
+      "bytes": 17512,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "runtime/RP/models/entity/stepladder_bottom.geo.json"
+    },
+    "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/stepladder/top.json": {
+      "sha256": "43ce7cbf87c874ff0baa89257a148a79a6b1b7a1c87e7d07a7ca38047529cc18",
+      "bytes": 6155,
+      "owner": "Forge c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+      "original_path": "src/main/resources/assets/kaleidoscope_tavern/models/block/deco/stepladder/top.json"
+    },
+    "inputs/neoforge/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/stepladder/top.json": {
+      "sha256": "43ce7cbf87c874ff0baa89257a148a79a6b1b7a1c87e7d07a7ca38047529cc18",
+      "bytes": 6155,
+      "owner": "NeoForge a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+      "original_path": "src/main/resources/assets/kaleidoscope_tavern/models/block/deco/stepladder/top.json"
+    },
+    "snapshot/runtime/RP/models/entity/stepladder_top.geo.json": {
+      "sha256": "2b378bf2a0b29068d9c3b46678f0b7673762ca52626901daf67b96f36bbbfe6a",
+      "bytes": 19265,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "runtime/RP/models/entity/stepladder_top.geo.json"
+    },
+    "snapshot/runtime/RP/entity/stepladder_assembled.entity.json": {
+      "sha256": "38190c31c4e08d9c912f9d70b8b6fb2434e6ea284d42ba3c284864abfae4bab1",
+      "bytes": 503,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "runtime/RP/entity/stepladder_assembled.entity.json"
+    },
+    "snapshot/runtime/RP/models/entity/stepladder_assembled.geo.json": {
+      "sha256": "bb527897d7f39dbb675f14667c695ae1c666bd3e642ee3dc681685437eadb316",
+      "bytes": 36218,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "runtime/RP/models/entity/stepladder_assembled.geo.json"
+    },
+    "snapshot/runtime/RP/animations/shaker.animation.json": {
+      "sha256": "cabc41987866e1eed81a8ee4e0ba0ef17ba0ad64c210a110f7c541e7fdb07e2b",
+      "bytes": 2700,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "runtime/RP/animations/shaker.animation.json"
+    },
+    "inputs/forge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/animation/ShakerAnimation.java": {
+      "sha256": "2e8ab801255e7983aaa9a558f2f41b4169e3edeb0ca8da2137e3d6980baa7e3c",
+      "bytes": 5062,
+      "owner": "Forge c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+      "original_path": "src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/animation/ShakerAnimation.java"
+    },
+    "inputs/neoforge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/animation/ShakerAnimation.java": {
+      "sha256": "12fff5267d185f64331661d91a4425b249f0f6a9e297b8ed4f5e6ffa0e5e711e",
+      "bytes": 5260,
+      "owner": "NeoForge a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+      "original_path": "src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/animation/ShakerAnimation.java"
+    },
+    "snapshot/runtime/RP/entity/runtime_shaker.entity.json": {
+      "sha256": "e7af1c0e2c8c7c22d53605e9b7756903b8edade3ea77a641a05dda55364d724d",
+      "bytes": 707,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "runtime/RP/entity/runtime_shaker.entity.json"
+    },
+    "snapshot/runtime/RP/textures/kaleidoscope_tavern/block/mixology/shaker.png": {
+      "sha256": "8cf12cd2ab194d976735419a1366799f6260399fecf4f65f926d59157e311e6f",
+      "bytes": 941,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "runtime/RP/textures/kaleidoscope_tavern/block/mixology/shaker.png"
+    },
+    "inputs/forge/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/shaker.png": {
+      "sha256": "8cf12cd2ab194d976735419a1366799f6260399fecf4f65f926d59157e311e6f",
+      "bytes": 941,
+      "owner": "Forge c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+      "original_path": "src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/shaker.png"
+    },
+    "inputs/neoforge/src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/shaker.png": {
+      "sha256": "1016e7e0f60b94403edba2884fe1b272a3e2a3a03a80ff1db7f60438aaacd998",
+      "bytes": 657,
+      "owner": "NeoForge a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+      "original_path": "src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/shaker.png"
+    },
+    "inputs/forge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/model/mixology/ShakerModel.java": {
+      "sha256": "e945e5d96a17e792e57aa0334b09eb15915f2b6af7565bca14e2713bc3b67018",
+      "bytes": 2492,
+      "owner": "Forge c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+      "original_path": "src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/model/mixology/ShakerModel.java"
+    },
+    "inputs/neoforge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/model/mixology/ShakerModel.java": {
+      "sha256": "966481809b19ae1d421f8ed38c96f192e53000a1acd03da3fb56beae4413dd30",
+      "bytes": 2322,
+      "owner": "NeoForge a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+      "original_path": "src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/model/mixology/ShakerModel.java"
+    },
+    "snapshot/runtime/RP/models/entity/shaker.geo.json": {
+      "sha256": "5b4cc2b4acb585297ac2cde88a4dce9c50fd62be5cddb377ba1347c9538fbc0e",
+      "bytes": 2582,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "runtime/RP/models/entity/shaker.geo.json"
+    },
+    "snapshot/runtime/BP/blocks/barrel_core.json": {
+      "sha256": "1c1659a8161fdddfd36fb77a48c6d427c2ce9d04349d622807f30c30e73d4aed",
+      "bytes": 2339,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "runtime/BP/blocks/barrel_core.json"
+    },
+    "snapshot/runtime/BP/blocks/shaker_station.json": {
+      "sha256": "04dafa9afd4c65f90dd5be078d35e5fe94f384ef002f80fc8d72661bc0206431",
+      "bytes": 3752,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "runtime/BP/blocks/shaker_station.json"
+    },
+    "snapshot/runtime/BP/scripts/bedrock/machines.js": {
+      "sha256": "242902fa70131ca8ef8b9994977f876729dac98422373dfd546e14094c123b07",
+      "bytes": 39959,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "runtime/BP/scripts/bedrock/machines.js"
+    },
+    "snapshot/runtime/BP/scripts/core/machine-visuals.js": {
+      "sha256": "20c3eaf7658badc7f01a246c07f964d329c2e415890e9c174d9b9a57cfe19d0e",
+      "bytes": 2060,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "runtime/BP/scripts/core/machine-visuals.js"
+    },
+    "snapshot/runtime/BP/scripts/bedrock/decorations.js": {
+      "sha256": "38a8dbe3378c5f7133e27e1785ed9d877be5232af4006c25490fa33a25f3fa53",
+      "bytes": 11185,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "runtime/BP/scripts/bedrock/decorations.js"
+    },
+    "snapshot/runtime/BP/scripts/bedrock/immersion.js": {
+      "sha256": "264a1be4549e4cc4a0572f8ec28404e3357b9e945306e4203a0a17eaee0ec1ad",
+      "bytes": 5623,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "runtime/BP/scripts/bedrock/immersion.js"
+    },
+    "snapshot/runtime/RP/animation_controllers/runtime_shaker_put.controller.json": {
+      "sha256": "256f6f7f58b890593cb9213a5fcb847c429f4e65440558691b1da0e16a289fe0",
+      "bytes": 373,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "runtime/RP/animation_controllers/runtime_shaker_put.controller.json"
+    },
+    "snapshot/runtime/RP/attachables/shaker.attachable.json": {
+      "sha256": "24f6036ff424ae59ddb9fc98c5a175a57a186c24bfa9230058e42ed6f584042d",
+      "bytes": 2231,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "runtime/RP/attachables/shaker.attachable.json"
+    },
+    "snapshot/runtime/RP/animations/runtime_shaker.animation.json": {
+      "sha256": "2740cf7f4bc4a05c432e98e591d964169b992bf8cb1553ecb4425be91f54fb06",
+      "bytes": 3645,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "runtime/RP/animations/runtime_shaker.animation.json"
+    },
+    "snapshot/runtime/RP/models/entity/runtime_shaker_held.geo.json": {
+      "sha256": "800ead78afb5e6de1950749231b1f841b29222305ba21705f79fee425add6a3f",
+      "bytes": 2204,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "runtime/RP/models/entity/runtime_shaker_held.geo.json"
+    },
+    "snapshot/runtime/RP/models/entity/runtime_shaker_put_hidden.geo.json": {
+      "sha256": "a12747f48cfb910e49ef8f928fa8f99be7bd28ef5cd6a414deebb2e88a321f07",
+      "bytes": 889,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "runtime/RP/models/entity/runtime_shaker_put_hidden.geo.json"
+    },
+    "snapshot/runtime/BP/entities/shaker_visual.json": {
+      "sha256": "6cf715ea6d456d96bd8ff24e030bdedd1554cd9aea69d00e717fa5fecede406a",
+      "bytes": 1362,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "runtime/BP/entities/shaker_visual.json"
+    },
+    "snapshot/runtime/BP/entities/barrel_open_visual.json": {
+      "sha256": "02644f13d998e0632489c7881224679496a224f46d0fde7aefac87f22180f04f",
+      "bytes": 928,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "runtime/BP/entities/barrel_open_visual.json"
+    },
+    "snapshot/runtime/BP/entities/barrel_closed_visual.json": {
+      "sha256": "d86579a75a576f1c65653079cd31f72e77a7cf6d6f98733a97b97b25e842ab62",
+      "bytes": 930,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "runtime/BP/entities/barrel_closed_visual.json"
+    },
+    "snapshot/docs/evidence/blockbench-20261108/README.md": {
+      "sha256": "d4c816ab5f2584566c2ebec1c9945dde972723ffd893f569e3db3a0d435c3c89",
+      "bytes": 12207,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "docs/evidence/blockbench-20261108/README.md"
+    },
+    "snapshot/docs/evidence/blockbench-20261108/scene-records.json": {
+      "sha256": "8047e3d7d92dbda83291e6e22717c8a92389b9efff5b795f7ea75813e1f2474e",
+      "bytes": 32808,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "docs/evidence/blockbench-20261108/scene-records.json"
+    },
+    "snapshot/docs/evidence/t174-held-shells/native-review.json": {
+      "sha256": "f372e6ac52f5a353d99c9d308d5f9e20c899f9a77780e98a7e9f8504d6e63da6",
+      "bytes": 12915,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "docs/evidence/t174-held-shells/native-review.json"
+    },
+    "snapshot/docs/evidence/t175-rack-lift/native-review.json": {
+      "sha256": "1c29da88c4704054ff67da1609d720b36489d6650319e3e6791108eba2c6aeb1",
+      "bytes": 1659,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "docs/evidence/t175-rack-lift/native-review.json"
+    },
+    "snapshot/docs/NATIVE-ITEM-VIEW-LIMITS.md": {
+      "sha256": "e81810741558bd5bb2b61c87962e38295a17077617ef0a6bcfdc7166506e236f",
+      "bytes": 4153,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "docs/NATIVE-ITEM-VIEW-LIMITS.md"
+    },
+    "inputs/forge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/block/BarrelBlockEntityRender.java": {
+      "sha256": "50dba2502fd8cc17c776765abfb475d8e877bf4606ed297b97026cde2b9f44e8",
+      "bytes": 6041,
+      "owner": "Forge c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+      "original_path": "src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/block/BarrelBlockEntityRender.java"
+    },
+    "inputs/neoforge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/block/BarrelBlockEntityRender.java": {
+      "sha256": "2712a61c3b31d8b127d948d7a74ba66a7d01f4cf2640f97faaff3c40635aebd4",
+      "bytes": 6377,
+      "owner": "NeoForge a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+      "original_path": "src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/block/BarrelBlockEntityRender.java"
+    },
+    "inputs/forge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/block/PressingTubBlockEntityRender.java": {
+      "sha256": "f413b5a425cea8bab16e0f205eb5bd0c40f09120f422d6b9842777b806d62d7f",
+      "bytes": 4246,
+      "owner": "Forge c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+      "original_path": "src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/block/PressingTubBlockEntityRender.java"
+    },
+    "inputs/neoforge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/block/PressingTubBlockEntityRender.java": {
+      "sha256": "f413b5a425cea8bab16e0f205eb5bd0c40f09120f422d6b9842777b806d62d7f",
+      "bytes": 4246,
+      "owner": "NeoForge a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+      "original_path": "src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/block/PressingTubBlockEntityRender.java"
+    },
+    "inputs/forge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/block/ShakerBlockEntityRender.java": {
+      "sha256": "73e35240cafe39bd3649d2e20e20a41da21d2b185804362de4655721b399e3e4",
+      "bytes": 2989,
+      "owner": "Forge c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+      "original_path": "src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/block/ShakerBlockEntityRender.java"
+    },
+    "inputs/neoforge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/block/ShakerBlockEntityRender.java": {
+      "sha256": "e36b3623b4ccd6c0d88e38d7cf4b6a1832373775931e312eedc21946dafdeb77",
+      "bytes": 2944,
+      "owner": "NeoForge a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+      "original_path": "src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/block/ShakerBlockEntityRender.java"
+    },
+    "inputs/forge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/block/deco/StepladderBlock.java": {
+      "sha256": "ed88a8d968a65f084b365f3dd9de504e18eef018ab8173c2762417d2eba30c4f",
+      "bytes": 7249,
+      "owner": "Forge c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+      "original_path": "src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/block/deco/StepladderBlock.java"
+    },
+    "inputs/neoforge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/block/deco/StepladderBlock.java": {
+      "sha256": "81eb316333cf4970e6386cd547775525a5277015afbcb91236c6865972d0a381",
+      "bytes": 7518,
+      "owner": "NeoForge a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+      "original_path": "src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/block/deco/StepladderBlock.java"
+    },
+    "inputs/forge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/datagen/model/BlockStateGenerator.java": {
+      "sha256": "409f05973a21930de93e456d9bc52c7e94456e78bfafec7c0ab5c6dafc17ec77",
+      "bytes": 22418,
+      "owner": "Forge c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+      "original_path": "src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/datagen/model/BlockStateGenerator.java"
+    },
+    "inputs/neoforge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/datagen/model/BlockStateGenerator.java": {
+      "sha256": "09115c47748ef6a005946f1c23ba0bdca90456a69396fbe28c926f1dc520eef8",
+      "bytes": 22525,
+      "owner": "NeoForge a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+      "original_path": "src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/datagen/model/BlockStateGenerator.java"
+    },
+    "inputs/forge/src/generated/resources/assets/kaleidoscope_tavern/blockstates/pressing_tub.json": {
+      "sha256": "6a8877f1df22c32b0d216c5cf2e3a123f28aede1b141ef8c94f1e55aa00f4b57",
+      "bytes": 2130,
+      "owner": "Forge c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+      "original_path": "src/generated/resources/assets/kaleidoscope_tavern/blockstates/pressing_tub.json"
+    },
+    "inputs/neoforge/src/generated/resources/assets/kaleidoscope_tavern/blockstates/pressing_tub.json": {
+      "sha256": "6a8877f1df22c32b0d216c5cf2e3a123f28aede1b141ef8c94f1e55aa00f4b57",
+      "bytes": 2130,
+      "owner": "NeoForge a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+      "original_path": "src/generated/resources/assets/kaleidoscope_tavern/blockstates/pressing_tub.json"
+    },
+    "inputs/forge/src/generated/resources/assets/kaleidoscope_tavern/blockstates/tap.json": {
+      "sha256": "949ce0d85048e7b2d04e88c22e83ec6756b8f270393f9f7883b8a2334ad43664",
+      "bytes": 4542,
+      "owner": "Forge c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+      "original_path": "src/generated/resources/assets/kaleidoscope_tavern/blockstates/tap.json"
+    },
+    "inputs/neoforge/src/generated/resources/assets/kaleidoscope_tavern/blockstates/tap.json": {
+      "sha256": "949ce0d85048e7b2d04e88c22e83ec6756b8f270393f9f7883b8a2334ad43664",
+      "bytes": 4542,
+      "owner": "NeoForge a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+      "original_path": "src/generated/resources/assets/kaleidoscope_tavern/blockstates/tap.json"
+    },
+    "inputs/forge/src/generated/resources/assets/kaleidoscope_tavern/blockstates/stepladder.json": {
+      "sha256": "3f069578b5520d251a5e9e2587636cb22b379692f042ba77915fde3a1180b3bb",
+      "bytes": 2146,
+      "owner": "Forge c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+      "original_path": "src/generated/resources/assets/kaleidoscope_tavern/blockstates/stepladder.json"
+    },
+    "inputs/neoforge/src/generated/resources/assets/kaleidoscope_tavern/blockstates/stepladder.json": {
+      "sha256": "3f069578b5520d251a5e9e2587636cb22b379692f042ba77915fde3a1180b3bb",
+      "bytes": 2146,
+      "owner": "NeoForge a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+      "original_path": "src/generated/resources/assets/kaleidoscope_tavern/blockstates/stepladder.json"
+    },
+    "inputs/forge/src/generated/resources/assets/kaleidoscope_tavern/blockstates/shaker.json": {
+      "sha256": "1d32651432e1679a019b9f3ff6eb2fdc832287655001eb30bd0cb34d7fa03559",
+      "bytes": 98,
+      "owner": "Forge c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+      "original_path": "src/generated/resources/assets/kaleidoscope_tavern/blockstates/shaker.json"
+    },
+    "inputs/neoforge/src/generated/resources/assets/kaleidoscope_tavern/blockstates/shaker.json": {
+      "sha256": "1d32651432e1679a019b9f3ff6eb2fdc832287655001eb30bd0cb34d7fa03559",
+      "bytes": 98,
+      "owner": "NeoForge a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+      "original_path": "src/generated/resources/assets/kaleidoscope_tavern/blockstates/shaker.json"
+    },
+    "snapshot/runtime/RP/render_controllers/static.render_controllers.json": {
+      "sha256": "2b90b4ac21d7ebd44e4d5b8969aef2b53d28613e3a5b39d0b19cb49965b0b605",
+      "bytes": 292,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "runtime/RP/render_controllers/static.render_controllers.json"
+    },
+    "snapshot/art/source-jar.lock.json": {
+      "sha256": "5d1567b8416bf2927e25d44bab7304cc49a0cd58787a338a0cc95c58d670ea85",
+      "bytes": 348537,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "art/source-jar.lock.json"
+    },
+    "snapshot/runtime/BP/scripts/core/furniture.js": {
+      "sha256": "7cbabb1fc4ec830851aa1bbf4e6bab08a72cd44f14e2f020920b3c04290e9b08",
+      "bytes": 11346,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "runtime/BP/scripts/core/furniture.js"
+    },
+    "snapshot/runtime/BP/scripts/core/decorations.js": {
+      "sha256": "ee68b9970e1427d81e9e4cde41894c5596b88717ec75ece7ca400786685ef9ab",
+      "bytes": 2327,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "runtime/BP/scripts/core/decorations.js"
+    },
+    "snapshot/runtime/RP/models/entity/item_display_tilted_rack.geo.json": {
+      "sha256": "93030bd4f8289be846eea898052b36ed81c33626355c8e42fbcac95a73968ff7",
+      "bytes": 11969,
+      "owner": "canonical d42a39745f25082aa129f4d4bb823684e4174771",
+      "original_path": "runtime/RP/models/entity/item_display_tilted_rack.geo.json"
+    }
+  },
+  "source_comparison": {
+    "src/main/resources/assets/kaleidoscope_tavern/textures/entity/brew/barrel.png": {
+      "path_present": true,
+      "sha256": "4b436a5512c3d4a45887913b5fbf24ce915d5c74ee801674299c4ace9622c5fd",
+      "bytes_equal": true,
+      "pixels_equal": true
+    },
+    "src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/model/brew/BarrelModel.java": {
+      "path_present": true,
+      "sha256": "87a13b88b639d537989ddb889c10a76ea73e3f16535d0618c4b421f9c2cc6d47",
+      "bytes_equal": false,
+      "text_equal_ignoring_line_endings": false
+    },
+    "src/main/resources/assets/kaleidoscope_tavern/models/block/brew/pressing_tub.json": {
+      "path_present": true,
+      "sha256": "9baca77b6312ae19814a86d25ab88a9395431cfbcf745c39dcf163cfb9d2fb8b",
+      "bytes_equal": true,
+      "json_equal": true
+    },
+    "src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/pressing_tub.png": {
+      "path_present": true,
+      "sha256": "854cfd07dc5322c787ded88144d6cd76bf21b05f275a6b402ee4465ca0babc19",
+      "bytes_equal": true,
+      "pixels_equal": true
+    },
+    "src/main/resources/assets/kaleidoscope_tavern/models/block/brew/tilt_pressing_tub.json": {
+      "path_present": true,
+      "sha256": "a24f0d6746eb023cb0ee20d2289f53a37e4d0232fe38adb2e41289ee81465554",
+      "bytes_equal": true,
+      "json_equal": true
+    },
+    "src/main/resources/assets/kaleidoscope_tavern/models/block/brew/tap/close.json": {
+      "path_present": true,
+      "sha256": "9a1a86a531c5bdf86fa33439314ed1a6c2a60f65f2a5c866f5fab53896a1bfbc",
+      "bytes_equal": true,
+      "json_equal": true
+    },
+    "src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/tap.png": {
+      "path_present": true,
+      "sha256": "ff76d7ef4a7d6979e04b858a35103b204883e66eec9acc357bde977c879d21e7",
+      "bytes_equal": true,
+      "pixels_equal": true
+    },
+    "src/main/resources/assets/kaleidoscope_tavern/models/block/brew/tap/open.json": {
+      "path_present": true,
+      "sha256": "8085afdef4cc70882518dc387f287278d1b37866df7695da3032633a79be9f28",
+      "bytes_equal": true,
+      "json_equal": true
+    },
+    "src/main/resources/assets/kaleidoscope_tavern/models/block/deco/stepladder/bottom.json": {
+      "path_present": true,
+      "sha256": "0347d61f602b80c904dd1f1f5cf5d61f382dc2d01e69198fd24a010adedfbb86",
+      "bytes_equal": true,
+      "json_equal": true
+    },
+    "src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/stepladder.png": {
+      "path_present": true,
+      "sha256": "8af33124e2a31c0e95f5a18713ed1957dc47aec48e7be77fb68559b6e61a8ce3",
+      "bytes_equal": true,
+      "pixels_equal": true
+    },
+    "src/main/resources/assets/kaleidoscope_tavern/models/block/deco/stepladder/top.json": {
+      "path_present": true,
+      "sha256": "43ce7cbf87c874ff0baa89257a148a79a6b1b7a1c87e7d07a7ca38047529cc18",
+      "bytes_equal": true,
+      "json_equal": true
+    },
+    "src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/animation/ShakerAnimation.java": {
+      "path_present": true,
+      "sha256": "12fff5267d185f64331661d91a4425b249f0f6a9e297b8ed4f5e6ffa0e5e711e",
+      "bytes_equal": false,
+      "text_equal_ignoring_line_endings": false
+    },
+    "src/main/resources/assets/kaleidoscope_tavern/textures/block/mixology/shaker.png": {
+      "path_present": true,
+      "sha256": "1016e7e0f60b94403edba2884fe1b272a3e2a3a03a80ff1db7f60438aaacd998",
+      "bytes_equal": false,
+      "pixels_equal": true
+    },
+    "src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/model/mixology/ShakerModel.java": {
+      "path_present": true,
+      "sha256": "966481809b19ae1d421f8ed38c96f192e53000a1acd03da3fb56beae4413dd30",
+      "bytes_equal": false,
+      "text_equal_ignoring_line_endings": false
+    },
+    "src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/block/BarrelBlockEntityRender.java": {
+      "path_present": true,
+      "sha256": "2712a61c3b31d8b127d948d7a74ba66a7d01f4cf2640f97faaff3c40635aebd4",
+      "bytes_equal": false,
+      "text_equal_ignoring_line_endings": false
+    },
+    "src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/block/PressingTubBlockEntityRender.java": {
+      "path_present": true,
+      "sha256": "f413b5a425cea8bab16e0f205eb5bd0c40f09120f422d6b9842777b806d62d7f",
+      "bytes_equal": true,
+      "text_equal_ignoring_line_endings": true
+    },
+    "src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/block/ShakerBlockEntityRender.java": {
+      "path_present": true,
+      "sha256": "e36b3623b4ccd6c0d88e38d7cf4b6a1832373775931e312eedc21946dafdeb77",
+      "bytes_equal": false,
+      "text_equal_ignoring_line_endings": false
+    },
+    "src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/block/deco/StepladderBlock.java": {
+      "path_present": true,
+      "sha256": "81eb316333cf4970e6386cd547775525a5277015afbcb91236c6865972d0a381",
+      "bytes_equal": false,
+      "text_equal_ignoring_line_endings": false
+    },
+    "src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/datagen/model/BlockStateGenerator.java": {
+      "path_present": true,
+      "sha256": "09115c47748ef6a005946f1c23ba0bdca90456a69396fbe28c926f1dc520eef8",
+      "bytes_equal": false,
+      "text_equal_ignoring_line_endings": false
+    },
+    "src/generated/resources/assets/kaleidoscope_tavern/blockstates/pressing_tub.json": {
+      "path_present": true,
+      "sha256": "6a8877f1df22c32b0d216c5cf2e3a123f28aede1b141ef8c94f1e55aa00f4b57",
+      "bytes_equal": true,
+      "json_equal": true
+    },
+    "src/generated/resources/assets/kaleidoscope_tavern/blockstates/tap.json": {
+      "path_present": true,
+      "sha256": "949ce0d85048e7b2d04e88c22e83ec6756b8f270393f9f7883b8a2334ad43664",
+      "bytes_equal": true,
+      "json_equal": true
+    },
+    "src/generated/resources/assets/kaleidoscope_tavern/blockstates/stepladder.json": {
+      "path_present": true,
+      "sha256": "3f069578b5520d251a5e9e2587636cb22b379692f042ba77915fde3a1180b3bb",
+      "bytes_equal": true,
+      "json_equal": true
+    },
+    "src/generated/resources/assets/kaleidoscope_tavern/blockstates/shaker.json": {
+      "path_present": true,
+      "sha256": "1d32651432e1679a019b9f3ff6eb2fdc832287655001eb30bd0cb34d7fa03559",
+      "bytes_equal": true,
+      "json_equal": true
+    }
+  },
+  "scenes": [
+    {
+      "file": "/workspace/scratch/f31f84fbb9ff/tavern-machine-body-review-20261109/scenes/barrel-closed.bbmodel",
+      "sha256": "60569e4a61ef12a5e96aee1050bb212a30bc913687a32b5a925653a4d77c4b48",
+      "cases": [
+        "barrel-closed"
+      ],
+      "recommended_views": [
+        "perspective",
+        "top",
+        "bottom"
+      ],
+      "gui_reviewed": false
+    },
+    {
+      "file": "/workspace/scratch/f31f84fbb9ff/tavern-machine-body-review-20261109/scenes/barrel-open.bbmodel",
+      "sha256": "512826dd34104dcc894a86c52dc1f7fe645835734e4983daadbd766c8323655d",
+      "cases": [
+        "barrel-open"
+      ],
+      "recommended_views": [
+        "perspective",
+        "top",
+        "back (open hinge)"
+      ],
+      "gui_reviewed": false
+    },
+    {
+      "file": "/workspace/scratch/f31f84fbb9ff/tavern-machine-body-review-20261109/scenes/pressing-tubs.bbmodel",
+      "sha256": "11bd907fc372f8d197f547dfadacc4ba21d659a769c46b3656959c59e678c072",
+      "cases": [
+        "pressing_tub-upright",
+        "pressing_tub-tilt"
+      ],
+      "recommended_views": [
+        "perspective",
+        "top",
+        "bottom"
+      ],
+      "gui_reviewed": false
+    },
+    {
+      "file": "/workspace/scratch/f31f84fbb9ff/tavern-machine-body-review-20261109/scenes/taps.bbmodel",
+      "sha256": "50671fdeb7ff874b92e34c68b2842854a4e5fe719dd8a99907c23028b30198ac",
+      "cases": [
+        "tap-closed",
+        "tap-open"
+      ],
+      "recommended_views": [
+        "perspective",
+        "top",
+        "front / back"
+      ],
+      "gui_reviewed": false
+    },
+    {
+      "file": "/workspace/scratch/f31f84fbb9ff/tavern-machine-body-review-20261109/scenes/stepladder-placed-assembly.bbmodel",
+      "sha256": "e8bdb81fd731efa184fb4ad586c85088031d8cf5b4df8433df80e992173ce884",
+      "cases": [
+        "stepladder-placed-assembly"
+      ],
+      "recommended_views": [
+        "perspective",
+        "side (join seam)",
+        "bottom"
+      ],
+      "gui_reviewed": false
+    },
+    {
+      "file": "/workspace/scratch/f31f84fbb9ff/tavern-machine-body-review-20261109/scenes/shaker-placed-put-keyframes.bbmodel",
+      "sha256": "ab4cc958331714026f72404624ef6ce65d58df51fafd8c3036130e29b1f9df15",
+      "cases": [
+        "shaker-put-0",
+        "shaker-put-0.0833",
+        "shaker-put-0.2083"
+      ],
+      "recommended_views": [
+        "perspective",
+        "side (lid lift and pitch)",
+        "top (root yaw)"
+      ],
+      "gui_reviewed": false
+    }
+  ],
+  "cases": [
+    {
+      "id": "barrel-closed",
+      "source_kind": "Java ModelPart",
+      "source_model": "brew/BarrelModel",
+      "source_offset": [
+        -32,
+        0,
+        0
+      ],
+      "native_offset": [
+        32,
+        0,
+        0
+      ],
+      "source_render_transform": "translate(0.5,1.5,0.5); rotate Z -180; rotate Y 0 for north; review center removes X/Z +8",
+      "native_route": {
+        "identifier": "kaleidoscope_tavern:barrel_closed_visual",
+        "materials": {
+          "default": "entity_alphatest"
+        },
+        "textures": {
+          "default": "textures/kaleidoscope_tavern/entity/brew/barrel"
+        },
+        "geometry": {
+          "default": "geometry.kt_assets_a1.barrel_closed"
+        },
+        "render_controllers": [
+          "controller.render.kt_assets_a1.static"
+        ]
+      },
+      "facing": "Java north reference; native codec-local",
+      "materials": {
+        "source": "entityCutoutNoCull",
+        "native": {
+          "default": "entity_alphatest"
+        }
+      },
+      "scene": "barrel-closed.bbmodel",
+      "fixture_frame": "Java north renderer reference body versus unrotated decoded native model. External entity yaw is recorded but NOT applied or claimed equivalent by this body-only scene.",
+      "native_shell_initial_rotation_for_north": 180
+    },
+    {
+      "id": "barrel-open",
+      "source_kind": "Java ModelPart",
+      "source_model": "brew/BarrelModel",
+      "source_offset": [
+        -32,
+        0,
+        0
+      ],
+      "native_offset": [
+        32,
+        0,
+        0
+      ],
+      "source_render_transform": "translate(0.5,1.5,0.5); rotate Z -180; rotate Y 0 for north; review center removes X/Z +8",
+      "native_route": {
+        "identifier": "kaleidoscope_tavern:barrel_open_visual",
+        "materials": {
+          "default": "entity_alphatest"
+        },
+        "textures": {
+          "default": "textures/kaleidoscope_tavern/entity/brew/barrel"
+        },
+        "geometry": {
+          "default": "geometry.kt_assets_a1.barrel_open"
+        },
+        "render_controllers": [
+          "controller.render.kt_assets_a1.static"
+        ]
+      },
+      "facing": "Java north reference; native codec-local",
+      "materials": {
+        "source": "entityCutoutNoCull",
+        "native": {
+          "default": "entity_alphatest"
+        }
+      },
+      "scene": "barrel-open.bbmodel",
+      "fixture_frame": "Java north renderer reference body versus unrotated decoded native model. External entity yaw is recorded but NOT applied or claimed equivalent by this body-only scene.",
+      "native_shell_initial_rotation_for_north": 180
+    },
+    {
+      "id": "pressing_tub-upright",
+      "source_model": "block/brew/pressing_tub",
+      "source_kind": "Java JSON",
+      "source_offset": [
+        -15,
+        0,
+        0
+      ],
+      "native_offset": [
+        15,
+        0,
+        0
+      ],
+      "facing": "north",
+      "native_geometry": "pressing_tub",
+      "materials": {
+        "source": "cutout",
+        "native": {
+          "*": {
+            "texture": "kt_assets_a1_pressing_tub",
+            "render_method": "alpha_test",
+            "ambient_occlusion": 0.0,
+            "face_dimming": true
+          }
+        }
+      },
+      "states": {
+        "block_face": "up",
+        "cardinal_direction": "north"
+      },
+      "scene": "pressing-tubs.bbmodel"
+    },
+    {
+      "id": "pressing_tub-tilt",
+      "source_model": "block/brew/tilt_pressing_tub",
+      "source_kind": "Java JSON",
+      "source_offset": [
+        -15,
+        0,
+        32
+      ],
+      "native_offset": [
+        15,
+        0,
+        32
+      ],
+      "facing": "north",
+      "native_geometry": "pressing_tub_tilt",
+      "materials": {
+        "source": "cutout",
+        "native": {
+          "*": {
+            "texture": "kt_assets_a1_pressing_tub",
+            "render_method": "alpha_test",
+            "ambient_occlusion": 0.0,
+            "face_dimming": true
+          }
+        }
+      },
+      "states": {
+        "block_face": "north",
+        "cardinal_direction": "north"
+      },
+      "scene": "pressing-tubs.bbmodel"
+    },
+    {
+      "id": "tap-closed",
+      "source_model": "block/brew/tap/close",
+      "source_kind": "Java JSON",
+      "source_offset": [
+        -15,
+        0,
+        0
+      ],
+      "native_offset": [
+        15,
+        0,
+        0
+      ],
+      "facing": "north",
+      "native_geometry": "tap_closed",
+      "materials": {
+        "source": "cutout",
+        "native": {
+          "*": {
+            "texture": "kt_assets_a1_tap_closed",
+            "render_method": "alpha_test",
+            "ambient_occlusion": 0.0,
+            "face_dimming": true
+          }
+        }
+      },
+      "states": {
+        "block_face": "north",
+        "cardinal_direction": "north",
+        "open": 0
+      },
+      "scene": "taps.bbmodel"
+    },
+    {
+      "id": "tap-open",
+      "source_model": "block/brew/tap/open",
+      "source_kind": "Java JSON",
+      "source_offset": [
+        -15,
+        0,
+        32
+      ],
+      "native_offset": [
+        15,
+        0,
+        32
+      ],
+      "facing": "north",
+      "native_geometry": "tap_open",
+      "materials": {
+        "source": "cutout",
+        "native": {
+          "*": {
+            "texture": "kt_assets_a1_tap_closed",
+            "render_method": "alpha_test",
+            "ambient_occlusion": 0.0,
+            "face_dimming": true
+          }
+        }
+      },
+      "states": {
+        "block_face": "north",
+        "cardinal_direction": "north",
+        "open": 1
+      },
+      "scene": "taps.bbmodel"
+    },
+    {
+      "id": "stepladder-placed-assembly",
+      "source_kind": "Java JSON two blocks",
+      "source_offset": [
+        -20,
+        0,
+        0
+      ],
+      "native_offset": [
+        20,
+        0,
+        0
+      ],
+      "source_models": [
+        "block/deco/stepladder/bottom",
+        "block/deco/stepladder/top"
+      ],
+      "native_geometry": [
+        "stepladder_bottom",
+        "stepladder_top"
+      ],
+      "native_route": "runtime/BP/blocks/stepladder.json; decorations.js placeStepladder creates bottom + top at +1 block",
+      "not_active_route": "runtime/RP/entity/stepladder_assembled.entity.json is an asset, not the actual placed helper route",
+      "materials": {
+        "*": {
+          "texture": "kt_assets_a12_block_deco_stepladder",
+          "render_method": "alpha_test",
+          "ambient_occlusion": 0.0,
+          "face_dimming": true
+        }
+      },
+      "scene": "stepladder-placed-assembly.bbmodel"
+    },
+    {
+      "id": "shaker-put-0",
+      "source_kind": "Java ModelPart + PUT",
+      "source_model": "mixology/ShakerModel",
+      "source_offset": [
+        -12,
+        0,
+        0
+      ],
+      "native_offset": [
+        12,
+        0,
+        0
+      ],
+      "time_seconds": 0,
+      "evaluated_keyframe": {
+        "root": {
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "bone2": {
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "materials": {
+        "source": "entityCutoutNoCull",
+        "native": {
+          "default": "entity_alphatest"
+        }
+      },
+      "native_route": "shaker_station base for idle; put_visual=1 hides block; immersion.js spawns shaker_visual at same origin for 8 ticks; controller plays PUT once",
+      "scene": "shaker-placed-put-keyframes.bbmodel",
+      "fixture_frame": "Source placed body renderer transform versus native render_anchor and PUT bones. Block/entity external yaw and transitions are not executed.",
+      "native_helper_initial_rotation_for_facing_0": 0
+    },
+    {
+      "id": "shaker-put-0.0833",
+      "source_kind": "Java ModelPart + PUT",
+      "source_model": "mixology/ShakerModel",
+      "source_offset": [
+        -12,
+        0,
+        26
+      ],
+      "native_offset": [
+        12,
+        0,
+        26
+      ],
+      "time_seconds": 0.0833,
+      "evaluated_keyframe": {
+        "root": {
+          "rotation": [
+            0.0,
+            -4.5,
+            0.0
+          ]
+        },
+        "bone2": {
+          "rotation": [
+            -15.0,
+            0.0,
+            0.0
+          ],
+          "position": [
+            0.0,
+            2.0,
+            0.0
+          ]
+        }
+      },
+      "materials": {
+        "source": "entityCutoutNoCull",
+        "native": {
+          "default": "entity_alphatest"
+        }
+      },
+      "native_route": "shaker_station base for idle; put_visual=1 hides block; immersion.js spawns shaker_visual at same origin for 8 ticks; controller plays PUT once",
+      "scene": "shaker-placed-put-keyframes.bbmodel",
+      "fixture_frame": "Source placed body renderer transform versus native render_anchor and PUT bones. Block/entity external yaw and transitions are not executed.",
+      "native_helper_initial_rotation_for_facing_0": 0
+    },
+    {
+      "id": "shaker-put-0.2083",
+      "source_kind": "Java ModelPart + PUT",
+      "source_model": "mixology/ShakerModel",
+      "source_offset": [
+        -12,
+        0,
+        52
+      ],
+      "native_offset": [
+        12,
+        0,
+        52
+      ],
+      "time_seconds": 0.2083,
+      "evaluated_keyframe": {
+        "root": {
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "bone2": {
+          "rotation": [
+            7.5,
+            0.0,
+            0.0
+          ],
+          "position": [
+            0.0,
+            1.5,
+            0.0
+          ]
+        }
+      },
+      "materials": {
+        "source": "entityCutoutNoCull",
+        "native": {
+          "default": "entity_alphatest"
+        }
+      },
+      "native_route": "shaker_station base for idle; put_visual=1 hides block; immersion.js spawns shaker_visual at same origin for 8 ticks; controller plays PUT once",
+      "scene": "shaker-placed-put-keyframes.bbmodel",
+      "fixture_frame": "Source placed body renderer transform versus native render_anchor and PUT bones. Block/entity external yaw and transitions are not executed.",
+      "native_helper_initial_rotation_for_facing_0": 0
+    }
+  ],
+  "gui_reviewed": false,
+  "layout": "Source at negative world X, current at positive X. Default BB camera normally projects current screen-left. Camera-dependent, never infer from filename.",
+  "limits": [
+    "No GUI or game was run.",
+    "Static editor fixtures are not controller/timing/material/collision/placement acceptance.",
+    "No held poses, tilted rack lift, runtime bytes, computer settings, plugins or deployments changed.",
+    "Shaker samples are exact keyframes only; Catmull-Rom between-key timing and engine float/query behavior remain unverified.",
+    "Source/nested transforms are rigid and all participating nodes have one nonzero axis; no affine/shear approximation is used.",
+    "Entity alpha-test and source no-cull are material hints, not proof of shader equivalence.",
+    "Entity-helper world yaw is explicitly not simulated. Barrel north routes through facingYaw(0)=180; shaker through facing*90. Body equality is in the documented source-reference/native-codec frame, not an in-world facing acceptance."
+  ],
+  "summary": {
+    "scenes": 6,
+    "paired_cases": 10,
+    "gui_reviewed": false
+  }
+}

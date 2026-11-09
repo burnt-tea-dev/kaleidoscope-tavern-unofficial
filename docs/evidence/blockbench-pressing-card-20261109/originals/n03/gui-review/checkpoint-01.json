@@ -1,0 +1,112 @@
+{
+  "status": "N03 in progress; two of eight scenes reviewed; GUI paused by parent for bounded release check",
+  "files": [
+    {
+      "file": "screenshots/01-pressing-card-upright-context.jpg",
+      "sha256": "cfcd67c470679ee7c2f36b8e7e275abe1f60bee452f86b3b1bd273899ee2910c",
+      "bytes": 86145,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ]
+    },
+    {
+      "file": "screenshots/02-pressing-card-index0-top.jpg",
+      "sha256": "a4e4108796538e5c4d1f6faf5544dcd8b65f152efeffa9a1fdf77f94d32978e7",
+      "bytes": 79850,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ]
+    },
+    {
+      "file": "screenshots/03-pressing-card-index0-oblique.jpg",
+      "sha256": "3694f4a6fc56871e6746d69792b4188e2e68d3273f4ebca905578be0cf81d659",
+      "bytes": 78026,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ]
+    },
+    {
+      "file": "screenshots/04-barrel-liquids-top.jpg",
+      "sha256": "e93f49ecec4ef8975c4586519b4918239e51f2acb14d8cdf6a96eaf88e022ed0",
+      "bytes": 117123,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ]
+    },
+    {
+      "file": "screenshots/05-barrel-liquids-oblique.jpg",
+      "sha256": "ad03a27dd09074df7c9f6ae4e0fd2f47f13f3020a88b03c46d22dda3ac2b12f6",
+      "bytes": 136909,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ]
+    },
+    {
+      "file": "diagnostic/02-pressing-card-index0-top-centered-blank.jpg",
+      "sha256": "7a28e444c074d93407d226cc888aa53bf1f34d552716cd466e8a236ad6fb524f",
+      "bytes": 75997,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ]
+    },
+    {
+      "file": "diagnostic/02-pressing-card-index0-top-off-target.jpg",
+      "sha256": "7a28e444c074d93407d226cc888aa53bf1f34d552716cd466e8a236ad6fb524f",
+      "bytes": 75997,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ]
+    },
+    {
+      "file": "diagnostic/03-pressing-card-index0-north-edge-one-sided.jpg",
+      "sha256": "4ded44cfe94037bf38afb7f5b76defd92788ffa6acd0b079f1ec349972b3bf9f",
+      "bytes": 76208,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ]
+    },
+    {
+      "file": "camera/02-pressing-card-index0-top-camera.jpg",
+      "sha256": "042b04b7023e456c930e426908e21850afa3d2ce11d80d0a07a0a1ee3fa3ccda",
+      "bytes": 64176,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ]
+    }
+  ],
+  "pressing_card_top_camera": {
+    "projection": "Orthographic (preview menu checked)",
+    "position_displayed": [
+      0.12,
+      513.6,
+      -1.24
+    ],
+    "focal_point_displayed": [
+      0.12,
+      1.6,
+      -1.24
+    ],
+    "zoom_displayed": 0.3675,
+    "source": "Save Angle dialog read and cancelled; no preset saved"
+  },
+  "note": "Top blank diagnostics were inherited off-target camera, not asset failure. Mesh selection inserts Mesh menu before UV; verified viewport Center View on Selection and updated View menu used afterward.",
+  "gui_state": "Champagne and barrel-liquids tabs remain; no modal, no saved fixture edits"
+}

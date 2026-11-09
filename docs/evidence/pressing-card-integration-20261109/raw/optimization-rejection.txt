@@ -1,0 +1,1 @@
+Replay refuses Python optimization (-O/-OO): integrity assertions must remain enabled.

@@ -1,0 +1,46 @@
+Compiled from "SourceFile"
+class fkz$1 {
+  static final int[] a;
+
+  static {};
+    Code:
+       0: invokestatic  #20                 // Method fkz$b.values:()[Lfkz$b;
+       3: arraylength
+       4: newarray       int
+       6: putstatic     #22                 // Field a:[I
+       9: getstatic     #22                 // Field a:[I
+      12: getstatic     #25                 // Field fkz$b.a:Lfkz$b;
+      15: invokevirtual #29                 // Method fkz$b.ordinal:()I
+      18: iconst_1
+      19: iastore
+      20: goto          24
+      23: astore_0
+      24: getstatic     #22                 // Field a:[I
+      27: getstatic     #31                 // Field fkz$b.b:Lfkz$b;
+      30: invokevirtual #29                 // Method fkz$b.ordinal:()I
+      33: iconst_2
+      34: iastore
+      35: goto          39
+      38: astore_0
+      39: getstatic     #22                 // Field a:[I
+      42: getstatic     #34                 // Field fkz$b.c:Lfkz$b;
+      45: invokevirtual #29                 // Method fkz$b.ordinal:()I
+      48: iconst_3
+      49: iastore
+      50: goto          54
+      53: astore_0
+      54: getstatic     #22                 // Field a:[I
+      57: getstatic     #37                 // Field fkz$b.d:Lfkz$b;
+      60: invokevirtual #29                 // Method fkz$b.ordinal:()I
+      63: iconst_4
+      64: iastore
+      65: goto          69
+      68: astore_0
+      69: return
+    Exception table:
+       from    to  target type
+           9    20    23   Class java/lang/NoSuchFieldError
+          24    35    38   Class java/lang/NoSuchFieldError
+          39    50    53   Class java/lang/NoSuchFieldError
+          54    65    68   Class java/lang/NoSuchFieldError
+}

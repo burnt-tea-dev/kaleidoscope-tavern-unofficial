@@ -1,0 +1,16 @@
+{
+  "canonical_base": "7fb1afc86439d67703df202d04923d4bcdc4466b",
+  "tree": "af1a39378862291b3c9c6fdd22d8d4d42bed12b7",
+  "runtime_tree": "a62a8655d96a71a9d1d6395b5fa8216ca298f197",
+  "base_version": "0.6.215",
+  "prepared_version": "0.6.216",
+  "unchanged_original_runtime_inputs": 174,
+  "family_lock": {
+    "path": "family/upstream.lock.json",
+    "git_blob": "40a383f906fdbae00c8e15f8bcec663ae719f520",
+    "sha256": "5b1c49f380a2fddd65103639bb6b17117a212b209f385c87a4a754d6e33f7eb4",
+    "BetterBiomes_V7_preserved": true
+  },
+  "plant_receipts": "All canonical plant evidence preserved, including docs-only and family-lock base updates. No historical receipts rewritten.",
+  "runtime_changes": "Only card geometry plus required paired release metadata; 16 vector fields / 48 scalars in 8 centered cubes."
+}

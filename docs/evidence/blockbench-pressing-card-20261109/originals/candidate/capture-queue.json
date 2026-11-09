@@ -1,0 +1,52 @@
+{
+  "gui_reviewed": false,
+  "runtime_applied": false,
+  "scene_identity": "SOURCE is X=-24, BEFORE X=0, AFTER X=24. Read named groups; screen left/right is not identity evidence.",
+  "candidate_sha256": "d93249923210a8711fa038105816380407b9d70811c23313d4ddb56d68b83eea",
+  "priority": [
+    {
+      "file": "scenes/01-upright-isolated.bbmodel",
+      "captures": 2,
+      "views": ["Orthographic Top with all three global-index-0 groups visible", "Near-side oblique to distinguish original extrusion edges and card thickness"],
+      "expectation": "Source and AFTER have 8-unit broad-face edges; BEFORE has 4-unit edges. Source has 35 quads; both native cards have 2 faces. No source/native coordinate alignment claim."
+    },
+    {
+      "file": "scenes/02-upright-helper-boundaries.bbmodel",
+      "captures": 1,
+      "views": ["Oblique, selecting global indices 0/7/8/63 as needed to distinguish layer and helper boundaries"],
+      "expectation": "AFTER doubles each card about its unchanged BEFORE center. Global 7 and 8 cross helper 0 to 1; global 63 uses helper 7 local 7."
+    },
+    {
+      "file": "scenes/03-north-tilt-layers.bbmodel",
+      "captures": 1,
+      "views": ["Contents-only oblique, global 0 and 63"],
+      "expectation": "Same native pose and centers before/after. Do not infer source/native world Y or body clearance from intentionally different reference frames."
+    },
+    {
+      "file": "scenes/04-east-tilt-layers.bbmodel",
+      "captures": 1,
+      "views": ["Contents-only oblique, global 0 and 63"],
+      "expectation": "Same native yaw, tilt and slot transforms before/after. No body was attached to the east contents."
+    },
+    {
+      "file": "scenes/05-animated-ice-grape-tick1.bbmodel",
+      "captures": 1,
+      "views": ["Close Top or oblique at frozen tick 1"],
+      "expectation": "AFTER matches source broad-face size and exact tick pixels. Source's 43 generated quads remain different from two native broad faces. Clock execution is not tested."
+    },
+    {
+      "file": "scenes/06-unchanged-controls.bbmodel",
+      "captures": 1,
+      "views": ["Barrel grape and pressing stone controls, selecting each row as needed"],
+      "expectation": "Barrel before/after remain 8x8x0.5; pressing stone remains 4x4x4. Stone uses explicitly neutral official Java pixels, not a claim about inherited native texture."
+    }
+  ],
+  "total_suggested_captures": 7,
+  "do_not": [
+    "Do not export fixtures over runtime files or original scenes.",
+    "Do not change plugins, shared editor settings, user computer, game, BDS, LIVE or deployment.",
+    "Front render_sides is an editor hint, not Bedrock material or controller execution.",
+    "Do not add alpha-edge geometry, change ordinary ice material, or guess coordinate signs/body placement.",
+    "Existing and candidate decoded tilted AABBs exceed declared visible bounds. This advisory requires separate engine-frame/culling evidence; it does not authorize bounds or placement changes."
+  ]
+}

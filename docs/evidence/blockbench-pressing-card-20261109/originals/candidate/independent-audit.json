@@ -1,0 +1,1465 @@
+{
+  "status": "passed",
+  "gui_reviewed": false,
+  "native_execution": false,
+  "runtime_applied": false,
+  "hashes": 248,
+  "mesh_count": 36,
+  "directed_faces": 455,
+  "vertices": 1820,
+  "max_matrix_error": 7.105427357601002e-15,
+  "max_vertex_error": 1.4210854715202004e-14,
+  "cases": [
+    {
+      "scene": "scenes/01-upright-isolated.bbmodel",
+      "variant": "source",
+      "machine": "pressing_tub",
+      "item": "grape",
+      "global": 0,
+      "helper": 0,
+      "local": 0,
+      "tilt": null,
+      "directed_quads": 35,
+      "face_edges": [
+        7.999999999999999,
+        7.999999999999999,
+        7.999999999999999,
+        7.999999999999999
+      ],
+      "AABB_min": [
+        -31.858637752688832,
+        2.416963845876537,
+        -7.859075522052132
+      ],
+      "AABB_max": [
+        -20.94136243804603,
+        3.931385248514332,
+        3.059075331317269
+      ]
+    },
+    {
+      "scene": "scenes/01-upright-isolated.bbmodel",
+      "variant": "before",
+      "machine": "pressing_tub",
+      "item": "grape",
+      "global": 0,
+      "helper": 0,
+      "local": 0,
+      "tilt": null,
+      "directed_quads": 2,
+      "face_edges": [
+        4.0,
+        4.0,
+        3.999999999999999,
+        4.0
+      ],
+      "AABB_min": [
+        -0.3308285192321101,
+        2.7956961460062053,
+        -5.127916328792967
+      ],
+      "AABB_max": [
+        5.12770351923211,
+        3.5526529185823414,
+        0.3310413287929672
+      ]
+    },
+    {
+      "scene": "scenes/01-upright-isolated.bbmodel",
+      "variant": "after",
+      "machine": "pressing_tub",
+      "item": "grape",
+      "global": 0,
+      "helper": 0,
+      "local": 0,
+      "tilt": null,
+      "directed_quads": 2,
+      "face_edges": [
+        8.000000000000002,
+        8.0,
+        8.000000000000002,
+        8.0
+      ],
+      "AABB_min": [
+        20.93990546153578,
+        2.4172177597181377,
+        -7.857395157585934
+      ],
+      "AABB_max": [
+        31.85696953846422,
+        3.931131304870409,
+        3.0605201575859344
+      ]
+    },
+    {
+      "scene": "scenes/02-upright-helper-boundaries.bbmodel",
+      "variant": "source",
+      "machine": "pressing_tub",
+      "item": "grape",
+      "global": 0,
+      "helper": 0,
+      "local": 0,
+      "tilt": null,
+      "directed_quads": 35,
+      "face_edges": [
+        7.999999999999999,
+        7.999999999999999,
+        7.999999999999999,
+        7.999999999999999
+      ],
+      "AABB_min": [
+        -31.858637752688832,
+        2.416963845876537,
+        -7.859075522052132
+      ],
+      "AABB_max": [
+        -20.94136243804603,
+        3.931385248514332,
+        3.059075331317269
+      ]
+    },
+    {
+      "scene": "scenes/02-upright-helper-boundaries.bbmodel",
+      "variant": "before",
+      "machine": "pressing_tub",
+      "item": "grape",
+      "global": 0,
+      "helper": 0,
+      "local": 0,
+      "tilt": null,
+      "directed_quads": 2,
+      "face_edges": [
+        4.0,
+        4.0,
+        3.999999999999999,
+        4.0
+      ],
+      "AABB_min": [
+        -0.3308285192321101,
+        2.7956961460062053,
+        -5.127916328792967
+      ],
+      "AABB_max": [
+        5.12770351923211,
+        3.5526529185823414,
+        0.3310413287929672
+      ]
+    },
+    {
+      "scene": "scenes/02-upright-helper-boundaries.bbmodel",
+      "variant": "after",
+      "machine": "pressing_tub",
+      "item": "grape",
+      "global": 0,
+      "helper": 0,
+      "local": 0,
+      "tilt": null,
+      "directed_quads": 2,
+      "face_edges": [
+        8.000000000000002,
+        8.0,
+        8.000000000000002,
+        8.0
+      ],
+      "AABB_min": [
+        20.93990546153578,
+        2.4172177597181377,
+        -7.857395157585934
+      ],
+      "AABB_max": [
+        31.85696953846422,
+        3.931131304870409,
+        3.0605201575859344
+      ]
+    },
+    {
+      "scene": "scenes/02-upright-helper-boundaries.bbmodel",
+      "variant": "source",
+      "machine": "pressing_tub",
+      "item": "grape",
+      "global": 7,
+      "helper": 0,
+      "local": 7,
+      "tilt": null,
+      "directed_quads": 35,
+      "face_edges": [
+        7.999999999999999,
+        8.0,
+        7.999999999999999,
+        8.0
+      ],
+      "AABB_min": [
+        -27.646040290508587,
+        3.2686769237607205,
+        -3.1018648452321664
+      ],
+      "AABB_max": [
+        -16.356355339374225,
+        4.8439968356997305,
+        8.191639930681385
+      ]
+    },
+    {
+      "scene": "scenes/02-upright-helper-boundaries.bbmodel",
+      "variant": "before",
+      "machine": "pressing_tub",
+      "item": "grape",
+      "global": 7,
+      "helper": 0,
+      "local": 7,
+      "tilt": null,
+      "directed_quads": 2,
+      "face_edges": [
+        4.000000000000001,
+        4.0,
+        4.0,
+        4.0
+      ],
+      "AABB_min": [
+        -4.8224815864061075,
+        3.662273791880353,
+        -0.27657360630154715
+      ],
+      "AABB_max": [
+        0.8224815864061079,
+        4.450400205998676,
+        5.370323606301548
+      ]
+    },
+    {
+      "scene": "scenes/02-upright-helper-boundaries.bbmodel",
+      "variant": "after",
+      "machine": "pressing_tub",
+      "item": "grape",
+      "global": 7,
+      "helper": 0,
+      "local": 7,
+      "tilt": null,
+      "directed_quads": 2,
+      "face_edges": [
+        8.0,
+        8.0,
+        8.0,
+        8.0
+      ],
+      "AABB_min": [
+        16.355036827187785,
+        3.2682105848211913,
+        -3.1000222126030943
+      ],
+      "AABB_max": [
+        27.644963172812215,
+        4.844463413057836,
+        8.193772212603095
+      ]
+    },
+    {
+      "scene": "scenes/02-upright-helper-boundaries.bbmodel",
+      "variant": "source",
+      "machine": "pressing_tub",
+      "item": "grape",
+      "global": 8,
+      "helper": 1,
+      "local": 0,
+      "tilt": null,
+      "directed_quads": 35,
+      "face_edges": [
+        7.999999999999998,
+        8.0,
+        7.999999999999997,
+        8.0
+      ],
+      "AABB_min": [
+        -31.935514974005336,
+        4.086713504291349,
+        -7.937494648454676
+      ],
+      "AABB_max": [
+        -20.86448521672953,
+        5.663064289592927,
+        3.137494457719813
+      ]
+    },
+    {
+      "scene": "scenes/02-upright-helper-boundaries.bbmodel",
+      "variant": "before",
+      "machine": "pressing_tub",
+      "item": "grape",
+      "global": 8,
+      "helper": 1,
+      "local": 0,
+      "tilt": null,
+      "directed_quads": 2,
+      "face_edges": [
+        3.999999999999999,
+        3.9999999999999996,
+        3.999999999999999,
+        3.9999999999999996
+      ],
+      "AABB_min": [
+        -0.36922715262171213,
+        4.480790682990033,
+        -5.167092573903023
+      ],
+      "AABB_max": [
+        5.166102152621712,
+        5.268986729424519,
+        0.3702175739030238
+      ]
+    },
+    {
+      "scene": "scenes/02-upright-helper-boundaries.bbmodel",
+      "variant": "after",
+      "machine": "pressing_tub",
+      "item": "grape",
+      "global": 8,
+      "helper": 1,
+      "local": 0,
+      "tilt": null,
+      "directed_quads": 2,
+      "face_edges": [
+        7.999999999999998,
+        7.999999999999998,
+        7.999999999999998,
+        7.999999999999998
+      ],
+      "AABB_min": [
+        20.863108194756578,
+        4.0866926597727895,
+        -7.935747647806047
+      ],
+      "AABB_max": [
+        31.933766805243422,
+        5.663084752641763,
+        3.1388726478060476
+      ]
+    },
+    {
+      "scene": "scenes/02-upright-helper-boundaries.bbmodel",
+      "variant": "source",
+      "machine": "pressing_tub",
+      "item": "grape",
+      "global": 63,
+      "helper": 7,
+      "local": 7,
+      "tilt": null,
+      "directed_quads": 35,
+      "face_edges": [
+        8.0,
+        7.999999999999998,
+        8.0,
+        7.999999999999998
+      ],
+      "AABB_min": [
+        -27.547084018234933,
+        11.058888460668612,
+        -3.5784675517939273
+      ],
+      "AABB_max": [
+        -16.894757107253344,
+        11.892415021387052,
+        7.063412849035139
+      ]
+    },
+    {
+      "scene": "scenes/02-upright-helper-boundaries.bbmodel",
+      "variant": "before",
+      "machine": "pressing_tub",
+      "item": "grape",
+      "global": 63,
+      "helper": 7,
+      "local": 7,
+      "tilt": null,
+      "directed_quads": 2,
+      "face_edges": [
+        3.9999999999999996,
+        4.0,
+        4.0,
+        4.0
+      ],
+      "AABB_min": [
+        -4.445075885131443,
+        11.26712333027004,
+        -0.9190251880621852
+      ],
+      "AABB_max": [
+        0.8825758851314435,
+        11.684181391562232,
+        4.403400188062185
+      ]
+    },
+    {
+      "scene": "scenes/02-upright-helper-boundaries.bbmodel",
+      "variant": "after",
+      "machine": "pressing_tub",
+      "item": "grape",
+      "global": 63,
+      "helper": 7,
+      "local": 7,
+      "tilt": null,
+      "directed_quads": 2,
+      "face_edges": [
+        8.0,
+        7.999999999999999,
+        8.0,
+        7.999999999999999
+      ],
+      "AABB_min": [
+        16.891098229737114,
+        11.058594299623945,
+        -3.5802378761243707
+      ],
+      "AABB_max": [
+        27.546401770262886,
+        11.892710422208328,
+        7.064612876124371
+      ]
+    },
+    {
+      "scene": "scenes/03-north-tilt-layers.bbmodel",
+      "variant": "source",
+      "machine": "pressing_tub",
+      "item": "grape",
+      "global": 0,
+      "helper": 0,
+      "local": 0,
+      "tilt": 0,
+      "directed_quads": 35,
+      "face_edges": [
+        8.0,
+        7.999999999999999,
+        7.999999999999999,
+        7.999999999999999
+      ],
+      "AABB_min": [
+        -31.858637752688832,
+        2.2657418858358698,
+        -4.76160780865273
+      ],
+      "AABB_max": [
+        -20.94136243804603,
+        10.142814622566807,
+        3.5059514280736477
+      ]
+    },
+    {
+      "scene": "scenes/03-north-tilt-layers.bbmodel",
+      "variant": "before",
+      "machine": "pressing_tub",
+      "item": "grape",
+      "global": 0,
+      "helper": 0,
+      "local": 0,
+      "tilt": 0,
+      "directed_quads": 2,
+      "face_edges": [
+        4.000000000000001,
+        4.0,
+        4.000000000000001,
+        4.0
+      ],
+      "AABB_min": [
+        -0.3308285192321101,
+        -9.342512825322704,
+        -3.861456208055454
+      ],
+      "AABB_max": [
+        5.12770351923211,
+        -5.404040658732757,
+        0.2722225389458326
+      ]
+    },
+    {
+      "scene": "scenes/03-north-tilt-layers.bbmodel",
+      "variant": "after",
+      "machine": "pressing_tub",
+      "item": "grape",
+      "global": 0,
+      "helper": 0,
+      "local": 0,
+      "tilt": 0,
+      "directed_quads": 2,
+      "face_edges": [
+        8.0,
+        8.0,
+        8.000000000000002,
+        8.0
+      ],
+      "AABB_min": [
+        20.93990546153578,
+        -11.311748908617677,
+        -5.928295581556098
+      ],
+      "AABB_max": [
+        31.85696953846422,
+        -3.434804575437785,
+        2.3390619124464758
+      ]
+    },
+    {
+      "scene": "scenes/03-north-tilt-layers.bbmodel",
+      "variant": "source",
+      "machine": "pressing_tub",
+      "item": "grape",
+      "global": 63,
+      "helper": 7,
+      "local": 7,
+      "tilt": 0,
+      "directed_quads": 35,
+      "face_edges": [
+        7.999999999999998,
+        7.999999999999998,
+        8.000000000000002,
+        7.999999999999999
+      ],
+      "AABB_min": [
+        -27.547084018234933,
+        11.106905175647137,
+        -7.550439223276861
+      ],
+      "AABB_max": [
+        -16.894757107253344,
+        18.900054104313032,
+        0.41306234375782847
+      ]
+    },
+    {
+      "scene": "scenes/03-north-tilt-layers.bbmodel",
+      "variant": "before",
+      "machine": "pressing_tub",
+      "item": "grape",
+      "global": 63,
+      "helper": 7,
+      "local": 7,
+      "tilt": 0,
+      "directed_quads": 2,
+      "face_edges": [
+        3.9999999999999996,
+        3.9999999999999996,
+        3.9999999999999996,
+        4.0
+      ],
+      "AABB_min": [
+        -4.445075885131443,
+        -6.379935732225914,
+        5.011892146134298
+      ],
+      "AABB_max": [
+        0.8825758851314435,
+        -2.4822832505540537,
+        8.994664749433769
+      ]
+    },
+    {
+      "scene": "scenes/03-north-tilt-layers.bbmodel",
+      "variant": "after",
+      "machine": "pressing_tub",
+      "item": "grape",
+      "global": 63,
+      "helper": 7,
+      "local": 7,
+      "tilt": 0,
+      "directed_quads": 2,
+      "face_edges": [
+        8.0,
+        7.999999999999999,
+        8.0,
+        7.999999999999998
+      ],
+      "AABB_min": [
+        16.891098229737114,
+        -8.328761973061845,
+        3.0205058444845636
+      ],
+      "AABB_max": [
+        27.546401770262886,
+        -0.533457009718123,
+        10.986051051083505
+      ]
+    },
+    {
+      "scene": "scenes/04-east-tilt-layers.bbmodel",
+      "variant": "source",
+      "machine": "pressing_tub",
+      "item": "grape",
+      "global": 0,
+      "helper": 0,
+      "local": 0,
+      "tilt": 1,
+      "directed_quads": 35,
+      "face_edges": [
+        8.0,
+        7.999999999999999,
+        7.999999999999999,
+        7.999999999999999
+      ],
+      "AABB_min": [
+        -29.734258114164128,
+        5.4646113204034945,
+        -3.0586375619539696
+      ],
+      "AABB_max": [
+        -21.85718537743319,
+        13.73217055712987,
+        7.858637752688833
+      ]
+    },
+    {
+      "scene": "scenes/04-east-tilt-layers.bbmodel",
+      "variant": "before",
+      "machine": "pressing_tub",
+      "item": "grape",
+      "global": 0,
+      "helper": 0,
+      "local": 0,
+      "tilt": 1,
+      "directed_quads": 2,
+      "face_edges": [
+        4.000000000000001,
+        4.000000000000001,
+        4.000000000000001,
+        4.0
+      ],
+      "AABB_min": [
+        15.628049923154432,
+        4.138543791944547,
+        -0.3308285192321119
+      ],
+      "AABB_max": [
+        19.566522089744378,
+        8.272222538945833,
+        5.127703519232108
+      ]
+    },
+    {
+      "scene": "scenes/04-east-tilt-layers.bbmodel",
+      "variant": "after",
+      "machine": "pressing_tub",
+      "item": "grape",
+      "global": 0,
+      "helper": 0,
+      "local": 0,
+      "tilt": 1,
+      "directed_quads": 2,
+      "face_edges": [
+        8.000000000000002,
+        8.0,
+        8.000000000000002,
+        8.0
+      ],
+      "AABB_min": [
+        37.658813839859455,
+        2.071704418443903,
+        -3.060094538464222
+      ],
+      "AABB_max": [
+        45.53575817303935,
+        10.339061912446475,
+        7.856969538464218
+      ]
+    },
+    {
+      "scene": "scenes/04-east-tilt-layers.bbmodel",
+      "variant": "source",
+      "machine": "pressing_tub",
+      "item": "grape",
+      "global": 63,
+      "helper": 7,
+      "local": 7,
+      "tilt": 1,
+      "directed_quads": 35,
+      "face_edges": [
+        7.999999999999998,
+        8.0,
+        8.0,
+        8.0
+      ],
+      "AABB_min": [
+        -20.893094824352858,
+        8.557500404719312,
+        -7.105242892746656
+      ],
+      "AABB_max": [
+        -13.099945895686963,
+        16.521001971754,
+        3.547084018234936
+      ]
+    },
+    {
+      "scene": "scenes/04-east-tilt-layers.bbmodel",
+      "variant": "before",
+      "machine": "pressing_tub",
+      "item": "grape",
+      "global": 63,
+      "helper": 7,
+      "local": 7,
+      "tilt": 1,
+      "directed_quads": 2,
+      "face_edges": [
+        4.000000000000001,
+        4.000000000000001,
+        4.0,
+        4.000000000000001
+      ],
+      "AABB_min": [
+        18.590627016251222,
+        13.011892146134299,
+        -4.445075885131446
+      ],
+      "AABB_max": [
+        22.488279497923084,
+        16.99466474943377,
+        0.8825758851314416
+      ]
+    },
+    {
+      "scene": "scenes/04-east-tilt-layers.bbmodel",
+      "variant": "after",
+      "machine": "pressing_tub",
+      "item": "grape",
+      "global": 63,
+      "helper": 7,
+      "local": 7,
+      "tilt": 1,
+      "directed_quads": 2,
+      "face_edges": [
+        7.999999999999998,
+        8.000000000000002,
+        7.999999999999999,
+        8.000000000000002
+      ],
+      "AABB_min": [
+        40.64180077541529,
+        11.020505844484564,
+        -7.108901770262889
+      ],
+      "AABB_max": [
+        48.437105738759016,
+        18.986051051083503,
+        3.546401770262885
+      ]
+    },
+    {
+      "scene": "scenes/05-animated-ice-grape-tick1.bbmodel",
+      "variant": "source",
+      "machine": "pressing_tub",
+      "item": "ice_grape",
+      "global": 0,
+      "helper": 0,
+      "local": 0,
+      "tilt": null,
+      "directed_quads": 43,
+      "face_edges": [
+        8.0,
+        7.999999999999999,
+        8.0,
+        7.999999999999999
+      ],
+      "AABB_min": [
+        -31.859433967980785,
+        2.9162211577783346,
+        -7.859075522052132
+      ],
+      "AABB_max": [
+        -20.94056622275408,
+        3.4321279366125346,
+        3.059075331317269
+      ]
+    },
+    {
+      "scene": "scenes/05-animated-ice-grape-tick1.bbmodel",
+      "variant": "before",
+      "machine": "pressing_tub",
+      "item": "ice_grape",
+      "global": 0,
+      "helper": 0,
+      "local": 0,
+      "tilt": null,
+      "directed_quads": 2,
+      "face_edges": [
+        4.0,
+        4.000000000000001,
+        3.999999999999999,
+        4.000000000000001
+      ],
+      "AABB_min": [
+        -0.3312132010321347,
+        3.045363583985462,
+        -5.127916328792967
+      ],
+      "AABB_max": [
+        5.128088201032135,
+        3.302985480603085,
+        0.3310413287929672
+      ]
+    },
+    {
+      "scene": "scenes/05-animated-ice-grape-tick1.bbmodel",
+      "variant": "after",
+      "machine": "pressing_tub",
+      "item": "ice_grape",
+      "global": 0,
+      "helper": 0,
+      "local": 0,
+      "tilt": null,
+      "directed_quads": 2,
+      "face_edges": [
+        8.000000000000002,
+        8.0,
+        8.000000000000002,
+        8.0
+      ],
+      "AABB_min": [
+        20.93913609793573,
+        2.9165526356766494,
+        -7.857395157585934
+      ],
+      "AABB_max": [
+        31.85773890206427,
+        3.4317964289118974,
+        3.0605201575859344
+      ]
+    },
+    {
+      "scene": "scenes/06-unchanged-controls.bbmodel",
+      "variant": "source",
+      "machine": "barrel",
+      "item": "grape",
+      "global": 0,
+      "helper": 0,
+      "local": 0,
+      "tilt": null,
+      "directed_quads": 35,
+      "face_edges": [
+        8.0,
+        8.000000000000002,
+        7.999999999999998,
+        8.0
+      ],
+      "AABB_min": [
+        -25.8982821816359,
+        42.527507060115354,
+        -4.875057673083626
+      ],
+      "AABB_max": [
+        -14.972697127446127,
+        43.82084346478699,
+        6.043093180285775
+      ]
+    },
+    {
+      "scene": "scenes/06-unchanged-controls.bbmodel",
+      "variant": "before",
+      "machine": "barrel",
+      "item": "grape",
+      "global": 0,
+      "helper": 0,
+      "local": 0,
+      "tilt": null,
+      "directed_quads": 2,
+      "face_edges": [
+        8.0,
+        8.000000000000002,
+        8.0,
+        8.000000000000002
+      ],
+      "AABB_min": [
+        -7.401018031588505,
+        40.830048082264106,
+        -3.6943372296653445
+      ],
+      "AABB_max": [
+        0.27601803158850524,
+        45.51830098232444,
+        4.866212229665345
+      ]
+    },
+    {
+      "scene": "scenes/06-unchanged-controls.bbmodel",
+      "variant": "after",
+      "machine": "barrel",
+      "item": "grape",
+      "global": 0,
+      "helper": 0,
+      "local": 0,
+      "tilt": null,
+      "directed_quads": 2,
+      "face_edges": [
+        8.0,
+        8.000000000000002,
+        8.0,
+        8.000000000000002
+      ],
+      "AABB_min": [
+        16.598981968411493,
+        40.830048082264106,
+        -3.6943372296653445
+      ],
+      "AABB_max": [
+        24.276018031588507,
+        45.51830098232444,
+        4.866212229665345
+      ]
+    },
+    {
+      "scene": "scenes/06-unchanged-controls.bbmodel",
+      "variant": "source",
+      "machine": "pressing_tub",
+      "item": "stone",
+      "global": 0,
+      "helper": 0,
+      "local": 0,
+      "tilt": null,
+      "directed_quads": 6,
+      "face_edges": [
+        4.0,
+        3.9999999999999964,
+        4.0,
+        3.9999999999999964
+      ],
+      "AABB_min": [
+        -29.13244883175144,
+        1.1701998425497169,
+        38.870462191290216
+      ],
+      "AABB_max": [
+        -23.667551358983424,
+        5.178149251841152,
+        44.329537617974914
+      ]
+    },
+    {
+      "scene": "scenes/06-unchanged-controls.bbmodel",
+      "variant": "before",
+      "machine": "pressing_tub",
+      "item": "stone",
+      "global": 0,
+      "helper": 0,
+      "local": 0,
+      "tilt": null,
+      "directed_quads": 6,
+      "face_edges": [
+        3.999999999999999,
+        3.9999999999999973,
+        3.999999999999999,
+        3.9999999999999973
+      ],
+      "AABB_min": [
+        -0.33383119405947403,
+        1.1703654116896836,
+        38.87208367120704
+      ],
+      "AABB_max": [
+        5.130706194059474,
+        5.177983652898863,
+        44.33104132879296
+      ]
+    },
+    {
+      "scene": "scenes/06-unchanged-controls.bbmodel",
+      "variant": "after",
+      "machine": "pressing_tub",
+      "item": "stone",
+      "global": 0,
+      "helper": 0,
+      "local": 0,
+      "tilt": null,
+      "directed_quads": 6,
+      "face_edges": [
+        3.999999999999998,
+        3.9999999999999982,
+        3.999999999999998,
+        3.9999999999999982
+      ],
+      "AABB_min": [
+        23.666168805940526,
+        1.1703654116896836,
+        38.87208367120704
+      ],
+      "AABB_max": [
+        29.130706194059474,
+        5.177983652898863,
+        44.33104132879296
+      ]
+    }
+  ],
+  "negative_controls": [
+    {
+      "tamper": "candidate width",
+      "rejected": true
+    },
+    {
+      "tamper": "candidate center",
+      "rejected": true
+    },
+    {
+      "tamper": "candidate UV",
+      "rejected": true
+    },
+    {
+      "tamper": "candidate tilt pivot",
+      "rejected": true
+    },
+    {
+      "tamper": "saved size",
+      "rejected": true
+    },
+    {
+      "tamper": "saved center",
+      "rejected": true
+    },
+    {
+      "tamper": "saved UV",
+      "rejected": true
+    },
+    {
+      "tamper": "saved matrix",
+      "rejected": true
+    }
+  ],
+  "exact_candidate_delta": {
+    "files": 1,
+    "cubes": 8,
+    "changed_vectors": 16,
+    "changed_scalars": 48,
+    "center_before_after": [
+      0,
+      0,
+      0
+    ],
+    "all_other_fields_equal": true,
+    "after_sha256": "d93249923210a8711fa038105816380407b9d70811c23313d4ddb56d68b83eea"
+  },
+  "routes": {
+    "helpers": [
+      {
+        "helper": 0,
+        "global_indices": [
+          0,
+          7
+        ],
+        "identifier": "kaleidoscope_tavern:pressing_tub_ingredients_visual",
+        "RP_input": "inputs/current/runtime/RP/entity/runtime_pressing_tub_ingredients.entity.json",
+        "BP_input": "inputs/current/runtime/BP/entities/pressing_tub_ingredients_visual.json",
+        "compensating_scale": false
+      },
+      {
+        "helper": 1,
+        "global_indices": [
+          8,
+          15
+        ],
+        "identifier": "kaleidoscope_tavern:pressing_tub_ingredients_1_visual",
+        "RP_input": "inputs/current/runtime/RP/entity/runtime_pressing_tub_ingredients_1.entity.json",
+        "BP_input": "inputs/current/runtime/BP/entities/pressing_tub_ingredients_1_visual.json",
+        "compensating_scale": false
+      },
+      {
+        "helper": 2,
+        "global_indices": [
+          16,
+          23
+        ],
+        "identifier": "kaleidoscope_tavern:pressing_tub_ingredients_2_visual",
+        "RP_input": "inputs/current/runtime/RP/entity/runtime_pressing_tub_ingredients_2.entity.json",
+        "BP_input": "inputs/current/runtime/BP/entities/pressing_tub_ingredients_2_visual.json",
+        "compensating_scale": false
+      },
+      {
+        "helper": 3,
+        "global_indices": [
+          24,
+          31
+        ],
+        "identifier": "kaleidoscope_tavern:pressing_tub_ingredients_3_visual",
+        "RP_input": "inputs/current/runtime/RP/entity/runtime_pressing_tub_ingredients_3.entity.json",
+        "BP_input": "inputs/current/runtime/BP/entities/pressing_tub_ingredients_3_visual.json",
+        "compensating_scale": false
+      },
+      {
+        "helper": 4,
+        "global_indices": [
+          32,
+          39
+        ],
+        "identifier": "kaleidoscope_tavern:pressing_tub_ingredients_4_visual",
+        "RP_input": "inputs/current/runtime/RP/entity/runtime_pressing_tub_ingredients_4.entity.json",
+        "BP_input": "inputs/current/runtime/BP/entities/pressing_tub_ingredients_4_visual.json",
+        "compensating_scale": false
+      },
+      {
+        "helper": 5,
+        "global_indices": [
+          40,
+          47
+        ],
+        "identifier": "kaleidoscope_tavern:pressing_tub_ingredients_5_visual",
+        "RP_input": "inputs/current/runtime/RP/entity/runtime_pressing_tub_ingredients_5.entity.json",
+        "BP_input": "inputs/current/runtime/BP/entities/pressing_tub_ingredients_5_visual.json",
+        "compensating_scale": false
+      },
+      {
+        "helper": 6,
+        "global_indices": [
+          48,
+          55
+        ],
+        "identifier": "kaleidoscope_tavern:pressing_tub_ingredients_6_visual",
+        "RP_input": "inputs/current/runtime/RP/entity/runtime_pressing_tub_ingredients_6.entity.json",
+        "BP_input": "inputs/current/runtime/BP/entities/pressing_tub_ingredients_6_visual.json",
+        "compensating_scale": false
+      },
+      {
+        "helper": 7,
+        "global_indices": [
+          56,
+          63
+        ],
+        "identifier": "kaleidoscope_tavern:pressing_tub_ingredients_7_visual",
+        "RP_input": "inputs/current/runtime/RP/entity/runtime_pressing_tub_ingredients_7.entity.json",
+        "BP_input": "inputs/current/runtime/BP/entities/pressing_tub_ingredients_7_visual.json",
+        "compensating_scale": false
+      }
+    ],
+    "food_routes": [
+      {
+        "id": "amw:sour_cherry",
+        "kind": 5,
+        "texture": "textures/items/sweet_berries",
+        "owner": "card corrected"
+      },
+      {
+        "id": "kaleidoscope_tavern:grape",
+        "kind": 1,
+        "texture": "textures/kaleidoscope_tavern/item/grape",
+        "owner": "card corrected"
+      },
+      {
+        "id": "kaleidoscope_tavern:ice_grape",
+        "kind": 2,
+        "texture": "textures/kt_derived/a17/icon_ice_grape",
+        "owner": "card corrected"
+      },
+      {
+        "id": "kaleidoscope_tavern:gold_grape",
+        "kind": 3,
+        "texture": "textures/kaleidoscope_tavern/item/gold_grape",
+        "owner": "card corrected"
+      },
+      {
+        "id": "kaleidoscope_tavern:green_grape",
+        "kind": 4,
+        "texture": "textures/kaleidoscope_tavern/item/green_grape",
+        "owner": "card corrected"
+      },
+      {
+        "id": "minecraft:sweet_berries",
+        "kind": 5,
+        "texture": "textures/items/sweet_berries",
+        "owner": "card corrected"
+      },
+      {
+        "id": "minecraft:glow_berries",
+        "kind": 6,
+        "texture": "textures/items/glow_berries",
+        "owner": "card corrected"
+      },
+      {
+        "id": "minecraft:apple",
+        "kind": 7,
+        "texture": "textures/items/apple",
+        "owner": "card corrected"
+      },
+      {
+        "id": "minecraft:blaze_powder",
+        "kind": 8,
+        "texture": "textures/items/blaze_powder",
+        "owner": "card corrected"
+      },
+      {
+        "id": "minecraft:glow_ink_sac",
+        "kind": 9,
+        "texture": "textures/items/dye_powder_glow",
+        "owner": "card corrected"
+      },
+      {
+        "id": "minecraft:glowstone_dust",
+        "kind": 10,
+        "texture": "textures/items/glowstone_dust",
+        "owner": "card corrected"
+      },
+      {
+        "id": "minecraft:gold_nugget",
+        "kind": 11,
+        "texture": "textures/items/gold_nugget",
+        "owner": "card corrected"
+      },
+      {
+        "id": "minecraft:gunpowder",
+        "kind": 12,
+        "texture": "textures/items/gunpowder",
+        "owner": "card corrected"
+      },
+      {
+        "id": "minecraft:honeycomb",
+        "kind": 13,
+        "texture": "textures/items/honeycomb",
+        "owner": "card corrected"
+      },
+      {
+        "id": "minecraft:iron_nugget",
+        "kind": 14,
+        "texture": "textures/items/iron_nugget",
+        "owner": "card corrected"
+      },
+      {
+        "id": "minecraft:potato",
+        "kind": 15,
+        "texture": "textures/items/potato",
+        "owner": "card corrected"
+      },
+      {
+        "id": "minecraft:redstone",
+        "kind": 16,
+        "texture": "textures/items/redstone_dust",
+        "owner": "card corrected"
+      },
+      {
+        "id": "minecraft:sugar",
+        "kind": 17,
+        "texture": "textures/items/sugar",
+        "owner": "card corrected"
+      },
+      {
+        "id": "minecraft:sugar_cane",
+        "kind": 18,
+        "texture": "textures/items/reeds",
+        "owner": "card corrected"
+      },
+      {
+        "id": "minecraft:wheat",
+        "kind": 19,
+        "texture": "textures/items/wheat",
+        "owner": "card corrected"
+      },
+      {
+        "id": "minecraft:rotten_flesh",
+        "kind": 20,
+        "texture": "textures/items/rotten_flesh",
+        "owner": "card corrected"
+      },
+      {
+        "id": "minecraft:blue_ice",
+        "kind": 21,
+        "texture": "textures/blocks/blue_ice",
+        "owner": "cube unchanged"
+      },
+      {
+        "id": "minecraft:ice",
+        "kind": 22,
+        "texture": "textures/blocks/ice",
+        "owner": "cube unchanged"
+      },
+      {
+        "id": "minecraft:packed_ice",
+        "kind": 23,
+        "texture": "textures/blocks/ice_packed",
+        "owner": "cube unchanged"
+      },
+      {
+        "id": "minecraft:dirt",
+        "kind": 24,
+        "texture": "textures/blocks/dirt",
+        "owner": "cube unchanged"
+      },
+      {
+        "id": "minecraft:stone",
+        "kind": 25,
+        "texture": "textures/blocks/stone",
+        "owner": "cube unchanged"
+      },
+      {
+        "id": "minecraft:pink_petals",
+        "kind": 26,
+        "texture": "textures/items/pink_petals",
+        "owner": "card corrected"
+      }
+    ],
+    "affected_card_ids": 22,
+    "unique_card_kinds": 21,
+    "cube_kinds_unchanged": [
+      21,
+      22,
+      23,
+      24,
+      25
+    ],
+    "animated_tick_route_unchanged": true,
+    "helper_spawn_scale": 1,
+    "unknown_external_items_not_accepted": true
+  },
+  "source_scale_proof": {
+    "branches": [
+      "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+      "a1afba34981a00e89d57130d3dc8f1e64f1820a2"
+    ],
+    "renderer_scale": 0.5,
+    "generated_fixed_scale": 1,
+    "generated_fixed_yaw": 180,
+    "generated_full_dimensions": [
+      16,
+      16,
+      1
+    ],
+    "effective_dimensions": [
+      8,
+      8,
+      0.5
+    ],
+    "extrusion_algorithm_scope": "Official 1.20.1 bytecode only; 1.21.1 FIXED parent and renderer independently checked."
+  },
+  "held_controls": {
+    "inputs": [
+      {
+        "file": "runtime/RP/models/entity/runtime_shaker_held.geo.json",
+        "sha256": "800ead78afb5e6de1950749231b1f841b29222305ba21705f79fee425add6a3f"
+      },
+      {
+        "file": "runtime/RP/animations/runtime_shaker.animation.json",
+        "sha256": "2740cf7f4bc4a05c432e98e591d964169b992bf8cb1553ecb4425be91f54fb06"
+      },
+      {
+        "file": "runtime/RP/attachables/shaker.attachable.json",
+        "sha256": "24f6036ff424ae59ddb9fc98c5a175a57a186c24bfa9230058e42ed6f584042d"
+      },
+      {
+        "file": "runtime/RP/textures/kaleidoscope_tavern/block/mixology/shaker.png",
+        "sha256": "8cf12cd2ab194d976735419a1366799f6260399fecf4f65f926d59157e311e6f"
+      },
+      {
+        "file": "runtime/RP/models/entity/item_display_tilted_rack.geo.json",
+        "sha256": "93030bd4f8289be846eea898052b36ed81c33626355c8e42fbcac95a73968ff7"
+      }
+    ],
+    "tilted_rack_first_person_y_lift": 6,
+    "changed": false,
+    "new_held_acceptance": false
+  },
+  "all_card_pose_dimensions": {
+    "poses_checked": 320,
+    "effective_card_dimensions": [
+      8,
+      8,
+      0.5
+    ],
+    "union_decoded_AABB_min": [
+      -27.549551708585422,
+      -14.608203302123803,
+      -10.9860510510835
+    ],
+    "union_decoded_AABB_max": [
+      27.549551708585422,
+      18.9860510510835,
+      10.986051051083502
+    ],
+    "before_union_decoded_AABB_min": [
+      -25.510810780656826,
+      -12.86102810347133,
+      -8.994664749433767
+    ],
+    "before_union_decoded_AABB_max": [
+      25.510810780656826,
+      16.994664749433767,
+      8.994664749433767
+    ],
+    "declared_visible_bounds_min": [
+      -24,
+      -8,
+      -24
+    ],
+    "declared_visible_bounds_max": [
+      24,
+      40,
+      24
+    ],
+    "selected_seed_all_poses_inside_declared_bounds": false,
+    "before_all_poses_inside_declared_bounds": false,
+    "not_engine_culling_acceptance": true,
+    "scope": "Decoded reference-frame advisory only. Bounds are unchanged; outside cases require engine-frame/culling verification, not guessed metadata fixes.",
+    "raw_description": {
+      "visible_bounds_width": 3,
+      "visible_bounds_height": 3,
+      "visible_bounds_offset": [
+        0,
+        1,
+        0
+      ]
+    },
+    "declared_bounds_units": "blocks; converted at 16 model pixels per block",
+    "vertex_units": "model pixels in BB-decoded animated model-reference frame; no scene offset",
+    "location_block_coordinates": {
+      "x": 3,
+      "y": 64,
+      "z": -5
+    },
+    "count": 64,
+    "indices": "every integer 0..63",
+    "tilt_facing_states": [
+      null,
+      0,
+      1,
+      2,
+      3
+    ],
+    "facing_mapping": {
+      "0": "north",
+      "1": "east",
+      "2": "south",
+      "3": "west"
+    },
+    "unposed_local_card_before": {
+      "min": [
+        -2,
+        -2,
+        -0.125
+      ],
+      "max": [
+        2,
+        2,
+        0.125
+      ]
+    },
+    "unposed_local_card_after": {
+      "min": [
+        -4,
+        -4,
+        -0.25
+      ],
+      "max": [
+        4,
+        4,
+        0.25
+      ]
+    },
+    "full_pose_receipt": "pose-bounds-audit.json"
+  },
+  "texture_check": {
+    "ice_ticks": 24,
+    "mismatches": 0,
+    "embedded_original_bytes": true,
+    "front_hint_only": true,
+    "native_clock_executed": false,
+    "source_alpha_edge_quads": {
+      "grape": 35,
+      "ice_grape_union": 43
+    },
+    "native_card_faces": 2
+  },
+  "scope_limits": [
+    "No source/current coordinate-sign or placement alignment changes.",
+    "Source generated alpha-edge extrusion remains distinct from the native two-face approximation.",
+    "Ordinary ice material remains unproven and out of scope.",
+    "All registered card consumers share this owner; no new individual/addon texture or source-model acceptance.",
+    "No Minecraft, BDS, LIVE, GUI, runtime integration, versioning or publication."
+  ]
+}

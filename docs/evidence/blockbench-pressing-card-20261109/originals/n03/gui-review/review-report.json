@@ -1,0 +1,2477 @@
+{
+  "scope": "N03 actual cloud Blockbench 5.2.2 Free-format GUI observations only",
+  "canonical": "1bd3d70f94d142630b05a655008a296bc0bcd387",
+  "runtime_tree": "38c5977dd6bfe14b1824734612e3c601e1e41028",
+  "version": "0.6.213",
+  "forge": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+  "neoforge": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+  "gui_completed": true,
+  "scene_count": 8,
+  "accepted_original_screenshots": 14,
+  "excluded_original_diagnostics": 7,
+  "camera_metadata_original_screenshots": 1,
+  "preflight_original_inputs_checked": 239,
+  "all_scene_bytes_unchanged": true,
+  "post_review_scene_hashes": {
+    "scenes/animated-card-frame-controls.bbmodel": "9dec7a6ff86d82b014748a702802488e40b38c3b86b929bef122814f3ca0c732",
+    "scenes/barrel-card-edge-slots.bbmodel": "e2e3c9a64b523f9cda5f84f37bcc3af55b34553b4edc4a2a476d736ca246ae79",
+    "scenes/barrel-liquids.bbmodel": "f26de34abe68ea3c19d2428d633b131f54e0c0ead12fdc5ea11141dffc5cc29e",
+    "scenes/cube-material-controls.bbmodel": "193b1a2f9ce4a85fbb558bc68dc0e9d39ffe85a50bbf3e55cc4bca3a8e5d6727",
+    "scenes/pressing-card-tilt-east.bbmodel": "99917f01ebca6ec6edb278b2847079e43426dc7ed03fa3ebbf1edc68e02886e1",
+    "scenes/pressing-card-tilt-north.bbmodel": "29497408d8804c6bf7149d5ee236d745c71102c44260b7759e0eea7a44efee2e",
+    "scenes/pressing-card-upright.bbmodel": "a169ea476b961e542282782ba965f2e410d0ab4773783caa6ef4a2dae50f5208",
+    "scenes/pressing_tub-liquids.bbmodel": "18fd8f232361519c125e1ebd15e2b763ecb3ec9006ebfdd55abc03c60ab6e42c"
+  },
+  "key_finding": {
+    "id": "pressing-card-scale",
+    "status": "existing source-backed discrepancy visibly confirmed; not repaired",
+    "source_final_card_size": [
+      8,
+      8,
+      0.5
+    ],
+    "current_final_card_size": [
+      4,
+      4,
+      0.25
+    ],
+    "basis_invariant": true,
+    "decisive_capture": "screenshots/02-pressing-card-index0-top.jpg",
+    "source_route": "Both official 1.20.1 and1.21.1 generated parents have FIXED scale1; Tavern renderer scale0.5; original generated face16x16 thickness1. Current active helpers/bones/controllers have no compensating scale.",
+    "additional_observations": [
+      "Tilted controls preserve the discrepancy.",
+      "Frozen ice-grape pressing card likewise remains half-size."
+    ]
+  },
+  "captures": [
+    {
+      "file": "screenshots/01-pressing-card-upright-context.jpg",
+      "sha256": "cfcd67c470679ee7c2f36b8e7e275abe1f60bee452f86b3b1bd273899ee2910c",
+      "bytes": 86145,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T02:59:08.622103+00:00",
+      "scene": "scenes/pressing-card-upright.bbmodel",
+      "scene_sha256": "a169ea476b961e542282782ba965f2e410d0ab4773783caa6ef4a2dae50f5208",
+      "camera": "Inherited initial perspective; zoom out 700 pixels",
+      "visibility": "All original groups visible",
+      "findings": "Context observation only. Tub bodies and selected ingredient index samples are visible; perspective, body occlusion and model-reference differences mean this is not a scale measurement or placement acceptance.",
+      "status": "reviewed bounded observation, not a general parity pass",
+      "source_current_identity": "Source negative world X, current positive world X; use group names and scene-identity-index.json rather than universal screen-left/right captions.",
+      "content_meshes": [
+        {
+          "group": "SOURCE grape slot=0 global=0",
+          "kind": "source_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 0,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              -31.858637752688832,
+              2.416963845876537,
+              -7.859075522052132
+            ],
+            [
+              -20.94136243804603,
+              3.931385248514332,
+              3.059075331317269
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT grape slot=0 global=0",
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 0,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              23.66917148076789,
+              2.7956961460062053,
+              -5.127916328792967
+            ],
+            [
+              29.12770351923211,
+              3.5526529185823414,
+              0.3310413287929672
+            ]
+          ]
+        },
+        {
+          "group": "SOURCE grape slot=0 global=7",
+          "kind": "source_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 7,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              -27.646040290508587,
+              3.2686769237607205,
+              -3.1018648452321664
+            ],
+            [
+              -16.356355339374225,
+              4.8439968356997305,
+              8.191639930681385
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT grape slot=0 global=7",
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 7,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              19.17751841359389,
+              3.662273791880353,
+              -0.27657360630154715
+            ],
+            [
+              24.82248158640611,
+              4.450400205998676,
+              5.370323606301548
+            ]
+          ]
+        },
+        {
+          "group": "SOURCE grape slot=0 global=8",
+          "kind": "source_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 8,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              -31.935514974005336,
+              4.086713504291349,
+              -7.937494648454676
+            ],
+            [
+              -20.86448521672953,
+              5.663064289592927,
+              3.137494457719813
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT grape slot=0 global=8",
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 8,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              23.630772847378285,
+              4.480790682990033,
+              -5.167092573903023
+            ],
+            [
+              29.166102152621715,
+              5.268986729424519,
+              0.3702175739030238
+            ]
+          ]
+        },
+        {
+          "group": "SOURCE grape slot=0 global=63",
+          "kind": "source_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 63,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              -27.547084018234933,
+              11.058888460668612,
+              -3.5784675517939273
+            ],
+            [
+              -16.894757107253344,
+              11.892415021387052,
+              7.063412849035139
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT grape slot=0 global=63",
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 63,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              19.554924114868555,
+              11.26712333027004,
+              -0.9190251880621852
+            ],
+            [
+              24.882575885131445,
+              11.684181391562232,
+              4.403400188062185
+            ]
+          ]
+        }
+      ],
+      "original_capture": "Original app.getScreenshot Uint8Array JPEG bytes written unchanged. The same saved bytes were emitted and visually inspected. No crop, repaint, resize or reencode."
+    },
+    {
+      "file": "screenshots/02-pressing-card-index0-top.jpg",
+      "sha256": "a4e4108796538e5c4d1f6faf5544dcd8b65f152efeffa9a1fdf77f94d32978e7",
+      "bytes": 79850,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T03:01:35.220103+00:00",
+      "scene": "scenes/pressing-card-upright.bbmodel",
+      "scene_sha256": "a169ea476b961e542282782ba965f2e410d0ab4773783caa6ef4a2dae50f5208",
+      "camera": "Top orthographic; centered only the two grape 0 meshes; displayed zoom 0.3675",
+      "visibility": "Only source/current grape global index 0 meshes visible",
+      "findings": "Decisive bounded scale observation: source sprite has twice current linear size. Complete source route gives 8x8x0.5 and current gives 4x4x0.25. The scale comparison is basis-invariant; world placement is not tested.",
+      "status": "reviewed bounded observation, not a general parity pass",
+      "source_current_identity": "Source negative world X, current positive world X; use group names and scene-identity-index.json rather than universal screen-left/right captions.",
+      "content_meshes": [
+        {
+          "group": "SOURCE grape slot=0 global=0",
+          "kind": "source_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 0,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              -31.858637752688832,
+              2.416963845876537,
+              -7.859075522052132
+            ],
+            [
+              -20.94136243804603,
+              3.931385248514332,
+              3.059075331317269
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT grape slot=0 global=0",
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 0,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              23.66917148076789,
+              2.7956961460062053,
+              -5.127916328792967
+            ],
+            [
+              29.12770351923211,
+              3.5526529185823414,
+              0.3310413287929672
+            ]
+          ]
+        },
+        {
+          "group": "SOURCE grape slot=0 global=7",
+          "kind": "source_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 7,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              -27.646040290508587,
+              3.2686769237607205,
+              -3.1018648452321664
+            ],
+            [
+              -16.356355339374225,
+              4.8439968356997305,
+              8.191639930681385
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT grape slot=0 global=7",
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 7,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              19.17751841359389,
+              3.662273791880353,
+              -0.27657360630154715
+            ],
+            [
+              24.82248158640611,
+              4.450400205998676,
+              5.370323606301548
+            ]
+          ]
+        },
+        {
+          "group": "SOURCE grape slot=0 global=8",
+          "kind": "source_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 8,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              -31.935514974005336,
+              4.086713504291349,
+              -7.937494648454676
+            ],
+            [
+              -20.86448521672953,
+              5.663064289592927,
+              3.137494457719813
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT grape slot=0 global=8",
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 8,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              23.630772847378285,
+              4.480790682990033,
+              -5.167092573903023
+            ],
+            [
+              29.166102152621715,
+              5.268986729424519,
+              0.3702175739030238
+            ]
+          ]
+        },
+        {
+          "group": "SOURCE grape slot=0 global=63",
+          "kind": "source_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 63,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              -27.547084018234933,
+              11.058888460668612,
+              -3.5784675517939273
+            ],
+            [
+              -16.894757107253344,
+              11.892415021387052,
+              7.063412849035139
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT grape slot=0 global=63",
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 63,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              19.554924114868555,
+              11.26712333027004,
+              -0.9190251880621852
+            ],
+            [
+              24.882575885131445,
+              11.684181391562232,
+              4.403400188062185
+            ]
+          ]
+        }
+      ],
+      "original_capture": "Original app.getScreenshot Uint8Array JPEG bytes written unchanged. The same saved bytes were emitted and visually inspected. No crop, repaint, resize or reencode."
+    },
+    {
+      "file": "screenshots/03-pressing-card-index0-oblique.jpg",
+      "sha256": "3694f4a6fc56871e6746d69792b4188e2e68d3273f4ebca905578be0cf81d659",
+      "bytes": 78026,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T03:02:37.592946+00:00",
+      "scene": "scenes/pressing-card-upright.bbmodel",
+      "scene_sha256": "a169ea476b961e542282782ba965f2e410d0ab4773783caa6ef4a2dae50f5208",
+      "camera": "True Isometric Left (30 degrees); centered the two grape 0 meshes; zoom out 450 pixels",
+      "visibility": "Only source/current grape global index 0 meshes visible",
+      "findings": "Both cards are visible obliquely. Source generated-item representation and current thin two-face representation retain their documented differences. This is not a native culling or edge-rendering verdict.",
+      "status": "reviewed bounded observation, not a general parity pass",
+      "source_current_identity": "Source negative world X, current positive world X; use group names and scene-identity-index.json rather than universal screen-left/right captions.",
+      "content_meshes": [
+        {
+          "group": "SOURCE grape slot=0 global=0",
+          "kind": "source_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 0,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              -31.858637752688832,
+              2.416963845876537,
+              -7.859075522052132
+            ],
+            [
+              -20.94136243804603,
+              3.931385248514332,
+              3.059075331317269
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT grape slot=0 global=0",
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 0,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              23.66917148076789,
+              2.7956961460062053,
+              -5.127916328792967
+            ],
+            [
+              29.12770351923211,
+              3.5526529185823414,
+              0.3310413287929672
+            ]
+          ]
+        },
+        {
+          "group": "SOURCE grape slot=0 global=7",
+          "kind": "source_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 7,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              -27.646040290508587,
+              3.2686769237607205,
+              -3.1018648452321664
+            ],
+            [
+              -16.356355339374225,
+              4.8439968356997305,
+              8.191639930681385
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT grape slot=0 global=7",
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 7,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              19.17751841359389,
+              3.662273791880353,
+              -0.27657360630154715
+            ],
+            [
+              24.82248158640611,
+              4.450400205998676,
+              5.370323606301548
+            ]
+          ]
+        },
+        {
+          "group": "SOURCE grape slot=0 global=8",
+          "kind": "source_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 8,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              -31.935514974005336,
+              4.086713504291349,
+              -7.937494648454676
+            ],
+            [
+              -20.86448521672953,
+              5.663064289592927,
+              3.137494457719813
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT grape slot=0 global=8",
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 8,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              23.630772847378285,
+              4.480790682990033,
+              -5.167092573903023
+            ],
+            [
+              29.166102152621715,
+              5.268986729424519,
+              0.3702175739030238
+            ]
+          ]
+        },
+        {
+          "group": "SOURCE grape slot=0 global=63",
+          "kind": "source_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 63,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              -27.547084018234933,
+              11.058888460668612,
+              -3.5784675517939273
+            ],
+            [
+              -16.894757107253344,
+              11.892415021387052,
+              7.063412849035139
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT grape slot=0 global=63",
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 63,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              19.554924114868555,
+              11.26712333027004,
+              -0.9190251880621852
+            ],
+            [
+              24.882575885131445,
+              11.684181391562232,
+              4.403400188062185
+            ]
+          ]
+        }
+      ],
+      "original_capture": "Original app.getScreenshot Uint8Array JPEG bytes written unchanged. The same saved bytes were emitted and visually inspected. No crop, repaint, resize or reencode."
+    },
+    {
+      "file": "screenshots/04-barrel-liquids-top.jpg",
+      "sha256": "e93f49ecec4ef8975c4586519b4918239e51f2acb14d8cdf6a96eaf88e022ed0",
+      "bytes": 117123,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T03:04:10.318199+00:00",
+      "scene": "scenes/barrel-liquids.bbmodel",
+      "scene_sha256": "f26de34abe68ea3c19d2428d633b131f54e0c0ead12fdc5ea11141dffc5cc29e",
+      "camera": "Top orthographic; centered all; zoom out 1900 pixels",
+      "visibility": "All original groups visible",
+      "findings": "Water amount 1000 at Z0, lava 4000 at Z44 and grape 4000 at Z88 render through both barrel openings. Frame 0 only. Their sprite orientation is shown in the saved reference frames, not accepted as in-engine UV orientation.",
+      "status": "reviewed bounded observation, not a general parity pass",
+      "source_current_identity": "Source negative world X, current positive world X; use group names and scene-identity-index.json rather than universal screen-left/right captions.",
+      "content_meshes": [
+        {
+          "group": "SOURCE water amount=1000 frame0",
+          "kind": "source_fluid",
+          "machine": "barrel",
+          "item": null,
+          "index": null,
+          "slot": null,
+          "world_vertex_bounds": [
+            [
+              -32.0,
+              34.59999990463257,
+              -8.0
+            ],
+            [
+              -16.0,
+              34.59999990463257,
+              8.0
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT water amount=1000 frame0",
+          "kind": "current_fluid",
+          "machine": "barrel",
+          "item": null,
+          "index": null,
+          "slot": null,
+          "world_vertex_bounds": [
+            [
+              16.0,
+              34.6,
+              -8.0
+            ],
+            [
+              32.0,
+              34.6,
+              8.0
+            ]
+          ]
+        },
+        {
+          "group": "SOURCE lava amount=4000 frame0",
+          "kind": "source_fluid",
+          "machine": "barrel",
+          "item": null,
+          "index": null,
+          "slot": null,
+          "world_vertex_bounds": [
+            [
+              -32.0,
+              42.39999961853027,
+              36.0
+            ],
+            [
+              -16.0,
+              42.39999961853027,
+              52.0
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT lava amount=4000 frame0",
+          "kind": "current_fluid",
+          "machine": "barrel",
+          "item": null,
+          "index": null,
+          "slot": null,
+          "world_vertex_bounds": [
+            [
+              16.0,
+              42.4,
+              36.0
+            ],
+            [
+              32.0,
+              42.4,
+              52.0
+            ]
+          ]
+        },
+        {
+          "group": "SOURCE grape amount=4000 frame0",
+          "kind": "source_fluid",
+          "machine": "barrel",
+          "item": null,
+          "index": null,
+          "slot": null,
+          "world_vertex_bounds": [
+            [
+              -32.0,
+              42.39999961853027,
+              80.0
+            ],
+            [
+              -16.0,
+              42.39999961853027,
+              96.0
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT grape amount=4000 frame0",
+          "kind": "current_fluid",
+          "machine": "barrel",
+          "item": null,
+          "index": null,
+          "slot": null,
+          "world_vertex_bounds": [
+            [
+              16.0,
+              42.4,
+              80.0
+            ],
+            [
+              32.0,
+              42.4,
+              96.0
+            ]
+          ]
+        }
+      ],
+      "original_capture": "Original app.getScreenshot Uint8Array JPEG bytes written unchanged. The same saved bytes were emitted and visually inspected. No crop, repaint, resize or reencode."
+    },
+    {
+      "file": "screenshots/05-barrel-liquids-oblique.jpg",
+      "sha256": "ad03a27dd09074df7c9f6ae4e0fd2f47f13f3020a88b03c46d22dda3ac2b12f6",
+      "bytes": 136909,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T03:04:44.658664+00:00",
+      "scene": "scenes/barrel-liquids.bbmodel",
+      "scene_sha256": "f26de34abe68ea3c19d2428d633b131f54e0c0ead12fdc5ea11141dffc5cc29e",
+      "camera": "True Isometric Right (30 degrees); centered all; zoom out 1800 pixels",
+      "visibility": "All original groups visible",
+      "findings": "Oblique view shows low water mostly occluded by the opening and high lava/grape surfaces. Body/opening visibility depends on the preview camera. No transparency, shader, animation clock or controller execution is claimed.",
+      "status": "reviewed bounded observation, not a general parity pass",
+      "source_current_identity": "Source negative world X, current positive world X; use group names and scene-identity-index.json rather than universal screen-left/right captions.",
+      "content_meshes": [
+        {
+          "group": "SOURCE water amount=1000 frame0",
+          "kind": "source_fluid",
+          "machine": "barrel",
+          "item": null,
+          "index": null,
+          "slot": null,
+          "world_vertex_bounds": [
+            [
+              -32.0,
+              34.59999990463257,
+              -8.0
+            ],
+            [
+              -16.0,
+              34.59999990463257,
+              8.0
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT water amount=1000 frame0",
+          "kind": "current_fluid",
+          "machine": "barrel",
+          "item": null,
+          "index": null,
+          "slot": null,
+          "world_vertex_bounds": [
+            [
+              16.0,
+              34.6,
+              -8.0
+            ],
+            [
+              32.0,
+              34.6,
+              8.0
+            ]
+          ]
+        },
+        {
+          "group": "SOURCE lava amount=4000 frame0",
+          "kind": "source_fluid",
+          "machine": "barrel",
+          "item": null,
+          "index": null,
+          "slot": null,
+          "world_vertex_bounds": [
+            [
+              -32.0,
+              42.39999961853027,
+              36.0
+            ],
+            [
+              -16.0,
+              42.39999961853027,
+              52.0
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT lava amount=4000 frame0",
+          "kind": "current_fluid",
+          "machine": "barrel",
+          "item": null,
+          "index": null,
+          "slot": null,
+          "world_vertex_bounds": [
+            [
+              16.0,
+              42.4,
+              36.0
+            ],
+            [
+              32.0,
+              42.4,
+              52.0
+            ]
+          ]
+        },
+        {
+          "group": "SOURCE grape amount=4000 frame0",
+          "kind": "source_fluid",
+          "machine": "barrel",
+          "item": null,
+          "index": null,
+          "slot": null,
+          "world_vertex_bounds": [
+            [
+              -32.0,
+              42.39999961853027,
+              80.0
+            ],
+            [
+              -16.0,
+              42.39999961853027,
+              96.0
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT grape amount=4000 frame0",
+          "kind": "current_fluid",
+          "machine": "barrel",
+          "item": null,
+          "index": null,
+          "slot": null,
+          "world_vertex_bounds": [
+            [
+              16.0,
+              42.4,
+              80.0
+            ],
+            [
+              32.0,
+              42.4,
+              96.0
+            ]
+          ]
+        }
+      ],
+      "original_capture": "Original app.getScreenshot Uint8Array JPEG bytes written unchanged. The same saved bytes were emitted and visually inspected. No crop, repaint, resize or reencode."
+    },
+    {
+      "file": "screenshots/06-pressing-liquids-perspective.jpg",
+      "sha256": "487d2495dc055ae1f9e7625ad2e5b53e1685021cd2e3e3fd329fa766b7879d29",
+      "bytes": 92912,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T03:11:30.440106+00:00",
+      "scene": "scenes/pressing_tub-liquids.bbmodel",
+      "scene_sha256": "18fd8f232361519c125e1ebd15e2b763ecb3ec9006ebfdd55abc03c60ab6e42c",
+      "camera": "Inherited initial perspective; centered all; zoom out 1200 pixels",
+      "visibility": "All original groups visible",
+      "findings": "Water 250 at Z0 sits below the rim and is partly occluded at this angle. Lava and grape 1000 at Z44/Z88 are visibly higher. Top capture resolves all six surfaces.",
+      "status": "reviewed bounded observation, not a general parity pass",
+      "source_current_identity": "Source negative world X, current positive world X; use group names and scene-identity-index.json rather than universal screen-left/right captions.",
+      "content_meshes": [
+        {
+          "group": "SOURCE water amount=250 frame0",
+          "kind": "source_fluid",
+          "machine": "pressing_tub",
+          "item": null,
+          "index": null,
+          "slot": null,
+          "world_vertex_bounds": [
+            [
+              -30.0,
+              3.0,
+              -6.0
+            ],
+            [
+              -18.0,
+              3.0,
+              6.0
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT water amount=250 frame0",
+          "kind": "current_fluid",
+          "machine": "pressing_tub",
+          "item": null,
+          "index": null,
+          "slot": null,
+          "world_vertex_bounds": [
+            [
+              18.0,
+              3.0,
+              -6.0
+            ],
+            [
+              30.0,
+              3.0,
+              6.0
+            ]
+          ]
+        },
+        {
+          "group": "SOURCE lava amount=1000 frame0",
+          "kind": "source_fluid",
+          "machine": "pressing_tub",
+          "item": null,
+          "index": null,
+          "slot": null,
+          "world_vertex_bounds": [
+            [
+              -30.0,
+              6.0,
+              38.0
+            ],
+            [
+              -18.0,
+              6.0,
+              50.0
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT lava amount=1000 frame0",
+          "kind": "current_fluid",
+          "machine": "pressing_tub",
+          "item": null,
+          "index": null,
+          "slot": null,
+          "world_vertex_bounds": [
+            [
+              18.0,
+              6.0,
+              38.0
+            ],
+            [
+              30.0,
+              6.0,
+              50.0
+            ]
+          ]
+        },
+        {
+          "group": "SOURCE grape amount=1000 frame0",
+          "kind": "source_fluid",
+          "machine": "pressing_tub",
+          "item": null,
+          "index": null,
+          "slot": null,
+          "world_vertex_bounds": [
+            [
+              -30.0,
+              6.0,
+              82.0
+            ],
+            [
+              -18.0,
+              6.0,
+              94.0
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT grape amount=1000 frame0",
+          "kind": "current_fluid",
+          "machine": "pressing_tub",
+          "item": null,
+          "index": null,
+          "slot": null,
+          "world_vertex_bounds": [
+            [
+              18.0,
+              6.0,
+              82.0
+            ],
+            [
+              30.0,
+              6.0,
+              94.0
+            ]
+          ]
+        }
+      ],
+      "original_capture": "Original app.getScreenshot Uint8Array JPEG bytes written unchanged. The same saved bytes were emitted and visually inspected. No crop, repaint, resize or reencode."
+    },
+    {
+      "file": "screenshots/07-pressing-liquids-top.jpg",
+      "sha256": "057ba9c591b47b4582fc2e0f87f9e1752ee367422720318f52792c3a0f595422",
+      "bytes": 90195,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T03:11:44.084289+00:00",
+      "scene": "scenes/pressing_tub-liquids.bbmodel",
+      "scene_sha256": "18fd8f232361519c125e1ebd15e2b763ecb3ec9006ebfdd55abc03c60ab6e42c",
+      "camera": "Top orthographic; centered all; zoom out 1600 pixels",
+      "visibility": "All original groups visible",
+      "findings": "All six frame-0 surfaces are visible. Water/lava/grape shapes and colors can be inspected in their recorded reference frames. Visible sprite orientation/shading differences are not promoted to native-engine defects.",
+      "status": "reviewed bounded observation, not a general parity pass",
+      "source_current_identity": "Source negative world X, current positive world X; use group names and scene-identity-index.json rather than universal screen-left/right captions.",
+      "content_meshes": [
+        {
+          "group": "SOURCE water amount=250 frame0",
+          "kind": "source_fluid",
+          "machine": "pressing_tub",
+          "item": null,
+          "index": null,
+          "slot": null,
+          "world_vertex_bounds": [
+            [
+              -30.0,
+              3.0,
+              -6.0
+            ],
+            [
+              -18.0,
+              3.0,
+              6.0
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT water amount=250 frame0",
+          "kind": "current_fluid",
+          "machine": "pressing_tub",
+          "item": null,
+          "index": null,
+          "slot": null,
+          "world_vertex_bounds": [
+            [
+              18.0,
+              3.0,
+              -6.0
+            ],
+            [
+              30.0,
+              3.0,
+              6.0
+            ]
+          ]
+        },
+        {
+          "group": "SOURCE lava amount=1000 frame0",
+          "kind": "source_fluid",
+          "machine": "pressing_tub",
+          "item": null,
+          "index": null,
+          "slot": null,
+          "world_vertex_bounds": [
+            [
+              -30.0,
+              6.0,
+              38.0
+            ],
+            [
+              -18.0,
+              6.0,
+              50.0
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT lava amount=1000 frame0",
+          "kind": "current_fluid",
+          "machine": "pressing_tub",
+          "item": null,
+          "index": null,
+          "slot": null,
+          "world_vertex_bounds": [
+            [
+              18.0,
+              6.0,
+              38.0
+            ],
+            [
+              30.0,
+              6.0,
+              50.0
+            ]
+          ]
+        },
+        {
+          "group": "SOURCE grape amount=1000 frame0",
+          "kind": "source_fluid",
+          "machine": "pressing_tub",
+          "item": null,
+          "index": null,
+          "slot": null,
+          "world_vertex_bounds": [
+            [
+              -30.0,
+              6.0,
+              82.0
+            ],
+            [
+              -18.0,
+              6.0,
+              94.0
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT grape amount=1000 frame0",
+          "kind": "current_fluid",
+          "machine": "pressing_tub",
+          "item": null,
+          "index": null,
+          "slot": null,
+          "world_vertex_bounds": [
+            [
+              18.0,
+              6.0,
+              82.0
+            ],
+            [
+              30.0,
+              6.0,
+              94.0
+            ]
+          ]
+        }
+      ],
+      "original_capture": "Original app.getScreenshot Uint8Array JPEG bytes written unchanged. The same saved bytes were emitted and visually inspected. No crop, repaint, resize or reencode."
+    },
+    {
+      "file": "screenshots/08-barrel-card-slots-top.jpg",
+      "sha256": "5cb60aef143e04ed3d2f288baf4984ef110b2997fa050c4185d1e46c87822560",
+      "bytes": 109395,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T03:12:41.649065+00:00",
+      "scene": "scenes/barrel-card-edge-slots.bbmodel",
+      "scene_sha256": "e2e3c9a64b523f9cda5f84f37bcc3af55b34553b4edc4a2a476d736ca246ae79",
+      "camera": "Top orthographic; centered all; zoom out 1100 pixels",
+      "visibility": "All original groups visible",
+      "findings": "Body-context view of selected slot0 indices0/8 and slot3 indices9/17. Some ingredient surfaces are hidden by the barrel opening; isolated capture09 is the unoccluded representation control.",
+      "status": "reviewed bounded observation, not a general parity pass",
+      "source_current_identity": "Source negative world X, current positive world X; use group names and scene-identity-index.json rather than universal screen-left/right captions.",
+      "content_meshes": [
+        {
+          "group": "SOURCE grape slot=0 global=0",
+          "kind": "source_ingredient",
+          "machine": "barrel",
+          "item": "grape",
+          "index": 0,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              -25.8982821816359,
+              42.527507060115354,
+              -4.875057673083626
+            ],
+            [
+              -14.972697127446127,
+              43.82084346478699,
+              6.043093180285775
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT grape slot=0 global=0",
+          "kind": "current_ingredient",
+          "machine": "barrel",
+          "item": "grape",
+          "index": 0,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              16.598981968411493,
+              40.830048082264106,
+              -3.6943372296653445
+            ],
+            [
+              24.276018031588507,
+              45.51830098232444,
+              4.866212229665345
+            ]
+          ]
+        },
+        {
+          "group": "SOURCE grape slot=0 global=8",
+          "kind": "source_ingredient",
+          "machine": "barrel",
+          "item": "grape",
+          "index": 8,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              -35.81845535690801,
+              44.320572457024625,
+              -1.7679661641101938
+            ],
+            [
+              -24.737546306299997,
+              45.662398734381625,
+              9.307022942064295
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT grape slot=0 global=8",
+          "kind": "current_ingredient",
+          "machine": "barrel",
+          "item": "grape",
+          "index": 8,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              26.55199695904044,
+              42.43151629115376,
+              -0.5275339902974605
+            ],
+            [
+              34.01050304095956,
+              47.55145039926985,
+              8.05878399029746
+            ]
+          ]
+        },
+        {
+          "group": "SOURCE grape slot=3 global=9",
+          "kind": "source_ingredient",
+          "machine": "barrel",
+          "item": "grape",
+          "index": 9,
+          "slot": 3,
+          "world_vertex_bounds": [
+            [
+              -25.694678261852268,
+              44.49994400196374,
+              -1.468970189140833
+            ],
+            [
+              -15.285344168567656,
+              45.24840041942297,
+              8.93138397698263
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT grape slot=3 global=9",
+          "kind": "current_ingredient",
+          "machine": "barrel",
+          "item": "grape",
+          "index": 9,
+          "slot": 3,
+          "world_vertex_bounds": [
+            [
+              18.7395035931554,
+              40.97965340848896,
+              -0.3601165110147807
+            ],
+            [
+              22.2448714068446,
+              48.76869199878696,
+              7.828866511014781
+            ]
+          ]
+        },
+        {
+          "group": "SOURCE grape slot=3 global=17",
+          "kind": "source_ingredient",
+          "machine": "barrel",
+          "item": "grape",
+          "index": 17,
+          "slot": 3,
+          "world_vertex_bounds": [
+            [
+              -31.400393911055772,
+              43.454382524565766,
+              -1.195463892930272
+            ],
+            [
+              -21.78736739570693,
+              44.02713908187955,
+              8.414051768296483
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT grape slot=3 global=17",
+          "kind": "current_ingredient",
+          "machine": "barrel",
+          "item": "grape",
+          "index": 17,
+          "slot": 3,
+          "world_vertex_bounds": [
+            [
+              25.436872377993808,
+              39.759065888476854,
+              -0.4205317343385976
+            ],
+            [
+              27.750627622006192,
+              47.722456161438885,
+              7.6392817343385975
+            ]
+          ]
+        }
+      ],
+      "original_capture": "Original app.getScreenshot Uint8Array JPEG bytes written unchanged. The same saved bytes were emitted and visually inspected. No crop, repaint, resize or reencode."
+    },
+    {
+      "file": "screenshots/09-barrel-card-slots-isolated-oblique.jpg",
+      "sha256": "0f401b2975d76894828d8e4a77ff2c96f1c92cf0959a9914f560a3aea503a42d",
+      "bytes": 84315,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T03:13:06.365403+00:00",
+      "scene": "scenes/barrel-card-edge-slots.bbmodel",
+      "scene_sha256": "e2e3c9a64b523f9cda5f84f37bcc3af55b34553b4edc4a2a476d736ca246ae79",
+      "camera": "True Isometric Left (30 degrees); centered selected grape meshes; zoom out 650 pixels",
+      "visibility": "Only eight grape meshes visible; body groups temporarily hidden",
+      "findings": "Four source and four current cards are visible without barrel occlusion. Each retained barrel card is 8x8x0.5, unlike pressing cards. Different apparent orientation/layout remains tied to the documented source/native reference-frame distinction.",
+      "status": "reviewed bounded observation, not a general parity pass",
+      "source_current_identity": "Source negative world X, current positive world X; use group names and scene-identity-index.json rather than universal screen-left/right captions.",
+      "content_meshes": [
+        {
+          "group": "SOURCE grape slot=0 global=0",
+          "kind": "source_ingredient",
+          "machine": "barrel",
+          "item": "grape",
+          "index": 0,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              -25.8982821816359,
+              42.527507060115354,
+              -4.875057673083626
+            ],
+            [
+              -14.972697127446127,
+              43.82084346478699,
+              6.043093180285775
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT grape slot=0 global=0",
+          "kind": "current_ingredient",
+          "machine": "barrel",
+          "item": "grape",
+          "index": 0,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              16.598981968411493,
+              40.830048082264106,
+              -3.6943372296653445
+            ],
+            [
+              24.276018031588507,
+              45.51830098232444,
+              4.866212229665345
+            ]
+          ]
+        },
+        {
+          "group": "SOURCE grape slot=0 global=8",
+          "kind": "source_ingredient",
+          "machine": "barrel",
+          "item": "grape",
+          "index": 8,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              -35.81845535690801,
+              44.320572457024625,
+              -1.7679661641101938
+            ],
+            [
+              -24.737546306299997,
+              45.662398734381625,
+              9.307022942064295
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT grape slot=0 global=8",
+          "kind": "current_ingredient",
+          "machine": "barrel",
+          "item": "grape",
+          "index": 8,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              26.55199695904044,
+              42.43151629115376,
+              -0.5275339902974605
+            ],
+            [
+              34.01050304095956,
+              47.55145039926985,
+              8.05878399029746
+            ]
+          ]
+        },
+        {
+          "group": "SOURCE grape slot=3 global=9",
+          "kind": "source_ingredient",
+          "machine": "barrel",
+          "item": "grape",
+          "index": 9,
+          "slot": 3,
+          "world_vertex_bounds": [
+            [
+              -25.694678261852268,
+              44.49994400196374,
+              -1.468970189140833
+            ],
+            [
+              -15.285344168567656,
+              45.24840041942297,
+              8.93138397698263
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT grape slot=3 global=9",
+          "kind": "current_ingredient",
+          "machine": "barrel",
+          "item": "grape",
+          "index": 9,
+          "slot": 3,
+          "world_vertex_bounds": [
+            [
+              18.7395035931554,
+              40.97965340848896,
+              -0.3601165110147807
+            ],
+            [
+              22.2448714068446,
+              48.76869199878696,
+              7.828866511014781
+            ]
+          ]
+        },
+        {
+          "group": "SOURCE grape slot=3 global=17",
+          "kind": "source_ingredient",
+          "machine": "barrel",
+          "item": "grape",
+          "index": 17,
+          "slot": 3,
+          "world_vertex_bounds": [
+            [
+              -31.400393911055772,
+              43.454382524565766,
+              -1.195463892930272
+            ],
+            [
+              -21.78736739570693,
+              44.02713908187955,
+              8.414051768296483
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT grape slot=3 global=17",
+          "kind": "current_ingredient",
+          "machine": "barrel",
+          "item": "grape",
+          "index": 17,
+          "slot": 3,
+          "world_vertex_bounds": [
+            [
+              25.436872377993808,
+              39.759065888476854,
+              -0.4205317343385976
+            ],
+            [
+              27.750627622006192,
+              47.722456161438885,
+              7.6392817343385975
+            ]
+          ]
+        }
+      ],
+      "original_capture": "Original app.getScreenshot Uint8Array JPEG bytes written unchanged. The same saved bytes were emitted and visually inspected. No crop, repaint, resize or reencode."
+    },
+    {
+      "file": "screenshots/10-pressing-card-tilt-north-reference.jpg",
+      "sha256": "2e26884b0eebbdd4e7319cb7d4f9b02520f13a720317bd7b630c02a190c1e4a0",
+      "bytes": 87937,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T03:13:44.489924+00:00",
+      "scene": "scenes/pressing-card-tilt-north.bbmodel",
+      "scene_sha256": "29497408d8804c6bf7149d5ee236d745c71102c44260b7759e0eea7a44efee2e",
+      "camera": "Inherited initial perspective; centered all; zoom out 800 pixels",
+      "visibility": "All original groups visible",
+      "findings": "Reference context shows source content against source body and current decoded content separately below its reused body. Current cards are nearly edge-on. This is explicitly not a clearance, facing or placement defect claim; capture11 removes body occlusion.",
+      "status": "reviewed bounded observation, not a general parity pass",
+      "source_current_identity": "Source negative world X, current positive world X; use group names and scene-identity-index.json rather than universal screen-left/right captions.",
+      "content_meshes": [
+        {
+          "group": "SOURCE grape slot=0 global=0 tilt=0",
+          "kind": "source_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 0,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              -31.858637752688832,
+              2.2657418858358698,
+              -4.76160780865273
+            ],
+            [
+              -20.94136243804603,
+              10.142814622566807,
+              3.5059514280736477
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT grape slot=0 global=0 tilt=0",
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 0,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              23.66917148076789,
+              -9.342512825322704,
+              -3.861456208055454
+            ],
+            [
+              29.12770351923211,
+              -5.404040658732757,
+              0.2722225389458326
+            ]
+          ]
+        },
+        {
+          "group": "SOURCE grape slot=0 global=7 tilt=0",
+          "kind": "source_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 7,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              -27.646040290508587,
+              6.178597187054172,
+              -1.946674008742891
+            ],
+            [
+              -16.356355339374225,
+              14.470652418434716,
+              6.436578855479247
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT grape slot=0 global=7 tilt=0",
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 7,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              19.17751841359389,
+              -12.319494402198288,
+              0.23023888440327767
+            ],
+            [
+              24.82248158640611,
+              -8.173220964984168,
+              4.4218215787065
+            ]
+          ]
+        },
+        {
+          "group": "SOURCE grape slot=0 global=8 tilt=0",
+          "kind": "source_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 8,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              -31.935514974005336,
+              3.3949414516503493,
+              -6.001563566494594
+            ],
+            [
+              -20.86448521672953,
+              11.418788355886658,
+              2.3407338867811815
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT grape slot=0 global=8 tilt=0",
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 8,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              23.630772847378285,
+              -8.176553410835085,
+              -2.677572689243822
+            ],
+            [
+              29.166102152621715,
+              -4.164827022752453,
+              1.4935120706021232
+            ]
+          ]
+        },
+        {
+          "group": "SOURCE grape slot=0 global=63 tilt=0",
+          "kind": "source_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 63,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              -27.547084018234933,
+              11.106905175647137,
+              -7.550439223276861
+            ],
+            [
+              -16.894757107253344,
+              18.900054104313032,
+              0.41306234375782847
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT grape slot=0 global=63 tilt=0",
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 63,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              19.554924114868555,
+              -6.379935732225914,
+              5.011892146134298
+            ],
+            [
+              24.882575885131445,
+              -2.4822832505540537,
+              8.994664749433769
+            ]
+          ]
+        }
+      ],
+      "original_capture": "Original app.getScreenshot Uint8Array JPEG bytes written unchanged. The same saved bytes were emitted and visually inspected. No crop, repaint, resize or reencode."
+    },
+    {
+      "file": "screenshots/11-pressing-card-tilt-north-isolated-south.jpg",
+      "sha256": "61917ddd810e173eb609350d97085dba483137be5609f406da4535b6c8aafe61",
+      "bytes": 80057,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T03:15:21.891240+00:00",
+      "scene": "scenes/pressing-card-tilt-north.bbmodel",
+      "scene_sha256": "29497408d8804c6bf7149d5ee236d745c71102c44260b7759e0eea7a44efee2e",
+      "camera": "South orthographic; centered selected grape meshes; net zoom out 100 pixels from that preset during adjustment",
+      "visibility": "Only eight grape meshes visible; body groups temporarily hidden",
+      "findings": "Both selected tilted ingredient groups are visible without the body. Source/current scale discrepancy persists. The relative vertical separation belongs to the unconverted model-reference fixture, not validated world placement.",
+      "status": "reviewed bounded observation, not a general parity pass",
+      "source_current_identity": "Source negative world X, current positive world X; use group names and scene-identity-index.json rather than universal screen-left/right captions.",
+      "content_meshes": [
+        {
+          "group": "SOURCE grape slot=0 global=0 tilt=0",
+          "kind": "source_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 0,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              -31.858637752688832,
+              2.2657418858358698,
+              -4.76160780865273
+            ],
+            [
+              -20.94136243804603,
+              10.142814622566807,
+              3.5059514280736477
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT grape slot=0 global=0 tilt=0",
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 0,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              23.66917148076789,
+              -9.342512825322704,
+              -3.861456208055454
+            ],
+            [
+              29.12770351923211,
+              -5.404040658732757,
+              0.2722225389458326
+            ]
+          ]
+        },
+        {
+          "group": "SOURCE grape slot=0 global=7 tilt=0",
+          "kind": "source_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 7,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              -27.646040290508587,
+              6.178597187054172,
+              -1.946674008742891
+            ],
+            [
+              -16.356355339374225,
+              14.470652418434716,
+              6.436578855479247
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT grape slot=0 global=7 tilt=0",
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 7,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              19.17751841359389,
+              -12.319494402198288,
+              0.23023888440327767
+            ],
+            [
+              24.82248158640611,
+              -8.173220964984168,
+              4.4218215787065
+            ]
+          ]
+        },
+        {
+          "group": "SOURCE grape slot=0 global=8 tilt=0",
+          "kind": "source_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 8,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              -31.935514974005336,
+              3.3949414516503493,
+              -6.001563566494594
+            ],
+            [
+              -20.86448521672953,
+              11.418788355886658,
+              2.3407338867811815
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT grape slot=0 global=8 tilt=0",
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 8,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              23.630772847378285,
+              -8.176553410835085,
+              -2.677572689243822
+            ],
+            [
+              29.166102152621715,
+              -4.164827022752453,
+              1.4935120706021232
+            ]
+          ]
+        },
+        {
+          "group": "SOURCE grape slot=0 global=63 tilt=0",
+          "kind": "source_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 63,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              -27.547084018234933,
+              11.106905175647137,
+              -7.550439223276861
+            ],
+            [
+              -16.894757107253344,
+              18.900054104313032,
+              0.41306234375782847
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT grape slot=0 global=63 tilt=0",
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 63,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              19.554924114868555,
+              -6.379935732225914,
+              5.011892146134298
+            ],
+            [
+              24.882575885131445,
+              -2.4822832505540537,
+              8.994664749433769
+            ]
+          ]
+        }
+      ],
+      "original_capture": "Original app.getScreenshot Uint8Array JPEG bytes written unchanged. The same saved bytes were emitted and visually inspected. No crop, repaint, resize or reencode."
+    },
+    {
+      "file": "screenshots/12-pressing-card-tilt-east-top.jpg",
+      "sha256": "bb86410006338f7ff43618686465d648344a331fb1a2ac8e28a1684995f0aeec",
+      "bytes": 81548,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T03:16:37.656259+00:00",
+      "scene": "scenes/pressing-card-tilt-east.bbmodel",
+      "scene_sha256": "99917f01ebca6ec6edb278b2847079e43426dc7ed03fa3ebbf1edc68e02886e1",
+      "camera": "Top orthographic; centered all; zoom out 800 pixels",
+      "visibility": "Original contents-only scene; no body was added",
+      "findings": "Both east-tilted ingredient groups are visible in projection. Source/current card size difference remains. This control deliberately contains no reused north-oriented body and makes no body-clearance claim.",
+      "status": "reviewed bounded observation, not a general parity pass",
+      "source_current_identity": "Source negative world X, current positive world X; use group names and scene-identity-index.json rather than universal screen-left/right captions.",
+      "content_meshes": [
+        {
+          "group": "SOURCE grape slot=0 global=0 tilt=1",
+          "kind": "source_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 0,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              -29.734258114164128,
+              5.4646113204034945,
+              -3.0586375619539696
+            ],
+            [
+              -21.85718537743319,
+              13.73217055712987,
+              7.858637752688833
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT grape slot=0 global=0 tilt=1",
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 0,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              39.62804992315443,
+              4.138543791944547,
+              -0.3308285192321119
+            ],
+            [
+              43.566522089744375,
+              8.272222538945833,
+              5.127703519232108
+            ]
+          ]
+        },
+        {
+          "group": "SOURCE grape slot=0 global=7 tilt=1",
+          "kind": "source_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 7,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              -25.821402812945827,
+              2.5339838929978935,
+              -7.643644660625776
+            ],
+            [
+              -17.529347581565283,
+              10.91723675722003,
+              3.646040290508587
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT grape slot=0 global=7 tilt=1",
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 7,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              36.651068346278855,
+              8.230238884403278,
+              -4.822481586406109
+            ],
+            [
+              40.79734178349296,
+              12.4218215787065,
+              0.8224815864061061
+            ]
+          ]
+        },
+        {
+          "group": "SOURCE grape slot=0 global=8 tilt=1",
+          "kind": "source_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 8,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              -28.60505854834965,
+              6.629828861695959,
+              -3.135514783270472
+            ],
+            [
+              -20.581211644113342,
+              14.972126314971735,
+              7.935514974005334
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT grape slot=0 global=8 tilt=1",
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 8,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              40.794009337642045,
+              5.322427310756178,
+              -0.3692271526217139
+            ],
+            [
+              44.80573572572468,
+              9.493512070602124,
+              5.16610215262171
+            ]
+          ]
+        },
+        {
+          "group": "SOURCE grape slot=0 global=63 tilt=1",
+          "kind": "source_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 63,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              -20.893094824352858,
+              8.557500404719312,
+              -7.105242892746656
+            ],
+            [
+              -13.099945895686963,
+              16.521001971754,
+              3.547084018234936
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT grape slot=0 global=63 tilt=1",
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "grape",
+          "index": 63,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              42.59062701625122,
+              13.011892146134299,
+              -4.445075885131446
+            ],
+            [
+              46.48827949792309,
+              16.99466474943377,
+              0.8825758851314416
+            ]
+          ]
+        }
+      ],
+      "original_capture": "Original app.getScreenshot Uint8Array JPEG bytes written unchanged. The same saved bytes were emitted and visually inspected. No crop, repaint, resize or reencode."
+    },
+    {
+      "file": "screenshots/13-cube-neutral-controls-isolated.jpg",
+      "sha256": "a2f044df25bb52c3078c56bda25837c377d50498d2a6e9a20fa612709fff46e6",
+      "bytes": 79510,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T03:18:23.765754+00:00",
+      "scene": "scenes/cube-material-controls.bbmodel",
+      "scene_sha256": "193b1a2f9ce4a85fbb558bc68dc0e9d39ffe85a50bbf3e55cc4bca3a8e5d6727",
+      "camera": "True Isometric Left (30 degrees); centered selected meshes; zoom out 1400 pixels",
+      "visibility": "Only eight stone 0 / ice 0 meshes visible; bodies temporarily hidden",
+      "findings": "Eight cube ingredients are visible: barrel stone/ice and pressing stone/ice source/current pairs. Both sides use neutral official Java textures. Native inherited texture pixels and alphatest-versus-blend behavior are not tested.",
+      "status": "reviewed bounded observation, not a general parity pass",
+      "source_current_identity": "Source negative world X, current positive world X; use group names and scene-identity-index.json rather than universal screen-left/right captions.",
+      "content_meshes": [
+        {
+          "group": "SOURCE stone slot=0 global=0",
+          "kind": "source_ingredient",
+          "machine": "barrel",
+          "item": "stone",
+          "index": 0,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              -23.303355202882035,
+              40.98081412021997,
+              -2.145519959741276
+            ],
+            [
+              -17.5676241062,
+              45.367536404682376,
+              3.3135554669434253
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT stone slot=0 global=0",
+          "kind": "current_ingredient",
+          "machine": "barrel",
+          "item": "stone",
+          "index": 0,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              17.58641480727908,
+              40.375051082212444,
+              -1.5541998648326725
+            ],
+            [
+              23.28858519272092,
+              45.9732979823761,
+              2.7260748648326727
+            ]
+          ]
+        },
+        {
+          "group": "SOURCE ice slot=0 global=0",
+          "kind": "source_ingredient",
+          "machine": "barrel",
+          "item": "ice",
+          "index": 0,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              -23.303355202882035,
+              40.98081412021997,
+              41.85448004025872
+            ],
+            [
+              -17.5676241062,
+              45.367536404682376,
+              47.31355546694342
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT ice slot=0 global=0",
+          "kind": "current_ingredient",
+          "machine": "barrel",
+          "item": "ice",
+          "index": 0,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              17.58641480727908,
+              40.375051082212444,
+              42.44580013516733
+            ],
+            [
+              23.28858519272092,
+              45.9732979823761,
+              46.72607486483267
+            ]
+          ]
+        },
+        {
+          "group": "SOURCE stone slot=0 global=0",
+          "kind": "source_ingredient",
+          "machine": "pressing_tub",
+          "item": "stone",
+          "index": 0,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              -29.13244883175144,
+              1.1701998425497169,
+              82.87046219129022
+            ],
+            [
+              -23.667551358983424,
+              5.178149251841152,
+              88.3295376179749
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT stone slot=0 global=0",
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "stone",
+          "index": 0,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              23.666168805940526,
+              1.1703654116896836,
+              82.87208367120702
+            ],
+            [
+              29.130706194059474,
+              5.177983652898863,
+              88.33104132879298
+            ]
+          ]
+        },
+        {
+          "group": "SOURCE ice slot=0 global=0",
+          "kind": "source_ingredient",
+          "machine": "pressing_tub",
+          "item": "ice",
+          "index": 0,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              -29.13244883175144,
+              1.1701998425497169,
+              126.87046219129022
+            ],
+            [
+              -23.667551358983424,
+              5.178149251841152,
+              132.32953761797492
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT ice slot=0 global=0",
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "ice",
+          "index": 0,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              23.666168805940526,
+              1.1703654116896836,
+              126.87208367120702
+            ],
+            [
+              29.130706194059474,
+              5.177983652898863,
+              132.33104132879296
+            ]
+          ]
+        }
+      ],
+      "original_capture": "Original app.getScreenshot Uint8Array JPEG bytes written unchanged. The same saved bytes were emitted and visually inspected. No crop, repaint, resize or reencode."
+    },
+    {
+      "file": "screenshots/14-animated-ice-grape-tick1-top.jpg",
+      "sha256": "71c6391e3a6a8ec898ac5cfb61663c5abebe35976d3f845843f0fe2377b02eaa",
+      "bytes": 84591,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T03:20:48.427742+00:00",
+      "scene": "scenes/animated-card-frame-controls.bbmodel",
+      "scene_sha256": "9dec7a6ff86d82b014748a702802488e40b38c3b86b929bef122814f3ca0c732",
+      "camera": "Top orthographic; centered selected ice_grape meshes; zoom adjusted in then out for complete readable framing",
+      "visibility": "Only four ice_grape meshes visible; bodies temporarily hidden",
+      "findings": "Frozen tick1 sprite appears on both machines. Barrel at Z0 retains large source/current cards; pressing at Z44 again shows current half-size. All24 tick PNG parity is the separate independent pixel check, not a running clock observation.",
+      "status": "reviewed bounded observation, not a general parity pass",
+      "source_current_identity": "Source negative world X, current positive world X; use group names and scene-identity-index.json rather than universal screen-left/right captions.",
+      "content_meshes": [
+        {
+          "group": "SOURCE ice_grape slot=0 global=0",
+          "kind": "source_ingredient",
+          "machine": "barrel",
+          "item": "ice_grape",
+          "index": 0,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              -25.8982821816359,
+              42.527507060115354,
+              -4.875057673083626
+            ],
+            [
+              -14.972697127446127,
+              43.82084346478699,
+              6.043093180285775
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT ice_grape slot=0 global=0",
+          "kind": "current_ingredient",
+          "machine": "barrel",
+          "item": "ice_grape",
+          "index": 0,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              16.598981968411493,
+              40.830048082264106,
+              -3.6943372296653445
+            ],
+            [
+              24.276018031588507,
+              45.51830098232444,
+              4.866212229665345
+            ]
+          ]
+        },
+        {
+          "group": "SOURCE ice_grape slot=0 global=0",
+          "kind": "source_ingredient",
+          "machine": "pressing_tub",
+          "item": "ice_grape",
+          "index": 0,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              -31.859433967980785,
+              2.9162211577783346,
+              36.14092447794787
+            ],
+            [
+              -20.94056622275408,
+              3.4321279366125346,
+              47.059075331317274
+            ]
+          ]
+        },
+        {
+          "group": "CURRENT ice_grape slot=0 global=0",
+          "kind": "current_ingredient",
+          "machine": "pressing_tub",
+          "item": "ice_grape",
+          "index": 0,
+          "slot": 0,
+          "world_vertex_bounds": [
+            [
+              23.668786798967865,
+              3.045363583985462,
+              38.87208367120704
+            ],
+            [
+              29.128088201032135,
+              3.302985480603085,
+              44.33104132879296
+            ]
+          ]
+        }
+      ],
+      "original_capture": "Original app.getScreenshot Uint8Array JPEG bytes written unchanged. The same saved bytes were emitted and visually inspected. No crop, repaint, resize or reencode."
+    }
+  ],
+  "diagnostics": [
+    {
+      "file": "diagnostic/02-pressing-card-index0-top-centered-blank.jpg",
+      "sha256": "7a28e444c074d93407d226cc888aa53bf1f34d552716cd466e8a236ad6fb524f",
+      "bytes": 75997,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T03:00:18.235061+00:00",
+      "status": "excluded diagnostic, never counted as accepted observation",
+      "reason": "Inherited camera was off target. Correct centering restored visibility; not an asset failure."
+    },
+    {
+      "file": "diagnostic/02-pressing-card-index0-top-off-target.jpg",
+      "sha256": "7a28e444c074d93407d226cc888aa53bf1f34d552716cd466e8a236ad6fb524f",
+      "bytes": 75997,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T02:59:49.794675+00:00",
+      "status": "excluded diagnostic, never counted as accepted observation",
+      "reason": "Inherited camera was off target. Correct centering restored visibility; not an asset failure."
+    },
+    {
+      "file": "diagnostic/03-pressing-card-index0-north-edge-one-sided.jpg",
+      "sha256": "4ded44cfe94037bf38afb7f5b76defd92788ffa6acd0b079f1ec349972b3bf9f",
+      "bytes": 76208,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T03:02:07.614394+00:00",
+      "status": "excluded diagnostic, never counted as accepted observation",
+      "reason": "One or both card groups nearly edge-on under Front-sided preview; insufficient paired surface evidence, not engine culling diagnosis."
+    },
+    {
+      "file": "diagnostic/11-pressing-card-tilt-north-edge-on.jpg",
+      "sha256": "8b4743fc9a7634f3194838270b2f1e4ba8fdfe7ed03da325314dbc531558237b",
+      "bytes": 90852,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T03:14:17.970399+00:00",
+      "status": "excluded diagnostic, never counted as accepted observation",
+      "reason": "One or both card groups nearly edge-on under Front-sided preview; insufficient paired surface evidence, not engine culling diagnosis."
+    },
+    {
+      "file": "diagnostic/12-pressing-card-tilt-east-edge-on.jpg",
+      "sha256": "4ef07c942ed4c37d822415c1f861e8a5b29e54e6706d116b25bfca5f2f01b3ec",
+      "bytes": 77682,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T03:16:04.627815+00:00",
+      "status": "excluded diagnostic, never counted as accepted observation",
+      "reason": "One or both card groups nearly edge-on under Front-sided preview; insufficient paired surface evidence, not engine culling diagnosis."
+    },
+    {
+      "file": "diagnostic/12-pressing-card-tilt-north-body-occluded.jpg",
+      "sha256": "f4e6e35dc5aff4828ff20362c00a0b34820d58feca1c9505cb3e9d2647c6e0cf",
+      "bytes": 80833,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T03:14:46.590764+00:00",
+      "status": "excluded diagnostic, never counted as accepted observation",
+      "reason": "Body occlusion prevented a complete paired content observation."
+    },
+    {
+      "file": "diagnostic/14-animated-ice-grape-tick1-too-distant.jpg",
+      "sha256": "1802d11f96dc21927d704a4280b9539ed4e6926287ff4c62bee00ea5fe969162",
+      "bytes": 79420,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T03:20:27.639457+00:00",
+      "status": "excluded diagnostic, never counted as accepted observation",
+      "reason": "View too distant for useful sprite detail; replaced with a closer complete framing."
+    }
+  ],
+  "camera_evidence": [
+    {
+      "file": "camera/02-pressing-card-index0-top-camera.jpg",
+      "sha256": "042b04b7023e456c930e426908e21850afa3d2ce11d80d0a07a0a1ee3fa3ccda",
+      "bytes": 64176,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T03:01:46.452254+00:00",
+      "related_capture": "screenshots/02-pressing-card-index0-top.jpg",
+      "projection": "Orthographic, confirmed checked in preview context menu",
+      "camera_position_displayed": [
+        0.12,
+        513.6,
+        -1.24
+      ],
+      "focal_point_displayed": [
+        0.12,
+        1.6,
+        -1.24
+      ],
+      "zoom_displayed": 0.3675,
+      "precision": "UI-displayed numeric values only, not asserted exact floating-point values",
+      "method": "Save Angle dialog read and cancelled. No preset created. Projection Unset in that dialog is its save option, not the current projection."
+    }
+  ],
+  "source_current_representation_limits": [
+    "Source generated-grape35 quads versus current2 broad faces; source generated ice-grape43 quads versus current2 broad faces are separately source-audited representation differences. Exact generated extrusion provenance is1.20.1 only, not generalized to1.21.1.",
+    "All fixture textures explicitly use render_sides front. Inherited editor View Shading stayed enabled. This is not Java/Bedrock material execution, no-cull validation, transparency sorting, PBR or engine lighting.",
+    "Current contents remain decoded Bedrock model-reference coordinates; source remains centered Java PoseStack coordinates. No guessed external world-frame conversion was applied. Relative placement, orientation, body clearance and screen projection are not native-world acceptance.",
+    "Water tint is baked to labelled frame0 PNGs. Liquids and animated ingredients are frozen; clocks, interpolation, property/controller/bone execution, helper replacement and reload behavior are untested.",
+    "Neutral stone/ice fixtures use official Java PNGs on both sides because inherited native pixels are absent. Active ice alphatest/blend route difference is not an established native visual defect.",
+    "The unreferenced liquid alpha0.85 controller is not an active fruit-fluid opacity route.",
+    "Only bounded built-in fixture representatives were reviewed; arbitrary third-party ingredient models and external fluids are excluded."
+  ],
+  "no_additional_runtime_defect_established": true,
+  "temporary_editor_changes": "Only named mesh selection and Hide Everything Except Selection visibility changes in five owned review tabs, then discarded without saving. Scene bytes unchanged. No geometry/UV/texture edits or presets saved.",
+  "unchanged_scope": "No runtime files, accepted held-shaker/tilted-rack poses, plugins, servers, renderer/security flags, user computer, Minecraft, BDS, LIVE, deployment or publication changed.",
+  "gui_final_state": "All eight owned review tabs closed. Only unchanged Champagne remains visibly healthy in Blockbench29360132; no modal. Terminal41949001 untouched. GUI explicitly handed to parent for the bounded aggregate check.",
+  "completion_summary_sent": true
+}

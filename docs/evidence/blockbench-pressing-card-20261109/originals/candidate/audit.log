@@ -1,0 +1,141 @@
+{
+  "status": "passed",
+  "hashes": 248,
+  "mesh_count": 36,
+  "directed_faces": 455,
+  "vertices": 1820,
+  "max_matrix_error": 7.105427357601002e-15,
+  "max_vertex_error": 1.4210854715202004e-14,
+  "all_card_pose_dimensions": {
+    "poses_checked": 320,
+    "effective_card_dimensions": [
+      8,
+      8,
+      0.5
+    ],
+    "union_decoded_AABB_min": [
+      -27.549551708585422,
+      -14.608203302123803,
+      -10.9860510510835
+    ],
+    "union_decoded_AABB_max": [
+      27.549551708585422,
+      18.9860510510835,
+      10.986051051083502
+    ],
+    "before_union_decoded_AABB_min": [
+      -25.510810780656826,
+      -12.86102810347133,
+      -8.994664749433767
+    ],
+    "before_union_decoded_AABB_max": [
+      25.510810780656826,
+      16.994664749433767,
+      8.994664749433767
+    ],
+    "declared_visible_bounds_min": [
+      -24,
+      -8,
+      -24
+    ],
+    "declared_visible_bounds_max": [
+      24,
+      40,
+      24
+    ],
+    "selected_seed_all_poses_inside_declared_bounds": false,
+    "before_all_poses_inside_declared_bounds": false,
+    "not_engine_culling_acceptance": true,
+    "scope": "Decoded reference-frame advisory only. Bounds are unchanged; outside cases require engine-frame/culling verification, not guessed metadata fixes.",
+    "raw_description": {
+      "visible_bounds_width": 3,
+      "visible_bounds_height": 3,
+      "visible_bounds_offset": [
+        0,
+        1,
+        0
+      ]
+    },
+    "declared_bounds_units": "blocks; converted at 16 model pixels per block",
+    "vertex_units": "model pixels in BB-decoded animated model-reference frame; no scene offset",
+    "location_block_coordinates": {
+      "x": 3,
+      "y": 64,
+      "z": -5
+    },
+    "count": 64,
+    "indices": "every integer 0..63",
+    "tilt_facing_states": [
+      null,
+      0,
+      1,
+      2,
+      3
+    ],
+    "facing_mapping": {
+      "0": "north",
+      "1": "east",
+      "2": "south",
+      "3": "west"
+    },
+    "unposed_local_card_before": {
+      "min": [
+        -2,
+        -2,
+        -0.125
+      ],
+      "max": [
+        2,
+        2,
+        0.125
+      ]
+    },
+    "unposed_local_card_after": {
+      "min": [
+        -4,
+        -4,
+        -0.25
+      ],
+      "max": [
+        4,
+        4,
+        0.25
+      ]
+    },
+    "full_pose_receipt": "pose-bounds-audit.json"
+  },
+  "negative_controls": [
+    {
+      "tamper": "candidate width",
+      "rejected": true
+    },
+    {
+      "tamper": "candidate center",
+      "rejected": true
+    },
+    {
+      "tamper": "candidate UV",
+      "rejected": true
+    },
+    {
+      "tamper": "candidate tilt pivot",
+      "rejected": true
+    },
+    {
+      "tamper": "saved size",
+      "rejected": true
+    },
+    {
+      "tamper": "saved center",
+      "rejected": true
+    },
+    {
+      "tamper": "saved UV",
+      "rejected": true
+    },
+    {
+      "tamper": "saved matrix",
+      "rejected": true
+    }
+  ]
+}

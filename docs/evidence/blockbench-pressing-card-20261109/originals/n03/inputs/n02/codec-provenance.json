@@ -1,0 +1,8 @@
+{
+  "reused_codec": "tavern-next-decor-review-20261108/review_codec.py",
+  "copy_sha256": "cd12862e38260e4513786268009a476ac14b3e7d6a27dd89315a27812efdedc4",
+  "copy_unchanged": true,
+  "box_uv_reference": "tavern-bottle-surface-analysis-20261108/cube.js.official.txt:1301-1344",
+  "box_uv_reference_sha256": "57cad3b3eb30af04fa54d7b41c2e3a58ad26098c8585eaf30344a7f3f1fe430d",
+  "scope": "All nested groups single-axis; no affine/shear, no implicit source rescale omissions, original signed bounds and shade retained; native ModelPart box UV expanded explicitly; every scene uses one texture dimension."
+}
