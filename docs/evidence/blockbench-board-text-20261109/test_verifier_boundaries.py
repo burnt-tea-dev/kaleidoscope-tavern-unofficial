@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 """Small synthetic security-boundary tests. Never modify published evidence."""
+import hashlib
 import importlib.util
 import json
 import os
+import shutil
 from pathlib import Path
 import stat
 import struct
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -40,6 +43,124 @@ class Boundaries(unittest.TestCase):
             repo=root/'repo';repo.mkdir();(repo/'.git').write_text('gitdir: somewhere')
             with self.assertRaises(ValueError):v.new_output(repo/'out',package)
             self.assertEqual(v.new_output(root/'fresh',package),root/'fresh')
+
+    @staticmethod
+    def snapshot(root):
+        result = {}
+        for path in sorted(root.rglob('*')):
+            mode = path.lstat().st_mode
+            name = path.relative_to(root).as_posix()
+            if stat.S_ISLNK(mode): result[name] = ('link', os.readlink(path))
+            elif stat.S_ISREG(mode): result[name] = ('file', hashlib.sha256(path.read_bytes()).hexdigest())
+            else: result[name] = ('mode', mode)
+        return result
+
+    def test_cli_isolation_rejects_without_any_writes(self):
+        # Audit events catch transient tempfile probe files as well as final outputs.
+        driver = r'''import json, os, runpy, sys
+writes = []
+def audit(event, args):
+    if event == 'open' and args[2] & (os.O_WRONLY | os.O_RDWR | os.O_CREAT | os.O_TRUNC | os.O_APPEND):
+        writes.append([event, str(args[0])])
+    elif event in ('os.mkdir', 'os.remove', 'os.rmdir', 'os.rename', 'os.symlink', 'os.link'):
+        writes.append([event, str(args[0])])
+sys.addaudithook(audit)
+sys.argv = sys.argv[1:]
+try: runpy.run_path(sys.argv[0], run_name='__main__')
+finally: print('WRITE_AUDIT=' + json.dumps(writes))
+'''
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);package=root/'package';package.mkdir()
+            script=package/'validate_evidence.py';shutil.copyfile(Path(v.__file__),script)
+            source=root/'plain-source';source.mkdir();(source/'nested').mkdir()
+            (source/'input.json').write_text('{"unchanged":true}\n')
+            git=root/'git';(git/'.git').mkdir(parents=True);(git/'.git/HEAD').write_text('ref: refs/heads/main\n')
+            alias=root/'source-alias';alias.symlink_to(source,target_is_directory=True)
+            package_alias=root/'package-alias';package_alias.symlink_to(package,target_is_directory=True)
+            existing=root/'existing';existing.write_text('unchanged\n')
+            external=root/'external-work';report=root/'external-report.json'
+            cases=[]
+            for option in ('--work-dir','--report'):
+                for name,path in (('repository-root',source),('repository-child',source/'output'),
+                                  ('repository-descendant',source/'nested/output'),('repository-ancestor',root),
+                                  ('package-root',package),('package-child',package/'output'),
+                                  ('symlink-source',alias/'output'),('symlink-package',package_alias/'output'),
+                                  ('git-child',git/'output'),('existing',existing),
+                                  ('traversal',root/'missing/../output'),('missing-parent',root/'missing/output')):
+                    args=[option,str(path)]
+                    if option=='--report':args=['--work-dir',str(external),*args]
+                    cases.append((option+'-'+name,args,{}))
+            for name,path in (('source',source),('source-child',source/'nested'),('package',package),
+                              ('source-symlink',alias),('package-symlink',package_alias),('git',git)):
+                cases.append(('tmpdir-'+name,['--report',str(report)],{'TMPDIR':str(path)}))
+            cases.extend([
+                ('temp-source',[],{'TEMP':str(source)}),('tmp-source',[],{'TMP':str(source)}),
+                ('outputs-identical',['--work-dir',str(external),'--report',str(external)],{}),
+                ('report-in-work',['--work-dir',str(external),'--report',str(external/'report.json')],{}),
+                ('work-in-report',['--work-dir',str(report/'work'),'--report',str(report)],{}),
+                ('repository-symlink',['--repository',str(alias),'--work-dir',str(external)],{}),
+                ('repository-missing',['--repository',str(root/'missing'),'--work-dir',str(external)],{}),
+                ('repository-file',['--repository',str(existing),'--work-dir',str(external)],{}),
+                ('optimized-environment',['--work-dir',str(external)],{'PYTHONOPTIMIZE':'1'}),
+                ('optimized-flag',['--work-dir',str(external)],{}),
+            ])
+            if hasattr(os,'mkfifo'):
+                fifo=root/'repository-fifo';os.mkfifo(fifo)
+                cases.append(('repository-fifo',['--repository',str(fifo),'--work-dir',str(external)],{}))
+            base_env=dict(os.environ)
+            for key in ('TMPDIR','TEMP','TMP','PYTHONOPTIMIZE'):base_env.pop(key,None)
+            for name,args,environment in cases:
+                with self.subTest(case=name):
+                    before=self.snapshot(root)
+                    flags=['-O'] if name=='optimized-flag' else []
+                    result=subprocess.run([sys.executable,'-B',*flags,'-c',driver,str(script),'--repository',str(source),*args],
+                                          cwd=root,env={**base_env,**environment},capture_output=True,text=True,timeout=10)
+                    self.assertEqual(result.returncode,1,result.stdout+result.stderr)
+                    self.assertIn('FAIL:',result.stderr)
+                    audit_lines=[line for line in result.stdout.splitlines() if line.startswith('WRITE_AUDIT=')]
+                    self.assertEqual(audit_lines,['WRITE_AUDIT=[]'],result.stdout+result.stderr)
+                    self.assertEqual(self.snapshot(root),before)
+                    self.assertFalse(external.exists());self.assertFalse(report.exists())
+
+    def test_default_temp_common_ancestor_is_allowed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);package=root/'package';package.mkdir();source=root/'source';source.mkdir()
+            before=self.snapshot(root)
+            def validate(package_arg,work,repository):
+                self.assertEqual(package_arg,package);self.assertEqual(repository,source)
+                self.assertEqual(work.parent,root);self.assertTrue(work.is_dir())
+                if os.name=='posix':self.assertEqual(stat.S_IMODE(work.stat().st_mode),0o700)
+                (work/'owned-result').write_text('temporary\n')
+                return {'status':'synthetic success'}
+            with mock.patch.object(v,'__file__',str(package/'validate_evidence.py')), \
+                 mock.patch.object(sys,'argv',['validate_evidence.py','--repository',str(source)]), \
+                 mock.patch.dict(os.environ,{'TMPDIR':str(root)}), \
+                 mock.patch.object(v,'validate',side_effect=validate),mock.patch('builtins.print'):
+                v.main()
+            self.assertEqual(self.snapshot(root),before)
+
+    def test_default_report_overlap_rejected_before_write(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);package=root/'package';package.mkdir();before=self.snapshot(root)
+            report=root/'n06-portable-fixed'
+            with mock.patch.object(v,'__file__',str(package/'validate_evidence.py')), \
+                 mock.patch.object(sys,'argv',['validate_evidence.py','--report',str(report)]), \
+                 mock.patch.dict(os.environ,{'TMPDIR':str(root)}), \
+                 mock.patch.object(v.uuid,'uuid4',return_value=mock.Mock(hex='fixed')), \
+                 mock.patch.object(v,'validate') as validate:
+                with self.assertRaisesRegex(ValueError,'outputs overlap'):v.main()
+                validate.assert_not_called()
+            self.assertEqual(self.snapshot(root),before)
+
+    def test_default_temp_cleanup_on_validation_error(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);package=root/'package';package.mkdir();before=self.snapshot(root)
+            with mock.patch.object(v,'__file__',str(package/'validate_evidence.py')), \
+                 mock.patch.object(sys,'argv',['validate_evidence.py']), \
+                 mock.patch.dict(os.environ,{'TMPDIR':str(root)}), \
+                 mock.patch.object(v,'validate',side_effect=ValueError('synthetic validation failure')):
+                with self.assertRaisesRegex(ValueError,'synthetic validation failure'):v.main()
+            self.assertEqual(self.snapshot(root),before)
 
     def fixture(self,root,kind):
         package=root/'package';package.mkdir();dest=root/'extract';dest.mkdir()
