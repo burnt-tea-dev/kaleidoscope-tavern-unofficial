@@ -1,0 +1,2414 @@
+{
+  "method": "Read-only geometric top/bottom ray queries at fixed non-boundary grid spacing0.125 model units. Uses exact UV-parametric corners, texture alpha, front-side winding and first depth. This is analytical geometry, not a Minecraft render. Screenshot metrics read original JPEG bytes only.",
+  "state_views": [
+    {
+      "family": "glowflower_brew",
+      "count": 1,
+      "view": "top",
+      "rays": 2209,
+      "covered_union_rays": 1013,
+      "different_rgba_rays": 0,
+      "different_silhouette_rays": 0,
+      "different_front_depth_rays": 757,
+      "source_visible_depth_ties": 0,
+      "source_visible_ties_different_rgba": 0,
+      "native_visible_depth_ties": 0,
+      "source_tie_candidate_checks": [],
+      "changed_examples": []
+    },
+    {
+      "family": "glowflower_brew",
+      "count": 1,
+      "view": "bottom",
+      "rays": 2209,
+      "covered_union_rays": 1013,
+      "different_rgba_rays": 0,
+      "different_silhouette_rays": 0,
+      "different_front_depth_rays": 0,
+      "source_visible_depth_ties": 0,
+      "source_visible_ties_different_rgba": 0,
+      "native_visible_depth_ties": 0,
+      "source_tie_candidate_checks": [],
+      "changed_examples": []
+    },
+    {
+      "family": "glowflower_brew",
+      "count": 2,
+      "view": "top",
+      "rays": 5217,
+      "covered_union_rays": 2026,
+      "different_rgba_rays": 0,
+      "different_silhouette_rays": 0,
+      "different_front_depth_rays": 1514,
+      "source_visible_depth_ties": 0,
+      "source_visible_ties_different_rgba": 0,
+      "native_visible_depth_ties": 0,
+      "source_tie_candidate_checks": [],
+      "changed_examples": []
+    },
+    {
+      "family": "glowflower_brew",
+      "count": 2,
+      "view": "bottom",
+      "rays": 5217,
+      "covered_union_rays": 2026,
+      "different_rgba_rays": 0,
+      "different_silhouette_rays": 0,
+      "different_front_depth_rays": 0,
+      "source_visible_depth_ties": 0,
+      "source_visible_ties_different_rgba": 0,
+      "native_visible_depth_ties": 0,
+      "source_tie_candidate_checks": [],
+      "changed_examples": []
+    },
+    {
+      "family": "glowflower_brew",
+      "count": 3,
+      "view": "top",
+      "rays": 12321,
+      "covered_union_rays": 3039,
+      "different_rgba_rays": 0,
+      "different_silhouette_rays": 0,
+      "different_front_depth_rays": 2271,
+      "source_visible_depth_ties": 0,
+      "source_visible_ties_different_rgba": 0,
+      "native_visible_depth_ties": 0,
+      "source_tie_candidate_checks": [],
+      "changed_examples": []
+    },
+    {
+      "family": "glowflower_brew",
+      "count": 3,
+      "view": "bottom",
+      "rays": 12321,
+      "covered_union_rays": 3039,
+      "different_rgba_rays": 0,
+      "different_silhouette_rays": 0,
+      "different_front_depth_rays": 0,
+      "source_visible_depth_ties": 0,
+      "source_visible_ties_different_rgba": 0,
+      "native_visible_depth_ties": 0,
+      "source_tie_candidate_checks": [],
+      "changed_examples": []
+    },
+    {
+      "family": "glowflower_brew",
+      "count": 4,
+      "view": "top",
+      "rays": 12321,
+      "covered_union_rays": 4052,
+      "different_rgba_rays": 0,
+      "different_silhouette_rays": 0,
+      "different_front_depth_rays": 3028,
+      "source_visible_depth_ties": 0,
+      "source_visible_ties_different_rgba": 0,
+      "native_visible_depth_ties": 0,
+      "source_tie_candidate_checks": [],
+      "changed_examples": []
+    },
+    {
+      "family": "glowflower_brew",
+      "count": 4,
+      "view": "bottom",
+      "rays": 12321,
+      "covered_union_rays": 4052,
+      "different_rgba_rays": 0,
+      "different_silhouette_rays": 0,
+      "different_front_depth_rays": 0,
+      "source_visible_depth_ties": 0,
+      "source_visible_ties_different_rgba": 0,
+      "native_visible_depth_ties": 0,
+      "source_tie_candidate_checks": [],
+      "changed_examples": []
+    },
+    {
+      "family": "luminous_bride",
+      "count": 1,
+      "view": "top",
+      "rays": 2209,
+      "covered_union_rays": 1013,
+      "different_rgba_rays": 0,
+      "different_silhouette_rays": 0,
+      "different_front_depth_rays": 757,
+      "source_visible_depth_ties": 0,
+      "source_visible_ties_different_rgba": 0,
+      "native_visible_depth_ties": 0,
+      "source_tie_candidate_checks": [],
+      "changed_examples": []
+    },
+    {
+      "family": "luminous_bride",
+      "count": 1,
+      "view": "bottom",
+      "rays": 2209,
+      "covered_union_rays": 1013,
+      "different_rgba_rays": 0,
+      "different_silhouette_rays": 0,
+      "different_front_depth_rays": 0,
+      "source_visible_depth_ties": 0,
+      "source_visible_ties_different_rgba": 0,
+      "native_visible_depth_ties": 0,
+      "source_tie_candidate_checks": [],
+      "changed_examples": []
+    },
+    {
+      "family": "luminous_bride",
+      "count": 2,
+      "view": "top",
+      "rays": 5217,
+      "covered_union_rays": 2026,
+      "different_rgba_rays": 0,
+      "different_silhouette_rays": 0,
+      "different_front_depth_rays": 1514,
+      "source_visible_depth_ties": 0,
+      "source_visible_ties_different_rgba": 0,
+      "native_visible_depth_ties": 0,
+      "source_tie_candidate_checks": [],
+      "changed_examples": []
+    },
+    {
+      "family": "luminous_bride",
+      "count": 2,
+      "view": "bottom",
+      "rays": 5217,
+      "covered_union_rays": 2026,
+      "different_rgba_rays": 0,
+      "different_silhouette_rays": 0,
+      "different_front_depth_rays": 0,
+      "source_visible_depth_ties": 0,
+      "source_visible_ties_different_rgba": 0,
+      "native_visible_depth_ties": 0,
+      "source_tie_candidate_checks": [],
+      "changed_examples": []
+    },
+    {
+      "family": "luminous_bride",
+      "count": 3,
+      "view": "top",
+      "rays": 12321,
+      "covered_union_rays": 3039,
+      "different_rgba_rays": 0,
+      "different_silhouette_rays": 0,
+      "different_front_depth_rays": 2271,
+      "source_visible_depth_ties": 0,
+      "source_visible_ties_different_rgba": 0,
+      "native_visible_depth_ties": 0,
+      "source_tie_candidate_checks": [],
+      "changed_examples": []
+    },
+    {
+      "family": "luminous_bride",
+      "count": 3,
+      "view": "bottom",
+      "rays": 12321,
+      "covered_union_rays": 3039,
+      "different_rgba_rays": 0,
+      "different_silhouette_rays": 0,
+      "different_front_depth_rays": 0,
+      "source_visible_depth_ties": 0,
+      "source_visible_ties_different_rgba": 0,
+      "native_visible_depth_ties": 0,
+      "source_tie_candidate_checks": [],
+      "changed_examples": []
+    },
+    {
+      "family": "luminous_bride",
+      "count": 4,
+      "view": "top",
+      "rays": 12321,
+      "covered_union_rays": 4052,
+      "different_rgba_rays": 0,
+      "different_silhouette_rays": 0,
+      "different_front_depth_rays": 3028,
+      "source_visible_depth_ties": 0,
+      "source_visible_ties_different_rgba": 0,
+      "native_visible_depth_ties": 0,
+      "source_tie_candidate_checks": [],
+      "changed_examples": []
+    },
+    {
+      "family": "luminous_bride",
+      "count": 4,
+      "view": "bottom",
+      "rays": 12321,
+      "covered_union_rays": 4052,
+      "different_rgba_rays": 0,
+      "different_silhouette_rays": 0,
+      "different_front_depth_rays": 0,
+      "source_visible_depth_ties": 0,
+      "source_visible_ties_different_rgba": 0,
+      "native_visible_depth_ties": 0,
+      "source_tie_candidate_checks": [],
+      "changed_examples": []
+    },
+    {
+      "family": "madame_shexiang",
+      "count": 1,
+      "view": "top",
+      "rays": 2500,
+      "covered_union_rays": 2304,
+      "different_rgba_rays": 0,
+      "different_silhouette_rays": 0,
+      "different_front_depth_rays": 0,
+      "source_visible_depth_ties": 0,
+      "source_visible_ties_different_rgba": 0,
+      "native_visible_depth_ties": 0,
+      "source_tie_candidate_checks": [],
+      "changed_examples": []
+    },
+    {
+      "family": "madame_shexiang",
+      "count": 1,
+      "view": "bottom",
+      "rays": 2500,
+      "covered_union_rays": 2304,
+      "different_rgba_rays": 0,
+      "different_silhouette_rays": 0,
+      "different_front_depth_rays": 0,
+      "source_visible_depth_ties": 0,
+      "source_visible_ties_different_rgba": 0,
+      "native_visible_depth_ties": 0,
+      "source_tie_candidate_checks": [],
+      "changed_examples": []
+    },
+    {
+      "family": "madame_shexiang",
+      "count": 2,
+      "view": "top",
+      "rays": 5700,
+      "covered_union_rays": 4608,
+      "different_rgba_rays": 0,
+      "different_silhouette_rays": 0,
+      "different_front_depth_rays": 0,
+      "source_visible_depth_ties": 0,
+      "source_visible_ties_different_rgba": 0,
+      "native_visible_depth_ties": 0,
+      "source_tie_candidate_checks": [],
+      "changed_examples": []
+    },
+    {
+      "family": "madame_shexiang",
+      "count": 2,
+      "view": "bottom",
+      "rays": 5700,
+      "covered_union_rays": 4608,
+      "different_rgba_rays": 0,
+      "different_silhouette_rays": 0,
+      "different_front_depth_rays": 0,
+      "source_visible_depth_ties": 0,
+      "source_visible_ties_different_rgba": 0,
+      "native_visible_depth_ties": 0,
+      "source_tie_candidate_checks": [],
+      "changed_examples": []
+    },
+    {
+      "family": "madame_shexiang",
+      "count": 3,
+      "view": "top",
+      "rays": 12996,
+      "covered_union_rays": 6912,
+      "different_rgba_rays": 0,
+      "different_silhouette_rays": 0,
+      "different_front_depth_rays": 0,
+      "source_visible_depth_ties": 0,
+      "source_visible_ties_different_rgba": 0,
+      "native_visible_depth_ties": 0,
+      "source_tie_candidate_checks": [],
+      "changed_examples": []
+    },
+    {
+      "family": "madame_shexiang",
+      "count": 3,
+      "view": "bottom",
+      "rays": 12996,
+      "covered_union_rays": 6912,
+      "different_rgba_rays": 0,
+      "different_silhouette_rays": 0,
+      "different_front_depth_rays": 0,
+      "source_visible_depth_ties": 0,
+      "source_visible_ties_different_rgba": 0,
+      "native_visible_depth_ties": 0,
+      "source_tie_candidate_checks": [],
+      "changed_examples": []
+    },
+    {
+      "family": "madame_shexiang",
+      "count": 4,
+      "view": "top",
+      "rays": 12996,
+      "covered_union_rays": 9216,
+      "different_rgba_rays": 0,
+      "different_silhouette_rays": 0,
+      "different_front_depth_rays": 0,
+      "source_visible_depth_ties": 0,
+      "source_visible_ties_different_rgba": 0,
+      "native_visible_depth_ties": 0,
+      "source_tie_candidate_checks": [],
+      "changed_examples": []
+    },
+    {
+      "family": "madame_shexiang",
+      "count": 4,
+      "view": "bottom",
+      "rays": 12996,
+      "covered_union_rays": 9216,
+      "different_rgba_rays": 0,
+      "different_silhouette_rays": 0,
+      "different_front_depth_rays": 0,
+      "source_visible_depth_ties": 0,
+      "source_visible_ties_different_rgba": 0,
+      "native_visible_depth_ties": 0,
+      "source_tie_candidate_checks": [],
+      "changed_examples": []
+    },
+    {
+      "family": "sunset_glow",
+      "count": 1,
+      "view": "top",
+      "rays": 2376,
+      "covered_union_rays": 2050,
+      "different_rgba_rays": 0,
+      "different_silhouette_rays": 0,
+      "different_front_depth_rays": 0,
+      "source_visible_depth_ties": 0,
+      "source_visible_ties_different_rgba": 0,
+      "native_visible_depth_ties": 0,
+      "source_tie_candidate_checks": [],
+      "changed_examples": []
+    },
+    {
+      "family": "sunset_glow",
+      "count": 1,
+      "view": "bottom",
+      "rays": 2376,
+      "covered_union_rays": 2050,
+      "different_rgba_rays": 0,
+      "different_silhouette_rays": 0,
+      "different_front_depth_rays": 0,
+      "source_visible_depth_ties": 0,
+      "source_visible_ties_different_rgba": 0,
+      "native_visible_depth_ties": 0,
+      "source_tie_candidate_checks": [],
+      "changed_examples": []
+    },
+    {
+      "family": "sunset_glow",
+      "count": 2,
+      "view": "top",
+      "rays": 8232,
+      "covered_union_rays": 4100,
+      "different_rgba_rays": 0,
+      "different_silhouette_rays": 0,
+      "different_front_depth_rays": 0,
+      "source_visible_depth_ties": 0,
+      "source_visible_ties_different_rgba": 0,
+      "native_visible_depth_ties": 0,
+      "source_tie_candidate_checks": [],
+      "changed_examples": []
+    },
+    {
+      "family": "sunset_glow",
+      "count": 2,
+      "view": "bottom",
+      "rays": 8232,
+      "covered_union_rays": 4100,
+      "different_rgba_rays": 0,
+      "different_silhouette_rays": 0,
+      "different_front_depth_rays": 0,
+      "source_visible_depth_ties": 0,
+      "source_visible_ties_different_rgba": 0,
+      "native_visible_depth_ties": 0,
+      "source_tie_candidate_checks": [],
+      "changed_examples": []
+    },
+    {
+      "family": "sunset_glow",
+      "count": 3,
+      "view": "top",
+      "rays": 11220,
+      "covered_union_rays": 6144,
+      "different_rgba_rays": 4,
+      "different_silhouette_rays": 0,
+      "different_front_depth_rays": 518,
+      "source_visible_depth_ties": 4,
+      "source_visible_ties_different_rgba": 4,
+      "native_visible_depth_ties": 0,
+      "source_tie_candidate_checks": [
+        {
+          "xz": [
+            -0.9306406871192853,
+            -2.5396406871192845
+          ],
+          "source_front_candidates": [
+            {
+              "element": 3,
+              "face": "up",
+              "rgba": [
+                253,
+                130,
+                44,
+                255
+              ]
+            },
+            {
+              "element": 13,
+              "face": "up",
+              "rgba": [
+                220,
+                81,
+                39,
+                255
+              ]
+            }
+          ],
+          "native_rgba": [
+            220,
+            81,
+            39,
+            255
+          ],
+          "native_matches_source_tie_member": true
+        },
+        {
+          "xz": [
+            -0.9306406871192853,
+            -2.4146406871192845
+          ],
+          "source_front_candidates": [
+            {
+              "element": 3,
+              "face": "up",
+              "rgba": [
+                253,
+                130,
+                44,
+                255
+              ]
+            },
+            {
+              "element": 13,
+              "face": "up",
+              "rgba": [
+                220,
+                81,
+                39,
+                255
+              ]
+            }
+          ],
+          "native_rgba": [
+            220,
+            81,
+            39,
+            255
+          ],
+          "native_matches_source_tie_member": true
+        },
+        {
+          "xz": [
+            -0.8056406871192853,
+            -2.4146406871192845
+          ],
+          "source_front_candidates": [
+            {
+              "element": 3,
+              "face": "up",
+              "rgba": [
+                253,
+                130,
+                44,
+                255
+              ]
+            },
+            {
+              "element": 13,
+              "face": "up",
+              "rgba": [
+                220,
+                81,
+                39,
+                255
+              ]
+            }
+          ],
+          "native_rgba": [
+            220,
+            81,
+            39,
+            255
+          ],
+          "native_matches_source_tie_member": true
+        },
+        {
+          "xz": [
+            -0.9306406871192853,
+            -2.2896406871192845
+          ],
+          "source_front_candidates": [
+            {
+              "element": 3,
+              "face": "up",
+              "rgba": [
+                253,
+                130,
+                44,
+                255
+              ]
+            },
+            {
+              "element": 13,
+              "face": "up",
+              "rgba": [
+                220,
+                81,
+                39,
+                255
+              ]
+            }
+          ],
+          "native_rgba": [
+            220,
+            81,
+            39,
+            255
+          ],
+          "native_matches_source_tie_member": true
+        }
+      ],
+      "changed_examples": [
+        {
+          "xz": [
+            -0.9306406871192853,
+            -2.5396406871192845
+          ],
+          "source_rgba": [
+            253,
+            130,
+            44,
+            255
+          ],
+          "native_rgba": [
+            220,
+            81,
+            39,
+            255
+          ]
+        },
+        {
+          "xz": [
+            -0.9306406871192853,
+            -2.4146406871192845
+          ],
+          "source_rgba": [
+            253,
+            130,
+            44,
+            255
+          ],
+          "native_rgba": [
+            220,
+            81,
+            39,
+            255
+          ]
+        },
+        {
+          "xz": [
+            -0.8056406871192853,
+            -2.4146406871192845
+          ],
+          "source_rgba": [
+            253,
+            130,
+            44,
+            255
+          ],
+          "native_rgba": [
+            220,
+            81,
+            39,
+            255
+          ]
+        },
+        {
+          "xz": [
+            -0.9306406871192853,
+            -2.2896406871192845
+          ],
+          "source_rgba": [
+            253,
+            130,
+            44,
+            255
+          ],
+          "native_rgba": [
+            220,
+            81,
+            39,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "family": "sunset_glow",
+      "count": 3,
+      "view": "bottom",
+      "rays": 11220,
+      "covered_union_rays": 6144,
+      "different_rgba_rays": 4,
+      "different_silhouette_rays": 0,
+      "different_front_depth_rays": 2048,
+      "source_visible_depth_ties": 4,
+      "source_visible_ties_different_rgba": 4,
+      "native_visible_depth_ties": 0,
+      "source_tie_candidate_checks": [
+        {
+          "xz": [
+            -0.9306406871192853,
+            -2.5396406871192845
+          ],
+          "source_front_candidates": [
+            {
+              "element": 3,
+              "face": "down",
+              "rgba": [
+                253,
+                130,
+                44,
+                255
+              ]
+            },
+            {
+              "element": 13,
+              "face": "down",
+              "rgba": [
+                220,
+                81,
+                39,
+                255
+              ]
+            }
+          ],
+          "native_rgba": [
+            220,
+            81,
+            39,
+            255
+          ],
+          "native_matches_source_tie_member": true
+        },
+        {
+          "xz": [
+            -0.9306406871192853,
+            -2.4146406871192845
+          ],
+          "source_front_candidates": [
+            {
+              "element": 3,
+              "face": "down",
+              "rgba": [
+                253,
+                130,
+                44,
+                255
+              ]
+            },
+            {
+              "element": 13,
+              "face": "down",
+              "rgba": [
+                220,
+                81,
+                39,
+                255
+              ]
+            }
+          ],
+          "native_rgba": [
+            220,
+            81,
+            39,
+            255
+          ],
+          "native_matches_source_tie_member": true
+        },
+        {
+          "xz": [
+            -0.8056406871192853,
+            -2.4146406871192845
+          ],
+          "source_front_candidates": [
+            {
+              "element": 3,
+              "face": "down",
+              "rgba": [
+                253,
+                130,
+                44,
+                255
+              ]
+            },
+            {
+              "element": 13,
+              "face": "down",
+              "rgba": [
+                220,
+                81,
+                39,
+                255
+              ]
+            }
+          ],
+          "native_rgba": [
+            220,
+            81,
+            39,
+            255
+          ],
+          "native_matches_source_tie_member": true
+        },
+        {
+          "xz": [
+            -0.9306406871192853,
+            -2.2896406871192845
+          ],
+          "source_front_candidates": [
+            {
+              "element": 3,
+              "face": "down",
+              "rgba": [
+                253,
+                130,
+                44,
+                255
+              ]
+            },
+            {
+              "element": 13,
+              "face": "down",
+              "rgba": [
+                220,
+                81,
+                39,
+                255
+              ]
+            }
+          ],
+          "native_rgba": [
+            220,
+            81,
+            39,
+            255
+          ],
+          "native_matches_source_tie_member": true
+        }
+      ],
+      "changed_examples": [
+        {
+          "xz": [
+            -0.9306406871192853,
+            -2.5396406871192845
+          ],
+          "source_rgba": [
+            253,
+            130,
+            44,
+            255
+          ],
+          "native_rgba": [
+            220,
+            81,
+            39,
+            255
+          ]
+        },
+        {
+          "xz": [
+            -0.9306406871192853,
+            -2.4146406871192845
+          ],
+          "source_rgba": [
+            253,
+            130,
+            44,
+            255
+          ],
+          "native_rgba": [
+            220,
+            81,
+            39,
+            255
+          ]
+        },
+        {
+          "xz": [
+            -0.8056406871192853,
+            -2.4146406871192845
+          ],
+          "source_rgba": [
+            253,
+            130,
+            44,
+            255
+          ],
+          "native_rgba": [
+            220,
+            81,
+            39,
+            255
+          ]
+        },
+        {
+          "xz": [
+            -0.9306406871192853,
+            -2.2896406871192845
+          ],
+          "source_rgba": [
+            253,
+            130,
+            44,
+            255
+          ],
+          "native_rgba": [
+            220,
+            81,
+            39,
+            255
+          ]
+        }
+      ]
+    }
+  ],
+  "source_coplanar_same_facing_horizontal_pairs": [
+    {
+      "family": "madame_shexiang",
+      "count": 1,
+      "faces": [
+        [
+          1,
+          "down"
+        ],
+        [
+          3,
+          "down"
+        ]
+      ],
+      "y": 7.0,
+      "overlap_area": 4.0,
+      "uv": [
+        [
+          1.0,
+          4.0,
+          5.0,
+          8.0
+        ],
+        [
+          2.0,
+          5.0,
+          4.0,
+          7.0
+        ]
+      ]
+    },
+    {
+      "family": "madame_shexiang",
+      "count": 2,
+      "faces": [
+        [
+          1,
+          "down"
+        ],
+        [
+          3,
+          "down"
+        ]
+      ],
+      "y": 7.0,
+      "overlap_area": 4.0,
+      "uv": [
+        [
+          1.0,
+          4.0,
+          5.0,
+          8.0
+        ],
+        [
+          2.0,
+          5.0,
+          4.0,
+          7.0
+        ]
+      ]
+    },
+    {
+      "family": "madame_shexiang",
+      "count": 2,
+      "faces": [
+        [
+          6,
+          "down"
+        ],
+        [
+          8,
+          "down"
+        ]
+      ],
+      "y": 7.0,
+      "overlap_area": 4.0,
+      "uv": [
+        [
+          2.0,
+          5.0,
+          4.0,
+          7.0
+        ],
+        [
+          1.0,
+          4.0,
+          5.0,
+          8.0
+        ]
+      ]
+    },
+    {
+      "family": "madame_shexiang",
+      "count": 3,
+      "faces": [
+        [
+          1,
+          "down"
+        ],
+        [
+          3,
+          "down"
+        ]
+      ],
+      "y": 7.0,
+      "overlap_area": 4.0,
+      "uv": [
+        [
+          2.0,
+          5.0,
+          4.0,
+          7.0
+        ],
+        [
+          1.0,
+          4.0,
+          5.0,
+          8.0
+        ]
+      ]
+    },
+    {
+      "family": "madame_shexiang",
+      "count": 3,
+      "faces": [
+        [
+          6,
+          "down"
+        ],
+        [
+          8,
+          "down"
+        ]
+      ],
+      "y": 7.0,
+      "overlap_area": 4.0,
+      "uv": [
+        [
+          1.0,
+          4.0,
+          5.0,
+          8.0
+        ],
+        [
+          2.0,
+          5.0,
+          4.0,
+          7.0
+        ]
+      ]
+    },
+    {
+      "family": "madame_shexiang",
+      "count": 3,
+      "faces": [
+        [
+          11,
+          "down"
+        ],
+        [
+          13,
+          "down"
+        ]
+      ],
+      "y": 7.0,
+      "overlap_area": 4.0,
+      "uv": [
+        [
+          2.0,
+          5.0,
+          4.0,
+          7.0
+        ],
+        [
+          1.0,
+          4.0,
+          5.0,
+          8.0
+        ]
+      ]
+    },
+    {
+      "family": "madame_shexiang",
+      "count": 4,
+      "faces": [
+        [
+          1,
+          "down"
+        ],
+        [
+          3,
+          "down"
+        ]
+      ],
+      "y": 7.0,
+      "overlap_area": 4.0,
+      "uv": [
+        [
+          2.0,
+          5.0,
+          4.0,
+          7.0
+        ],
+        [
+          1.0,
+          4.0,
+          5.0,
+          8.0
+        ]
+      ]
+    },
+    {
+      "family": "madame_shexiang",
+      "count": 4,
+      "faces": [
+        [
+          6,
+          "down"
+        ],
+        [
+          8,
+          "down"
+        ]
+      ],
+      "y": 7.0,
+      "overlap_area": 4.0,
+      "uv": [
+        [
+          1.0,
+          4.0,
+          5.0,
+          8.0
+        ],
+        [
+          2.0,
+          5.0,
+          4.0,
+          7.0
+        ]
+      ]
+    },
+    {
+      "family": "madame_shexiang",
+      "count": 4,
+      "faces": [
+        [
+          11,
+          "down"
+        ],
+        [
+          13,
+          "down"
+        ]
+      ],
+      "y": 7.0,
+      "overlap_area": 4.0,
+      "uv": [
+        [
+          2.0,
+          5.0,
+          4.0,
+          7.0
+        ],
+        [
+          1.0,
+          4.0,
+          5.0,
+          8.0
+        ]
+      ]
+    },
+    {
+      "family": "madame_shexiang",
+      "count": 4,
+      "faces": [
+        [
+          16,
+          "down"
+        ],
+        [
+          18,
+          "down"
+        ]
+      ],
+      "y": 7.0,
+      "overlap_area": 4.0,
+      "uv": [
+        [
+          1.0,
+          4.0,
+          5.0,
+          8.0
+        ],
+        [
+          2.0,
+          5.0,
+          4.0,
+          7.0
+        ]
+      ]
+    },
+    {
+      "family": "sunset_glow",
+      "count": 1,
+      "faces": [
+        [
+          2,
+          "down"
+        ],
+        [
+          4,
+          "down"
+        ]
+      ],
+      "y": 8.0,
+      "overlap_area": 15.0,
+      "uv": [
+        [
+          11.0,
+          0.0,
+          16.0,
+          3.0
+        ],
+        [
+          1.0,
+          1.0,
+          7.0,
+          5.0
+        ]
+      ]
+    },
+    {
+      "family": "sunset_glow",
+      "count": 2,
+      "faces": [
+        [
+          2,
+          "down"
+        ],
+        [
+          4,
+          "down"
+        ]
+      ],
+      "y": 8.0,
+      "overlap_area": 15.0,
+      "uv": [
+        [
+          11.0,
+          0.0,
+          16.0,
+          3.0
+        ],
+        [
+          1.0,
+          1.0,
+          7.0,
+          5.0
+        ]
+      ]
+    },
+    {
+      "family": "sunset_glow",
+      "count": 2,
+      "faces": [
+        [
+          5,
+          "down"
+        ],
+        [
+          7,
+          "down"
+        ]
+      ],
+      "y": 8.0,
+      "overlap_area": 15.0,
+      "uv": [
+        [
+          1.0,
+          1.0,
+          7.0,
+          5.0
+        ],
+        [
+          11.0,
+          0.0,
+          16.0,
+          3.0
+        ]
+      ]
+    },
+    {
+      "family": "sunset_glow",
+      "count": 3,
+      "faces": [
+        [
+          2,
+          "down"
+        ],
+        [
+          4,
+          "down"
+        ]
+      ],
+      "y": 8.0,
+      "overlap_area": 15.0,
+      "uv": [
+        [
+          11.0,
+          0.0,
+          16.0,
+          3.0
+        ],
+        [
+          1.0,
+          1.0,
+          7.0,
+          5.0
+        ]
+      ]
+    },
+    {
+      "family": "sunset_glow",
+      "count": 3,
+      "faces": [
+        [
+          3,
+          "up"
+        ],
+        [
+          13,
+          "up"
+        ]
+      ],
+      "y": 8.0,
+      "overlap_area": 0.05887450304571906,
+      "uv": [
+        [
+          0.0,
+          1.0,
+          8.0,
+          5.0
+        ],
+        [
+          0.0,
+          1.0,
+          8.0,
+          5.0
+        ]
+      ]
+    },
+    {
+      "family": "sunset_glow",
+      "count": 3,
+      "faces": [
+        [
+          3,
+          "down"
+        ],
+        [
+          13,
+          "down"
+        ]
+      ],
+      "y": 0.0,
+      "overlap_area": 0.05887450304571906,
+      "uv": [
+        [
+          0.0,
+          1.0,
+          8.0,
+          5.0
+        ],
+        [
+          0.0,
+          1.0,
+          8.0,
+          5.0
+        ]
+      ]
+    },
+    {
+      "family": "sunset_glow",
+      "count": 3,
+      "faces": [
+        [
+          5,
+          "down"
+        ],
+        [
+          7,
+          "down"
+        ]
+      ],
+      "y": 8.0,
+      "overlap_area": 15.0,
+      "uv": [
+        [
+          1.0,
+          1.0,
+          7.0,
+          5.0
+        ],
+        [
+          11.0,
+          0.0,
+          16.0,
+          3.0
+        ]
+      ]
+    },
+    {
+      "family": "sunset_glow",
+      "count": 3,
+      "faces": [
+        [
+          12,
+          "down"
+        ],
+        [
+          14,
+          "down"
+        ]
+      ],
+      "y": 8.0,
+      "overlap_area": 14.999999999999996,
+      "uv": [
+        [
+          11.0,
+          0.0,
+          16.0,
+          3.0
+        ],
+        [
+          1.0,
+          1.0,
+          7.0,
+          5.0
+        ]
+      ]
+    }
+  ],
+  "raw_jpeg_row_metrics": [
+    {
+      "family": "glowflower_brew",
+      "view": "top",
+      "rect_source_or_native_upper": [
+        300,
+        340,
+        1100,
+        510
+      ],
+      "paired_rect_lower": [
+        300,
+        580,
+        1100,
+        750
+      ],
+      "upper_identity": "Java",
+      "translation_px": [
+        0,
+        240
+      ],
+      "mean_absolute_channel_difference": 0.9690416666666667,
+      "max_channel_difference": 138,
+      "exact_pixel_percent": 90.91323529411764,
+      "pixels_over_20": 1368,
+      "dominant_rows_over_20": [
+        [
+          446,
+          27
+        ],
+        [
+          457,
+          25
+        ],
+        [
+          456,
+          21
+        ],
+        [
+          482,
+          19
+        ],
+        [
+          445,
+          18
+        ],
+        [
+          473,
+          18
+        ],
+        [
+          403,
+          17
+        ],
+        [
+          409,
+          17
+        ]
+      ]
+    },
+    {
+      "family": "glowflower_brew",
+      "view": "bottom",
+      "rect_source_or_native_upper": [
+        300,
+        340,
+        1100,
+        510
+      ],
+      "paired_rect_lower": [
+        300,
+        580,
+        1100,
+        750
+      ],
+      "upper_identity": "Canonical",
+      "translation_px": [
+        0,
+        240
+      ],
+      "mean_absolute_channel_difference": 0.569093137254902,
+      "max_channel_difference": 89,
+      "exact_pixel_percent": 90.83529411764705,
+      "pixels_over_20": 608,
+      "dominant_rows_over_20": [
+        [
+          401,
+          11
+        ],
+        [
+          402,
+          11
+        ],
+        [
+          404,
+          11
+        ],
+        [
+          378,
+          10
+        ],
+        [
+          391,
+          10
+        ],
+        [
+          412,
+          10
+        ],
+        [
+          376,
+          9
+        ],
+        [
+          377,
+          9
+        ]
+      ]
+    },
+    {
+      "family": "luminous_bride",
+      "view": "top",
+      "rect_source_or_native_upper": [
+        300,
+        340,
+        1100,
+        510
+      ],
+      "paired_rect_lower": [
+        300,
+        580,
+        1100,
+        750
+      ],
+      "upper_identity": "Java",
+      "translation_px": [
+        0,
+        240
+      ],
+      "mean_absolute_channel_difference": 0.9757450980392157,
+      "max_channel_difference": 139,
+      "exact_pixel_percent": 90.875,
+      "pixels_over_20": 1383,
+      "dominant_rows_over_20": [
+        [
+          446,
+          27
+        ],
+        [
+          457,
+          25
+        ],
+        [
+          456,
+          21
+        ],
+        [
+          482,
+          19
+        ],
+        [
+          445,
+          18
+        ],
+        [
+          467,
+          18
+        ],
+        [
+          473,
+          18
+        ],
+        [
+          403,
+          17
+        ]
+      ]
+    },
+    {
+      "family": "luminous_bride",
+      "view": "bottom",
+      "rect_source_or_native_upper": [
+        300,
+        340,
+        1100,
+        510
+      ],
+      "paired_rect_lower": [
+        300,
+        580,
+        1100,
+        750
+      ],
+      "upper_identity": "Canonical",
+      "translation_px": [
+        0,
+        240
+      ],
+      "mean_absolute_channel_difference": 0.569093137254902,
+      "max_channel_difference": 89,
+      "exact_pixel_percent": 90.83529411764705,
+      "pixels_over_20": 608,
+      "dominant_rows_over_20": [
+        [
+          401,
+          11
+        ],
+        [
+          402,
+          11
+        ],
+        [
+          404,
+          11
+        ],
+        [
+          378,
+          10
+        ],
+        [
+          391,
+          10
+        ],
+        [
+          412,
+          10
+        ],
+        [
+          376,
+          9
+        ],
+        [
+          377,
+          9
+        ]
+      ]
+    },
+    {
+      "family": "madame_shexiang",
+      "view": "top",
+      "rect_source_or_native_upper": [
+        300,
+        340,
+        1100,
+        510
+      ],
+      "paired_rect_lower": [
+        300,
+        580,
+        1100,
+        750
+      ],
+      "upper_identity": "Java",
+      "translation_px": [
+        0,
+        240
+      ],
+      "mean_absolute_channel_difference": 0.23099754901960784,
+      "max_channel_difference": 64,
+      "exact_pixel_percent": 96.48676470588235,
+      "pixels_over_20": 470,
+      "dominant_rows_over_20": [
+        [
+          500,
+          248
+        ],
+        [
+          359,
+          180
+        ],
+        [
+          499,
+          13
+        ],
+        [
+          498,
+          8
+        ],
+        [
+          496,
+          5
+        ],
+        [
+          497,
+          5
+        ],
+        [
+          501,
+          5
+        ],
+        [
+          503,
+          4
+        ]
+      ]
+    },
+    {
+      "family": "madame_shexiang",
+      "view": "bottom",
+      "rect_source_or_native_upper": [
+        300,
+        340,
+        1100,
+        510
+      ],
+      "paired_rect_lower": [
+        300,
+        580,
+        1100,
+        750
+      ],
+      "upper_identity": "Canonical",
+      "translation_px": [
+        0,
+        240
+      ],
+      "mean_absolute_channel_difference": 0.1934607843137255,
+      "max_channel_difference": 27,
+      "exact_pixel_percent": 94.52279411764705,
+      "pixels_over_20": 298,
+      "dominant_rows_over_20": [
+        [
+          359,
+          150
+        ],
+        [
+          500,
+          117
+        ],
+        [
+          499,
+          31
+        ]
+      ]
+    },
+    {
+      "family": "sunset_glow",
+      "view": "top",
+      "rect_source_or_native_upper": [
+        300,
+        340,
+        1100,
+        510
+      ],
+      "paired_rect_lower": [
+        300,
+        580,
+        1100,
+        750
+      ],
+      "upper_identity": "Java",
+      "translation_px": [
+        0,
+        240
+      ],
+      "mean_absolute_channel_difference": 0.4403210784313725,
+      "max_channel_difference": 86,
+      "exact_pixel_percent": 93.70882352941177,
+      "pixels_over_20": 857,
+      "dominant_rows_over_20": [
+        [
+          403,
+          20
+        ],
+        [
+          395,
+          19
+        ],
+        [
+          402,
+          17
+        ],
+        [
+          392,
+          16
+        ],
+        [
+          405,
+          16
+        ],
+        [
+          406,
+          16
+        ],
+        [
+          396,
+          15
+        ],
+        [
+          399,
+          15
+        ]
+      ]
+    },
+    {
+      "family": "sunset_glow",
+      "view": "bottom",
+      "rect_source_or_native_upper": [
+        300,
+        340,
+        1100,
+        510
+      ],
+      "paired_rect_lower": [
+        300,
+        580,
+        1100,
+        750
+      ],
+      "upper_identity": "Canonical",
+      "translation_px": [
+        0,
+        240
+      ],
+      "mean_absolute_channel_difference": 0.06340686274509803,
+      "max_channel_difference": 34,
+      "exact_pixel_percent": 98.05661764705881,
+      "pixels_over_20": 18,
+      "dominant_rows_over_20": [
+        [
+          407,
+          2
+        ],
+        [
+          415,
+          2
+        ],
+        [
+          416,
+          2
+        ],
+        [
+          417,
+          2
+        ],
+        [
+          423,
+          2
+        ],
+        [
+          400,
+          1
+        ],
+        [
+          410,
+          1
+        ],
+        [
+          411,
+          1
+        ]
+      ]
+    }
+  ],
+  "madame_interior_regions": [
+    {
+      "view": "top",
+      "bottle_ordinal": 1,
+      "center_upper": [
+        352,
+        430
+      ],
+      "interior_size": [
+        58,
+        58
+      ],
+      "mean_absolute_channel_difference": 0.0,
+      "max_channel_difference": 0,
+      "exact_pixel_percent": 100.0
+    },
+    {
+      "view": "top",
+      "bottle_ordinal": 2,
+      "center_upper": [
+        532,
+        430
+      ],
+      "interior_size": [
+        58,
+        58
+      ],
+      "mean_absolute_channel_difference": 0.0,
+      "max_channel_difference": 0,
+      "exact_pixel_percent": 100.0
+    },
+    {
+      "view": "top",
+      "bottle_ordinal": 3,
+      "center_upper": [
+        612,
+        430
+      ],
+      "interior_size": [
+        58,
+        58
+      ],
+      "mean_absolute_channel_difference": 0.0,
+      "max_channel_difference": 0,
+      "exact_pixel_percent": 100.0
+    },
+    {
+      "view": "top",
+      "bottle_ordinal": 4,
+      "center_upper": [
+        792,
+        390
+      ],
+      "interior_size": [
+        58,
+        58
+      ],
+      "mean_absolute_channel_difference": 0.0,
+      "max_channel_difference": 0,
+      "exact_pixel_percent": 100.0
+    },
+    {
+      "view": "top",
+      "bottle_ordinal": 5,
+      "center_upper": [
+        752,
+        470
+      ],
+      "interior_size": [
+        58,
+        58
+      ],
+      "mean_absolute_channel_difference": 0.21422909235037654,
+      "max_channel_difference": 22,
+      "exact_pixel_percent": 94.82758620689656
+    },
+    {
+      "view": "top",
+      "bottle_ordinal": 6,
+      "center_upper": [
+        832,
+        470
+      ],
+      "interior_size": [
+        58,
+        58
+      ],
+      "mean_absolute_channel_difference": 0.20709472849782007,
+      "max_channel_difference": 20,
+      "exact_pixel_percent": 94.82758620689656
+    },
+    {
+      "view": "top",
+      "bottle_ordinal": 7,
+      "center_upper": [
+        972,
+        390
+      ],
+      "interior_size": [
+        58,
+        58
+      ],
+      "mean_absolute_channel_difference": 0.14813713832738803,
+      "max_channel_difference": 15,
+      "exact_pixel_percent": 94.61950059453032
+    },
+    {
+      "view": "top",
+      "bottle_ordinal": 8,
+      "center_upper": [
+        1052,
+        390
+      ],
+      "interior_size": [
+        58,
+        58
+      ],
+      "mean_absolute_channel_difference": 0.19054696789536266,
+      "max_channel_difference": 15,
+      "exact_pixel_percent": 91.26040428061832
+    },
+    {
+      "view": "top",
+      "bottle_ordinal": 9,
+      "center_upper": [
+        972,
+        470
+      ],
+      "interior_size": [
+        58,
+        58
+      ],
+      "mean_absolute_channel_difference": 0.39684898929845425,
+      "max_channel_difference": 18,
+      "exact_pixel_percent": 86.08799048751486
+    },
+    {
+      "view": "top",
+      "bottle_ordinal": 10,
+      "center_upper": [
+        1052,
+        470
+      ],
+      "interior_size": [
+        58,
+        58
+      ],
+      "mean_absolute_channel_difference": 0.3496829171621086,
+      "max_channel_difference": 17,
+      "exact_pixel_percent": 89.44708680142688
+    },
+    {
+      "view": "bottom",
+      "bottle_ordinal": 1,
+      "center_upper": [
+        352,
+        430
+      ],
+      "interior_size": [
+        58,
+        58
+      ],
+      "mean_absolute_channel_difference": 0.0,
+      "max_channel_difference": 0,
+      "exact_pixel_percent": 100.0
+    },
+    {
+      "view": "bottom",
+      "bottle_ordinal": 2,
+      "center_upper": [
+        532,
+        430
+      ],
+      "interior_size": [
+        58,
+        58
+      ],
+      "mean_absolute_channel_difference": 0.0,
+      "max_channel_difference": 0,
+      "exact_pixel_percent": 100.0
+    },
+    {
+      "view": "bottom",
+      "bottle_ordinal": 3,
+      "center_upper": [
+        612,
+        430
+      ],
+      "interior_size": [
+        58,
+        58
+      ],
+      "mean_absolute_channel_difference": 0.0,
+      "max_channel_difference": 0,
+      "exact_pixel_percent": 100.0
+    },
+    {
+      "view": "bottom",
+      "bottle_ordinal": 4,
+      "center_upper": [
+        792,
+        470
+      ],
+      "interior_size": [
+        58,
+        58
+      ],
+      "mean_absolute_channel_difference": 0.5553904082441538,
+      "max_channel_difference": 16,
+      "exact_pixel_percent": 81.71819262782401
+    },
+    {
+      "view": "bottom",
+      "bottle_ordinal": 5,
+      "center_upper": [
+        752,
+        390
+      ],
+      "interior_size": [
+        58,
+        58
+      ],
+      "mean_absolute_channel_difference": 0.41200951248513673,
+      "max_channel_difference": 17,
+      "exact_pixel_percent": 88.76337693222355
+    },
+    {
+      "view": "bottom",
+      "bottle_ordinal": 6,
+      "center_upper": [
+        832,
+        390
+      ],
+      "interior_size": [
+        58,
+        58
+      ],
+      "mean_absolute_channel_difference": 0.39595719381688466,
+      "max_channel_difference": 17,
+      "exact_pixel_percent": 90.01189060642093
+    },
+    {
+      "view": "bottom",
+      "bottle_ordinal": 7,
+      "center_upper": [
+        972,
+        470
+      ],
+      "interior_size": [
+        58,
+        58
+      ],
+      "mean_absolute_channel_difference": 0.5894768133174791,
+      "max_channel_difference": 17,
+      "exact_pixel_percent": 77.91319857312723
+    },
+    {
+      "view": "bottom",
+      "bottle_ordinal": 8,
+      "center_upper": [
+        1052,
+        470
+      ],
+      "interior_size": [
+        58,
+        58
+      ],
+      "mean_absolute_channel_difference": 0.5858105430043599,
+      "max_channel_difference": 17,
+      "exact_pixel_percent": 77.97265160523187
+    },
+    {
+      "view": "bottom",
+      "bottle_ordinal": 9,
+      "center_upper": [
+        972,
+        390
+      ],
+      "interior_size": [
+        58,
+        58
+      ],
+      "mean_absolute_channel_difference": 0.4950455806579469,
+      "max_channel_difference": 15,
+      "exact_pixel_percent": 83.769322235434
+    },
+    {
+      "view": "bottom",
+      "bottle_ordinal": 10,
+      "center_upper": [
+        1052,
+        390
+      ],
+      "interior_size": [
+        58,
+        58
+      ],
+      "mean_absolute_channel_difference": 0.4950455806579469,
+      "max_channel_difference": 15,
+      "exact_pixel_percent": 83.769322235434
+    }
+  ],
+  "madame_count1_top_exact_rgb_proof": {
+    "rect_java": [
+      322,
+      400,
+      382,
+      460
+    ],
+    "rect_native": [
+      322,
+      640,
+      382,
+      700
+    ],
+    "decoded_rgb_sha256": "8d84c0fc465e174a1d83527da6bf953aeb0ce69f7768c913842fab1a275f602d",
+    "native_decoded_rgb_sha256": "8d84c0fc465e174a1d83527da6bf953aeb0ce69f7768c913842fab1a275f602d",
+    "exactly_equal": true,
+    "pixels": 3600
+  },
+  "inputs": {
+    "review/bottles/scenes/glowflower_brew.bbmodel": "765c928fe6e3e1819c259173ca176467bbbc6635d82185226b04b8204318cdba",
+    "review/inputs/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/drink/glowflower_brew/count1.json": "7de30dfe7a3c847d8560b82f3cf1d0067adebd9f7058fee085c39bf6e2e66eec",
+    "review/inputs/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/glowflower_brew.png": "edb21cd10842e90a351751d69d81ee617cc3e0da859e0eb2cc984bd34ca2816a",
+    "review/inputs/source/runtime/RP/models/entity/glowflower_brew_1.geo.json": "49086abd28050c7cb3162ed5b08c611e5d230c0a785365422dbe954c4ecfea7d",
+    "review/inputs/source/runtime/RP/textures/kaleidoscope_tavern/block/brew/glowflower_brew.png": "edb21cd10842e90a351751d69d81ee617cc3e0da859e0eb2cc984bd34ca2816a",
+    "review/inputs/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/drink/glowflower_brew/count2.json": "9d87f926592d1c875d335c040e091d3c0dcb96b1b5652478121c433bc0b2d074",
+    "review/inputs/source/runtime/RP/models/entity/glowflower_brew_2.geo.json": "15302d766da71c0a79b71909c91c8d01789be04c7f4bfb03b7e58fe1cacc7c60",
+    "review/inputs/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/drink/glowflower_brew/count3.json": "c2e4dd5a3aae5e03f7a836e807b5f30edfc08eebdff60c15f190be3309afe525",
+    "review/inputs/source/runtime/RP/models/entity/glowflower_brew_3.geo.json": "9cd5610d10af28b3cb2de11ee6c79df15cfb12e74bf3d82b9726f8f7739d4823",
+    "review/inputs/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/drink/glowflower_brew/count4.json": "cf1d6d4abf6435b4e7a50efddb060349031fc3eba32d68ebf746a7f9d24e02e3",
+    "review/inputs/source/runtime/RP/models/entity/glowflower_brew_4.geo.json": "624209a0e0f361d808aa46769e03b28b90b4aa2926c5eb631aeac47801b05b6c",
+    "review/bottles/scenes/luminous_bride.bbmodel": "361a112b80cc1cb591b711bfdaab6f2b962158543ec69c605fec6adb6e365afb",
+    "review/inputs/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/drink/luminous_bride/count1.json": "2ba58764783534b7af168549bb0903e0c38c1d84afac15be84254380b8ab72ef",
+    "review/inputs/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/luminous_bride.png": "6fa826ae5e18f525f10ba523b13ab4b9494728be89b3af84eccd2ac57ae58370",
+    "review/inputs/source/runtime/RP/models/entity/luminous_bride_1.geo.json": "6557407955161cc933db87557a62dee08eb43cd638a6e2176b893a0c7da3d2a9",
+    "review/inputs/source/runtime/RP/textures/kaleidoscope_tavern/block/brew/luminous_bride.png": "6fa826ae5e18f525f10ba523b13ab4b9494728be89b3af84eccd2ac57ae58370",
+    "review/inputs/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/drink/luminous_bride/count2.json": "e8793bb16c7c58a8e77b008a48f7df7fa9911c5d3a960bd839318b3985627be2",
+    "review/inputs/source/runtime/RP/models/entity/luminous_bride_2.geo.json": "875291d461cbfba1e7e6f918301df84f91c8c0cd0c3f7a5705eb328bd2ac6b76",
+    "review/inputs/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/drink/luminous_bride/count3.json": "6ff9dc6b8229b8b6ae930498608396fe984c54844577403f4b0ca4c84aa2bc1f",
+    "review/inputs/source/runtime/RP/models/entity/luminous_bride_3.geo.json": "dda179a9b3615e69c220787d32d37e2bc961a41289d7aa0efc615b6728498fa7",
+    "review/inputs/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/drink/luminous_bride/count4.json": "dca9d945d400b8393e71fde26c6eafc137503df0b733e4b54ffa80853bde26e5",
+    "review/inputs/source/runtime/RP/models/entity/luminous_bride_4.geo.json": "15e239ae88d508f87d2e17be52a8a6ed5409598c1b7705efcb999d391ef0ffe3",
+    "review/bottles/scenes/madame_shexiang.bbmodel": "230641f785b1e65045c771500614ca18ea326018845a48b9e659a0ad5768fe45",
+    "review/inputs/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/drink/madame_shexiang/count1.json": "08c8d1bd19dc41538f25a26d226f8cda066632dedd92e8eacc17d77d6330bb7d",
+    "review/inputs/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/madame_shexiang.png": "d1cbb24266dc3b5f17b6a7a23425e56afcda94144ed1e589a9192eee9f02fecc",
+    "review/inputs/source/runtime/RP/models/entity/madame_shexiang_1.geo.json": "9c42845223d436aaac2107710ddfd47cbd3e340d3848f3f6883d3947c2559518",
+    "review/inputs/source/runtime/RP/textures/kaleidoscope_tavern/block/brew/madame_shexiang.png": "d1cbb24266dc3b5f17b6a7a23425e56afcda94144ed1e589a9192eee9f02fecc",
+    "review/inputs/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/drink/madame_shexiang/count2.json": "0ebd109393bff7e65e4dc5110863208c02c89c84a7e0e3f7792adf3ae7b69f9a",
+    "review/inputs/source/runtime/RP/models/entity/madame_shexiang_2.geo.json": "fd2137d422278edfb339a04f578c724d8e7abb487218bdf5eef5f44699632b28",
+    "review/inputs/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/drink/madame_shexiang/count3.json": "0b7961760d3e4cd4074d450cff3f9e4b4ce5f1530d6af492d72bfc677ed47087",
+    "review/inputs/source/runtime/RP/models/entity/madame_shexiang_3.geo.json": "15d0a039b34796fc59478527f3eaad96d0619a0765040525822ed4ae2e8e3b3f",
+    "review/inputs/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/drink/madame_shexiang/count4.json": "4f74803b3a6b0c20b213cba3517eb1436f5f4275c0e7c7db2e5cc9a41ef4125c",
+    "review/inputs/source/runtime/RP/models/entity/madame_shexiang_4.geo.json": "89d5776fa7a0cbfd8b5408e68f6c33a8c0d5baa061b12ceb7d8490ed1ceb58f4",
+    "review/bottles/scenes/sunset_glow.bbmodel": "a62fc797c2f139a25e9af3dd19aa1b9beaafef58270b6548225766097b4c3cf7",
+    "review/inputs/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/drink/sunset_glow/count1.json": "e32bd664cdcb9124c7d29de3e7aae26ef478c762b9f93a98c0f095786c67d042",
+    "review/inputs/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/sunset_glow.png": "dcdf57a80c85c74dc2e30a2054fe6955f6324ea24dadc1ddcc8697e01a790e38",
+    "review/inputs/source/runtime/RP/models/entity/sunset_glow_1.geo.json": "87f8ba816263cabc73efed0e9136ec1e5e63b986c5d20d4c2b5f989a367a47db",
+    "review/inputs/source/runtime/RP/textures/kaleidoscope_tavern/block/brew/sunset_glow.png": "dcdf57a80c85c74dc2e30a2054fe6955f6324ea24dadc1ddcc8697e01a790e38",
+    "review/inputs/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/drink/sunset_glow/count2.json": "180ac4f36de4e86ca323122a2e96bb4dd0107f985a06c2ac492f998b958f6583",
+    "review/inputs/source/runtime/RP/models/entity/sunset_glow_2.geo.json": "870216a7d48c91668a008bfda6fc5e635bba2f6fa8a749c65b9262dd5288d3cc",
+    "review/inputs/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/brew/drink/sunset_glow/count3.json": "5b939ab2e6add382b212b00832549586265572f271548a22547d8bae4d1eaf36",
+    "review/inputs/source/runtime/RP/models/entity/sunset_glow_3.geo.json": "3d8c87f961924ea70cb961dd6923612bd1c9f7642f46eeddc60d001be441534e",
+    "review/bottles/evidence/glowflower_brew-top.jpg": "d14350d4c1c358b0f8fe64dbf21bf2aefe1ccbce1403d139442ef9420553bd82",
+    "review/bottles/evidence/glowflower_brew-bottom.jpg": "a91a92591784beaa8a306b82b177a6530ab75423eb1dc669e5c0628c5e9944b5",
+    "review/bottles/evidence/luminous_bride-top.jpg": "72266c37540a91581708fc8ed473d78cf44e6ac174d2215bfa4e3e0d3e3b6c06",
+    "review/bottles/evidence/luminous_bride-bottom.jpg": "dae43c72d776ad5684734ca575c9a5903cf1f74a13b09faafcc4cea93038a6a8",
+    "review/bottles/evidence/madame_shexiang-top.jpg": "5cf9f9626120fa032543c4d90a0b9d928c630cf6e6c0dcb3219282d15331db3a",
+    "review/bottles/evidence/madame_shexiang-bottom.jpg": "90d976e0011983f139cf6c474365920b82ef9c3d32d77bc32db6f52f8390862e",
+    "review/bottles/evidence/sunset_glow-top.jpg": "30573f2aa8936bab855db28b10508b2423d5ee174f0c0b7585b2e49bc9ab1970",
+    "review/bottles/evidence/sunset_glow-bottom.jpg": "8c9a89620f9bf88f6feb1bff2faed390c13a2925e5bcdba2a6617468ab7a1c5d",
+    "review/bottles/evidence/glowflower_brew-perspective.jpg": "01636d32c7a30c87ecd176afe57b2c7b86b09d2108aa5e24ed18a0061a25a986",
+    "review/bottles/evidence/luminous_bride-perspective.jpg": "585984d15e96ceaf36538907067140b9e408dbd417ebaff9b90eec998b91f0ec",
+    "review/bottles/evidence/madame_shexiang-perspective.jpg": "f444048ac179dea0ea3c0a8f508302add5a0be7bffb3c32c360c716639c14a4b",
+    "review/bottles/evidence/sunset_glow-perspective.jpg": "5e49501cabe5cf8a27ac5a22f3db5bc57c4b86919906c52a67f70de3ee10aa51"
+  },
+  "limits": [
+    "No synthetic render or substituted screenshot.",
+    "No Minecraft engine, source Java render-order or client shader acceptance.",
+    "JPEG/raster edge differences are not claimed to have one fully proven GPU cause.",
+    "Grid queries exclude exact mathematical boundary rays; first-visible reasoning is additionally source-backed."
+  ],
+  "binding_checks": [
+    {
+      "family": "glowflower_brew",
+      "counts": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "png_dimensions": [
+        16,
+        16
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "source_native_texture_bytes_equal": true,
+      "java_texture_mcmeta_exists": false,
+      "java_render_type": "cutout",
+      "native_material": {
+        "texture": "kt_assets_a8_block_brew_glowflower_brew",
+        "render_method": "alpha_test_single_sided",
+        "ambient_occlusion": 0.0,
+        "face_dimming": true
+      },
+      "scene_render_sides": "front",
+      "scene_render_mode": "default"
+    },
+    {
+      "family": "luminous_bride",
+      "counts": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "png_dimensions": [
+        16,
+        16
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "source_native_texture_bytes_equal": true,
+      "java_texture_mcmeta_exists": false,
+      "java_render_type": "cutout",
+      "native_material": {
+        "texture": "kt_assets_a8_block_brew_luminous_bride",
+        "render_method": "alpha_test_single_sided",
+        "ambient_occlusion": 0.0,
+        "face_dimming": true
+      },
+      "scene_render_sides": "front",
+      "scene_render_mode": "default"
+    },
+    {
+      "family": "madame_shexiang",
+      "counts": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "png_dimensions": [
+        16,
+        16
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "source_native_texture_bytes_equal": true,
+      "java_texture_mcmeta_exists": false,
+      "java_render_type": "cutout",
+      "native_material": {
+        "texture": "kt_assets_a9_block_brew_madame_shexiang",
+        "render_method": "alpha_test_single_sided",
+        "ambient_occlusion": 0.0,
+        "face_dimming": true
+      },
+      "scene_render_sides": "front",
+      "scene_render_mode": "default"
+    },
+    {
+      "family": "sunset_glow",
+      "counts": [
+        1,
+        2,
+        3
+      ],
+      "png_dimensions": [
+        16,
+        16
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "source_native_texture_bytes_equal": true,
+      "java_texture_mcmeta_exists": false,
+      "java_render_type": "cutout",
+      "native_material": {
+        "texture": "kt_assets_a9_block_brew_sunset_glow",
+        "render_method": "alpha_test_single_sided",
+        "ambient_occlusion": 0.0,
+        "face_dimming": true
+      },
+      "scene_render_sides": "front",
+      "scene_render_mode": "default"
+    }
+  ],
+  "additional_exact_rgb_proofs": [
+    {
+      "family": "madame_shexiang",
+      "view": "bottom",
+      "upper_identity": "Canonical",
+      "upper_rect": [
+        322,
+        400,
+        382,
+        460
+      ],
+      "lower_rect": [
+        322,
+        640,
+        382,
+        700
+      ],
+      "exactly_equal": true,
+      "decoded_rgb_sha256": "6693f8efa8cb01956a4accf4e1f5fca14b0a719ed8f6f7e8972957b2ab86b8d8"
+    },
+    {
+      "family": "sunset_glow",
+      "view": "bottom",
+      "upper_identity": "Canonical",
+      "upper_rect": [
+        422,
+        410,
+        502,
+        450
+      ],
+      "lower_rect": [
+        422,
+        650,
+        502,
+        690
+      ],
+      "exactly_equal": true,
+      "decoded_rgb_sha256": "a831023250b136628d28ed06810ff2bac33bcfa2c00f044983775b65967cab81"
+    }
+  ]
+}

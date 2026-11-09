@@ -1,0 +1,11 @@
+{
+  "method_changes": "Only package-relative paths and output report normalization; no geometry/pixel algorithm change.",
+  "original_method_sha256": "b605140fb89a617f7027ccfbc2e9ae3d0ef86503017d78e54e29c2f2e6982bff",
+  "portable_method_sha256": "23c91e3d739ed750c89bf70ad03ddb8a3b75353d8989a670c93567d52eead8b8",
+  "original_report_equal_after_path_normalization": true,
+  "state_views": 30,
+  "covered_rays": 111188,
+  "exact_crop_proofs": 3,
+  "raw_images_unchanged": 12,
+  "scope": "Four previously adapted families, 15 states. Analytical top/bottom ray and raw JPEG checks, not Minecraft engine rendering."
+}

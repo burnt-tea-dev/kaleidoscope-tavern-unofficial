@@ -1,0 +1,40 @@
+{
+  "scope": "Independent clean extraction of the seven compact archives; four numerical audits. No GUI or engine acceptance.",
+  "checks": [
+    {
+      "audit": "validate_scenes.py",
+      "report": "static-checks.json",
+      "returncode": 0,
+      "byte_identical_saved_report": true,
+      "sha256": "d0d8cb1552cde4fd3a966eb827270ae9094d4977e06cb18d9277ff7de16ba598",
+      "stdout": "{'states': 97, 'exact_geometry_uv_states': 82, 'face_split_families': ['glowflower_brew', 'luminous_bride', 'madame_shexiang', 'sunset_glow'], 'all_jar_texture_pixels_equal_current': True, 'gui_acceptance': 'NOT_RUN_BY_THIS_WORKER'}"
+    },
+    {
+      "audit": "check_routing.py",
+      "report": "routing.json",
+      "returncode": 0,
+      "byte_identical_saved_report": true,
+      "sha256": "183d1546c8fd6dc917c49614a4124cca43bf39fb4dca597a26ed804cb95327f5",
+      "stdout": "resolved entities 4 quality item bindings 145"
+    },
+    {
+      "audit": "compare_faces.py",
+      "report": "face-uv-diagnostic.json",
+      "returncode": 0,
+      "byte_identical_saved_report": true,
+      "sha256": "3d478eace459b78cdddcea7bb1760c0c10b549f4db752e30173baea358b11fd7",
+      "stdout": "Raw ordered-face diagnostic preserved. Expected separation/crop differences are adjudicated by verify_face_adaptations.py; this diagnostic alone is not an exact-geometry pass."
+    },
+    {
+      "audit": "verify_face_adaptations.py",
+      "report": "face-adaptation-verification.json",
+      "returncode": 0,
+      "byte_identical_saved_report": true,
+      "sha256": "6e3fd1919f2638b8ecd29e855ae5fa9e6d6fc34cf4d30003f3172f2b14b44a7c",
+      "stdout": "{'states': 15, 'faces': 960, 'all_complete_uv_bijection': True, 'unexplained_differences': 0, 'luminous_cropped_shell_faces': 40, 'engine_acceptance': False}"
+    }
+  ],
+  "scene_files": 25,
+  "state_count": 97,
+  "source_runtime_inputs_unchanged_at": "707e3c713f539c806137b53ae533e22184c2db7d"
+}

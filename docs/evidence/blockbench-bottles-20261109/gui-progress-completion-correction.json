@@ -1,0 +1,11 @@
+{
+  "date": "2026-11-09",
+  "before_sha256": "49f262d9fca77a0cc7f7eb2dfeb076678e1d2c1975e1ebce1ea04258c24e7d07",
+  "after_sha256": "c0c7b82c9ce79c07b2c53946751b7bb4f9ace2ace36cd991629c22f8c13f337d",
+  "changed_fields": [
+    "pending_families",
+    "remaining_count_states",
+    "limits[0]"
+  ],
+  "reason": "Remove stale pending fields after full 25-family GUI completion. Raw image and scene bytes and all 75 entries unchanged."
+}
