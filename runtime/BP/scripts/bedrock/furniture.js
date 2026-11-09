@@ -1,5 +1,6 @@
 import {nativeItems,glasswareStorageKey} from './native-item-storage.js';
 import {storageFeedback} from './pickup-feedback.js';
+import {tickStorageVisuals} from './storage-visual-maintenance.js';
 import {nativeBlockHit} from './stateful-storage-router.js';
 import {worldFromHit,glasswareHolderStateSlot} from '../core/hit-basis.js';
 import {aimPointFor} from '../core/aim-hit.js';
@@ -183,7 +184,7 @@ export function maintainSeat(e){
   if(f.kind==='stool'){const yaw=rider?relativeSeatYaw(rider.getRotation().y,facingYaw(block.permutation.getState(FACING)??0)):0;if(e.getProperty(NS+':seat_yaw')!==yaw)e.setProperty(NS+':seat_yaw',yaw);}
  }catch(x){error(x);helpers.delete(e.id);}
 }
-export function tickFurniture(){const list=[...helpers.values()];if(!list.length)return;const n=Math.min(128,list.length);for(let i=0;i<n;i++)maintainSeat(list[(cursor+i)%list.length]);cursor=(cursor+n)%Math.max(list.length,1);}
+export function tickFurniture(){cursor=tickStorageVisuals(helpers,cursor,maintainSeat,128);}
 export function registerFurnitureComponents({blockComponentRegistry:r}){r.registerCustomComponent(NS+':stool',{onPlace:e=>optional(()=>{syncNativeFurnitureFacing(e.block,'stool');ensureSeat(e.block);}),onPlayerInteract:nativeBlockUse,onTick:e=>optional(()=>ensureSeat(e.block))});r.registerCustomComponent(NS+':sofa',{onPlace:e=>optional(()=>{syncNativeFurnitureFacing(e.block,'sofa');syncSofaNeighborhood(e.block.dimension,e.block.location);}),onPlayerInteract:nativeBlockUse,onTick:e=>optional(()=>syncSofa(e.block))});r.registerCustomComponent(NS+':table',{onPlace:e=>optional(()=>syncTableNeighborhood(e.block.dimension,e.block.location)),onTick:e=>optional(()=>syncTable(e.block))});r.registerCustomComponent(NS+':glassware_holder',{onPlayerInteract:nativeEmptyHandBlockUse,onPlace:e=>optional(()=>syncNativeFurnitureFacing(e.block,'glassware_holder'))});r.registerCustomComponent(NS+':bar_counter',{onPlace:e=>optional(()=>{syncNativeFurnitureFacing(e.block,'bar_counter');syncBarCounterNeighborhood(e.block.dimension,e.block.location);}),onTick:e=>optional(()=>syncBarCounter(e.block))});r.registerCustomComponent(NS+':pendant_lamp',{onTick:e=>optional(()=>repairVerticalDouble(e.block))});r.registerCustomComponent(NS+':string_light',{});}
 export function installFurnitureEvents(){
  registerJavaBlockUseHandler(e=>{

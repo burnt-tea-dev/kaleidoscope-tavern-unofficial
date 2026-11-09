@@ -9,6 +9,7 @@ import base64,gzip,hashlib,json,subprocess
 from functools import lru_cache
 from collision_shape_projection import collision_preimage
 from current_extension_source_contract import check as check_current_extensions, runtime_sources as extension_runtime_sources
+from board_font_contract import check as check_board_font, owned_sources as board_font_sources
 from cultivation_source_contract import check as check_cultivation, runtime_sources as cultivation_runtime_sources
 from check_incense_surfaces import check as check_incense, runtime_sources as incense_runtime_sources
 from chalkboard_geometry import check as check_chalkboard, runtime_sources as chalkboard_runtime_sources
@@ -40,7 +41,6 @@ COCKTAIL_ASSET_PATHS=frozenset({
    'runtime/RP/attachables/shaker_pouring.attachable.json',
    'runtime/RP/textures/terrain_texture.json',
    'runtime/RP/animations/board_glyph_line.animation.json',
-   'runtime/RP/entity/board_glyph_visual.entity.json',
    'runtime/RP/entity/rig_signature_color.entity.json',
    'runtime/RP/entity/runtime_pressing_tub_ingredients.entity.json',
    'runtime/RP/entity/runtime_pressing_tub_ingredients_1.entity.json',
@@ -261,6 +261,9 @@ def previous_bytes(root,path):
  # suites. Their bodies no longer participate in the historical source view.
  if root==Path(__file__).resolve().parents[1] and name in extension_runtime_sources():
   check_current_extensions(root,syntax=False,localization=False)
+  return data
+ if root==Path(__file__).resolve().parents[1] and name in board_font_sources():
+  check_board_font(root)
   return data
  if root==Path(__file__).resolve().parents[1] and name in cultivation_runtime_sources():
   check_cultivation(root,syntax=False)

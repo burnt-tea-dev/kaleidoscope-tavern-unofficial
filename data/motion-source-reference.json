@@ -61,8 +61,8 @@
       "sha256": "ef3146a120206dbc6e13829af920a9161063c4d1ca5095fe602cb029048c044b"
     },
     "runtime/RP/textures": {
-      "files": 2010,
-      "sha256": "a85b798ece7151ec00f6a4d8af2569a4f2cbaf348b2d839fe3a4558d6358c144"
+      "files": 1754,
+      "sha256": "33c0ef8ef55b96e29efcba73fe3c4a951f087d6824a147dd7834070cd31cc9ae"
     }
   },
   "preservedFiles": {

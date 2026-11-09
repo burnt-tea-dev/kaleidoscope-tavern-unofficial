@@ -16,7 +16,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SOURCE_GROUPS = {
     'registrationAndTransport': ('bedrock/extension-host.js', 'core/registry.js', 'core/transport.js', 'core/extension-foundation.js'),
     'bottleIdentity': ('core/extension-content.js', 'core/bottle-display-schema.js', 'core/quality-tooltip.js', 'bedrock/quality-tooltip.js'),
-    'furnitureLifecycle': ('core/furniture.js',),
+    'furnitureLifecycle': ('core/furniture.js', 'bedrock/furniture.js'),
     'optionalEffectProtocol': ('data/effect-icons.js',),
     'machinesAndDecorations': ('bedrock/machines.js', 'core/machines.js', 'bedrock/decorations.js'),
     'sharedGuide': ('core/cookery-guide-publisher.js', 'data/cookery-guide-payload.js', 'data/guide-navigation.js', 'data/guide-copy.js', 'data/guide-native-names.js'),
@@ -51,6 +51,7 @@ def check(root=ROOT, *, syntax=True, localization=True):
         ('./bedrock/natural-break.js', {'registerNaturalBreak'}),
         ('./bedrock/machines.js', {'setRegistry', 'registerMachineComponents', 'installMachineEvents'}),
         ('./bedrock/decorations.js', {'registerDecorationComponents', 'installDecorationEvents'}),
+        ('./bedrock/furniture.js', {'registerFurnitureComponents', 'installFurnitureEvents', 'furnitureDiagnostics'}),
         ('./data/cookery-guide-payload.js', {'buildCookeryGuidePayload', 'prepareCookeryGuidePayload'}),
         ('./core/cookery-guide-publisher.js', {'installCookeryGuidePublisher'}),
         ('./bedrock/quality-tooltip.js', {'installQualityTooltipEvents', 'qualityTooltipDiagnostics'}),
@@ -89,6 +90,11 @@ def check(root=ROOT, *, syntax=True, localization=True):
     imported(modules['core/registry.js'], './extension-content.js', {'installContent'})
     imported(modules['core/registry.js'], './util.js', {'check', 'prepareFreeze', 'finishPreparation'})
     imported(modules['core/furniture.js'], './extension-content.js', {'externalFurnitureDefinition'})
+    imported(modules['bedrock/furniture.js'], '../core/furniture.js', {'seatFurniture', 'furnitureBlock', 'seatEntityId'})
+    imported(modules['bedrock/furniture.js'], './storage-visual-maintenance.js', {'tickStorageVisuals'})
+    assert entrypoint.count('\n registerFurnitureComponents,') == 1, 'Furniture startup registration is disconnected'
+    assert entrypoint.count('\n installFurnitureEvents,') == 1, 'Furniture event installation is disconnected'
+    assert 'system.runInterval(tickFurniture,5)' in modules['bedrock/furniture.js'], 'Furniture maintenance cadence differs'
     recipe=json.loads((root/LAMP_RECIPE).read_text())['minecraft:recipe_shaped']
     assert recipe['pattern']==[' L ','LGL',' L ']
     assert recipe['key']=={'L':{'item':'kaleidoscope_tavern:yellow_pendant_lamp'},'G':{'item':'minecraft:blue_dye'}}
