@@ -1,0 +1,832 @@
+{
+  "status": "COMPLETE bounded editor GUI review; NOT native acceptance",
+  "date": "2026-11-09",
+  "raw_image_count": 28,
+  "accepted_image_count": 12,
+  "diagnostic_image_count": 16,
+  "scene_count": 6,
+  "layout_cases": 7,
+  "blank_control": "Seventh case is zero-visible-glyph blank-boundary, static evidence only, intentionally no separate scene/helpers. No geometry bug inferred.",
+  "original_prep_preserved": true,
+  "screenshot_provenance": "Original app.getScreenshot bytes saved directly with fs.writeFile. All JPEG1188x848. No crop, resizing, re-encoding, compositing or synthetic replacement. Detail framing is in-app viewport only.",
+  "environment": "Shared cloud official Blockbench5.2.2 profile-control-03 (version/profile inherited handoff). Verified window29360132. No other apps/Terminals operated.",
+  "handoff": {
+    "window_id": 29360132,
+    "title": "champagne - Blockbench",
+    "tabs": [
+      "original champagne.bbmodel"
+    ],
+    "modal": false,
+    "healthy": true,
+    "temporary_presets_remaining": 0,
+    "terminals_untouched": [
+      41943043,
+      41945477,
+      41946153,
+      41946973,
+      41949001,
+      41950546
+    ]
+  },
+  "review_changes": "Only camera presets and temporary review state. Outline tab discarded. Invalid east context-menu edit discarded and original reloaded. No model saved. All68 frozen files and Champagne hash unchanged. Sidebars restored hidden.",
+  "camera_correction": "Negative-X east suggestion is actual wooden reverse. Positive-X is actual writing face. Sandwich target23 too high; target12 used. Chalk target17 used. Labels never used as sole facing proof.",
+  "new_runtime_defects_found": [],
+  "limits": [
+    "Current licensed Unifont atlas adaptation, not Java Minecraft Font parity.",
+    "White editor cards do not validate tint, alpha, emissive lighting, outline color contrast, distance cutoff, camera-entity distance metrics, scoping, render controllers, native depth/culling or entity lifecycle.",
+    "Source/native outline policy gap remains unresolved.",
+    "N05 known narrow-edge chalk-body issues not reclassified as new N06 defects; candidate not substituted.",
+    "Accepted held transforms and tilted-rack +6 unchanged; Allium clipping unresolved.",
+    "No user computer, Minecraft, BDS, LIVE, remote writes, install/plugin/server/security/renderer change or broad tests."
+  ],
+  "postflight": {
+    "verified_files": 68,
+    "mismatches": [],
+    "artifact_manifest_sha256": "d540144c855154dde60af9274a231bc4eee3cc9e6469e3d840a9552450ac8c8d",
+    "scope_receipt_sha256": "4bfd7790cd61dfffa2d70e741067c1280ca00abbb941f8d9e05ee47fbb5d3224",
+    "champagne_control_sha256": "9b67bc3cd46ca5b73eaadf2de57ac099e4ba372791650dbdf1bdba54fad9ca3e"
+  },
+  "images": [
+    {
+      "file": "diagnostic/00-champagne-preflight.jpg",
+      "sha256": "96da7347a04854d3c27087c80c256180f4cbc706e87c5640945c7ae5f2c0d5e3",
+      "bytes": 126629,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "status": "diagnostic_not_acceptance",
+      "scene": "champagne-control",
+      "scene_sha256": "9b67bc3cd46ca5b73eaadf2de57ac099e4ba372791650dbdf1bdba54fad9ca3e",
+      "camera": null,
+      "framing": "control",
+      "visibility": "all",
+      "observation": "Healthy Champagne control, original tab and appearance. Numeric camera not inspected."
+    },
+    {
+      "file": "diagnostic/01-front-preset-input.jpg",
+      "sha256": "fc2f3d5349f90bd24ef6443ab09c121b60a14edeac5780b31fcee5109a055f9a",
+      "bytes": 62014,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "status": "diagnostic_not_acceptance",
+      "scene": "sandwich-left-top",
+      "scene_sha256": "4d332aa770ac6119f187e64b7fdf84968c22434fffa99b5e9008c0aee1464b1b",
+      "camera": {
+        "position": [
+          0,
+          28,
+          -65
+        ],
+        "target": [
+          0,
+          23,
+          0
+        ],
+        "readback": null,
+        "evidence": "Entered numeric preset values; diagnostic01. Applied framing diagnostic02."
+      },
+      "framing": "modal",
+      "visibility": "all",
+      "observation": "Entered supplied writing-face preset values; modal over initial angle. This is preset input, not applied-camera readback."
+    },
+    {
+      "file": "diagnostic/02-suggested-front-low-framing.jpg",
+      "sha256": "e9ff9c370038698bec6efe2ab60be9680fc3e4e91bcbbc020069166cf5243f59",
+      "bytes": 77299,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "status": "diagnostic_not_acceptance",
+      "scene": "sandwich-left-top",
+      "scene_sha256": "4d332aa770ac6119f187e64b7fdf84968c22434fffa99b5e9008c0aee1464b1b",
+      "camera": {
+        "position": [
+          0,
+          28,
+          -65
+        ],
+        "target": [
+          0,
+          23,
+          0
+        ],
+        "readback": null,
+        "evidence": "Entered numeric preset values; diagnostic01. Applied framing diagnostic02."
+      },
+      "framing": "poor framing",
+      "visibility": "all",
+      "observation": "Applied supplied camera frames board low and small. Retained as framing diagnostic, not accepted close view."
+    },
+    {
+      "file": "accepted/03-sandwich-left-top-front.jpg",
+      "sha256": "991fecbefd97bd000cf95934596204c8cdc2b76d17729807d35b3392f97a85a5",
+      "bytes": 77560,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "status": "accepted_editor_evidence",
+      "scene": "sandwich-left-top",
+      "scene_sha256": "4d332aa770ac6119f187e64b7fdf84968c22434fffa99b5e9008c0aee1464b1b",
+      "camera": {
+        "position": [
+          0,
+          17,
+          -38
+        ],
+        "target": [
+          0,
+          12,
+          0
+        ],
+        "readback": "diagnostic/04-front-camera-readback.jpg"
+      },
+      "framing": "full body",
+      "visibility": "all",
+      "observation": "Full host visible. Readable Fj W.i! and AB 12 occupy top-left; asymmetric glyphs face correctly and mixed spacing/punctuation are present."
+    },
+    {
+      "file": "diagnostic/04-front-camera-readback.jpg",
+      "sha256": "a2b4493160426e6678ac81af4eac0d43bc527220384b98b4b9a60b02f6317d18",
+      "bytes": 61266,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "status": "diagnostic_not_acceptance",
+      "scene": "sandwich-left-top",
+      "scene_sha256": "4d332aa770ac6119f187e64b7fdf84968c22434fffa99b5e9008c0aee1464b1b",
+      "camera": {
+        "position": [
+          0,
+          17,
+          -38
+        ],
+        "target": [
+          0,
+          12,
+          0
+        ],
+        "readback": "diagnostic/04-front-camera-readback.jpg"
+      },
+      "framing": "modal",
+      "visibility": "all",
+      "observation": "Save Angle actual camera readback after accepted front capture."
+    },
+    {
+      "file": "accepted/05-sandwich-left-top-rake.jpg",
+      "sha256": "1fc3c9f505322b496f5d6cf988dbb8c0c682667956ee2e960008a38f61420c44",
+      "bytes": 78803,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "status": "accepted_editor_evidence",
+      "scene": "sandwich-left-top",
+      "scene_sha256": "4d332aa770ac6119f187e64b7fdf84968c22434fffa99b5e9008c0aee1464b1b",
+      "camera": {
+        "position": [
+          -18,
+          20,
+          -38
+        ],
+        "target": [
+          0,
+          12,
+          0
+        ],
+        "readback": "diagnostic/06-rake-camera-readback.jpg"
+      },
+      "framing": "full body rake",
+      "visibility": "all",
+      "observation": "Full host, tilted writing face, support structure and two text rows visible from oblique view. Editor placement only, not native polygon-offset/depth acceptance."
+    },
+    {
+      "file": "diagnostic/06-rake-camera-readback.jpg",
+      "sha256": "0b683ac40e3c119516f5fecd5550a7c7492cdca2720428896a6e26b79e5c9bfb",
+      "bytes": 61493,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "status": "diagnostic_not_acceptance",
+      "scene": "sandwich-left-top",
+      "scene_sha256": "4d332aa770ac6119f187e64b7fdf84968c22434fffa99b5e9008c0aee1464b1b",
+      "camera": {
+        "position": [
+          -18,
+          20,
+          -38
+        ],
+        "target": [
+          0,
+          12,
+          0
+        ],
+        "readback": "diagnostic/06-rake-camera-readback.jpg"
+      },
+      "framing": "modal",
+      "visibility": "all",
+      "observation": "Actual raking camera readback."
+    },
+    {
+      "file": "accepted/07-sandwich-left-top-reverse.jpg",
+      "sha256": "8edc88b06981c5c018060936a177474d83537e2453d73218d59dad1d774ff2ab",
+      "bytes": 78134,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "status": "accepted_editor_evidence",
+      "scene": "sandwich-left-top",
+      "scene_sha256": "4d332aa770ac6119f187e64b7fdf84968c22434fffa99b5e9008c0aee1464b1b",
+      "camera": {
+        "position": [
+          0,
+          17,
+          38
+        ],
+        "target": [
+          0,
+          12,
+          0
+        ],
+        "readback": "diagnostic/08-reverse-camera-readback.jpg"
+      },
+      "framing": "full body reverse",
+      "visibility": "all",
+      "observation": "Rear host/support visible; no writing visible through board from this side. Does not isolate native culling versus body occlusion."
+    },
+    {
+      "file": "diagnostic/08-reverse-camera-readback.jpg",
+      "sha256": "23ac6a59135a8d13da989c9ac1e726ab7eaaffbfbfc620598418c2ecc53f236c",
+      "bytes": 61840,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "status": "diagnostic_not_acceptance",
+      "scene": "sandwich-left-top",
+      "scene_sha256": "4d332aa770ac6119f187e64b7fdf84968c22434fffa99b5e9008c0aee1464b1b",
+      "camera": {
+        "position": [
+          0,
+          17,
+          38
+        ],
+        "target": [
+          0,
+          12,
+          0
+        ],
+        "readback": "diagnostic/08-reverse-camera-readback.jpg"
+      },
+      "framing": "modal",
+      "visibility": "all",
+      "observation": "Actual reverse camera readback."
+    },
+    {
+      "file": "accepted/09-center-outline-on.jpg",
+      "sha256": "eece964f47d71c3edc03647ac00d9adceee1c343746c67c55f6f379b6c67c61c",
+      "bytes": 78232,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "status": "accepted_editor_evidence",
+      "scene": "sandwich-center-middle-outline",
+      "scene_sha256": "20906c2a1bfdb1456ebd98e32e137aed128549bbaa18b2771ff3367d3f8460c3",
+      "camera": {
+        "position": [
+          0,
+          17,
+          -38
+        ],
+        "target": [
+          0,
+          12,
+          0
+        ],
+        "readback": "diagnostic/04-front-camera-readback.jpg"
+      },
+      "framing": "full body",
+      "visibility": "all 64 outline meshes visible",
+      "observation": "Centered middle white text mass. White surrounding outline merges with white foreground, especially R!; no black/cream color or glow claim."
+    },
+    {
+      "file": "diagnostic/10-outline-selection-64.jpg",
+      "sha256": "72c80d2142f00473f07dfd525e01965daba23abc6102f3b889d12933ec88d2a1",
+      "bytes": 173844,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "status": "diagnostic_not_acceptance",
+      "scene": "sandwich-center-middle-outline",
+      "scene_sha256": "20906c2a1bfdb1456ebd98e32e137aed128549bbaa18b2771ff3367d3f8460c3",
+      "camera": {
+        "position": [
+          0,
+          17,
+          -38
+        ],
+        "target": [
+          0,
+          12,
+          0
+        ],
+        "readback": "diagnostic/04-front-camera-readback.jpg"
+      },
+      "framing": "selection diagnostic",
+      "visibility": "all visible; 64 selected",
+      "observation": "Select dialog Name Contains outline yielded 64/82 selected elements, confirming exact outline-only set before temporary hide."
+    },
+    {
+      "file": "accepted/11-center-outline-hidden.jpg",
+      "sha256": "dacdb2ff154c4b64555fe797216e7f632f83771ea6232e1a180571ed5dcf3210",
+      "bytes": 79985,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "status": "accepted_editor_evidence",
+      "scene": "sandwich-center-middle-outline",
+      "scene_sha256": "20906c2a1bfdb1456ebd98e32e137aed128549bbaa18b2771ff3367d3f8460c3",
+      "camera": {
+        "position": [
+          0,
+          17,
+          -38
+        ],
+        "target": [
+          0,
+          12,
+          0
+        ],
+        "readback": "diagnostic/04-front-camera-readback.jpg"
+      },
+      "framing": "full body visibility control",
+      "visibility": "64 outline meshes hidden; host and foreground/bold visible",
+      "observation": "After 64 outline meshes hidden and Edit > Unselect All, readable centered Fj R! remains with foreground/bold layers. Same front camera as09. Dirty tab discarded."
+    },
+    {
+      "file": "accepted/12-small-right-bottom-detail.jpg",
+      "sha256": "0601cbe27bb1f3c6349fa3a0257f9d6da5df2163756bf06dcbc68b166c88d68f",
+      "bytes": 75277,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "status": "accepted_editor_evidence",
+      "scene": "small-right-bottom",
+      "scene_sha256": "1758a064251ebcd89ea1e3641d3faffae6c21f815c7264f28444791b161168c5",
+      "camera": {
+        "position": [
+          0,
+          17,
+          -38
+        ],
+        "target": [
+          0,
+          12,
+          0
+        ],
+        "readback": "diagnostic/04-front-camera-readback.jpg"
+      },
+      "framing": "detail cropped by viewport",
+      "visibility": "all",
+      "observation": "Detail shows right-aligned bottom rows Fj W.i! and shorter R 12. Top of body outside viewport; deliberately retained only as lower-writing-area detail, not full-body evidence."
+    },
+    {
+      "file": "diagnostic/13-chalk-low-framing.jpg",
+      "sha256": "9fed46414126d5ff22c795827bb35eea3ecfd248ac98a48511c11145d1ea1f3b",
+      "bytes": 76191,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "status": "diagnostic_not_acceptance",
+      "scene": "small-right-bottom",
+      "scene_sha256": "1758a064251ebcd89ea1e3641d3faffae6c21f815c7264f28444791b161168c5",
+      "camera": {
+        "position": [
+          0,
+          28,
+          -50
+        ],
+        "target": [
+          0,
+          23,
+          0
+        ],
+        "readback": null,
+        "evidence": "Entered temporary preset values; framing below center."
+      },
+      "framing": "poor framing",
+      "visibility": "all",
+      "observation": "Complete board but low framing with small text; superseded by14."
+    },
+    {
+      "file": "accepted/14-small-right-bottom-full.jpg",
+      "sha256": "b1418f7e6b9d129ee8a3ae6c62e3db30b7c66fa4a2cc02ec3abb0b0aad747f52",
+      "bytes": 75864,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "status": "accepted_editor_evidence",
+      "scene": "small-right-bottom",
+      "scene_sha256": "1758a064251ebcd89ea1e3641d3faffae6c21f815c7264f28444791b161168c5",
+      "camera": {
+        "position": [
+          0,
+          22,
+          -40
+        ],
+        "target": [
+          0,
+          17,
+          0
+        ],
+        "readback": "diagnostic/15-chalk-camera-readback.jpg"
+      },
+      "framing": "full body",
+      "visibility": "all",
+      "observation": "Full chalk host. Both rows toward bottom-right and shorter final row share right edge within writing area. Intentional right/bottom extension preserved."
+    },
+    {
+      "file": "diagnostic/15-chalk-camera-readback.jpg",
+      "sha256": "1fdb68e6cf9361fb2a0c7852ee938c760cbffec77b6d619d25f69b90203c79f7",
+      "bytes": 61332,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "status": "diagnostic_not_acceptance",
+      "scene": "small-right-bottom",
+      "scene_sha256": "1758a064251ebcd89ea1e3641d3faffae6c21f815c7264f28444791b161168c5",
+      "camera": {
+        "position": [
+          0,
+          22,
+          -40
+        ],
+        "target": [
+          0,
+          17,
+          0
+        ],
+        "readback": "diagnostic/15-chalk-camera-readback.jpg"
+      },
+      "framing": "modal",
+      "visibility": "all",
+      "observation": "Actual full chalk camera readback; same applied preset subsequently used for16."
+    },
+    {
+      "file": "accepted/16-small-justify-wrap.jpg",
+      "sha256": "1ee6018202cb3bfd0ad2ec21dc0c966947a1081d32e246af7b66538353050f11",
+      "bytes": 77201,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "status": "accepted_editor_evidence",
+      "scene": "small-justify-wrap",
+      "scene_sha256": "c65625ad182a779f8525c8da3fa237151b4c6a150dd05887c52658125f87de62",
+      "camera": {
+        "position": [
+          0,
+          22,
+          -40
+        ],
+        "target": [
+          0,
+          17,
+          0
+        ],
+        "readback": "diagnostic/15-chalk-camera-readback.jpg"
+      },
+      "framing": "full body",
+      "visibility": "all",
+      "observation": "Three rows: Fj / W.i! / AB with wide word gaps, CD / EF / GH similarly expanded, and natural short IJ at left. No native Java Font wrap-parity claim."
+    },
+    {
+      "file": "accepted/17-large-east-reverse.jpg",
+      "sha256": "b6c99eef4a3db918058a026d72df02fb04c0fb0681474957f17fae8ca42053f6",
+      "bytes": 74993,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "status": "accepted_editor_evidence",
+      "scene": "large-distributed-east",
+      "scene_sha256": "e119475f3ef397d29d2c0c2927b61404a6792986f210a4afbad331c51c58c3c9",
+      "camera": {
+        "position": [
+          -65,
+          28,
+          0
+        ],
+        "target": [
+          0,
+          23,
+          0
+        ],
+        "readback": null,
+        "evidence": "Applied preset, later inspected unchanged Edit Angle values. Attempted Save Angle readback failed because right-click hit body; diagnostic18 is NOT camera readback."
+      },
+      "framing": "full body reverse",
+      "visibility": "all",
+      "observation": "Supplied negative-X writing-face suggestion actually shows wooden rear without text. Accepted as reverse-side control, not a writing-face view."
+    },
+    {
+      "file": "diagnostic/18-east-negative-x-readback.jpg",
+      "sha256": "f2528f18e3e6299e3cc312416fe0fd5348a5a3852966faeb317075287e02910a",
+      "bytes": 105132,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "status": "diagnostic_not_acceptance",
+      "scene": "large-distributed-east",
+      "scene_sha256": "e119475f3ef397d29d2c0c2927b61404a6792986f210a4afbad331c51c58c3c9",
+      "camera": {
+        "position": [
+          -65,
+          28,
+          0
+        ],
+        "target": [
+          0,
+          23,
+          0
+        ],
+        "readback": null,
+        "evidence": "Applied preset, later inspected unchanged Edit Angle values. Attempted Save Angle readback failed because right-click hit body; diagnostic18 is NOT camera readback."
+      },
+      "framing": "invalid control",
+      "visibility": "host element selected",
+      "observation": "FAILED camera-readback attempt. Right-click hit host element and opened texture menu, not Save Angle. Filename is historical; image must not be cited as numeric camera readback."
+    },
+    {
+      "file": "diagnostic/19-invalid-selected-review-state.jpg",
+      "sha256": "fd6d5e7a44be0a2f1e225bc37340b82864909195cde10d098fe69e9e779498d7",
+      "bytes": 79989,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "status": "diagnostic_not_acceptance",
+      "scene": "large-distributed-east",
+      "scene_sha256": "e119475f3ef397d29d2c0c2927b61404a6792986f210a4afbad331c51c58c3c9",
+      "camera": null,
+      "framing": "invalid review state",
+      "visibility": "uncertain temporary edit; discarded",
+      "observation": "Invalid dirty review state after wrong context menu interactions; visible selected face is not model-defect evidence. Tab discarded, original scene reloaded before20."
+    },
+    {
+      "file": "accepted/20-large-east-distributed.jpg",
+      "sha256": "222ac7e97d844f1454c067593bc682bee7f2fa7a84e7739f34ce63a78225653b",
+      "bytes": 73243,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "status": "accepted_editor_evidence",
+      "scene": "large-distributed-east",
+      "scene_sha256": "e119475f3ef397d29d2c0c2927b61404a6792986f210a4afbad331c51c58c3c9",
+      "camera": {
+        "position": [
+          65,
+          22,
+          0
+        ],
+        "target": [
+          0,
+          17,
+          0
+        ],
+        "readback": "diagnostic/21-east-positive-x-readback.jpg"
+      },
+      "framing": "full body",
+      "visibility": "all, clean scene reloaded",
+      "observation": "Correct writing face is positive-X. Entire host visible; first row F j W . i ! spread across width, second row R 1 2 spread across width. Space advances remain gaps."
+    },
+    {
+      "file": "diagnostic/21-east-positive-x-readback.jpg",
+      "sha256": "91b439b57198a625e6917ef3f603a8bc165f88e3976e75786bb7bee84cafc57d",
+      "bytes": 60238,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "status": "diagnostic_not_acceptance",
+      "scene": "large-distributed-east",
+      "scene_sha256": "e119475f3ef397d29d2c0c2927b61404a6792986f210a4afbad331c51c58c3c9",
+      "camera": {
+        "position": [
+          65,
+          22,
+          0
+        ],
+        "target": [
+          0,
+          17,
+          0
+        ],
+        "readback": "diagnostic/21-east-positive-x-readback.jpg"
+      },
+      "framing": "modal",
+      "visibility": "all",
+      "observation": "Actual positive-X camera readback."
+    },
+    {
+      "file": "accepted/22-large-fallback-full.jpg",
+      "sha256": "d66c8c0302ae7b6d7bdaf710894da61d2d27438cb37c7b7aaf8783adef75e6a7",
+      "bytes": 73047,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "status": "accepted_editor_evidence",
+      "scene": "large-fallback-blank-lines",
+      "scene_sha256": "c2daf362f2bfa633967466b7159a2cea070650bfc1aff4bf7b7bf1663edc936c",
+      "camera": {
+        "position": [
+          0,
+          22,
+          -55
+        ],
+        "target": [
+          0,
+          17,
+          0
+        ],
+        "readback": "diagnostic/23-fallback-camera-readback.jpg"
+      },
+      "framing": "full body",
+      "visibility": "all",
+      "observation": "Full host with F j on first line and fallback forms plus punctuation below an empty row. Centered text small but visible."
+    },
+    {
+      "file": "diagnostic/23-fallback-camera-readback.jpg",
+      "sha256": "6725d29a3198cc09ea8f53c2e6cddc56f6a881097c5ce9e4094b91500bd1cd6f",
+      "bytes": 61159,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "status": "diagnostic_not_acceptance",
+      "scene": "large-fallback-blank-lines",
+      "scene_sha256": "c2daf362f2bfa633967466b7159a2cea070650bfc1aff4bf7b7bf1663edc936c",
+      "camera": {
+        "position": [
+          0,
+          22,
+          -55
+        ],
+        "target": [
+          0,
+          17,
+          0
+        ],
+        "readback": "diagnostic/23-fallback-camera-readback.jpg"
+      },
+      "framing": "modal",
+      "visibility": "all",
+      "observation": "Actual full fallback camera readback."
+    },
+    {
+      "file": "accepted/24-fallback-glyph-detail.jpg",
+      "sha256": "28d7287d62dc818b07cb992a4171a4cc65a67ca34311e3a4d06ef6fa9eb46ac1",
+      "bytes": 61470,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "status": "accepted_editor_evidence",
+      "scene": "large-fallback-blank-lines",
+      "scene_sha256": "c2daf362f2bfa633967466b7159a2cea070650bfc1aff4bf7b7bf1663edc936c",
+      "camera": {
+        "position": [
+          0,
+          29,
+          -25
+        ],
+        "target": [
+          0,
+          25,
+          0
+        ],
+        "readback": "diagnostic/25-fallback-detail-readback.jpg"
+      },
+      "framing": "detail cropped by viewport",
+      "visibility": "all",
+      "observation": "Close detail: F and j separated by advance, no U+200C card; empty row remains; lower row shows a taller thick hollow fallback rectangle, smaller hollow square, then !. Sides/bottom of host outside viewport: text-detail evidence only."
+    },
+    {
+      "file": "diagnostic/25-fallback-detail-readback.jpg",
+      "sha256": "bef648c84e616e9aedb0edb2235b2d2d9e3a2ba11af153d94776cacd7ab75dc8",
+      "bytes": 60134,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "status": "diagnostic_not_acceptance",
+      "scene": "large-fallback-blank-lines",
+      "scene_sha256": "c2daf362f2bfa633967466b7159a2cea070650bfc1aff4bf7b7bf1663edc936c",
+      "camera": {
+        "position": [
+          0,
+          29,
+          -25
+        ],
+        "target": [
+          0,
+          25,
+          0
+        ],
+        "readback": "diagnostic/25-fallback-detail-readback.jpg"
+      },
+      "framing": "modal",
+      "visibility": "all",
+      "observation": "Actual text-detail camera readback."
+    },
+    {
+      "file": "diagnostic/26-no-temporary-presets.jpg",
+      "sha256": "7e565dce2096a3f4536581b0d856b44b910b8407386924ecb8fc11e3c5585f1f",
+      "bytes": 95299,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "status": "diagnostic_not_acceptance",
+      "scene": "large-fallback-blank-lines",
+      "scene_sha256": "c2daf362f2bfa633967466b7159a2cea070650bfc1aff4bf7b7bf1663edc936c",
+      "camera": {
+        "position": [
+          0,
+          29,
+          -25
+        ],
+        "target": [
+          0,
+          25,
+          0
+        ],
+        "readback": "diagnostic/25-fallback-detail-readback.jpg"
+      },
+      "framing": "cleanup diagnostic",
+      "visibility": "all",
+      "observation": "Angles submenu shows only built-in presets; N06-front-temp, N06-rake-temp and N06-reverse-temp all removed."
+    },
+    {
+      "file": "diagnostic/27-champagne-handoff.jpg",
+      "sha256": "96da7347a04854d3c27087c80c256180f4cbc706e87c5640945c7ae5f2c0d5e3",
+      "bytes": 126629,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "status": "diagnostic_not_acceptance",
+      "scene": "champagne-control",
+      "scene_sha256": "9b67bc3cd46ca5b73eaadf2de57ac099e4ba372791650dbdf1bdba54fad9ca3e",
+      "camera": null,
+      "framing": "handoff control",
+      "visibility": "all",
+      "observation": "Original healthy Champagne tab only, no modal, original appearance restored by closing own review tabs."
+    }
+  ]
+}
