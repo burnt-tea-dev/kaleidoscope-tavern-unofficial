@@ -1,0 +1,187 @@
+{
+  "verified_utc": "2026-11-09T03:01:52.185985+00:00",
+  "status": "passed",
+  "frozen_artifact_checks": [
+    {
+      "path": "README.md",
+      "sha256": "d3f764d1eeaa01511b1e200798fb1b02fd70db4830debd35d3aefe36670210a2",
+      "bytes": 11997
+    },
+    {
+      "path": "audit_routes.py",
+      "sha256": "8f5ce32199c445368f89ed9a6719c4178f99786e3154458c04e0f144943f4026",
+      "bytes": 19733
+    },
+    {
+      "path": "author-contract-excerpts.json",
+      "sha256": "d16cf9b4ac02b919a30428cc1e129becb8bf5c1f7538b9bf8528ca4d8fe993c0",
+      "bytes": 19259
+    },
+    {
+      "path": "capture-queue.json",
+      "sha256": "0d1d6d9cc18d0d0f085f21f920f4a18b091d8d4e7e4aa21ee3be380262da1814",
+      "bytes": 10863
+    },
+    {
+      "path": "collect_semantics.py",
+      "sha256": "643aa859f6e4c3388d0b2c7cd7417af11745ca63a92e942b84e5249dcdb055dd",
+      "bytes": 1453
+    },
+    {
+      "path": "control-manifest.json",
+      "sha256": "b9cf007395b8d27adeb8c9468eee4afc42a590a2c1ce1bd53713c91fba4c2e73",
+      "bytes": 43273
+    },
+    {
+      "path": "face-ownership.json",
+      "sha256": "8b0fe95698ff52bcb0f7ee5b5e1a2794aa0e201e3b91cf65affd641828399ac3",
+      "bytes": 2073076
+    },
+    {
+      "path": "independent-diff.json",
+      "sha256": "90c814264fb82a57ef925deede7a27af73a32a79d941f577ca15b76c39c0e197",
+      "bytes": 2073
+    },
+    {
+      "path": "input-manifest.json",
+      "sha256": "fec6d5c1cf57b37c9d6b3e67020e55690643ff96890e0d3b8838e4d45337d49d",
+      "bytes": 76611
+    },
+    {
+      "path": "prepare_controls.py",
+      "sha256": "144f4f3e07dd167ab733bf1ef18610c9cb61ab11d608f450bbd45194b09f2f3e",
+      "bytes": 8862
+    },
+    {
+      "path": "proposal.json",
+      "sha256": "ba3acec700de7473c4efc31da3bb26d6c23dba9fd043a80ec44ea5b9647b721b",
+      "bytes": 13239
+    },
+    {
+      "path": "route-audit.json",
+      "sha256": "d0a7993d75b2a2a788e027b2431cf122172c7598ad3593a6ebe3dc1f7fdb83c8",
+      "bytes": 941876
+    },
+    {
+      "path": "scenes/gold_grape-crop-stages-2--old-policy-double.bbmodel",
+      "sha256": "844c19f6b0211e901e4faa7b8e775fa9ae9bec4fdf3488d05242e5fb74acb509",
+      "bytes": 19362
+    },
+    {
+      "path": "scenes/gold_grape-crop-stages-2--original-front.bbmodel",
+      "sha256": "ebdd3b2eff4790adaad88b6e6873f2ba42796de9e37c638b2392e4a66b0139ad",
+      "bytes": 19361
+    },
+    {
+      "path": "scenes/gold_grape-crop-stages-2--policy-front.bbmodel",
+      "sha256": "ebdd3b2eff4790adaad88b6e6873f2ba42796de9e37c638b2392e4a66b0139ad",
+      "bytes": 19361
+    },
+    {
+      "path": "scenes/gold_grapevine-shapes-stages-2--original-front.bbmodel",
+      "sha256": "709d33b8c9a136d5c4e6ed9b060742967b5fa8581edbc0dad17c72516c3e4aa7",
+      "bytes": 58810
+    },
+    {
+      "path": "scenes/grape-crop-stages-2--old-policy-double.bbmodel",
+      "sha256": "8ef812c0407219e0e59a9c7bf07e0d15c575500da18720b7e967591036b4ce3d",
+      "bytes": 22007
+    },
+    {
+      "path": "scenes/grape-crop-stages-2--original-front.bbmodel",
+      "sha256": "fa8cf0dbf767f9dfc87dc437abdddbaeedd97914ff364464f10e62b8d686d027",
+      "bytes": 22006
+    },
+    {
+      "path": "scenes/grape-crop-stages-2--policy-front.bbmodel",
+      "sha256": "fa8cf0dbf767f9dfc87dc437abdddbaeedd97914ff364464f10e62b8d686d027",
+      "bytes": 22006
+    },
+    {
+      "path": "scenes/grapevine-shapes-stages-2--old-policy-double.bbmodel",
+      "sha256": "f056efb79373d21b7574e95d51caded41cd126946f25d18182390a8719b9edbe",
+      "bytes": 64408
+    },
+    {
+      "path": "scenes/grapevine-shapes-stages-2--original-front.bbmodel",
+      "sha256": "1382df58775b0b669f00b64e770e1e3c23eedb59308b47cc2c0eb4634d0db1f8",
+      "bytes": 61131
+    },
+    {
+      "path": "scenes/grapevine-shapes-stages-2--policy-front.bbmodel",
+      "sha256": "957256e16845844821dd3f980979fdc04a776ef498fc4e44ed7f820d32a6fbcd",
+      "bytes": 64407
+    },
+    {
+      "path": "scenes/ice_grape-crop-stages-2--old-policy-double.bbmodel",
+      "sha256": "14fb14698105629f5a4651d6155dc714b00ad51bb24facc2c71c9b6f7f693ad1",
+      "bytes": 19259
+    },
+    {
+      "path": "scenes/ice_grape-crop-stages-2--original-front.bbmodel",
+      "sha256": "a6dc908c177081e2e9288da8b9d969a84d48c3db131af1d59dcb51e996a183b7",
+      "bytes": 19258
+    },
+    {
+      "path": "scenes/ice_grape-crop-stages-2--policy-front.bbmodel",
+      "sha256": "a6dc908c177081e2e9288da8b9d969a84d48c3db131af1d59dcb51e996a183b7",
+      "bytes": 19258
+    },
+    {
+      "path": "scenes/ice_grapevine-shapes-stages-2--original-front.bbmodel",
+      "sha256": "e09fbbf4f44b89c4d265ebc94029fd382f76db52642e4a5596177e0008443fba",
+      "bytes": 59399
+    },
+    {
+      "path": "semantic-evidence/java-1.20.1-culling.json",
+      "sha256": "f9c6bca774797c410185a7e2777072f0c79a20dd03278b678704471659bb3f9e",
+      "bytes": 12619
+    },
+    {
+      "path": "semantic-evidence/java-1.21.1-culling.json",
+      "sha256": "e475047c0e0d5acb0b012064983939e67f4853033ae446db40c5bc82d1080ec0",
+      "bytes": 12625
+    },
+    {
+      "path": "semantic-evidence/provenance.json",
+      "sha256": "cbd76a4560a0b3ba6250125ded6a8288847f8b5f2efbd739304f54196eaec594",
+      "bytes": 7219
+    },
+    {
+      "path": "verify_controls.py",
+      "sha256": "a9b4961c297b1881f94247b7d053d339033757a76a82e443c62fbe8857065d7e",
+      "bytes": 5401
+    }
+  ],
+  "artifact_manifest_sha256_unchanged": true,
+  "original_scene_checks": [
+    {
+      "path": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/scenes/grape-crop-stages-2.bbmodel",
+      "sha256": "fa8cf0dbf767f9dfc87dc437abdddbaeedd97914ff364464f10e62b8d686d027"
+    },
+    {
+      "path": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/scenes/gold_grape-crop-stages-2.bbmodel",
+      "sha256": "ebdd3b2eff4790adaad88b6e6873f2ba42796de9e37c638b2392e4a66b0139ad"
+    },
+    {
+      "path": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/scenes/ice_grape-crop-stages-2.bbmodel",
+      "sha256": "a6dc908c177081e2e9288da8b9d969a84d48c3db131af1d59dcb51e996a183b7"
+    },
+    {
+      "path": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/scenes/grapevine-shapes-stages-2.bbmodel",
+      "sha256": "1382df58775b0b669f00b64e770e1e3c23eedb59308b47cc2c0eb4634d0db1f8"
+    },
+    {
+      "path": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/scenes/gold_grapevine-shapes-stages-2.bbmodel",
+      "sha256": "709d33b8c9a136d5c4e6ed9b060742967b5fa8581edbc0dad17c72516c3e4aa7"
+    },
+    {
+      "path": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/scenes/ice_grapevine-shapes-stages-2.bbmodel",
+      "sha256": "e09fbbf4f44b89c4d265ebc94029fd382f76db52642e4a5596177e0008443fba"
+    }
+  ],
+  "pinned_git_objects_rechecked": 204,
+  "source_of_git_objects": "All 204 records in ../input-manifest.json; git show only, no fetch or worktree changes.",
+  "runtime_edits": false,
+  "frozen_scene_edits": false
+}

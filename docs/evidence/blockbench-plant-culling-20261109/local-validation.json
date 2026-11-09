@@ -1,0 +1,112 @@
+{
+  "version": "0.6.215",
+  "base": "fde4293ee7c196af52d5d569824df5486e789cfb",
+  "aggregate": {
+    "command": "PATH=<verified-existing-helper-directory>:$PATH python tools/check_release.py --java-source <pinned Forge c4ec1880 checkout> --baseline <cedfaedf6140bae61b24afb658869b1d0e6ea1a9 snapshot>",
+    "exit_code": 0,
+    "unmodified_checker": true,
+    "docs_only_base_reuse_evidence": "docs-only-base-update.json: exact Git base delta and unchanged base objects; no candidate-wide snapshot fingerprint is claimed.",
+    "new_test_exemptions": false,
+    "existing_conditional_skips": [
+      {
+        "name": "paired World Liquor timed effects use host state and existing localized names",
+        "source": "tools/effect-bar.test.mjs:126",
+        "condition": "skip: !process.env.LIQUOR_SOURCE",
+        "reason": "LIQUOR_SOURCE was not set for the original unmodified aggregate.",
+        "log": "aggregate-release-complete.log",
+        "test_log_line": 249,
+        "summary_log_line": 298,
+        "skipped": 1,
+        "unchanged_from_tested_base": true
+      }
+    ],
+    "family_lock_base_update_evidence": "family-lock-base-update.json: exact new family-lock input, preserved Tavern runtime/test/source trees, and targeted family checks; no new full-family validation or aggregate rerun."
+  },
+  "initial_aggregate_attempt": "Stopped late at missing javac in default PATH; resolved installed-compiler prerequisite is fully documented in compiler-environment.json. This attempt is not called a pass.",
+  "cultivation": {
+    "tests": 11,
+    "state_combinations": 1026,
+    "models": 48,
+    "directed_faces": 660,
+    "double_sided_negative_cases": 204
+  },
+  "board_farm_actual_source_adapters": {
+    "passed": 33,
+    "failed": 0
+  },
+  "additional_identity_and_publication_tests": {
+    "baseline_gate": 20,
+    "baseline_reference_identity": 35,
+    "release_publication": 8,
+    "failed": 0
+  },
+  "original_Java_barrel_source_oracle": {
+    "states": 108,
+    "passed": true,
+    "game_engine_execution": false
+  },
+  "portable_replay": {
+    "passed": true,
+    "archive_members": 401,
+    "control_negative_cases": 12,
+    "accepted_original_JPEGs": 18,
+    "decoded_pixel_pairs": 9
+  },
+  "negative_boundaries": {
+    "optimized_replay": "rejected",
+    "unfrozen_identity": "rejected",
+    "retained_historical_block_mutation": "rejected"
+  },
+  "logs": {
+    "aggregate-release-complete.log": {
+      "bytes": 55356,
+      "sha256": "90c969ec60370bf1fec23d013d773941fac438e6c5da2d186b5e9eda7afbf480"
+    },
+    "aggregate-release.log": {
+      "bytes": 56621,
+      "sha256": "0293b74d54bd87f22f6e7744ddf1e94623db2fa239a2e26a9d2d45b1e866c63d"
+    },
+    "cultivation-tests.log": {
+      "bytes": 110,
+      "sha256": "72b7277efda2562497d2e4f96de0db0f17369473c59fd959fe7a4c39401043da"
+    },
+    "board-farm-adapter.tap": {
+      "bytes": 3962,
+      "sha256": "be693c8aa0fcaa670f447882cc0de7a6fbb531ec6db4e27254a8881724cad04e"
+    },
+    "portable-replay.log": {
+      "bytes": 454,
+      "sha256": "f22e8c8c20c52e599208de32baf9a95b5551417b44f45a222b5a6f9f51c0ae22"
+    },
+    "baseline-gate-tests.log": {
+      "bytes": 119,
+      "sha256": "1c07bae34e17ad3a931d21322b0aa673de265ea7c2562b8da5fd727d1ba7d7a7"
+    },
+    "baseline-reference-tests.log": {
+      "bytes": 135,
+      "sha256": "69ff1eede76f44fc2f43887dbbe3e564c9a68aa38c4591c881fa009556fcb91c"
+    },
+    "release-publication-tests.log": {
+      "bytes": 106,
+      "sha256": "c6352adff70a6982c739a1cd77bbb43d2425eefd2dc2112b92b0ceebf2a6ca31"
+    },
+    "barrel-source-oracle.log": {
+      "bytes": 80,
+      "sha256": "403ea25332b44910ff58c087fcffb7275e46fe9352ba81b11852a72769bd1704"
+    },
+    "optimized-replay-rejection.log": {
+      "bytes": 60,
+      "sha256": "5cdc22443e0b19cc21407ad06318c1a4b661c6059ead2013b59b3ad032eafd6e"
+    },
+    "unfrozen-identity-rejection.log": {
+      "bytes": 65,
+      "sha256": "65af3961dd4078585e0ebe76aebd49e0a98d85e3dab8521e9335c2ee634e7f1d"
+    }
+  },
+  "full_remote_CI": "not_run_for_this_local_candidate",
+  "Minecraft_client": false,
+  "BDS": false,
+  "saved_world": false,
+  "LIVE": false,
+  "remote_writes": false
+}

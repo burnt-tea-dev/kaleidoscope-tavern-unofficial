@@ -1,0 +1,429 @@
+{
+  "previous_base": "3db6ee84d260aec6ff80708b04c2edca48c7fcdd",
+  "new_base": "fde4293ee7c196af52d5d569824df5486e789cfb",
+  "new_base_tree": "8151b0ded9bddb418fb004bdae946fc6e7873804",
+  "before_candidate": "69bef015d01ea0380256069b3e09ff7b8f30c59f",
+  "base_delta_command": [
+    "git",
+    "diff",
+    "--no-renames",
+    "--name-status",
+    "3db6ee84d260aec6ff80708b04c2edca48c7fcdd",
+    "fde4293ee7c196af52d5d569824df5486e789cfb"
+  ],
+  "base_delta": [
+    {
+      "status": "M",
+      "path": "family/upstream.lock.json",
+      "added_lines": 46,
+      "removed_lines": 3
+    }
+  ],
+  "exact_lock_diff_command": [
+    "git",
+    "diff",
+    "3db6ee84d260aec6ff80708b04c2edca48c7fcdd",
+    "fde4293ee7c196af52d5d569824df5486e789cfb",
+    "--",
+    "family/upstream.lock.json"
+  ],
+  "integration_method": "Merge the verified new main into the existing local candidate without rewriting its commits or release-history.json; preserve the new lock byte-for-byte.",
+  "lock_before": {
+    "git_blob": "d639768ff05b053f42c447abde87775a39a17d0d",
+    "bytes": 12401,
+    "sha256": "db30cb4247c63a10ce1adb40a74c9b71975e9d88e1a20ff086fe2393d991a877"
+  },
+  "lock_after": {
+    "git_blob": "40a383f906fdbae00c8e15f8bcec663ae719f520",
+    "bytes": 13739,
+    "sha256": "5b1c49f380a2fddd65103639bb6b17117a212b209f385c87a4a754d6e33f7eb4"
+  },
+  "allowed_lock_semantic_changes": {
+    "upstream_name": "BetterBiomes",
+    "changed_fields": {
+      "file_id": {
+        "before": 9303477,
+        "after": 9495869
+      },
+      "sha256": {
+        "before": "aaa87c8165aa054a268fd40fc5250a3a0e17ed69b8a7175888862c6a9aef91a5",
+        "after": "6ae69993910f2960c53eb79c68b24596a8b4f4a18a2ea5b9276f47a84d5f06b2"
+      },
+      "manifest_compatibility_release": {
+        "before": "better-biomes-1.0.10001",
+        "after": "better-biomes-1.0.10002"
+      }
+    },
+    "added_manifest_compatibility_release": {
+      "better-biomes-1.0.10002": {
+        "project_id": 1145412,
+        "file_id": 9495869,
+        "sha256": "6ae69993910f2960c53eb79c68b24596a8b4f4a18a2ea5b9276f47a84d5f06b2",
+        "version": [
+          1,
+          0,
+          10002
+        ],
+        "resource_min_engine": [
+          1,
+          21,
+          120
+        ],
+        "source_trees": {
+          "BP": {
+            "sha256": "e0cf5dc83c7d58aad79847ee04c0e37d767b73e0545b79273709aeffcaf7ea54",
+            "files": 1131
+          },
+          "RP": {
+            "sha256": "0b1de82900c70fc366b6559a1e63bb54256f7803d2fe371637513c8be02bbea7",
+            "files": 517
+          }
+        },
+        "output_trees": {
+          "BP": {
+            "sha256": "1eea27f20d5fd1f3ac27add497412113770c4909bb4881d985a6c00e09755ed4",
+            "files": 1131
+          },
+          "RP": {
+            "sha256": "5db783063a74987216065822bac7d4f06d220f34172bd37fbc5960a4db43aceb",
+            "files": 517
+          }
+        },
+        "original_manifests": {
+          "BP": "6b33d96f3b25b1bc316e40eedf0526e4a8aaf24c2157913b93aa224d2a22184d",
+          "RP": "3b3414b06639da1d055e8114061040c520065fcdce321dae8283c96ae5501eb0"
+        },
+        "patched_manifests": {
+          "BP": "c6696c8135746dfad0a3ea8352417fc8fb207f43451872cad54759ed55b8af0b",
+          "RP": "ef7213c901d7c132b9554572029ff2cab40ad33a2a562f75eb2be9efc8bd716d"
+        }
+      }
+    }
+  },
+  "lock_semantic_checks": {
+    "exactly_described_changes": true,
+    "previous_compatibility_release_preserved": true,
+    "author_id_project_id_and_original_pack_uuid_versions_unchanged": true,
+    "new_release_project_file_archive_match_selected_upstream": true,
+    "owned_order_and_deployment_holds_unchanged": true
+  },
+  "unchanged_objects": {
+    "runtime": {
+      "base_before": "870c0596cc2f0244d0e6ee17a0905d4b75734620",
+      "base_after": "870c0596cc2f0244d0e6ee17a0905d4b75734620",
+      "candidate_before": "a62a8655d96a71a9d1d6395b5fa8216ca298f197",
+      "candidate_expected_after": "a62a8655d96a71a9d1d6395b5fa8216ca298f197",
+      "base_compare_command": [
+        "git",
+        "rev-parse",
+        "3db6ee84d260aec6ff80708b04c2edca48c7fcdd:runtime",
+        "fde4293ee7c196af52d5d569824df5486e789cfb:runtime"
+      ],
+      "candidate_verify_command": [
+        "git",
+        "rev-parse",
+        "HEAD:runtime"
+      ]
+    },
+    "tools": {
+      "base_before": "af94ee534bb55e0e3a7f0060b160af1c5d3debb4",
+      "base_after": "af94ee534bb55e0e3a7f0060b160af1c5d3debb4",
+      "candidate_before": "206ca595e5b9cb11ffd7dbcfe378e885d5526074",
+      "candidate_expected_after": "206ca595e5b9cb11ffd7dbcfe378e885d5526074",
+      "base_compare_command": [
+        "git",
+        "rev-parse",
+        "3db6ee84d260aec6ff80708b04c2edca48c7fcdd:tools",
+        "fde4293ee7c196af52d5d569824df5486e789cfb:tools"
+      ],
+      "candidate_verify_command": [
+        "git",
+        "rev-parse",
+        "HEAD:tools"
+      ]
+    },
+    "tests": {
+      "base_before": "3d4d013fee2714cf19ca1620a9a88ccc59629217",
+      "base_after": "3d4d013fee2714cf19ca1620a9a88ccc59629217",
+      "candidate_before": "3d4d013fee2714cf19ca1620a9a88ccc59629217",
+      "candidate_expected_after": "3d4d013fee2714cf19ca1620a9a88ccc59629217",
+      "base_compare_command": [
+        "git",
+        "rev-parse",
+        "3db6ee84d260aec6ff80708b04c2edca48c7fcdd:tests",
+        "fde4293ee7c196af52d5d569824df5486e789cfb:tests"
+      ],
+      "candidate_verify_command": [
+        "git",
+        "rev-parse",
+        "HEAD:tests"
+      ]
+    },
+    "data": {
+      "base_before": "e835bd408cd5d0d4b62b2d77cf408df32bbd149c",
+      "base_after": "e835bd408cd5d0d4b62b2d77cf408df32bbd149c",
+      "candidate_before": "49cd221d1931bcef3e8851ec72413f5a33962d13",
+      "candidate_expected_after": "49cd221d1931bcef3e8851ec72413f5a33962d13",
+      "base_compare_command": [
+        "git",
+        "rev-parse",
+        "3db6ee84d260aec6ff80708b04c2edca48c7fcdd:data",
+        "fde4293ee7c196af52d5d569824df5486e789cfb:data"
+      ],
+      "candidate_verify_command": [
+        "git",
+        "rev-parse",
+        "HEAD:data"
+      ]
+    },
+    "art": {
+      "base_before": "47344681dcf63addefb297578150ed65823cf29a",
+      "base_after": "47344681dcf63addefb297578150ed65823cf29a",
+      "candidate_before": "47344681dcf63addefb297578150ed65823cf29a",
+      "candidate_expected_after": "47344681dcf63addefb297578150ed65823cf29a",
+      "base_compare_command": [
+        "git",
+        "rev-parse",
+        "3db6ee84d260aec6ff80708b04c2edca48c7fcdd:art",
+        "fde4293ee7c196af52d5d569824df5486e789cfb:art"
+      ],
+      "candidate_verify_command": [
+        "git",
+        "rev-parse",
+        "HEAD:art"
+      ]
+    },
+    "sdk": {
+      "base_before": "0973be30bdedc040a76c235f2bed9a34c3170439",
+      "base_after": "0973be30bdedc040a76c235f2bed9a34c3170439",
+      "candidate_before": "0973be30bdedc040a76c235f2bed9a34c3170439",
+      "candidate_expected_after": "0973be30bdedc040a76c235f2bed9a34c3170439",
+      "base_compare_command": [
+        "git",
+        "rev-parse",
+        "3db6ee84d260aec6ff80708b04c2edca48c7fcdd:sdk",
+        "fde4293ee7c196af52d5d569824df5486e789cfb:sdk"
+      ],
+      "candidate_verify_command": [
+        "git",
+        "rev-parse",
+        "HEAD:sdk"
+      ]
+    },
+    "baseline.json": {
+      "base_before": "7dd8fe7a05e9297fe615c8445d377472ba06159e",
+      "base_after": "7dd8fe7a05e9297fe615c8445d377472ba06159e",
+      "candidate_before": "55c5e59b8b088e6d3340b3e39864935c56e5e5f2",
+      "candidate_expected_after": "55c5e59b8b088e6d3340b3e39864935c56e5e5f2",
+      "base_compare_command": [
+        "git",
+        "rev-parse",
+        "3db6ee84d260aec6ff80708b04c2edca48c7fcdd:baseline.json",
+        "fde4293ee7c196af52d5d569824df5486e789cfb:baseline.json"
+      ],
+      "candidate_verify_command": [
+        "git",
+        "rev-parse",
+        "HEAD:baseline.json"
+      ]
+    },
+    "release.json": {
+      "base_before": "7284576db18fbaf950fb35da805bb1728c286522",
+      "base_after": "7284576db18fbaf950fb35da805bb1728c286522",
+      "candidate_before": "d37d28024a1fa3caebaf910138bd917bebd3c227",
+      "candidate_expected_after": "d37d28024a1fa3caebaf910138bd917bebd3c227",
+      "base_compare_command": [
+        "git",
+        "rev-parse",
+        "3db6ee84d260aec6ff80708b04c2edca48c7fcdd:release.json",
+        "fde4293ee7c196af52d5d569824df5486e789cfb:release.json"
+      ],
+      "candidate_verify_command": [
+        "git",
+        "rev-parse",
+        "HEAD:release.json"
+      ]
+    },
+    "release-history.json": {
+      "base_before": "3f3691ea31c809b6daea80280142fe7e9bf1612d",
+      "base_after": "3f3691ea31c809b6daea80280142fe7e9bf1612d",
+      "candidate_before": "d2df24b68b2413becc917399e3d50e5a2d8174a6",
+      "candidate_expected_after": "d2df24b68b2413becc917399e3d50e5a2d8174a6",
+      "base_compare_command": [
+        "git",
+        "rev-parse",
+        "3db6ee84d260aec6ff80708b04c2edca48c7fcdd:release-history.json",
+        "fde4293ee7c196af52d5d569824df5486e789cfb:release-history.json"
+      ],
+      "candidate_verify_command": [
+        "git",
+        "rev-parse",
+        "HEAD:release-history.json"
+      ]
+    },
+    "package.json": {
+      "base_before": "6f957ecce5db475df581c6a10dbbff79ed656be5",
+      "base_after": "6f957ecce5db475df581c6a10dbbff79ed656be5",
+      "candidate_before": "164ea3cfb64a7bacbc50be949be75ac2dc8b1050",
+      "candidate_expected_after": "164ea3cfb64a7bacbc50be949be75ac2dc8b1050",
+      "base_compare_command": [
+        "git",
+        "rev-parse",
+        "3db6ee84d260aec6ff80708b04c2edca48c7fcdd:package.json",
+        "fde4293ee7c196af52d5d569824df5486e789cfb:package.json"
+      ],
+      "candidate_verify_command": [
+        "git",
+        "rev-parse",
+        "HEAD:package.json"
+      ]
+    },
+    "config.json": {
+      "base_before": "30f0d168153b06f17bd388662ecd6129a385d071",
+      "base_after": "30f0d168153b06f17bd388662ecd6129a385d071",
+      "candidate_before": "30f0d168153b06f17bd388662ecd6129a385d071",
+      "candidate_expected_after": "30f0d168153b06f17bd388662ecd6129a385d071",
+      "base_compare_command": [
+        "git",
+        "rev-parse",
+        "3db6ee84d260aec6ff80708b04c2edca48c7fcdd:config.json",
+        "fde4293ee7c196af52d5d569824df5486e789cfb:config.json"
+      ],
+      "candidate_verify_command": [
+        "git",
+        "rev-parse",
+        "HEAD:config.json"
+      ]
+    },
+    ".repo-target.json": {
+      "base_before": "f78390d52c3ff80419825cd11f1e80b39bc80708",
+      "base_after": "f78390d52c3ff80419825cd11f1e80b39bc80708",
+      "candidate_before": "f78390d52c3ff80419825cd11f1e80b39bc80708",
+      "candidate_expected_after": "f78390d52c3ff80419825cd11f1e80b39bc80708",
+      "base_compare_command": [
+        "git",
+        "rev-parse",
+        "3db6ee84d260aec6ff80708b04c2edca48c7fcdd:.repo-target.json",
+        "fde4293ee7c196af52d5d569824df5486e789cfb:.repo-target.json"
+      ],
+      "candidate_verify_command": [
+        "git",
+        "rev-parse",
+        "HEAD:.repo-target.json"
+      ]
+    },
+    ".github": {
+      "base_before": "e47025620dc174e8e70a857e3bebf6ed509ba02f",
+      "base_after": "e47025620dc174e8e70a857e3bebf6ed509ba02f",
+      "candidate_before": "fe366a8ef598615e44b92b87efaf98cf28ac0412",
+      "candidate_expected_after": "fe366a8ef598615e44b92b87efaf98cf28ac0412",
+      "base_compare_command": [
+        "git",
+        "rev-parse",
+        "3db6ee84d260aec6ff80708b04c2edca48c7fcdd:.github",
+        "fde4293ee7c196af52d5d569824df5486e789cfb:.github"
+      ],
+      "candidate_verify_command": [
+        "git",
+        "rev-parse",
+        "HEAD:.github"
+      ]
+    }
+  },
+  "input_impact": {
+    "standalone_aggregate": {
+      "evidence": "tools/check_release.py source_check_commands/main and its standalone material/manifest paths. This path does not select BetterBiomes or run full-family archive assembly.",
+      "result": "Prior Tavern standalone source aggregate retained; no assertion that every repository or family input is unchanged."
+    },
+    "standalone_identity_and_packaging": {
+      "sources": [
+        "tools/baseline_gate.py:validate/check",
+        "tools/build_release.py:main",
+        "tools/family_update/repository_identity.py"
+      ],
+      "result": "These check Tavern baseline/runtime/manifests/release history and repository identity, not this family upstream selection. Strict gate and packager are rerun after the new clean commit."
+    },
+    "full_family": {
+      "sources": [
+        "tools/family_bundle.py:assemble",
+        "tools/family_update/upstream_manifest_compatibility.py:reviewed_pair",
+        "tools/family_update/common.py",
+        "tools/family_update/build_candidate.py",
+        "tools/family_update/preinstall_recovery.py"
+      ],
+      "result": "The lock IS an author archive, manifest-compatibility, dependency-assembly and preparation-receipt input. Previous full-family receipts tied to its old hash are not reusable for the new selection."
+    },
+    "CI_four_pack_dependency_step": {
+      "source": ".github/workflows/validation.yml:233-266",
+      "result": "The workflow reads this lock, selects Tavern/World Liquor owned rows and clears upstream before assembling four packs. The changed BetterBiomes row is not selected; owned/order/deployment-hold fields are identical. The unused release table still changes the passed lock and receipt hash; no claim of a byte-identical pair receipt or rerun pair assembly is made."
+    },
+    "CI_impact_classifier": {
+      "schema": 1,
+      "baseline": true,
+      "runtime": false,
+      "family": true,
+      "reason": "Only explicitly covered family inputs or prose changed",
+      "paths": {
+        "docs": [],
+        "family": [
+          "family/upstream.lock.json"
+        ],
+        "runtime": []
+      }
+    }
+  },
+  "targeted_checks": [
+    {
+      "command": [
+        "python",
+        "tools/family_update/test_upstream_manifest_compatibility.py"
+      ],
+      "tests": 3,
+      "exit_code": 0,
+      "log": "family-manifest-compatibility-tests.log",
+      "bytes": 193,
+      "sha256": "56c43a9c9f93cdf446e54e3e0172c79b42e7ed3406870da4d27df3a76a7177d2",
+      "output": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.008s\n\nOK\n{\"candidate\": \"/tmp/tmpjl1169d2/out\", \"packs\": 2, \"overlaps\": 0, \"production_ready\": false}\n",
+      "scope": "existing source/fixture regression; no game engine or full-family author-archive validation"
+    },
+    {
+      "command": [
+        "python",
+        "tools/test_ci_impact.py"
+      ],
+      "tests": 8,
+      "exit_code": 0,
+      "log": "family-ci-impact-tests.log",
+      "bytes": 107,
+      "sha256": "1aa5537439ef537645450680211f8cd4a745753ca2b58c3c2076d8a58f36da70",
+      "output": "........\n----------------------------------------------------------------------\nRan 8 tests in 19.563s\n\nOK\n",
+      "scope": "existing source/fixture regression; no game engine or full-family author-archive validation"
+    },
+    {
+      "command": [
+        "python",
+        "tools/test_family_bundle.py",
+        "SourceGateEnvironmentTests",
+        "SelectedBaselineTests",
+        "PreservedDependencyTests"
+      ],
+      "tests": 11,
+      "exit_code": 0,
+      "log": "family-selected-identity-dependency-tests.log",
+      "bytes": 110,
+      "sha256": "a392c33c97194700035d02ddeb9ff914a8ebceb8a847eb6698085fed251712ae",
+      "output": "...........\n----------------------------------------------------------------------\nRan 11 tests in 0.063s\n\nOK\n",
+      "scope": "existing source/fixture regression; no game engine or full-family author-archive validation"
+    }
+  ],
+  "limitations": [
+    "The author BetterBiomes archive was not downloaded or revalidated in this plant task. Its new archive/source/output hashes are accepted as the already-merged #615 base, not newly proved by fixture tests.",
+    "Full-family assembly, admission, saved-world, BDS, Minecraft client and LIVE were not run.",
+    "No broad aggregate was rerun; the existing World Liquor conditional SKIP remains, with no new exemption."
+  ],
+  "runtime_version": "0.6.215",
+  "runtime_tree": "a62a8655d96a71a9d1d6395b5fa8216ca298f197",
+  "runtime_tests_and_frozen_release_history_unchanged": true,
+  "freeze_repeated": false,
+  "remote_writes": false
+}

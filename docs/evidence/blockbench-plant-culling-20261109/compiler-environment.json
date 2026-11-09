@@ -1,0 +1,25 @@
+{
+  "environment_issue": "Formal aggregate reached the barrel Java source oracle but javac executable was absent from the default PATH. No compiler install was needed.",
+  "helper": {
+    "path": "/workspace/scratch/f31f84fbb9ff/silverfish-native-review-20261108/bin/javac",
+    "bytes": 66,
+    "sha256": "eac1e450bea5199840215fe1cfac2924f8cf8bd0b51b98d7d30f6a1323a2a84f",
+    "content": "#!/bin/sh\nexec java -m jdk.compiler/com.sun.tools.javac.Main \"$@\"\n",
+    "existing_file_not_created_or_modified": true
+  },
+  "java_command": "/usr/bin/java -version",
+  "java_version": "openjdk version \"21.0.13\" 2026-10-20\nOpenJDK Runtime Environment (build 21.0.13+9-1-deb13u2-Debian)\nOpenJDK 64-Bit Server VM (build 21.0.13+9-1-deb13u2-Debian, mixed mode, sharing)",
+  "compiler_command": "java -m jdk.compiler/com.sun.tools.javac.Main -version",
+  "compiler_version": "javac 21.0.13",
+  "command_environment": "PATH=/workspace/scratch/f31f84fbb9ff/silverfish-native-review-20261108/bin:$PATH (single command only)",
+  "command": "python tools/check_barrel_collision.py --java-source /workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference",
+  "result": {
+    "barrelShapeStates": 108,
+    "oracle": "original Java getShape",
+    "client": false
+  },
+  "persistent_settings_modified": false,
+  "tool_sources_modified": false,
+  "new_test_exemptions": false,
+  "existing_conditional_skip": "The unmodified aggregate retains the pre-existing paired World Liquor timed-effects SKIP when LIQUOR_SOURCE is unset; see local-validation.json."
+}

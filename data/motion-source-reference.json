@@ -49,8 +49,8 @@
       "sha256": "ff07044f0fc9cfa0a04971cbb53bcfc7aaec7da37b841f4ed40522e3f1475b52"
     },
     "runtime/BP/blocks": {
-      "files": 149,
-      "sha256": "20d101a7b1d038a9957df90bab4d2595b5490b63f5ac496f5df87ce056060cb3"
+      "files": 145,
+      "sha256": "7aea71da1836ab379ed6f0bae60abae723f31551a5acfd10464bae011cb0a790"
     },
     "runtime/BP/recipes": {
       "files": 159,
@@ -110,6 +110,10 @@
         "runtime/BP/blocks/catnip_incense.json",
         "runtime/BP/blocks/firefly_incense.json",
         "runtime/BP/blocks/ginkgo_incense.json",
+        "runtime/BP/blocks/gold_grape_crop.json",
+        "runtime/BP/blocks/grape_crop.json",
+        "runtime/BP/blocks/grapevine_trellis.json",
+        "runtime/BP/blocks/ice_grape_crop.json",
         "runtime/BP/blocks/pine_incense.json",
         "runtime/BP/blocks/sakura_incense.json",
         "runtime/BP/blocks/snow_incense.json",
@@ -118,12 +122,16 @@
         "runtime/BP/blocks/wild_grapevine_plant.json"
       ],
       "contract": "tools/cultivation_source_contract.py and tools/check_incense_surfaces.py",
-      "reason": "Current wild-vine blocks use Java loot resources and cultivation behavior. Current incense blocks and shared models use source faces, UVs, first-visible alpha sampling and material/consumer wiring. The original aggregate and retired historical file digests remain unchanged evidence; other blocks retain their historical source view.",
+      "reason": "Current wild-vine blocks use Java loot resources and cultivation behavior. Current incense blocks and shared models use source faces, UVs, first-visible alpha sampling and material/consumer wiring. The original aggregate and retired historical file digests remain unchanged evidence; other blocks retain their historical source view. Crop and ordinary filled-vine material routes now use the same current cultivation source contract; their original historical digests remain evidence only.",
       "originalFiles": {
         "runtime/BP/blocks/butterfly_incense.json": "48404ff05096011134e15b1ae7c074e85ffd684392ccd27601c5cd6394adfb2f",
         "runtime/BP/blocks/catnip_incense.json": "96b5bdf45f38e71c686571611a495a6b6ef8e3169cb48f81eba8b7fc7e9e6456",
         "runtime/BP/blocks/firefly_incense.json": "785ca1fce87b8182591f29c791bc5e0a3dd744b6e178cfbe2c273d8d4aefab7b",
         "runtime/BP/blocks/ginkgo_incense.json": "88208f11f96431a948463f70fb786109b1dc4b685b9fd5669fe899eeabe90f51",
+        "runtime/BP/blocks/gold_grape_crop.json": "1ddea70e9a5ac19992e925d678aa787be1fda29a6c8d0424a0621d8fee0fe627",
+        "runtime/BP/blocks/grape_crop.json": "b616d7175555672b2df80fc9902523b43834e3faf95a5c8e3a7fa7122426711e",
+        "runtime/BP/blocks/grapevine_trellis.json": "391b7ab4b9fcb077ed4979082f3677f06a8006f4962482ed344adfe78148f3b8",
+        "runtime/BP/blocks/ice_grape_crop.json": "216e8f11c01a1c7415438e55d676bcfa7dbc47e43cd7e5b3c21bf0dc40926d5e",
         "runtime/BP/blocks/pine_incense.json": "beba8822f877a6c85132db8529582d92cc4439180f3193ad6016263e6ee78e69",
         "runtime/BP/blocks/sakura_incense.json": "b209c9a0a0f3940adf4e3151d4f5d0fa022bcad7a03143ac9c6c690149ef6f74",
         "runtime/BP/blocks/snow_incense.json": "ef07e8101c9fd9307b368fadba827bf2cfe74661f7b5d442e0fed169d6c4f3f9",

@@ -1,0 +1,2007 @@
+{
+  "current-canonical/data/cultivation-plants/LICENSE-ASSETS": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "9779f7520aa9bb4888d8216933e482722d6b2c839e96ca338322e11c9fd3c286",
+    "bytes": 1604
+  },
+  "current-canonical/data/cultivation-plants/LICENSE-CODE": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "e4b0341c2f974280d80bbd56d6d12e2f3e4d755f3a5cfeed9725771415e0d3ed",
+    "bytes": 1545
+  },
+  "current-canonical/data/cultivation-plants/blockstates/gold_grape_crop.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "17222815128ee8d4fe5a84778eec975f02557bd41b83ed91a213f8eea0dc1e66",
+    "bytes": 586
+  },
+  "current-canonical/data/cultivation-plants/blockstates/gold_grapevine_trellis.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "ae2a641902cbadce8c5ec61a449eed24669f318c72a3f62d1809d65d2bd7f7fe",
+    "bytes": 8058
+  },
+  "current-canonical/data/cultivation-plants/blockstates/grape_crop.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "a51580cc7b2a8ae4d4c88842d5f9ff38ddbf6f6eb37240908caca659ee8877b2",
+    "bytes": 556
+  },
+  "current-canonical/data/cultivation-plants/blockstates/grapevine_trellis.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "db257c1c03b83068d2039dcde52d3ed5b2c5c3520c3efd4271bdfea142324a09",
+    "bytes": 7778
+  },
+  "current-canonical/data/cultivation-plants/blockstates/ice_grape_crop.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "28cf9eba24ec75824ce9cf8fc29f7ea1892533b02e03ad87c49729331e09f0c2",
+    "bytes": 580
+  },
+  "current-canonical/data/cultivation-plants/blockstates/ice_grapevine_trellis.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "27ce515d5a440a9f3b5f06174abb5f18ce8d7da9b56a0e0c77d6ba07961fac89",
+    "bytes": 8002
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/gold_grape_crop/stage0.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "4aa8225f29cee78d6b3d2da2c4630ad72be5bd732a262f3cdcc0d469619e63ad",
+    "bytes": 943
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/gold_grape_crop/stage1.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "aa66c262b45aa8e121674643be273dabfa95c9adbb75bf85db3e29adf89fbb47",
+    "bytes": 943
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/gold_grape_crop/stage2.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "7241ef362ab278cdd02d7a7bd032855bda110f75d8adc4de940bafbc8c9ab228",
+    "bytes": 947
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/gold_grape_crop/stage3.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "40518656ef30e0387f9240b0874d0d1cb4e2b5cc6a12af9c21e5aba618d0f7d1",
+    "bytes": 951
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/gold_grape_crop/stage4.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "a78540d985fe1fccfa957df18b45cce69bbf50b8552dae264c8a84fab5c6cc7a",
+    "bytes": 947
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/gold_grape_crop/stage5.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "a157fe82656293ddf2b1f1dd114dea2079d4e7e19c9ba9049af466ce81ef25ff",
+    "bytes": 947
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/gold_grapevine_trellis/cross_east_west.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "3c960c38dcbd8b1d3c5b1a146cd53d72ba4524a0c7908dccc5d60801b30c350f",
+    "bytes": 4098
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/gold_grapevine_trellis/cross_north_south.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "1f3d0f4ed5040249073eae9b72e1b30944b10561e352b60cfa56836de4486860",
+    "bytes": 4082
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/gold_grapevine_trellis/cross_up_down.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "d21a19faac2b3028f0c90d55b07b5750c80233bc7fe963e246b24c6c17fa1ac7",
+    "bytes": 4274
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/gold_grapevine_trellis/east_west.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "f6ea748e7349074fa7b8950b6b49013b8248727a40c6a798498d06ee65f57663",
+    "bytes": 2958
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/gold_grapevine_trellis/north_south.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "c961ff69a289ab45c51c67cb4c04e38fe7e3c37de0f9313041be02301494a04f",
+    "bytes": 2848
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/gold_grapevine_trellis/single_stage0.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "354cb9ae6dfa30859775bba3b12061e1eb46c50be83f0425cc27ea39b861e2dd",
+    "bytes": 1507
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/gold_grapevine_trellis/single_stage1.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "9b2cf5dacf6c1736fa334ea73c5985c71cbc67d107b4befede1f87aa09fcce52",
+    "bytes": 1511
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/gold_grapevine_trellis/single_stage2.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "448d1a29814494549ee81ea5da183c3030067b76b92942ab07a2aae40168bd8c",
+    "bytes": 1507
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/gold_grapevine_trellis/single_stage3.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "5759096e55d0771c58e30bb26f88d7a57e0c107c868a9b994185daceef70929a",
+    "bytes": 1511
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/gold_grapevine_trellis/six_direction.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "7945a483eee008e5f51fd5d7318bfd2d1dcd5f62d239cb2ef944ed91104a5ca1",
+    "bytes": 4053
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/grape_crop/stage0.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "d28d9e0e0e8424520eaec874d1dddfb5f374126e91d69a4a9fb735d1271fc607",
+    "bytes": 938
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/grape_crop/stage1.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "530fdcaa788055e797d8fd472c740c00f508704c2e3db32dda91331cc6624f40",
+    "bytes": 938
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/grape_crop/stage2.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "196c539105943b81f7b0f125962a9727282b181553ef656a8d91b7e9523aa0e5",
+    "bytes": 942
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/grape_crop/stage3.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "a3873d3a4cfb1091aee5be5ada08b461c5689f11aaca17b10fb77274301d9c74",
+    "bytes": 946
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/grape_crop/stage4.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "007c998808a46e6032521477e23ccc4475068b0e9d3baff061a17ea4f66243e5",
+    "bytes": 942
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/grape_crop/stage5.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "82d22edea404cb19791ce2b34f9cc2a0d1cb2c53af8f517c5aa84be099f3d42c",
+    "bytes": 942
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/grapevine_trellis/cross_east_west.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "5ec08ffa5a1d6b65bc93cd9e17f513bb79d90b54d6a3804c66c754c5c9bcc178",
+    "bytes": 4093
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/grapevine_trellis/cross_north_south.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "f6d35211f29439169af76326249768054178781f4afec2df6676fe07ca9bc70d",
+    "bytes": 4077
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/grapevine_trellis/cross_up_down.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "e1a35536bd2de6fdab498b4edb969352f8e3c61f7bf200694091f0424128a9b9",
+    "bytes": 4269
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/grapevine_trellis/east_west.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "c30462d80a4329d1bb9afea32ea90d02e0b93aae686770b5e9793561a24e3df2",
+    "bytes": 2953
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/grapevine_trellis/north_south.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "2903d90bd11a8122ce02e7bd9227289d6f42fe992f63d0c470c688ed2620c056",
+    "bytes": 2843
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/grapevine_trellis/single_stage0.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "058385d1e40e14279a90e7ab5fcccd0095620bfd5b49fd97d604093ffae93f32",
+    "bytes": 1502
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/grapevine_trellis/single_stage1.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "f15b79f2f437dc729483bf68a26cdd5f727b09e433bcb863b4bbdd1b5385dfc2",
+    "bytes": 1506
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/grapevine_trellis/single_stage2.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "121846926b5dab60e7e8c67fae093a51f0c7f92983ac86319c47b8efcfb8e0cb",
+    "bytes": 1502
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/grapevine_trellis/single_stage3.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "99babd878fd9a131490883c97b0469fccc1c6107e30295edda0fcd942ae0d5ff",
+    "bytes": 1506
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/grapevine_trellis/six_direction.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "c3db6f45f149c85cc7578e316c262912238c13b3a89f5e3d025abe80d21a42fa",
+    "bytes": 4048
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/ice_grape_crop/stage0.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "49ae14c073042bfdc4d3379dab65ff680195df9f47060910faf1d89a62846d17",
+    "bytes": 942
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/ice_grape_crop/stage1.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "a10baf56313dd37656d1c082e90321a33c3c89e466030185b2ad57684a371983",
+    "bytes": 942
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/ice_grape_crop/stage2.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "02e378ce70039085098168f19e80ce8f59d38e56df792594a54dd353d5099f89",
+    "bytes": 946
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/ice_grape_crop/stage3.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "3c6248294b52185e1f36d7f57b1daf287b4d031c7100321efd9e68bc19d4e675",
+    "bytes": 950
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/ice_grape_crop/stage4.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "ccc328f6eeff0daed67bd46e5fd8d32c752fb61fc7c3fa26e6af7dc753f861d8",
+    "bytes": 946
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/ice_grape_crop/stage5.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "b8df00a0066a7cc635aa76ced5228a291176590c933f7a08e6518a91f0da73e3",
+    "bytes": 946
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/ice_grapevine_trellis/cross_east_west.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "66c37c0dd38deaab0dbe8f9a1cfb0ab6419132afee844526602fefdbbcc7b0fa",
+    "bytes": 4097
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/ice_grapevine_trellis/cross_north_south.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "f9d8d3a3516d5181e20ae89f51354b733d7b7b22a0321ed002f66b0dc93bfd10",
+    "bytes": 4081
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/ice_grapevine_trellis/cross_up_down.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "d459011b4ee186415f0587355c2aa471c5d709f1f16fcec925be96bdf8bfae32",
+    "bytes": 4273
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/ice_grapevine_trellis/east_west.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "f35dca8699231d82cacfefbd15ca98b5a61aafdddb1ef21c374ba2504c444209",
+    "bytes": 2957
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/ice_grapevine_trellis/north_south.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "51d531f5a5df04e274a5a5195941b170dc4bf45640f3c10c5faa0571833ecb5a",
+    "bytes": 2847
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/ice_grapevine_trellis/single_stage0.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "dee63db9dfd14e0d5b825cb33d676b2f9297815670c693cab886a1b216be90a5",
+    "bytes": 1506
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/ice_grapevine_trellis/single_stage1.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "b6feb268b9627654ad198d30c85ff3d24e9fe2e57e36120c4a7d53b184f0bb13",
+    "bytes": 1510
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/ice_grapevine_trellis/single_stage2.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "68198d81f06abe22cc3c4e4b6cc6c803a7ba4a7c666a936b026ede7d1a3a10c6",
+    "bytes": 1506
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/ice_grapevine_trellis/single_stage3.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "c8fb555f118c22a5e6cba83e5e980c0640f32bc036961586bf427004cc91b85a",
+    "bytes": 1510
+  },
+  "current-canonical/data/cultivation-plants/models/block/plant/ice_grapevine_trellis/six_direction.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "3710e9e9b255172f484285a835ed1ec87ff7d2789bd3e1bbb7b8b5ec44c09788",
+    "bytes": 4052
+  },
+  "current-canonical/data/cultivation-plants/source.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "65550ff3afa501a1c05b08db4597482d82d1d72f336e135feb4f3977f280e523",
+    "bytes": 22813
+  },
+  "current-canonical/data/cultivation-plants/textures/block/plant/gold_grape_crop.png": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "eb39ee4273d3298bf1f084a91300b8d97504e225c3b472b9094ec65a34e855a9",
+    "bytes": 1414
+  },
+  "current-canonical/data/cultivation-plants/textures/block/plant/gold_grapevine_trellis.png": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "011d3f40b24934d7ef2f15bb170cd45c0058553a69485ee36614fb8a84b20db8",
+    "bytes": 1297
+  },
+  "current-canonical/data/cultivation-plants/textures/block/plant/grape_crop.png": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "f2061038f26cf4b8a0c7ac66972ad30c647090ce0a14db6e26440a000f7ec491",
+    "bytes": 2420
+  },
+  "current-canonical/data/cultivation-plants/textures/block/plant/grapevine_trellis.png": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "31d567e9d7879383743cdc8f28fe9ae00883b9380c32601d3480283cd4bd8f4a",
+    "bytes": 2190
+  },
+  "current-canonical/data/cultivation-plants/textures/block/plant/ice_grape_crop.png": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "3d42a7999b5b50cf67a8202b8064ada5df965d65c08883dfc1ab1f068b881b01",
+    "bytes": 1380
+  },
+  "current-canonical/data/cultivation-plants/textures/block/plant/ice_grapevine_trellis.png": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "7eb30bb4f083ffaba2e96a3cf5fe1ebcf17ace4b2823b0eea60362314212b8ba",
+    "bytes": 1523
+  },
+  "current-canonical/data/wild-vine-surfaces/official-cross.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "34c9fa7f9ff7562553ee0cb74c4f9a5d9d520189d1293d1ef6177afdf5af1640",
+    "bytes": 884
+  },
+  "current-canonical/data/wild-vine-surfaces/source.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "d6d57748fdc26855ad0e0097521ef9f849989a845e8e7481a1984d4ac1ed4b7c",
+    "bytes": 2365
+  },
+  "current-canonical/data/wild-vine-surfaces/wild_grapevine-blockstate.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "8963aeb79c0e4aefc8d2c0643b30353180398801d162164c67b926b6b5741cba",
+    "bytes": 103
+  },
+  "current-canonical/data/wild-vine-surfaces/wild_grapevine-model.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "c59a35dfe32947332db292c02f6a30f963603ece04243432c764b7cfae56097f",
+    "bytes": 159
+  },
+  "current-canonical/data/wild-vine-surfaces/wild_grapevine_plant-blockstate.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "616b1df2afb7f56cae88ac4c7476f05c9e5b1eb685f82dc502031bf1685eccd3",
+    "bytes": 109
+  },
+  "current-canonical/data/wild-vine-surfaces/wild_grapevine_plant-model.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "8db54c0c275d1e52b17cfc543282f17e7b9b3abf66c80bda2f33b3966e9ada0d",
+    "bytes": 165
+  },
+  "current-canonical/runtime/BP/blocks/gold_grape_crop.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "b8d48f76b0c51915b05d95030de9168b3b8c77dad8ead90c42ab7e6d1d86f7a7",
+    "bytes": 5208
+  },
+  "current-canonical/runtime/BP/blocks/gold_grapevine_trellis.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "f6c8d37244f22dff576fc102acd40d6bbfc0a839e69097fa7f62ff2b54a59e4d",
+    "bytes": 34682
+  },
+  "current-canonical/runtime/BP/blocks/grape_crop.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "6981c1f08c4bb7d24ff90e5f9f1a55c3ba692c747f025e8b72a47beb8be105f1",
+    "bytes": 5118
+  },
+  "current-canonical/runtime/BP/blocks/grapevine_trellis.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "4ecb1d8c13714ec2b1c97fe7033afdd03fef83f49c544cccc5edaef7a13ebfa9",
+    "bytes": 34227
+  },
+  "current-canonical/runtime/BP/blocks/ice_grape_crop.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "9c41a99d4bb727845d0a0c802fae6b32419ea907a34a3def621bc8408ce6f407",
+    "bytes": 5190
+  },
+  "current-canonical/runtime/BP/blocks/ice_grapevine_trellis.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "7f76d19c6424c582d9b1ac7f0b822612f10eeb7d090ddd65a2c2addeba9de62b",
+    "bytes": 34591
+  },
+  "current-canonical/runtime/BP/blocks/wild_grapevine.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "aeb184c1a53af82abce84d09dd0d1678c21e0b8435a175f421d6bf7810d5e15c",
+    "bytes": 2311
+  },
+  "current-canonical/runtime/BP/blocks/wild_grapevine_plant.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "b9a9ff70fad95a6846b9f7398c757a3c10e1f7077e0c97a2f7f5097463eca96b",
+    "bytes": 1803
+  },
+  "current-canonical/runtime/BP/loot_tables/blocks/wild_grapevine.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "00ffba8f2d2b5c1f4961dbfc4a58d5cc730c4e35907001afee0f49e179edb9f2",
+    "bytes": 197
+  },
+  "current-canonical/runtime/RP/models/entity/gold_grape_crop_stage0.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "5a602a77e572800b5e6885c6e5586614f02cd5a3b55462164aa07b63f97c1b00",
+    "bytes": 2515
+  },
+  "current-canonical/runtime/RP/models/entity/gold_grape_crop_stage1.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "7d12919297911591f7af68307e0b4e65ea87d103f0060ac92f8fbdde2bbee199",
+    "bytes": 2519
+  },
+  "current-canonical/runtime/RP/models/entity/gold_grape_crop_stage2.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "bccf743f7ab115245fa72d3f02197773bf268f21b8547f0850d70a25941f73d1",
+    "bytes": 2519
+  },
+  "current-canonical/runtime/RP/models/entity/gold_grape_crop_stage3.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "8fbcf1b948f83fc1d0373a40f3ed758ddde4ba0f8fb573709c8d5cd5914af19e",
+    "bytes": 2519
+  },
+  "current-canonical/runtime/RP/models/entity/gold_grape_crop_stage4.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "cbb3be421ba8ff35e357293729b7f00bbe671577f93e77f5cdff7ea46a758e4a",
+    "bytes": 2519
+  },
+  "current-canonical/runtime/RP/models/entity/gold_grape_crop_stage5.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "7a3522ee55432969ed9bbd03a05e6d833d7d0203d0454925a9056a661266b526",
+    "bytes": 2523
+  },
+  "current-canonical/runtime/RP/models/entity/gold_grapevine_cross_east_west.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "be263b71b2b8108699b70a7ac7614ccb8e7c6da5871e7073dbf6fc63c89ea3af",
+    "bytes": 12901
+  },
+  "current-canonical/runtime/RP/models/entity/gold_grapevine_cross_north_south.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "29699cb689a29dcf0e6c0e51ae2bf6f14e23923010f72e644e06494e6b278238",
+    "bytes": 12829
+  },
+  "current-canonical/runtime/RP/models/entity/gold_grapevine_cross_up_down.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "5608f32a48c62d9cd0438c708f3075b505c5f4cad44e185be79a217f339c19fe",
+    "bytes": 13124
+  },
+  "current-canonical/runtime/RP/models/entity/gold_grapevine_east_west.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "1cca9249302be070d4e8836433c9567c8cbb047072d2b266e5382f29b754bbb4",
+    "bytes": 9249
+  },
+  "current-canonical/runtime/RP/models/entity/gold_grapevine_north_south.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "c0be3236a0cb8f450a3c98dae265db64abf20acf10768d524d287187f7340f01",
+    "bytes": 9231
+  },
+  "current-canonical/runtime/RP/models/entity/gold_grapevine_six_direction.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "418999c5ee0b6ec028b844dbf9bda0bb2c73962b9feadef7bfc7cab86d585f1d",
+    "bytes": 12873
+  },
+  "current-canonical/runtime/RP/models/entity/gold_grapevine_stage0.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "bfddad1e9cae63b89578095ddb63a09ea0c47b0c1a23dda9f4e8857732a43dcc",
+    "bytes": 4461
+  },
+  "current-canonical/runtime/RP/models/entity/gold_grapevine_stage1.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "a0ad25a1dcc0d9e8bccb5e9ddfa55093590924b507a48d4347ee2c44c1ce1e50",
+    "bytes": 4461
+  },
+  "current-canonical/runtime/RP/models/entity/gold_grapevine_stage2.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "8192a3f4ca977f8e4ebd6054a05661c6b4a7438f09ece378f491095cd27a6250",
+    "bytes": 4469
+  },
+  "current-canonical/runtime/RP/models/entity/gold_grapevine_stage3.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "3ede4ed17b9e7a69d0e50a8079eb46b22b70d85a3f12daecd8fe7f42c5edf853",
+    "bytes": 4465
+  },
+  "current-canonical/runtime/RP/models/entity/grape_crop_stage0.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "9f9674d935e3eec66cf86957839460c35f4294773f1173796f6bc2401569387a",
+    "bytes": 2510
+  },
+  "current-canonical/runtime/RP/models/entity/grape_crop_stage1.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "b8ad2fa748e872d0a1d455d24da2363bb3a041e7cbbb4cd0f3a301b5eee36b89",
+    "bytes": 2514
+  },
+  "current-canonical/runtime/RP/models/entity/grape_crop_stage2.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "c8c691a0b8f70c1eff77cf956e7e48ec444fb9724dafa467541082a6c8f29cf9",
+    "bytes": 2514
+  },
+  "current-canonical/runtime/RP/models/entity/grape_crop_stage3.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "0d0507608f6f40ec2e0a85dba6504a7ae1aceccc884d99d1b58544c0ddf31012",
+    "bytes": 2514
+  },
+  "current-canonical/runtime/RP/models/entity/grape_crop_stage4.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "96843c9ea7bf6b97c476d60d886768b975e3d72515e0c101e88c98480d88bff6",
+    "bytes": 2514
+  },
+  "current-canonical/runtime/RP/models/entity/grape_crop_stage5.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "fd06f83fb439ee60a920633f069ccc143dc04cb125512afb443ff406d52edf50",
+    "bytes": 2518
+  },
+  "current-canonical/runtime/RP/models/entity/grapevine_cross_east_west.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "0188f79e0f8a31118cddaaa0a8541e6925f3b61953eabda6fc43dfc8ed87a81a",
+    "bytes": 12896
+  },
+  "current-canonical/runtime/RP/models/entity/grapevine_cross_north_south.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "33c1322191bd7b3b9e922ef09eecebe5c667c1486010d10c653f29092316d6f7",
+    "bytes": 12824
+  },
+  "current-canonical/runtime/RP/models/entity/grapevine_cross_up_down.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "6ef060af55ffd2058cdc96ebfa9b5d61d686f4321dbf6b59da3250010949db89",
+    "bytes": 13119
+  },
+  "current-canonical/runtime/RP/models/entity/grapevine_east_west.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "cf63c316bdeab77d9ac03571652f3765d58af689c4877baffe5ccefc79e283a3",
+    "bytes": 9244
+  },
+  "current-canonical/runtime/RP/models/entity/grapevine_north_south.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "b1104ce40d47c0bd3962afcadb8e7aca4adcbf9dedca9b4a5fcf3729ac50af72",
+    "bytes": 9226
+  },
+  "current-canonical/runtime/RP/models/entity/grapevine_six_direction.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "a7d0808491712e099985814ece2138158d97944c70946634ce522faaec990835",
+    "bytes": 12868
+  },
+  "current-canonical/runtime/RP/models/entity/grapevine_stage0.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "bfd95eb8414152f47fc2976ad7f8f4cb259c1dc2879eaf6c00994edd26c2fd9d",
+    "bytes": 4456
+  },
+  "current-canonical/runtime/RP/models/entity/grapevine_stage1.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "8f736e7dc44dff5d7f3e2cf46bca6f0512c971443cd2a0e02cba54966b0ce59f",
+    "bytes": 4456
+  },
+  "current-canonical/runtime/RP/models/entity/grapevine_stage2.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "35bea2c370908d5f347933b32e01ded1e55d4fe10750b95e3543620baf89244d",
+    "bytes": 4464
+  },
+  "current-canonical/runtime/RP/models/entity/grapevine_stage3.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "b0dfb9d7c2337cf574750013ecc5259f073a3b5d21ddaf5d90e23e249415aa08",
+    "bytes": 4460
+  },
+  "current-canonical/runtime/RP/models/entity/ice_grape_crop_stage0.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "2b41ba8f16680f9570d0314e62b876b1ea865543f2b984e02c0ae30aebbc9aff",
+    "bytes": 2514
+  },
+  "current-canonical/runtime/RP/models/entity/ice_grape_crop_stage1.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "f14edf7b281e926e4c437f6eb13fbe8b7333f391fb56e93c89f2244e3c0e79ec",
+    "bytes": 2518
+  },
+  "current-canonical/runtime/RP/models/entity/ice_grape_crop_stage2.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "b07b2e4f9fd6efed02147f6880d80a03dcdd4ae8b5c1d23a9e73f07ca0d23aff",
+    "bytes": 2518
+  },
+  "current-canonical/runtime/RP/models/entity/ice_grape_crop_stage3.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "79ec2c32a5b995a997958e70db410c33b5d1499e045a9f433d384a3717263e41",
+    "bytes": 2518
+  },
+  "current-canonical/runtime/RP/models/entity/ice_grape_crop_stage4.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "eee78a836a97745303ce16cb7c44195ec1cb6644bbad5e259c1acdff7185442d",
+    "bytes": 2518
+  },
+  "current-canonical/runtime/RP/models/entity/ice_grape_crop_stage5.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "b25c4bdcc467bfcf72fa1bd75583a502691293b906422665ae58051de88bbb1e",
+    "bytes": 2522
+  },
+  "current-canonical/runtime/RP/models/entity/ice_grapevine_cross_east_west.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "9c76df873636e739d1a4dbefbb91c6910b2d93bc8cebd877ecbfb3f66835899d",
+    "bytes": 12900
+  },
+  "current-canonical/runtime/RP/models/entity/ice_grapevine_cross_north_south.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "b7760d0116c8bb7a80587dfdb90ed309f65f4105eeac10d0db15a11f9b2f5681",
+    "bytes": 12828
+  },
+  "current-canonical/runtime/RP/models/entity/ice_grapevine_cross_up_down.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "42541606a4c836cbd4b61379796d50899c34ca6760acbf9cf5ea9a87eb0097f3",
+    "bytes": 13123
+  },
+  "current-canonical/runtime/RP/models/entity/ice_grapevine_east_west.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "4697b83294dbe414bc2f0291dfa31dc948cc7052c9a4cae534753819304c03d6",
+    "bytes": 9248
+  },
+  "current-canonical/runtime/RP/models/entity/ice_grapevine_north_south.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "f134c1ce5ee1c38ade50e1ab43ac2eb0818bb70e6373c5d6c994d5cedf1a89e9",
+    "bytes": 9230
+  },
+  "current-canonical/runtime/RP/models/entity/ice_grapevine_six_direction.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "4bf737f0a529f6eea4f7df22b8a056b7ab79110b6e7d5102d31bc83cd24852e4",
+    "bytes": 12872
+  },
+  "current-canonical/runtime/RP/models/entity/ice_grapevine_stage0.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "0dc8d10ad859befb255032cdc0d61ac6b181d25f69e94798bd33628edc089da2",
+    "bytes": 4460
+  },
+  "current-canonical/runtime/RP/models/entity/ice_grapevine_stage1.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "0d502c1a265255d8594443c47d039029f539f85bcd06e1997e20a9ef80c40dda",
+    "bytes": 4460
+  },
+  "current-canonical/runtime/RP/models/entity/ice_grapevine_stage2.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "6060b7bfd624b72e3b3de39236b4db88df4243e6f2de7e5679b2a2a3e961db87",
+    "bytes": 4468
+  },
+  "current-canonical/runtime/RP/models/entity/ice_grapevine_stage3.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "194385d7bd0a7fe50bbd37eba7b1f53a1aa96f064a2bde627e9759d552e620fd",
+    "bytes": 4464
+  },
+  "current-canonical/runtime/RP/models/entity/wild_grapevine.geo.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "e7e8c23f421aba7d8082c6952d6599bc5fb99231c9a656ff1566b4303cbd0d0b",
+    "bytes": 2488
+  },
+  "current-canonical/runtime/RP/textures/kaleidoscope_tavern/block/plant/gold_grape_crop.png": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "eb39ee4273d3298bf1f084a91300b8d97504e225c3b472b9094ec65a34e855a9",
+    "bytes": 1414
+  },
+  "current-canonical/runtime/RP/textures/kaleidoscope_tavern/block/plant/gold_grapevine_trellis.png": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "011d3f40b24934d7ef2f15bb170cd45c0058553a69485ee36614fb8a84b20db8",
+    "bytes": 1297
+  },
+  "current-canonical/runtime/RP/textures/kaleidoscope_tavern/block/plant/grape_crop.png": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "f2061038f26cf4b8a0c7ac66972ad30c647090ce0a14db6e26440a000f7ec491",
+    "bytes": 2420
+  },
+  "current-canonical/runtime/RP/textures/kaleidoscope_tavern/block/plant/grapevine_trellis.png": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "31d567e9d7879383743cdc8f28fe9ae00883b9380c32601d3480283cd4bd8f4a",
+    "bytes": 2190
+  },
+  "current-canonical/runtime/RP/textures/kaleidoscope_tavern/block/plant/ice_grape_crop.png": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "3d42a7999b5b50cf67a8202b8064ada5df965d65c08883dfc1ab1f068b881b01",
+    "bytes": 1380
+  },
+  "current-canonical/runtime/RP/textures/kaleidoscope_tavern/block/plant/ice_grapevine_trellis.png": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "7eb30bb4f083ffaba2e96a3cf5fe1ebcf17ace4b2823b0eea60362314212b8ba",
+    "bytes": 1523
+  },
+  "current-canonical/runtime/RP/textures/kaleidoscope_tavern/block/plant/wild_grapevine.png": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "9125df61fb4fdb6b14cd8df5b9ed289a1448b6158738f66eb666c5d3cbcc4fc0",
+    "bytes": 259
+  },
+  "current-canonical/runtime/RP/textures/kaleidoscope_tavern/block/plant/wild_grapevine_plant.png": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "966caf54921b77b67e64a801fd18d0e93bc5fb1fea471475eb56310682ea95bb",
+    "bytes": 298
+  },
+  "current-canonical/runtime/RP/textures/terrain_texture.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "46797fb0157dfb71c29ae78d385cdcebc3edfaec673e1292bd4eb826183e01c9",
+    "bytes": 43736
+  },
+  "current-canonical/tools/cultivation_source_contract.py": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "d9c50e959cb3a28b0124f37237395c826cbac472ab35279e2dd06aa5e08e15b5",
+    "bytes": 13675
+  },
+  "current-canonical/tools/foundation/source_contract.py": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "1a784147cd07306a7b54d4a7e9603a73f21752eea9f1c90538854e26242a10ae",
+    "bytes": 4384
+  },
+  "current-canonical/tools/test_cultivation_source_contract.py": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "55bd860b2813203a4ad5c6d061b66e13f5eba8bf4b5ab03d705d0b59f4d8e103",
+    "bytes": 13647
+  },
+  "current-canonical/tools/wild_vine_surfaces.py": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "aad93936dfeb982db740bc8f16ea0c4d0d1e7bc57493ab9886f327c94c50b8b9",
+    "bytes": 7812
+  },
+  "input-local-map.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "c389691d3ef8fb8aad570ae41b029eb01466c8da062172251ce2bda105474ed9",
+    "bytes": 104544
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/generated/resources/assets/kaleidoscope_tavern/blockstates/gold_grape_crop.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "17222815128ee8d4fe5a84778eec975f02557bd41b83ed91a213f8eea0dc1e66",
+    "bytes": 586
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/generated/resources/assets/kaleidoscope_tavern/blockstates/gold_grapevine_trellis.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "ae2a641902cbadce8c5ec61a449eed24669f318c72a3f62d1809d65d2bd7f7fe",
+    "bytes": 8058
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/generated/resources/assets/kaleidoscope_tavern/blockstates/grape_crop.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "a51580cc7b2a8ae4d4c88842d5f9ff38ddbf6f6eb37240908caca659ee8877b2",
+    "bytes": 556
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/generated/resources/assets/kaleidoscope_tavern/blockstates/grapevine_trellis.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "db257c1c03b83068d2039dcde52d3ed5b2c5c3520c3efd4271bdfea142324a09",
+    "bytes": 7778
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/generated/resources/assets/kaleidoscope_tavern/blockstates/ice_grape_crop.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "28cf9eba24ec75824ce9cf8fc29f7ea1892533b02e03ad87c49729331e09f0c2",
+    "bytes": 580
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/generated/resources/assets/kaleidoscope_tavern/blockstates/ice_grapevine_trellis.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "27ce515d5a440a9f3b5f06174abb5f18ce8d7da9b56a0e0c77d6ba07961fac89",
+    "bytes": 8002
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/block/plant/GrapeCropBlock.java": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "1870ef4ec49c998aa58d87219d922a77c0a001ff05da1d7658f09d7bdf137d06",
+    "bytes": 7177
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/block/plant/GrapevineTrellisBlock.java": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "0715d38d91a39e3ef8def4cb7d4b1b0a631194e826bc0161c430c5113b295128",
+    "bytes": 12091
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/init/ClientSetupEvent.java": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "699bcc11c69a2d8925b817cdbf9b74b0b04d76121e14cd20d91147b689e34bfe",
+    "bytes": 3998
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/init/ModBlocks.java": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "641d772a6373b66a07fc1b312d170860922471f2ccec0dd8c5888a147c6acc39",
+    "bytes": 34936
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/init/ModItems.java": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "5783cf0b8e6bae370d9225ea24f5a48f8ac90cdf09c81b20f5ce2b73e6c6157b",
+    "bytes": 22602
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grape_crop/stage0.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "4aa8225f29cee78d6b3d2da2c4630ad72be5bd732a262f3cdcc0d469619e63ad",
+    "bytes": 943
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grape_crop/stage1.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "aa66c262b45aa8e121674643be273dabfa95c9adbb75bf85db3e29adf89fbb47",
+    "bytes": 943
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grape_crop/stage2.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "7241ef362ab278cdd02d7a7bd032855bda110f75d8adc4de940bafbc8c9ab228",
+    "bytes": 947
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grape_crop/stage3.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "40518656ef30e0387f9240b0874d0d1cb4e2b5cc6a12af9c21e5aba618d0f7d1",
+    "bytes": 951
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grape_crop/stage4.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "a78540d985fe1fccfa957df18b45cce69bbf50b8552dae264c8a84fab5c6cc7a",
+    "bytes": 947
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grape_crop/stage5.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "a157fe82656293ddf2b1f1dd114dea2079d4e7e19c9ba9049af466ce81ef25ff",
+    "bytes": 947
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/cross_east_west.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "3c960c38dcbd8b1d3c5b1a146cd53d72ba4524a0c7908dccc5d60801b30c350f",
+    "bytes": 4098
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/cross_north_south.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "1f3d0f4ed5040249073eae9b72e1b30944b10561e352b60cfa56836de4486860",
+    "bytes": 4082
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/cross_up_down.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "d21a19faac2b3028f0c90d55b07b5750c80233bc7fe963e246b24c6c17fa1ac7",
+    "bytes": 4274
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/east_west.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "f6ea748e7349074fa7b8950b6b49013b8248727a40c6a798498d06ee65f57663",
+    "bytes": 2958
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/north_south.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "c961ff69a289ab45c51c67cb4c04e38fe7e3c37de0f9313041be02301494a04f",
+    "bytes": 2848
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/single_stage0.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "354cb9ae6dfa30859775bba3b12061e1eb46c50be83f0425cc27ea39b861e2dd",
+    "bytes": 1507
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/single_stage1.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "9b2cf5dacf6c1736fa334ea73c5985c71cbc67d107b4befede1f87aa09fcce52",
+    "bytes": 1511
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/single_stage2.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "448d1a29814494549ee81ea5da183c3030067b76b92942ab07a2aae40168bd8c",
+    "bytes": 1507
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/single_stage3.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "5759096e55d0771c58e30bb26f88d7a57e0c107c868a9b994185daceef70929a",
+    "bytes": 1511
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/six_direction.json": {
+    "archive": "archives/evidence-01.zip",
+    "sha256": "7945a483eee008e5f51fd5d7318bfd2d1dcd5f62d239cb2ef944ed91104a5ca1",
+    "bytes": 4053
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grape_crop/stage0.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "d28d9e0e0e8424520eaec874d1dddfb5f374126e91d69a4a9fb735d1271fc607",
+    "bytes": 938
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grape_crop/stage1.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "530fdcaa788055e797d8fd472c740c00f508704c2e3db32dda91331cc6624f40",
+    "bytes": 938
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grape_crop/stage2.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "196c539105943b81f7b0f125962a9727282b181553ef656a8d91b7e9523aa0e5",
+    "bytes": 942
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grape_crop/stage3.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "a3873d3a4cfb1091aee5be5ada08b461c5689f11aaca17b10fb77274301d9c74",
+    "bytes": 946
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grape_crop/stage4.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "007c998808a46e6032521477e23ccc4475068b0e9d3baff061a17ea4f66243e5",
+    "bytes": 942
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grape_crop/stage5.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "82d22edea404cb19791ce2b34f9cc2a0d1cb2c53af8f517c5aa84be099f3d42c",
+    "bytes": 942
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/cross_east_west.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "5ec08ffa5a1d6b65bc93cd9e17f513bb79d90b54d6a3804c66c754c5c9bcc178",
+    "bytes": 4093
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/cross_north_south.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "f6d35211f29439169af76326249768054178781f4afec2df6676fe07ca9bc70d",
+    "bytes": 4077
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/cross_up_down.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "e1a35536bd2de6fdab498b4edb969352f8e3c61f7bf200694091f0424128a9b9",
+    "bytes": 4269
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/east_west.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "c30462d80a4329d1bb9afea32ea90d02e0b93aae686770b5e9793561a24e3df2",
+    "bytes": 2953
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/north_south.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "2903d90bd11a8122ce02e7bd9227289d6f42fe992f63d0c470c688ed2620c056",
+    "bytes": 2843
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/single_stage0.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "058385d1e40e14279a90e7ab5fcccd0095620bfd5b49fd97d604093ffae93f32",
+    "bytes": 1502
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/single_stage1.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "f15b79f2f437dc729483bf68a26cdd5f727b09e433bcb863b4bbdd1b5385dfc2",
+    "bytes": 1506
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/single_stage2.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "121846926b5dab60e7e8c67fae093a51f0c7f92983ac86319c47b8efcfb8e0cb",
+    "bytes": 1502
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/single_stage3.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "99babd878fd9a131490883c97b0469fccc1c6107e30295edda0fcd942ae0d5ff",
+    "bytes": 1506
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/six_direction.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "c3db6f45f149c85cc7578e316c262912238c13b3a89f5e3d025abe80d21a42fa",
+    "bytes": 4048
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grape_crop/stage0.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "49ae14c073042bfdc4d3379dab65ff680195df9f47060910faf1d89a62846d17",
+    "bytes": 942
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grape_crop/stage1.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "a10baf56313dd37656d1c082e90321a33c3c89e466030185b2ad57684a371983",
+    "bytes": 942
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grape_crop/stage2.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "02e378ce70039085098168f19e80ce8f59d38e56df792594a54dd353d5099f89",
+    "bytes": 946
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grape_crop/stage3.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "3c6248294b52185e1f36d7f57b1daf287b4d031c7100321efd9e68bc19d4e675",
+    "bytes": 950
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grape_crop/stage4.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "ccc328f6eeff0daed67bd46e5fd8d32c752fb61fc7c3fa26e6af7dc753f861d8",
+    "bytes": 946
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grape_crop/stage5.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "b8df00a0066a7cc635aa76ced5228a291176590c933f7a08e6518a91f0da73e3",
+    "bytes": 946
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/cross_east_west.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "66c37c0dd38deaab0dbe8f9a1cfb0ab6419132afee844526602fefdbbcc7b0fa",
+    "bytes": 4097
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/cross_north_south.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "f9d8d3a3516d5181e20ae89f51354b733d7b7b22a0321ed002f66b0dc93bfd10",
+    "bytes": 4081
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/cross_up_down.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "d459011b4ee186415f0587355c2aa471c5d709f1f16fcec925be96bdf8bfae32",
+    "bytes": 4273
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/east_west.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "f35dca8699231d82cacfefbd15ca98b5a61aafdddb1ef21c374ba2504c444209",
+    "bytes": 2957
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/north_south.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "51d531f5a5df04e274a5a5195941b170dc4bf45640f3c10c5faa0571833ecb5a",
+    "bytes": 2847
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/single_stage0.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "dee63db9dfd14e0d5b825cb33d676b2f9297815670c693cab886a1b216be90a5",
+    "bytes": 1506
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/single_stage1.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "b6feb268b9627654ad198d30c85ff3d24e9fe2e57e36120c4a7d53b184f0bb13",
+    "bytes": 1510
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/single_stage2.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "68198d81f06abe22cc3c4e4b6cc6c803a7ba4a7c666a936b026ede7d1a3a10c6",
+    "bytes": 1506
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/single_stage3.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "c8fb555f118c22a5e6cba83e5e980c0640f32bc036961586bf427004cc91b85a",
+    "bytes": 1510
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/six_direction.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "3710e9e9b255172f484285a835ed1ec87ff7d2789bd3e1bbb7b8b5ec44c09788",
+    "bytes": 4052
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/textures/block/plant/gold_grape_crop.png": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "eb39ee4273d3298bf1f084a91300b8d97504e225c3b472b9094ec65a34e855a9",
+    "bytes": 1414
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/textures/block/plant/gold_grapevine_trellis.png": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "011d3f40b24934d7ef2f15bb170cd45c0058553a69485ee36614fb8a84b20db8",
+    "bytes": 1297
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/textures/block/plant/grape_crop.png": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "087a86419726dd5026b565895c1796715265810910ea333abaaf3c963d9c41f5",
+    "bytes": 1238
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/textures/block/plant/grapevine_trellis.png": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "f07530944309b960431585909d9afba85cd30c10f2cb1d211239925163c56e47",
+    "bytes": 1251
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/textures/block/plant/ice_grape_crop.png": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "3d42a7999b5b50cf67a8202b8064ada5df965d65c08883dfc1ab1f068b881b01",
+    "bytes": 1380
+  },
+  "inputs/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/resources/assets/kaleidoscope_tavern/textures/block/plant/ice_grapevine_trellis.png": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "7eb30bb4f083ffaba2e96a3cf5fe1ebcf17ace4b2823b0eea60362314212b8ba",
+    "bytes": 1523
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/generated/resources/assets/kaleidoscope_tavern/blockstates/gold_grape_crop.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "17222815128ee8d4fe5a84778eec975f02557bd41b83ed91a213f8eea0dc1e66",
+    "bytes": 586
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/generated/resources/assets/kaleidoscope_tavern/blockstates/gold_grapevine_trellis.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "ae2a641902cbadce8c5ec61a449eed24669f318c72a3f62d1809d65d2bd7f7fe",
+    "bytes": 8058
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/generated/resources/assets/kaleidoscope_tavern/blockstates/grape_crop.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "a51580cc7b2a8ae4d4c88842d5f9ff38ddbf6f6eb37240908caca659ee8877b2",
+    "bytes": 556
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/generated/resources/assets/kaleidoscope_tavern/blockstates/grapevine_trellis.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "db257c1c03b83068d2039dcde52d3ed5b2c5c3520c3efd4271bdfea142324a09",
+    "bytes": 7778
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/generated/resources/assets/kaleidoscope_tavern/blockstates/ice_grape_crop.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "28cf9eba24ec75824ce9cf8fc29f7ea1892533b02e03ad87c49729331e09f0c2",
+    "bytes": 580
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/generated/resources/assets/kaleidoscope_tavern/blockstates/ice_grapevine_trellis.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "27ce515d5a440a9f3b5f06174abb5f18ce8d7da9b56a0e0c77d6ba07961fac89",
+    "bytes": 8002
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/block/plant/GrapeCropBlock.java": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "674d3bd610468e08a82e6353b5be157c7027037bd063061cb7d452767ab1897c",
+    "bytes": 7184
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/block/plant/GrapevineTrellisBlock.java": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "926d176d4580f6d70c4151cd2f8d7fab1badebe1d0527db9e126b3560d589563",
+    "bytes": 12017
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/init/ClientSetupEvent.java": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "19c96f6fc08716af6abc93c87b0db84bf3443fb64d82b7f7b57669ec1751e9fb",
+    "bytes": 3704
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/init/ModBlocks.java": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "a50c000f99fcb9f3559dc822f6183d3774c56e92ccb82f565a82e7dbbe3945af",
+    "bytes": 35054
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/init/ModItems.java": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "090de54327f4a20c6ef3a3b8018c8da52b586131fcbe5c57c123ca33dabe00ee",
+    "bytes": 22984
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grape_crop/stage0.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "4aa8225f29cee78d6b3d2da2c4630ad72be5bd732a262f3cdcc0d469619e63ad",
+    "bytes": 943
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grape_crop/stage1.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "aa66c262b45aa8e121674643be273dabfa95c9adbb75bf85db3e29adf89fbb47",
+    "bytes": 943
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grape_crop/stage2.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "7241ef362ab278cdd02d7a7bd032855bda110f75d8adc4de940bafbc8c9ab228",
+    "bytes": 947
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grape_crop/stage3.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "40518656ef30e0387f9240b0874d0d1cb4e2b5cc6a12af9c21e5aba618d0f7d1",
+    "bytes": 951
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grape_crop/stage4.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "a78540d985fe1fccfa957df18b45cce69bbf50b8552dae264c8a84fab5c6cc7a",
+    "bytes": 947
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grape_crop/stage5.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "a157fe82656293ddf2b1f1dd114dea2079d4e7e19c9ba9049af466ce81ef25ff",
+    "bytes": 947
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/cross_east_west.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "3c960c38dcbd8b1d3c5b1a146cd53d72ba4524a0c7908dccc5d60801b30c350f",
+    "bytes": 4098
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/cross_north_south.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "1f3d0f4ed5040249073eae9b72e1b30944b10561e352b60cfa56836de4486860",
+    "bytes": 4082
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/cross_up_down.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "d21a19faac2b3028f0c90d55b07b5750c80233bc7fe963e246b24c6c17fa1ac7",
+    "bytes": 4274
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/east_west.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "f6ea748e7349074fa7b8950b6b49013b8248727a40c6a798498d06ee65f57663",
+    "bytes": 2958
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/north_south.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "c961ff69a289ab45c51c67cb4c04e38fe7e3c37de0f9313041be02301494a04f",
+    "bytes": 2848
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/single_stage0.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "354cb9ae6dfa30859775bba3b12061e1eb46c50be83f0425cc27ea39b861e2dd",
+    "bytes": 1507
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/single_stage1.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "9b2cf5dacf6c1736fa334ea73c5985c71cbc67d107b4befede1f87aa09fcce52",
+    "bytes": 1511
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/single_stage2.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "448d1a29814494549ee81ea5da183c3030067b76b92942ab07a2aae40168bd8c",
+    "bytes": 1507
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/single_stage3.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "5759096e55d0771c58e30bb26f88d7a57e0c107c868a9b994185daceef70929a",
+    "bytes": 1511
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/six_direction.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "7945a483eee008e5f51fd5d7318bfd2d1dcd5f62d239cb2ef944ed91104a5ca1",
+    "bytes": 4053
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grape_crop/stage0.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "d28d9e0e0e8424520eaec874d1dddfb5f374126e91d69a4a9fb735d1271fc607",
+    "bytes": 938
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grape_crop/stage1.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "530fdcaa788055e797d8fd472c740c00f508704c2e3db32dda91331cc6624f40",
+    "bytes": 938
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grape_crop/stage2.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "196c539105943b81f7b0f125962a9727282b181553ef656a8d91b7e9523aa0e5",
+    "bytes": 942
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grape_crop/stage3.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "a3873d3a4cfb1091aee5be5ada08b461c5689f11aaca17b10fb77274301d9c74",
+    "bytes": 946
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grape_crop/stage4.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "007c998808a46e6032521477e23ccc4475068b0e9d3baff061a17ea4f66243e5",
+    "bytes": 942
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grape_crop/stage5.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "82d22edea404cb19791ce2b34f9cc2a0d1cb2c53af8f517c5aa84be099f3d42c",
+    "bytes": 942
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/cross_east_west.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "5ec08ffa5a1d6b65bc93cd9e17f513bb79d90b54d6a3804c66c754c5c9bcc178",
+    "bytes": 4093
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/cross_north_south.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "f6d35211f29439169af76326249768054178781f4afec2df6676fe07ca9bc70d",
+    "bytes": 4077
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/cross_up_down.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "e1a35536bd2de6fdab498b4edb969352f8e3c61f7bf200694091f0424128a9b9",
+    "bytes": 4269
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/east_west.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "c30462d80a4329d1bb9afea32ea90d02e0b93aae686770b5e9793561a24e3df2",
+    "bytes": 2953
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/north_south.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "2903d90bd11a8122ce02e7bd9227289d6f42fe992f63d0c470c688ed2620c056",
+    "bytes": 2843
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/single_stage0.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "058385d1e40e14279a90e7ab5fcccd0095620bfd5b49fd97d604093ffae93f32",
+    "bytes": 1502
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/single_stage1.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "f15b79f2f437dc729483bf68a26cdd5f727b09e433bcb863b4bbdd1b5385dfc2",
+    "bytes": 1506
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/single_stage2.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "121846926b5dab60e7e8c67fae093a51f0c7f92983ac86319c47b8efcfb8e0cb",
+    "bytes": 1502
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/single_stage3.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "99babd878fd9a131490883c97b0469fccc1c6107e30295edda0fcd942ae0d5ff",
+    "bytes": 1506
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/six_direction.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "c3db6f45f149c85cc7578e316c262912238c13b3a89f5e3d025abe80d21a42fa",
+    "bytes": 4048
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grape_crop/stage0.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "49ae14c073042bfdc4d3379dab65ff680195df9f47060910faf1d89a62846d17",
+    "bytes": 942
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grape_crop/stage1.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "a10baf56313dd37656d1c082e90321a33c3c89e466030185b2ad57684a371983",
+    "bytes": 942
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grape_crop/stage2.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "02e378ce70039085098168f19e80ce8f59d38e56df792594a54dd353d5099f89",
+    "bytes": 946
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grape_crop/stage3.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "3c6248294b52185e1f36d7f57b1daf287b4d031c7100321efd9e68bc19d4e675",
+    "bytes": 950
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grape_crop/stage4.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "ccc328f6eeff0daed67bd46e5fd8d32c752fb61fc7c3fa26e6af7dc753f861d8",
+    "bytes": 946
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grape_crop/stage5.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "b8df00a0066a7cc635aa76ced5228a291176590c933f7a08e6518a91f0da73e3",
+    "bytes": 946
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/cross_east_west.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "66c37c0dd38deaab0dbe8f9a1cfb0ab6419132afee844526602fefdbbcc7b0fa",
+    "bytes": 4097
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/cross_north_south.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "f9d8d3a3516d5181e20ae89f51354b733d7b7b22a0321ed002f66b0dc93bfd10",
+    "bytes": 4081
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/cross_up_down.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "d459011b4ee186415f0587355c2aa471c5d709f1f16fcec925be96bdf8bfae32",
+    "bytes": 4273
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/east_west.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "f35dca8699231d82cacfefbd15ca98b5a61aafdddb1ef21c374ba2504c444209",
+    "bytes": 2957
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/north_south.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "51d531f5a5df04e274a5a5195941b170dc4bf45640f3c10c5faa0571833ecb5a",
+    "bytes": 2847
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/single_stage0.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "dee63db9dfd14e0d5b825cb33d676b2f9297815670c693cab886a1b216be90a5",
+    "bytes": 1506
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/single_stage1.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "b6feb268b9627654ad198d30c85ff3d24e9fe2e57e36120c4a7d53b184f0bb13",
+    "bytes": 1510
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/single_stage2.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "68198d81f06abe22cc3c4e4b6cc6c803a7ba4a7c666a936b026ede7d1a3a10c6",
+    "bytes": 1506
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/single_stage3.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "c8fb555f118c22a5e6cba83e5e980c0640f32bc036961586bf427004cc91b85a",
+    "bytes": 1510
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/six_direction.json": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "3710e9e9b255172f484285a835ed1ec87ff7d2789bd3e1bbb7b8b5ec44c09788",
+    "bytes": 4052
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/textures/block/plant/gold_grape_crop.png": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "eb39ee4273d3298bf1f084a91300b8d97504e225c3b472b9094ec65a34e855a9",
+    "bytes": 1414
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/textures/block/plant/gold_grapevine_trellis.png": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "011d3f40b24934d7ef2f15bb170cd45c0058553a69485ee36614fb8a84b20db8",
+    "bytes": 1297
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/textures/block/plant/grape_crop.png": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "f2061038f26cf4b8a0c7ac66972ad30c647090ce0a14db6e26440a000f7ec491",
+    "bytes": 2420
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/textures/block/plant/grapevine_trellis.png": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "31d567e9d7879383743cdc8f28fe9ae00883b9380c32601d3480283cd4bd8f4a",
+    "bytes": 2190
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/textures/block/plant/ice_grape_crop.png": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "3d42a7999b5b50cf67a8202b8064ada5df965d65c08883dfc1ab1f068b881b01",
+    "bytes": 1380
+  },
+  "inputs/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/resources/assets/kaleidoscope_tavern/textures/block/plant/ice_grapevine_trellis.png": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "7eb30bb4f083ffaba2e96a3cf5fe1ebcf17ace4b2823b0eea60362314212b8ba",
+    "bytes": 1523
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/AGENTS.md": {
+    "archive": "archives/evidence-02.zip",
+    "sha256": "83e3a5792747e17320d88e2697c2872974f2299b505e9e9ac5e457da44e75756",
+    "bytes": 3989
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/data/baseline-reconciliation.json": {
+    "archive": "archives/evidence-03.zip",
+    "sha256": "537e1dd4e62b2b67eac372b3233bd079d8ba2949265769e58037c7486f56f359",
+    "bytes": 1759833
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/data/launch-repair-reference.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "89cbbc271c4f2cfe880d72795bc06cd14034ed7d53bdc7343c0a78d4e58e404b",
+    "bytes": 246748
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/docs/BASELINE-MAINTENANCE.md": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "11fbf2b6fb6582ea5daeba06d50a31b4f038712206d88b4e5f3697fb5a046380",
+    "bytes": 3151
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/family/UPDATE-WORKFLOW.md": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "03f500c557f21f1422bf1e6af8c9bf97dec27907503230cf67d570de889b8a9e",
+    "bytes": 37956
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/BP/blocks/gold_grape_crop.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "4730622128968fdbd5f0ca368bdd038ad8680f436842fc65928814242667343c",
+    "bytes": 5104
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/BP/blocks/gold_grapevine_trellis.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "f6c8d37244f22dff576fc102acd40d6bbfc0a839e69097fa7f62ff2b54a59e4d",
+    "bytes": 34682
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/BP/blocks/grape_crop.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "2cf88ae683249d42e50ad3639d9051dd4193d5688d7ad348df8d9e00224bc2c8",
+    "bytes": 5014
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/BP/blocks/grapevine_trellis.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "f31b494cf45775894a934be2cebb62d1fbe068f5edc707396661a2ce1e4e62bd",
+    "bytes": 34071
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/BP/blocks/ice_grape_crop.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "ff7848e21e25a5c639d49ece15fd5f3738eda6db685f9468e6fab72668571795",
+    "bytes": 5086
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/BP/blocks/ice_grapevine_trellis.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "7f76d19c6424c582d9b1ac7f0b822612f10eeb7d090ddd65a2c2addeba9de62b",
+    "bytes": 34591
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/BP/scripts/bedrock/cultivation.js": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "7c1f0ca191c558de79013145db0d095b8a304a4cb4e9bbaf3881d3f00058e6e5",
+    "bytes": 14404
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/BP/scripts/core/cultivation.js": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "d40efefe687fc70af15a0bc304a11144bc74a99e9a3fbd53ebd2f6eff1fbfe0b",
+    "bytes": 3712
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/gold_grape_crop_stage0.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "5a602a77e572800b5e6885c6e5586614f02cd5a3b55462164aa07b63f97c1b00",
+    "bytes": 2515
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/gold_grape_crop_stage1.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "7d12919297911591f7af68307e0b4e65ea87d103f0060ac92f8fbdde2bbee199",
+    "bytes": 2519
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/gold_grape_crop_stage2.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "bccf743f7ab115245fa72d3f02197773bf268f21b8547f0850d70a25941f73d1",
+    "bytes": 2519
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/gold_grape_crop_stage3.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "8fbcf1b948f83fc1d0373a40f3ed758ddde4ba0f8fb573709c8d5cd5914af19e",
+    "bytes": 2519
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/gold_grape_crop_stage4.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "cbb3be421ba8ff35e357293729b7f00bbe671577f93e77f5cdff7ea46a758e4a",
+    "bytes": 2519
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/gold_grape_crop_stage5.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "7a3522ee55432969ed9bbd03a05e6d833d7d0203d0454925a9056a661266b526",
+    "bytes": 2523
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/gold_grapevine_cross_east_west.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "be263b71b2b8108699b70a7ac7614ccb8e7c6da5871e7073dbf6fc63c89ea3af",
+    "bytes": 12901
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/gold_grapevine_cross_north_south.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "29699cb689a29dcf0e6c0e51ae2bf6f14e23923010f72e644e06494e6b278238",
+    "bytes": 12829
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/gold_grapevine_cross_up_down.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "5608f32a48c62d9cd0438c708f3075b505c5f4cad44e185be79a217f339c19fe",
+    "bytes": 13124
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/gold_grapevine_east_west.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "1cca9249302be070d4e8836433c9567c8cbb047072d2b266e5382f29b754bbb4",
+    "bytes": 9249
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/gold_grapevine_north_south.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "c0be3236a0cb8f450a3c98dae265db64abf20acf10768d524d287187f7340f01",
+    "bytes": 9231
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/gold_grapevine_six_direction.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "418999c5ee0b6ec028b844dbf9bda0bb2c73962b9feadef7bfc7cab86d585f1d",
+    "bytes": 12873
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/gold_grapevine_stage0.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "bfddad1e9cae63b89578095ddb63a09ea0c47b0c1a23dda9f4e8857732a43dcc",
+    "bytes": 4461
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/gold_grapevine_stage1.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "a0ad25a1dcc0d9e8bccb5e9ddfa55093590924b507a48d4347ee2c44c1ce1e50",
+    "bytes": 4461
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/gold_grapevine_stage2.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "8192a3f4ca977f8e4ebd6054a05661c6b4a7438f09ece378f491095cd27a6250",
+    "bytes": 4469
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/gold_grapevine_stage3.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "3ede4ed17b9e7a69d0e50a8079eb46b22b70d85a3f12daecd8fe7f42c5edf853",
+    "bytes": 4465
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/grape_crop_stage0.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "9f9674d935e3eec66cf86957839460c35f4294773f1173796f6bc2401569387a",
+    "bytes": 2510
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/grape_crop_stage1.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "b8ad2fa748e872d0a1d455d24da2363bb3a041e7cbbb4cd0f3a301b5eee36b89",
+    "bytes": 2514
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/grape_crop_stage2.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "c8c691a0b8f70c1eff77cf956e7e48ec444fb9724dafa467541082a6c8f29cf9",
+    "bytes": 2514
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/grape_crop_stage3.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "0d0507608f6f40ec2e0a85dba6504a7ae1aceccc884d99d1b58544c0ddf31012",
+    "bytes": 2514
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/grape_crop_stage4.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "96843c9ea7bf6b97c476d60d886768b975e3d72515e0c101e88c98480d88bff6",
+    "bytes": 2514
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/grape_crop_stage5.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "fd06f83fb439ee60a920633f069ccc143dc04cb125512afb443ff406d52edf50",
+    "bytes": 2518
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/grapevine_cross_east_west.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "0188f79e0f8a31118cddaaa0a8541e6925f3b61953eabda6fc43dfc8ed87a81a",
+    "bytes": 12896
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/grapevine_cross_north_south.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "33c1322191bd7b3b9e922ef09eecebe5c667c1486010d10c653f29092316d6f7",
+    "bytes": 12824
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/grapevine_cross_up_down.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "6ef060af55ffd2058cdc96ebfa9b5d61d686f4321dbf6b59da3250010949db89",
+    "bytes": 13119
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/grapevine_east_west.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "cf63c316bdeab77d9ac03571652f3765d58af689c4877baffe5ccefc79e283a3",
+    "bytes": 9244
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/grapevine_north_south.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "b1104ce40d47c0bd3962afcadb8e7aca4adcbf9dedca9b4a5fcf3729ac50af72",
+    "bytes": 9226
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/grapevine_six_direction.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "a7d0808491712e099985814ece2138158d97944c70946634ce522faaec990835",
+    "bytes": 12868
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/grapevine_stage0.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "bfd95eb8414152f47fc2976ad7f8f4cb259c1dc2879eaf6c00994edd26c2fd9d",
+    "bytes": 4456
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/grapevine_stage1.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "8f736e7dc44dff5d7f3e2cf46bca6f0512c971443cd2a0e02cba54966b0ce59f",
+    "bytes": 4456
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/grapevine_stage2.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "35bea2c370908d5f347933b32e01ded1e55d4fe10750b95e3543620baf89244d",
+    "bytes": 4464
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/grapevine_stage3.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "b0dfb9d7c2337cf574750013ecc5259f073a3b5d21ddaf5d90e23e249415aa08",
+    "bytes": 4460
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/ice_grape_crop_stage0.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "2b41ba8f16680f9570d0314e62b876b1ea865543f2b984e02c0ae30aebbc9aff",
+    "bytes": 2514
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/ice_grape_crop_stage1.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "f14edf7b281e926e4c437f6eb13fbe8b7333f391fb56e93c89f2244e3c0e79ec",
+    "bytes": 2518
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/ice_grape_crop_stage2.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "b07b2e4f9fd6efed02147f6880d80a03dcdd4ae8b5c1d23a9e73f07ca0d23aff",
+    "bytes": 2518
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/ice_grape_crop_stage3.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "79ec2c32a5b995a997958e70db410c33b5d1499e045a9f433d384a3717263e41",
+    "bytes": 2518
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/ice_grape_crop_stage4.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "eee78a836a97745303ce16cb7c44195ec1cb6644bbad5e259c1acdff7185442d",
+    "bytes": 2518
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/ice_grape_crop_stage5.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "b25c4bdcc467bfcf72fa1bd75583a502691293b906422665ae58051de88bbb1e",
+    "bytes": 2522
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/ice_grapevine_cross_east_west.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "9c76df873636e739d1a4dbefbb91c6910b2d93bc8cebd877ecbfb3f66835899d",
+    "bytes": 12900
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/ice_grapevine_cross_north_south.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "b7760d0116c8bb7a80587dfdb90ed309f65f4105eeac10d0db15a11f9b2f5681",
+    "bytes": 12828
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/ice_grapevine_cross_up_down.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "42541606a4c836cbd4b61379796d50899c34ca6760acbf9cf5ea9a87eb0097f3",
+    "bytes": 13123
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/ice_grapevine_east_west.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "4697b83294dbe414bc2f0291dfa31dc948cc7052c9a4cae534753819304c03d6",
+    "bytes": 9248
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/ice_grapevine_north_south.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "f134c1ce5ee1c38ade50e1ab43ac2eb0818bb70e6373c5d6c994d5cedf1a89e9",
+    "bytes": 9230
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/ice_grapevine_six_direction.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "4bf737f0a529f6eea4f7df22b8a056b7ab79110b6e7d5102d31bc83cd24852e4",
+    "bytes": 12872
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/ice_grapevine_stage0.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "0dc8d10ad859befb255032cdc0d61ac6b181d25f69e94798bd33628edc089da2",
+    "bytes": 4460
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/ice_grapevine_stage1.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "0d502c1a265255d8594443c47d039029f539f85bcd06e1997e20a9ef80c40dda",
+    "bytes": 4460
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/ice_grapevine_stage2.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "6060b7bfd624b72e3b3de39236b4db88df4243e6f2de7e5679b2a2a3e961db87",
+    "bytes": 4468
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/models/entity/ice_grapevine_stage3.geo.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "194385d7bd0a7fe50bbd37eba7b1f53a1aa96f064a2bde627e9759d552e620fd",
+    "bytes": 4464
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/textures/kaleidoscope_tavern/block/plant/gold_grape_crop.png": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "eb39ee4273d3298bf1f084a91300b8d97504e225c3b472b9094ec65a34e855a9",
+    "bytes": 1414
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/textures/kaleidoscope_tavern/block/plant/gold_grapevine_trellis.png": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "011d3f40b24934d7ef2f15bb170cd45c0058553a69485ee36614fb8a84b20db8",
+    "bytes": 1297
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/textures/kaleidoscope_tavern/block/plant/grape_crop.png": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "f2061038f26cf4b8a0c7ac66972ad30c647090ce0a14db6e26440a000f7ec491",
+    "bytes": 2420
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/textures/kaleidoscope_tavern/block/plant/grapevine_trellis.png": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "31d567e9d7879383743cdc8f28fe9ae00883b9380c32601d3480283cd4bd8f4a",
+    "bytes": 2190
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/textures/kaleidoscope_tavern/block/plant/ice_grape_crop.png": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "3d42a7999b5b50cf67a8202b8064ada5df965d65c08883dfc1ab1f068b881b01",
+    "bytes": 1380
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/textures/kaleidoscope_tavern/block/plant/ice_grapevine_trellis.png": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "7eb30bb4f083ffaba2e96a3cf5fe1ebcf17ace4b2823b0eea60362314212b8ba",
+    "bytes": 1523
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/runtime/RP/textures/terrain_texture.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "46797fb0157dfb71c29ae78d385cdcebc3edfaec673e1292bd4eb826183e01c9",
+    "bytes": 43736
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/tools/board-farm-interaction.test.mjs": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "5b420b2088e9e489441aa32a11105bcd3a6e762d1b1a7754331b312fb6500be7",
+    "bytes": 30377
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/tools/check_visuals.py": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "94a650700566efed1e7e1db9a6041189a3fb022d8b3cd3eef04ecb0c9ecc8c71",
+    "bytes": 6422
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/tools/cultivation_source_contract.py": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "9ffc227f95a90631034b189e845f599773fb33f79b789d44cc1bae6c95ff50e6",
+    "bytes": 3745
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/tools/current_extension_source_contract.py": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "1810ef721cc78bdfc20eac0db1cc52d82d47b2ce2ecea9c10f4fdc505e8475d4",
+    "bytes": 12633
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/tools/refresh_visual_compat.py": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "722e4dc8ba6931cfdb6e65f701a96c7a595f93ed0b01c30a24a187cd22da9014",
+    "bytes": 7840
+  },
+  "inputs/cb2b37dfa2181ee042a090d8dbd434758a762afb/tools/test_cultivation_source_contract.py": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "6fead4b2579aa1dcbb1b67903fb7c8b40dda3ebc22caacd93e93f3731cb7cf8d",
+    "bytes": 2183
+  },
+  "review/README.md": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "d3f764d1eeaa01511b1e200798fb1b02fd70db4830debd35d3aefe36670210a2",
+    "bytes": 11997
+  },
+  "review/artifact-hashes.json": {
+    "archive": "archives/evidence-04.zip",
+    "sha256": "9b48e923059e26f5219286fb1b7cdb6182ab74149e07dddcd62528ae100e413f",
+    "bytes": 4545
+  },
+  "review/audit_routes.py": {
+    "archive": "archives/evidence-05.zip",
+    "sha256": "8f5ce32199c445368f89ed9a6719c4178f99786e3154458c04e0f144943f4026",
+    "bytes": 19733
+  },
+  "review/author-contract-excerpts.json": {
+    "archive": "archives/evidence-05.zip",
+    "sha256": "d16cf9b4ac02b919a30428cc1e129becb8bf5c1f7538b9bf8528ca4d8fe993c0",
+    "bytes": 19259
+  },
+  "review/capture-queue.json": {
+    "archive": "archives/evidence-05.zip",
+    "sha256": "0d1d6d9cc18d0d0f085f21f920f4a18b091d8d4e7e4aa21ee3be380262da1814",
+    "bytes": 10863
+  },
+  "review/collect_semantics.py": {
+    "archive": "archives/evidence-05.zip",
+    "sha256": "643aa859f6e4c3388d0b2c7cd7417af11745ca63a92e942b84e5249dcdb055dd",
+    "bytes": 1453
+  },
+  "review/control-manifest.json": {
+    "archive": "archives/evidence-05.zip",
+    "sha256": "b9cf007395b8d27adeb8c9468eee4afc42a590a2c1ce1bd53713c91fba4c2e73",
+    "bytes": 43273
+  },
+  "review/face-ownership.json": {
+    "archive": "archives/evidence-05.zip",
+    "sha256": "8b0fe95698ff52bcb0f7ee5b5e1a2794aa0e201e3b91cf65affd641828399ac3",
+    "bytes": 2073076
+  },
+  "review/independent-diff.json": {
+    "archive": "archives/evidence-05.zip",
+    "sha256": "90c814264fb82a57ef925deede7a27af73a32a79d941f577ca15b76c39c0e197",
+    "bytes": 2073
+  },
+  "review/input-manifest.json": {
+    "archive": "archives/evidence-05.zip",
+    "sha256": "fec6d5c1cf57b37c9d6b3e67020e55690643ff96890e0d3b8838e4d45337d49d",
+    "bytes": 76611
+  },
+  "review/prepare_controls.py": {
+    "archive": "archives/evidence-05.zip",
+    "sha256": "144f4f3e07dd167ab733bf1ef18610c9cb61ab11d608f450bbd45194b09f2f3e",
+    "bytes": 8862
+  },
+  "review/proposal.json": {
+    "archive": "archives/evidence-05.zip",
+    "sha256": "ba3acec700de7473c4efc31da3bb26d6c23dba9fd043a80ec44ea5b9647b721b",
+    "bytes": 13239
+  },
+  "review/reused-images/gold_grape-crop-stages-2-oblique-orthographic.jpg": {
+    "archive": "archives/evidence-05.zip",
+    "sha256": "7e6f21deb2921080b6add2fcf154cd3fb72c6e2be336ead600dac6e9676eb86d",
+    "bytes": 93269
+  },
+  "review/reused-images/gold_grape-crop-stages-2-perspective.jpg": {
+    "archive": "archives/evidence-06.zip",
+    "sha256": "c0ba8f06b84cab678f367ba04b7302d9938830ed250604226505e1adacfa4ac5",
+    "bytes": 93080
+  },
+  "review/reused-images/gold_grape-crop-stages-2-reverse-orthographic.jpg": {
+    "archive": "archives/evidence-06.zip",
+    "sha256": "c8cc7ed1c28503c883e7485ae53b7e55e96cd00045fb021ac569531d36bccae0",
+    "bytes": 93786
+  },
+  "review/reused-images/gold_grapevine-shapes-stages-2-oblique-orthographic.jpg": {
+    "archive": "archives/evidence-06.zip",
+    "sha256": "ff0fe7656a13bb4be36868af7f551a7317972fdd28a3538d2a1db5e61222299f",
+    "bytes": 106350
+  },
+  "review/reused-images/gold_grapevine-shapes-stages-2-perspective.jpg": {
+    "archive": "archives/evidence-07.zip",
+    "sha256": "30c43110df57782f861bf35b1b1c66049be5eb132c1b85be36ffd08e98f29be1",
+    "bytes": 99640
+  },
+  "review/reused-images/gold_grapevine-shapes-stages-2-reverse-low-orthographic.jpg": {
+    "archive": "archives/evidence-07.zip",
+    "sha256": "0e6182b07c22317747a8f72e38c30c5c9bf9dce7c705ddb1bb963ce46679bd54",
+    "bytes": 106365
+  },
+  "review/reused-images/gold_grapevine-shapes-stages-2-reverse-orthographic.jpg": {
+    "archive": "archives/evidence-08.zip",
+    "sha256": "0a7669728ea3183cf991e125d1d8f58b7afc6db40edc2b2624d643cee26c6f54",
+    "bytes": 105291
+  },
+  "review/reused-images/grape-crop-stages-2-oblique-orthographic.jpg": {
+    "archive": "archives/evidence-08.zip",
+    "sha256": "336ba483ad5f97157fd456746e244db5391d31fd964f6e06a4a76dcc00a9a078",
+    "bytes": 87264
+  },
+  "review/reused-images/grape-crop-stages-2-perspective.jpg": {
+    "archive": "archives/evidence-08.zip",
+    "sha256": "4d56f350cc77e719e68ce38890dfa7276f224f7ad57d186aafd8d9cfdeb4d09f",
+    "bytes": 87132
+  },
+  "review/reused-images/grape-crop-stages-2-reverse-orthographic.jpg": {
+    "archive": "archives/evidence-09.zip",
+    "sha256": "c25e81cab5e47093ecb796fa67e515e0a97db7951d29811edff36c838e2f2ca2",
+    "bytes": 87432
+  },
+  "review/reused-images/grapevine-shapes-stages-2-oblique-orthographic.jpg": {
+    "archive": "archives/evidence-09.zip",
+    "sha256": "aa73e661559f16e1cf8bc2cc378f4af6db2cc31ba0a89b2ff3ef93f0fe2924c9",
+    "bytes": 101117
+  },
+  "review/reused-images/grapevine-shapes-stages-2-perspective.jpg": {
+    "archive": "archives/evidence-09.zip",
+    "sha256": "f0adf2eb91c869fc58136653ea747dd84fb44fc64f359f07bcb14505fe670237",
+    "bytes": 95564
+  },
+  "review/reused-images/grapevine-shapes-stages-2-reverse-low-orthographic.jpg": {
+    "archive": "archives/evidence-10.zip",
+    "sha256": "fd9cb3303c4c33b68221b4f1373e20252dd580b2400b6e1edad2a6114b1ba0b3",
+    "bytes": 101777
+  },
+  "review/reused-images/grapevine-shapes-stages-2-reverse-orthographic.jpg": {
+    "archive": "archives/evidence-10.zip",
+    "sha256": "9b9199eba2853c88b2bfc07a5e0953ec9062969593c009e3a137d78ce99040f1",
+    "bytes": 100739
+  },
+  "review/reused-images/ice_grape-crop-stages-2-oblique-orthographic.jpg": {
+    "archive": "archives/evidence-10.zip",
+    "sha256": "e9f92856b1aa2f0d5429142c7b8cf263c5b97eb8fa6f6dfeb0c382342930261b",
+    "bytes": 87065
+  },
+  "review/reused-images/ice_grape-crop-stages-2-perspective.jpg": {
+    "archive": "archives/evidence-11.zip",
+    "sha256": "6bff3697bc7e5df03c0c5ab2116f1dcdc3cd0a555fd17a652dd40a7c1cfeb854",
+    "bytes": 86950
+  },
+  "review/reused-images/ice_grape-crop-stages-2-reverse-orthographic.jpg": {
+    "archive": "archives/evidence-11.zip",
+    "sha256": "9a8e15d29e338a47396f1f25f92671bdb86c293908d0a80d80eee36ff8f64028",
+    "bytes": 87113
+  },
+  "review/reused-images/ice_grapevine-shapes-stages-2-oblique-orthographic.jpg": {
+    "archive": "archives/evidence-11.zip",
+    "sha256": "09b045ad348644dff7425c5c4aea5d3bc822dada81f2df3f2c6edce78bb0b957",
+    "bytes": 93617
+  },
+  "review/reused-images/ice_grapevine-shapes-stages-2-perspective.jpg": {
+    "archive": "archives/evidence-12.zip",
+    "sha256": "03adda76ba5db807b598ee8a49cfc38576d4ab77aee821373d8ba71fa9ca152d",
+    "bytes": 90340
+  },
+  "review/reused-images/ice_grapevine-shapes-stages-2-reverse-low-orthographic.jpg": {
+    "archive": "archives/evidence-12.zip",
+    "sha256": "0145f5ec64c981339d8cd7794955f5e1130fed1711d4b43a86df68300cf2827b",
+    "bytes": 92770
+  },
+  "review/reused-images/ice_grapevine-shapes-stages-2-reverse-orthographic.jpg": {
+    "archive": "archives/evidence-12.zip",
+    "sha256": "b489dba36af7b8932a5da9644eb65d86bfc46c26b6204dc9ee2ca02ac5a6818a",
+    "bytes": 92536
+  },
+  "review/route-audit.json": {
+    "archive": "archives/evidence-12.zip",
+    "sha256": "d0a7993d75b2a2a788e027b2431cf122172c7598ad3593a6ebe3dc1f7fdb83c8",
+    "bytes": 941876
+  },
+  "review/scenes/gold_grape-crop-stages-2--old-policy-double.bbmodel": {
+    "archive": "archives/evidence-12.zip",
+    "sha256": "844c19f6b0211e901e4faa7b8e775fa9ae9bec4fdf3488d05242e5fb74acb509",
+    "bytes": 19362
+  },
+  "review/scenes/gold_grape-crop-stages-2--original-front.bbmodel": {
+    "archive": "archives/evidence-12.zip",
+    "sha256": "ebdd3b2eff4790adaad88b6e6873f2ba42796de9e37c638b2392e4a66b0139ad",
+    "bytes": 19361
+  },
+  "review/scenes/gold_grape-crop-stages-2--policy-front.bbmodel": {
+    "archive": "archives/evidence-13.zip",
+    "sha256": "ebdd3b2eff4790adaad88b6e6873f2ba42796de9e37c638b2392e4a66b0139ad",
+    "bytes": 19361
+  },
+  "review/scenes/gold_grapevine-shapes-stages-2--original-front.bbmodel": {
+    "archive": "archives/evidence-13.zip",
+    "sha256": "709d33b8c9a136d5c4e6ed9b060742967b5fa8581edbc0dad17c72516c3e4aa7",
+    "bytes": 58810
+  },
+  "review/scenes/grape-crop-stages-2--old-policy-double.bbmodel": {
+    "archive": "archives/evidence-13.zip",
+    "sha256": "8ef812c0407219e0e59a9c7bf07e0d15c575500da18720b7e967591036b4ce3d",
+    "bytes": 22007
+  },
+  "review/scenes/grape-crop-stages-2--original-front.bbmodel": {
+    "archive": "archives/evidence-13.zip",
+    "sha256": "fa8cf0dbf767f9dfc87dc437abdddbaeedd97914ff364464f10e62b8d686d027",
+    "bytes": 22006
+  },
+  "review/scenes/grape-crop-stages-2--policy-front.bbmodel": {
+    "archive": "archives/evidence-13.zip",
+    "sha256": "fa8cf0dbf767f9dfc87dc437abdddbaeedd97914ff364464f10e62b8d686d027",
+    "bytes": 22006
+  },
+  "review/scenes/grapevine-shapes-stages-2--old-policy-double.bbmodel": {
+    "archive": "archives/evidence-13.zip",
+    "sha256": "f056efb79373d21b7574e95d51caded41cd126946f25d18182390a8719b9edbe",
+    "bytes": 64408
+  },
+  "review/scenes/grapevine-shapes-stages-2--original-front.bbmodel": {
+    "archive": "archives/evidence-13.zip",
+    "sha256": "1382df58775b0b669f00b64e770e1e3c23eedb59308b47cc2c0eb4634d0db1f8",
+    "bytes": 61131
+  },
+  "review/scenes/grapevine-shapes-stages-2--policy-front.bbmodel": {
+    "archive": "archives/evidence-13.zip",
+    "sha256": "957256e16845844821dd3f980979fdc04a776ef498fc4e44ed7f820d32a6fbcd",
+    "bytes": 64407
+  },
+  "review/scenes/ice_grape-crop-stages-2--old-policy-double.bbmodel": {
+    "archive": "archives/evidence-13.zip",
+    "sha256": "14fb14698105629f5a4651d6155dc714b00ad51bb24facc2c71c9b6f7f693ad1",
+    "bytes": 19259
+  },
+  "review/scenes/ice_grape-crop-stages-2--original-front.bbmodel": {
+    "archive": "archives/evidence-13.zip",
+    "sha256": "a6dc908c177081e2e9288da8b9d969a84d48c3db131af1d59dcb51e996a183b7",
+    "bytes": 19258
+  },
+  "review/scenes/ice_grape-crop-stages-2--policy-front.bbmodel": {
+    "archive": "archives/evidence-13.zip",
+    "sha256": "a6dc908c177081e2e9288da8b9d969a84d48c3db131af1d59dcb51e996a183b7",
+    "bytes": 19258
+  },
+  "review/scenes/ice_grapevine-shapes-stages-2--original-front.bbmodel": {
+    "archive": "archives/evidence-13.zip",
+    "sha256": "e09fbbf4f44b89c4d265ebc94029fd382f76db52642e4a5596177e0008443fba",
+    "bytes": 59399
+  },
+  "review/semantic-evidence/java-1.20.1-culling.json": {
+    "archive": "archives/evidence-13.zip",
+    "sha256": "f9c6bca774797c410185a7e2777072f0c79a20dd03278b678704471659bb3f9e",
+    "bytes": 12619
+  },
+  "review/semantic-evidence/java-1.21.1-culling.json": {
+    "archive": "archives/evidence-13.zip",
+    "sha256": "e475047c0e0d5acb0b012064983939e67f4853033ae446db40c5bc82d1080ec0",
+    "bytes": 12625
+  },
+  "review/semantic-evidence/loader-sources/ForgeRenderTypes.java": {
+    "archive": "archives/evidence-13.zip",
+    "sha256": "cefd550956017d8c35efdaba2a96bfb23354c4e9e086af71e960c3a3613aa84f",
+    "bytes": 20877
+  },
+  "review/semantic-evidence/loader-sources/NamedRenderTypeManager.java": {
+    "archive": "archives/evidence-13.zip",
+    "sha256": "09b6ec4d3a79a944868af86d28b5b7e4b62986a253cecea82acff4287051bfee",
+    "bytes": 2706
+  },
+  "review/semantic-evidence/loader-sources/Neo-NamedRenderTypeManager.java": {
+    "archive": "archives/evidence-13.zip",
+    "sha256": "5dfcc187cff58cb432dd9dea42d37daa4454f21207c0d433ea059eff16fd129b",
+    "bytes": 2801
+  },
+  "review/semantic-evidence/loader-sources/Neo-NeoForgeRenderTypes.java": {
+    "archive": "archives/evidence-13.zip",
+    "sha256": "4d9671d3ddc54db98b5cc35914d497f90f4ebac2ab7a110a44503c7ced0d4c98",
+    "bytes": 20234
+  },
+  "review/semantic-evidence/provenance.json": {
+    "archive": "archives/evidence-13.zip",
+    "sha256": "cbd76a4560a0b3ba6250125ded6a8288847f8b5f2efbd739304f54196eaec594",
+    "bytes": 7219
+  },
+  "review/verify_controls.py": {
+    "archive": "archives/evidence-13.zip",
+    "sha256": "a9b4961c297b1881f94247b7d053d339033757a76a82e443c62fbe8857065d7e",
+    "bytes": 5401
+  }
+}

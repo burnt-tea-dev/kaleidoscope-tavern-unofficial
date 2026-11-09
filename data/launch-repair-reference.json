@@ -1109,12 +1109,6 @@
       "after": "e39433ba9046474d802752ea471540f536f8ec61652e41a83b6927121ba18789",
       "reason": "0.6.48: Java explosion resistance and native destruction cleanup; native Cookery product preparations and circular-rack base hitbox."
     },
-    "runtime/BP/blocks/gold_grape_crop.json": {
-      "before": "1ddea70e9a5ac19992e925d678aa787be1fda29a6c8d0424a0621d8fee0fe627",
-      "beforeProjected": "1ddea70e9a5ac19992e925d678aa787be1fda29a6c8d0424a0621d8fee0fe627",
-      "after": "0b05ba1917f63d43fed80a6813e46aa4497fc1b45868d01e808f15d902b38e55",
-      "reason": "0.6.48: Java explosion resistance and native destruction cleanup; native Cookery product preparations and circular-rack base hitbox."
-    },
     "runtime/BP/blocks/bottle_glowflower_brew.json": {
       "before": "ca3f44769008c7e7113f5e9a79329b18ce924c1ffaf7c04887b61dd9131ff2c0",
       "beforeProjected": "ca3f44769008c7e7113f5e9a79329b18ce924c1ffaf7c04887b61dd9131ff2c0",
@@ -1259,12 +1253,6 @@
       "after": "062e2064617bba33aaf69ed3cd832ceeaad8aeb6cd8898c4c5d4ed02e6735f43",
       "reason": "0.6.48: Java explosion resistance and native destruction cleanup; native Cookery product preparations and circular-rack base hitbox."
     },
-    "runtime/BP/blocks/ice_grape_crop.json": {
-      "before": "216e8f11c01a1c7415438e55d676bcfa7dbc47e43cd7e5b3c21bf0dc40926d5e",
-      "beforeProjected": "216e8f11c01a1c7415438e55d676bcfa7dbc47e43cd7e5b3c21bf0dc40926d5e",
-      "after": "ac50e1e1e5c7931187b54290764a05319a5768722c744ddd55c93edb4a86d0ce",
-      "reason": "0.6.48: Java explosion resistance and native destruction cleanup; native Cookery product preparations and circular-rack base hitbox."
-    },
     "runtime/BP/blocks/bottle_madame_shexiang.json": {
       "before": "df9fdab6e834dcc4a1a35bff005cb51174e8a4a953be2e9884f843bfc3f2794b",
       "beforeProjected": "df9fdab6e834dcc4a1a35bff005cb51174e8a4a953be2e9884f843bfc3f2794b",
@@ -1319,12 +1307,6 @@
       "after": "d28adeee2172b562d23de517d21b7cc37d281ca26b52bf9ddd62681bc38dcb7f",
       "reason": "0.6.48: Java explosion resistance and native destruction cleanup; native Cookery product preparations and circular-rack base hitbox."
     },
-    "runtime/BP/blocks/grape_crop.json": {
-      "before": "b616d7175555672b2df80fc9902523b43834e3faf95a5c8e3a7fa7122426711e",
-      "beforeProjected": "b616d7175555672b2df80fc9902523b43834e3faf95a5c8e3a7fa7122426711e",
-      "after": "077b43d5244ded67663c8f5ebe5d4aa585fd7cf599b83de5bfd753642a29c725",
-      "reason": "0.6.48: Java explosion resistance and native destruction cleanup; native Cookery product preparations and circular-rack base hitbox."
-    },
     "runtime/BP/blocks/light_light_blue.json": {
       "before": "15230c85c5f05bb5a9ded3e32b0a15ac4780358bfe1910d64a25dab8e3c13ac6",
       "beforeProjected": "15230c85c5f05bb5a9ded3e32b0a15ac4780358bfe1910d64a25dab8e3c13ac6",
@@ -1353,12 +1335,6 @@
       "before": "431ef5934d21d5156ac0e9fa62886fe0266724dbe1c423c093fe0469beeb6ca9",
       "beforeProjected": "431ef5934d21d5156ac0e9fa62886fe0266724dbe1c423c093fe0469beeb6ca9",
       "after": "29e38c4b25980635ce3640aa33289c9d5cb48deb91be218c5a022afa46858463",
-      "reason": "0.6.48: Java explosion resistance and native destruction cleanup; native Cookery product preparations and circular-rack base hitbox."
-    },
-    "runtime/BP/blocks/grapevine_trellis.json": {
-      "before": "391b7ab4b9fcb077ed4979082f3677f06a8006f4962482ed344adfe78148f3b8",
-      "beforeProjected": "391b7ab4b9fcb077ed4979082f3677f06a8006f4962482ed344adfe78148f3b8",
-      "after": "549cb1f68b20002d801db4b429ae9db143c554e6e37be245a8c3054b7d187bf8",
       "reason": "0.6.48: Java explosion resistance and native destruction cleanup; native Cookery product preparations and circular-rack base hitbox."
     },
     "runtime/BP/blocks/pressing_tub.json": {

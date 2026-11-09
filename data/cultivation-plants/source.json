@@ -1,0 +1,368 @@
+{
+  "source_pins": {
+    "Forge": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+    "NeoForge": "a1afba34981a00e89d57130d3dc8f1e64f1820a2"
+  },
+  "files": {
+    "models/block/plant/grape_crop/stage0.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grape_crop/stage0.json",
+      "sha256": "d28d9e0e0e8424520eaec874d1dddfb5f374126e91d69a4a9fb735d1271fc607",
+      "bytes": 938,
+      "neoforge_sha256": "d28d9e0e0e8424520eaec874d1dddfb5f374126e91d69a4a9fb735d1271fc607"
+    },
+    "textures/block/plant/grape_crop.png": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/textures/block/plant/grape_crop.png",
+      "sha256": "f2061038f26cf4b8a0c7ac66972ad30c647090ce0a14db6e26440a000f7ec491",
+      "bytes": 2420,
+      "neoforge_sha256": "087a86419726dd5026b565895c1796715265810910ea333abaaf3c963d9c41f5"
+    },
+    "models/block/plant/grape_crop/stage1.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grape_crop/stage1.json",
+      "sha256": "530fdcaa788055e797d8fd472c740c00f508704c2e3db32dda91331cc6624f40",
+      "bytes": 938,
+      "neoforge_sha256": "530fdcaa788055e797d8fd472c740c00f508704c2e3db32dda91331cc6624f40"
+    },
+    "models/block/plant/grape_crop/stage2.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grape_crop/stage2.json",
+      "sha256": "196c539105943b81f7b0f125962a9727282b181553ef656a8d91b7e9523aa0e5",
+      "bytes": 942,
+      "neoforge_sha256": "196c539105943b81f7b0f125962a9727282b181553ef656a8d91b7e9523aa0e5"
+    },
+    "models/block/plant/grape_crop/stage3.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grape_crop/stage3.json",
+      "sha256": "a3873d3a4cfb1091aee5be5ada08b461c5689f11aaca17b10fb77274301d9c74",
+      "bytes": 946,
+      "neoforge_sha256": "a3873d3a4cfb1091aee5be5ada08b461c5689f11aaca17b10fb77274301d9c74"
+    },
+    "models/block/plant/grape_crop/stage4.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grape_crop/stage4.json",
+      "sha256": "007c998808a46e6032521477e23ccc4475068b0e9d3baff061a17ea4f66243e5",
+      "bytes": 942,
+      "neoforge_sha256": "007c998808a46e6032521477e23ccc4475068b0e9d3baff061a17ea4f66243e5"
+    },
+    "models/block/plant/grape_crop/stage5.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grape_crop/stage5.json",
+      "sha256": "82d22edea404cb19791ce2b34f9cc2a0d1cb2c53af8f517c5aa84be099f3d42c",
+      "bytes": 942,
+      "neoforge_sha256": "82d22edea404cb19791ce2b34f9cc2a0d1cb2c53af8f517c5aa84be099f3d42c"
+    },
+    "models/block/plant/grapevine_trellis/cross_east_west.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/cross_east_west.json",
+      "sha256": "5ec08ffa5a1d6b65bc93cd9e17f513bb79d90b54d6a3804c66c754c5c9bcc178",
+      "bytes": 4093,
+      "neoforge_sha256": "5ec08ffa5a1d6b65bc93cd9e17f513bb79d90b54d6a3804c66c754c5c9bcc178"
+    },
+    "textures/block/plant/grapevine_trellis.png": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/textures/block/plant/grapevine_trellis.png",
+      "sha256": "31d567e9d7879383743cdc8f28fe9ae00883b9380c32601d3480283cd4bd8f4a",
+      "bytes": 2190,
+      "neoforge_sha256": "f07530944309b960431585909d9afba85cd30c10f2cb1d211239925163c56e47"
+    },
+    "models/block/plant/grapevine_trellis/cross_north_south.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/cross_north_south.json",
+      "sha256": "f6d35211f29439169af76326249768054178781f4afec2df6676fe07ca9bc70d",
+      "bytes": 4077,
+      "neoforge_sha256": "f6d35211f29439169af76326249768054178781f4afec2df6676fe07ca9bc70d"
+    },
+    "models/block/plant/grapevine_trellis/cross_up_down.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/cross_up_down.json",
+      "sha256": "e1a35536bd2de6fdab498b4edb969352f8e3c61f7bf200694091f0424128a9b9",
+      "bytes": 4269,
+      "neoforge_sha256": "e1a35536bd2de6fdab498b4edb969352f8e3c61f7bf200694091f0424128a9b9"
+    },
+    "models/block/plant/grapevine_trellis/east_west.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/east_west.json",
+      "sha256": "c30462d80a4329d1bb9afea32ea90d02e0b93aae686770b5e9793561a24e3df2",
+      "bytes": 2953,
+      "neoforge_sha256": "c30462d80a4329d1bb9afea32ea90d02e0b93aae686770b5e9793561a24e3df2"
+    },
+    "models/block/plant/grapevine_trellis/north_south.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/north_south.json",
+      "sha256": "2903d90bd11a8122ce02e7bd9227289d6f42fe992f63d0c470c688ed2620c056",
+      "bytes": 2843,
+      "neoforge_sha256": "2903d90bd11a8122ce02e7bd9227289d6f42fe992f63d0c470c688ed2620c056"
+    },
+    "models/block/plant/grapevine_trellis/single_stage0.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/single_stage0.json",
+      "sha256": "058385d1e40e14279a90e7ab5fcccd0095620bfd5b49fd97d604093ffae93f32",
+      "bytes": 1502,
+      "neoforge_sha256": "058385d1e40e14279a90e7ab5fcccd0095620bfd5b49fd97d604093ffae93f32"
+    },
+    "models/block/plant/grapevine_trellis/single_stage1.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/single_stage1.json",
+      "sha256": "f15b79f2f437dc729483bf68a26cdd5f727b09e433bcb863b4bbdd1b5385dfc2",
+      "bytes": 1506,
+      "neoforge_sha256": "f15b79f2f437dc729483bf68a26cdd5f727b09e433bcb863b4bbdd1b5385dfc2"
+    },
+    "models/block/plant/grapevine_trellis/single_stage2.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/single_stage2.json",
+      "sha256": "121846926b5dab60e7e8c67fae093a51f0c7f92983ac86319c47b8efcfb8e0cb",
+      "bytes": 1502,
+      "neoforge_sha256": "121846926b5dab60e7e8c67fae093a51f0c7f92983ac86319c47b8efcfb8e0cb"
+    },
+    "models/block/plant/grapevine_trellis/single_stage3.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/single_stage3.json",
+      "sha256": "99babd878fd9a131490883c97b0469fccc1c6107e30295edda0fcd942ae0d5ff",
+      "bytes": 1506,
+      "neoforge_sha256": "99babd878fd9a131490883c97b0469fccc1c6107e30295edda0fcd942ae0d5ff"
+    },
+    "models/block/plant/grapevine_trellis/six_direction.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/six_direction.json",
+      "sha256": "c3db6f45f149c85cc7578e316c262912238c13b3a89f5e3d025abe80d21a42fa",
+      "bytes": 4048,
+      "neoforge_sha256": "c3db6f45f149c85cc7578e316c262912238c13b3a89f5e3d025abe80d21a42fa"
+    },
+    "models/block/plant/gold_grape_crop/stage0.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grape_crop/stage0.json",
+      "sha256": "4aa8225f29cee78d6b3d2da2c4630ad72be5bd732a262f3cdcc0d469619e63ad",
+      "bytes": 943,
+      "neoforge_sha256": "4aa8225f29cee78d6b3d2da2c4630ad72be5bd732a262f3cdcc0d469619e63ad"
+    },
+    "textures/block/plant/gold_grape_crop.png": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/textures/block/plant/gold_grape_crop.png",
+      "sha256": "eb39ee4273d3298bf1f084a91300b8d97504e225c3b472b9094ec65a34e855a9",
+      "bytes": 1414,
+      "neoforge_sha256": "eb39ee4273d3298bf1f084a91300b8d97504e225c3b472b9094ec65a34e855a9"
+    },
+    "models/block/plant/gold_grape_crop/stage1.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grape_crop/stage1.json",
+      "sha256": "aa66c262b45aa8e121674643be273dabfa95c9adbb75bf85db3e29adf89fbb47",
+      "bytes": 943,
+      "neoforge_sha256": "aa66c262b45aa8e121674643be273dabfa95c9adbb75bf85db3e29adf89fbb47"
+    },
+    "models/block/plant/gold_grape_crop/stage2.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grape_crop/stage2.json",
+      "sha256": "7241ef362ab278cdd02d7a7bd032855bda110f75d8adc4de940bafbc8c9ab228",
+      "bytes": 947,
+      "neoforge_sha256": "7241ef362ab278cdd02d7a7bd032855bda110f75d8adc4de940bafbc8c9ab228"
+    },
+    "models/block/plant/gold_grape_crop/stage3.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grape_crop/stage3.json",
+      "sha256": "40518656ef30e0387f9240b0874d0d1cb4e2b5cc6a12af9c21e5aba618d0f7d1",
+      "bytes": 951,
+      "neoforge_sha256": "40518656ef30e0387f9240b0874d0d1cb4e2b5cc6a12af9c21e5aba618d0f7d1"
+    },
+    "models/block/plant/gold_grape_crop/stage4.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grape_crop/stage4.json",
+      "sha256": "a78540d985fe1fccfa957df18b45cce69bbf50b8552dae264c8a84fab5c6cc7a",
+      "bytes": 947,
+      "neoforge_sha256": "a78540d985fe1fccfa957df18b45cce69bbf50b8552dae264c8a84fab5c6cc7a"
+    },
+    "models/block/plant/gold_grape_crop/stage5.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grape_crop/stage5.json",
+      "sha256": "a157fe82656293ddf2b1f1dd114dea2079d4e7e19c9ba9049af466ce81ef25ff",
+      "bytes": 947,
+      "neoforge_sha256": "a157fe82656293ddf2b1f1dd114dea2079d4e7e19c9ba9049af466ce81ef25ff"
+    },
+    "models/block/plant/gold_grapevine_trellis/cross_east_west.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/cross_east_west.json",
+      "sha256": "3c960c38dcbd8b1d3c5b1a146cd53d72ba4524a0c7908dccc5d60801b30c350f",
+      "bytes": 4098,
+      "neoforge_sha256": "3c960c38dcbd8b1d3c5b1a146cd53d72ba4524a0c7908dccc5d60801b30c350f"
+    },
+    "textures/block/plant/gold_grapevine_trellis.png": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/textures/block/plant/gold_grapevine_trellis.png",
+      "sha256": "011d3f40b24934d7ef2f15bb170cd45c0058553a69485ee36614fb8a84b20db8",
+      "bytes": 1297,
+      "neoforge_sha256": "011d3f40b24934d7ef2f15bb170cd45c0058553a69485ee36614fb8a84b20db8"
+    },
+    "models/block/plant/gold_grapevine_trellis/cross_north_south.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/cross_north_south.json",
+      "sha256": "1f3d0f4ed5040249073eae9b72e1b30944b10561e352b60cfa56836de4486860",
+      "bytes": 4082,
+      "neoforge_sha256": "1f3d0f4ed5040249073eae9b72e1b30944b10561e352b60cfa56836de4486860"
+    },
+    "models/block/plant/gold_grapevine_trellis/cross_up_down.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/cross_up_down.json",
+      "sha256": "d21a19faac2b3028f0c90d55b07b5750c80233bc7fe963e246b24c6c17fa1ac7",
+      "bytes": 4274,
+      "neoforge_sha256": "d21a19faac2b3028f0c90d55b07b5750c80233bc7fe963e246b24c6c17fa1ac7"
+    },
+    "models/block/plant/gold_grapevine_trellis/east_west.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/east_west.json",
+      "sha256": "f6ea748e7349074fa7b8950b6b49013b8248727a40c6a798498d06ee65f57663",
+      "bytes": 2958,
+      "neoforge_sha256": "f6ea748e7349074fa7b8950b6b49013b8248727a40c6a798498d06ee65f57663"
+    },
+    "models/block/plant/gold_grapevine_trellis/north_south.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/north_south.json",
+      "sha256": "c961ff69a289ab45c51c67cb4c04e38fe7e3c37de0f9313041be02301494a04f",
+      "bytes": 2848,
+      "neoforge_sha256": "c961ff69a289ab45c51c67cb4c04e38fe7e3c37de0f9313041be02301494a04f"
+    },
+    "models/block/plant/gold_grapevine_trellis/single_stage0.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/single_stage0.json",
+      "sha256": "354cb9ae6dfa30859775bba3b12061e1eb46c50be83f0425cc27ea39b861e2dd",
+      "bytes": 1507,
+      "neoforge_sha256": "354cb9ae6dfa30859775bba3b12061e1eb46c50be83f0425cc27ea39b861e2dd"
+    },
+    "models/block/plant/gold_grapevine_trellis/single_stage1.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/single_stage1.json",
+      "sha256": "9b2cf5dacf6c1736fa334ea73c5985c71cbc67d107b4befede1f87aa09fcce52",
+      "bytes": 1511,
+      "neoforge_sha256": "9b2cf5dacf6c1736fa334ea73c5985c71cbc67d107b4befede1f87aa09fcce52"
+    },
+    "models/block/plant/gold_grapevine_trellis/single_stage2.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/single_stage2.json",
+      "sha256": "448d1a29814494549ee81ea5da183c3030067b76b92942ab07a2aae40168bd8c",
+      "bytes": 1507,
+      "neoforge_sha256": "448d1a29814494549ee81ea5da183c3030067b76b92942ab07a2aae40168bd8c"
+    },
+    "models/block/plant/gold_grapevine_trellis/single_stage3.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/single_stage3.json",
+      "sha256": "5759096e55d0771c58e30bb26f88d7a57e0c107c868a9b994185daceef70929a",
+      "bytes": 1511,
+      "neoforge_sha256": "5759096e55d0771c58e30bb26f88d7a57e0c107c868a9b994185daceef70929a"
+    },
+    "models/block/plant/gold_grapevine_trellis/six_direction.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/six_direction.json",
+      "sha256": "7945a483eee008e5f51fd5d7318bfd2d1dcd5f62d239cb2ef944ed91104a5ca1",
+      "bytes": 4053,
+      "neoforge_sha256": "7945a483eee008e5f51fd5d7318bfd2d1dcd5f62d239cb2ef944ed91104a5ca1"
+    },
+    "models/block/plant/ice_grape_crop/stage0.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grape_crop/stage0.json",
+      "sha256": "49ae14c073042bfdc4d3379dab65ff680195df9f47060910faf1d89a62846d17",
+      "bytes": 942,
+      "neoforge_sha256": "49ae14c073042bfdc4d3379dab65ff680195df9f47060910faf1d89a62846d17"
+    },
+    "textures/block/plant/ice_grape_crop.png": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/textures/block/plant/ice_grape_crop.png",
+      "sha256": "3d42a7999b5b50cf67a8202b8064ada5df965d65c08883dfc1ab1f068b881b01",
+      "bytes": 1380,
+      "neoforge_sha256": "3d42a7999b5b50cf67a8202b8064ada5df965d65c08883dfc1ab1f068b881b01"
+    },
+    "models/block/plant/ice_grape_crop/stage1.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grape_crop/stage1.json",
+      "sha256": "a10baf56313dd37656d1c082e90321a33c3c89e466030185b2ad57684a371983",
+      "bytes": 942,
+      "neoforge_sha256": "a10baf56313dd37656d1c082e90321a33c3c89e466030185b2ad57684a371983"
+    },
+    "models/block/plant/ice_grape_crop/stage2.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grape_crop/stage2.json",
+      "sha256": "02e378ce70039085098168f19e80ce8f59d38e56df792594a54dd353d5099f89",
+      "bytes": 946,
+      "neoforge_sha256": "02e378ce70039085098168f19e80ce8f59d38e56df792594a54dd353d5099f89"
+    },
+    "models/block/plant/ice_grape_crop/stage3.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grape_crop/stage3.json",
+      "sha256": "3c6248294b52185e1f36d7f57b1daf287b4d031c7100321efd9e68bc19d4e675",
+      "bytes": 950,
+      "neoforge_sha256": "3c6248294b52185e1f36d7f57b1daf287b4d031c7100321efd9e68bc19d4e675"
+    },
+    "models/block/plant/ice_grape_crop/stage4.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grape_crop/stage4.json",
+      "sha256": "ccc328f6eeff0daed67bd46e5fd8d32c752fb61fc7c3fa26e6af7dc753f861d8",
+      "bytes": 946,
+      "neoforge_sha256": "ccc328f6eeff0daed67bd46e5fd8d32c752fb61fc7c3fa26e6af7dc753f861d8"
+    },
+    "models/block/plant/ice_grape_crop/stage5.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grape_crop/stage5.json",
+      "sha256": "b8df00a0066a7cc635aa76ced5228a291176590c933f7a08e6518a91f0da73e3",
+      "bytes": 946,
+      "neoforge_sha256": "b8df00a0066a7cc635aa76ced5228a291176590c933f7a08e6518a91f0da73e3"
+    },
+    "models/block/plant/ice_grapevine_trellis/cross_east_west.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/cross_east_west.json",
+      "sha256": "66c37c0dd38deaab0dbe8f9a1cfb0ab6419132afee844526602fefdbbcc7b0fa",
+      "bytes": 4097,
+      "neoforge_sha256": "66c37c0dd38deaab0dbe8f9a1cfb0ab6419132afee844526602fefdbbcc7b0fa"
+    },
+    "textures/block/plant/ice_grapevine_trellis.png": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/textures/block/plant/ice_grapevine_trellis.png",
+      "sha256": "7eb30bb4f083ffaba2e96a3cf5fe1ebcf17ace4b2823b0eea60362314212b8ba",
+      "bytes": 1523,
+      "neoforge_sha256": "7eb30bb4f083ffaba2e96a3cf5fe1ebcf17ace4b2823b0eea60362314212b8ba"
+    },
+    "models/block/plant/ice_grapevine_trellis/cross_north_south.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/cross_north_south.json",
+      "sha256": "f9d8d3a3516d5181e20ae89f51354b733d7b7b22a0321ed002f66b0dc93bfd10",
+      "bytes": 4081,
+      "neoforge_sha256": "f9d8d3a3516d5181e20ae89f51354b733d7b7b22a0321ed002f66b0dc93bfd10"
+    },
+    "models/block/plant/ice_grapevine_trellis/cross_up_down.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/cross_up_down.json",
+      "sha256": "d459011b4ee186415f0587355c2aa471c5d709f1f16fcec925be96bdf8bfae32",
+      "bytes": 4273,
+      "neoforge_sha256": "d459011b4ee186415f0587355c2aa471c5d709f1f16fcec925be96bdf8bfae32"
+    },
+    "models/block/plant/ice_grapevine_trellis/east_west.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/east_west.json",
+      "sha256": "f35dca8699231d82cacfefbd15ca98b5a61aafdddb1ef21c374ba2504c444209",
+      "bytes": 2957,
+      "neoforge_sha256": "f35dca8699231d82cacfefbd15ca98b5a61aafdddb1ef21c374ba2504c444209"
+    },
+    "models/block/plant/ice_grapevine_trellis/north_south.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/north_south.json",
+      "sha256": "51d531f5a5df04e274a5a5195941b170dc4bf45640f3c10c5faa0571833ecb5a",
+      "bytes": 2847,
+      "neoforge_sha256": "51d531f5a5df04e274a5a5195941b170dc4bf45640f3c10c5faa0571833ecb5a"
+    },
+    "models/block/plant/ice_grapevine_trellis/single_stage0.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/single_stage0.json",
+      "sha256": "dee63db9dfd14e0d5b825cb33d676b2f9297815670c693cab886a1b216be90a5",
+      "bytes": 1506,
+      "neoforge_sha256": "dee63db9dfd14e0d5b825cb33d676b2f9297815670c693cab886a1b216be90a5"
+    },
+    "models/block/plant/ice_grapevine_trellis/single_stage1.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/single_stage1.json",
+      "sha256": "b6feb268b9627654ad198d30c85ff3d24e9fe2e57e36120c4a7d53b184f0bb13",
+      "bytes": 1510,
+      "neoforge_sha256": "b6feb268b9627654ad198d30c85ff3d24e9fe2e57e36120c4a7d53b184f0bb13"
+    },
+    "models/block/plant/ice_grapevine_trellis/single_stage2.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/single_stage2.json",
+      "sha256": "68198d81f06abe22cc3c4e4b6cc6c803a7ba4a7c666a936b026ede7d1a3a10c6",
+      "bytes": 1506,
+      "neoforge_sha256": "68198d81f06abe22cc3c4e4b6cc6c803a7ba4a7c666a936b026ede7d1a3a10c6"
+    },
+    "models/block/plant/ice_grapevine_trellis/single_stage3.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/single_stage3.json",
+      "sha256": "c8fb555f118c22a5e6cba83e5e980c0640f32bc036961586bf427004cc91b85a",
+      "bytes": 1510,
+      "neoforge_sha256": "c8fb555f118c22a5e6cba83e5e980c0640f32bc036961586bf427004cc91b85a"
+    },
+    "models/block/plant/ice_grapevine_trellis/six_direction.json": {
+      "path": "src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/six_direction.json",
+      "sha256": "3710e9e9b255172f484285a835ed1ec87ff7d2789bd3e1bbb7b8b5ec44c09788",
+      "bytes": 4052,
+      "neoforge_sha256": "3710e9e9b255172f484285a835ed1ec87ff7d2789bd3e1bbb7b8b5ec44c09788"
+    },
+    "blockstates/grape_crop.json": {
+      "path": "src/generated/resources/assets/kaleidoscope_tavern/blockstates/grape_crop.json",
+      "sha256": "a51580cc7b2a8ae4d4c88842d5f9ff38ddbf6f6eb37240908caca659ee8877b2",
+      "bytes": 556,
+      "neoforge_sha256": "a51580cc7b2a8ae4d4c88842d5f9ff38ddbf6f6eb37240908caca659ee8877b2"
+    },
+    "blockstates/gold_grape_crop.json": {
+      "path": "src/generated/resources/assets/kaleidoscope_tavern/blockstates/gold_grape_crop.json",
+      "sha256": "17222815128ee8d4fe5a84778eec975f02557bd41b83ed91a213f8eea0dc1e66",
+      "bytes": 586,
+      "neoforge_sha256": "17222815128ee8d4fe5a84778eec975f02557bd41b83ed91a213f8eea0dc1e66"
+    },
+    "blockstates/ice_grape_crop.json": {
+      "path": "src/generated/resources/assets/kaleidoscope_tavern/blockstates/ice_grape_crop.json",
+      "sha256": "28cf9eba24ec75824ce9cf8fc29f7ea1892533b02e03ad87c49729331e09f0c2",
+      "bytes": 580,
+      "neoforge_sha256": "28cf9eba24ec75824ce9cf8fc29f7ea1892533b02e03ad87c49729331e09f0c2"
+    },
+    "blockstates/grapevine_trellis.json": {
+      "path": "src/generated/resources/assets/kaleidoscope_tavern/blockstates/grapevine_trellis.json",
+      "sha256": "db257c1c03b83068d2039dcde52d3ed5b2c5c3520c3efd4271bdfea142324a09",
+      "bytes": 7778,
+      "neoforge_sha256": "db257c1c03b83068d2039dcde52d3ed5b2c5c3520c3efd4271bdfea142324a09"
+    },
+    "blockstates/gold_grapevine_trellis.json": {
+      "path": "src/generated/resources/assets/kaleidoscope_tavern/blockstates/gold_grapevine_trellis.json",
+      "sha256": "ae2a641902cbadce8c5ec61a449eed24669f318c72a3f62d1809d65d2bd7f7fe",
+      "bytes": 8058,
+      "neoforge_sha256": "ae2a641902cbadce8c5ec61a449eed24669f318c72a3f62d1809d65d2bd7f7fe"
+    },
+    "blockstates/ice_grapevine_trellis.json": {
+      "path": "src/generated/resources/assets/kaleidoscope_tavern/blockstates/ice_grapevine_trellis.json",
+      "sha256": "27ce515d5a440a9f3b5f06174abb5f18ce8d7da9b56a0e0c77d6ba07961fac89",
+      "bytes": 8002,
+      "neoforge_sha256": "27ce515d5a440a9f3b5f06174abb5f18ce8d7da9b56a0e0c77d6ba07961fac89"
+    }
+  }
+}
