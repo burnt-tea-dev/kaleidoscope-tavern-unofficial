@@ -158,7 +158,8 @@ class RetainedAssemblyTests(unittest.TestCase):
                                                  'project_id': 1, 'file_id': 1, 'packs': author}],
                         'order': {'behavior': ['author-BP'], 'resource': ['author-RP']}}
                 module = 'family_bundle.apply_host_extension'
-                def apply(spec, owned_root, host_root, source):
+                def apply(spec, owned_root, host_root, source, source_repo):
+                    self.assertEqual(source_repo, repo)
                     self.assertEqual(spec['owner_version'], [1, 0, 49])
                     return {'id': spec['id'], 'owner_version': [1, 0, 49]}
                 # Declaration hashing is covered separately against the finite
