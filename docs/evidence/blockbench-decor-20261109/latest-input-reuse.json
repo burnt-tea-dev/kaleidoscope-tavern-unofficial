@@ -1,0 +1,2689 @@
+{
+  "date": "2026-11-09",
+  "latest_remote_main": "d42a39745f25082aa129f4d4bb823684e4174771",
+  "latest_runtime_tree": "38c5977dd6bfe14b1824734612e3c601e1e41028",
+  "original_runtime_version": "0.6.212",
+  "current_runtime_version": "0.6.213",
+  "saved_inputs_verified": 417,
+  "canonical_inputs_checked": 149,
+  "canonical_differences": [
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/incense_closed.geo.json",
+      "prepared_sha256": "47d14387d2046ee8cbb83ca7e5f2604755f90e5de798ae41e74b72c1e0daeb83",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/incense_closed.geo.json",
+      "current_sha256": "47bf58ff0226a56c60cfd220a7f61119a0ff87b4983f31914ef5b1f71de9fb07",
+      "current_equals_prepared": false
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/incense_open.geo.json",
+      "prepared_sha256": "3bf8c221b1001dcbb2b57eb7c433d70264ccfcc8173d79df9acfec8985d422f2",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/incense_open.geo.json",
+      "current_sha256": "d79d4c47bf08d7444c2619ac00763a70ce009720bd9e885f323e9d9575f338e7",
+      "current_equals_prepared": false
+    }
+  ],
+  "scope": "25 pending non-incense decor scenes only; four incense scenes excluded because repaired and accepted separately in PR609. This is byte reuse verification, not GUI or native acceptance.",
+  "non_incense_main_scenes_verified": [
+    {
+      "file": "scenes/tables-1.bbmodel",
+      "sha256": "3bbc8f1d13a16d4224729532ca6a68e7481a23c0978631c49fce6d9a879633af",
+      "unchanged": true
+    },
+    {
+      "file": "scenes/tables-2.bbmodel",
+      "sha256": "850f48a6d04c52d1175bf8060ab86d3a81031ce2439011cc18c60813a8d6d167",
+      "unchanged": true
+    },
+    {
+      "file": "scenes/string-lights-1.bbmodel",
+      "sha256": "7f041140b5297fc4d8e5b84e0a648129003d8e53f7221c97eb04febed793f90f",
+      "unchanged": true
+    },
+    {
+      "file": "scenes/string-lights-2.bbmodel",
+      "sha256": "e1d6a9f4efadb73b1de5f5b4b1b3e30e66b2778ac1b6d963ee3f0a29b5bdccc2",
+      "unchanged": true
+    },
+    {
+      "file": "scenes/string-lights-3.bbmodel",
+      "sha256": "df32041d38fdee512d046c5dc6e322d5a56667d9f9e012692ab41e4e5694b445",
+      "unchanged": true
+    },
+    {
+      "file": "scenes/string-lights-4.bbmodel",
+      "sha256": "7e276397a28bd495296a460c3707b6e80d4a9dd9deafd5d9d84199359eaa4e4d",
+      "unchanged": true
+    },
+    {
+      "file": "scenes/string-lights-5.bbmodel",
+      "sha256": "83f821774340e2286a10b5627097726b221c9796487c8c40ea0e1a1beb667a71",
+      "unchanged": true
+    },
+    {
+      "file": "scenes/bare-trellises-1.bbmodel",
+      "sha256": "5a16828cbba630801e9782b4bdde422a1b0ef27e5901784d333c9e4e0cd46870",
+      "unchanged": true
+    },
+    {
+      "file": "scenes/bare-trellises-2.bbmodel",
+      "sha256": "cbf36cfa3be46af76be9f694bf88459ccfd0e29c9c4066095488f55427d42726",
+      "unchanged": true
+    },
+    {
+      "file": "scenes/grape-crop-stages-1.bbmodel",
+      "sha256": "4976f615b43e6a9444d188ba8a624b292794f32dcb950c38367d2c79c01bb84c",
+      "unchanged": true
+    },
+    {
+      "file": "scenes/grape-crop-stages-2.bbmodel",
+      "sha256": "fa8cf0dbf767f9dfc87dc437abdddbaeedd97914ff364464f10e62b8d686d027",
+      "unchanged": true
+    },
+    {
+      "file": "scenes/grapevine-shapes-stages-1.bbmodel",
+      "sha256": "b309e688964cdee250cf86b04685bb5fae1e39b2839cf42b38411241e6e67872",
+      "unchanged": true
+    },
+    {
+      "file": "scenes/grapevine-shapes-stages-2.bbmodel",
+      "sha256": "1382df58775b0b669f00b64e770e1e3c23eedb59308b47cc2c0eb4634d0db1f8",
+      "unchanged": true
+    },
+    {
+      "file": "scenes/grapevine-shapes-stages-3.bbmodel",
+      "sha256": "03ed83628e2ce81272644ad3445811618fccd028cb071c3fc1394b098bfb407b",
+      "unchanged": true
+    },
+    {
+      "file": "scenes/gold_grape-crop-stages-1.bbmodel",
+      "sha256": "db3362cdfa8e5bd98dda1fc44eaa0befb4c21b0b3808b484e1e1ccc8dbdc10d8",
+      "unchanged": true
+    },
+    {
+      "file": "scenes/gold_grape-crop-stages-2.bbmodel",
+      "sha256": "ebdd3b2eff4790adaad88b6e6873f2ba42796de9e37c638b2392e4a66b0139ad",
+      "unchanged": true
+    },
+    {
+      "file": "scenes/gold_grapevine-shapes-stages-1.bbmodel",
+      "sha256": "a0cd465c9ea1f3d30385a1370221036ebc0b1cd3b5bcc6ec4167ca72d782476b",
+      "unchanged": true
+    },
+    {
+      "file": "scenes/gold_grapevine-shapes-stages-2.bbmodel",
+      "sha256": "709d33b8c9a136d5c4e6ed9b060742967b5fa8581edbc0dad17c72516c3e4aa7",
+      "unchanged": true
+    },
+    {
+      "file": "scenes/gold_grapevine-shapes-stages-3.bbmodel",
+      "sha256": "9ebe1eed4b739273106fc12d2d2532b6c126a20098fe96d94aeef6ada419d518",
+      "unchanged": true
+    },
+    {
+      "file": "scenes/ice_grape-crop-stages-1.bbmodel",
+      "sha256": "66c38ed61a72d25fc8ada447b87a6ee7c84b871480fb9d5f45bf04bee7ca3108",
+      "unchanged": true
+    },
+    {
+      "file": "scenes/ice_grape-crop-stages-2.bbmodel",
+      "sha256": "a6dc908c177081e2e9288da8b9d969a84d48c3db131af1d59dcb51e996a183b7",
+      "unchanged": true
+    },
+    {
+      "file": "scenes/ice_grapevine-shapes-stages-1.bbmodel",
+      "sha256": "6a9c92eaadaedb001470aed4f51529f2f057ae8cdc506c0c0af3c716ac3b7fe2",
+      "unchanged": true
+    },
+    {
+      "file": "scenes/ice_grapevine-shapes-stages-2.bbmodel",
+      "sha256": "e09fbbf4f44b89c4d265ebc94029fd382f76db52642e4a5596177e0008443fba",
+      "unchanged": true
+    },
+    {
+      "file": "scenes/ice_grapevine-shapes-stages-3.bbmodel",
+      "sha256": "aaacfb7dc4fff9a3e3f806e1bfe30e85567992d6bc51e44fbb56ac8042b714ba",
+      "unchanged": true
+    }
+  ],
+  "inputs": [
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/art/source-jar.lock.json",
+      "prepared_sha256": "5d1567b8416bf2927e25d44bab7304cc49a0cd58787a338a0cc95c58d670ea85",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "art/source-jar.lock.json",
+      "current_sha256": "5d1567b8416bf2927e25d44bab7304cc49a0cd58787a338a0cc95c58d670ea85",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/textures/terrain_texture.json",
+      "prepared_sha256": "46797fb0157dfb71c29ae78d385cdcebc3edfaec673e1292bd4eb826183e01c9",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/textures/terrain_texture.json",
+      "current_sha256": "46797fb0157dfb71c29ae78d385cdcebc3edfaec673e1292bd4eb826183e01c9",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/incense/butterfly_incense.json",
+      "prepared_sha256": "ebe8e4ec3756aa48d38af3c2f8873395d2703b8d83d70a669e18496e74e864b2",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/incense/catnip_incense.json",
+      "prepared_sha256": "0527ca80cbf6d345050c3d280e4083c67532ac223daa19877c9d0774d2e078e1",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/incense/firefly_incense.json",
+      "prepared_sha256": "71c863292fe85ee123aae7c1eec7a4c1dd077de49c06025908b1c6f2adaca0ed",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/incense/ginkgo_incense.json",
+      "prepared_sha256": "01439d00daca6bc13ec9643c4eb510b7913dd44bcdb62b93a7551b5751d6b7dd",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/incense/pine_incense.json",
+      "prepared_sha256": "244485e3563a5951956938e25f62e8dcae088111f14997321159c2ffd1e4065c",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/deco/incense/butterfly_incense.json",
+      "prepared_sha256": "ebe8e4ec3756aa48d38af3c2f8873395d2703b8d83d70a669e18496e74e864b2",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/incense/sakura_incense.json",
+      "prepared_sha256": "bedd961092d964b85ec184a29cd55bb94b218640aa9a78cf4153f27e526ce365",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/incense/snow_incense.json",
+      "prepared_sha256": "6a9214bd522d74908fe7c8f0a79bb0df7ce28948dea47adfdfd32da4abc8ca55",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/incense/spore_incense.json",
+      "prepared_sha256": "ab22facdcff289e864593fdb18072b627753284ae20a0ab803a05ea87559204f",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/deco/incense/firefly_incense.json",
+      "prepared_sha256": "71c863292fe85ee123aae7c1eec7a4c1dd077de49c06025908b1c6f2adaca0ed",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/deco/incense/catnip_incense.json",
+      "prepared_sha256": "0527ca80cbf6d345050c3d280e4083c67532ac223daa19877c9d0774d2e078e1",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/deco/incense/ginkgo_incense.json",
+      "prepared_sha256": "01439d00daca6bc13ec9643c4eb510b7913dd44bcdb62b93a7551b5751d6b7dd",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/incense_open/butterfly_incense.json",
+      "prepared_sha256": "c4dd9a32d01ba39d5b6f03b9fcbf46c2f3f264dbff6d445f112d8067c53ef91a",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/deco/incense/pine_incense.json",
+      "prepared_sha256": "244485e3563a5951956938e25f62e8dcae088111f14997321159c2ffd1e4065c",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/deco/incense/snow_incense.json",
+      "prepared_sha256": "6a9214bd522d74908fe7c8f0a79bb0df7ce28948dea47adfdfd32da4abc8ca55",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/incense_open/pine_incense.json",
+      "prepared_sha256": "6466dc6d2ba377ab1f67f7f50a03e8df4baf77d74df97e496671f4f519dc2445",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/incense_open/ginkgo_incense.json",
+      "prepared_sha256": "b3491a41933cfb0290e5682e33b1c2110a328b5f4df2ffc334b85784e41a48aa",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/deco/incense/spore_incense.json",
+      "prepared_sha256": "ab22facdcff289e864593fdb18072b627753284ae20a0ab803a05ea87559204f",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/deco/incense/sakura_incense.json",
+      "prepared_sha256": "bedd961092d964b85ec184a29cd55bb94b218640aa9a78cf4153f27e526ce365",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/incense_open/catnip_incense.json",
+      "prepared_sha256": "cb0d14a46255b80ac67ef7e12e454b79c59532f8c721ceea64c1a7c3ba59eff7",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/incense_open/firefly_incense.json",
+      "prepared_sha256": "cde1e7390b78b044f34eb3bd54c309d3bec1d0e67b1789006329b2dc2ca6517d",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/incense_open/sakura_incense.json",
+      "prepared_sha256": "f00c5b3dc7f5d6164e051d22c96d27fcb41a8f8b024491016c8eea0667e13952",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/incense_open/spore_incense.json",
+      "prepared_sha256": "f802f0136fbd1ab81886b14c92820ff59ad804ff8bf9869e2f1e24bed6a8a324",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/incense_open/snow_incense.json",
+      "prepared_sha256": "9e476544cf5ff4f5e14f95d992d7435be234ec3b9bc7bc67f453665de541c090",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/deco/incense_open/pine_incense.json",
+      "prepared_sha256": "6466dc6d2ba377ab1f67f7f50a03e8df4baf77d74df97e496671f4f519dc2445",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/deco/incense_open/ginkgo_incense.json",
+      "prepared_sha256": "b3491a41933cfb0290e5682e33b1c2110a328b5f4df2ffc334b85784e41a48aa",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/deco/incense_open/catnip_incense.json",
+      "prepared_sha256": "cb0d14a46255b80ac67ef7e12e454b79c59532f8c721ceea64c1a7c3ba59eff7",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/string_lights/black.json",
+      "prepared_sha256": "7a58574440b486c0a32e60e1c8bd505bb3447c760650eadf08be6929ae18a065",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/deco/incense_open/butterfly_incense.json",
+      "prepared_sha256": "c4dd9a32d01ba39d5b6f03b9fcbf46c2f3f264dbff6d445f112d8067c53ef91a",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/deco/incense_open/firefly_incense.json",
+      "prepared_sha256": "cde1e7390b78b044f34eb3bd54c309d3bec1d0e67b1789006329b2dc2ca6517d",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/deco/incense_open/sakura_incense.json",
+      "prepared_sha256": "f00c5b3dc7f5d6164e051d22c96d27fcb41a8f8b024491016c8eea0667e13952",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/string_lights/blue.json",
+      "prepared_sha256": "bd1a84ab7f6dd5781fa12e7c39dca0ca56583c8bd9871dcfd8a336c56e925de6",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/string_lights/brown.json",
+      "prepared_sha256": "d72ca8a26ffbd4d96df6991b2663bd4cd279b1d232003f52574a7577cb90e5c4",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/string_lights/gray.json",
+      "prepared_sha256": "81ca621d9cd2a240fd5f0a6aed16bc027da448f7b5566d887981914b0b008ee8",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/deco/incense_open/spore_incense.json",
+      "prepared_sha256": "f802f0136fbd1ab81886b14c92820ff59ad804ff8bf9869e2f1e24bed6a8a324",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/deco/incense_open/snow_incense.json",
+      "prepared_sha256": "9e476544cf5ff4f5e14f95d992d7435be234ec3b9bc7bc67f453665de541c090",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/string_lights/colorless.json",
+      "prepared_sha256": "b51e12cc65f396e9eda2928a0ededfc25f9642d6a1cb648aad0beae87ec07c8a",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/string_lights/cyan.json",
+      "prepared_sha256": "2c60ee2172da66048f5650f9469ab92876bbabbc4cc54dc37fa0c34e0680c6ec",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/string_lights/green.json",
+      "prepared_sha256": "44bce280e7dadf0cace6725e0318f1824fa20fe7f42cd81b0038f2fb00459fac",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/string_lights/light_blue.json",
+      "prepared_sha256": "8547d7369c111fae1a59dad4688696be96295ac7029fa29cf149751457986d12",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/deco/string_lights/brown.json",
+      "prepared_sha256": "d72ca8a26ffbd4d96df6991b2663bd4cd279b1d232003f52574a7577cb90e5c4",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/deco/string_lights/blue.json",
+      "prepared_sha256": "bd1a84ab7f6dd5781fa12e7c39dca0ca56583c8bd9871dcfd8a336c56e925de6",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/deco/string_lights/black.json",
+      "prepared_sha256": "7a58574440b486c0a32e60e1c8bd505bb3447c760650eadf08be6929ae18a065",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/deco/string_lights/gray.json",
+      "prepared_sha256": "81ca621d9cd2a240fd5f0a6aed16bc027da448f7b5566d887981914b0b008ee8",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/string_lights/light_gray.json",
+      "prepared_sha256": "e93639f842ac727084c5aea3a3e073e308e42be8f39bd81d96fa558dfdf8516e",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/string_lights/lime.json",
+      "prepared_sha256": "56d7ce204c90cb557dd871741dbae0652956407b6b4245c3965fcc18a28ba472",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/string_lights/magenta.json",
+      "prepared_sha256": "6652c431050265a75d4765f54ee42efd0485894af503649610c381a6e24c9464",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/string_lights/orange.json",
+      "prepared_sha256": "fb2690d2dedef09d0dc3c74fac55c0d38d346ac0053184b3b7c76a575d582fc6",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/deco/string_lights/cyan.json",
+      "prepared_sha256": "2c60ee2172da66048f5650f9469ab92876bbabbc4cc54dc37fa0c34e0680c6ec",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/deco/string_lights/green.json",
+      "prepared_sha256": "44bce280e7dadf0cace6725e0318f1824fa20fe7f42cd81b0038f2fb00459fac",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/deco/string_lights/light_blue.json",
+      "prepared_sha256": "8547d7369c111fae1a59dad4688696be96295ac7029fa29cf149751457986d12",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/deco/string_lights/light_gray.json",
+      "prepared_sha256": "e93639f842ac727084c5aea3a3e073e308e42be8f39bd81d96fa558dfdf8516e",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/deco/string_lights/colorless.json",
+      "prepared_sha256": "b51e12cc65f396e9eda2928a0ededfc25f9642d6a1cb648aad0beae87ec07c8a",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/string_lights/pink.json",
+      "prepared_sha256": "ed9c239a9be2da10bb3ff4075e0611057695f0d72afdd4ba6244a9d0e1112419",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/string_lights/purple.json",
+      "prepared_sha256": "05b57089f2fe3f2b2f3466a3dae9539778e751550611b8c54c6756a40ab67e21",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/string_lights/white.json",
+      "prepared_sha256": "72fdd22b1148a0ba53afbb769314f4367008b40b4dfe7652b830ab64a6df73ae",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/deco/string_lights/magenta.json",
+      "prepared_sha256": "1985bc73af1c0dee2929c41707137484e9fd971a9b6d134a7cfca38b03ce4f90",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/string_lights/red.json",
+      "prepared_sha256": "16935f4bbeed724b010d1489a1e3d1b03b6cccf025a67aeabe9cc3c45897ad07",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/table/left.json",
+      "prepared_sha256": "6e8f08b3e5e52010da5678286d1543c7eccde2e6d625caa87a4640d3a3f91be4",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/deco/string_lights/lime.json",
+      "prepared_sha256": "56d7ce204c90cb557dd871741dbae0652956407b6b4245c3965fcc18a28ba472",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/string_lights/yellow.json",
+      "prepared_sha256": "d8adb2e1486b41578a0ae880fbb00785b3016fdced1acfc4c2d6ee25327a1cf8",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/deco/string_lights/orange.json",
+      "prepared_sha256": "fb2690d2dedef09d0dc3c74fac55c0d38d346ac0053184b3b7c76a575d582fc6",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/table/left_rot.json",
+      "prepared_sha256": "270c35efba5118e08f1138015cf8cfc0c27222a4a059296e08a3fa5c3b41b5f5",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/deco/string_lights/pink.json",
+      "prepared_sha256": "ed9c239a9be2da10bb3ff4075e0611057695f0d72afdd4ba6244a9d0e1112419",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/deco/string_lights/purple.json",
+      "prepared_sha256": "05b57089f2fe3f2b2f3466a3dae9539778e751550611b8c54c6756a40ab67e21",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/table/middle_rot.json",
+      "prepared_sha256": "50dbdc0c503e982c1882452e0a4a64342719f9670876f2d121f039c5565aa945",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/table/middle.json",
+      "prepared_sha256": "55a21af60cfc878bb40e965762f3847cdb454eb57d68d4e5d7867a2d14b2052b",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/deco/table/left.json",
+      "prepared_sha256": "6e8f08b3e5e52010da5678286d1543c7eccde2e6d625caa87a4640d3a3f91be4",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/table/right.json",
+      "prepared_sha256": "447e9056c06ae26b231cb0f3c609587dfaacedcbb182d9b28fa74dc6546284e8",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/deco/string_lights/red.json",
+      "prepared_sha256": "16935f4bbeed724b010d1489a1e3d1b03b6cccf025a67aeabe9cc3c45897ad07",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/table/right_rot.json",
+      "prepared_sha256": "59b8a8988ee473159cd0c61d1535829a31f4c19d5eadeae9a5b230f1dfdc763d",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/deco/string_lights/white.json",
+      "prepared_sha256": "72fdd22b1148a0ba53afbb769314f4367008b40b4dfe7652b830ab64a6df73ae",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grape_crop/stage0.json",
+      "prepared_sha256": "02e19a99de297b9722a8fff5c998509e1a16602951f98d6f98e74bd674951fa0",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/deco/table/single.json",
+      "prepared_sha256": "9471f3c1c6ea691ece05e1b2df2cc39b16d701b5d0531c22445335c5eeea418f",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/deco/string_lights/yellow.json",
+      "prepared_sha256": "d8adb2e1486b41578a0ae880fbb00785b3016fdced1acfc4c2d6ee25327a1cf8",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/deco/table/left_rot.json",
+      "prepared_sha256": "270c35efba5118e08f1138015cf8cfc0c27222a4a059296e08a3fa5c3b41b5f5",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/deco/table/middle.json",
+      "prepared_sha256": "55a21af60cfc878bb40e965762f3847cdb454eb57d68d4e5d7867a2d14b2052b",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/deco/table/right.json",
+      "prepared_sha256": "447e9056c06ae26b231cb0f3c609587dfaacedcbb182d9b28fa74dc6546284e8",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grape_crop/stage1.json",
+      "prepared_sha256": "5a8599079115c9bc93a90eeb4781f3648d958b528a5d1d8576373b825b3dbb55",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grape_crop/stage2.json",
+      "prepared_sha256": "850f2b20f93b0ca6593f06404039be8946c0bfd9ad29cd09ac6646bf27a66ab8",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/deco/table/right_rot.json",
+      "prepared_sha256": "59b8a8988ee473159cd0c61d1535829a31f4c19d5eadeae9a5b230f1dfdc763d",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/deco/table/middle_rot.json",
+      "prepared_sha256": "50dbdc0c503e982c1882452e0a4a64342719f9670876f2d121f039c5565aa945",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grape_crop/stage3.json",
+      "prepared_sha256": "2743d629db217b49b04ddbe6ce68559def40c449ff2815973ca8eff0a2b8c385",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grape_crop/stage4.json",
+      "prepared_sha256": "f5fbb6c3e72d35f7c23de8ba2b37600174f3571c849ae033b7d94a0d6ff7aabe",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grape_crop/stage5.json",
+      "prepared_sha256": "6b77415b6f005f5fdf768aade23401e903a531c918691a89a85909c553ecacee",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/gold_grape_crop/stage0.json",
+      "prepared_sha256": "02e19a99de297b9722a8fff5c998509e1a16602951f98d6f98e74bd674951fa0",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/cross_east_west.json",
+      "prepared_sha256": "67dc4f62747e5150cbce577494868a2c0f4b2e8ec48448f89697f3a17ab22ece",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/deco/table/single.json",
+      "prepared_sha256": "9471f3c1c6ea691ece05e1b2df2cc39b16d701b5d0531c22445335c5eeea418f",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/gold_grape_crop/stage1.json",
+      "prepared_sha256": "5a8599079115c9bc93a90eeb4781f3648d958b528a5d1d8576373b825b3dbb55",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/gold_grape_crop/stage3.json",
+      "prepared_sha256": "2743d629db217b49b04ddbe6ce68559def40c449ff2815973ca8eff0a2b8c385",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/cross_north_south.json",
+      "prepared_sha256": "003060ff8a97c865d228144ba36bb87b74a978a5fc7da76b955f66a8c6c7e5ab",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/gold_grape_crop/stage4.json",
+      "prepared_sha256": "f5fbb6c3e72d35f7c23de8ba2b37600174f3571c849ae033b7d94a0d6ff7aabe",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/gold_grape_crop/stage2.json",
+      "prepared_sha256": "850f2b20f93b0ca6593f06404039be8946c0bfd9ad29cd09ac6646bf27a66ab8",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/cross_up_down.json",
+      "prepared_sha256": "865c72473d2ebd9d30317c367483d32ec81e4166021388ad1133250c2bc7178c",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/gold_grape_crop/stage5.json",
+      "prepared_sha256": "6b77415b6f005f5fdf768aade23401e903a531c918691a89a85909c553ecacee",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/north_south.json",
+      "prepared_sha256": "4075d8908c4b101fc90e754d3edd0178530add9e57126e4682ca8fa2ff7947f2",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/cross_east_west.json",
+      "prepared_sha256": "67dc4f62747e5150cbce577494868a2c0f4b2e8ec48448f89697f3a17ab22ece",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/single_stage0.json",
+      "prepared_sha256": "7b8d4e245c466cf227490dfac6637816d81bf476b9f9f264c967817dad7425bb",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/east_west.json",
+      "prepared_sha256": "ec92ad2a1dd8b6fb84d91df7ba4fb197c21110a291fd39578d79f7a8b8ab48e5",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/single_stage1.json",
+      "prepared_sha256": "2a11b9bc740acf4dd27ea751f82a425839ea666c4df0f236ecb62f02901d2472",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/single_stage2.json",
+      "prepared_sha256": "cd0f37d67739904a7adbde0aae0c2847bfb57c009acbd01cf0d0751174fe89be",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/single_stage3.json",
+      "prepared_sha256": "313c0efa55fcb88504cf4565af611d4a4e7e76fd5d128d0a257f87630a1ee94f",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/single_stage0.json",
+      "prepared_sha256": "7b8d4e245c466cf227490dfac6637816d81bf476b9f9f264c967817dad7425bb",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/cross_up_down.json",
+      "prepared_sha256": "865c72473d2ebd9d30317c367483d32ec81e4166021388ad1133250c2bc7178c",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/cross_north_south.json",
+      "prepared_sha256": "003060ff8a97c865d228144ba36bb87b74a978a5fc7da76b955f66a8c6c7e5ab",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/north_south.json",
+      "prepared_sha256": "4075d8908c4b101fc90e754d3edd0178530add9e57126e4682ca8fa2ff7947f2",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/single_stage2.json",
+      "prepared_sha256": "cd0f37d67739904a7adbde0aae0c2847bfb57c009acbd01cf0d0751174fe89be",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grape_crop/stage0.json",
+      "prepared_sha256": "b0faaad491405921f461ce000b418ae767da2b5bc51b24dd372ddc731e8c9d28",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grape_crop/stage1.json",
+      "prepared_sha256": "17426ef7bef405ad9a23e5d51f1f0c8ed626002c16cf70165483a1339d1e121f",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/six_direction.json",
+      "prepared_sha256": "9ea3223587cfe650d682160f97ae7d40dc663398a3f556254cc45b6c2fc92493",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/single_stage3.json",
+      "prepared_sha256": "313c0efa55fcb88504cf4565af611d4a4e7e76fd5d128d0a257f87630a1ee94f",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/single_stage1.json",
+      "prepared_sha256": "2a11b9bc740acf4dd27ea751f82a425839ea666c4df0f236ecb62f02901d2472",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/east_west.json",
+      "prepared_sha256": "ec92ad2a1dd8b6fb84d91df7ba4fb197c21110a291fd39578d79f7a8b8ab48e5",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grape_crop/stage4.json",
+      "prepared_sha256": "2f43c2d4e5abfd3d9bfc70aa31603ee00dfcf25c8759ce1f6916b76892d96ae7",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grape_crop/stage3.json",
+      "prepared_sha256": "985be7caa53c62d4fd1c0205ac32bdbbdb603deec02d25329b932f633a3f8da0",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grape_crop/stage5.json",
+      "prepared_sha256": "8f70b9747c149c3272763fc0b6f7cf14cc20da00f1000fa456278771811bad9d",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grape_crop/stage2.json",
+      "prepared_sha256": "d2b565f607405d4fc081cae7333ff0e9507b315555608ebdbfed8d96175cedb5",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/grape_crop/stage1.json",
+      "prepared_sha256": "17426ef7bef405ad9a23e5d51f1f0c8ed626002c16cf70165483a1339d1e121f",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/cross_east_west.json",
+      "prepared_sha256": "c8b82aee6870ebf5e797fdc5765555de4a7facbcdd1429f537455c0ad6ad2cd6",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/grape_crop/stage5.json",
+      "prepared_sha256": "8f70b9747c149c3272763fc0b6f7cf14cc20da00f1000fa456278771811bad9d",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/cross_north_south.json",
+      "prepared_sha256": "6051db6781842f5b944f61f9b59dc023ad8087bf9f86aaf5f6e1ca84315693be",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/grape_crop/stage4.json",
+      "prepared_sha256": "2f43c2d4e5abfd3d9bfc70aa31603ee00dfcf25c8759ce1f6916b76892d96ae7",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/cross_up_down.json",
+      "prepared_sha256": "8d6db5503a4a4bda7d2391980562486ba0d8f29b52833e2663027420a8b76c0d",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/gold_grapevine_trellis/six_direction.json",
+      "prepared_sha256": "9ea3223587cfe650d682160f97ae7d40dc663398a3f556254cc45b6c2fc92493",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/grape_crop/stage0.json",
+      "prepared_sha256": "b0faaad491405921f461ce000b418ae767da2b5bc51b24dd372ddc731e8c9d28",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/grape_crop/stage2.json",
+      "prepared_sha256": "d2b565f607405d4fc081cae7333ff0e9507b315555608ebdbfed8d96175cedb5",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/single_stage1.json",
+      "prepared_sha256": "7b77b274d0606d272e7c1fcf5808e61ef41ad6b67a949c26e343bbc3ee257d36",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/single_stage0.json",
+      "prepared_sha256": "13b033c684ea80ea4a192851e9483d9e9b26110ea627cafa62a176ac17b043b0",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/east_west.json",
+      "prepared_sha256": "fa3edfba27a167bb228a47cd0555304d4be187c29d1761a4b8f7bc07ca9926ad",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/north_south.json",
+      "prepared_sha256": "0a8c227aef79849421623d99efef524925cc35da2e985838ef7780ca15106d3b",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/cross_north_south.json",
+      "prepared_sha256": "6051db6781842f5b944f61f9b59dc023ad8087bf9f86aaf5f6e1ca84315693be",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/grape_crop/stage3.json",
+      "prepared_sha256": "985be7caa53c62d4fd1c0205ac32bdbbdb603deec02d25329b932f633a3f8da0",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/cross_east_west.json",
+      "prepared_sha256": "c8b82aee6870ebf5e797fdc5765555de4a7facbcdd1429f537455c0ad6ad2cd6",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/cross_up_down.json",
+      "prepared_sha256": "8d6db5503a4a4bda7d2391980562486ba0d8f29b52833e2663027420a8b76c0d",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/single_stage2.json",
+      "prepared_sha256": "74fb95cf6c5434db6f89140154a4747a83a24b6a6d1199d05137a47316b553c5",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/six_direction.json",
+      "prepared_sha256": "9791fb819e77b625f3dbad56370b5e84d4d756ebdc00aa263ea2a55fbdc77431",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/single_stage3.json",
+      "prepared_sha256": "fc64806d27d1c9a14a16dfce6481ae76b2884ca0268824fcedb094fae6d6f0dc",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/single_stage1.json",
+      "prepared_sha256": "7b77b274d0606d272e7c1fcf5808e61ef41ad6b67a949c26e343bbc3ee257d36",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/single_stage0.json",
+      "prepared_sha256": "13b033c684ea80ea4a192851e9483d9e9b26110ea627cafa62a176ac17b043b0",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grape_crop/stage0.json",
+      "prepared_sha256": "683a200958ff08547e7ebb9b4ffc221c8936b3beb7a7376787e38972f6adee1a",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grape_crop/stage2.json",
+      "prepared_sha256": "e72f4f04760b295534bd080e4dea7be5527567d5299e5b25eb1840d44139878e",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/north_south.json",
+      "prepared_sha256": "0a8c227aef79849421623d99efef524925cc35da2e985838ef7780ca15106d3b",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/east_west.json",
+      "prepared_sha256": "fa3edfba27a167bb228a47cd0555304d4be187c29d1761a4b8f7bc07ca9926ad",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grape_crop/stage1.json",
+      "prepared_sha256": "e5e1475668ef5161fb05617ac84c213ff1325a2f493b572c731e0e91cbca9d7f",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grape_crop/stage4.json",
+      "prepared_sha256": "f4a22c827ff1b7fd9d76cbc384e92b6c0dec4a59b27f0f7ae25746233553b951",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/single_stage3.json",
+      "prepared_sha256": "fc64806d27d1c9a14a16dfce6481ae76b2884ca0268824fcedb094fae6d6f0dc",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grape_crop/stage3.json",
+      "prepared_sha256": "86a06f98a28b835e822699c4c58d5e508aea7df64ffc82202a863f5557dc9ccd",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grape_crop/stage5.json",
+      "prepared_sha256": "fba408e9ca215d217ad35299346ffc5fe39c52883258f4fcdc17946a5adc5c3a",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/six_direction.json",
+      "prepared_sha256": "9791fb819e77b625f3dbad56370b5e84d4d756ebdc00aa263ea2a55fbdc77431",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/grapevine_trellis/single_stage2.json",
+      "prepared_sha256": "74fb95cf6c5434db6f89140154a4747a83a24b6a6d1199d05137a47316b553c5",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/ice_grape_crop/stage0.json",
+      "prepared_sha256": "683a200958ff08547e7ebb9b4ffc221c8936b3beb7a7376787e38972f6adee1a",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/ice_grape_crop/stage2.json",
+      "prepared_sha256": "e72f4f04760b295534bd080e4dea7be5527567d5299e5b25eb1840d44139878e",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/ice_grape_crop/stage1.json",
+      "prepared_sha256": "e5e1475668ef5161fb05617ac84c213ff1325a2f493b572c731e0e91cbca9d7f",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/ice_grape_crop/stage4.json",
+      "prepared_sha256": "f4a22c827ff1b7fd9d76cbc384e92b6c0dec4a59b27f0f7ae25746233553b951",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/cross_north_south.json",
+      "prepared_sha256": "55f6c982ff5d4ebc74d7c773384215164a8b2da175fe4b0461b45de3357f46e7",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/cross_east_west.json",
+      "prepared_sha256": "dbe69a734a92c82dddeb8a1864cf1f112ae1287b55aeddd71850f16950538945",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/single_stage0.json",
+      "prepared_sha256": "041b82ecf2eb1002e37279499fb06a90224497000a44c3e40db764e9807051cc",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/east_west.json",
+      "prepared_sha256": "54737dd40bd8ffab7cd700634d1567699e2d794818bef8400d7c871088b1d8ce",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/north_south.json",
+      "prepared_sha256": "50024f1139208d166ccbb5b724d385b7859f59d991788056dbeb483fbebf7bf7",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/ice_grape_crop/stage3.json",
+      "prepared_sha256": "86a06f98a28b835e822699c4c58d5e508aea7df64ffc82202a863f5557dc9ccd",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/cross_up_down.json",
+      "prepared_sha256": "553111bb89e8a78b1beac1a0ca9f117f82be705f86900d21e3be717681197bcd",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/ice_grape_crop/stage5.json",
+      "prepared_sha256": "fba408e9ca215d217ad35299346ffc5fe39c52883258f4fcdc17946a5adc5c3a",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/single_stage1.json",
+      "prepared_sha256": "341ac8567bff5670c1a33d11c1e62f05300d76ca205c6754bfd71875470f7ea1",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/single_stage2.json",
+      "prepared_sha256": "9bca1e40f05aa9fdfdbc42d7130e5dc8b02d74bfbebb77369a5050d41c036251",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/cross_east_west.json",
+      "prepared_sha256": "dbe69a734a92c82dddeb8a1864cf1f112ae1287b55aeddd71850f16950538945",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/single_stage0.json",
+      "prepared_sha256": "041b82ecf2eb1002e37279499fb06a90224497000a44c3e40db764e9807051cc",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/single_stage3.json",
+      "prepared_sha256": "97a481315e0c1264833af9de9f149ebe7db6008ceb718e3240e45f2f1c2a1237",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/cross_up_down.json",
+      "prepared_sha256": "553111bb89e8a78b1beac1a0ca9f117f82be705f86900d21e3be717681197bcd",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/north_south.json",
+      "prepared_sha256": "50024f1139208d166ccbb5b724d385b7859f59d991788056dbeb483fbebf7bf7",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/cross_north_south.json",
+      "prepared_sha256": "55f6c982ff5d4ebc74d7c773384215164a8b2da175fe4b0461b45de3357f46e7",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/single_stage1.json",
+      "prepared_sha256": "341ac8567bff5670c1a33d11c1e62f05300d76ca205c6754bfd71875470f7ea1",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/trellis/cross_east_west.json",
+      "prepared_sha256": "7962801fa08321583800476b39e11ad35c58484a0d1ed11e3ee80c8c8705b697",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/single_stage2.json",
+      "prepared_sha256": "9bca1e40f05aa9fdfdbc42d7130e5dc8b02d74bfbebb77369a5050d41c036251",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/trellis/east_west.json",
+      "prepared_sha256": "aa9aa45f83d3f4edf333613570d2dbc9e0f2a82009195ec6abbf4f81feac2ae6",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/trellis/cross_up_down.json",
+      "prepared_sha256": "61af6fa42a19f947529868de6acf224c1ed196710b5bdebf035e166225ed568d",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/trellis/cross_north_south.json",
+      "prepared_sha256": "578af86c19b9f4a075f44202ab960e0381b060b941bfb8e817b31993dd2e0331",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/trellis/north_south.json",
+      "prepared_sha256": "9282cac3122f08d7a653e7217d58be5c76c6aa32c00fbefb5d3f93876260cace",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/six_direction.json",
+      "prepared_sha256": "ad19e5a62c05b6fc3ba8f67a652e75f57eb7d71ad1a9fd87458cd000237e09ec",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/trellis/east_west.json",
+      "prepared_sha256": "aa9aa45f83d3f4edf333613570d2dbc9e0f2a82009195ec6abbf4f81feac2ae6",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/east_west.json",
+      "prepared_sha256": "54737dd40bd8ffab7cd700634d1567699e2d794818bef8400d7c871088b1d8ce",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/trellis/north_south.json",
+      "prepared_sha256": "9282cac3122f08d7a653e7217d58be5c76c6aa32c00fbefb5d3f93876260cace",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/trellis/cross_east_west.json",
+      "prepared_sha256": "7962801fa08321583800476b39e11ad35c58484a0d1ed11e3ee80c8c8705b697",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/single_stage3.json",
+      "prepared_sha256": "97a481315e0c1264833af9de9f149ebe7db6008ceb718e3240e45f2f1c2a1237",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/trellis/single.json",
+      "prepared_sha256": "a55282f3fbb337660d42d4db78591704e0a3b3b1a7d10f33fac67815ecf845ed",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/trellis/cross_north_south.json",
+      "prepared_sha256": "578af86c19b9f4a075f44202ab960e0381b060b941bfb8e817b31993dd2e0331",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/incense/catnip_incense.png",
+      "prepared_sha256": "901bbea073171fbee3612e7e6e0773b18094eb54e181b8e4aee0f980f653ebce",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/incense/butterfly_incense.png",
+      "prepared_sha256": "c1fe67e237b9a4c95a22faa50676210f9ffccf1861efd83354900bcd035f5961",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/trellis/cross_up_down.json",
+      "prepared_sha256": "61af6fa42a19f947529868de6acf224c1ed196710b5bdebf035e166225ed568d",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/incense/ginkgo_incense.png",
+      "prepared_sha256": "57415e0a10525ac095c47a93a664957eca6255fee71caceff4395dbd06aaa2fc",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/incense/firefly_incense.png",
+      "prepared_sha256": "ea4a9df2e7c61fee84fc6103fd651ffd973de412db6378c9fc862e2d371328ab",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/models/block/plant/trellis/six_direction.json",
+      "prepared_sha256": "6064a15101b438e12002d7a1565c84345de86faaad3ecda3ffda324a41db9ecf",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/incense/pine_incense.png",
+      "prepared_sha256": "5662bccae6f4d3fc5b3ed99cdf596195bc3ddd263ccfaa435c8e755e4a7d63c4",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/ice_grapevine_trellis/six_direction.json",
+      "prepared_sha256": "ad19e5a62c05b6fc3ba8f67a652e75f57eb7d71ad1a9fd87458cd000237e09ec",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/trellis/single.json",
+      "prepared_sha256": "a55282f3fbb337660d42d4db78591704e0a3b3b1a7d10f33fac67815ecf845ed",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/textures/block/deco/incense/catnip_incense.png",
+      "prepared_sha256": "901bbea073171fbee3612e7e6e0773b18094eb54e181b8e4aee0f980f653ebce",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/incense/sakura_incense.png",
+      "prepared_sha256": "acb340ee0b2e39b6b079f93050b5baae1cfd2de8638c30b48a6efc03b46ba66a",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/textures/block/deco/incense/butterfly_incense.png",
+      "prepared_sha256": "c1fe67e237b9a4c95a22faa50676210f9ffccf1861efd83354900bcd035f5961",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/textures/block/deco/incense/firefly_incense.png",
+      "prepared_sha256": "ea4a9df2e7c61fee84fc6103fd651ffd973de412db6378c9fc862e2d371328ab",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/incense/snow_incense.png",
+      "prepared_sha256": "8b483a4ba8c74c52925601711dbfd9eafecca5ea7d6c2d9c4d29aa989e4dd038",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/incense/spore_incense.png",
+      "prepared_sha256": "a15b92eac4f1d3e29138b8f77092f664b57df72bdad439f5ff9dd7a807d12f1e",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/string_lights/black.png",
+      "prepared_sha256": "6c0e04bdc3d9c9ac660203fa469d88d0daafd2ed59a1493566d77efdbbf4f4c7",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/textures/block/deco/incense/pine_incense.png",
+      "prepared_sha256": "5662bccae6f4d3fc5b3ed99cdf596195bc3ddd263ccfaa435c8e755e4a7d63c4",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/textures/block/deco/incense/ginkgo_incense.png",
+      "prepared_sha256": "57415e0a10525ac095c47a93a664957eca6255fee71caceff4395dbd06aaa2fc",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/string_lights/brown.png",
+      "prepared_sha256": "100840758177b2dbf78605265386f71eba82e7345a62e5993b554b3011845db8",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/string_lights/blue.png",
+      "prepared_sha256": "8f1f3d3eeccbc32cb67bd99443353eed975a16f824d89059cf37d70162e94550",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/textures/block/deco/incense/sakura_incense.png",
+      "prepared_sha256": "acb340ee0b2e39b6b079f93050b5baae1cfd2de8638c30b48a6efc03b46ba66a",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/textures/block/deco/incense/spore_incense.png",
+      "prepared_sha256": "a15b92eac4f1d3e29138b8f77092f664b57df72bdad439f5ff9dd7a807d12f1e",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/string_lights/colorless.png",
+      "prepared_sha256": "2690d4938359e7712b90eadeaf3b07e2c23994a31d5d82f8aa455c87927ba13f",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/models/block/plant/trellis/six_direction.json",
+      "prepared_sha256": "6064a15101b438e12002d7a1565c84345de86faaad3ecda3ffda324a41db9ecf",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/textures/block/deco/incense/snow_incense.png",
+      "prepared_sha256": "8b483a4ba8c74c52925601711dbfd9eafecca5ea7d6c2d9c4d29aa989e4dd038",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/string_lights/gray.png",
+      "prepared_sha256": "1b264c702f2f88875da6c6f026d4e39002d79b8570e03e970989234bc2a8201a",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/string_lights/cyan.png",
+      "prepared_sha256": "849ecaa8fbd21a8b90c68cf9411d2120a2a7bd316525bcbd8325fe9d2e422ed5",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/string_lights/green.png",
+      "prepared_sha256": "5f0c09d1afdfabe69a9969c72252a57b9d48c1bd7f05033e12ef11f584fd957e",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/textures/block/deco/string_lights/black.png",
+      "prepared_sha256": "6c0e04bdc3d9c9ac660203fa469d88d0daafd2ed59a1493566d77efdbbf4f4c7",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/string_lights/light_blue.png",
+      "prepared_sha256": "190c0a926c72aea9036d006c7b91ea285d42cfca488b4f5d7d3cc00b1fb24ca1",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/textures/block/deco/string_lights/gray.png",
+      "prepared_sha256": "1b264c702f2f88875da6c6f026d4e39002d79b8570e03e970989234bc2a8201a",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/textures/block/deco/string_lights/brown.png",
+      "prepared_sha256": "100840758177b2dbf78605265386f71eba82e7345a62e5993b554b3011845db8",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/string_lights/light_gray.png",
+      "prepared_sha256": "ea2a65710d4cf8e3f0211934290ab43e2477fc90020b75547b8b4d8661ef917c",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/textures/block/deco/string_lights/colorless.png",
+      "prepared_sha256": "2690d4938359e7712b90eadeaf3b07e2c23994a31d5d82f8aa455c87927ba13f",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/textures/block/deco/string_lights/blue.png",
+      "prepared_sha256": "8f1f3d3eeccbc32cb67bd99443353eed975a16f824d89059cf37d70162e94550",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/string_lights/lime.png",
+      "prepared_sha256": "c9139b1396ca21736e8cf029cef2cca1d1b2b1f1859bb59ebc717af7bddadd95",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/textures/block/deco/string_lights/green.png",
+      "prepared_sha256": "5f0c09d1afdfabe69a9969c72252a57b9d48c1bd7f05033e12ef11f584fd957e",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/string_lights/orange.png",
+      "prepared_sha256": "a12419c5fb9e4d00a660f2c705f5ed0bd66166fa10190fdbf03dddff8b46f3ec",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/string_lights/magenta.png",
+      "prepared_sha256": "19bde446c77e6c81ef92691e89f7ae2d4f79e933c0a722121002a21f6fc26d44",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/string_lights/purple.png",
+      "prepared_sha256": "5d78e879e1a4cb27fae3059f774cc59a71c80f09f237e33d9a2003a2ab39a871",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/textures/block/deco/string_lights/light_blue.png",
+      "prepared_sha256": "190c0a926c72aea9036d006c7b91ea285d42cfca488b4f5d7d3cc00b1fb24ca1",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/textures/block/deco/string_lights/lime.png",
+      "prepared_sha256": "c9139b1396ca21736e8cf029cef2cca1d1b2b1f1859bb59ebc717af7bddadd95",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/textures/block/deco/string_lights/cyan.png",
+      "prepared_sha256": "849ecaa8fbd21a8b90c68cf9411d2120a2a7bd316525bcbd8325fe9d2e422ed5",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/textures/block/deco/string_lights/light_gray.png",
+      "prepared_sha256": "ea2a65710d4cf8e3f0211934290ab43e2477fc90020b75547b8b4d8661ef917c",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/string_lights/yellow.png",
+      "prepared_sha256": "bb25b183f1a6594de267734e6de8c62adecdf54869009562cb4d4af3d0f465c8",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/string_lights/white.png",
+      "prepared_sha256": "74cadcef4da6952bb39a99c17289a8bacee06a2afe0d8349035d8790eae8a36e",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/string_lights/red.png",
+      "prepared_sha256": "38006c233500fedab78fad22c43a81ddaa880bd1b84a095898a5da220ef3d3d5",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/textures/block/deco/string_lights/magenta.png",
+      "prepared_sha256": "19bde446c77e6c81ef92691e89f7ae2d4f79e933c0a722121002a21f6fc26d44",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/string_lights/pink.png",
+      "prepared_sha256": "7b601578e11d83960154cae8ab704ef574b8a4493bd3d177292719aa84833871",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/textures/block/deco/string_lights/orange.png",
+      "prepared_sha256": "a12419c5fb9e4d00a660f2c705f5ed0bd66166fa10190fdbf03dddff8b46f3ec",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/plant/gold_grape_crop.png",
+      "prepared_sha256": "eb39ee4273d3298bf1f084a91300b8d97504e225c3b472b9094ec65a34e855a9",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/textures/block/deco/string_lights/purple.png",
+      "prepared_sha256": "5d78e879e1a4cb27fae3059f774cc59a71c80f09f237e33d9a2003a2ab39a871",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/plant/gold_grapevine_trellis.png",
+      "prepared_sha256": "011d3f40b24934d7ef2f15bb170cd45c0058553a69485ee36614fb8a84b20db8",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/plant/grape/particle_1.png",
+      "prepared_sha256": "57c2449d9440cf74324a69a595645840fc4330c8b875d245effd19af26510655",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/textures/block/deco/string_lights/yellow.png",
+      "prepared_sha256": "bb25b183f1a6594de267734e6de8c62adecdf54869009562cb4d4af3d0f465c8",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/textures/block/deco/string_lights/white.png",
+      "prepared_sha256": "74cadcef4da6952bb39a99c17289a8bacee06a2afe0d8349035d8790eae8a36e",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/plant/grape/particle_2.png",
+      "prepared_sha256": "0acdfcb538cbd8ddead4febc39101ca0c010337aee920785bc97b0e8bc9352bd",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/plant/grape/particle_3.png",
+      "prepared_sha256": "383f4f09df5b0e0357b98b6898c9d753efc291b7bacaa560474b538acbcabd91",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/plant/grape/particle_4.png",
+      "prepared_sha256": "f29ce117bd6fde5d59ee98f6890d22c7d684e5acacbc9348956e9bbae7a29cd2",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/textures/block/deco/string_lights/red.png",
+      "prepared_sha256": "38006c233500fedab78fad22c43a81ddaa880bd1b84a095898a5da220ef3d3d5",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/textures/block/plant/gold_grape_crop.png",
+      "prepared_sha256": "eb39ee4273d3298bf1f084a91300b8d97504e225c3b472b9094ec65a34e855a9",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/textures/block/plant/gold_grapevine_trellis.png",
+      "prepared_sha256": "011d3f40b24934d7ef2f15bb170cd45c0058553a69485ee36614fb8a84b20db8",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/textures/block/deco/string_lights/pink.png",
+      "prepared_sha256": "7b601578e11d83960154cae8ab704ef574b8a4493bd3d177292719aa84833871",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/plant/grape_crop.png",
+      "prepared_sha256": "f2061038f26cf4b8a0c7ac66972ad30c647090ce0a14db6e26440a000f7ec491",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/textures/block/plant/grape/particle_1.png",
+      "prepared_sha256": "57c2449d9440cf74324a69a595645840fc4330c8b875d245effd19af26510655",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/plant/grapevine_trellis.png",
+      "prepared_sha256": "31d567e9d7879383743cdc8f28fe9ae00883b9380c32601d3480283cd4bd8f4a",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/plant/grape/particle_5.png",
+      "prepared_sha256": "d3c268db1c77f96a30a7258a2d1fb16a46b76b7b8a276b41f86aa9fe0033215e",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/plant/ice_grape_crop.png",
+      "prepared_sha256": "3d42a7999b5b50cf67a8202b8064ada5df965d65c08883dfc1ab1f068b881b01",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/plant/ice_grapevine_trellis.png",
+      "prepared_sha256": "7eb30bb4f083ffaba2e96a3cf5fe1ebcf17ace4b2823b0eea60362314212b8ba",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/textures/block/plant/grape/particle_2.png",
+      "prepared_sha256": "0acdfcb538cbd8ddead4febc39101ca0c010337aee920785bc97b0e8bc9352bd",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/textures/block/plant/grape/particle_4.png",
+      "prepared_sha256": "f29ce117bd6fde5d59ee98f6890d22c7d684e5acacbc9348956e9bbae7a29cd2",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/textures/block/plant/grape/particle_3.png",
+      "prepared_sha256": "383f4f09df5b0e0357b98b6898c9d753efc291b7bacaa560474b538acbcabd91",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/textures/block/plant/grapevine_trellis.png",
+      "prepared_sha256": "f07530944309b960431585909d9afba85cd30c10f2cb1d211239925163c56e47",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/plant/trellis.png",
+      "prepared_sha256": "3d854d923a356c1548a1bbc19f70ced13ac8c55733a6413883cc628a8c326e92",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/plant/wild_grapevine_plant.png",
+      "prepared_sha256": "966caf54921b77b67e64a801fd18d0e93bc5fb1fea471475eb56310682ea95bb",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/resources/assets/kaleidoscope_tavern/textures/block/table.png",
+      "prepared_sha256": "cda5255d099c9431c751958f3a81d9216dd5bf94655843fef4d38633d17af2c1",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/textures/block/plant/grape/particle_5.png",
+      "prepared_sha256": "d3c268db1c77f96a30a7258a2d1fb16a46b76b7b8a276b41f86aa9fe0033215e",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/textures/block/plant/grape_crop.png",
+      "prepared_sha256": "087a86419726dd5026b565895c1796715265810910ea333abaaf3c963d9c41f5",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/textures/block/plant/ice_grapevine_trellis.png",
+      "prepared_sha256": "7eb30bb4f083ffaba2e96a3cf5fe1ebcf17ace4b2823b0eea60362314212b8ba",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/textures/block/plant/ice_grape_crop.png",
+      "prepared_sha256": "3d42a7999b5b50cf67a8202b8064ada5df965d65c08883dfc1ab1f068b881b01",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/textures/block/table.png",
+      "prepared_sha256": "cda5255d099c9431c751958f3a81d9216dd5bf94655843fef4d38633d17af2c1",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/textures/block/plant/wild_grapevine_plant.png",
+      "prepared_sha256": "966caf54921b77b67e64a801fd18d0e93bc5fb1fea471475eb56310682ea95bb",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-next-decor-review-20261108/verified-jar-assets/assets/kaleidoscope_tavern/textures/block/plant/trellis.png",
+      "prepared_sha256": "3d854d923a356c1548a1bbc19f70ced13ac8c55733a6413883cc628a8c326e92",
+      "saved_input_bytes_still_match": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/BP/blocks/table.json",
+      "prepared_sha256": "31fb264c6fd45c61b537579bdd7919b8fdc2181d8b0e72e6da23783825a7a87a",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/BP/blocks/table.json",
+      "current_sha256": "31fb264c6fd45c61b537579bdd7919b8fdc2181d8b0e72e6da23783825a7a87a",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/table_single.geo.json",
+      "prepared_sha256": "af91223d9c9a1724710ed36a0f9625cbcaeab7ebe0ef8fbf8a5dbb216116721f",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/table_single.geo.json",
+      "current_sha256": "af91223d9c9a1724710ed36a0f9625cbcaeab7ebe0ef8fbf8a5dbb216116721f",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/textures/kaleidoscope_tavern/block/table.png",
+      "prepared_sha256": "cda5255d099c9431c751958f3a81d9216dd5bf94655843fef4d38633d17af2c1",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/textures/kaleidoscope_tavern/block/table.png",
+      "current_sha256": "cda5255d099c9431c751958f3a81d9216dd5bf94655843fef4d38633d17af2c1",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/table_left.geo.json",
+      "prepared_sha256": "c06907c55ce5f61177dc4f25bda63aa81a4e8e46c9a38ac1204cd9b0597be3f4",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/table_left.geo.json",
+      "current_sha256": "c06907c55ce5f61177dc4f25bda63aa81a4e8e46c9a38ac1204cd9b0597be3f4",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/table_middle.geo.json",
+      "prepared_sha256": "d2459f868dd04c0f0c99ea2c3a776d5910a539b587b40369a709236756b39cea",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/table_middle.geo.json",
+      "current_sha256": "d2459f868dd04c0f0c99ea2c3a776d5910a539b587b40369a709236756b39cea",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/table_right.geo.json",
+      "prepared_sha256": "6eb67bca62b34fa73c5f81a8ef17199e4d0b9b5e11a8d0303c83f6605ea7af1b",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/table_right.geo.json",
+      "current_sha256": "6eb67bca62b34fa73c5f81a8ef17199e4d0b9b5e11a8d0303c83f6605ea7af1b",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/table_left_rot.geo.json",
+      "prepared_sha256": "b06494779ebd4430c05c2b03dee05db1e6a7c18931e9f8cdbcf3745f63fdf7c9",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/table_left_rot.geo.json",
+      "current_sha256": "b06494779ebd4430c05c2b03dee05db1e6a7c18931e9f8cdbcf3745f63fdf7c9",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/table_middle_rot.geo.json",
+      "prepared_sha256": "20b247a3f433b8acc4553c21d1d8ecb42b0c5f7781c24e5d4a51b24be0446262",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/table_middle_rot.geo.json",
+      "current_sha256": "20b247a3f433b8acc4553c21d1d8ecb42b0c5f7781c24e5d4a51b24be0446262",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/table_right_rot.geo.json",
+      "prepared_sha256": "37b6e4df5f24ac5ed716ae098bc0aa46d1bce595f73ff06faab80e9c833e76f2",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/table_right_rot.geo.json",
+      "current_sha256": "37b6e4df5f24ac5ed716ae098bc0aa46d1bce595f73ff06faab80e9c833e76f2",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/BP/blocks/light_black.json",
+      "prepared_sha256": "faa8f6b7bed20c451f6ad14373d55fcd52c81086ee4cfb71d2675ac048adc27a",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/BP/blocks/light_black.json",
+      "current_sha256": "faa8f6b7bed20c451f6ad14373d55fcd52c81086ee4cfb71d2675ac048adc27a",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/string_lights_black.geo.json",
+      "prepared_sha256": "9ccab51dc415c9f3203895445a1abe0cf96cd12390f58435c0a04fc58e5e7b8a",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/string_lights_black.geo.json",
+      "current_sha256": "9ccab51dc415c9f3203895445a1abe0cf96cd12390f58435c0a04fc58e5e7b8a",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/textures/kaleidoscope_tavern/block/deco/string_lights/black.png",
+      "prepared_sha256": "6c0e04bdc3d9c9ac660203fa469d88d0daafd2ed59a1493566d77efdbbf4f4c7",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/textures/kaleidoscope_tavern/block/deco/string_lights/black.png",
+      "current_sha256": "6c0e04bdc3d9c9ac660203fa469d88d0daafd2ed59a1493566d77efdbbf4f4c7",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/BP/blocks/light_blue.json",
+      "prepared_sha256": "d6f661888e8ec2e8c023b7093847df951817bf989eb410a8987de1a79c3d111c",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/BP/blocks/light_blue.json",
+      "current_sha256": "d6f661888e8ec2e8c023b7093847df951817bf989eb410a8987de1a79c3d111c",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/string_lights_blue.geo.json",
+      "prepared_sha256": "961bb5ddd4d74ec6fb665a2c77d3ad0800566b53e610aee7f1659dafc9b3134d",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/string_lights_blue.geo.json",
+      "current_sha256": "961bb5ddd4d74ec6fb665a2c77d3ad0800566b53e610aee7f1659dafc9b3134d",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/textures/kaleidoscope_tavern/block/deco/string_lights/blue.png",
+      "prepared_sha256": "8f1f3d3eeccbc32cb67bd99443353eed975a16f824d89059cf37d70162e94550",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/textures/kaleidoscope_tavern/block/deco/string_lights/blue.png",
+      "current_sha256": "8f1f3d3eeccbc32cb67bd99443353eed975a16f824d89059cf37d70162e94550",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/BP/blocks/light_brown.json",
+      "prepared_sha256": "ba08c4a598082e7d9d4683385483e402bbbb01adc0c170320f7343a34cb33ce7",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/BP/blocks/light_brown.json",
+      "current_sha256": "ba08c4a598082e7d9d4683385483e402bbbb01adc0c170320f7343a34cb33ce7",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/string_lights_brown.geo.json",
+      "prepared_sha256": "e44ec546e01c22fd11feeb9e60494350ad9d312191bcc43b81dde6ffca1e0fb2",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/string_lights_brown.geo.json",
+      "current_sha256": "e44ec546e01c22fd11feeb9e60494350ad9d312191bcc43b81dde6ffca1e0fb2",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/textures/kaleidoscope_tavern/block/deco/string_lights/brown.png",
+      "prepared_sha256": "100840758177b2dbf78605265386f71eba82e7345a62e5993b554b3011845db8",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/textures/kaleidoscope_tavern/block/deco/string_lights/brown.png",
+      "current_sha256": "100840758177b2dbf78605265386f71eba82e7345a62e5993b554b3011845db8",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/BP/blocks/light_colorless.json",
+      "prepared_sha256": "de68f416aa73cb19a2d6e3f85b1d9093cd32fe28a98b42b730e0567c24edcd88",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/BP/blocks/light_colorless.json",
+      "current_sha256": "de68f416aa73cb19a2d6e3f85b1d9093cd32fe28a98b42b730e0567c24edcd88",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/string_lights_colorless.geo.json",
+      "prepared_sha256": "e32fc45a8e6c03e0211be689f84252077667193e666f087faffc91ef35416346",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/string_lights_colorless.geo.json",
+      "current_sha256": "e32fc45a8e6c03e0211be689f84252077667193e666f087faffc91ef35416346",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/textures/kaleidoscope_tavern/block/deco/string_lights/colorless.png",
+      "prepared_sha256": "2690d4938359e7712b90eadeaf3b07e2c23994a31d5d82f8aa455c87927ba13f",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/textures/kaleidoscope_tavern/block/deco/string_lights/colorless.png",
+      "current_sha256": "2690d4938359e7712b90eadeaf3b07e2c23994a31d5d82f8aa455c87927ba13f",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/BP/blocks/light_cyan.json",
+      "prepared_sha256": "60452d3f41bffaeda79ba9aaf32ad4ba42b59f65ae4100869b8cecffc8faa8d0",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/BP/blocks/light_cyan.json",
+      "current_sha256": "60452d3f41bffaeda79ba9aaf32ad4ba42b59f65ae4100869b8cecffc8faa8d0",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/string_lights_cyan.geo.json",
+      "prepared_sha256": "6a7e5d584b2c24d9456312f1d5582ed6fc8ce0a3610a710746925ddc2c6e037c",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/string_lights_cyan.geo.json",
+      "current_sha256": "6a7e5d584b2c24d9456312f1d5582ed6fc8ce0a3610a710746925ddc2c6e037c",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/textures/kaleidoscope_tavern/block/deco/string_lights/cyan.png",
+      "prepared_sha256": "849ecaa8fbd21a8b90c68cf9411d2120a2a7bd316525bcbd8325fe9d2e422ed5",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/textures/kaleidoscope_tavern/block/deco/string_lights/cyan.png",
+      "current_sha256": "849ecaa8fbd21a8b90c68cf9411d2120a2a7bd316525bcbd8325fe9d2e422ed5",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/BP/blocks/light_gray.json",
+      "prepared_sha256": "a8d2fbb6fef2afbb97a00911e8cfdabb5c66a98814118083d2331e5b16541f19",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/BP/blocks/light_gray.json",
+      "current_sha256": "a8d2fbb6fef2afbb97a00911e8cfdabb5c66a98814118083d2331e5b16541f19",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/string_lights_gray.geo.json",
+      "prepared_sha256": "9d21d00730bc98d8d3d0cb165c36b8cf063afc99c3def82ccfc7dc360bc38917",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/string_lights_gray.geo.json",
+      "current_sha256": "9d21d00730bc98d8d3d0cb165c36b8cf063afc99c3def82ccfc7dc360bc38917",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/textures/kaleidoscope_tavern/block/deco/string_lights/gray.png",
+      "prepared_sha256": "1b264c702f2f88875da6c6f026d4e39002d79b8570e03e970989234bc2a8201a",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/textures/kaleidoscope_tavern/block/deco/string_lights/gray.png",
+      "current_sha256": "1b264c702f2f88875da6c6f026d4e39002d79b8570e03e970989234bc2a8201a",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/BP/blocks/light_green.json",
+      "prepared_sha256": "287d30c938bdd8b3679ecbe5e6227f514d18b2075c014c261b5aa7d31510a353",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/BP/blocks/light_green.json",
+      "current_sha256": "287d30c938bdd8b3679ecbe5e6227f514d18b2075c014c261b5aa7d31510a353",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/string_lights_green.geo.json",
+      "prepared_sha256": "79dae9e0f1b3a3815c8e6ee17c4b79e9bfa2c8874e99bd057caf9f1031b59d46",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/string_lights_green.geo.json",
+      "current_sha256": "79dae9e0f1b3a3815c8e6ee17c4b79e9bfa2c8874e99bd057caf9f1031b59d46",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/textures/kaleidoscope_tavern_jar/block/deco/string_lights/green.png",
+      "prepared_sha256": "5f0c09d1afdfabe69a9969c72252a57b9d48c1bd7f05033e12ef11f584fd957e",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/textures/kaleidoscope_tavern_jar/block/deco/string_lights/green.png",
+      "current_sha256": "5f0c09d1afdfabe69a9969c72252a57b9d48c1bd7f05033e12ef11f584fd957e",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/BP/blocks/light_light_blue.json",
+      "prepared_sha256": "0e9cd90539a55afab86aba9c08debb0a67225c7ee5ef587423e9ed5593d3da29",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/BP/blocks/light_light_blue.json",
+      "current_sha256": "0e9cd90539a55afab86aba9c08debb0a67225c7ee5ef587423e9ed5593d3da29",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/string_lights_light_blue.geo.json",
+      "prepared_sha256": "684a7102fbd311968594e935f2b26361629b809231fc8e55480a0e71ba9c1435",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/string_lights_light_blue.geo.json",
+      "current_sha256": "684a7102fbd311968594e935f2b26361629b809231fc8e55480a0e71ba9c1435",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/textures/kaleidoscope_tavern_jar/block/deco/string_lights/light_blue.png",
+      "prepared_sha256": "190c0a926c72aea9036d006c7b91ea285d42cfca488b4f5d7d3cc00b1fb24ca1",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/textures/kaleidoscope_tavern_jar/block/deco/string_lights/light_blue.png",
+      "current_sha256": "190c0a926c72aea9036d006c7b91ea285d42cfca488b4f5d7d3cc00b1fb24ca1",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/BP/blocks/light_light_gray.json",
+      "prepared_sha256": "2afdd4b8d590c2ea83a7997ac03af4fcffc60a948e519f15bf0d1ad212daf033",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/BP/blocks/light_light_gray.json",
+      "current_sha256": "2afdd4b8d590c2ea83a7997ac03af4fcffc60a948e519f15bf0d1ad212daf033",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/string_lights_light_gray.geo.json",
+      "prepared_sha256": "baa3d94841328e7d1f191c8357093d7c4f23effd4eb05c74f6d27b1b087bc37e",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/string_lights_light_gray.geo.json",
+      "current_sha256": "baa3d94841328e7d1f191c8357093d7c4f23effd4eb05c74f6d27b1b087bc37e",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/textures/kaleidoscope_tavern_jar/block/deco/string_lights/light_gray.png",
+      "prepared_sha256": "ea2a65710d4cf8e3f0211934290ab43e2477fc90020b75547b8b4d8661ef917c",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/textures/kaleidoscope_tavern_jar/block/deco/string_lights/light_gray.png",
+      "current_sha256": "ea2a65710d4cf8e3f0211934290ab43e2477fc90020b75547b8b4d8661ef917c",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/BP/blocks/light_lime.json",
+      "prepared_sha256": "473a8b5c7b90481271d6b64b31837080b857e824720b18811e097e80ae73d92c",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/BP/blocks/light_lime.json",
+      "current_sha256": "473a8b5c7b90481271d6b64b31837080b857e824720b18811e097e80ae73d92c",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/string_lights_lime.geo.json",
+      "prepared_sha256": "1f9ebd1b12e19c8fb9d8e8f1c0b35cb0226e11a5ead195bc70e2adbbfe1ab218",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/string_lights_lime.geo.json",
+      "current_sha256": "1f9ebd1b12e19c8fb9d8e8f1c0b35cb0226e11a5ead195bc70e2adbbfe1ab218",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/textures/kaleidoscope_tavern_jar/block/deco/string_lights/lime.png",
+      "prepared_sha256": "c9139b1396ca21736e8cf029cef2cca1d1b2b1f1859bb59ebc717af7bddadd95",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/textures/kaleidoscope_tavern_jar/block/deco/string_lights/lime.png",
+      "current_sha256": "c9139b1396ca21736e8cf029cef2cca1d1b2b1f1859bb59ebc717af7bddadd95",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/BP/blocks/light_magenta.json",
+      "prepared_sha256": "a43a28e75e30761ed66c04f643c5511ddbb0a0282a79de6ce6221c7dc2095e77",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/BP/blocks/light_magenta.json",
+      "current_sha256": "a43a28e75e30761ed66c04f643c5511ddbb0a0282a79de6ce6221c7dc2095e77",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/string_lights_magenta.geo.json",
+      "prepared_sha256": "ffa9a24d817006ba467d895bfad0ab5ef4fe6a48ec362c7955e253fbb9ee60f5",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/string_lights_magenta.geo.json",
+      "current_sha256": "ffa9a24d817006ba467d895bfad0ab5ef4fe6a48ec362c7955e253fbb9ee60f5",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/textures/kaleidoscope_tavern_jar/block/deco/string_lights/magenta.png",
+      "prepared_sha256": "19bde446c77e6c81ef92691e89f7ae2d4f79e933c0a722121002a21f6fc26d44",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/textures/kaleidoscope_tavern_jar/block/deco/string_lights/magenta.png",
+      "current_sha256": "19bde446c77e6c81ef92691e89f7ae2d4f79e933c0a722121002a21f6fc26d44",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/BP/blocks/light_orange.json",
+      "prepared_sha256": "29dff12f0306a2c1b9cab6eecc2f2e1ef89e284307e19814672e73ac1c4b5559",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/BP/blocks/light_orange.json",
+      "current_sha256": "29dff12f0306a2c1b9cab6eecc2f2e1ef89e284307e19814672e73ac1c4b5559",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/string_lights_orange.geo.json",
+      "prepared_sha256": "5d52a5ed4ce08db44cc8da7df4a0f6eaaacf0f217ec839b58c8d6c63c91ad0ea",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/string_lights_orange.geo.json",
+      "current_sha256": "5d52a5ed4ce08db44cc8da7df4a0f6eaaacf0f217ec839b58c8d6c63c91ad0ea",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/textures/kaleidoscope_tavern_jar/block/deco/string_lights/orange.png",
+      "prepared_sha256": "a12419c5fb9e4d00a660f2c705f5ed0bd66166fa10190fdbf03dddff8b46f3ec",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/textures/kaleidoscope_tavern_jar/block/deco/string_lights/orange.png",
+      "current_sha256": "a12419c5fb9e4d00a660f2c705f5ed0bd66166fa10190fdbf03dddff8b46f3ec",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/BP/blocks/light_pink.json",
+      "prepared_sha256": "5edf06a93b57726df9ab9a7ef909d96a124c58e0cdb14f4a8fab253cb1738233",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/BP/blocks/light_pink.json",
+      "current_sha256": "5edf06a93b57726df9ab9a7ef909d96a124c58e0cdb14f4a8fab253cb1738233",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/string_lights_pink.geo.json",
+      "prepared_sha256": "296190b89b4f5dc5b69eaae61899d3d2a97abee2b3acdb24f783af375a9fd9f6",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/string_lights_pink.geo.json",
+      "current_sha256": "296190b89b4f5dc5b69eaae61899d3d2a97abee2b3acdb24f783af375a9fd9f6",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/textures/kaleidoscope_tavern_jar/block/deco/string_lights/pink.png",
+      "prepared_sha256": "7b601578e11d83960154cae8ab704ef574b8a4493bd3d177292719aa84833871",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/textures/kaleidoscope_tavern_jar/block/deco/string_lights/pink.png",
+      "current_sha256": "7b601578e11d83960154cae8ab704ef574b8a4493bd3d177292719aa84833871",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/BP/blocks/light_purple.json",
+      "prepared_sha256": "64942ca88fe7a0617379b990e1c8fedf1919022dd7e336eceb62a2e3554cbcd6",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/BP/blocks/light_purple.json",
+      "current_sha256": "64942ca88fe7a0617379b990e1c8fedf1919022dd7e336eceb62a2e3554cbcd6",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/string_lights_purple.geo.json",
+      "prepared_sha256": "91beeee61792d721526b9a34d33e5ba2fd09360e33cda8378d93c808875fe07b",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/string_lights_purple.geo.json",
+      "current_sha256": "91beeee61792d721526b9a34d33e5ba2fd09360e33cda8378d93c808875fe07b",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/textures/kaleidoscope_tavern_jar/block/deco/string_lights/purple.png",
+      "prepared_sha256": "5d78e879e1a4cb27fae3059f774cc59a71c80f09f237e33d9a2003a2ab39a871",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/textures/kaleidoscope_tavern_jar/block/deco/string_lights/purple.png",
+      "current_sha256": "5d78e879e1a4cb27fae3059f774cc59a71c80f09f237e33d9a2003a2ab39a871",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/BP/blocks/light_red.json",
+      "prepared_sha256": "90a75471661e5d95e38f1c4f520ba63443a62ad2193014f316c749037e869da9",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/BP/blocks/light_red.json",
+      "current_sha256": "90a75471661e5d95e38f1c4f520ba63443a62ad2193014f316c749037e869da9",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/string_lights_red.geo.json",
+      "prepared_sha256": "8123f6688373b02e36647f38ee6c7eb014171efbe1bb0aef3cd7250ca1dadfb9",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/string_lights_red.geo.json",
+      "current_sha256": "8123f6688373b02e36647f38ee6c7eb014171efbe1bb0aef3cd7250ca1dadfb9",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/textures/kaleidoscope_tavern/block/deco/string_lights/red.png",
+      "prepared_sha256": "38006c233500fedab78fad22c43a81ddaa880bd1b84a095898a5da220ef3d3d5",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/textures/kaleidoscope_tavern/block/deco/string_lights/red.png",
+      "current_sha256": "38006c233500fedab78fad22c43a81ddaa880bd1b84a095898a5da220ef3d3d5",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/BP/blocks/light_white.json",
+      "prepared_sha256": "ad62ed9e5e1c12177ab27b5a67d0e9163b87c4fb6433feece51008968d3aa005",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/BP/blocks/light_white.json",
+      "current_sha256": "ad62ed9e5e1c12177ab27b5a67d0e9163b87c4fb6433feece51008968d3aa005",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/string_lights_white.geo.json",
+      "prepared_sha256": "46da2a314f646aeb2a72e382308acdc9fa7ea49d9d68cde659e998cca67e3ca1",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/string_lights_white.geo.json",
+      "current_sha256": "46da2a314f646aeb2a72e382308acdc9fa7ea49d9d68cde659e998cca67e3ca1",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/textures/kaleidoscope_tavern/block/deco/string_lights/white.png",
+      "prepared_sha256": "74cadcef4da6952bb39a99c17289a8bacee06a2afe0d8349035d8790eae8a36e",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/textures/kaleidoscope_tavern/block/deco/string_lights/white.png",
+      "current_sha256": "74cadcef4da6952bb39a99c17289a8bacee06a2afe0d8349035d8790eae8a36e",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/BP/blocks/light_yellow.json",
+      "prepared_sha256": "c6500d7d292206f66ad9a80c591db11f6e75e480a3b7d1729d6fb0559a9ae3f8",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/BP/blocks/light_yellow.json",
+      "current_sha256": "c6500d7d292206f66ad9a80c591db11f6e75e480a3b7d1729d6fb0559a9ae3f8",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/string_lights_yellow.geo.json",
+      "prepared_sha256": "54ebeb8a122e9d68277d7648a5432b7d479280dfd91a1938fcf07f1eddf0e257",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/string_lights_yellow.geo.json",
+      "current_sha256": "54ebeb8a122e9d68277d7648a5432b7d479280dfd91a1938fcf07f1eddf0e257",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/textures/kaleidoscope_tavern_jar/block/deco/string_lights/yellow.png",
+      "prepared_sha256": "bb25b183f1a6594de267734e6de8c62adecdf54869009562cb4d4af3d0f465c8",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/textures/kaleidoscope_tavern_jar/block/deco/string_lights/yellow.png",
+      "current_sha256": "bb25b183f1a6594de267734e6de8c62adecdf54869009562cb4d4af3d0f465c8",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/BP/blocks/butterfly_incense.json",
+      "prepared_sha256": "5e82d502ad00546e97c22ea81fcf49f7482e3df8973a331cc5e41744184e771f",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/BP/blocks/butterfly_incense.json",
+      "current_sha256": "5e82d502ad00546e97c22ea81fcf49f7482e3df8973a331cc5e41744184e771f",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/incense_closed.geo.json",
+      "prepared_sha256": "47d14387d2046ee8cbb83ca7e5f2604755f90e5de798ae41e74b72c1e0daeb83",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/incense_closed.geo.json",
+      "current_sha256": "47bf58ff0226a56c60cfd220a7f61119a0ff87b4983f31914ef5b1f71de9fb07",
+      "current_equals_prepared": false
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/textures/kaleidoscope_tavern/block/deco/incense/butterfly_incense.png",
+      "prepared_sha256": "c1fe67e237b9a4c95a22faa50676210f9ffccf1861efd83354900bcd035f5961",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/textures/kaleidoscope_tavern/block/deco/incense/butterfly_incense.png",
+      "current_sha256": "c1fe67e237b9a4c95a22faa50676210f9ffccf1861efd83354900bcd035f5961",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/incense_open.geo.json",
+      "prepared_sha256": "3bf8c221b1001dcbb2b57eb7c433d70264ccfcc8173d79df9acfec8985d422f2",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/incense_open.geo.json",
+      "current_sha256": "d79d4c47bf08d7444c2619ac00763a70ce009720bd9e885f323e9d9575f338e7",
+      "current_equals_prepared": false
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/BP/blocks/catnip_incense.json",
+      "prepared_sha256": "f6d32272bf70ebc13b400da98ac2d948f1b95b2e5f47c44736e909b87c1931e2",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/BP/blocks/catnip_incense.json",
+      "current_sha256": "f6d32272bf70ebc13b400da98ac2d948f1b95b2e5f47c44736e909b87c1931e2",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/textures/kaleidoscope_tavern/block/deco/incense/catnip_incense.png",
+      "prepared_sha256": "901bbea073171fbee3612e7e6e0773b18094eb54e181b8e4aee0f980f653ebce",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/textures/kaleidoscope_tavern/block/deco/incense/catnip_incense.png",
+      "current_sha256": "901bbea073171fbee3612e7e6e0773b18094eb54e181b8e4aee0f980f653ebce",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/BP/blocks/firefly_incense.json",
+      "prepared_sha256": "c937e0c4d5cdb450d42a31bddc453577baefc3fda1126df3cf49d22d603d0292",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/BP/blocks/firefly_incense.json",
+      "current_sha256": "c937e0c4d5cdb450d42a31bddc453577baefc3fda1126df3cf49d22d603d0292",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/textures/kaleidoscope_tavern/block/deco/incense/firefly_incense.png",
+      "prepared_sha256": "ea4a9df2e7c61fee84fc6103fd651ffd973de412db6378c9fc862e2d371328ab",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/textures/kaleidoscope_tavern/block/deco/incense/firefly_incense.png",
+      "current_sha256": "ea4a9df2e7c61fee84fc6103fd651ffd973de412db6378c9fc862e2d371328ab",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/BP/blocks/ginkgo_incense.json",
+      "prepared_sha256": "74dcf180c9ffe53351b63fc2815994254804c2ea4eb8ac180606dccab3f1a0ab",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/BP/blocks/ginkgo_incense.json",
+      "current_sha256": "74dcf180c9ffe53351b63fc2815994254804c2ea4eb8ac180606dccab3f1a0ab",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/textures/kaleidoscope_tavern/block/deco/incense/ginkgo_incense.png",
+      "prepared_sha256": "57415e0a10525ac095c47a93a664957eca6255fee71caceff4395dbd06aaa2fc",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/textures/kaleidoscope_tavern/block/deco/incense/ginkgo_incense.png",
+      "current_sha256": "57415e0a10525ac095c47a93a664957eca6255fee71caceff4395dbd06aaa2fc",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/BP/blocks/pine_incense.json",
+      "prepared_sha256": "43d3c474945a9e7bb4fc3d4f55c92703f5ae37fbffe1a1023544da51acbc9ffd",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/BP/blocks/pine_incense.json",
+      "current_sha256": "43d3c474945a9e7bb4fc3d4f55c92703f5ae37fbffe1a1023544da51acbc9ffd",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/textures/kaleidoscope_tavern/block/deco/incense/pine_incense.png",
+      "prepared_sha256": "5662bccae6f4d3fc5b3ed99cdf596195bc3ddd263ccfaa435c8e755e4a7d63c4",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/textures/kaleidoscope_tavern/block/deco/incense/pine_incense.png",
+      "current_sha256": "5662bccae6f4d3fc5b3ed99cdf596195bc3ddd263ccfaa435c8e755e4a7d63c4",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/BP/blocks/sakura_incense.json",
+      "prepared_sha256": "a03ed234fa14d75e7df3ec720a6caec6ae32aed440dd9eaca5fa0f63f11d695c",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/BP/blocks/sakura_incense.json",
+      "current_sha256": "a03ed234fa14d75e7df3ec720a6caec6ae32aed440dd9eaca5fa0f63f11d695c",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/textures/kaleidoscope_tavern/block/deco/incense/sakura_incense.png",
+      "prepared_sha256": "acb340ee0b2e39b6b079f93050b5baae1cfd2de8638c30b48a6efc03b46ba66a",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/textures/kaleidoscope_tavern/block/deco/incense/sakura_incense.png",
+      "current_sha256": "acb340ee0b2e39b6b079f93050b5baae1cfd2de8638c30b48a6efc03b46ba66a",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/BP/blocks/snow_incense.json",
+      "prepared_sha256": "a293f342efe73706ea936614d2bc80a4c1a73534469920f457eb5936ce2203d2",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/BP/blocks/snow_incense.json",
+      "current_sha256": "a293f342efe73706ea936614d2bc80a4c1a73534469920f457eb5936ce2203d2",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/textures/kaleidoscope_tavern/block/deco/incense/snow_incense.png",
+      "prepared_sha256": "8b483a4ba8c74c52925601711dbfd9eafecca5ea7d6c2d9c4d29aa989e4dd038",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/textures/kaleidoscope_tavern/block/deco/incense/snow_incense.png",
+      "current_sha256": "8b483a4ba8c74c52925601711dbfd9eafecca5ea7d6c2d9c4d29aa989e4dd038",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/BP/blocks/spore_incense.json",
+      "prepared_sha256": "17191ee97b30f74a787f823f53a183d997fb8fcedaca0aef9343f15a7e36cd1c",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/BP/blocks/spore_incense.json",
+      "current_sha256": "17191ee97b30f74a787f823f53a183d997fb8fcedaca0aef9343f15a7e36cd1c",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/textures/kaleidoscope_tavern/block/deco/incense/spore_incense.png",
+      "prepared_sha256": "a15b92eac4f1d3e29138b8f77092f664b57df72bdad439f5ff9dd7a807d12f1e",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/textures/kaleidoscope_tavern/block/deco/incense/spore_incense.png",
+      "current_sha256": "a15b92eac4f1d3e29138b8f77092f664b57df72bdad439f5ff9dd7a807d12f1e",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/BP/blocks/trellis.json",
+      "prepared_sha256": "488222bbc16c08307861b3509c93de071ad43434cc294191819be1e9e5725c35",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/BP/blocks/trellis.json",
+      "current_sha256": "488222bbc16c08307861b3509c93de071ad43434cc294191819be1e9e5725c35",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/trellis_cross_east_west.geo.json",
+      "prepared_sha256": "ad56cd6fd405412e0f930ee2275ea78fddd8e2651c0b022dd4aa13d9f1975455",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/trellis_cross_east_west.geo.json",
+      "current_sha256": "ad56cd6fd405412e0f930ee2275ea78fddd8e2651c0b022dd4aa13d9f1975455",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/textures/kaleidoscope_tavern/block/plant/trellis.png",
+      "prepared_sha256": "3d854d923a356c1548a1bbc19f70ced13ac8c55733a6413883cc628a8c326e92",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/textures/kaleidoscope_tavern/block/plant/trellis.png",
+      "current_sha256": "3d854d923a356c1548a1bbc19f70ced13ac8c55733a6413883cc628a8c326e92",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/trellis_cross_north_south.geo.json",
+      "prepared_sha256": "a576d095431e04e52e790239627351fb6687533e34af9d5b89b2abedc51f836b",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/trellis_cross_north_south.geo.json",
+      "current_sha256": "a576d095431e04e52e790239627351fb6687533e34af9d5b89b2abedc51f836b",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/trellis_cross_up_down.geo.json",
+      "prepared_sha256": "e94f0278026a3ca3bc2369ac55c3a0d5d73b13fa191978243f02cee801671ec4",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/trellis_cross_up_down.geo.json",
+      "current_sha256": "e94f0278026a3ca3bc2369ac55c3a0d5d73b13fa191978243f02cee801671ec4",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/trellis_east_west.geo.json",
+      "prepared_sha256": "15b8a2d479e7b65bbea994d4d55fdc8f09634221a75eface036088b7e44c3eaf",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/trellis_east_west.geo.json",
+      "current_sha256": "15b8a2d479e7b65bbea994d4d55fdc8f09634221a75eface036088b7e44c3eaf",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/trellis_north_south.geo.json",
+      "prepared_sha256": "0dc96268fc3692eeea65759b193132044cfe00a1df307bf01bd0f1b81a6c11af",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/trellis_north_south.geo.json",
+      "current_sha256": "0dc96268fc3692eeea65759b193132044cfe00a1df307bf01bd0f1b81a6c11af",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/trellis_single.geo.json",
+      "prepared_sha256": "67f0d05e4490d3e6a4ecdd21f67b22cde411cda7d90f8f5cbfcfa62ad452ca8f",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/trellis_single.geo.json",
+      "current_sha256": "67f0d05e4490d3e6a4ecdd21f67b22cde411cda7d90f8f5cbfcfa62ad452ca8f",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/trellis_six_direction.geo.json",
+      "prepared_sha256": "e097254391cd964597e18fe9cbc3ace6b59229a3c185f627b7ed9c34eebb24f3",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/trellis_six_direction.geo.json",
+      "current_sha256": "e097254391cd964597e18fe9cbc3ace6b59229a3c185f627b7ed9c34eebb24f3",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/BP/blocks/grape_crop.json",
+      "prepared_sha256": "2cf88ae683249d42e50ad3639d9051dd4193d5688d7ad348df8d9e00224bc2c8",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/BP/blocks/grape_crop.json",
+      "current_sha256": "2cf88ae683249d42e50ad3639d9051dd4193d5688d7ad348df8d9e00224bc2c8",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/grape_crop_stage0.geo.json",
+      "prepared_sha256": "9f9674d935e3eec66cf86957839460c35f4294773f1173796f6bc2401569387a",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/grape_crop_stage0.geo.json",
+      "current_sha256": "9f9674d935e3eec66cf86957839460c35f4294773f1173796f6bc2401569387a",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/textures/kaleidoscope_tavern/block/plant/grape_crop.png",
+      "prepared_sha256": "f2061038f26cf4b8a0c7ac66972ad30c647090ce0a14db6e26440a000f7ec491",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/textures/kaleidoscope_tavern/block/plant/grape_crop.png",
+      "current_sha256": "f2061038f26cf4b8a0c7ac66972ad30c647090ce0a14db6e26440a000f7ec491",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/grape_crop_stage1.geo.json",
+      "prepared_sha256": "b8ad2fa748e872d0a1d455d24da2363bb3a041e7cbbb4cd0f3a301b5eee36b89",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/grape_crop_stage1.geo.json",
+      "current_sha256": "b8ad2fa748e872d0a1d455d24da2363bb3a041e7cbbb4cd0f3a301b5eee36b89",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/grape_crop_stage2.geo.json",
+      "prepared_sha256": "c8c691a0b8f70c1eff77cf956e7e48ec444fb9724dafa467541082a6c8f29cf9",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/grape_crop_stage2.geo.json",
+      "current_sha256": "c8c691a0b8f70c1eff77cf956e7e48ec444fb9724dafa467541082a6c8f29cf9",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/grape_crop_stage3.geo.json",
+      "prepared_sha256": "0d0507608f6f40ec2e0a85dba6504a7ae1aceccc884d99d1b58544c0ddf31012",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/grape_crop_stage3.geo.json",
+      "current_sha256": "0d0507608f6f40ec2e0a85dba6504a7ae1aceccc884d99d1b58544c0ddf31012",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/grape_crop_stage4.geo.json",
+      "prepared_sha256": "96843c9ea7bf6b97c476d60d886768b975e3d72515e0c101e88c98480d88bff6",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/grape_crop_stage4.geo.json",
+      "current_sha256": "96843c9ea7bf6b97c476d60d886768b975e3d72515e0c101e88c98480d88bff6",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/grape_crop_stage5.geo.json",
+      "prepared_sha256": "fd06f83fb439ee60a920633f069ccc143dc04cb125512afb443ff406d52edf50",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/grape_crop_stage5.geo.json",
+      "current_sha256": "fd06f83fb439ee60a920633f069ccc143dc04cb125512afb443ff406d52edf50",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/BP/blocks/grapevine_trellis.json",
+      "prepared_sha256": "f31b494cf45775894a934be2cebb62d1fbe068f5edc707396661a2ce1e4e62bd",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/BP/blocks/grapevine_trellis.json",
+      "current_sha256": "f31b494cf45775894a934be2cebb62d1fbe068f5edc707396661a2ce1e4e62bd",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/grapevine_cross_east_west.geo.json",
+      "prepared_sha256": "0188f79e0f8a31118cddaaa0a8541e6925f3b61953eabda6fc43dfc8ed87a81a",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/grapevine_cross_east_west.geo.json",
+      "current_sha256": "0188f79e0f8a31118cddaaa0a8541e6925f3b61953eabda6fc43dfc8ed87a81a",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/textures/kaleidoscope_tavern/block/plant/grapevine_trellis.png",
+      "prepared_sha256": "31d567e9d7879383743cdc8f28fe9ae00883b9380c32601d3480283cd4bd8f4a",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/textures/kaleidoscope_tavern/block/plant/grapevine_trellis.png",
+      "current_sha256": "31d567e9d7879383743cdc8f28fe9ae00883b9380c32601d3480283cd4bd8f4a",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/grapevine_cross_north_south.geo.json",
+      "prepared_sha256": "33c1322191bd7b3b9e922ef09eecebe5c667c1486010d10c653f29092316d6f7",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/grapevine_cross_north_south.geo.json",
+      "current_sha256": "33c1322191bd7b3b9e922ef09eecebe5c667c1486010d10c653f29092316d6f7",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/grapevine_cross_up_down.geo.json",
+      "prepared_sha256": "6ef060af55ffd2058cdc96ebfa9b5d61d686f4321dbf6b59da3250010949db89",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/grapevine_cross_up_down.geo.json",
+      "current_sha256": "6ef060af55ffd2058cdc96ebfa9b5d61d686f4321dbf6b59da3250010949db89",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/grapevine_east_west.geo.json",
+      "prepared_sha256": "cf63c316bdeab77d9ac03571652f3765d58af689c4877baffe5ccefc79e283a3",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/grapevine_east_west.geo.json",
+      "current_sha256": "cf63c316bdeab77d9ac03571652f3765d58af689c4877baffe5ccefc79e283a3",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/grapevine_north_south.geo.json",
+      "prepared_sha256": "b1104ce40d47c0bd3962afcadb8e7aca4adcbf9dedca9b4a5fcf3729ac50af72",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/grapevine_north_south.geo.json",
+      "current_sha256": "b1104ce40d47c0bd3962afcadb8e7aca4adcbf9dedca9b4a5fcf3729ac50af72",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/grapevine_stage0.geo.json",
+      "prepared_sha256": "bfd95eb8414152f47fc2976ad7f8f4cb259c1dc2879eaf6c00994edd26c2fd9d",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/grapevine_stage0.geo.json",
+      "current_sha256": "bfd95eb8414152f47fc2976ad7f8f4cb259c1dc2879eaf6c00994edd26c2fd9d",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/grapevine_stage1.geo.json",
+      "prepared_sha256": "8f736e7dc44dff5d7f3e2cf46bca6f0512c971443cd2a0e02cba54966b0ce59f",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/grapevine_stage1.geo.json",
+      "current_sha256": "8f736e7dc44dff5d7f3e2cf46bca6f0512c971443cd2a0e02cba54966b0ce59f",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/grapevine_stage2.geo.json",
+      "prepared_sha256": "35bea2c370908d5f347933b32e01ded1e55d4fe10750b95e3543620baf89244d",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/grapevine_stage2.geo.json",
+      "current_sha256": "35bea2c370908d5f347933b32e01ded1e55d4fe10750b95e3543620baf89244d",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/grapevine_stage3.geo.json",
+      "prepared_sha256": "b0dfb9d7c2337cf574750013ecc5259f073a3b5d21ddaf5d90e23e249415aa08",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/grapevine_stage3.geo.json",
+      "current_sha256": "b0dfb9d7c2337cf574750013ecc5259f073a3b5d21ddaf5d90e23e249415aa08",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/grapevine_six_direction.geo.json",
+      "prepared_sha256": "a7d0808491712e099985814ece2138158d97944c70946634ce522faaec990835",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/grapevine_six_direction.geo.json",
+      "current_sha256": "a7d0808491712e099985814ece2138158d97944c70946634ce522faaec990835",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/BP/blocks/gold_grape_crop.json",
+      "prepared_sha256": "4730622128968fdbd5f0ca368bdd038ad8680f436842fc65928814242667343c",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/BP/blocks/gold_grape_crop.json",
+      "current_sha256": "4730622128968fdbd5f0ca368bdd038ad8680f436842fc65928814242667343c",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/gold_grape_crop_stage0.geo.json",
+      "prepared_sha256": "5a602a77e572800b5e6885c6e5586614f02cd5a3b55462164aa07b63f97c1b00",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/gold_grape_crop_stage0.geo.json",
+      "current_sha256": "5a602a77e572800b5e6885c6e5586614f02cd5a3b55462164aa07b63f97c1b00",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/textures/kaleidoscope_tavern/block/plant/gold_grape_crop.png",
+      "prepared_sha256": "eb39ee4273d3298bf1f084a91300b8d97504e225c3b472b9094ec65a34e855a9",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/textures/kaleidoscope_tavern/block/plant/gold_grape_crop.png",
+      "current_sha256": "eb39ee4273d3298bf1f084a91300b8d97504e225c3b472b9094ec65a34e855a9",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/gold_grape_crop_stage1.geo.json",
+      "prepared_sha256": "7d12919297911591f7af68307e0b4e65ea87d103f0060ac92f8fbdde2bbee199",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/gold_grape_crop_stage1.geo.json",
+      "current_sha256": "7d12919297911591f7af68307e0b4e65ea87d103f0060ac92f8fbdde2bbee199",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/gold_grape_crop_stage2.geo.json",
+      "prepared_sha256": "bccf743f7ab115245fa72d3f02197773bf268f21b8547f0850d70a25941f73d1",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/gold_grape_crop_stage2.geo.json",
+      "current_sha256": "bccf743f7ab115245fa72d3f02197773bf268f21b8547f0850d70a25941f73d1",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/gold_grape_crop_stage3.geo.json",
+      "prepared_sha256": "8fbcf1b948f83fc1d0373a40f3ed758ddde4ba0f8fb573709c8d5cd5914af19e",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/gold_grape_crop_stage3.geo.json",
+      "current_sha256": "8fbcf1b948f83fc1d0373a40f3ed758ddde4ba0f8fb573709c8d5cd5914af19e",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/gold_grape_crop_stage4.geo.json",
+      "prepared_sha256": "cbb3be421ba8ff35e357293729b7f00bbe671577f93e77f5cdff7ea46a758e4a",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/gold_grape_crop_stage4.geo.json",
+      "current_sha256": "cbb3be421ba8ff35e357293729b7f00bbe671577f93e77f5cdff7ea46a758e4a",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/gold_grape_crop_stage5.geo.json",
+      "prepared_sha256": "7a3522ee55432969ed9bbd03a05e6d833d7d0203d0454925a9056a661266b526",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/gold_grape_crop_stage5.geo.json",
+      "current_sha256": "7a3522ee55432969ed9bbd03a05e6d833d7d0203d0454925a9056a661266b526",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/BP/blocks/gold_grapevine_trellis.json",
+      "prepared_sha256": "f6c8d37244f22dff576fc102acd40d6bbfc0a839e69097fa7f62ff2b54a59e4d",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/BP/blocks/gold_grapevine_trellis.json",
+      "current_sha256": "f6c8d37244f22dff576fc102acd40d6bbfc0a839e69097fa7f62ff2b54a59e4d",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/gold_grapevine_cross_east_west.geo.json",
+      "prepared_sha256": "be263b71b2b8108699b70a7ac7614ccb8e7c6da5871e7073dbf6fc63c89ea3af",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/gold_grapevine_cross_east_west.geo.json",
+      "current_sha256": "be263b71b2b8108699b70a7ac7614ccb8e7c6da5871e7073dbf6fc63c89ea3af",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/textures/kaleidoscope_tavern/block/plant/gold_grapevine_trellis.png",
+      "prepared_sha256": "011d3f40b24934d7ef2f15bb170cd45c0058553a69485ee36614fb8a84b20db8",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/textures/kaleidoscope_tavern/block/plant/gold_grapevine_trellis.png",
+      "current_sha256": "011d3f40b24934d7ef2f15bb170cd45c0058553a69485ee36614fb8a84b20db8",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/gold_grapevine_cross_north_south.geo.json",
+      "prepared_sha256": "29699cb689a29dcf0e6c0e51ae2bf6f14e23923010f72e644e06494e6b278238",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/gold_grapevine_cross_north_south.geo.json",
+      "current_sha256": "29699cb689a29dcf0e6c0e51ae2bf6f14e23923010f72e644e06494e6b278238",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/gold_grapevine_cross_up_down.geo.json",
+      "prepared_sha256": "5608f32a48c62d9cd0438c708f3075b505c5f4cad44e185be79a217f339c19fe",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/gold_grapevine_cross_up_down.geo.json",
+      "current_sha256": "5608f32a48c62d9cd0438c708f3075b505c5f4cad44e185be79a217f339c19fe",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/gold_grapevine_east_west.geo.json",
+      "prepared_sha256": "1cca9249302be070d4e8836433c9567c8cbb047072d2b266e5382f29b754bbb4",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/gold_grapevine_east_west.geo.json",
+      "current_sha256": "1cca9249302be070d4e8836433c9567c8cbb047072d2b266e5382f29b754bbb4",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/gold_grapevine_north_south.geo.json",
+      "prepared_sha256": "c0be3236a0cb8f450a3c98dae265db64abf20acf10768d524d287187f7340f01",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/gold_grapevine_north_south.geo.json",
+      "current_sha256": "c0be3236a0cb8f450a3c98dae265db64abf20acf10768d524d287187f7340f01",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/gold_grapevine_stage0.geo.json",
+      "prepared_sha256": "bfddad1e9cae63b89578095ddb63a09ea0c47b0c1a23dda9f4e8857732a43dcc",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/gold_grapevine_stage0.geo.json",
+      "current_sha256": "bfddad1e9cae63b89578095ddb63a09ea0c47b0c1a23dda9f4e8857732a43dcc",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/gold_grapevine_stage1.geo.json",
+      "prepared_sha256": "a0ad25a1dcc0d9e8bccb5e9ddfa55093590924b507a48d4347ee2c44c1ce1e50",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/gold_grapevine_stage1.geo.json",
+      "current_sha256": "a0ad25a1dcc0d9e8bccb5e9ddfa55093590924b507a48d4347ee2c44c1ce1e50",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/gold_grapevine_stage2.geo.json",
+      "prepared_sha256": "8192a3f4ca977f8e4ebd6054a05661c6b4a7438f09ece378f491095cd27a6250",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/gold_grapevine_stage2.geo.json",
+      "current_sha256": "8192a3f4ca977f8e4ebd6054a05661c6b4a7438f09ece378f491095cd27a6250",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/gold_grapevine_stage3.geo.json",
+      "prepared_sha256": "3ede4ed17b9e7a69d0e50a8079eb46b22b70d85a3f12daecd8fe7f42c5edf853",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/gold_grapevine_stage3.geo.json",
+      "current_sha256": "3ede4ed17b9e7a69d0e50a8079eb46b22b70d85a3f12daecd8fe7f42c5edf853",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/gold_grapevine_six_direction.geo.json",
+      "prepared_sha256": "418999c5ee0b6ec028b844dbf9bda0bb2c73962b9feadef7bfc7cab86d585f1d",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/gold_grapevine_six_direction.geo.json",
+      "current_sha256": "418999c5ee0b6ec028b844dbf9bda0bb2c73962b9feadef7bfc7cab86d585f1d",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/BP/blocks/ice_grape_crop.json",
+      "prepared_sha256": "ff7848e21e25a5c639d49ece15fd5f3738eda6db685f9468e6fab72668571795",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/BP/blocks/ice_grape_crop.json",
+      "current_sha256": "ff7848e21e25a5c639d49ece15fd5f3738eda6db685f9468e6fab72668571795",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/ice_grape_crop_stage0.geo.json",
+      "prepared_sha256": "2b41ba8f16680f9570d0314e62b876b1ea865543f2b984e02c0ae30aebbc9aff",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/ice_grape_crop_stage0.geo.json",
+      "current_sha256": "2b41ba8f16680f9570d0314e62b876b1ea865543f2b984e02c0ae30aebbc9aff",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/textures/kaleidoscope_tavern/block/plant/ice_grape_crop.png",
+      "prepared_sha256": "3d42a7999b5b50cf67a8202b8064ada5df965d65c08883dfc1ab1f068b881b01",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/textures/kaleidoscope_tavern/block/plant/ice_grape_crop.png",
+      "current_sha256": "3d42a7999b5b50cf67a8202b8064ada5df965d65c08883dfc1ab1f068b881b01",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/ice_grape_crop_stage1.geo.json",
+      "prepared_sha256": "f14edf7b281e926e4c437f6eb13fbe8b7333f391fb56e93c89f2244e3c0e79ec",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/ice_grape_crop_stage1.geo.json",
+      "current_sha256": "f14edf7b281e926e4c437f6eb13fbe8b7333f391fb56e93c89f2244e3c0e79ec",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/ice_grape_crop_stage2.geo.json",
+      "prepared_sha256": "b07b2e4f9fd6efed02147f6880d80a03dcdd4ae8b5c1d23a9e73f07ca0d23aff",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/ice_grape_crop_stage2.geo.json",
+      "current_sha256": "b07b2e4f9fd6efed02147f6880d80a03dcdd4ae8b5c1d23a9e73f07ca0d23aff",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/ice_grape_crop_stage3.geo.json",
+      "prepared_sha256": "79ec2c32a5b995a997958e70db410c33b5d1499e045a9f433d384a3717263e41",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/ice_grape_crop_stage3.geo.json",
+      "current_sha256": "79ec2c32a5b995a997958e70db410c33b5d1499e045a9f433d384a3717263e41",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/ice_grape_crop_stage4.geo.json",
+      "prepared_sha256": "eee78a836a97745303ce16cb7c44195ec1cb6644bbad5e259c1acdff7185442d",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/ice_grape_crop_stage4.geo.json",
+      "current_sha256": "eee78a836a97745303ce16cb7c44195ec1cb6644bbad5e259c1acdff7185442d",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/ice_grape_crop_stage5.geo.json",
+      "prepared_sha256": "b25c4bdcc467bfcf72fa1bd75583a502691293b906422665ae58051de88bbb1e",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/ice_grape_crop_stage5.geo.json",
+      "current_sha256": "b25c4bdcc467bfcf72fa1bd75583a502691293b906422665ae58051de88bbb1e",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/BP/blocks/ice_grapevine_trellis.json",
+      "prepared_sha256": "7f76d19c6424c582d9b1ac7f0b822612f10eeb7d090ddd65a2c2addeba9de62b",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/BP/blocks/ice_grapevine_trellis.json",
+      "current_sha256": "7f76d19c6424c582d9b1ac7f0b822612f10eeb7d090ddd65a2c2addeba9de62b",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/ice_grapevine_cross_east_west.geo.json",
+      "prepared_sha256": "9c76df873636e739d1a4dbefbb91c6910b2d93bc8cebd877ecbfb3f66835899d",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/ice_grapevine_cross_east_west.geo.json",
+      "current_sha256": "9c76df873636e739d1a4dbefbb91c6910b2d93bc8cebd877ecbfb3f66835899d",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/textures/kaleidoscope_tavern/block/plant/ice_grapevine_trellis.png",
+      "prepared_sha256": "7eb30bb4f083ffaba2e96a3cf5fe1ebcf17ace4b2823b0eea60362314212b8ba",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/textures/kaleidoscope_tavern/block/plant/ice_grapevine_trellis.png",
+      "current_sha256": "7eb30bb4f083ffaba2e96a3cf5fe1ebcf17ace4b2823b0eea60362314212b8ba",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/ice_grapevine_cross_north_south.geo.json",
+      "prepared_sha256": "b7760d0116c8bb7a80587dfdb90ed309f65f4105eeac10d0db15a11f9b2f5681",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/ice_grapevine_cross_north_south.geo.json",
+      "current_sha256": "b7760d0116c8bb7a80587dfdb90ed309f65f4105eeac10d0db15a11f9b2f5681",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/ice_grapevine_cross_up_down.geo.json",
+      "prepared_sha256": "42541606a4c836cbd4b61379796d50899c34ca6760acbf9cf5ea9a87eb0097f3",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/ice_grapevine_cross_up_down.geo.json",
+      "current_sha256": "42541606a4c836cbd4b61379796d50899c34ca6760acbf9cf5ea9a87eb0097f3",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/ice_grapevine_east_west.geo.json",
+      "prepared_sha256": "4697b83294dbe414bc2f0291dfa31dc948cc7052c9a4cae534753819304c03d6",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/ice_grapevine_east_west.geo.json",
+      "current_sha256": "4697b83294dbe414bc2f0291dfa31dc948cc7052c9a4cae534753819304c03d6",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/ice_grapevine_north_south.geo.json",
+      "prepared_sha256": "f134c1ce5ee1c38ade50e1ab43ac2eb0818bb70e6373c5d6c994d5cedf1a89e9",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/ice_grapevine_north_south.geo.json",
+      "current_sha256": "f134c1ce5ee1c38ade50e1ab43ac2eb0818bb70e6373c5d6c994d5cedf1a89e9",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/ice_grapevine_stage0.geo.json",
+      "prepared_sha256": "0dc8d10ad859befb255032cdc0d61ac6b181d25f69e94798bd33628edc089da2",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/ice_grapevine_stage0.geo.json",
+      "current_sha256": "0dc8d10ad859befb255032cdc0d61ac6b181d25f69e94798bd33628edc089da2",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/ice_grapevine_stage1.geo.json",
+      "prepared_sha256": "0d502c1a265255d8594443c47d039029f539f85bcd06e1997e20a9ef80c40dda",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/ice_grapevine_stage1.geo.json",
+      "current_sha256": "0d502c1a265255d8594443c47d039029f539f85bcd06e1997e20a9ef80c40dda",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/ice_grapevine_stage2.geo.json",
+      "prepared_sha256": "6060b7bfd624b72e3b3de39236b4db88df4243e6f2de7e5679b2a2a3e961db87",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/ice_grapevine_stage2.geo.json",
+      "current_sha256": "6060b7bfd624b72e3b3de39236b4db88df4243e6f2de7e5679b2a2a3e961db87",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/ice_grapevine_stage3.geo.json",
+      "prepared_sha256": "194385d7bd0a7fe50bbd37eba7b1f53a1aa96f064a2bde627e9759d552e620fd",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/ice_grapevine_stage3.geo.json",
+      "current_sha256": "194385d7bd0a7fe50bbd37eba7b1f53a1aa96f064a2bde627e9759d552e620fd",
+      "current_equals_prepared": true
+    },
+    {
+      "input": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/source/runtime/RP/models/entity/ice_grapevine_six_direction.geo.json",
+      "prepared_sha256": "4bf737f0a529f6eea4f7df22b8a056b7ab79110b6e7d5102d31bc83cd24852e4",
+      "saved_input_bytes_still_match": true,
+      "repository_path": "runtime/RP/models/entity/ice_grapevine_six_direction.geo.json",
+      "current_sha256": "4bf737f0a529f6eea4f7df22b8a056b7ab79110b6e7d5102d31bc83cd24852e4",
+      "current_equals_prepared": true
+    }
+  ],
+  "magenta_scene_verified": {
+    "file": "scenes/magenta-three-way-branch-difference.bbmodel",
+    "sha256": "9514a22c3212b15ab7a50209a836e292ec342da61ce59fee396eda064b204937",
+    "unchanged": true
+  }
+}

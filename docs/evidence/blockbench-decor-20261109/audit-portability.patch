@@ -1,0 +1,44 @@
+--- original/validate_scenes.py
++++ portable/validate_scenes.py
+@@ -11 +11,2 @@
+-M = json.loads((H / 'manifest.json').read_text())
++from portable_context import mapped_manifest
++M = mapped_manifest(H / 'manifest.json')
+@@ -111,2 +112,2 @@
+-(H / 'ordered-face-audit.json').write_text(json.dumps({'method': 'Blockbench 5.2.2 UVToLocal signed dimensions and quarter-turn UV corners; restricted one-to-one UV match. Numeric tolerance 1e-6 only. Source zero-plane vs native thickness is identified separately, not accepted as equivalence.', 'reference': str(ref), 'reference_sha256': hashlib.sha256(ref.read_bytes()).hexdigest(), 'summary': summary, 'cases': out}, indent=2)+'\n')
+-(H / 'structural-validation.json').write_text(json.dumps(checks, indent=2)+'\n')
++(H.parent / 'rerun' / 'ordered-face-audit.json').write_text(json.dumps({'method': 'Blockbench 5.2.2 UVToLocal signed dimensions and quarter-turn UV corners; restricted one-to-one UV match. Numeric tolerance 1e-6 only. Source zero-plane vs native thickness is identified separately, not accepted as equivalence.', 'reference': str(ref), 'reference_sha256': hashlib.sha256(ref.read_bytes()).hexdigest(), 'summary': summary, 'cases': out}, indent=2)+'\n')
++(H.parent / 'rerun' / 'structural-validation.json').write_text(json.dumps(checks, indent=2)+'\n')
+--- original/check_routing.py
++++ portable/check_routing.py
+@@ -8 +8,2 @@
+-M = json.loads((H / 'manifest.json').read_text())
++from portable_context import mapped_manifest
++M = mapped_manifest(H / 'manifest.json')
+@@ -59 +60 @@
+-        raw = subprocess.check_output(['git', '-C', str(JAVA), 'show', M['source_pins'][branch] + ':' + rel], timeout=60)
++        raw = (H.parent / 'pinned-source' / branch / rel).read_bytes()  # Same pinned bytes, bounded offline snapshot.
+@@ -93 +94 @@
+-(H / 'routing-validation.json').write_text(json.dumps({'summary': summary, 'blocks': results}, indent=2)+'\n')
++(H.parent / 'rerun' / 'routing-validation.json').write_text(json.dumps({'summary': summary, 'blocks': results}, indent=2)+'\n')
+--- original/check_incense_underside.py
++++ portable/check_incense_underside.py
+@@ -8 +8,2 @@
+-M = json.loads((H / 'manifest.json').read_text())
++from portable_context import mapped_manifest
++M = mapped_manifest(H / 'manifest.json')
+@@ -70 +71 @@
+-(H / 'incense-underside-candidate.json').write_text(json.dumps(out,indent=2)+'\n')
++(H.parent / 'rerun' / 'incense-underside-candidate.json').write_text(json.dumps(out,indent=2)+'\n')
+--- original/make_magenta_branch_scene.py
++++ portable/make_magenta_branch_scene.py
+@@ -8 +8,2 @@
+-M = json.loads((H / 'manifest.json').read_text())
++from portable_context import mapped_manifest
++M = mapped_manifest(H / 'manifest.json')
+@@ -41 +42 @@
+-scene.save('magenta-three-way-branch-difference.bbmodel')
++# Preserve the captured scene bytes: no scene.save() during replay.
+@@ -62 +63 @@
+-(H / 'magenta-branch-difference.json').write_text(json.dumps(result,indent=2)+'\n')
++(H.parent / 'rerun' / 'magenta-branch-difference.json').write_text(json.dumps(result,indent=2)+'\n')

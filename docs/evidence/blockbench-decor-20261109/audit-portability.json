@@ -1,0 +1,26 @@
+[
+  {
+    "file": "validate_scenes.py",
+    "original_sha256": "8fbe08c3e5b3f3ed18d1e20f6ac1578aa093c90fddc8829b5e256cb72181dc5d",
+    "portable_sha256": "a938ac29b89c5c34cebeab297f40726518e5ad285c7ce688b20885469918eeb5",
+    "changes": "Map historical input prefixes in memory; route outputs to separate rerun directory."
+  },
+  {
+    "file": "check_routing.py",
+    "original_sha256": "96f82a06d53fa1b567a3e1d14773ea17f3aa8a22919a9b6ca6df855fd954663f",
+    "portable_sha256": "fb80979e17910546a938bf3a2d42d7dde2a268fb8cecf56933bf421aa45f014b",
+    "changes": "Map historical input prefixes in memory; route outputs to separate rerun directory. Read pinned Git blob bytes from offline bounded snapshot."
+  },
+  {
+    "file": "check_incense_underside.py",
+    "original_sha256": "edee221be737b610832c1c224761fdf60a6117a23402b44e19a4b1518349763b",
+    "portable_sha256": "5f966ef5cdf551e6a680cddd3b9b2f05417141fbb8ebfa5fd039950583bfe495",
+    "changes": "Map historical input prefixes in memory; route outputs to separate rerun directory."
+  },
+  {
+    "file": "make_magenta_branch_scene.py",
+    "original_sha256": "b1829f352e0a78b169b7025fcc17c59349a742c35ba1e22f3de71c668f0cf99c",
+    "portable_sha256": "6e416a0bb6bf6a672d84eb3bdad070651cc5dac17ec7f77f8881d16c080c7cc0",
+    "changes": "Map historical input prefixes in memory; route outputs to separate rerun directory. Suppress only scene.save; preserve the original captured scene and its SHA. In-memory comparison math is unchanged."
+  }
+]

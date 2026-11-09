@@ -1,0 +1,559 @@
+{
+  "schema": 1,
+  "excluded": [
+    "artifact-sha256.json",
+    "verification.json"
+  ],
+  "files": [
+    {
+      "file": "LICENSE-ASSETS",
+      "bytes": 1604,
+      "sha256": "9779f7520aa9bb4888d8216933e482722d6b2c839e96ca338322e11c9fd3c286"
+    },
+    {
+      "file": "LICENSE-CODE",
+      "bytes": 1545,
+      "sha256": "e4b0341c2f974280d80bbd56d6d12e2f3e4d755f3a5cfeed9725771415e0d3ed"
+    },
+    {
+      "file": "README.md",
+      "bytes": 9742,
+      "sha256": "6debd063ffd05f0e07a90209b142df1394b3bf4e209f3c31ab3d91099d7b65cd"
+    },
+    {
+      "file": "archive-entries.json",
+      "bytes": 477613,
+      "sha256": "83aa8880ee1dd2555b3ed69c5bec831a0b272652201953e20c21a3f3e52d72fd"
+    },
+    {
+      "file": "archives/evidence-01.zip",
+      "bytes": 180011,
+      "sha256": "56f91106b13ddc9077aaf73dd5ba6603c35c69b6aceae0bd4fc0f6b5ab350166"
+    },
+    {
+      "file": "archives/evidence-02.zip",
+      "bytes": 180710,
+      "sha256": "ac674a9b2283ac80e510cee11a62d74a6d652b2361bd56f17397453651a1e6de"
+    },
+    {
+      "file": "archives/evidence-03.zip",
+      "bytes": 184875,
+      "sha256": "eaa51aa7439540fcbc72fff69334248a7d4acb61097c7b3cb3803d67fbcb1792"
+    },
+    {
+      "file": "archives/evidence-04.zip",
+      "bytes": 184339,
+      "sha256": "68fa9f2abc3a3ac440721ee1ca31b36b41eb01b38d4a51cbc3a98f114d147958"
+    },
+    {
+      "file": "archives/evidence-05.zip",
+      "bytes": 180538,
+      "sha256": "4079c8386665ffc7e1cc7233708bc22d36326a4b0639d30b55c4ea4d3eb5b3b4"
+    },
+    {
+      "file": "archives/evidence-06.zip",
+      "bytes": 99655,
+      "sha256": "a1273f8dd2f57896f9d1371e3f3c134adae6662eb04460eb658e875fa4cf17f8"
+    },
+    {
+      "file": "archives/evidence-07.zip",
+      "bytes": 185241,
+      "sha256": "d02a977b5d3c12d0563c581dc1cc79b138dfeae50f371c5025fbb6edb78d8be4"
+    },
+    {
+      "file": "archives/evidence-08.zip",
+      "bytes": 49658,
+      "sha256": "81c23a58e913088b567452341bb27e65b91d9bc295c1b4f8c6b546408f64bf76"
+    },
+    {
+      "file": "audit-portability.json",
+      "bytes": 1497,
+      "sha256": "aa5ea35ddd142cfb743a6ddc927608f3dc70ce5a53bd59d08a07a5c15ae631bc"
+    },
+    {
+      "file": "audit-portability.patch",
+      "bytes": 3048,
+      "sha256": "1cdd66a70fa99587020d9d4e92e24c703b80a5df12a62b17254d6e1267b39ec6"
+    },
+    {
+      "file": "audits/check_incense_underside.py",
+      "bytes": 4867,
+      "sha256": "5f966ef5cdf551e6a680cddd3b9b2f05417141fbb8ebfa5fd039950583bfe495"
+    },
+    {
+      "file": "audits/check_routing.py",
+      "bytes": 5900,
+      "sha256": "fb80979e17910546a938bf3a2d42d7dde2a268fb8cecf56933bf421aa45f014b"
+    },
+    {
+      "file": "audits/make_magenta_branch_scene.py",
+      "bytes": 4528,
+      "sha256": "6e416a0bb6bf6a672d84eb3bdad070651cc5dac17ec7f77f8881d16c080c7cc0"
+    },
+    {
+      "file": "audits/portable_context.py",
+      "bytes": 1465,
+      "sha256": "16664d8677b6b7f33b2dd1c64a64e141ebdecb97027621bf47b547365d10ac5c"
+    },
+    {
+      "file": "audits/validate_scenes.py",
+      "bytes": 7234,
+      "sha256": "a938ac29b89c5c34cebeab297f40726518e5ad285c7ce688b20885469918eeb5"
+    },
+    {
+      "file": "capture-index.csv",
+      "bytes": 99433,
+      "sha256": "70da369eb32fb37a7c46bd14904c663d090a82ce6c34ec500025f430ede12683"
+    },
+    {
+      "file": "gui-review.json",
+      "bytes": 96962,
+      "sha256": "4c2cc47ec511ada4b81181083fc4d50a955fe2e0fc89457d387282f57b7c795c"
+    },
+    {
+      "file": "images/bare-trellises-1-bottom.jpg",
+      "bytes": 81364,
+      "sha256": "69f13e49309879a34c057117d5ca5a231ced8e4aa382e5f99214d7bf2072a802"
+    },
+    {
+      "file": "images/bare-trellises-1-perspective.jpg",
+      "bytes": 82769,
+      "sha256": "b766c3a9f09700ae9105475225365f8ae375d1479b6af1bafb87bad4b0d31534"
+    },
+    {
+      "file": "images/bare-trellises-1-top.jpg",
+      "bytes": 85406,
+      "sha256": "beca50d4808ee7235b42275ec8d7780786be8490f816ebe09b6fc304b5be38c1"
+    },
+    {
+      "file": "images/bare-trellises-2-bottom.jpg",
+      "bytes": 80063,
+      "sha256": "ea6a3b47adb0dea5745294be9c96172817f51db209dc27affc75531f2735166c"
+    },
+    {
+      "file": "images/bare-trellises-2-perspective.jpg",
+      "bytes": 80992,
+      "sha256": "8af5054e635b80b02659bb5d129ddc61265aa6dd007f61e9f9bbbf2fd03a9261"
+    },
+    {
+      "file": "images/bare-trellises-2-top.jpg",
+      "bytes": 82577,
+      "sha256": "d07b4e3970c053936272a9ee7bdf7b89907b93747d325de9310e97bb52dd985d"
+    },
+    {
+      "file": "images/gold_grape-crop-stages-1-oblique-orthographic.jpg",
+      "bytes": 102719,
+      "sha256": "aaafe06134029949a38e53aa618ce191d04d8c38ea05922aa85648b57605997a"
+    },
+    {
+      "file": "images/gold_grape-crop-stages-1-perspective.jpg",
+      "bytes": 95058,
+      "sha256": "db52791193f7ff193cd216ad2bc5b7885c2d5c3bcf5a25ea24331e1445174e2b"
+    },
+    {
+      "file": "images/gold_grape-crop-stages-1-reverse-orthographic.jpg",
+      "bytes": 104437,
+      "sha256": "df1f656422d5179f59eade0ff03bf654b029d4d8b34523e94f6657fded6ab1fd"
+    },
+    {
+      "file": "images/gold_grape-crop-stages-2-oblique-orthographic.jpg",
+      "bytes": 93269,
+      "sha256": "7e6f21deb2921080b6add2fcf154cd3fb72c6e2be336ead600dac6e9676eb86d"
+    },
+    {
+      "file": "images/gold_grape-crop-stages-2-perspective.jpg",
+      "bytes": 93080,
+      "sha256": "c0ba8f06b84cab678f367ba04b7302d9938830ed250604226505e1adacfa4ac5"
+    },
+    {
+      "file": "images/gold_grape-crop-stages-2-reverse-orthographic.jpg",
+      "bytes": 93786,
+      "sha256": "c8cc7ed1c28503c883e7485ae53b7e55e96cd00045fb021ac569531d36bccae0"
+    },
+    {
+      "file": "images/gold_grapevine-shapes-stages-1-oblique-orthographic.jpg",
+      "bytes": 123456,
+      "sha256": "c58de44d00d7747a02b8e3f21a5ac85d67c3739b06031f6a892aae72e0b2e75b"
+    },
+    {
+      "file": "images/gold_grapevine-shapes-stages-1-perspective.jpg",
+      "bytes": 109053,
+      "sha256": "835d9af85090638e2691eb0dfd9dd1a6133f1304573a127e47e47848fcf6b0b9"
+    },
+    {
+      "file": "images/gold_grapevine-shapes-stages-1-reverse-low-orthographic.jpg",
+      "bytes": 116465,
+      "sha256": "8ab6234c2deca2ca158945c41d8dfc4f17ab5e057f708592aa4b1bd03957c9dc"
+    },
+    {
+      "file": "images/gold_grapevine-shapes-stages-1-reverse-orthographic.jpg",
+      "bytes": 117565,
+      "sha256": "9eaa58ab394ffa7bdeb8e765af37e95f2271c2f8574e16707de87a6d2665fdaf"
+    },
+    {
+      "file": "images/gold_grapevine-shapes-stages-2-oblique-orthographic.jpg",
+      "bytes": 106350,
+      "sha256": "ff0fe7656a13bb4be36868af7f551a7317972fdd28a3538d2a1db5e61222299f"
+    },
+    {
+      "file": "images/gold_grapevine-shapes-stages-2-perspective.jpg",
+      "bytes": 99640,
+      "sha256": "30c43110df57782f861bf35b1b1c66049be5eb132c1b85be36ffd08e98f29be1"
+    },
+    {
+      "file": "images/gold_grapevine-shapes-stages-2-reverse-low-orthographic.jpg",
+      "bytes": 106365,
+      "sha256": "0e6182b07c22317747a8f72e38c30c5c9bf9dce7c705ddb1bb963ce46679bd54"
+    },
+    {
+      "file": "images/gold_grapevine-shapes-stages-2-reverse-orthographic.jpg",
+      "bytes": 105291,
+      "sha256": "0a7669728ea3183cf991e125d1d8f58b7afc6db40edc2b2624d643cee26c6f54"
+    },
+    {
+      "file": "images/gold_grapevine-shapes-stages-3-oblique-orthographic.jpg",
+      "bytes": 97067,
+      "sha256": "9b2a3a5de53ebb039061713d0ef9624d0ba9fd1811e113d09371dcd83cd1afb2"
+    },
+    {
+      "file": "images/gold_grapevine-shapes-stages-3-perspective.jpg",
+      "bytes": 92614,
+      "sha256": "976f046668b747d2a51a87a0c5026a91fbb184680f2275d8f0846220b0592dd0"
+    },
+    {
+      "file": "images/gold_grapevine-shapes-stages-3-reverse-low-orthographic.jpg",
+      "bytes": 95991,
+      "sha256": "ba7bb7c13078ec1d78e205d642d1fc2e289d8d60f2a6390ffd594afb87a32865"
+    },
+    {
+      "file": "images/gold_grapevine-shapes-stages-3-reverse-orthographic.jpg",
+      "bytes": 95348,
+      "sha256": "008e19bcc49086cf77f7bd72501cb623deb35325fa5b010f0ee4f60922407d79"
+    },
+    {
+      "file": "images/grape-crop-stages-1-oblique-orthographic.jpg",
+      "bytes": 93693,
+      "sha256": "d6fcf24a2062edb965702e41b6da0e7b1be04b87a11f95da0e1a80ff51f3a4c0"
+    },
+    {
+      "file": "images/grape-crop-stages-1-perspective.jpg",
+      "bytes": 88062,
+      "sha256": "235dd9499391199ebc3212501f397ef0983cc12af1f325aa887fecc9fa4854ca"
+    },
+    {
+      "file": "images/grape-crop-stages-1-reverse-orthographic.jpg",
+      "bytes": 94283,
+      "sha256": "340de1f0cc60fe09f8ff6ad3131b90c3750126141c16440e689013f5139b1a03"
+    },
+    {
+      "file": "images/grape-crop-stages-2-oblique-orthographic.jpg",
+      "bytes": 87264,
+      "sha256": "336ba483ad5f97157fd456746e244db5391d31fd964f6e06a4a76dcc00a9a078"
+    },
+    {
+      "file": "images/grape-crop-stages-2-perspective.jpg",
+      "bytes": 87132,
+      "sha256": "4d56f350cc77e719e68ce38890dfa7276f224f7ad57d186aafd8d9cfdeb4d09f"
+    },
+    {
+      "file": "images/grape-crop-stages-2-reverse-orthographic.jpg",
+      "bytes": 87432,
+      "sha256": "c25e81cab5e47093ecb796fa67e515e0a97db7951d29811edff36c838e2f2ca2"
+    },
+    {
+      "file": "images/grapevine-shapes-stages-1-oblique-orthographic.jpg",
+      "bytes": 117708,
+      "sha256": "884c22c7a30066cb44cd99a120a42d1d62d87279342646e0ac56468d4c1a1d01"
+    },
+    {
+      "file": "images/grapevine-shapes-stages-1-perspective.jpg",
+      "bytes": 104824,
+      "sha256": "19ba3b06d6e62a9032a01bf98188f3fa92556ac2c5036bb0b31b6a6c15dda1f5"
+    },
+    {
+      "file": "images/grapevine-shapes-stages-1-reverse-low-orthographic.jpg",
+      "bytes": 111829,
+      "sha256": "e4a4df1d9602984c32fac4098553131b1de1034fac19ef65ffc69e74d3eb8303"
+    },
+    {
+      "file": "images/grapevine-shapes-stages-1-reverse-orthographic.jpg",
+      "bytes": 113108,
+      "sha256": "5a7889d530f33675cd4b4fef523610c7a21832f2706cc4396fdb00361da9c3b4"
+    },
+    {
+      "file": "images/grapevine-shapes-stages-2-oblique-orthographic.jpg",
+      "bytes": 101117,
+      "sha256": "aa73e661559f16e1cf8bc2cc378f4af6db2cc31ba0a89b2ff3ef93f0fe2924c9"
+    },
+    {
+      "file": "images/grapevine-shapes-stages-2-perspective.jpg",
+      "bytes": 95564,
+      "sha256": "f0adf2eb91c869fc58136653ea747dd84fb44fc64f359f07bcb14505fe670237"
+    },
+    {
+      "file": "images/grapevine-shapes-stages-2-reverse-low-orthographic.jpg",
+      "bytes": 101777,
+      "sha256": "fd9cb3303c4c33b68221b4f1373e20252dd580b2400b6e1edad2a6114b1ba0b3"
+    },
+    {
+      "file": "images/grapevine-shapes-stages-2-reverse-orthographic.jpg",
+      "bytes": 100739,
+      "sha256": "9b9199eba2853c88b2bfc07a5e0953ec9062969593c009e3a137d78ce99040f1"
+    },
+    {
+      "file": "images/grapevine-shapes-stages-3-oblique-orthographic.jpg",
+      "bytes": 92508,
+      "sha256": "710a6e868238f897aafe85ef4b83fac29e36dceba78a4087aad2957e64ca63bf"
+    },
+    {
+      "file": "images/grapevine-shapes-stages-3-perspective.jpg",
+      "bytes": 90220,
+      "sha256": "a8f73cdb283bac7742cdb63aff8282177f5aed0fe11a39db61eb02b929f41f35"
+    },
+    {
+      "file": "images/grapevine-shapes-stages-3-reverse-low-orthographic.jpg",
+      "bytes": 91690,
+      "sha256": "dabaab498b82437a726c50c61cf98dba5ab84bb79df5644764a33e38d9f0a592"
+    },
+    {
+      "file": "images/grapevine-shapes-stages-3-reverse-orthographic.jpg",
+      "bytes": 91215,
+      "sha256": "26c68b16aede4b92382fd324fabf6e8f3ea513117a2afa3f98e539fd45710400"
+    },
+    {
+      "file": "images/ice_grape-crop-stages-1-oblique-orthographic.jpg",
+      "bytes": 92843,
+      "sha256": "060d92c5862d5aeb2ed7e9425fd28eb12014860e4cb2a799151069b70be2327a"
+    },
+    {
+      "file": "images/ice_grape-crop-stages-1-perspective.jpg",
+      "bytes": 87667,
+      "sha256": "c05c7aa3425e4c14e4d421abb0c2651650634da92edd3c6375ec115f5faf2efa"
+    },
+    {
+      "file": "images/ice_grape-crop-stages-1-reverse-orthographic.jpg",
+      "bytes": 93428,
+      "sha256": "967621d542c8fa38f4597600c438ddde6d2860ef59d412dccaf00fdba4450389"
+    },
+    {
+      "file": "images/ice_grape-crop-stages-2-oblique-orthographic.jpg",
+      "bytes": 87065,
+      "sha256": "e9f92856b1aa2f0d5429142c7b8cf263c5b97eb8fa6f6dfeb0c382342930261b"
+    },
+    {
+      "file": "images/ice_grape-crop-stages-2-perspective.jpg",
+      "bytes": 86950,
+      "sha256": "6bff3697bc7e5df03c0c5ab2116f1dcdc3cd0a555fd17a652dd40a7c1cfeb854"
+    },
+    {
+      "file": "images/ice_grape-crop-stages-2-reverse-orthographic.jpg",
+      "bytes": 87113,
+      "sha256": "9a8e15d29e338a47396f1f25f92671bdb86c293908d0a80d80eee36ff8f64028"
+    },
+    {
+      "file": "images/ice_grapevine-shapes-stages-1-oblique-orthographic.jpg",
+      "bytes": 106217,
+      "sha256": "8039e251441c31824fa69b8a6c76c9b00126d20fbf7faaa26f7ad0ebbb970a35"
+    },
+    {
+      "file": "images/ice_grapevine-shapes-stages-1-perspective.jpg",
+      "bytes": 96984,
+      "sha256": "a11f15fe121c12b8d6bf1aa514266bcbeded8da7f3caa37d49333d95b38fdf55"
+    },
+    {
+      "file": "images/ice_grapevine-shapes-stages-1-reverse-low-orthographic.jpg",
+      "bytes": 102121,
+      "sha256": "bedf758dbadc4f4ec185fe4c73519a65f33f31a87b7079de4d9ec47417bbe109"
+    },
+    {
+      "file": "images/ice_grapevine-shapes-stages-1-reverse-orthographic.jpg",
+      "bytes": 103625,
+      "sha256": "6aca49b45a2b1ee10f8886dd71e715ca276562fad85d49c3e2b610bb6adf46e7"
+    },
+    {
+      "file": "images/ice_grapevine-shapes-stages-2-oblique-orthographic.jpg",
+      "bytes": 93617,
+      "sha256": "09b045ad348644dff7425c5c4aea5d3bc822dada81f2df3f2c6edce78bb0b957"
+    },
+    {
+      "file": "images/ice_grapevine-shapes-stages-2-perspective.jpg",
+      "bytes": 90340,
+      "sha256": "03adda76ba5db807b598ee8a49cfc38576d4ab77aee821373d8ba71fa9ca152d"
+    },
+    {
+      "file": "images/ice_grapevine-shapes-stages-2-reverse-low-orthographic.jpg",
+      "bytes": 92770,
+      "sha256": "0145f5ec64c981339d8cd7794955f5e1130fed1711d4b43a86df68300cf2827b"
+    },
+    {
+      "file": "images/ice_grapevine-shapes-stages-2-reverse-orthographic.jpg",
+      "bytes": 92536,
+      "sha256": "b489dba36af7b8932a5da9644eb65d86bfc46c26b6204dc9ee2ca02ac5a6818a"
+    },
+    {
+      "file": "images/ice_grapevine-shapes-stages-3-oblique-orthographic.jpg",
+      "bytes": 88727,
+      "sha256": "a54bcbaec9a5a250e7691afb2b31139a9ffeb6d1f8af05d66afc908ecf5cb4ee"
+    },
+    {
+      "file": "images/ice_grapevine-shapes-stages-3-perspective.jpg",
+      "bytes": 86990,
+      "sha256": "be0b9845974591c7aca7797adfa0d01890086cbc2aa8051c58c7fec79164ae29"
+    },
+    {
+      "file": "images/ice_grapevine-shapes-stages-3-reverse-low-orthographic.jpg",
+      "bytes": 87986,
+      "sha256": "fb8a3879685d3f32e3eed4c3dc31a5ba5503c7275a0ea9bf50173fdfe439c720"
+    },
+    {
+      "file": "images/ice_grapevine-shapes-stages-3-reverse-orthographic.jpg",
+      "bytes": 87858,
+      "sha256": "69708926492a9363cbf3026650a7f2618903502f323131b2139f19ad1237a642"
+    },
+    {
+      "file": "images/magenta-three-way-branch-difference-bottom.jpg",
+      "bytes": 88975,
+      "sha256": "7837bc2c59e230eb609e3187989fc78371f347c2a3dae681cd27593104dbac9f"
+    },
+    {
+      "file": "images/magenta-three-way-branch-difference-low-underside-perspective.jpg",
+      "bytes": 88680,
+      "sha256": "db478a70c2123b667c206ae227400b0e5a8b054bc744c41808cbdc2297bc6586"
+    },
+    {
+      "file": "images/magenta-three-way-branch-difference-perspective.jpg",
+      "bytes": 89259,
+      "sha256": "55801542483b372f76e134dd72a5bb51e8bcbcd2f8e35f90eb242c70ad2a2657"
+    },
+    {
+      "file": "images/string-lights-1-oblique-orthographic.jpg",
+      "bytes": 89142,
+      "sha256": "13d3d4ad165be60aeaf4ddf71f77699b05bc7b4b0c3e950e6434b60741b45535"
+    },
+    {
+      "file": "images/string-lights-1-perspective.jpg",
+      "bytes": 82993,
+      "sha256": "81afe89d58b2bdf15576bff3c6609a38c0bd1944fbae72978f8cb385909f1a7a"
+    },
+    {
+      "file": "images/string-lights-1-reverse-orthographic.jpg",
+      "bytes": 88448,
+      "sha256": "ba3aa87fdcab374b23654a8f2c2ae724a576557ac9501d264e8982b5f627c440"
+    },
+    {
+      "file": "images/string-lights-2-oblique-orthographic.jpg",
+      "bytes": 90325,
+      "sha256": "7a0851c78b5d39b1ca4072b15933a7121f1f7b60ae38f019afa9c510cd2a8b95"
+    },
+    {
+      "file": "images/string-lights-2-perspective.jpg",
+      "bytes": 85665,
+      "sha256": "33b2fd650cb3e198bb782900112a7116eebe7fa67d9431ad70b024aa9d9a482e"
+    },
+    {
+      "file": "images/string-lights-2-reverse-orthographic.jpg",
+      "bytes": 92266,
+      "sha256": "32235c7298d1a7490e175da36145e1f31e8da898847b67e88e73b09cdcb04078"
+    },
+    {
+      "file": "images/string-lights-3-oblique-orthographic.jpg",
+      "bytes": 91316,
+      "sha256": "c39eb7f9b6a3bc5b014ecf8b379d1f3d48adc0dc9a1547e86e7553713ca7791f"
+    },
+    {
+      "file": "images/string-lights-3-perspective.jpg",
+      "bytes": 85294,
+      "sha256": "bb9beaaf0450c03d537f1833d4f7ab79be9f62ce156d402e15a4b0fc44f88739"
+    },
+    {
+      "file": "images/string-lights-3-reverse-orthographic.jpg",
+      "bytes": 91888,
+      "sha256": "c35859671b0a5da2ee837d8b199f989f0049ab623b1d4851ae905d491c5873fa"
+    },
+    {
+      "file": "images/string-lights-4-oblique-orthographic.jpg",
+      "bytes": 91690,
+      "sha256": "7e9929e2f8f9f05cb4619671cdd43ed5eaa6cca646233665ffcb2fb3358efeb7"
+    },
+    {
+      "file": "images/string-lights-4-perspective.jpg",
+      "bytes": 86132,
+      "sha256": "f913eaab5899d385844bd9d9dde9d1898f61e23e30db089b605a84ab2edd2215"
+    },
+    {
+      "file": "images/string-lights-4-reverse-orthographic.jpg",
+      "bytes": 92049,
+      "sha256": "a15b2e977812d0825ff2eca48ae016581da3012aac1e308def440457fee90261"
+    },
+    {
+      "file": "images/string-lights-5-oblique-orthographic.jpg",
+      "bytes": 85598,
+      "sha256": "e51771763d1688ba782c8469d6851cc0d34ab301404ae1fb06df412f5400eae3"
+    },
+    {
+      "file": "images/string-lights-5-perspective.jpg",
+      "bytes": 87672,
+      "sha256": "79ea3bf0967bd5de1121855158df30b45bad19228a1a12e867ef20d13e8b1ea5"
+    },
+    {
+      "file": "images/string-lights-5-reverse-orthographic.jpg",
+      "bytes": 84788,
+      "sha256": "991e505194ceeed495f265dc2d958fdb69ef2d6e26e2887a5b28a107e6433a44"
+    },
+    {
+      "file": "images/tables-1-bottom.jpg",
+      "bytes": 79750,
+      "sha256": "99ce9cec456ee31b21dc389fc3b523d661c1cbfd19ce5d5139f86daffd8c140e"
+    },
+    {
+      "file": "images/tables-1-perspective.jpg",
+      "bytes": 81889,
+      "sha256": "4ede9091d67ef396458f980148072a152cc145a77e854813ab4cff967bf6ce78"
+    },
+    {
+      "file": "images/tables-1-top.jpg",
+      "bytes": 79573,
+      "sha256": "6a3361f655f6106daa7d507854b475e72370f8a596f1be565a8116a272638b26"
+    },
+    {
+      "file": "images/tables-2-bottom.jpg",
+      "bytes": 79067,
+      "sha256": "71ae2bd5c68b9f598eabf74878c731c36d6b9fb984b058fb2f58ea168c14c630"
+    },
+    {
+      "file": "images/tables-2-perspective.jpg",
+      "bytes": 78907,
+      "sha256": "a2e40063a05b0ca0cf4199cd572615479aefa434120a194d917a4555d20801a8"
+    },
+    {
+      "file": "images/tables-2-top.jpg",
+      "bytes": 78450,
+      "sha256": "fc43419a51d50c387e687608a32864c2ca7568fd92997409ae15eb0ce1d5b76f"
+    },
+    {
+      "file": "latest-input-reuse.json",
+      "bytes": 170938,
+      "sha256": "88d9cbd57713871c9655773af50d24a957e92869f5bdbf89ffc1e046c3ea32b2"
+    },
+    {
+      "file": "scene-index.md",
+      "bytes": 55103,
+      "sha256": "1c31a27aca691264d46b4a809f03bf5ef2623d23e8fab99345732e09c80a5d31"
+    },
+    {
+      "file": "source-snapshot-index.json",
+      "bytes": 218822,
+      "sha256": "19e497390f3bd2c5576f612946387f108a783ba7c1e4f81916d43921643dd678"
+    },
+    {
+      "file": "test_verifier_boundaries.py",
+      "bytes": 6501,
+      "sha256": "8fb98430528d0b32ecfff27d90d01454c0df7be76e34b4f61668c1af8d05c27e"
+    },
+    {
+      "file": "validate_evidence.py",
+      "bytes": 21456,
+      "sha256": "8cb074fff5d87a76e3825edd97e6da888ce5c1b4214f69772efdddc0783badd2"
+    }
+  ]
+}
