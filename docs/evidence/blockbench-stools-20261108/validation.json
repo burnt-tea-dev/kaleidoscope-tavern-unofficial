@@ -1,0 +1,42 @@
+[
+  {
+    "file": "stools/scenes/stool-body-poses.bbmodel",
+    "sha256": "a22905cd95700eded0e17308491004d098c56bc10b4d6b27f97de87b059c83a1",
+    "pair_count": 4,
+    "seven_cube_positions_uv_active_rotations_match": true,
+    "self_contained_texture_dimensions_valid": true,
+    "gui_reviewed": false
+  },
+  {
+    "file": "stools/scenes/stool-colours-1.bbmodel",
+    "sha256": "9c0e4f26504666b32b9d555ad26b2ca4f4df1e5e747c817206a383014412420f",
+    "pair_count": 4,
+    "seven_cube_positions_uv_active_rotations_match": true,
+    "self_contained_texture_dimensions_valid": true,
+    "gui_reviewed": false
+  },
+  {
+    "file": "stools/scenes/stool-colours-2.bbmodel",
+    "sha256": "c54165e82d05aa14b5e0ead9927868f2be4f7049d19511c5a12bd5e087ea9863",
+    "pair_count": 4,
+    "seven_cube_positions_uv_active_rotations_match": true,
+    "self_contained_texture_dimensions_valid": true,
+    "gui_reviewed": false
+  },
+  {
+    "file": "stools/scenes/stool-colours-3.bbmodel",
+    "sha256": "399f88f75cada51a3992027af4d48cfa90c368b9adbd2604f3e6930f9797639a",
+    "pair_count": 4,
+    "seven_cube_positions_uv_active_rotations_match": true,
+    "self_contained_texture_dimensions_valid": true,
+    "gui_reviewed": false
+  },
+  {
+    "file": "stools/scenes/stool-colours-4.bbmodel",
+    "sha256": "5b1ba7eb24326b4e4b2851c47c1469deb7f4283e13afdbc994e0432d6c005de3",
+    "pair_count": 4,
+    "seven_cube_positions_uv_active_rotations_match": true,
+    "self_contained_texture_dimensions_valid": true,
+    "gui_reviewed": false
+  }
+]

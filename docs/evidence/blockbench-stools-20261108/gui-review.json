@@ -1,0 +1,288 @@
+{
+  "date": "2026-11-08",
+  "scope": "Bounded native Blockbench editor review of all five saved stool scenes: default perspective and TOP for each. Not all-surface or Minecraft-engine acceptance.",
+  "status": "completed_for_recorded_views",
+  "scenes": 5,
+  "screenshots": 10,
+  "colour_states": 16,
+  "body_turn_samples_degrees": [
+    0,
+    45,
+    90,
+    180
+  ],
+  "stool_pairs": 20,
+  "screenshots_preserved_original_bytes": true,
+  "individual_screenshot_review_completed": true,
+  "new_visible_defects_observed": false,
+  "viewport_edge_clipping_observed": false,
+  "caption_correction_needed": false,
+  "source_native_order": "Default perspective: native screen-left/source screen-right. TOP: source screen-left/native screen-right. Use world coordinates/group identities in other views.",
+  "limits": [
+    "Some rear bases are naturally occluded in perspective; TOP hides bases beneath seats. These views are not proof of every surface.",
+    "Four turns are static samples; no passenger, interpolation, interaction, animation timing or Minecraft-engine shader acceptance.",
+    "Bottles remain GUI pending; this stool result does not establish their visual acceptance."
+  ],
+  "images": [
+    {
+      "file": "stools/evidence/stool-body-poses-perspective.jpg",
+      "bytes": 121236,
+      "sha256": "7f2d95399f604ae546118747dec177d46504e4259baddb997be30ec4b135b533",
+      "dimensions": [
+        1364,
+        1024
+      ],
+      "scene": "stools/scenes/stool-body-poses.bbmodel",
+      "scene_sha256": "a22905cd95700eded0e17308491004d098c56bc10b4d6b27f97de87b059c83a1",
+      "view": "default perspective",
+      "states": [
+        0,
+        45,
+        90,
+        180
+      ],
+      "pair_count_visible": 4,
+      "image_viewed_individually": true,
+      "scene_title_matches": true,
+      "all_four_pairs_within_viewport": true,
+      "viewport_edge_clipping_observed": false,
+      "caption_correction_needed": false,
+      "source_native_screen_order": "native left / source right within each pair",
+      "observations": "Paired visible seat/backrest silhouettes and textures agree; bases/legs retain their fixed orientation. Some rear bases are naturally occluded by foreground stools."
+    },
+    {
+      "file": "stools/evidence/stool-body-poses-top.jpg",
+      "bytes": 115078,
+      "sha256": "7a056ab9ad8cdd7896c5d661c977a5e11cc4c800677a7bdd650786fc6e4ebb58",
+      "dimensions": [
+        1364,
+        1024
+      ],
+      "scene": "stools/scenes/stool-body-poses.bbmodel",
+      "scene_sha256": "a22905cd95700eded0e17308491004d098c56bc10b4d6b27f97de87b059c83a1",
+      "view": "TOP",
+      "states": [
+        0,
+        45,
+        90,
+        180
+      ],
+      "pair_count_visible": 4,
+      "image_viewed_individually": true,
+      "scene_title_matches": true,
+      "all_four_pairs_within_viewport": true,
+      "viewport_edge_clipping_observed": false,
+      "caption_correction_needed": false,
+      "source_native_screen_order": "source left / native right within each pair",
+      "observations": "Paired visible seat/backrest silhouettes and textures agree; four pairs are framed with margin. Base/legs are occluded by bodies in TOP."
+    },
+    {
+      "file": "stools/evidence/stool-colours-1-perspective.jpg",
+      "bytes": 120691,
+      "sha256": "3403f6559d98e7bfc65aa759a6d16030d7a542ed77b60801fe16beae8debccff",
+      "dimensions": [
+        1364,
+        1024
+      ],
+      "scene": "stools/scenes/stool-colours-1.bbmodel",
+      "scene_sha256": "9c0e4f26504666b32b9d555ad26b2ca4f4df1e5e747c817206a383014412420f",
+      "view": "default perspective",
+      "states": [
+        "black",
+        "blue",
+        "brown",
+        "cyan"
+      ],
+      "pair_count_visible": 4,
+      "image_viewed_individually": true,
+      "scene_title_matches": true,
+      "all_four_pairs_within_viewport": true,
+      "viewport_edge_clipping_observed": false,
+      "caption_correction_needed": false,
+      "source_native_screen_order": "native left / source right within each pair",
+      "observations": "Paired visible seat/backrest silhouettes and textures agree; bases/legs retain their fixed orientation. Some rear bases are naturally occluded by foreground stools."
+    },
+    {
+      "file": "stools/evidence/stool-colours-1-top.jpg",
+      "bytes": 111971,
+      "sha256": "a9e84e7b8d3688f0e6eb2c630843dcc3777999f4fa55f382cbb51122771e0e0b",
+      "dimensions": [
+        1364,
+        1024
+      ],
+      "scene": "stools/scenes/stool-colours-1.bbmodel",
+      "scene_sha256": "9c0e4f26504666b32b9d555ad26b2ca4f4df1e5e747c817206a383014412420f",
+      "view": "TOP",
+      "states": [
+        "black",
+        "blue",
+        "brown",
+        "cyan"
+      ],
+      "pair_count_visible": 4,
+      "image_viewed_individually": true,
+      "scene_title_matches": true,
+      "all_four_pairs_within_viewport": true,
+      "viewport_edge_clipping_observed": false,
+      "caption_correction_needed": false,
+      "source_native_screen_order": "source left / native right within each pair",
+      "observations": "Paired visible seat/backrest silhouettes and textures agree; four pairs are framed with margin. Base/legs are occluded by bodies in TOP."
+    },
+    {
+      "file": "stools/evidence/stool-colours-2-perspective.jpg",
+      "bytes": 122851,
+      "sha256": "28545f177baae54bbe0a95bba369488e3c23d562662cadb28a82de6629ed0031",
+      "dimensions": [
+        1364,
+        1024
+      ],
+      "scene": "stools/scenes/stool-colours-2.bbmodel",
+      "scene_sha256": "c54165e82d05aa14b5e0ead9927868f2be4f7049d19511c5a12bd5e087ea9863",
+      "view": "default perspective",
+      "states": [
+        "gray",
+        "green",
+        "light_blue",
+        "light_gray"
+      ],
+      "pair_count_visible": 4,
+      "image_viewed_individually": true,
+      "scene_title_matches": true,
+      "all_four_pairs_within_viewport": true,
+      "viewport_edge_clipping_observed": false,
+      "caption_correction_needed": false,
+      "source_native_screen_order": "native left / source right within each pair",
+      "observations": "Paired visible seat/backrest silhouettes and textures agree; bases/legs retain their fixed orientation. Some rear bases are naturally occluded by foreground stools."
+    },
+    {
+      "file": "stools/evidence/stool-colours-2-top.jpg",
+      "bytes": 112473,
+      "sha256": "96dab224d4bc682864ca07e9a4be1a3f915ec4ea2a0774d164d01c406264f86a",
+      "dimensions": [
+        1364,
+        1024
+      ],
+      "scene": "stools/scenes/stool-colours-2.bbmodel",
+      "scene_sha256": "c54165e82d05aa14b5e0ead9927868f2be4f7049d19511c5a12bd5e087ea9863",
+      "view": "TOP",
+      "states": [
+        "gray",
+        "green",
+        "light_blue",
+        "light_gray"
+      ],
+      "pair_count_visible": 4,
+      "image_viewed_individually": true,
+      "scene_title_matches": true,
+      "all_four_pairs_within_viewport": true,
+      "viewport_edge_clipping_observed": false,
+      "caption_correction_needed": false,
+      "source_native_screen_order": "source left / native right within each pair",
+      "observations": "Paired visible seat/backrest silhouettes and textures agree; four pairs are framed with margin. Base/legs are occluded by bodies in TOP."
+    },
+    {
+      "file": "stools/evidence/stool-colours-3-perspective.jpg",
+      "bytes": 129035,
+      "sha256": "9a4e550fc90d81ff73d41b56b83f0ab066dd0ef1f6cc427c44fb1a9eb7f959cf",
+      "dimensions": [
+        1364,
+        1024
+      ],
+      "scene": "stools/scenes/stool-colours-3.bbmodel",
+      "scene_sha256": "399f88f75cada51a3992027af4d48cfa90c368b9adbd2604f3e6930f9797639a",
+      "view": "default perspective",
+      "states": [
+        "lime",
+        "magenta",
+        "orange",
+        "pink"
+      ],
+      "pair_count_visible": 4,
+      "image_viewed_individually": true,
+      "scene_title_matches": true,
+      "all_four_pairs_within_viewport": true,
+      "viewport_edge_clipping_observed": false,
+      "caption_correction_needed": false,
+      "source_native_screen_order": "native left / source right within each pair",
+      "observations": "Paired visible seat/backrest silhouettes and textures agree; bases/legs retain their fixed orientation. Some rear bases are naturally occluded by foreground stools."
+    },
+    {
+      "file": "stools/evidence/stool-colours-3-top.jpg",
+      "bytes": 116777,
+      "sha256": "69e65c72d7faa89f4cb053bbc984061c252f7beb263fec71c0ffeddf57f033fb",
+      "dimensions": [
+        1364,
+        1024
+      ],
+      "scene": "stools/scenes/stool-colours-3.bbmodel",
+      "scene_sha256": "399f88f75cada51a3992027af4d48cfa90c368b9adbd2604f3e6930f9797639a",
+      "view": "TOP",
+      "states": [
+        "lime",
+        "magenta",
+        "orange",
+        "pink"
+      ],
+      "pair_count_visible": 4,
+      "image_viewed_individually": true,
+      "scene_title_matches": true,
+      "all_four_pairs_within_viewport": true,
+      "viewport_edge_clipping_observed": false,
+      "caption_correction_needed": false,
+      "source_native_screen_order": "source left / native right within each pair",
+      "observations": "Paired visible seat/backrest silhouettes and textures agree; four pairs are framed with margin. Base/legs are occluded by bodies in TOP."
+    },
+    {
+      "file": "stools/evidence/stool-colours-4-perspective.jpg",
+      "bytes": 125694,
+      "sha256": "99ab20ec27d66059df30eaf5b6fc3b8cfb8d978b422243f186e01812be2f5eeb",
+      "dimensions": [
+        1364,
+        1024
+      ],
+      "scene": "stools/scenes/stool-colours-4.bbmodel",
+      "scene_sha256": "5b1ba7eb24326b4e4b2851c47c1469deb7f4283e13afdbc994e0432d6c005de3",
+      "view": "default perspective",
+      "states": [
+        "purple",
+        "red",
+        "white",
+        "yellow"
+      ],
+      "pair_count_visible": 4,
+      "image_viewed_individually": true,
+      "scene_title_matches": true,
+      "all_four_pairs_within_viewport": true,
+      "viewport_edge_clipping_observed": false,
+      "caption_correction_needed": false,
+      "source_native_screen_order": "native left / source right within each pair",
+      "observations": "Paired visible seat/backrest silhouettes and textures agree; bases/legs retain their fixed orientation. Some rear bases are naturally occluded by foreground stools."
+    },
+    {
+      "file": "stools/evidence/stool-colours-4-top.jpg",
+      "bytes": 114681,
+      "sha256": "fc32d458b2029f889722a1d94e16c5ae8da4af358edf775ac96873c0a6fef656",
+      "dimensions": [
+        1364,
+        1024
+      ],
+      "scene": "stools/scenes/stool-colours-4.bbmodel",
+      "scene_sha256": "5b1ba7eb24326b4e4b2851c47c1469deb7f4283e13afdbc994e0432d6c005de3",
+      "view": "TOP",
+      "states": [
+        "purple",
+        "red",
+        "white",
+        "yellow"
+      ],
+      "pair_count_visible": 4,
+      "image_viewed_individually": true,
+      "scene_title_matches": true,
+      "all_four_pairs_within_viewport": true,
+      "viewport_edge_clipping_observed": false,
+      "caption_correction_needed": false,
+      "source_native_screen_order": "source left / native right within each pair",
+      "observations": "Paired visible seat/backrest silhouettes and textures agree; four pairs are framed with margin. Base/legs are occluded by bodies in TOP."
+    }
+  ]
+}
