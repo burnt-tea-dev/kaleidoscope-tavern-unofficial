@@ -1,0 +1,69 @@
+{
+  "passed": true,
+  "base_commit": "d42a39745f25082aa129f4d4bb823684e4174771",
+  "base_runtime_tree": "38c5977dd6bfe14b1824734612e3c601e1e41028",
+  "archives": 8,
+  "archive_entries_verified": 1085,
+  "archives_below_200000_bytes": true,
+  "original_inputs_verified": 417,
+  "canonical_inputs_checked": 149,
+  "canonical_inputs_unchanged": 147,
+  "excluded_repaired_incense_inputs": 2,
+  "current_repository_inputs_rechecked": 149,
+  "historical_scenes_preserved": 29,
+  "current_gui_scenes": 25,
+  "ordinary_pairs": 79,
+  "accepted_original_jpegs": 84,
+  "dimensions": [
+    1188,
+    848
+  ],
+  "nine_vine_scenes_four_views": true,
+  "source_verification": {
+    "source_assets": 134,
+    "pinned_asset_and_blockstate_blobs": 444,
+    "documented_absent_unpublished_assets": 24,
+    "jar_asset_blobs": 134
+  },
+  "numerical_audits": [
+    {
+      "audit": "validate_scenes.py",
+      "report": "ordered-face-audit.json",
+      "same_json_values_types_and_array_order_after_explicit_path_relocation": true,
+      "saved_sha256": "74a61814847f4ee1f629993415c9e3fadebff56fae18c82b64c7968e532a0dd1",
+      "historical_scope_preserved": true
+    },
+    {
+      "audit": "validate_scenes.py",
+      "report": "structural-validation.json",
+      "same_json_values_types_and_array_order_after_explicit_path_relocation": true,
+      "saved_sha256": "47136d45b216c9c7a97a48a32b463b397f2dbfa0943744c1549064eb19c3dead",
+      "historical_scope_preserved": true
+    },
+    {
+      "audit": "check_routing.py",
+      "report": "routing-validation.json",
+      "same_json_values_types_and_array_order_after_explicit_path_relocation": true,
+      "saved_sha256": "4de53e7e98ac746fafab948b0a7496a2cee12899eb15af2066b73caf86cd3813",
+      "historical_scope_preserved": true
+    },
+    {
+      "audit": "check_incense_underside.py",
+      "report": "incense-underside-candidate.json",
+      "same_json_values_types_and_array_order_after_explicit_path_relocation": true,
+      "saved_sha256": "a21c9d5f3b313f635f3ef7e9b396ef27b36ef2739b41be68dc219456578b523e",
+      "historical_scope_preserved": true
+    },
+    {
+      "audit": "make_magenta_branch_scene.py",
+      "report": "magenta-branch-difference.json",
+      "same_json_values_types_and_array_order_after_explicit_path_relocation": true,
+      "saved_sha256": "0d3629a0e8f5d73fe0810b2500b2059db9cc7bbeed6628be98edb87fe6e373c1",
+      "historical_scope_preserved": true
+    }
+  ],
+  "scene_bytes_unchanged": true,
+  "gui_or_engine_execution": false,
+  "runtime_changed": false,
+  "historical_incense_results_are_not_current_defects": true
+}
