@@ -86,8 +86,17 @@ class AdditionReviewTests(unittest.TestCase):
 
     def test_postdeployment_readback_uses_the_new_complete_receipt(self):
         adjusted, order = self.review()
-        with patch.object(c, 'CONFIG', {'preserved_additions': str(self.path)}):
+        with patch.multiple(c, CONFIG={'preserved_additions': str(self.path)}, R=self.root, G={'family_pack': lambda *args: False, 'atomic': lambda path, value: Path(path).write_text(json.dumps(value))}):
             self.assertEqual(m.review(self.inventory, adjusted, order, ['old']), (adjusted, order))
+
+    def test_declared_proof_records_an_empty_review_after_admission(self):
+        adjusted, order = self.review()
+        (self.root / 'preserved-additions-check.json').unlink()
+        with patch.multiple(c, CONFIG={'preserved_additions': str(self.path)}, R=self.root, G={'family_pack': lambda *args: False, 'atomic': lambda path, value: Path(path).write_text(json.dumps(value))}):
+            self.assertEqual(m.review(self.inventory, adjusted, order, ['old']), (adjusted, order))
+        report = c.read(self.root / 'preserved-additions-check.json')
+        self.assertEqual(report['added_uuids'], [])
+        self.assertFalse(report['policy_changed'])
 
 
 if __name__ == '__main__': unittest.main()
