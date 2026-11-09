@@ -13,8 +13,6 @@ evidence and the explicit remaining client synchronization check.
 import io
 import json
 from pathlib import Path
-from PIL import Image
-from refresh_visual_compat import profile
 
 NS = 'kaleidoscope_tavern'
 ROOT = Path(__file__).resolve().parents[1]
@@ -25,6 +23,8 @@ def read(path):
 
 
 def ice_grape_frames(root=ROOT):
+    # Pixel work requires Pillow; shared route bindings and identity imports do not.
+    from PIL import Image
     reference = read(root / 'art/interfaces/animated-item-java-reference.json')['sources']['ice_grape']
     source = Image.open(root / reference['texture']).convert('RGBA')
     metadata = reference['java_animation_metadata']['animation']
@@ -61,6 +61,8 @@ def controller(rc, property_name, kind):
 
 
 def outputs(root=ROOT):
+    # This material helper imports Pillow too; keep it inside the image path.
+    from refresh_visual_compat import profile
     result = {}
     for i, image in enumerate(ice_grape_frames(root)):
         buffer = io.BytesIO()

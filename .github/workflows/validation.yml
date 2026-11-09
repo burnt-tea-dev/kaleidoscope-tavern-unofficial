@@ -37,6 +37,7 @@ jobs:
       - name: Keep baseline version and release claim consistent
         run: |
           python tools/baseline_gate.py check --release --history-base "${{ github.event.pull_request.base.sha || github.event.before }}"
+          python tools/test_baseline_minimal_dependencies.py
           python tools/test_release_claim.py
       - name: Verify publication request without publishing
         run: python tools/release_publication.py --event pull_request
