@@ -61,7 +61,7 @@ def main(argv=None):
         verify_owner_accepted_inputs(receipt, original)
     if curated_selection is not None:verify_curated_inputs(receipt,curated_selection,replacement_selection,prior_uuids={pack['uuid'] for pack in original['packs']})
     if replacement_selection is not None and curated_selection is None:
-        verify_replacement_inputs(receipt,replacement_selection)
+        verify_replacement_inputs(receipt,replacement_selection,prior_uuids={pack['uuid'] for pack in original['packs']})
     if local_selection is not None:
         from family_update.managed_drift_recovery import verify_local_target
         verify_local_target(receipt,original)

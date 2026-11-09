@@ -504,10 +504,10 @@ def verify_candidate_sources():
     if curated_inputs_enabled():
         path=R/'curated-input-selection.json'
         assert evidence.get('curated_input_selection')==report_ref(path), 'Curated input selection changed after assembly'
-        verify_curated_inputs(receipt,read(path),replacement_selection)
+        verify_curated_inputs(receipt,read(path),replacement_selection,prior_uuids={pack['uuid'] for pack in read(R/'production-before/inventory.json')['packs']})
     else:
         assert not evidence.get('curated_input_selection'), 'Curated input selection requires its fresh profile'
-        if replacement_selection is not None:verify_replacement_inputs(receipt,replacement_selection)
+        if replacement_selection is not None:verify_replacement_inputs(receipt,replacement_selection,prior_uuids={pack['uuid'] for pack in read(R/'production-before/inventory.json')['packs']})
     if CONFIG.get('approved_runtime_retention'):
         original = read(R/'production-before/inventory.json')
         _, _, retention = select_approved_runtime_retention(original, current)
