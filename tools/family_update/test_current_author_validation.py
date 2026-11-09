@@ -735,6 +735,8 @@ class CuratedRetainedInputs(unittest.TestCase):
   receipt['packs'].append({'uuid':'prior-preserved','side':'behavior','version':[1,0,0],'files':{},'source':{'owner':'preserved'}})
   with self.assertRaisesRegex(AssertionError,'unselected retained input'):m.verify_curated_inputs(receipt,report)
   m.verify_curated_inputs(receipt,report,prior_uuids={'prior-preserved'})
+  # Prior family inputs rebuilt from canonical sources are not preserved rows.
+  m.verify_curated_inputs(receipt,report,prior_uuids={'prior-preserved','rebuilt-owned'})
   with self.assertRaisesRegex(AssertionError,'unselected retained input'):m.verify_curated_inputs(receipt,report,prior_uuids={'other'})
 
  def test_stable_saved_world_reuses_exact_retained_inputs_without_a_fresh_world_claim(self):

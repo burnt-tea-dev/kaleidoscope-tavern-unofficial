@@ -549,8 +549,10 @@ def verify_curated_inputs(receipt,selection,replacement_selection=None,prior_uui
     replacements=replacement_rows()
     # A preserved pack that the stopped pre-candidate inventory already
     # contained is part of the approved prior receipt; only genuinely new
-    # additions need a fresh proof.
-    allowed=set(selection['packs'])|set(replacements)|set(prior_uuids or ())
+    # additions need a fresh proof. Family inputs rebuilt from canonical
+    # sources are not preserved rows and must not widen the allowed set.
+    allowed=set(selection['packs'])|set(replacements)
+    allowed|=set(prior_uuids or ()) & {uid for uid,row in actual.items() if row['source']['owner']=='preserved'}
     if c.CONFIG.get('preserved_additions'):
         allowed|=set(c.read(Path(c.CONFIG['preserved_additions']))['packs'])
     assert {uid for uid,row in actual.items() if row['source']['owner']=='preserved'}==allowed, 'Candidate contains an unselected retained input'
