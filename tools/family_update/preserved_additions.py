@@ -21,7 +21,14 @@ def review(inventory, expected, order, managed, *, reviewed_path=None):
     assert set(expected) <= set(actual), 'Preserved review cannot remove packs'
     if not added:
         # After deployment the new approved receipt already contains these
-        # packs. Readback/resume must still use that complete immutable receipt.
+        # packs. Readback/resume must still use that complete immutable receipt,
+        # but a declared proof still records that nothing new was admitted.
+        if path:
+            c.atomic(c.R / 'preserved-additions-check.json', {
+                'source': c.report_ref(Path(path)), 'added_uuids': [],
+                'prior_receipt_changed': False, 'policy_changed': False,
+                'new_full_family_acceptance_still_required': True, 'client': False,
+            })
         return expected, order
     assert path, 'Complete stack changed; review original addition archives'
     proof = c.read(Path(path))
