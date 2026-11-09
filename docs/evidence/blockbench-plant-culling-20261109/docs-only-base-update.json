@@ -1,0 +1,361 @@
+{
+  "aggregate_tested_base": "682a9dd01cc8d5ad26b714c0b279d04cbafeb205",
+  "final_base": "3db6ee84d260aec6ff80708b04c2edca48c7fcdd",
+  "final_base_tree": "d202858e5b0e255f7fe666dffbd9ef7e81b61b76",
+  "base_runtime_tree": "870c0596cc2f0244d0e6ee17a0905d4b75734620",
+  "base_delta": [
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/LICENSE-ASSETS"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/LICENSE-CODE"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/README.md"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/archive-entries.json"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/archives/original-inputs-01.zip"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/archives/original-inputs-02.zip"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/artifact-sha256.json"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/audit-portability.json"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/audit-portability.patch"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/audits/finalize_provenance.py"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/audits/portable_context.py"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/audits/validate_scenes.py"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/capture-index.csv"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/current-input-verification.json"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/gui-review-README.md"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/gui-review.json"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/images/diagnostic/02-barrel-closed-top-clipped.jpg"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/images/diagnostic/06-barrel-open-north-clipped.jpg"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/images/diagnostic/09-pressing-tubs-top-clipped.jpg"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/images/diagnostic/13-taps-true-isometric-left-clipped.jpg"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/images/diagnostic/17-stepladder-true-isometric-left-clipped.jpg"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/images/screenshots/01-barrel-closed-perspective.jpg"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/images/screenshots/02-barrel-closed-top.jpg"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/images/screenshots/03-barrel-closed-bottom.jpg"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/images/screenshots/04-barrel-open-perspective.jpg"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/images/screenshots/05-barrel-open-top.jpg"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/images/screenshots/06-barrel-open-north.jpg"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/images/screenshots/07-barrel-open-south.jpg"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/images/screenshots/08-pressing-tubs-perspective.jpg"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/images/screenshots/09-pressing-tubs-top.jpg"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/images/screenshots/10-pressing-tubs-bottom.jpg"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/images/screenshots/11-taps-perspective.jpg"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/images/screenshots/12-taps-top.jpg"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/images/screenshots/13-taps-true-isometric-left.jpg"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/images/screenshots/14-stepladder-perspective.jpg"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/images/screenshots/15-stepladder-north-join.jpg"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/images/screenshots/16-stepladder-bottom.jpg"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/images/screenshots/18-shaker-put-perspective.jpg"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/images/screenshots/19-shaker-put-top.jpg"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/images/screenshots/20-shaker-put-true-isometric-left.jpg"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/scene-index.md"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/source-snapshot-index.json"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/test_verifier_boundaries.py"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/blockbench-machine-bodies-20261109/validate_evidence.py"
+    }
+  ],
+  "all_base_changes_are_new_N02_documentation": true,
+  "author_source_commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+  "aggregate_reuse": "The original successful aggregate result is retained for the docs-only base advance, supported by the exact Git base delta and unchanged base source/test/runtime objects above. This is not a new aggregate run or a reconstructed candidate-wide snapshot.",
+  "base_delta_command": [
+    "git",
+    "diff",
+    "--no-renames",
+    "--name-status",
+    "682a9dd01cc8d5ad26b714c0b279d04cbafeb205",
+    "3db6ee84d260aec6ff80708b04c2edca48c7fcdd"
+  ],
+  "base_delta_expected": {
+    "added_paths": 44,
+    "all_paths_under": "docs/evidence/blockbench-machine-bodies-20261109/",
+    "modified_paths": 0,
+    "deleted_paths": 0,
+    "renamed_paths": 0
+  },
+  "outside_N02_diff_command": [
+    "git",
+    "diff",
+    "--no-renames",
+    "--name-status",
+    "682a9dd01cc8d5ad26b714c0b279d04cbafeb205",
+    "3db6ee84d260aec6ff80708b04c2edca48c7fcdd",
+    "--",
+    ".",
+    ":!docs/evidence/blockbench-machine-bodies-20261109"
+  ],
+  "outside_N02_expected_stdout": "",
+  "unchanged_base_objects": {
+    "runtime": {
+      "type": "tree",
+      "aggregate_tested_base_object": "870c0596cc2f0244d0e6ee17a0905d4b75734620",
+      "final_base_object": "870c0596cc2f0244d0e6ee17a0905d4b75734620",
+      "compare_command": [
+        "git",
+        "rev-parse",
+        "682a9dd01cc8d5ad26b714c0b279d04cbafeb205:runtime",
+        "3db6ee84d260aec6ff80708b04c2edca48c7fcdd:runtime"
+      ]
+    },
+    "tools": {
+      "type": "tree",
+      "aggregate_tested_base_object": "af94ee534bb55e0e3a7f0060b160af1c5d3debb4",
+      "final_base_object": "af94ee534bb55e0e3a7f0060b160af1c5d3debb4",
+      "compare_command": [
+        "git",
+        "rev-parse",
+        "682a9dd01cc8d5ad26b714c0b279d04cbafeb205:tools",
+        "3db6ee84d260aec6ff80708b04c2edca48c7fcdd:tools"
+      ]
+    },
+    "tests": {
+      "type": "tree",
+      "aggregate_tested_base_object": "3d4d013fee2714cf19ca1620a9a88ccc59629217",
+      "final_base_object": "3d4d013fee2714cf19ca1620a9a88ccc59629217",
+      "compare_command": [
+        "git",
+        "rev-parse",
+        "682a9dd01cc8d5ad26b714c0b279d04cbafeb205:tests",
+        "3db6ee84d260aec6ff80708b04c2edca48c7fcdd:tests"
+      ]
+    },
+    "data": {
+      "type": "tree",
+      "aggregate_tested_base_object": "e835bd408cd5d0d4b62b2d77cf408df32bbd149c",
+      "final_base_object": "e835bd408cd5d0d4b62b2d77cf408df32bbd149c",
+      "compare_command": [
+        "git",
+        "rev-parse",
+        "682a9dd01cc8d5ad26b714c0b279d04cbafeb205:data",
+        "3db6ee84d260aec6ff80708b04c2edca48c7fcdd:data"
+      ]
+    },
+    "art": {
+      "type": "tree",
+      "aggregate_tested_base_object": "47344681dcf63addefb297578150ed65823cf29a",
+      "final_base_object": "47344681dcf63addefb297578150ed65823cf29a",
+      "compare_command": [
+        "git",
+        "rev-parse",
+        "682a9dd01cc8d5ad26b714c0b279d04cbafeb205:art",
+        "3db6ee84d260aec6ff80708b04c2edca48c7fcdd:art"
+      ]
+    },
+    "sdk": {
+      "type": "tree",
+      "aggregate_tested_base_object": "0973be30bdedc040a76c235f2bed9a34c3170439",
+      "final_base_object": "0973be30bdedc040a76c235f2bed9a34c3170439",
+      "compare_command": [
+        "git",
+        "rev-parse",
+        "682a9dd01cc8d5ad26b714c0b279d04cbafeb205:sdk",
+        "3db6ee84d260aec6ff80708b04c2edca48c7fcdd:sdk"
+      ]
+    },
+    "baseline.json": {
+      "type": "blob",
+      "aggregate_tested_base_object": "7dd8fe7a05e9297fe615c8445d377472ba06159e",
+      "final_base_object": "7dd8fe7a05e9297fe615c8445d377472ba06159e",
+      "compare_command": [
+        "git",
+        "rev-parse",
+        "682a9dd01cc8d5ad26b714c0b279d04cbafeb205:baseline.json",
+        "3db6ee84d260aec6ff80708b04c2edca48c7fcdd:baseline.json"
+      ]
+    },
+    "release.json": {
+      "type": "blob",
+      "aggregate_tested_base_object": "7284576db18fbaf950fb35da805bb1728c286522",
+      "final_base_object": "7284576db18fbaf950fb35da805bb1728c286522",
+      "compare_command": [
+        "git",
+        "rev-parse",
+        "682a9dd01cc8d5ad26b714c0b279d04cbafeb205:release.json",
+        "3db6ee84d260aec6ff80708b04c2edca48c7fcdd:release.json"
+      ]
+    },
+    "release-history.json": {
+      "type": "blob",
+      "aggregate_tested_base_object": "3f3691ea31c809b6daea80280142fe7e9bf1612d",
+      "final_base_object": "3f3691ea31c809b6daea80280142fe7e9bf1612d",
+      "compare_command": [
+        "git",
+        "rev-parse",
+        "682a9dd01cc8d5ad26b714c0b279d04cbafeb205:release-history.json",
+        "3db6ee84d260aec6ff80708b04c2edca48c7fcdd:release-history.json"
+      ]
+    },
+    "package.json": {
+      "type": "blob",
+      "aggregate_tested_base_object": "6f957ecce5db475df581c6a10dbbff79ed656be5",
+      "final_base_object": "6f957ecce5db475df581c6a10dbbff79ed656be5",
+      "compare_command": [
+        "git",
+        "rev-parse",
+        "682a9dd01cc8d5ad26b714c0b279d04cbafeb205:package.json",
+        "3db6ee84d260aec6ff80708b04c2edca48c7fcdd:package.json"
+      ]
+    },
+    "config.json": {
+      "type": "blob",
+      "aggregate_tested_base_object": "30f0d168153b06f17bd388662ecd6129a385d071",
+      "final_base_object": "30f0d168153b06f17bd388662ecd6129a385d071",
+      "compare_command": [
+        "git",
+        "rev-parse",
+        "682a9dd01cc8d5ad26b714c0b279d04cbafeb205:config.json",
+        "3db6ee84d260aec6ff80708b04c2edca48c7fcdd:config.json"
+      ]
+    },
+    ".repo-target.json": {
+      "type": "blob",
+      "aggregate_tested_base_object": "f78390d52c3ff80419825cd11f1e80b39bc80708",
+      "final_base_object": "f78390d52c3ff80419825cd11f1e80b39bc80708",
+      "compare_command": [
+        "git",
+        "rev-parse",
+        "682a9dd01cc8d5ad26b714c0b279d04cbafeb205:.repo-target.json",
+        "3db6ee84d260aec6ff80708b04c2edca48c7fcdd:.repo-target.json"
+      ]
+    },
+    ".github/release-request.json": {
+      "type": "blob",
+      "aggregate_tested_base_object": "9d68b93ad90ae034e561e8cbd4f808bed6574a79",
+      "final_base_object": "9d68b93ad90ae034e561e8cbd4f808bed6574a79",
+      "compare_command": [
+        "git",
+        "rev-parse",
+        "682a9dd01cc8d5ad26b714c0b279d04cbafeb205:.github/release-request.json",
+        "3db6ee84d260aec6ff80708b04c2edca48c7fcdd:.github/release-request.json"
+      ]
+    }
+  },
+  "proof_scope": "Git-committed content at the two named base revisions. Tree equality includes all descendant paths, modes and blobs. The exact base delta adds only the 44 N02 documentation files; all other committed base content is unchanged.",
+  "candidate_snapshot_limit": "The earlier complete before/after candidate input manifest and fingerprint serialization were not retained. No independently reproducible candidate-wide fingerprint is claimed; the unsupported count and digest were removed."
+}

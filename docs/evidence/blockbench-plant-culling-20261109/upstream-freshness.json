@@ -1,0 +1,39 @@
+{
+  "checked_utc": "2026-11-09T02:59:59Z",
+  "method": "Fresh read-only GitHub connector fetch_commit using named branch refs, not local tracking refs",
+  "repository": "KaleidoscopeMods/KaleidoscopeTavern",
+  "branches": [
+    {
+      "loader": "Forge",
+      "branch": "main",
+      "sha": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+      "created_at": "2026-07-21T02:35:04Z",
+      "url": "https://github.com/KaleidoscopeMods/KaleidoscopeTavern/commit/c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+      "message": "修复品红色小灯的模型面剔除问题",
+      "properties": {
+        "content": "org.gradle.jvmargs=-Xmx3G\norg.gradle.daemon=false\nminecraft_version=1.20.1\nminecraft_version_range=[1.20.1,1.20.2)\nforge_version=47.3.0\nforge_version_range=[47,)\nloader_version_range=[47,)\njei_version=15.20.0.105\ncurios_version=5.9.1+1.20.1\nmapping_channel=parchment\nmapping_version=2023.08.20-1.20.1\nmod_id=kaleidoscope_tavern\nmod_name=Kaleidoscope Tavern\nmod_license=BSD-3-Clause + CC BY-NC-SA 4.0\nmod_version=1.2.0-forge+mc1.20.1\nmod_group_id=com.github.ysbbbbbb\nmod_authors=ysbbbbbb, tartaric_acid\nmod_description=To be added...",
+        "blob": "1864e638c60ac28b10e343198e03c167ccd66dd3",
+        "url": "https://github.com/KaleidoscopeMods/KaleidoscopeTavern/blob/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/gradle.properties",
+        "sha256": "fb7222f76a4beefb63d66fecf29de4d9bb7d46dacd84fc1402a119700b4e4f53",
+        "bytes": 532
+      }
+    },
+    {
+      "loader": "NeoForge",
+      "branch": "1.21.1",
+      "sha": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+      "created_at": "2026-07-01T05:27:36Z",
+      "url": "https://github.com/KaleidoscopeMods/KaleidoscopeTavern/commit/a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+      "message": "为普通和藤架添加语言文件介绍来源",
+      "properties": {
+        "content": "org.gradle.jvmargs=-Xmx2G\norg.gradle.daemon=true\norg.gradle.parallel=true\norg.gradle.caching=true\norg.gradle.configuration-cache=true\n\nminecraft_version=1.21.1\nminecraft_version_range=[1.21.1,1.21.2)\nneo_version=21.1.152\nneo_version_range=[21,)\nloader_version_range=[4,)\nparchment_minecraft_version=1.21.1\nparchment_mappings_version=2024.11.17\n\nmod_id=kaleidoscope_tavern\nmod_name=Kaleidoscope Tavern\nmod_license=BSD-3-Clause + CC BY-NC-SA 4.0\nmod_version=1.2.0-neoforge+mc1.21.1\nmod_group_id=com.github.ysbbbbbb\nmod_authors=ysbbbbbb, tartaric_acid\nmod_description=Focused on tavern-themed content, adding a complete brewing system along with a rich selection of decorative blocks to bring your tavern to life.",
+        "blob": "010392910c392edd0e7962885410a69d9c5b59b5",
+        "url": "https://github.com/KaleidoscopeMods/KaleidoscopeTavern/blob/a1afba34981a00e89d57130d3dc8f1e64f1820a2/gradle.properties",
+        "sha256": "e3247138e86b0d2fe051edf3c19ce88cce95fccfd4ad6853746e85e1e5f73016",
+        "bytes": 710
+      }
+    }
+  ],
+  "exact_loader_archives_retried": false,
+  "engine_execution": false
+}

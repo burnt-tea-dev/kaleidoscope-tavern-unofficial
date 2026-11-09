@@ -1,0 +1,310 @@
+{
+  "README.md": {
+    "bytes": 7043,
+    "sha256": "52e82598ae75cbfc84f99a90e7bb13751c0e992c97bd7d84db442a903c56d54d"
+  },
+  "archive-entries.json": {
+    "bytes": 102871,
+    "sha256": "4ed564ed162d1dccd954f6c13b6d9459d1b02f7c91e9a24ec600c886d334d5bc"
+  },
+  "archives/evidence-01.zip": {
+    "bytes": 179419,
+    "sha256": "eb732ceec12634c6690979dce0159ce703943426479f0f3bf9719399d7feb7f5"
+  },
+  "archives/evidence-02.zip": {
+    "bytes": 112062,
+    "sha256": "11636a69bcbacf997a5a6c5ff8349f8c92f07378367c25d9f3b8e480f080f915"
+  },
+  "archives/evidence-03.zip.part-01": {
+    "bytes": 180000,
+    "sha256": "3e94e30b839131d64ef6adf8d5b996e933386c478351af4f4beacb07c1bbffd2"
+  },
+  "archives/evidence-03.zip.part-02": {
+    "bytes": 180000,
+    "sha256": "a8e83ae4ea6a6caa84d945671028b67608b6727637a1e8491b166be1a93ca6e8"
+  },
+  "archives/evidence-03.zip.part-03": {
+    "bytes": 180000,
+    "sha256": "dc0443347c16499bcc1c172b5436552136593b643dbb5bf1f8f86262a610c330"
+  },
+  "archives/evidence-03.zip.part-04": {
+    "bytes": 180000,
+    "sha256": "8683f253159c005218aeedb16b8cfc5a3eb1dd9411debb06516018a565bae492"
+  },
+  "archives/evidence-03.zip.part-05": {
+    "bytes": 7645,
+    "sha256": "979c0e6190e61702edbe8087edd7371ccba8b812ee05a6eb27e02a922fa306e1"
+  },
+  "archives/evidence-04.zip": {
+    "bytes": 177368,
+    "sha256": "399d9a57f41386f9cbc0c384960e06556f05cf4a211d252c87c07767a41451ed"
+  },
+  "archives/evidence-05.zip": {
+    "bytes": 141275,
+    "sha256": "6aae820a9c7fd0380a439b938416ae4133e47d238f279c7d220ae75e27615657"
+  },
+  "archives/evidence-06.zip": {
+    "bytes": 166232,
+    "sha256": "f7ab8a0310ee321c05637f32377b8644e3d01a52c3d969c529fb99ae920748a0"
+  },
+  "archives/evidence-07.zip": {
+    "bytes": 124373,
+    "sha256": "63d30709769ce7059f3bdb32e7cef6a71170342c4e233064f1f7f0d64e715c80"
+  },
+  "archives/evidence-08.zip": {
+    "bytes": 150840,
+    "sha256": "a34b867f9ff366e32377bd0568bc53d3e5a75e798a8b3eec2c1f96706d84b38c"
+  },
+  "archives/evidence-09.zip": {
+    "bytes": 157264,
+    "sha256": "77fac7aa64eeac6ab506b6c20d5e88f5e2f62ccf147ac36ab7ded3e058f6e30c"
+  },
+  "archives/evidence-10.zip": {
+    "bytes": 166166,
+    "sha256": "3992d8f965bad6897cc743594509a7f85608ce1779784ee977e2f174a25ab89b"
+  },
+  "archives/evidence-11.zip": {
+    "bytes": 137616,
+    "sha256": "f5a1e67b7b30273fd7a1553fac4e38568a66587e4ebd11f09545012aae7d9ff9"
+  },
+  "archives/evidence-12.zip": {
+    "bytes": 177133,
+    "sha256": "321d8fdbbe8f0cbd3c3506818a1da23360b6e33fd7df29a29fe209d87aaab3da"
+  },
+  "archives/evidence-13.zip": {
+    "bytes": 74153,
+    "sha256": "439b8a075daf5c9836aedca3f7ab341d555cba451bff08a5e30ec6c4c318882c"
+  },
+  "archives.json": {
+    "bytes": 5423,
+    "sha256": "a0f6a6580b18a4ef581a5ea9ed090bbd651323b9a8bee278e39cabac73c25ef7"
+  },
+  "compiler-environment.json": {
+    "bytes": 1560,
+    "sha256": "116b7185099545110da2b8c578fb6e2bd1b03cb330e29cdf164e953e714a07f8"
+  },
+  "current-reuse.json": {
+    "bytes": 22014,
+    "sha256": "b7f87942006ac2532840bd9e875a26296625d0e1321ff4b083e2118bdb1afb9f"
+  },
+  "docs-only-base-update.json": {
+    "bytes": 13100,
+    "sha256": "85c50f0fd6c9b08b41031d7bbd72326759def58d2a178b2f5897918c6442e200"
+  },
+  "family-lock-base-update.json": {
+    "bytes": 16299,
+    "sha256": "b8b6ef937e3eeb3948b4f11607eca4dcbf9088f29375d2996529b6609ecc07cf"
+  },
+  "gui-originals/README.md": {
+    "bytes": 7989,
+    "sha256": "456a1b90ba457dd0c5441ee9b81f5146e0c87f6deb75eb0fffc8000073c29a89"
+  },
+  "gui-originals/artifact-hashes.json": {
+    "bytes": 7228,
+    "sha256": "c5d9a4cf8fb454b67ec3410dd579c1ce97cb8ab64c488fcc96f1599c34e39a22"
+  },
+  "gui-originals/integrity-after.json": {
+    "bytes": 6928,
+    "sha256": "f7cf5818b1a05d670f8f83d9367c657d229b26ab211a75d2fb29527467d5fa75"
+  },
+  "gui-originals/integrity-before.json": {
+    "bytes": 6550,
+    "sha256": "b5fab80f539f651fa3dc18ce9ba56c90262094a1c0cf96a911ccb5554bee01a8"
+  },
+  "gui-review.json": {
+    "bytes": 81873,
+    "sha256": "9a88523ed6d8e20f90896c07a333b2e8024b190311c5d0d2a2645ead4b10008e"
+  },
+  "images/accepted/gold_grape-crop-stages-2-oblique-double.jpg": {
+    "bytes": 94346,
+    "sha256": "73aa2ace02a66f03b7df6e9518356b9fd8298f3acd6e786989a10d0af72cbc68"
+  },
+  "images/accepted/gold_grape-crop-stages-2-oblique-front.jpg": {
+    "bytes": 94252,
+    "sha256": "ad1fcfd3333956db1aeb7406ee5b430e762431158cc3c44b668af5e7f633edf8"
+  },
+  "images/accepted/gold_grape-crop-stages-2-reverse-double.jpg": {
+    "bytes": 94672,
+    "sha256": "2db294fa41fdbc974e2b3e5ebb6b0fc571155fb05b1ca1f54eee29ef286d9307"
+  },
+  "images/accepted/gold_grape-crop-stages-2-reverse-front.jpg": {
+    "bytes": 94530,
+    "sha256": "0b3ac11c96587bad4f04d8f626b928a1aa76a0c292ecdc01ef9105dbd2f8d1f5"
+  },
+  "images/accepted/grape-crop-stages-2-oblique-double.jpg": {
+    "bytes": 88349,
+    "sha256": "1af81ad11c1ba2f4900b20edab6e0b392886b710550402b734e5ca0bdb4cbf2f"
+  },
+  "images/accepted/grape-crop-stages-2-oblique-front.jpg": {
+    "bytes": 87763,
+    "sha256": "06533c8cd0b0ff0c87675a90dd7b6d43554497f04398da4c0b23e3b0091381b3"
+  },
+  "images/accepted/grape-crop-stages-2-reverse-double.jpg": {
+    "bytes": 88296,
+    "sha256": "ab84b80dd05827d792ff5e2ed8fe43f25ba126a66023cfb88f4bc739488446ed"
+  },
+  "images/accepted/grape-crop-stages-2-reverse-front.jpg": {
+    "bytes": 87888,
+    "sha256": "a279e8e0653f728361c8b753e570b34172b0ff779526cc76af6d629f8655e99e"
+  },
+  "images/accepted/grapevine-shapes-stages-2-oblique-double.jpg": {
+    "bytes": 105111,
+    "sha256": "e1e56e0c8652febc5ccd467ddadfcf58dfa1c19e8ead16abd8d41d9d9eac0ebe"
+  },
+  "images/accepted/grapevine-shapes-stages-2-oblique-front.jpg": {
+    "bytes": 104656,
+    "sha256": "df7ec692d57a2429bf7f55e800cae0a9c43c216ca30fc26e4d2649f2e6cf5e2a"
+  },
+  "images/accepted/grapevine-shapes-stages-2-reverse-double.jpg": {
+    "bytes": 105631,
+    "sha256": "a4fd840db5ac1574842fd09a7fb439730249e94e7afbca756f8b81d9bb83e5a6"
+  },
+  "images/accepted/grapevine-shapes-stages-2-reverse-front.jpg": {
+    "bytes": 105239,
+    "sha256": "d2137b69e6adb1ee7edc3bcf54c5cfb293aa51dce2ae4fc6642efe08b8daf740"
+  },
+  "images/accepted/grapevine-shapes-stages-2-reverse-low-double.jpg": {
+    "bytes": 102918,
+    "sha256": "cb32bb006ad0a9e08b59cdb1458ab8ab1da3db2480d69e8a93d4f63b6c4bc2a9"
+  },
+  "images/accepted/grapevine-shapes-stages-2-reverse-low-front.jpg": {
+    "bytes": 102569,
+    "sha256": "e68bf2654cf88f671293f01cbb49e70e57faceb7e828c02c2296126703b6f4c0"
+  },
+  "images/accepted/ice_grape-crop-stages-2-oblique-double.jpg": {
+    "bytes": 87984,
+    "sha256": "3cfe764a4d7f57b4fd0b10dddbaac477113461755d3b635f6923ee7d1697d45b"
+  },
+  "images/accepted/ice_grape-crop-stages-2-oblique-front.jpg": {
+    "bytes": 87476,
+    "sha256": "9fab2e8e6a36cd0f1eda18e21ad9e60b6e4a96e853d0b378b35428a846a50b25"
+  },
+  "images/accepted/ice_grape-crop-stages-2-reverse-double.jpg": {
+    "bytes": 88024,
+    "sha256": "7eef1f3744763e1acfbde96bc3e5c84927c39e480cd80df9bf41eeae323b389d"
+  },
+  "images/accepted/ice_grape-crop-stages-2-reverse-front.jpg": {
+    "bytes": 87616,
+    "sha256": "cf9a6731ddcecc9fe56a89eaadd82771b9ade058852633ae39ee3174eaa70e7d"
+  },
+  "images/diagnostics/settings/camera-oblique-definition.jpg": {
+    "bytes": 67397,
+    "sha256": "24aacb14ba4826e0cfd4d9bc2b2307487c05e9138bdf21d1970c37de12ec93f8"
+  },
+  "images/diagnostics/settings/camera-reverse-definition.jpg": {
+    "bytes": 67204,
+    "sha256": "df9b88b321b9a97da314d3b23bc410543405934b3ece8cffd03bafcb11318ff2"
+  },
+  "images/diagnostics/settings/camera-reverse-low-definition.jpg": {
+    "bytes": 72776,
+    "sha256": "d7184beb7f6cd19f764cb5c1a771e78f6b97fba3b1097bd557ce748546b1a5a7"
+  },
+  "images/diagnostics/settings/champagne-preserved-after-capture.jpg": {
+    "bytes": 126629,
+    "sha256": "96da7347a04854d3c27087c80c256180f4cbc706e87c5640945c7ae5f2c0d5e3"
+  },
+  "images/diagnostics/settings/gold-native-double-properties.jpg": {
+    "bytes": 79922,
+    "sha256": "9f3e32204ab9ad41aaa41c592465c829f6125fefb95912b40e6a3bb788ec8fb0"
+  },
+  "images/diagnostics/settings/gold-native-front-properties.jpg": {
+    "bytes": 79504,
+    "sha256": "8e1fb5380cfb24cd9b989f431ab4bc185632c88b53ea52ff5ac2ad5f58a9f0f8"
+  },
+  "images/diagnostics/settings/gold-oblique-camera-observed.jpg": {
+    "bytes": 68125,
+    "sha256": "243aeafd557acecae4a0857cf90bbff994ce84aba1c6b1a745c4c6a58ffca400"
+  },
+  "images/diagnostics/settings/gold-reverse-camera-observed.jpg": {
+    "bytes": 68389,
+    "sha256": "437f3a5645d3e8b1139bfce0b91c1402211ca662b6d827e095878cbc3925e9f6"
+  },
+  "images/diagnostics/settings/grape-native-double-properties.jpg": {
+    "bytes": 78441,
+    "sha256": "70d13075a7109196c29bb6a744644f544a3312e79ff73b20e25a8dc0e55aaf9c"
+  },
+  "images/diagnostics/settings/grape-native-front-properties.jpg": {
+    "bytes": 76172,
+    "sha256": "6410cc38cb876332d56d89d9ac8660a8593d5017d46e050aeba8d440da2b91f0"
+  },
+  "images/diagnostics/settings/grape-oblique-camera-observed.jpg": {
+    "bytes": 65911,
+    "sha256": "debc21a2c2907ad4d3a7561c4178e7f4b932fc0ddbf9df0b96f71780171bb868"
+  },
+  "images/diagnostics/settings/grape-reverse-camera-observed.jpg": {
+    "bytes": 66078,
+    "sha256": "774e5358ae7d4e3b15abe8ce00fa19f1bc69786a617cb3bf8371069f0b1a0711"
+  },
+  "images/diagnostics/settings/ice-native-double-properties.jpg": {
+    "bytes": 77393,
+    "sha256": "18282addda4c0f1ce8b2d41dd1d1d7968bf294b86e7683a8f4f04b68fe5fc9f6"
+  },
+  "images/diagnostics/settings/ice-native-front-properties.jpg": {
+    "bytes": 76894,
+    "sha256": "458c72ba5d399e39b141c77dcaedc1253ec097f20e62a9d4bd2c20e79a347901"
+  },
+  "images/diagnostics/settings/ice-oblique-camera-observed.jpg": {
+    "bytes": 66055,
+    "sha256": "6cc6d57090bbc3b1d90f8614816508248b79d703147298367421c11ec38ccb1c"
+  },
+  "images/diagnostics/settings/ice-reverse-camera-observed.jpg": {
+    "bytes": 66274,
+    "sha256": "7560d1430d1173eb79fabd01a1a7f64d8cb07f0b2091b4f5356368e5d7b3f9de"
+  },
+  "images/diagnostics/settings/temporary-camera-presets-removed.jpg": {
+    "bytes": 122201,
+    "sha256": "e41da213e0fa6d03bc3d8a92c25182d48d5314647d25cdc92d9eda90c79acf9e"
+  },
+  "images/diagnostics/settings/vine-connected-invariant-after-double.jpg": {
+    "bytes": 87162,
+    "sha256": "bad3cbecec7046ce5e020de6d628418a3e70352733b0a11db5cd70b663d39079"
+  },
+  "images/diagnostics/settings/vine-connected-invariant-front-properties.jpg": {
+    "bytes": 87781,
+    "sha256": "c1f1f7c875c89b51bb579311ae5b8643e5cb95475aeb0d206d4df88df3984271"
+  },
+  "images/diagnostics/settings/vine-native-double-properties.jpg": {
+    "bytes": 88239,
+    "sha256": "9cc963f0c52c6cc1923eacda2758134808eb038f738d795edc11272f31944bc1"
+  },
+  "images/diagnostics/settings/vine-native-front-properties.jpg": {
+    "bytes": 87783,
+    "sha256": "981baf2aed27d014a826fe4e97de506aab47ce539083faedd6d4edefea63f5ea"
+  },
+  "images/diagnostics/settings/vine-oblique-camera-observed.jpg": {
+    "bytes": 74121,
+    "sha256": "001e51720f06a40334b07d93b409004de0dae7a8d9cedb14c2dfda7f91afb6b1"
+  },
+  "images/diagnostics/settings/vine-reverse-camera-observed.jpg": {
+    "bytes": 71085,
+    "sha256": "7f96b28135d6d43d11abac87449dc055e1884e1cf693cbabb3b40e77c5d7dc6e"
+  },
+  "images/diagnostics/settings/vine-reverse-low-camera-observed.jpg": {
+    "bytes": 72783,
+    "sha256": "1f9eed884bbdf802d85547632e2437b2c48c50d8a3dbb147f1fb3ed6827530a9"
+  },
+  "images.json": {
+    "bytes": 40437,
+    "sha256": "be1d68ec9b9ac75fad86018e3e2580b0a239e7cb0865de0d4427c469406d2d4b"
+  },
+  "local-validation.json": {
+    "bytes": 4158,
+    "sha256": "16c659e7da759441ec1e039060eacf22c88f2b7aae23891df65813c82bda2ca4"
+  },
+  "ownership-handoff.json": {
+    "bytes": 1625,
+    "sha256": "9d3c1f5a4a36ba651f991879e75f4c459fefc361fa9da19e9e13a48b215da34f"
+  },
+  "upstream-freshness.json": {
+    "bytes": 2997,
+    "sha256": "52dbd133e56b3bc5fd99ffb0b48d062e631a0d3896e0320ed46ccbad30f51814"
+  },
+  "validate_evidence.py": {
+    "bytes": 10115,
+    "sha256": "8d3d2911f08b3855f4728429948e84f329590bf7dbb7a60c390d5611750979c0"
+  },
+  "validate_handoff.py": {
+    "bytes": 2925,
+    "sha256": "d0f882804464c7f88a3fec3f0db82e74b2bdc76652bb7a69044876f3ecee9db7"
+  }
+}
