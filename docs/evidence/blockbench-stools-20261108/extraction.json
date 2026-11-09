@@ -1,0 +1,401 @@
+{
+  "verified": [
+    {
+      "path": "assets/kaleidoscope_tavern/textures/block/deco/bar_stool/black.png",
+      "bytes": 488,
+      "sha256": "9a4001ed7548e7b21ef64ba3371cf9a95fff576095cbc816ee02bd0b429ad299",
+      "git_blob_sha1": "16cb57f87a054c461756892a0234483814b8849c"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/textures/block/deco/bar_stool/blue.png",
+      "bytes": 509,
+      "sha256": "1ddcd78ac8eecec1b1b7a6eaed89a104714a8d26d26315cf50d01fe053044454",
+      "git_blob_sha1": "68d13b1812efec4e6d4b7d50ea1c7000a6b3db72"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/textures/block/deco/bar_stool/brown.png",
+      "bytes": 509,
+      "sha256": "a7cc8ad44a589d7ed79122cbf93c81a35655fa2ab9ea33651b947bb408665a17",
+      "git_blob_sha1": "02f02dd2b61e7bc53c2abf493526eb9646bf6e4b"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/textures/block/deco/bar_stool/cyan.png",
+      "bytes": 526,
+      "sha256": "a581031f9159c6e8e1e27db807bd7838fed2bacdb34ca7ac84c5e71aa184e4e3",
+      "git_blob_sha1": "67d6040af11b6233e350e3c3956172e2ddb5bb67"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/textures/block/deco/bar_stool/gray.png",
+      "bytes": 491,
+      "sha256": "47336a9209a2d848ed25de10891e8f415285d5cdee0309dda2c92f824a2545ef",
+      "git_blob_sha1": "411e4fca59671fe423262e8efe5e5390e01d9160"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/textures/block/deco/bar_stool/green.png",
+      "bytes": 530,
+      "sha256": "d2e1ae3462b9534e6a8e206f7657ce7370d73f862920bc7979aa1088da5150a4",
+      "git_blob_sha1": "08ee58504fdba1d3dc24fd33acdb7a3225fa06db"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/textures/block/deco/bar_stool/light_blue.png",
+      "bytes": 522,
+      "sha256": "248fe55ac47e4ddcc383ca98a45eeb94984bcac9fe6881ac231cbc84feecaef5",
+      "git_blob_sha1": "152448c4c273363cd887886e5aa6458f854a30d5"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/textures/block/deco/bar_stool/light_gray.png",
+      "bytes": 508,
+      "sha256": "b8aae1bb9466e7195478bdf7ced4e8b44234610cb79bdba9e90dd99b1fec40a1",
+      "git_blob_sha1": "24f0a958dd04746ad4a579ed90881a87c65acdc2"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/textures/block/deco/bar_stool/lime.png",
+      "bytes": 506,
+      "sha256": "c2bf11e5a043e2372358d07447d21713d0114bc34e6c621c555b81c60f885106",
+      "git_blob_sha1": "d02d0707825b0ea816f77614b7d39d4e33647883"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/textures/block/deco/bar_stool/magenta.png",
+      "bytes": 531,
+      "sha256": "f2e09ed4dfc46897b3106802f869c8699c317ddd7e03f0969f6a9ff30a7a9f5e",
+      "git_blob_sha1": "338d1cad9c95204a849952e6ef45295803429d03"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/textures/block/deco/bar_stool/orange.png",
+      "bytes": 530,
+      "sha256": "da947373981ef944b18e4f7ed023afad5ad5b565b550367ff2c85b2bf2b45b90",
+      "git_blob_sha1": "9d25e96b236d05d3ce56b10a792cca414b39686e"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/textures/block/deco/bar_stool/pink.png",
+      "bytes": 513,
+      "sha256": "799986a4faa96444ccae132b298f66ef2b009f14506ae9d3c390c92c49166296",
+      "git_blob_sha1": "531ff36663fdf4803ab672dbc213a01702c6d10f"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/textures/block/deco/bar_stool/purple.png",
+      "bytes": 520,
+      "sha256": "2ee3d76ee1686e4db69b23db3cbe87b565255b89d89a1e72dbc986d381cc5f8c",
+      "git_blob_sha1": "041f3e6c2386e49b14d277a5100737606484e35d"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/textures/block/deco/bar_stool/red.png",
+      "bytes": 529,
+      "sha256": "faf5d19ba483c00894e15ed1e7a37bd561a910cbac8ca7afedc0ef591a1b857e",
+      "git_blob_sha1": "2d01de1a3b59e222f667b0f9bb0ebc02f92c037b"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/textures/block/deco/bar_stool/white.png",
+      "bytes": 494,
+      "sha256": "eb4646b6f01357938d82646a0aaf7320a2423cf40fc197dcbc8714859015dd83",
+      "git_blob_sha1": "cf448cd42d0845a21137f08df11f083b821daf38"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/textures/block/deco/bar_stool/yellow.png",
+      "bytes": 525,
+      "sha256": "77649ac868a13e3562cb91defe7d304e990e2e11ff252a3eade1f44fa9b6e7a4",
+      "git_blob_sha1": "664cbf689caf692d95010a6b24625f054e7a868f"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/textures/entity/deco/bar_stool/black.png",
+      "bytes": 472,
+      "sha256": "9db52ea917beca5970b559a1b9e98dbe65afde6a17954ce0d3bafadcd8b8998d",
+      "git_blob_sha1": "aedf4e6d19a0706e2bb3c0e9afc07c3c0f919b9e"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/textures/entity/deco/bar_stool/blue.png",
+      "bytes": 485,
+      "sha256": "31652c570ea585f67f9dad17550d47ed6b7e30701dc02c0035a7625fcb8c6921",
+      "git_blob_sha1": "86d008e7f0865e48a71a5ca0d375931e48f8440f"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/textures/entity/deco/bar_stool/brown.png",
+      "bytes": 486,
+      "sha256": "cd660e60fc0a5fadf97afb1bdab35de45b12352b797a124dd18331a53824a22b",
+      "git_blob_sha1": "80eaed1df6576260f372ac7c9e92ae5061fcf742"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/textures/entity/deco/bar_stool/cyan.png",
+      "bytes": 488,
+      "sha256": "4c0f54e6a2277a1f479f6f8e0efd1269ffac8a2632ae75bd6d45e0ec4762e847",
+      "git_blob_sha1": "0471278eb1e02c6bab3028416a2971b73dc926e0"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/textures/entity/deco/bar_stool/gray.png",
+      "bytes": 472,
+      "sha256": "a87179012d28a19bfa434814dfee61ef6428c662d2cc9143bf7878e95593b1e2",
+      "git_blob_sha1": "b36da6faa5fe03781d02738c842e47d92994af0e"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/textures/entity/deco/bar_stool/green.png",
+      "bytes": 486,
+      "sha256": "dc66188c32fe8cef5df693251ca060e45cedb8a96713aba17e02301897321c8b",
+      "git_blob_sha1": "efac902aca5aa76a60930d2805d445ae81599794"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/textures/entity/deco/bar_stool/light_blue.png",
+      "bytes": 492,
+      "sha256": "131d6a7a25d38bbff5613d6272322a1eb8c316c38098c1115adecb8b5d622e6e",
+      "git_blob_sha1": "ff12362aa13bb899dab5bf5f7f2b8045b2ce3bf0"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/textures/entity/deco/bar_stool/light_gray.png",
+      "bytes": 484,
+      "sha256": "e28d6acc3b26b2ba1d15517dd6d7c1db41510ff33a7c05d1a140732f2a032325",
+      "git_blob_sha1": "96e6b5658a3d381fa35ebafbccf576581720ab4f"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/textures/entity/deco/bar_stool/lime.png",
+      "bytes": 488,
+      "sha256": "5a17e3ba16d88c0ed136c42daddf3b758171315fdf121431b5c288208c38778e",
+      "git_blob_sha1": "936c55e11a23bbe2965dd84e61b5e4e94afef442"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/textures/entity/deco/bar_stool/magenta.png",
+      "bytes": 486,
+      "sha256": "5c68ae7ebb48e4a0a691838d7c55545142e16db12549a31aea90e3b0ad704e11",
+      "git_blob_sha1": "0a76c536845abe53902f880c44032f069aa01c52"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/textures/entity/deco/bar_stool/orange.png",
+      "bytes": 490,
+      "sha256": "230e2b03076ee281004e4acbaed05ff41cd9de7cea57ed926cfbb7a30ee145bf",
+      "git_blob_sha1": "1f939509ed4c526afa1d8492e1c789a4ed5b0613"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/textures/entity/deco/bar_stool/pink.png",
+      "bytes": 488,
+      "sha256": "8e53b0e751813b9a69cea9086c7f33336b27500993ba39b0a87130fb2ed8cdc7",
+      "git_blob_sha1": "eeb420160dc4d012bd0d5c8bbae4b1f9059cf078"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/textures/entity/deco/bar_stool/purple.png",
+      "bytes": 486,
+      "sha256": "0afe44d8f7faeade1c35f8e308268c294291f1249ee6bae9aa4d07729706a88b",
+      "git_blob_sha1": "a0e9b170fcc911bb51aea661a2c705eb193f5eeb"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/textures/entity/deco/bar_stool/red.png",
+      "bytes": 486,
+      "sha256": "23ecf8df2f79aa7bf0f8644e97a2aaf073083b6dde02ad9e2ce5ef859c5b2718",
+      "git_blob_sha1": "65b905829c627bab9594c29976fb151a1f54638a"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/textures/entity/deco/bar_stool/white.png",
+      "bytes": 479,
+      "sha256": "321bff3d59b448ec9163bd9b7a2ab5e834de254333743fb85d9e750ad185605a",
+      "git_blob_sha1": "b4408cc5c664cce2b2d4d17f885d8e6876281471"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/textures/entity/deco/bar_stool/yellow.png",
+      "bytes": 492,
+      "sha256": "2424ec7171c1451f1c25419858d53209b09e9c50f370bb9748b54d53a64c700c",
+      "git_blob_sha1": "843527f1cf799358351927e1790245fd02b3e303"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/models/block/deco/bar_stool/base.json",
+      "bytes": 2373,
+      "sha256": "dc85839be1549be5c4fd24f7553d0ec85bb4c642eeea7adccc127077cc283bfc",
+      "git_blob_sha1": "4aaf11909565560bab90d916bc111caadbc77d59"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/models/block/deco/bar_stool/black.json",
+      "bytes": 200,
+      "sha256": "173614542b702d7ba92e90c4c6f5e4887b49849fca4ab9c67c841533e3b4062d",
+      "git_blob_sha1": "639109a95002f5bf782c093bfa0b367f5fd593ce"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/models/block/deco/bar_stool/blue.json",
+      "bytes": 198,
+      "sha256": "af8735e0eb0561a5ffc0c3522a3e772eeb61710b7b6c8f3821f0b3603dc1dace",
+      "git_blob_sha1": "7f038cbcaf9e9795b74932b4ccd94a78b2fc5722"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/models/block/deco/bar_stool/brown.json",
+      "bytes": 200,
+      "sha256": "2768d5a9a6047aeafc2d1449974196600f4b3c097d0def5a4f4ca51fcc14a810",
+      "git_blob_sha1": "e24fbbcdf128c6658ef82d56908e05471ba3aad8"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/models/block/deco/bar_stool/cyan.json",
+      "bytes": 198,
+      "sha256": "4ac215d17ad50f079796d31ea57d2f7c93f8f8d1ae600fac3fa1dabb9829944b",
+      "git_blob_sha1": "f74994ca244939eb0b79dbcc17ba4ae0d4bedc6b"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/models/block/deco/bar_stool/gray.json",
+      "bytes": 198,
+      "sha256": "7d88e875eb9a53972d76bd43da8cd53e6f1eb4c92bc792cdb8557253db73707f",
+      "git_blob_sha1": "07a6585cdb475a1f73d71fe9d75967f7e4485d7e"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/models/block/deco/bar_stool/green.json",
+      "bytes": 200,
+      "sha256": "5bdc8d94efe7c938ffef56993b15225f9c06738a72d4b0073e13d8580af56332",
+      "git_blob_sha1": "c544b6f867d74c57c94c418b487cd90817d94457"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/models/block/deco/bar_stool/light_blue.json",
+      "bytes": 210,
+      "sha256": "e3bb6ebb979d499edf7d4792f98932b4418105f712ba95cca449933cd920a424",
+      "git_blob_sha1": "76e14aa825c9170eff15d8ca2aafd271c980f166"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/models/block/deco/bar_stool/light_gray.json",
+      "bytes": 210,
+      "sha256": "ce36755602ea5731f2adaf0d33934d6d1402ac5ad8e4f3cd7fef8570c0317b36",
+      "git_blob_sha1": "3a810b9585b9b19d211eb2fc760600fd72c27712"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/models/block/deco/bar_stool/lime.json",
+      "bytes": 198,
+      "sha256": "72a0c9e3cc10803904d581ba453a081cea44e9f9a9150e9bccd750052f9a6504",
+      "git_blob_sha1": "d450492f4c671e0cb91659036f10588c8b3db888"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/models/block/deco/bar_stool/magenta.json",
+      "bytes": 204,
+      "sha256": "886841963a6712d7c5fd3eb79d9c4fadc542879168f19d8c2ea467c85eab7e36",
+      "git_blob_sha1": "0901a3eaab7b0ea0758ff0ac8efd8fbae2188138"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/models/block/deco/bar_stool/orange.json",
+      "bytes": 202,
+      "sha256": "4bce030d09b909293804abdd71111c47962e7784aa16c28836f35768033fa71c",
+      "git_blob_sha1": "cdbd26526779979f9c1538dbf0ed5124631b93ae"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/models/block/deco/bar_stool/pink.json",
+      "bytes": 198,
+      "sha256": "6308d3bcd33cb88f836b90c3e1b5b5b68640e7a40b379730c20581fa33cdf91d",
+      "git_blob_sha1": "e03bcca1f2bd7ec8491d23a0f13be42cdb4edbd2"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/models/block/deco/bar_stool/purple.json",
+      "bytes": 202,
+      "sha256": "29d641a17d7acdd33dfd56c388abfe07d0aa29bf6583bd5131a9b825d60a8ab8",
+      "git_blob_sha1": "a677072de314be92db36274066f7b00667afcd62"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/models/block/deco/bar_stool/red.json",
+      "bytes": 196,
+      "sha256": "1a497746a530458a580d75b712a1332a1f9670e9b331cb493fbce9ebe48afa5d",
+      "git_blob_sha1": "5cf3b4401e806b828d250f3540869eb924064d25"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/models/block/deco/bar_stool/white.json",
+      "bytes": 200,
+      "sha256": "9b8c5b5cc237ee46b4e61750db8a3fc10cf1fb916e44bcc09ea286a9d814d89c",
+      "git_blob_sha1": "1f35e2d5b2ff71f33660fddee5d5f10f51a1a6ef"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/models/block/deco/bar_stool/yellow.json",
+      "bytes": 202,
+      "sha256": "35fb5d20744578f82af88117231111f1752c95ca2d65192587ee413d027634a4",
+      "git_blob_sha1": "d04e129b79eab8a242728711898de2569772ae29"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/models/item/bar_stool_base.json",
+      "bytes": 4745,
+      "sha256": "e0bbdf0d4ab01fe8bf3da9364c3e74f7fe0cfea41ea995f0dd4d5ccc9de396d4",
+      "git_blob_sha1": "2ae295e36ee23105d94a7b596b61470474cdf86c"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/models/item/black_bar_stool.json",
+      "bytes": 194,
+      "sha256": "56ba92030221634fe3490644d4d4e37aecd831c5adfc699902e29cb7ff611dff",
+      "git_blob_sha1": "4a2622d7c467abb6b0cd1f33d09947054b0b638f"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/models/item/blue_bar_stool.json",
+      "bytes": 192,
+      "sha256": "0cc70ed2572e7f18cf42bbb7226308b70468586fa4d1ce18d56e5a56c988983e",
+      "git_blob_sha1": "3e4874484b00588ae81b9fa298e421215108e442"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/models/item/brown_bar_stool.json",
+      "bytes": 194,
+      "sha256": "d905031cdf7bb99da37816fabc8adb4ecf594a8f9ba47e989c609f6d8552ceb2",
+      "git_blob_sha1": "f328504f863810e7889d5c7150e8318b91796e65"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/models/item/cyan_bar_stool.json",
+      "bytes": 192,
+      "sha256": "9741a124850754b6d42c00a27f575bb30ec0d34a45811bc8b414ebb94b09688b",
+      "git_blob_sha1": "6541d9734e1850b56a56bbcda23af4af498db4e1"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/models/item/gray_bar_stool.json",
+      "bytes": 192,
+      "sha256": "ea0a8f4b96e7725257a9108ffc56c5da733e66f1ea1b4706229cd9fe0a2967ec",
+      "git_blob_sha1": "0c2acadcb21cc205f099b5714f5f2d9cf2e57983"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/models/item/green_bar_stool.json",
+      "bytes": 194,
+      "sha256": "b8e1642c22831e644838dea67a593d85f2da83e37c0c8502023d62d2b0d75297",
+      "git_blob_sha1": "3ab60a885e8762d8b75f754cfb7e8c115023b70f"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/models/item/light_blue_bar_stool.json",
+      "bytes": 204,
+      "sha256": "1e48a2c1ac951dc14642c02ede2f9905a094b5438efbf392a2bc96c2507afca6",
+      "git_blob_sha1": "b03a86c8001b7ac5ce90cac38efa028f33b3dc80"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/models/item/light_gray_bar_stool.json",
+      "bytes": 204,
+      "sha256": "0ef1e7528bf36d7fc7e3b00c76c5c7f7fde3c53ae8cb931dce6117c13757a4b9",
+      "git_blob_sha1": "495c24255b182e311b25bb5472271b60197cea84"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/models/item/lime_bar_stool.json",
+      "bytes": 192,
+      "sha256": "0cb613d6b50f2ca9f63fae8226076f250de8fd3d52d57e39efc9b37834feda8a",
+      "git_blob_sha1": "17f44c0e1172b4ccff142c42b2c836d316b842d8"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/models/item/magenta_bar_stool.json",
+      "bytes": 198,
+      "sha256": "f6b746a4ae87f5a7cca79e4c9f939f9ebecb0a580f948ae75dfada776c8e0ba4",
+      "git_blob_sha1": "5d91e438464a7b711efffd674d50428dd6eadca9"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/models/item/orange_bar_stool.json",
+      "bytes": 196,
+      "sha256": "e35dc9e3d02dcef07df45e4b3145213bda3d3329cd3bd0fa28ca003fc6541123",
+      "git_blob_sha1": "d61e57da180c94a354621d58778f24f3c2195236"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/models/item/pink_bar_stool.json",
+      "bytes": 192,
+      "sha256": "f0a0426818d67e7e181b79923711f0cb377c1afe46c45723d72c7262355b3a49",
+      "git_blob_sha1": "ac4e8f7c19d1813dfdc4097224df34b458577324"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/models/item/purple_bar_stool.json",
+      "bytes": 196,
+      "sha256": "b572539537d4591209af63ba398c21ff7420025289397da86036456f0265b054",
+      "git_blob_sha1": "77c076e37bb1865811b3b582775015022960cfad"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/models/item/red_bar_stool.json",
+      "bytes": 190,
+      "sha256": "11928e27dc5621a58eade95c73daa9fc87d08e9a0e7ee08d8299445faacb0bbd",
+      "git_blob_sha1": "a1c57661670066e20681083e06f90db8b56305cd"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/models/item/white_bar_stool.json",
+      "bytes": 194,
+      "sha256": "dc264d39cdfcac1fd10ff90ac9027e7c98ca774d218869b34f02bc3a01aaf7d4",
+      "git_blob_sha1": "56055ea592bae0d20c4d9b1092b63333d85a3d69"
+    },
+    {
+      "path": "assets/kaleidoscope_tavern/models/item/yellow_bar_stool.json",
+      "bytes": 196,
+      "sha256": "d30f63ece1e84b4194f320b10d958bccb8e8c1893a4553090d52cfe2df6b7399",
+      "git_blob_sha1": "943920dc156960f6d137839657ac3421b618cca4"
+    }
+  ],
+  "unavailable_offline": []
+}

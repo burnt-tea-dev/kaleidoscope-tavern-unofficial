@@ -1,0 +1,992 @@
+{
+  "source": {
+    "file": "kaleidoscopetavern-1.2.0-neoforge+mc1.21.1.jar",
+    "bytes": 1708047,
+    "sha256": "03f35e1e614953b22cd1f5e34345613f3a6a283bf1b1c99659b57d58970edeff",
+    "identity": "1.2.0-neoforge+mc1.21.1",
+    "origin": "user_upload",
+    "publisher_checksum_verified": false,
+    "jar_executed": false
+  },
+  "author_source_commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+  "runtime": "0.6.212",
+  "gui_reviewed": false,
+  "scenes": [
+    {
+      "file": "stools/scenes/stool-colours-1.bbmodel",
+      "colours": [
+        "black",
+        "blue",
+        "brown",
+        "cyan"
+      ],
+      "layout": "2x2 pairs: source world -X, native world +X. Default perspective and NORTH show native screen-left/source screen-right; other cameras differ. First two samples z=-20, last two z=20.",
+      "cubes": 56
+    },
+    {
+      "file": "stools/scenes/stool-colours-2.bbmodel",
+      "colours": [
+        "gray",
+        "green",
+        "light_blue",
+        "light_gray"
+      ],
+      "layout": "2x2 pairs: source world -X, native world +X. Default perspective and NORTH show native screen-left/source screen-right; other cameras differ. First two samples z=-20, last two z=20.",
+      "cubes": 56
+    },
+    {
+      "file": "stools/scenes/stool-colours-3.bbmodel",
+      "colours": [
+        "lime",
+        "magenta",
+        "orange",
+        "pink"
+      ],
+      "layout": "2x2 pairs: source world -X, native world +X. Default perspective and NORTH show native screen-left/source screen-right; other cameras differ. First two samples z=-20, last two z=20.",
+      "cubes": 56
+    },
+    {
+      "file": "stools/scenes/stool-colours-4.bbmodel",
+      "colours": [
+        "purple",
+        "red",
+        "white",
+        "yellow"
+      ],
+      "layout": "2x2 pairs: source world -X, native world +X. Default perspective and NORTH show native screen-left/source screen-right; other cameras differ. First two samples z=-20, last two z=20.",
+      "cubes": 56
+    },
+    {
+      "file": "stools/scenes/stool-body-poses.bbmodel",
+      "turns": [
+        0,
+        45,
+        90,
+        180
+      ],
+      "layout": "2x2 pairs: source world -X, native world +X. Default perspective and NORTH show native screen-left/source screen-right; other cameras differ. First two samples z=-20, last two z=20.",
+      "cubes": 56
+    }
+  ],
+  "bindings": [
+    {
+      "colour": "black",
+      "placed_binding": {
+        "identifier": "kaleidoscope_tavern:seat_black",
+        "materials": {
+          "default": "entity_alphatest_one_sided"
+        },
+        "textures": {
+          "default": "textures/kt_derived/a14/bar_stool_black_atlas"
+        },
+        "geometry": {
+          "default": "geometry.kt_assets_a13.bar_stool_blue"
+        },
+        "animations": {
+          "seat_turn": "animation.kt_runtime.stool.turn"
+        },
+        "scripts": {
+          "initialize": [
+            "v.kt_seat_angle = q.property('kaleidoscope_tavern:seat_yaw');"
+          ],
+          "pre_animation": [
+            "v.kt_seat_angle = math.lerprotate(v.kt_seat_angle, q.property('kaleidoscope_tavern:seat_yaw'), math.clamp(q.delta_time * 12, 0, 1));"
+          ],
+          "animate": [
+            "seat_turn"
+          ]
+        },
+        "render_controllers": [
+          "controller.render.kt_runtime.furniture"
+        ]
+      },
+      "static_binding": {
+        "identifier": "kt_assets_a14:bar_stool_black",
+        "materials": {
+          "default": "entity_alphatest_one_sided"
+        },
+        "textures": {
+          "default": "textures/kt_derived/a14/bar_stool_black_atlas"
+        },
+        "geometry": {
+          "default": "geometry.kt_assets_a13.bar_stool_blue"
+        },
+        "render_controllers": [
+          "controller.render.kt_assets_a1.static"
+        ]
+      },
+      "atlas": "inputs/source/runtime/RP/textures/kt_derived/a14/bar_stool_black_atlas.png",
+      "atlas_body_base_pixel_equal": true
+    },
+    {
+      "colour": "blue",
+      "placed_binding": {
+        "identifier": "kaleidoscope_tavern:seat_blue",
+        "materials": {
+          "default": "entity_alphatest_one_sided"
+        },
+        "textures": {
+          "default": "textures/kt_derived/a13/bar_stool_blue_atlas"
+        },
+        "geometry": {
+          "default": "geometry.kt_assets_a13.bar_stool_blue"
+        },
+        "animations": {
+          "seat_turn": "animation.kt_runtime.stool.turn"
+        },
+        "scripts": {
+          "initialize": [
+            "v.kt_seat_angle = q.property('kaleidoscope_tavern:seat_yaw');"
+          ],
+          "pre_animation": [
+            "v.kt_seat_angle = math.lerprotate(v.kt_seat_angle, q.property('kaleidoscope_tavern:seat_yaw'), math.clamp(q.delta_time * 12, 0, 1));"
+          ],
+          "animate": [
+            "seat_turn"
+          ]
+        },
+        "render_controllers": [
+          "controller.render.kt_runtime.furniture"
+        ]
+      },
+      "static_binding": {
+        "identifier": "kt_assets_a13:bar_stool_blue",
+        "materials": {
+          "default": "entity_alphatest_one_sided"
+        },
+        "textures": {
+          "default": "textures/kt_derived/a13/bar_stool_blue_atlas"
+        },
+        "geometry": {
+          "default": "geometry.kt_assets_a13.bar_stool_blue"
+        },
+        "render_controllers": [
+          "controller.render.kt_assets_a1.static"
+        ]
+      },
+      "atlas": "inputs/source/runtime/RP/textures/kt_derived/a13/bar_stool_blue_atlas.png",
+      "atlas_body_base_pixel_equal": true
+    },
+    {
+      "colour": "brown",
+      "placed_binding": {
+        "identifier": "kaleidoscope_tavern:seat_brown",
+        "materials": {
+          "default": "entity_alphatest_one_sided"
+        },
+        "textures": {
+          "default": "textures/kt_derived/a14/bar_stool_brown_atlas"
+        },
+        "geometry": {
+          "default": "geometry.kt_assets_a13.bar_stool_blue"
+        },
+        "animations": {
+          "seat_turn": "animation.kt_runtime.stool.turn"
+        },
+        "scripts": {
+          "initialize": [
+            "v.kt_seat_angle = q.property('kaleidoscope_tavern:seat_yaw');"
+          ],
+          "pre_animation": [
+            "v.kt_seat_angle = math.lerprotate(v.kt_seat_angle, q.property('kaleidoscope_tavern:seat_yaw'), math.clamp(q.delta_time * 12, 0, 1));"
+          ],
+          "animate": [
+            "seat_turn"
+          ]
+        },
+        "render_controllers": [
+          "controller.render.kt_runtime.furniture"
+        ]
+      },
+      "static_binding": {
+        "identifier": "kt_assets_a14:bar_stool_brown",
+        "materials": {
+          "default": "entity_alphatest_one_sided"
+        },
+        "textures": {
+          "default": "textures/kt_derived/a14/bar_stool_brown_atlas"
+        },
+        "geometry": {
+          "default": "geometry.kt_assets_a13.bar_stool_blue"
+        },
+        "render_controllers": [
+          "controller.render.kt_assets_a1.static"
+        ]
+      },
+      "atlas": "inputs/source/runtime/RP/textures/kt_derived/a14/bar_stool_brown_atlas.png",
+      "atlas_body_base_pixel_equal": true
+    },
+    {
+      "colour": "cyan",
+      "placed_binding": {
+        "identifier": "kaleidoscope_tavern:seat_cyan",
+        "materials": {
+          "default": "entity_alphatest_one_sided"
+        },
+        "textures": {
+          "default": "textures/kt_derived/a14/bar_stool_cyan_atlas"
+        },
+        "geometry": {
+          "default": "geometry.kt_assets_a13.bar_stool_blue"
+        },
+        "animations": {
+          "seat_turn": "animation.kt_runtime.stool.turn"
+        },
+        "scripts": {
+          "initialize": [
+            "v.kt_seat_angle = q.property('kaleidoscope_tavern:seat_yaw');"
+          ],
+          "pre_animation": [
+            "v.kt_seat_angle = math.lerprotate(v.kt_seat_angle, q.property('kaleidoscope_tavern:seat_yaw'), math.clamp(q.delta_time * 12, 0, 1));"
+          ],
+          "animate": [
+            "seat_turn"
+          ]
+        },
+        "render_controllers": [
+          "controller.render.kt_runtime.furniture"
+        ]
+      },
+      "static_binding": {
+        "identifier": "kt_assets_a14:bar_stool_cyan",
+        "materials": {
+          "default": "entity_alphatest_one_sided"
+        },
+        "textures": {
+          "default": "textures/kt_derived/a14/bar_stool_cyan_atlas"
+        },
+        "geometry": {
+          "default": "geometry.kt_assets_a13.bar_stool_blue"
+        },
+        "render_controllers": [
+          "controller.render.kt_assets_a1.static"
+        ]
+      },
+      "atlas": "inputs/source/runtime/RP/textures/kt_derived/a14/bar_stool_cyan_atlas.png",
+      "atlas_body_base_pixel_equal": true
+    },
+    {
+      "colour": "gray",
+      "placed_binding": {
+        "identifier": "kaleidoscope_tavern:seat_gray",
+        "materials": {
+          "default": "entity_alphatest_one_sided"
+        },
+        "textures": {
+          "default": "textures/kt_derived/a16/bar_stool_gray_atlas"
+        },
+        "geometry": {
+          "default": "geometry.kt_assets_a13.bar_stool_blue"
+        },
+        "animations": {
+          "seat_turn": "animation.kt_runtime.stool.turn"
+        },
+        "scripts": {
+          "initialize": [
+            "v.kt_seat_angle = q.property('kaleidoscope_tavern:seat_yaw');"
+          ],
+          "pre_animation": [
+            "v.kt_seat_angle = math.lerprotate(v.kt_seat_angle, q.property('kaleidoscope_tavern:seat_yaw'), math.clamp(q.delta_time * 12, 0, 1));"
+          ],
+          "animate": [
+            "seat_turn"
+          ]
+        },
+        "render_controllers": [
+          "controller.render.kt_runtime.furniture"
+        ]
+      },
+      "static_binding": {
+        "identifier": "kt_assets_a16:bar_stool_gray",
+        "materials": {
+          "default": "entity_alphatest_one_sided"
+        },
+        "textures": {
+          "default": "textures/kt_derived/a16/bar_stool_gray_atlas"
+        },
+        "geometry": {
+          "default": "geometry.kt_assets_a13.bar_stool_blue"
+        },
+        "render_controllers": [
+          "controller.render.kt_assets_a1.static"
+        ]
+      },
+      "atlas": "inputs/source/runtime/RP/textures/kt_derived/a16/bar_stool_gray_atlas.png",
+      "atlas_body_base_pixel_equal": true
+    },
+    {
+      "colour": "green",
+      "placed_binding": {
+        "identifier": "kaleidoscope_tavern:seat_green",
+        "materials": {
+          "default": "entity_alphatest_one_sided"
+        },
+        "textures": {
+          "default": "textures/kt_derived/a16/bar_stool_green_atlas"
+        },
+        "geometry": {
+          "default": "geometry.kt_assets_a13.bar_stool_blue"
+        },
+        "animations": {
+          "seat_turn": "animation.kt_runtime.stool.turn"
+        },
+        "scripts": {
+          "initialize": [
+            "v.kt_seat_angle = q.property('kaleidoscope_tavern:seat_yaw');"
+          ],
+          "pre_animation": [
+            "v.kt_seat_angle = math.lerprotate(v.kt_seat_angle, q.property('kaleidoscope_tavern:seat_yaw'), math.clamp(q.delta_time * 12, 0, 1));"
+          ],
+          "animate": [
+            "seat_turn"
+          ]
+        },
+        "render_controllers": [
+          "controller.render.kt_runtime.furniture"
+        ]
+      },
+      "static_binding": {
+        "identifier": "kt_assets_a16:bar_stool_green",
+        "materials": {
+          "default": "entity_alphatest_one_sided"
+        },
+        "textures": {
+          "default": "textures/kt_derived/a16/bar_stool_green_atlas"
+        },
+        "geometry": {
+          "default": "geometry.kt_assets_a13.bar_stool_blue"
+        },
+        "render_controllers": [
+          "controller.render.kt_assets_a1.static"
+        ]
+      },
+      "atlas": "inputs/source/runtime/RP/textures/kt_derived/a16/bar_stool_green_atlas.png",
+      "atlas_body_base_pixel_equal": true
+    },
+    {
+      "colour": "light_blue",
+      "placed_binding": {
+        "identifier": "kaleidoscope_tavern:seat_light_blue",
+        "materials": {
+          "default": "entity_alphatest_one_sided"
+        },
+        "textures": {
+          "default": "textures/kt_derived/a15/bar_stool_light_blue_atlas"
+        },
+        "geometry": {
+          "default": "geometry.kt_assets_a13.bar_stool_blue"
+        },
+        "animations": {
+          "seat_turn": "animation.kt_runtime.stool.turn"
+        },
+        "scripts": {
+          "initialize": [
+            "v.kt_seat_angle = q.property('kaleidoscope_tavern:seat_yaw');"
+          ],
+          "pre_animation": [
+            "v.kt_seat_angle = math.lerprotate(v.kt_seat_angle, q.property('kaleidoscope_tavern:seat_yaw'), math.clamp(q.delta_time * 12, 0, 1));"
+          ],
+          "animate": [
+            "seat_turn"
+          ]
+        },
+        "render_controllers": [
+          "controller.render.kt_runtime.furniture"
+        ]
+      },
+      "static_binding": {
+        "identifier": "kt_assets_a15:bar_stool_light_blue",
+        "materials": {
+          "default": "entity_alphatest_one_sided"
+        },
+        "textures": {
+          "default": "textures/kt_derived/a15/bar_stool_light_blue_atlas"
+        },
+        "geometry": {
+          "default": "geometry.kt_assets_a13.bar_stool_blue"
+        },
+        "render_controllers": [
+          "controller.render.kt_assets_a1.static"
+        ]
+      },
+      "atlas": "inputs/source/runtime/RP/textures/kt_derived/a15/bar_stool_light_blue_atlas.png",
+      "atlas_body_base_pixel_equal": true
+    },
+    {
+      "colour": "light_gray",
+      "placed_binding": {
+        "identifier": "kaleidoscope_tavern:seat_light_gray",
+        "materials": {
+          "default": "entity_alphatest_one_sided"
+        },
+        "textures": {
+          "default": "textures/kt_derived/a16/bar_stool_light_gray_atlas"
+        },
+        "geometry": {
+          "default": "geometry.kt_assets_a13.bar_stool_blue"
+        },
+        "animations": {
+          "seat_turn": "animation.kt_runtime.stool.turn"
+        },
+        "scripts": {
+          "initialize": [
+            "v.kt_seat_angle = q.property('kaleidoscope_tavern:seat_yaw');"
+          ],
+          "pre_animation": [
+            "v.kt_seat_angle = math.lerprotate(v.kt_seat_angle, q.property('kaleidoscope_tavern:seat_yaw'), math.clamp(q.delta_time * 12, 0, 1));"
+          ],
+          "animate": [
+            "seat_turn"
+          ]
+        },
+        "render_controllers": [
+          "controller.render.kt_runtime.furniture"
+        ]
+      },
+      "static_binding": {
+        "identifier": "kt_assets_a16:bar_stool_light_gray",
+        "materials": {
+          "default": "entity_alphatest_one_sided"
+        },
+        "textures": {
+          "default": "textures/kt_derived/a16/bar_stool_light_gray_atlas"
+        },
+        "geometry": {
+          "default": "geometry.kt_assets_a13.bar_stool_blue"
+        },
+        "render_controllers": [
+          "controller.render.kt_assets_a1.static"
+        ]
+      },
+      "atlas": "inputs/source/runtime/RP/textures/kt_derived/a16/bar_stool_light_gray_atlas.png",
+      "atlas_body_base_pixel_equal": true
+    },
+    {
+      "colour": "lime",
+      "placed_binding": {
+        "identifier": "kaleidoscope_tavern:seat_lime",
+        "materials": {
+          "default": "entity_alphatest_one_sided"
+        },
+        "textures": {
+          "default": "textures/kt_derived/a16/bar_stool_lime_atlas"
+        },
+        "geometry": {
+          "default": "geometry.kt_assets_a13.bar_stool_blue"
+        },
+        "animations": {
+          "seat_turn": "animation.kt_runtime.stool.turn"
+        },
+        "scripts": {
+          "initialize": [
+            "v.kt_seat_angle = q.property('kaleidoscope_tavern:seat_yaw');"
+          ],
+          "pre_animation": [
+            "v.kt_seat_angle = math.lerprotate(v.kt_seat_angle, q.property('kaleidoscope_tavern:seat_yaw'), math.clamp(q.delta_time * 12, 0, 1));"
+          ],
+          "animate": [
+            "seat_turn"
+          ]
+        },
+        "render_controllers": [
+          "controller.render.kt_runtime.furniture"
+        ]
+      },
+      "static_binding": {
+        "identifier": "kt_assets_a16:bar_stool_lime",
+        "materials": {
+          "default": "entity_alphatest_one_sided"
+        },
+        "textures": {
+          "default": "textures/kt_derived/a16/bar_stool_lime_atlas"
+        },
+        "geometry": {
+          "default": "geometry.kt_assets_a13.bar_stool_blue"
+        },
+        "render_controllers": [
+          "controller.render.kt_assets_a1.static"
+        ]
+      },
+      "atlas": "inputs/source/runtime/RP/textures/kt_derived/a16/bar_stool_lime_atlas.png",
+      "atlas_body_base_pixel_equal": true
+    },
+    {
+      "colour": "magenta",
+      "placed_binding": {
+        "identifier": "kaleidoscope_tavern:seat_magenta",
+        "materials": {
+          "default": "entity_alphatest_one_sided"
+        },
+        "textures": {
+          "default": "textures/kt_derived/a15/bar_stool_magenta_atlas"
+        },
+        "geometry": {
+          "default": "geometry.kt_assets_a13.bar_stool_blue"
+        },
+        "animations": {
+          "seat_turn": "animation.kt_runtime.stool.turn"
+        },
+        "scripts": {
+          "initialize": [
+            "v.kt_seat_angle = q.property('kaleidoscope_tavern:seat_yaw');"
+          ],
+          "pre_animation": [
+            "v.kt_seat_angle = math.lerprotate(v.kt_seat_angle, q.property('kaleidoscope_tavern:seat_yaw'), math.clamp(q.delta_time * 12, 0, 1));"
+          ],
+          "animate": [
+            "seat_turn"
+          ]
+        },
+        "render_controllers": [
+          "controller.render.kt_runtime.furniture"
+        ]
+      },
+      "static_binding": {
+        "identifier": "kt_assets_a15:bar_stool_magenta",
+        "materials": {
+          "default": "entity_alphatest_one_sided"
+        },
+        "textures": {
+          "default": "textures/kt_derived/a15/bar_stool_magenta_atlas"
+        },
+        "geometry": {
+          "default": "geometry.kt_assets_a13.bar_stool_blue"
+        },
+        "render_controllers": [
+          "controller.render.kt_assets_a1.static"
+        ]
+      },
+      "atlas": "inputs/source/runtime/RP/textures/kt_derived/a15/bar_stool_magenta_atlas.png",
+      "atlas_body_base_pixel_equal": true
+    },
+    {
+      "colour": "orange",
+      "placed_binding": {
+        "identifier": "kaleidoscope_tavern:seat_orange",
+        "materials": {
+          "default": "entity_alphatest_one_sided"
+        },
+        "textures": {
+          "default": "textures/kt_derived/a15/bar_stool_orange_atlas"
+        },
+        "geometry": {
+          "default": "geometry.kt_assets_a13.bar_stool_blue"
+        },
+        "animations": {
+          "seat_turn": "animation.kt_runtime.stool.turn"
+        },
+        "scripts": {
+          "initialize": [
+            "v.kt_seat_angle = q.property('kaleidoscope_tavern:seat_yaw');"
+          ],
+          "pre_animation": [
+            "v.kt_seat_angle = math.lerprotate(v.kt_seat_angle, q.property('kaleidoscope_tavern:seat_yaw'), math.clamp(q.delta_time * 12, 0, 1));"
+          ],
+          "animate": [
+            "seat_turn"
+          ]
+        },
+        "render_controllers": [
+          "controller.render.kt_runtime.furniture"
+        ]
+      },
+      "static_binding": {
+        "identifier": "kt_assets_a15:bar_stool_orange",
+        "materials": {
+          "default": "entity_alphatest_one_sided"
+        },
+        "textures": {
+          "default": "textures/kt_derived/a15/bar_stool_orange_atlas"
+        },
+        "geometry": {
+          "default": "geometry.kt_assets_a13.bar_stool_blue"
+        },
+        "render_controllers": [
+          "controller.render.kt_assets_a1.static"
+        ]
+      },
+      "atlas": "inputs/source/runtime/RP/textures/kt_derived/a15/bar_stool_orange_atlas.png",
+      "atlas_body_base_pixel_equal": true
+    },
+    {
+      "colour": "pink",
+      "placed_binding": {
+        "identifier": "kaleidoscope_tavern:seat_pink",
+        "materials": {
+          "default": "entity_alphatest_one_sided"
+        },
+        "textures": {
+          "default": "textures/kt_derived/a16/bar_stool_pink_atlas"
+        },
+        "geometry": {
+          "default": "geometry.kt_assets_a13.bar_stool_blue"
+        },
+        "animations": {
+          "seat_turn": "animation.kt_runtime.stool.turn"
+        },
+        "scripts": {
+          "initialize": [
+            "v.kt_seat_angle = q.property('kaleidoscope_tavern:seat_yaw');"
+          ],
+          "pre_animation": [
+            "v.kt_seat_angle = math.lerprotate(v.kt_seat_angle, q.property('kaleidoscope_tavern:seat_yaw'), math.clamp(q.delta_time * 12, 0, 1));"
+          ],
+          "animate": [
+            "seat_turn"
+          ]
+        },
+        "render_controllers": [
+          "controller.render.kt_runtime.furniture"
+        ]
+      },
+      "static_binding": {
+        "identifier": "kt_assets_a16:bar_stool_pink",
+        "materials": {
+          "default": "entity_alphatest_one_sided"
+        },
+        "textures": {
+          "default": "textures/kt_derived/a16/bar_stool_pink_atlas"
+        },
+        "geometry": {
+          "default": "geometry.kt_assets_a13.bar_stool_blue"
+        },
+        "render_controllers": [
+          "controller.render.kt_assets_a1.static"
+        ]
+      },
+      "atlas": "inputs/source/runtime/RP/textures/kt_derived/a16/bar_stool_pink_atlas.png",
+      "atlas_body_base_pixel_equal": true
+    },
+    {
+      "colour": "purple",
+      "placed_binding": {
+        "identifier": "kaleidoscope_tavern:seat_purple",
+        "materials": {
+          "default": "entity_alphatest_one_sided"
+        },
+        "textures": {
+          "default": "textures/kt_derived/a16/bar_stool_purple_atlas"
+        },
+        "geometry": {
+          "default": "geometry.kt_assets_a13.bar_stool_blue"
+        },
+        "animations": {
+          "seat_turn": "animation.kt_runtime.stool.turn"
+        },
+        "scripts": {
+          "initialize": [
+            "v.kt_seat_angle = q.property('kaleidoscope_tavern:seat_yaw');"
+          ],
+          "pre_animation": [
+            "v.kt_seat_angle = math.lerprotate(v.kt_seat_angle, q.property('kaleidoscope_tavern:seat_yaw'), math.clamp(q.delta_time * 12, 0, 1));"
+          ],
+          "animate": [
+            "seat_turn"
+          ]
+        },
+        "render_controllers": [
+          "controller.render.kt_runtime.furniture"
+        ]
+      },
+      "static_binding": {
+        "identifier": "kt_assets_a16:bar_stool_purple",
+        "materials": {
+          "default": "entity_alphatest_one_sided"
+        },
+        "textures": {
+          "default": "textures/kt_derived/a16/bar_stool_purple_atlas"
+        },
+        "geometry": {
+          "default": "geometry.kt_assets_a13.bar_stool_blue"
+        },
+        "render_controllers": [
+          "controller.render.kt_assets_a1.static"
+        ]
+      },
+      "atlas": "inputs/source/runtime/RP/textures/kt_derived/a16/bar_stool_purple_atlas.png",
+      "atlas_body_base_pixel_equal": true
+    },
+    {
+      "colour": "red",
+      "placed_binding": {
+        "identifier": "kaleidoscope_tavern:seat_red",
+        "materials": {
+          "default": "entity_alphatest_one_sided"
+        },
+        "textures": {
+          "default": "textures/kt_derived/a14/bar_stool_red_atlas"
+        },
+        "geometry": {
+          "default": "geometry.kt_assets_a13.bar_stool_blue"
+        },
+        "animations": {
+          "seat_turn": "animation.kt_runtime.stool.turn"
+        },
+        "scripts": {
+          "initialize": [
+            "v.kt_seat_angle = q.property('kaleidoscope_tavern:seat_yaw');"
+          ],
+          "pre_animation": [
+            "v.kt_seat_angle = math.lerprotate(v.kt_seat_angle, q.property('kaleidoscope_tavern:seat_yaw'), math.clamp(q.delta_time * 12, 0, 1));"
+          ],
+          "animate": [
+            "seat_turn"
+          ]
+        },
+        "render_controllers": [
+          "controller.render.kt_runtime.furniture"
+        ]
+      },
+      "static_binding": {
+        "identifier": "kt_assets_a14:bar_stool_red",
+        "materials": {
+          "default": "entity_alphatest_one_sided"
+        },
+        "textures": {
+          "default": "textures/kt_derived/a14/bar_stool_red_atlas"
+        },
+        "geometry": {
+          "default": "geometry.kt_assets_a13.bar_stool_blue"
+        },
+        "render_controllers": [
+          "controller.render.kt_assets_a1.static"
+        ]
+      },
+      "atlas": "inputs/source/runtime/RP/textures/kt_derived/a14/bar_stool_red_atlas.png",
+      "atlas_body_base_pixel_equal": true
+    },
+    {
+      "colour": "white",
+      "placed_binding": {
+        "identifier": "kaleidoscope_tavern:seat_white",
+        "materials": {
+          "default": "entity_alphatest_one_sided"
+        },
+        "textures": {
+          "default": "textures/kt_derived/a14/bar_stool_white_atlas"
+        },
+        "geometry": {
+          "default": "geometry.kt_assets_a13.bar_stool_blue"
+        },
+        "animations": {
+          "seat_turn": "animation.kt_runtime.stool.turn"
+        },
+        "scripts": {
+          "initialize": [
+            "v.kt_seat_angle = q.property('kaleidoscope_tavern:seat_yaw');"
+          ],
+          "pre_animation": [
+            "v.kt_seat_angle = math.lerprotate(v.kt_seat_angle, q.property('kaleidoscope_tavern:seat_yaw'), math.clamp(q.delta_time * 12, 0, 1));"
+          ],
+          "animate": [
+            "seat_turn"
+          ]
+        },
+        "render_controllers": [
+          "controller.render.kt_runtime.furniture"
+        ]
+      },
+      "static_binding": {
+        "identifier": "kt_assets_a14:bar_stool_white",
+        "materials": {
+          "default": "entity_alphatest_one_sided"
+        },
+        "textures": {
+          "default": "textures/kt_derived/a14/bar_stool_white_atlas"
+        },
+        "geometry": {
+          "default": "geometry.kt_assets_a13.bar_stool_blue"
+        },
+        "render_controllers": [
+          "controller.render.kt_assets_a1.static"
+        ]
+      },
+      "atlas": "inputs/source/runtime/RP/textures/kt_derived/a14/bar_stool_white_atlas.png",
+      "atlas_body_base_pixel_equal": true
+    },
+    {
+      "colour": "yellow",
+      "placed_binding": {
+        "identifier": "kaleidoscope_tavern:seat_yellow",
+        "materials": {
+          "default": "entity_alphatest_one_sided"
+        },
+        "textures": {
+          "default": "textures/kt_derived/a15/bar_stool_yellow_atlas"
+        },
+        "geometry": {
+          "default": "geometry.kt_assets_a13.bar_stool_blue"
+        },
+        "animations": {
+          "seat_turn": "animation.kt_runtime.stool.turn"
+        },
+        "scripts": {
+          "initialize": [
+            "v.kt_seat_angle = q.property('kaleidoscope_tavern:seat_yaw');"
+          ],
+          "pre_animation": [
+            "v.kt_seat_angle = math.lerprotate(v.kt_seat_angle, q.property('kaleidoscope_tavern:seat_yaw'), math.clamp(q.delta_time * 12, 0, 1));"
+          ],
+          "animate": [
+            "seat_turn"
+          ]
+        },
+        "render_controllers": [
+          "controller.render.kt_runtime.furniture"
+        ]
+      },
+      "static_binding": {
+        "identifier": "kt_assets_a15:bar_stool_yellow",
+        "materials": {
+          "default": "entity_alphatest_one_sided"
+        },
+        "textures": {
+          "default": "textures/kt_derived/a15/bar_stool_yellow_atlas"
+        },
+        "geometry": {
+          "default": "geometry.kt_assets_a13.bar_stool_blue"
+        },
+        "render_controllers": [
+          "controller.render.kt_assets_a1.static"
+        ]
+      },
+      "atlas": "inputs/source/runtime/RP/textures/kt_derived/a15/bar_stool_yellow_atlas.png",
+      "atlas_body_base_pixel_equal": true
+    }
+  ],
+  "pose_convention": "Author renderRot=180-degree baseline. Pose sheets apply native bone turn 0,45,90,180, with imported Blockbench Y=-turn. Base stays fixed. Samples do not assert behavior or interpolation.",
+  "limitations": [
+    "Review-only free-format scenes, not runtime exports. No GUI acceptance yet.",
+    "JAR supplies base JSON and original 16x2 PNGs; body is from pinned Java 1.21 source, not a decompiled or executed JAR.",
+    "Native body geometry uses box UV; expanded with official BB 5.2.2 convention. Base Java UV uses actual PNG dimensions /16, resolves colour parent. No rescale present in base.",
+    "Native entity_alphatest_one_sided and Java entityCutoutNoCull recorded; render_sides hints do not establish engine shader or lighting parity.",
+    "No passenger, Minecraft client, item_display, inventory, interpolation or deployment claims."
+  ],
+  "inputs_sha256": {
+    "inputs/source/art/source-jar.lock.json": "5d1567b8416bf2927e25d44bab7304cc49a0cd58787a338a0cc95c58d670ea85",
+    "stools/jar-assets/assets/kaleidoscope_tavern/models/block/deco/bar_stool/base.json": "dc85839be1549be5c4fd24f7553d0ec85bb4c642eeea7adccc127077cc283bfc",
+    "stools/jar-assets/assets/kaleidoscope_tavern/models/block/deco/bar_stool/black.json": "173614542b702d7ba92e90c4c6f5e4887b49849fca4ab9c67c841533e3b4062d",
+    "stools/jar-assets/assets/kaleidoscope_tavern/models/block/deco/bar_stool/blue.json": "af8735e0eb0561a5ffc0c3522a3e772eeb61710b7b6c8f3821f0b3603dc1dace",
+    "stools/jar-assets/assets/kaleidoscope_tavern/models/block/deco/bar_stool/brown.json": "2768d5a9a6047aeafc2d1449974196600f4b3c097d0def5a4f4ca51fcc14a810",
+    "stools/jar-assets/assets/kaleidoscope_tavern/models/block/deco/bar_stool/cyan.json": "4ac215d17ad50f079796d31ea57d2f7c93f8f8d1ae600fac3fa1dabb9829944b",
+    "stools/jar-assets/assets/kaleidoscope_tavern/models/block/deco/bar_stool/gray.json": "7d88e875eb9a53972d76bd43da8cd53e6f1eb4c92bc792cdb8557253db73707f",
+    "stools/jar-assets/assets/kaleidoscope_tavern/models/block/deco/bar_stool/green.json": "5bdc8d94efe7c938ffef56993b15225f9c06738a72d4b0073e13d8580af56332",
+    "stools/jar-assets/assets/kaleidoscope_tavern/models/block/deco/bar_stool/light_blue.json": "e3bb6ebb979d499edf7d4792f98932b4418105f712ba95cca449933cd920a424",
+    "stools/jar-assets/assets/kaleidoscope_tavern/models/block/deco/bar_stool/light_gray.json": "ce36755602ea5731f2adaf0d33934d6d1402ac5ad8e4f3cd7fef8570c0317b36",
+    "stools/jar-assets/assets/kaleidoscope_tavern/models/block/deco/bar_stool/lime.json": "72a0c9e3cc10803904d581ba453a081cea44e9f9a9150e9bccd750052f9a6504",
+    "stools/jar-assets/assets/kaleidoscope_tavern/models/block/deco/bar_stool/magenta.json": "886841963a6712d7c5fd3eb79d9c4fadc542879168f19d8c2ea467c85eab7e36",
+    "stools/jar-assets/assets/kaleidoscope_tavern/models/block/deco/bar_stool/orange.json": "4bce030d09b909293804abdd71111c47962e7784aa16c28836f35768033fa71c",
+    "stools/jar-assets/assets/kaleidoscope_tavern/models/block/deco/bar_stool/pink.json": "6308d3bcd33cb88f836b90c3e1b5b5b68640e7a40b379730c20581fa33cdf91d",
+    "stools/jar-assets/assets/kaleidoscope_tavern/models/block/deco/bar_stool/purple.json": "29d641a17d7acdd33dfd56c388abfe07d0aa29bf6583bd5131a9b825d60a8ab8",
+    "stools/jar-assets/assets/kaleidoscope_tavern/models/block/deco/bar_stool/red.json": "1a497746a530458a580d75b712a1332a1f9670e9b331cb493fbce9ebe48afa5d",
+    "stools/jar-assets/assets/kaleidoscope_tavern/models/block/deco/bar_stool/white.json": "9b8c5b5cc237ee46b4e61750db8a3fc10cf1fb916e44bcc09ea286a9d814d89c",
+    "stools/jar-assets/assets/kaleidoscope_tavern/models/block/deco/bar_stool/yellow.json": "35fb5d20744578f82af88117231111f1752c95ca2d65192587ee413d027634a4",
+    "stools/jar-assets/assets/kaleidoscope_tavern/models/item/bar_stool_base.json": "e0bbdf0d4ab01fe8bf3da9364c3e74f7fe0cfea41ea995f0dd4d5ccc9de396d4",
+    "stools/jar-assets/assets/kaleidoscope_tavern/models/item/black_bar_stool.json": "56ba92030221634fe3490644d4d4e37aecd831c5adfc699902e29cb7ff611dff",
+    "stools/jar-assets/assets/kaleidoscope_tavern/models/item/blue_bar_stool.json": "0cc70ed2572e7f18cf42bbb7226308b70468586fa4d1ce18d56e5a56c988983e",
+    "stools/jar-assets/assets/kaleidoscope_tavern/models/item/brown_bar_stool.json": "d905031cdf7bb99da37816fabc8adb4ecf594a8f9ba47e989c609f6d8552ceb2",
+    "stools/jar-assets/assets/kaleidoscope_tavern/models/item/cyan_bar_stool.json": "9741a124850754b6d42c00a27f575bb30ec0d34a45811bc8b414ebb94b09688b",
+    "stools/jar-assets/assets/kaleidoscope_tavern/models/item/gray_bar_stool.json": "ea0a8f4b96e7725257a9108ffc56c5da733e66f1ea1b4706229cd9fe0a2967ec",
+    "stools/jar-assets/assets/kaleidoscope_tavern/models/item/green_bar_stool.json": "b8e1642c22831e644838dea67a593d85f2da83e37c0c8502023d62d2b0d75297",
+    "stools/jar-assets/assets/kaleidoscope_tavern/models/item/light_blue_bar_stool.json": "1e48a2c1ac951dc14642c02ede2f9905a094b5438efbf392a2bc96c2507afca6",
+    "stools/jar-assets/assets/kaleidoscope_tavern/models/item/light_gray_bar_stool.json": "0ef1e7528bf36d7fc7e3b00c76c5c7f7fde3c53ae8cb931dce6117c13757a4b9",
+    "stools/jar-assets/assets/kaleidoscope_tavern/models/item/lime_bar_stool.json": "0cb613d6b50f2ca9f63fae8226076f250de8fd3d52d57e39efc9b37834feda8a",
+    "stools/jar-assets/assets/kaleidoscope_tavern/models/item/magenta_bar_stool.json": "f6b746a4ae87f5a7cca79e4c9f939f9ebecb0a580f948ae75dfada776c8e0ba4",
+    "stools/jar-assets/assets/kaleidoscope_tavern/models/item/orange_bar_stool.json": "e35dc9e3d02dcef07df45e4b3145213bda3d3329cd3bd0fa28ca003fc6541123",
+    "stools/jar-assets/assets/kaleidoscope_tavern/models/item/pink_bar_stool.json": "f0a0426818d67e7e181b79923711f0cb377c1afe46c45723d72c7262355b3a49",
+    "stools/jar-assets/assets/kaleidoscope_tavern/models/item/purple_bar_stool.json": "b572539537d4591209af63ba398c21ff7420025289397da86036456f0265b054",
+    "stools/jar-assets/assets/kaleidoscope_tavern/models/item/red_bar_stool.json": "11928e27dc5621a58eade95c73daa9fc87d08e9a0e7ee08d8299445faacb0bbd",
+    "stools/jar-assets/assets/kaleidoscope_tavern/textures/block/deco/bar_stool/black.png": "9a4001ed7548e7b21ef64ba3371cf9a95fff576095cbc816ee02bd0b429ad299",
+    "stools/jar-assets/assets/kaleidoscope_tavern/textures/block/deco/bar_stool/blue.png": "1ddcd78ac8eecec1b1b7a6eaed89a104714a8d26d26315cf50d01fe053044454",
+    "stools/jar-assets/assets/kaleidoscope_tavern/textures/block/deco/bar_stool/brown.png": "a7cc8ad44a589d7ed79122cbf93c81a35655fa2ab9ea33651b947bb408665a17",
+    "stools/jar-assets/assets/kaleidoscope_tavern/textures/block/deco/bar_stool/cyan.png": "a581031f9159c6e8e1e27db807bd7838fed2bacdb34ca7ac84c5e71aa184e4e3",
+    "stools/jar-assets/assets/kaleidoscope_tavern/textures/block/deco/bar_stool/gray.png": "47336a9209a2d848ed25de10891e8f415285d5cdee0309dda2c92f824a2545ef",
+    "stools/jar-assets/assets/kaleidoscope_tavern/textures/block/deco/bar_stool/green.png": "d2e1ae3462b9534e6a8e206f7657ce7370d73f862920bc7979aa1088da5150a4",
+    "stools/jar-assets/assets/kaleidoscope_tavern/textures/block/deco/bar_stool/light_blue.png": "248fe55ac47e4ddcc383ca98a45eeb94984bcac9fe6881ac231cbc84feecaef5",
+    "stools/jar-assets/assets/kaleidoscope_tavern/textures/block/deco/bar_stool/light_gray.png": "b8aae1bb9466e7195478bdf7ced4e8b44234610cb79bdba9e90dd99b1fec40a1",
+    "stools/jar-assets/assets/kaleidoscope_tavern/textures/block/deco/bar_stool/lime.png": "c2bf11e5a043e2372358d07447d21713d0114bc34e6c621c555b81c60f885106",
+    "stools/jar-assets/assets/kaleidoscope_tavern/textures/block/deco/bar_stool/magenta.png": "f2e09ed4dfc46897b3106802f869c8699c317ddd7e03f0969f6a9ff30a7a9f5e",
+    "stools/jar-assets/assets/kaleidoscope_tavern/textures/block/deco/bar_stool/orange.png": "da947373981ef944b18e4f7ed023afad5ad5b565b550367ff2c85b2bf2b45b90",
+    "stools/jar-assets/assets/kaleidoscope_tavern/textures/block/deco/bar_stool/pink.png": "799986a4faa96444ccae132b298f66ef2b009f14506ae9d3c390c92c49166296",
+    "stools/jar-assets/assets/kaleidoscope_tavern/textures/block/deco/bar_stool/purple.png": "2ee3d76ee1686e4db69b23db3cbe87b565255b89d89a1e72dbc986d381cc5f8c",
+    "stools/jar-assets/assets/kaleidoscope_tavern/textures/block/deco/bar_stool/red.png": "faf5d19ba483c00894e15ed1e7a37bd561a910cbac8ca7afedc0ef591a1b857e",
+    "stools/jar-assets/assets/kaleidoscope_tavern/textures/block/deco/bar_stool/white.png": "eb4646b6f01357938d82646a0aaf7320a2423cf40fc197dcbc8714859015dd83",
+    "stools/jar-assets/assets/kaleidoscope_tavern/textures/block/deco/bar_stool/yellow.png": "77649ac868a13e3562cb91defe7d304e990e2e11ff252a3eade1f44fa9b6e7a4",
+    "stools/jar-assets/assets/kaleidoscope_tavern/textures/entity/deco/bar_stool/black.png": "9db52ea917beca5970b559a1b9e98dbe65afde6a17954ce0d3bafadcd8b8998d",
+    "stools/jar-assets/assets/kaleidoscope_tavern/textures/entity/deco/bar_stool/blue.png": "31652c570ea585f67f9dad17550d47ed6b7e30701dc02c0035a7625fcb8c6921",
+    "stools/jar-assets/assets/kaleidoscope_tavern/textures/entity/deco/bar_stool/brown.png": "cd660e60fc0a5fadf97afb1bdab35de45b12352b797a124dd18331a53824a22b",
+    "stools/jar-assets/assets/kaleidoscope_tavern/textures/entity/deco/bar_stool/cyan.png": "4c0f54e6a2277a1f479f6f8e0efd1269ffac8a2632ae75bd6d45e0ec4762e847",
+    "stools/jar-assets/assets/kaleidoscope_tavern/textures/entity/deco/bar_stool/gray.png": "a87179012d28a19bfa434814dfee61ef6428c662d2cc9143bf7878e95593b1e2",
+    "stools/jar-assets/assets/kaleidoscope_tavern/textures/entity/deco/bar_stool/green.png": "dc66188c32fe8cef5df693251ca060e45cedb8a96713aba17e02301897321c8b",
+    "stools/jar-assets/assets/kaleidoscope_tavern/textures/entity/deco/bar_stool/light_blue.png": "131d6a7a25d38bbff5613d6272322a1eb8c316c38098c1115adecb8b5d622e6e",
+    "stools/jar-assets/assets/kaleidoscope_tavern/textures/entity/deco/bar_stool/light_gray.png": "e28d6acc3b26b2ba1d15517dd6d7c1db41510ff33a7c05d1a140732f2a032325",
+    "stools/jar-assets/assets/kaleidoscope_tavern/textures/entity/deco/bar_stool/lime.png": "5a17e3ba16d88c0ed136c42daddf3b758171315fdf121431b5c288208c38778e",
+    "stools/jar-assets/assets/kaleidoscope_tavern/textures/entity/deco/bar_stool/magenta.png": "5c68ae7ebb48e4a0a691838d7c55545142e16db12549a31aea90e3b0ad704e11",
+    "stools/jar-assets/assets/kaleidoscope_tavern/textures/entity/deco/bar_stool/orange.png": "230e2b03076ee281004e4acbaed05ff41cd9de7cea57ed926cfbb7a30ee145bf",
+    "stools/jar-assets/assets/kaleidoscope_tavern/textures/entity/deco/bar_stool/pink.png": "8e53b0e751813b9a69cea9086c7f33336b27500993ba39b0a87130fb2ed8cdc7",
+    "stools/jar-assets/assets/kaleidoscope_tavern/textures/entity/deco/bar_stool/purple.png": "0afe44d8f7faeade1c35f8e308268c294291f1249ee6bae9aa4d07729706a88b",
+    "stools/jar-assets/assets/kaleidoscope_tavern/textures/entity/deco/bar_stool/red.png": "23ecf8df2f79aa7bf0f8644e97a2aaf073083b6dde02ad9e2ce5ef859c5b2718",
+    "stools/jar-assets/assets/kaleidoscope_tavern/textures/entity/deco/bar_stool/white.png": "321bff3d59b448ec9163bd9b7a2ab5e834de254333743fb85d9e750ad185605a",
+    "stools/jar-assets/assets/kaleidoscope_tavern/textures/entity/deco/bar_stool/yellow.png": "2424ec7171c1451f1c25419858d53209b09e9c50f370bb9748b54d53a64c700c",
+    "stools/author-source/BarStoolBodyModel.java": "e6e1c90dccefd709727a2f1bc949489a8b63b1b34d5e3737c8c6c7e996334371",
+    "stools/author-source/BarStoolBlockEntityRender.java": "0387cf54299c2c12e8dbf347d6b2347b61f38512d325ec883d46fbece626640d",
+    "inputs/source/runtime/RP/models/entity/bar_stool_blue.geo.json": "da7c4c714fd0165b6d31ffe8c62976d05d78aaf2435c22215eab8f356aacae94",
+    "inputs/source/runtime/RP/animations/runtime_furniture.animation.json": "70f62ddb54690df119bf083a1845d9081bc718118c826da17211b48f07b360d6",
+    "inputs/source/runtime/RP/render_controllers/runtime_furniture.json": "5d4a34aa92f498342b6b9641a2f12ed7c6ac4ea67464cb0339f2e93bffe2e3c7",
+    "inputs/source/runtime/RP/entity/runtime_seat_black.entity.json": "593671a23175f6ab1f79f5da8d3a0ed7da6a29ef211698b1b12465baf4af0f8b",
+    "inputs/source/runtime/RP/entity/bar_stool_black.entity.json": "cd1fc3e2fb815c0d2fd7b320935fbe7b89c95070bbf49f531e18cca43c597755",
+    "inputs/source/runtime/RP/textures/kt_derived/a14/bar_stool_black_atlas.png": "fe0b8de256b1115ed69848171e12637d309d745596e2b2ef9298533c122853c2",
+    "inputs/source/runtime/RP/entity/runtime_seat_blue.entity.json": "2aeda335a17297deb1acd8fdc4647e42642f4bbcb9d326c02c74cd6278b1478c",
+    "inputs/source/runtime/RP/entity/bar_stool_blue.entity.json": "157da79b961e1d41bb9933ab4c1c014783814a3b1bcbf9c40e0048f789df8539",
+    "inputs/source/runtime/RP/textures/kt_derived/a13/bar_stool_blue_atlas.png": "a01bfc233dcc78400c81e394664f4739698d7410b1898c0c5089cb84ff52f3e0",
+    "inputs/source/runtime/RP/entity/runtime_seat_brown.entity.json": "6f4363b48ba522d01e5e14568b5dcf0b12c1d02ce6cf20919931b3f61181d278",
+    "inputs/source/runtime/RP/entity/bar_stool_brown.entity.json": "a9f7fc4afc1bcd162ef0628b23779cd12a7b80d5875e91691d623c0311787b7f",
+    "inputs/source/runtime/RP/textures/kt_derived/a14/bar_stool_brown_atlas.png": "ea2258d35fefe8b9e8410c5af3001a8b46cd20059e4d4807e1439321661cc6a6",
+    "inputs/source/runtime/RP/entity/runtime_seat_cyan.entity.json": "b6512c5a52f4782311d9b5ec876e4107f9e931653b075206b724cae3a9a85817",
+    "inputs/source/runtime/RP/entity/bar_stool_cyan.entity.json": "728329e53babafec6dff7f1d182ca5acdd6558cf51cca13cad86dfcdd7c13ada",
+    "inputs/source/runtime/RP/textures/kt_derived/a14/bar_stool_cyan_atlas.png": "225b108ea8e39f35cd53c30ee984798054c8ef45fcfac1ea31cd87d0d9c1202f",
+    "inputs/source/runtime/RP/entity/runtime_seat_gray.entity.json": "1ed8701c442d7735e0479a0cd88af2288a958614925f8b722121db764c570dab",
+    "inputs/source/runtime/RP/entity/bar_stool_gray.entity.json": "041a72e73ec2957b63bbe923046445f5009fe40832409f223b2c8a45050f7e90",
+    "inputs/source/runtime/RP/textures/kt_derived/a16/bar_stool_gray_atlas.png": "45d676b5526693ce6f882f5bbdcf6af91e706d085cd5d74296776558f087975f",
+    "inputs/source/runtime/RP/entity/runtime_seat_green.entity.json": "d1b5be6b547b9b1f0b26c9673abe768f7b56d83a559ace8ef53286dd6e0f5169",
+    "inputs/source/runtime/RP/entity/bar_stool_green.entity.json": "9737c2e2a6eb75ba048ca7d6e036fd5962eb24a50cb78a16ed906ff465569d2e",
+    "inputs/source/runtime/RP/textures/kt_derived/a16/bar_stool_green_atlas.png": "1e314bff27a8080ff10838a8e1878344d752f16037893fc148a07ed5f4668249",
+    "inputs/source/runtime/RP/entity/runtime_seat_light_blue.entity.json": "bf5667c6213f0d5050140180b5d87f17e25fa06c825f7022ca622d328765b1cf",
+    "inputs/source/runtime/RP/entity/bar_stool_light_blue.entity.json": "12905d4af861f572095df1a53123f6fb4094cd1dd91f151dbccfdc99b9f13320",
+    "inputs/source/runtime/RP/textures/kt_derived/a15/bar_stool_light_blue_atlas.png": "fb0c80b06c9df9fea8855b3eed2fded4f9d3fd6e1bc83b9f2e11e93716494957",
+    "inputs/source/runtime/RP/entity/runtime_seat_light_gray.entity.json": "7e4209b76cc8c19a0dd16776c144dc4897f6e689153db8f9097e279d0e8f3ca6",
+    "inputs/source/runtime/RP/entity/bar_stool_light_gray.entity.json": "8e0bbcbe164fbf3bdba775de05212a3624f7b01ec7c7f10af9198dacf62a6dcc",
+    "inputs/source/runtime/RP/textures/kt_derived/a16/bar_stool_light_gray_atlas.png": "1e8982d9d5bab618b6b47242884a83b3b0750d5ba8a1b364b4c0b4b81034cc5f",
+    "inputs/source/runtime/RP/entity/runtime_seat_lime.entity.json": "e8ba9fcd3bcd9704a41666619bc83c3979e4857e99df8f834ad9b8408849208c",
+    "inputs/source/runtime/RP/entity/bar_stool_lime.entity.json": "2b0951280c04be54f0070315ccd51698271f797714b2e9382b3ce838f1d2703d",
+    "inputs/source/runtime/RP/textures/kt_derived/a16/bar_stool_lime_atlas.png": "1bf3392a113c80af7107db9dd5c2b2d69eeb152fada26bd21d47bfcc481753f9",
+    "inputs/source/runtime/RP/entity/runtime_seat_magenta.entity.json": "a07d2bc669248b4af9917c82beaea8d9bec486d14349b1521618b03db99e6fea",
+    "inputs/source/runtime/RP/entity/bar_stool_magenta.entity.json": "8599c26cfdfd49bf1ccab7c8258198c14a53ce435134fc7b28c13a1e0e08db17",
+    "inputs/source/runtime/RP/textures/kt_derived/a15/bar_stool_magenta_atlas.png": "dae526349c934d7ff296f035182050fc8f65b17f0442a3690652a2ea2d68c5e4",
+    "inputs/source/runtime/RP/entity/runtime_seat_orange.entity.json": "47fc0e7408bc1fdc7dbe547a50fb3b6645ccaae222f874b475fd35b41c19bf09",
+    "inputs/source/runtime/RP/entity/bar_stool_orange.entity.json": "436ae8566776c80568ae534876156854a12462480a5c3308f43e45025e9684ac",
+    "inputs/source/runtime/RP/textures/kt_derived/a15/bar_stool_orange_atlas.png": "c5910b35acbc053c30098e3361f4da9d08e59540f236da36954ca9a47f1dd278",
+    "inputs/source/runtime/RP/entity/runtime_seat_pink.entity.json": "6b162fc8b571d8b6a894b9b6cd2a407fab0ad5221bafb77215cb5b3eda3ddcc1",
+    "inputs/source/runtime/RP/entity/bar_stool_pink.entity.json": "a54542f2e32dd046b0debf7145c2764f61ab60b68b53497cb69585bf24d01abe",
+    "inputs/source/runtime/RP/textures/kt_derived/a16/bar_stool_pink_atlas.png": "c69a664d07a4af970ee49f3c7caaa511bd653bc964d204e5cb1ad98c510923f9",
+    "inputs/source/runtime/RP/entity/runtime_seat_purple.entity.json": "51304840553048a46410d825f9d3a5fff10bfdfde4933cd7cadef1fc6a86b289",
+    "inputs/source/runtime/RP/entity/bar_stool_purple.entity.json": "9364c474c3ded1ef8fc9c877987c579ef9bb26204a5133249fa31ece40acd6a8",
+    "inputs/source/runtime/RP/textures/kt_derived/a16/bar_stool_purple_atlas.png": "68fc2bcd1c7407c2b5d70d723100e51bf87b6ea3af8877b409e58b2148db7b09",
+    "inputs/source/runtime/RP/entity/runtime_seat_red.entity.json": "1f6fc232f332d3cde4e9c6c277a788729628362e722b7844a6722e61c10b0b75",
+    "inputs/source/runtime/RP/entity/bar_stool_red.entity.json": "80ffac8c412c5309d64796e06c33f2379a0f9835fbcaa09e8dedb065cf4fe70b",
+    "inputs/source/runtime/RP/textures/kt_derived/a14/bar_stool_red_atlas.png": "2ee308778927c6466a35549ce6e502a727772717c699aac1d3c9228c0053d3e8",
+    "inputs/source/runtime/RP/entity/runtime_seat_white.entity.json": "843a6794258a18ed838b66feb3947f7388895d07563e725cc6e094dff9ea4602",
+    "inputs/source/runtime/RP/entity/bar_stool_white.entity.json": "0b64fe2a9ff1537b81e80bd98c0b8f6cac6d92217d986af0dd65c6022d5979a5",
+    "inputs/source/runtime/RP/textures/kt_derived/a14/bar_stool_white_atlas.png": "c928432f8ead2e06ded74e53af5bf47054bcb200110713cbb14c1d482fa93600",
+    "inputs/source/runtime/RP/entity/runtime_seat_yellow.entity.json": "b69ab2823fbe9fd75292492ed2aa8c543121dde4421e29c69e8b1dd19026d025",
+    "inputs/source/runtime/RP/entity/bar_stool_yellow.entity.json": "2d02358a132278a349fa228c7582d7c13e7e7c2d8dc7ab3b4ca0249d652c0108",
+    "inputs/source/runtime/RP/textures/kt_derived/a15/bar_stool_yellow_atlas.png": "711144c9d4a47d69528075c1c66db19fecd2ec0e9d18d3a2547db6160b602d99"
+  },
+  "outputs_sha256": {
+    "stools/scenes/stool-colours-3.bbmodel": "399f88f75cada51a3992027af4d48cfa90c368b9adbd2604f3e6930f9797639a",
+    "stools/scenes/stool-colours-4.bbmodel": "5b1ba7eb24326b4e4b2851c47c1469deb7f4283e13afdbc994e0432d6c005de3",
+    "stools/scenes/stool-colours-1.bbmodel": "9c0e4f26504666b32b9d555ad26b2ca4f4df1e5e747c817206a383014412420f",
+    "stools/scenes/stool-colours-2.bbmodel": "c54165e82d05aa14b5e0ead9927868f2be4f7049d19511c5a12bd5e087ea9863",
+    "stools/scenes/stool-body-poses.bbmodel": "a22905cd95700eded0e17308491004d098c56bc10b4d6b27f97de87b059c83a1"
+  }
+}
