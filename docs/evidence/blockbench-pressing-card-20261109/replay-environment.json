@@ -1,0 +1,19 @@
+{
+  "python": "3.12.14",
+  "numpy": "2.3.5",
+  "scipy": "1.17.0",
+  "Pillow": "13.0.0",
+  "command": "python -B replay/verify.py",
+  "sequential": true,
+  "network_used": false,
+  "original_workspace_dependency": false,
+  "git_used": false,
+  "gui_used": false,
+  "game_used": false,
+  "optimization_guard_test": {
+    "command": "python -B -O replay/verify.py",
+    "exit_code": 1,
+    "stderr": "Replay refuses Python optimization (-O/-OO): integrity assertions must remain enabled.",
+    "rejected_before_payload_reads": true
+  }
+}

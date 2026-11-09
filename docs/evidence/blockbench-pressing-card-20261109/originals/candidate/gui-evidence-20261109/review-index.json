@@ -1,0 +1,305 @@
+{
+  "scope": "Actual cloud Blockbench GUI review of the isolated pressing ingredient-card size candidate",
+  "gui_completed": true,
+  "runtime_applied": false,
+  "candidate_sha256": "d93249923210a8711fa038105816380407b9d70811c23313d4ddb56d68b83eea",
+  "canonical_preparation": "682a9dd01cc8d5ad26b714c0b279d04cbafeb205",
+  "scene_count": 6,
+  "accepted_original_screenshots": 7,
+  "excluded_original_diagnostics": 2,
+  "numeric_camera_original_screenshots": 1,
+  "decision": "Bounded GUI acceptance of the source-backed centered size correction. No additional runtime defect or broader parity acceptance established.",
+  "key_finding": "SOURCE and AFTER broad-face size agree in the decisive common Top view; BEFORE remains half the linear size. The same candidate enlargement is visible in helper/layer, north/east tilt and frozen ice-grape representatives, while unrelated controls remain unchanged.",
+  "captures": [
+    {
+      "file": "screenshots/01-upright-top.jpg",
+      "sha256": "e934d3deec3ddacc980967f9a023be3ca7de0dfae030d80e81d41e62ad5f1dc5",
+      "bytes": 81847,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T03:28:57.590351+00:00",
+      "scene": "scenes/01-upright-isolated.bbmodel",
+      "scene_sha256": "6c2e4438d05b488abc07d2f9fe11e5795314b67d3eb742279441e5c0e1370be0",
+      "scene_identity_index": "scene-identity-index.json",
+      "camera": "Top orthographic; selected all meshes, Center View on Selection, Edit > Unselect All, zoom out 500 pixels.",
+      "visibility": "All original groups visible; no visibility filtering was used. Selection overlays cleared with Edit > Unselect All.",
+      "caption": "SOURCE is screen-left, BEFORE center, AFTER screen-right in this Top view. The positive X gizmo points right.",
+      "observations": "All three broad-face silhouettes are complete and unobstructed. AFTER visibly restores the source broad-face scale, while BEFORE is half the linear size. BEFORE and AFTER retain the same sprite orientation. Source uses its separate audited frame, so its mirrored projected sprite direction is not a facing defect.",
+      "capture_specific_limits": "The exact 8×8×0.5 versus 4×4×0.25 dimensions and zero centers are source/data evidence. This screenshot supplies a common orthographic visual check, not subpixel metrology.",
+      "mesh_names": [
+        "SOURCE grape global=0 helper=0 local=0 tilt=None",
+        "BEFORE grape global=0 helper=0 local=0 tilt=None",
+        "AFTER grape global=0 helper=0 local=0 tilt=None"
+      ],
+      "status": "accepted bounded visual observation",
+      "original_bytes": "Original app.getScreenshot Uint8Array JPEG bytes, written unchanged and the same bytes emitted for visual inspection. No editing, cropping, resizing, re-encoding or stitching."
+    },
+    {
+      "file": "screenshots/02-upright-oblique.jpg",
+      "sha256": "ecef888e57a964c8999dfde20ccb4795b88a73a2cea1188c94ef9b4ae1f84303",
+      "bytes": 80152,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T03:30:12.227352+00:00",
+      "scene": "scenes/01-upright-isolated.bbmodel",
+      "scene_sha256": "6c2e4438d05b488abc07d2f9fe11e5795314b67d3eb742279441e5c0e1370be0",
+      "scene_identity_index": "scene-identity-index.json",
+      "camera": "True Isometric Left (30°), orthographic; selected all, centered, unselected; zoom out 250 pixels.",
+      "visibility": "All original groups visible; no visibility filtering was used. Selection overlays cleared with Edit > Unselect All.",
+      "caption": "SOURCE is upper-right, BEFORE near center, AFTER lower-left. This angle reverses the source/after screen ordering relative to Top.",
+      "observations": "The oblique view retains the enlarged AFTER footprint and half-size BEFORE. Source shows a shallow generated edge profile; the native cards remain two broad-face approximations. The size candidate does not introduce the source edge strips.",
+      "capture_specific_limits": "This 30° oblique is supplementary edge context. The image does not resolve or independently count every one of the 35 source quads, and does not establish native alpha-edge, shader, or culling behavior.",
+      "mesh_names": [
+        "SOURCE grape global=0 helper=0 local=0 tilt=None",
+        "BEFORE grape global=0 helper=0 local=0 tilt=None",
+        "AFTER grape global=0 helper=0 local=0 tilt=None"
+      ],
+      "status": "accepted bounded visual observation",
+      "original_bytes": "Original app.getScreenshot Uint8Array JPEG bytes, written unchanged and the same bytes emitted for visual inspection. No editing, cropping, resizing, re-encoding or stitching."
+    },
+    {
+      "file": "screenshots/03-helper-boundaries-oblique.jpg",
+      "sha256": "5af9b703bd96c65d2a2d755b8b1e2fc97649ac5fea9c3ab4bbbbf0f865319c52",
+      "bytes": 95045,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T03:31:23.324304+00:00",
+      "scene": "scenes/02-upright-helper-boundaries.bbmodel",
+      "scene_sha256": "4045fc46333b29143102035416fa35adfd040b868ccced314989c46dcdca3f10",
+      "scene_identity_index": "scene-identity-index.json",
+      "camera": "True Isometric Left (30°), orthographic; selected all, centered, unselected; zoom out 150 pixels.",
+      "visibility": "All original groups visible; no visibility filtering was used. Selection overlays cleared with Edit > Unselect All.",
+      "caption": "SOURCE cluster is upper-right, BEFORE center, AFTER lower-left. Each cluster contains global 0, 7, 8 and 63; exact group names and world bounds are in scene-identity-index.json.",
+      "observations": "The high layer (global 63) remains separate from the low-layer representatives. BEFORE and AFTER preserve the same relative layer layout while each AFTER card expands. The 0/8 pair is close and partially overlaps in this projection, with separate layered edges visible; the existing audit, rather than the screenshot alone, establishes helper 0/local 7, helper 1/local 0 and helper 7/local 7 identities.",
+      "capture_specific_limits": "This is representative layer/size evidence, not a visual measurement of all 64 slots or arbitrary seeds/counts. Overlap is expected and is not judged as body-clearance failure.",
+      "mesh_names": [
+        "SOURCE grape global=0 helper=0 local=0 tilt=None",
+        "BEFORE grape global=0 helper=0 local=0 tilt=None",
+        "AFTER grape global=0 helper=0 local=0 tilt=None",
+        "SOURCE grape global=7 helper=0 local=7 tilt=None",
+        "BEFORE grape global=7 helper=0 local=7 tilt=None",
+        "AFTER grape global=7 helper=0 local=7 tilt=None",
+        "SOURCE grape global=8 helper=1 local=0 tilt=None",
+        "BEFORE grape global=8 helper=1 local=0 tilt=None",
+        "AFTER grape global=8 helper=1 local=0 tilt=None",
+        "SOURCE grape global=63 helper=7 local=7 tilt=None",
+        "BEFORE grape global=63 helper=7 local=7 tilt=None",
+        "AFTER grape global=63 helper=7 local=7 tilt=None"
+      ],
+      "status": "accepted bounded visual observation",
+      "original_bytes": "Original app.getScreenshot Uint8Array JPEG bytes, written unchanged and the same bytes emitted for visual inspection. No editing, cropping, resizing, re-encoding or stitching."
+    },
+    {
+      "file": "screenshots/04-north-tilt-south.jpg",
+      "sha256": "a0c3f85852f4336c62f84f49185218ff9ef8079bec489fa1c8ba6539c802692e",
+      "bytes": 83423,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T03:32:38.345310+00:00",
+      "scene": "scenes/03-north-tilt-layers.bbmodel",
+      "scene_sha256": "6648b887c27ab99dd36efb102609a6fc79401a1c6bdf47b6bbc5e8603bdaa2a8",
+      "scene_identity_index": "scene-identity-index.json",
+      "camera": "South orthographic; selected all, centered, unselected; zoom out 450 pixels. Chosen to expose paired faces after initial perspective was edge-on.",
+      "visibility": "All original groups visible; no visibility filtering was used. Selection overlays cleared with Edit > Unselect All.",
+      "caption": "SOURCE pair is left/upper; BEFORE pair lower-center; AFTER pair lower-right. Scene includes global 0 and 63 at tilt facing 0.",
+      "observations": "Both north-tilt native representatives remain present. AFTER doubles the corresponding face size while preserving the BEFORE projected pose and relative pair arrangement. The source pair remains full sized. Source/native vertical separation reflects different prepared reference frames.",
+      "capture_specific_limits": "No body is attached. Neither vertical placement, facing, world alignment, clearance nor native culling is accepted from this frame.",
+      "mesh_names": [
+        "SOURCE grape global=0 helper=0 local=0 tilt=0",
+        "BEFORE grape global=0 helper=0 local=0 tilt=0",
+        "AFTER grape global=0 helper=0 local=0 tilt=0",
+        "SOURCE grape global=63 helper=7 local=7 tilt=0",
+        "BEFORE grape global=63 helper=7 local=7 tilt=0",
+        "AFTER grape global=63 helper=7 local=7 tilt=0"
+      ],
+      "status": "accepted bounded visual observation",
+      "original_bytes": "Original app.getScreenshot Uint8Array JPEG bytes, written unchanged and the same bytes emitted for visual inspection. No editing, cropping, resizing, re-encoding or stitching."
+    },
+    {
+      "file": "screenshots/05-east-tilt-top.jpg",
+      "sha256": "be03559b35f8289967149a202c775bedab26ca893efeef2ba0ad9855250ac947",
+      "bytes": 81942,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T03:33:36.246087+00:00",
+      "scene": "scenes/04-east-tilt-layers.bbmodel",
+      "scene_sha256": "1d94073c982476d1583ab2972ec447d86ba6a0adcdf03882e08c571f4fb03c48",
+      "scene_identity_index": "scene-identity-index.json",
+      "camera": "Top orthographic; selected all, centered, unselected; zoom out 700 pixels. Chosen instead of edge-on initial perspective.",
+      "visibility": "All original groups visible; no visibility filtering was used. Selection overlays cleared with Edit > Unselect All.",
+      "caption": "SOURCE pair is left, BEFORE pair center-right, AFTER pair right. Scene includes global 0 and 63 at tilt facing 1. Column offsets remain source −24, before 0, after +24, despite additional pose translations.",
+      "observations": "The paired BEFORE/AFTER east-tilt sprite angles and relative separation agree visually; AFTER is doubled around the audited unchanged centers. The two AFTER surfaces partly overlap but remain distinguishable. The source faces are also visible, rather than judged from an edge-on projection.",
+      "capture_specific_limits": "This is a tilted-plane Top projection, not an assertion that its projected width equals the unposed card edge. No body or native world/culling proof is included.",
+      "mesh_names": [
+        "SOURCE grape global=0 helper=0 local=0 tilt=1",
+        "BEFORE grape global=0 helper=0 local=0 tilt=1",
+        "AFTER grape global=0 helper=0 local=0 tilt=1",
+        "SOURCE grape global=63 helper=7 local=7 tilt=1",
+        "BEFORE grape global=63 helper=7 local=7 tilt=1",
+        "AFTER grape global=63 helper=7 local=7 tilt=1"
+      ],
+      "status": "accepted bounded visual observation",
+      "original_bytes": "Original app.getScreenshot Uint8Array JPEG bytes, written unchanged and the same bytes emitted for visual inspection. No editing, cropping, resizing, re-encoding or stitching."
+    },
+    {
+      "file": "screenshots/06-ice-grape-tick1-top.jpg",
+      "sha256": "db61cfd5e43bb0f32b4500b9f314d33ad600b0528c5b10e350cec070fa6ac70c",
+      "bytes": 84384,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T03:34:44.607043+00:00",
+      "scene": "scenes/05-animated-ice-grape-tick1.bbmodel",
+      "scene_sha256": "b4ac9551fe8bed23593b2e5d08caf357496f775ba4cd90cf0c4a9e553cc1c9fb",
+      "scene_identity_index": "scene-identity-index.json",
+      "camera": "Top orthographic; selected all, centered, unselected; zoom out 400 pixels.",
+      "visibility": "All original groups visible; no visibility filtering was used. Selection overlays cleared with Edit > Unselect All.",
+      "caption": "SOURCE left, BEFORE center, AFTER right; frozen ice_grape global 0 at tick 1.",
+      "observations": "The AFTER frozen ice-grape restores the large source-scale appearance and retains the BEFORE color/pixel pattern and pose. BEFORE remains half-size. All three sprites are complete and readable.",
+      "capture_specific_limits": "Original/derived texture-byte and 24-tick pixel equality are independent data checks. This view is a frozen tick, not clock, interpolation, animation-controller, shader or ordinary-ice material execution.",
+      "mesh_names": [
+        "SOURCE ice_grape global=0 helper=0 local=0 tilt=None",
+        "BEFORE ice_grape global=0 helper=0 local=0 tilt=None",
+        "AFTER ice_grape global=0 helper=0 local=0 tilt=None"
+      ],
+      "status": "accepted bounded visual observation",
+      "original_bytes": "Original app.getScreenshot Uint8Array JPEG bytes, written unchanged and the same bytes emitted for visual inspection. No editing, cropping, resizing, re-encoding or stitching."
+    },
+    {
+      "file": "screenshots/07-unchanged-barrel-stone-controls.jpg",
+      "sha256": "10533977d8ffea1f677b0be53ce9c1444337a4f71d3cdcab8ecdddef8d4d6926",
+      "bytes": 83589,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T03:35:59.164031+00:00",
+      "scene": "scenes/06-unchanged-controls.bbmodel",
+      "scene_sha256": "3f015ed46603e0e658b03f975a9e45978ca60d4d53c99e9c99eec77589e96f9a",
+      "scene_identity_index": "scene-identity-index.json",
+      "camera": "True Isometric Left (30°), orthographic; selected all, centered, unselected; zoom out 600 pixels.",
+      "visibility": "All original groups visible; no visibility filtering was used. Selection overlays cleared with Edit > Unselect All.",
+      "caption": "For barrel grape: SOURCE upper-right, BEFORE middle-right, AFTER center. For stone: SOURCE upper-right among the cube trio, BEFORE middle-left, AFTER lower-left. Exact named group bounds are indexed; the barrel row uses +40 Y and the stone row +44 Z for separation.",
+      "observations": "The two native barrel cards retain the same full size and pose. The three stone cubes retain equal size; native before/after pose and neutral stone pixels remain unchanged. The original source/native barrel-frame difference remains visible and is not altered by the pressing-card repair.",
+      "capture_specific_limits": "Barrel remains 8×8×0.5, pressing stone 4×4×4 by the unchanged input geometry. Stone uses the explicit official Java neutral texture control, not proof of inherited native pixels.",
+      "mesh_names": [
+        "SOURCE UNCHANGED CONTROL barrel grape",
+        "BEFORE UNCHANGED CONTROL barrel grape",
+        "AFTER UNCHANGED CONTROL barrel grape",
+        "SOURCE UNCHANGED CONTROL pressing_tub stone",
+        "BEFORE UNCHANGED CONTROL pressing_tub stone",
+        "AFTER UNCHANGED CONTROL pressing_tub stone"
+      ],
+      "status": "accepted bounded visual observation",
+      "original_bytes": "Original app.getScreenshot Uint8Array JPEG bytes, written unchanged and the same bytes emitted for visual inspection. No editing, cropping, resizing, re-encoding or stitching."
+    }
+  ],
+  "numeric_camera_evidence": [
+    {
+      "file": "camera-proof/01-upright-top-camera.jpg",
+      "sha256": "324b5a1deb11f0f37e87d93f26bbfd0751c8149c5abf617dbdd43af4d15c0db7",
+      "bytes": 64586,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T03:29:24.202709+00:00",
+      "related_capture": "screenshots/01-upright-top.jpg",
+      "camera_position_displayed": [
+        0.12,
+        513.6,
+        -1.24
+      ],
+      "focal_point_displayed": [
+        0.12,
+        1.6,
+        -1.24
+      ],
+      "zoom_displayed": 0.3403,
+      "projection": "Orthographic, visibly checked in context menu. Save Angle projection Unset is its save option, not current projection.",
+      "method": "Read Save Angle dialog then Cancel. No values edited and no preset created.",
+      "precision": "UI displayed values, not exact internal floating-point camera values."
+    }
+  ],
+  "diagnostics": [
+    {
+      "file": "excluded-diagnostics/04-north-initial-edge-on.jpg",
+      "sha256": "37b175d58e5e248b65dfeca7a1d66cb97cc642efaf8cd8f7040c9c2e67f3692c",
+      "bytes": 84184,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T03:32:08.060904+00:00",
+      "scene": "scenes/03-north-tilt-layers.bbmodel",
+      "status": "excluded diagnostic, not accepted observation",
+      "reason": "Inherited perspective made one or more corresponding cards near edge-on, preventing a useful complete paired surface comparison. Replaced with readable orthographic view. Not a renderer or native culling defect."
+    },
+    {
+      "file": "excluded-diagnostics/05-east-initial-edge-on.jpg",
+      "sha256": "4181a91ce0e362af96a03896bbe969e37753972a7c5b3d152a02bb28fe737916",
+      "bytes": 77961,
+      "format": "JPEG",
+      "dimensions": [
+        1188,
+        848
+      ],
+      "file_mtime_utc": "2026-11-09T03:33:05.569676+00:00",
+      "scene": "scenes/04-east-tilt-layers.bbmodel",
+      "status": "excluded diagnostic, not accepted observation",
+      "reason": "Inherited perspective made one or more corresponding cards near edge-on, preventing a useful complete paired surface comparison. Replaced with readable orthographic view. Not a renderer or native culling defect."
+    }
+  ],
+  "scope_limits": [
+    "Only the eight centered runtime_pressing_card cubes are proposed to change. All other data and file routes remain unchanged; no candidate or original scene was exported or saved from Blockbench.",
+    "SOURCE uses Java PoseStack coordinates; native BEFORE/AFTER use raw Blockbench-decoded model-reference coordinates. The source/candidate card dimensions are basis-invariant, but world placement, projected facing, Y alignment and body clearance are not accepted from these scenes.",
+    "Source grape uses 35 generated quads; source ice-grape uses 43 over its frame union. Native cards retain two broad faces. The source extrusion proof is for 1.20.1 only; this candidate fixes size, not alpha-edge geometry.",
+    "Front render_sides and inherited editor shading are preview hints, not Java no-cull or Bedrock material/controller/shader/culling execution. Ordinary ice active material/shader semantics remain unproven and unchanged.",
+    "Raw decoded tilted-card bounds exceed the declared visibility box before and after the size correction. This existing reference-frame advisory is not a proven engine disappearance and does not authorize expanding bounds, shifting geometry or guessing an external engine transform.",
+    "No Minecraft, BDS, LIVE, deployment, game renderer, native animation, helper lifecycle, reload or reconnect test was run. These are bounded prepared built-in representatives, not acceptance of arbitrary addon models or complete addon parity.",
+    "Accepted held shakers, tilted rack and its existing +6 first-person Y lift remain untouched. This is not new held-view acceptance."
+  ],
+  "prep_integrity": {
+    "original_artifacts_checked": 280,
+    "all_original_artifact_hashes_unchanged": true,
+    "original_manifest_sha256_unchanged": true,
+    "scene_hashes_unchanged": {
+      "scenes/01-upright-isolated.bbmodel": "6c2e4438d05b488abc07d2f9fe11e5795314b67d3eb742279441e5c0e1370be0",
+      "scenes/02-upright-helper-boundaries.bbmodel": "4045fc46333b29143102035416fa35adfd040b868ccced314989c46dcdca3f10",
+      "scenes/03-north-tilt-layers.bbmodel": "6648b887c27ab99dd36efb102609a6fc79401a1c6bdf47b6bbc5e8603bdaa2a8",
+      "scenes/04-east-tilt-layers.bbmodel": "1d94073c982476d1583ab2972ec447d86ba6a0adcdf03882e08c571f4fb03c48",
+      "scenes/05-animated-ice-grape-tick1.bbmodel": "b4ac9551fe8bed23593b2e5d08caf357496f775ba4cd90cf0c4a9e553cc1c9fb",
+      "scenes/06-unchanged-controls.bbmodel": "3f015ed46603e0e658b03f975a9e45978ca60d4d53c99e9c99eec77589e96f9a"
+    }
+  },
+  "data_evidence_references": {
+    "manifest": "../manifest.json",
+    "independent_audit": "../independent-audit.json",
+    "exact_changes": "../changed-field-proposal.json",
+    "pose_bounds_advisory": "../pose-bounds-audit.json",
+    "baseline_gui": "../../tavern-machine-content-review-20261109/gui-review/review-report.json"
+  },
+  "temporary_editor_changes": "Only mesh selection, centering and camera presets/zoom in owned review tabs. No visibility changes, geometry/UV/texture edits or shared settings changes. All six tabs closed without any save or discard modal. No temporary camera presets were created.",
+  "gui_final_state": "Only healthy Champagne remains in Blockbench window 29360132, no modal. Terminal 41949001 and other terminal windows preserved. GUI explicitly handed to parent before writing this report.",
+  "completion_summary_sent": true
+}

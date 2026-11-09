@@ -1,0 +1,127 @@
+{
+  "version": "0.6.216",
+  "base": "7fb1afc86439d67703df202d04923d4bcdc4466b",
+  "formal_aggregate": {
+    "command": "PATH=<verified existing javac directory>:$PATH python -B tools/check_release.py --java-source <clean Forge c4ec1880 checkout> --baseline <original cedfaedf6140bae61b24afb658869b1d0e6ea1a9 snapshot>",
+    "exit_code": 0,
+    "original_baseline_runtime_git_blobs_verified": 3644,
+    "default_node_parallelism_preserved": true,
+    "conditional_skips": [
+      "\ufe63 paired World Liquor timed effects use host state and existing localized names (0.059719ms) # SKIP"
+    ],
+    "skip_reason": "Existing WorldLiquor paired test requires LIQUOR_SOURCE; it was unset, as in the plant predecessor. No skip/bypass added.",
+    "native_gameplay_or_client_acceptance": false
+  },
+  "initial_failed_attempt": {
+    "exit_code": 1,
+    "stage": "test_incense_surfaces.py",
+    "errors": 14,
+    "reason": "New pressing validation ran before the existing incense validator, so incense-only negative fixtures met missing pressing inputs first.",
+    "repair": "Place pressing validation after the existing incense validation; no validator mock, test removal or skip.",
+    "java_barrel_oracle_at_failure": "NOT_RUN; it occurs after this failure. Initial progress message that implied it passed was corrected immediately.",
+    "retained_log": "raw/formal-aggregate.txt"
+  },
+  "final_targeted_checks": {
+    "pressing_geometry_methods": 9,
+    "launch_entry_negative_controls": "Valid actual incense inputs first; malformed pressing cube and helper material both rejected by current owner.",
+    "pressing_adapter_tests": 4,
+    "machine_native_adapter_tests": 21,
+    "incense_tests": 18,
+    "baseline_gate_tests": 20,
+    "publication_tests": 8,
+    "java_barrel_oracle_states": 108,
+    "machine_animation_helpers": 12,
+    "machine_animation_frames": 24,
+    "shared_clock_selectors": 14,
+    "optimized_replay": "rejected before payload reads",
+    "unfrozen_identity": "rejected before freeze"
+  },
+  "portable_evidence": {
+    "manifest": "../blockbench-pressing-card-20261109/portable-manifest.json",
+    "sha256": "bac5634c24ff875426cf37fbe0076dc28785118447784ddbbac8f051cfc25919",
+    "final_replay_passed": true,
+    "candidate_inputs": 248,
+    "candidate_meshes": 36,
+    "candidate_faces": 455,
+    "native_reference_poses": 320,
+    "original_negative_controls": 8,
+    "candidate_GUI": {
+      "accepted": 7,
+      "excluded": 2,
+      "camera": 1
+    },
+    "N03_GUI": {
+      "accepted": 14,
+      "excluded": 7,
+      "camera": 1
+    }
+  },
+  "runtime_scope": "One geometry owner plus required paired version metadata. Exactly 16 vector fields / 48 scalars changed in 8 centered cubes; other fields, routes, gameplay and accepted held poses preserved.",
+  "limitations": [
+    "Generated alpha-edge extrusion remains a two-broad-face native approximation.",
+    "Raw decoded tilted bounds exceed declarations before/after at one seed/count; native frame/culling unproven.",
+    "Body clearance/world-facing, ordinary ice material semantics and live animation not certified.",
+    "No Minecraft/BDS/LIVE/deployment; no remote writes/tag/Release."
+  ],
+  "logs": {
+    "raw/animation-final.txt": {
+      "bytes": 124,
+      "sha256": "41ee72e100404979af54d8bcef44f44accaf0342a50a3bcd1778d97f962f0972"
+    },
+    "raw/barrel-oracle.txt": {
+      "bytes": 80,
+      "sha256": "403ea25332b44910ff58c087fcffb7275e46fe9352ba81b11852a72769bd1704"
+    },
+    "raw/baseline-gate-tests.txt": {
+      "bytes": 119,
+      "sha256": "8240b71a4564e73c85794be67afb1897b54dacceb86cdc42406c3b3ac8f66849"
+    },
+    "raw/clock-final.txt": {
+      "bytes": 183,
+      "sha256": "85f626768622654d5c175bd2d2baa0c95098cef0cf45d6fb0b5754f4ae035297"
+    },
+    "raw/formal-aggregate-complete.txt": {
+      "bytes": 56203,
+      "sha256": "7020a9c5d4a552ac9c5561772f1f430cb8021d30c1692c33df246d782ab4750e"
+    },
+    "raw/formal-aggregate.txt": {
+      "bytes": 85085,
+      "sha256": "d86cf6f1c863fe89c7dd6f275fbff5d9ad308627aba8c42763963662022b53b0"
+    },
+    "raw/geometry-final.txt": {
+      "bytes": 107,
+      "sha256": "da065710355e08bee0931955c61f71d8878fe80d8a85d529418846b64defd581"
+    },
+    "raw/incense-coupling-fixed.txt": {
+      "bytes": 117,
+      "sha256": "66fc23ddad2d8b63d642d5636524f429000f79652016da297223e8b84e5ed753"
+    },
+    "raw/machine-native-final.tap": {
+      "bytes": 3008,
+      "sha256": "694278f885fc3f79b0b2277a4a7593f31cc58958c7bd974c46266ced5845dff1"
+    },
+    "raw/optimization-rejection.txt": {
+      "bytes": 87,
+      "sha256": "354613e21ae4fee653128b95c46af6f7af66f444042e8a297e01ffe7fd8b34bd"
+    },
+    "raw/publication-tests.txt": {
+      "bytes": 106,
+      "sha256": "75ff54e727b57e4bd7b88956ed0c92c4b9a416e6f0976707e8fb54aa385ac0bd"
+    },
+    "raw/unfrozen-rejection.txt": {
+      "bytes": 65,
+      "sha256": "65af3961dd4078585e0ebe76aebd49e0a98d85e3dab8521e9335c2ee634e7f1d"
+    }
+  },
+  "whitespace_review": {
+    "active_sources": "git diff --cached --check on active changes passes",
+    "preserved_originals": "Five whitespace warnings are original evidence bytes or unified-diff context lines; not normalized because raw preservation is required. No runtime/CI check is bypassed.",
+    "paths": [
+      "originals/candidate/provenance/n03-build_scenes.py:137",
+      "originals/candidate/scene_helpers.py:121",
+      "originals/n03/build_scenes.py:137",
+      "replay/adaptations.diff:12",
+      "replay/adaptations.diff:21"
+    ]
+  }
+}

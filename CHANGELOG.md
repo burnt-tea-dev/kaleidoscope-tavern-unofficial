@@ -1,3 +1,8 @@
+## 0.6.216 — 2026-11-09
+
+- Restore the eight shared pressing ingredient cards from half-size to source-derived 8×8×0.5, preserving their zero centers, UVs, all slot/tilt transforms and gameplay. Barrel cards and cube ingredients are unchanged.
+- Preserve the existing generated-edge approximation and tilted reference-frame visibility-bounds advisory. Source and editor evidence does not certify native culling, materials, world-facing or gameplay.
+
 ## 0.6.214 — 2026-11-09
 
 - Restore the source-rescaled wild-grapevine cross and all four directed UV faces for the growing head and body. Their world/item materials now cull reverse faces as Java cutout does. Preserve textures, lighting flags, growth, drops and held transforms.

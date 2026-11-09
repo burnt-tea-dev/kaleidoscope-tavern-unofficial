@@ -1,0 +1,3505 @@
+[
+  {
+    "scene": "scenes/animated-card-frame-controls.bbmodel",
+    "sha256": "9dec7a6ff86d82b014748a702802488e40b38c3b86b929bef122814f3ca0c732",
+    "content_meshes": [
+      {
+        "uuid": "7adf5244-a204-44f1-be35-dbe7e66ad35c",
+        "name": "ice_grape 0",
+        "group": "SOURCE ice_grape slot=0 global=0",
+        "kind": "source_ingredient",
+        "machine": "barrel",
+        "item": "ice_grape",
+        "index": 0,
+        "slot": 0,
+        "count": 1,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": null,
+        "declared_size": [
+          8,
+          8,
+          0.5
+        ],
+        "world_vertex_bounds": [
+          [
+            -25.8982821816359,
+            42.527507060115354,
+            -4.875057673083626
+          ],
+          [
+            -14.972697127446127,
+            43.82084346478699,
+            6.043093180285775
+          ]
+        ],
+        "face_count": 43,
+        "matrix": [
+          [
+            0.4327122807587352,
+            0.24786229704823268,
+            0.036391809278286245,
+            -26.171220751223046
+          ],
+          [
+            0.03157811848697321,
+            0.01808828945394898,
+            -0.4986738776168778,
+            46.76623501985882
+          ],
+          [
+            -0.2485214367280943,
+            0.4338629916074933,
+            -9.987020123920246e-20,
+            -0.8987146854341179
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "57215f31-c50b-470b-9294-2e2b7cf3d6a8",
+        "name": "ice_grape 0",
+        "group": "CURRENT ice_grape slot=0 global=0",
+        "kind": "current_ingredient",
+        "machine": "barrel",
+        "item": "ice_grape",
+        "index": 0,
+        "slot": 0,
+        "count": 1,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": null,
+        "declared_size": [
+          8,
+          8,
+          0.5
+        ],
+        "world_vertex_bounds": [
+          [
+            16.598981968411493,
+            40.830048082264106,
+            -3.6943372296653445
+          ],
+          [
+            24.276018031588507,
+            45.51830098232444,
+            4.866212229665345
+          ]
+        ],
+        "face_count": 2,
+        "matrix": [
+          [
+            -0.8654682074218711,
+            0.06310042791103299,
+            0.49697396102755487,
+            20.4375
+          ],
+          [
+            0.49565831586868,
+            -0.036137955803303305,
+            0.8677654533689287,
+            43.17417453229427
+          ],
+          [
+            0.07271599447299729,
+            0.9973526879433389,
+            6.107023884554095e-17,
+            0.5859375
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "86c549df-17ff-4ad6-ab3b-2f5edafa5652",
+        "name": "ice_grape 0",
+        "group": "SOURCE ice_grape slot=0 global=0",
+        "kind": "source_ingredient",
+        "machine": "pressing_tub",
+        "item": "ice_grape",
+        "index": 0,
+        "slot": 0,
+        "count": 1,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": null,
+        "declared_size": [
+          8,
+          8,
+          0.5
+        ],
+        "world_vertex_bounds": [
+          [
+            -31.859433967980785,
+            2.9162211577783346,
+            36.14092447794787
+          ],
+          [
+            -20.94056622275408,
+            3.4321279366125346,
+            47.059075331317274
+          ]
+        ],
+        "face_count": 43,
+        "matrix": [
+          [
+            0.4338625311196991,
+            0.24852117295568127,
+            0.000728480020621524,
+            -31.864897568135447
+          ],
+          [
+            0.0006321210421462856,
+            0.0003620858027051456,
+            -0.4999994693165779,
+            7.1662166469692465
+          ],
+          [
+            -0.2485214367280943,
+            0.4338629916074933,
+            -1.8103928283990252e-19,
+            40.11726746559738
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "584e918d-06a6-4f2a-ab9e-e1232bf2733d",
+        "name": "ice_grape 0",
+        "group": "CURRENT ice_grape slot=0 global=0",
+        "kind": "current_ingredient",
+        "machine": "pressing_tub",
+        "item": "ice_grape",
+        "index": 0,
+        "slot": 0,
+        "count": 1,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": null,
+        "declared_size": [
+          4,
+          4,
+          0.25
+        ],
+        "world_vertex_bounds": [
+          [
+            23.668786798967865,
+            3.045363583985462,
+            38.87208367120704
+          ],
+          [
+            29.128088201032135,
+            3.302985480603085,
+            44.33104132879296
+          ]
+        ],
+        "face_count": 2,
+        "matrix": [
+          [
+            -0.8677646074923514,
+            0.49697347658947133,
+            0.0013962629479142773,
+            26.3984375
+          ],
+          [
+            -0.0012116287500191002,
+            0.0006939063278609158,
+            -0.9999990252244151,
+            3.1741745322942734
+          ],
+          [
+            -0.49697396102755487,
+            -0.8677654533689287,
+            6.123228026957767e-17,
+            41.6015625
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      }
+    ],
+    "body_roots": [
+      {
+        "name": "SOURCE world -X | brew/BarrelModel",
+        "origin": [
+          -24,
+          0,
+          0
+        ]
+      },
+      {
+        "name": "CURRENT world +X | barrel_open",
+        "origin": [
+          24,
+          0,
+          0
+        ]
+      },
+      {
+        "name": "SOURCE world -X | block/brew/pressing_tub",
+        "origin": [
+          -24,
+          0,
+          44
+        ]
+      },
+      {
+        "name": "CURRENT world +X | pressing_tub",
+        "origin": [
+          24,
+          0,
+          44
+        ]
+      }
+    ]
+  },
+  {
+    "scene": "scenes/barrel-card-edge-slots.bbmodel",
+    "sha256": "e2e3c9a64b523f9cda5f84f37bcc3af55b34553b4edc4a2a476d736ca246ae79",
+    "content_meshes": [
+      {
+        "uuid": "0d2207a2-7420-494d-9496-f59b75fe7615",
+        "name": "grape 0",
+        "group": "SOURCE grape slot=0 global=0",
+        "kind": "source_ingredient",
+        "machine": "barrel",
+        "item": "grape",
+        "index": 0,
+        "slot": 0,
+        "count": 16,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": null,
+        "declared_size": [
+          8,
+          8,
+          0.5
+        ],
+        "world_vertex_bounds": [
+          [
+            -25.8982821816359,
+            42.527507060115354,
+            -4.875057673083626
+          ],
+          [
+            -14.972697127446127,
+            43.82084346478699,
+            6.043093180285775
+          ]
+        ],
+        "face_count": 35,
+        "matrix": [
+          [
+            0.4327122807587352,
+            0.24786229704823268,
+            0.036391809278286245,
+            -26.171220751223046
+          ],
+          [
+            0.03157811848697321,
+            0.01808828945394898,
+            -0.4986738776168778,
+            46.76623501985882
+          ],
+          [
+            -0.2485214367280943,
+            0.4338629916074933,
+            -9.987020123920246e-20,
+            -0.8987146854341179
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "1e599b8b-a9ec-4e5f-804c-67023bcb960c",
+        "name": "grape 0",
+        "group": "CURRENT grape slot=0 global=0",
+        "kind": "current_ingredient",
+        "machine": "barrel",
+        "item": "grape",
+        "index": 0,
+        "slot": 0,
+        "count": 16,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": null,
+        "declared_size": [
+          8,
+          8,
+          0.5
+        ],
+        "world_vertex_bounds": [
+          [
+            16.598981968411493,
+            40.830048082264106,
+            -3.6943372296653445
+          ],
+          [
+            24.276018031588507,
+            45.51830098232444,
+            4.866212229665345
+          ]
+        ],
+        "face_count": 2,
+        "matrix": [
+          [
+            -0.8654682074218711,
+            0.06310042791103299,
+            0.49697396102755487,
+            20.4375
+          ],
+          [
+            0.49565831586868,
+            -0.036137955803303305,
+            0.8677654533689287,
+            43.17417453229427
+          ],
+          [
+            0.07271599447299729,
+            0.9973526879433389,
+            6.107023884554095e-17,
+            0.5859375
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "51adb9c9-b91c-41f8-bb2d-4ef301a85b6d",
+        "name": "grape 8",
+        "group": "SOURCE grape slot=0 global=8",
+        "kind": "source_ingredient",
+        "machine": "barrel",
+        "item": "grape",
+        "index": 8,
+        "slot": 0,
+        "count": 16,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": null,
+        "declared_size": [
+          8,
+          8,
+          0.5
+        ],
+        "world_vertex_bounds": [
+          [
+            -35.81845535690801,
+            44.320572457024625,
+            -1.7679661641101938
+          ],
+          [
+            -24.737546306299997,
+            45.662398734381625,
+            9.307022942064295
+          ]
+        ],
+        "face_count": 35,
+        "matrix": [
+          [
+            0.41712403090369937,
+            0.273053330370498,
+            0.03807127022085417,
+            -36.10398988356442
+          ],
+          [
+            0.031853355502229834,
+            0.020851507367043307,
+            -0.4985484714486353,
+            48.55823446433802
+          ],
+          [
+            -0.2738483277033077,
+            0.4183384914325979,
+            3.0094583084022818e-18,
+            2.6136070791427293
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "0bf55765-3f6e-449b-8925-26489059183f",
+        "name": "grape 8",
+        "group": "CURRENT grape slot=0 global=8",
+        "kind": "current_ingredient",
+        "machine": "barrel",
+        "item": "grape",
+        "index": 8,
+        "slot": 0,
+        "count": 16,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": null,
+        "declared_size": [
+          8,
+          8,
+          0.5
+        ],
+        "world_vertex_bounds": [
+          [
+            26.55199695904044,
+            42.43151629115376,
+            -0.5275339902974605
+          ],
+          [
+            34.01050304095956,
+            47.55145039926985,
+            8.05878399029746
+          ]
+        ],
+        "face_count": 2,
+        "matrix": [
+          [
+            -0.834331660147633,
+            0.06375889862397284,
+            0.5475632234925503,
+            30.28125
+          ],
+          [
+            0.5459713397716914,
+            -0.04172265415163356,
+            0.8367643134589616,
+            44.991483345211805
+          ],
+          [
+            0.07619696203392147,
+            0.9970927855404437,
+            6.105432441325114e-17,
+            3.765625
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "aec94fa0-f984-4630-9d28-2b4c2798fe62",
+        "name": "grape 9",
+        "group": "SOURCE grape slot=3 global=9",
+        "kind": "source_ingredient",
+        "machine": "barrel",
+        "item": "grape",
+        "index": 9,
+        "slot": 3,
+        "count": 16,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": null,
+        "declared_size": [
+          8,
+          8,
+          0.5
+        ],
+        "world_vertex_bounds": [
+          [
+            -25.694678261852268,
+            44.49994400196374,
+            -1.468970189140833
+          ],
+          [
+            -15.285344168567656,
+            45.24840041942297,
+            8.93138397698263
+          ]
+        ],
+        "face_count": 35,
+        "matrix": [
+          [
+            0.18578970468998904,
+            -0.46404670856171626,
+            -0.01195148125732695,
+            -18.16834333417753
+          ],
+          [
+            -0.004442193555365891,
+            0.01109526118038251,
+            -0.49985714168725826,
+            48.81980480319129
+          ],
+          [
+            0.46417933231416425,
+            0.18584280306855216,
+            -8.745299578480197e-17,
+            -1.4689701891408324
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "e968af8f-332e-4ba8-b125-79e15f16811a",
+        "name": "grape 9",
+        "group": "CURRENT grape slot=3 global=9",
+        "kind": "current_ingredient",
+        "machine": "barrel",
+        "item": "grape",
+        "index": 9,
+        "slot": 3,
+        "count": 16,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": null,
+        "declared_size": [
+          8,
+          8,
+          0.5
+        ],
+        "world_vertex_bounds": [
+          [
+            18.7395035931554,
+            40.97965340848896,
+            -0.3601165110147807
+          ],
+          [
+            22.2448714068446,
+            48.76869199878696,
+            7.828866511014781
+          ]
+        ],
+        "face_count": 2,
+        "matrix": [
+          [
+            -0.3712616783469851,
+            -0.008878934184106785,
+            -0.9284858268809137,
+            20.4921875
+          ],
+          [
+            -0.9282204149383522,
+            -0.022198919127008006,
+            0.3713678355502344,
+            44.87417270363796
+          ],
+          [
+            -0.02390873235144728,
+            0.9997141454022479,
+            6.121483641145973e-17,
+            3.734375
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "f5710e3c-fb2d-4e59-b2fb-4be44b725d58",
+        "name": "grape 17",
+        "group": "SOURCE grape slot=3 global=17",
+        "kind": "source_ingredient",
+        "machine": "barrel",
+        "item": "grape",
+        "index": 17,
+        "slot": 3,
+        "count": 16,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": null,
+        "declared_size": [
+          8,
+          8,
+          0.5
+        ],
+        "world_vertex_bounds": [
+          [
+            -31.400393911055772,
+            43.454382524565766,
+            -1.195463892930272
+          ],
+          [
+            -21.78736739570693,
+            44.02713908187955,
+            8.414051768296483
+          ]
+        ],
+        "face_count": 35,
+        "matrix": [
+          [
+            -0.11368892514146868,
+            0.48688858221701264,
+            0.0037863976131409915,
+            -29.60976909089083
+          ],
+          [
+            -0.0008609676369999072,
+            0.0036872132583888597,
+            -0.49998566298756525,
+            47.718036142152066
+          ],
+          [
+            -0.48690254367265895,
+            -0.11369218515401325,
+            2.901307207067816e-17,
+            8.414051768296483
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "edadfb75-f1d9-4581-b563-2c2f4c95abe8",
+        "name": "grape 17",
+        "group": "CURRENT grape slot=3 global=17",
+        "kind": "current_ingredient",
+        "machine": "barrel",
+        "item": "grape",
+        "index": 17,
+        "slot": 3,
+        "count": 16,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": null,
+        "declared_size": [
+          8,
+          8,
+          0.5
+        ],
+        "world_vertex_bounds": [
+          [
+            25.436872377993808,
+            39.759065888476854,
+            -0.4205317343385976
+          ],
+          [
+            27.750627622006192,
+            47.722456161438885,
+            7.6392817343385975
+          ]
+        ],
+        "face_count": 2,
+        "matrix": [
+          [
+            0.22664492453978763,
+            -0.001700983006819331,
+            0.9739759672790518,
+            26.59375
+          ],
+          [
+            0.9739485384130329,
+            -0.007309538992417202,
+            -0.22665130743685444,
+            43.74076102495787
+          ],
+          [
+            0.007504845332926963,
+            0.9999718382517224,
+            6.123061554762333e-17,
+            3.609375
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      }
+    ],
+    "body_roots": [
+      {
+        "name": "SOURCE world -X | brew/BarrelModel",
+        "origin": [
+          -24,
+          0,
+          0
+        ]
+      },
+      {
+        "name": "CURRENT world +X | barrel_open",
+        "origin": [
+          24,
+          0,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "scene": "scenes/barrel-liquids.bbmodel",
+    "sha256": "f26de34abe68ea3c19d2428d633b131f54e0c0ead12fdc5ea11141dffc5cc29e",
+    "content_meshes": [
+      {
+        "uuid": "462cc7cf-3694-4c9d-adf9-e249e9b8ad21",
+        "name": "barrel water source",
+        "group": "SOURCE water amount=1000 frame0",
+        "kind": "source_fluid",
+        "machine": "barrel",
+        "item": null,
+        "index": null,
+        "slot": null,
+        "count": null,
+        "amount": 1000,
+        "time_ticks": null,
+        "tilt_facing": null,
+        "declared_size": 16,
+        "world_vertex_bounds": [
+          [
+            -32.0,
+            34.59999990463257,
+            -8.0
+          ],
+          [
+            -16.0,
+            34.59999990463257,
+            8.0
+          ]
+        ],
+        "face_count": 1,
+        "matrix": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -24.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "233a5e12-6706-4932-b0ab-fb685ac66a9d",
+        "name": "barrel water current",
+        "group": "CURRENT water amount=1000 frame0",
+        "kind": "current_fluid",
+        "machine": "barrel",
+        "item": null,
+        "index": null,
+        "slot": null,
+        "count": null,
+        "amount": 1000,
+        "time_ticks": null,
+        "tilt_facing": null,
+        "declared_size": null,
+        "world_vertex_bounds": [
+          [
+            16.0,
+            34.6,
+            -8.0
+          ],
+          [
+            32.0,
+            34.6,
+            8.0
+          ]
+        ],
+        "face_count": 1,
+        "matrix": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            24.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "27595ebb-02bb-4610-b7f4-39cfa37d19fe",
+        "name": "barrel lava source",
+        "group": "SOURCE lava amount=4000 frame0",
+        "kind": "source_fluid",
+        "machine": "barrel",
+        "item": null,
+        "index": null,
+        "slot": null,
+        "count": null,
+        "amount": 4000,
+        "time_ticks": null,
+        "tilt_facing": null,
+        "declared_size": 16,
+        "world_vertex_bounds": [
+          [
+            -32.0,
+            42.39999961853027,
+            36.0
+          ],
+          [
+            -16.0,
+            42.39999961853027,
+            52.0
+          ]
+        ],
+        "face_count": 1,
+        "matrix": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -24.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            44.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "ea484551-b634-4b3a-9fec-daf3cfe190d4",
+        "name": "barrel lava current",
+        "group": "CURRENT lava amount=4000 frame0",
+        "kind": "current_fluid",
+        "machine": "barrel",
+        "item": null,
+        "index": null,
+        "slot": null,
+        "count": null,
+        "amount": 4000,
+        "time_ticks": null,
+        "tilt_facing": null,
+        "declared_size": null,
+        "world_vertex_bounds": [
+          [
+            16.0,
+            42.4,
+            36.0
+          ],
+          [
+            32.0,
+            42.4,
+            52.0
+          ]
+        ],
+        "face_count": 1,
+        "matrix": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            24.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            44.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "526fa08b-37c2-4e9c-9a18-0cfcab48e8b6",
+        "name": "barrel grape source",
+        "group": "SOURCE grape amount=4000 frame0",
+        "kind": "source_fluid",
+        "machine": "barrel",
+        "item": null,
+        "index": null,
+        "slot": null,
+        "count": null,
+        "amount": 4000,
+        "time_ticks": null,
+        "tilt_facing": null,
+        "declared_size": 16,
+        "world_vertex_bounds": [
+          [
+            -32.0,
+            42.39999961853027,
+            80.0
+          ],
+          [
+            -16.0,
+            42.39999961853027,
+            96.0
+          ]
+        ],
+        "face_count": 1,
+        "matrix": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -24.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            88.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "b9d0be1b-b328-4be3-b651-02c0d96fa4c9",
+        "name": "barrel grape current",
+        "group": "CURRENT grape amount=4000 frame0",
+        "kind": "current_fluid",
+        "machine": "barrel",
+        "item": null,
+        "index": null,
+        "slot": null,
+        "count": null,
+        "amount": 4000,
+        "time_ticks": null,
+        "tilt_facing": null,
+        "declared_size": null,
+        "world_vertex_bounds": [
+          [
+            16.0,
+            42.4,
+            80.0
+          ],
+          [
+            32.0,
+            42.4,
+            96.0
+          ]
+        ],
+        "face_count": 1,
+        "matrix": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            24.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            88.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      }
+    ],
+    "body_roots": [
+      {
+        "name": "SOURCE world -X | brew/BarrelModel",
+        "origin": [
+          -24,
+          0,
+          0
+        ]
+      },
+      {
+        "name": "CURRENT world +X | barrel_open",
+        "origin": [
+          24,
+          0,
+          0
+        ]
+      },
+      {
+        "name": "SOURCE world -X | brew/BarrelModel",
+        "origin": [
+          -24,
+          0,
+          44
+        ]
+      },
+      {
+        "name": "CURRENT world +X | barrel_open",
+        "origin": [
+          24,
+          0,
+          44
+        ]
+      },
+      {
+        "name": "SOURCE world -X | brew/BarrelModel",
+        "origin": [
+          -24,
+          0,
+          88
+        ]
+      },
+      {
+        "name": "CURRENT world +X | barrel_open",
+        "origin": [
+          24,
+          0,
+          88
+        ]
+      }
+    ]
+  },
+  {
+    "scene": "scenes/cube-material-controls.bbmodel",
+    "sha256": "193b1a2f9ce4a85fbb558bc68dc0e9d39ffe85a50bbf3e55cc4bca3a8e5d6727",
+    "content_meshes": [
+      {
+        "uuid": "d357ab0c-9bae-4d7e-9ce2-883bf4e184f5",
+        "name": "stone 0",
+        "group": "SOURCE stone slot=0 global=0",
+        "kind": "source_ingredient",
+        "machine": "barrel",
+        "item": "stone",
+        "index": 0,
+        "slot": 0,
+        "count": 1,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": null,
+        "declared_size": [
+          4,
+          4,
+          4
+        ],
+        "world_vertex_bounds": [
+          [
+            -23.303355202882035,
+            40.98081412021997,
+            -2.145519959741276
+          ],
+          [
+            -17.5676241062,
+            45.367536404682376,
+            3.3135554669434253
+          ]
+        ],
+        "face_count": 6,
+        "matrix": [
+          [
+            -0.2163561403793676,
+            0.12393114852411634,
+            -0.01819590463914315,
+            -19.550522482585862
+          ],
+          [
+            -0.015789059243486635,
+            0.00904414472697449,
+            0.2493369388084389,
+            41.23343906811576
+          ],
+          [
+            0.12426071836404715,
+            0.21693149580374665,
+            1.5267484201047708e-17,
+            -2.145519959741276
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "7942e8b4-831f-4d49-a623-173449aa47b1",
+        "name": "stone 0",
+        "group": "CURRENT stone slot=0 global=0",
+        "kind": "current_ingredient",
+        "machine": "barrel",
+        "item": "stone",
+        "index": 0,
+        "slot": 0,
+        "count": 1,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": null,
+        "declared_size": [
+          4.0,
+          4.0,
+          4.0
+        ],
+        "world_vertex_bounds": [
+          [
+            17.58641480727908,
+            40.375051082212444,
+            -1.5541998648326725
+          ],
+          [
+            23.28858519272092,
+            45.9732979823761,
+            2.7260748648326727
+          ]
+        ],
+        "face_count": 6,
+        "matrix": [
+          [
+            -0.8654682074218711,
+            0.06310042791103299,
+            0.49697396102755487,
+            20.4375
+          ],
+          [
+            0.49565831586868,
+            -0.036137955803303305,
+            0.8677654533689287,
+            43.17417453229427
+          ],
+          [
+            0.07271599447299729,
+            0.9973526879433389,
+            6.107023884554095e-17,
+            0.5859375
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "97689793-136b-4147-8878-63f30b563fd0",
+        "name": "ice 0",
+        "group": "SOURCE ice slot=0 global=0",
+        "kind": "source_ingredient",
+        "machine": "barrel",
+        "item": "ice",
+        "index": 0,
+        "slot": 0,
+        "count": 1,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": null,
+        "declared_size": [
+          4,
+          4,
+          4
+        ],
+        "world_vertex_bounds": [
+          [
+            -23.303355202882035,
+            40.98081412021997,
+            41.85448004025872
+          ],
+          [
+            -17.5676241062,
+            45.367536404682376,
+            47.31355546694342
+          ]
+        ],
+        "face_count": 6,
+        "matrix": [
+          [
+            -0.2163561403793676,
+            0.12393114852411634,
+            -0.01819590463914315,
+            -19.550522482585862
+          ],
+          [
+            -0.015789059243486635,
+            0.00904414472697449,
+            0.2493369388084389,
+            41.23343906811576
+          ],
+          [
+            0.12426071836404715,
+            0.21693149580374665,
+            1.5267484201047708e-17,
+            41.85448004025872
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "8ada3be6-ae94-4a45-a272-87ebfc783110",
+        "name": "ice 0",
+        "group": "CURRENT ice slot=0 global=0",
+        "kind": "current_ingredient",
+        "machine": "barrel",
+        "item": "ice",
+        "index": 0,
+        "slot": 0,
+        "count": 1,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": null,
+        "declared_size": [
+          4.0,
+          4.0,
+          4.0
+        ],
+        "world_vertex_bounds": [
+          [
+            17.58641480727908,
+            40.375051082212444,
+            42.44580013516733
+          ],
+          [
+            23.28858519272092,
+            45.9732979823761,
+            46.72607486483267
+          ]
+        ],
+        "face_count": 6,
+        "matrix": [
+          [
+            -0.8654682074218711,
+            0.06310042791103299,
+            0.49697396102755487,
+            20.4375
+          ],
+          [
+            0.49565831586868,
+            -0.036137955803303305,
+            0.8677654533689287,
+            43.17417453229427
+          ],
+          [
+            0.07271599447299729,
+            0.9973526879433389,
+            6.107023884554095e-17,
+            44.5859375
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "1b4fcdd0-c107-486d-94d8-ed9ce6eaf36a",
+        "name": "stone 0",
+        "group": "SOURCE stone slot=0 global=0",
+        "kind": "source_ingredient",
+        "machine": "pressing_tub",
+        "item": "stone",
+        "index": 0,
+        "slot": 0,
+        "count": 1,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": null,
+        "declared_size": [
+          4,
+          4,
+          4
+        ],
+        "world_vertex_bounds": [
+          [
+            -29.13244883175144,
+            1.1701998425497169,
+            82.87046219129022
+          ],
+          [
+            -23.667551358983424,
+            5.178149251841152,
+            88.3295376179749
+          ]
+        ],
+        "face_count": 6,
+        "matrix": [
+          [
+            -0.21693126555984954,
+            0.12426058647784063,
+            -0.00036424001031078857,
+            -25.655720742628873
+          ],
+          [
+            -0.00031606052107317344,
+            0.0001810429013525728,
+            0.24999973465828895,
+            1.1752568108868877
+          ],
+          [
+            0.12426071836404715,
+            0.21693149580374665,
+            1.5308068741848058e-17,
+            82.87046219129022
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "d8c50593-716c-46b9-ab84-cf32e958972d",
+        "name": "stone 0",
+        "group": "CURRENT stone slot=0 global=0",
+        "kind": "current_ingredient",
+        "machine": "pressing_tub",
+        "item": "stone",
+        "index": 0,
+        "slot": 0,
+        "count": 1,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": null,
+        "declared_size": [
+          4,
+          4,
+          4
+        ],
+        "world_vertex_bounds": [
+          [
+            23.666168805940526,
+            1.1703654116896836,
+            82.87208367120702
+          ],
+          [
+            29.130706194059474,
+            5.177983652898863,
+            88.33104132879298
+          ]
+        ],
+        "face_count": 6,
+        "matrix": [
+          [
+            -0.8677646074923514,
+            0.49697347658947133,
+            0.0013962629479142773,
+            26.3984375
+          ],
+          [
+            -0.0012116287500191002,
+            0.0006939063278609158,
+            -0.9999990252244151,
+            3.1741745322942734
+          ],
+          [
+            -0.49697396102755487,
+            -0.8677654533689287,
+            6.123228026957767e-17,
+            85.6015625
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "c73ad65f-b55a-4712-ade8-21d30c7bf850",
+        "name": "ice 0",
+        "group": "SOURCE ice slot=0 global=0",
+        "kind": "source_ingredient",
+        "machine": "pressing_tub",
+        "item": "ice",
+        "index": 0,
+        "slot": 0,
+        "count": 1,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": null,
+        "declared_size": [
+          4,
+          4,
+          4
+        ],
+        "world_vertex_bounds": [
+          [
+            -29.13244883175144,
+            1.1701998425497169,
+            126.87046219129022
+          ],
+          [
+            -23.667551358983424,
+            5.178149251841152,
+            132.32953761797492
+          ]
+        ],
+        "face_count": 6,
+        "matrix": [
+          [
+            -0.21693126555984954,
+            0.12426058647784063,
+            -0.00036424001031078857,
+            -25.655720742628873
+          ],
+          [
+            -0.00031606052107317344,
+            0.0001810429013525728,
+            0.24999973465828895,
+            1.1752568108868877
+          ],
+          [
+            0.12426071836404715,
+            0.21693149580374665,
+            1.5308068741848058e-17,
+            126.87046219129022
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "97cf4b96-84c3-46d0-aad6-8aebd1aaf8e4",
+        "name": "ice 0",
+        "group": "CURRENT ice slot=0 global=0",
+        "kind": "current_ingredient",
+        "machine": "pressing_tub",
+        "item": "ice",
+        "index": 0,
+        "slot": 0,
+        "count": 1,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": null,
+        "declared_size": [
+          4,
+          4,
+          4
+        ],
+        "world_vertex_bounds": [
+          [
+            23.666168805940526,
+            1.1703654116896836,
+            126.87208367120702
+          ],
+          [
+            29.130706194059474,
+            5.177983652898863,
+            132.33104132879296
+          ]
+        ],
+        "face_count": 6,
+        "matrix": [
+          [
+            -0.8677646074923514,
+            0.49697347658947133,
+            0.0013962629479142773,
+            26.3984375
+          ],
+          [
+            -0.0012116287500191002,
+            0.0006939063278609158,
+            -0.9999990252244151,
+            3.1741745322942734
+          ],
+          [
+            -0.49697396102755487,
+            -0.8677654533689287,
+            6.123228026957767e-17,
+            129.6015625
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      }
+    ],
+    "body_roots": [
+      {
+        "name": "SOURCE world -X | brew/BarrelModel",
+        "origin": [
+          -24,
+          0,
+          0
+        ]
+      },
+      {
+        "name": "CURRENT world +X | barrel_open",
+        "origin": [
+          24,
+          0,
+          0
+        ]
+      },
+      {
+        "name": "SOURCE world -X | brew/BarrelModel",
+        "origin": [
+          -24,
+          0,
+          44
+        ]
+      },
+      {
+        "name": "CURRENT world +X | barrel_open",
+        "origin": [
+          24,
+          0,
+          44
+        ]
+      },
+      {
+        "name": "SOURCE world -X | block/brew/pressing_tub",
+        "origin": [
+          -24,
+          0,
+          88
+        ]
+      },
+      {
+        "name": "CURRENT world +X | pressing_tub",
+        "origin": [
+          24,
+          0,
+          88
+        ]
+      },
+      {
+        "name": "SOURCE world -X | block/brew/pressing_tub",
+        "origin": [
+          -24,
+          0,
+          132
+        ]
+      },
+      {
+        "name": "CURRENT world +X | pressing_tub",
+        "origin": [
+          24,
+          0,
+          132
+        ]
+      }
+    ]
+  },
+  {
+    "scene": "scenes/pressing-card-tilt-east.bbmodel",
+    "sha256": "99917f01ebca6ec6edb278b2847079e43426dc7ed03fa3ebbf1edc68e02886e1",
+    "content_meshes": [
+      {
+        "uuid": "27d876f0-1dd6-48d5-9e46-08424c01df9f",
+        "name": "grape 0",
+        "group": "SOURCE grape slot=0 global=0 tilt=1",
+        "kind": "source_ingredient",
+        "machine": "pressing_tub",
+        "item": "grape",
+        "index": 0,
+        "slot": 0,
+        "count": 64,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": 1,
+        "declared_size": [
+          8,
+          8,
+          0.5
+        ],
+        "world_vertex_bounds": [
+          [
+            -29.734258114164128,
+            5.4646113204034945,
+            -3.0586375619539696
+          ],
+          [
+            -21.85718537743319,
+            13.73217055712987,
+            7.858637752688833
+          ]
+        ],
+        "face_count": 35,
+        "matrix": [
+          [
+            -0.1471660865218001,
+            0.3231498670055421,
+            -0.3520174802934628,
+            -24.387452147320893
+          ],
+          [
+            0.20429629983951786,
+            -0.29042505993753925,
+            -0.35201748029346286,
+            13.103560861898556
+          ],
+          [
+            -0.4319781995074981,
+            -0.24744180732967733,
+            -0.04655520524799536,
+            8.207801792048798
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "30ab4275-44e4-44ed-8648-a6c35da345af",
+        "name": "grape 0",
+        "group": "CURRENT grape slot=0 global=0 tilt=1",
+        "kind": "current_ingredient",
+        "machine": "pressing_tub",
+        "item": "grape",
+        "index": 0,
+        "slot": 0,
+        "count": 64,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": 1,
+        "declared_size": [
+          4,
+          4,
+          0.25
+        ],
+        "world_vertex_bounds": [
+          [
+            39.62804992315443,
+            4.138543791944547,
+            -0.3308285192321119
+          ],
+          [
+            43.566522089744375,
+            8.272222538945833,
+            5.127703519232108
+          ]
+        ],
+        "face_count": 2,
+        "matrix": [
+          [
+            0.2943082731341019,
+            0.6463073987867919,
+            -0.7040379156254822,
+            41.5972860064494
+          ],
+          [
+            -0.4085190426973441,
+            -0.5808982743263847,
+            -0.7040379156254823,
+            6.205383165445189
+          ],
+          [
+            -0.8639993241423679,
+            0.4948170784826238,
+            0.09306571185701273,
+            2.3984374999999982
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "b556514f-fa7a-411d-a01c-1209af6e8dd7",
+        "name": "grape 7",
+        "group": "SOURCE grape slot=0 global=7 tilt=1",
+        "kind": "source_ingredient",
+        "machine": "pressing_tub",
+        "item": "grape",
+        "index": 7,
+        "slot": 0,
+        "count": 64,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": 1,
+        "declared_size": [
+          8,
+          8,
+          0.5
+        ],
+        "world_vertex_bounds": [
+          [
+            -25.821402812945827,
+            2.5339838929978935,
+            -7.643644660625776
+          ],
+          [
+            -17.529347581565283,
+            10.91723675722003,
+            3.646040290508587
+          ]
+        ],
+        "face_count": 35,
+        "matrix": [
+          [
+            0.28687437668381716,
+            -0.2093828104405789,
+            -0.351940237390208,
+            -19.479785828079798
+          ],
+          [
+            -0.24210060553011314,
+            0.2598564336468824,
+            -0.35194023739020797,
+            9.399085599296471
+          ],
+          [
+            0.3302883419138858,
+            0.3723351616277034,
+            0.04770889446893608,
+            -8.001461369142797
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "cab058b9-352a-484f-934a-0cfeff7bca6f",
+        "name": "grape 7",
+        "group": "CURRENT grape slot=0 global=7 tilt=1",
+        "kind": "current_ingredient",
+        "machine": "pressing_tub",
+        "item": "grape",
+        "index": 7,
+        "slot": 0,
+        "count": 64,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": 1,
+        "declared_size": [
+          4,
+          4,
+          0.25
+        ],
+        "world_vertex_bounds": [
+          [
+            36.651068346278855,
+            8.230238884403278,
+            -4.822481586406109
+          ],
+          [
+            40.79734178349296,
+            12.4218215787065,
+            0.8224815864061061
+          ]
+        ],
+        "face_count": 2,
+        "matrix": [
+          [
+            -0.5736063694057559,
+            -0.4189698013818714,
+            -0.703875016254436,
+            38.72420506488591
+          ],
+          [
+            0.4839398320939705,
+            0.5199636529659328,
+            -0.7038750162544362,
+            10.326030231554888
+          ],
+          [
+            0.6608918004408945,
+            -0.7443803497704372,
+            -0.09549828786755614,
+            -2.0000000000000018
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "2887e7ed-22f3-423a-ac96-7907a15e56be",
+        "name": "grape 8",
+        "group": "SOURCE grape slot=0 global=8 tilt=1",
+        "kind": "source_ingredient",
+        "machine": "pressing_tub",
+        "item": "grape",
+        "index": 8,
+        "slot": 0,
+        "count": 64,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": 1,
+        "declared_size": [
+          8,
+          8,
+          0.5
+        ],
+        "world_vertex_bounds": [
+          [
+            -28.60505854834965,
+            6.629828861695959,
+            -3.135514783270472
+          ],
+          [
+            -20.581211644113342,
+            14.972126314971735,
+            7.935514974005334
+          ]
+        ],
+        "face_count": 35,
+        "matrix": [
+          [
+            -0.16482746815678292,
+            0.3146709458446789,
+            -0.3518722802129203,
+            -22.9769046760313
+          ],
+          [
+            0.22245255091442656,
+            -0.27694902240200187,
+            -0.35187228021292033,
+            14.051927601937813
+          ],
+          [
+            -0.4163493344929101,
+            -0.27254620678297947,
+            -0.04870109686157219,
+            8.300773200467125
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "3fb4a627-2424-44b1-a51e-a69173b13809",
+        "name": "grape 8",
+        "group": "CURRENT grape slot=0 global=8 tilt=1",
+        "kind": "current_ingredient",
+        "machine": "pressing_tub",
+        "item": "grape",
+        "index": 8,
+        "slot": 0,
+        "count": 64,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": 1,
+        "declared_size": [
+          4,
+          4,
+          0.25
+        ],
+        "world_vertex_bounds": [
+          [
+            40.794009337642045,
+            5.322427310756178,
+            -0.3692271526217139
+          ],
+          [
+            44.80573572572468,
+            9.493512070602124,
+            5.16610215262171
+          ]
+        ],
+        "face_count": 2,
+        "matrix": [
+          [
+            0.3295504264221524,
+            0.6293971658691185,
+            -0.703744075670196,
+            42.79987253168336
+          ],
+          [
+            -0.44482091049774225,
+            -0.5539662747343567,
+            -0.7037440756701961,
+            7.407969690679151
+          ],
+          [
+            -0.8327850106893957,
+            0.5449592407261853,
+            0.09740919832440137,
+            2.3984374999999982
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "8e7be89d-5f6a-4c45-8ba3-6df3d275d3f7",
+        "name": "grape 63",
+        "group": "SOURCE grape slot=0 global=63 tilt=1",
+        "kind": "source_ingredient",
+        "machine": "pressing_tub",
+        "item": "grape",
+        "index": 63,
+        "slot": 0,
+        "count": 64,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": 1,
+        "declared_size": [
+          8,
+          8,
+          0.5
+        ],
+        "world_vertex_bounds": [
+          [
+            -20.893094824352858,
+            8.557500404719312,
+            -7.105242892746656
+          ],
+          [
+            -13.099945895686963,
+            16.521001971754,
+            3.547084018234936
+          ]
+        ],
+        "face_count": 35,
+        "matrix": [
+          [
+            0.14025082498802463,
+            0.3247347673131035,
+            -0.3533794518478444,
+            -17.88936948364618
+          ],
+          [
+            -0.16032514690800348,
+            -0.31530748529117425,
+            -0.3533794518478445,
+            19.171347860612833
+          ],
+          [
+            -0.45235556076951855,
+            0.21243474437450305,
+            0.015682028677246006,
+            0.014830864486296225
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "6e59eb12-cdd8-43f4-bd47-aad6ad185af5",
+        "name": "grape 63",
+        "group": "CURRENT grape slot=0 global=63 tilt=1",
+        "kind": "current_ingredient",
+        "machine": "pressing_tub",
+        "item": "grape",
+        "index": 63,
+        "slot": 0,
+        "count": 64,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": 1,
+        "declared_size": [
+          4,
+          4,
+          0.25
+        ],
+        "world_vertex_bounds": [
+          [
+            42.59062701625122,
+            13.011892146134299,
+            -4.445075885131446
+          ],
+          [
+            46.48827949792309,
+            16.99466474943377,
+            0.8825758851314416
+          ]
+        ],
+        "face_count": 2,
+        "matrix": [
+          [
+            -0.2809745271753095,
+            0.6492662265754652,
+            -0.70675786667505,
+            44.53945325708715
+          ],
+          [
+            0.3211683215336258,
+            -0.630352462624051,
+            -0.7067578666750501,
+            15.003278447784034
+          ],
+          [
+            -0.9043805749361742,
+            -0.42556919518716463,
+            -0.03141075907812824,
+            -1.781250000000002
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      }
+    ],
+    "body_roots": []
+  },
+  {
+    "scene": "scenes/pressing-card-tilt-north.bbmodel",
+    "sha256": "29497408d8804c6bf7149d5ee236d745c71102c44260b7759e0eea7a44efee2e",
+    "content_meshes": [
+      {
+        "uuid": "561f117b-a867-452b-81f7-e98cc684f1ca",
+        "name": "grape 0",
+        "group": "SOURCE grape slot=0 global=0 tilt=0",
+        "kind": "source_ingredient",
+        "machine": "pressing_tub",
+        "item": "grape",
+        "index": 0,
+        "slot": 0,
+        "count": 64,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": 0,
+        "declared_size": [
+          8,
+          8,
+          0.5
+        ],
+        "world_vertex_bounds": [
+          [
+            -31.858637752688832,
+            2.2657418858358698,
+            -4.76160780865273
+          ],
+          [
+            -20.94136243804603,
+            10.142814622566807,
+            3.5059514280736477
+          ]
+        ],
+        "face_count": 35,
+        "matrix": [
+          [
+            0.4319781995074981,
+            0.24744180732967735,
+            0.04655520524799534,
+            -32.2078017920488
+          ],
+          [
+            -0.14716608652180008,
+            0.32314986700554205,
+            -0.35201748029346286,
+            7.612547852679105
+          ],
+          [
+            -0.2042962998395179,
+            0.2904250599375393,
+            0.3520174802934628,
+            -4.132998113421415
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "016c9149-28b9-4a5e-8755-08cab2a65126",
+        "name": "grape 0",
+        "group": "CURRENT grape slot=0 global=0 tilt=0",
+        "kind": "current_ingredient",
+        "machine": "pressing_tub",
+        "item": "grape",
+        "index": 0,
+        "slot": 0,
+        "count": 64,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": 0,
+        "declared_size": [
+          4,
+          4,
+          0.25
+        ],
+        "world_vertex_bounds": [
+          [
+            23.66917148076789,
+            -9.342512825322704,
+            -3.861456208055454
+          ],
+          [
+            29.12770351923211,
+            -5.404040658732757,
+            0.2722225389458326
+          ]
+        ],
+        "face_count": 2,
+        "matrix": [
+          [
+            -0.8639993241423679,
+            0.49481707848262385,
+            0.09306571185701269,
+            26.3984375
+          ],
+          [
+            0.2943082731341019,
+            0.6463073987867918,
+            -0.7040379156254823,
+            -7.3732767420277305
+          ],
+          [
+            -0.4085190426973442,
+            -0.5808982743263849,
+            -0.7040379156254822,
+            -1.7946168345548108
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "9f78ee51-1a10-4fab-9918-0d293deb7163",
+        "name": "grape 7",
+        "group": "SOURCE grape slot=0 global=7 tilt=0",
+        "kind": "source_ingredient",
+        "machine": "pressing_tub",
+        "item": "grape",
+        "index": 7,
+        "slot": 0,
+        "count": 64,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": 0,
+        "declared_size": [
+          8,
+          8,
+          0.5
+        ],
+        "world_vertex_bounds": [
+          [
+            -27.646040290508587,
+            6.178597187054172,
+            -1.946674008742891
+          ],
+          [
+            -16.356355339374225,
+            14.470652418434716,
+            6.436578855479247
+          ]
+        ],
+        "face_count": 35,
+        "matrix": [
+          [
+            -0.3302883419138858,
+            -0.3723351616277034,
+            -0.0477088944689361,
+            -15.998538630857205
+          ],
+          [
+            0.28687437668381716,
+            -0.20938281044057885,
+            -0.3519402373902081,
+            12.520214171920202
+          ],
+          [
+            0.2421006055301132,
+            -0.25985643364688243,
+            0.3519402373902079,
+            -0.42852285081933106
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "516db22c-bc3f-4856-94ec-2a96d20c3218",
+        "name": "grape 7",
+        "group": "CURRENT grape slot=0 global=7 tilt=0",
+        "kind": "current_ingredient",
+        "machine": "pressing_tub",
+        "item": "grape",
+        "index": 7,
+        "slot": 0,
+        "count": 64,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": 0,
+        "declared_size": [
+          4,
+          4,
+          0.25
+        ],
+        "world_vertex_bounds": [
+          [
+            19.17751841359389,
+            -12.319494402198288,
+            0.23023888440327767
+          ],
+          [
+            24.82248158640611,
+            -8.173220964984168,
+            4.4218215787065
+          ]
+        ],
+        "face_count": 2,
+        "matrix": [
+          [
+            0.6608918004408945,
+            -0.7443803497704372,
+            -0.09549828786755618,
+            22.0
+          ],
+          [
+            -0.5736063694057559,
+            -0.4189698013818713,
+            -0.7038750162544362,
+            -10.246357683591228
+          ],
+          [
+            0.48393983209397057,
+            0.5199636529659328,
+            -0.703875016254436,
+            2.326030231554889
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "b3d727dd-3a2c-4bbd-9d6f-29c762eea052",
+        "name": "grape 8",
+        "group": "SOURCE grape slot=0 global=8 tilt=0",
+        "kind": "source_ingredient",
+        "machine": "pressing_tub",
+        "item": "grape",
+        "index": 8,
+        "slot": 0,
+        "count": 64,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": 0,
+        "declared_size": [
+          8,
+          8,
+          0.5
+        ],
+        "world_vertex_bounds": [
+          [
+            -31.935514974005336,
+            3.3949414516503493,
+            -6.001563566494594
+          ],
+          [
+            -20.86448521672953,
+            11.418788355886658,
+            2.3407338867811815
+          ]
+        ],
+        "face_count": 35,
+        "matrix": [
+          [
+            0.4163493344929101,
+            0.27254620678297947,
+            0.04870109686157217,
+            -32.30077320046713
+          ],
+          [
+            -0.1648274681567829,
+            0.31467094584467886,
+            -0.35187228021292033,
+            9.023095323968699
+          ],
+          [
+            -0.2224525509144266,
+            0.27694902240200187,
+            0.3518722802129203,
+            -5.081364853460671
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "b0c76572-dacf-4482-b232-4107a092a733",
+        "name": "grape 8",
+        "group": "CURRENT grape slot=0 global=8 tilt=0",
+        "kind": "current_ingredient",
+        "machine": "pressing_tub",
+        "item": "grape",
+        "index": 8,
+        "slot": 0,
+        "count": 64,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": 0,
+        "declared_size": [
+          4,
+          4,
+          0.25
+        ],
+        "world_vertex_bounds": [
+          [
+            23.630772847378285,
+            -8.176553410835085,
+            -2.677572689243822
+          ],
+          [
+            29.166102152621715,
+            -4.164827022752453,
+            1.4935120706021232
+          ]
+        ],
+        "face_count": 2,
+        "matrix": [
+          [
+            -0.8327850106893957,
+            0.5449592407261853,
+            0.09740919832440133,
+            26.3984375
+          ],
+          [
+            0.3295504264221524,
+            0.6293971658691184,
+            -0.7037440756701961,
+            -6.170690216793769
+          ],
+          [
+            -0.4448209104977423,
+            -0.5539662747343568,
+            -0.703744075670196,
+            -0.5920303093208494
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "f486ef40-1266-4d87-a1c8-a9924b693d15",
+        "name": "grape 63",
+        "group": "SOURCE grape slot=0 global=63 tilt=0",
+        "kind": "source_ingredient",
+        "machine": "pressing_tub",
+        "item": "grape",
+        "index": 63,
+        "slot": 0,
+        "count": 64,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": 0,
+        "declared_size": [
+          8,
+          8,
+          0.5
+        ],
+        "world_vertex_bounds": [
+          [
+            -27.547084018234933,
+            11.106905175647137,
+            -7.550439223276861
+          ],
+          [
+            -16.894757107253344,
+            18.900054104313032,
+            0.41306234375782847
+          ]
+        ],
+        "face_count": 35,
+        "matrix": [
+          [
+            0.45235556076951855,
+            -0.21243474437450302,
+            -0.015682028677246027,
+            -24.014830864486296
+          ],
+          [
+            0.14025082498802457,
+            0.32473476731310347,
+            -0.3533794518478445,
+            14.110630516353815
+          ],
+          [
+            0.1603251469080035,
+            0.3153074852911743,
+            0.3533794518478444,
+            -10.200785112135694
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "cbb4c565-b6d0-486e-91c3-ef85c7e8db97",
+        "name": "grape 63",
+        "group": "CURRENT grape slot=0 global=63 tilt=0",
+        "kind": "current_ingredient",
+        "machine": "pressing_tub",
+        "item": "grape",
+        "index": 63,
+        "slot": 0,
+        "count": 64,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": 0,
+        "declared_size": [
+          4,
+          4,
+          0.25
+        ],
+        "world_vertex_bounds": [
+          [
+            19.554924114868555,
+            -6.379935732225914,
+            5.011892146134298
+          ],
+          [
+            24.882575885131445,
+            -2.4822832505540537,
+            8.994664749433769
+          ]
+        ],
+        "face_count": 2,
+        "matrix": [
+          [
+            -0.9043805749361742,
+            -0.4255691951871646,
+            -0.031410759078128285,
+            22.21875
+          ],
+          [
+            -0.2809745271753094,
+            0.6492662265754652,
+            -0.7067578666750501,
+            -4.431109491389984
+          ],
+          [
+            0.32116832153362584,
+            -0.6303524626240511,
+            -0.70675786667505,
+            7.003278447784034
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      }
+    ],
+    "body_roots": [
+      {
+        "name": "SOURCE world -X | block/brew/tilt_pressing_tub",
+        "origin": [
+          -24,
+          0,
+          0
+        ]
+      },
+      {
+        "name": "CURRENT world +X | pressing_tub_tilt",
+        "origin": [
+          24,
+          0,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "scene": "scenes/pressing-card-upright.bbmodel",
+    "sha256": "a169ea476b961e542282782ba965f2e410d0ab4773783caa6ef4a2dae50f5208",
+    "content_meshes": [
+      {
+        "uuid": "5e54d106-124c-49c4-acaa-75da5aa7e823",
+        "name": "grape 0",
+        "group": "SOURCE grape slot=0 global=0",
+        "kind": "source_ingredient",
+        "machine": "pressing_tub",
+        "item": "grape",
+        "index": 0,
+        "slot": 0,
+        "count": 64,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": null,
+        "declared_size": [
+          8,
+          8,
+          0.5
+        ],
+        "world_vertex_bounds": [
+          [
+            -31.858637752688832,
+            2.416963845876537,
+            -7.859075522052132
+          ],
+          [
+            -20.94136243804603,
+            3.931385248514332,
+            3.059075331317269
+          ]
+        ],
+        "face_count": 35,
+        "matrix": [
+          [
+            0.4319781995074981,
+            0.24744180732967735,
+            0.04655520524799534,
+            -32.2078017920488
+          ],
+          [
+            0.04039716124759226,
+            0.023139932990806234,
+            -0.4978278948234189,
+            6.648500951875597
+          ],
+          [
+            -0.2485214367280943,
+            0.4338629916074933,
+            -4.8068695232042053e-20,
+            -3.882732534402624
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "a231c8e9-6fab-4da7-813a-da06d1e84153",
+        "name": "grape 0",
+        "group": "CURRENT grape slot=0 global=0",
+        "kind": "current_ingredient",
+        "machine": "pressing_tub",
+        "item": "grape",
+        "index": 0,
+        "slot": 0,
+        "count": 64,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": null,
+        "declared_size": [
+          4,
+          4,
+          0.25
+        ],
+        "world_vertex_bounds": [
+          [
+            23.66917148076789,
+            2.7956961460062053,
+            -5.127916328792967
+          ],
+          [
+            29.12770351923211,
+            3.5526529185823414,
+            0.3310413287929672
+          ]
+        ],
+        "face_count": 2,
+        "matrix": [
+          [
+            -0.8639993241423679,
+            0.49481707848262385,
+            0.09306571185701269,
+            26.3984375
+          ],
+          [
+            -0.08075920964270274,
+            0.046251235457428624,
+            -0.9956599687024419,
+            3.1741745322942734
+          ],
+          [
+            -0.49697396102755487,
+            -0.8677654533689287,
+            6.096658968552996e-17,
+            -2.3984375
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "2b227dfb-7201-46b1-bf00-ede6aae9e3d6",
+        "name": "grape 7",
+        "group": "SOURCE grape slot=0 global=7",
+        "kind": "source_ingredient",
+        "machine": "pressing_tub",
+        "item": "grape",
+        "index": 7,
+        "slot": 0,
+        "count": 64,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": null,
+        "declared_size": [
+          8,
+          8,
+          0.5
+        ],
+        "world_vertex_bounds": [
+          [
+            -27.646040290508587,
+            3.2686769237607205,
+            -3.1018648452321664
+          ],
+          [
+            -16.356355339374225,
+            4.8439968356997305,
+            8.191639930681385
+          ]
+        ],
+        "face_count": 35,
+        "matrix": [
+          [
+            -0.3302883419138858,
+            -0.3723351616277034,
+            -0.0477088944689361,
+            -15.998538630857205
+          ],
+          [
+            0.031659837202078725,
+            0.03569024124023196,
+            -0.4977186568620388,
+            7.49928550708805
+          ],
+          [
+            0.37404179700150353,
+            -0.33180225149309345,
+            -7.628338694462232e-17,
+            2.206971178657329
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "d1d3172b-e2c2-4502-864c-e1ab6c40302e",
+        "name": "grape 7",
+        "group": "CURRENT grape slot=0 global=7",
+        "kind": "current_ingredient",
+        "machine": "pressing_tub",
+        "item": "grape",
+        "index": 7,
+        "slot": 0,
+        "count": 64,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": null,
+        "declared_size": [
+          4,
+          4,
+          0.25
+        ],
+        "world_vertex_bounds": [
+          [
+            19.17751841359389,
+            3.662273791880353,
+            -0.27657360630154715
+          ],
+          [
+            24.82248158640611,
+            4.450400205998676,
+            5.370323606301548
+          ]
+        ],
+        "face_count": 2,
+        "matrix": [
+          [
+            0.6608918004408945,
+            -0.7443803497704372,
+            -0.09549828786755618,
+            22.0
+          ],
+          [
+            -0.06340381657868008,
+            0.07141343731323764,
+            -0.9954295942026062,
+            4.056336998939514
+          ],
+          [
+            0.7477980904985316,
+            0.6639262126522419,
+            6.095248331583852e-17,
+            2.546875
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "be331c72-3f90-437a-b9bc-467ef9cf6416",
+        "name": "grape 8",
+        "group": "SOURCE grape slot=0 global=8",
+        "kind": "source_ingredient",
+        "machine": "pressing_tub",
+        "item": "grape",
+        "index": 8,
+        "slot": 0,
+        "count": 64,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": null,
+        "declared_size": [
+          8,
+          8,
+          0.5
+        ],
+        "world_vertex_bounds": [
+          [
+            -31.935514974005336,
+            4.086713504291349,
+            -7.937494648454676
+          ],
+          [
+            -20.86448521672953,
+            5.663064289592927,
+            3.137494457719813
+          ]
+        ],
+        "face_count": 35,
+        "matrix": [
+          [
+            0.4163493344929101,
+            0.27254620678297947,
+            0.04870109686157217,
+            -32.30077320046713
+          ],
+          [
+            0.040747086784365845,
+            0.026673427865716692,
+            -0.4976225509002579,
+            8.316505186943541
+          ],
+          [
+            -0.2738483277033077,
+            0.4183384914325979,
+            3.066154590194034e-18,
+            -3.555921405201753
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "2f61c3d0-4e65-4b8f-8569-425c582bb0ab",
+        "name": "grape 8",
+        "group": "CURRENT grape slot=0 global=8",
+        "kind": "current_ingredient",
+        "machine": "pressing_tub",
+        "item": "grape",
+        "index": 8,
+        "slot": 0,
+        "count": 64,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": null,
+        "declared_size": [
+          4,
+          4,
+          0.25
+        ],
+        "world_vertex_bounds": [
+          [
+            23.630772847378285,
+            4.480790682990033,
+            -5.167092573903023
+          ],
+          [
+            29.166102152621715,
+            5.268986729424519,
+            0.3702175739030238
+          ]
+        ],
+        "face_count": 2,
+        "matrix": [
+          [
+            -0.8327850106893957,
+            0.5449592407261853,
+            0.09740919832440133,
+            26.3984375
+          ],
+          [
+            -0.08150854096050554,
+            0.053337694632334266,
+            -0.995244416252509,
+            4.874888706207276
+          ],
+          [
+            -0.5475632234925503,
+            -0.8367643134589616,
+            6.094114443664556e-17,
+            -2.3984375
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "004daa75-ca75-46c8-80af-5d303235c510",
+        "name": "grape 63",
+        "group": "SOURCE grape slot=0 global=63",
+        "kind": "source_ingredient",
+        "machine": "pressing_tub",
+        "item": "grape",
+        "index": 63,
+        "slot": 0,
+        "count": 64,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": null,
+        "declared_size": [
+          8,
+          8,
+          0.5
+        ],
+        "world_vertex_bounds": [
+          [
+            -27.547084018234933,
+            11.058888460668612,
+            -3.5784675517939273
+          ],
+          [
+            -16.894757107253344,
+            11.892415021387052,
+            7.063412849035139
+          ]
+        ],
+        "face_count": 35,
+        "matrix": [
+          [
+            0.45235556076951855,
+            -0.21243474437450302,
+            -0.015682028677246027,
+            -24.014830864486296
+          ],
+          [
+            -0.014194689157338831,
+            0.0066660950458641245,
+            -0.4997540134671917,
+            15.533912601657164
+          ],
+          [
+            0.21253930798941859,
+            0.45257821706239804,
+            -5.662966596990548e-17,
+            -3.578467551793927
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "578a2f6f-6c18-427e-94af-7b93c2c31592",
+        "name": "grape 63",
+        "group": "CURRENT grape slot=0 global=63",
+        "kind": "current_ingredient",
+        "machine": "pressing_tub",
+        "item": "grape",
+        "index": 63,
+        "slot": 0,
+        "count": 64,
+        "amount": null,
+        "time_ticks": 0,
+        "tilt_facing": null,
+        "declared_size": [
+          4,
+          4,
+          0.25
+        ],
+        "world_vertex_bounds": [
+          [
+            19.554924114868555,
+            11.26712333027004,
+            -0.9190251880621852
+          ],
+          [
+            24.882575885131445,
+            11.684181391562232,
+            4.403400188062185
+          ]
+        ],
+        "face_count": 2,
+        "matrix": [
+          [
+            -0.9043805749361742,
+            -0.4255691951871646,
+            -0.031410759078128285,
+            22.21875
+          ],
+          [
+            0.028421304552383096,
+            0.013374050747806607,
+            -0.9995065603657316,
+            11.475652360916136
+          ],
+          [
+            0.4257792915650735,
+            -0.9048270524660191,
+            6.12021254939337e-17,
+            1.7421875
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      }
+    ],
+    "body_roots": [
+      {
+        "name": "SOURCE world -X | block/brew/pressing_tub",
+        "origin": [
+          -24,
+          0,
+          0
+        ]
+      },
+      {
+        "name": "CURRENT world +X | pressing_tub",
+        "origin": [
+          24,
+          0,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "scene": "scenes/pressing_tub-liquids.bbmodel",
+    "sha256": "18fd8f232361519c125e1ebd15e2b763ecb3ec9006ebfdd55abc03c60ab6e42c",
+    "content_meshes": [
+      {
+        "uuid": "52b0e2c3-6b4b-4d0c-9419-6eb733dbef76",
+        "name": "pressing_tub water source",
+        "group": "SOURCE water amount=250 frame0",
+        "kind": "source_fluid",
+        "machine": "pressing_tub",
+        "item": null,
+        "index": null,
+        "slot": null,
+        "count": null,
+        "amount": 250,
+        "time_ticks": null,
+        "tilt_facing": null,
+        "declared_size": 12,
+        "world_vertex_bounds": [
+          [
+            -30.0,
+            3.0,
+            -6.0
+          ],
+          [
+            -18.0,
+            3.0,
+            6.0
+          ]
+        ],
+        "face_count": 1,
+        "matrix": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -24.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "ec008e7b-c250-4723-ae22-4f1048f5bd6f",
+        "name": "pressing_tub water current",
+        "group": "CURRENT water amount=250 frame0",
+        "kind": "current_fluid",
+        "machine": "pressing_tub",
+        "item": null,
+        "index": null,
+        "slot": null,
+        "count": null,
+        "amount": 250,
+        "time_ticks": null,
+        "tilt_facing": null,
+        "declared_size": null,
+        "world_vertex_bounds": [
+          [
+            18.0,
+            3.0,
+            -6.0
+          ],
+          [
+            30.0,
+            3.0,
+            6.0
+          ]
+        ],
+        "face_count": 1,
+        "matrix": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            24.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "05afab99-3bfb-4d39-ba8b-cef19cf008a5",
+        "name": "pressing_tub lava source",
+        "group": "SOURCE lava amount=1000 frame0",
+        "kind": "source_fluid",
+        "machine": "pressing_tub",
+        "item": null,
+        "index": null,
+        "slot": null,
+        "count": null,
+        "amount": 1000,
+        "time_ticks": null,
+        "tilt_facing": null,
+        "declared_size": 12,
+        "world_vertex_bounds": [
+          [
+            -30.0,
+            6.0,
+            38.0
+          ],
+          [
+            -18.0,
+            6.0,
+            50.0
+          ]
+        ],
+        "face_count": 1,
+        "matrix": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -24.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            44.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "c5a04cd0-dd9b-4055-b188-6c75ff35a2a2",
+        "name": "pressing_tub lava current",
+        "group": "CURRENT lava amount=1000 frame0",
+        "kind": "current_fluid",
+        "machine": "pressing_tub",
+        "item": null,
+        "index": null,
+        "slot": null,
+        "count": null,
+        "amount": 1000,
+        "time_ticks": null,
+        "tilt_facing": null,
+        "declared_size": null,
+        "world_vertex_bounds": [
+          [
+            18.0,
+            6.0,
+            38.0
+          ],
+          [
+            30.0,
+            6.0,
+            50.0
+          ]
+        ],
+        "face_count": 1,
+        "matrix": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            24.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            44.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "732fd4a9-d2a5-412f-8291-0666591f717e",
+        "name": "pressing_tub grape source",
+        "group": "SOURCE grape amount=1000 frame0",
+        "kind": "source_fluid",
+        "machine": "pressing_tub",
+        "item": null,
+        "index": null,
+        "slot": null,
+        "count": null,
+        "amount": 1000,
+        "time_ticks": null,
+        "tilt_facing": null,
+        "declared_size": 12,
+        "world_vertex_bounds": [
+          [
+            -30.0,
+            6.0,
+            82.0
+          ],
+          [
+            -18.0,
+            6.0,
+            94.0
+          ]
+        ],
+        "face_count": 1,
+        "matrix": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -24.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            88.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "uuid": "db131935-74bc-48a6-9095-6e32f52a99fe",
+        "name": "pressing_tub grape current",
+        "group": "CURRENT grape amount=1000 frame0",
+        "kind": "current_fluid",
+        "machine": "pressing_tub",
+        "item": null,
+        "index": null,
+        "slot": null,
+        "count": null,
+        "amount": 1000,
+        "time_ticks": null,
+        "tilt_facing": null,
+        "declared_size": null,
+        "world_vertex_bounds": [
+          [
+            18.0,
+            6.0,
+            82.0
+          ],
+          [
+            30.0,
+            6.0,
+            94.0
+          ]
+        ],
+        "face_count": 1,
+        "matrix": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            24.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            88.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      }
+    ],
+    "body_roots": [
+      {
+        "name": "SOURCE world -X | block/brew/pressing_tub",
+        "origin": [
+          -24,
+          0,
+          0
+        ]
+      },
+      {
+        "name": "CURRENT world +X | pressing_tub",
+        "origin": [
+          24,
+          0,
+          0
+        ]
+      },
+      {
+        "name": "SOURCE world -X | block/brew/pressing_tub",
+        "origin": [
+          -24,
+          0,
+          44
+        ]
+      },
+      {
+        "name": "CURRENT world +X | pressing_tub",
+        "origin": [
+          24,
+          0,
+          44
+        ]
+      },
+      {
+        "name": "SOURCE world -X | block/brew/pressing_tub",
+        "origin": [
+          -24,
+          0,
+          88
+        ]
+      },
+      {
+        "name": "CURRENT world +X | pressing_tub",
+        "origin": [
+          24,
+          0,
+          88
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,37 @@
+##[group]Run python tools/baseline_gate.py check --release --history-base "7fb1afc86439d67703df202d04923d4bcdc4466b"
+2026-11-09T04:31:55.3448914Z [36;1mpython tools/baseline_gate.py check --release --history-base "7fb1afc86439d67703df202d04923d4bcdc4466b"[0m
+2026-11-09T04:31:55.3449854Z [36;1mpython tools/test_release_claim.py[0m
+2026-11-09T04:31:55.3541574Z shell: /usr/bin/bash -e {0}
+2026-11-09T04:31:55.3542015Z env:
+2026-11-09T04:31:55.3542506Z   SENLUO_WORLD_LIQUOR_REF: 2e4ad715bc56e68f7dde576c6b073df1e90f5c58
+2026-11-09T04:31:55.3543334Z   SENLUO_GRILLING_HOST_REF: 53a5dea20e777367fe2d11137b07085ba9e752ef
+2026-11-09T04:31:55.3544453Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-09T04:31:55.3545235Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+2026-11-09T04:31:55.3546006Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-09T04:31:55.3546694Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-09T04:31:55.3547451Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-09T04:31:55.3548148Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+2026-11-09T04:31:55.3548756Z ##[endgroup]
+2026-11-09T04:31:55.5661426Z Traceback (most recent call last):
+2026-11-09T04:31:55.5672052Z   File "/home/runner/work/kaleidoscope-tavern-unofficial/kaleidoscope-tavern-unofficial/tools/baseline_gate.py", line 150, in <module>
+2026-11-09T04:31:55.5673392Z     if __name__=='__main__':main()
+2026-11-09T04:31:55.5673893Z                             ^^^^^^
+2026-11-09T04:31:55.5675128Z   File "/home/runner/work/kaleidoscope-tavern-unofficial/kaleidoscope-tavern-unofficial/tools/baseline_gate.py", line 144, in main
+2026-11-09T04:31:55.5676672Z     trees,files=check(config,args.release,args.archive,args.history_base,identity)
+2026-11-09T04:31:55.5677617Z                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-09T04:31:55.5678917Z   File "/home/runner/work/kaleidoscope-tavern-unofficial/kaleidoscope-tavern-unofficial/tools/baseline_gate.py", line 107, in check
+2026-11-09T04:31:55.5679984Z     trees,files=validate(config)
+2026-11-09T04:31:55.5680620Z                 ^^^^^^^^^^^^^^^^
+2026-11-09T04:31:55.5681662Z   File "/home/runner/work/kaleidoscope-tavern-unofficial/kaleidoscope-tavern-unofficial/tools/baseline_gate.py", line 66, in validate
+2026-11-09T04:31:55.5682737Z     validate_release_projections(config)
+2026-11-09T04:31:55.5683992Z   File "/home/runner/work/kaleidoscope-tavern-unofficial/kaleidoscope-tavern-unofficial/tools/baseline_gate.py", line 38, in validate_release_projections
+2026-11-09T04:31:55.5685199Z     from baseline_reference import version_projection
+2026-11-09T04:31:55.5686305Z   File "/home/runner/work/kaleidoscope-tavern-unofficial/kaleidoscope-tavern-unofficial/tools/baseline_reference.py", line 14, in <module>
+2026-11-09T04:31:55.5687702Z     from machine_ingredient_geometry import check as check_pressing, runtime_sources as pressing_runtime_sources
+2026-11-09T04:31:55.5689200Z   File "/home/runner/work/kaleidoscope-tavern-unofficial/kaleidoscope-tavern-unofficial/tools/machine_ingredient_geometry.py", line 12, in <module>
+2026-11-09T04:31:55.5690551Z     from machine_ingredient_animation import bindings
+2026-11-09T04:31:55.5691749Z   File "/home/runner/work/kaleidoscope-tavern-unofficial/kaleidoscope-tavern-unofficial/tools/machine_ingredient_animation.py", line 16, in <module>
+2026-11-09T04:31:55.5692833Z     from PIL import Image
+2026-11-09T04:31:55.5693250Z ModuleNotFoundError: No module named 'PIL'
+2026-11-09T04:31:55.5794265Z ##[error]Process completed with exit code 1.
+2026-11-09T04:31:55.5945087Z 

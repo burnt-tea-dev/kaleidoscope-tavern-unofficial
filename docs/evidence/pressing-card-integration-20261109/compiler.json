@@ -1,0 +1,9 @@
+{
+  "path": "/workspace/scratch/f31f84fbb9ff/silverfish-native-review-20261108/bin/javac",
+  "bytes": 66,
+  "sha256": "eac1e450bea5199840215fe1cfac2924f8cf8bd0b51b98d7d30f6a1323a2a84f",
+  "content": "#!/bin/sh\nexec java -m jdk.compiler/com.sun.tools.javac.Main \"$@\"\n",
+  "version": "javac 21.0.13",
+  "single_command_PATH_only": true,
+  "installed_or_modified": false
+}

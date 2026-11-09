@@ -11,6 +11,7 @@ from collision_shape_projection import collision_preimage
 from current_extension_source_contract import check as check_current_extensions, runtime_sources as extension_runtime_sources
 from cultivation_source_contract import check as check_cultivation, runtime_sources as cultivation_runtime_sources
 from check_incense_surfaces import check as check_incense, runtime_sources as incense_runtime_sources
+from machine_ingredient_geometry import check as check_pressing, runtime_sources as pressing_runtime_sources
 from build_tavern_forms import CURRENT_FORM_SOURCES, check_or_write as check_current_forms
 
 # Only exact reviewed non-script assets and opt-in command entry points.
@@ -265,6 +266,9 @@ def previous_bytes(root,path):
   return data
  if root==Path(__file__).resolve().parents[1] and name in incense_runtime_sources():
   check_incense(root)
+  return data
+ if root==Path(__file__).resolve().parents[1] and name in pressing_runtime_sources():
+  check_pressing(root)
   return data
  data=t176_preimage(root,name,data)
  data=collision_preimage(root,name,data)

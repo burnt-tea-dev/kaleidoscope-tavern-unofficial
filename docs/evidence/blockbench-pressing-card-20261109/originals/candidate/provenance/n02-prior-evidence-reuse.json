@@ -1,0 +1,42 @@
+{
+  "shaker_held": [
+    {
+      "file": "runtime/RP/models/entity/runtime_shaker_held.geo.json",
+      "prior_commit": "e58b5a421d101f83418b82a960faa1b94d0c2a73",
+      "prior_sha256": "800ead78afb5e6de1950749231b1f841b29222305ba21705f79fee425add6a3f",
+      "current_sha256": "800ead78afb5e6de1950749231b1f841b29222305ba21705f79fee425add6a3f",
+      "exact_bytes_equal": true
+    },
+    {
+      "file": "runtime/RP/animations/runtime_shaker.animation.json",
+      "prior_commit": "e58b5a421d101f83418b82a960faa1b94d0c2a73",
+      "prior_sha256": "2740cf7f4bc4a05c432e98e591d964169b992bf8cb1553ecb4425be91f54fb06",
+      "current_sha256": "2740cf7f4bc4a05c432e98e591d964169b992bf8cb1553ecb4425be91f54fb06",
+      "exact_bytes_equal": true
+    },
+    {
+      "file": "runtime/RP/attachables/shaker.attachable.json",
+      "prior_commit": "e58b5a421d101f83418b82a960faa1b94d0c2a73",
+      "prior_sha256": "24f6036ff424ae59ddb9fc98c5a175a57a186c24bfa9230058e42ed6f584042d",
+      "current_sha256": "24f6036ff424ae59ddb9fc98c5a175a57a186c24bfa9230058e42ed6f584042d",
+      "exact_bytes_equal": true
+    },
+    {
+      "file": "runtime/RP/textures/kaleidoscope_tavern/block/mixology/shaker.png",
+      "prior_commit": "e58b5a421d101f83418b82a960faa1b94d0c2a73",
+      "prior_sha256": "8cf12cd2ab194d976735419a1366799f6260399fecf4f65f926d59157e311e6f",
+      "current_sha256": "8cf12cd2ab194d976735419a1366799f6260399fecf4f65f926d59157e311e6f",
+      "exact_bytes_equal": true
+    }
+  ],
+  "tilted_rack": {
+    "file": "runtime/RP/models/entity/item_display_tilted_rack.geo.json",
+    "recorded_sha256": "93030bd4f8289be846eea898052b36ed81c33626355c8e42fbcac95a73968ff7",
+    "current_sha256": "93030bd4f8289be846eea898052b36ed81c33626355c8e42fbcac95a73968ff7",
+    "exact_bytes_equal": true,
+    "selected_y_lift": 6,
+    "scope": "Historical editor held-view choice only; preserved, not reaccepted by N02."
+  },
+  "t174": "Read for scope only. No T174 item fixtures are duplicated by this body review. No current reuse claim is made for unexamined T174 model bytes.",
+  "allium": "Recorded first-person clipping is still unresolved. N02 makes no held/FOV claim."
+}

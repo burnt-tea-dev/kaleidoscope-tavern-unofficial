@@ -1,0 +1,46 @@
+--- originals/candidate/audit_review.py
++++ replay/audit_review.py
+@@ -3,12 +3,12 @@
+ selection. Exact-delta checks and adversarial controls are specific to this repair.
+ """
+ from pathlib import Path
+-import json, copy, hashlib, base64, io, re, subprocess
++import json, copy, hashlib, base64, io, re
+ import numpy as np
+ from PIL import Image
+ import audit_helpers as A
+ 
+-H=Path(__file__).resolve().parent; M=json.loads((H/'manifest.json').read_text())
++H=WORK; M=json.loads((H/'manifest.json').read_text())
+ R=H/'inputs/current/runtime/RP'; BP=H/'inputs/current/runtime/BP'
+ sha=lambda b:hashlib.sha256(b).hexdigest()
+ rd=lambda p:json.loads(p.read_text())
+@@ -43,13 +43,9 @@
+ bad=copy.deepcopy(after);bad['minecraft:geometry'][0]['bones'][1]['pivot'][1]=1
+ reject('candidate tilt pivot',lambda:exact_delta(before,bad))
+ 
+-# Enumerate all canonical resource consumers, rather than relying on a fixture list.
+-repo=H.parent/'tavern-wild-vine-repair-20261109'
+-assert subprocess.check_output(['git','-C',str(repo),'rev-parse',M['canonical']+'^{tree}']).decode().strip()==M['canonical_tree']
+-consumers=[]
+-for sub in ['entity','attachables']:
+-    for p in (repo/'runtime/RP'/sub).glob('*.json'):
+-        if 'geometry.kt_runtime.pressing_card' in p.read_text():consumers.append(str(p.relative_to(repo)))
++# Portable complete bounded census; no live checkout or Git subprocess.
++from census import verify_census
++consumers = verify_census(PACKAGE)
+ expected=[f'runtime/RP/entity/runtime_pressing_tub_ingredients{("_"+str(i)) if i else ""}.entity.json' for i in range(8)]
+ assert sorted(consumers)==sorted(expected)
+ routes=[];shared_textures=None
+
+--- originals/n03/validate_scenes.py
++++ replay/validate_n03.py
+@@ -7,7 +7,7 @@
+ import numpy as np
+ from scipy.spatial.transform import Rotation
+ from PIL import Image
+-H=Path(__file__).resolve().parent;M=json.loads((H/'manifest.json').read_text());I=H/'inputs';R=I/'current/runtime/RP';V=I/'mojang-1.20.1/assets/minecraft';S=I/'forge/src/main/resources/assets/kaleidoscope_tavern';audit={'hashes':0,'textures':0,'meshes':0,'directed_faces':0,'vertices':0,'max_matrix_error':0,'max_vertex_error':0,'body_instances':0,'route_checks':{},'cases':[],'gui_reviewed':False}
++H=WORK;M=json.loads((H/'manifest.json').read_text());I=H/'inputs';R=I/'current/runtime/RP';V=I/'mojang-1.20.1/assets/minecraft';S=I/'forge/src/main/resources/assets/kaleidoscope_tavern';audit={'hashes':0,'textures':0,'meshes':0,'directed_faces':0,'vertices':0,'max_matrix_error':0,'max_vertex_error':0,'body_instances':0,'route_checks':{},'cases':[],'gui_reviewed':False}
+ sha=lambda b:hashlib.sha256(b).hexdigest();rd=lambda p:json.loads(p.read_text())
+ for path,e in M['inputs'].items():
+  b=(H/path).read_bytes();assert sha(b)==e['sha256'] and len(b)==e['bytes'];audit['hashes']+=1

@@ -1,0 +1,18 @@
+{
+  "README.md": "43d541a38a56aab5e7b5c2c813789653dcadcc207589f211f579d38e9ab42022",
+  "camera-proof/01-upright-top-camera.jpg": "324b5a1deb11f0f37e87d93f26bbfd0751c8149c5abf617dbdd43af4d15c0db7",
+  "excluded-diagnostics/04-north-initial-edge-on.jpg": "37b175d58e5e248b65dfeca7a1d66cb97cc642efaf8cd8f7040c9c2e67f3692c",
+  "excluded-diagnostics/05-east-initial-edge-on.jpg": "4181a91ce0e362af96a03896bbe969e37753972a7c5b3d152a02bb28fe737916",
+  "final-integrity.json": "81d0c46ce7f82edc63aa18fd6b9cc3350d7d50882bbfbc996643fe267cc08fcd",
+  "finalize_gui_review.py": "6c80c8a86efaf4c556d7ac61ac11a2a3d767ba188e8606e6e199182a7967a6bb",
+  "preflight-integrity.json": "766af34efde0b173f7773364f97f8e340c11e4d0a4957bcc1b41943f8355fa58",
+  "review-index.json": "8ca81b0cb99d4ec4b93f0d60a985100f1761d72c2b203683566a0f1f59d06f7e",
+  "scene-identity-index.json": "2c230689b076a423b96818005a73d9b6ef594800af60380f18430e2fac2007ac",
+  "screenshots/01-upright-top.jpg": "e934d3deec3ddacc980967f9a023be3ca7de0dfae030d80e81d41e62ad5f1dc5",
+  "screenshots/02-upright-oblique.jpg": "ecef888e57a964c8999dfde20ccb4795b88a73a2cea1188c94ef9b4ae1f84303",
+  "screenshots/03-helper-boundaries-oblique.jpg": "5af9b703bd96c65d2a2d755b8b1e2fc97649ac5fea9c3ab4bbbbf0f865319c52",
+  "screenshots/04-north-tilt-south.jpg": "a0c3f85852f4336c62f84f49185218ff9ef8079bec489fa1c8ba6539c802692e",
+  "screenshots/05-east-tilt-top.jpg": "be03559b35f8289967149a202c775bedab26ca893efeef2ba0ad9855250ac947",
+  "screenshots/06-ice-grape-tick1-top.jpg": "db61cfd5e43bb0f32b4500b9f314d33ad600b0528c5b10e350cec070fa6ac70c",
+  "screenshots/07-unchanged-barrel-stone-controls.jpg": "10533977d8ffea1f677b0be53ce9c1444337a4f71d3cdcab8ecdddef8d4d6926"
+}

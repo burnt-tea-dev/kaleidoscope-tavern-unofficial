@@ -1,0 +1,47 @@
+{
+  "forge": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+  "neoforge": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+  "official_archives": {
+    "1.20.1": {
+      "sha1": "0c3ec587af28e5a785c0b4a7b8a30f9a8f78f838",
+      "sha256": "56b71336d2b4fdffd197f56595b0da93e32a946f78f382a299b8f4b92758bb0f",
+      "executed": false,
+      "input_path": "/workspace/scratch/f31f84fbb9ff/otc-dishwasher-material-audit-20261108/evidence/java-1.20.1-client.jar"
+    },
+    "1.21.1": {
+      "sha1": "30c73b1c5da787909b2f73340419fdf13b9def88",
+      "sha256": "499f6897d1837516680f3114072d8106e11c9adcd933fe5cf051b551089b0c99",
+      "executed": false,
+      "input_path": "/workspace/scratch/f31f84fbb9ff/tavern-wild-vine-review-20261109/official-parent-source/java-1.21.1-client-data.jar"
+    }
+  },
+  "files": {
+    "forge-renderer.java": {
+      "original": "inputs/forge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/block/PressingTubBlockEntityRender.java",
+      "bytes": 4246,
+      "sha256": "f413b5a425cea8bab16e0f205eb5bd0c40f09120f422d6b9842777b806d62d7f"
+    },
+    "neoforge-renderer.java": {
+      "original": "inputs/neoforge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/block/PressingTubBlockEntityRender.java",
+      "bytes": 4246,
+      "sha256": "f413b5a425cea8bab16e0f205eb5bd0c40f09120f422d6b9842777b806d62d7f"
+    },
+    "1.20.1-generated.json": {
+      "original": "inputs/mojang-1.20.1/assets/minecraft/models/item/generated.json",
+      "bytes": 813,
+      "sha256": "63190611202e75ad7b812bc9a4b31bd53f3e186895d7b53e5e280b0d1e30a67a"
+    },
+    "1.21.1-generated.json": {
+      "original": "inputs/mojang-1.21.1/assets/minecraft/models/item/generated.json",
+      "bytes": 813,
+      "sha256": "63190611202e75ad7b812bc9a4b31bd53f3e186895d7b53e5e280b0d1e30a67a"
+    },
+    "1.20.1-ItemModelGenerator.bytecode.txt": {
+      "original": "provenance/n03-ItemModelGenerator.bytecode.txt",
+      "bytes": 27648,
+      "sha256": "640ea57ea2f582889e066b32dfed7ebcdd1280a3b9f3041a075cd4d83738531e"
+    }
+  },
+  "upstream_freshness": "Attributed reuse of N03 source refresh at 2026-11-09 02:59:59 UTC; no new network check in preparation.",
+  "scope": "Generated full broad face extent 16x16x1 from official 1.20.1 bytecode. Both generated FIXED parents scale 1; both maintained renderers scale .5. No 1.21.1 extrusion algorithm claim."
+}

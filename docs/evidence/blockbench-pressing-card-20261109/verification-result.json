@@ -1,0 +1,130 @@
+{
+  "status": "passed",
+  "mode": "offline saved-input audit replay, no new GUI or gameplay acceptance",
+  "candidate_sha256": "d93249923210a8711fa038105816380407b9d70811c23313d4ddb56d68b83eea",
+  "census": {
+    "canonical_entity_attachable_json_files": 129,
+    "pressing_card_consumers": 8,
+    "proof": "all 129 canonical paths and Git blob hashes checked against saved canonical-runtime-tree; eight exact input consumers checked"
+  },
+  "gui": {
+    "candidate": {
+      "accepted": 7,
+      "excluded": 2,
+      "camera_only": 1,
+      "raw_jpeg_integrity": true,
+      "annotations_and_scene_identities_verified": true,
+      "original_pending_flags_preserved": true,
+      "completed_supplement_is_separate": true
+    },
+    "n03": {
+      "accepted": 14,
+      "excluded": 7,
+      "camera_only": 1,
+      "raw_jpeg_integrity": true,
+      "annotations_and_scene_identities_verified": true,
+      "original_pending_flags_preserved": true,
+      "completed_supplement_is_separate": true
+    }
+  },
+  "audits": {
+    "candidate": {
+      "hashes": 248,
+      "mesh_count": 36,
+      "directed_faces": 455,
+      "vertices": 1820,
+      "max_matrix_error": 7.105427357601002e-15,
+      "max_vertex_error": 1.4210854715202004e-14,
+      "negative_controls": [
+        {
+          "tamper": "candidate width",
+          "rejected": true
+        },
+        {
+          "tamper": "candidate center",
+          "rejected": true
+        },
+        {
+          "tamper": "candidate UV",
+          "rejected": true
+        },
+        {
+          "tamper": "candidate tilt pivot",
+          "rejected": true
+        },
+        {
+          "tamper": "saved size",
+          "rejected": true
+        },
+        {
+          "tamper": "saved center",
+          "rejected": true
+        },
+        {
+          "tamper": "saved UV",
+          "rejected": true
+        },
+        {
+          "tamper": "saved matrix",
+          "rejected": true
+        }
+      ],
+      "poses": 320
+    },
+    "n03": {
+      "hashes": 239,
+      "meshes": 56,
+      "directed_faces": 742,
+      "vertices": 2968,
+      "body_instances": 30
+    }
+  },
+  "portable_negative_controls": [
+    {
+      "tamper": "parent traversal path",
+      "rejected": true
+    },
+    {
+      "tamper": "absolute payload path",
+      "rejected": true
+    },
+    {
+      "tamper": "embedded parent traversal path",
+      "rejected": true
+    },
+    {
+      "tamper": "symlink payload path",
+      "rejected": true
+    },
+    {
+      "tamper": "typed false replaced by numeric zero",
+      "rejected": true
+    },
+    {
+      "tamper": "typed count replaced by string",
+      "rejected": true
+    },
+    {
+      "tamper": "omitted nonconsumer census resource",
+      "rejected": true
+    },
+    {
+      "tamper": "extra census resource",
+      "rejected": true
+    },
+    {
+      "tamper": "hidden extra consumer in canonical resource",
+      "rejected": true
+    }
+  ],
+  "limitations": [
+    "Only eight centered card cubes: size 8x8x0.5; all other fields unchanged.",
+    "Generated alpha-edge extrusion versus existing native two-face approximation; algorithm proof 1.20.1 only.",
+    "Raw BB-reference tilted AABB exceeds old bounds before and after; 320 poses use one seed and count 64, not every seed/count.",
+    "External engine-frame/culling/body-clearance/world-facing/vertical alignment remain unproven.",
+    "Ordinary ice/material/held views unchanged, including rack +6 FIRSTPERSON Y lift; no new acceptance.",
+    "No gameplay/material/full-addon/native-client/BDS/LIVE/release/deployment acceptance.",
+    "Census completeness is relative to the saved original canonical runtime tree, not later integration state.",
+    "Historical pending flags remain byte-exact; completed GUI supplements supersede only bounded GUI review."
+  ]
+}

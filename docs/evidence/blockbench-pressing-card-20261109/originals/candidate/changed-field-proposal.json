@@ -1,0 +1,238 @@
+{
+  "candidate": {
+    "file": "candidate/runtime/RP/models/entity/runtime_pressing_card.geo.json",
+    "runtime_target": "runtime/RP/models/entity/runtime_pressing_card.geo.json",
+    "before_sha256": "12f58f4d54e2187ac1edac4b2f43e917693c5eede14d8d5bdfc3f40b9ba2f08b",
+    "after_sha256": "d93249923210a8711fa038105816380407b9d70811c23313d4ddb56d68b83eea",
+    "changed_vectors": 16,
+    "changed_scalars": 48,
+    "cube_count": 8
+  },
+  "changes": [
+    {
+      "json_pointer": "/minecraft:geometry/0/bones/5/cubes/0/origin",
+      "bone": "item_z_0",
+      "before": [
+        -2,
+        -2,
+        -0.125
+      ],
+      "after": [
+        -4,
+        -4,
+        -0.25
+      ]
+    },
+    {
+      "json_pointer": "/minecraft:geometry/0/bones/5/cubes/0/size",
+      "bone": "item_z_0",
+      "before": [
+        4,
+        4,
+        0.25
+      ],
+      "after": [
+        8,
+        8,
+        0.5
+      ]
+    },
+    {
+      "json_pointer": "/minecraft:geometry/0/bones/8/cubes/0/origin",
+      "bone": "item_z_1",
+      "before": [
+        -2,
+        -2,
+        -0.125
+      ],
+      "after": [
+        -4,
+        -4,
+        -0.25
+      ]
+    },
+    {
+      "json_pointer": "/minecraft:geometry/0/bones/8/cubes/0/size",
+      "bone": "item_z_1",
+      "before": [
+        4,
+        4,
+        0.25
+      ],
+      "after": [
+        8,
+        8,
+        0.5
+      ]
+    },
+    {
+      "json_pointer": "/minecraft:geometry/0/bones/11/cubes/0/origin",
+      "bone": "item_z_2",
+      "before": [
+        -2,
+        -2,
+        -0.125
+      ],
+      "after": [
+        -4,
+        -4,
+        -0.25
+      ]
+    },
+    {
+      "json_pointer": "/minecraft:geometry/0/bones/11/cubes/0/size",
+      "bone": "item_z_2",
+      "before": [
+        4,
+        4,
+        0.25
+      ],
+      "after": [
+        8,
+        8,
+        0.5
+      ]
+    },
+    {
+      "json_pointer": "/minecraft:geometry/0/bones/14/cubes/0/origin",
+      "bone": "item_z_3",
+      "before": [
+        -2,
+        -2,
+        -0.125
+      ],
+      "after": [
+        -4,
+        -4,
+        -0.25
+      ]
+    },
+    {
+      "json_pointer": "/minecraft:geometry/0/bones/14/cubes/0/size",
+      "bone": "item_z_3",
+      "before": [
+        4,
+        4,
+        0.25
+      ],
+      "after": [
+        8,
+        8,
+        0.5
+      ]
+    },
+    {
+      "json_pointer": "/minecraft:geometry/0/bones/17/cubes/0/origin",
+      "bone": "item_z_4",
+      "before": [
+        -2,
+        -2,
+        -0.125
+      ],
+      "after": [
+        -4,
+        -4,
+        -0.25
+      ]
+    },
+    {
+      "json_pointer": "/minecraft:geometry/0/bones/17/cubes/0/size",
+      "bone": "item_z_4",
+      "before": [
+        4,
+        4,
+        0.25
+      ],
+      "after": [
+        8,
+        8,
+        0.5
+      ]
+    },
+    {
+      "json_pointer": "/minecraft:geometry/0/bones/20/cubes/0/origin",
+      "bone": "item_z_5",
+      "before": [
+        -2,
+        -2,
+        -0.125
+      ],
+      "after": [
+        -4,
+        -4,
+        -0.25
+      ]
+    },
+    {
+      "json_pointer": "/minecraft:geometry/0/bones/20/cubes/0/size",
+      "bone": "item_z_5",
+      "before": [
+        4,
+        4,
+        0.25
+      ],
+      "after": [
+        8,
+        8,
+        0.5
+      ]
+    },
+    {
+      "json_pointer": "/minecraft:geometry/0/bones/23/cubes/0/origin",
+      "bone": "item_z_6",
+      "before": [
+        -2,
+        -2,
+        -0.125
+      ],
+      "after": [
+        -4,
+        -4,
+        -0.25
+      ]
+    },
+    {
+      "json_pointer": "/minecraft:geometry/0/bones/23/cubes/0/size",
+      "bone": "item_z_6",
+      "before": [
+        4,
+        4,
+        0.25
+      ],
+      "after": [
+        8,
+        8,
+        0.5
+      ]
+    },
+    {
+      "json_pointer": "/minecraft:geometry/0/bones/26/cubes/0/origin",
+      "bone": "item_z_7",
+      "before": [
+        -2,
+        -2,
+        -0.125
+      ],
+      "after": [
+        -4,
+        -4,
+        -0.25
+      ]
+    },
+    {
+      "json_pointer": "/minecraft:geometry/0/bones/26/cubes/0/size",
+      "bone": "item_z_7",
+      "before": [
+        4,
+        4,
+        0.25
+      ],
+      "after": [
+        8,
+        8,
+        0.5
+      ]
+    }
+  ],
+  "preserved": "All other fields, centers, UVs, textures, bones, transforms, controller timing, routes, held assets, versions and metadata remain unchanged."
+}

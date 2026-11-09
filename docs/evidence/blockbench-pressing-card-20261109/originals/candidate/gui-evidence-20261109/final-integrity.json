@@ -1,0 +1,16 @@
+{
+  "checked_original_artifacts": 280,
+  "errors": [],
+  "original_manifest_sha256": "9cd6068922c72337a10635e1f487ddfa8d222fdb3f998d7f6db0412d4eca64f3",
+  "candidate_sha256": "d93249923210a8711fa038105816380407b9d70811c23313d4ddb56d68b83eea",
+  "scene_sha256": {
+    "scenes/01-upright-isolated.bbmodel": "6c2e4438d05b488abc07d2f9fe11e5795314b67d3eb742279441e5c0e1370be0",
+    "scenes/02-upright-helper-boundaries.bbmodel": "4045fc46333b29143102035416fa35adfd040b868ccced314989c46dcdca3f10",
+    "scenes/03-north-tilt-layers.bbmodel": "6648b887c27ab99dd36efb102609a6fc79401a1c6bdf47b6bbc5e8603bdaa2a8",
+    "scenes/04-east-tilt-layers.bbmodel": "1d94073c982476d1583ab2972ec447d86ba6a0adcdf03882e08c571f4fb03c48",
+    "scenes/05-animated-ice-grape-tick1.bbmodel": "b4ac9551fe8bed23593b2e5d08caf357496f775ba4cd90cf0c4a9e553cc1c9fb",
+    "scenes/06-unchanged-controls.bbmodel": "3f015ed46603e0e658b03f975a9e45978ca60d4d53c99e9c99eec77589e96f9a"
+  },
+  "all_originals_unchanged": true,
+  "all_screenshots_original_bytes": true
+}

@@ -1,0 +1,88 @@
+{
+  "failure": {
+    "remote_head": "15a7c03efa8f47ab237ff97f96aaf958bbed3875",
+    "run": 42562334974,
+    "job": 128981267533,
+    "stage": "Lean baseline job, baseline_gate.py check --release before runtime test jobs",
+    "raw_log": "raw/ci-baseline-failure-42562334974.txt",
+    "raw_log_sha256": "a5066a6bd42a7bb9bb61a119f77aaca09efe71043a373a734c5277e228347e1d",
+    "cause": "baseline_reference imported machine_ingredient_geometry, which imported bindings from machine_ingredient_animation. Its top-level PIL.Image import and indirect refresh_visual_compat import required Pillow in the lean baseline environment."
+  },
+  "repair": {
+    "owner": "tools/machine_ingredient_animation.py",
+    "change": "Import PIL.Image only inside ice_grape_frames; import the Pillow-dependent material profile helper only inside outputs. Keep bindings and controller route logic in their existing shared owner.",
+    "workflow": "Add the isolated regression to the existing baseline job. No dependency installation, job classification, environment, skip or bypass change."
+  },
+  "validation": {
+    "tested_clean_code_commit": "2981b408ad403ead57430a01ae1f92b3c80ac8ac",
+    "isolated_python": {
+      "flags": [
+        "-I",
+        "-S",
+        "-B"
+      ],
+      "Pillow_find_spec": null,
+      "tests": 4,
+      "result": "passed on clean commit; real --identity and --release gates succeed, real geometry check executes, requested pixel work still requires Pillow",
+      "dirty_development_boundary": "Also tested: real --release reaches and rejects the dirty checkout with its existing exact message; no check is skipped."
+    },
+    "source_bound_release_command": "python -S -B tools/baseline_gate.py check --release --history-base 7fb1afc86439d67703df202d04923d4bcdc4466b",
+    "source_bound_release_exit": 0,
+    "geometry_test_methods": 9,
+    "pressing_adapter_tests": 4,
+    "release_claim_tests": 16,
+    "image_animation_validation": "passed; 12 helpers / 24 tick frames",
+    "all_generated_outputs": {
+      "count": 57,
+      "byte_identical_before_after": true,
+      "all_equal_runtime": true
+    },
+    "broad_aggregate_rerun": false,
+    "prior_aggregate": "The earlier complete local run remains recorded separately; this repair was verified with bounded sequential dependency/geometry/image/gate checks. Exact-head CI remains parent-owned."
+  },
+  "preservation": {
+    "runtime_tree": "fe2aa4c3c0e4f7b90f6998470cdb2a7b25ef331a",
+    "runtime_version_freeze_and_history_files_unchanged": true,
+    "archive_rebuilt": false,
+    "original_archive_sha256": "a8ebe3e592c7acd64b58a241f7b9b7f7c02492c9d60144657c116d642ce1c524",
+    "native_game_GUI_or_remote_actions": false
+  },
+  "local_validation_log_inventory": {
+    "minimal-dirty.log": {
+      "bytes": 102,
+      "sha256": "12032e5b4b1bbc5ddc3a80b8906044f10ed3a26fb4c9f507055d9c581f6089ce"
+    },
+    "minimal-clean.log": {
+      "bytes": 102,
+      "sha256": "5869b8e6e036549b0b456806b55d1f2b92a2cd959879226f1ae21d1b6aa01719"
+    },
+    "release-clean-no-site.log": {
+      "bytes": 37,
+      "sha256": "0d6b21c6d319c88281c41a039d8a5fce521cb38b96b1ac11a498c6f725ca0407"
+    },
+    "geometry.log": {
+      "bytes": 107,
+      "sha256": "e3e8c525bf2fc0d56ea2f9b761eca71e8b2f2d1d4395812d9f3e8f61dc88ab4b"
+    },
+    "routing.tap": {
+      "bytes": 466,
+      "sha256": "8e5ee6589e7c91d37efd3ed0dcff53d80c51ce4b720d910e8f64370274e8d0e0"
+    },
+    "animation.log": {
+      "bytes": 124,
+      "sha256": "41ee72e100404979af54d8bcef44f44accaf0342a50a3bcd1778d97f962f0972"
+    },
+    "release-claim.log": {
+      "bytes": 115,
+      "sha256": "9cf7ed63803ef91ee9389fdde43394719a3eb3d3e2525e105c59dfd55956df63"
+    },
+    "generator-before.json": {
+      "bytes": 12352,
+      "sha256": "b4246708750b793a3cc99758c61cb21fc54ee04b061b617c4995bb9da953638e"
+    },
+    "generator-after.json": {
+      "bytes": 12352,
+      "sha256": "b4246708750b793a3cc99758c61cb21fc54ee04b061b617c4995bb9da953638e"
+    }
+  }
+}

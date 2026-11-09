@@ -1,0 +1,542 @@
+✔ every axis probability equals independent exhaustive Java integer-pair counts (9.757567ms)
+✔ sparse sampling retains repeated hits, the 667-pair bound and near/far order (3.920519ms)
+✔ selected emitter weights form one categorical trial, retaining negative covariance (362.108396ms)
+✔ fixed-seed physical sparse mean matches both source radii and retains misses (20.224047ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 501.266395
+...........
+----------------------------------------------------------------------
+Ran 11 tests in 7.180s
+
+OK
+.......
+----------------------------------------------------------------------
+Ran 7 tests in 0.276s
+
+OK
+.........
+----------------------------------------------------------------------
+Ran 9 tests in 0.549s
+
+OK
+✔ all accepted food IDs use the existing helper ranges and exact kind route (36.710617ms)
+✔ all 64 slots retain independent source-seeded packed properties (0.89846ms)
+✔ tilt facing changes only existing frame flags, not ingredient centers or scale (1.833715ms)
+✔ empty, unknown and non-pressing items do not acquire card helpers (0.736366ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 152.570644
+..
+----------------------------------------------------------------------
+Ran 2 tests in 0.061s
+
+OK
+...
+----------------------------------------------------------------------
+Ran 3 tests in 0.104s
+
+OK
+......
+----------------------------------------------------------------------
+Ran 6 tests in 0.593s
+
+OK
+.........
+----------------------------------------------------------------------
+Ran 9 tests in 0.450s
+
+OK
+......
+----------------------------------------------------------------------
+Ran 6 tests in 0.150s
+
+OK
+(node:55) ExperimentalWarning: `--experimental-loader` may be removed in the future; instead use `register()`:
+--import 'data:text/javascript,import { register } from "node:module"; import { pathToFileURL } from "node:url"; register("/workspace/scratch/f31f84fbb9ff/tavern-pressing-card-repair-20261109/tools/pickup/mock-loader.mjs", pathToFileURL("./")); register("/workspace/scratch/f31f84fbb9ff/tavern-pressing-card-repair-20261109/tools/pickup/mock-loader.mjs", pathToFileURL("./"));'
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ guide pages count unique recipe references and retain the distinct-recipe limit (20.246331ms)
+✔ current transport negotiation advertises the same limits used by the receiver (1.79047ms)
+✔ declared ingredient groups and omitted fluid titles reach the existing recipe and shared guide consumers (31.665982ms)
+✔ optional recipe conditions are resolved before ingredient validation (1.326122ms)
+✔ a produced Java level-one batch advances once, preserves its countdown and retains exhausted native essence (10.395035ms)
+✔ Java Mead success emits one green translated quality notice without barrel status (39.029437ms)
+✔ a failed native quality save restores the exact original essence and does not consume its cooldown (4.10112ms)
+✔ the existing deferred machine-use route accepts essence on a closed produced barrel (5.076977ms)
+(node:56) ExperimentalWarning: `--experimental-loader` may be removed in the future; instead use `register()`:
+--import 'data:text/javascript,import { register } from "node:module"; import { pathToFileURL } from "node:url"; register("/workspace/scratch/f31f84fbb9ff/tavern-pressing-card-repair-20261109/tools/pickup/mock-loader.mjs", pathToFileURL("./")); register("/workspace/scratch/f31f84fbb9ff/tavern-pressing-card-repair-20261109/tools/pickup/mock-loader.mjs", pathToFileURL("./"));'
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ animated native item entry preserves ordinary drink, Sneak placement, and creative pickup identities (23.068561ms)
+✔ native count-pattern replay: one cup and no false warnings from fallback B-A-B (0.655545ms)
+✔ native seq2-24 tick40274: true far use then false near continuation queues one cup (7.673216ms)
+✔ native seq32-67 tick18224: Sneak transition cannot requeue a completed cup (0.7584ms)
+✔ owned fallback and false continuation survive both Sneak edges while pending (0.941143ms)
+✔ Sneak changes preserve fresh true actions and failed false retries (1.309457ms)
+✔ completed owned false continuation is suppressed but a fresh true near use succeeds (0.557447ms)
+✔ shared storage fallback echoes do not schedule three stale insertions (3.71478ms)
+✔ raw North/Up callbacks resolving to one North hit insert once (2.080876ms)
+✔ pending identical break callbacks recover one holder without false BLOCK_CHANGED (2.454166ms)
+✔ fresh touch false remains a first gesture, including after failed placement (1.432462ms)
+✔ two authoritative real targets before flush are not fallback echoes (0.665249ms)
+✔ completed placement releases its queued target for an immediate fresh real attempt (0.621754ms)
+✔ foreign cancellation still prevents its matching fallback transaction (0.69282ms)
+✔ genuine stale hand is still reported and the original item remains (0.385429ms)
+✔ failed cup write rolls back and permits immediate fresh retry (0.861164ms)
+✔ failed storage write releases the semantic claim and preserves its bottle (1.796859ms)
+✔ failed break clears its pending claim for immediate retry (1.929208ms)
+✔ separate players are not duplicate breaks; genuine second conflict remains (1.055295ms)
+✔ different resolved storage hits and different native item metadata are not coalesced (1.563288ms)
+✔ break claim cleanup also runs if a domain guard does not invoke recovery (0.854363ms)
+✔ failed settlement preserves a native echo belonging to a different target (0.491969ms)
+✔ older failed settlement cannot release a newer completed transaction or its native echo (0.236225ms)
+ℹ tests 31
+ℹ suites 0
+ℹ pass 31
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 567.878386
+{"jsonFiles": 2074, "molangStrings": 2666, "compoundAssignments": 0, "nativeParserTested": false, "clientRenderingTested": false}
+Canonical legacy guide projection current: 21 products.
+✔ installed source waits without consuming stored ingredients, then starts the actual vodka recipe (28.097814ms)
+✔ saved batches keep their cadence and outputs while a source is absent or removed (2.323ms)
+✔ standalone Tavern retains vinegar fallback and only probes the optional native marker once (0.963327ms)
+✔ after registration genuinely unmatched ingredients still ferment into vinegar (1.377419ms)
+✔ builtin recipes keep working while an optional source is pending (0.741294ms)
+✔ a native lookup failure during staged rebuild cannot expose an unbuilt recipe view as ready (1.627925ms)
+✔ deferred install keeps old snapshot and listeners until atomic commit (51.650239ms)
+✔ incremental freeze traverses children of shallow-frozen parents (0.251959ms)
+✔ registry rebuild yields between native item-tag reads (1.856108ms)
+✔ more than sixteen distinct completed transfers remain FIFO and all commit (21.42789ms)
+✔ bad deferred payload leaves the prior snapshot and revision intact (1.46495ms)
+✔ new BEGIN invalidates an older queued commit generation (5.644919ms)
+✔ deferred UNREGISTER leaves its extension visible until removal commits (1.434064ms)
+✔ native FIFO pump stays bounded with a frozen clock and reports superseded work (0.490607ms)
+✔ scheduled host queue stays idle without jobs and uses one-shot ticks while busy (0.589566ms)
+✔ all legacy page bytes match the unmodified T149 projection (8.106797ms)
+✔ successful native definitions are reused while unknown reads remain retryable (0.992931ms)
+✔ native lookup errors propagate unchanged and do not poison the next read (0.406981ms)
+✔ generic registry item predicates retain their dynamic calls (12.601697ms)
+✔ zh_TW retains every root including empty Food (2.567877ms)
+✔ zh_TW all source mechanics and every preparation remain available (2.957342ms)
+✔ zh_TW single-entry leaf opens item directly with its icon (0.312379ms)
+✔ zh_CN retains every root including empty Food (0.185979ms)
+✔ zh_CN all source mechanics and every preparation remain available (2.602018ms)
+✔ zh_CN single-entry leaf opens item directly with its icon (0.130516ms)
+✔ en_US retains every root including empty Food (0.170506ms)
+✔ en_US all source mechanics and every preparation remain available (1.389297ms)
+✔ en_US single-entry leaf opens item directly with its icon (0.149654ms)
+✔ native crafting records never invent a shaped grid (8.324403ms)
+✔ all synthetic shaker labels are resolved and all alternatives are shown (3.354539ms)
+✔ removed extension pages fall back to root (0.196506ms)
+✔ invalid locale and page values are bounded (0.19977ms)
+✔ reviewed AMW pages retain their icons and producer data, with distinct three-language instructions (17.824823ms)
+✔ the affected addon wine explains its Glowing limit and ordinary consumption in both shared guide views (16.422177ms)
+✔ zh_TW reported ice tea shows one fluid section, full names, bottling and aging (0.448774ms)
+✔ zh_CN reported ice tea shows one fluid section, full names, bottling and aging (0.162134ms)
+✔ en_US reported ice tea shows one fluid section, full names, bottling and aging (0.097105ms)
+✔ shaker keeps repeated slots distinct; generic recipes aggregate counts without inventing fluid volume (2.094827ms)
+✔ shared Cookery wire preserves machine semantics and names without mutating the registry (30.097126ms)
+✔ a different world can register its own fluid and still get localized volume and container names (32.806356ms)
+✔ Close and cancel terminate without consuming a book or changing preferences (3.5016ms)
+✔ Back returns from a single-entry item to its parent root category (1.24525ms)
+✔ undefined registry is not presented as a complete 111-entry fallback (0.799801ms)
+✔ language and sound selections persist together and refresh the existing guide (1.107674ms)
+✔ cancelled, incomplete or invalid settings return to the same guide without writing either preference (5.003665ms)
+✔ failed settings writes are reported, not silently successful (0.920262ms)
+✔ zh_TW keeps seven content roots and localizes both settings fields (0.825691ms)
+✔ zh_CN keeps seven content roots and localizes both settings fields (1.03188ms)
+✔ en_US keeps seven content roots and localizes both settings fields (0.722085ms)
+✔ an unconfirmed rollback is shown in the restored guide language (1.097779ms)
+✔ a settings answer arriving after session cleanup cannot write preferences (1.367124ms)
+✔ show errors release the session for a later use (0.821323ms)
+✔ duplicate open is blocked and leave cleanup permits a new session (0.884559ms)
+✔ payload is refreshed on navigation (0.767333ms)
+✔ standalone manifest, creative and crafting contracts (2.288948ms)
+✔ removed recipe fallback does not repeat the entry on Back (7.094396ms)
+✔ guide preparation waits for the host, yields, and reuses packets until content changes (179.179922ms)
+✔ Cookery entrance shares the view, returns only on explicit Back and preserves stored locale (2.873676ms)
+✔ cancelling settings keeps the Cookery guide open until explicit Back or Close (1.831642ms)
+✔ Cookery handoff opens only after a matching player start and echoes return context (9.631786ms)
+✔ both guide projections name the native short plant and explain raw board newlines (8.517543ms)
+✔ ExtensionRegistry constructor stays synchronous unless initial rebuild is explicitly deferred (9.831117ms)
+✔ wire byte counters match the Node Buffer oracle for every code unit and surrogate boundaries (15.582786ms)
+✔ native quote chunks preserve pair boundaries, lone surrogates and long keys within 1024 units (1.865723ms)
+✔ escaped Unicode/control boundaries preserve every predecessor packet and revision (522.360692ms)
+✔ SDK defers large preparation, preserves early ready/ACK binding, and cancels unfinished work (18.705596ms)
+✔ yielding full guide retains current identity, navigation and exact wire JSON (91.336719ms)
+✔ native item definition caching preserves dynamic extension tag replacement/removal (2.98265ms)
+✔ immutable guide page links retain registry recipe order, names and preparation (19.828342ms)
+✔ dynamic and frozen accessor guide views retain the original recipe ID reads (22.18346ms)
+✔ ordered native-sized parts and exact duplicates preserve Unicode content and synchronous ACK (16.666974ms)
+✔ reverse order retains digest fallback, corruption errors and begin replacement (48.225881ms)
+✔ a current extension larger than the former byte and part limits installs atomically (53.346507ms)
+✔ split surrogate boundaries across empty parts retain byte rejection and failed-chunk side effects (3.742071ms)
+✔ valid parsed packets retain source and revision in rejection ACK context (1.260623ms)
+ℹ tests 75
+ℹ suites 0
+ℹ pass 75
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1073.190358
+{"slotCases":4913,"progressCases":112,"formattedCases":20,"messagePreservation":true,"clientRenderingTested":false}
+/workspace/scratch/f31f84fbb9ff/tavern-pressing-card-repair-20261109/tools/check_release.py:234: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  assert sum(a>0 for a in mask.getchannel('A').getdata())==75,'Dyed icon must include the full glass AND liquid'
+.......
+----------------------------------------------------------------------
+Ran 7 tests in 0.111s
+
+OK
+{"locales": ["en_US", "zh_CN", "zh_TW", "ja_JP", "ru_RU"], "completeLocales": ["en_US", "zh_CN", "zh_TW"], "keysPerCompleteLocale": 1732, "runtimeLabelReferences": 399, "fallbackRuntimeLabels": {"en_US": 0, "zh_CN": 0, "zh_TW": 0, "ja_JP": 259, "ru_RU": 259}, "duplicates": 0, "missingKeys": 0, "placeholderMismatches": 0, "orphanedLanguageFiles": 0}
+Painting UVs, glyph origins, Molotov storage/use and texture-set references passed.
+Shared render-controller friendly names passed for all client entities.
+Sixteen external liquid dependencies retain their host controller contract.
+Java blast values, native destruction coverage and all 24 circular-rack selections verified.
+{"guideEntries":156,"categories":25,"shakerPages":1,"nativeProductPreparations":true}
+{"guidePackets":154,"legacyPages":28,"agingMinutes":[2,4,6,8,10],"totalMinutes":30}
+{"feedbackFailureIsolation":true,"warningThrottle":true,"boundedHistory":16,"clientAudioTested":false}
+/workspace/scratch/f31f84fbb9ff/tavern-pressing-card-repair-20261109/tools/check_visuals.py:38: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  for rgba, rgb in zip(image.getdata(),mer_image.getdata()):
+/workspace/scratch/f31f84fbb9ff/tavern-pressing-card-repair-20261109/tools/check_visuals.py:45: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  assert Counter(actual.getchannel('A').getdata())=={0:181,3:57,255:18}
+{"pureChecks":"passed","tipsySamples":3601,"maximumStepDegrees":0.04849124386089714,"qualityLevelRows":20,"interactionTestsRun":false}
+{"staticVisualChecks": "passed", "materials": {"surfaces": 461, "emissive_surfaces": 35, "excluded": 258, "external_references": 59, "errors": 0}, "dyedIconAlphaCounts": {"transparent": 181, "untintedGlass": 57, "tintableLiquid": 18}, "localeKeys": {"en_US": 1732, "zh_CN": 1732, "zh_TW": 1732}, "minecraftClientTested": false, "bdsTestedForThisRevision": false, "simulatedPlayerTestsRun": false}
+{"version": "0.6.216", "baselineCommit": "1b9b46a98d3be2efef19715226eb90252ab2c2bb", "preservedFileHashes": 18, "preservedAnimations": ["animation.kt_mixology.player_idle", "animation.kt_mixology.hold_first", "animation.kt_mixology.shake_first", "animation.kt_mixology.player_shake"], "thirdPersonCandidate": {"position": [-0.0, -3.0, -2.75], "rotation": [90.0, 0.0, 0.0], "scale": 0.5}, "finiteParticleEmitters": 16, "nativeRegistrationTickInterval": 20, "ambientSamplingTickInterval": 1, "emissionMode": "recipient-local source-sampled bursts", "plumeParticlesPerSecondMaximumMean": 1.2213134765625, "ambientParticlesPerSecondMaximumMean": 18.3197021484375, "cupAbsentRecordRecovery": "structural checks passed; real event execution not tested", "newPlayerEntityOverride": false, "playerSimulation": false, "bdsTest": "NOT_RUN", "clientVisualTest": "NOT_RUN"}
+{"upstreamCommit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416", "upstreamFilesVerified": 21, "familyVariants": 6, "facings": 4, "poseCases": 100, "modelPoseCases": 200, "vertexComparisons": 10400, "maxCoordinateErrorBlocks": 2.220446049250313e-16, "checkedModelBindings": 142, "oldCellarMolotovPivotErrorBlocks": 0.7071067811865476, "preservedFiles": 2017, "reviewedSupersededFiles": ["runtime/BP/scripts/bedrock/storage-projectile.js", "runtime/BP/scripts/bedrock/tap-sources.js", "runtime/BP/scripts/core/inventory.js", "runtime/RP/animations/runtime_shaker.animation.json"], "currentSourceContractFiles": ["runtime/BP/scripts/bedrock/mixology.js"], "watermelonKinds": {"compact": 17, "general": 27}, "playerSimulation": false, "bdsTest": "NOT_RUN", "clientVisualTest": "NOT_RUN"}
+...
+----------------------------------------------------------------------
+Ran 3 tests in 0.042s
+
+OK
+{"luminousBrideMaterialBindings": 6, "texturesUnchanged": true, "geometryNormalizationCheck": "check_luminous_base.py", "otherDrinksKeepDefaultMaterial": true, "clientAcceptance": false}
+{"meshes": 4, "croppedOccludedStrips": 40, "remainingEitherSidedOverlaps": 0, "visibleTexelScalePreserved": true, "idempotent": true, "clientAcceptance": false}
+{"version": "0.6.216", "baselineCommit": "e0330aaa4311519a2a646a2421c686b51cbe6a35", "checks": "passed", "cubeEdgePixels": 4, "cardWidthPixels": 8, "barrelFloatUnchanged": true, "shakerThirdLocalY": -3, "firstPersonAttachableUnchanged": false, "shakerJavaFrameConversion": true, "thirdPersonShakeIsolated": true, "preservedGroups": {"runtime/BP/items": {"files": 236, "sha256": "ff07044f0fc9cfa0a04971cbb53bcfc7aaec7da37b841f4ed40522e3f1475b52"}, "runtime/BP/blocks": {"files": 145, "sha256": "7aea71da1836ab379ed6f0bae60abae723f31551a5acfd10464bae011cb0a790"}, "runtime/BP/recipes": {"files": 159, "sha256": "6729158fa56ae6d09a6ca97a728030b21fe952120e7b1674e21f32f33d01f11e"}, "runtime/RP/particles": {"files": 44, "sha256": "ef3146a120206dbc6e13829af920a9161063c4d1ca5095fe602cb029048c044b"}, "runtime/RP/textures": {"files": 2010, "sha256": "a85b798ece7151ec00f6a4d8af2569a4f2cbaf348b2d839fe3a4558d6358c144"}}, "creativeMenuProjectionFiles": 184, "tipsyMode": "yaw_adapter_unverified", "exactJavaRoll": false, "aimChangesSlightly": true, "clientTested": false, "bdsTested": false, "simulatedPlayerTests": false}
+Barrel material resources verified
+4 scoped Tavern guide flipbooks and 3 native multiline board inputs; rendered client behavior not measured.
+{"version": "0.6.216", "baseline": "cedfaedf6140bae61b24afb658869b1d0e6ea1a9", "javaSourceFilesVerified": 7, "reviewedChanges": ["runtime/BP/blocks/allium_sandwich_board.json", "runtime/BP/blocks/azure_bluet_sandwich_board.json", "runtime/BP/blocks/bar_cabinet.json", "runtime/BP/blocks/bar_counter.json", "runtime/BP/blocks/barrel_core.json", "runtime/BP/blocks/barrel_part.json", "runtime/BP/blocks/base_sandwich_board.json", "runtime/BP/blocks/bell_pendant_lamp.json", "runtime/BP/blocks/black_sofa.json", "runtime/BP/blocks/blue_pendant_lamp.json", "runtime/BP/blocks/blue_sofa.json", "runtime/BP/blocks/bottle_brandy.json", "runtime/BP/blocks/bottle_carignan.json", "runtime/BP/blocks/bottle_champagne.json", "runtime/BP/blocks/bottle_empty.json", "runtime/BP/blocks/bottle_glowflower_brew.json", "runtime/BP/blocks/bottle_honey_wine.json", "runtime/BP/blocks/bottle_ice_wine.json", "runtime/BP/blocks/bottle_luminous_bride.json", "runtime/BP/blocks/bottle_madame_shexiang.json", "runtime/BP/blocks/bottle_miners_star.json", "runtime/BP/blocks/bottle_mother_snow.json", "runtime/BP/blocks/bottle_plum_wine.json", "runtime/BP/blocks/bottle_polaris_sweet_white.json", "runtime/BP/blocks/bottle_red_queen.json", "runtime/BP/blocks/bottle_riesling_dry_white.json", "runtime/BP/blocks/bottle_rum.json", "runtime/BP/blocks/bottle_sakura_wine.json", "runtime/BP/blocks/bottle_sauvignon_blanc_dry_white.json", "runtime/BP/blocks/bottle_sherry.json", "runtime/BP/blocks/bottle_sunset_glow.json", "runtime/BP/blocks/bottle_sweet_berry_wine.json", "runtime/BP/blocks/bottle_vinegar.json", "runtime/BP/blocks/bottle_vodka.json", "runtime/BP/blocks/bottle_water.json", "runtime/BP/blocks/bottle_watermelon_juice.json", "runtime/BP/blocks/bottle_whiskey.json", "runtime/BP/blocks/bottle_wine.json", "runtime/BP/blocks/brown_sofa.json", "runtime/BP/blocks/cellar_cabinet.json", "runtime/BP/blocks/chalkboard.json", "runtime/BP/blocks/circular_rack.json", "runtime/BP/blocks/cornflower_sandwich_board.json", "runtime/BP/blocks/cr019_painting.json", "runtime/BP/blocks/cup_allium_garden.json", "runtime/BP/blocks/cup_bloody_mary.json", "runtime/BP/blocks/cup_brass_heart.json", "runtime/BP/blocks/cup_depth_charge.json", "runtime/BP/blocks/cup_emerald.json", "runtime/BP/blocks/cup_empty_glassware.json", "runtime/BP/blocks/cup_godfather.json", "runtime/BP/blocks/cup_grasshopper.json", "runtime/BP/blocks/cup_mojito.json", "runtime/BP/blocks/cup_mystery_cocktail.json", "runtime/BP/blocks/cup_nether_special.json", "runtime/BP/blocks/cup_screwdriver.json", "runtime/BP/blocks/cup_sculk_special.json", "runtime/BP/blocks/cup_signature_cocktail.json", "runtime/BP/blocks/cup_white_lady.json", "runtime/BP/blocks/cyan_sofa.json", "runtime/BP/blocks/david_painting.json", "runtime/BP/blocks/dragon_breath_bottle.json", "runtime/BP/blocks/father_painting.json", "runtime/BP/blocks/girl_with_pearl_earring_painting.json", "runtime/BP/blocks/glass_bar_cabinet.json", "runtime/BP/blocks/glassware_holder.json", "runtime/BP/blocks/gold_grapevine_trellis.json", "runtime/BP/blocks/grass_sandwich_board.json", "runtime/BP/blocks/gray_sofa.json", "runtime/BP/blocks/great_wave_painting.json", "runtime/BP/blocks/green_sofa.json", "runtime/BP/blocks/holder.json", "runtime/BP/blocks/honey_bottle.json", "runtime/BP/blocks/ice_grapevine_trellis.json", "runtime/BP/blocks/light_black.json", "runtime/BP/blocks/light_blue.json", "runtime/BP/blocks/light_blue_sofa.json", "runtime/BP/blocks/light_brown.json", "runtime/BP/blocks/light_colorless.json", "runtime/BP/blocks/light_cyan.json", "runtime/BP/blocks/light_gray.json", "runtime/BP/blocks/light_gray_sofa.json", "runtime/BP/blocks/light_green.json", "runtime/BP/blocks/light_light_blue.json", "runtime/BP/blocks/light_light_gray.json", "runtime/BP/blocks/light_lime.json", "runtime/BP/blocks/light_magenta.json", "runtime/BP/blocks/light_orange.json", "runtime/BP/blocks/light_pink.json", "runtime/BP/blocks/light_purple.json", "runtime/BP/blocks/light_red.json", "runtime/BP/blocks/light_white.json", "runtime/BP/blocks/light_yellow.json", "runtime/BP/blocks/lime_sofa.json", "runtime/BP/blocks/magenta_sofa.json", "runtime/BP/blocks/master_marisa_painting.json", "runtime/BP/blocks/molotov.json", "runtime/BP/blocks/mona_lisa_painting.json", "runtime/BP/blocks/mondrian_painting.json", "runtime/BP/blocks/orange_sofa.json", "runtime/BP/blocks/orchid_sandwich_board.json", "runtime/BP/blocks/peony_sandwich_board.json", "runtime/BP/blocks/pink_petals_sandwich_board.json", "runtime/BP/blocks/pink_sofa.json", "runtime/BP/blocks/pitcher_plant_sandwich_board.json", "runtime/BP/blocks/poppy_sandwich_board.json", "runtime/BP/blocks/pressing_tub.json", "runtime/BP/blocks/purple_sofa.json", "runtime/BP/blocks/red_sofa.json", "runtime/BP/blocks/shaker_station.json", "runtime/BP/blocks/son_of_man_painting.json", "runtime/BP/blocks/starry_night_painting.json", "runtime/BP/blocks/stepladder.json", "runtime/BP/blocks/stool_black.json", "runtime/BP/blocks/stool_blue.json", "runtime/BP/blocks/stool_brown.json", "runtime/BP/blocks/stool_cyan.json", "runtime/BP/blocks/stool_gray.json", "runtime/BP/blocks/stool_green.json", "runtime/BP/blocks/stool_light_blue.json", "runtime/BP/blocks/stool_light_gray.json", "runtime/BP/blocks/stool_lime.json", "runtime/BP/blocks/stool_magenta.json", "runtime/BP/blocks/stool_orange.json", "runtime/BP/blocks/stool_pink.json", "runtime/BP/blocks/stool_purple.json", "runtime/BP/blocks/stool_red.json", "runtime/BP/blocks/stool_white.json", "runtime/BP/blocks/stool_yellow.json", "runtime/BP/blocks/sunflower_sandwich_board.json", "runtime/BP/blocks/table.json", "runtime/BP/blocks/tap.json", "runtime/BP/blocks/tartaric_acid_painting.json", "runtime/BP/blocks/tilted_rack.json", "runtime/BP/blocks/torchflower_sandwich_board.json", "runtime/BP/blocks/trellis.json", "runtime/BP/blocks/tulip_sandwich_board.json", "runtime/BP/blocks/unknown_painting.json", "runtime/BP/blocks/van_gogh_self_portrait_painting.json", "runtime/BP/blocks/white_sofa.json", "runtime/BP/blocks/wither_rose_sandwich_board.json", "runtime/BP/blocks/xp_bottle.json", "runtime/BP/blocks/yellow_pendant_lamp.json", "runtime/BP/blocks/yellow_sofa.json", "runtime/BP/blocks/ysbb_painting.json", "runtime/BP/entities/thrown_drink.json", "runtime/BP/entities/thrown_molotov.json", "runtime/BP/items/allium_sandwich_board.json", "runtime/BP/items/azure_bluet_sandwich_board.json", "runtime/BP/items/base_sandwich_board.json", "runtime/BP/items/black_bar_stool.json", "runtime/BP/items/blue_bar_stool.json", "runtime/BP/items/brown_bar_stool.json", "runtime/BP/items/butterfly_incense.json", "runtime/BP/items/catnip_incense.json", "runtime/BP/items/chalkboard.json", "runtime/BP/items/cornflower_sandwich_board.json", "runtime/BP/items/cyan_bar_stool.json", "runtime/BP/items/firefly_incense.json", "runtime/BP/items/ginkgo_incense.json", "runtime/BP/items/glow_berries_bucket.json", "runtime/BP/items/gold_grape.json", "runtime/BP/items/gold_grape_bucket.json", "runtime/BP/items/grape.json", "runtime/BP/items/grape_bucket.json", "runtime/BP/items/grapevine.json", "runtime/BP/items/grass_sandwich_board.json", "runtime/BP/items/gray_bar_stool.json", "runtime/BP/items/green_bar_stool.json", "runtime/BP/items/green_grape.json", "runtime/BP/items/green_grape_bucket.json", "runtime/BP/items/ice_grape.json", "runtime/BP/items/ice_grape_bucket.json", "runtime/BP/items/light_blue_bar_stool.json", "runtime/BP/items/light_gray_bar_stool.json", "runtime/BP/items/lime_bar_stool.json", "runtime/BP/items/magenta_bar_stool.json", "runtime/BP/items/molotov.json", "runtime/BP/items/orange_bar_stool.json", "runtime/BP/items/orchid_sandwich_board.json", "runtime/BP/items/peony_sandwich_board.json", "runtime/BP/items/pine_incense.json", "runtime/BP/items/pink_bar_stool.json", "runtime/BP/items/pink_petals_sandwich_board.json", "runtime/BP/items/pitcher_plant_sandwich_board.json", "runtime/BP/items/poppy_sandwich_board.json", "runtime/BP/items/purple_bar_stool.json", "runtime/BP/items/red_bar_stool.json", "runtime/BP/items/sakura_incense.json", "runtime/BP/items/snow_incense.json", "runtime/BP/items/spore_incense.json", "runtime/BP/items/stepladder.json", "runtime/BP/items/string_lights_black.json", "runtime/BP/items/string_lights_blue.json", "runtime/BP/items/string_lights_brown.json", "runtime/BP/items/string_lights_colorless.json", "runtime/BP/items/string_lights_cyan.json", "runtime/BP/items/string_lights_gray.json", "runtime/BP/items/string_lights_green.json", "runtime/BP/items/string_lights_light_blue.json", "runtime/BP/items/string_lights_light_gray.json", "runtime/BP/items/string_lights_lime.json", "runtime/BP/items/string_lights_magenta.json", "runtime/BP/items/string_lights_orange.json", "runtime/BP/items/string_lights_pink.json", "runtime/BP/items/string_lights_purple.json", "runtime/BP/items/string_lights_red.json", "runtime/BP/items/string_lights_white.json", "runtime/BP/items/string_lights_yellow.json", "runtime/BP/items/sunflower_sandwich_board.json", "runtime/BP/items/sweet_berries_bucket.json", "runtime/BP/items/torchflower_sandwich_board.json", "runtime/BP/items/tulip_sandwich_board.json", "runtime/BP/items/white_bar_stool.json", "runtime/BP/items/wither_rose_sandwich_board.json", "runtime/BP/items/yellow_bar_stool.json", "runtime/BP/manifest.json", "runtime/BP/scripts/bedrock/bar-cabinet.js", "runtime/BP/scripts/bedrock/bottles.js", "runtime/BP/scripts/bedrock/cellar-cabinet.js", "runtime/BP/scripts/bedrock/circular-rack.js", "runtime/BP/scripts/bedrock/combat-effects.js", "runtime/BP/scripts/bedrock/display-projectiles.js", "runtime/BP/scripts/bedrock/furniture.js", "runtime/BP/scripts/bedrock/holder.js", "runtime/BP/scripts/bedrock/immersion.js", "runtime/BP/scripts/bedrock/java-placement-router.js", "runtime/BP/scripts/bedrock/pressing-feedback.js", "runtime/BP/scripts/bedrock/shaker-screen.js", "runtime/BP/scripts/bedrock/stateful-storage-router.js", "runtime/BP/scripts/bedrock/storage-projectile.js", "runtime/BP/scripts/bedrock/tap-sources.js", "runtime/BP/scripts/bedrock/tilted-rack.js", "runtime/BP/scripts/bedrock/tipsy-visual.js", "runtime/BP/scripts/bedrock/waterlogging.js", "runtime/BP/scripts/core/cellar-cabinet.js", "runtime/BP/scripts/core/decorations.js", "runtime/BP/scripts/core/inventory.js", "runtime/BP/scripts/data/fluids.js", "runtime/BP/scripts/data/guide-catalog.js", "runtime/BP/scripts/data/guide-icons.js", "runtime/BP/scripts/data/guide-pages.js", "runtime/BP/scripts/data/mixology-pages.js", "runtime/BP/scripts/data/mixology.js", "runtime/RP/animations/runtime_shaker.animation.json", "runtime/RP/manifest.json", "runtime/RP/models/entity/allium_garden.geo.json", "runtime/RP/models/entity/bloody_mary.geo.json", "runtime/RP/models/entity/brass_heart.geo.json", "runtime/RP/models/entity/depth_charge.geo.json", "runtime/RP/models/entity/emerald.geo.json", "runtime/RP/models/entity/empty_bottle_faces.geo.json", "runtime/RP/models/entity/empty_glassware.geo.json", "runtime/RP/models/entity/glowflower_brew_1.geo.json", "runtime/RP/models/entity/glowflower_brew_2.geo.json", "runtime/RP/models/entity/glowflower_brew_3.geo.json", "runtime/RP/models/entity/glowflower_brew_4.geo.json", "runtime/RP/models/entity/godfather.geo.json", "runtime/RP/models/entity/grasshopper.geo.json", "runtime/RP/models/entity/luminous_bride_1.geo.json", "runtime/RP/models/entity/luminous_bride_2.geo.json", "runtime/RP/models/entity/luminous_bride_3.geo.json", "runtime/RP/models/entity/luminous_bride_4.geo.json", "runtime/RP/models/entity/madame_shexiang_1.geo.json", "runtime/RP/models/entity/madame_shexiang_2.geo.json", "runtime/RP/models/entity/madame_shexiang_3.geo.json", "runtime/RP/models/entity/madame_shexiang_4.geo.json", "runtime/RP/models/entity/mojito.geo.json", "runtime/RP/models/entity/mystery_cocktail.geo.json", "runtime/RP/models/entity/nether_special.geo.json", "runtime/RP/models/entity/rig_signature_liquid.geo.json", "runtime/RP/models/entity/screwdriver.geo.json", "runtime/RP/models/entity/sculk_special.geo.json", "runtime/RP/models/entity/sunset_glow_1.geo.json", "runtime/RP/models/entity/sunset_glow_2.geo.json", "runtime/RP/models/entity/sunset_glow_3.geo.json", "runtime/RP/models/entity/white_lady.geo.json", "runtime/RP/particles/butterfly_incense.json", "runtime/RP/particles/butterfly_incense_ambient.json", "runtime/RP/particles/butterfly_incense_large.json", "runtime/RP/particles/butterfly_incense_plume.json", "runtime/RP/particles/catnip_incense.json", "runtime/RP/particles/catnip_incense_ambient.json", "runtime/RP/particles/catnip_incense_large.json", "runtime/RP/particles/catnip_incense_plume.json", "runtime/RP/particles/firefly_incense.json", "runtime/RP/particles/firefly_incense_ambient.json", "runtime/RP/particles/firefly_incense_large.json", "runtime/RP/particles/firefly_incense_plume.json", "runtime/RP/particles/ginkgo_incense.json", "runtime/RP/particles/ginkgo_incense_ambient.json", "runtime/RP/particles/ginkgo_incense_large.json", "runtime/RP/particles/ginkgo_incense_plume.json", "runtime/RP/particles/lava_tap_drip.json", "runtime/RP/particles/lava_tap_drip_child.json", "runtime/RP/particles/pine_incense.json", "runtime/RP/particles/pine_incense_ambient.json", "runtime/RP/particles/pine_incense_large.json", "runtime/RP/particles/pine_incense_plume.json", "runtime/RP/particles/sakura_incense.json", "runtime/RP/particles/sakura_incense_ambient.json", "runtime/RP/particles/sakura_incense_plume.json", "runtime/RP/particles/snow_incense.json", "runtime/RP/particles/snow_incense_ambient.json", "runtime/RP/particles/snow_incense_large.json", "runtime/RP/particles/snow_incense_plume.json", "runtime/RP/particles/spore_incense.json", "runtime/RP/particles/spore_incense_ambient.json", "runtime/RP/particles/spore_incense_plume.json", "runtime/RP/particles/water_tap_drip.json", "runtime/RP/particles/water_tap_drip_child.json", "runtime/RP/sounds/sound_definitions.json", "runtime/RP/textures/item_texture.json", "runtime/RP/ui/hud_screen.json"], "reviewedRemovals": ["runtime/BP/scripts/bedrock/block-gesture.js", "runtime/BP/scripts/core/formatting-hud-transport.js", "runtime/BP/scripts/core/guide.js", "runtime/BP/scripts/data/names.js", "runtime/RP/animations/runtime_shaker_pour.animation.json", "runtime/RP/attachables/animated_item_depth_charge.attachable.json", "runtime/RP/attachables/animated_item_ice_grape.attachable.json", "runtime/RP/attachables/animated_item_mystery_cocktail.attachable.json", "runtime/RP/attachables/animated_item_nether_special.attachable.json", "runtime/RP/attachables/base_sandwich_board.attachable.json", "runtime/RP/models/entity/animated_item_depth_charge.geo.json", "runtime/RP/models/entity/animated_item_ice_grape.geo.json", "runtime/RP/models/entity/animated_item_mystery_cocktail.geo.json", "runtime/RP/models/entity/animated_item_nether_special.geo.json", "runtime/RP/models/entity/base_sandwich_board_held.geo.json", "runtime/RP/render_controllers/animated_item_depth_charge.render_controllers.json", "runtime/RP/render_controllers/animated_item_ice_grape.render_controllers.json", "runtime/RP/render_controllers/animated_item_mystery_cocktail.render_controllers.json", "runtime/RP/render_controllers/animated_item_nether_special.render_controllers.json"], "unchangedExistingRuntimeFiles": 3251, "currentContracts": {"barrelResources": {"sources": ["runtime/RP/entity/runtime_barrel_ingredients_0.entity.json", "runtime/RP/entity/runtime_barrel_ingredients_1.entity.json", "runtime/RP/entity/runtime_barrel_ingredients_2.entity.json", "runtime/RP/entity/runtime_barrel_ingredients_3.entity.json", "runtime/RP/render_controllers/runtime_barrel_ingredients.render_controllers.json"], "generatedResources": "passed", "adapterScenarios": "separate foundation CI; not run by this command"}, "foundation": {"sources": ["runtime/BP/scripts/bedrock/extension-furniture.js", "runtime/BP/scripts/bedrock/foundation-bridge.js"], "sdkOwner": "sdk/tavern-foundation-client.js", "consumer": null, "syntax": "passed", "ownershipAndWiring": "passed", "behavior": "actual foundation.test.mjs in the existing foundation CI lane; not run by this static check", "nativeInventoryRecovery": false, "bds": false, "client": false}, "extensions": {"sources": ["runtime/BP/NOTICE-Mojang-native-incense.txt", "runtime/BP/entities/zombie_villager.json", "runtime/BP/entities/zombie_villager_v2.json", "runtime/BP/recipes/blue_pendant_lamp_from_dye.json", "runtime/BP/recipes/grass_sandwich_board_from_grass.json", "runtime/BP/scripts/bedrock/board-text.js", "runtime/BP/scripts/bedrock/decorations.js", "runtime/BP/scripts/bedrock/extension-host.js", "runtime/BP/scripts/bedrock/machines.js", "runtime/BP/scripts/bedrock/mixology.js", "runtime/BP/scripts/bedrock/natural-break.js", "runtime/BP/scripts/bedrock/pickup-overflow.js", "runtime/BP/scripts/bedrock/quality-tooltip.js", "runtime/BP/scripts/bedrock/transactions.js", "runtime/BP/scripts/bedrock/writing-boards.js", "runtime/BP/scripts/core/board-layout.js", "runtime/BP/scripts/core/boards.js", "runtime/BP/scripts/core/bottle-display-schema.js", "runtime/BP/scripts/core/cookery-guide-publisher.js", "runtime/BP/scripts/core/extension-content.js", "runtime/BP/scripts/core/extension-foundation.js", "runtime/BP/scripts/core/furniture.js", "runtime/BP/scripts/core/machines.js", "runtime/BP/scripts/core/quality-tooltip.js", "runtime/BP/scripts/core/registry.js", "runtime/BP/scripts/core/transport.js", "runtime/BP/scripts/core/util.js", "runtime/BP/scripts/data/board-font.js", "runtime/BP/scripts/data/cookery-guide-payload.js", "runtime/BP/scripts/data/effect-icons.js", "runtime/BP/scripts/data/guide-copy.js", "runtime/BP/scripts/data/guide-native-names.js", "runtime/BP/scripts/data/guide-navigation.js", "runtime/RP/texts/en_US.lang", "runtime/RP/texts/ja_JP.lang", "runtime/RP/texts/ru_RU.lang", "runtime/RP/texts/zh_CN.lang", "runtime/RP/texts/zh_TW.lang"], "ownershipAndWiring": "passed", "syntax": "passed", "localization": {"locales": ["en_US", "zh_CN", "zh_TW", "ja_JP", "ru_RU"], "completeLocales": ["en_US", "zh_CN", "zh_TW"], "keysPerCompleteLocale": 1732, "runtimeLabelReferences": 399, "fallbackRuntimeLabels": {"en_US": 0, "zh_CN": 0, "zh_TW": 0, "ja_JP": 259, "ru_RU": 259}, "duplicates": 0, "missingKeys": 0, "placeholderMismatches": 0, "orphanedLanguageFiles": 0}, "behavior": "existing current-extension-contract, transport-integrity, extension-bottle, furniture-interaction, board-farm-interaction, standalone-guide, board-layout, mixology rejection and pickup adapter persistence/destruction and native machine/shaker retention suites; not run by this static check", "javaResources": "existing incense surfaces/sampling, barrel materials/collision and guide checks in the package suite; not run by this static check", "bds": false, "client": false}, "cultivation": {"sources": ["runtime/BP/blocks/gold_grape_crop.json", "runtime/BP/blocks/grape_crop.json", "runtime/BP/blocks/grapevine_trellis.json", "runtime/BP/blocks/ice_grape_crop.json", "runtime/BP/blocks/wild_grapevine.json", "runtime/BP/blocks/wild_grapevine_plant.json", "runtime/BP/loot_tables/blocks/wild_grapevine.json", "runtime/BP/scripts/bedrock/cultivation.js", "runtime/BP/scripts/bedrock/protected-break-router.js", "runtime/RP/models/entity/wild_grapevine.geo.json"], "resources": "passed", "plants": {"models": 48, "directed_faces": 660, "state_combinations": 1026, "visual_declarations": 108, "engine_execution": false}, "behavior": "actual board-farm-interaction suite, not run by this resource check", "bds": false, "client": false}, "pressingGeometry": {"card_dimensions": [8.0, 8.0, 0.5], "center": [0, 0, 0], "cubes": 8, "helpers": 8, "slots": 64, "card_ids": 22, "cube_kinds": 5, "barrel_control_cubes": 9, "native_frame_culling_verified": false, "gameplay_verified": false, "material_verified": false}, "incenseResources": {"firstVisibleUndersideRays": 256, "sourceFillBottomRetained": true, "incenseTypes": 8, "sharedModels": 2, "culledCutoutSides": true, "opaqueInterCubeOverlaps": 0, "clientRenderingTested": false}, "creativeCatalog": {"namespace": "kaleidoscope_tavern", "visible_items": 161, "planned_items": 160, "changed_files": 0, "sources": ["runtime/BP/item_catalog/crafting_item_catalog.json"], "bds": false, "client": false, "java_wine_order": {"source": "/workspace/scratch/f31f84fbb9ff/tavern-visual-review-20261108/java-reference/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/init/ModCreativeTabs.java", "items": 25, "order": "passed"}}, "guide": {"sources": ["runtime/BP/scripts/bedrock/standalone-guide.js", "runtime/BP/scripts/core/standalone-guide-model.js", "runtime/RP/ui/server_form.json"], "behaviorAndResources": "actual standalone-guide.test.mjs, presentation-settings.test.mjs and check_guide.mjs in the existing package suite; not run by this static command"}, "potionVisual": {"java_model_texture_verified": true, "generated_resources": 8, "untinted_glass_cubes": 7, "shared_liquid_geometry": true, "inventory_helpers_added": 0, "client_rendered": false, "sources": ["runtime/BP/blocks/potion_bottle.json", "runtime/BP/entities/potion_liquid_visual.json", "runtime/BP/scripts/bedrock/potions.js", "runtime/BP/scripts/bedrock/vanilla-bottle-displays.js", "runtime/BP/scripts/core/effect-colors.js", "runtime/BP/scripts/core/potions.js", "runtime/BP/scripts/core/status-aura.js", "runtime/BP/scripts/main.js", "runtime/RP/entity/potion_liquid_visual.entity.json", "runtime/RP/models/entity/potion_bottle_glass.geo.json", "runtime/RP/models/entity/potion_liquid_texels.geo.json", "runtime/RP/render_controllers/potion_liquid.render_controllers.json", "runtime/RP/textures/kt_runtime/potion/rgb_opaque.png", "runtime/RP/textures/kt_runtime/potion/rgb_opaque.texture_set.json"], "adapterScenarios": "separate foundation CI; not run by this command"}, "customEffects": {"sources": ["runtime/BP/scripts/bedrock/custom-effects.js", "runtime/BP/scripts/core/custom-effects.js"], "behaviorScenarios": "normal PR scripts plus separate efficiency/foundation CI; not run by this command"}}, "pureRules": {"pureChecks": "passed", "rackVectorCases": 56, "splashDurationThreshold": "strictly greater than 20 ticks", "instantEffectsAttenuateStrength": true, "javaReferenceAfter10Ticks": {"x": 7.64943399929564, "y": 0.20537749735865296, "z": 0}, "referenceIsNotBedrockMeasurement": true, "simulatedPlayerTests": false}, "nativeMolotovResources": "source/schema aligned; device acceptance pending", "tipsyCameraOnlyRoll": "NOT_RESTORED", "tipsyChanges": "diagnostics, immediate status hook and bounded transient-error retry only", "bdsTest": "NOT_RUN", "clientTest": "NOT_RUN", "simulatedPlayerTests": false, "limits": ["No new BDS, client or simulated player tests", "The projectile fields are source/schema alignment, not measured effective launch speed", "Java triangular projectile spread versus native inaccuracy is not claimed identical", "Fire support/soul-fire/portal rules are not fully mapped", "All-LivingEntity custom-effect and potion-immunity parity remains incomplete", "Tipsy camera-only roll is NOT restored or claimed verified"]}
+{"hudStaticChecks":"passed","slotCases":4913,"progressStates":112,"formattedProgressCases":560,"pruningCases":25135,"packetDefinitionControls":167,"maxSelectedControls":5,"idleSamples":256,"literalImageReferences":53,"clientTested":false}
+✔ named cups show source effects, with no fake timer on instantaneous effects (1.640153ms)
+✔ signature tooltip reads the cup payload and hides non-guaranteed effects like Java (0.529225ms)
+✔ normalization is idempotent and preserves native names, properties and custom lore (3.537804ms)
+✔ over twenty effect rows disclose the remainder without mutating the payload (0.289235ms)
+✔ shaker lore uses source colors and resolved potion names, wrapping long names losslessly (0.464017ms)
+✔ the actual shared guide includes cocktail effects in all three languages and keeps seven entrances (31.677656ms)
+✔ empty status has no packet (1.369276ms)
+✔ active effects remain silent by default, without reading or changing host state (1.292892ms)
+✔ native effects stay in native HUD (0.261423ms)
+✔ host and external effects share one bar (0.170797ms)
+✔ only active amplifier shown; no duplicate icon for weaker queued layer (0.281353ms)
+✔ expired strong layer reveals weak layer using real host advancement (0.311798ms)
+✔ real addStatus refresh never changes rendering rules (0.261453ms)
+✔ malformed/expired entries do not render (0.269214ms)
+✔ read-only: formatter does not mutate authoritative state (0.294452ms)
+✔ ticks round up and use minutes or hours (0.255093ms)
+✔ base level is compact; higher levels Roman II-X then decimal (0.135003ms)
+✔ client translates original effect names, not hardcoded language (0.404888ms)
+✔ two entries per page; every entry appears through rotation (0.302044ms)
+✔ players only receive their own effect state (0.164437ms)
+✔ bar refreshes at most once per 20 ticks (0.248653ms)
+✔ each refresh uses current host remaining ticks, not local subtraction (0.151377ms)
+✔ three-second pagination and reset on effect-set change (0.195944ms)
+✔ milk/death/expiry stops refresh without clearing another addon channel (0.115644ms)
+✔ idle players produce zero actionbar writes (0.22614ms)
+✔ interaction hints reserve three seconds and do not affect another player (2.615688ms)
+✔ shaker/barrel foreground suppresses background bar (0.133791ms)
+✔ per-player opt-out leaves effects intact (9.098215ms)
+✔ one invalid player or failed display cannot stop other players (0.335825ms)
+✔ corrupt state fails locally without erasing any saved data (0.461312ms)
+✔ leaving and reconnecting resets only display timing (0.101702ms)
+✔ entrypoint installs once; no new UI/native-effect writes in bar (19.236471ms)
+✔ Cookery bootstrap keeps registry private until runJob finishes preparation (1.863589ms)
+✔ entrypoint observation rejects extra immediate or deferred installation (4.303884ms)
+✔ all host timed effects have English and Chinese name translations (4.818056ms)
+﹣ paired World Liquor timed effects use host state and existing localized names (0.059719ms) # SKIP
+✔ Real adapter startup: standalone, external queue, embedded election and repeated installation (12.175256ms)
+✔ HUD generator check accepts equivalent JSON spelling but rejects changed controls and invalid JSON (746.389376ms)
+✔ Only active strongest layers; native, expired and unmapped effects never impersonate icons (0.747032ms)
+✔ No countdown traffic; milk/expiry, dimensions, respawn and opt-out are isolated (11.004798ms)
+✔ Dimension rebuild refresh resends only the current packet; known inactive views stay silent (0.639571ms)
+✔ Dimension transfer schedules +20/+40 refreshes; newer transfers, spawn/leave, other destinations and invalid handles discard them (0.874083ms)
+✔ All slot tokens are unique and cannot produce phantom icons across boundaries (2.01735ms)
+✔ Native formatting prefix capture uses its UTF-8 byte precision, not JavaScript length (3.190451ms)
+✔ Standalone sprites and additive root controls have no optional asset dependency (5.807302ms)
+✔ Standalone and optional routers all deliver icons; no router is a requirement (0.726712ms)
+✔ Removed optional addon state stays inert; registered addon effects return without changing saved data (0.381914ms)
+✔ production sender delivers only valid owned graphical packets through the actionbar factory (2.41051ms)
+✔ production graphics use bounded local actionbar events while effect titles stay separate (6.040673ms)
+✔ looking at a barrel is silent until its optional status is explicitly enabled (1.995517ms)
+✔ a rejection writes once and is never refreshed by crosshair/idle polling (0.649946ms)
+✔ successful mixing has no text announcement and retains graphical progress/slots (0.280712ms)
+✔ low-quality ingredients use the original translated chat without taking the Actionbar (0.297677ms)
+✔ leaving a target or clearing a session never erases a foreign Actionbar (0.382965ms)
+✔ unchanged placed previews parse once while preserving every ten-tick display refresh (1.279272ms)
+✔ preview raw bytes and target, dimension, hand and portable identity invalidate immediately (0.849996ms)
+✔ invalid changed preview cannot retain a valid cache entry or mutate stored input (0.590116ms)
+✔ preview storage retains one target per player and has a fixed player bound (5.588113ms)
+✔ only the three known sound levels change the owner multiplier; reads never migrate legacy data (1.85049ms)
+✔ both settings persist and acknowledge together; a confirmed unchanged save writes nothing (2.568427ms)
+✔ invalid selections and incomplete snapshots cannot write either setting (0.668084ms)
+✔ a failure after write 1 restores both original raw settings (0.434893ms)
+✔ a failure after write 2 restores both original raw settings (0.270296ms)
+✔ a silent failed write is detected and restores absent and legacy values without normalizing them (0.394653ms)
+✔ rollback attempts both keys and exposes an unconfirmed restore instead of claiming success (0.381293ms)
+✔ read-back recognizes a completed restore even if its setter throws afterward (0.297217ms)
+✔ sound preference less changes only owner shaker/completion volume (2.257941ms)
+✔ sound preference normal changes only owner shaker/completion volume (1.281906ms)
+✔ sound preference more changes only owner shaker/completion volume (1.074333ms)
+✔ sound preference undefined changes only owner shaker/completion volume (3.341779ms)
+✔ sound preference legacy changes only owner shaker/completion volume (1.29141ms)
+✔ non-shake ticks and world feedback retain their original routing and arguments (1.063997ms)
+✔ disconnect and owned stop never clear another player or the shared actionbar (1.712592ms)
+✔ original event factory has bounded slots/progress lifetime and no title cache ancestry (12.43121ms)
+✔ actual generator restores receipt-relative animation flags and heartbeat-safe progress lifetime (143.416514ms)
+✔ progress survives four-to-nine-tick refresh gaps without extrapolating or changing the sender cadence (1.673814ms)
+✔ actual initial, slots, progress and stop gates select the expected graphics (8.624503ms)
+✔ the shipped cursor follows Java integer partial-tick steps and holds on packet loss (0.409725ms)
+✔ native factory supplies local event text and replaces only its own bounded instance (3.304894ms)
+ℹ tests 79
+ℹ suites 0
+ℹ pass 78
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 1
+ℹ todo 0
+ℹ duration_ms 1035.462518
+.......
+----------------------------------------------------------------------
+Ran 7 tests in 0.181s
+
+OK
+4 scoped Tavern guide flipbooks and 3 native multiline board inputs; rendered client behavior not measured.
+.......
+----------------------------------------------------------------------
+Ran 7 tests in 0.014s
+
+OK
+{"ok": true, "native_root_type_preserved": true, "native_root_controls_preserved": 29, "selected_optional_panel": "hud.kt_family_empty", "registered_native_root_redefinitions": 0, "family_optional_roots": 2, "paired_grilling_bridge_verified": false, "resource_order_independent": true, "client": false, "scope": "Pinned Mojang root preservation, optional-control and matching family-bridge catalog resolution; no rendered-client claim."}
+{
+  "blocks": 161,
+  "materialMaps": 2732,
+  "errors": [],
+  "crossStateOrItemMethodsForReview": [
+    {
+      "block": "kaleidoscope_tavern:cup_signature_cocktail",
+      "methods": [
+        "alpha_test",
+        "alpha_test_single_sided"
+      ]
+    },
+    {
+      "block": "kaleidoscope_tavern:glassware_holder",
+      "methods": [
+        "alpha_test",
+        "alpha_test_single_sided"
+      ]
+    },
+    {
+      "block": "kaleidoscope_tavern:holder",
+      "methods": [
+        "alpha_test",
+        "alpha_test_single_sided"
+      ]
+    },
+    {
+      "block": "kaleidoscope_tavern:light_black",
+      "methods": [
+        "alpha_test",
+        "alpha_test_single_sided"
+      ]
+    },
+    {
+      "block": "kaleidoscope_tavern:light_blue",
+      "methods": [
+        "alpha_test",
+        "alpha_test_single_sided"
+      ]
+    },
+    {
+      "block": "kaleidoscope_tavern:light_brown",
+      "methods": [
+        "alpha_test",
+        "alpha_test_single_sided"
+      ]
+    },
+    {
+      "block": "kaleidoscope_tavern:light_colorless",
+      "methods": [
+        "alpha_test",
+        "alpha_test_single_sided"
+      ]
+    },
+    {
+      "block": "kaleidoscope_tavern:light_cyan",
+      "methods": [
+        "alpha_test",
+        "alpha_test_single_sided"
+      ]
+    },
+    {
+      "block": "kaleidoscope_tavern:light_gray",
+      "methods": [
+        "alpha_test",
+        "alpha_test_single_sided"
+      ]
+    },
+    {
+      "block": "kaleidoscope_tavern:light_green",
+      "methods": [
+        "alpha_test",
+        "alpha_test_single_sided"
+      ]
+    },
+    {
+      "block": "kaleidoscope_tavern:light_light_blue",
+      "methods": [
+        "alpha_test",
+        "alpha_test_single_sided"
+      ]
+    },
+    {
+      "block": "kaleidoscope_tavern:light_light_gray",
+      "methods": [
+        "alpha_test",
+        "alpha_test_single_sided"
+      ]
+    },
+    {
+      "block": "kaleidoscope_tavern:light_lime",
+      "methods": [
+        "alpha_test",
+        "alpha_test_single_sided"
+      ]
+    },
+    {
+      "block": "kaleidoscope_tavern:light_magenta",
+      "methods": [
+        "alpha_test",
+        "alpha_test_single_sided"
+      ]
+    },
+    {
+      "block": "kaleidoscope_tavern:light_orange",
+      "methods": [
+        "alpha_test",
+        "alpha_test_single_sided"
+      ]
+    },
+    {
+      "block": "kaleidoscope_tavern:light_pink",
+      "methods": [
+        "alpha_test",
+        "alpha_test_single_sided"
+      ]
+    },
+    {
+      "block": "kaleidoscope_tavern:light_purple",
+      "methods": [
+        "alpha_test",
+        "alpha_test_single_sided"
+      ]
+    },
+    {
+      "block": "kaleidoscope_tavern:light_red",
+      "methods": [
+        "alpha_test",
+        "alpha_test_single_sided"
+      ]
+    },
+    {
+      "block": "kaleidoscope_tavern:light_white",
+      "methods": [
+        "alpha_test",
+        "alpha_test_single_sided"
+      ]
+    },
+    {
+      "block": "kaleidoscope_tavern:light_yellow",
+      "methods": [
+        "alpha_test",
+        "alpha_test_single_sided"
+      ]
+    },
+    {
+      "block": "kaleidoscope_tavern:shaker_station",
+      "methods": [
+        "alpha_test",
+        "blend"
+      ]
+    },
+    {
+      "block": "kaleidoscope_tavern:tilted_rack",
+      "methods": [
+        "alpha_test",
+        "alpha_test_single_sided"
+      ]
+    },
+    {
+      "block": "kaleidoscope_tavern:xp_bottle",
+      "methods": [
+        "alpha_test",
+        "alpha_test_single_sided"
+      ]
+    }
+  ],
+  "externalBlockReferences": [
+    "minecraft:air"
+  ],
+  "engineTested": false,
+  "blankEngineLogAttributed": false
+}
+{
+  "namespace": "kaleidoscope_tavern",
+  "visible_items": 161,
+  "planned_items": 160,
+  "changed_files": 0
+}
+Native pick definitions: OK
+{"vibrant_source_gate": "passed", "in_memory_manifest_cases": 10, "client_tested": false, "production_stack_tested": false}
+Java incense sampling distribution and fractional rates verified; no player simulation.
+{"firstVisibleUndersideRays": 256, "sourceFillBottomRetained": true, "incenseTypes": 8, "sharedModels": 2, "culledCutoutSides": true, "opaqueInterCubeOverlaps": 0, "clientRenderingTested": false}
+..................
+----------------------------------------------------------------------
+Ran 18 tests in 1.026s
+
+OK
+.......
+----------------------------------------------------------------------
+Ran 7 tests in 0.174s
+
+OK
+Four original animated native item routes and drink/eat components verified; no custom hand rig. Client animation/use acceptance pending.
+14 sandwich-board native geometry routes verified; unbound hand override absent.
+4 scoped Tavern guide flipbooks and 3 native multiline board inputs; rendered client behavior not measured.
+{"barrelShapeStates": 108, "oracle": "original Java getShape", "client": false}
+.....
+----------------------------------------------------------------------
+Ran 5 tests in 0.028s
+
+OK
+{"storageSlotCenters":80,"sofaCorners":32,"wideBoardPieces":6,"nativeColorRecipes":12,"clientTested":false}
+Board capacity, five horizontal alignments, three vertical alignments and duplicate gesture policy passed.
+{"geometriesChecked": 179, "renderedFacesChecked": 6008, "remainingSameFacingDepthConflicts": 0, "originalFaceUvsPreserved": false, "reviewedOccludedUvCrops": ["runtime/RP/models/entity/luminous_bride_3.geo.json", "runtime/RP/models/entity/luminous_bride_4.geo.json", "runtime/RP/models/entity/luminous_bride_2.geo.json", "runtime/RP/models/entity/luminous_bride_1.geo.json"], "idempotent": true, "clientTest": false}
+{
+  "holderFacingOccupancyCases": 64,
+  "slotVisibilityChecks": 256,
+  "errors": [],
+  "clientConvention": "measured-2026-09-29",
+  "clientTestedThisRun": false
+}
+Static checks passed: 2074 JSON files, 1254 geometries; no interaction tests run.

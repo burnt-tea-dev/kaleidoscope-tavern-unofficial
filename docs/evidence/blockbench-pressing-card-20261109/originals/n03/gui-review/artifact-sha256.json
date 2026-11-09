@@ -1,0 +1,114 @@
+{
+  "README.md": {
+    "sha256": "33133c58af8b3f77495b154d822b29e4e0773d24d35be69c2b5502d065b0e23d",
+    "bytes": 3503
+  },
+  "camera/02-pressing-card-index0-top-camera.jpg": {
+    "sha256": "042b04b7023e456c930e426908e21850afa3d2ce11d80d0a07a0a1ee3fa3ccda",
+    "bytes": 64176
+  },
+  "checkpoint-01.json": {
+    "sha256": "b83480e83d8fb983be3cea775f2bdc59baba8fc3482cc2c2e3b16e0e9a2c6e33",
+    "bytes": 3159
+  },
+  "diagnostic/02-pressing-card-index0-top-centered-blank.jpg": {
+    "sha256": "7a28e444c074d93407d226cc888aa53bf1f34d552716cd466e8a236ad6fb524f",
+    "bytes": 75997
+  },
+  "diagnostic/02-pressing-card-index0-top-off-target.jpg": {
+    "sha256": "7a28e444c074d93407d226cc888aa53bf1f34d552716cd466e8a236ad6fb524f",
+    "bytes": 75997
+  },
+  "diagnostic/03-pressing-card-index0-north-edge-one-sided.jpg": {
+    "sha256": "4ded44cfe94037bf38afb7f5b76defd92788ffa6acd0b079f1ec349972b3bf9f",
+    "bytes": 76208
+  },
+  "diagnostic/11-pressing-card-tilt-north-edge-on.jpg": {
+    "sha256": "8b4743fc9a7634f3194838270b2f1e4ba8fdfe7ed03da325314dbc531558237b",
+    "bytes": 90852
+  },
+  "diagnostic/12-pressing-card-tilt-east-edge-on.jpg": {
+    "sha256": "4ef07c942ed4c37d822415c1f861e8a5b29e54e6706d116b25bfca5f2f01b3ec",
+    "bytes": 77682
+  },
+  "diagnostic/12-pressing-card-tilt-north-body-occluded.jpg": {
+    "sha256": "f4e6e35dc5aff4828ff20362c00a0b34820d58feca1c9505cb3e9d2647c6e0cf",
+    "bytes": 80833
+  },
+  "diagnostic/14-animated-ice-grape-tick1-too-distant.jpg": {
+    "sha256": "1802d11f96dc21927d704a4280b9539ed4e6926287ff4c62bee00ea5fe969162",
+    "bytes": 79420
+  },
+  "preflight-input-hashes.json": {
+    "sha256": "b8c4a47e22370281f661062f16c343388ba64d59aa6bc4a32d7fc290a39a1a3d",
+    "bytes": 56404
+  },
+  "review-report.json": {
+    "sha256": "f07fd418639b24da457cdec823cca0e42b0a63b970adc7a30c39f48c5f0928b6",
+    "bytes": 78720
+  },
+  "scene-identity-index.json": {
+    "sha256": "36971ea0ffb86fd7d24cdb45e970b897231232374bacc486920cb13e307721ed",
+    "bytes": 78071
+  },
+  "screenshots/01-pressing-card-upright-context.jpg": {
+    "sha256": "cfcd67c470679ee7c2f36b8e7e275abe1f60bee452f86b3b1bd273899ee2910c",
+    "bytes": 86145
+  },
+  "screenshots/02-pressing-card-index0-top.jpg": {
+    "sha256": "a4e4108796538e5c4d1f6faf5544dcd8b65f152efeffa9a1fdf77f94d32978e7",
+    "bytes": 79850
+  },
+  "screenshots/03-pressing-card-index0-oblique.jpg": {
+    "sha256": "3694f4a6fc56871e6746d69792b4188e2e68d3273f4ebca905578be0cf81d659",
+    "bytes": 78026
+  },
+  "screenshots/04-barrel-liquids-top.jpg": {
+    "sha256": "e93f49ecec4ef8975c4586519b4918239e51f2acb14d8cdf6a96eaf88e022ed0",
+    "bytes": 117123
+  },
+  "screenshots/05-barrel-liquids-oblique.jpg": {
+    "sha256": "ad03a27dd09074df7c9f6ae4e0fd2f47f13f3020a88b03c46d22dda3ac2b12f6",
+    "bytes": 136909
+  },
+  "screenshots/06-pressing-liquids-perspective.jpg": {
+    "sha256": "487d2495dc055ae1f9e7625ad2e5b53e1685021cd2e3e3fd329fa766b7879d29",
+    "bytes": 92912
+  },
+  "screenshots/07-pressing-liquids-top.jpg": {
+    "sha256": "057ba9c591b47b4582fc2e0f87f9e1752ee367422720318f52792c3a0f595422",
+    "bytes": 90195
+  },
+  "screenshots/08-barrel-card-slots-top.jpg": {
+    "sha256": "5cb60aef143e04ed3d2f288baf4984ef110b2997fa050c4185d1e46c87822560",
+    "bytes": 109395
+  },
+  "screenshots/09-barrel-card-slots-isolated-oblique.jpg": {
+    "sha256": "0f401b2975d76894828d8e4a77ff2c96f1c92cf0959a9914f560a3aea503a42d",
+    "bytes": 84315
+  },
+  "screenshots/10-pressing-card-tilt-north-reference.jpg": {
+    "sha256": "2e26884b0eebbdd4e7319cb7d4f9b02520f13a720317bd7b630c02a190c1e4a0",
+    "bytes": 87937
+  },
+  "screenshots/11-pressing-card-tilt-north-isolated-south.jpg": {
+    "sha256": "61917ddd810e173eb609350d97085dba483137be5609f406da4535b6c8aafe61",
+    "bytes": 80057
+  },
+  "screenshots/12-pressing-card-tilt-east-top.jpg": {
+    "sha256": "bb86410006338f7ff43618686465d648344a331fb1a2ac8e28a1684995f0aeec",
+    "bytes": 81548
+  },
+  "screenshots/13-cube-neutral-controls-isolated.jpg": {
+    "sha256": "a2f044df25bb52c3078c56bda25837c377d50498d2a6e9a20fa612709fff46e6",
+    "bytes": 79510
+  },
+  "screenshots/14-animated-ice-grape-tick1-top.jpg": {
+    "sha256": "71c6391e3a6a8ec898ac5cfb61663c5abebe35976d3f845843f0fe2377b02eaa",
+    "bytes": 84591
+  },
+  "session-baseline.json": {
+    "sha256": "6c6a938273b98c87b1a2c2a822c38d1368fbd3b1b7243135a4a23340d187ac1a",
+    "bytes": 1504
+  }
+}

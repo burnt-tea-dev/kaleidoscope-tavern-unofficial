@@ -63,13 +63,15 @@ def current_contract_sources():
     from creative.catalog import check_current as check_creative, runtime_sources as creative_runtime_sources
     from cultivation_source_contract import check as check_cultivation, runtime_sources as cultivation_runtime_sources
     from check_incense_surfaces import check as check_incense, runtime_sources as incense_runtime_sources
+    from machine_ingredient_geometry import check as check_pressing, runtime_sources as pressing_runtime_sources
+    check_pressing(ROOT)
     check_incense(ROOT)
     check_cultivation(ROOT)
     check_potion_visual()
     check_foundation(ROOT)
     check_extensions(ROOT)
     check_creative(ROOT)
-    return potion_runtime_sources()|foundation_runtime_sources()|extension_runtime_sources()|creative_runtime_sources()|cultivation_runtime_sources()|incense_runtime_sources()
+    return potion_runtime_sources()|foundation_runtime_sources()|extension_runtime_sources()|creative_runtime_sources()|cultivation_runtime_sources()|incense_runtime_sources()|pressing_runtime_sources()
 
 def historical_preserved(rows):
     """Keep old snapshots scoped to files still owned by historical checks."""

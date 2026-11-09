@@ -1,0 +1,1 @@
+{"helpers": 12, "source_frames": 12, "tick_frames": 24, "source_alpha_transitions": 22, "client_animation_verified": false}
