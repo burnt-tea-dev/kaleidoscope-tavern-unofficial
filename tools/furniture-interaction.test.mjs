@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import {world,system,Entity,Player,GameMode,ItemStack,BlockPermutation,registerFixtureItem} from '@minecraft/server';
 import {normalizeFoundation} from '../runtime/BP/scripts/core/extension-foundation.js';
 import {installContent} from '../runtime/BP/scripts/core/extension-content.js';
-import {ensureSeat,sitOnFurniture,maintainSeat,recolorLight,placeFurniture,recoverFurniture,resolveGlasswareHit,registerFurnitureComponents,installFurnitureEvents,FURNITURE_TEST} from '../runtime/BP/scripts/bedrock/furniture.js';
+import {ensureSeat,sitOnFurniture,maintainSeat,tickFurniture,recolorLight,placeFurniture,recoverFurniture,resolveGlasswareHit,registerFurnitureComponents,installFurnitureEvents,FURNITURE_TEST} from '../runtime/BP/scripts/bedrock/furniture.js';
 import {registerDecorationComponents,installDecorationEvents} from '../runtime/BP/scripts/bedrock/decorations.js';
 import {installJavaItemUseOnEvents,nativeEmptyHandBlockUse,nativeBlockUse,JAVA_PLACEMENT_TEST} from '../runtime/BP/scripts/bedrock/java-placement-router.js';
 import {FACING,GLASSWARE_SLOTS,seatFurniture} from '../runtime/BP/scripts/core/furniture.js';
@@ -63,6 +63,29 @@ function belowHolder(p,b,mode='Touch',hotbar=false){
  p.location={...p.getHeadLocation(),y:b.location.y-2.5};
  p.getBlockFromViewDirection=()=>({block:b,face:'Down',faceLocation:{x:.75,y:.6875,z:.25}});
 }
+
+test('seat maintenance enumerates only its bounded batch and progresses after invalid handles retire',()=>{
+ const helpers=FURNITURE_TEST.helpers;helpers.clear();let enumerated=0;
+ for(let i=0;i<8192;i++)helpers.set('unloaded-seat-'+i,{id:'unloaded-seat-'+i,isValid:false});
+ for(const method of ['values','entries']){
+  helpers[method]=function*(){for(const row of Map.prototype[method].call(this)){enumerated++;yield row;}};
+ }
+ try{
+  tickFurniture();assert.equal(enumerated,128);assert.equal(helpers.size,8192-128);
+  assert.equal(helpers.has('unloaded-seat-127'),false);assert.equal(helpers.has('unloaded-seat-128'),true);
+  tickFurniture();assert.equal(enumerated,256);assert.equal(helpers.size,8192-256);
+  assert.equal(helpers.has('unloaded-seat-255'),false);assert.equal(helpers.has('unloaded-seat-256'),true);
+ }finally{delete helpers.values;delete helpers.entries;helpers.clear();}
+});
+
+test('seat tick reaches the current maintenance callback after earlier handles retire',()=>{
+ const {b}=setup(),seat=ensureSeat(b),helpers=FURNITURE_TEST.helpers;helpers.clear();
+ for(let i=0;i<128;i++)helpers.set('unloaded-seat-'+i,{id:'unloaded-seat-'+i,isValid:false});
+ helpers.set(seat.id,seat);seat.setProperty(NS+'seat_yaw',45);
+ tickFurniture();assert.equal(seat.getProperty(NS+'seat_yaw'),45,'the first batch keeps its 128-handle budget');
+ tickFurniture();assert.equal(seat.getProperty(NS+'seat_yaw'),0,'the next batch repairs the live stool yaw');
+ assert.equal(helpers.size,1);assert.equal(helpers.get(seat.id),seat);
+});
 
 test('glassware restores the pre-T131 aim selection when a Down event disagrees',()=>{
  const {p,b}=setup(NS+'glassware_holder',{[FACING]:0});belowHolder(p,b);hold(p,NS+'empty_glassware',2);

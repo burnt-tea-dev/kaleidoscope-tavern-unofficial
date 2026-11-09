@@ -948,12 +948,6 @@
       "after": "4ad9e89f3de99b2139978cde2aeacaa94139408d34c0847cda355c389936ac6e",
       "reason": "Restore functional destruction feedback after the historical merge discarded it; preserve later metadata and geometry fixes."
     },
-    "runtime/BP/scripts/bedrock/furniture.js": {
-      "before": "38371c590f508338a97b4a740be8e1ea1955a84e2530fe55a3890c97a12d0372",
-      "after": "80d62b3406053ec5615655de695ed9f2fffa28cfd152169a4269ef7c0a343bce",
-      "reason": "Restore functional destruction feedback after the historical merge discarded it; preserve later metadata and geometry fixes.",
-      "beforeGzipBase64": "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"
-    },
     "runtime/BP/scripts/bedrock/scripted-block-change.js": {
       "before": "ad067ad2193b8d8c9c79f6288857898d9d4068283b06a72041e888fab725ca6a",
       "after": "189d6b8f87c2089b590c849c859cf5f140b4fb615b4d6ac878ab542944e93e57",
@@ -4333,73 +4327,6 @@
       "reviewedSourceCommit": "f08714307ea331be52a9240d8aa6473752325d1c",
       "reviewDocument": "docs/RELEASE-NOTES-0.6.131.md",
       "files": {
-        "runtime/BP/scripts/bedrock/furniture.js": {
-          "before": "80d62b3406053ec5615655de695ed9f2fffa28cfd152169a4269ef7c0a343bce",
-          "after": "546857f32f9cc60eac52c81e72e16c2becbc8c94e4a55aeaf054c0e64d885f50",
-          "reason": "Java held-item seating and block interaction order, direct seat transfer with rollback, empty-stool yaw restoration, and touch event hit preservation; native seat/input acceptance remains separate.",
-          "reverseOps": [
-            [
-              7,
-              8,
-              "import {nativeEmptyHandBlockUse} from './java-placement-router.js';\nimport {registerJavaBlockUseHandler} from './java-placement-router.js';\n"
-            ],
-            [
-              75,
-              77,
-              ""
-            ],
-            [
-              79,
-              80,
-              "  const input=player.inputInfo,mode=input?.lastInputModeUsed;\n  if(['KeyboardAndMouse','Gamepad'].includes(mode)||(mode==='Touch'&&input?.touchOnlyAffectsHotbar)){\n"
-            ],
-            [
-              83,
-              88,
-              "  const aimed=aimPointFor(player,block);\n  const corrected=aimed??worldFromHit(sourceFace,hit,source);\n"
-            ],
-            [
-              134,
-              135,
-              " canWrite(player);isNear(player,block.dimension,block.location);\n"
-            ],
-            [
-              136,
-              136,
-              " check(!player.getComponent('minecraft:riding')?.entityRidingOn,'ALREADY_RIDING');\n"
-            ],
-            [
-              137,
-              157,
-              " return locks.with([key,player.id],()=>{const ride=nativeRide(e);check(ride.getRiders().length===0,'SEAT_OCCUPIED');check(ride.addRider(player),'SEAT_REJECTED');furnitureDiagnostics.seated++;return e;});\n"
-            ],
-            [
-              172,
-              173,
-              " canWrite(player);isNear(player,block.dimension,block.location);const f=furnitureBlock(block.typeId),h=hand(player),color=dyeColor(h?.typeId);\n"
-            ],
-            [
-              174,
-              175,
-              " return locks.with([anchorKey(block.dimension.id,block.location),player.id],()=>{const facing=block.permutation.getState(FACING);exchangeBlocks(player,1,[],[{block,permutation:BlockPermutation.resolve(blockId({kind:'light',color}),{[FACING]:facing})}]);furnitureDiagnostics.dyed++;plantGrowthFeedback(block);optional(()=>block.dimension.playSound('sign.dye.use',center(block.location),{volume:1,pitch:1}));return true;});\n"
-            ],
-            [
-              183,
-              185,
-              "  const rider=ride.getRiders()[0];if(f.kind==='sofa'&&!rider){discard(e,'expired');return;}if(rider&&f.kind==='stool')e.setProperty(NS+':seat_yaw',relativeSeatYaw(rider.getRotation().y,facingYaw(block.permutation.getState(FACING)??0)));\n"
-            ],
-            [
-              188,
-              189,
-              "export function registerFurnitureComponents({blockComponentRegistry:r}){r.registerCustomComponent(NS+':stool',{onPlace:e=>optional(()=>{syncNativeFurnitureFacing(e.block,'stool');ensureSeat(e.block);}),onPlayerInteract:nativeEmptyHandBlockUse,onTick:e=>optional(()=>ensureSeat(e.block))});r.registerCustomComponent(NS+':sofa',{onPlace:e=>optional(()=>{syncNativeFurnitureFacing(e.block,'sofa');syncSofaNeighborhood(e.block.dimension,e.block.location);}),onPlayerInteract:nativeEmptyHandBlockUse,onTick:e=>optional(()=>syncSofa(e.block))});r.registerCustomComponent(NS+':table',{onPlace:e=>optional(()=>syncTableNeighborhood(e.block.dimension,e.block.location)),onTick:e=>optional(()=>syncTable(e.block))});r.registerCustomComponent(NS+':glassware_holder',{onPlayerInteract:nativeEmptyHandBlockUse,onPlace:e=>optional(()=>syncNativeFurnitureFacing(e.block,'glassware_holder'))});r.registerCustomComponent(NS+':bar_counter',{onPlace:e=>optional(()=>{syncNativeFurnitureFacing(e.block,'bar_counter');syncBarCounterNeighborhood(e.block.dimension,e.block.location);}),onTick:e=>optional(()=>syncBarCounter(e.block))});r.registerCustomComponent(NS+':pendant_lamp',{onTick:e=>optional(()=>repairVerticalDouble(e.block))});r.registerCustomComponent(NS+':string_light',{});}\n"
-            ],
-            [
-              208,
-              215,
-              "   isNear(e.player,d,p);sameHand(e.player,hs);const b=blockAt(d,p);\n   check(b?.typeId===id&&b.permutation.getState(FACING)===facing,'BLOCK_CHANGED');\n   if(seated(existing))return sitOnFurniture(e.player,b);\n   if(existing.kind==='light')return recolorLight(e.player,b);\n   return useGlasswareHolder(e.player,b,faceLocation);\n"
-            ]
-          ]
-        },
         "runtime/BP/scripts/bedrock/immersion.js": {
           "before": "8c985a357c146d0274a0531689505f2f498ffeb22efae4d20a036975fd395eb3",
           "after": "264a1be4549e4cc4a0572f8ec28404e3357b9e945306e4203a0a17eaee0ec1ad",
@@ -5705,28 +5632,6 @@
       }
     },
     {
-      "release": "0.6.156",
-      "files": {
-        "runtime/BP/scripts/bedrock/furniture.js": {
-          "before": "546857f32f9cc60eac52c81e72e16c2becbc8c94e4a55aeaf054c0e64d885f50",
-          "after": "cc1141b2315b4ed9f1aba51f56c47abba0ef9a9426485d52d81d261a6997bfad",
-          "reason": "Restore pre-T131 glassware eye/selection-box aim preference for Touch; no slot-ID, mirror, geometry, item-storage or other furniture change. Current user reports reversed pickup; live logs confirm Touch took the re-enabled legacy Down event path. UI remains unresolved and unchanged. See docs/RELEASE-NOTES-0.6.156.md.",
-          "reverseOps": [
-            [
-              67,
-              71,
-              "/** Resolve which of the four glass slots the player aimed at. Java reads the world X/Z\n * quadrant of the true hit; the engine reports that hit in the clicked face's own basis,\n * which on the bottom face slotted the aimed cup's mirror neighbour (diagonal with the\n * raw event, left-right with the script raycast). Mouse and gamepad aim through the\n * script raycast, touch keeps its event hit, and both are converted back with the\n * measured face basis; faces without a measurement keep the raw engine value. */\n"
-            ],
-            [
-              82,
-              85,
-              "  // Direct touch selects the finger's event hit, even when the eye ray reaches\n  // a different cup. Keep the measured holder basis and saved slot compensation.\n  const aimed=crosshair||!nativePoint?aimPointFor(player,block):undefined;\n"
-            ]
-          ]
-        }
-      }
-    },
-    {
       "release": "0.6.162",
       "files": {
         "runtime/BP/scripts/core/shaker-hud.js": {
@@ -6190,15 +6095,6 @@
           "reviewedSourceCommit": "37ff9f12e74c6a4f3bb3a5fc40502d7e70e68c83",
           "reviewDocument": "docs/RELEASE-NOTES-0.6.134.md",
           "beforeGzipBase64": "H4sIAAAAAAACA52PUQvCIBSF3/crhi8rWLLeYn8lQlxzJTOv6V0wxv57d0HLjSDoRT3fOVePQ5KmrAF/kygeygcNlpUp2/MDL1g+mdJqMokHMgYiMeMtCt9Z1DfFK5C+FhfTu6sw2qo5TgMGwJFG36n8zSqwKkQhQtq2C0DIA75eIn6MODl37jw45bHfZK00StcQzgQESvqJLVEbzLYsX0wVKxmp03wePyFqaep1JwdBf++0+1Vquk5A0wT1b7ck3qd1TMbkCe71f6bHAQAA"
-        },
-        "runtime/RP/entity/board_glyph_visual.entity.json": {
-          "before": "855711ba649839ae58c53bfd604bb27b92f8138c0943f85e477ce9d362b99ae3",
-          "after": "1b8ce8460a008dbbf1dcfa47956b2c6280396a43e1eb36dccec1dfef7009b5b9",
-          "reason": "T134 appended exact source review. Original black foreground/cream or dark eight-offset glow outlines, Unihex shadow offsets, board-root range and separate foreground submission; preserve all existing glyph/layout extensions. Checked by the source board generator and 360 world-position/alignment cases; camera-feet/spyglass and native-client gaps remain explicit.",
-          "reviewedPredecessorCommit": "625ff769f4c656ff224314bba38d26a1ef5dacc0",
-          "reviewedSourceCommit": "37ff9f12e74c6a4f3bb3a5fc40502d7e70e68c83",
-          "reviewDocument": "docs/RELEASE-NOTES-0.6.134.md",
-          "beforeGzipBase64": "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"
         },
         "runtime/RP/entity/rig_signature_color.entity.json": {
           "before": "754a53ddb40b310a6aca5002c1dfe79a1dbf8ecb2fa06de5adee98351cbeb31d",

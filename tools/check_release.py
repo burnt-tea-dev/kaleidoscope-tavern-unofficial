@@ -166,6 +166,7 @@ def main(argv=None):
     source_checks=source_check_commands(args,config['version'])
     subprocess.run(['node','--test','tools/ambient-sparse.test.mjs'],cwd=ROOT,check=True)
     subprocess.run([sys.executable,str(ROOT/'tools/test_cultivation_source_contract.py')],cwd=ROOT,check=True)
+    subprocess.run([sys.executable,str(ROOT/'tools/test_board_font_contract.py')],cwd=ROOT,check=True)
     subprocess.run([sys.executable,str(ROOT/'tools/test_item_render_contract.py')],cwd=ROOT,check=True)
     subprocess.run([sys.executable,str(ROOT/'tools/test_machine_ingredient_geometry.py')],cwd=ROOT,check=True)
     subprocess.run([sys.executable,str(ROOT/'tools/test_chalkboard_geometry.py')],cwd=ROOT,check=True)

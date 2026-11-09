@@ -6,6 +6,7 @@ from baseline_reference import previous_bytes,additions as baseline_additions
 from check_potion_bottle_visual import check as check_potion_visual, runtime_sources as potion_runtime_sources
 from foundation.source_contract import check as check_foundation_sources, runtime_sources as foundation_runtime_sources
 from current_extension_source_contract import check as check_extension_sources, runtime_sources as extension_runtime_sources
+from board_font_contract import check as check_board_font, runtime_sources as board_font_sources, retired_sources as retired_font_sources
 from creative.catalog import check_current as check_creative_sources, runtime_sources as creative_runtime_sources
 from cultivation_source_contract import check as check_cultivation_sources, runtime_sources as cultivation_runtime_sources
 from check_incense_surfaces import check as check_incense_sources, runtime_sources as incense_runtime_sources
@@ -47,6 +48,9 @@ def main():
     foundation_contract=check_foundation_sources(ROOT)
     extension_sources=extension_runtime_sources()
     extension_contract=check_extension_sources(ROOT)
+    font_contract=check_board_font(ROOT)
+    font_sources=board_font_sources(ROOT)
+    font_retired=retired_font_sources(ROOT)
     creative_sources=creative_runtime_sources()
     creative_contract=check_creative_sources(ROOT,args.java_source)
     check_current_forms()
@@ -101,12 +105,12 @@ def main():
     if args.baseline:
         old_names={p.relative_to(args.baseline).as_posix() for p in (args.baseline/'runtime').rglob('*') if p.is_file()}
         new_names={p.relative_to(ROOT).as_posix() for p in (ROOT/'runtime').rglob('*') if p.is_file()}
-        assert new_names==(old_names|set(ref['newRuntimeFiles'])|potion_sources|foundation_sources|extension_sources|creative_sources|cultivation_sources|incense_sources|pressing_sources|chalkboard_sources|GUIDE_SOURCES)-set(removed),'Unlisted runtime addition or removal'
-        assert (EFFECT_SOURCES|BARREL_SOURCES|potion_sources|foundation_sources|extension_sources|creative_sources|cultivation_sources|incense_sources|pressing_sources|chalkboard_sources|GUIDE_SOURCES)<=new_names,'Missing current-contract source'
+        assert new_names==(old_names|set(ref['newRuntimeFiles'])|potion_sources|foundation_sources|extension_sources|font_sources|creative_sources|cultivation_sources|incense_sources|pressing_sources|chalkboard_sources|GUIDE_SOURCES)-set(removed)-font_retired,'Unlisted runtime addition or removal'
+        assert (EFFECT_SOURCES|BARREL_SOURCES|potion_sources|foundation_sources|extension_sources|font_sources|creative_sources|cultivation_sources|incense_sources|pressing_sources|chalkboard_sources|GUIDE_SOURCES)<=new_names,'Missing current-contract source'
         for old in (args.baseline/'runtime').rglob('*'):
             if not old.is_file():continue
             name=old.relative_to(args.baseline).as_posix()
-            if name not in ref['reviewedChanges'] and name not in removed and name not in (EFFECT_SOURCES|BARREL_SOURCES|potion_sources|foundation_sources|extension_sources|creative_sources|cultivation_sources|incense_sources|pressing_sources|chalkboard_sources|GUIDE_SOURCES):
+            if name not in ref['reviewedChanges'] and name not in removed and name not in font_retired and name not in (EFFECT_SOURCES|BARREL_SOURCES|potion_sources|foundation_sources|extension_sources|font_sources|creative_sources|cultivation_sources|incense_sources|pressing_sources|chalkboard_sources|GUIDE_SOURCES):
                 assert previous_bytes(ROOT,ROOT/name)==old.read_bytes(),('Unreviewed existing-runtime change',name)
                 unchanged+=1
     components=read(ROOT/'runtime/BP/items/molotov.json')['minecraft:item']['components']
@@ -175,6 +179,7 @@ def main():
         'currentContracts':{'barrelResources':{'sources':sorted(BARREL_SOURCES),'generatedResources':'passed','adapterScenarios':'separate foundation CI; not run by this command'},
                             'foundation':foundation_contract,
                             'extensions':extension_contract,
+                            'boardFont':{**font_contract,'retiredAtlases':sorted(font_retired)},
                             'cultivation':cultivation_contract,
                             'pressingGeometry':pressing_contract,
                             'chalkboardGeometry':chalkboard_contract,

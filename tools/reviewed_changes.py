@@ -60,6 +60,7 @@ def current_contract_sources():
     from check_potion_bottle_visual import check as check_potion_visual, runtime_sources as potion_runtime_sources
     from foundation.source_contract import check as check_foundation, runtime_sources as foundation_runtime_sources
     from current_extension_source_contract import check as check_extensions, runtime_sources as extension_runtime_sources
+    from board_font_contract import check as check_board_font, owned_sources as board_font_sources
     from creative.catalog import check_current as check_creative, runtime_sources as creative_runtime_sources
     from cultivation_source_contract import check as check_cultivation, runtime_sources as cultivation_runtime_sources
     from check_incense_surfaces import check as check_incense, runtime_sources as incense_runtime_sources
@@ -72,8 +73,9 @@ def current_contract_sources():
     check_potion_visual()
     check_foundation(ROOT)
     check_extensions(ROOT)
+    check_board_font(ROOT)
     check_creative(ROOT)
-    return potion_runtime_sources()|foundation_runtime_sources()|extension_runtime_sources()|creative_runtime_sources()|cultivation_runtime_sources()|incense_runtime_sources()|pressing_runtime_sources()|chalkboard_runtime_sources()
+    return potion_runtime_sources()|foundation_runtime_sources()|extension_runtime_sources()|creative_runtime_sources()|cultivation_runtime_sources()|incense_runtime_sources()|pressing_runtime_sources()|chalkboard_runtime_sources()|board_font_sources()
 
 def historical_preserved(rows):
     """Keep old snapshots scoped to files still owned by historical checks."""
