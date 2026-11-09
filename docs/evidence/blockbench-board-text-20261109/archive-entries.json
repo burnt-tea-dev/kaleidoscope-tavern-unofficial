@@ -1,0 +1,688 @@
+{
+  "archives": [
+    {
+      "path": "archives/inputs-01.zip",
+      "bytes": 966343,
+      "sha256": "c7ca440348d856a48e8c70307992b58f9b7f4392da75894cd63adf516a0ff45b"
+    },
+    {
+      "path": "archives/inputs-02.zip",
+      "bytes": 357733,
+      "sha256": "e19d01ff993e1252c218c47863d7c7c5890eccf2364314001dea3dd3a24038f8"
+    }
+  ],
+  "members": [
+    {
+      "archive": "archives/inputs-01.zip",
+      "path": "prep/README.md",
+      "bytes": 8986,
+      "sha256": "d57ad2fef9a69f5f08614274744f8d8257cca7022ba16636a7f3fca8aef58aad",
+      "git_blob_sha1": "0e105d9588e20c484ab7f2514113dfb2bfe7cda1",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-01.zip",
+      "path": "prep/artifact-sha256.json",
+      "bytes": 10765,
+      "sha256": "d540144c855154dde60af9274a231bc4eee3cc9e6469e3d840a9552450ac8c8d",
+      "git_blob_sha1": "495b8e081f4a90b1c162275e2d89505b6be8e34c",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-01.zip",
+      "path": "prep/audit_routes.py",
+      "bytes": 5417,
+      "sha256": "efdffe5033f3524b141164edb6c99cecb9f893ba27f3c8cdd936c1f604e8dd84",
+      "git_blob_sha1": "a6d8fdcfcf4a233add2aa20430b3ab1027621d73",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-01.zip",
+      "path": "prep/build_scenes.py",
+      "bytes": 5461,
+      "sha256": "4f207cbc63b5768ee4025b660bd4122d7cdb84f30f1d0ea202f91e728cecbf8c",
+      "git_blob_sha1": "429ed2ecb1a4d6286c7cfea77fdb1b1f58c86d75",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-01.zip",
+      "path": "prep/capture-queue.json",
+      "bytes": 6514,
+      "sha256": "9fcf1cdc17b9522098e46a7dd75b03d54e7d723f19ed9b1fc39ae89d16210571",
+      "git_blob_sha1": "458ea5c0ef0766d5c90c99c499cc5259c8b56c56",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-01.zip",
+      "path": "prep/independent-saved-scene-checks.json",
+      "bytes": 2310,
+      "sha256": "735f446627897a56b346a6493c5e166ac3e1db5b3499e154328ea1c932077b7e",
+      "git_blob_sha1": "87414d7f54535bf9be6d2fb1a93a669269f1ff3d",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-01.zip",
+      "path": "prep/inputs/canonical/package.json",
+      "bytes": 272,
+      "sha256": "fc5d038d46df912fe57cc93739a7389d91a22c7c9163ee7c53acb17ff908fb96",
+      "git_blob_sha1": "164ea3cfb64a7bacbc50be949be75ac2dc8b1050",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-01.zip",
+      "path": "prep/inputs/canonical/runtime/BP/entities/board_glyph_visual.json",
+      "bytes": 7380,
+      "sha256": "4dc6250dac1151d45d6e35f5e06fe403af70fba6226b0a138674e1762dea7cf9",
+      "git_blob_sha1": "49f846058584f978149725a5806bca58200f90e4",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-01.zip",
+      "path": "prep/inputs/canonical/runtime/BP/manifest.json",
+      "bytes": 977,
+      "sha256": "161dc55e8e06b61a1883b51b4afa92efebd8f4f0110f6e117a56a3136dacfaa1",
+      "git_blob_sha1": "555d4150920724001535f81f5bb5421f7c7ac120",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-01.zip",
+      "path": "prep/inputs/canonical/runtime/RP/manifest.json",
+      "bytes": 506,
+      "sha256": "c588958a4cc35f4697e81ca55d897dc873ac1d97949d5ce49e57491aea4701a9",
+      "git_blob_sha1": "f75965d8f613b9f0f5b06a7f3941a78f7aee2dad",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-01.zip",
+      "path": "prep/inputs/current/AGENTS.md",
+      "bytes": 3989,
+      "sha256": "83e3a5792747e17320d88e2697c2872974f2299b505e9e9ac5e457da44e75756",
+      "git_blob_sha1": "61e62268993cc01e3c95d876cf2e9dbcad790c74",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-01.zip",
+      "path": "prep/inputs/current/LICENSE-ASSETS",
+      "bytes": 1604,
+      "sha256": "9779f7520aa9bb4888d8216933e482722d6b2c839e96ca338322e11c9fd3c286",
+      "git_blob_sha1": "fad84ad72d7cbb5ca93faa376ccd61e686dd8e01",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-01.zip",
+      "path": "prep/inputs/current/LICENSE-CODE",
+      "bytes": 1545,
+      "sha256": "e4b0341c2f974280d80bbd56d6d12e2f3e4d755f3a5cfeed9725771415e0d3ed",
+      "git_blob_sha1": "b69f3261e664ee21c9ff549bc0f5fc3f5dee85a8",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-01.zip",
+      "path": "prep/inputs/current/art/fonts/COPYING-Unifont.txt",
+      "bytes": 48615,
+      "sha256": "5a65797606332f2f63057fd81ea0ff35f74043583515bf900ee9b42efa8176a6",
+      "git_blob_sha1": "4e8d77d730973574bed1a822e083ec42dcdb1723",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-01.zip",
+      "path": "prep/inputs/current/art/fonts/README-Unifont.txt",
+      "bytes": 29139,
+      "sha256": "e3282c7b0d7b13ca91d55b5eee6eee1786379188227f15c5e917d3a084358c76",
+      "git_blob_sha1": "e01dfdb8bf3058f980c7b6369d92c496a2232bf3",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-01.zip",
+      "path": "prep/inputs/current/art/fonts/README.md",
+      "bytes": 1004,
+      "sha256": "ff16039d7000989b79263e41ffe54cd0eebe2e1498e44e6baccde69b1ae32350",
+      "git_blob_sha1": "6644b9d8c1b368c3d5068ec8e3ceb9f5fd6bed18",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-01.zip",
+      "path": "prep/inputs/current/art/fonts/unifont-15.0.06.hex.gz",
+      "bytes": 938755,
+      "sha256": "9ad23271a7b2c904a33c1fc97c97a5909016533efac192957eb6b7900df54fb3",
+      "git_blob_sha1": "7ebaa8f6019824836baddbe1673744911fac54e7",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-01.zip",
+      "path": "prep/inputs/current/docs/BASELINE-MAINTENANCE.md",
+      "bytes": 3151,
+      "sha256": "11fbf2b6fb6582ea5daeba06d50a31b4f038712206d88b4e5f3697fb5a046380",
+      "git_blob_sha1": "b5fe2d34c6731d77f17714592770f3c8600e31ad",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/inputs/current/docs/PARITY-MATRIX.md",
+      "bytes": 90266,
+      "sha256": "94efa075d697f6042861a293344c79afb78a833dd1a906d595ec9165bb396ea9",
+      "git_blob_sha1": "3cb8f2794d48a9719f2b2aba5040c0791c63e8c3",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/inputs/current/family/UPDATE-WORKFLOW.md",
+      "bytes": 37956,
+      "sha256": "03f500c557f21f1422bf1e6af8c9bf97dec27907503230cf67d570de889b8a9e",
+      "git_blob_sha1": "52a559be74ef8a40439bbbe852e5033c3024e799",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/inputs/current/package.json",
+      "bytes": 18,
+      "sha256": "1239d4d885dcad42201a27ed9324f8f0f760b78700d8db9ced39a511cffe7eae",
+      "git_blob_sha1": "089153bcb5adf57dc25f206a9dad3114c9cff80d",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/inputs/current/runtime/BP/scripts/bedrock/board-text.js",
+      "bytes": 6030,
+      "sha256": "7c08988fc65c21d51ef0cbe3636dea5108c05b9920337b08860585441a65c9d4",
+      "git_blob_sha1": "72ff33708fc8ab923fe7a4eb569e39ffc285d453",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/inputs/current/runtime/BP/scripts/core/board-layout.js",
+      "bytes": 3307,
+      "sha256": "012b18c2125ea9d3a4551eb8c707e551ad7d9d42bf82059585616abc65af68be",
+      "git_blob_sha1": "fbfa52da4a881e6b6bd6e87fbcd3780a443f82bb",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/inputs/current/runtime/BP/scripts/core/boards.js",
+      "bytes": 4126,
+      "sha256": "22adab6429fc0712d9f1a09ca38ec2aac5b2c272505d6741729f508458d6c988",
+      "git_blob_sha1": "ae154e359fa5cfb5ae0a2cc05b41b4cad26d1c12",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/inputs/current/runtime/BP/scripts/core/java-placement.js",
+      "bytes": 1095,
+      "sha256": "060629854fa80cab887e8dae40642e5a9f745bde7e697d3717755ee4851a5647",
+      "git_blob_sha1": "8a254e1a18f4d7f56695554a573fd973d71374ee",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/inputs/current/runtime/BP/scripts/core/util.js",
+      "bytes": 6723,
+      "sha256": "f7eb593312c97450a715f4003c06008ba852a841454c1b043b091002850c7169",
+      "git_blob_sha1": "e580ea1e141bb8441c853a2eb6b53c76cf004a1a",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/inputs/current/runtime/BP/scripts/data/board-font.js",
+      "bytes": 65760,
+      "sha256": "f901a68dd0d006a5ec5ecdf108a8a24ad82243f164f117c55f847063c42b1bb5",
+      "git_blob_sha1": "5e3db2c13e0f1a2424fb04e72a2195f1efb0addd",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/inputs/current/runtime/RP/animations/board_glyph_line.animation.json",
+      "bytes": 3726,
+      "sha256": "5043abb588b00d156241f9eb96d88c218f9362060d3621fed8430bbe0e130d07",
+      "git_blob_sha1": "76702fbff5fc02f446414a9e2ed9a21f90f951bf",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/inputs/current/runtime/RP/entity/board_glyph_visual.entity.json",
+      "bytes": 49118,
+      "sha256": "1b8ce8460a008dbbf1dcfa47956b2c6280396a43e1eb36dccec1dfef7009b5b9",
+      "git_blob_sha1": "887a39b41da2b4e713f616628250e127227eb331",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/inputs/current/runtime/RP/models/entity/board_glyph_line.geo.json",
+      "bytes": 148678,
+      "sha256": "64956e3b98187541f6513e20bf05a304b091f0a4935f2e640bec1cb52c6b09fa",
+      "git_blob_sha1": "38ab357c91fd688d5a477c67ab0dc514b7cc2018",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/inputs/current/runtime/RP/models/entity/board_glyph_outline.geo.json",
+      "bytes": 729542,
+      "sha256": "a4c80b346c1b08684a497fd851b658fbbd35fca0c6dae592d22ee6f6fe5b9aee",
+      "git_blob_sha1": "6a5b744cf9fe812105f4626e2c8572d70f2e0955",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/inputs/current/runtime/RP/render_controllers/board_glyph_visual.render_controllers.json",
+      "bytes": 37463,
+      "sha256": "1c3dd14982fa5f3e8de87de63e6375357f5e99610f3af5c273ec90b900f62b61",
+      "git_blob_sha1": "b5a52b6900ba42ebf6d698a15c36d5522d79a9b1",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/inputs/current/runtime/RP/textures/board_font/glyph_00.png",
+      "bytes": 5221,
+      "sha256": "cd0b26f86ddc67d80196ca03168ba8f705c86bdbca7ec15199033a5e32d83e60",
+      "git_blob_sha1": "eba2b74637448a11b3e9bff2197f733fef59ef51",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/inputs/current/runtime/RP/textures/board_font/glyph_25.png",
+      "bytes": 3155,
+      "sha256": "fe53b8c973b8a85babb5a3d8b6ae5cd25a93a4dec6a9d148a3b1b3279923e853",
+      "git_blob_sha1": "7dbe4dd01db80431f2c6934da835199307f9cb81",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/inputs/current/runtime/RP/textures/board_font/glyph_E0.png",
+      "bytes": 1005,
+      "sha256": "2b4d6a9bb7c8ead753c4a39bba833f2cfce6b299d154a9c7600faaa2ebc34674",
+      "git_blob_sha1": "e50716cbe150dad63ff76a94c71e5682d0b5a0a1",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/inputs/current/tools/build_board_font.py",
+      "bytes": 2738,
+      "sha256": "1d6ee4012c3863327a54eb136eda090aa6b9cfa53efc06f4ff4a38a40a4332a3",
+      "git_blob_sha1": "ff60693714da8564596056a492a5398f480f36e5",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/inputs/current/tools/check_board_layout.mjs",
+      "bytes": 3134,
+      "sha256": "e849b828d099d8cbc509eec2f094f3228306a36a4c83d4c2ca6a4fa47906a12d",
+      "git_blob_sha1": "ba1fd8259045b88303bdcf270a5bb73e6fc375d9",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/inputs/forge/LICENSE-ASSETS",
+      "bytes": 1604,
+      "sha256": "9779f7520aa9bb4888d8216933e482722d6b2c839e96ca338322e11c9fd3c286",
+      "git_blob_sha1": "fad84ad72d7cbb5ca93faa376ccd61e686dd8e01",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/inputs/forge/LICENSE-CODE",
+      "bytes": 1545,
+      "sha256": "e4b0341c2f974280d80bbd56d6d12e2f3e4d755f3a5cfeed9725771415e0d3ed",
+      "git_blob_sha1": "b69f3261e664ee21c9ff549bc0f5fc3f5dee85a8",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/inputs/forge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/block/ChalkboardBlockEntityRender.java",
+      "bytes": 3805,
+      "sha256": "5d1f26800045209793fbfcdcf0172eb4f88ad2b7b483a870d7d6877142824661",
+      "git_blob_sha1": "ec8c5157add0463f7cab2998fdb1ee7ec85ff193",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/inputs/forge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/block/SandwichBlockEntityRender.java",
+      "bytes": 2410,
+      "sha256": "0dd99b6a031063e0024193dfec3a923cacf1abc9af9f071295c1ec2434a2df2f",
+      "git_blob_sha1": "3c311b13a3271b03d867b1612ff318c698ff416a",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/inputs/forge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/block/TextBlockEntityRender.java",
+      "bytes": 6242,
+      "sha256": "7cd9a6d986493e213ff563b70138a9cfffb61eb3dfd404c71f55e112569c0678",
+      "git_blob_sha1": "f5c5f039d2810fd7de9bbf11333f1c7fe25143b5",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/inputs/host/chalkboard-east.bbmodel",
+      "bytes": 74489,
+      "sha256": "9d68a9efeac5d141bf927af26178fe1c95d7f13cc5e021507f5326e7d454e842",
+      "git_blob_sha1": "e53635121e6c698037421a61ec001f9f5df69934",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/inputs/host/chalkboard-north.bbmodel",
+      "bytes": 73042,
+      "sha256": "30aad6e393f33474274bd073d67025c005c30e58142813a3923564cc79a18515",
+      "git_blob_sha1": "c6b6e2e90da910cf9e3d2d446edc5fb20e9ff1a5",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/inputs/host/sandwich-bodies-1.bbmodel",
+      "bytes": 554300,
+      "sha256": "e7506f0424bf4582f801a231e831d61ed6afe335618a68daa862941cccc9d930",
+      "git_blob_sha1": "c633eb99969d03540faf756272cf44a7ecb08404",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/inputs/neoforge/LICENSE-ASSETS",
+      "bytes": 1604,
+      "sha256": "9779f7520aa9bb4888d8216933e482722d6b2c839e96ca338322e11c9fd3c286",
+      "git_blob_sha1": "fad84ad72d7cbb5ca93faa376ccd61e686dd8e01",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/inputs/neoforge/LICENSE-CODE",
+      "bytes": 1545,
+      "sha256": "e4b0341c2f974280d80bbd56d6d12e2f3e4d755f3a5cfeed9725771415e0d3ed",
+      "git_blob_sha1": "b69f3261e664ee21c9ff549bc0f5fc3f5dee85a8",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/inputs/neoforge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/block/ChalkboardBlockEntityRender.java",
+      "bytes": 4297,
+      "sha256": "a71ce4b7693d205fd81b237f48a2195345d911c50c7bc6203b5f92df1f35f737",
+      "git_blob_sha1": "882bc554437a70bdbe60ec4e5da8bc782724c549",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/inputs/neoforge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/block/SandwichBlockEntityRender.java",
+      "bytes": 2410,
+      "sha256": "0dd99b6a031063e0024193dfec3a923cacf1abc9af9f071295c1ec2434a2df2f",
+      "git_blob_sha1": "3c311b13a3271b03d867b1612ff318c698ff416a",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/inputs/neoforge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/block/TextBlockEntityRender.java",
+      "bytes": 6242,
+      "sha256": "7cd9a6d986493e213ff563b70138a9cfffb61eb3dfd404c71f55e112569c0678",
+      "git_blob_sha1": "f5c5f039d2810fd7de9bbf11333f1c7fe25143b5",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/inputs/reused-upstream-freshness.json",
+      "bytes": 1440,
+      "sha256": "026156b6ed680f49473e66bf1c1ad4d55775aeae739f7baed1f9b7d7be34f41e",
+      "git_blob_sha1": "b554568425170bafe0dc7e9b48922e59002a87ca",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/inputs/scope-audit/README.md",
+      "bytes": 11514,
+      "sha256": "a973e743da6190fdfa4b4d1a96455f6f72f9b8d36a3def9e66813d67d70d1faa",
+      "git_blob_sha1": "87293bfe544704f00d97408417ed682411db52cb",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/inputs/scope-audit/documentation-evidence.md",
+      "bytes": 4946,
+      "sha256": "d8b6a5887d1d208b8ab5d8da67574a7a672cd54247b40a8a2da7caa5503282f5",
+      "git_blob_sha1": "7d472d7846708dec1a78339411f7b164af78fcb7",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/inputs/scope-audit/predicate-truth-table.json",
+      "bytes": 34255,
+      "sha256": "b9cf6d82770af5ea6ad1a24fbeacceb1eba5ede1e4c73212b2f8bc8617c2b396",
+      "git_blob_sha1": "be2582ef750e46cc62f994c9b2b43bde2eb973ac",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/inputs/scope-audit/snapshot-manifest.json",
+      "bytes": 5695,
+      "sha256": "46b43597f964d4d069b7f9364f58d9b2ff6c449fc48cbd2fcf67c6ec0cf142a1",
+      "git_blob_sha1": "21b1b6ef16c8ef79dfb1c0016f73b00510821550",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/integrate_scope_audit.py",
+      "bytes": 3075,
+      "sha256": "3cfba099e99e630606e8c81faadaef3bd3bd0cb530e046a6c34bf17c7ae3e26a",
+      "git_blob_sha1": "b71abddbd8b903f9accc65a365446f08e5add605",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/layout.mjs",
+      "bytes": 2064,
+      "sha256": "a40f4fbb7f21a3c19a1de77f7a266f57895607fa34adb0798917c03da655da83",
+      "git_blob_sha1": "0023392126486bcfa429a92b4a02822ad474c6ec",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/layouts.json",
+      "bytes": 52102,
+      "sha256": "852ae3113dc8258762edbe461437ccaa325644ca2353d10955e3129b89914f60",
+      "git_blob_sha1": "f7dff0ad17528aebff74bceb06570e4eeb04c252",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/manifest.json",
+      "bytes": 14936,
+      "sha256": "3b4d05f671221d9fb3db167089b5c384a08e62cb4b10263b7014fe4f7e26a025",
+      "git_blob_sha1": "96a9fd0c2d9e03cd2cef1731dfb7e98cf901a1be",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/prepare.py",
+      "bytes": 3327,
+      "sha256": "8029b8f8f431a4aeb0131c38d4b0ac6ac113a2058fe3f6b36311d86b863555b8",
+      "git_blob_sha1": "2386d0394b60f5f32978c72ebc2525d2cb4af695",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/routing-and-source-audit.json",
+      "bytes": 7830,
+      "sha256": "e260748374a41d4381467d94412ea51b7c1ad7eb01098d0e314c08ed20a3e194",
+      "git_blob_sha1": "60d9b03ca70b67edbdeee735878fa438f20f89bb",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/scenes/large-distributed-east.bbmodel",
+      "bytes": 69883,
+      "sha256": "e119475f3ef397d29d2c0c2927b61404a6792986f210a4afbad331c51c58c3c9",
+      "git_blob_sha1": "45d9eb6e6f0dbc259f14320630ca6cb15b33d0d7",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/scenes/large-fallback-blank-lines.bbmodel",
+      "bytes": 66082,
+      "sha256": "c2daf362f2bfa633967466b7159a2cea070650bfc1aff4bf7b7bf1663edc936c",
+      "git_blob_sha1": "f2d6436e9aa5ae6ad6a4e2aebcb9778bf7f7bbe9",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/scenes/sandwich-center-middle-outline.bbmodel",
+      "bytes": 267652,
+      "sha256": "20906c2a1bfdb1456ebd98e32e137aed128549bbaa18b2771ff3367d3f8460c3",
+      "git_blob_sha1": "7df8802f9d44d89bada913459473f54619b5d09a",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/scenes/sandwich-left-top.bbmodel",
+      "bytes": 155917,
+      "sha256": "4d332aa770ac6119f187e64b7fdf84968c22434fffa99b5e9008c0aee1464b1b",
+      "git_blob_sha1": "0fef2aab59628baa5c06ba987939bd4c7f750061",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/scenes/small-justify-wrap.bbmodel",
+      "bytes": 65817,
+      "sha256": "c65625ad182a779f8525c8da3fa237151b4c6a150dd05887c52658125f87de62",
+      "git_blob_sha1": "73a3cb6c658947e12db4c6fc1d227968da5b84c3",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/scenes/small-right-bottom.bbmodel",
+      "bytes": 49698,
+      "sha256": "1758a064251ebcd89ea1e3641d3faffae6c21f815c7264f28444791b161168c5",
+      "git_blob_sha1": "2186be4a0bb77d054bb3f2c2f3fff976507fcf3b",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/scope-audit-integration-receipt.json",
+      "bytes": 3458,
+      "sha256": "4bfd7790cd61dfffa2d70e741067c1280ca00abbb941f8d9e05ee47fbb5d3224",
+      "git_blob_sha1": "88f0a8333db6382a97d6bd66ff3c2f8218fdd157",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "prep/verify.py",
+      "bytes": 6231,
+      "sha256": "0e05543477452fae25badbb4131343685ffeb41cceb3e4b11e51ed7782d7c580",
+      "git_blob_sha1": "beaf912004b0433c9e55e53844c24742adb347ce",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "supplement/N05-manifest.json",
+      "bytes": 498675,
+      "sha256": "f3d8104ebad72d5feb16a6e07f82892e632f261901fe2d5f0e34c328b8229e5b",
+      "git_blob_sha1": "f8e736c27d8ba4508bfe28e51fb1e61aecfd5763",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "supplement/host-before/runtime/RP/models/entity/java_chalk_large_0_0.geo.json",
+      "bytes": 1773,
+      "sha256": "277a6a5c96de7219c9b1a6aed80ee3c06f2d78236fae9c15677313df3ae37f2f",
+      "git_blob_sha1": "cefcec2c76d214eb5dc498877673da062f4f26f8",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "supplement/host-before/runtime/RP/models/entity/java_chalk_large_0_1.geo.json",
+      "bytes": 1767,
+      "sha256": "be19f5152bf245ec5aaab95e87e1f0f0ca28f676c59e0d875b767aaa0837043e",
+      "git_blob_sha1": "4e6975a6835c77bb5e8d93f30bee793f628e0aed",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "supplement/host-before/runtime/RP/models/entity/java_chalk_large_1_0.geo.json",
+      "bytes": 1539,
+      "sha256": "12d511c2fb8486192a7aa0fe9ce0104fd65dd62fe461cfd30ef6a5a961050c35",
+      "git_blob_sha1": "33b99b0d1f2c9f0e7f73e1e8c63a72c3fb0a6870",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "supplement/host-before/runtime/RP/models/entity/java_chalk_large_2_0.geo.json",
+      "bytes": 1775,
+      "sha256": "9d5e7e6e8f894330e2b9e2c01b6133be7db736a79bc27db61b5470a9b47c0abc",
+      "git_blob_sha1": "8fc6bf7f3850fa727ec34febfe45f4c1380107ea",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "supplement/host-before/runtime/RP/models/entity/java_chalk_large_2_1.geo.json",
+      "bytes": 1770,
+      "sha256": "b58783c268a0d6c29aa2753aea91ee63b819dfb83b75fdca256255d104d79eac",
+      "git_blob_sha1": "f27556e871d02f3d510b0b159c6b6a552af4b640",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "supplement/host-before/runtime/RP/models/entity/java_chalk_small_0_0.geo.json",
+      "bytes": 2008,
+      "sha256": "0ad89710661a092f85bd081a51de07d0a8210d423e858115cc385b5f19a64439",
+      "git_blob_sha1": "6c92ee5391e980c2c2964ccf0baceff8b5518468",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "supplement/host-before/runtime/RP/models/entity/java_chalk_small_0_1.geo.json",
+      "bytes": 2001,
+      "sha256": "d197db3047e55c1dc515efb530d7e1e889e655f2df9f0030964be30f85ea2711",
+      "git_blob_sha1": "e79f3e691433f1773aa1a9eef2b9f99180ce87b5",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "supplement/host-current/runtime/RP/models/entity/java_chalk_large_0_0.geo.json",
+      "bytes": 1774,
+      "sha256": "91712842f46d17ad54c1ae0368b24551f119c95a953062840380345b44fd6205",
+      "git_blob_sha1": "eaa59aba1487baa3e9ccc6f608ef4d9b34b8d16a",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "supplement/host-current/runtime/RP/models/entity/java_chalk_large_0_1.geo.json",
+      "bytes": 1767,
+      "sha256": "9758da2109e4d98bcbb38adccb111998d29719d4130012fe13769e45d1d2edec",
+      "git_blob_sha1": "3dd1d227bbd59fe80dd311efd1cead713d9c6295",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "supplement/host-current/runtime/RP/models/entity/java_chalk_large_1_0.geo.json",
+      "bytes": 1540,
+      "sha256": "5df26ba54f61394186fb0baa8777a22038da65a4a17bcecff14460720066f219",
+      "git_blob_sha1": "e7c6d50d67c291d6d83e3a473f93044d625d3919",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "supplement/host-current/runtime/RP/models/entity/java_chalk_large_2_0.geo.json",
+      "bytes": 1776,
+      "sha256": "476fffe19e4216a0ec2a10ee82027fd180cb781ca469fe87ea3dd77871ffec37",
+      "git_blob_sha1": "5048d6b3deb496eabf5939fe7f534cc2eb17a4fe",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "supplement/host-current/runtime/RP/models/entity/java_chalk_large_2_1.geo.json",
+      "bytes": 1770,
+      "sha256": "34f926a16642d9da93c1c11fe7b20bbc285414c96428815fc3d40568fcfb6fef",
+      "git_blob_sha1": "3d90c221fcfc120df10016381444f36a9c2dda32",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "supplement/host-current/runtime/RP/models/entity/java_chalk_small_0_0.geo.json",
+      "bytes": 2009,
+      "sha256": "f9a3c8bf556099dfc40cbc8b225fbeaf45d8754af342463dc4fd3fe5f1fe3c46",
+      "git_blob_sha1": "a3bead2eaadf0c3505847e48b8e0a6109cad96c2",
+      "mode": "100644"
+    },
+    {
+      "archive": "archives/inputs-02.zip",
+      "path": "supplement/host-current/runtime/RP/models/entity/java_chalk_small_0_1.geo.json",
+      "bytes": 2001,
+      "sha256": "b0392e84c2a89b81cb039bc1ba28b0dc14e2a2c6c0f6a7524cc82a1162c6a06b",
+      "git_blob_sha1": "122c14a9cffc8667997517c0651af83e89d426d8",
+      "mode": "100644"
+    }
+  ]
+}

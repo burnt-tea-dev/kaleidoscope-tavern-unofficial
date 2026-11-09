@@ -1,0 +1,130 @@
+{
+  "README.md": {
+    "sha256": "9355d6f2ab5ed85ab1aab14b9cf8eadfbd8d911af76df84ff25f3e2f5cdc0a16",
+    "bytes": 7468
+  },
+  "accepted/03-sandwich-left-top-front.jpg": {
+    "sha256": "991fecbefd97bd000cf95934596204c8cdc2b76d17729807d35b3392f97a85a5",
+    "bytes": 77560
+  },
+  "accepted/05-sandwich-left-top-rake.jpg": {
+    "sha256": "1fc3c9f505322b496f5d6cf988dbb8c0c682667956ee2e960008a38f61420c44",
+    "bytes": 78803
+  },
+  "accepted/07-sandwich-left-top-reverse.jpg": {
+    "sha256": "8edc88b06981c5c018060936a177474d83537e2453d73218d59dad1d774ff2ab",
+    "bytes": 78134
+  },
+  "accepted/09-center-outline-on.jpg": {
+    "sha256": "eece964f47d71c3edc03647ac00d9adceee1c343746c67c55f6f379b6c67c61c",
+    "bytes": 78232
+  },
+  "accepted/11-center-outline-hidden.jpg": {
+    "sha256": "dacdb2ff154c4b64555fe797216e7f632f83771ea6232e1a180571ed5dcf3210",
+    "bytes": 79985
+  },
+  "accepted/12-small-right-bottom-detail.jpg": {
+    "sha256": "0601cbe27bb1f3c6349fa3a0257f9d6da5df2163756bf06dcbc68b166c88d68f",
+    "bytes": 75277
+  },
+  "accepted/14-small-right-bottom-full.jpg": {
+    "sha256": "b1418f7e6b9d129ee8a3ae6c62e3db30b7c66fa4a2cc02ec3abb0b0aad747f52",
+    "bytes": 75864
+  },
+  "accepted/16-small-justify-wrap.jpg": {
+    "sha256": "1ee6018202cb3bfd0ad2ec21dc0c966947a1081d32e246af7b66538353050f11",
+    "bytes": 77201
+  },
+  "accepted/17-large-east-reverse.jpg": {
+    "sha256": "b6c99eef4a3db918058a026d72df02fb04c0fb0681474957f17fae8ca42053f6",
+    "bytes": 74993
+  },
+  "accepted/20-large-east-distributed.jpg": {
+    "sha256": "222ac7e97d844f1454c067593bc682bee7f2fa7a84e7739f34ce63a78225653b",
+    "bytes": 73243
+  },
+  "accepted/22-large-fallback-full.jpg": {
+    "sha256": "d66c8c0302ae7b6d7bdaf710894da61d2d27438cb37c7b7aaf8783adef75e6a7",
+    "bytes": 73047
+  },
+  "accepted/24-fallback-glyph-detail.jpg": {
+    "sha256": "28d7287d62dc818b07cb992a4171a4cc65a67ca34311e3a4d06ef6fa9eb46ac1",
+    "bytes": 61470
+  },
+  "diagnostic/00-champagne-preflight.jpg": {
+    "sha256": "96da7347a04854d3c27087c80c256180f4cbc706e87c5640945c7ae5f2c0d5e3",
+    "bytes": 126629
+  },
+  "diagnostic/01-front-preset-input.jpg": {
+    "sha256": "fc2f3d5349f90bd24ef6443ab09c121b60a14edeac5780b31fcee5109a055f9a",
+    "bytes": 62014
+  },
+  "diagnostic/02-suggested-front-low-framing.jpg": {
+    "sha256": "e9ff9c370038698bec6efe2ab60be9680fc3e4e91bcbbc020069166cf5243f59",
+    "bytes": 77299
+  },
+  "diagnostic/04-front-camera-readback.jpg": {
+    "sha256": "a2b4493160426e6678ac81af4eac0d43bc527220384b98b4b9a60b02f6317d18",
+    "bytes": 61266
+  },
+  "diagnostic/06-rake-camera-readback.jpg": {
+    "sha256": "0b683ac40e3c119516f5fecd5550a7c7492cdca2720428896a6e26b79e5c9bfb",
+    "bytes": 61493
+  },
+  "diagnostic/08-reverse-camera-readback.jpg": {
+    "sha256": "23ac6a59135a8d13da989c9ac1e726ab7eaaffbfbfc620598418c2ecc53f236c",
+    "bytes": 61840
+  },
+  "diagnostic/10-outline-selection-64.jpg": {
+    "sha256": "72c80d2142f00473f07dfd525e01965daba23abc6102f3b889d12933ec88d2a1",
+    "bytes": 173844
+  },
+  "diagnostic/13-chalk-low-framing.jpg": {
+    "sha256": "9fed46414126d5ff22c795827bb35eea3ecfd248ac98a48511c11145d1ea1f3b",
+    "bytes": 76191
+  },
+  "diagnostic/15-chalk-camera-readback.jpg": {
+    "sha256": "1fdb68e6cf9361fb2a0c7852ee938c760cbffec77b6d619d25f69b90203c79f7",
+    "bytes": 61332
+  },
+  "diagnostic/18-east-negative-x-readback.jpg": {
+    "sha256": "f2528f18e3e6299e3cc312416fe0fd5348a5a3852966faeb317075287e02910a",
+    "bytes": 105132
+  },
+  "diagnostic/19-invalid-selected-review-state.jpg": {
+    "sha256": "fd6d5e7a44be0a2f1e225bc37340b82864909195cde10d098fe69e9e779498d7",
+    "bytes": 79989
+  },
+  "diagnostic/21-east-positive-x-readback.jpg": {
+    "sha256": "91b439b57198a625e6917ef3f603a8bc165f88e3976e75786bb7bee84cafc57d",
+    "bytes": 60238
+  },
+  "diagnostic/23-fallback-camera-readback.jpg": {
+    "sha256": "6725d29a3198cc09ea8f53c2e6cddc56f6a881097c5ce9e4094b91500bd1cd6f",
+    "bytes": 61159
+  },
+  "diagnostic/25-fallback-detail-readback.jpg": {
+    "sha256": "bef648c84e616e9aedb0edb2235b2d2d9e3a2ba11af153d94776cacd7ab75dc8",
+    "bytes": 60134
+  },
+  "diagnostic/26-no-temporary-presets.jpg": {
+    "sha256": "7e565dce2096a3f4536581b0d856b44b910b8407386924ecb8fc11e3c5585f1f",
+    "bytes": 95299
+  },
+  "diagnostic/27-champagne-handoff.jpg": {
+    "sha256": "96da7347a04854d3c27087c80c256180f4cbc706e87c5640945c7ae5f2c0d5e3",
+    "bytes": 126629
+  },
+  "gui-receipt.json": {
+    "sha256": "81148c6cc236b428657505a3879c2359457d304900627e90bb0be6db40e4b0de",
+    "bytes": 26986
+  },
+  "postflight.json": {
+    "sha256": "c3abd9085ffcf8eb9c0120ce60a7b002198f527e1a33859de425a8e6da21b2a7",
+    "bytes": 337
+  },
+  "preflight.json": {
+    "sha256": "b2007984498a3b8f9a12c495ec4bab7fb047218689d85db621ab25245c5c66f6",
+    "bytes": 135
+  }
+}

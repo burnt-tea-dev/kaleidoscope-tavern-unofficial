@@ -6,6 +6,12 @@ Adopt the official Bedrock Tavern1.0.7 unique-reference rule. Preserve the curre
 
 目前維護版本與 BP／RP 身分以 [baseline.json](../baseline.json) 為準；公開下載、來源配對及部署見[家族現況](../family/BASELINE-STATUS.md)。下列日期段保留各次修補及原始證據範圍，不因較新的來源版本自動取得畫面或完整家族通過結果。真人使用不是發布、部署或完成門檻，沿用[擁有者現行規則](../family/UPDATE-WORKFLOW.md#擁有者簡化規則2026-11-04)。
 
+## 板面文字有界視覺證據（2026-11-09，N06）
+
+[完整證據與可攜驗證](evidence/blockbench-board-text-20261109/README.md)保留6場景、7個文字案例、12張接受原始JPEG與16張診斷。只支持Unifont白色字卡的對齊／換行／fallback／outline結構與姿勢；空白第7例僅靜態證明。實際畫面是0.6.215，保留舊窄邊；0.6.217的7個host UV修補另見T217，文字與廣面輸入界線明列，不冒稱全體bytes相同。未完成Java Font、原生tint/glow/culling/distance或controller/entity lifecycle驗收。
+
+Java C主相機距離與E相機entity距離不同；native D沒有scoping override與獨立E。官方per-viewer property override可用，但此helper/API情境未找到可靠first-person加active-scoping觀測；2.7.0 archive取得失敗，2.11.0文件不替代目標版本證據。+6手持rack lift不變，Allium FOV clipping仍未解決。
+
 ## 黑板窄邊與外側封面（2026-11-09，T217）
 
 依固定 Forge／Neo 的未鏡射 ModelPart 與實際貼圖對照，修正小黑板兩側窄條互換、大黑板封面誤放內部接縫，以及四個下半片 bottom V 方向。只改七個 canonical geometry；中心上半片控制保持原 bytes。正反廣面、頂面、尺寸、位置、朝向、材質與文字不變。當前來源／資源契約接手這八片，沒有新增逆向 ledger 或版本特例；詳見[黑板幾何契約](CHALKBOARD-GEOMETRY.md)。

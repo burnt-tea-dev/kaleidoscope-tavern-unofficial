@@ -1,0 +1,47 @@
+# Tavern board text: completed bounded editor evidence, 2026-11-09
+
+**Six text-on-host scenes, seven bounded text cases, 12 accepted original editor captures and 16 retained diagnostics.** This review supports the pictured neutral-white Unifont glyph structure, selected alignment, wrapping, fallback, outline-layer placement and host poses. It does not establish Java Font parity or native rendering acceptance. See the [capture index](scene-index.md), original [completed GUI report](gui/README.md) and [full GUI receipt](gui/gui-receipt.json).
+
+## Historical capture versus publication
+
+The actual prepared scenes and GUI review used canonical **0.6.215**, main `7fb1afc86439d67703df202d04923d4bcdc4466b`, runtime tree `a62a8655d96a71a9d1d6395b5fa8216ca298f197`. The N05-derived hosts retain the old chalk narrow-edge UVs. They are not 0.6.216 or 0.6.217 screenshots. No candidate bodies, new captures or regenerated textures have been substituted.
+
+The archived original preparation README still says prepared-only/no GUI. It describes the earlier preparation event and is preserved byte for byte. The separate completed GUI record and this wrapper describe the later capture. Original historical machine paths and window IDs, where retained, are provenance only, not instructions or prerequisites for replay.
+
+The [current reuse receipt](current-input-verification.json) is newly authored publication metadata. It checks **285 exact unchanged input files**, including selected font generators, glyph PNGs, layout, poses, routing, material and host inputs. **Seven chalk host geometry files differ** after [#619](https://github.com/burnt-tea-dev/kaleidoscope-tavern-unofficial/pull/619). Both historical and current bytes are supplied for those files: only east/west/down narrow-edge UV definitions change; writing-face north/south surfaces, up surfaces and all non-UV geometry remain identical. The separate [chalkboard evidence](../blockbench-chalkboard-20261109/README.md) supports that repair. Text evidence is reused only across these explicitly unchanged parts, not as an assertion that all N06 inputs or global runtime trees are identical. The publication base is merged **0.6.217**, main `0064069fad80f585e7d1a2e6f92c0d6b800079e8`, tree `3bfc0f59391f4311cdbc81b45ec87cc3220e0dc3`, runtime tree `5963fd5dbbd9cd79c8315e2be104f42c5d0bf15b`. This is a new reuse check, not a second GUI run.
+
+## Observed scope
+
+- Left/top: mixed-width asymmetric glyphs, punctuation and two rows on the tilted sandwich host; oblique and reverse captures retain the host shape. No writing is visible in the captured reverse view.
+- Center/middle: white outline and white foreground merge in the outline-on image. Hiding exactly **64** outline meshes exposes readable `Fj R!`, while foreground/bold remain. The changed visibility tab was discarded without saving.
+- Right/bottom: two rows retain the shorter right-aligned last row. One image is intentionally a lower-board detail; the separate full capture shows the complete host.
+- Justified: first two wrapped rows expand word gaps; final `IJ` remains natural width.
+- Distributed east: the supplied −X camera looked at the wooden reverse. Actual **+X** capture shows the writing face and distributed character gaps. This is a capture-direction correction, not a runtime defect.
+- Fallback: space advance, U+200C suppression and an empty row remain; tall private-use fallback rectangle and smaller supplementary-character fallback square are visible before punctuation. The detail crops host edges and cannot establish full-body framing.
+- The seventh blank control emits **zero glyph helpers** and is supported by static proof only, not a GUI capture.
+
+The shared 512 indexed glyph/outline cells belong to **two geometry owners**, not 512 independently reviewed owners. No exhaustive glyph, RGB or addon inventory review was performed. The original independent saved-scene report covers **524 glyph-card vertices**, 36 host meshes and 36 embedded PNG records. Analytical checks and editor observations remain separate forms of evidence.
+
+## Source/API limits remain unresolved
+
+Java uses **C**, actual main-camera distance to block center, and **E**, camera-entity distance to that center. Outline visibility requires **C ≤ 48 AND glowing AND (black OR first-person active scoping OR (camera entity exists AND E < 16))**. Native helper-camera distance **D** does not reproduce distinct E and lacks the scoped-viewer override. Equality at C=48 is included; equality at E=16 is excluded. A “16–48” shorthand is valid only when the distances coincide.
+
+Official `Player.setPropertyOverrideForEntity` supports delivering a known client-synced value per viewer. The unresolved piece is reliable observation of actual first-person **and active scoping** in this helper/API context. Holding-item, FOV and nearest-player heuristics are not substitutes. Current `q.is_first_person` documentation marks it deprecated/always 0; its suggested variable does not establish this helper's viewing-state contract. The exact server **2.7.0** declarations archive could not be retrieved. Live **2.11.0** documentation is not target-version proof. The archived scope audit preserves official links, retrieval failures and analytical truth-table boundaries; no API or engine test is implied.
+
+`prep/inputs/current/package.json` is a **local ES-module fixture stub**, not release/version evidence. Exact canonical package and manifest snapshots are under `prep/inputs/canonical`; they record 0.6.215, minimum engine 1.26.50, server 2.7.0 and server-ui 2.0.0.
+
+Java delegates rasterization/width/wrapping to Minecraft Font. These scenes instead use the licensed Unifont adaptation and original white PNGs. No Java Font execution, color/tint accuracy, native emissive glow, lighting, alpha sorting, polygon offset, face culling, distance/controller/entity lifecycle or actual scoping acceptance is claimed. The accepted held rack **+6 lift** is unchanged; known Allium FOV clipping remains unresolved. No Minecraft, BDS, LIVE, user-computer operation, release change or all-addon completion accompanies this documentation.
+
+## Original diagnostics and integrity
+
+All 28 screenshots remain raw **1188×848 JPEGs** without re-encoding, cropping or replacement. Images 02/13 are poor-framing diagnostics. Image18's historical filename says camera readback but it actually shows an element texture menu: it is **not numeric camera evidence**. Dirty/selected state19 was discarded before reloading the frozen east scene for accepted20. The exact64 selection is visible in10; the earlier select-all of82 was not the accepted hide operation. Original GUI cleanup/preflight/postflight metadata is preserved, not reinterpreted as current session state.
+
+The original preparation manifest SHA-256 is `d540144c855154dde60af9274a231bc4eee3cc9e6469e3d840a9552450ac8c8d`; scope integration receipt is `4bfd7790cd61dfffa2d70e741067c1280ca00abbb941f8d9e05ee47fbb5d3224`; GUI receipt is `81148c6cc236b428657505a3879c2359457d304900627e90bb0be6db40e4b0de`; GUI evidence manifest is `349e724840388eb7edbac8eba42ca78c771987364fad565d67e740689dd9e5b2`.
+
+## Portable verification and attribution
+
+Two independent ZIPs, each below 1,000,000 bytes, contain **84 nonoverlapping members**: 69 original preparation files (68 frozen artifacts plus their manifest), the original N05 manifest and 14 before/current host geometry snapshots. [Archive entries](archive-entries.json) records exact member size, SHA-256, Git blob SHA-1 and mode. [Artifact inventory](artifact-sha256.json) covers every direct package file except itself. The raw GUI files are directly browsable under `gui/`.
+
+Run `python -B docs/evidence/blockbench-board-text-20261109/validate_evidence.py --repository .` from the repository, then `python -B docs/evidence/blockbench-board-text-20261109/test_verifier_boundaries.py`. Python standard library only; omit `--repository` for portable offline replay. Replay inspects saved evidence without executing original builders or altering originals. Hashes bind supplied bytes, not independently authenticate publishers or remote commit membership. Archive bounds, malformed paths, traversal, symlink, duplicate members/JSON keys, non-finite numbers and corruption are rejected. Optimization that disables assertions is rejected. Optional replay outputs must be new external paths and cannot overwrite a Git checkout or original package.
+
+Original Tavern assets/code: **Kaleidoscope Official Production Team**, [KaleidoscopeMods/KaleidoscopeTavern](https://github.com/KaleidoscopeMods/KaleidoscopeTavern), pinned Forge `c4ec1880bd44cf3139d3ba744ab30bb379cf1416` and NeoForge `a1afba34981a00e89d57130d3dc8f1e64f1820a2`. [LICENSE-ASSETS](LICENSE-ASSETS): CC BY-NC-SA 4.0. [LICENSE-CODE](LICENSE-CODE): BSD 3-Clause. Original branch notices remain archived. Tavern Board Font derives from **GNU Unifont 15.0.06**; the original gzip hex source, README and COPYING preserve its SIL OFL 1.1 and alternate GPL/font-embedding-exception provenance. Original PNG bytes are retained, not redrawn or represented as Minecraft's font. Scenes are adapted review fixtures, not author endorsement. No full author JAR, executable bundle, world, credentials or unrelated private data is included.
