@@ -301,6 +301,17 @@
                     -4.0
                   ],
                   "material_instance": "unshaded"
+                },
+                "down": {
+                  "uv": [
+                    20.0,
+                    16.0
+                  ],
+                  "uv_size": [
+                    -4.0,
+                    -4.0
+                  ],
+                  "material_instance": "unshaded"
                 }
               }
             },

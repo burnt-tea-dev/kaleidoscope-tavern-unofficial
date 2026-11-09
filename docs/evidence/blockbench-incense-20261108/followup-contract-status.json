@@ -1,0 +1,141 @@
+{
+  "status_date": "2026-11-09",
+  "captured_geometry_commit": "df2559ef4ac9984d89d2dc4f01cfb60d1e7b7be7",
+  "followup_tested_commit": "26cc3c37b6b1648692c82cbe88d588f27736b20a",
+  "followup_reviewed_commit": "58b6bcb4c13976938e9a5bb940b74e6c5d291c26",
+  "followup_source_tree": "6c0e6f42ef0898273f64a72ca9cfdb5be8533452",
+  "followup_base_commit": "95b5f18a216990a604d37e0f355f2a6dcde30fe7",
+  "unchanged_runtime_tree": "fbde705a2a6042201eba7b06f1c22192f05448a6",
+  "geometry_sha256": {
+    "incense_closed.geo.json": "47bf58ff0226a56c60cfd220a7f61119a0ff87b4983f31914ef5b1f71de9fb07",
+    "incense_open.geo.json": "d79d4c47bf08d7444c2619ac00763a70ce009720bd9e885f323e9d9575f338e7"
+  },
+  "hash_verified_reused_runtime_inputs": [
+    {
+      "path": "runtime/RP/models/entity/incense_closed.geo.json",
+      "included_input": "review/candidate/inputs/candidate/incense_closed.geo.json",
+      "sha256": "47bf58ff0226a56c60cfd220a7f61119a0ff87b4983f31914ef5b1f71de9fb07",
+      "bytes": 9337
+    },
+    {
+      "path": "runtime/RP/models/entity/incense_open.geo.json",
+      "included_input": "review/candidate/inputs/candidate/incense_open.geo.json",
+      "sha256": "d79d4c47bf08d7444c2619ac00763a70ce009720bd9e885f323e9d9575f338e7",
+      "bytes": 9641
+    },
+    {
+      "path": "runtime/BP/blocks/butterfly_incense.json",
+      "included_input": "review/candidate/inputs/blocks/butterfly_incense.json",
+      "sha256": "5e82d502ad00546e97c22ea81fcf49f7482e3df8973a331cc5e41744184e771f",
+      "bytes": 3922
+    },
+    {
+      "path": "runtime/RP/textures/kaleidoscope_tavern/block/deco/incense/butterfly_incense.png",
+      "included_input": "review/candidate/inputs/textures/butterfly_incense.png",
+      "sha256": "c1fe67e237b9a4c95a22faa50676210f9ffccf1861efd83354900bcd035f5961",
+      "bytes": 325
+    },
+    {
+      "path": "runtime/BP/blocks/catnip_incense.json",
+      "included_input": "review/candidate/inputs/blocks/catnip_incense.json",
+      "sha256": "f6d32272bf70ebc13b400da98ac2d948f1b95b2e5f47c44736e909b87c1931e2",
+      "bytes": 3895
+    },
+    {
+      "path": "runtime/RP/textures/kaleidoscope_tavern/block/deco/incense/catnip_incense.png",
+      "included_input": "review/candidate/inputs/textures/catnip_incense.png",
+      "sha256": "901bbea073171fbee3612e7e6e0773b18094eb54e181b8e4aee0f980f653ebce",
+      "bytes": 325
+    },
+    {
+      "path": "runtime/BP/blocks/firefly_incense.json",
+      "included_input": "review/candidate/inputs/blocks/firefly_incense.json",
+      "sha256": "c937e0c4d5cdb450d42a31bddc453577baefc3fda1126df3cf49d22d603d0292",
+      "bytes": 3904
+    },
+    {
+      "path": "runtime/RP/textures/kaleidoscope_tavern/block/deco/incense/firefly_incense.png",
+      "included_input": "review/candidate/inputs/textures/firefly_incense.png",
+      "sha256": "ea4a9df2e7c61fee84fc6103fd651ffd973de412db6378c9fc862e2d371328ab",
+      "bytes": 345
+    },
+    {
+      "path": "runtime/BP/blocks/ginkgo_incense.json",
+      "included_input": "review/candidate/inputs/blocks/ginkgo_incense.json",
+      "sha256": "74dcf180c9ffe53351b63fc2815994254804c2ea4eb8ac180606dccab3f1a0ab",
+      "bytes": 3895
+    },
+    {
+      "path": "runtime/RP/textures/kaleidoscope_tavern/block/deco/incense/ginkgo_incense.png",
+      "included_input": "review/candidate/inputs/textures/ginkgo_incense.png",
+      "sha256": "57415e0a10525ac095c47a93a664957eca6255fee71caceff4395dbd06aaa2fc",
+      "bytes": 335
+    },
+    {
+      "path": "runtime/BP/blocks/pine_incense.json",
+      "included_input": "review/candidate/inputs/blocks/pine_incense.json",
+      "sha256": "43d3c474945a9e7bb4fc3d4f55c92703f5ae37fbffe1a1023544da51acbc9ffd",
+      "bytes": 3877
+    },
+    {
+      "path": "runtime/RP/textures/kaleidoscope_tavern/block/deco/incense/pine_incense.png",
+      "included_input": "review/candidate/inputs/textures/pine_incense.png",
+      "sha256": "5662bccae6f4d3fc5b3ed99cdf596195bc3ddd263ccfaa435c8e755e4a7d63c4",
+      "bytes": 345
+    },
+    {
+      "path": "runtime/BP/blocks/sakura_incense.json",
+      "included_input": "review/candidate/inputs/blocks/sakura_incense.json",
+      "sha256": "a03ed234fa14d75e7df3ec720a6caec6ae32aed440dd9eaca5fa0f63f11d695c",
+      "bytes": 3895
+    },
+    {
+      "path": "runtime/RP/textures/kaleidoscope_tavern/block/deco/incense/sakura_incense.png",
+      "included_input": "review/candidate/inputs/textures/sakura_incense.png",
+      "sha256": "acb340ee0b2e39b6b079f93050b5baae1cfd2de8638c30b48a6efc03b46ba66a",
+      "bytes": 325
+    },
+    {
+      "path": "runtime/BP/blocks/snow_incense.json",
+      "included_input": "review/candidate/inputs/blocks/snow_incense.json",
+      "sha256": "a293f342efe73706ea936614d2bc80a4c1a73534469920f457eb5936ce2203d2",
+      "bytes": 3877
+    },
+    {
+      "path": "runtime/RP/textures/kaleidoscope_tavern/block/deco/incense/snow_incense.png",
+      "included_input": "review/candidate/inputs/textures/snow_incense.png",
+      "sha256": "8b483a4ba8c74c52925601711dbfd9eafecca5ea7d6c2d9c4d29aa989e4dd038",
+      "bytes": 282
+    },
+    {
+      "path": "runtime/BP/blocks/spore_incense.json",
+      "included_input": "review/candidate/inputs/blocks/spore_incense.json",
+      "sha256": "17191ee97b30f74a787f823f53a183d997fb8fcedaca0aef9343f15a7e36cd1c",
+      "bytes": 3886
+    },
+    {
+      "path": "runtime/RP/textures/kaleidoscope_tavern/block/deco/incense/spore_incense.png",
+      "included_input": "review/candidate/inputs/textures/spore_incense.png",
+      "sha256": "a15b92eac4f1d3e29138b8f77092f664b57df72bdad439f5ff9dd7a807d12f1e",
+      "bytes": 334
+    }
+  ],
+  "followup_result": "PASS for both previously reported contract gaps; no remaining blocker within that focused review scope.",
+  "guard_results": {
+    "original_six_probes": "Now rejected for the intended lifecycle or geometry-visibility reason.",
+    "independent_real_cli_negative_launches": 18,
+    "submitted_tests_passing": 18,
+    "pinned_source_positive_launch": "PASS",
+    "component_granularity_positive_control": "PASS",
+    "effective_open_lifecycle_override_coverage": "PASS",
+    "closed_open_item_root_visibility_coverage": "PASS"
+  },
+  "attribution": "These guard results are the subsequent independent review findings, not newly executed guard tests during compact packaging. Git object checks here independently verify unchanged runtime and the 18 relevant model/block/texture input files. The compact-package restoration and original offline verifier were rerun separately.",
+  "historical_snapshot_preserved": "The original review documents keep their earlier pending status and captured commit. This later status supplements, rather than rewrites, that record.",
+  "release_version": null,
+  "release_commit": null,
+  "release_status": "Final paired release version and commit to be supplied by the runtime PR maintainer. Focused contract PASS is not frozen release approval.",
+  "minecraft_engine_acceptance": false,
+  "deployment_acceptance": false,
+  "published_by_packaging_task": false
+}

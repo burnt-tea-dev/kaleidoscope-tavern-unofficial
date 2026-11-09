@@ -1,0 +1,507 @@
+{
+  "archives": [
+    {
+      "file": "archives/incense-scenes.zip",
+      "bytes": 138066,
+      "sha256": "080cd1ad81550751f1dc0aed24a9b1c75f52da6fa3e65c65b6ea67046dea2cb6",
+      "entries": 14,
+      "jpeg_entries": 0
+    },
+    {
+      "file": "archives/portable-source-audits.zip",
+      "bytes": 91112,
+      "sha256": "c53577a2b69f3b68ff5fa415c4db0a744b36d9152ed8e9251596920cb7238e71",
+      "entries": 67,
+      "jpeg_entries": 0
+    }
+  ],
+  "entries": [
+    {
+      "archive": "archives/incense-scenes.zip",
+      "entry": "review/archives/baseline-scenes.zip",
+      "bytes": 28428,
+      "sha256": "83ee8d884e7f88d3f3b4b5c3933b3ebc7953a764b1d8a2cb831172be17d4c263"
+    },
+    {
+      "archive": "archives/incense-scenes.zip",
+      "entry": "review/archives/candidate-scenes.zip",
+      "bytes": 40490,
+      "sha256": "0ac8db92cc91a98efe3ce51d58c4048ace6d76d89be03b1d2dce31df42177554"
+    },
+    {
+      "archive": "archives/incense-scenes.zip",
+      "entry": "review/archives/scene-zip-entries.json",
+      "bytes": 3026,
+      "sha256": "23e00063ed8c2206791d627d6d9d385e216e81f50a8c901d37d0754d1c07f0bf"
+    },
+    {
+      "archive": "archives/incense-scenes.zip",
+      "entry": "review/baseline/scenes/catnip-closed-underside-close-pair.bbmodel",
+      "bytes": 22035,
+      "sha256": "7293c8d8640786ffafee34fa86dc8a7234d60ba7c4f1ce9f51f8cfe4106b2365"
+    },
+    {
+      "archive": "archives/incense-scenes.zip",
+      "entry": "review/baseline/scenes/incenses-1.bbmodel",
+      "bytes": 84238,
+      "sha256": "a1d526848f7e300fbd19f0689d0e11ef0b40f3d46b76607bea9a77c2544dcb14"
+    },
+    {
+      "archive": "archives/incense-scenes.zip",
+      "entry": "review/baseline/scenes/incenses-2.bbmodel",
+      "bytes": 84298,
+      "sha256": "115ba69c1b912daa0b66a303ec1053908602c2d7e5ae9e2518d907edc48997ab"
+    },
+    {
+      "archive": "archives/incense-scenes.zip",
+      "entry": "review/baseline/scenes/incenses-3.bbmodel",
+      "bytes": 84256,
+      "sha256": "0ced8907674779737aa7f108c207ef16cd38b2332418ee0fe7035b328aa93269"
+    },
+    {
+      "archive": "archives/incense-scenes.zip",
+      "entry": "review/baseline/scenes/incenses-4.bbmodel",
+      "bytes": 84106,
+      "sha256": "307111e69f63e77d8ab9539b2c4da31811b3a706749e1c08537ed0d41955fc87"
+    },
+    {
+      "archive": "archives/incense-scenes.zip",
+      "entry": "review/candidate/scenes/catnip-closed-source-current-candidate.bbmodel",
+      "bytes": 31213,
+      "sha256": "3d8f65982e8e7afb86c77f74264550be309d6533f69f429e5d0d09cbea376b39"
+    },
+    {
+      "archive": "archives/incense-scenes.zip",
+      "entry": "review/candidate/scenes/catnip-open-source-current-candidate.bbmodel",
+      "bytes": 31208,
+      "sha256": "f26968c4b8f149e93d4068e3bb08aaaf15a2f4b4376d7b729e2525dd12db0607"
+    },
+    {
+      "archive": "archives/incense-scenes.zip",
+      "entry": "review/candidate/scenes/incense-all16-triplets-1.bbmodel",
+      "bytes": 122711,
+      "sha256": "1130c510626ea193554e79b2844a62825bce859e0f4d982a1f3461d2dd1aa2ab"
+    },
+    {
+      "archive": "archives/incense-scenes.zip",
+      "entry": "review/candidate/scenes/incense-all16-triplets-2.bbmodel",
+      "bytes": 122733,
+      "sha256": "c722d7a0d6f0b59429e5d9bf8277d44c981b3826efaab2a1d7637a7b12db018b"
+    },
+    {
+      "archive": "archives/incense-scenes.zip",
+      "entry": "review/candidate/scenes/incense-all16-triplets-3.bbmodel",
+      "bytes": 122700,
+      "sha256": "cb5cee1ac54cb34f0b64a266ed091d109461dd18a889447824efc20e092966ec"
+    },
+    {
+      "archive": "archives/incense-scenes.zip",
+      "entry": "review/candidate/scenes/incense-all16-triplets-4.bbmodel",
+      "bytes": 122621,
+      "sha256": "d6775852cdf72f734daa55ec7028ae1ed79458e93519bb594c9378573eb7b65a"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/LICENSE-ASSETS",
+      "bytes": 1604,
+      "sha256": "9779f7520aa9bb4888d8216933e482722d6b2c839e96ca338322e11c9fd3c286"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/LICENSE-CODE",
+      "bytes": 1545,
+      "sha256": "e4b0341c2f974280d80bbd56d6d12e2f3e4d755f3a5cfeed9725771415e0d3ed"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/README.md",
+      "bytes": 10277,
+      "sha256": "014c01d1f78bfaa6dade94b04909b0951870f2b351ead84313a2f843d740c25a"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/SHA256SUMS",
+      "bytes": 11323,
+      "sha256": "c6ff087d83ecab35aade26eeaa49bcaa69d58f3ef4a9972ffd2906e266e1f7fe"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/audits/author-contract/forge-ClientSetupEvent.java",
+      "bytes": 3704,
+      "sha256": "19c96f6fc08716af6abc93c87b0db84bf3443fb64d82b7f7b57669ec1751e9fb"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/audits/author-contract/forge-IncenseBlock.java",
+      "bytes": 7438,
+      "sha256": "327794738b23be35cd47d7ef266befaa52b89f7c7aa6dfe216edbbfb5d72cd98"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/audits/author-contract/forge-IncenseBlockEntity.java",
+      "bytes": 1589,
+      "sha256": "900323fdba1249a8a18723d01751b0ae722634642b2ac35e1cae4bb82281601d"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/audits/author-contract/forge-ModEntitiesRender.java",
+      "bytes": 2923,
+      "sha256": "991f9169fed0406a8d6cc889e4382f8fa57a2d4dc9936e4bde047dc539a22024"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/audits/author-contract/inputs.json",
+      "bytes": 2695,
+      "sha256": "34f8c267586fd4482b970bc44798f231bf07889f0dad5e444735a2b52dec3df9"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/audits/author-contract/neoforge-ClientSetupEvent.java",
+      "bytes": 3998,
+      "sha256": "699bcc11c69a2d8925b817cdbf9b74b0b04d76121e14cd20d91147b689e34bfe"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/audits/author-contract/neoforge-IncenseBlock.java",
+      "bytes": 7919,
+      "sha256": "f4ed43dcc85d8d053b1d73148d31de353507b8530ce4e1c9502fc27a60da9f77"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/audits/author-contract/neoforge-IncenseBlockEntity.java",
+      "bytes": 1593,
+      "sha256": "28973b8d5ba8e4b4ec220878f1c0b2acb01a879e14e075293d61ff5b728defde"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/audits/author-contract/neoforge-ModEntitiesRender.java",
+      "bytes": 3036,
+      "sha256": "6d39ff570af10d6f95a4ef0d24c3aaf4e5903a7849712be4bf1f199f14a6df0f"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/audits/baseline-input-compatibility.json",
+      "bytes": 4607,
+      "sha256": "74fd314b94d9e585d530f346233712b1defc527607f3bb89062fedcfde27b8b3"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/audits/blockbench-codec-provenance.json",
+      "bytes": 2002,
+      "sha256": "0b037ca0bc91257e20731929528df2e876ed6a433b7f60257e574b3e16333275"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/audits/candidate-identity.json",
+      "bytes": 1236,
+      "sha256": "c1e14fb6c45dcff480db9ee8c48e3358cc869e784b4dde2fd157bd572754810b"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/audits/consumer-owner-audit.json",
+      "bytes": 5548,
+      "sha256": "afb35c965c2bc1feb3066b9f650e9356bcefc4cd39522a853a0d6657e5dc2664"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/audits/fill-face-contract.json",
+      "bytes": 6481,
+      "sha256": "2ae45608929a61f2fa349ef2dabec509b4b7143f0265f9bb1a91f719e2cb05e2"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/audits/source-check.json",
+      "bytes": 212,
+      "sha256": "7746b2d1002f7fab355393bdf006ac150027cc0c4c0f638c066035ced3133293"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/audits/source-owner-summary.md",
+      "bytes": 3262,
+      "sha256": "c0f82a040d710647be785fc3f450793c26473bb3795ca08516e339ff9a65dfc2"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/audits/source-receipts.json",
+      "bytes": 31189,
+      "sha256": "f841407447aa26acc2eabb0dcb803d40d108e2c125944ddd40185e2f5deaf0dd"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/baseline/scene-manifest.json",
+      "bytes": 6282,
+      "sha256": "98b451a7ed5cb7770fe14041bacb4913252ef0117778236124400ec6c41219cb"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/candidate/build_review.py",
+      "bytes": 9229,
+      "sha256": "bfd22cef09ccce93de3acbf0bcd7674778ce1ff8691395377e4652faea9ae7b6"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/candidate/inputs/blocks/butterfly_incense.json",
+      "bytes": 3922,
+      "sha256": "5e82d502ad00546e97c22ea81fcf49f7482e3df8973a331cc5e41744184e771f"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/candidate/inputs/blocks/catnip_incense.json",
+      "bytes": 3895,
+      "sha256": "f6d32272bf70ebc13b400da98ac2d948f1b95b2e5f47c44736e909b87c1931e2"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/candidate/inputs/blocks/firefly_incense.json",
+      "bytes": 3904,
+      "sha256": "c937e0c4d5cdb450d42a31bddc453577baefc3fda1126df3cf49d22d603d0292"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/candidate/inputs/blocks/ginkgo_incense.json",
+      "bytes": 3895,
+      "sha256": "74dcf180c9ffe53351b63fc2815994254804c2ea4eb8ac180606dccab3f1a0ab"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/candidate/inputs/blocks/pine_incense.json",
+      "bytes": 3877,
+      "sha256": "43d3c474945a9e7bb4fc3d4f55c92703f5ae37fbffe1a1023544da51acbc9ffd"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/candidate/inputs/blocks/sakura_incense.json",
+      "bytes": 3895,
+      "sha256": "a03ed234fa14d75e7df3ec720a6caec6ae32aed440dd9eaca5fa0f63f11d695c"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/candidate/inputs/blocks/snow_incense.json",
+      "bytes": 3877,
+      "sha256": "a293f342efe73706ea936614d2bc80a4c1a73534469920f457eb5936ce2203d2"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/candidate/inputs/blocks/spore_incense.json",
+      "bytes": 3886,
+      "sha256": "17191ee97b30f74a787f823f53a183d997fb8fcedaca0aef9343f15a7e36cd1c"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/candidate/inputs/candidate/incense_closed.geo.json",
+      "bytes": 9337,
+      "sha256": "47bf58ff0226a56c60cfd220a7f61119a0ff87b4983f31914ef5b1f71de9fb07"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/candidate/inputs/candidate/incense_open.geo.json",
+      "bytes": 9641,
+      "sha256": "d79d4c47bf08d7444c2619ac00763a70ce009720bd9e885f323e9d9575f338e7"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/candidate/inputs/current/incense_closed.geo.json",
+      "bytes": 9092,
+      "sha256": "47d14387d2046ee8cbb83ca7e5f2604755f90e5de798ae41e74b72c1e0daeb83"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/candidate/inputs/current/incense_open.geo.json",
+      "bytes": 9345,
+      "sha256": "3bf8c221b1001dcbb2b57eb7c433d70264ccfcc8173d79df9acfec8985d422f2"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/candidate/inputs/java/butterfly_closed.json",
+      "bytes": 3599,
+      "sha256": "ebe8e4ec3756aa48d38af3c2f8873395d2703b8d83d70a669e18496e74e864b2"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/candidate/inputs/java/butterfly_open.json",
+      "bytes": 3648,
+      "sha256": "c4dd9a32d01ba39d5b6f03b9fcbf46c2f3f264dbff6d445f112d8067c53ef91a"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/candidate/inputs/java/catnip_closed.json",
+      "bytes": 3593,
+      "sha256": "0527ca80cbf6d345050c3d280e4083c67532ac223daa19877c9d0774d2e078e1"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/candidate/inputs/java/catnip_open.json",
+      "bytes": 3642,
+      "sha256": "cb0d14a46255b80ac67ef7e12e454b79c59532f8c721ceea64c1a7c3ba59eff7"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/candidate/inputs/java/firefly_closed.json",
+      "bytes": 3595,
+      "sha256": "71c863292fe85ee123aae7c1eec7a4c1dd077de49c06025908b1c6f2adaca0ed"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/candidate/inputs/java/firefly_open.json",
+      "bytes": 3644,
+      "sha256": "cde1e7390b78b044f34eb3bd54c309d3bec1d0e67b1789006329b2dc2ca6517d"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/candidate/inputs/java/ginkgo_closed.json",
+      "bytes": 3593,
+      "sha256": "01439d00daca6bc13ec9643c4eb510b7913dd44bcdb62b93a7551b5751d6b7dd"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/candidate/inputs/java/ginkgo_open.json",
+      "bytes": 3642,
+      "sha256": "b3491a41933cfb0290e5682e33b1c2110a328b5f4df2ffc334b85784e41a48aa"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/candidate/inputs/java/pine_closed.json",
+      "bytes": 3589,
+      "sha256": "244485e3563a5951956938e25f62e8dcae088111f14997321159c2ffd1e4065c"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/candidate/inputs/java/pine_open.json",
+      "bytes": 3638,
+      "sha256": "6466dc6d2ba377ab1f67f7f50a03e8df4baf77d74df97e496671f4f519dc2445"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/candidate/inputs/java/sakura_closed.json",
+      "bytes": 3593,
+      "sha256": "bedd961092d964b85ec184a29cd55bb94b218640aa9a78cf4153f27e526ce365"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/candidate/inputs/java/sakura_open.json",
+      "bytes": 3642,
+      "sha256": "f00c5b3dc7f5d6164e051d22c96d27fcb41a8f8b024491016c8eea0667e13952"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/candidate/inputs/java/snow_closed.json",
+      "bytes": 3589,
+      "sha256": "6a9214bd522d74908fe7c8f0a79bb0df7ce28948dea47adfdfd32da4abc8ca55"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/candidate/inputs/java/snow_open.json",
+      "bytes": 3638,
+      "sha256": "9e476544cf5ff4f5e14f95d992d7435be234ec3b9bc7bc67f453665de541c090"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/candidate/inputs/java/spore_closed.json",
+      "bytes": 3591,
+      "sha256": "ab22facdcff289e864593fdb18072b627753284ae20a0ab803a05ea87559204f"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/candidate/inputs/java/spore_open.json",
+      "bytes": 3640,
+      "sha256": "f802f0136fbd1ab81886b14c92820ff59ad804ff8bf9869e2f1e24bed6a8a324"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/candidate/inputs/textures/butterfly_incense.png",
+      "bytes": 325,
+      "sha256": "c1fe67e237b9a4c95a22faa50676210f9ffccf1861efd83354900bcd035f5961"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/candidate/inputs/textures/catnip_incense.png",
+      "bytes": 325,
+      "sha256": "901bbea073171fbee3612e7e6e0773b18094eb54e181b8e4aee0f980f653ebce"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/candidate/inputs/textures/firefly_incense.png",
+      "bytes": 345,
+      "sha256": "ea4a9df2e7c61fee84fc6103fd651ffd973de412db6378c9fc862e2d371328ab"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/candidate/inputs/textures/ginkgo_incense.png",
+      "bytes": 335,
+      "sha256": "57415e0a10525ac095c47a93a664957eca6255fee71caceff4395dbd06aaa2fc"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/candidate/inputs/textures/pine_incense.png",
+      "bytes": 345,
+      "sha256": "5662bccae6f4d3fc5b3ed99cdf596195bc3ddd263ccfaa435c8e755e4a7d63c4"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/candidate/inputs/textures/sakura_incense.png",
+      "bytes": 325,
+      "sha256": "acb340ee0b2e39b6b079f93050b5baae1cfd2de8638c30b48a6efc03b46ba66a"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/candidate/inputs/textures/snow_incense.png",
+      "bytes": 282,
+      "sha256": "8b483a4ba8c74c52925601711dbfd9eafecca5ea7d6c2d9c4d29aa989e4dd038"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/candidate/inputs/textures/spore_incense.png",
+      "bytes": 334,
+      "sha256": "a15b92eac4f1d3e29138b8f77092f664b57df72bdad439f5ff9dd7a807d12f1e"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/candidate/manifest.json",
+      "bytes": 21805,
+      "sha256": "72b8a508378b95d43184daa40283b9c445d01dda8e657c1365e8845cf55cb03b"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/candidate/review_codec.py",
+      "bytes": 4045,
+      "sha256": "cd12862e38260e4513786268009a476ac14b3e7d6a27dd89315a27812efdedc4"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/inventory.json",
+      "bytes": 18660,
+      "sha256": "47319713330c1cfe25014e621aafe08d979d3ea5037007053c2836f6c411830b"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/package-validation.json",
+      "bytes": 693,
+      "sha256": "cd7d886efa25a2738b87d9c2860bbad8f6e65189dffcdb37a402ebd170b0f555"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/provenance.json",
+      "bytes": 22550,
+      "sha256": "e0c4d9f77371be12549ecabe7eb8dffc0608200147ac13090775eea4ed6f8094"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/requirements.txt",
+      "bytes": 15,
+      "sha256": "ae3337e5ae362bf1fad83355272ff595b58aae13d7a7ac67617f6f3161fa0c07"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/review-status.json",
+      "bytes": 1500,
+      "sha256": "ee4cb7c00355f41296e5ad7cef9e0f3f3851568839ce54aa4cf8442215ac4a89"
+    },
+    {
+      "archive": "archives/portable-source-audits.zip",
+      "entry": "review/verify_bundle.py",
+      "bytes": 8112,
+      "sha256": "1f78dc7c599eab4111f71a0c5e0ae1cb0e4eae652d0245671163512e19848596"
+    }
+  ],
+  "note": "The 24 raw JPEGs, 11 scene files, bounded inputs, source audits and verifier retain their original bytes. A documentation-only correction removes an unsupported origin claim about the small green mark near the current Catnip model. The corrected payload has three prose/index files plus two regenerated hash manifests; compact-validation.json records original and corrected hashes. Neither ZIP contains JPEGs or the previous full evidence ZIP. Scene-only archives retain their original identities."
+}

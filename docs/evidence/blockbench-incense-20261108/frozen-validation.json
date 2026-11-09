@@ -1,0 +1,51 @@
+{
+  "version": "0.6.213",
+  "reviewed_candidate_commit": "58b6bcb4c13976938e9a5bb940b74e6c5d291c26",
+  "frozen_commit": "c3f83ca4677e65d85023257fc9a7d502750ad6dc",
+  "runtime_tree": "38c5977dd6bfe14b1824734612e3c601e1e41028",
+  "bp_git_tree": "5480f4d0169cac9349786a26ad8e9080dcd9d688",
+  "rp_git_tree": "c1533f37dc7f6b9bdadd5032237fdac4e1f6f441",
+  "baseline_source_trees": {
+    "BP": {
+      "sha256": "18200b93beff33a9e6e90e17d63263940eddf58a7f78084d29bfc003ed0d7063",
+      "files": 838
+    },
+    "RP": {
+      "sha256": "5caa02bc43c472993062fa2e09b041b934242980a2aa5ba274eaa4e60ece7a38",
+      "files": 3232
+    }
+  },
+  "runtime_changed_paths": [
+    "runtime/BP/manifest.json",
+    "runtime/BP/scripts/data/build-version.js",
+    "runtime/BP/scripts/data/cookery-guide-payload.js",
+    "runtime/RP/manifest.json",
+    "runtime/RP/models/entity/incense_closed.geo.json",
+    "runtime/RP/models/entity/incense_open.geo.json"
+  ],
+  "functional_delta": "Only cube3.uv.down added to each shared incense model; open retains material_instance unshaded. Geometry is byte-identical to independently reviewed 58b6bcb.",
+  "identity_delta": "Paired manifest/module versions, BP-to-RP dependency, Cookery guide payload version and diagnostic build identity changed from 0.6.212 to 0.6.213. Pack/module UUIDs, API dependencies, minimum engine and other runtime bytes are preserved.",
+  "history_append_only": true,
+  "archive_sha256": "8788b736b3806e0d3d2cc9e524dfe388a3cf551a64b7c938f1987ab88fd91b8f",
+  "archive_bytes": 5913211,
+  "archive_verified_against_runtime": true,
+  "checks": {
+    "identity_and_incense_tests": 111,
+    "pinned_source_launch_exit": 0,
+    "strict_release_check_exit": 0,
+    "packager_exit": 0,
+    "publication_enabled": false,
+    "prior_latest_family_identity_tests": 162
+  },
+  "unchanged_evidence": "Reuse independent geometry/source/guard review and original GUI screenshots/scenes; no new image or engine validation was needed for version-only runtime metadata.",
+  "scope": "Local frozen candidate validation; canonical PR/CI publication follows. No native engine or deployment acceptance.",
+  "frozen_commit_kind": "Local source snapshot before additive documentation rebase",
+  "archive_name": "Kaleidoscope_Tavern_Unofficial_0.6.213_baseline1.mcaddon",
+  "not_performed": [
+    "BDS",
+    "Minecraft client",
+    "LIVE",
+    "deployment",
+    "GitHub release"
+  ]
+}
