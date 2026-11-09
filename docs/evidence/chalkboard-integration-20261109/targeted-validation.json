@@ -1,0 +1,73 @@
+{
+  "phase": "pre-freeze targeted checks; formal aggregate not yet run",
+  "chalkboard_contract_tests": 7,
+  "pressing_contract_tests": 9,
+  "incense_contract_tests": 18,
+  "release_cli_tests": 14,
+  "baseline_reference_identity_tests": 35,
+  "board_adapter_tests": 33,
+  "baseline_gate_tests": 20,
+  "release_publication_tests": 8,
+  "surface_routes": "passed",
+  "board_layout": "passed",
+  "no_site_chalkboard_execution": "passed; only standard library at contract boundary",
+  "existing_no_site_baseline_suite": "Deferred full rerun until freeze; two existing assertions correctly encounter unfrozen runtime identity first during development.",
+  "first_board_adapter_invocation": {
+    "command": "node --test tools/board-farm-interaction.test.mjs",
+    "result": "failed: existing @minecraft/server loader omitted; no tests ran",
+    "correction": "node --experimental-loader ./tools/foundation/mock-loader.mjs --test tools/board-farm-interaction.test.mjs",
+    "corrected_result": "33 pass, zero failures/skips; existing API doubles, not native execution"
+  },
+  "new_mocks_or_skips": false,
+  "native_gameplay_or_client_verified": false,
+  "logs": {
+    "raw/tests.log": {
+      "bytes": 105,
+      "sha256": "10ee3622c01a1d5cf96bfd7113c60095bfa1b27843417cfb397b318675c16055"
+    },
+    "raw/pressing-tests.log": {
+      "bytes": 107,
+      "sha256": "7cfff4f58b2b22ef410f82a3ca93a6226dcc36d087171baca0f0b3ed56f36986"
+    },
+    "raw/incense-tests.log": {
+      "bytes": 117,
+      "sha256": "9b9e2f9e1382606049d2b06c144bc572e32502ecbe1a4bba5d9c639940773774"
+    },
+    "raw/release-cli.log": {
+      "bytes": 113,
+      "sha256": "c10a766f3e7a0ec929a21c5527c7ba11e408c88f15e286f1698166ace027bc2f"
+    },
+    "raw/reference-identity.log": {
+      "bytes": 134,
+      "sha256": "f5d1e698595ce7017ad59c5f05d5d04623768d92d242a44296608a19835bef7b"
+    },
+    "raw/surface.log": {
+      "bytes": 108,
+      "sha256": "8bc674482efe44b5c7480a798e2ab2849d86e9df4bbe5aa3549426bf40b7a380"
+    },
+    "raw/board-layout.log": {
+      "bytes": 107,
+      "sha256": "5af7ca6cdb29551bcad23e544f4525904345969444ae7a7865a7ff822c25b09a"
+    },
+    "raw/board-interaction.tap": {
+      "bytes": 1405,
+      "sha256": "d04378088ec58642500bebd90dbf7695d0fb4a5bddd38877725e90da43cee5a6"
+    },
+    "raw/board-interaction-corrected.tap": {
+      "bytes": 3962,
+      "sha256": "c5ce908af11d1305b240b46ac63fb1602200fe5fe73234d2f6e29a50873d8feb"
+    },
+    "raw/baseline-gate-tests.log": {
+      "bytes": 119,
+      "sha256": "5bda26208758a384656b0ceb6a291bb9088d145ea723dcb258eb346816665cce"
+    },
+    "raw/publication-tests.log": {
+      "bytes": 106,
+      "sha256": "c6352adff70a6982c739a1cd77bbb43d2425eefd2dc2112b92b0ceebf2a6ca31"
+    },
+    "raw/development-gate.log": {
+      "bytes": 74,
+      "sha256": "61ae4181041e78d2ffc426d1763ac76ebbc4911a1b8c1e660305dc79c2e2d85c"
+    }
+  }
+}

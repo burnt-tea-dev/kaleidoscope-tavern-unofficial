@@ -1,0 +1,16 @@
+{
+  "path": "../blockbench-chalkboard-20261109/artifact-sha256.json",
+  "sha256": "ae26532063a51e670d7fca6e01d5ec0fc507687b6733543fa8e0aec15c1d94d9",
+  "archive_members": 1043,
+  "raw_jpegs": 81,
+  "triplets": 12,
+  "real_file_zip_corruption_tests": 16,
+  "new_mocks_or_skips": false,
+  "originals_unchanged": true,
+  "source_saved_audits": "Exact typed reproduction, original392meshes/2056faces/8224vertices and candidate72meshes/304faces/1216vertices",
+  "worker_validation_commands": [
+    "python -B docs/evidence/blockbench-chalkboard-20261109/validate_evidence.py",
+    "python -B docs/evidence/blockbench-chalkboard-20261109/test_verifier_boundaries.py"
+  ],
+  "proof_limits": "Bounded editor/data evidence; not native engine or gameplay. Bottom V is coordinate-only."
+}

@@ -6,6 +6,14 @@ Adopt the official Bedrock Tavern1.0.7 unique-reference rule. Preserve the curre
 
 目前維護版本與 BP／RP 身分以 [baseline.json](../baseline.json) 為準；公開下載、來源配對及部署見[家族現況](../family/BASELINE-STATUS.md)。下列日期段保留各次修補及原始證據範圍，不因較新的來源版本自動取得畫面或完整家族通過結果。真人使用不是發布、部署或完成門檻，沿用[擁有者現行規則](../family/UPDATE-WORKFLOW.md#擁有者簡化規則2026-11-04)。
 
+## 黑板窄邊與外側封面（2026-11-09，T217）
+
+依固定 Forge／Neo 的未鏡射 ModelPart 與實際貼圖對照，修正小黑板兩側窄條互換、大黑板封面誤放內部接縫，以及四個下半片 bottom V 方向。只改七個 canonical geometry；中心上半片控制保持原 bytes。正反廣面、頂面、尺寸、位置、朝向、材質與文字不變。當前來源／資源契約接手這八片，沒有新增逆向 ledger 或版本特例；詳見[黑板幾何契約](CHALKBOARD-GEOMETRY.md)。
+
+N05 原始七場景已完成有界編輯器檢查，涵蓋14種立式板、Allium三角度及大小黑板north/east。候選12組同相機SOURCE／BEFORE／AFTER對照支持兩端窄邊修補；大型近端斜視刻意裁掉遠端，並非完整板身取景。底面只跨一列像素，V反向是來源座標證據，不能宣稱肉眼可見差異。保留全部原始JPEG、失敗診斷與同時影響Champagne的編輯器復原紀錄。
+
+未驗證原生剔除／光照、文字字型／對齊、玩法／保存、手持或多人。既有justified／distributed及垂直對齊延伸、傾斜酒架第一人稱+6抬高、Allium手持裁切限制維持。N06文字與N07畫作另案，沒有混入此修補。
+
 ## 短草立式黑板材料與指南（2026-11-08，T212）
 
 舊互動表與配方／解鎖把短草寫成 `minecraft:grass`。官方 BDS1.26.60.6 的該 ItemStack ID 已無效；BlockPermutation 的舊 grass 則解析為草方塊，不能由方塊 alias 推斷物品材料。真短草 `minecraft:short_grass` 與舊 `minecraft:tallgrass` 物品 alias 都讀回 short_grass，原互動表均不接受，因此草飾立式黑板無法依原作換樣式。

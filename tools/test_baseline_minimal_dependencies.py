@@ -51,6 +51,12 @@ class MinimalBaselineDependencies(unittest.TestCase):
         self.assertIn('"card_ids": 22', result.stdout)
         self.assertIn('"native_frame_culling_verified": false', result.stdout)
 
+    def test_chalkboard_contract_runs_without_image_packages(self):
+        result = self.run_isolated('chalkboard_geometry.py')
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn('"slices": 8', result.stdout)
+        self.assertIn('"bottom_v_visual_proof": false', result.stdout)
+
     def test_shared_bindings_stay_pure_and_pixel_generation_still_requires_pillow(self):
         script = """
 import importlib.util, sys

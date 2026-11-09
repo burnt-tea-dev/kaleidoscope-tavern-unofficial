@@ -1,0 +1,156 @@
+Original local source: otc-motorcycle-independent-review-20261109/inputs/ModelPart.java.reference.txt
+Original SHA256: 7d9aab8387326db2882f4f441fbe3f6824dc0bf0841fb7a1be950121599f49dc
+Lines 210-362
+        public Cube(
+            int param0,
+            int param1,
+            float param2,
+            float param3,
+            float param4,
+            float param5,
+            float param6,
+            float param7,
+            float param8,
+            float param9,
+            float param10,
+            boolean param11,
+            float param12,
+            float param13,
+            Set<Direction> param14
+        ) {
+            this.minX = param2;
+            this.minY = param3;
+            this.minZ = param4;
+            this.maxX = param2 + param5;
+            this.maxY = param3 + param6;
+            this.maxZ = param4 + param7;
+            this.polygons = new ModelPart.Polygon[param14.size()];
+            float var0 = param2 + param5;
+            float var1 = param3 + param6;
+            float var2 = param4 + param7;
+            param2 -= param8;
+            param3 -= param9;
+            param4 -= param10;
+            var0 += param8;
+            var1 += param9;
+            var2 += param10;
+            if (param11) {
+                float var3 = var0;
+                var0 = param2;
+                param2 = var3;
+            }
+
+            ModelPart.Vertex var4 = new ModelPart.Vertex(param2, param3, param4, 0.0F, 0.0F);
+            ModelPart.Vertex var5 = new ModelPart.Vertex(var0, param3, param4, 0.0F, 8.0F);
+            ModelPart.Vertex var6 = new ModelPart.Vertex(var0, var1, param4, 8.0F, 8.0F);
+            ModelPart.Vertex var7 = new ModelPart.Vertex(param2, var1, param4, 8.0F, 0.0F);
+            ModelPart.Vertex var8 = new ModelPart.Vertex(param2, param3, var2, 0.0F, 0.0F);
+            ModelPart.Vertex var9 = new ModelPart.Vertex(var0, param3, var2, 0.0F, 8.0F);
+            ModelPart.Vertex var10 = new ModelPart.Vertex(var0, var1, var2, 8.0F, 8.0F);
+            ModelPart.Vertex var11 = new ModelPart.Vertex(param2, var1, var2, 8.0F, 0.0F);
+            float var12 = (float)param0;
+            float var13 = (float)param0 + param7;
+            float var14 = (float)param0 + param7 + param5;
+            float var15 = (float)param0 + param7 + param5 + param5;
+            float var16 = (float)param0 + param7 + param5 + param7;
+            float var17 = (float)param0 + param7 + param5 + param7 + param5;
+            float var18 = (float)param1;
+            float var19 = (float)param1 + param7;
+            float var20 = (float)param1 + param7 + param6;
+            int var21 = 0;
+            if (param14.contains(Direction.DOWN)) {
+                this.polygons[var21++] = new ModelPart.Polygon(
+                    new ModelPart.Vertex[]{var9, var8, var4, var5}, var13, var18, var14, var19, param12, param13, param11, Direction.DOWN
+                );
+            }
+
+            if (param14.contains(Direction.UP)) {
+                this.polygons[var21++] = new ModelPart.Polygon(
+                    new ModelPart.Vertex[]{var6, var7, var11, var10}, var14, var19, var15, var18, param12, param13, param11, Direction.UP
+                );
+            }
+
+            if (param14.contains(Direction.WEST)) {
+                this.polygons[var21++] = new ModelPart.Polygon(
+                    new ModelPart.Vertex[]{var4, var8, var11, var7}, var12, var19, var13, var20, param12, param13, param11, Direction.WEST
+                );
+            }
+
+            if (param14.contains(Direction.NORTH)) {
+                this.polygons[var21++] = new ModelPart.Polygon(
+                    new ModelPart.Vertex[]{var5, var4, var7, var6}, var13, var19, var14, var20, param12, param13, param11, Direction.NORTH
+                );
+            }
+
+            if (param14.contains(Direction.EAST)) {
+                this.polygons[var21++] = new ModelPart.Polygon(
+                    new ModelPart.Vertex[]{var9, var5, var6, var10}, var14, var19, var16, var20, param12, param13, param11, Direction.EAST
+                );
+            }
+
+            if (param14.contains(Direction.SOUTH)) {
+                this.polygons[var21] = new ModelPart.Polygon(
+                    new ModelPart.Vertex[]{var8, var9, var10, var11}, var16, var19, var17, var20, param12, param13, param11, Direction.SOUTH
+                );
+            }
+
+        }
+
+        public void compile(PoseStack.Pose param0, VertexConsumer param1, int param2, int param3, float param4, float param5, float param6, float param7) {
+            Matrix4f var0 = param0.pose();
+            Matrix3f var1 = param0.normal();
+
+            for(ModelPart.Polygon var2 : this.polygons) {
+                Vector3f var3 = var1.transform(new Vector3f((Vector3fc)var2.normal));
+                float var4 = var3.x();
+                float var5 = var3.y();
+                float var6 = var3.z();
+
+                for(ModelPart.Vertex var7 : var2.vertices) {
+                    float var8 = var7.pos.x() / 16.0F;
+                    float var9 = var7.pos.y() / 16.0F;
+                    float var10 = var7.pos.z() / 16.0F;
+                    Vector4f var11 = var0.transform(new Vector4f(var8, var9, var10, 1.0F));
+                    param1.vertex(var11.x(), var11.y(), var11.z(), param4, param5, param6, param7, var7.u, var7.v, param3, param2, var4, var5, var6);
+                }
+            }
+
+        }
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    static class Polygon {
+        public final ModelPart.Vertex[] vertices;
+        public final Vector3f normal;
+
+        public Polygon(
+            ModelPart.Vertex[] param0, float param1, float param2, float param3, float param4, float param5, float param6, boolean param7, Direction param8
+        ) {
+            this.vertices = param0;
+            float var0 = 0.0F / param5;
+            float var1 = 0.0F / param6;
+            param0[0] = param0[0].remap(param3 / param5 - var0, param2 / param6 + var1);
+            param0[1] = param0[1].remap(param1 / param5 + var0, param2 / param6 + var1);
+            param0[2] = param0[2].remap(param1 / param5 + var0, param4 / param6 - var1);
+            param0[3] = param0[3].remap(param3 / param5 - var0, param4 / param6 - var1);
+            if (param7) {
+                int var2 = param0.length;
+
+                for(int var3 = 0; var3 < var2 / 2; ++var3) {
+                    ModelPart.Vertex var4 = param0[var3];
+                    param0[var3] = param0[var2 - 1 - var3];
+                    param0[var2 - 1 - var3] = var4;
+                }
+            }
+
+            this.normal = param8.step();
+            if (param7) {
+                this.normal.mul(-1.0F, 1.0F, 1.0F);
+            }
+
+        }
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    static class Vertex {
+        public final Vector3f pos;

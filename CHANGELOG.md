@@ -1,3 +1,8 @@
+## 0.6.217 — 2026-11-09
+
+- Restore the small chalkboard's narrow-side texture strips and the large chalkboard's exterior end caps. Correct lower-slice bottom directed UVs from pinned source coordinates without changing broad faces, placement, materials, text or gameplay.
+- Bounded editor comparisons support the visible edge repair. The one-texel bottom V reversal is coordinate-only evidence; native rendering, gameplay and LIVE remain unverified.
+
 ## 0.6.216 — 2026-11-09
 
 - Restore the eight shared pressing ingredient cards from half-size to source-derived 8×8×0.5, preserving their zero centers, UVs, all slot/tilt transforms and gameplay. Barrel cards and cube ingredients are unchanged.

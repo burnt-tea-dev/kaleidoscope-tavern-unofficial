@@ -1,0 +1,14 @@
+[
+  {
+    "file": "original_validate_scenes.py",
+    "original_sha256": "1948188ac7f1d0fa4966caf12029b5d40ce4874424a2578f91e16e98210e2dc2",
+    "adapted_sha256": "5253a3c762b3d0de6a71e01b4068c8c6952e5c0245335c2af0b81a468a493b0c",
+    "changes": "Only explicit work path substitution; candidate frozen original integrity reads a disposable copy of its exact 863-file original snapshot. No geometry or UV calculation, tolerance, input, or acceptance predicate changed."
+  },
+  {
+    "file": "candidate_audit_review.py",
+    "original_sha256": "12979126e24393250687682dd7849ae195a15e588d546aa9fc80f01dcb6cc20d",
+    "adapted_sha256": "62d6a3af9e0f24d709ac544d44509fa57703f2c3689d84ce27db6ac401de0f12",
+    "changes": "Only explicit work path substitution; candidate frozen original integrity reads a disposable copy of its exact 863-file original snapshot. No geometry or UV calculation, tolerance, input, or acceptance predicate changed."
+  }
+]

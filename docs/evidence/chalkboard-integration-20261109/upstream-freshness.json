@@ -1,0 +1,18 @@
+{
+  "checked_utc": "2026-11-09T04:54:00.935Z",
+  "method": "Fresh read-only GitHub fetch_commit on named branch refs",
+  "branches": [
+    {
+      "branch": "main",
+      "sha": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+      "url": "https://github.com/KaleidoscopeMods/KaleidoscopeTavern/commit/c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+      "created_at": "2026-07-21T02:35:04Z"
+    },
+    {
+      "branch": "1.21.1",
+      "sha": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+      "url": "https://github.com/KaleidoscopeMods/KaleidoscopeTavern/commit/a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+      "created_at": "2026-07-01T05:27:36Z"
+    }
+  ]
+}

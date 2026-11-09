@@ -1,0 +1,31 @@
+--- original/validate_scenes.py
++++ replay/original_validate_scenes.py
+@@ -5,7 +5,7 @@
+ import json,math,hashlib,base64,io,re,copy
+ import numpy as np
+ from PIL import Image
+-H=Path(__file__).resolve().parent;R=H/'inputs/current';S=H/'inputs/forge';M=json.loads((H/'manifest.json').read_text());read=lambda p:json.loads(p.read_text());sha=lambda b:hashlib.sha256(b).hexdigest()
++H=WORK;R=H/'inputs/current';S=H/'inputs/forge';M=json.loads((H/'manifest.json').read_text());read=lambda p:json.loads(p.read_text());sha=lambda b:hashlib.sha256(b).hexdigest()
+ AS='src/main/resources/assets/kaleidoscope_tavern/';GS='src/generated/resources/assets/kaleidoscope_tavern/'
+ terrain=read(R/'runtime/RP/textures/terrain_texture.json')['texture_data'];cases={x['id']:x for x in M['cases']};report={'inputs':0,'scenes':0,'textures':0,'meshes':0,'faces':0,'vertices':0,'material_tags':0,'max_vertex_error':0.,'max_uv_error':0.,'pairs':[],'gui_reviewed':False}
+ for rel,d in M['inputs'].items():assert sha((H/rel).read_bytes())==d['sha256'],rel;report['inputs']+=1
+--- candidate/audit_review.py
++++ replay/candidate_audit_review.py
+@@ -6,7 +6,7 @@
+ import json,hashlib,copy,re,base64,io,math
+ import numpy as np
+ from PIL import Image
+-H=Path(__file__).resolve().parent;read=lambda p:json.loads(p.read_text());sha=lambda b:hashlib.sha256(b).hexdigest();M=read(H/'manifest.json')
++H=WORK;read=lambda p:json.loads(p.read_text());sha=lambda b:hashlib.sha256(b).hexdigest();M=read(H/'manifest.json')
+ R=H/'inputs/current';S=H/'inputs/forge';N=H/'inputs/neoforge';AS='src/main/resources/assets/kaleidoscope_tavern/';JA='src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/'
+ def save(name,d):(H/name).write_text(json.dumps(d,indent=2)+'\n')
+ report={'inputs_verified':0,'candidate_files':[],'source_branch_contracts':[],'saved_scenes':0,'saved_meshes':0,'saved_faces':0,'saved_vertices':0,'embedded_textures':0,'max_vertex_error':0.,'max_uv_error':0.,'surface_comparisons':[],'gui_reviewed':False,'engine_reviewed':False}
+@@ -140,7 +140,7 @@
+  row={'size':size,'dimensions':[im.shape[1],im.shape[0]],'side_texel_differences':[{'v':int(y),'world_y_center':30.5-float(y),'positive_end_source_u0':im[y,0].tolist(),'negative_end_source_u_width_plus_1':im[y,w+1].tolist()} for y in ys],'different_side_texels':len(ys),'front_back_different_texels':int(np.any(front!=back,axis=2).sum()),'front_mirror_different_texels':int(np.any(front!=front[:,::-1],axis=2).sum()),'back_mirror_different_texels':int(np.any(back!=back[:,::-1],axis=2).sum()),'bottom_nearest_sampling':{'tested_fractional_depths':depths,'before_and_after_v_floor':floors_before,'different_texels':0,'limitation':'Both directed V intervals traverse the same single pixel row. Nearest sampling cannot prove this correction visually.'}}
+  assert row['different_side_texels']==(7 if size=='small' else 0);pixels.append(row)
+ save('pixel-discrimination.json',pixels)
+-before=read(H/'original-integrity-before.json');old=Path(M['original_prep']);after={str(p.relative_to(old)):sha(p.read_bytes()) for p in old.rglob('*') if p.is_file()};assert before==after;report['original_files_preserved']=len(before);report['original_scenes_preserved']=sum(k.endswith('.bbmodel') for k in before)
++before=read(H/'original-integrity-before.json');old=ORIGINAL_SNAPSHOT;after={str(p.relative_to(old)):sha(p.read_bytes()) for p in old.rglob('*') if p.is_file()};assert before==after;report['original_files_preserved']=len(before);report['original_scenes_preserved']=sum(k.endswith('.bbmodel') for k in before)
+ report['status']='PASS: exact candidate delta, saved-file reconstruction, source exterior/UV parity; not GUI or engine acceptance'
+ save('independent-review-audit.json',report);save('original-integrity-after.json',after)
+ print(json.dumps({k:v for k,v in report.items() if k not in ['candidate_files','source_branch_contracts','surface_comparisons']},indent=2))

@@ -1,0 +1,102 @@
+[
+  {
+    "path": "forge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/block/ChalkboardBlockEntityRender.java",
+    "commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+    "sha256": "5d1f26800045209793fbfcdcf0172eb4f88ad2b7b483a870d7d6877142824661"
+  },
+  {
+    "path": "neoforge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/block/ChalkboardBlockEntityRender.java",
+    "commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+    "sha256": "a71ce4b7693d205fd81b237f48a2195345d911c50c7bc6203b5f92df1f35f737"
+  },
+  {
+    "path": "forge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/model/deco/SmallChalkboardModel.java",
+    "commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+    "sha256": "3a201541ce11916e78958602b7bb3913e8830da50753a9fee6fd33f2e6d42ab2"
+  },
+  {
+    "path": "neoforge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/model/deco/SmallChalkboardModel.java",
+    "commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+    "sha256": "ef3b4dcbc253a615a8311eb4ff66839c0b0ae6be04b0651e24745e23b0bfd3d8"
+  },
+  {
+    "path": "forge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/model/deco/LargeChalkboardModel.java",
+    "commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+    "sha256": "66626923e8faf8883aaa293bb0d87106667c4264aecf519c7c9299b923014b8f"
+  },
+  {
+    "path": "neoforge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/model/deco/LargeChalkboardModel.java",
+    "commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+    "sha256": "1343ba58724d4d08849cdbc580279bf69626b93d4cd355ade57651a5f4ce6807"
+  },
+  {
+    "path": "forge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/block/deco/ChalkboardBlock.java",
+    "commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+    "sha256": "11b76dc9810db69a7431237ab84ba3343e509d8ae446a6fe114dd4a4f4769070"
+  },
+  {
+    "path": "neoforge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/block/deco/ChalkboardBlock.java",
+    "commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+    "sha256": "997ad46d6cfc70d376cbdc14b401b413276fbc9324c418f29100f8c93c4831bf"
+  },
+  {
+    "path": "forge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/blockentity/deco/ChalkboardBlockEntity.java",
+    "commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+    "sha256": "1df8a691f844ed3b50f5e693595a7b3afdee2d402d60514167b1058a9c54908f"
+  },
+  {
+    "path": "neoforge/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/blockentity/deco/ChalkboardBlockEntity.java",
+    "commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+    "sha256": "78a4d8a20383efec85ba13d9c3737c9138cf35e5f16dc3e800be59e9dc651b1e"
+  },
+  {
+    "path": "forge/src/main/resources/assets/kaleidoscope_tavern/textures/entity/deco/small_chalkboard.png",
+    "commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+    "sha256": "feaef30a7040b491f0a61b3e3be65be3f5fd20f1f0ef783fdcf39e4d01b909ce"
+  },
+  {
+    "path": "neoforge/src/main/resources/assets/kaleidoscope_tavern/textures/entity/deco/small_chalkboard.png",
+    "commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+    "sha256": "a092dab3a6eb67c60f9b1c44b7aead5d278ca37643364a52ec1d2dfecbdcd11c"
+  },
+  {
+    "path": "forge/src/main/resources/assets/kaleidoscope_tavern/textures/entity/deco/large_chalkboard.png",
+    "commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+    "sha256": "6e5c9657950e6447e6b2b076aa8dacd485465e7a09757eaa2ca3158304efb899"
+  },
+  {
+    "path": "neoforge/src/main/resources/assets/kaleidoscope_tavern/textures/entity/deco/large_chalkboard.png",
+    "commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+    "sha256": "bf4cde5e40849f5cab01d9671a5b21a874ce3234b3007b7f45253462011a22fe"
+  },
+  {
+    "path": "forge/LICENSE-ASSETS",
+    "commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+    "sha256": "9779f7520aa9bb4888d8216933e482722d6b2c839e96ca338322e11c9fd3c286"
+  },
+  {
+    "path": "forge/LICENSE-CODE",
+    "commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+    "sha256": "e4b0341c2f974280d80bbd56d6d12e2f3e4d755f3a5cfeed9725771415e0d3ed"
+  },
+  {
+    "path": "forge/gradle.properties",
+    "commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+    "sha256": "fb7222f76a4beefb63d66fecf29de4d9bb7d46dacd84fc1402a119700b4e4f53"
+  },
+  {
+    "path": "neoforge/LICENSE-ASSETS",
+    "commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+    "sha256": "9779f7520aa9bb4888d8216933e482722d6b2c839e96ca338322e11c9fd3c286"
+  },
+  {
+    "path": "neoforge/LICENSE-CODE",
+    "commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+    "sha256": "e4b0341c2f974280d80bbd56d6d12e2f3e4d755f3a5cfeed9725771415e0d3ed"
+  },
+  {
+    "path": "neoforge/gradle.properties",
+    "commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+    "sha256": "e3247138e86b0d2fe051edf3c19ce88cce95fccfd4ad6853746e85e1e5f73016"
+  }
+]
