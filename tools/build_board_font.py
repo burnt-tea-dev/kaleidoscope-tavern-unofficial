@@ -10,7 +10,6 @@ import hashlib
 import json
 from functools import lru_cache
 from pathlib import Path
-from PIL import Image, ImageDraw
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = 'art/fonts/unifont-15.0.06.hex.gz'
@@ -23,6 +22,8 @@ ATLAS_DIRECTORY = 'runtime/RP/textures/board_font'
 @lru_cache(maxsize=2)
 def source_layout(compressed):
     """Pure source conversion shared by generation and the current contract."""
+    from PIL import Image, ImageDraw
+
     assert hashlib.sha256(compressed).hexdigest() == SOURCE_SHA256, 'GNU Unifont source differs'
     glyphs, advances = {}, {}
     # Preserve full width for East Asian ranges used by the original layout.
@@ -71,6 +72,8 @@ def layout(root=ROOT):
 
 
 def generate(root=ROOT, *, metrics_only=False):
+    from PIL import Image
+
     root = Path(root)
     textures, atlases, metrics = layout(root)
     if not metrics_only:

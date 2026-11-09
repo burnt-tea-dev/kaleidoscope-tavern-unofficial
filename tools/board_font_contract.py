@@ -6,7 +6,6 @@ Native allocation, FPS and rendered client acceptance are not measured here.
 """
 import json
 from pathlib import Path
-from PIL import Image
 from build_board_font import ROOT, ENTITY, METRICS, ATLAS_DIRECTORY, layout
 from build_board_rendering import check as check_rendering, P
 
@@ -28,6 +27,8 @@ def retired_sources(root=ROOT):
 
 
 def check(root=ROOT):
+    from PIL import Image
+
     root = Path(root)
     textures, atlases, metrics = layout(root)
     physical = {p.relative_to(root).as_posix() for p in (root / ATLAS_DIRECTORY).rglob('*') if p.is_file()}
