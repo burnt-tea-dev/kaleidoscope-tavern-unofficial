@@ -730,6 +730,13 @@ class CuratedRetainedInputs(unittest.TestCase):
   self.guard.atomic(self.run/'curated-input-selection.json',{**report,'client':True})
   self.assertNotEqual(m.input_refs(),refs)
 
+ def test_already_admitted_preserved_pack_needs_no_repeated_proof(self):
+  _,_,report,receipt=self.selected()
+  receipt['packs'].append({'uuid':'prior-preserved','side':'behavior','version':[1,0,0],'files':{},'source':{'owner':'preserved'}})
+  with self.assertRaisesRegex(AssertionError,'unselected retained input'):m.verify_curated_inputs(receipt,report)
+  m.verify_curated_inputs(receipt,report,prior_uuids={'prior-preserved'})
+  with self.assertRaisesRegex(AssertionError,'unselected retained input'):m.verify_curated_inputs(receipt,report,prior_uuids={'other'})
+
  def test_stable_saved_world_reuses_exact_retained_inputs_without_a_fresh_world_claim(self):
   m.c.CONFIG.pop('fresh_world')
   m.c.CONFIG['delivery_profile']='senluo-stable-lock-v1'

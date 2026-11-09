@@ -538,7 +538,7 @@ def select_curated_inputs(original):
             'native_loading':False,'client':False,'production_ready':False}
     return roots,descriptors,report
 
-def verify_curated_inputs(receipt,selection,replacement_selection=None):
+def verify_curated_inputs(receipt,selection,replacement_selection=None,prior_uuids=None):
     rows=_curated_retained_rows();binding=CATALOG[CURATED_KEY]['selection']
     assert selection['schema']==1 and selection['kind']=='curated_input_selection' and selection['profile']=={'path':binding['path'],'sha256':binding['sha256']}, 'Curated input selection profile changed'
     assert selection.get('excluded_groups',[])==c.CONFIG.get('fresh_world_excluded_groups',[]), 'Fresh-world excluded groups changed'
@@ -547,7 +547,10 @@ def verify_curated_inputs(receipt,selection,replacement_selection=None):
     actual={row['uuid']:row for row in receipt['packs']}
     assert len(actual)==len(receipt['packs']), 'Candidate contains duplicate pack identities'
     replacements=replacement_rows()
-    allowed=set(selection['packs'])|set(replacements)
+    # A preserved pack that the stopped pre-candidate inventory already
+    # contained is part of the approved prior receipt; only genuinely new
+    # additions need a fresh proof.
+    allowed=set(selection['packs'])|set(replacements)|set(prior_uuids or ())
     if c.CONFIG.get('preserved_additions'):
         allowed|=set(c.read(Path(c.CONFIG['preserved_additions']))['packs'])
     assert {uid for uid,row in actual.items() if row['source']['owner']=='preserved'}==allowed, 'Candidate contains an unselected retained input'
