@@ -338,8 +338,8 @@
     {
       "name": "BetterBiomes",
       "project_id": 1145412,
-      "file_id": 9303477,
-      "sha256": "aaa87c8165aa054a268fd40fc5250a3a0e17ed69b8a7175888862c6a9aef91a5",
+      "file_id": 9495869,
+      "sha256": "6ae69993910f2960c53eb79c68b24596a8b4f4a18a2ea5b9276f47a84d5f06b2",
       "packs": [
         {
           "uuid": "0b60a09d-c02f-4201-adbc-ff5572cbb24c",
@@ -358,7 +358,7 @@
           ]
         }
       ],
-      "manifest_compatibility_release": "better-biomes-1.0.10001",
+      "manifest_compatibility_release": "better-biomes-1.0.10002",
       "author_id": 117554178
     }
   ],
@@ -446,6 +446,49 @@
         "RP": "903e8eae207c4a18a9ab80def4af2a1048ff3f3d36ea0f8562db9474cc262f31"
       },
       "reason": "Author V6 RP already declares pbr but min_engine_version 1.21.60 is below the installed PBR stack minimum. Only the paired release identities and RP engine minimum change; all script, biome, feature and asset bytes are conserved."
+    },
+    "better-biomes-1.0.10002": {
+      "project_id": 1145412,
+      "file_id": 9495869,
+      "sha256": "6ae69993910f2960c53eb79c68b24596a8b4f4a18a2ea5b9276f47a84d5f06b2",
+      "version": [
+        1,
+        0,
+        10002
+      ],
+      "resource_min_engine": [
+        1,
+        21,
+        120
+      ],
+      "source_trees": {
+        "BP": {
+          "sha256": "e0cf5dc83c7d58aad79847ee04c0e37d767b73e0545b79273709aeffcaf7ea54",
+          "files": 1131
+        },
+        "RP": {
+          "sha256": "0b1de82900c70fc366b6559a1e63bb54256f7803d2fe371637513c8be02bbea7",
+          "files": 517
+        }
+      },
+      "output_trees": {
+        "BP": {
+          "sha256": "1eea27f20d5fd1f3ac27add497412113770c4909bb4881d985a6c00e09755ed4",
+          "files": 1131
+        },
+        "RP": {
+          "sha256": "5db783063a74987216065822bac7d4f06d220f34172bd37fbc5960a4db43aceb",
+          "files": 517
+        }
+      },
+      "original_manifests": {
+        "BP": "6b33d96f3b25b1bc316e40eedf0526e4a8aaf24c2157913b93aa224d2a22184d",
+        "RP": "3b3414b06639da1d055e8114061040c520065fcdce321dae8283c96ae5501eb0"
+      },
+      "patched_manifests": {
+        "BP": "c6696c8135746dfad0a3ea8352417fc8fb207f43451872cad54759ed55b8af0b",
+        "RP": "ef7213c901d7c132b9554572029ff2cab40ad33a2a562f75eb2be9efc8bd716d"
+      }
     }
   },
   "monitored_sources": [
