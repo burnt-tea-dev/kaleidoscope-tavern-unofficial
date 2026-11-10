@@ -819,14 +819,82 @@ def _assert_idle(output, proc_root):
 
 
 
-def _backup_complete(proof, r, root, mounts):
+def _shared_snapshot(proof, r, root, mounts, state_path):
+    """Follow the existing one-backup producer's handoff, never relabel an old save.
+
+    A newer stopped backup replaces the world rollback only after the original
+    snapshot was retired through world_backup.adopt. Deployment and pack rollback
+    evidence still belong to the original successful deployment.
+    """
+    snapshot = r / 'production-snapshot'
+    if 'm1' in proof or snapshot.exists() or snapshot.is_symlink() or state_path is None:
+        return None
+    state_path = _absolute(state_path)
+    ledger_path = state_path.with_suffix('.retired.jsonl')
+    metadata = {}
+
+    def document(path):
+        boundary = root if path == root or root in path.parents else path.parent
+        before = [*_stat(path), path.lstat().st_ctime_ns]
+        value = _read(path, boundary, mounts)
+        _require(before == [*_stat(path), path.lstat().st_ctime_ns], 'Shared backup metadata changed while reading')
+        metadata[str(path)] = before
+        return value
+
+    state = document(state_path)
+    current = state['current']
+    backup, receipt_path = _absolute(current['backup']), _absolute(current['receipt'])
+    receipt = document(receipt_path)
+    old = proof['docs']['production-before/backup-receipt.json']
+    world = _absolute(old['world'])
+    _require(current['world'] == receipt.get('world') == str(world), 'Shared backup belongs to another world')
+    _require(not state.get('pending_retirement') and
+             receipt.get('consistent_stopped_snapshot') == str(backup) and
+             receipt.get('status') == 'consistent_stopped_backup' and receipt.get('live_status') == 'STOPPED',
+             'Shared stopped backup handoff is incomplete')
+    _require(_date(proof['identity']['completed_at']) <= _date(receipt['recorded_at']) <= _date(current['verified_at']),
+             'Shared backup predates the successful deployment or its verification')
+    _require(any(_absolute(base) in backup.parents for base in state['backup_roots']) and
+             not _overlap(backup, world), 'Shared backup is outside its producer roots or overlaps the original world')
+    files = receipt['files']
+    _require(isinstance(files, dict) and {'level.dat', 'db/CURRENT'} <= files.keys() and all(
+        isinstance(name, str) and name and not Path(name).is_absolute() and '..' not in Path(name).parts and
+        Path(name).as_posix() == name and isinstance(digest, str) and re.fullmatch('[0-9a-f]{64}', digest)
+        for name, digest in files.items()), 'Shared backup receipt has an incomplete world inventory')
+    boundary = root if ledger_path == root or root in ledger_path.parents else ledger_path.parent
+    _safe_path(ledger_path, boundary, mounts)
+    _require(stat.S_ISREG(ledger_path.lstat().st_mode), 'Shared backup handoff ledger must be regular')
+    before = [*_stat(ledger_path), ledger_path.lstat().st_ctime_ns]
+    handed = str(snapshot)
+    for line in ledger_path.read_text().splitlines():
+        row = json.loads(line)
+        if handed in row.get('removed', []):
+            _require(_date(proof['identity']['completed_at']) <= _date(row['at']) <= _date(current['verified_at']),
+                     'Shared backup retirement predates deployment or follows current verification')
+            handed = str(_absolute(row['kept']))
+    _require(before == [*_stat(ledger_path), ledger_path.lstat().st_ctime_ns], 'Shared backup handoff ledger changed')
+    metadata[str(ledger_path)] = before
+    _require(handed == str(backup), 'Original snapshot has no normal handoff to the current shared backup')
+    _safe_path(backup, backup.parent, mounts)
+    return {'path': str(backup), 'receipt': str(receipt_path), 'world': str(world),
+            'recorded_at': receipt['recorded_at'], 'metadata': metadata, 'files': files}
+
+
+def _rollback_locations(proof, r, shared=None):
+    return {(Path(shared['path']) if relative == 'production-snapshot' and shared else r / relative):
+            (shared['files'] if relative == 'production-snapshot' and shared else files)
+            for relative, files in _rollback_inventories(proof, r).items()}
+
+
+def _backup_complete(proof, r, root, mounts, shared=None):
     try:
         if 'm1' in proof:
             _require(bool(proof['m1']['inventories']), 'M1 rollback inventory is empty')
             return True, None
-        for relative, files in _rollback_inventories(proof, r).items():
-            actual = _walk(r / relative, root, mounts)
-            _require(actual['present'] and actual['files'] == set(files), 'Retained rollback file set incomplete: ' + relative)
+        for path, files in _rollback_locations(proof, r, shared).items():
+            boundary = root if root in path.parents else path.parent
+            actual = _walk(path, boundary, mounts)
+            _require(actual['present'] and actual['files'] == set(files), 'Retained rollback file set incomplete: ' + str(path))
         return True, None
     except (OSError, ValueError) as error:
         return False, str(error)
@@ -1154,7 +1222,8 @@ def _disk(root):
     return {'total_bytes': d.total, 'used_bytes': d.used, 'free_bytes': d.free}
 
 
-def plan(root, *, protected=(), lease=None, references=(), historical_records=(), retire_outputs=None, retain=1, proc_root=Path('/proc')):
+def plan(root, *, protected=(), lease=None, references=(), historical_records=(), world_backup_state=None,
+         retire_outputs=None, retain=1, proc_root=Path('/proc')):
     """Read-only metadata-bound plan; only explicitly configured roots are eligible."""
     root = _absolute(root)
     if retain < 1:
@@ -1190,7 +1259,7 @@ def plan(root, *, protected=(), lease=None, references=(), historical_records=()
     finished.sort(reverse=True)
     latest = [name for _, name in finished[:retain]]
     rollback_ready = len(latest) >= retain
-    rollback_checks = []
+    rollback_checks, shared_backup_protected = [], set()
     rows = {row['output']: row for row in outputs}
     # Full proofs contain entire pack inventories and backup receipts. Discover
     # the retention horizon from small headers first, then consume one proof at
@@ -1201,11 +1270,17 @@ def plan(root, *, protected=(), lease=None, references=(), historical_records=()
         try:
             proof = m1_proofs.get(name) or _proof(Path(name), root, mounts)
             rows[name]['binding'] = proof['identity']
+            shared = _shared_snapshot(proof, Path(name), root, mounts, world_backup_state)
+            if shared:
+                rows[name]['shared_world_backup'] = {key: value for key, value in shared.items() if key != 'files'}
+                shared_backup_protected.update(map(Path, [shared['path'], *shared['metadata']]))
         except (OSError, ValueError, KeyError, TypeError) as error:
+            proof = None
             rows[name]['reason'] = 'Incomplete, failed or mismatched deployment metadata: ' + str(error)
-        ok, why = _backup_complete(proof, Path(name), root, mounts) if proof else (False, 'Complete bound deployment evidence missing')
+        ok, why = _backup_complete(proof, Path(name), root, mounts, shared) if proof else (False, rows[name]['reason'])
         rollback_ready = rollback_ready and ok
         rollback_checks.append({'output': name, 'complete': ok, 'reason': why})
+    guards = sorted(set(guards) | shared_backup_protected)
     proof = None
     for row in outputs:
         # Release the previous document graph before loading the next proof.
@@ -1283,10 +1358,12 @@ def plan(root, *, protected=(), lease=None, references=(), historical_records=()
             'active_lease': lease_state.get('state') == 'active',
             'horizon_metadata': {'directories': directories, 'deployment_headers': headers}, 'rollback_retention_ready': rollback_ready,
             'newest_retained': latest, 'rollback_checks': rollback_checks, 'outputs': outputs,
+            'world_backup_state': str(world_backup_state) if world_backup_state is not None else None,
+            'shared_backup_protected': sorted(map(str, shared_backup_protected)),
             'disk_before': _disk(root), 'estimated_allocated_bytes': sum(p['allocated_bytes'] for row in outputs for p in row['delete']),
             'estimate_note': 'Allocated metadata estimate; shared hardlinks may not free these bytes. Actual filesystem free space is recorded after execution.'}
     if retire_outputs is not None:
-        return _reviewed_plan(result, retire_outputs, root, mounts, protected, references, historical_records, proc_root)
+        return _reviewed_plan(result, retire_outputs, root, mounts, guards, references, historical_records, proc_root)
     return result
 
 
@@ -1316,11 +1393,14 @@ def _retained_integrity(planned, root, mounts):
         r = Path(value)
         proof = _proof(r, root, mounts)
         _require(proof['identity'] == rows[value].get('binding'), 'Retained deployment metadata changed')
-        ok, reason = _backup_complete(proof, r, root, mounts)
+        shared = _shared_snapshot(proof, r, root, mounts, planned.get('world_backup_state'))
+        _require(({key: item for key, item in shared.items() if key != 'files'} if shared else None) ==
+                 rows[value].get('shared_world_backup'), 'Retained shared backup handoff changed')
+        ok, reason = _backup_complete(proof, r, root, mounts, shared)
         _require(ok, 'Retained rollback is incomplete: ' + str(reason))
-        for relative, expected in _rollback_inventories(proof, r).items():
+        for path, expected in _rollback_locations(proof, r, shared).items():
             for name, digest in expected.items():
-                file = r / relative / name
+                file = path / name
                 before = _stat(file)
                 key = tuple(before)
                 actual = digest_cache.get(key)
@@ -1351,7 +1431,10 @@ def _recheck_retained(planned, cache, root, mounts):
         r = Path(value)
         proof = _proof(r, root, mounts)
         _require(proof['identity'] == rows[value].get('binding'), 'Retained deployment evidence changed')
-        ok, reason = _backup_complete(proof, r, root, mounts)
+        shared = _shared_snapshot(proof, r, root, mounts, planned.get('world_backup_state'))
+        _require(({key: item for key, item in shared.items() if key != 'files'} if shared else None) ==
+                 rows[value].get('shared_world_backup'), 'Retained shared backup handoff changed')
+        ok, reason = _backup_complete(proof, r, root, mounts, shared)
         _require(ok, 'Retained rollback topology changed: ' + str(reason))
     for value, expected in cache['files'].items():
         file = Path(value)
@@ -1391,7 +1474,8 @@ def reviewed_output_summaries(outputs):
                         for target in row['delete']]} for row in outputs]
 
 
-def execute(planned, *, protected=(), lease=None, references=(), historical_records=(), context=None, proc_root=Path('/proc')):
+def execute(planned, *, protected=(), lease=None, references=(), historical_records=(), world_backup_state=None,
+            context=None, proc_root=Path('/proc')):
     """Caller holds maintenance lock. Replan/compare before any destructive action.
 
     context() refreshes external guards and lease before planning and every target.
@@ -1401,7 +1485,8 @@ def execute(planned, *, protected=(), lease=None, references=(), historical_reco
     _require(not planned.get('read_only_summary_not_executable_plan'), 'CLI summary is not an executable retention plan')
     root = _absolute(planned['root'])
     def current():
-        values = {'protected': protected, 'lease': lease, 'references': references, 'historical_records': historical_records}
+        values = {'protected': protected, 'lease': lease, 'references': references, 'historical_records': historical_records,
+                  'world_backup_state': world_backup_state}
         if context is not None:
             values.update(context())
         return values
@@ -1409,6 +1494,10 @@ def execute(planned, *, protected=(), lease=None, references=(), historical_reco
     fresh = plan(root, retain=planned['retain'], proc_root=proc_root,
                  retire_outputs=planned.get('reviewed_retirements', {}).get('path'), **values)
     _require(not fresh['active_lease'], 'Maintenance lease became active before cleanup')
+    _require(planned.get('world_backup_state') == fresh.get('world_backup_state') and
+             {row['output']: row.get('shared_world_backup') for row in planned['outputs'] if row['output'] in planned['newest_retained']} ==
+             {row['output']: row.get('shared_world_backup') for row in fresh['outputs'] if row['output'] in fresh['newest_retained']},
+             'Retained shared backup changed; inspect a fresh read-only plan')
     selected, now_selected = _selection(planned), _selection(fresh)
     # A job becoming idle may make another output eligible. It was not in the
     # reviewed plan, so defer it. Every originally selected output must still
@@ -1425,7 +1514,7 @@ def execute(planned, *, protected=(), lease=None, references=(), historical_reco
     unlink_ledger = UnlinkLedger()
     comparison_cache = {}
     retained_candidates = [Path(row['explicit_retirement']['retained_candidate']) for row in selected.values()
-                           if row.get('explicit_retirement', {}).get('retained_candidate')]
+                           if (row.get('explicit_retirement') or {}).get('retained_candidate')]
     for output, row in selected.items():
         r, mounts = Path(output), _mount_paths()
         explicit = row.get('explicit_retirement')
@@ -1447,7 +1536,7 @@ def execute(planned, *, protected=(), lease=None, references=(), historical_reco
             for rel in row['targets']:
                 values = current()
                 guards, lease_state = _context(values.get('protected', ()), values.get('lease'), values.get('references', ()))
-                guards = sorted(set(guards) | set(retained_candidates))
+                guards = sorted(set(guards) | set(retained_candidates) | set(map(Path, fresh.get('shared_backup_protected', []))))
                 _require(lease_state.get('state') != 'active', 'Maintenance lease became active during cleanup')
                 hard = set(guards) - set(map(Path, values.get('historical_records', ()))) if explicit else set(guards)
                 _require(not any(_overlap(r, g) for g in hard), 'Cleanup output became externally referenced')
