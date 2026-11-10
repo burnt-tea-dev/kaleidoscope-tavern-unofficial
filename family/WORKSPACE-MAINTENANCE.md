@@ -97,6 +97,7 @@ QA共用的引擎symlink不刪、不遍歷。已完成且未引用QA的RP複製t
 ## 明列已被取代的失敗部署輸出
 
 `cleanup-copies --retire-outputs /local/retired-outputs.json` 只處理人工明列的舊輸出，
+保留原部署 horizon 辨識及最新完整回退核對；只省去後續會被清單重建或丟棄的通用舊副本規劃，清單目標仍走原完整檢查。
 格式為 `{"schema":1,"outputs":[{"output":"/absolute/old-output","reason":"已結束且被目前版本取代的具體理由","targets":["release-candidate/resource_packs","production-snapshot"]}]}`。
 清單必須在 Git 外；不接受 glob、整個任務目錄或任意相對路徑。
 允許的目標仍是既有 COPIES／BACKUPS，加明列 exact-engine／saved-world-engine 的複製引擎執行檔。

@@ -1294,6 +1294,10 @@ def plan(root, *, protected=(), lease=None, references=(), historical_records=()
                                   if row.get('kind') == 'm1_live_deployment' else
                                   'Newest retained successful deployment')
             continue
+        # Explicit retirement rebuilds only its selected rows below. Their
+        # automatic proofs and copy walks would be discarded by _reviewed_plan.
+        if retire_outputs is not None:
+            continue
         try:
             proof = m1_proofs.get(row['output']) or _proof(r, root, mounts)
             row['binding'] = proof['identity']
