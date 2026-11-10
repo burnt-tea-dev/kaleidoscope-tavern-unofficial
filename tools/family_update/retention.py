@@ -27,10 +27,11 @@ COPIES = (
     'saved-world-engine/worlds/Saved World QA/resource_packs',
 )
 BACKUPS = ('production-snapshot', 'production-rollback', 'production-staged')
+FAILED_PACK_COPIES = ('failed-behavior_packs', 'failed-resource_packs')
 SKIP = {'.git', 'release-candidate', 'exact-engine', 'saved-world-engine',
         'production-snapshot', 'production-rollback', 'production-staged',
         'production-original-db', 'node_modules', 'venv', '__pycache__',
-        'db', 'behavior_packs', 'resource_packs'}
+        'db', 'behavior_packs', 'resource_packs', *FAILED_PACK_COPIES}
 EXPLICIT_MARKER = 'reviewed-retirement.json'
 ENGINE_INPUTS = ('exact-engine/bedrock_server', 'saved-world-engine/bedrock_server')
 REPORTS = ('deployment-result.json', 'poststart-verification.json',
@@ -891,7 +892,9 @@ def _candidate_build_receipt(receipt):
                 valid = valid and isinstance(extensions, list) and bool(extensions) and all(
                     isinstance(e, dict) and git_source(e) and digest(e.get('spec_sha256')) for e in extensions)
         if owner == 'preserved':
-            valid = source.get('role') == 'unchanged_external_dependency'
+            valid = (source.get('role') == 'unchanged_external_dependency' or
+                     (source.get('role') in {'curated_retained_input', 'owner_accepted_author_replacement'} and
+                      source.get('official_author_release') is False))
         _require(valid, 'Candidate build receipt requires source binding')
     for side, expected in identities.items():
         order = receipt['order'][side]
@@ -899,7 +902,78 @@ def _candidate_build_receipt(receipt):
                  len(order) == len(set(order)) and set(order) == expected, 'Candidate build receipt pack order differs')
 
 
-def _reviewed_binding(output, root, mounts, manifest, targets=()):
+def _copy_digest(path, identity, cache):
+    """Hash only regular bytes under the already checked namespace, once per identity."""
+    from .cleanup_engine_inputs import leaf_identity
+    key = (str(path), *identity)
+    if key not in cache:
+        with os.fdopen(os.open(path, os.O_RDONLY | os.O_NOFOLLOW), 'rb') as source:
+            _require(leaf_identity(os.fstat(source.fileno())) == identity, 'Pack changed before comparison')
+            digest = hashlib.sha256()
+            for block in iter(lambda: source.read(1024 * 1024), b''):
+                digest.update(block)
+            _require(leaf_identity(os.fstat(source.fileno())) == identity, 'Pack changed during comparison')
+        cache[key] = digest.hexdigest()
+    _require(leaf_identity(path.lstat()) == identity, 'Pack name changed during comparison')
+    return cache[key]
+
+
+def _retained_pack_candidate(candidate, root, mounts, cache):
+    """Bind a complete original candidate; never use a failed copy as its own source."""
+    candidate = _absolute(candidate)
+    _safe_path(candidate, root, mounts)
+    _require(candidate.name == 'release-candidate' and candidate.is_dir() and
+             not any((p / '.git').exists() for p in [candidate, *candidate.parents] if p == root or root in p.parents),
+             'Retained candidate must be a canonical non-Git candidate directory')
+    receipt_path = candidate / 'family-receipt.json'
+    receipt = _read(receipt_path, root, mounts)
+    _candidate_build_receipt(receipt)
+    packs = {pack['uuid']: pack for pack in receipt['packs']}
+    files, reports = {}, {}
+    for path in [receipt_path, *(candidate / f'world_{side}_packs.json' for side in receipt['order'])]:
+        _read(path, root, mounts)
+        reports[path.name] = [*_stat(path), path.lstat().st_ctime_ns]
+    for side, order in receipt['order'].items():
+        selector = _read(candidate / f'world_{side}_packs.json', root, mounts)
+        _require(selector == [{'pack_id': uid, 'version': packs[uid]['version']} for uid in order],
+                 'Retained candidate selector order differs')
+        pack_root = candidate / f'{side}_packs'
+        inventory = _walk(pack_root, root, mounts, identities=True)
+        expected = {f"{pack['uuid']}/{name}": digest for pack in receipt['packs'] if pack['side'] == side
+                    for name, digest in pack['files'].items()}
+        _require(inventory['present'] and inventory['files'] == set(expected), 'Retained candidate pack file set differs')
+        for name, digest in expected.items():
+            _require(_copy_digest(pack_root / name, inventory['file_metadata'][name], cache) == digest,
+                     'Retained candidate pack content differs')
+        for uid in order:
+            header = _read(pack_root / uid / 'manifest.json', root, mounts).get('header', {})
+            _require(header.get('uuid') == uid and header.get('version') == packs[uid]['version'],
+                     'Retained candidate manifest identity differs')
+        files[side] = expected
+    return {'path': candidate, 'files': files,
+            'binding': {'path': str(candidate), 'receipt_sha256': hashlib.sha256(receipt_path.read_bytes()).hexdigest(),
+                        'original_report_metadata': reports}}
+
+
+def _restored_failure(output, root, mounts):
+    release = _read(output / 'release.json', root, mounts)
+    before = _read(output / 'servers-before.json', root, mounts)
+    _require(release.get('test_delivery_completed') is False and bool(release.get('error')) and
+             'recovery_error' in release and release['recovery_error'] is None and
+             all(release.get(key) is True for key in
+                 ('shared_flock_released_on_exit', 'lease_unchanged', 'server_properties_unchanged')),
+             'Failed delivery must have a normal completed recovery')
+    for role in ('formal', 'staging'):
+        after = release.get(role, {})
+        original = before.get(after.get('name'), {})
+        _require(bool(original) and after.get('status') in {'STOPPED', 'RUNNING'} and
+                 all(after.get(key) == original.get(key) for key in ('name', 'status', 'version')),
+                 'Failed delivery server state was not restored')
+    return {name: [*_stat(output / name), (output / name).lstat().st_ctime_ns]
+            for name in ('release.json', 'servers-before.json')}
+
+
+def _reviewed_binding(output, root, mounts, manifest, targets=(), retained_candidate=None, comparison_cache=None):
     _safe_path(output, root, mounts)
     _require(output != root and not any((p / '.git').exists() for p in [output, *output.parents] if p == root or root in p.parents),
              'Reviewed output must not be a Git/source ancestor')
@@ -911,6 +985,13 @@ def _reviewed_binding(output, root, mounts, manifest, targets=()):
             reports[name] = [*_stat(path), path.lstat().st_ctime_ns]
     binding = {'output': str(output), 'reviewed_retirement': manifest,
                'original_report_metadata': reports}
+    if retained_candidate is not None:
+        _require(all(rel in FAILED_PACK_COPIES for rel in targets), 'Retained candidate only permits failed pack copies')
+        candidate = _retained_pack_candidate(retained_candidate, root, mounts,
+                                             {} if comparison_cache is None else comparison_cache)
+        binding.update(original_failure_metadata=_restored_failure(output, root, mounts),
+                       retained_candidate=candidate['binding'])
+        return binding
     if 'lock-source-projection' in targets:
         result = output / 'candidate-result.json'
         _safe_path(result, root, mounts)
@@ -931,7 +1012,7 @@ def _explicit_marker_path(output, targets):
     return output / EXPLICIT_MARKER
 
 
-def _reviewed_target(target, relative, output, root, mounts, retired_files=()):
+def _reviewed_target(target, relative, output, root, mounts, retired_files=(), retained_candidate=None, comparison_cache=None):
     from .cleanup_engine_inputs import target_metadata, leaf_identity, database_file, pack_asset_file
     metadata = target_metadata(target, root, mounts, generated_file=True)
     if metadata is None:
@@ -940,7 +1021,23 @@ def _reviewed_target(target, relative, output, root, mounts, retired_files=()):
         metadata['leaf_identity'] = leaf_identity(target.lstat())
         return metadata
     names = metadata['files']
-    if relative.endswith('/db'):
+    if relative in FAILED_PACK_COPIES:
+        cache = {} if comparison_cache is None else comparison_cache
+        candidate = _retained_pack_candidate(retained_candidate, root, mounts, cache)
+        side = 'behavior' if relative == 'failed-behavior_packs' else 'resource'
+        expected = candidate['files'][side]
+        # The folder name alone cannot establish a pack identity. A manifest
+        # removed by this bound marker remains valid when resuming an unlink.
+        known = set()
+        for uid in {Path(name).parts[0] for name in expected}:
+            manifest = uid + '/manifest.json'
+            if (relative + '/' + manifest in retired_files or
+                    (manifest in metadata['file_metadata'] and
+                     _copy_digest(target / manifest, metadata['file_metadata'][manifest], cache) == expected[manifest])):
+                known.add(uid)
+        names = [name for name in names if name in expected and Path(name).parts[0] in known and
+                 _copy_digest(target / name, metadata['file_metadata'][name], cache) == expected[name]]
+    elif relative.endswith('/db'):
         names = [name for name in names if len(Path(name).parts) == 1 and database_file(Path(name))]
     elif relative == 'lock-source-projection':
         projection_removed = [path for path in retired_files if path.startswith(relative + '/')]
@@ -979,19 +1076,29 @@ def _reviewed_plan(result, path, root, mounts, protected, references, historical
     rows = [row for row in result['outputs'] if row['output'] in latest]
     seen = set()
     guards, lease = _context(protected, result['lease'], references)
+    candidates = [_absolute(entry['retained_candidate']) for entry in value['outputs']
+                  if isinstance(entry, dict) and 'retained_candidate' in entry]
+    guards = sorted(set(guards) | set(candidates))
     hard = set(guards) - set(map(Path, historical_records))
+    hard.update(candidates)
+    comparison_cache = {}
     _require(lease.get('state') != 'active', 'Active maintenance lease')
     for entry in value['outputs']:
-        _require(isinstance(entry, dict) and set(entry) == {'output', 'reason', 'targets'}, 'Each output requires output/reason/targets')
+        _require(isinstance(entry, dict) and set(entry) in ({'output', 'reason', 'targets'},
+                 {'output', 'reason', 'targets', 'retained_candidate'}), 'Each output requires output/reason/targets and optional retained_candidate')
         output = _absolute(entry['output'])
         _require(str(output) not in seen and str(output) not in latest, 'Duplicate or newest retained output')
         _require(isinstance(entry['reason'], str) and bool(entry['reason'].strip()), 'Specific retirement reason required')
         targets = entry['targets']
         _require(isinstance(targets, list) and targets and len(set(targets)) == len(targets) and
-                 all(isinstance(rel, str) and rel in COPIES + BACKUPS + ENGINE_INPUTS + ('lock-source-projection',) for rel in targets),
+                 all(isinstance(rel, str) and rel in COPIES + BACKUPS + ENGINE_INPUTS + FAILED_PACK_COPIES + ('lock-source-projection',) for rel in targets),
                  'Targets must be exact canonical generated copies/engine inputs')
+        candidate = entry.get('retained_candidate')
+        _require((candidate is not None and all(rel in FAILED_PACK_COPIES for rel in targets)) or
+                 (candidate is None and not any(rel in FAILED_PACK_COPIES for rel in targets)),
+                 'Failed pack copies require a separate retained_candidate and cannot mix scopes')
         _require(not any(_overlap(output, g) for g in hard), 'Current source/evidence/configuration reference')
-        binding = _reviewed_binding(output, root, mounts, manifest, targets)
+        binding = _reviewed_binding(output, root, mounts, manifest, targets, candidate, comparison_cache)
         _require(not binding.get('candidate_only') or all(rel in COPIES[:2] for rel in targets),
                  'Receipt-only candidate permits only release-candidate pack copies')
         source_paths = list(_paths(_read(output / 'build-evidence.json', root, mounts).get('sources', {}))) if (output / 'build-evidence.json').exists() else []
@@ -1017,7 +1124,7 @@ def _reviewed_plan(result, path, root, mounts, protected, references, historical
                 continue
             if target.is_file():
                 _require(target.name == 'bedrock_server' and rel in ENGINE_INPUTS, 'Only an isolated executable is a file target')
-            metadata = _reviewed_target(target, rel, output, root, mounts, retired_files)
+            metadata = _reviewed_target(target, rel, output, root, mounts, retired_files, candidate, comparison_cache)
             # Empty/unselected directories are still existing declared scopes.
             # Bind their namespace and full metadata so execution can finish a
             # no-op scope without accepting a leaf that appeared after planning.
@@ -1032,11 +1139,12 @@ def _reviewed_plan(result, path, root, mounts, protected, references, historical
                     selected = []
         rows.append({'output': str(output), 'retained': [], 'delete': selected,
                      'retirement_targets': targets, 'binding': binding,
-                     'explicit_retirement': {'reason': entry['reason'], 'manifest': manifest},
+                     'explicit_retirement': {'reason': entry['reason'], 'manifest': manifest,
+                                             **({'retained_candidate': str(candidate)} if candidate is not None else {})},
                      'state': 'eligible' if selected else 'no_remaining_copies',
                      'reason': 'Explicitly retired superseded output; original failure/evidence retained'})
         seen.add(str(output))
-    result.update(outputs=rows, reviewed_retirements=manifest,
+    result.update(outputs=rows, reviewed_retirements=manifest, protected=[str(p) for p in guards],
                   estimated_allocated_bytes=sum(t['allocated_bytes'] for row in rows for t in row['delete']))
     return result
 
@@ -1315,6 +1423,9 @@ def execute(planned, *, protected=(), lease=None, references=(), historical_reco
     # Reuse the existing exact unlink ledger for shared QA executables.
     from .cleanup_engine_inputs import UnlinkLedger
     unlink_ledger = UnlinkLedger()
+    comparison_cache = {}
+    retained_candidates = [Path(row['explicit_retirement']['retained_candidate']) for row in selected.values()
+                           if row.get('explicit_retirement', {}).get('retained_candidate')]
     for output, row in selected.items():
         r, mounts = Path(output), _mount_paths()
         explicit = row.get('explicit_retirement')
@@ -1336,24 +1447,26 @@ def execute(planned, *, protected=(), lease=None, references=(), historical_reco
             for rel in row['targets']:
                 values = current()
                 guards, lease_state = _context(values.get('protected', ()), values.get('lease'), values.get('references', ()))
+                guards = sorted(set(guards) | set(retained_candidates))
                 _require(lease_state.get('state') != 'active', 'Maintenance lease became active during cleanup')
                 hard = set(guards) - set(map(Path, values.get('historical_records', ()))) if explicit else set(guards)
                 _require(not any(_overlap(r, g) for g in hard), 'Cleanup output became externally referenced')
                 mounts = _mount_paths()
-                binding = (_reviewed_binding(r, root, mounts, explicit['manifest'], row['targets']) if explicit else _proof(r, root, mounts)['identity'])
+                candidate = explicit.get('retained_candidate') if explicit else None
+                binding = (_reviewed_binding(r, root, mounts, explicit['manifest'], row['targets'], candidate, comparison_cache) if explicit else _proof(r, root, mounts)['identity'])
                 if explicit:
                     manifest = Path(explicit['manifest']['path'])
                     _require([*_stat(manifest), manifest.lstat().st_ctime_ns] == explicit['manifest']['metadata'], 'Retirement list changed')
                 _require(binding == row['binding'], 'Deployment metadata changed during cleanup')
                 _assert_idle(r, proc_root)
                 target = r / rel
-                _require(rel in COPIES + BACKUPS + (ENGINE_INPUTS if explicit else ()) + ('lock-source-projection',), 'Target outside canonical deletion scope')
+                _require(rel in COPIES + BACKUPS + (ENGINE_INPUTS + FAILED_PACK_COPIES if explicit else ()) + ('lock-source-projection',), 'Target outside canonical deletion scope')
                 _require(not any(_overlap(target, g) for g in guards), 'Target became externally referenced')
                 _safe_path(target, root, mounts)
                 metadata = None
                 if target.exists() and explicit:
                     from .cleanup_engine_inputs import matching_target
-                    metadata = _reviewed_target(target, rel, r, root, mounts, marker.get('removed', []))
+                    metadata = _reviewed_target(target, rel, r, root, mounts, marker.get('removed', []), candidate, comparison_cache)
                     expected = row['target_metadata'].get(rel)
                     _require(expected is not None, 'Unplanned target appeared')
                     if target.is_file():

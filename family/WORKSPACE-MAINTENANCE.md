@@ -108,6 +108,14 @@ RC 只退原 family receipt 登記的普通複本，未知額外檔保留；舊 
 
 這個 opt-in 不要求已缺失或不一致的歷史 snapshot 假裝完整，也不將原 failed 收據改成 success。
 必須仍有原 deployment／build 記錄；只有完整 pack／逐檔 hash／來源及 order 綁定的原 RC build receipt 時，僅可退 RC packs，不能退 QA／引擎／BACKUPS。
+另一個明列範圍是測試更新失敗後留下的 `failed-behavior_packs`／`failed-resource_packs`。
+此時每項另填 `"retained_candidate":"/absolute/kept-output/release-candidate"`，targets 只能是這兩個固定名稱，不與其他範圍混用。
+原 `release.json` 必須記錄更新失敗、無 recovery_error、已還鎖且 lease／properties 未變，
+formal／staging 的 name、status、version 須與原 `servers-before.json` 相符；不補造 deployment／build 記錄。
+保留候選必須有完整原始 family receipt 的來源、順序和逐檔 hash，實際兩側 packs 及 world selectors 全部相符。
+同一清單也不能退役這份保留候選。只刪同 side／UUID 中 manifest 相符且逐檔內容相同的複本；
+未知檔、不同內容或 manifest 不符的包保留。中斷後只有原 bound marker 記錄為本工具已刪的 manifest 可沿用身份。
+這兩個目錄不加入自動清理；原失敗 JSON／log／runner 保留，也不改其結論。
 綁清單和原報告 metadata、精確目標身份；
 最新一份成功部署及完整 snapshot／rollback 仍按既有收據完整性邊界核對一次。
 current config／policy／來源／驗證傳遞引用、maintenance lock、host namespace、活動程序／argv、

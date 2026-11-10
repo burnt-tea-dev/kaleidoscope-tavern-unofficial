@@ -770,6 +770,127 @@ class RetentionTests(unittest.TestCase):
         with patch.object(m, '_retained_integrity', side_effect=AssertionError('unnecessary hash')):
             self.assertEqual(self.execute(p)['state'], 'completed')
 
+    def failed_pack_fixture(self):
+        output = self.root / 'failed-test-delivery'
+        candidate = self.root / 'kept-original/release-candidate'
+        before = {name: {'name': name, 'status': status, 'version': 'fixture'}
+                  for name, status in [('formal-fixture', 'STOPPED'), ('test-fixture', 'RUNNING')]}
+        self.write(output / 'servers-before.json', before)
+        self.write(output / 'release.json', {
+            'test_delivery_completed': False, 'error': 'Original readiness failure', 'recovery_error': None,
+            'shared_flock_released_on_exit': True, 'lease_unchanged': True, 'server_properties_unchanged': True,
+            'formal': before['formal-fixture'], 'staging': before['test-fixture']})
+        (output / 'runner.py').write_text('original diagnostic runner\n')
+        (output / 'native.log').write_text('original failed log\n')
+        receipt = {'schema': 1, 'lock_sha256': 'a' * 64, 'packs': [], 'order': {}}
+        for side, uid in [('behavior', '11111111-1111-4111-8111-111111111111'),
+                          ('resource', '22222222-2222-4222-8222-222222222222')]:
+            pack = candidate / f'{side}_packs' / uid
+            self.write(pack / 'manifest.json', {'header': {'uuid': uid, 'version': [1, 2, 3]}})
+            (pack / 'payload.bin').write_bytes(b'duplicate asset')
+            self.write(pack / 'model.json', {'original': side})
+            files = {p.relative_to(pack).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
+                     for p in pack.rglob('*') if p.is_file()}
+            receipt['packs'].append({'side': side, 'uuid': uid, 'version': [1, 2, 3], 'dependencies': [],
+                'source': {'owner': 'preserved', 'official_author_release': False,
+                           'role': 'curated_retained_input' if side == 'behavior' else 'owner_accepted_author_replacement'},
+                'files': files})
+            receipt['order'][side] = [uid]
+            self.write(candidate / f'world_{side}_packs.json', [{'pack_id': uid, 'version': [1, 2, 3]}])
+            shutil.copytree(pack, output / f'failed-{side}_packs' / uid)
+        self.write(candidate / 'family-receipt.json', receipt)
+        manifest = self.root / 'failed-retirements.json'
+        self.write(manifest, {'schema': 1, 'outputs': [{'output': str(output),
+            'reason': 'Ended readiness failure; original complete candidate is retained',
+            'targets': list(m.FAILED_PACK_COPIES), 'retained_candidate': str(candidate)}]})
+        return output, candidate, manifest
+
+    def test_failed_pack_duplicates_use_existing_executor_and_keep_candidate_and_reports(self):
+        output, candidate, manifest = self.failed_pack_fixture()
+        original = {p: p.read_bytes() for base in (candidate, output) for p in base.rglob('*')
+                    if p.is_file() and not any(part in m.FAILED_PACK_COPIES for part in p.parts)}
+        self.assertFalse(any(row['output'] == str(output) for row in self.plan()['outputs']))
+        planned = self.plan(retire_outputs=manifest)
+        self.assertIn(str(candidate), planned['protected'])
+        result = self.execute(planned)
+        self.assertEqual(result['state'], 'completed', result['errors'])
+        self.assertEqual(len(result['deleted']), 6)
+        self.assertTrue(all(not any((output / rel).rglob('*.*')) for rel in m.FAILED_PACK_COPIES))
+        self.assertTrue(all(path.read_bytes() == data for path, data in original.items()))
+        self.assertFalse(json.loads((output / 'release.json').read_text())['test_delivery_completed'])
+
+    def test_failed_pack_different_unknown_and_wrong_uuid_files_stay(self):
+        output, candidate, manifest = self.failed_pack_fixture()
+        bp, rp = [next((output / rel).iterdir()) for rel in m.FAILED_PACK_COPIES]
+        (bp / 'payload.bin').write_bytes(b'different fixture')
+        (bp / 'unknown.json').write_text('unique diagnostic')
+        self.modify(rp, 'manifest.json', lambda d: d['header'].update(uuid='wrong-uuid'))
+        result = self.execute(self.plan(retire_outputs=manifest))
+        self.assertEqual(result['state'], 'completed', result['errors'])
+        self.assertEqual({p.name for p in bp.iterdir()}, {'payload.bin', 'unknown.json'})
+        self.assertEqual({p.name for p in rp.iterdir()}, {'manifest.json', 'model.json', 'payload.bin'})
+        self.assertTrue((candidate / 'family-receipt.json').is_file())
+
+    def test_failed_pack_recovery_and_complete_source_order_are_required(self):
+        output, candidate, manifest = self.failed_pack_fixture()
+        mutations = [
+            (output / 'release.json', lambda d: d.update(recovery_error='recovery failed')),
+            (output / 'release.json', lambda d: d['staging'].update(status='STOPPED')),
+            (candidate / 'family-receipt.json', lambda d: d['packs'][0].pop('source')),
+            (candidate / 'family-receipt.json', lambda d: d['packs'][0]['source'].update(role='unknown-role')),
+            (candidate / 'world_behavior_packs.json', lambda d: d.clear()),
+        ]
+        for path, mutate in mutations:
+            with self.subTest(path=path):
+                original = path.read_bytes()
+                data = json.loads(original)
+                mutate(data)
+                self.write(path, data)
+                with self.assertRaises(ValueError):
+                    self.plan(retire_outputs=manifest)
+                path.write_bytes(original)
+        next(candidate.rglob('payload.bin')).unlink()
+        with self.assertRaisesRegex(ValueError, 'pack file set differs'):
+            self.plan(retire_outputs=manifest)
+
+    def test_failed_pack_kept_candidate_cannot_be_another_retirement_target(self):
+        output, candidate, manifest = self.failed_pack_fixture()
+        data = json.loads(manifest.read_text())
+        data['outputs'].insert(0, {'output': str(candidate.parent), 'reason': 'Must stay protected',
+                                  'targets': list(m.COPIES[:2])})
+        self.write(manifest, data)
+        with self.assertRaisesRegex(ValueError, 'Current source/evidence/configuration reference'):
+            self.plan(retire_outputs=manifest)
+        self.assertTrue(next(candidate.rglob('payload.bin')).exists())
+
+    def test_failed_pack_candidate_change_before_execute_stops_without_unlinks(self):
+        output, candidate, manifest = self.failed_pack_fixture()
+        planned = self.plan(retire_outputs=manifest)
+        next(candidate.rglob('payload.bin')).write_bytes(b'changed retained source')
+        with self.assertRaisesRegex(ValueError, 'Retained candidate pack content differs'):
+            self.execute(planned)
+        self.assertFalse((output / m.EXPLICIT_MARKER).exists())
+        self.assertEqual(len(list(output.rglob('payload.bin'))), 2)
+
+    def test_failed_pack_partial_resume_after_own_manifest_unlink(self):
+        from family_update import cleanup_engine_inputs as inputs
+        output, candidate, manifest = self.failed_pack_fixture()
+        unlink = inputs.unlink_selected
+        def interrupted(metadata, root, ledger, record):
+            def removed(path):
+                record(path)
+                if path.endswith('/manifest.json'):
+                    raise OSError('fixture interrupted after actual unlink')
+            unlink(metadata, root, ledger, removed)
+        with patch.object(inputs, 'unlink_selected', side_effect=interrupted):
+            first = self.execute(self.plan(retire_outputs=manifest))
+        self.assertEqual(first['state'], 'partial')
+        self.assertEqual(len(first['deleted']), 1)
+        result = self.execute(self.plan(retire_outputs=manifest))
+        self.assertEqual(result['state'], 'completed', result['errors'])
+        self.assertEqual(len(result['deleted']), 5)
+        self.assertEqual(len(list(candidate.rglob('manifest.json'))), 2)
+
     def test_root_must_be_explicit_absolute_and_not_symlink(self):
         with self.assertRaises(ValueError):
             m.plan(Path('relative'))
