@@ -8,8 +8,9 @@ from pathlib import Path
 
 
 class LegacyMenuProjection:
-    def __init__(self, root):
+    def __init__(self, root, *, current_metadata=None):
         self.root = Path(root).resolve()
+        self.current_metadata = current_metadata
         read = lambda p: json.loads(p.read_text(encoding='utf-8-sig'))
         self.reference = read(self.root / 'data/creative-legacy-menus.json')
         if self.reference.get('schema') != 1:
@@ -33,7 +34,7 @@ class LegacyMenuProjection:
         path = Path(path).resolve()
         relative = path.relative_to(self.root).as_posix()
         from baseline_reference import previous_bytes
-        content = previous_bytes(self.root,path)
+        content = previous_bytes(self.root,path,current_metadata=self.current_metadata)
         before = self.menus.get(relative)
         pick = self.native_picks.get(relative)
         if before is None and pick is None:

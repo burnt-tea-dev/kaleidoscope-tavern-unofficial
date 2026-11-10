@@ -75,6 +75,13 @@ class FixtureTests(unittest.TestCase):
         c.apply(self.root, True)
         self.assertEqual(c.apply(self.root, True)['changed_files'], 0)
 
+    def test_historical_root_does_not_use_the_current_metadata_owner(self):
+        from baseline_reference import previous_bytes
+        path = self.root / self.item
+        self.assertEqual(previous_bytes(self.root, path), path.read_bytes())
+        with self.assertRaisesRegex(ValueError, 'Stale creative'):
+            previous_bytes(self.root, path, current_metadata=True)
+
     def test_catalog_membership_unchanged(self):
         old = set(c.entries(c.load(self.root/c.CATALOG)))
         c.apply(self.root, True)
@@ -309,7 +316,7 @@ class HistoricalProjectionTests(unittest.TestCase):
 
     def test_projection_changes_only_reviewed_menu_and_native_registration(self):
         for root in (TAVERN, LIQUOR):
-            projection = self.module.LegacyMenuProjection(root)
+            projection = self.module.LegacyMenuProjection(root, current_metadata=True)
             from cultivation_source_contract import check as check_cultivation, runtime_sources as cultivation_sources
             if root == TAVERN:
                 check_cultivation(root)
@@ -319,7 +326,7 @@ class HistoricalProjectionTests(unittest.TestCase):
                 p = root/path
                 kind = 'minecraft:item' if '/items/' in path else 'minecraft:block'
                 from baseline_reference import previous_bytes
-                current = json.loads(previous_bytes(root,p))
+                current = json.loads(previous_bytes(root,p,current_metadata=True))
                 old = json.loads(projection.read_bytes(p))
                 current[kind]['description'].pop('menu_category')
                 old[kind]['description'].pop('menu_category')
