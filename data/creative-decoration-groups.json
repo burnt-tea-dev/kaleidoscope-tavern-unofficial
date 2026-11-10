@@ -130,16 +130,12 @@
       "firefly_incense"
     ],
     "utilities": [
-      "stepladder",
-      "molotov"
+      "stepladder"
     ],
     "brewing": [
       "pressing_tub",
       "tap",
-      "barrel",
-      "empty_bottle",
-      "empty_glassware",
-      "shaker"
+      "barrel"
     ],
     "wines": [
       "watermelon_juice",
@@ -193,6 +189,19 @@
       "sweet_berries_bucket",
       "dragon_breath_bottle",
       "honey_bottle"
+    ],
+    "projectiles": [
+      "molotov"
+    ],
+    "containers": [
+      "empty_bottle",
+      "empty_glassware"
+    ],
+    "bar_tools": [
+      "shaker"
+    ],
+    "guides": [
+      "guidebook"
     ]
   }
 }

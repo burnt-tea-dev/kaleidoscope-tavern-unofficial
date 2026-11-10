@@ -252,8 +252,15 @@ def version_projection(root,name,data,spec):
  assert data.count(old)==1,(name,'ambiguous/unbound release identity')
  return data.replace(old,new,1)
 
-def previous_bytes(root,path):
+@lru_cache(maxsize=4)
+def current_creative_sources(root):
+ from creative.catalog import apply, runtime_sources
+ apply(root)
+ return runtime_sources(root)
+
+def previous_bytes(root,path,*,current_metadata=None):
  root=Path(root).resolve();path=Path(path).resolve();name=path.relative_to(root).as_posix();data=path.read_bytes();row=rows(root).get(name)
+ if current_metadata is None:current_metadata=root==Path(__file__).resolve().parents[1]
  if root==Path(__file__).resolve().parents[1] and name in CURRENT_FORM_SOURCES:
   check_current_forms()
   return data
@@ -276,6 +283,10 @@ def previous_bytes(root,path):
   return data
  if root==Path(__file__).resolve().parents[1] and name in chalkboard_runtime_sources():
   check_chalkboard(root)
+  return data
+ # Current creative metadata is validated by its real generator, rather than
+ # forcing allowed menu edits through an old whole-definition postimage.
+ if current_metadata and (root/'data/creative-decoration-groups.json').is_file() and (root/'runtime/BP/item_catalog/crafting_item_catalog.json').is_file() and name in current_creative_sources(root):
   return data
  data=t176_preimage(root,name,data)
  data=collision_preimage(root,name,data)

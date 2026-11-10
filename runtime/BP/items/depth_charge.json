@@ -4,7 +4,7 @@
     "description": {
       "identifier": "kaleidoscope_tavern:depth_charge",
       "menu_category": {
-        "category": "equipment",
+        "category": "items",
         "group": "kaleidoscope_tavern:itemGroup.name.cocktails"
       }
     },

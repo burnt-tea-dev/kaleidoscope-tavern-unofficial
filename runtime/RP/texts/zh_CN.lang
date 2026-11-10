@@ -1,14 +1,22 @@
 ## BEGIN shared creative decoration groups
-kaleidoscope_tavern:itemGroup.name.tavern_cultivation=森罗物语酒馆：作物
-kaleidoscope_tavern:itemGroup.name.tavern_brewing=森罗物语酒馆：酿造与调酒设备
-kaleidoscope_tavern:itemGroup.name.wines=森罗物语酒馆：酒饮
-kaleidoscope_tavern:itemGroup.name.cocktails=森罗物语酒馆：鸡尾酒
-kaleidoscope_tavern:itemGroup.name.storage=森罗物语酒馆：收纳
-kaleidoscope_tavern:itemGroup.name.furniture=森罗物语酒馆：家具
-kaleidoscope_tavern:itemGroup.name.lighting=森罗物语酒馆：灯饰
-kaleidoscope_tavern:itemGroup.name.decoration=森罗物语酒馆：装饰
-kaleidoscope_tavern:itemGroup.name.tools=森罗物语酒馆：工具
-kaleidoscope_tavern:itemGroup.name.ingredients=森罗物语酒馆：原料与调酒材料
+kaleidoscope_tavern:itemGroup.name.tavern_cultivation=作物与种子
+kaleidoscope_tavern:itemGroup.name.tavern_brewing=酿造设备
+kaleidoscope_tavern:itemGroup.name.wines=酒饮
+kaleidoscope_tavern:itemGroup.name.cocktails=鸡尾酒
+kaleidoscope_cookery:itemGroup.name.foods=料理
+kaleidoscope_tavern:itemGroup.name.storage=收纳
+kaleidoscope_tavern:itemGroup.name.furniture=家具
+kaleidoscope_tavern:itemGroup.name.lighting=灯饰
+kaleidoscope_tavern:itemGroup.name.boards=告示牌
+kaleidoscope_tavern:itemGroup.name.decoration=画作
+kaleidoscope_tavern:itemGroup.name.incense=香薰
+kaleidoscope_tavern:itemGroup.name.tools=工具
+kaleidoscope_tavern:itemGroup.name.music=唱片
+kaleidoscope_tavern:itemGroup.name.ingredients=酿造原料
+kaleidoscope_tavern:itemGroup.name.containers=瓶罐与杯具
+kaleidoscope_tavern:itemGroup.name.guides=指南与食谱
+kaleidoscope_tavern:itemGroup.name.projectiles=投掷物
+kaleidoscope_tavern:itemGroup.name.appliances=餐饮设备
 ## END shared creative decoration groups
 ## Shared legacy addon creative groups; identities remain distinct.
 kaleidoscope_tavern:itemGroup.name.wines_spirits=森罗物语酒馆：酒饮

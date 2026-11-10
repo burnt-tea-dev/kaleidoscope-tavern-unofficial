@@ -4,7 +4,7 @@
     "description": {
       "identifier": "kaleidoscope_tavern:ice_grape_bucket",
       "menu_category": {
-        "category": "equipment",
+        "category": "items",
         "group": "kaleidoscope_tavern:itemGroup.name.ingredients"
       }
     },

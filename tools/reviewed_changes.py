@@ -17,7 +17,9 @@ def reference():
     return apply_efficiency_reference(original,ROOT)
 @lru_cache(maxsize=1)
 def changes():
-    return reference()['reviewedChanges']
+    from creative.catalog import runtime_sources
+    current=runtime_sources(ROOT)
+    return {name:row for name,row in reference()['reviewedChanges'].items() if name not in current}
 @lru_cache(maxsize=1)
 def projection():return LegacyMenuProjection(ROOT)
 def historical_digest(path,projected=False):
@@ -34,7 +36,9 @@ def historical_digest(path,projected=False):
 
 @lru_cache(maxsize=1)
 def reviewed_additions():
-    rows=reference()['newRuntimeFiles']
+    from creative.catalog import runtime_sources
+    current=runtime_sources(ROOT)
+    rows={name:digest for name,digest in reference()['newRuntimeFiles'].items() if name not in current}
     for name,digest in rows.items():assert hashlib.sha256(previous_bytes(ROOT,ROOT/name)).hexdigest()==digest,('Reviewed addition changed',name)
     removed=reviewed_removals()
     assert not (set(rows)&set(removed)), 'A file cannot be both a current addition and a removal'

@@ -4,8 +4,8 @@
     "description": {
       "identifier": "kaleidoscope_tavern:chalkboard",
       "menu_category": {
-        "category": "equipment",
-        "group": "kaleidoscope_tavern:itemGroup.name.decoration"
+        "category": "construction",
+        "group": "kaleidoscope_tavern:itemGroup.name.boards"
       },
       "traits": {
         "minecraft:placement_direction": {

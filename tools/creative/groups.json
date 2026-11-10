@@ -19,188 +19,261 @@
   "groups": {
     "cabinets": {
       "name": "kaleidoscope_tavern:itemGroup.name.storage",
-      "category": "equipment",
-      "icon": "kaleidoscope_tavern:bar_cabinet",
+      "category": "construction",
+      "icon": "minecraft:chest",
       "labels": {
-        "en_US": "Kaleidoscope Tavern: Storage",
-        "zh_CN": "森罗物语酒馆：收纳",
-        "zh_TW": "森羅物語酒館：收納"
+        "en_US": "Storage",
+        "zh_CN": "收纳",
+        "zh_TW": "收納"
       }
     },
     "racks": {
       "name": "kaleidoscope_tavern:itemGroup.name.storage",
-      "category": "equipment",
-      "icon": "kaleidoscope_tavern:bar_cabinet",
+      "category": "construction",
+      "icon": "minecraft:chest",
       "labels": {
-        "en_US": "Kaleidoscope Tavern: Storage",
-        "zh_CN": "森罗物语酒馆：收纳",
-        "zh_TW": "森羅物語酒館：收納"
+        "en_US": "Storage",
+        "zh_CN": "收纳",
+        "zh_TW": "收納"
       }
     },
     "tables": {
       "name": "kaleidoscope_tavern:itemGroup.name.furniture",
-      "category": "equipment",
-      "icon": "kaleidoscope_tavern:white_bar_stool",
+      "category": "construction",
+      "icon": "minecraft:oak_stairs",
       "labels": {
-        "en_US": "Kaleidoscope Tavern: Furniture",
-        "zh_CN": "森罗物语酒馆：家具",
-        "zh_TW": "森羅物語酒館：家具"
+        "en_US": "Furniture",
+        "zh_CN": "家具",
+        "zh_TW": "家具"
       }
     },
     "sofas": {
       "name": "kaleidoscope_tavern:itemGroup.name.furniture",
-      "category": "equipment",
-      "icon": "kaleidoscope_tavern:white_bar_stool",
+      "category": "construction",
+      "icon": "minecraft:oak_stairs",
       "labels": {
-        "en_US": "Kaleidoscope Tavern: Furniture",
-        "zh_CN": "森罗物语酒馆：家具",
-        "zh_TW": "森羅物語酒館：家具"
+        "en_US": "Furniture",
+        "zh_CN": "家具",
+        "zh_TW": "家具"
       }
     },
     "stools": {
       "name": "kaleidoscope_tavern:itemGroup.name.furniture",
-      "category": "equipment",
-      "icon": "kaleidoscope_tavern:white_bar_stool",
+      "category": "construction",
+      "icon": "minecraft:oak_stairs",
       "labels": {
-        "en_US": "Kaleidoscope Tavern: Furniture",
-        "zh_CN": "森罗物语酒馆：家具",
-        "zh_TW": "森羅物語酒館：家具"
+        "en_US": "Furniture",
+        "zh_CN": "家具",
+        "zh_TW": "家具"
       }
     },
     "string_lights": {
       "name": "kaleidoscope_tavern:itemGroup.name.lighting",
-      "category": "equipment",
-      "icon": "kaleidoscope_tavern:bell_pendant_lamp",
+      "category": "construction",
+      "icon": "minecraft:lantern",
       "labels": {
-        "en_US": "Kaleidoscope Tavern: Lighting",
-        "zh_CN": "森罗物语酒馆：灯饰",
-        "zh_TW": "森羅物語酒館：燈飾"
+        "en_US": "Lighting",
+        "zh_CN": "灯饰",
+        "zh_TW": "燈飾"
       }
     },
     "pendant_lamps": {
       "name": "kaleidoscope_tavern:itemGroup.name.lighting",
-      "category": "equipment",
-      "icon": "kaleidoscope_tavern:bell_pendant_lamp",
+      "category": "construction",
+      "icon": "minecraft:lantern",
       "labels": {
-        "en_US": "Kaleidoscope Tavern: Lighting",
-        "zh_CN": "森罗物语酒馆：灯饰",
-        "zh_TW": "森羅物語酒館：燈飾"
+        "en_US": "Lighting",
+        "zh_CN": "灯饰",
+        "zh_TW": "燈飾"
       }
     },
     "boards": {
-      "name": "kaleidoscope_tavern:itemGroup.name.decoration",
-      "category": "equipment",
-      "icon": "kaleidoscope_tavern:ysbb_painting",
+      "name": "kaleidoscope_tavern:itemGroup.name.boards",
+      "category": "construction",
+      "icon": "minecraft:oak_sign",
       "labels": {
-        "en_US": "Kaleidoscope Tavern: Decorations",
-        "zh_CN": "森罗物语酒馆：装饰",
-        "zh_TW": "森羅物語酒館：裝飾"
+        "en_US": "Signs & Boards",
+        "zh_CN": "告示牌",
+        "zh_TW": "告示牌"
       }
     },
     "paintings": {
       "name": "kaleidoscope_tavern:itemGroup.name.decoration",
-      "category": "equipment",
-      "icon": "kaleidoscope_tavern:ysbb_painting",
+      "category": "construction",
+      "icon": "minecraft:painting",
       "labels": {
-        "en_US": "Kaleidoscope Tavern: Decorations",
-        "zh_CN": "森罗物语酒馆：装饰",
-        "zh_TW": "森羅物語酒館：裝飾"
+        "en_US": "Paintings",
+        "zh_CN": "画作",
+        "zh_TW": "畫作"
       }
     },
     "incense": {
-      "name": "kaleidoscope_tavern:itemGroup.name.decoration",
-      "category": "equipment",
-      "icon": "kaleidoscope_tavern:ysbb_painting",
+      "name": "kaleidoscope_tavern:itemGroup.name.incense",
+      "category": "items",
+      "icon": "minecraft:flower_pot",
       "labels": {
-        "en_US": "Kaleidoscope Tavern: Decorations",
-        "zh_CN": "森罗物语酒馆：装饰",
-        "zh_TW": "森羅物語酒館：裝飾"
+        "en_US": "Incense",
+        "zh_CN": "香薰",
+        "zh_TW": "香薰"
       }
     },
     "utilities": {
       "name": "kaleidoscope_tavern:itemGroup.name.tools",
       "category": "equipment",
-      "icon": "kaleidoscope_tavern:stepladder",
+      "icon": "minecraft:ladder",
       "labels": {
-        "en_US": "Kaleidoscope Tavern: Tools",
-        "zh_CN": "森罗物语酒馆：工具",
-        "zh_TW": "森羅物語酒館：工具"
+        "en_US": "Tools",
+        "zh_CN": "工具",
+        "zh_TW": "工具"
+      }
+    },
+    "bar_tools": {
+      "name": "kaleidoscope_tavern:itemGroup.name.tools",
+      "category": "equipment",
+      "icon": "minecraft:ladder",
+      "labels": {
+        "en_US": "Tools",
+        "zh_CN": "工具",
+        "zh_TW": "工具"
       }
     },
     "music": {
-      "name": "kaleidoscope_tavern:itemGroup.name.decoration",
-      "category": "equipment",
-      "icon": "kaleidoscope_tavern:ysbb_painting",
+      "name": "kaleidoscope_tavern:itemGroup.name.music",
+      "category": "items",
+      "icon": "minecraft:jukebox",
       "labels": {
-        "en_US": "Kaleidoscope Tavern: Decorations",
-        "zh_CN": "森罗物语酒馆：装饰",
-        "zh_TW": "森羅物語酒館：裝飾"
+        "en_US": "Records",
+        "zh_CN": "唱片",
+        "zh_TW": "唱片"
       }
     },
     "ingredients": {
       "name": "kaleidoscope_tavern:itemGroup.name.ingredients",
-      "category": "equipment",
-      "icon": "kaleidoscope_tavern:grape_bucket",
+      "category": "items",
+      "icon": "minecraft:honey_bottle",
       "labels": {
-        "en_US": "Kaleidoscope Tavern: Ingredients & Mixers",
-        "zh_CN": "森罗物语酒馆：原料与调酒材料",
-        "zh_TW": "森羅物語酒館：原料與調酒材料"
+        "en_US": "Brewing Ingredients",
+        "zh_CN": "酿造原料",
+        "zh_TW": "釀造原料"
+      }
+    },
+    "containers": {
+      "name": "kaleidoscope_tavern:itemGroup.name.containers",
+      "category": "items",
+      "icon": "minecraft:glass_bottle",
+      "labels": {
+        "en_US": "Bottles & Glassware",
+        "zh_CN": "瓶罐与杯具",
+        "zh_TW": "瓶罐與杯具"
+      }
+    },
+    "guides": {
+      "name": "kaleidoscope_tavern:itemGroup.name.guides",
+      "category": "items",
+      "icon": "minecraft:book",
+      "labels": {
+        "en_US": "Guides & Recipes",
+        "zh_CN": "指南与食谱",
+        "zh_TW": "指南與食譜"
+      }
+    },
+    "projectiles": {
+      "name": "kaleidoscope_tavern:itemGroup.name.projectiles",
+      "category": "equipment",
+      "icon": "minecraft:fire_charge",
+      "labels": {
+        "en_US": "Throwables",
+        "zh_CN": "投掷物",
+        "zh_TW": "投擲物"
+      }
+    },
+    "appliances": {
+      "name": "kaleidoscope_tavern:itemGroup.name.appliances",
+      "category": "items",
+      "icon": "minecraft:crafting_table",
+      "labels": {
+        "en_US": "Kitchen Equipment",
+        "zh_CN": "餐饮设备",
+        "zh_TW": "餐飲設備"
       }
     }
   },
   "existing_groups": {
     "cultivation": {
       "name": "kaleidoscope_tavern:itemGroup.name.tavern_cultivation",
-      "category": "equipment",
-      "icon": "kaleidoscope_tavern:grape",
+      "category": "nature",
+      "icon": "minecraft:sweet_berries",
       "labels": {
-        "en_US": "Kaleidoscope Tavern: Crops",
-        "zh_CN": "森罗物语酒馆：作物",
-        "zh_TW": "森羅物語酒館：作物"
+        "en_US": "Crops & Seeds",
+        "zh_CN": "作物与种子",
+        "zh_TW": "作物與種子"
       }
     },
     "brewing": {
       "name": "kaleidoscope_tavern:itemGroup.name.tavern_brewing",
-      "category": "equipment",
-      "icon": "kaleidoscope_tavern:barrel",
+      "category": "items",
+      "icon": "minecraft:barrel",
       "labels": {
-        "en_US": "Kaleidoscope Tavern: Brewing & Mixing Equipment",
-        "zh_CN": "森罗物语酒馆：酿造与调酒设备",
-        "zh_TW": "森羅物語酒館：釀造與調酒設備"
+        "en_US": "Brewing Equipment",
+        "zh_CN": "酿造设备",
+        "zh_TW": "釀造設備"
       }
     },
     "wines": {
       "name": "kaleidoscope_tavern:itemGroup.name.wines",
-      "category": "equipment",
-      "icon": "kaleidoscope_tavern:wine_q6",
+      "category": "items",
+      "icon": "minecraft:potion",
       "labels": {
-        "en_US": "Kaleidoscope Tavern: Drinks",
-        "zh_CN": "森罗物语酒馆：酒饮",
-        "zh_TW": "森羅物語酒館：酒飲"
+        "en_US": "Bottled Drinks",
+        "zh_CN": "酒饮",
+        "zh_TW": "酒飲"
       }
     },
     "cocktails": {
       "name": "kaleidoscope_tavern:itemGroup.name.cocktails",
-      "category": "equipment",
-      "icon": "kaleidoscope_tavern:white_lady",
+      "category": "items",
+      "icon": "minecraft:glass_bottle",
       "labels": {
-        "en_US": "Kaleidoscope Tavern: Cocktails",
-        "zh_CN": "森罗物语酒馆：鸡尾酒",
-        "zh_TW": "森羅物語酒館：雞尾酒"
+        "en_US": "Cocktails",
+        "zh_CN": "鸡尾酒",
+        "zh_TW": "雞尾酒"
+      }
+    },
+    "foods": {
+      "name": "kaleidoscope_cookery:itemGroup.name.foods",
+      "category": "items",
+      "icon": "minecraft:bread",
+      "labels": {
+        "en_US": "Prepared Food",
+        "zh_CN": "料理",
+        "zh_TW": "料理"
       }
     }
   },
   "order": [
-    "kaleidoscope_tavern:itemGroup.name.tavern_cultivation",
-    "kaleidoscope_tavern:itemGroup.name.ingredients",
-    "kaleidoscope_tavern:itemGroup.name.tavern_brewing",
-    "kaleidoscope_tavern:itemGroup.name.wines",
-    "kaleidoscope_tavern:itemGroup.name.cocktails",
     "kaleidoscope_tavern:itemGroup.name.storage",
     "kaleidoscope_tavern:itemGroup.name.furniture",
     "kaleidoscope_tavern:itemGroup.name.lighting",
+    "kaleidoscope_tavern:itemGroup.name.boards",
     "kaleidoscope_tavern:itemGroup.name.decoration",
     "kaleidoscope_tavern:itemGroup.name.tools",
+    "kaleidoscope_tavern:itemGroup.name.projectiles",
+    "kaleidoscope_tavern:itemGroup.name.guides",
+    "kaleidoscope_tavern:itemGroup.name.ingredients",
+    "kaleidoscope_tavern:itemGroup.name.tavern_brewing",
+    "kaleidoscope_tavern:itemGroup.name.appliances",
+    "kaleidoscope_tavern:itemGroup.name.containers",
+    "kaleidoscope_tavern:itemGroup.name.wines",
+    "kaleidoscope_tavern:itemGroup.name.cocktails",
+    "kaleidoscope_tavern:itemGroup.name.incense",
+    "kaleidoscope_tavern:itemGroup.name.music",
+    "kaleidoscope_tavern:itemGroup.name.tavern_cultivation",
     "kaleidoscope_cookery:itemGroup.name.foods"
+  ],
+  "category_order": [
+    "construction",
+    "equipment",
+    "items",
+    "nature"
   ]
 }

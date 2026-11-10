@@ -1,14 +1,22 @@
 ## BEGIN shared creative decoration groups
-kaleidoscope_tavern:itemGroup.name.tavern_cultivation=Kaleidoscope Tavern: Crops
-kaleidoscope_tavern:itemGroup.name.tavern_brewing=Kaleidoscope Tavern: Brewing & Mixing Equipment
-kaleidoscope_tavern:itemGroup.name.wines=Kaleidoscope Tavern: Drinks
-kaleidoscope_tavern:itemGroup.name.cocktails=Kaleidoscope Tavern: Cocktails
-kaleidoscope_tavern:itemGroup.name.storage=Kaleidoscope Tavern: Storage
-kaleidoscope_tavern:itemGroup.name.furniture=Kaleidoscope Tavern: Furniture
-kaleidoscope_tavern:itemGroup.name.lighting=Kaleidoscope Tavern: Lighting
-kaleidoscope_tavern:itemGroup.name.decoration=Kaleidoscope Tavern: Decorations
-kaleidoscope_tavern:itemGroup.name.tools=Kaleidoscope Tavern: Tools
-kaleidoscope_tavern:itemGroup.name.ingredients=Kaleidoscope Tavern: Ingredients & Mixers
+kaleidoscope_tavern:itemGroup.name.tavern_cultivation=Crops & Seeds
+kaleidoscope_tavern:itemGroup.name.tavern_brewing=Brewing Equipment
+kaleidoscope_tavern:itemGroup.name.wines=Bottled Drinks
+kaleidoscope_tavern:itemGroup.name.cocktails=Cocktails
+kaleidoscope_cookery:itemGroup.name.foods=Prepared Food
+kaleidoscope_tavern:itemGroup.name.storage=Storage
+kaleidoscope_tavern:itemGroup.name.furniture=Furniture
+kaleidoscope_tavern:itemGroup.name.lighting=Lighting
+kaleidoscope_tavern:itemGroup.name.boards=Signs & Boards
+kaleidoscope_tavern:itemGroup.name.decoration=Paintings
+kaleidoscope_tavern:itemGroup.name.incense=Incense
+kaleidoscope_tavern:itemGroup.name.tools=Tools
+kaleidoscope_tavern:itemGroup.name.music=Records
+kaleidoscope_tavern:itemGroup.name.ingredients=Brewing Ingredients
+kaleidoscope_tavern:itemGroup.name.containers=Bottles & Glassware
+kaleidoscope_tavern:itemGroup.name.guides=Guides & Recipes
+kaleidoscope_tavern:itemGroup.name.projectiles=Throwables
+kaleidoscope_tavern:itemGroup.name.appliances=Kitchen Equipment
 ## END shared creative decoration groups
 ## Shared legacy addon creative groups; identities remain distinct.
 kaleidoscope_tavern:itemGroup.name.wines_spirits=Kaleidoscope Tavern: Drinks

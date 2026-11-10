@@ -1,3 +1,7 @@
+## 0.6.221 — 2026-11-10
+
+Reorganize the native creative catalog by use with short labels and consistent shared vanilla icons. Keep all 161 existing visible items, Java wine/cocktail order, hidden variants and gameplay data. Pair the companion classification with World Liquor 0.1.209; source checks do not certify client inventory rendering.
+
 ## 0.6.217 — 2026-11-09
 
 - Restore the small chalkboard's narrow-side texture strips and the large chalkboard's exterior end caps. Correct lower-slice bottom directed UVs from pinned source coordinates without changing broad faces, placement, materials, text or gameplay.

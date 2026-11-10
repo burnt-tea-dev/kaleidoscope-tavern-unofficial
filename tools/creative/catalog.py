@@ -95,9 +95,9 @@ def planned(root):
         member_lists[alias] = [ns + ':' + short for short in short_names]
     catalog = load(root / CATALOG)
     before = entries(catalog)
-    missing = desired.keys() - before.keys()
-    if missing:
-        raise ValueError(f'Refusing to promote items absent from the visible catalog: {sorted(missing)}')
+    # A reviewed plan may restore an omitted catalog entry only when its real
+    # definition is already visible. The definition loop below rejects absent
+    # and hidden implementations before anything is written.
     managed_names = set(common['retired_groups']) | {s['name'] for s in common['groups'].values()}
     unassigned = {item for item, (_, group) in before.items() if group in managed_names} - desired.keys()
     if unassigned:
@@ -129,8 +129,8 @@ def planned(root):
         group = next((g for g in category['groups'] if g.get('group_identifier', {}).get('name') == spec['name']), None)
         if group is None:
             identifier = {'name': spec['name']}
-            # Every appending pack repeats the same host icon; Bedrock may use
-            # the last group definition in the active pack stack.
+            # Appending packs repeat the same vanilla icon, so a shared group
+            # does not depend on a different addon's optional assets.
             if spec.get('icon'):
                 identifier['icon'] = spec['icon']
             group = {'group_identifier': identifier, 'items': []}
@@ -139,9 +139,11 @@ def planned(root):
     ranks = {name: index for index, name in enumerate(common['order'])}
     for category in categories:
         category['groups'].sort(key=lambda g: ranks.get(g.get('group_identifier', {}).get('name'), len(ranks)))
-    catalog['minecraft:crafting_items_catalog']['categories'] = [c for c in categories if c['groups']]
+    category_order = {name: index for index, name in enumerate(common['category_order'])}
+    catalog['minecraft:crafting_items_catalog']['categories'] = sorted(
+        (c for c in categories if c['groups']), key=lambda c: category_order[c['category_name']])
     after = entries(catalog)
-    if before.keys() != after.keys():
+    if before.keys() | desired.keys() != after.keys():
         raise ValueError('Creative visibility changed')
     for item, old in before.items():
         if after[item] != desired.get(item, old):
@@ -169,9 +171,12 @@ def apply(root, write=False):
             'planned_items': sum(len(v) for v in load(root / PLAN)['groups'].values()), 'changed_files': len(stale)}
 
 
-def runtime_sources():
-    """The catalog is maintained by this generator, not a historical postimage."""
-    return frozenset({CATALOG.as_posix()})
+def runtime_sources(root=HERE.parents[1]):
+    """Current catalog and definition metadata; gameplay has its own checks."""
+    root = Path(root).resolve()
+    return frozenset(path.relative_to(root).as_posix() for path in planned(root)
+                     if path == root / CATALOG or path.is_relative_to(root / 'runtime/BP/items')
+                     or path.is_relative_to(root / 'runtime/BP/blocks'))
 
 
 def check_java_wine_order(root, java_source):
@@ -204,17 +209,20 @@ def check_java_wine_order(root, java_source):
 def check_current(root, java_source=None):
     """Validate current output and ownership; this is not client acceptance."""
     root = Path(root).resolve()
-    sources = runtime_sources()
+    sources = runtime_sources(root)
+    # Definitions retain their independent gameplay/source history. Only the
+    # generated catalog itself must have one exclusive current owner.
+    catalog_sources = {CATALOG.as_posix()}
     ledger = load(root / 'data/baseline-reconciliation.json')
     for section in ('files', 'reviewedFunctionalDeltas'):
-        if sources & set(ledger.get(section, {})):
+        if catalog_sources & set(ledger.get(section, {})):
             raise ValueError('Creative catalog returned to a historical postimage')
     for section in ('reviewedFunctionalDeltaLayers', 'reviewedAssetDeltaLayers'):
-        if any(sources & set(layer['files']) for layer in ledger.get(section, [])):
+        if any(catalog_sources & set(layer['files']) for layer in ledger.get(section, [])):
             raise ValueError('Creative catalog returned to a reverse delta')
     reference = load(root / 'data/launch-repair-reference.json')
     for section in ('reviewedChanges', 'newRuntimeFiles'):
-        if sources & set(reference.get(section, {})):
+        if catalog_sources & set(reference.get(section, {})):
             raise ValueError('Creative catalog returned to the launch hash aggregate')
     report = apply(root)
     report.update(sources=sorted(sources), bds=False, client=False,
@@ -241,7 +249,7 @@ def check_pair(roots):
         if key not in merged:
             continue
         data = merged[key]
-        if data['icons'] != {spec['icon']} or spec['icon'] not in combined_defs:
+        if data['icons'] != {spec['icon']} or (not spec['icon'].startswith('minecraft:') and spec['icon'] not in combined_defs):
             raise ValueError(f'Missing or conflicting icon: {key}')
         if len(set(data['items'])) != len(data['items']):
             raise ValueError(f'Duplicate merged group item: {key}')

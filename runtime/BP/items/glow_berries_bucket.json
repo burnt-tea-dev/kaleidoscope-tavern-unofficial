@@ -4,7 +4,7 @@
     "description": {
       "identifier": "kaleidoscope_tavern:glow_berries_bucket",
       "menu_category": {
-        "category": "equipment",
+        "category": "items",
         "group": "kaleidoscope_tavern:itemGroup.name.ingredients"
       }
     },

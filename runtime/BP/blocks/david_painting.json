@@ -4,7 +4,7 @@
     "description": {
       "identifier": "kaleidoscope_tavern:david_painting",
       "menu_category": {
-        "category": "equipment",
+        "category": "construction",
         "group": "kaleidoscope_tavern:itemGroup.name.decoration"
       },
       "states": {

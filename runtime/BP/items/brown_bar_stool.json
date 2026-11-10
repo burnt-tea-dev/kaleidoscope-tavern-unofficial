@@ -4,7 +4,7 @@
     "description": {
       "identifier": "kaleidoscope_tavern:brown_bar_stool",
       "menu_category": {
-        "category": "equipment",
+        "category": "construction",
         "group": "kaleidoscope_tavern:itemGroup.name.furniture"
       }
     },

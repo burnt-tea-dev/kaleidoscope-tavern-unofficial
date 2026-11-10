@@ -23,7 +23,13 @@ class RackLift(unittest.TestCase):
    expected['minecraft:geometry'][0]['item_display_transforms'][hand]['translation'][1]=6
   self.assertEqual(expected,actual)
   self.assertEqual(actual,planned()[0][ROOT/PATH])
- def test_texture_and_world_are_exact_t174(self):
-  for name in ['runtime/RP/models/entity/tilted_rack.geo.json','runtime/RP/textures/kaleidoscope_tavern/block/deco/tilted_rack.png','runtime/BP/blocks/tilted_rack.json']:
+ def test_texture_world_geometry_and_gameplay_are_exact_t174(self):
+  for name in ['runtime/RP/models/entity/tilted_rack.geo.json','runtime/RP/textures/kaleidoscope_tavern/block/deco/tilted_rack.png']:
    self.assertEqual(witness(name),(ROOT/name).read_bytes())
+  name='runtime/BP/blocks/tilted_rack.json'
+  before=json.loads(witness(name));after=json.loads((ROOT/name).read_text())
+  for value in [before,after]:value['minecraft:block']['description'].pop('menu_category')
+  self.assertEqual(before,after)
+  from creative.catalog import apply
+  apply(ROOT)  # Current menu belongs to the shared generator, not the lift repair.
 if __name__=='__main__':unittest.main()
