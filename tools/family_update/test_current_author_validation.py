@@ -555,6 +555,40 @@ class CuratedRetainedInputs(unittest.TestCase):
   m.c.CONFIG.pop('fresh_world',None);m.c.CONFIG['delivery_profile']='senluo-stable-lock-v1';m.c.CONFIG['curated_owner_inputs']={uid:row['path']for uid,row in inputs.items()}
   return inputs
 
+ def owner_group(self,resources=3,behaviors=1):
+  inputs=self.owner_pair();root=Path(inputs['reviewed-behavior']['path']).parent
+  for side,count in [('resource',resources),('behavior',behaviors)]:
+   template=next(row for row in self.rows if row['uuid']=='reviewed-'+side)
+   for index in range(2,count+1):
+    uid='reviewed-'+side+'-'+str(index)
+    actual=self.pack(root/uid,uid,side,[1,0,2],b'additional declared owner pack')
+    row=copy.deepcopy(template);row.update(uuid=uid,input_tree=m.tree(actual['files']),output_tree=m.tree(actual['files']))
+    self.rows.append(row);inputs[uid]=actual
+  self.write(stable.CURATED_INPUT,self.value);self.catalog['selection']['sha256']=m.digest((self.root/stable.CURATED_INPUT).read_bytes())
+  self.commit('Complete declared owner group')
+  m.c.CONFIG['curated_owner_inputs']={uid:row['path']for uid,row in inputs.items()}
+  return inputs
+
+ def test_owner_group_can_include_two_resource_packs(self):
+  inputs=self.owner_group(resources=2);before=copy.deepcopy(self.original)
+  self.assertEqual(m.curated_owner_inputs(),inputs)
+  _,_,selection=m.select_curated_inputs(self.original)
+  self.assertTrue(set(inputs)<=set(selection['packs']));self.assertEqual(self.original,before)
+
+ def test_owner_group_can_include_three_resource_packs(self):
+  inputs=self.owner_group();before=copy.deepcopy(self.original)
+  self.assertEqual(m.curated_owner_inputs(),inputs)
+  _,_,selection=m.select_curated_inputs(self.original)
+  self.assertTrue(set(inputs)<=set(selection['packs']));self.assertEqual(self.original,before)
+
+ def test_owner_group_rejects_a_missing_declared_resource_pack(self):
+  self.owner_group();del m.c.CONFIG['curated_owner_inputs']['reviewed-resource-3']
+  with self.assertRaisesRegex(AssertionError,'complete declared'):m.curated_owner_inputs()
+
+ def test_owner_group_rejects_two_behavior_packs(self):
+  self.owner_group(behaviors=2)
+  with self.assertRaisesRegex(AssertionError,'complete declared'):m.curated_owner_inputs()
+
  def test_owner_pair_addition_uses_exact_new_inputs_without_rewriting_live_capture(self):
   inputs=self.owner_pair();before=copy.deepcopy(self.original)
   roots,sources,selection=m.select_curated_inputs(self.original)

@@ -367,7 +367,7 @@ def replacement_author_keys():
     return {row['author'] for row in replacement_rows().values()}
 
 def curated_owner_inputs():
-    """Read exact prebuilt owner pairs selected by the committed curated profile.
+    """Read exact prebuilt owner groups selected by the committed curated profile.
 
     These are new candidate inputs, never observations of what LIVE has installed.
     The normal captured inventory and policy drift checks remain unchanged.
@@ -396,7 +396,8 @@ def curated_owner_inputs():
             assert expected[companion]['side']=='behavior','A standalone owner input must be a data behavior pack'
             standalone.add(companion)
         else:
-            assert pair<=set(configured) and len(pair)==2 and {expected[uid]['side'] for uid in pair}=={'behavior','resource'}, 'Owner inputs require a complete declared BP/RP pair'
+            sides=[expected[uid]['side'] for uid in pair]
+            assert pair<=set(configured) and sides.count('behavior')==1 and set(sides)=={'behavior','resource'}, 'Owner inputs require a complete declared group with one BP and at least one RP'
     protected=[c.B,c.W,c.Q,*c.SOURCES.values(),*([c.EXTENSION] if c.EXTENSION else [])]
     selected={}
     for uid,location in configured.items():
