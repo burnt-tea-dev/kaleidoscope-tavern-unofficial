@@ -4,7 +4,7 @@
     "description": {
       "identifier": "kaleidoscope_tavern:nether_special",
       "menu_category": {
-        "category": "equipment",
+        "category": "items",
         "group": "kaleidoscope_tavern:itemGroup.name.cocktails"
       }
     },

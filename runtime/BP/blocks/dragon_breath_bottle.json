@@ -4,7 +4,7 @@
     "description": {
       "identifier": "kaleidoscope_tavern:dragon_breath_bottle",
       "menu_category": {
-        "category": "equipment",
+        "category": "items",
         "group": "kaleidoscope_tavern:itemGroup.name.ingredients"
       },
       "traits": {

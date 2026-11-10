@@ -4,8 +4,8 @@
     "description": {
       "identifier": "kaleidoscope_tavern:sakura_incense",
       "menu_category": {
-        "category": "equipment",
-        "group": "kaleidoscope_tavern:itemGroup.name.decoration"
+        "category": "items",
+        "group": "kaleidoscope_tavern:itemGroup.name.incense"
       }
     },
     "components": {

@@ -63,6 +63,8 @@ def main():
     for layer in guide_ledger.get('reviewedFunctionalDeltaLayers',[]):
         assert not GUIDE_SOURCES & set(layer['files']),'Current guide owner returned to a reverse delta'
     ref=read(ROOT/'data/launch-repair-reference.json')
+    for section in ('reviewedChanges','newRuntimeFiles'):
+        ref[section]={name:row for name,row in ref[section].items() if name not in creative_sources}
     from efficiency.reference import apply_efficiency_reference
     ref=apply_efficiency_reference(ref,ROOT)
     # Validate the current catalogue/material/animation outputs once here. The

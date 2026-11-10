@@ -4,7 +4,7 @@
     "description": {
       "identifier": "kaleidoscope_tavern:light_gray_sofa",
       "menu_category": {
-        "category": "equipment",
+        "category": "construction",
         "group": "kaleidoscope_tavern:itemGroup.name.furniture"
       },
       "states": {

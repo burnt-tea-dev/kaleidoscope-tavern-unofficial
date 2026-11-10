@@ -4,7 +4,7 @@
     "description": {
       "identifier": "kaleidoscope_tavern:mystery_cocktail",
       "menu_category": {
-        "category": "equipment",
+        "category": "items",
         "group": "kaleidoscope_tavern:itemGroup.name.cocktails"
       }
     },

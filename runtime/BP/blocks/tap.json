@@ -4,7 +4,7 @@
     "description": {
       "identifier": "kaleidoscope_tavern:tap",
       "menu_category": {
-        "category": "equipment",
+        "category": "items",
         "group": "kaleidoscope_tavern:itemGroup.name.tavern_brewing"
       },
       "states": {
