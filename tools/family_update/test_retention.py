@@ -898,6 +898,22 @@ class RetentionTests(unittest.TestCase):
         self.assertTrue(all(path.read_bytes() == data for path, data in original.items()))
         self.assertFalse(json.loads((output / 'release.json').read_text())['test_delivery_completed'])
 
+    def test_explicit_retirement_does_not_scan_unselected_historical_copies(self):
+        output, candidate, manifest = self.failed_pack_fixture()
+        untouched = {path: path.read_bytes() for base in (self.a, self.b) for path in base.rglob('*') if path.is_file()}
+        with patch.object(m, '_proof', wraps=m._proof) as proofs, patch.object(m, '_walk', wraps=m._walk) as walks:
+            planned = self.plan(retire_outputs=manifest)
+            result = self.execute(planned)
+        self.assertEqual(result['state'], 'completed', result['errors'])
+        self.assertEqual(len(result['deleted']), 6)
+        self.assertEqual(planned['newest_retained'], [str(self.c)])
+        self.assertTrue(planned['rollback_retention_ready'])
+        self.assertEqual({row['output'] for row in planned['outputs']}, {str(self.c), str(output)})
+        self.assertTrue(all(path.read_bytes() == raw for path, raw in untouched.items()))
+        self.assertTrue((candidate / 'family-receipt.json').is_file())
+        self.assertFalse(any(call.args[0] in (self.a, self.b) for call in proofs.call_args_list))
+        self.assertFalse(any(any(base in call.args[0].parents for base in (self.a, self.b)) for call in walks.call_args_list))
+
     def test_failed_pack_different_unknown_and_wrong_uuid_files_stay(self):
         output, candidate, manifest = self.failed_pack_fixture()
         bp, rp = [next((output / rel).iterdir()) for rel in m.FAILED_PACK_COPIES]
