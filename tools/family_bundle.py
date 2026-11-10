@@ -330,7 +330,7 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
   expected={p['uuid'] for p in records if p['side']==side}
   if len(order)!=len(set(order)) or set(order)!=expected:fail('pack order missing or duplicate identity')
   (out/('world_'+side+'_packs.json')).write_text(json.dumps([{'pack_id':uid,'version':by_uuid[uid]['version']} for uid in order],indent=2)+'\n')
- definitions={};overlaps=[];behavior_players=[]
+ definitions={};overlaps=[];behavior_players=[];catalog_items={}
  for side in ['behavior','resource']:
   # First world ref has priority. Report effective owner; do not silently merge definitions.
   order=lock['order'][side]
@@ -339,6 +339,13 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
    for path in root.rglob('*.json'):
     try:obj=read_definition(path,by_uuid[uid]['source']['owner']=='preserved')
     except Exception as e:fail('invalid JSON '+str(path)+': '+str(e))
+    if side=='behavior' and path.is_relative_to(root/'item_catalog') and isinstance(obj,dict):
+     for category in obj.get('minecraft:crafting_items_catalog',{}).get('categories',[]):
+      for group in category['groups']:
+       for item in group['items']:
+        previous=catalog_items.setdefault(item,uid)
+        if previous!=uid:
+         fail('duplicate creative catalog item '+item+' in behavior packs '+previous+' and '+uid)
     for key in ['minecraft:item','minecraft:block','minecraft:entity','minecraft:client_entity']:
      identifier=obj.get(key,{}).get('description',{}).get('identifier') if isinstance(obj,dict) else None
      if not identifier:continue
