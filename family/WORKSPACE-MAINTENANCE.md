@@ -118,6 +118,12 @@ formal／staging 的 name、status、version 須與原 `servers-before.json` 相
 這兩個目錄不加入自動清理；原失敗 JSON／log／runner 保留，也不改其結論。
 綁清單和原報告 metadata、精確目標身份；
 最新一份成功部署及完整 snapshot／rollback 仍按既有收據完整性邊界核對一次。
+若原 snapshot 已由既有 `world_backup.adopt` 正常輪替，清理器沿政策的 `world_backup_state`、
+原退休記錄及目前原始 receipt 核對同一正式世界的新停止備份，不把新存檔冒充舊 cutoff。
+原部署完整證據與原 pack rollback 仍須通過；缺少正常輪替鏈、世界不符、舊 cutoff、
+未完輪替或不完整備份均拒絕。刪除前沿同一內容核對入口驗全檔，之後僅重核身份／拓撲；
+索引、receipt、輪替記錄或保留內容改變則拒絕。備份允許根目錄只是 producer 的範圍，
+目前備份、原始世界與其他實際引用仍受保護。
 current config／policy／來源／驗證傳遞引用、maintenance lock、host namespace、活動程序／argv、
 掛載、symlink／Git 和每次刪除邊界檢查保持；變更則拒絕重用計畫。
 只有明列的歷史 client_failure_reports／client_hud_observations 作保存 leaf，

@@ -566,6 +566,85 @@ class RetentionTests(unittest.TestCase):
         self.assertFalse(set(m.BACKUPS) & {x['relative'] for x in self.row(p, self.a)['delete']})
         self.execute(p)
         self.assertTrue((self.a / 'production-snapshot/db/data').exists())
+
+    def rotated_shared_backup(self):
+        from world_backup import capture, adopt
+        pool = tempfile.TemporaryDirectory()
+        self.addCleanup(pool.cleanup)
+        pool = Path(pool.name)
+        world = self.root / 'live/worlds/World'
+        for name, content in [('level.dat', 'current level'), ('db/CURRENT', 'MANIFEST-1'), ('db/MANIFEST-1', 'current db')]:
+            path = world / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(content)
+        self.modify(self.c, 'production-before/backup-receipt.json', lambda value: value.update(world=str(world)))
+        state, backup, receipt = pool / 'backup-state.json', pool / 'newest/world', pool / 'newest/receipt.json'
+        self.write(state, {'backup_roots': [str(self.root), str(pool)], 'protected_worlds': [str(world.parent)],
+                           'current': {'backup': str(self.c / 'production-snapshot'), 'aliases': []}, 'pending_retirement': []})
+        capture(world, backup, receipt)
+        adopt(state, backup, receipt)
+        return state, backup, receipt
+
+    def test_normal_shared_backup_rotation_retains_new_world_and_original_deployment_proof(self):
+        state, backup, receipt = self.rotated_shared_backup()
+        original_report = (self.c / 'production-before/backup-receipt.json').read_bytes()
+        planned = self.plan(world_backup_state=state)
+        self.assertTrue(planned['rollback_retention_ready'], planned['rollback_checks'])
+        self.assertEqual(self.row(planned, self.c)['shared_world_backup']['path'], str(backup))
+        self.assertFalse((self.c / 'production-snapshot').exists())
+        result = self.execute(planned, world_backup_state=state)
+        self.assertEqual(result['state'], 'completed', result['errors'])
+        self.assertEqual(result['retained_backup_integrity']['hash_boundary_passes'], 1)
+        self.assertTrue((backup / 'db/CURRENT').is_file())
+        self.assertTrue(receipt.is_file())
+        self.assertTrue((self.c / 'production-rollback').is_dir())
+        self.assertFalse((self.a / 'production-snapshot').exists())
+        self.assertEqual((self.c / 'production-before/backup-receipt.json').read_bytes(), original_report)
+
+    def test_shared_backup_requires_same_world_newer_cutoff_complete_handoff_and_inventory(self):
+        state, backup, receipt = self.rotated_shared_backup()
+        original_state = state.read_bytes()
+        original_receipt = receipt.read_bytes()
+        ledger = state.with_suffix('.retired.jsonl')
+        original_ledger = ledger.read_bytes()
+        changes = [
+            ('another world', lambda: self.modify(state.parent, state.name, lambda value: value['current'].update(world='/other/world'))),
+            ('old cutoff', lambda: self.modify(receipt.parent, receipt.name, lambda value: value.update(recorded_at='2026-09-01T00:00:00+00:00'))),
+            ('pending rotation', lambda: self.modify(state.parent, state.name, lambda value: value.update(pending_retirement=['/previous/backup']))),
+            ('missing native db marker', lambda: self.modify(receipt.parent, receipt.name, lambda value: value['files'].pop('db/CURRENT'))),
+            ('no normal handoff', lambda: ledger.write_text('')),
+        ]
+        for name, change in changes:
+            with self.subTest(name=name):
+                state.write_bytes(original_state)
+                receipt.write_bytes(original_receipt)
+                ledger.write_bytes(original_ledger)
+                change()
+                planned = self.plan(world_backup_state=state)
+                self.assertFalse(planned['rollback_retention_ready'])
+        state.write_bytes(original_state)
+        receipt.write_bytes(original_receipt)
+        ledger.write_bytes(original_ledger)
+        (backup / 'db/CURRENT').unlink()
+        self.assertFalse(self.plan(world_backup_state=state)['rollback_retention_ready'])
+        (backup / 'db/CURRENT').write_text('MANIFEST-1')
+        (self.c / 'production-snapshot').mkdir()
+        self.assertFalse(self.plan(world_backup_state=state)['rollback_retention_ready'])
+
+    def test_shared_backup_changed_content_or_index_refuses_before_old_backup_unlink(self):
+        state, backup, receipt = self.rotated_shared_backup()
+        planned = self.plan(world_backup_state=state)
+        (backup / 'db/MANIFEST-1').write_text('truncated')
+        result = self.execute(planned, world_backup_state=state)
+        self.assertEqual(result['state'], 'partial')
+        self.assertIn('content differs', result['errors'][0]['error'])
+        self.assertTrue((self.a / 'production-snapshot').exists())
+        (backup / 'db/MANIFEST-1').write_text('current db')
+        planned = self.plan(world_backup_state=state)
+        state.write_bytes(state.read_bytes() + b'\n')
+        with self.assertRaisesRegex(ValueError, 'shared backup changed'):
+            self.execute(planned, world_backup_state=state)
+        self.assertTrue((self.a / 'production-snapshot').exists())
     def test_latest_incomplete_proof_still_blocks_backup_retirement(self):
         (self.c / 'poststart-verification.json').unlink()
         p = self.plan()

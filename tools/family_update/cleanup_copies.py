@@ -19,7 +19,7 @@ def absolute_paths(value):
         for key, child in value.items():
             # The scan boundary and recorded command arguments are metadata.
             # CI argv paths are not local evidence; explicit report/source refs are.
-            if key not in {'retention_root', 'command', 'test_command'}:
+            if key not in {'retention_root', 'backup_roots', 'command', 'test_command'}:
                 yield from absolute_paths(child)
     elif isinstance(value, list):
         for child in value:
@@ -104,6 +104,7 @@ def cleanup_context(track=None):
     if c.EXTENSION:
         protected.add(c.EXTENSION)
     policy_path = c.Q / 'senluo-policy.json'
+    world_backup_state = None
     historical = set()
     pending = [(path, None) for path in [policy_path, c.T / 'family/upstream.lock.json']]
     # Historical review keys protect referenced data only; they grant no admission.
@@ -121,6 +122,8 @@ def cleanup_context(track=None):
             raise RuntimeError('Too many cleanup evidence references; review explicitly')
         seen.add(identity)
         value = frozen[1] if frozen else read(path)
+        if path == policy_path:
+            world_backup_state = value.get('world_backup_state')
         source_reports = frozen_source_reports(path, value, read)
         if path.name == 'deployment-initial-state.json':
             # The snapshot keeps the preceding lease as history. The live
@@ -164,7 +167,7 @@ def cleanup_context(track=None):
         # used to reference. Every JSON reference must be readable before prune.
         pending.extend((ref, source_reports.get(ref)) for ref in refs if ref.suffix == '.json')
     return {'protected': sorted(protected), 'references': sorted(paths), 'lease': c.LEASE,
-            'historical_records': sorted(historical - paths)}
+            'historical_records': sorted(historical - paths), 'world_backup_state': world_backup_state}
 
 
 def context_path_identity(paths, documents=()):

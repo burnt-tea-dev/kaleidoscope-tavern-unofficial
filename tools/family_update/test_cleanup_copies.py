@@ -84,6 +84,22 @@ class ContextTests(unittest.TestCase):
         self.assertIn(scan_root, refs)
         self.assertIn(self.snapshot, refs)
 
+    def test_shared_backup_policy_passes_producer_index_and_protects_actual_world_not_scan_roots(self):
+        state = self.root / 'world-backup.json'
+        backup = self.root / 'backups/newest/world'
+        receipt = self.root / 'backups/newest/receipt.json'
+        original = self.root / 'bds/worlds/Live'
+        self.write(receipt, {'world': str(original), 'consistent_stopped_snapshot': str(backup)})
+        self.write(state, {'backup_roots': [str(self.root / 'evidence')],
+                           'protected_worlds': [str(original.parent)],
+                           'current': {'backup': str(backup), 'receipt': str(receipt)}, 'pending_retirement': []})
+        self.write(self.quality / 'senluo-policy.json', {'world_backup_state': str(state)})
+        context = m.cleanup_context()
+        self.assertEqual(context['world_backup_state'], str(state))
+        for path in [state, backup, receipt, original]:
+            self.assertIn(path, context['references'])
+        self.assertNotIn(self.root / 'evidence', context['references'])
+
     def test_policy_is_reread_before_each_boundary(self):
         first = m.cleanup_context()
         newer = self.root / 'new-live/reviewed-family-receipt.json'
