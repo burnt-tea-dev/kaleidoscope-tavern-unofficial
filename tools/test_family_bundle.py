@@ -112,6 +112,44 @@ class PlayerPresentationContractTests(unittest.TestCase):
    with self.assertRaisesRegex(SystemExit,'invalid Grilling player presentation'):
     list(host_declarations(root,'grilling'))
 
+class CreativeCatalogAssemblyTests(unittest.TestCase):
+ def pack(self,root,uid,items,with_catalog=True):
+  path=root/uid;path.mkdir()
+  (path/'manifest.json').write_text(json.dumps({'header':{'uuid':uid,'version':[1,0,0]},
+   'modules':[{'type':'data','version':[1,0,0]}]}))
+  for item in items:
+   target=path/'items'/(item.replace(':','_')+'.json');target.parent.mkdir(exist_ok=True)
+   target.write_text(json.dumps({'minecraft:item':{'description':{'identifier':item,
+    'menu_category':{'category':'items','group':'fixture:foods'}}}}))
+  if with_catalog:
+   target=path/'item_catalog/crafting_item_catalog.json';target.parent.mkdir()
+   target.write_text(json.dumps({'format_version':'1.21.60','minecraft:crafting_items_catalog':{
+    'categories':[{'category_name':'items','groups':[{'group_identifier':{
+     'name':'fixture:foods','icon':'minecraft:apple'},'items':items}]}]}}))
+  return path
+
+ def test_duplicate_creative_item_rejects_assembly_before_receipt(self):
+  with tempfile.TemporaryDirectory() as tmp:
+   root=Path(tmp);first=self.pack(root,'first-b',['fixture:shared']);second=self.pack(root,'second-b',['fixture:shared'])
+   lock={'owned':[],'upstream':[],'order':{'behavior':[],'resource':[]}};out=root/'candidate'
+   with self.assertRaisesRegex(SystemExit,r'duplicate creative catalog item fixture:shared.*first-b.*second-b'):
+    assemble(lock,{},[],out,preserved=[first,second])
+   self.assertFalse((out/'family-receipt.json').exists())
+
+ def test_shared_group_disjoint_items_and_pack_without_catalog_assemble(self):
+  with tempfile.TemporaryDirectory() as tmp:
+   root=Path(tmp);packs=[self.pack(root,'first-b',['fixture:first']),
+    self.pack(root,'second-b',['fixture:second']),self.pack(root,'third-b',['fixture:third'],with_catalog=False)]
+   lock={'owned':[],'upstream':[],'order':{'behavior':[],'resource':[]}};out=root/'candidate'
+   with contextlib.redirect_stdout(io.StringIO()):receipt=assemble(lock,{},[],out,preserved=packs)
+   self.assertEqual(len(receipt['packs']),3)
+   self.assertTrue((out/'family-receipt.json').is_file())
+   for source in packs[:2]:
+    relative='item_catalog/crafting_item_catalog.json'
+    self.assertEqual((out/'behavior_packs'/source.name/relative).read_bytes(),(source/relative).read_bytes())
+   self.assertFalse((out/'behavior_packs/third-b/item_catalog').exists())
+
+
 class PreservedDependencyTests(unittest.TestCase):
  def test_reviewed_interleaving_controls_world_refs_receipt_and_effective_priority(self):
   import zipfile,hashlib
