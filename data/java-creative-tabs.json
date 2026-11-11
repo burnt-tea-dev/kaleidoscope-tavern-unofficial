@@ -1,0 +1,1800 @@
+{
+  "schema": 1,
+  "namespace": "kaleidoscope_tavern",
+  "sources": [
+    {
+      "minecraft": "1.20.1",
+      "loader": "Forge",
+      "commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+      "repository": "KaleidoscopeMods/KaleidoscopeTavern",
+      "caller": "src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/init/ModCreativeTabs.java",
+      "sequence": "tabs",
+      "branch_review": "Both displayItems lists and relative tab order match the selected source."
+    },
+    {
+      "minecraft": "1.21.1",
+      "loader": "NeoForge",
+      "commit": "a1afba34981a00e89d57130d3dc8f1e64f1820a2",
+      "repository": "KaleidoscopeMods/KaleidoscopeTavern",
+      "caller": "src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/init/ModCreativeTabs.java",
+      "sequence": "tabs",
+      "branch_review": "Both displayItems lists and relative tab order match the selected source."
+    },
+    {
+      "minecraft": "26.1.2",
+      "loader": "NeoForge",
+      "repository": "KaleidoscopeMods/KaleidoscopeTavern",
+      "commit": "9b8f165a4641e738e694641dd81240a0206573e1",
+      "caller": "src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/init/ModCreativeTabs.java",
+      "selected": false,
+      "release_scope": "Separate unpublished source; not the selected maintained 1.20.1/1.21.1 behavior.",
+      "tabs": [
+        {
+          "id": "kaleidoscope_tavern:tavern_main",
+          "title": "item_group.kaleidoscope_tavern.tavern_main.name",
+          "icon": "kaleidoscope_tavern:wine_q6",
+          "entries": [
+            {
+              "java": "kaleidoscope_tavern:grapevine",
+              "bedrock": "kaleidoscope_tavern:grapevine",
+              "state": "default",
+              "position": 1
+            },
+            {
+              "java": "kaleidoscope_tavern:grape",
+              "bedrock": "kaleidoscope_tavern:grape",
+              "state": "default",
+              "position": 2
+            },
+            {
+              "java": "kaleidoscope_tavern:ice_grape",
+              "bedrock": "kaleidoscope_tavern:ice_grape",
+              "state": "default",
+              "position": 3
+            },
+            {
+              "java": "kaleidoscope_tavern:gold_grape",
+              "bedrock": "kaleidoscope_tavern:gold_grape",
+              "state": "default",
+              "position": 4
+            },
+            {
+              "java": "kaleidoscope_tavern:green_grape",
+              "bedrock": "kaleidoscope_tavern:green_grape",
+              "state": "default",
+              "position": 5
+            },
+            {
+              "java": "kaleidoscope_tavern:trellis",
+              "bedrock": "kaleidoscope_tavern:trellis",
+              "state": "default",
+              "position": 6
+            },
+            {
+              "java": "kaleidoscope_tavern:pressing_tub",
+              "bedrock": "kaleidoscope_tavern:pressing_tub",
+              "state": "default",
+              "position": 7
+            },
+            {
+              "java": "kaleidoscope_tavern:barrel",
+              "bedrock": "kaleidoscope_tavern:barrel",
+              "state": "default",
+              "position": 8
+            },
+            {
+              "java": "kaleidoscope_tavern:tap",
+              "bedrock": "kaleidoscope_tavern:tap",
+              "state": "default",
+              "position": 9
+            },
+            {
+              "java": "kaleidoscope_tavern:grape_bucket",
+              "bedrock": "kaleidoscope_tavern:grape_bucket",
+              "state": "default",
+              "position": 10
+            },
+            {
+              "java": "kaleidoscope_tavern:ice_grape_bucket",
+              "bedrock": "kaleidoscope_tavern:ice_grape_bucket",
+              "state": "default",
+              "position": 11
+            },
+            {
+              "java": "kaleidoscope_tavern:gold_grape_bucket",
+              "bedrock": "kaleidoscope_tavern:gold_grape_bucket",
+              "state": "default",
+              "position": 12
+            },
+            {
+              "java": "kaleidoscope_tavern:green_grape_bucket",
+              "bedrock": "kaleidoscope_tavern:green_grape_bucket",
+              "state": "default",
+              "position": 13
+            },
+            {
+              "java": "kaleidoscope_tavern:sweet_berries_bucket",
+              "bedrock": "kaleidoscope_tavern:sweet_berries_bucket",
+              "state": "default",
+              "position": 14
+            },
+            {
+              "java": "kaleidoscope_tavern:glow_berries_bucket",
+              "bedrock": "kaleidoscope_tavern:glow_berries_bucket",
+              "state": "default",
+              "position": 15
+            },
+            {
+              "java": "kaleidoscope_tavern:empty_bottle",
+              "bedrock": "kaleidoscope_tavern:empty_bottle",
+              "state": "default",
+              "position": 16
+            },
+            {
+              "java": "kaleidoscope_tavern:molotov",
+              "bedrock": "kaleidoscope_tavern:molotov",
+              "state": "default",
+              "position": 17
+            },
+            {
+              "java": "kaleidoscope_tavern:watermelon_juice",
+              "bedrock": "kaleidoscope_tavern:watermelon_juice",
+              "state": "default",
+              "position": 18
+            },
+            {
+              "java": "kaleidoscope_tavern:vinegar",
+              "bedrock": "kaleidoscope_tavern:vinegar_q6",
+              "state": "maximum bottle level",
+              "position": 19
+            },
+            {
+              "java": "kaleidoscope_tavern:wine",
+              "bedrock": "kaleidoscope_tavern:wine_q6",
+              "state": "maximum bottle level",
+              "position": 20
+            },
+            {
+              "java": "kaleidoscope_tavern:sakura_wine",
+              "bedrock": "kaleidoscope_tavern:sakura_wine_q6",
+              "state": "maximum bottle level",
+              "position": 21
+            },
+            {
+              "java": "kaleidoscope_tavern:champagne",
+              "bedrock": "kaleidoscope_tavern:champagne_q6",
+              "state": "maximum bottle level",
+              "position": 22
+            },
+            {
+              "java": "kaleidoscope_tavern:brandy",
+              "bedrock": "kaleidoscope_tavern:brandy_q6",
+              "state": "maximum bottle level",
+              "position": 23
+            },
+            {
+              "java": "kaleidoscope_tavern:carignan",
+              "bedrock": "kaleidoscope_tavern:carignan_q6",
+              "state": "maximum bottle level",
+              "position": 24
+            },
+            {
+              "java": "kaleidoscope_tavern:ice_wine",
+              "bedrock": "kaleidoscope_tavern:ice_wine_q6",
+              "state": "maximum bottle level",
+              "position": 25
+            },
+            {
+              "java": "kaleidoscope_tavern:polaris_sweet_white",
+              "bedrock": "kaleidoscope_tavern:polaris_sweet_white_q6",
+              "state": "maximum bottle level",
+              "position": 26
+            },
+            {
+              "java": "kaleidoscope_tavern:sherry",
+              "bedrock": "kaleidoscope_tavern:sherry_q6",
+              "state": "maximum bottle level",
+              "position": 27
+            },
+            {
+              "java": "kaleidoscope_tavern:mother_snow",
+              "bedrock": "kaleidoscope_tavern:mother_snow_q6",
+              "state": "maximum bottle level",
+              "position": 28
+            },
+            {
+              "java": "kaleidoscope_tavern:miners_star",
+              "bedrock": "kaleidoscope_tavern:miners_star_q6",
+              "state": "maximum bottle level",
+              "position": 29
+            },
+            {
+              "java": "kaleidoscope_tavern:honey_wine",
+              "bedrock": "kaleidoscope_tavern:honey_wine_q6",
+              "state": "maximum bottle level",
+              "position": 30
+            },
+            {
+              "java": "kaleidoscope_tavern:madame_shexiang",
+              "bedrock": "kaleidoscope_tavern:madame_shexiang_q6",
+              "state": "maximum bottle level",
+              "position": 31
+            },
+            {
+              "java": "kaleidoscope_tavern:sunset_glow",
+              "bedrock": "kaleidoscope_tavern:sunset_glow_q6",
+              "state": "maximum bottle level",
+              "position": 32
+            },
+            {
+              "java": "kaleidoscope_tavern:sauvignon_blanc_dry_white",
+              "bedrock": "kaleidoscope_tavern:sauvignon_blanc_dry_white_q6",
+              "state": "maximum bottle level",
+              "position": 33
+            },
+            {
+              "java": "kaleidoscope_tavern:riesling_dry_white",
+              "bedrock": "kaleidoscope_tavern:riesling_dry_white_q6",
+              "state": "maximum bottle level",
+              "position": 34
+            },
+            {
+              "java": "kaleidoscope_tavern:luminous_bride",
+              "bedrock": "kaleidoscope_tavern:luminous_bride_q6",
+              "state": "maximum bottle level",
+              "position": 35
+            },
+            {
+              "java": "kaleidoscope_tavern:glowflower_brew",
+              "bedrock": "kaleidoscope_tavern:glowflower_brew_q6",
+              "state": "maximum bottle level",
+              "position": 36
+            },
+            {
+              "java": "kaleidoscope_tavern:plum_wine",
+              "bedrock": "kaleidoscope_tavern:plum_wine_q6",
+              "state": "maximum bottle level",
+              "position": 37
+            },
+            {
+              "java": "kaleidoscope_tavern:sweet_berry_wine",
+              "bedrock": "kaleidoscope_tavern:sweet_berry_wine_q6",
+              "state": "maximum bottle level",
+              "position": 38
+            },
+            {
+              "java": "kaleidoscope_tavern:red_queen",
+              "bedrock": "kaleidoscope_tavern:red_queen_q6",
+              "state": "maximum bottle level",
+              "position": 39
+            },
+            {
+              "java": "kaleidoscope_tavern:vodka",
+              "bedrock": "kaleidoscope_tavern:vodka_q6",
+              "state": "maximum bottle level",
+              "position": 40
+            },
+            {
+              "java": "kaleidoscope_tavern:whiskey",
+              "bedrock": "kaleidoscope_tavern:whiskey_q6",
+              "state": "maximum bottle level",
+              "position": 41
+            },
+            {
+              "java": "kaleidoscope_tavern:rum",
+              "bedrock": "kaleidoscope_tavern:rum_q6",
+              "state": "maximum bottle level",
+              "position": 42
+            }
+          ]
+        },
+        {
+          "id": "kaleidoscope_tavern:tavern_deco",
+          "title": "item_group.kaleidoscope_tavern.tavern_deco.name",
+          "icon": "kaleidoscope_tavern:stepladder",
+          "entries": [
+            {
+              "java": "kaleidoscope_tavern:bar_cabinet",
+              "bedrock": "kaleidoscope_tavern:bar_cabinet",
+              "state": "default",
+              "position": 1
+            },
+            {
+              "java": "kaleidoscope_tavern:glass_bar_cabinet",
+              "bedrock": "kaleidoscope_tavern:glass_bar_cabinet",
+              "state": "default",
+              "position": 2
+            },
+            {
+              "java": "kaleidoscope_tavern:bar_counter",
+              "bedrock": "kaleidoscope_tavern:bar_counter",
+              "state": "default",
+              "position": 3
+            },
+            {
+              "java": "kaleidoscope_tavern:stepladder",
+              "bedrock": "kaleidoscope_tavern:stepladder",
+              "state": "default",
+              "position": 4
+            },
+            {
+              "java": "kaleidoscope_tavern:table",
+              "bedrock": "kaleidoscope_tavern:table",
+              "state": "default",
+              "position": 5
+            },
+            {
+              "java": "kaleidoscope_tavern:string_lights_colorless",
+              "bedrock": "kaleidoscope_tavern:string_lights_colorless",
+              "state": "default",
+              "position": 6
+            },
+            {
+              "java": "kaleidoscope_tavern:string_lights_white",
+              "bedrock": "kaleidoscope_tavern:string_lights_white",
+              "state": "default",
+              "position": 7
+            },
+            {
+              "java": "kaleidoscope_tavern:string_lights_light_gray",
+              "bedrock": "kaleidoscope_tavern:string_lights_light_gray",
+              "state": "default",
+              "position": 8
+            },
+            {
+              "java": "kaleidoscope_tavern:string_lights_gray",
+              "bedrock": "kaleidoscope_tavern:string_lights_gray",
+              "state": "default",
+              "position": 9
+            },
+            {
+              "java": "kaleidoscope_tavern:string_lights_black",
+              "bedrock": "kaleidoscope_tavern:string_lights_black",
+              "state": "default",
+              "position": 10
+            },
+            {
+              "java": "kaleidoscope_tavern:string_lights_brown",
+              "bedrock": "kaleidoscope_tavern:string_lights_brown",
+              "state": "default",
+              "position": 11
+            },
+            {
+              "java": "kaleidoscope_tavern:string_lights_red",
+              "bedrock": "kaleidoscope_tavern:string_lights_red",
+              "state": "default",
+              "position": 12
+            },
+            {
+              "java": "kaleidoscope_tavern:string_lights_orange",
+              "bedrock": "kaleidoscope_tavern:string_lights_orange",
+              "state": "default",
+              "position": 13
+            },
+            {
+              "java": "kaleidoscope_tavern:string_lights_yellow",
+              "bedrock": "kaleidoscope_tavern:string_lights_yellow",
+              "state": "default",
+              "position": 14
+            },
+            {
+              "java": "kaleidoscope_tavern:string_lights_lime",
+              "bedrock": "kaleidoscope_tavern:string_lights_lime",
+              "state": "default",
+              "position": 15
+            },
+            {
+              "java": "kaleidoscope_tavern:string_lights_green",
+              "bedrock": "kaleidoscope_tavern:string_lights_green",
+              "state": "default",
+              "position": 16
+            },
+            {
+              "java": "kaleidoscope_tavern:string_lights_cyan",
+              "bedrock": "kaleidoscope_tavern:string_lights_cyan",
+              "state": "default",
+              "position": 17
+            },
+            {
+              "java": "kaleidoscope_tavern:string_lights_light_blue",
+              "bedrock": "kaleidoscope_tavern:string_lights_light_blue",
+              "state": "default",
+              "position": 18
+            },
+            {
+              "java": "kaleidoscope_tavern:string_lights_blue",
+              "bedrock": "kaleidoscope_tavern:string_lights_blue",
+              "state": "default",
+              "position": 19
+            },
+            {
+              "java": "kaleidoscope_tavern:string_lights_purple",
+              "bedrock": "kaleidoscope_tavern:string_lights_purple",
+              "state": "default",
+              "position": 20
+            },
+            {
+              "java": "kaleidoscope_tavern:string_lights_magenta",
+              "bedrock": "kaleidoscope_tavern:string_lights_magenta",
+              "state": "default",
+              "position": 21
+            },
+            {
+              "java": "kaleidoscope_tavern:string_lights_pink",
+              "bedrock": "kaleidoscope_tavern:string_lights_pink",
+              "state": "default",
+              "position": 22
+            },
+            {
+              "java": "kaleidoscope_tavern:white_sofa",
+              "bedrock": "kaleidoscope_tavern:white_sofa",
+              "state": "default",
+              "position": 23
+            },
+            {
+              "java": "kaleidoscope_tavern:light_gray_sofa",
+              "bedrock": "kaleidoscope_tavern:light_gray_sofa",
+              "state": "default",
+              "position": 24
+            },
+            {
+              "java": "kaleidoscope_tavern:gray_sofa",
+              "bedrock": "kaleidoscope_tavern:gray_sofa",
+              "state": "default",
+              "position": 25
+            },
+            {
+              "java": "kaleidoscope_tavern:black_sofa",
+              "bedrock": "kaleidoscope_tavern:black_sofa",
+              "state": "default",
+              "position": 26
+            },
+            {
+              "java": "kaleidoscope_tavern:brown_sofa",
+              "bedrock": "kaleidoscope_tavern:brown_sofa",
+              "state": "default",
+              "position": 27
+            },
+            {
+              "java": "kaleidoscope_tavern:red_sofa",
+              "bedrock": "kaleidoscope_tavern:red_sofa",
+              "state": "default",
+              "position": 28
+            },
+            {
+              "java": "kaleidoscope_tavern:orange_sofa",
+              "bedrock": "kaleidoscope_tavern:orange_sofa",
+              "state": "default",
+              "position": 29
+            },
+            {
+              "java": "kaleidoscope_tavern:yellow_sofa",
+              "bedrock": "kaleidoscope_tavern:yellow_sofa",
+              "state": "default",
+              "position": 30
+            },
+            {
+              "java": "kaleidoscope_tavern:lime_sofa",
+              "bedrock": "kaleidoscope_tavern:lime_sofa",
+              "state": "default",
+              "position": 31
+            },
+            {
+              "java": "kaleidoscope_tavern:green_sofa",
+              "bedrock": "kaleidoscope_tavern:green_sofa",
+              "state": "default",
+              "position": 32
+            },
+            {
+              "java": "kaleidoscope_tavern:cyan_sofa",
+              "bedrock": "kaleidoscope_tavern:cyan_sofa",
+              "state": "default",
+              "position": 33
+            },
+            {
+              "java": "kaleidoscope_tavern:light_blue_sofa",
+              "bedrock": "kaleidoscope_tavern:light_blue_sofa",
+              "state": "default",
+              "position": 34
+            },
+            {
+              "java": "kaleidoscope_tavern:blue_sofa",
+              "bedrock": "kaleidoscope_tavern:blue_sofa",
+              "state": "default",
+              "position": 35
+            },
+            {
+              "java": "kaleidoscope_tavern:purple_sofa",
+              "bedrock": "kaleidoscope_tavern:purple_sofa",
+              "state": "default",
+              "position": 36
+            },
+            {
+              "java": "kaleidoscope_tavern:magenta_sofa",
+              "bedrock": "kaleidoscope_tavern:magenta_sofa",
+              "state": "default",
+              "position": 37
+            },
+            {
+              "java": "kaleidoscope_tavern:pink_sofa",
+              "bedrock": "kaleidoscope_tavern:pink_sofa",
+              "state": "default",
+              "position": 38
+            },
+            {
+              "java": "kaleidoscope_tavern:white_bar_stool",
+              "bedrock": "kaleidoscope_tavern:white_bar_stool",
+              "state": "default",
+              "position": 39
+            },
+            {
+              "java": "kaleidoscope_tavern:light_gray_bar_stool",
+              "bedrock": "kaleidoscope_tavern:light_gray_bar_stool",
+              "state": "default",
+              "position": 40
+            },
+            {
+              "java": "kaleidoscope_tavern:gray_bar_stool",
+              "bedrock": "kaleidoscope_tavern:gray_bar_stool",
+              "state": "default",
+              "position": 41
+            },
+            {
+              "java": "kaleidoscope_tavern:black_bar_stool",
+              "bedrock": "kaleidoscope_tavern:black_bar_stool",
+              "state": "default",
+              "position": 42
+            },
+            {
+              "java": "kaleidoscope_tavern:brown_bar_stool",
+              "bedrock": "kaleidoscope_tavern:brown_bar_stool",
+              "state": "default",
+              "position": 43
+            },
+            {
+              "java": "kaleidoscope_tavern:red_bar_stool",
+              "bedrock": "kaleidoscope_tavern:red_bar_stool",
+              "state": "default",
+              "position": 44
+            },
+            {
+              "java": "kaleidoscope_tavern:orange_bar_stool",
+              "bedrock": "kaleidoscope_tavern:orange_bar_stool",
+              "state": "default",
+              "position": 45
+            },
+            {
+              "java": "kaleidoscope_tavern:yellow_bar_stool",
+              "bedrock": "kaleidoscope_tavern:yellow_bar_stool",
+              "state": "default",
+              "position": 46
+            },
+            {
+              "java": "kaleidoscope_tavern:lime_bar_stool",
+              "bedrock": "kaleidoscope_tavern:lime_bar_stool",
+              "state": "default",
+              "position": 47
+            },
+            {
+              "java": "kaleidoscope_tavern:green_bar_stool",
+              "bedrock": "kaleidoscope_tavern:green_bar_stool",
+              "state": "default",
+              "position": 48
+            },
+            {
+              "java": "kaleidoscope_tavern:cyan_bar_stool",
+              "bedrock": "kaleidoscope_tavern:cyan_bar_stool",
+              "state": "default",
+              "position": 49
+            },
+            {
+              "java": "kaleidoscope_tavern:light_blue_bar_stool",
+              "bedrock": "kaleidoscope_tavern:light_blue_bar_stool",
+              "state": "default",
+              "position": 50
+            },
+            {
+              "java": "kaleidoscope_tavern:blue_bar_stool",
+              "bedrock": "kaleidoscope_tavern:blue_bar_stool",
+              "state": "default",
+              "position": 51
+            },
+            {
+              "java": "kaleidoscope_tavern:purple_bar_stool",
+              "bedrock": "kaleidoscope_tavern:purple_bar_stool",
+              "state": "default",
+              "position": 52
+            },
+            {
+              "java": "kaleidoscope_tavern:magenta_bar_stool",
+              "bedrock": "kaleidoscope_tavern:magenta_bar_stool",
+              "state": "default",
+              "position": 53
+            },
+            {
+              "java": "kaleidoscope_tavern:pink_bar_stool",
+              "bedrock": "kaleidoscope_tavern:pink_bar_stool",
+              "state": "default",
+              "position": 54
+            },
+            {
+              "java": "kaleidoscope_tavern:base_sandwich_board",
+              "bedrock": "kaleidoscope_tavern:base_sandwich_board",
+              "state": "default",
+              "position": 55
+            },
+            {
+              "java": "kaleidoscope_tavern:grass_sandwich_board",
+              "bedrock": "kaleidoscope_tavern:grass_sandwich_board",
+              "state": "default",
+              "position": 56
+            },
+            {
+              "java": "kaleidoscope_tavern:pink_petals_sandwich_board",
+              "bedrock": "kaleidoscope_tavern:pink_petals_sandwich_board",
+              "state": "default",
+              "position": 57
+            },
+            {
+              "java": "kaleidoscope_tavern:sunflower_sandwich_board",
+              "bedrock": "kaleidoscope_tavern:sunflower_sandwich_board",
+              "state": "default",
+              "position": 58
+            },
+            {
+              "java": "kaleidoscope_tavern:poppy_sandwich_board",
+              "bedrock": "kaleidoscope_tavern:poppy_sandwich_board",
+              "state": "default",
+              "position": 59
+            },
+            {
+              "java": "kaleidoscope_tavern:cornflower_sandwich_board",
+              "bedrock": "kaleidoscope_tavern:cornflower_sandwich_board",
+              "state": "default",
+              "position": 60
+            },
+            {
+              "java": "kaleidoscope_tavern:orchid_sandwich_board",
+              "bedrock": "kaleidoscope_tavern:orchid_sandwich_board",
+              "state": "default",
+              "position": 61
+            },
+            {
+              "java": "kaleidoscope_tavern:allium_sandwich_board",
+              "bedrock": "kaleidoscope_tavern:allium_sandwich_board",
+              "state": "default",
+              "position": 62
+            },
+            {
+              "java": "kaleidoscope_tavern:azure_bluet_sandwich_board",
+              "bedrock": "kaleidoscope_tavern:azure_bluet_sandwich_board",
+              "state": "default",
+              "position": 63
+            },
+            {
+              "java": "kaleidoscope_tavern:tulip_sandwich_board",
+              "bedrock": "kaleidoscope_tavern:tulip_sandwich_board",
+              "state": "default",
+              "position": 64
+            },
+            {
+              "java": "kaleidoscope_tavern:torchflower_sandwich_board",
+              "bedrock": "kaleidoscope_tavern:torchflower_sandwich_board",
+              "state": "default",
+              "position": 65
+            },
+            {
+              "java": "kaleidoscope_tavern:wither_rose_sandwich_board",
+              "bedrock": "kaleidoscope_tavern:wither_rose_sandwich_board",
+              "state": "default",
+              "position": 66
+            },
+            {
+              "java": "kaleidoscope_tavern:peony_sandwich_board",
+              "bedrock": "kaleidoscope_tavern:peony_sandwich_board",
+              "state": "default",
+              "position": 67
+            },
+            {
+              "java": "kaleidoscope_tavern:pitcher_plant_sandwich_board",
+              "bedrock": "kaleidoscope_tavern:pitcher_plant_sandwich_board",
+              "state": "default",
+              "position": 68
+            },
+            {
+              "java": "kaleidoscope_tavern:ysbb_painting",
+              "bedrock": "kaleidoscope_tavern:ysbb_painting",
+              "state": "default",
+              "position": 69
+            },
+            {
+              "java": "kaleidoscope_tavern:tartaric_acid_painting",
+              "bedrock": "kaleidoscope_tavern:tartaric_acid_painting",
+              "state": "default",
+              "position": 70
+            },
+            {
+              "java": "kaleidoscope_tavern:cr019_painting",
+              "bedrock": "kaleidoscope_tavern:cr019_painting",
+              "state": "default",
+              "position": 71
+            },
+            {
+              "java": "kaleidoscope_tavern:unknown_painting",
+              "bedrock": "kaleidoscope_tavern:unknown_painting",
+              "state": "default",
+              "position": 72
+            },
+            {
+              "java": "kaleidoscope_tavern:master_marisa_painting",
+              "bedrock": "kaleidoscope_tavern:master_marisa_painting",
+              "state": "default",
+              "position": 73
+            },
+            {
+              "java": "kaleidoscope_tavern:son_of_man_painting",
+              "bedrock": "kaleidoscope_tavern:son_of_man_painting",
+              "state": "default",
+              "position": 74
+            },
+            {
+              "java": "kaleidoscope_tavern:david_painting",
+              "bedrock": "kaleidoscope_tavern:david_painting",
+              "state": "default",
+              "position": 75
+            },
+            {
+              "java": "kaleidoscope_tavern:girl_with_pearl_earring_painting",
+              "bedrock": "kaleidoscope_tavern:girl_with_pearl_earring_painting",
+              "state": "default",
+              "position": 76
+            },
+            {
+              "java": "kaleidoscope_tavern:starry_night_painting",
+              "bedrock": "kaleidoscope_tavern:starry_night_painting",
+              "state": "default",
+              "position": 77
+            },
+            {
+              "java": "kaleidoscope_tavern:van_gogh_self_portrait_painting",
+              "bedrock": "kaleidoscope_tavern:van_gogh_self_portrait_painting",
+              "state": "default",
+              "position": 78
+            },
+            {
+              "java": "kaleidoscope_tavern:father_painting",
+              "bedrock": "kaleidoscope_tavern:father_painting",
+              "state": "default",
+              "position": 79
+            },
+            {
+              "java": "kaleidoscope_tavern:great_wave_painting",
+              "bedrock": "kaleidoscope_tavern:great_wave_painting",
+              "state": "default",
+              "position": 80
+            },
+            {
+              "java": "kaleidoscope_tavern:mona_lisa_painting",
+              "bedrock": "kaleidoscope_tavern:mona_lisa_painting",
+              "state": "default",
+              "position": 81
+            },
+            {
+              "java": "kaleidoscope_tavern:mondrian_painting",
+              "bedrock": "kaleidoscope_tavern:mondrian_painting",
+              "state": "default",
+              "position": 82
+            },
+            {
+              "java": "kaleidoscope_tavern:chalkboard",
+              "bedrock": "kaleidoscope_tavern:chalkboard",
+              "state": "default",
+              "position": 83
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "projection": "One native Items group per original Java tab; original member order. No order relative to other addons is inferred.",
+  "tabs": [
+    {
+      "id": "kaleidoscope_tavern:tavern_main",
+      "title": "item_group.kaleidoscope_tavern.tavern_main.name",
+      "icon": "kaleidoscope_tavern:wine_q6",
+      "category": "items",
+      "group": "kaleidoscope_tavern:itemGroup.name.tavern_main",
+      "entries": [
+        {
+          "java": "kaleidoscope_tavern:grapevine",
+          "bedrock": "kaleidoscope_tavern:grapevine",
+          "state": "default",
+          "position": 1
+        },
+        {
+          "java": "kaleidoscope_tavern:grape",
+          "bedrock": "kaleidoscope_tavern:grape",
+          "state": "default",
+          "position": 2
+        },
+        {
+          "java": "kaleidoscope_tavern:ice_grape",
+          "bedrock": "kaleidoscope_tavern:ice_grape",
+          "state": "default",
+          "position": 3
+        },
+        {
+          "java": "kaleidoscope_tavern:gold_grape",
+          "bedrock": "kaleidoscope_tavern:gold_grape",
+          "state": "default",
+          "position": 4
+        },
+        {
+          "java": "kaleidoscope_tavern:green_grape",
+          "bedrock": "kaleidoscope_tavern:green_grape",
+          "state": "default",
+          "position": 5
+        },
+        {
+          "java": "kaleidoscope_tavern:trellis",
+          "bedrock": "kaleidoscope_tavern:trellis",
+          "state": "default",
+          "position": 6
+        },
+        {
+          "java": "kaleidoscope_tavern:pressing_tub",
+          "bedrock": "kaleidoscope_tavern:pressing_tub",
+          "state": "default",
+          "position": 7
+        },
+        {
+          "java": "kaleidoscope_tavern:barrel",
+          "bedrock": "kaleidoscope_tavern:barrel",
+          "state": "default",
+          "position": 8
+        },
+        {
+          "java": "kaleidoscope_tavern:tap",
+          "bedrock": "kaleidoscope_tavern:tap",
+          "state": "default",
+          "position": 9
+        },
+        {
+          "java": "kaleidoscope_tavern:shaker",
+          "bedrock": "kaleidoscope_tavern:shaker",
+          "state": "default",
+          "position": 10
+        },
+        {
+          "java": "kaleidoscope_tavern:grape_bucket",
+          "bedrock": "kaleidoscope_tavern:grape_bucket",
+          "state": "default",
+          "position": 11
+        },
+        {
+          "java": "kaleidoscope_tavern:ice_grape_bucket",
+          "bedrock": "kaleidoscope_tavern:ice_grape_bucket",
+          "state": "default",
+          "position": 12
+        },
+        {
+          "java": "kaleidoscope_tavern:gold_grape_bucket",
+          "bedrock": "kaleidoscope_tavern:gold_grape_bucket",
+          "state": "default",
+          "position": 13
+        },
+        {
+          "java": "kaleidoscope_tavern:green_grape_bucket",
+          "bedrock": "kaleidoscope_tavern:green_grape_bucket",
+          "state": "default",
+          "position": 14
+        },
+        {
+          "java": "kaleidoscope_tavern:sweet_berries_bucket",
+          "bedrock": "kaleidoscope_tavern:sweet_berries_bucket",
+          "state": "default",
+          "position": 15
+        },
+        {
+          "java": "kaleidoscope_tavern:glow_berries_bucket",
+          "bedrock": "kaleidoscope_tavern:glow_berries_bucket",
+          "state": "default",
+          "position": 16
+        },
+        {
+          "java": "kaleidoscope_tavern:empty_bottle",
+          "bedrock": "kaleidoscope_tavern:empty_bottle",
+          "state": "default",
+          "position": 17
+        },
+        {
+          "java": "kaleidoscope_tavern:empty_glassware",
+          "bedrock": "kaleidoscope_tavern:empty_glassware",
+          "state": "default",
+          "position": 18
+        },
+        {
+          "java": "kaleidoscope_tavern:molotov",
+          "bedrock": "kaleidoscope_tavern:molotov",
+          "state": "default",
+          "position": 19
+        },
+        {
+          "java": "kaleidoscope_tavern:watermelon_juice",
+          "bedrock": "kaleidoscope_tavern:watermelon_juice",
+          "state": "default",
+          "position": 20
+        },
+        {
+          "java": "kaleidoscope_tavern:vinegar",
+          "bedrock": "kaleidoscope_tavern:vinegar_q6",
+          "state": "maximum bottle level",
+          "position": 21
+        },
+        {
+          "java": "kaleidoscope_tavern:wine",
+          "bedrock": "kaleidoscope_tavern:wine_q6",
+          "state": "maximum bottle level",
+          "position": 22
+        },
+        {
+          "java": "kaleidoscope_tavern:sakura_wine",
+          "bedrock": "kaleidoscope_tavern:sakura_wine_q6",
+          "state": "maximum bottle level",
+          "position": 23
+        },
+        {
+          "java": "kaleidoscope_tavern:champagne",
+          "bedrock": "kaleidoscope_tavern:champagne_q6",
+          "state": "maximum bottle level",
+          "position": 24
+        },
+        {
+          "java": "kaleidoscope_tavern:brandy",
+          "bedrock": "kaleidoscope_tavern:brandy_q6",
+          "state": "maximum bottle level",
+          "position": 25
+        },
+        {
+          "java": "kaleidoscope_tavern:carignan",
+          "bedrock": "kaleidoscope_tavern:carignan_q6",
+          "state": "maximum bottle level",
+          "position": 26
+        },
+        {
+          "java": "kaleidoscope_tavern:ice_wine",
+          "bedrock": "kaleidoscope_tavern:ice_wine_q6",
+          "state": "maximum bottle level",
+          "position": 27
+        },
+        {
+          "java": "kaleidoscope_tavern:polaris_sweet_white",
+          "bedrock": "kaleidoscope_tavern:polaris_sweet_white_q6",
+          "state": "maximum bottle level",
+          "position": 28
+        },
+        {
+          "java": "kaleidoscope_tavern:sherry",
+          "bedrock": "kaleidoscope_tavern:sherry_q6",
+          "state": "maximum bottle level",
+          "position": 29
+        },
+        {
+          "java": "kaleidoscope_tavern:mother_snow",
+          "bedrock": "kaleidoscope_tavern:mother_snow_q6",
+          "state": "maximum bottle level",
+          "position": 30
+        },
+        {
+          "java": "kaleidoscope_tavern:miners_star",
+          "bedrock": "kaleidoscope_tavern:miners_star_q6",
+          "state": "maximum bottle level",
+          "position": 31
+        },
+        {
+          "java": "kaleidoscope_tavern:honey_wine",
+          "bedrock": "kaleidoscope_tavern:honey_wine_q6",
+          "state": "maximum bottle level",
+          "position": 32
+        },
+        {
+          "java": "kaleidoscope_tavern:madame_shexiang",
+          "bedrock": "kaleidoscope_tavern:madame_shexiang_q6",
+          "state": "maximum bottle level",
+          "position": 33
+        },
+        {
+          "java": "kaleidoscope_tavern:sunset_glow",
+          "bedrock": "kaleidoscope_tavern:sunset_glow_q6",
+          "state": "maximum bottle level",
+          "position": 34
+        },
+        {
+          "java": "kaleidoscope_tavern:sauvignon_blanc_dry_white",
+          "bedrock": "kaleidoscope_tavern:sauvignon_blanc_dry_white_q6",
+          "state": "maximum bottle level",
+          "position": 35
+        },
+        {
+          "java": "kaleidoscope_tavern:riesling_dry_white",
+          "bedrock": "kaleidoscope_tavern:riesling_dry_white_q6",
+          "state": "maximum bottle level",
+          "position": 36
+        },
+        {
+          "java": "kaleidoscope_tavern:luminous_bride",
+          "bedrock": "kaleidoscope_tavern:luminous_bride_q6",
+          "state": "maximum bottle level",
+          "position": 37
+        },
+        {
+          "java": "kaleidoscope_tavern:glowflower_brew",
+          "bedrock": "kaleidoscope_tavern:glowflower_brew_q6",
+          "state": "maximum bottle level",
+          "position": 38
+        },
+        {
+          "java": "kaleidoscope_tavern:plum_wine",
+          "bedrock": "kaleidoscope_tavern:plum_wine_q6",
+          "state": "maximum bottle level",
+          "position": 39
+        },
+        {
+          "java": "kaleidoscope_tavern:sweet_berry_wine",
+          "bedrock": "kaleidoscope_tavern:sweet_berry_wine_q6",
+          "state": "maximum bottle level",
+          "position": 40
+        },
+        {
+          "java": "kaleidoscope_tavern:red_queen",
+          "bedrock": "kaleidoscope_tavern:red_queen_q6",
+          "state": "maximum bottle level",
+          "position": 41
+        },
+        {
+          "java": "kaleidoscope_tavern:vodka",
+          "bedrock": "kaleidoscope_tavern:vodka_q6",
+          "state": "maximum bottle level",
+          "position": 42
+        },
+        {
+          "java": "kaleidoscope_tavern:whiskey",
+          "bedrock": "kaleidoscope_tavern:whiskey_q6",
+          "state": "maximum bottle level",
+          "position": 43
+        },
+        {
+          "java": "kaleidoscope_tavern:rum",
+          "bedrock": "kaleidoscope_tavern:rum_q6",
+          "state": "maximum bottle level",
+          "position": 44
+        },
+        {
+          "java": "kaleidoscope_tavern:signature_cocktail",
+          "bedrock": "kaleidoscope_tavern:signature_cocktail",
+          "state": "default",
+          "position": 45
+        },
+        {
+          "java": "kaleidoscope_tavern:mystery_cocktail",
+          "bedrock": "kaleidoscope_tavern:mystery_cocktail",
+          "state": "default",
+          "position": 46
+        },
+        {
+          "java": "kaleidoscope_tavern:white_lady",
+          "bedrock": "kaleidoscope_tavern:white_lady",
+          "state": "default",
+          "position": 47
+        },
+        {
+          "java": "kaleidoscope_tavern:emerald",
+          "bedrock": "kaleidoscope_tavern:emerald",
+          "state": "default",
+          "position": 48
+        },
+        {
+          "java": "kaleidoscope_tavern:brass_heart",
+          "bedrock": "kaleidoscope_tavern:brass_heart",
+          "state": "default",
+          "position": 49
+        },
+        {
+          "java": "kaleidoscope_tavern:godfather",
+          "bedrock": "kaleidoscope_tavern:godfather",
+          "state": "default",
+          "position": 50
+        },
+        {
+          "java": "kaleidoscope_tavern:grasshopper",
+          "bedrock": "kaleidoscope_tavern:grasshopper",
+          "state": "default",
+          "position": 51
+        },
+        {
+          "java": "kaleidoscope_tavern:screwdriver",
+          "bedrock": "kaleidoscope_tavern:screwdriver",
+          "state": "default",
+          "position": 52
+        },
+        {
+          "java": "kaleidoscope_tavern:mojito",
+          "bedrock": "kaleidoscope_tavern:mojito",
+          "state": "default",
+          "position": 53
+        },
+        {
+          "java": "kaleidoscope_tavern:allium_garden",
+          "bedrock": "kaleidoscope_tavern:allium_garden",
+          "state": "default",
+          "position": 54
+        },
+        {
+          "java": "kaleidoscope_tavern:depth_charge",
+          "bedrock": "kaleidoscope_tavern:depth_charge",
+          "state": "default",
+          "position": 55
+        },
+        {
+          "java": "kaleidoscope_tavern:nether_special",
+          "bedrock": "kaleidoscope_tavern:nether_special",
+          "state": "default",
+          "position": 56
+        },
+        {
+          "java": "kaleidoscope_tavern:bloody_mary",
+          "bedrock": "kaleidoscope_tavern:bloody_mary",
+          "state": "default",
+          "position": 57
+        },
+        {
+          "java": "kaleidoscope_tavern:sculk_special",
+          "bedrock": "kaleidoscope_tavern:sculk_special",
+          "state": "default",
+          "position": 58
+        }
+      ],
+      "labels": {
+        "en_US": "Kaleidoscope: Tavern",
+        "zh_CN": "森罗物语：酒馆",
+        "zh_TW": "森羅物語：酒館"
+      },
+      "icon_gap": "Java uses the default WINE stack icon. The port uses its existing q6 wine ID; no new item or stack metadata is created."
+    },
+    {
+      "id": "kaleidoscope_tavern:tavern_deco",
+      "title": "item_group.kaleidoscope_tavern.tavern_deco.name",
+      "icon": "kaleidoscope_tavern:stepladder",
+      "category": "items",
+      "group": "kaleidoscope_tavern:itemGroup.name.tavern_deco",
+      "entries": [
+        {
+          "java": "kaleidoscope_tavern:bar_cabinet",
+          "bedrock": "kaleidoscope_tavern:bar_cabinet",
+          "state": "default",
+          "position": 1
+        },
+        {
+          "java": "kaleidoscope_tavern:glass_bar_cabinet",
+          "bedrock": "kaleidoscope_tavern:glass_bar_cabinet",
+          "state": "default",
+          "position": 2
+        },
+        {
+          "java": "kaleidoscope_tavern:cellar_cabinet",
+          "bedrock": "kaleidoscope_tavern:cellar_cabinet",
+          "state": "default",
+          "position": 3
+        },
+        {
+          "java": "kaleidoscope_tavern:bar_counter",
+          "bedrock": "kaleidoscope_tavern:bar_counter",
+          "state": "default",
+          "position": 4
+        },
+        {
+          "java": "kaleidoscope_tavern:table",
+          "bedrock": "kaleidoscope_tavern:table",
+          "state": "default",
+          "position": 5
+        },
+        {
+          "java": "kaleidoscope_tavern:tilted_rack",
+          "bedrock": "kaleidoscope_tavern:tilted_rack",
+          "state": "default",
+          "position": 6
+        },
+        {
+          "java": "kaleidoscope_tavern:circular_rack",
+          "bedrock": "kaleidoscope_tavern:circular_rack",
+          "state": "default",
+          "position": 7
+        },
+        {
+          "java": "kaleidoscope_tavern:holder",
+          "bedrock": "kaleidoscope_tavern:holder",
+          "state": "default",
+          "position": 8
+        },
+        {
+          "java": "kaleidoscope_tavern:glassware_holder",
+          "bedrock": "kaleidoscope_tavern:glassware_holder",
+          "state": "default",
+          "position": 9
+        },
+        {
+          "java": "kaleidoscope_tavern:stepladder",
+          "bedrock": "kaleidoscope_tavern:stepladder",
+          "state": "default",
+          "position": 10
+        },
+        {
+          "java": "kaleidoscope_tavern:string_lights_colorless",
+          "bedrock": "kaleidoscope_tavern:string_lights_colorless",
+          "state": "default",
+          "position": 11
+        },
+        {
+          "java": "kaleidoscope_tavern:string_lights_white",
+          "bedrock": "kaleidoscope_tavern:string_lights_white",
+          "state": "default",
+          "position": 12
+        },
+        {
+          "java": "kaleidoscope_tavern:string_lights_light_gray",
+          "bedrock": "kaleidoscope_tavern:string_lights_light_gray",
+          "state": "default",
+          "position": 13
+        },
+        {
+          "java": "kaleidoscope_tavern:string_lights_gray",
+          "bedrock": "kaleidoscope_tavern:string_lights_gray",
+          "state": "default",
+          "position": 14
+        },
+        {
+          "java": "kaleidoscope_tavern:string_lights_black",
+          "bedrock": "kaleidoscope_tavern:string_lights_black",
+          "state": "default",
+          "position": 15
+        },
+        {
+          "java": "kaleidoscope_tavern:string_lights_brown",
+          "bedrock": "kaleidoscope_tavern:string_lights_brown",
+          "state": "default",
+          "position": 16
+        },
+        {
+          "java": "kaleidoscope_tavern:string_lights_red",
+          "bedrock": "kaleidoscope_tavern:string_lights_red",
+          "state": "default",
+          "position": 17
+        },
+        {
+          "java": "kaleidoscope_tavern:string_lights_orange",
+          "bedrock": "kaleidoscope_tavern:string_lights_orange",
+          "state": "default",
+          "position": 18
+        },
+        {
+          "java": "kaleidoscope_tavern:string_lights_yellow",
+          "bedrock": "kaleidoscope_tavern:string_lights_yellow",
+          "state": "default",
+          "position": 19
+        },
+        {
+          "java": "kaleidoscope_tavern:string_lights_lime",
+          "bedrock": "kaleidoscope_tavern:string_lights_lime",
+          "state": "default",
+          "position": 20
+        },
+        {
+          "java": "kaleidoscope_tavern:string_lights_green",
+          "bedrock": "kaleidoscope_tavern:string_lights_green",
+          "state": "default",
+          "position": 21
+        },
+        {
+          "java": "kaleidoscope_tavern:string_lights_cyan",
+          "bedrock": "kaleidoscope_tavern:string_lights_cyan",
+          "state": "default",
+          "position": 22
+        },
+        {
+          "java": "kaleidoscope_tavern:string_lights_light_blue",
+          "bedrock": "kaleidoscope_tavern:string_lights_light_blue",
+          "state": "default",
+          "position": 23
+        },
+        {
+          "java": "kaleidoscope_tavern:string_lights_blue",
+          "bedrock": "kaleidoscope_tavern:string_lights_blue",
+          "state": "default",
+          "position": 24
+        },
+        {
+          "java": "kaleidoscope_tavern:string_lights_purple",
+          "bedrock": "kaleidoscope_tavern:string_lights_purple",
+          "state": "default",
+          "position": 25
+        },
+        {
+          "java": "kaleidoscope_tavern:string_lights_magenta",
+          "bedrock": "kaleidoscope_tavern:string_lights_magenta",
+          "state": "default",
+          "position": 26
+        },
+        {
+          "java": "kaleidoscope_tavern:string_lights_pink",
+          "bedrock": "kaleidoscope_tavern:string_lights_pink",
+          "state": "default",
+          "position": 27
+        },
+        {
+          "java": "kaleidoscope_tavern:bell_pendant_lamp",
+          "bedrock": "kaleidoscope_tavern:bell_pendant_lamp",
+          "state": "default",
+          "position": 28
+        },
+        {
+          "java": "kaleidoscope_tavern:yellow_pendant_lamp",
+          "bedrock": "kaleidoscope_tavern:yellow_pendant_lamp",
+          "state": "default",
+          "position": 29
+        },
+        {
+          "java": "kaleidoscope_tavern:blue_pendant_lamp",
+          "bedrock": "kaleidoscope_tavern:blue_pendant_lamp",
+          "state": "default",
+          "position": 30
+        },
+        {
+          "java": "kaleidoscope_tavern:white_sofa",
+          "bedrock": "kaleidoscope_tavern:white_sofa",
+          "state": "default",
+          "position": 31
+        },
+        {
+          "java": "kaleidoscope_tavern:light_gray_sofa",
+          "bedrock": "kaleidoscope_tavern:light_gray_sofa",
+          "state": "default",
+          "position": 32
+        },
+        {
+          "java": "kaleidoscope_tavern:gray_sofa",
+          "bedrock": "kaleidoscope_tavern:gray_sofa",
+          "state": "default",
+          "position": 33
+        },
+        {
+          "java": "kaleidoscope_tavern:black_sofa",
+          "bedrock": "kaleidoscope_tavern:black_sofa",
+          "state": "default",
+          "position": 34
+        },
+        {
+          "java": "kaleidoscope_tavern:brown_sofa",
+          "bedrock": "kaleidoscope_tavern:brown_sofa",
+          "state": "default",
+          "position": 35
+        },
+        {
+          "java": "kaleidoscope_tavern:red_sofa",
+          "bedrock": "kaleidoscope_tavern:red_sofa",
+          "state": "default",
+          "position": 36
+        },
+        {
+          "java": "kaleidoscope_tavern:orange_sofa",
+          "bedrock": "kaleidoscope_tavern:orange_sofa",
+          "state": "default",
+          "position": 37
+        },
+        {
+          "java": "kaleidoscope_tavern:yellow_sofa",
+          "bedrock": "kaleidoscope_tavern:yellow_sofa",
+          "state": "default",
+          "position": 38
+        },
+        {
+          "java": "kaleidoscope_tavern:lime_sofa",
+          "bedrock": "kaleidoscope_tavern:lime_sofa",
+          "state": "default",
+          "position": 39
+        },
+        {
+          "java": "kaleidoscope_tavern:green_sofa",
+          "bedrock": "kaleidoscope_tavern:green_sofa",
+          "state": "default",
+          "position": 40
+        },
+        {
+          "java": "kaleidoscope_tavern:cyan_sofa",
+          "bedrock": "kaleidoscope_tavern:cyan_sofa",
+          "state": "default",
+          "position": 41
+        },
+        {
+          "java": "kaleidoscope_tavern:light_blue_sofa",
+          "bedrock": "kaleidoscope_tavern:light_blue_sofa",
+          "state": "default",
+          "position": 42
+        },
+        {
+          "java": "kaleidoscope_tavern:blue_sofa",
+          "bedrock": "kaleidoscope_tavern:blue_sofa",
+          "state": "default",
+          "position": 43
+        },
+        {
+          "java": "kaleidoscope_tavern:purple_sofa",
+          "bedrock": "kaleidoscope_tavern:purple_sofa",
+          "state": "default",
+          "position": 44
+        },
+        {
+          "java": "kaleidoscope_tavern:magenta_sofa",
+          "bedrock": "kaleidoscope_tavern:magenta_sofa",
+          "state": "default",
+          "position": 45
+        },
+        {
+          "java": "kaleidoscope_tavern:pink_sofa",
+          "bedrock": "kaleidoscope_tavern:pink_sofa",
+          "state": "default",
+          "position": 46
+        },
+        {
+          "java": "kaleidoscope_tavern:white_bar_stool",
+          "bedrock": "kaleidoscope_tavern:white_bar_stool",
+          "state": "default",
+          "position": 47
+        },
+        {
+          "java": "kaleidoscope_tavern:light_gray_bar_stool",
+          "bedrock": "kaleidoscope_tavern:light_gray_bar_stool",
+          "state": "default",
+          "position": 48
+        },
+        {
+          "java": "kaleidoscope_tavern:gray_bar_stool",
+          "bedrock": "kaleidoscope_tavern:gray_bar_stool",
+          "state": "default",
+          "position": 49
+        },
+        {
+          "java": "kaleidoscope_tavern:black_bar_stool",
+          "bedrock": "kaleidoscope_tavern:black_bar_stool",
+          "state": "default",
+          "position": 50
+        },
+        {
+          "java": "kaleidoscope_tavern:brown_bar_stool",
+          "bedrock": "kaleidoscope_tavern:brown_bar_stool",
+          "state": "default",
+          "position": 51
+        },
+        {
+          "java": "kaleidoscope_tavern:red_bar_stool",
+          "bedrock": "kaleidoscope_tavern:red_bar_stool",
+          "state": "default",
+          "position": 52
+        },
+        {
+          "java": "kaleidoscope_tavern:orange_bar_stool",
+          "bedrock": "kaleidoscope_tavern:orange_bar_stool",
+          "state": "default",
+          "position": 53
+        },
+        {
+          "java": "kaleidoscope_tavern:yellow_bar_stool",
+          "bedrock": "kaleidoscope_tavern:yellow_bar_stool",
+          "state": "default",
+          "position": 54
+        },
+        {
+          "java": "kaleidoscope_tavern:lime_bar_stool",
+          "bedrock": "kaleidoscope_tavern:lime_bar_stool",
+          "state": "default",
+          "position": 55
+        },
+        {
+          "java": "kaleidoscope_tavern:green_bar_stool",
+          "bedrock": "kaleidoscope_tavern:green_bar_stool",
+          "state": "default",
+          "position": 56
+        },
+        {
+          "java": "kaleidoscope_tavern:cyan_bar_stool",
+          "bedrock": "kaleidoscope_tavern:cyan_bar_stool",
+          "state": "default",
+          "position": 57
+        },
+        {
+          "java": "kaleidoscope_tavern:light_blue_bar_stool",
+          "bedrock": "kaleidoscope_tavern:light_blue_bar_stool",
+          "state": "default",
+          "position": 58
+        },
+        {
+          "java": "kaleidoscope_tavern:blue_bar_stool",
+          "bedrock": "kaleidoscope_tavern:blue_bar_stool",
+          "state": "default",
+          "position": 59
+        },
+        {
+          "java": "kaleidoscope_tavern:purple_bar_stool",
+          "bedrock": "kaleidoscope_tavern:purple_bar_stool",
+          "state": "default",
+          "position": 60
+        },
+        {
+          "java": "kaleidoscope_tavern:magenta_bar_stool",
+          "bedrock": "kaleidoscope_tavern:magenta_bar_stool",
+          "state": "default",
+          "position": 61
+        },
+        {
+          "java": "kaleidoscope_tavern:pink_bar_stool",
+          "bedrock": "kaleidoscope_tavern:pink_bar_stool",
+          "state": "default",
+          "position": 62
+        },
+        {
+          "java": "kaleidoscope_tavern:base_sandwich_board",
+          "bedrock": "kaleidoscope_tavern:base_sandwich_board",
+          "state": "default",
+          "position": 63
+        },
+        {
+          "java": "kaleidoscope_tavern:grass_sandwich_board",
+          "bedrock": "kaleidoscope_tavern:grass_sandwich_board",
+          "state": "default",
+          "position": 64
+        },
+        {
+          "java": "kaleidoscope_tavern:pink_petals_sandwich_board",
+          "bedrock": "kaleidoscope_tavern:pink_petals_sandwich_board",
+          "state": "default",
+          "position": 65
+        },
+        {
+          "java": "kaleidoscope_tavern:sunflower_sandwich_board",
+          "bedrock": "kaleidoscope_tavern:sunflower_sandwich_board",
+          "state": "default",
+          "position": 66
+        },
+        {
+          "java": "kaleidoscope_tavern:poppy_sandwich_board",
+          "bedrock": "kaleidoscope_tavern:poppy_sandwich_board",
+          "state": "default",
+          "position": 67
+        },
+        {
+          "java": "kaleidoscope_tavern:cornflower_sandwich_board",
+          "bedrock": "kaleidoscope_tavern:cornflower_sandwich_board",
+          "state": "default",
+          "position": 68
+        },
+        {
+          "java": "kaleidoscope_tavern:orchid_sandwich_board",
+          "bedrock": "kaleidoscope_tavern:orchid_sandwich_board",
+          "state": "default",
+          "position": 69
+        },
+        {
+          "java": "kaleidoscope_tavern:allium_sandwich_board",
+          "bedrock": "kaleidoscope_tavern:allium_sandwich_board",
+          "state": "default",
+          "position": 70
+        },
+        {
+          "java": "kaleidoscope_tavern:azure_bluet_sandwich_board",
+          "bedrock": "kaleidoscope_tavern:azure_bluet_sandwich_board",
+          "state": "default",
+          "position": 71
+        },
+        {
+          "java": "kaleidoscope_tavern:tulip_sandwich_board",
+          "bedrock": "kaleidoscope_tavern:tulip_sandwich_board",
+          "state": "default",
+          "position": 72
+        },
+        {
+          "java": "kaleidoscope_tavern:torchflower_sandwich_board",
+          "bedrock": "kaleidoscope_tavern:torchflower_sandwich_board",
+          "state": "default",
+          "position": 73
+        },
+        {
+          "java": "kaleidoscope_tavern:wither_rose_sandwich_board",
+          "bedrock": "kaleidoscope_tavern:wither_rose_sandwich_board",
+          "state": "default",
+          "position": 74
+        },
+        {
+          "java": "kaleidoscope_tavern:peony_sandwich_board",
+          "bedrock": "kaleidoscope_tavern:peony_sandwich_board",
+          "state": "default",
+          "position": 75
+        },
+        {
+          "java": "kaleidoscope_tavern:pitcher_plant_sandwich_board",
+          "bedrock": "kaleidoscope_tavern:pitcher_plant_sandwich_board",
+          "state": "default",
+          "position": 76
+        },
+        {
+          "java": "kaleidoscope_tavern:ysbb_painting",
+          "bedrock": "kaleidoscope_tavern:ysbb_painting",
+          "state": "default",
+          "position": 77
+        },
+        {
+          "java": "kaleidoscope_tavern:tartaric_acid_painting",
+          "bedrock": "kaleidoscope_tavern:tartaric_acid_painting",
+          "state": "default",
+          "position": 78
+        },
+        {
+          "java": "kaleidoscope_tavern:cr019_painting",
+          "bedrock": "kaleidoscope_tavern:cr019_painting",
+          "state": "default",
+          "position": 79
+        },
+        {
+          "java": "kaleidoscope_tavern:unknown_painting",
+          "bedrock": "kaleidoscope_tavern:unknown_painting",
+          "state": "default",
+          "position": 80
+        },
+        {
+          "java": "kaleidoscope_tavern:master_marisa_painting",
+          "bedrock": "kaleidoscope_tavern:master_marisa_painting",
+          "state": "default",
+          "position": 81
+        },
+        {
+          "java": "kaleidoscope_tavern:son_of_man_painting",
+          "bedrock": "kaleidoscope_tavern:son_of_man_painting",
+          "state": "default",
+          "position": 82
+        },
+        {
+          "java": "kaleidoscope_tavern:david_painting",
+          "bedrock": "kaleidoscope_tavern:david_painting",
+          "state": "default",
+          "position": 83
+        },
+        {
+          "java": "kaleidoscope_tavern:girl_with_pearl_earring_painting",
+          "bedrock": "kaleidoscope_tavern:girl_with_pearl_earring_painting",
+          "state": "default",
+          "position": 84
+        },
+        {
+          "java": "kaleidoscope_tavern:starry_night_painting",
+          "bedrock": "kaleidoscope_tavern:starry_night_painting",
+          "state": "default",
+          "position": 85
+        },
+        {
+          "java": "kaleidoscope_tavern:van_gogh_self_portrait_painting",
+          "bedrock": "kaleidoscope_tavern:van_gogh_self_portrait_painting",
+          "state": "default",
+          "position": 86
+        },
+        {
+          "java": "kaleidoscope_tavern:father_painting",
+          "bedrock": "kaleidoscope_tavern:father_painting",
+          "state": "default",
+          "position": 87
+        },
+        {
+          "java": "kaleidoscope_tavern:great_wave_painting",
+          "bedrock": "kaleidoscope_tavern:great_wave_painting",
+          "state": "default",
+          "position": 88
+        },
+        {
+          "java": "kaleidoscope_tavern:mona_lisa_painting",
+          "bedrock": "kaleidoscope_tavern:mona_lisa_painting",
+          "state": "default",
+          "position": 89
+        },
+        {
+          "java": "kaleidoscope_tavern:mondrian_painting",
+          "bedrock": "kaleidoscope_tavern:mondrian_painting",
+          "state": "default",
+          "position": 90
+        },
+        {
+          "java": "kaleidoscope_tavern:chalkboard",
+          "bedrock": "kaleidoscope_tavern:chalkboard",
+          "state": "default",
+          "position": 91
+        },
+        {
+          "java": "kaleidoscope_tavern:sakura_incense",
+          "bedrock": "kaleidoscope_tavern:sakura_incense",
+          "state": "default",
+          "position": 92
+        },
+        {
+          "java": "kaleidoscope_tavern:pine_incense",
+          "bedrock": "kaleidoscope_tavern:pine_incense",
+          "state": "default",
+          "position": 93
+        },
+        {
+          "java": "kaleidoscope_tavern:ginkgo_incense",
+          "bedrock": "kaleidoscope_tavern:ginkgo_incense",
+          "state": "default",
+          "position": 94
+        },
+        {
+          "java": "kaleidoscope_tavern:spore_incense",
+          "bedrock": "kaleidoscope_tavern:spore_incense",
+          "state": "default",
+          "position": 95
+        },
+        {
+          "java": "kaleidoscope_tavern:catnip_incense",
+          "bedrock": "kaleidoscope_tavern:catnip_incense",
+          "state": "default",
+          "position": 96
+        },
+        {
+          "java": "kaleidoscope_tavern:snow_incense",
+          "bedrock": "kaleidoscope_tavern:snow_incense",
+          "state": "default",
+          "position": 97
+        },
+        {
+          "java": "kaleidoscope_tavern:butterfly_incense",
+          "bedrock": "kaleidoscope_tavern:butterfly_incense",
+          "state": "default",
+          "position": 98
+        },
+        {
+          "java": "kaleidoscope_tavern:firefly_incense",
+          "bedrock": "kaleidoscope_tavern:firefly_incense",
+          "state": "default",
+          "position": 99
+        }
+      ],
+      "labels": {
+        "en_US": "Kaleidoscope: Tavern Deco",
+        "zh_CN": "森罗物语：酒馆装饰",
+        "zh_TW": "森羅物語酒館・裝飾"
+      }
+    }
+  ],
+  "bedrock_additions": [
+    {
+      "bedrock": "kaleidoscope_tavern:guidebook",
+      "reason": "Visible port entry absent from these Java displayItems lists; retain as ungrouped addition pending its own source attribution.",
+      "category": "items"
+    },
+    {
+      "bedrock": "kaleidoscope_tavern:dragon_breath_bottle",
+      "reason": "Visible port entry absent from these Java displayItems lists; retain as ungrouped addition pending its own source attribution.",
+      "category": "items"
+    },
+    {
+      "bedrock": "kaleidoscope_tavern:honey_bottle",
+      "reason": "Visible port entry absent from these Java displayItems lists; retain as ungrouped addition pending its own source attribution.",
+      "category": "items"
+    },
+    {
+      "bedrock": "kaleidoscope_tavern:wild_grapevine",
+      "reason": "Visible port entry absent from these Java displayItems lists; retain as ungrouped addition pending its own source attribution.",
+      "category": "items"
+    }
+  ],
+  "missing_definitions": [],
+  "selected_source": {
+    "minecraft": "1.20.1",
+    "loader": "Forge"
+  }
+}

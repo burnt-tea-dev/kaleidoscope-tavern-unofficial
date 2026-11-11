@@ -4,8 +4,8 @@
     "description": {
       "identifier": "kaleidoscope_tavern:blue_sofa",
       "menu_category": {
-        "category": "construction",
-        "group": "kaleidoscope_tavern:itemGroup.name.furniture"
+        "category": "items",
+        "group": "kaleidoscope_tavern:itemGroup.name.tavern_deco"
       },
       "states": {
         "kaleidoscope_tavern:facing": [

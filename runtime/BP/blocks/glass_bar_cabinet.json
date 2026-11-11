@@ -4,8 +4,8 @@
     "description": {
       "identifier": "kaleidoscope_tavern:glass_bar_cabinet",
       "menu_category": {
-        "category": "construction",
-        "group": "kaleidoscope_tavern:itemGroup.name.storage"
+        "category": "items",
+        "group": "kaleidoscope_tavern:itemGroup.name.tavern_deco"
       },
       "states": {
         "kaleidoscope_tavern:facing": [

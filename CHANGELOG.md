@@ -1,3 +1,7 @@
+## 0.6.223 — 2026-11-11
+
+Restore the maintained Java main/decor creative order using the addon-owned tab plan and existing native catalog converter. Keep the 161 visible entries, explicit port additions and hidden variants. Remove the global `custom_input` override at its producer, preserving native naming inputs and the four guide animations; boards currently use the native single-line editor. Pair with World Liquor 0.1.210. This is local source integration, with no new tests, client observation, publication or deployment.
+
 ## 0.6.221 — 2026-11-10
 
 Reorganize the native creative catalog by use with short labels and consistent shared vanilla icons. Keep all 161 existing visible items, Java wine/cocktail order, hidden variants and gameplay data. Pair the companion classification with World Liquor 0.1.209; source checks do not certify client inventory rendering.

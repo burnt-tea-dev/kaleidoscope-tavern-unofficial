@@ -1,16 +1,16 @@
 {
-  "version": "0.6.221",
-  "tag": "v0.6.221",
-  "title": "Tavern 0.6.221: organize native creative inventory by use",
+  "version": "0.6.223",
+  "tag": "v0.6.223",
+  "title": "Tavern 0.6.223: restore Java creative order and native text inputs",
   "prerelease": false,
   "publication_request": false,
-  "public_notes_path": null,
-  "public_notes_inline": "Organize the existing visible catalog into native construction, equipment, items and nature tabs. Use short functional labels and shared vanilla group icons; keep Java wine/cocktail order, hidden variants, gameplay and saved data. No new client rendering, native interaction or saved-world result is claimed.",
+  "public_notes_path": "CHANGELOG.md",
+  "public_notes_inline": "Restore the maintained Java main/decor creative order through the existing native catalog producer. Keep all 161 visible entries and explicit port additions. Remove the global custom_input override at its producer so naming forms use native inputs; preserve the four existing guide animations. Pair with World Liquor 0.1.210. Local source integration only; no new tests, client observation, publication or deployment.",
   "client_acceptance": "pending",
   "full_client_acceptance": "pending",
   "client": false,
   "production_ready": false,
   "publication_ready": false,
   "family_ready": false,
-  "status": "pending_review"
+  "status": "local_frozen_source_pending_delivery"
 }

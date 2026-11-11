@@ -5,7 +5,7 @@
       "identifier": "kaleidoscope_tavern:signature_cocktail",
       "menu_category": {
         "category": "items",
-        "group": "kaleidoscope_tavern:itemGroup.name.cocktails"
+        "group": "kaleidoscope_tavern:itemGroup.name.tavern_main"
       }
     },
     "components": {
