@@ -17,6 +17,7 @@ IDENTITY = 'senluo:cookery-station-performance'
 HOST = '439d9798-118a-43ad-8a91-aab3161d9cb5'
 ARCHIVE = 'f994f8aa3b3aa4ab323c021f871f05291a827e7957aa265e17e91a085ba85b81'
 TARGET = 'scripts/custom_components/blocks/directStation.js'
+PLACEMENT = 'scripts/custom_components/blocks/cookingStation.js'
 AUTHOR = 'd107c42f21b394e1273f0e8dcf3701fb97a97a7775d26da0010a447a9c085c57'
 HELPER = 'scripts/host_api/cookery-station-performance.js'
 INSTALLED_HELPER = 'scripts/api/senluo_station_performance.js'
@@ -25,6 +26,12 @@ API_SPEC = 'projects/grilling/gameplay_core/behavior_pack/host-extensions/board-
 LOGICAL_PRIVATE = 'local/senluo-amw-cuisine'
 WIRE_OPS = 'bd5d08807eda2c86e9c78da5d75c02545aca8b20f45f52a6f4c9f1a74ad1e364'
 HELPER_IMPORT = 'import {createCookeryStationPerformance} from "../../api/senluo_station_performance.js";\n'
+TEAPOT_HELPER = 'scripts/host_api/cookery-teapot-storage.js'
+TEAPOT_INSTALLED = 'scripts/api/senluo_teapot_storage.js'
+TEAPOT_IMPORTS = {
+    TARGET: 'import {loadTeapotState,insertTeapotIngredient,takeTeapotIngredient,portableTeapotStack,releaseTeapot,resumeTeapotRemoval,spillTeapot,recoverTeapotInventory} from "../../api/senluo_teapot_storage.js";\n',
+    PLACEMENT: 'import {captureTeapotPlacement,completeTeapotPlacement,finishPendingTeapotPlacement} from "../../api/senluo_teapot_storage.js";\n',
+}
 INIT = {'path': TARGET, 'anchor': 'const STEAMER_DISPLAY="kaleidoscope_cookery:steamer_item_display";',
         'position': 'after', 'text': '\nconst stationPerformance=createCookeryStationPerformance(world,system,[DISPLAY,POT_DISPLAY,STOCKPOT_DISPLAY,STEAMER_DISPLAY]);'}
 
@@ -123,12 +130,23 @@ def station_inputs(spec):
 def current_station_profile(spec, owned_root, api, api_raw, grilling_root):
     """Validate the single current source contract, without version replay layers."""
     host, archive, author, version, wiring = station_inputs(spec)
+    originals = spec.get('original_files', {})
+    targets = set(originals)
+    require(targets in ({TARGET}, {TARGET, PLACEMENT}), 'station target inventory differs')
+    has_storage = PLACEMENT in targets
+    imports = {TARGET: HELPER_IMPORT + api['imports'][TARGET]}
+    helpers = {HELPER: INSTALLED_HELPER}
+    if has_storage:
+        for path, value in TEAPOT_IMPORTS.items():
+            imports[path] = imports.get(path, '') + value
+        helpers[TEAPOT_HELPER] = TEAPOT_INSTALLED
     require(spec.get('schema') == 1 and spec.get('kind') == KIND and spec.get('id') == IDENTITY
             and spec.get('version') == version, 'identity differs')
     require(spec.get('host_uuid') == host and spec.get('archive_sha256') == archive
-            and spec.get('original_files') == {TARGET: author}, 'clean author input differs')
-    require(set(spec.get('patched_files', {})) == {TARGET}
-            and re.fullmatch('[0-9a-f]{64}', spec['patched_files'][TARGET]) is not None, 'output inventory differs')
+            and originals.get(TARGET) == author
+            and all(re.fullmatch('[0-9a-f]{64}', value) for value in originals.values()), 'clean author input differs')
+    require(set(spec.get('patched_files', {})) == targets
+            and all(re.fullmatch('[0-9a-f]{64}', value) for value in spec['patched_files'].values()), 'output inventory differs')
     require(api.get('host_uuid') == host and api.get('archive_sha256') == archive
             and api.get('original_files', {}).get(TARGET) == author, 'public API author input differs')
     handoff = spec.get('owner_handoff', {})
@@ -141,24 +159,29 @@ def current_station_profile(spec, owned_root, api, api_raw, grilling_root):
             and handoff.get('prior_output_sha256') == api['patched_files'][TARGET]
             and handoff.get('retained_imports_sha256') == digest(api['imports'][TARGET].encode())
             and handoff.get('retained_insertions_sha256') == declaration_digest(hooks), 'public API source binding differs')
-    require(spec.get('imports') == {TARGET: HELPER_IMPORT + api['imports'][TARGET]}
+    require(spec.get('imports') == imports
             and spec.get('insertions') == [*hooks, INIT], 'existing public API hooks were changed or layered')
     require(declaration_digest(spec.get('text_replacements')) == wiring
             and spec.get('json_updates') == [] and not spec.get('removed_files')
-            and spec.get('copies') == {HELPER: INSTALLED_HELPER}, 'wiring exceeds current display/persistence owner')
+            and spec.get('copies') == helpers
+            and all(op.get('path') in targets for op in spec['text_replacements']), 'wiring exceeds current display/persistence owner')
     modules = {}
     for source, target in api['copies'].items():
         if target.startswith('scripts/') and target.endswith('.js'):
             modules[target] = digest(safe(Path(grilling_root) / 'projects/grilling/gameplay_core/behavior_pack', source).read_bytes())
     require(handoff.get('retained_modules') == modules and len(modules) == len(api['copies'])
-            and INSTALLED_HELPER not in modules, 'public API module retention differs')
+            and not set(helpers.values()).intersection(modules), 'public API module retention differs')
     helper_sha = digest(safe(owned_root, HELPER).read_bytes())
     require(helper_sha == spec.get('helper_sha256'), 'owned helper differs')
+    helper_digests = {name: digest(safe(owned_root, name).read_bytes()) for name in helpers}
+    if has_storage:
+        require(spec.get('helper_sha256s') == helper_digests, 'station helper inventory differs')
     require(date.fromisoformat(spec['expires']) >= date.today(), 'declaration expired')
     for field in ('authorization', 'feedback', 'removal_condition'):
         require(isinstance(spec.get(field), str) and bool(spec[field]), 'missing review metadata: ' + field)
     return {key: spec[key] for key in ('id', 'version', 'host_uuid', 'archive_sha256', 'original_files', 'patched_files')} | {
-        'spec_sha256': declaration_digest(spec), 'copies': {INSTALLED_HELPER: {'source': HELPER, 'sha256': helper_sha}},
+        'spec_sha256': declaration_digest(spec),
+        'copies': {target: {'source': name, 'sha256': helper_digests[name]} for name, target in helpers.items()},
         'source_owner': 'upstream_extended', 'required_extensions': [], 'admission': 'current-cookery-station-owner'}
 
 
@@ -266,24 +289,29 @@ def validate_station_receipt_pair(spec, profile, api, api_receipt, station_recei
             and station_receipt.get('owner_version') == owner_version, 'current private receipt binding differs')
     for field in ('id', 'version', 'original_files', 'patched_files', 'copies'):
         require(station_receipt.get(field) == profile[field], 'current station receipt differs: ' + field)
-    require(files.get(TARGET) == spec['patched_files'][TARGET]
-            and files.get(INSTALLED_HELPER) == spec['helper_sha256'], 'current station payload differs')
+    require(all(files.get(path) == expected for path, expected in spec['patched_files'].items())
+            and all(files.get(path) == record['sha256'] for path, record in profile['copies'].items()), 'current station payload differs')
     require(all(files.get(name) == expected for name, expected in spec['owner_handoff']['retained_modules'].items()), 'current API modules changed after handoff')
 
 
-def render_station(raw, spec):
-    require(digest(raw) == station_inputs(spec)[2] == spec['original_files'][TARGET], 'station source is not clean author input')
-    text = spec['imports'][TARGET] + raw.decode()
+def render_station(raw, spec, target=TARGET):
+    station_inputs(spec)
+    require(digest(raw) == spec['original_files'][target], 'station source is not clean author input')
+    text = spec['imports'].get(target, '') + raw.decode()
     for op in spec['insertions']:
+        if op['path'] != target:
+            continue
         anchor = op['anchor']
-        require(op['path'] == TARGET and bool(anchor) and text.count(anchor) == 1
+        require(bool(anchor) and text.count(anchor) == 1
                 and op['position'] in ('before', 'after'), 'station insertion is not unique')
         text = text.replace(anchor, op['text'] + anchor if op['position'] == 'before' else anchor + op['text'])
     for op in spec['text_replacements']:
-        require(op['path'] == TARGET and bool(op['before']) and text.count(op['before']) == 1, 'station wiring preimage differs')
+        if op['path'] != target:
+            continue
+        require(bool(op['before']) and text.count(op['before']) == 1, 'station wiring preimage differs')
         text = text.replace(op['before'], op['after'])
     raw = text.encode()
-    require(digest(raw) == spec['patched_files'][TARGET], 'current station output differs')
+    require(digest(raw) == spec['patched_files'][target], 'current station output differs')
     return raw
 
 
@@ -296,10 +324,16 @@ def apply_station_extension(spec, owned_root, host_root, source, plan):
     validate_public_delegation(prior[0], public_api_receipt(plan['api'], modules), plan['binding'])
     for name, expected in spec['owner_handoff']['retained_modules'].items():
         require(digest(safe(host_root, name).read_bytes()) == expected, 'public API helper changed: ' + name)
-    target = safe(host_root, TARGET); helper = safe(owned_root, HELPER); destination = safe(host_root, INSTALLED_HELPER)
-    require(not destination.exists() and digest(helper.read_bytes()) == spec['helper_sha256'], 'helper collision or changed source')
-    output = render_station(target.read_bytes(), spec)
-    target.write_bytes(output); destination.parent.mkdir(parents=True, exist_ok=True); destination.write_bytes(helper.read_bytes())
+    outputs = {path: render_station(safe(host_root, path).read_bytes(), spec, path)
+               for path in spec['original_files']}
+    for path, record in plan['profile']['copies'].items():
+        raw = safe(owned_root, record['source']).read_bytes()
+        require(not safe(host_root, path).exists() and digest(raw) == record['sha256'], 'helper collision or changed source')
+        outputs[path] = raw
+    for path, raw in outputs.items():
+        destination = safe(host_root, path)
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        destination.write_bytes(raw)
     plan['completed'] = True
     return {key: spec[key] for key in ('id', 'version', 'expires', 'original_files', 'patched_files', 'authorization', 'feedback', 'removal_condition')} | {
         'copies': plan['profile']['copies'], 'owner_handoff': plan['binding']}
@@ -309,8 +343,9 @@ def verify_station_handoffs(plans, records, output):
     for host, plan in plans.items():
         require(plan['delegated'] and plan['completed'], 'unfulfilled public station delegation')
         row = next((row for row in records if row['uuid'] == host), None)
-        require(row is not None and row['files'].get(TARGET) == plan['binding']['output_sha256']
-                and row['files'].get(INSTALLED_HELPER) == plan['binding']['helper_sha256'], 'completed station payload differs')
+        require(row is not None
+                and all(row['files'].get(path) == expected for path, expected in plan['spec']['patched_files'].items())
+                and all(row['files'].get(path) == record['sha256'] for path, record in plan['profile']['copies'].items()), 'completed station payload differs')
         extensions = row['source'].get('reviewed_extensions', [])
         owner = [record for record in extensions if record.get('id') == IDENTITY]
         api = [record for record in extensions if record.get('id') == plan['api']['id']]
