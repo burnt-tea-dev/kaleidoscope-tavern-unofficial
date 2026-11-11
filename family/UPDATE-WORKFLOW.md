@@ -5,10 +5,59 @@
 不替代 `family_bundle.py`、`family_guard.py` 或 BSM 准入。
 
 2026-10-11 使用者要求刪除繁瑣部署、多餘備份，以功能穩定可玩為優先。
-現行流程只做：**沿用來源 CI → 組裝與相依 → 停服備份一份 → 存檔副本載入／重啟 → 准入、更新與讀回**。
+一般正式發布路徑只做：**沿用來源 CI → 組裝與相依 → 停服備份一份 → 存檔副本載入／重啟 → 准入、更新與讀回**。
 BDS 與保存驗證共用同一次演練；不另建新世界再跑相同循環。完整世界備份依下方每世界保留規則。
 
+2026-11-11 的測試限制與本機 staging 部署例外，依下節執行；以下舊流程說明不授權執行目前被禁止的測試。一般正式部署的 CI／保存門檻保留，不能用 staging 例外繞過。
+
 動畫、物品顯示及手持問題先依[家族共用修復流程](MAINTENANCE.md#動畫物品顯示與手持修復)完成官方來源／版本核對與可重現對照。僅更新這些流程文件不建立遊戲候選、不升包、不重啟 LIVE。
+
+## 本機修復候選部署至 staging（2026-11-11）
+
+擁有者已授權頻繁部署直接審閱、正常生成的本機完整候選，以便 Dot 做少量具體玩家體驗觀察。不必等遠端交付／CI；協調者不執行 CI、fixture、Native、模擬玩家或 saved-world 演練。只經正常停服、完整備份、安裝、開服及精確讀回。正式服仍使用原本穩定發布路徑；此入口不產生正式准入，不新增 Dot 操作或批准流程。
+
+使用 `staging-repair`，不使用一般 `prepare/deploy/update`，也不複製私有部署腳本：
+
+```sh
+/path/to/venv/bin/python tools/family_update.py --config /local/staging-repair.json staging-repair
+/path/to/venv/bin/python tools/family_update.py --config /local/staging-repair.json staging-repair --execute
+```
+
+設定沿用 schema、server/world/BDS/quality/output 路徑、sources、可選 extension、API adapter／映射、Python、startup_markers、共用 lock/lease 及既有 memory_budget。執行仍在該設定的受限 maintenance cgroup 內；沿用 light deploy 上限，不進入 native 階段。不要複製一般流程的 migration、fresh_world、recovery、實驗改寫或驗證特例；本入口使用設定欄位白名單並拒絕這些選項。新增：
+
+```json
+"staging_repair": {
+  "candidate_dir": "/local/generated/release-candidate",
+  "source_batch": "/local/generated/source-batch.json",
+  "review_file": "/local/staging-source-review.json",
+  "retire_uuids": []
+}
+```
+
+candidate 必須是完整 family_bundle 組合結果，含原始 family-receipt、兩側包及 world 選包清單；部署證據 output_dir 是另一個全新目錄。source-batch 沿正常生成記錄的 `source_commits[name]={path,commit}`、`packs[uuid]={name,side,path,version,modules,dependencies,tree}`；side 為 BP/RP，tree 是原有完整檔案 SHA-256 map 的排序 JSON 摘要及檔案數。工具核對原生成輸入與候選逐檔相等，保留 receipt 原來的 owned／preserved／upstream 身分；已生成 preserved 輸入不能冒充作者原包。未列於 batch 的包必須與實裝完全相同。只接受明列退役 UUID，不能新增包身分、切換世界、修改模式或 DB。改動包須有新版本且維持 module 身分、成對版本及精確相依。
+
+`authorization_file` 在此入口是 Git 外明確目標 JSON，與一般 LIVE 文字授權分開：
+
+```json
+{
+  "schema": 1,
+  "scope": "staging-local-repair",
+  "server_name": "example-staging",
+  "bds_root": "/srv/bsm/servers/example-staging",
+  "world_dir": "/srv/bsm/servers/example-staging/worlds/Existing world",
+  "live_config": "/local/existing-live-update.json",
+  "world_backup_state": "/local/shared-world-backup.json",
+  "retire_uuids": []
+}
+```
+
+server 名稱必須以 `-staging` 結尾，並與授權完全一致。LIVE reference 提供既有正式目標和共用 lock/lease；兩服路徑不能重疊。備份索引必須同時保護兩服，並與既有 policy 的宣告一致。執行時再用實際 BSM servers 路徑、活動 world、summary 及 properties bytes 核對檔案目標。staging 設定不能交給其他命令使用。
+
+先執行不帶 `--execute` 的命令取得 `review_input`；root 完成直接來源審閱後，將該物件原樣存為 review_file。這會綁定來源提交與未提交差異、原生成 batch、完整候選、config、授權、API adapter 及工具 bytes；不要求來源已合入遠端。快照本身不是審閱。本機 tooling 的未提交修改可納入審閱，不能假裝遠端交付已完成。
+
+部署沿同一 maintenance lock/lease，要求零玩家，按實際完整世界備份與新增包副本留足 2 GiB 餘量。正常 stop 後用 `world_backup.capture/adopt` 完整備份並只輪替同一世界的舊備份；舊包以 rename 保留於 package-rollback。只改包和選包清單，開服前直接比對其餘世界 bytes。正常 start 後核對完整選中包、版本、順序、properties／引擎與 API 狀態。
+
+結果為 `staging-repair-result.json` 的 `state=staging_deployed_running`，固定保留 local=true、remote_delivery=false、ci=false、client=false、java_parity=false。這表示部署成功，不表示 Java 或 client 體驗已確認。錯誤／中斷保留實際狀態、完整備份、包回退位置及 active lease；不自動覆蓋世界、不再送 stop/start。尤其 start 已請求後，世界可能已有新資料，必須由協調者依現場明確恢復，不能用舊備份自動蓋回。
 
 ## 擁有者簡化規則（2026-11-04）
 
