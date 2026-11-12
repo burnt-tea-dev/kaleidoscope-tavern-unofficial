@@ -39,11 +39,10 @@ jobs:
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
         with:
           python-version: '3.12'
-      - name: Keep baseline version and release claim consistent
+      - name: Check release identity and baseline dependencies
         run: |
           python tools/baseline_gate.py check --release --history-base "${{ github.event.pull_request.base.sha || github.event.before }}"
           python tools/test_baseline_minimal_dependencies.py
-          python tools/test_release_claim.py
       - name: Verify publication request without publishing
         run: python tools/release_publication.py --event pull_request
       - uses: actions/setup-node@v4
@@ -95,8 +94,6 @@ jobs:
       - run: python tools/test_native_freezer_extension.py
       - run: python tools/test_public_grilling_profile.py
       - run: python tools/test_retained_host_profiles.py
-      - run: python tools/test_later_retained_host_profiles.py
-      - run: python tools/test_tilted_rack_lift.py
       - run: python tools/test_family_archive_index.py
       - run: python tools/test_container_recovery.py
       - run: python tools/test_release_publication.py

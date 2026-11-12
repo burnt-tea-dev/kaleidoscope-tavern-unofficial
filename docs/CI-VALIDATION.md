@@ -28,8 +28,8 @@ registered with their existing coverage to use the family-only route. Unknown
 tools, transitive helpers and workflow changes conservatively run both suites;
 they cannot bypass family coverage by being absent from the registered list.
 
-`baseline` checks release/history identity, minimal dependency and release-claim
-regressions, the publication request and session observer callbacks. Its family
+`baseline` checks release/history identity, minimal dependency regressions,
+the publication request and session observer callbacks. Its family
 step runs for family/shared inputs, manual dispatch or unavailable classification:
 the existing update-orchestrator discovery plus bundle, guard, saved-world and
 both upstream-watch suites. A failed classifier or missing output cannot skip
@@ -43,7 +43,7 @@ runtime jobs use explicit conditions, so inexpensive changes complete with
 skipped jobs rather than hanging behind workflow path filters. Each identical
 check has one owner:
 
-- `baseline` owns the family suites and release identity/claim/publication checks;
+- `baseline` owns the family suites and release identity/publication checks;
   manual historical checks do not repeat them. Historical bridge regressions and
   Windows Dash compilation retain their distinct project/export coverage.
 - `catalog` owns the paired creative catalog test; `foundation` retains the
@@ -56,6 +56,8 @@ check has one owner:
   `check_release.py --java-source ... --baseline ...` once. That aggregate
   command passes the pins to both source checks and writes the same storage and
   launch evidence. Its no-argument local entrypoint still runs every check.
+  It also owns `test_tilted_rack_lift.py` and
+  `test_later_retained_host_profiles.py`; manual historical checks do not repeat them.
 
 The effect-bar test in `foundation` remains because its `LIQUOR_SOURCE` enables
 a cross-pack case that the standalone package check does not exercise.

@@ -29,35 +29,15 @@ BDS 與保存驗證共用同一次演練；不另建新世界再跑相同循環�
 
 ## pstack 代理入口
 
-通用代理流程採用 [pstack 0.15.36](https://github.com/cursor/plugins/tree/2eaf46574b25cdf7ef8c849837099b866b7438ce/pstack)，固定審閱版本為 `2eaf46574b25cdf7ef8c849837099b866b7438ce`。從 [poteto-mode](https://github.com/cursor/plugins/blob/2eaf46574b25cdf7ef8c849837099b866b7438ce/pstack/skills/poteto-mode/SKILL.md) 按目標選 playbook，只讀本次需要的技能；不把整套技能複製到五個倉庫，也不另建任務排程器。升級上游時先審閱權限、驗證與 PR 行為的差異。
+開發流程直接使用 [pstack 0.15.36 指南](https://github.com/cursor/plugins/blob/2eaf46574b25cdf7ef8c849837099b866b7438ce/pstack/docs/guide/README.md)及原版 [poteto-mode](https://github.com/cursor/plugins/blob/2eaf46574b25cdf7ef8c849837099b866b7438ce/pstack/skills/poteto-mode/SKILL.md)。任務路由、實作、審查、驗證和 **ready PR** 交付均依上游 playbook；不再維護另一套代理流程或證據清單。
 
-使用者只需提供目標和可觀察的完成條件。代理自行定位來源、選擇定點檢查、修正與回報；不再逐輪貼回同一份長清單。下方的專案約束優先於 pstack 的通用預設，歷史任務報告不增加新門檻。
+Codex 使用原版插件；在任何 pstack 技能前讀一次 [Codex 主機適配](../docs/PSTACK-CODEX.md)。[原生 marketplace](../.agents/plugins/marketplace.json)直接取得上游 `pstack/`，不複製技能或重寫 playbook。Cursor 與 Claude Code 沿用上游安裝方式。
 
-### 主機適配
+專案資料只保留在其負責位置：
 
-| 執行環境 | 入口與限制 |
-| --- | --- |
-| Cursor | 安裝官方插件後使用 `/poteto-mode`；按實際授權模型設定角色。 |
-| Claude Code | 使用官方 [adapter](https://github.com/cursor/plugins/blob/2eaf46574b25cdf7ef8c849837099b866b7438ce/pstack/docs/harness/claude-code.md) 及 `/pstack:poteto-mode`。 |
-| ChatGPT／Codex | 此審閱版本沒有官方 adapter。以可用讀檔工具讀取固定版技能，用目前的命令、子代理及 GitHub 工具完成對應步驟，回報為「依 pstack 指南執行」，不宣稱原生插件已安裝。 |
-
-角色未另行指定時繼承目前模型；只用主機實際提供的工具與並行額度。小型修改沿既有設計完成，不為形式增加多模型評審、全庫探索或驗證框架。需要獨立審查時依檔案／問題分工；同模型的第二次審查不稱為跨模型驗證。Cursor 的 `deslop`、`control-ui`、`control-cli`、`loop` 或 watcher 不可假定存在；缺少時用已具備的對等檢查並說明範圍，沒有對等能力的步驟記錄未執行。
-
-### 森羅約束
-
-- 先讀所在倉庫的 `AGENTS.md`、當前分支與未提交修改、相關開放 PR 及任務所需的來源。用隔離工作區與分支保留他人工作；同一功能已有負責 PR 時沿用或協調，不能另建重複實作。需要遠端寫入時核對 `.repo-target.json`。
-- 本輪限制及已有效授權決定可執行範圍。pstack 不新增合併、發布、部署、刪除或對外傳訊授權。修復預設交付 Draft PR；沒有相應授權時停在可審閱結果，不因上游要求 ready PR 而轉正。任務禁止本機、LIVE、BDS 或客戶端時，相關 playbook 不得自行啟用它們。
-- Java／Minecraft／loader 基準以任務指定及倉庫來源契約為準；修復前確認具體觸發、結果及正式 API 能力。原作來源、PARITY、保存鍵、UUID、授權聲明與功能 owner 是專案事實，不能用通用提示詞替代。修 canonical owner 並移除已替代路徑；私有整合只留必要的跨包連接。私有作者腳本、完整原包、世界與憑證不得進入公開 Git／PR／log。改保存格式或身份時，在已授權環境驗證資料保留及遷移；不能覆蓋的引擎路徑列為未驗證。
-- 本機診斷只跑受影響的既有檢查；新測試只補重要且未覆蓋的行為。PR 的相應 CI 跑一次完整必要範圍。相同來源、工具、依賴和環境已有有效結果時直接引用；輸入改變、真實失敗或覆蓋不足才重跑相關範圍。文件修改不新增形式測試；手動歷史矩陣不變成所有修復的門檻。不新增每版驗證器、重複身份規則或切原碼文字的差異台帳；以現行行為及 Java 資源契約取代過時的程式形狀檢查。現行命令與選擇條件見 [CI-VALIDATION.md](../docs/CI-VALIDATION.md) 及各倉庫測試入口。
-- 分開回報來源確認、離線行為、引擎、模型預覽及實機觀察。Blockbench、hash、測試數或 BDS 載入不能證明完整畫面／玩法；未觀察項只記錄一次。真人驗收不阻擋本輪已授權的替代測試交付。包大小及離線時間不換算成 iPhone RAM 或玩家效能。
-- 先定位檔案再讀相關範圍；重複診斷沒有新證據時換證據來源。保留法律聲明、Java 來源位置、外部 API 限制和資料保全理由；只刪除已證明冗餘的註解與檢查。不要為套用 `/no-comments` 丟失移植依據。
-- 相關功能修補完成後才凍結配對身份。輸出 runtime 未變的工具／文件工作不升包、不建立遊戲候選、不重啟服務。交付說明改了甚麼、實際驗證及剩餘限制，附遠端 PR／提交；測試數與版本數不作為還原度。
-
-### 部署邊界
-
-pstack 呼叫既有工具，不能代替 `baseline_gate.py`、`family_bundle.py`、`family_guard.py`、打包、相依或保存驗證。只有真正發布／部署任務才讀取下方操作細節；不得把整套部署流程套在一般程式修復上。
-
-同一 prepare 階段已驗過的 candidate receipt 傳給 static 和既有 native 證據檢查；不重掃相同包。實際啟動引擎、停服備份、安裝與部署後讀回仍在各自狀態邊界核對。剛完成的部署回傳同一 lease 內已通過的讀回結果；清理後不對正在前進的最新 Git 重驗同一次部署。之後另一次 resume／update 使用當前來源及 live 狀態，來源已變就建立新候選。工作區退役與清理仍依 [WORKSPACE-MAINTENANCE.md](WORKSPACE-MAINTENANCE.md)。
+- Java 基準、功能差異及功能 owner 見所在倉庫的 `AGENTS.md`／PARITY 文件；玩法修回原功能來源。
+- 沿用保存資料、包 UUID 與原作授權；作者完整原包、世界及憑證留在私有環境。
+- 現有測試及建置入口見 [CI-VALIDATION.md](../docs/CI-VALIDATION.md)與各庫測試指南；下方發布／部署操作只在相應任務使用。
 
 ## 一次設定，一個入口
 

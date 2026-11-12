@@ -17,6 +17,6 @@ Development `check` permits unfrozen runtime edits while retaining structural an
 
 Family operations and integration tooling: [family/MAINTENANCE.md](../family/MAINTENANCE.md).
 
-Release freeze now claims the version and exact runtime trees in Git’s shared common directory before changing locks. All local worktrees and known remote-tracking histories are checked for collisions. A conflicting or incomplete claim must be preserved for review; choose a new release version instead of deleting or rewriting it. This coordination guard does not replace PR checks or fresh family deployment evidence.
+Release freeze records the current branch's runtime in `baseline.json` and `release-history.json`. Concurrent candidates reconcile versions through Git and PR review; there is no separate local worktree reservation. Existing-version reuse, append-only history and exported archive checks remain at their release boundaries.
 
 The owner’s 2026-10-06 requirements apply: repairs must reach canonical remote Git; current Java releases drive adaptation; source/version pinning never establishes full Java parity. Reuse exact unchanged functional evidence and keep only integrity checks at meaningful state transitions. Private integration stays private.

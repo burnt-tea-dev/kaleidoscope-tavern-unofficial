@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Adversarial release tests in disposable Git repositories, never a game world."""
-import copy,importlib.util,json,os,subprocess,tempfile,unittest,zipfile
+import copy,importlib.util,json,os,shutil,subprocess,tempfile,unittest,zipfile
 from pathlib import Path
 from unittest.mock import patch
 spec=importlib.util.spec_from_file_location('gate',Path(__file__).with_name('baseline_gate.py'))
@@ -45,15 +45,14 @@ class BaselineGateTests(unittest.TestCase):
   (self.root/'data/baseline-reconciliation.json').write_text(json.dumps({'files':{},'releaseVersionProjections':specs}))
  def test_tavern_bound_payload_and_diagnostic_pass_before_freeze(self):
   self.tavern_identity_fixture();gate.validate(self.config)
- def test_stale_diagnostic_or_payload_rejected_before_claim_and_history_write(self):
+ def test_stale_diagnostic_or_payload_rejected_before_history_write(self):
   self.tavern_identity_fixture()
   before={name:(self.root/name).read_bytes() for name in ['baseline.json','release-history.json']}
   for name in ['build-version.js','cookery-guide-payload.js']:
    path=self.root/'runtime/BP/scripts/data'/name;original=path.read_text();path.write_text(original.replace('1.0.0','0.9.0'))
    try:
-    with patch.object(gate.sys,'argv',['baseline_gate.py','freeze']),patch('release_claim.claim_release') as claim:
+    with patch.object(gate.sys,'argv',['baseline_gate.py','freeze']):
      self.reject('Tavern release version projection invalid: runtime/BP/scripts/data/'+name,gate.main)
-     claim.assert_not_called()
     for filename,raw in before.items():self.assertEqual((self.root/filename).read_bytes(),raw)
    finally:path.write_text(original)
  def test_missing_projection_cannot_disable_tavern_release_identity_guard(self):
@@ -106,6 +105,41 @@ class BaselineGateTests(unittest.TestCase):
  def test_dirty_release_rejected(self):
   (self.root/'release-history.json').write_text(json.dumps({'1.0.0':self.config['source_trees']},indent=2))
   self.reject('commit reviewed',lambda:gate.check(self.config,release=True))
+ def test_freeze_records_new_version_preserves_history_and_requires_commit(self):
+  previous=json.loads((self.root/'release-history.json').read_text())
+  self.config['version']=[1,0,1]
+  for side in ['BP','RP']:
+   path=self.root/'runtime'/side/'manifest.json';data=json.loads(path.read_text())
+   data['header']['version']=data['modules'][0]['version']=[1,0,1];path.write_text(json.dumps(data))
+  (self.root/'baseline.json').write_text(json.dumps(self.config))
+  with patch.object(gate.sys,'argv',['baseline_gate.py','freeze']):gate.main()
+  frozen=json.loads((self.root/'baseline.json').read_text());history=json.loads((self.root/'release-history.json').read_text())
+  self.assertEqual(history,{**previous,'1.0.1':gate.validate(frozen)[0]})
+  self.assertEqual(frozen['source_trees'],history['1.0.1'])
+  self.reject('commit reviewed',lambda:gate.check(frozen,release=True))
+  self.git('add','.');self.git('commit','-qm','Freeze current release')
+  gate.check(frozen,release=True,history_base=self.base)
+ def test_freeze_reused_version_preserves_baseline_and_history(self):
+  (self.root/'baseline.json').write_text(json.dumps(self.config));self.edit_runtime()
+  paths=[self.root/name for name in ['baseline.json','release-history.json']];before=[p.read_bytes() for p in paths]
+  with patch.object(gate.sys,'argv',['baseline_gate.py','freeze']):self.reject('version already used',gate.main)
+  self.assertEqual([p.read_bytes() for p in paths],before)
+ def test_release_receipt_uses_implied_identity(self):
+  (self.root/'baseline.json').write_text(json.dumps(self.config));self.git('add','.');self.git('commit','-qm','Release metadata')
+  receipt=self.root/'release-receipt.json'
+  with patch.object(gate.sys,'argv',['baseline_gate.py','check','--release','--receipt',str(receipt)]):gate.main()
+  self.assertEqual(json.loads(receipt.read_text())['source_trees'],self.config['source_trees'])
+ def test_packager_rejects_committed_unfrozen_runtime_before_output(self):
+  (self.root/'tools').mkdir()
+  for name in ['baseline_gate.py','build_release.py','vibrant_audit.py']:
+   shutil.copy2(Path(__file__).with_name(name),self.root/'tools'/name)
+  (self.root/'baseline.json').write_text(json.dumps(self.config));self.edit_runtime()
+  self.git('add','.');self.git('commit','-qm','Unfrozen runtime with packager')
+  output=self.root/'dist'
+  result=subprocess.run([gate.sys.executable,str(self.root/'tools/build_release.py'),'--output',str(output)],capture_output=True,text=True)
+  self.assertNotEqual(result.returncode,0)
+  self.assertIn('runtime changed without a reviewed version/hash update',result.stderr)
+  self.assertFalse(output.exists())
  def test_patched_export_rejected(self):
   archive=self.root/'bad.mcaddon'
   with zipfile.ZipFile(archive,'w') as z:

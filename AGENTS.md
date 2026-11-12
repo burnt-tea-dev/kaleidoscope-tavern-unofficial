@@ -1,7 +1,7 @@
 # Tavern maintenance
 
-- Use the shared [pstack agent workflow](family/UPDATE-WORKFLOW.md#pstack-代理入口) for task routing, host adaptation, collaboration, evidence and delivery. Its project constraints override upstream defaults. Keep this file for Tavern-specific behavior; do not duplicate the generic playbook here.
-- Runtime releases follow [baseline maintenance](docs/BASELINE-MAINTENANCE.md). Tooling or prose with unchanged exports needs no pack bump or deployment. The task's current authorization and environment restrictions take precedence over historical deployment procedures.
+- Follow upstream pstack for development and ready PR delivery through the [shared entry](family/UPDATE-WORKFLOW.md#pstack-代理入口). In Codex, read [the host adapter](docs/PSTACK-CODEX.md) once before any pstack skill.
+- Runtime releases follow [baseline maintenance](docs/BASELINE-MAINTENANCE.md). Tooling or prose with unchanged exports needs no pack bump or deployment.
 
 ## Project behavior
 
