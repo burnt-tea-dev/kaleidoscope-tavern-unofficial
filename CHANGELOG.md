@@ -1,3 +1,7 @@
+## 0.6.224 — 2026-11-12
+
+Carry the authorized 20261112 source-repair handoff into the maintained Tavern line: add the reviewed glowflower and machine-ingredient source data with its rewritten producers, bind the tartaric-acid painting block and item to the runtime sprite geometry with single-sided alpha testing and no face dimming, and keep the native naming-input and Java creative-order behaviour already frozen in 0.6.223. This is local source integration and a fresh release identity only: no tests, no client observation, no publication and no deployment.
+
 ## 0.6.223 — 2026-11-11
 
 Restore the maintained Java main/decor creative order using the addon-owned tab plan and existing native catalog converter. Keep the 161 visible entries, explicit port additions and hidden variants. Remove the global `custom_input` override at its producer, preserving native naming inputs and the four guide animations; boards currently use the native single-line editor. Pair with World Liquor 0.1.210. This is local source integration, with no new tests, client observation, publication or deployment.
