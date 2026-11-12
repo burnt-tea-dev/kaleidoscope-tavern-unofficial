@@ -1,48 +1,57 @@
 # Canonical validation
 
-All validation jobs share `.github/workflows/validation.yml`. A feature branch
-runs through its pull request; only `main` also has a push run. New commits
-cancel an older validation run for the same pull request or branch. Manual runs
-always request every suite. Publication and historical source-transfer/archive
-workflows remain separate because their actions are not interchangeable with CI.
+All validation jobs share `.github/workflows/validation.yml`. Feature branches
+run through pull requests; `main` also has a push run. New commits cancel older
+runs for the same pull request or branch. Publication remains separate.
+The development entry is the [family workflow](../family/UPDATE-WORKFLOW.md);
+this document describes the executable CI checks it calls.
 
 The `impact` job reads the complete pull-request diff or the entire main push
 range once. It includes deleted paths and both sides of renames. An unavailable
-comparison, unknown event or unknown file selects full validation. It writes the
-decision and input paths to the run summary so skipped work is reviewable.
+comparison, unknown event or unknown path selects both runtime and family checks.
+The job runs the existing classifier tests before
+publishing its decision and paths, so skipped work remains reviewable.
 
 | Changed input | Validation |
 | --- | --- |
-| Ordinary Markdown in `docs/`, top-level family instructions or named root documentation | Baseline and family regressions |
-| Family lock/feedback or explicitly registered family tools, including `tools/family_update.py` and its package | Baseline and family regressions, including the update orchestrator tests |
-| Runtime, tests, fixtures, tools, data, SDK, art, manifests, dependency/CI configuration, baseline/release history, packaged release notes or any unrecognised path | Every validation job |
+| Ordinary Markdown in `docs/`, top-level family instructions or named root documentation | Impact and baseline |
+| Family lock/feedback or registered family tools, including `tools/family_update.py` and its package | Impact and baseline, including existing family regressions |
+| Only known pack exports under `runtime/BP/` or `runtime/RP/` | Impact, baseline, package, mechanics and scripts; family regressions also run if other affected inputs require them |
+| Tests, fixtures, other tools, data, SDK, art, dependency/CI configuration, baseline/release history, packaged release notes or an unrecognised path | Runtime checks and family regressions |
+| Manual dispatch or unavailable change comparison | Runtime and family checks; specialized jobs run only on manual dispatch |
 
 This is an explicit input classification, not a blanket file-extension filter.
 For example, `tools/fixtures/reference.md` and packaged
-`docs/RELEASE-NOTES-*.md` still select all suites. Family orchestration fixtures
-are covered by the unconditional family-update regression discovery. New family
-tools that are not registered select all suites until their coverage is reviewed.
+`docs/RELEASE-NOTES-*.md` still select both runtime and family checks. Family orchestration fixtures
+select the family-update regression discovery. New family tools must be
+registered with their existing coverage to use the family-only route. Unknown
+tools, transitive helpers and workflow changes conservatively run both suites;
+they cannot bypass family coverage by being absent from the registered list.
 
-`baseline` always checks the canonical release/history lock and runs baseline,
-family guard/bundle/saved-world/upstream-watch, CI-impact, release-CLI and bridge-project
-regressions. It discovers `tools/family_update/test_*.py` when the orchestrator is
-present. This small suite is retained even for prose changes.
+`baseline` checks release/history identity, minimal dependency and release-claim
+regressions, the publication request and session observer callbacks. Its family
+step runs for family/shared inputs, manual dispatch or unavailable classification:
+the existing update-orchestrator discovery plus bundle, guard, saved-world and
+both upstream-watch suites. A failed classifier or missing output cannot skip
+that step; `baseline` still runs unless the workflow is cancelled. These are
+offline regressions and do not start BDS or contact LIVE.
 
-The existing check job IDs are preserved: `baseline`, `bridge`, `package`,
-`catalog`, `audit`, `efficiency`, `foundation`, `glassware-hit-basis`, `mechanics`,
-`scripts`, `native-persistence` and `tap-carriers`. Runtime jobs use explicit
-job conditions, so an inexpensive change completes with skipped jobs instead of
-leaving required checks pending behind workflow path filters. Pinned
-Java/peer/baseline revisions and evidence uploads remain in their corresponding
-jobs. Identical checks have one owner:
+`historical-baseline`, `bridge`, `catalog`, `audit`, `efficiency`, `foundation`,
+`glassware-hit-basis` and `native-persistence` are manual-only diagnostics.
+They retain their pinned Java/peer/baseline revisions and evidence. Automatic
+runtime jobs use explicit conditions, so inexpensive changes complete with
+skipped jobs rather than hanging behind workflow path filters. Each identical
+check has one owner:
 
-- `baseline` owns the bridge guard regressions, whose current-project test runs
-  the project checks. Windows still downloads checksum-pinned Dash, compiles,
-  checks the complete export (including the project checks), and rejects drift.
+- `baseline` owns the family suites and release identity/claim/publication checks;
+  manual historical checks do not repeat them. Historical bridge regressions and
+  Windows Dash compilation retain their distinct project/export coverage.
 - `catalog` owns the paired creative catalog test; `foundation` retains the
   distinct cross-pack adapter and effect tests.
 - `glassware-hit-basis` owns the pure hit-basis tests; `scripts` retains pickup
   core and adapter tests.
+- `mechanics` owns the tap transaction suite. The duplicate manual `tap-carriers`
+  job is retired; the existing mechanics artifact includes its results.
 - `package` reproduces storage geometry and rejects drift, then runs
   `check_release.py --java-source ... --baseline ...` once. That aggregate
   command passes the pins to both source checks and writes the same storage and
