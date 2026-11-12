@@ -7,11 +7,38 @@ from animated_item_render_contract import sprite_geometry, ROOT, NAMES, planned
 from check_animated_item_depth import audit, check, valid
 
 class SpriteShells(unittest.TestCase):
+    def test_all_art_map_animated_sprites_have_native_routes(self):
+        entries=json.loads((ROOT/'art/interfaces/item-art-map.json').read_text())['entries']
+        expected={e['item'].split(':')[1] for e in entries if e['mode']=='original_sprite' and e.get('animation_source')}
+        self.assertEqual(expected,set(NAMES))
+        for name in expected:
+            item=json.loads((ROOT/f'runtime/BP/items/{name}.json').read_text())['minecraft:item']['components']
+            self.assertNotIn('minecraft:icon',item,name)
+            self.assertIn('minecraft:block_placer',item,name)
+
     def test_all_source_frames_and_all_emitted_faces(self):
         results=check()
-        self.assertEqual(1918,sum(r['expected_boundary_edges'] for r in results.values()))
-        self.assertEqual(24,sum(r['frames'] for r in results.values()))
+        original={k:v for k,v in results.items() if k!='tartaric_acid_painting'}
+        self.assertEqual(1918,sum(r['expected_boundary_edges'] for r in original.values()))
+        self.assertEqual(24,sum(r['frames'] for r in original.values()))
+        self.assertEqual(set(NAMES),set(results))
         for name,result in results.items():self.assertTrue(valid(result),(name,result))
+
+    def test_painting_source_boundary_and_placement_contract(self):
+        from animated_item_render_contract import check_or_write
+        check_or_write()
+        name='tartaric_acid_painting'
+        reference=json.loads((ROOT/'art/interfaces/animated-item-java-reference.json').read_text())['sources'][name]
+        geo=json.loads((ROOT/f'runtime/RP/models/entity/item_sprite_{name}.geo.json').read_text())['minecraft:geometry'][0]
+        with Image.open(ROOT/reference['texture']) as image:sheet=image.convert('RGBA')
+        self.assertTrue(valid(audit(geo['bones'][0]['cubes'],sheet)))
+        item=json.loads((ROOT/f'runtime/BP/items/{name}.json').read_text())['minecraft:item']['components']
+        self.assertEqual({'block':'kaleidoscope_tavern:'+name,'replace_block_item':True,'use_on':[{'tags':'0'}]},item['minecraft:block_placer'])
+        block=json.loads((ROOT/f'runtime/BP/blocks/{name}.json').read_text())['minecraft:block']
+        self.assertEqual('geometry.kt_runtime.painting_wall',block['components']['minecraft:geometry']['identifier'])
+        self.assertEqual(12,len(block['permutations']))
+        self.assertEqual('geometry.kt_runtime.item_sprite_'+name,block['components']['minecraft:item_visual']['geometry']['identifier'])
+        self.assertEqual('kt_assets_a14_block_deco_painting_tartaric_acid',block['components']['minecraft:item_visual']['material_instances']['*']['texture'])
 
     def model(self,name='mystery_cocktail'):
         rp=ROOT/'runtime/RP'
@@ -21,7 +48,7 @@ class SpriteShells(unittest.TestCase):
 
     def test_reject_t160_reflected_sides_and_up_reversal(self):
         failures=0
-        for name in NAMES:
+        for name in ('depth_charge','mystery_cocktail','nether_special','ice_grape'):
             cubes,sheet=self.model(name)
             for c in cubes[1:]:
                 c['origin'][0]=-c['origin'][0]-c['size'][0]

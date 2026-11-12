@@ -10,7 +10,6 @@ from pathlib import Path
 from PIL import Image
 import json, math
 ROOT=Path(__file__).resolve().parents[1]
-NAMES=('depth_charge','mystery_cocktail','nether_special','ice_grape')
 NORMAL={'east':(1,0),'west':(-1,0),'up':(0,1),'down':(0,-1)}
 
 def quad(c,f):
@@ -103,10 +102,11 @@ def check_geometry(cubes,frames):
 
 def check(root=ROOT):
     result={}
-    for name in NAMES:
+    sources=json.loads((root/'art/interfaces/animated-item-java-reference.json').read_text())['sources']
+    for name,source in sources.items():
         rp=root/'runtime/RP'
         g=json.loads((rp/f'models/entity/item_sprite_{name}.geo.json').read_text())['minecraft:geometry'][0]
-        with Image.open(rp/f'textures/kaleidoscope_tavern_jar/item/{name}.png') as image:sheet=image.convert('RGBA')
+        with Image.open(root/source['texture']) as image:sheet=image.convert('RGBA')
         result[name]=audit(g['bones'][0]['cubes'],sheet)
     return result
 

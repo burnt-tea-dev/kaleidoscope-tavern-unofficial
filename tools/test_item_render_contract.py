@@ -5,7 +5,7 @@ import unittest
 from item_render_contract import ROOT,SPRITE_REPLACEMENTS,CONTEXTS,planned,read,check_or_write
 class RenderContracts(unittest.TestCase):
  def test_exact_source_coverage(self):
-  rows=check_or_write();self.assertEqual(93,len(rows));self.assertEqual(19,sum(r['route']=='generated_sprite' for r in rows));self.assertEqual(74,sum(r['route']=='native_geometry' for r in rows))
+  rows=check_or_write();self.assertEqual(92,len(rows));self.assertEqual(18,sum(r['route']=='generated_sprite' for r in rows));self.assertEqual(74,sum(r['route']=='native_geometry' for r in rows))
  def test_sprite_registration_and_placement(self):
   atlas=read(ROOT/'runtime/RP/textures/item_texture.json')['texture_data']
   for short in SPRITE_REPLACEMENTS:

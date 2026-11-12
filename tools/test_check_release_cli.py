@@ -8,9 +8,11 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from PIL import Image
+from animated_item_render_contract import planned as animated_outputs
 from build_potion_bottle_visual import MODEL, TEXTURE, outputs as potion_outputs
 
-from check_release import ROOT, REVIEWED_ITEM_GEOMETRIES, REVIEWED_VISUAL_GEOMETRIES, REVIEWED_VISUAL_SOURCE, REVIEWED_VISUAL_RELEASE, check_combined_geometry_budget, parse_args, source_check_commands
+from check_release import ROOT, ANIMATED_ITEM_GEOMETRIES, REVIEWED_VISUAL_GEOMETRIES, REVIEWED_VISUAL_SOURCE, REVIEWED_VISUAL_RELEASE, check_combined_geometry_budget, parse_args, source_check_commands
 
 
 class ReleaseSourceArguments(unittest.TestCase):
@@ -56,23 +58,21 @@ class GeometryBudgetTests(unittest.TestCase):
     def setUp(self):
         self.temp=tempfile.TemporaryDirectory();self.addCleanup(self.temp.cleanup)
         self.root=Path(self.temp.name)
-        ledger=json.loads((ROOT/'data/baseline-reconciliation.json').read_text())
-        allocation_files=set(REVIEWED_ITEM_GEOMETRIES.values())|set(REVIEWED_VISUAL_GEOMETRIES.values())
+        reference=json.loads((ROOT/'art/interfaces/animated-item-java-reference.json').read_text())
+        allocation_files={str(path.relative_to(ROOT)) for path in animated_outputs()}|set(REVIEWED_VISUAL_GEOMETRIES.values())
+        allocation_files|={source['texture'] for source in reference['sources'].values()}|{'art/interfaces/item-art-map.json'}
         for name in allocation_files:
             path=self.root/name;path.parent.mkdir(parents=True,exist_ok=True)
             path.write_bytes((ROOT/name).read_bytes())
-        witnesses={name:ledger['files'][name] for name in REVIEWED_ITEM_GEOMETRIES.values()}
-        witnesses.update({name:{'before':None,'after':hashlib.sha256((ROOT/name).read_bytes()).hexdigest(),
-                               'release':REVIEWED_VISUAL_RELEASE,'reviewedSourceCommit':REVIEWED_VISUAL_SOURCE} for name in REVIEWED_VISUAL_GEOMETRIES.values()})
+        witnesses={name:{'before':None,'after':hashlib.sha256((ROOT/name).read_bytes()).hexdigest(),
+                         'release':REVIEWED_VISUAL_RELEASE,'reviewedSourceCommit':REVIEWED_VISUAL_SOURCE} for name in REVIEWED_VISUAL_GEOMETRIES.values()}
         for name,value in {
-            'data/baseline-reconciliation.json':{'schema':1,'testOnly':True,'files':witnesses,
-                'reviewedAssetDeltaLayers':[{**layer,'files':{name:row for name,row in layer['files'].items() if name in allocation_files}}
-                    for layer in ledger.get('reviewedAssetDeltaLayers',[]) if set(layer['files'])&allocation_files]},
-            'art/interfaces/animated-item-java-reference.json':json.loads((ROOT/'art/interfaces/animated-item-java-reference.json').read_text()),
+            'data/baseline-reconciliation.json':{'schema':1,'testOnly':True,'files':witnesses},
+            'art/interfaces/animated-item-java-reference.json':reference,
         }.items():
             path=self.root/name;path.parent.mkdir(parents=True,exist_ok=True);path.write_text(json.dumps(value))
         self.inventory={f'geometry.original_{i}':[self.root/f'original_{i}.json'] for i in range(1023)}
-        self.inventory.update({identifier:[self.root/name] for identifier,name in REVIEWED_ITEM_GEOMETRIES.items()})
+        self.inventory.update({identifier:[self.root/name] for identifier,name in ANIMATED_ITEM_GEOMETRIES.items()})
         self.inventory.update({identifier:[self.root/name] for identifier,name in REVIEWED_VISUAL_GEOMETRIES.items()})
         self.potion_ids={}
         for name in set(potion_outputs())|{MODEL,TEXTURE,str(Path(TEXTURE).with_suffix('.texture_set.json'))}:
@@ -86,45 +86,87 @@ class GeometryBudgetTests(unittest.TestCase):
 
     def test_exact_source_allocations_preserve_the_original_base_ceiling(self):
         result=check_combined_geometry_budget(self.inventory,self.root)
-        self.assertEqual((result['geometries'],result['base_geometries']),(1347,1023))
-        self.assertEqual(result['reviewed_item_geometries'],4)
+        self.assertEqual((result['geometries'],result['base_geometries']),(1348,1023))
+        self.assertEqual(result['animated_item_contract_geometries'],5)
+        self.assertEqual(result['animated_item_max_allocated_vertices'],1200)
+        self.assertEqual(result['base_limit_exclusive'],1024)
+        for allocation in result['animated_item_allocations'].values():
+            self.assertEqual((allocation['ids'],allocation['max_bones'],allocation['display_contexts']),(1,1,8))
+            self.assertLessEqual(allocation['max_allocated_vertices'],1200)
         self.assertEqual(result['reviewed_visual_geometries'],316)
         self.assertEqual(result['visual_allocations']['runtime/RP/models/entity/board_glyph_outline.geo.json']['max_allocated_vertices'],384)
         self.assertEqual(result['visual_allocations']['runtime/RP/models/entity/signature_rgb_texels.geo.json']['max_allocated_vertices'],672)
         self.assertEqual(result['potion_contract_geometries'],4)
         self.assertEqual(result['potion_allocations']['runtime/RP/models/entity/potion_liquid_texels.geo.json']['max_allocated_vertices'],504)
-        self.inventory['geometry.unreviewed_fifth']=[self.root/'fifth.geo.json']
+        self.inventory['geometry.unreviewed_sixth']=[self.root/'sixth.geo.json']
         with self.assertRaisesRegex(AssertionError,'base geometry budget exceeded'):
             check_combined_geometry_budget(self.inventory,self.root)
 
     def test_same_total_cannot_replace_a_reviewed_id_with_an_arbitrary_model(self):
-        self.inventory.pop(next(iter(REVIEWED_ITEM_GEOMETRIES)))
+        self.inventory.pop(next(iter(ANIMATED_ITEM_GEOMETRIES)))
         self.inventory['geometry.unreviewed_replacement']=[self.root/'replacement.geo.json']
-        self.assertEqual(len(self.inventory),1347)
+        self.assertEqual(len(self.inventory),1348)
         with self.assertRaisesRegex(AssertionError,'one exact Tavern owner/path'):
             check_combined_geometry_budget(self.inventory,self.root)
 
     def test_duplicate_or_moved_claim_cannot_hide_behind_the_identifier_set(self):
-        identifier=next(iter(REVIEWED_ITEM_GEOMETRIES));original=self.inventory[identifier]
-        for paths in [original+[self.root/'peer/duplicate.geo.json'],[self.root/'unscanned/moved.geo.json']]:
-            self.inventory[identifier]=paths
-            with self.assertRaisesRegex(AssertionError,'one exact Tavern owner/path'):
+        for identifier in ANIMATED_ITEM_GEOMETRIES:
+            original=self.inventory[identifier]
+            for paths in [original+[self.root/'peer/duplicate.geo.json'],[self.root/'unscanned/moved.geo.json']]:
+                self.inventory[identifier]=paths
+                with self.assertRaisesRegex(AssertionError,'one exact Tavern owner/path'):
+                    check_combined_geometry_budget(self.inventory,self.root)
+            self.inventory[identifier]=original
+
+    def test_same_identifier_does_not_allow_changed_mesh_or_display(self):
+        path=self.root/'runtime/RP/models/entity/item_sprite_tartaric_acid_painting.geo.json'
+        original=json.loads(path.read_text())
+        for mutate in [
+            lambda models:models.append(copy.deepcopy(models[0])),
+            lambda models:models[0]['bones'][0]['cubes'].append(copy.deepcopy(models[0]['bones'][0]['cubes'][0])),
+            lambda models:models[0]['bones'][0]['cubes'][1]['origin'].__setitem__(0,99),
+            lambda models:models[0]['item_display_transforms'].pop('firstperson_lefthand'),
+            lambda models:models[0]['item_display_transforms']['gui'].update(scale=[9,9,9]),
+        ]:
+            value=copy.deepcopy(original);mutate(value['minecraft:geometry']);path.write_text(json.dumps(value))
+            with self.assertRaisesRegex(AssertionError,'Animated item render route drift'):
                 check_combined_geometry_budget(self.inventory,self.root)
 
-    def test_same_identifier_does_not_allow_more_geometry_or_cubes(self):
-        path=self.root/next(iter(REVIEWED_ITEM_GEOMETRIES.values()));original=json.loads(path.read_text())
-        extra_geometry=copy.deepcopy(original);extra_geometry['minecraft:geometry'].append(copy.deepcopy(extra_geometry['minecraft:geometry'][0]))
-        extra_cube=copy.deepcopy(original);cubes=extra_cube['minecraft:geometry'][0]['bones'][0]['cubes'];cubes.append(copy.deepcopy(cubes[0]))
-        for value in [extra_geometry,extra_cube]:
-            path.write_text(json.dumps(value))
-            with self.assertRaisesRegex(AssertionError,'Reviewed item geometry changed'):
+    def test_source_set_and_pixels_cannot_be_removed_or_replaced(self):
+        path=self.root/'art/interfaces/animated-item-java-reference.json';original=json.loads(path.read_text())
+        for name in original['sources']:
+            value=copy.deepcopy(original);del value['sources'][name];path.write_text(json.dumps(value))
+            with self.assertRaisesRegex(AssertionError,'Incomplete animated item source contract'):
                 check_combined_geometry_budget(self.inventory,self.root)
+        value=copy.deepcopy(original);value['sources']['unowned']=copy.deepcopy(next(iter(value['sources'].values())))
+        path.write_text(json.dumps(value))
+        with self.assertRaisesRegex(AssertionError,'Incomplete animated item source contract'):
+            check_combined_geometry_budget(self.inventory,self.root)
+        value=copy.deepcopy(original);value['sources']['tartaric_acid_painting']['rgba_sha256']='0'*64;path.write_text(json.dumps(value))
+        with self.assertRaisesRegex(AssertionError,'source pixels changed'):
+            check_combined_geometry_budget(self.inventory,self.root)
 
-    def test_the_allocation_cannot_be_repointed_to_an_unreviewed_source(self):
-        path=self.root/'data/baseline-reconciliation.json';ledger=json.loads(path.read_text())
-        next(iter(ledger['files'].values()))['reviewedSourceCommit']='0'*40
-        path.write_text(json.dumps(ledger))
-        with self.assertRaisesRegex(AssertionError,'allocation source changed'):
+    def test_unowned_animated_prefix_stays_in_base_and_1024_is_rejected(self):
+        self.inventory.pop('geometry.original_0')
+        self.inventory['geometry.kt_runtime.item_sprite_unowned']=[self.root/'unowned.geo.json']
+        self.assertEqual(check_combined_geometry_budget(self.inventory,self.root)['base_geometries'],1023)
+        self.inventory['geometry.extra_unowned']=[self.root/'extra.geo.json']
+        with self.assertRaisesRegex(AssertionError,'base geometry budget exceeded.*1024'):
+            check_combined_geometry_budget(self.inventory,self.root)
+
+    def test_source_backed_mesh_still_cannot_exceed_allocated_vertex_ceiling(self):
+        reference_path=self.root/'art/interfaces/animated-item-java-reference.json'
+        reference=json.loads(reference_path.read_text());source=reference['sources']['tartaric_acid_painting']
+        # A genuine generated alpha shell can require 65 cubes. Even with
+        # coherent source pixels/counts, it must not enlarge this allocation.
+        sheet=Image.new('RGBA',source['size'])
+        for y in range(sheet.height):
+            for x in range(sheet.width):
+                if (x+y)%2:sheet.putpixel((x,y),(255,255,255,255))
+        sheet.save(self.root/source['texture']);source['rgba_sha256']=hashlib.sha256(sheet.tobytes()).hexdigest()
+        reference_path.write_text(json.dumps(reference))
+        for path,value in animated_outputs(self.root).items():path.write_text(json.dumps(value))
+        with self.assertRaisesRegex(AssertionError,'Animated item source mesh budget exceeded'):
             check_combined_geometry_budget(self.inventory,self.root)
 
     def test_visual_allocation_rejects_missing_duplicate_or_moved_mesh(self):

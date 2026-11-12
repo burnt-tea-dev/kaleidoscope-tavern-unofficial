@@ -13,6 +13,7 @@ from machine_ingredient_animation import bindings
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = 'data/pressing-ingredient-source'
+SPRITE_SOURCE = 'data/machine-ingredient-source'
 CARD = 'runtime/RP/models/entity/runtime_pressing_card.geo.json'
 CUBE = 'runtime/RP/models/entity/runtime_pressing_cube.geo.json'
 BARREL = 'runtime/RP/models/entity/runtime_barrel_ingredients_card.geo.json'
@@ -31,7 +32,7 @@ TEXTURES = ('kaleidoscope_tavern/item/grape', 'kt_derived/a17/icon_ice_grape',
             'kaleidoscope_tavern/item/gold_grape', 'kaleidoscope_tavern/item/green_grape',
             'items/sweet_berries', 'items/glow_berries', 'items/apple', 'items/blaze_powder',
             'items/dye_powder_glow', 'items/glowstone_dust', 'items/gold_nugget',
-            'items/gunpowder', 'items/honeycomb', 'items/iron_nugget', 'items/potato',
+            'items/gunpowder', 'kt_runtime/machine_ingredients/java/honeycomb', 'items/iron_nugget', 'items/potato',
             'items/redstone_dust', 'items/sugar', 'items/reeds', 'items/wheat',
             'items/rotten_flesh', 'blocks/blue_ice', 'blocks/ice', 'blocks/ice_packed',
             'blocks/dirt', 'blocks/stone', 'items/pink_petals')
@@ -42,16 +43,29 @@ def read(path):
 
 
 def runtime_sources():
-    # Only the repaired resource changes ownership. Routes/controls retain
-    # their current owners and are read to catch disconnection or scale drift.
-    return frozenset({CARD})
+    # Current resource/Java contracts replace obsolete helper-texture inverse
+    # projections. Unchanged controllers and the animation clock keep owners.
+    return frozenset({CARD, BARREL}) | frozenset(
+        'runtime/RP/entity/runtime_' + h + '.entity.json' for h in HELPERS) | frozenset(
+        f'runtime/RP/entity/runtime_barrel_ingredients_{i}.entity.json' for i in range(4)) | frozenset(
+        f'runtime/RP/textures/kt_runtime/machine_ingredients/java/{name}{suffix}'
+        for name in ('honeycomb', 'lilac') for suffix in ('.png', '.texture_set.json'))
 
 
 def resource_paths():
-    return {CARD, CUBE, BARREL, ANIMATION, CONTROLLER, FOODS,
+    return set(runtime_sources()) | {CARD, CUBE, BARREL, ANIMATION, CONTROLLER, FOODS,
+            'data/barrel-materials.json', SPRITE_SOURCE + '/source.json',
             'data/baseline-reconciliation.json', 'data/launch-repair-reference.json'} | {
         'runtime/RP/entity/runtime_' + h + '.entity.json' for h in HELPERS} | {
-        'runtime/BP/entities/' + h + '_visual.json' for h in HELPERS}
+        'runtime/BP/entities/' + h + '_visual.json' for h in HELPERS} | {
+        str(p.relative_to(ROOT)) for p in (ROOT / SPRITE_SOURCE).rglob('*') if p.is_file()}
+
+
+def broad_face_uv():
+    # Retain the south face as the local-frame reference. Java's north UV
+    # rectangle is [16,0,0,16], so its Bedrock delta is [-16,16].
+    return {'north': {'uv': [16, 0], 'uv_size': [-16, 16]},
+            'south': {'uv': [0, 0], 'uv_size': [16, 16]}}
 
 
 def source_dimensions(root):
@@ -96,7 +110,8 @@ def check_geometry(value, kind, dimensions):
     assert geo['bones'][:3] == base and len(geo['bones']) == 27, 'Shared pose hierarchy changed'
     faces = ('north', 'south') if kind == 'card' else ('north', 'south', 'east', 'west', 'up', 'down')
     box = {'origin': [-d/2 for d in dimensions], 'size': dimensions,
-           'uv': {face: {'uv': [0, 0], 'uv_size': [16, 16]} for face in faces}}
+           'uv': broad_face_uv() if kind == 'card' else
+                 {face: {'uv': [0, 0], 'uv_size': [16, 16]} for face in faces}}
     for i in range(8):
         bones = geo['bones'][3+i*3:6+i*3]
         assert bones == [
@@ -110,13 +125,17 @@ def check(root=ROOT):
     dimensions = source_dimensions(root)
     check_geometry(read(root / CARD), 'card', dimensions)
     check_geometry(read(root / CUBE), 'cube', [4, 4, 4])
-    barrel = read(root / BARREL)['minecraft:geometry'][0]
-    assert barrel['description']['identifier'] == 'geometry.kt_runtime.barrel_ingredients_card'
+    barrel_doc = read(root / BARREL)
+    assert barrel_doc['format_version'] == '1.12.0' and len(barrel_doc['minecraft:geometry']) == 1
+    barrel = barrel_doc['minecraft:geometry'][0]
+    assert barrel['description'] == {'identifier': 'geometry.kt_runtime.barrel_ingredients_card',
+        'texture_width': 16, 'texture_height': 16, 'visible_bounds_width': 3,
+        'visible_bounds_height': 4, 'visible_bounds_offset': [0, 1.5, 0]}
     assert len(barrel['bones']) == 9
     for i, bone in enumerate(barrel['bones']):
         assert bone == {'name': f'item_{i}', 'pivot': [0, 0, 0], 'cubes': [{
             'origin': [-4, -4, -.25], 'size': [8, 8, .5],
-            'uv': {f: {'uv': [0, 0], 'uv_size': [16, 16]} for f in ('north', 'south')}}]}, ('Barrel control changed', i)
+            'uv': broad_face_uv()}]}, ('Barrel control changed', i)
     consumers = set()
     for sub in ('entity', 'attachables'):
         for path in (root / 'runtime/RP' / sub).glob('*.json'):
@@ -165,6 +184,34 @@ def check(root=ROOT):
         'textures': [f"q.property('{N}grape_kind') == 2 ? Array.ice_grape_ticks[math.mod(math.floor(q.time_stamp), 24)] : Array.kind[q.property('{N}grape_kind')-1]"],
         'arrays': {'textures': {'Array.kind': [f'Texture.kind_{i}' for i in range(1, 27)], 'Array.ice_grape_ticks': ['Texture.' + name for name in bindings()]}},
         'part_visibility': [{f'ingredient_{i}': f"q.property('{N}fill_stage') > {i}"} for i in range(8)]}, 'Controller route changed'
+    # Keep the complete barrel helper definition with its existing generator.
+    # Only two ingredient-specific PNG aliases change; no vanilla override.
+    from build_barrel_materials import client_description
+    catalog = read(root / 'data/barrel-materials.json')['materials']
+    source = read(root / SPRITE_SOURCE / 'source.json')
+    replacements = source['private_texture_replacements']
+    assert replacements == {'minecraft:honeycomb': 'textures/kt_runtime/machine_ingredients/java/honeycomb',
+                            'minecraft:lilac': 'textures/kt_runtime/machine_ingredients/java/lilac'}
+    assert len(catalog) == 61
+    for row in source['items']:
+        if 'barrel_kind' in row:
+            entry = catalog[row['barrel_kind']-1]
+            assert entry['id'] == row['id'] and entry['model'] == 'card'
+            assert entry['texture'] == replacements.get(row['id'], row['native_texture']), ('Ingredient texture route changed', row['id'])
+        if row['id'] not in replacements:
+            continue
+        texture = replacements[row['id']]
+        assert (root / 'runtime/RP' / (texture + '.png')).read_bytes() == (root / SPRITE_SOURCE / row['texture']).read_bytes(), ('Java ingredient pixels changed', row['id'])
+        assert read(root / 'runtime/RP' / (texture + '.texture_set.json')) == {
+            'format_version': '1.16.100', 'minecraft:texture_set': {
+                'color': Path(texture).name, 'metalness_emissive_roughness': [0, 0, 200]}}
+    for slot in range(4):
+        description = read(root / f'runtime/RP/entity/runtime_barrel_ingredients_{slot}.entity.json')['minecraft:client_entity']['description']
+        assert description == client_description(slot, catalog), ('Barrel helper resource route changed', slot)
+    barrel_consumers = {p.relative_to(root).as_posix() for folder in ('entity', 'attachables')
+                        for p in (root / 'runtime/RP' / folder).glob('*.json')
+                        if 'geometry.kt_runtime.barrel_ingredients_card' in p.read_text()}
+    assert barrel_consumers == {f'runtime/RP/entity/runtime_barrel_ingredients_{slot}.entity.json' for slot in range(4)}, 'Barrel card consumer census changed'
     # A current source contract must not be silently reclaimed by old ledgers.
     ledger = read(root / 'data/baseline-reconciliation.json')
     for section in ('files', 'reviewedFunctionalDeltas'):
@@ -175,9 +222,14 @@ def check(root=ROOT):
     launch = read(root / 'data/launch-repair-reference.json')
     for section in ('reviewedChanges', 'newRuntimeFiles'):
         assert not runtime_sources() & set(launch.get(section, {})), 'Current geometry has a launch hash guard'
+    from check_machine_ingredient_broadfaces import check as check_broadfaces
+    broadfaces = check_broadfaces(root)
     return {'card_dimensions': dimensions, 'center': [0, 0, 0], 'cubes': 8,
             'helpers': 8, 'slots': 64, 'card_ids': 22, 'cube_kinds': 5,
             'barrel_control_cubes': 9, 'native_frame_culling_verified': False,
+            'broadface_source_frames': broadfaces['source_frames'],
+            'alpha_edge_extrusion': False, 'geometry_ids': 2,
+            'card_allocated_vertices': {'pressing': 8*24, 'barrel': 9*24},
             'gameplay_verified': False, 'material_verified': False}
 
 

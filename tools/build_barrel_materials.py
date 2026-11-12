@@ -12,6 +12,19 @@ from machine_ingredient_animation import bindings as animation_bindings, control
 ROOT = Path(__file__).resolve().parents[1]
 NS = 'kaleidoscope_tavern'
 
+def client_description(slot, entries):
+    """One authoritative helper route, shared with the geometry contract."""
+    return {
+        'identifier': f'{NS}:barrel_ingredients_{slot}_visual',
+        'materials': {'default': 'entity_alphatest', 'translucent': 'entity_alphablend'},
+        'textures': {**{f'kind_{i}': row['texture'] for i, row in enumerate(entries, 1)}, **animation_bindings()},
+        'geometry': {'card': 'geometry.kt_runtime.barrel_ingredients_card',
+                     'cube': 'geometry.kt_runtime.barrel_ingredients_cube'},
+        'animations': {'float': 'animation.kt_runtime.barrel_ingredients.float'},
+        'scripts': {'animate': ['float']},
+        'render_controllers': ['controller.render.kt_runtime.barrel_ingredients'],
+    }
+
 def outputs():
     catalog = json.loads((ROOT / 'data/barrel-materials.json').read_text())
     entries = catalog['materials']
@@ -33,17 +46,7 @@ def outputs():
         rp = f'runtime/RP/entity/runtime_barrel_ingredients_{slot}.entity.json'
         # Own the complete current route. Reading these fields back from the
         # generated file would accept disconnected helpers as valid output.
-        description = {
-            'identifier': f'{NS}:barrel_ingredients_{slot}_visual',
-            'materials': {'default': 'entity_alphatest', 'translucent': 'entity_alphablend'},
-            'textures': {f'kind_{i}': row['texture'] for i, row in enumerate(entries, 1)},
-            'geometry': {'card': 'geometry.kt_runtime.barrel_ingredients_card',
-                         'cube': 'geometry.kt_runtime.barrel_ingredients_cube'},
-            'animations': {'float': 'animation.kt_runtime.barrel_ingredients.float'},
-            'scripts': {'animate': ['float']},
-            'render_controllers': [controller_name],
-        }
-        description['textures'].update(animation_bindings())
+        description = client_description(slot, entries)
         data = {'format_version': '1.10.0', 'minecraft:client_entity': {'description': description}}
         result[rp] = json.dumps(data, indent=2) + '\n'
     path = 'runtime/RP/render_controllers/runtime_barrel_ingredients.render_controllers.json'

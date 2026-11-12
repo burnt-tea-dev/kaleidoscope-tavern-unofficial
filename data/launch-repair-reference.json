@@ -1547,18 +1547,6 @@
       "after": "d900054c2afb5e04df28848c0de4a2f7459b556b90456aeb76c0dc98ba8ae578",
       "reason": "0.6.50: repair coincident drink faces, sofa corner collision, chalkboard strip ordering, native storage gaze selection and Java tag-based guide ingredients. 0.6.50: repair coincident drink faces, sofa corner collision, chalkboard strip ordering, native storage gaze selection and Java tag-based guide ingredients.; 0.6.59 surface repair and version metadata."
     },
-    "runtime/RP/models/entity/glowflower_brew_1.geo.json": {
-      "before": "8bd2e849beb4f271b3faea50ba2169c94ca904c021539b642586e8f017934986",
-      "beforeProjected": "8bd2e849beb4f271b3faea50ba2169c94ca904c021539b642586e8f017934986",
-      "after": "49086abd28050c7cb3162ed5b08c611e5d230c0a785365422dbe954c4ecfea7d",
-      "reason": "0.6.50: repair coincident drink faces, sofa corner collision, chalkboard strip ordering, native storage gaze selection and Java tag-based guide ingredients. 0.6.50: repair coincident drink faces, sofa corner collision, chalkboard strip ordering, native storage gaze selection and Java tag-based guide ingredients.; 0.6.59 surface repair and version metadata."
-    },
-    "runtime/RP/models/entity/glowflower_brew_2.geo.json": {
-      "before": "fb4625886213acd2daf6e1c44e6a3e76c78889dbd9710b933766547a7c331798",
-      "beforeProjected": "fb4625886213acd2daf6e1c44e6a3e76c78889dbd9710b933766547a7c331798",
-      "after": "15302d766da71c0a79b71909c91c8d01789be04c7f4bfb03b7e58fe1cacc7c60",
-      "reason": "0.6.50: repair coincident drink faces, sofa corner collision, chalkboard strip ordering, native storage gaze selection and Java tag-based guide ingredients. 0.6.50: repair coincident drink faces, sofa corner collision, chalkboard strip ordering, native storage gaze selection and Java tag-based guide ingredients.; 0.6.59 surface repair and version metadata."
-    },
     "runtime/RP/models/entity/emerald.geo.json": {
       "before": "41c3959b73c56dd231a282041b0da1e22c71a18b8d22ed2dbeecf6e79f5b7ea9",
       "beforeProjected": "41c3959b73c56dd231a282041b0da1e22c71a18b8d22ed2dbeecf6e79f5b7ea9",
@@ -1599,18 +1587,6 @@
       "before": "4348cfbc2b65768a85303ff3cc1f99d0042e0c5fd629fc74291aef2090cdd998",
       "beforeProjected": "4348cfbc2b65768a85303ff3cc1f99d0042e0c5fd629fc74291aef2090cdd998",
       "after": "fe2f8eade254aa8d5c4bf5e67709a6e8593f71c9b548d5720f2a70ec7e2b3829",
-      "reason": "0.6.50: repair coincident drink faces, sofa corner collision, chalkboard strip ordering, native storage gaze selection and Java tag-based guide ingredients. 0.6.50: repair coincident drink faces, sofa corner collision, chalkboard strip ordering, native storage gaze selection and Java tag-based guide ingredients.; 0.6.59 surface repair and version metadata."
-    },
-    "runtime/RP/models/entity/glowflower_brew_4.geo.json": {
-      "before": "1a475eb702e57634e54f028abce67a40addd2b309b70becc1db1eb5aa5f00eb5",
-      "beforeProjected": "1a475eb702e57634e54f028abce67a40addd2b309b70becc1db1eb5aa5f00eb5",
-      "after": "624209a0e0f361d808aa46769e03b28b90b4aa2926c5eb631aeac47801b05b6c",
-      "reason": "0.6.50: repair coincident drink faces, sofa corner collision, chalkboard strip ordering, native storage gaze selection and Java tag-based guide ingredients. 0.6.50: repair coincident drink faces, sofa corner collision, chalkboard strip ordering, native storage gaze selection and Java tag-based guide ingredients.; 0.6.59 surface repair and version metadata."
-    },
-    "runtime/RP/models/entity/glowflower_brew_3.geo.json": {
-      "before": "a3978052deefa97bd49d651d3e7c966b3704f0b9087c04ec95108bc8aef0f84f",
-      "beforeProjected": "a3978052deefa97bd49d651d3e7c966b3704f0b9087c04ec95108bc8aef0f84f",
-      "after": "9cd5610d10af28b3cb2de11ee6c79df15cfb12e74bf3d82b9726f8f7739d4823",
       "reason": "0.6.50: repair coincident drink faces, sofa corner collision, chalkboard strip ordering, native storage gaze selection and Java tag-based guide ingredients. 0.6.50: repair coincident drink faces, sofa corner collision, chalkboard strip ordering, native storage gaze selection and Java tag-based guide ingredients.; 0.6.59 surface repair and version metadata."
     },
     "runtime/RP/models/entity/sculk_special.geo.json": {

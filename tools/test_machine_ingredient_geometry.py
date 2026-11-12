@@ -53,7 +53,7 @@ class PressingCardContract(unittest.TestCase):
             for face in ('north', 'south'):
                 with self.subTest(cube=i, face=face):
                     self.rejects(CARD, lambda d, i=i, face=face:
-                        d['minecraft:geometry'][0]['bones'][5+i*3]['cubes'][0]['uv'][face]['uv_size'].__setitem__(0, -16))
+                        d['minecraft:geometry'][0]['bones'][5+i*3]['cubes'][0]['uv'][face]['uv_size'].__setitem__(0, 16 if face == 'north' else -16))
 
     def test_no_slot_or_pose_scaling_and_hierarchy_drift(self):
         for i in range(27):
@@ -111,6 +111,17 @@ class PressingCardContract(unittest.TestCase):
             self.rejects(CUBE, lambda d, i=i: d['minecraft:geometry'][0]['bones'][5+i*3]['cubes'][0].update(size=[8, 8, 8]))
         for i in range(9):
             self.rejects(BARREL, lambda d, i=i: d['minecraft:geometry'][0]['bones'][i]['cubes'][0].update(size=[4, 4, .25]))
+
+    def test_barrel_card_uv_and_all_private_texture_routes_are_owned(self):
+        for i in range(9):
+            self.rejects(BARREL, lambda d, i=i: d['minecraft:geometry'][0]['bones'][i]['cubes'][0]['uv']['north'].update(uv=[0, 0], uv_size=[16, 16]))
+        for slot in range(4):
+            path = f'runtime/RP/entity/runtime_barrel_ingredients_{slot}.entity.json'
+            for alias, texture in [('kind_7', 'textures/items/honeycomb'), ('kind_32', 'textures/blocks/double_plant_syringa_top')]:
+                self.rejects(path, lambda d, alias=alias, texture=texture: d['minecraft:client_entity']['description']['textures'].__setitem__(alias, texture))
+        for index, texture in [(6, 'textures/items/honeycomb'), (31, 'textures/blocks/double_plant_syringa_top')]:
+            self.rejects('data/barrel-materials.json', lambda d, index=index, texture=texture: d['materials'][index].update(texture=texture))
+        self.rejects(BARREL, lambda d: d['minecraft:geometry'].append(copy.deepcopy(d['minecraft:geometry'][0])))
 
     def test_current_owner_cannot_return_to_historical_projection(self):
         for section in ('files', 'reviewedFunctionalDeltas'):

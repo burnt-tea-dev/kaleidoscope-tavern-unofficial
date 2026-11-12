@@ -1,0 +1,3666 @@
+{
+  "schema": 1,
+  "scope": "Two broad-face local-frame sampling. South, dimensions, normals and all machine poses are retained. Alpha-edge extrusion remains absent from canonical runtime.",
+  "official_java_archives": {
+    "1.20.1": {
+      "url": "https://piston-data.mojang.com/v1/objects/0c3ec587af28e5a785c0b4a7b8a30f9a8f78f838/client.jar",
+      "size": 23028853,
+      "sha1": "0c3ec587af28e5a785c0b4a7b8a30f9a8f78f838",
+      "sha256": "56b71336d2b4fdffd197f56595b0da93e32a946f78f382a299b8f4b92758bb0f"
+    },
+    "1.21.1": {
+      "url": "https://piston-data.mojang.com/v1/objects/30c73b1c5da787909b2f73340419fdf13b9def88/client.jar",
+      "size": 26836906,
+      "sha1": "30c73b1c5da787909b2f73340419fdf13b9def88",
+      "sha256": "499f6897d1837516680f3114072d8106e11c9adcd933fe5cf051b551089b0c99"
+    }
+  },
+  "tavern_commits": {
+    "forge": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+    "neoforge": "a1afba34981a00e89d57130d3dc8f1e64f1820a2"
+  },
+  "cookery_commits": {
+    "forge": "2f4e386ce23f49a385ddf003c67fc6415c55417a",
+    "neoforge": "4d39e36cfa749939ba5f9d6d3b715ef9a984cb9c"
+  },
+  "native_vanilla_commit": "15701fa9c13923f12662984c32c124327e40e3d3",
+  "canonical_vanilla_version": "1.20.1",
+  "cross_version_pixel_difference": "pink_petals alpha values differ in 1.21.1; nonzero-alpha edge spans are identical. The existing native/Forge pixels remain the current baseline.",
+  "files": {
+    "textures/minecraft/apple.png": {
+      "bytes": 228,
+      "sha256": "386c9d1062f6c27e6056ef2e8b10e8d6a192637b3aa99f575892d0f1209fe690"
+    },
+    "textures/minecraft/blaze_powder.png": {
+      "bytes": 278,
+      "sha256": "be1d8c93bbff955c94c194bb944b200d884d30fcc7e221fff739881d6ed5eca2"
+    },
+    "textures/minecraft/glow_ink_sac.png": {
+      "bytes": 182,
+      "sha256": "e2d115e632ed0d615aa3c06e50b746befabdaab7090af90fa8bea6a4a9d61341"
+    },
+    "textures/minecraft/glowstone_dust.png": {
+      "bytes": 191,
+      "sha256": "40f7673da900c4ab308e398ebfb3fd5c18b11d0c4f97d5588f192cd34e026974"
+    },
+    "textures/minecraft/gold_nugget.png": {
+      "bytes": 136,
+      "sha256": "73c9c64b35e15a47366802fa899b115fce6380d1f19bda38dd7ef196182029ca"
+    },
+    "textures/minecraft/gunpowder.png": {
+      "bytes": 183,
+      "sha256": "2e92e94da1d88d700f946aefd67e8fae76dbf7517931063c88c7ff547a2a7bf2"
+    },
+    "textures/minecraft/honeycomb.png": {
+      "bytes": 221,
+      "sha256": "a777ccc39d4316691207759613da039abe2f8926255837b6a78bd82ca049efbc"
+    },
+    "textures/minecraft/iron_nugget.png": {
+      "bytes": 175,
+      "sha256": "c9647153bb90c1ba20e2405707cc872d32284674a0086e19e8dc82fbccdfc775"
+    },
+    "textures/minecraft/potato.png": {
+      "bytes": 200,
+      "sha256": "f1f0d5fe658ed9e2e6f550f72d82b919683011b452a1f0d989213c9a78371dca"
+    },
+    "textures/minecraft/redstone.png": {
+      "bytes": 185,
+      "sha256": "b8e3f44e86514f1b215db01cbb560ebb51afa003b7b376c7cde58e08ff4845cd"
+    },
+    "textures/minecraft/sugar.png": {
+      "bytes": 171,
+      "sha256": "978323ef2f75967c503f533cd55fcac6a2733cb2c2f9d19857c6a49bb4a1c4c6"
+    },
+    "textures/minecraft/sugar_cane.png": {
+      "bytes": 201,
+      "sha256": "669afe52f389ffcd8178829ef42b5f1151eee917430292b9914281018d4875ab"
+    },
+    "textures/minecraft/sweet_berries.png": {
+      "bytes": 233,
+      "sha256": "a5158f99d824dbc77297131e385c154921fc2ba08c33aad016a936456de23adf"
+    },
+    "textures/minecraft/wheat.png": {
+      "bytes": 226,
+      "sha256": "838cdc9c83ee91b4db431d8265255b0c6fe2c21f745b7e25a37d48a5bdf3f7a2"
+    },
+    "textures/minecraft/rotten_flesh.png": {
+      "bytes": 242,
+      "sha256": "d83d0bf7bba8d47a6385673e50a18126c1ffe682f2308358b0231be1aee970a2"
+    },
+    "textures/minecraft/pink_petals.png": {
+      "bytes": 246,
+      "sha256": "e9c4ba5674b9b32be7767b0ef8914afb1bcc1db6b8afdb301dcd52f17a69698f"
+    },
+    "textures/minecraft/allium.png": {
+      "bytes": 250,
+      "sha256": "e821156d752c1cde84a71db59cdd25c308747c607c0759b72ba36a68e959ab7d"
+    },
+    "textures/minecraft/azure_bluet.png": {
+      "bytes": 247,
+      "sha256": "193ecc37de69c45dad499a1703391fd71e137ae0fc3cc34c9352d9b0ec748f96"
+    },
+    "textures/minecraft/bamboo.png": {
+      "bytes": 208,
+      "sha256": "7fa0a1c2d790208ac2f29e3ea20bb6a6ea67ef2b6a45d077a686909b4205300b"
+    },
+    "textures/minecraft/beetroot.png": {
+      "bytes": 173,
+      "sha256": "51e6ca1d5d360a1dd8fecb15cc757ee87a3e159ae23248c3785b3d0cb22063e2"
+    },
+    "textures/minecraft/blue_orchid.png": {
+      "bytes": 186,
+      "sha256": "3f02264d40c07279ba0d4b838908c445f46b41fc5a22133159414fb6785fe853"
+    },
+    "textures/minecraft/bread.png": {
+      "bytes": 205,
+      "sha256": "2e266dd0bbc150f45e0e0307606dd519f8f18019202b49b0df315f8ecc1f5db5"
+    },
+    "textures/minecraft/carrot.png": {
+      "bytes": 218,
+      "sha256": "043e4e87057ed8f9cb84265cb19a7cec3b36fd7935d70f6672046c0efa2861d1"
+    },
+    "textures/minecraft/cornflower.png": {
+      "bytes": 178,
+      "sha256": "d7caf67e93122dba8d0a5116a779a4f0ed7ae521d9249ef41a80679e81b416e1"
+    },
+    "textures/minecraft/crimson_roots.png": {
+      "bytes": 205,
+      "sha256": "72807f0b5206acb75203755287a8a90a871e084c2350d1e3596c550bf47cb992"
+    },
+    "textures/minecraft/dandelion.png": {
+      "bytes": 139,
+      "sha256": "b8e2897e3dfecc1c863a861dd6b92b66987f33770054c2179c15b5c2abbc0e51"
+    },
+    "textures/minecraft/lilac.png": {
+      "bytes": 224,
+      "sha256": "f154437ef0ada77dfa83075c0492dcbea985a33172adca70e5cd80ff6b812c27"
+    },
+    "textures/minecraft/lily_of_the_valley.png": {
+      "bytes": 201,
+      "sha256": "2e4ade9ba31801d95ff4e112e9bd2a6766de35b0fb54dc951e72351f1f72d19b"
+    },
+    "textures/minecraft/orange_tulip.png": {
+      "bytes": 224,
+      "sha256": "d4685f7ac70a5b380e6b1a822089abbe0ba0ae5eb4ced5c19120a41be4da42fb"
+    },
+    "textures/minecraft/oxeye_daisy.png": {
+      "bytes": 286,
+      "sha256": "46ab3aad6d817dd855214e6ae28e75bc0982efca22dd4e93a3e53b3a90dddfb5"
+    },
+    "textures/minecraft/peony.png": {
+      "bytes": 243,
+      "sha256": "b23fb371f24002eefc38dc3c68fc4283ec86eabfb5db3333d1081ba8398eea8e"
+    },
+    "textures/minecraft/pink_tulip.png": {
+      "bytes": 202,
+      "sha256": "b0c9a0fdf3430f5ffceb24bcdffb9a5f250a31ec71b2f837ab17b0b86b24259b"
+    },
+    "textures/minecraft/pitcher_plant.png": {
+      "bytes": 235,
+      "sha256": "3e380c5cf8c51faf5da2e73cf1748531644a8157597462d77fb947c5e053183b"
+    },
+    "textures/minecraft/poppy.png": {
+      "bytes": 170,
+      "sha256": "419b360fb68a795a61100da382884aed41973ee9ba3c236d5a95e47d36462a62"
+    },
+    "textures/minecraft/red_tulip.png": {
+      "bytes": 192,
+      "sha256": "312a1f6c6e355909ce5db48880a5debf4d90b0aadf4a14a927992f02f2dd51c2"
+    },
+    "textures/minecraft/rose_bush.png": {
+      "bytes": 251,
+      "sha256": "441faf87995a15334e7ef0a40372d20afefe8896a533283a74efc0adc05007c3"
+    },
+    "textures/minecraft/sunflower.png": {
+      "bytes": 153,
+      "sha256": "07d343ccf6b8000a44d0b5dcd250dec23d3ed90b285d9869f955d930c969f420"
+    },
+    "textures/minecraft/torchflower.png": {
+      "bytes": 268,
+      "sha256": "d242544dd017303913a24952a22491a6e3b520832d3c8e9f61bb8ed7d9706ce4"
+    },
+    "textures/minecraft/wheat_seeds.png": {
+      "bytes": 142,
+      "sha256": "3239486bef9ea883e438c068cb97c24f1a38924b54b3c2e6209f792fc222c8d3"
+    },
+    "textures/minecraft/white_tulip.png": {
+      "bytes": 188,
+      "sha256": "0814e0d24cc7e725455d4a91198681b401e5c6e6a6a0f764392b489de606ced2"
+    },
+    "textures/minecraft/wither_rose.png": {
+      "bytes": 182,
+      "sha256": "64aa2adb9b6fcac36f3679c94373558007d337764c66a18095f58783591cd738"
+    },
+    "textures/kaleidoscope_tavern/grape.png": {
+      "bytes": 490,
+      "sha256": "f69c9982f5d9d7b1b6d0ac3a96e5c0875da7671925b6b18d0e202ceb5c476b84"
+    },
+    "textures/kaleidoscope_tavern/ice_grape.png": {
+      "bytes": 602,
+      "sha256": "1880628091b9382b14e678a8f3191bc16d60eacccdca432d970391d4c03a76a0"
+    },
+    "textures/kaleidoscope_tavern/gold_grape.png": {
+      "bytes": 249,
+      "sha256": "b967647188105bb9f6860336ec8bb42e1489ffdec57b6e8e1fc83e953a2f347b"
+    },
+    "textures/kaleidoscope_tavern/green_grape.png": {
+      "bytes": 258,
+      "sha256": "a0a690779aff7e0510c83589ea52f5616c567bacf92a4d19f3e744b80ed3cab0"
+    },
+    "textures/kaleidoscope_cookery/chili_seed.png": {
+      "bytes": 196,
+      "sha256": "bd15207cd7e283a40bb4dc38568e3e4902658b64398f26772e9193d51c1e908d"
+    },
+    "textures/kaleidoscope_cookery/green_chili.png": {
+      "bytes": 280,
+      "sha256": "ab4eabe2723d5dcfa1444da6ce2607d1737437926af72fc2344339b32aae68c9"
+    },
+    "textures/kaleidoscope_cookery/lettuce.png": {
+      "bytes": 476,
+      "sha256": "5be9036f69ae4858a6a7180515361bdebde69afd7ca985f502360359ef1f2bf1"
+    },
+    "textures/kaleidoscope_cookery/lettuce_seed.png": {
+      "bytes": 194,
+      "sha256": "3315263f8f3caa2b26a805def01abb27d64e2afbdd50bd6388b31a29d3842d9f"
+    },
+    "textures/kaleidoscope_cookery/red_chili.png": {
+      "bytes": 266,
+      "sha256": "3540678d264bf1824bd2d3f6b7c28654413b8d56da8439efdee9ee68044fa7f3"
+    },
+    "textures/kaleidoscope_cookery/rice.png": {
+      "bytes": 397,
+      "sha256": "67c6b04b6103b35192f8d63d0caaab1243f712e6524787f8c01b362fc1933fbe"
+    },
+    "textures/kaleidoscope_cookery/rice_panicle.png": {
+      "bytes": 504,
+      "sha256": "4724f862ccceb60c521d732167342aa2e698b0e64b05e030f0422d690301c6fd"
+    },
+    "textures/kaleidoscope_cookery/tomato.png": {
+      "bytes": 229,
+      "sha256": "072a9a07c31b6c2c89fcfce58135ce8dd267e667128107e0ad08c1a35dfa0b65"
+    },
+    "textures/kaleidoscope_cookery/tomato_seed.png": {
+      "bytes": 188,
+      "sha256": "2ccd697bf78743fbcf778526468760319d9ed974ef7ff1284fd658b5993094ab"
+    },
+    "textures/kaleidoscope_cookery/wild_rice.png": {
+      "bytes": 321,
+      "sha256": "705155114748d0fb8b57d19d1f9af47b015f1013119dd64f4efc5b98a3f4a19a"
+    },
+    "textures/minecraft/glow_berries.png": {
+      "bytes": 266,
+      "sha256": "b24c99d439528818c205d23e605bd7986691d782d8f8e0299666a1383e6f7a00"
+    },
+    "1.20.1-ItemModelGenerator.bytecode.txt": {
+      "bytes": 27662,
+      "sha256": "b89629fba8f45932fd0b396410ddf469fbbf19137a31e4a3813a2bfc2c4e2a1b"
+    },
+    "1.21.1-ItemModelGenerator.bytecode.txt": {
+      "bytes": 27500,
+      "sha256": "1058ae6870f19559a392fb086a09e6346e17d43ac0a941592c6afd5421ca95c1"
+    },
+    "cross-version/pink_petals-1.21.1.png": {
+      "bytes": 220,
+      "sha256": "69e00f27c10698b29f77dfc635fd0178b77c508f7ee9d71eebfd6745f12731d7"
+    },
+    "native-before/honeycomb.png": {
+      "bytes": 228,
+      "sha256": "84473431f1d1cdc70a766ddf6ae5c719ed1b76d39b67ad2042765e3189a912d5"
+    },
+    "native-before/lilac.tga": {
+      "bytes": 567,
+      "sha256": "29369e22a60d593fc8d29120c985b842239d8a9c20131022159e4dc5b8a8adb6"
+    }
+  },
+  "items": [
+    {
+      "id": "minecraft:apple",
+      "texture": "textures/minecraft/apple.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/apple"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/apple"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "386c9d1062f6c27e6056ef2e8b10e8d6a192637b3aa99f575892d0f1209fe690",
+          "rgba_sha256": "704d69b0450f623b104ed5093394cd995dfd63aa8ffc21cba25553bc8b22cd19",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "7168f8ffbbced09043aba4328453871029a9433702d1a23c01e0c968b5425bc1",
+          "java_generated_quads": 24,
+          "shell_id": "c5289ce7aa7744c6",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/item/apple.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "9b1aef1aaa41229dbe2bc97657b8650527b14cc20a6236e823f1682c4d44c5a2",
+          "rgba_sha256": "704d69b0450f623b104ed5093394cd995dfd63aa8ffc21cba25553bc8b22cd19",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "7168f8ffbbced09043aba4328453871029a9433702d1a23c01e0c968b5425bc1",
+          "java_generated_quads": 24,
+          "shell_id": "c5289ce7aa7744c6",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/item/apple.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/items/apple",
+      "native_png": {
+        "bytes_sha256": "af16a9937de0faa0ef285bee9226eb99a031d46f404e300827f2e023c1be1a7f",
+        "rgba_sha256": "704d69b0450f623b104ed5093394cd995dfd63aa8ffc21cba25553bc8b22cd19",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "7168f8ffbbced09043aba4328453871029a9433702d1a23c01e0c968b5425bc1",
+        "java_generated_quads": 24,
+        "shell_id": "c5289ce7aa7744c6"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 1,
+      "pressing_kind": 7
+    },
+    {
+      "id": "minecraft:blaze_powder",
+      "texture": "textures/minecraft/blaze_powder.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/blaze_powder"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/blaze_powder"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "be1d8c93bbff955c94c194bb944b200d884d30fcc7e221fff739881d6ed5eca2",
+          "rgba_sha256": "d97249cfa4fa43db2df0f11777f0f773a439d5cdb6d5de96a83992dd98bc17c4",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "3fdf06f09e34fb6b90cedf9c6b993cc98a6d4ef4725f7577c4ca68efb1d4052e",
+          "java_generated_quads": 43,
+          "shell_id": "419417c33bcb2b43",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/item/blaze_powder.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "be1d8c93bbff955c94c194bb944b200d884d30fcc7e221fff739881d6ed5eca2",
+          "rgba_sha256": "d97249cfa4fa43db2df0f11777f0f773a439d5cdb6d5de96a83992dd98bc17c4",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "3fdf06f09e34fb6b90cedf9c6b993cc98a6d4ef4725f7577c4ca68efb1d4052e",
+          "java_generated_quads": 43,
+          "shell_id": "419417c33bcb2b43",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/item/blaze_powder.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/items/blaze_powder",
+      "native_png": {
+        "bytes_sha256": "1f1ce5f98bd9a932424ec88d91326f4d90b364c7088297f3273310c35882d5a2",
+        "rgba_sha256": "d97249cfa4fa43db2df0f11777f0f773a439d5cdb6d5de96a83992dd98bc17c4",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "3fdf06f09e34fb6b90cedf9c6b993cc98a6d4ef4725f7577c4ca68efb1d4052e",
+        "java_generated_quads": 43,
+        "shell_id": "419417c33bcb2b43"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 2,
+      "pressing_kind": 8
+    },
+    {
+      "id": "minecraft:glow_ink_sac",
+      "texture": "textures/minecraft/glow_ink_sac.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/glow_ink_sac"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/glow_ink_sac"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "e2d115e632ed0d615aa3c06e50b746befabdaab7090af90fa8bea6a4a9d61341",
+          "rgba_sha256": "6e1be7dc97a395718c6d8c99d1f9bc325a7efaf9f6b2d8ae8da16c10b62ed492",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "c7bf510e307d6556d06f412c3e7239ee09d61cf0edec59e6d35d8b80a4802e7d",
+          "java_generated_quads": 24,
+          "shell_id": "cfd20771fdd6c7bb",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/item/glow_ink_sac.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "9a6cd1ac90b81180f33c5d357c140d1ff6cceb5793af33eaeac9b21ee3bf2580",
+          "rgba_sha256": "6e1be7dc97a395718c6d8c99d1f9bc325a7efaf9f6b2d8ae8da16c10b62ed492",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "c7bf510e307d6556d06f412c3e7239ee09d61cf0edec59e6d35d8b80a4802e7d",
+          "java_generated_quads": 24,
+          "shell_id": "cfd20771fdd6c7bb",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/item/glow_ink_sac.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/items/dye_powder_glow",
+      "native_png": {
+        "bytes_sha256": "e2d115e632ed0d615aa3c06e50b746befabdaab7090af90fa8bea6a4a9d61341",
+        "rgba_sha256": "6e1be7dc97a395718c6d8c99d1f9bc325a7efaf9f6b2d8ae8da16c10b62ed492",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "c7bf510e307d6556d06f412c3e7239ee09d61cf0edec59e6d35d8b80a4802e7d",
+        "java_generated_quads": 24,
+        "shell_id": "cfd20771fdd6c7bb"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 3,
+      "pressing_kind": 9
+    },
+    {
+      "id": "minecraft:glowstone_dust",
+      "texture": "textures/minecraft/glowstone_dust.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/glowstone_dust"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/glowstone_dust"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "40f7673da900c4ab308e398ebfb3fd5c18b11d0c4f97d5588f192cd34e026974",
+          "rgba_sha256": "605a3c4307f32144ea1cb14640c4a1d8d597e3a5ffd6e9668403ee93a135d994",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "b1ba376e00555937d789c620f5a46239090cf7ed2e5891347f5b96731d8e6bb7",
+          "java_generated_quads": 24,
+          "shell_id": "7ad5b5cb010df3fc",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/item/glowstone_dust.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "00962db45edce6a24fe10364a6408e11af506875a2ffa63a54777c13ccd12989",
+          "rgba_sha256": "605a3c4307f32144ea1cb14640c4a1d8d597e3a5ffd6e9668403ee93a135d994",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "b1ba376e00555937d789c620f5a46239090cf7ed2e5891347f5b96731d8e6bb7",
+          "java_generated_quads": 24,
+          "shell_id": "7ad5b5cb010df3fc",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/item/glowstone_dust.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/items/glowstone_dust",
+      "native_png": {
+        "bytes_sha256": "6926b15126e72416cec7f28e905f1afe5cb47e372aa8bce1611a3928223a57e7",
+        "rgba_sha256": "605a3c4307f32144ea1cb14640c4a1d8d597e3a5ffd6e9668403ee93a135d994",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "b1ba376e00555937d789c620f5a46239090cf7ed2e5891347f5b96731d8e6bb7",
+        "java_generated_quads": 24,
+        "shell_id": "7ad5b5cb010df3fc"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 4,
+      "pressing_kind": 10
+    },
+    {
+      "id": "minecraft:gold_nugget",
+      "texture": "textures/minecraft/gold_nugget.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/gold_nugget"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/gold_nugget"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "73c9c64b35e15a47366802fa899b115fce6380d1f19bda38dd7ef196182029ca",
+          "rgba_sha256": "0651ae67da1fd4e30e9269025497f5187b5bad35fe725735d5a040ab97529ef1",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "31a7fe520046da513f3e143f0511a44aa4b26449a240a96c9b4d1d1b02cfc967",
+          "java_generated_quads": 15,
+          "shell_id": "46d546e415a93323",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/item/gold_nugget.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "73c9c64b35e15a47366802fa899b115fce6380d1f19bda38dd7ef196182029ca",
+          "rgba_sha256": "0651ae67da1fd4e30e9269025497f5187b5bad35fe725735d5a040ab97529ef1",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "31a7fe520046da513f3e143f0511a44aa4b26449a240a96c9b4d1d1b02cfc967",
+          "java_generated_quads": 15,
+          "shell_id": "46d546e415a93323",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/item/gold_nugget.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/items/gold_nugget",
+      "native_png": {
+        "bytes_sha256": "00a08bde5ef4eef9e0a58c5698da3dcc803d7bf7c1e05c81966532b4bd6b176c",
+        "rgba_sha256": "0651ae67da1fd4e30e9269025497f5187b5bad35fe725735d5a040ab97529ef1",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "31a7fe520046da513f3e143f0511a44aa4b26449a240a96c9b4d1d1b02cfc967",
+        "java_generated_quads": 15,
+        "shell_id": "46d546e415a93323"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 5,
+      "pressing_kind": 11
+    },
+    {
+      "id": "minecraft:gunpowder",
+      "texture": "textures/minecraft/gunpowder.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/gunpowder"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/gunpowder"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "2e92e94da1d88d700f946aefd67e8fae76dbf7517931063c88c7ff547a2a7bf2",
+          "rgba_sha256": "621e43198b27525c374f286177adb50d8da86cf08b21762070747c155e553138",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "b1ba376e00555937d789c620f5a46239090cf7ed2e5891347f5b96731d8e6bb7",
+          "java_generated_quads": 24,
+          "shell_id": "7ad5b5cb010df3fc",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/item/gunpowder.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "e23356d9ff24102af4d9ffb48e319d73f235f8bdca8da92fa3a26cef791d33e1",
+          "rgba_sha256": "621e43198b27525c374f286177adb50d8da86cf08b21762070747c155e553138",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "b1ba376e00555937d789c620f5a46239090cf7ed2e5891347f5b96731d8e6bb7",
+          "java_generated_quads": 24,
+          "shell_id": "7ad5b5cb010df3fc",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/item/gunpowder.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/items/gunpowder",
+      "native_png": {
+        "bytes_sha256": "78b1c7e7a4776026837aa2714eef47be2619bca822b555d617ba5e99427bd753",
+        "rgba_sha256": "621e43198b27525c374f286177adb50d8da86cf08b21762070747c155e553138",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "b1ba376e00555937d789c620f5a46239090cf7ed2e5891347f5b96731d8e6bb7",
+        "java_generated_quads": 24,
+        "shell_id": "7ad5b5cb010df3fc"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 6,
+      "pressing_kind": 12
+    },
+    {
+      "id": "minecraft:honeycomb",
+      "texture": "textures/minecraft/honeycomb.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/honeycomb"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/honeycomb"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "a777ccc39d4316691207759613da039abe2f8926255837b6a78bd82ca049efbc",
+          "rgba_sha256": "748964751d8d1fd1c66baf64a5b317c8c3911e541bffc7ddb4375a9661dbfbdb",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "2bed5532ba1518eae1876ccab701d6bfe2f476740e960e4a6e83002f24a05e28",
+          "java_generated_quads": 31,
+          "shell_id": "c00318c6243ea5ae",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/item/honeycomb.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "0cb13b7ba902f79a6fd055b810e9d367a73c2fa29e2d5090bb35fa082e02504d",
+          "rgba_sha256": "748964751d8d1fd1c66baf64a5b317c8c3911e541bffc7ddb4375a9661dbfbdb",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "2bed5532ba1518eae1876ccab701d6bfe2f476740e960e4a6e83002f24a05e28",
+          "java_generated_quads": 31,
+          "shell_id": "c00318c6243ea5ae",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/item/honeycomb.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/items/honeycomb",
+      "native_png": {
+        "bytes_sha256": "84473431f1d1cdc70a766ddf6ae5c719ed1b76d39b67ad2042765e3189a912d5",
+        "rgba_sha256": "3531067c29a0b870a7ec296d2241972d83895255e37641b362d4acc8fe2f999c",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "9aca1ac87557afd93c432526ac97011e5d5b64080da3fccd260067b5d3c61e10",
+        "java_generated_quads": 31,
+        "shell_id": "9ca33681483ea7e3"
+      },
+      "native_source_rgba_equal": false,
+      "barrel_kind": 7,
+      "pressing_kind": 13,
+      "original_native_texture": "native-before/honeycomb.png"
+    },
+    {
+      "id": "minecraft:iron_nugget",
+      "texture": "textures/minecraft/iron_nugget.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/iron_nugget"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/iron_nugget"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "c9647153bb90c1ba20e2405707cc872d32284674a0086e19e8dc82fbccdfc775",
+          "rgba_sha256": "63caa5f4143d56a678f57ea57b721a171f9379d62d43b6e65bfdf8932d020330",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "07cff7dcbd821added244a7c9b5a62e33c4d20c2b5c5057a3de82f76dea97ec2",
+          "java_generated_quads": 14,
+          "shell_id": "68a46c1af90fd5d1",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/item/iron_nugget.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "c9647153bb90c1ba20e2405707cc872d32284674a0086e19e8dc82fbccdfc775",
+          "rgba_sha256": "63caa5f4143d56a678f57ea57b721a171f9379d62d43b6e65bfdf8932d020330",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "07cff7dcbd821added244a7c9b5a62e33c4d20c2b5c5057a3de82f76dea97ec2",
+          "java_generated_quads": 14,
+          "shell_id": "68a46c1af90fd5d1",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/item/iron_nugget.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/items/iron_nugget",
+      "native_png": {
+        "bytes_sha256": "1442104640b7233814831f7d8070d0296b89acad278398ba63072299a9052f4f",
+        "rgba_sha256": "63caa5f4143d56a678f57ea57b721a171f9379d62d43b6e65bfdf8932d020330",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "07cff7dcbd821added244a7c9b5a62e33c4d20c2b5c5057a3de82f76dea97ec2",
+        "java_generated_quads": 14,
+        "shell_id": "68a46c1af90fd5d1"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 8,
+      "pressing_kind": 14
+    },
+    {
+      "id": "minecraft:potato",
+      "texture": "textures/minecraft/potato.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/potato"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/potato"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "f1f0d5fe658ed9e2e6f550f72d82b919683011b452a1f0d989213c9a78371dca",
+          "rgba_sha256": "e3862fce0e9ed9f9ac3b8f55f1664a436fbfa48d9dad651a76a1a955e1018b2f",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "867052cea11da014c162a9c7211b0dadb435efd84d44f09f61201a0a68beb43b",
+          "java_generated_quads": 22,
+          "shell_id": "964324e9ec53fc4f",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/item/potato.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "a1262dfc5ef931f6708dcdf06a294d76de82ea05d7c0ff068636961f665f5a32",
+          "rgba_sha256": "e3862fce0e9ed9f9ac3b8f55f1664a436fbfa48d9dad651a76a1a955e1018b2f",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "867052cea11da014c162a9c7211b0dadb435efd84d44f09f61201a0a68beb43b",
+          "java_generated_quads": 22,
+          "shell_id": "964324e9ec53fc4f",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/item/potato.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/items/potato",
+      "native_png": {
+        "bytes_sha256": "9ca09d70f2f27339cc80c8f7eae8c715aaf819e67faf32e31a9e877b9dcbf832",
+        "rgba_sha256": "e3862fce0e9ed9f9ac3b8f55f1664a436fbfa48d9dad651a76a1a955e1018b2f",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "867052cea11da014c162a9c7211b0dadb435efd84d44f09f61201a0a68beb43b",
+        "java_generated_quads": 22,
+        "shell_id": "964324e9ec53fc4f"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 9,
+      "pressing_kind": 15
+    },
+    {
+      "id": "minecraft:redstone",
+      "texture": "textures/minecraft/redstone.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/redstone"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/redstone"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "b8e3f44e86514f1b215db01cbb560ebb51afa003b7b376c7cde58e08ff4845cd",
+          "rgba_sha256": "5f088f7d4ebb0b6b5b188792925ef77c9ed2d83a5a31d95915dfca4c1258b4dd",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "b1ba376e00555937d789c620f5a46239090cf7ed2e5891347f5b96731d8e6bb7",
+          "java_generated_quads": 24,
+          "shell_id": "7ad5b5cb010df3fc",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/item/redstone.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "6d0e6a1fd54142cd3de649e1100c428733512b322a0b0a530f62eae9f86881ec",
+          "rgba_sha256": "5f088f7d4ebb0b6b5b188792925ef77c9ed2d83a5a31d95915dfca4c1258b4dd",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "b1ba376e00555937d789c620f5a46239090cf7ed2e5891347f5b96731d8e6bb7",
+          "java_generated_quads": 24,
+          "shell_id": "7ad5b5cb010df3fc",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/item/redstone.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/items/redstone_dust",
+      "native_png": {
+        "bytes_sha256": "ddbc3019cd89c9740c460a2b135c69496ad01f1dd5dea70f3526203b95e033a6",
+        "rgba_sha256": "5f088f7d4ebb0b6b5b188792925ef77c9ed2d83a5a31d95915dfca4c1258b4dd",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "b1ba376e00555937d789c620f5a46239090cf7ed2e5891347f5b96731d8e6bb7",
+        "java_generated_quads": 24,
+        "shell_id": "7ad5b5cb010df3fc"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 10,
+      "pressing_kind": 16
+    },
+    {
+      "id": "minecraft:sugar",
+      "texture": "textures/minecraft/sugar.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/sugar"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/sugar"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "978323ef2f75967c503f533cd55fcac6a2733cb2c2f9d19857c6a49bb4a1c4c6",
+          "rgba_sha256": "6dd909a613630636f364ef67581af76eda5488e74239a6072c3e7135225f9fea",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "b1ba376e00555937d789c620f5a46239090cf7ed2e5891347f5b96731d8e6bb7",
+          "java_generated_quads": 24,
+          "shell_id": "7ad5b5cb010df3fc",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/item/sugar.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "978323ef2f75967c503f533cd55fcac6a2733cb2c2f9d19857c6a49bb4a1c4c6",
+          "rgba_sha256": "6dd909a613630636f364ef67581af76eda5488e74239a6072c3e7135225f9fea",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "b1ba376e00555937d789c620f5a46239090cf7ed2e5891347f5b96731d8e6bb7",
+          "java_generated_quads": 24,
+          "shell_id": "7ad5b5cb010df3fc",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/item/sugar.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/items/sugar",
+      "native_png": {
+        "bytes_sha256": "936beca8d6330f93696da3e8886d5e033665b9be5c6907184d1065d7dafbef01",
+        "rgba_sha256": "6dd909a613630636f364ef67581af76eda5488e74239a6072c3e7135225f9fea",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "b1ba376e00555937d789c620f5a46239090cf7ed2e5891347f5b96731d8e6bb7",
+        "java_generated_quads": 24,
+        "shell_id": "7ad5b5cb010df3fc"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 11,
+      "pressing_kind": 17
+    },
+    {
+      "id": "minecraft:sugar_cane",
+      "texture": "textures/minecraft/sugar_cane.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/sugar_cane"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/sugar_cane"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "669afe52f389ffcd8178829ef42b5f1151eee917430292b9914281018d4875ab",
+          "rgba_sha256": "8a03e7cd51c50ea9b5225e73d35538d765174a67302071d810e8b436d4878a03",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "5701735fc41c74a0c64a8debab2d06f3239a40bb28524f4b8c69ddbf87d19561",
+          "java_generated_quads": 34,
+          "shell_id": "2c6a828726e0fbc1",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/item/sugar_cane.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "dad3d43c986de5936e676d5335c679143900717069e6012ae7cd58c79c8964ec",
+          "rgba_sha256": "8a03e7cd51c50ea9b5225e73d35538d765174a67302071d810e8b436d4878a03",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "5701735fc41c74a0c64a8debab2d06f3239a40bb28524f4b8c69ddbf87d19561",
+          "java_generated_quads": 34,
+          "shell_id": "2c6a828726e0fbc1",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/item/sugar_cane.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/items/reeds",
+      "native_png": {
+        "bytes_sha256": "711695c4338b22324f55dad66932685f4e20f8a9a1fa709c4acdc01aa1a97152",
+        "rgba_sha256": "8a03e7cd51c50ea9b5225e73d35538d765174a67302071d810e8b436d4878a03",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "5701735fc41c74a0c64a8debab2d06f3239a40bb28524f4b8c69ddbf87d19561",
+        "java_generated_quads": 34,
+        "shell_id": "2c6a828726e0fbc1"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 12,
+      "pressing_kind": 18
+    },
+    {
+      "id": "minecraft:sweet_berries",
+      "texture": "textures/minecraft/sweet_berries.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/sweet_berries"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/sweet_berries"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "a5158f99d824dbc77297131e385c154921fc2ba08c33aad016a936456de23adf",
+          "rgba_sha256": "b6ccab40e82d54a38902ded9302ea8eca61ae4ddb31a974ebea3812361d9b454",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "3be268dfba12923bd28bd27edf774c4cefb39dc4b143e4b803e06ef97967528a",
+          "java_generated_quads": 41,
+          "shell_id": "b9fa69d955cc7ec9",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/item/sweet_berries.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "df3d2e43e671dd16d2b101e5e2273330e1bcae0bfe36cac5e8db68ce6ce7fc88",
+          "rgba_sha256": "b6ccab40e82d54a38902ded9302ea8eca61ae4ddb31a974ebea3812361d9b454",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "3be268dfba12923bd28bd27edf774c4cefb39dc4b143e4b803e06ef97967528a",
+          "java_generated_quads": 41,
+          "shell_id": "b9fa69d955cc7ec9",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/item/sweet_berries.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/items/sweet_berries",
+      "native_png": {
+        "bytes_sha256": "a5158f99d824dbc77297131e385c154921fc2ba08c33aad016a936456de23adf",
+        "rgba_sha256": "b6ccab40e82d54a38902ded9302ea8eca61ae4ddb31a974ebea3812361d9b454",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "3be268dfba12923bd28bd27edf774c4cefb39dc4b143e4b803e06ef97967528a",
+        "java_generated_quads": 41,
+        "shell_id": "b9fa69d955cc7ec9"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 13,
+      "pressing_kind": 5
+    },
+    {
+      "id": "minecraft:wheat",
+      "texture": "textures/minecraft/wheat.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/wheat"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/wheat"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "838cdc9c83ee91b4db431d8265255b0c6fe2c21f745b7e25a37d48a5bdf3f7a2",
+          "rgba_sha256": "3ed3f24b454304fb83db22b7fd1e84db43d026393328ec981687b4b73b4018cb",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "9b59ead15d28bec2bdea6285a48ddfa55b428f743f8951cc9961fc29bba844a4",
+          "java_generated_quads": 43,
+          "shell_id": "d131f94a77b41406",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/item/wheat.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "9ed5d3338d238528fa04c9fd86bd1e5f87a194576eed3f5e6bb86dcf18470039",
+          "rgba_sha256": "3ed3f24b454304fb83db22b7fd1e84db43d026393328ec981687b4b73b4018cb",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "9b59ead15d28bec2bdea6285a48ddfa55b428f743f8951cc9961fc29bba844a4",
+          "java_generated_quads": 43,
+          "shell_id": "d131f94a77b41406",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/item/wheat.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/items/wheat",
+      "native_png": {
+        "bytes_sha256": "21c2b0bfeae4934a7a5b606c98c1fe3c9f595514700d4191f2646d85aacaaf0a",
+        "rgba_sha256": "3ed3f24b454304fb83db22b7fd1e84db43d026393328ec981687b4b73b4018cb",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "9b59ead15d28bec2bdea6285a48ddfa55b428f743f8951cc9961fc29bba844a4",
+        "java_generated_quads": 43,
+        "shell_id": "d131f94a77b41406"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 14,
+      "pressing_kind": 19
+    },
+    {
+      "id": "minecraft:rotten_flesh",
+      "texture": "textures/minecraft/rotten_flesh.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/rotten_flesh"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/rotten_flesh"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "d83d0bf7bba8d47a6385673e50a18126c1ffe682f2308358b0231be1aee970a2",
+          "rgba_sha256": "8564be185a6aab0c1b7eaa40338a4c00be65a92c2bc8063597d0b5e77f061299",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "931c007bbb35c2dc72312d709766ede7a08fb4492cdc6053711381237c5d855c",
+          "java_generated_quads": 35,
+          "shell_id": "0be8a13c3613e902",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/item/rotten_flesh.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "a35be717a47b544790c8595fe214f9794689fa8fe6eac27926c42dec4e6f8936",
+          "rgba_sha256": "8564be185a6aab0c1b7eaa40338a4c00be65a92c2bc8063597d0b5e77f061299",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "931c007bbb35c2dc72312d709766ede7a08fb4492cdc6053711381237c5d855c",
+          "java_generated_quads": 35,
+          "shell_id": "0be8a13c3613e902",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/item/rotten_flesh.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/items/rotten_flesh",
+      "native_png": {
+        "bytes_sha256": "c49a0822da172a801cfa568c6f4ab0f75dfe7b47d07fddbaed8787a0589b2c76",
+        "rgba_sha256": "8564be185a6aab0c1b7eaa40338a4c00be65a92c2bc8063597d0b5e77f061299",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "931c007bbb35c2dc72312d709766ede7a08fb4492cdc6053711381237c5d855c",
+        "java_generated_quads": 35,
+        "shell_id": "0be8a13c3613e902"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 15,
+      "pressing_kind": 20
+    },
+    {
+      "id": "minecraft:pink_petals",
+      "texture": "textures/minecraft/pink_petals.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/pink_petals"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/pink_petals"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "e9c4ba5674b9b32be7767b0ef8914afb1bcc1db6b8afdb301dcd52f17a69698f",
+          "rgba_sha256": "8af97565c442b601e91bebb3c81875027eeebae8b4b6b6e8d56e14e18a9c6361",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "c47bc9248d4687f1ae65c50036412f23bd6a5a9456da1c86e9f983295c0f489c",
+          "java_generated_quads": 46,
+          "shell_id": "1179431225386541",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/item/pink_petals.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "69e00f27c10698b29f77dfc635fd0178b77c508f7ee9d71eebfd6745f12731d7",
+          "rgba_sha256": "00738ee17ca6e40a076069467ea82548b9d46889e69999d97b68df1364580a94",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "33858f9607e05fad296e9e5de3110c4ab5d012ad180b45fa8c723b390faa9af9",
+          "java_generated_quads": 46,
+          "shell_id": "1179431225386541",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/item/pink_petals.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/items/pink_petals",
+      "native_png": {
+        "bytes_sha256": "3fe9a83f82ebade8795f9f15cddee2832a0ac876cd12192a64c9be676d91dd66",
+        "rgba_sha256": "8af97565c442b601e91bebb3c81875027eeebae8b4b6b6e8d56e14e18a9c6361",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "c47bc9248d4687f1ae65c50036412f23bd6a5a9456da1c86e9f983295c0f489c",
+        "java_generated_quads": 46,
+        "shell_id": "1179431225386541"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 21,
+      "pressing_kind": 26
+    },
+    {
+      "id": "minecraft:allium",
+      "texture": "textures/minecraft/allium.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:block/allium"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:block/allium"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "e821156d752c1cde84a71db59cdd25c308747c607c0759b72ba36a68e959ab7d",
+          "rgba_sha256": "f65b0df503d108173e00ac220959061f341800037c07b1d89fd56f7779a8a3b4",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "791b2b65f1ef2a68a48a2a434a7d33049bab6d90bebe8a16bb8032fa34c18ee0",
+          "java_generated_quads": 17,
+          "shell_id": "3d4e1849291033a2",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/block/allium.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "e821156d752c1cde84a71db59cdd25c308747c607c0759b72ba36a68e959ab7d",
+          "rgba_sha256": "f65b0df503d108173e00ac220959061f341800037c07b1d89fd56f7779a8a3b4",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "791b2b65f1ef2a68a48a2a434a7d33049bab6d90bebe8a16bb8032fa34c18ee0",
+          "java_generated_quads": 17,
+          "shell_id": "3d4e1849291033a2",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/block/allium.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/blocks/flower_allium",
+      "native_png": {
+        "bytes_sha256": "1a9886ff4971c2b0c63e77fffe3729cb2f513cc34a398e9c0bdcddbcb3dbdd96",
+        "rgba_sha256": "f65b0df503d108173e00ac220959061f341800037c07b1d89fd56f7779a8a3b4",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "791b2b65f1ef2a68a48a2a434a7d33049bab6d90bebe8a16bb8032fa34c18ee0",
+        "java_generated_quads": 17,
+        "shell_id": "3d4e1849291033a2"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 22
+    },
+    {
+      "id": "minecraft:azure_bluet",
+      "texture": "textures/minecraft/azure_bluet.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:block/azure_bluet"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:block/azure_bluet"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "193ecc37de69c45dad499a1703391fd71e137ae0fc3cc34c9352d9b0ec748f96",
+          "rgba_sha256": "5a679318e84d498c3d27a808cd39611d895dd401a192aab91a13aad4f32cba26",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "890c101c2a3455226c1f3292a586e2a27ae5890e3c078e84661f820c0bbbca77",
+          "java_generated_quads": 33,
+          "shell_id": "e448028b5350b45d",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/block/azure_bluet.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "193ecc37de69c45dad499a1703391fd71e137ae0fc3cc34c9352d9b0ec748f96",
+          "rgba_sha256": "5a679318e84d498c3d27a808cd39611d895dd401a192aab91a13aad4f32cba26",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "890c101c2a3455226c1f3292a586e2a27ae5890e3c078e84661f820c0bbbca77",
+          "java_generated_quads": 33,
+          "shell_id": "e448028b5350b45d",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/block/azure_bluet.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/blocks/flower_houstonia",
+      "native_png": {
+        "bytes_sha256": "04d767af56fc6a6157eebd9ee6b4cf09e1e60692218d7c25fed17b6bc3a46bbb",
+        "rgba_sha256": "5a679318e84d498c3d27a808cd39611d895dd401a192aab91a13aad4f32cba26",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "890c101c2a3455226c1f3292a586e2a27ae5890e3c078e84661f820c0bbbca77",
+        "java_generated_quads": 33,
+        "shell_id": "e448028b5350b45d"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 23
+    },
+    {
+      "id": "minecraft:bamboo",
+      "texture": "textures/minecraft/bamboo.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/handheld",
+          "textures": {
+            "layer0": "minecraft:item/bamboo"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/handheld",
+          "textures": {
+            "layer0": "minecraft:item/bamboo"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "7fa0a1c2d790208ac2f29e3ea20bb6a6ea67ef2b6a45d077a686909b4205300b",
+          "rgba_sha256": "5185bd6dc8279008a82065b8aec81b52cbe2cf849c19f8d41d95cca33cc9cbe1",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "f7581a9f6b5e75832fe752f7c315b2d1693c9b53c214e24debaaa78f699f775e",
+          "java_generated_quads": 51,
+          "shell_id": "ae72f183ce31582c",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/item/bamboo.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "5ad5fd1000276bc88dfff9a7b0b5edc142654e040d7da49e394b1a7ffed2a6e5",
+          "rgba_sha256": "5185bd6dc8279008a82065b8aec81b52cbe2cf849c19f8d41d95cca33cc9cbe1",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "f7581a9f6b5e75832fe752f7c315b2d1693c9b53c214e24debaaa78f699f775e",
+          "java_generated_quads": 51,
+          "shell_id": "ae72f183ce31582c",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/item/bamboo.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/items/bamboo",
+      "native_png": {
+        "bytes_sha256": "da9f5d0d67c23dcb80ca2c2c147a597f55f981b53d84f3e82fe9bec469f9cbcf",
+        "rgba_sha256": "5185bd6dc8279008a82065b8aec81b52cbe2cf849c19f8d41d95cca33cc9cbe1",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "f7581a9f6b5e75832fe752f7c315b2d1693c9b53c214e24debaaa78f699f775e",
+        "java_generated_quads": 51,
+        "shell_id": "ae72f183ce31582c"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 24
+    },
+    {
+      "id": "minecraft:beetroot",
+      "texture": "textures/minecraft/beetroot.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/beetroot"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/beetroot"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "51e6ca1d5d360a1dd8fecb15cc757ee87a3e159ae23248c3785b3d0cb22063e2",
+          "rgba_sha256": "17bc8b31ae7ffad47a38687507c6dd62fe33442da88675d1b6b6b3b80e894ff9",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "8526ed6bf4017148dd0f85e5f05cdfeff603224dd00e0e4b036959c77fb0b3b2",
+          "java_generated_quads": 31,
+          "shell_id": "11913e515e1b84f3",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/item/beetroot.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "51e6ca1d5d360a1dd8fecb15cc757ee87a3e159ae23248c3785b3d0cb22063e2",
+          "rgba_sha256": "17bc8b31ae7ffad47a38687507c6dd62fe33442da88675d1b6b6b3b80e894ff9",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "8526ed6bf4017148dd0f85e5f05cdfeff603224dd00e0e4b036959c77fb0b3b2",
+          "java_generated_quads": 31,
+          "shell_id": "11913e515e1b84f3",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/item/beetroot.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/items/beetroot",
+      "native_png": {
+        "bytes_sha256": "37f6c5ec79ca73855f8c781db83a4fc82729a4d9bdf6e64a2eac4611043a69b0",
+        "rgba_sha256": "17bc8b31ae7ffad47a38687507c6dd62fe33442da88675d1b6b6b3b80e894ff9",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "8526ed6bf4017148dd0f85e5f05cdfeff603224dd00e0e4b036959c77fb0b3b2",
+        "java_generated_quads": 31,
+        "shell_id": "11913e515e1b84f3"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 25
+    },
+    {
+      "id": "minecraft:blue_orchid",
+      "texture": "textures/minecraft/blue_orchid.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:block/blue_orchid"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:block/blue_orchid"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "3f02264d40c07279ba0d4b838908c445f46b41fc5a22133159414fb6785fe853",
+          "rgba_sha256": "98f9528da77c9b87fdf981a7d1192038b82894a75ab3b87e7005d4158fccd8d9",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "fca3b29e68f0740d1a121e6ff71ee06f3d92fe558de7ef0e70cc83fde4d83407",
+          "java_generated_quads": 41,
+          "shell_id": "d3c0392d3073de33",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/block/blue_orchid.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "e15cea1035869808b16ab03efae88deeefd6dcaa859f9f647927739fd6e34436",
+          "rgba_sha256": "98f9528da77c9b87fdf981a7d1192038b82894a75ab3b87e7005d4158fccd8d9",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "fca3b29e68f0740d1a121e6ff71ee06f3d92fe558de7ef0e70cc83fde4d83407",
+          "java_generated_quads": 41,
+          "shell_id": "d3c0392d3073de33",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/block/blue_orchid.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/blocks/flower_blue_orchid",
+      "native_png": {
+        "bytes_sha256": "65b6f59ee89737be93f7332598f512b4ab67160f431ea7f3f66fbf09f9c6bd21",
+        "rgba_sha256": "98f9528da77c9b87fdf981a7d1192038b82894a75ab3b87e7005d4158fccd8d9",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "fca3b29e68f0740d1a121e6ff71ee06f3d92fe558de7ef0e70cc83fde4d83407",
+        "java_generated_quads": 41,
+        "shell_id": "d3c0392d3073de33"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 26
+    },
+    {
+      "id": "minecraft:bread",
+      "texture": "textures/minecraft/bread.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/bread"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/bread"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "2e266dd0bbc150f45e0e0307606dd519f8f18019202b49b0df315f8ecc1f5db5",
+          "rgba_sha256": "0504bf498e64c2a634065dfa20c4215db3c1a643d38eb229cb0f0c8c7216a69d",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "103152f9121e050e3efb162b7003023e9eff10be47282dfd6e87a6c8bc870754",
+          "java_generated_quads": 36,
+          "shell_id": "13b1ac83e0624476",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/item/bread.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "7e0e4a9fcb8bd4b85820ee3aa7ea83b66f08687cd907a8d38cc98281b41fac1d",
+          "rgba_sha256": "0504bf498e64c2a634065dfa20c4215db3c1a643d38eb229cb0f0c8c7216a69d",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "103152f9121e050e3efb162b7003023e9eff10be47282dfd6e87a6c8bc870754",
+          "java_generated_quads": 36,
+          "shell_id": "13b1ac83e0624476",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/item/bread.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/items/bread",
+      "native_png": {
+        "bytes_sha256": "5c4e18a8fe3c226ec75eac1a1d0e84109369698573f1f34b3c59eff110e3a11a",
+        "rgba_sha256": "0504bf498e64c2a634065dfa20c4215db3c1a643d38eb229cb0f0c8c7216a69d",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "103152f9121e050e3efb162b7003023e9eff10be47282dfd6e87a6c8bc870754",
+        "java_generated_quads": 36,
+        "shell_id": "13b1ac83e0624476"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 27
+    },
+    {
+      "id": "minecraft:carrot",
+      "texture": "textures/minecraft/carrot.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/carrot"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/carrot"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "043e4e87057ed8f9cb84265cb19a7cec3b36fd7935d70f6672046c0efa2861d1",
+          "rgba_sha256": "d6f077814741b0b83e16dd315a4c98daad69d17c8f67529dbdfccb45cfddc1e8",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "9534d14fb027fc0a8777c73b3bbe456a5874c644ed36e513e726a015a98972f6",
+          "java_generated_quads": 41,
+          "shell_id": "554966f302eb9cc2",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/item/carrot.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "113a62e7fbee7d2874268f62c7ca5db3dc9b1dc538f7ff5aaa0fae5a4f1f3e0d",
+          "rgba_sha256": "d6f077814741b0b83e16dd315a4c98daad69d17c8f67529dbdfccb45cfddc1e8",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "9534d14fb027fc0a8777c73b3bbe456a5874c644ed36e513e726a015a98972f6",
+          "java_generated_quads": 41,
+          "shell_id": "554966f302eb9cc2",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/item/carrot.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/items/carrot",
+      "native_png": {
+        "bytes_sha256": "94df2b17e0c874b703a170a21e0f73ef0ffc12315575dd5858a8453bf7965af0",
+        "rgba_sha256": "d6f077814741b0b83e16dd315a4c98daad69d17c8f67529dbdfccb45cfddc1e8",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "9534d14fb027fc0a8777c73b3bbe456a5874c644ed36e513e726a015a98972f6",
+        "java_generated_quads": 41,
+        "shell_id": "554966f302eb9cc2"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 28
+    },
+    {
+      "id": "minecraft:cornflower",
+      "texture": "textures/minecraft/cornflower.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:block/cornflower"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:block/cornflower"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "d7caf67e93122dba8d0a5116a779a4f0ed7ae521d9249ef41a80679e81b416e1",
+          "rgba_sha256": "edc52ece5cd402e257e0ba03a64a29fbe1d8f5bc0e00ad42a728d1ba706c349e",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "8f567b265b55fc0fe9ac0345b0196cd1785be07f6dcc2ae9eee720ca1339ddf9",
+          "java_generated_quads": 27,
+          "shell_id": "24531192dc9d6c3c",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/block/cornflower.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "df8624ca57077469654576faab3424aceb0bdc512102ec2056a17a0ff890c52d",
+          "rgba_sha256": "edc52ece5cd402e257e0ba03a64a29fbe1d8f5bc0e00ad42a728d1ba706c349e",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "8f567b265b55fc0fe9ac0345b0196cd1785be07f6dcc2ae9eee720ca1339ddf9",
+          "java_generated_quads": 27,
+          "shell_id": "24531192dc9d6c3c",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/block/cornflower.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/blocks/flower_cornflower",
+      "native_png": {
+        "bytes_sha256": "46e0817fc9f1b22ad6f32f8eae35e046486cdf19f91869709f8c05a313e6f4df",
+        "rgba_sha256": "edc52ece5cd402e257e0ba03a64a29fbe1d8f5bc0e00ad42a728d1ba706c349e",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "8f567b265b55fc0fe9ac0345b0196cd1785be07f6dcc2ae9eee720ca1339ddf9",
+        "java_generated_quads": 27,
+        "shell_id": "24531192dc9d6c3c"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 29
+    },
+    {
+      "id": "minecraft:crimson_roots",
+      "texture": "textures/minecraft/crimson_roots.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:block/crimson_roots"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:block/crimson_roots"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "72807f0b5206acb75203755287a8a90a871e084c2350d1e3596c550bf47cb992",
+          "rgba_sha256": "a87c99123bd5e2c314ee7094942fd0cb799e8daa085590050e975a42f0b5aa09",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "0dfcad8843bb9b0c54c6995da602fad7efd6ec2f85aa535aa0af76daa8b9b3b6",
+          "java_generated_quads": 54,
+          "shell_id": "cdeda3a7834a654b",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/block/crimson_roots.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "68dbc147bdf06a8d0b25aedce24531521c745edd381e336faab67a29001dac69",
+          "rgba_sha256": "a87c99123bd5e2c314ee7094942fd0cb799e8daa085590050e975a42f0b5aa09",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "0dfcad8843bb9b0c54c6995da602fad7efd6ec2f85aa535aa0af76daa8b9b3b6",
+          "java_generated_quads": 54,
+          "shell_id": "cdeda3a7834a654b",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/block/crimson_roots.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/blocks/crimson_roots",
+      "native_png": {
+        "bytes_sha256": "84df9b4174b275a4e32b315ea9ebdb603e2c83ccd35655cb955a509988724cde",
+        "rgba_sha256": "a87c99123bd5e2c314ee7094942fd0cb799e8daa085590050e975a42f0b5aa09",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "0dfcad8843bb9b0c54c6995da602fad7efd6ec2f85aa535aa0af76daa8b9b3b6",
+        "java_generated_quads": 54,
+        "shell_id": "cdeda3a7834a654b"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 30
+    },
+    {
+      "id": "minecraft:dandelion",
+      "texture": "textures/minecraft/dandelion.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:block/dandelion"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:block/dandelion"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "b8e2897e3dfecc1c863a861dd6b92b66987f33770054c2179c15b5c2abbc0e51",
+          "rgba_sha256": "3214c191e45e607cf2c19c41bac8ee1b5303f1645944f8c3cc7bba9a2de92ca4",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "6d2825e48ea05785b763c138669bdd822ceddd77c7a7d9dba279d72fb4144f47",
+          "java_generated_quads": 19,
+          "shell_id": "c4a4e15394c38b62",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/block/dandelion.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "b8e2897e3dfecc1c863a861dd6b92b66987f33770054c2179c15b5c2abbc0e51",
+          "rgba_sha256": "3214c191e45e607cf2c19c41bac8ee1b5303f1645944f8c3cc7bba9a2de92ca4",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "6d2825e48ea05785b763c138669bdd822ceddd77c7a7d9dba279d72fb4144f47",
+          "java_generated_quads": 19,
+          "shell_id": "c4a4e15394c38b62",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/block/dandelion.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/blocks/flower_dandelion",
+      "native_png": {
+        "bytes_sha256": "4159ebc9fa9471539d4a642e03ed89889cee8cade58e94491a6ee382bcd8e840",
+        "rgba_sha256": "3214c191e45e607cf2c19c41bac8ee1b5303f1645944f8c3cc7bba9a2de92ca4",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "6d2825e48ea05785b763c138669bdd822ceddd77c7a7d9dba279d72fb4144f47",
+        "java_generated_quads": 19,
+        "shell_id": "c4a4e15394c38b62"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 31
+    },
+    {
+      "id": "minecraft:lilac",
+      "texture": "textures/minecraft/lilac.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:block/lilac_top"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:block/lilac_top"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "f154437ef0ada77dfa83075c0492dcbea985a33172adca70e5cd80ff6b812c27",
+          "rgba_sha256": "68d031f4379a5f020f382724438eca33628d431d13f2d79291b2c9c77692251a",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "da9020a4d7d6a703f24bb9c99a6e28f12e69a75426bbb354d5426ca78be2c7df",
+          "java_generated_quads": 51,
+          "shell_id": "cd9d9cd6e07328d3",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/block/lilac_top.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "de72fcfdac85da26cf706af1d5f2c6cbb24895f772bb45d519ddd61c8ea3a2ca",
+          "rgba_sha256": "68d031f4379a5f020f382724438eca33628d431d13f2d79291b2c9c77692251a",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "da9020a4d7d6a703f24bb9c99a6e28f12e69a75426bbb354d5426ca78be2c7df",
+          "java_generated_quads": 51,
+          "shell_id": "cd9d9cd6e07328d3",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/block/lilac_top.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/blocks/double_plant_syringa_top",
+      "native_png": {
+        "bytes_sha256": "29369e22a60d593fc8d29120c985b842239d8a9c20131022159e4dc5b8a8adb6",
+        "rgba_sha256": "e8e58566e16b6dbfbbffd10800f240bd808c4405b5ddf1744da2ed8e81f3d29a",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "da9020a4d7d6a703f24bb9c99a6e28f12e69a75426bbb354d5426ca78be2c7df",
+        "java_generated_quads": 51,
+        "shell_id": "cd9d9cd6e07328d3"
+      },
+      "native_source_rgba_equal": false,
+      "barrel_kind": 32,
+      "original_native_texture": "native-before/lilac.tga"
+    },
+    {
+      "id": "minecraft:lily_of_the_valley",
+      "texture": "textures/minecraft/lily_of_the_valley.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:block/lily_of_the_valley"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:block/lily_of_the_valley"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "2e4ade9ba31801d95ff4e112e9bd2a6766de35b0fb54dc951e72351f1f72d19b",
+          "rgba_sha256": "106c76c7e0292ce796cbef1769d292a833d604c16b9aeead0832e11728899e13",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "4353063888971cad03dd3a2149ed8b846a84f73c033e12390de3cbffef51b21f",
+          "java_generated_quads": 34,
+          "shell_id": "afd75689e46592c0",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/block/lily_of_the_valley.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "efff30a261967cf1065f677622d26b74f366d8178498e0bd579afbf0ff87585c",
+          "rgba_sha256": "106c76c7e0292ce796cbef1769d292a833d604c16b9aeead0832e11728899e13",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "4353063888971cad03dd3a2149ed8b846a84f73c033e12390de3cbffef51b21f",
+          "java_generated_quads": 34,
+          "shell_id": "afd75689e46592c0",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/block/lily_of_the_valley.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/blocks/flower_lily_of_the_valley",
+      "native_png": {
+        "bytes_sha256": "61d8ead7ee390fff51182c063be57bd79d83b2655f9b4fa0b5cb26d8f1666d12",
+        "rgba_sha256": "106c76c7e0292ce796cbef1769d292a833d604c16b9aeead0832e11728899e13",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "4353063888971cad03dd3a2149ed8b846a84f73c033e12390de3cbffef51b21f",
+        "java_generated_quads": 34,
+        "shell_id": "afd75689e46592c0"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 33
+    },
+    {
+      "id": "minecraft:orange_tulip",
+      "texture": "textures/minecraft/orange_tulip.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:block/orange_tulip"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:block/orange_tulip"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "d4685f7ac70a5b380e6b1a822089abbe0ba0ae5eb4ced5c19120a41be4da42fb",
+          "rgba_sha256": "41d3438ea541369eb34e6cc6b02bd2e15618a04348de9946387bb03963e06ba4",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "74f651c78f0d782f8b13d61c4e92f99fe18307aa9d0bb3fcb254159e5430f553",
+          "java_generated_quads": 21,
+          "shell_id": "83a475a1f3e6cebf",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/block/orange_tulip.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "d4685f7ac70a5b380e6b1a822089abbe0ba0ae5eb4ced5c19120a41be4da42fb",
+          "rgba_sha256": "41d3438ea541369eb34e6cc6b02bd2e15618a04348de9946387bb03963e06ba4",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "74f651c78f0d782f8b13d61c4e92f99fe18307aa9d0bb3fcb254159e5430f553",
+          "java_generated_quads": 21,
+          "shell_id": "83a475a1f3e6cebf",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/block/orange_tulip.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/blocks/flower_tulip_orange",
+      "native_png": {
+        "bytes_sha256": "0961bb7951474c0f53bad2e05c7f547c4c4387005f908a72bcf833e9c0209e94",
+        "rgba_sha256": "41d3438ea541369eb34e6cc6b02bd2e15618a04348de9946387bb03963e06ba4",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "74f651c78f0d782f8b13d61c4e92f99fe18307aa9d0bb3fcb254159e5430f553",
+        "java_generated_quads": 21,
+        "shell_id": "83a475a1f3e6cebf"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 34
+    },
+    {
+      "id": "minecraft:oxeye_daisy",
+      "texture": "textures/minecraft/oxeye_daisy.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:block/oxeye_daisy"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:block/oxeye_daisy"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "46ab3aad6d817dd855214e6ae28e75bc0982efca22dd4e93a3e53b3a90dddfb5",
+          "rgba_sha256": "ca8ca018a24d7ed64b157084b80caee06e1ff871256da977ecd2977e40b9897c",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "f2e189e7856841a6a68db26a4e682a2f0bde26bb6f3e3a324493db8ea34cc42d",
+          "java_generated_quads": 25,
+          "shell_id": "8b65d7115b1e6c2e",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/block/oxeye_daisy.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "a64161a5f4c5d112935fd1abf86be6e4729e5c7ad4cd80913e7f278785894667",
+          "rgba_sha256": "ca8ca018a24d7ed64b157084b80caee06e1ff871256da977ecd2977e40b9897c",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "f2e189e7856841a6a68db26a4e682a2f0bde26bb6f3e3a324493db8ea34cc42d",
+          "java_generated_quads": 25,
+          "shell_id": "8b65d7115b1e6c2e",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/block/oxeye_daisy.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/blocks/flower_oxeye_daisy",
+      "native_png": {
+        "bytes_sha256": "1f53ae122968558bba4f227fe84289ba901741078a80798867eaefa28a086a32",
+        "rgba_sha256": "ca8ca018a24d7ed64b157084b80caee06e1ff871256da977ecd2977e40b9897c",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "f2e189e7856841a6a68db26a4e682a2f0bde26bb6f3e3a324493db8ea34cc42d",
+        "java_generated_quads": 25,
+        "shell_id": "8b65d7115b1e6c2e"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 35
+    },
+    {
+      "id": "minecraft:peony",
+      "texture": "textures/minecraft/peony.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:block/peony_top"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:block/peony_top"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "b23fb371f24002eefc38dc3c68fc4283ec86eabfb5db3333d1081ba8398eea8e",
+          "rgba_sha256": "ba8baa6ce70b92122beab5f11dcc29ce1d3b83e5f52df83a6ba55156c3919a7d",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "12a5e3017cd9f720d4425def7da5d787e9cf2c07407a9cea431dc58a1a6deb2d",
+          "java_generated_quads": 33,
+          "shell_id": "50f46553aca74f44",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/block/peony_top.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "318be29d07cab2db0cb790acf74377d2424208cfee419523b522007b335978b5",
+          "rgba_sha256": "ba8baa6ce70b92122beab5f11dcc29ce1d3b83e5f52df83a6ba55156c3919a7d",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "12a5e3017cd9f720d4425def7da5d787e9cf2c07407a9cea431dc58a1a6deb2d",
+          "java_generated_quads": 33,
+          "shell_id": "50f46553aca74f44",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/block/peony_top.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/blocks/double_plant_paeonia_top",
+      "native_png": {
+        "bytes_sha256": "f92054f8e1402c3344c9faebd2725de89c6603a26e8ec05f3401479800d6c5b7",
+        "rgba_sha256": "ba8baa6ce70b92122beab5f11dcc29ce1d3b83e5f52df83a6ba55156c3919a7d",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "12a5e3017cd9f720d4425def7da5d787e9cf2c07407a9cea431dc58a1a6deb2d",
+        "java_generated_quads": 33,
+        "shell_id": "50f46553aca74f44"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 36
+    },
+    {
+      "id": "minecraft:pink_tulip",
+      "texture": "textures/minecraft/pink_tulip.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:block/pink_tulip"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:block/pink_tulip"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "b0c9a0fdf3430f5ffceb24bcdffb9a5f250a31ec71b2f837ab17b0b86b24259b",
+          "rgba_sha256": "7bfb8615a0c96c581113a7852171fb3088c9f6aa0b33d6e69c0490ce69ea9dda",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "3274e7d5fe52bac80403e489e70b37e69426cb2d03e0dc0e9d9c7e9fdf580742",
+          "java_generated_quads": 21,
+          "shell_id": "1f3e039c57c7fdb9",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/block/pink_tulip.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "b0c9a0fdf3430f5ffceb24bcdffb9a5f250a31ec71b2f837ab17b0b86b24259b",
+          "rgba_sha256": "7bfb8615a0c96c581113a7852171fb3088c9f6aa0b33d6e69c0490ce69ea9dda",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "3274e7d5fe52bac80403e489e70b37e69426cb2d03e0dc0e9d9c7e9fdf580742",
+          "java_generated_quads": 21,
+          "shell_id": "1f3e039c57c7fdb9",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/block/pink_tulip.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/blocks/flower_tulip_pink",
+      "native_png": {
+        "bytes_sha256": "ba31bf0a61d7548df4ee5b11e50e20894cdefc754d9e39693e45cef0eb3ece5f",
+        "rgba_sha256": "7bfb8615a0c96c581113a7852171fb3088c9f6aa0b33d6e69c0490ce69ea9dda",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "3274e7d5fe52bac80403e489e70b37e69426cb2d03e0dc0e9d9c7e9fdf580742",
+        "java_generated_quads": 21,
+        "shell_id": "1f3e039c57c7fdb9"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 37
+    },
+    {
+      "id": "minecraft:pitcher_plant",
+      "texture": "textures/minecraft/pitcher_plant.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/pitcher_plant"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/pitcher_plant"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "3e380c5cf8c51faf5da2e73cf1748531644a8157597462d77fb947c5e053183b",
+          "rgba_sha256": "9f3e30d3739f8ec4e03f775198713e2286cd4e5631c9aa11d27094b70a129369",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "5e3ca3664402cd0b9dca84467145df5279c36beab73b1b32641b9b8eaf281994",
+          "java_generated_quads": 21,
+          "shell_id": "2f2b90961a1af747",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/item/pitcher_plant.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "83ad6694eba708bd07080d316b5043c16ef2aaee62dae9831493ebdef5712a28",
+          "rgba_sha256": "9f3e30d3739f8ec4e03f775198713e2286cd4e5631c9aa11d27094b70a129369",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "5e3ca3664402cd0b9dca84467145df5279c36beab73b1b32641b9b8eaf281994",
+          "java_generated_quads": 21,
+          "shell_id": "2f2b90961a1af747",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/item/pitcher_plant.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/blocks/pitcher_crop_top_stage_4",
+      "native_png": {
+        "bytes_sha256": "343a08d88d5dc9afec7bd36ae5912bd28f9c700bc025b7d2dd88d22fb82b2459",
+        "rgba_sha256": "9f3e30d3739f8ec4e03f775198713e2286cd4e5631c9aa11d27094b70a129369",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "5e3ca3664402cd0b9dca84467145df5279c36beab73b1b32641b9b8eaf281994",
+        "java_generated_quads": 21,
+        "shell_id": "2f2b90961a1af747"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 38
+    },
+    {
+      "id": "minecraft:poppy",
+      "texture": "textures/minecraft/poppy.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:block/poppy"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:block/poppy"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "419b360fb68a795a61100da382884aed41973ee9ba3c236d5a95e47d36462a62",
+          "rgba_sha256": "0742cc5bcd1534935141c6552637c7eef77b2279d1ab091bc2c71f96cbf3dd23",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "7060164de76ea6e3de651a42f4a6dfbdae27dc4d86daccbd5f7b1807fce1008c",
+          "java_generated_quads": 24,
+          "shell_id": "6f44b3e3d1a2bbff",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/block/poppy.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "419b360fb68a795a61100da382884aed41973ee9ba3c236d5a95e47d36462a62",
+          "rgba_sha256": "0742cc5bcd1534935141c6552637c7eef77b2279d1ab091bc2c71f96cbf3dd23",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "7060164de76ea6e3de651a42f4a6dfbdae27dc4d86daccbd5f7b1807fce1008c",
+          "java_generated_quads": 24,
+          "shell_id": "6f44b3e3d1a2bbff",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/block/poppy.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/blocks/flower_rose",
+      "native_png": {
+        "bytes_sha256": "85fa5e4921f05131a75501fa6b729b4abfccae8683bd6fde11ca848dcbcf824b",
+        "rgba_sha256": "0742cc5bcd1534935141c6552637c7eef77b2279d1ab091bc2c71f96cbf3dd23",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "7060164de76ea6e3de651a42f4a6dfbdae27dc4d86daccbd5f7b1807fce1008c",
+        "java_generated_quads": 24,
+        "shell_id": "6f44b3e3d1a2bbff"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 39
+    },
+    {
+      "id": "minecraft:red_tulip",
+      "texture": "textures/minecraft/red_tulip.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:block/red_tulip"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:block/red_tulip"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "312a1f6c6e355909ce5db48880a5debf4d90b0aadf4a14a927992f02f2dd51c2",
+          "rgba_sha256": "a1400941630ba18b200b435561d6203a5784623a15894d57f63c3e2d8f97c928",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "6a8f13ba1c3b3201aa9cd01c271f9dca4496a74dba7c3505127d5bb63c0a5514",
+          "java_generated_quads": 32,
+          "shell_id": "8142cc6324e07ee2",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/block/red_tulip.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "312a1f6c6e355909ce5db48880a5debf4d90b0aadf4a14a927992f02f2dd51c2",
+          "rgba_sha256": "a1400941630ba18b200b435561d6203a5784623a15894d57f63c3e2d8f97c928",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "6a8f13ba1c3b3201aa9cd01c271f9dca4496a74dba7c3505127d5bb63c0a5514",
+          "java_generated_quads": 32,
+          "shell_id": "8142cc6324e07ee2",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/block/red_tulip.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/blocks/flower_tulip_red",
+      "native_png": {
+        "bytes_sha256": "edbeecab9d7f37b279c3755ec22abc9ef22ad2cf74f7ffc0bb1cdbf0b446f735",
+        "rgba_sha256": "a1400941630ba18b200b435561d6203a5784623a15894d57f63c3e2d8f97c928",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "6a8f13ba1c3b3201aa9cd01c271f9dca4496a74dba7c3505127d5bb63c0a5514",
+        "java_generated_quads": 32,
+        "shell_id": "8142cc6324e07ee2"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 40
+    },
+    {
+      "id": "minecraft:rose_bush",
+      "texture": "textures/minecraft/rose_bush.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:block/rose_bush_top"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:block/rose_bush_top"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "441faf87995a15334e7ef0a40372d20afefe8896a533283a74efc0adc05007c3",
+          "rgba_sha256": "39cc47e9954c255660fe6b1cd72aa8db3a15e3802d80b64801c91dde2c30ae90",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "3f06221f94726a110182b609c9ce688f4698c5cae1413f3cbb8111d771722028",
+          "java_generated_quads": 53,
+          "shell_id": "14ee85d871a8ea2a",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/block/rose_bush_top.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "47ffca415b9ea6925adad167ca89836e026ffd7e07ec129f495017c2ec54eecc",
+          "rgba_sha256": "39cc47e9954c255660fe6b1cd72aa8db3a15e3802d80b64801c91dde2c30ae90",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "3f06221f94726a110182b609c9ce688f4698c5cae1413f3cbb8111d771722028",
+          "java_generated_quads": 53,
+          "shell_id": "14ee85d871a8ea2a",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/block/rose_bush_top.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/blocks/double_plant_rose_top",
+      "native_png": {
+        "bytes_sha256": "eb2e201e98c486080c804c2ce9786b51672beeb4945c3505f2191135fb45fd49",
+        "rgba_sha256": "39cc47e9954c255660fe6b1cd72aa8db3a15e3802d80b64801c91dde2c30ae90",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "3f06221f94726a110182b609c9ce688f4698c5cae1413f3cbb8111d771722028",
+        "java_generated_quads": 53,
+        "shell_id": "14ee85d871a8ea2a"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 41
+    },
+    {
+      "id": "minecraft:sunflower",
+      "texture": "textures/minecraft/sunflower.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:block/sunflower_front"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:block/sunflower_front"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "07d343ccf6b8000a44d0b5dcd250dec23d3ed90b285d9869f955d930c969f420",
+          "rgba_sha256": "52cc026db3fb121720a56ae97609a375a5aca6e1239c8495051ea5f2661ad222",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "049097f7eb545d1bae4325e1ab5b9e1208128190706ed56b697d0bfa572f059b",
+          "java_generated_quads": 14,
+          "shell_id": "04f79ea34b05957d",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/block/sunflower_front.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "c357d4efda4ac8cadad59550f84cd2565aad111973d18af471a853051039ed73",
+          "rgba_sha256": "52cc026db3fb121720a56ae97609a375a5aca6e1239c8495051ea5f2661ad222",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "049097f7eb545d1bae4325e1ab5b9e1208128190706ed56b697d0bfa572f059b",
+          "java_generated_quads": 14,
+          "shell_id": "04f79ea34b05957d",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/block/sunflower_front.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/blocks/double_plant_sunflower_front",
+      "native_png": {
+        "bytes_sha256": "17debb8c5e0cc1540a966a99e4b24af10ebe60efa2080773347395084f42f1be",
+        "rgba_sha256": "52cc026db3fb121720a56ae97609a375a5aca6e1239c8495051ea5f2661ad222",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "049097f7eb545d1bae4325e1ab5b9e1208128190706ed56b697d0bfa572f059b",
+        "java_generated_quads": 14,
+        "shell_id": "04f79ea34b05957d"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 42
+    },
+    {
+      "id": "minecraft:torchflower",
+      "texture": "textures/minecraft/torchflower.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:block/torchflower"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:block/torchflower"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "d242544dd017303913a24952a22491a6e3b520832d3c8e9f61bb8ed7d9706ce4",
+          "rgba_sha256": "c7672aca4679822d7c748d963d376db71d871af2872d9564cf528b6aa1052466",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "a8463619dcfc0808436f0e2c3c6ec4f94e6cc1cc7a654bd48b948e0734394f74",
+          "java_generated_quads": 49,
+          "shell_id": "ffe934127128138e",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/block/torchflower.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "9c12f944da72e0596adc4c19cac12a17a10cea3b7e102c17ceeac569933cfd4a",
+          "rgba_sha256": "c7672aca4679822d7c748d963d376db71d871af2872d9564cf528b6aa1052466",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "a8463619dcfc0808436f0e2c3c6ec4f94e6cc1cc7a654bd48b948e0734394f74",
+          "java_generated_quads": 49,
+          "shell_id": "ffe934127128138e",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/block/torchflower.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/blocks/torchflower",
+      "native_png": {
+        "bytes_sha256": "26aaa5789eed28dc4ffa355d5117fc18b12176538286d743d495a67d48ea4004",
+        "rgba_sha256": "c7672aca4679822d7c748d963d376db71d871af2872d9564cf528b6aa1052466",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "a8463619dcfc0808436f0e2c3c6ec4f94e6cc1cc7a654bd48b948e0734394f74",
+        "java_generated_quads": 49,
+        "shell_id": "ffe934127128138e"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 43
+    },
+    {
+      "id": "minecraft:wheat_seeds",
+      "texture": "textures/minecraft/wheat_seeds.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/wheat_seeds"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/wheat_seeds"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "3239486bef9ea883e438c068cb97c24f1a38924b54b3c2e6209f792fc222c8d3",
+          "rgba_sha256": "ccea60c63100eb890f66fb24cd00012040dac55272528302bd4793ace68e7b81",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "abd57bda90047e1d649693454051f6fcb773e386854bff8d494adacacc85beb8",
+          "java_generated_quads": 34,
+          "shell_id": "ec3205d0c8a699f2",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/item/wheat_seeds.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "3239486bef9ea883e438c068cb97c24f1a38924b54b3c2e6209f792fc222c8d3",
+          "rgba_sha256": "ccea60c63100eb890f66fb24cd00012040dac55272528302bd4793ace68e7b81",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "abd57bda90047e1d649693454051f6fcb773e386854bff8d494adacacc85beb8",
+          "java_generated_quads": 34,
+          "shell_id": "ec3205d0c8a699f2",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/item/wheat_seeds.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/items/seeds_wheat",
+      "native_png": {
+        "bytes_sha256": "7cd96c1a03a6dfd26e924964acff8ba74b9419a3ea368bb2d26904d302951170",
+        "rgba_sha256": "ccea60c63100eb890f66fb24cd00012040dac55272528302bd4793ace68e7b81",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "abd57bda90047e1d649693454051f6fcb773e386854bff8d494adacacc85beb8",
+        "java_generated_quads": 34,
+        "shell_id": "ec3205d0c8a699f2"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 44
+    },
+    {
+      "id": "minecraft:white_tulip",
+      "texture": "textures/minecraft/white_tulip.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:block/white_tulip"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:block/white_tulip"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "0814e0d24cc7e725455d4a91198681b401e5c6e6a6a0f764392b489de606ced2",
+          "rgba_sha256": "848061119151348888569dca58e6a1c136f73cd6fd21e116c3cc71d4a332ccd9",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "644518541541a457339b268b86a8fc443974bb145e799146f2162fda4f49015f",
+          "java_generated_quads": 28,
+          "shell_id": "66393fb3aa86e73c",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/block/white_tulip.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "0814e0d24cc7e725455d4a91198681b401e5c6e6a6a0f764392b489de606ced2",
+          "rgba_sha256": "848061119151348888569dca58e6a1c136f73cd6fd21e116c3cc71d4a332ccd9",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "644518541541a457339b268b86a8fc443974bb145e799146f2162fda4f49015f",
+          "java_generated_quads": 28,
+          "shell_id": "66393fb3aa86e73c",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/block/white_tulip.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/blocks/flower_tulip_white",
+      "native_png": {
+        "bytes_sha256": "190be6e1fc5bda204c9c70c7f2e86c8a63f2a9ef72097da0cd1c6c013735de9a",
+        "rgba_sha256": "848061119151348888569dca58e6a1c136f73cd6fd21e116c3cc71d4a332ccd9",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "644518541541a457339b268b86a8fc443974bb145e799146f2162fda4f49015f",
+        "java_generated_quads": 28,
+        "shell_id": "66393fb3aa86e73c"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 45
+    },
+    {
+      "id": "minecraft:wither_rose",
+      "texture": "textures/minecraft/wither_rose.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:block/wither_rose"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:block/wither_rose"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "64aa2adb9b6fcac36f3679c94373558007d337764c66a18095f58783591cd738",
+          "rgba_sha256": "714def4435a6acdd3b21416d762c7c8b3f3637571807c038e1e6b7fbb496edeb",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "2c4d68c83232a6f97470b50fd3df26224162dc56014b658b5a2a0135bacdf4f8",
+          "java_generated_quads": 24,
+          "shell_id": "1fcf6b7b5b1cb856",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/block/wither_rose.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "64aa2adb9b6fcac36f3679c94373558007d337764c66a18095f58783591cd738",
+          "rgba_sha256": "714def4435a6acdd3b21416d762c7c8b3f3637571807c038e1e6b7fbb496edeb",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "2c4d68c83232a6f97470b50fd3df26224162dc56014b658b5a2a0135bacdf4f8",
+          "java_generated_quads": 24,
+          "shell_id": "1fcf6b7b5b1cb856",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/block/wither_rose.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/blocks/flower_wither_rose",
+      "native_png": {
+        "bytes_sha256": "e8a6682a22a32daeb2b67e7e6e3e83e955088d7237b0116d849f1c2bfc881a72",
+        "rgba_sha256": "714def4435a6acdd3b21416d762c7c8b3f3637571807c038e1e6b7fbb496edeb",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "2c4d68c83232a6f97470b50fd3df26224162dc56014b658b5a2a0135bacdf4f8",
+        "java_generated_quads": 24,
+        "shell_id": "1fcf6b7b5b1cb856"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 46
+    },
+    {
+      "id": "kaleidoscope_tavern:grape",
+      "texture": "textures/kaleidoscope_tavern/grape.png",
+      "models": {
+        "forge": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "kaleidoscope_tavern:item/grape"
+          }
+        },
+        "neoforge": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "kaleidoscope_tavern:item/grape"
+          }
+        }
+      },
+      "versions": {
+        "forge": {
+          "bytes_sha256": "f69c9982f5d9d7b1b6d0ac3a96e5c0875da7671925b6b18d0e202ceb5c476b84",
+          "rgba_sha256": "93ce7957875f5e8ff9c6eedce047adbe5e10272ff72969219dfeb285a89867f0",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "38d1a84934822f92eb6e168bcfd92b239ef0192c0572b79048c6cba3c37b1b81",
+          "java_generated_quads": 35,
+          "shell_id": "47206c1e89f38ffb",
+          "source": "java-forge/src/main/resources/assets/kaleidoscope_tavern/textures/item/grape.png"
+        },
+        "neoforge": {
+          "bytes_sha256": "c22222b57b74f14e44fed0400618ece76f96fba2adf27dee1ccb17db56624739",
+          "rgba_sha256": "93ce7957875f5e8ff9c6eedce047adbe5e10272ff72969219dfeb285a89867f0",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "38d1a84934822f92eb6e168bcfd92b239ef0192c0572b79048c6cba3c37b1b81",
+          "java_generated_quads": 35,
+          "shell_id": "47206c1e89f38ffb",
+          "source": "java-neoforge/src/main/resources/assets/kaleidoscope_tavern/textures/item/grape.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/kaleidoscope_tavern_jar/item/grape",
+      "native_png": {
+        "bytes_sha256": "c22222b57b74f14e44fed0400618ece76f96fba2adf27dee1ccb17db56624739",
+        "rgba_sha256": "93ce7957875f5e8ff9c6eedce047adbe5e10272ff72969219dfeb285a89867f0",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "38d1a84934822f92eb6e168bcfd92b239ef0192c0572b79048c6cba3c37b1b81",
+        "java_generated_quads": 35,
+        "shell_id": "47206c1e89f38ffb"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 47,
+      "pressing_kind": 1
+    },
+    {
+      "id": "kaleidoscope_tavern:ice_grape",
+      "texture": "textures/kaleidoscope_tavern/ice_grape.png",
+      "models": {
+        "forge": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "kaleidoscope_tavern:item/ice_grape"
+          }
+        },
+        "neoforge": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "kaleidoscope_tavern:item/ice_grape"
+          }
+        }
+      },
+      "versions": {
+        "forge": {
+          "bytes_sha256": "1880628091b9382b14e678a8f3191bc16d60eacccdca432d970391d4c03a76a0",
+          "rgba_sha256": "316b64177f3300631bf3dec664c7956162fc574875ebea9904b35c48618f0516",
+          "size": [
+            16,
+            192
+          ],
+          "alpha_sha256": "8fbed0a99c4516f4f77a64d39c7f19596dd6e8326e227fd75c2c9d066c748888",
+          "java_generated_quads": 43,
+          "shell_id": "f0e9005cbc5f7962",
+          "source": "java-forge/src/main/resources/assets/kaleidoscope_tavern/textures/item/ice_grape.png"
+        },
+        "neoforge": {
+          "bytes_sha256": "1880628091b9382b14e678a8f3191bc16d60eacccdca432d970391d4c03a76a0",
+          "rgba_sha256": "316b64177f3300631bf3dec664c7956162fc574875ebea9904b35c48618f0516",
+          "size": [
+            16,
+            192
+          ],
+          "alpha_sha256": "8fbed0a99c4516f4f77a64d39c7f19596dd6e8326e227fd75c2c9d066c748888",
+          "java_generated_quads": 43,
+          "shell_id": "f0e9005cbc5f7962",
+          "source": "java-neoforge/src/main/resources/assets/kaleidoscope_tavern/textures/item/ice_grape.png"
+        }
+      },
+      "source_frame_count": 12,
+      "native_texture": "textures/kt_runtime/animated_items/ice_grape/frame_00",
+      "native_png": {
+        "bytes_sha256": "ee0f5c4915922afe46a1932ead233aad9eeea7bfd1c78647b69c9309df211e07",
+        "rgba_sha256": "fcbab19fd2d93fc204913e73d2cd9e1a700232fe399f73c1c819bfff2c87cf0c",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "c435be63f7ef2ad5f5c208db8cebd566ebaec93ccec19f9aafb8a7743d324abd",
+        "java_generated_quads": 36,
+        "shell_id": "25d1669b82c460b9"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 48,
+      "pressing_kind": 2
+    },
+    {
+      "id": "kaleidoscope_tavern:gold_grape",
+      "texture": "textures/kaleidoscope_tavern/gold_grape.png",
+      "models": {
+        "forge": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "kaleidoscope_tavern:item/gold_grape"
+          }
+        },
+        "neoforge": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "kaleidoscope_tavern:item/gold_grape"
+          }
+        }
+      },
+      "versions": {
+        "forge": {
+          "bytes_sha256": "b967647188105bb9f6860336ec8bb42e1489ffdec57b6e8e1fc83e953a2f347b",
+          "rgba_sha256": "9cf47f443a3099e92a84f6b38959f1e85e5cc554e788593b122dbf3a4bc867ed",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "c435be63f7ef2ad5f5c208db8cebd566ebaec93ccec19f9aafb8a7743d324abd",
+          "java_generated_quads": 36,
+          "shell_id": "25d1669b82c460b9",
+          "source": "java-forge/src/main/resources/assets/kaleidoscope_tavern/textures/item/gold_grape.png"
+        },
+        "neoforge": {
+          "bytes_sha256": "b967647188105bb9f6860336ec8bb42e1489ffdec57b6e8e1fc83e953a2f347b",
+          "rgba_sha256": "9cf47f443a3099e92a84f6b38959f1e85e5cc554e788593b122dbf3a4bc867ed",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "c435be63f7ef2ad5f5c208db8cebd566ebaec93ccec19f9aafb8a7743d324abd",
+          "java_generated_quads": 36,
+          "shell_id": "25d1669b82c460b9",
+          "source": "java-neoforge/src/main/resources/assets/kaleidoscope_tavern/textures/item/gold_grape.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/kaleidoscope_tavern_jar/item/gold_grape",
+      "native_png": {
+        "bytes_sha256": "b967647188105bb9f6860336ec8bb42e1489ffdec57b6e8e1fc83e953a2f347b",
+        "rgba_sha256": "9cf47f443a3099e92a84f6b38959f1e85e5cc554e788593b122dbf3a4bc867ed",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "c435be63f7ef2ad5f5c208db8cebd566ebaec93ccec19f9aafb8a7743d324abd",
+        "java_generated_quads": 36,
+        "shell_id": "25d1669b82c460b9"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 49,
+      "pressing_kind": 3
+    },
+    {
+      "id": "kaleidoscope_tavern:green_grape",
+      "texture": "textures/kaleidoscope_tavern/green_grape.png",
+      "models": {
+        "forge": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "kaleidoscope_tavern:item/green_grape"
+          }
+        },
+        "neoforge": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "kaleidoscope_tavern:item/green_grape"
+          }
+        }
+      },
+      "versions": {
+        "forge": {
+          "bytes_sha256": "a0a690779aff7e0510c83589ea52f5616c567bacf92a4d19f3e744b80ed3cab0",
+          "rgba_sha256": "7ba77ab2e4574a6250234761a6a3f939066a6a06df194bb2bfe4822ed93aac34",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "c435be63f7ef2ad5f5c208db8cebd566ebaec93ccec19f9aafb8a7743d324abd",
+          "java_generated_quads": 36,
+          "shell_id": "25d1669b82c460b9",
+          "source": "java-forge/src/main/resources/assets/kaleidoscope_tavern/textures/item/green_grape.png"
+        },
+        "neoforge": {
+          "bytes_sha256": "a0a690779aff7e0510c83589ea52f5616c567bacf92a4d19f3e744b80ed3cab0",
+          "rgba_sha256": "7ba77ab2e4574a6250234761a6a3f939066a6a06df194bb2bfe4822ed93aac34",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "c435be63f7ef2ad5f5c208db8cebd566ebaec93ccec19f9aafb8a7743d324abd",
+          "java_generated_quads": 36,
+          "shell_id": "25d1669b82c460b9",
+          "source": "java-neoforge/src/main/resources/assets/kaleidoscope_tavern/textures/item/green_grape.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/kaleidoscope_tavern_jar/item/green_grape",
+      "native_png": {
+        "bytes_sha256": "a0a690779aff7e0510c83589ea52f5616c567bacf92a4d19f3e744b80ed3cab0",
+        "rgba_sha256": "7ba77ab2e4574a6250234761a6a3f939066a6a06df194bb2bfe4822ed93aac34",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "c435be63f7ef2ad5f5c208db8cebd566ebaec93ccec19f9aafb8a7743d324abd",
+        "java_generated_quads": 36,
+        "shell_id": "25d1669b82c460b9"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 50,
+      "pressing_kind": 4
+    },
+    {
+      "id": "kaleidoscope_cookery:chili_seed",
+      "texture": "textures/kaleidoscope_cookery/chili_seed.png",
+      "models": {
+        "forge": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "kaleidoscope_cookery:item/chili_seed"
+          }
+        },
+        "neoforge": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "kaleidoscope_cookery:item/chili_seed"
+          }
+        }
+      },
+      "versions": {
+        "forge": {
+          "bytes_sha256": "bd15207cd7e283a40bb4dc38568e3e4902658b64398f26772e9193d51c1e908d",
+          "rgba_sha256": "b88fa33894a78dc4db90538848b3405e6621f3a87ccbd5f34b6d295a3cbcd342",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "7c352e0ed7062a6363082ea8b9f13d7c4316fa5c14acf7923ae6d4cb9c59785d",
+          "java_generated_quads": 39,
+          "shell_id": "a2ebe56774ead220",
+          "source": "https://github.com/KaleidoscopeMods/KaleidoscopeCookery/blob/2f4e386ce23f49a385ddf003c67fc6415c55417a/src/main/resources/assets/kaleidoscope_cookery/textures/item/chili_seed.png"
+        },
+        "neoforge": {
+          "bytes_sha256": "bd15207cd7e283a40bb4dc38568e3e4902658b64398f26772e9193d51c1e908d",
+          "rgba_sha256": "b88fa33894a78dc4db90538848b3405e6621f3a87ccbd5f34b6d295a3cbcd342",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "7c352e0ed7062a6363082ea8b9f13d7c4316fa5c14acf7923ae6d4cb9c59785d",
+          "java_generated_quads": 39,
+          "shell_id": "a2ebe56774ead220",
+          "source": "https://github.com/KaleidoscopeMods/KaleidoscopeCookery/blob/2f4e386ce23f49a385ddf003c67fc6415c55417a/src/main/resources/assets/kaleidoscope_cookery/textures/item/chili_seed.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/items/kc_chili_seed",
+      "native_png": {
+        "bytes_sha256": "bd15207cd7e283a40bb4dc38568e3e4902658b64398f26772e9193d51c1e908d",
+        "rgba_sha256": "b88fa33894a78dc4db90538848b3405e6621f3a87ccbd5f34b6d295a3cbcd342",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "7c352e0ed7062a6363082ea8b9f13d7c4316fa5c14acf7923ae6d4cb9c59785d",
+        "java_generated_quads": 39,
+        "shell_id": "a2ebe56774ead220"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 51
+    },
+    {
+      "id": "kaleidoscope_cookery:green_chili",
+      "texture": "textures/kaleidoscope_cookery/green_chili.png",
+      "models": {
+        "forge": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "kaleidoscope_cookery:item/green_chili"
+          }
+        },
+        "neoforge": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "kaleidoscope_cookery:item/green_chili"
+          }
+        }
+      },
+      "versions": {
+        "forge": {
+          "bytes_sha256": "ab4eabe2723d5dcfa1444da6ce2607d1737437926af72fc2344339b32aae68c9",
+          "rgba_sha256": "2951530226c37d0da97719a4b7200f89a05997facf414f7a86f0b62743c13046",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "497e54dd896a05a6bd94b10c5e6e7ba16f5a24584ebe6672b5ebf03401216e17",
+          "java_generated_quads": 26,
+          "shell_id": "08845a6d05921503",
+          "source": "https://github.com/KaleidoscopeMods/KaleidoscopeCookery/blob/2f4e386ce23f49a385ddf003c67fc6415c55417a/src/main/resources/assets/kaleidoscope_cookery/textures/item/green_chili.png"
+        },
+        "neoforge": {
+          "bytes_sha256": "9f190daabb194b9ca2b023fe155478719c399cb92a4f22daf6c1ecb93cfd9571",
+          "rgba_sha256": "2951530226c37d0da97719a4b7200f89a05997facf414f7a86f0b62743c13046",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "497e54dd896a05a6bd94b10c5e6e7ba16f5a24584ebe6672b5ebf03401216e17",
+          "java_generated_quads": 26,
+          "shell_id": "08845a6d05921503",
+          "source": "https://github.com/KaleidoscopeMods/KaleidoscopeCookery/blob/4d39e36cfa749939ba5f9d6d3b715ef9a984cb9c/src/main/resources/assets/kaleidoscope_cookery/textures/item/green_chili.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/items/kc_green_chili",
+      "native_png": {
+        "bytes_sha256": "9f190daabb194b9ca2b023fe155478719c399cb92a4f22daf6c1ecb93cfd9571",
+        "rgba_sha256": "2951530226c37d0da97719a4b7200f89a05997facf414f7a86f0b62743c13046",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "497e54dd896a05a6bd94b10c5e6e7ba16f5a24584ebe6672b5ebf03401216e17",
+        "java_generated_quads": 26,
+        "shell_id": "08845a6d05921503"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 52
+    },
+    {
+      "id": "kaleidoscope_cookery:lettuce",
+      "texture": "textures/kaleidoscope_cookery/lettuce.png",
+      "models": {
+        "forge": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "kaleidoscope_cookery:item/lettuce"
+          }
+        },
+        "neoforge": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "kaleidoscope_cookery:item/lettuce"
+          }
+        }
+      },
+      "versions": {
+        "forge": {
+          "bytes_sha256": "5be9036f69ae4858a6a7180515361bdebde69afd7ca985f502360359ef1f2bf1",
+          "rgba_sha256": "cad125682f925e986461183369f88f68a12d26c044a6e604ca36c91955bb9fb8",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "c77e891d7c014217f730f32f8de029f2e0a5ae56cc7094a874eab06dae488eda",
+          "java_generated_quads": 28,
+          "shell_id": "ca59306ef4e8cfd9",
+          "source": "https://github.com/KaleidoscopeMods/KaleidoscopeCookery/blob/2f4e386ce23f49a385ddf003c67fc6415c55417a/src/main/resources/assets/kaleidoscope_cookery/textures/item/lettuce.png"
+        },
+        "neoforge": {
+          "bytes_sha256": "f7f6617960637a0d4e23b2eadb131934d1fe978f9fb467686249977aafaf5b81",
+          "rgba_sha256": "cad125682f925e986461183369f88f68a12d26c044a6e604ca36c91955bb9fb8",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "c77e891d7c014217f730f32f8de029f2e0a5ae56cc7094a874eab06dae488eda",
+          "java_generated_quads": 28,
+          "shell_id": "ca59306ef4e8cfd9",
+          "source": "https://github.com/KaleidoscopeMods/KaleidoscopeCookery/blob/4d39e36cfa749939ba5f9d6d3b715ef9a984cb9c/src/main/resources/assets/kaleidoscope_cookery/textures/item/lettuce.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/items/kc_lettuce",
+      "native_png": {
+        "bytes_sha256": "f7f6617960637a0d4e23b2eadb131934d1fe978f9fb467686249977aafaf5b81",
+        "rgba_sha256": "cad125682f925e986461183369f88f68a12d26c044a6e604ca36c91955bb9fb8",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "c77e891d7c014217f730f32f8de029f2e0a5ae56cc7094a874eab06dae488eda",
+        "java_generated_quads": 28,
+        "shell_id": "ca59306ef4e8cfd9"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 53
+    },
+    {
+      "id": "kaleidoscope_cookery:lettuce_seed",
+      "texture": "textures/kaleidoscope_cookery/lettuce_seed.png",
+      "models": {
+        "forge": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "kaleidoscope_cookery:item/lettuce_seed"
+          }
+        },
+        "neoforge": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "kaleidoscope_cookery:item/lettuce_seed"
+          }
+        }
+      },
+      "versions": {
+        "forge": {
+          "bytes_sha256": "3315263f8f3caa2b26a805def01abb27d64e2afbdd50bd6388b31a29d3842d9f",
+          "rgba_sha256": "89b2de6d7d0d6bc01e35bcff7f1dac6a9a58c07207d5504826975ccf77e5086d",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "8eb13de7d41b66bc8e394118a09294eb1313cc01c56c26468f0fdc204e8f1173",
+          "java_generated_quads": 45,
+          "shell_id": "af213251a8dde147",
+          "source": "https://github.com/KaleidoscopeMods/KaleidoscopeCookery/blob/2f4e386ce23f49a385ddf003c67fc6415c55417a/src/main/resources/assets/kaleidoscope_cookery/textures/item/lettuce_seed.png"
+        },
+        "neoforge": {
+          "bytes_sha256": "3315263f8f3caa2b26a805def01abb27d64e2afbdd50bd6388b31a29d3842d9f",
+          "rgba_sha256": "89b2de6d7d0d6bc01e35bcff7f1dac6a9a58c07207d5504826975ccf77e5086d",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "8eb13de7d41b66bc8e394118a09294eb1313cc01c56c26468f0fdc204e8f1173",
+          "java_generated_quads": 45,
+          "shell_id": "af213251a8dde147",
+          "source": "https://github.com/KaleidoscopeMods/KaleidoscopeCookery/blob/2f4e386ce23f49a385ddf003c67fc6415c55417a/src/main/resources/assets/kaleidoscope_cookery/textures/item/lettuce_seed.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/items/kc_lettuce_seed",
+      "native_png": {
+        "bytes_sha256": "3315263f8f3caa2b26a805def01abb27d64e2afbdd50bd6388b31a29d3842d9f",
+        "rgba_sha256": "89b2de6d7d0d6bc01e35bcff7f1dac6a9a58c07207d5504826975ccf77e5086d",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "8eb13de7d41b66bc8e394118a09294eb1313cc01c56c26468f0fdc204e8f1173",
+        "java_generated_quads": 45,
+        "shell_id": "af213251a8dde147"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 54
+    },
+    {
+      "id": "kaleidoscope_cookery:red_chili",
+      "texture": "textures/kaleidoscope_cookery/red_chili.png",
+      "models": {
+        "forge": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "kaleidoscope_cookery:item/red_chili"
+          }
+        },
+        "neoforge": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "kaleidoscope_cookery:item/red_chili"
+          }
+        }
+      },
+      "versions": {
+        "forge": {
+          "bytes_sha256": "3540678d264bf1824bd2d3f6b7c28654413b8d56da8439efdee9ee68044fa7f3",
+          "rgba_sha256": "d8bd2a5b922eead66ecb888e1cd9afd83d09717314123242fb7a81b21e75f19d",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "497e54dd896a05a6bd94b10c5e6e7ba16f5a24584ebe6672b5ebf03401216e17",
+          "java_generated_quads": 26,
+          "shell_id": "08845a6d05921503",
+          "source": "https://github.com/KaleidoscopeMods/KaleidoscopeCookery/blob/2f4e386ce23f49a385ddf003c67fc6415c55417a/src/main/resources/assets/kaleidoscope_cookery/textures/item/red_chili.png"
+        },
+        "neoforge": {
+          "bytes_sha256": "0eb6f7fe0ff343d847912513cfad4260655f350f9fb2eb4294d4d95307e4cab3",
+          "rgba_sha256": "d8bd2a5b922eead66ecb888e1cd9afd83d09717314123242fb7a81b21e75f19d",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "497e54dd896a05a6bd94b10c5e6e7ba16f5a24584ebe6672b5ebf03401216e17",
+          "java_generated_quads": 26,
+          "shell_id": "08845a6d05921503",
+          "source": "https://github.com/KaleidoscopeMods/KaleidoscopeCookery/blob/4d39e36cfa749939ba5f9d6d3b715ef9a984cb9c/src/main/resources/assets/kaleidoscope_cookery/textures/item/red_chili.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/items/kc_red_chili",
+      "native_png": {
+        "bytes_sha256": "0eb6f7fe0ff343d847912513cfad4260655f350f9fb2eb4294d4d95307e4cab3",
+        "rgba_sha256": "d8bd2a5b922eead66ecb888e1cd9afd83d09717314123242fb7a81b21e75f19d",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "497e54dd896a05a6bd94b10c5e6e7ba16f5a24584ebe6672b5ebf03401216e17",
+        "java_generated_quads": 26,
+        "shell_id": "08845a6d05921503"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 55
+    },
+    {
+      "id": "kaleidoscope_cookery:rice",
+      "texture": "textures/kaleidoscope_cookery/rice.png",
+      "models": {
+        "forge": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "kaleidoscope_cookery:item/rice"
+          }
+        },
+        "neoforge": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "kaleidoscope_cookery:item/rice"
+          }
+        }
+      },
+      "versions": {
+        "forge": {
+          "bytes_sha256": "67c6b04b6103b35192f8d63d0caaab1243f712e6524787f8c01b362fc1933fbe",
+          "rgba_sha256": "16f9e81b8b7a5896fe772ed5acb32ec723bc2a1556dfebc977ac6628a7bf82dd",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "345dd707599d84a319d8cc9313bdb8ab929482ddc100aa6b85501bae55aa623f",
+          "java_generated_quads": 31,
+          "shell_id": "a3b786914627b564",
+          "source": "https://github.com/KaleidoscopeMods/KaleidoscopeCookery/blob/2f4e386ce23f49a385ddf003c67fc6415c55417a/src/main/resources/assets/kaleidoscope_cookery/textures/item/rice.png"
+        },
+        "neoforge": {
+          "bytes_sha256": "e5ba53f5d861a220578dd081af8f3baf2e1886362a53703fd1ae12865201ac80",
+          "rgba_sha256": "16f9e81b8b7a5896fe772ed5acb32ec723bc2a1556dfebc977ac6628a7bf82dd",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "345dd707599d84a319d8cc9313bdb8ab929482ddc100aa6b85501bae55aa623f",
+          "java_generated_quads": 31,
+          "shell_id": "a3b786914627b564",
+          "source": "https://github.com/KaleidoscopeMods/KaleidoscopeCookery/blob/4d39e36cfa749939ba5f9d6d3b715ef9a984cb9c/src/main/resources/assets/kaleidoscope_cookery/textures/item/rice.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/items/kc_rice",
+      "native_png": {
+        "bytes_sha256": "e5ba53f5d861a220578dd081af8f3baf2e1886362a53703fd1ae12865201ac80",
+        "rgba_sha256": "16f9e81b8b7a5896fe772ed5acb32ec723bc2a1556dfebc977ac6628a7bf82dd",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "345dd707599d84a319d8cc9313bdb8ab929482ddc100aa6b85501bae55aa623f",
+        "java_generated_quads": 31,
+        "shell_id": "a3b786914627b564"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 56
+    },
+    {
+      "id": "kaleidoscope_cookery:rice_panicle",
+      "texture": "textures/kaleidoscope_cookery/rice_panicle.png",
+      "models": {
+        "forge": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "kaleidoscope_cookery:item/rice_panicle"
+          }
+        },
+        "neoforge": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "kaleidoscope_cookery:item/rice_panicle"
+          }
+        }
+      },
+      "versions": {
+        "forge": {
+          "bytes_sha256": "4724f862ccceb60c521d732167342aa2e698b0e64b05e030f0422d690301c6fd",
+          "rgba_sha256": "dd832e9449b0650947216a70ab3258cb3edb2f6040f91c94116e52481e48332e",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "cf6e7b8de584f9b19571acf5768f71920385ed73978e70023800549f8541b11f",
+          "java_generated_quads": 43,
+          "shell_id": "00bb536f6962249a",
+          "source": "https://github.com/KaleidoscopeMods/KaleidoscopeCookery/blob/2f4e386ce23f49a385ddf003c67fc6415c55417a/src/main/resources/assets/kaleidoscope_cookery/textures/item/rice_panicle.png"
+        },
+        "neoforge": {
+          "bytes_sha256": "26a51c6d4f27f53012e8077db4f6a76768f7726c811337019615db22d319f830",
+          "rgba_sha256": "dd832e9449b0650947216a70ab3258cb3edb2f6040f91c94116e52481e48332e",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "cf6e7b8de584f9b19571acf5768f71920385ed73978e70023800549f8541b11f",
+          "java_generated_quads": 43,
+          "shell_id": "00bb536f6962249a",
+          "source": "https://github.com/KaleidoscopeMods/KaleidoscopeCookery/blob/4d39e36cfa749939ba5f9d6d3b715ef9a984cb9c/src/main/resources/assets/kaleidoscope_cookery/textures/item/rice_panicle.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/items/kc_rice_panicle",
+      "native_png": {
+        "bytes_sha256": "26a51c6d4f27f53012e8077db4f6a76768f7726c811337019615db22d319f830",
+        "rgba_sha256": "dd832e9449b0650947216a70ab3258cb3edb2f6040f91c94116e52481e48332e",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "cf6e7b8de584f9b19571acf5768f71920385ed73978e70023800549f8541b11f",
+        "java_generated_quads": 43,
+        "shell_id": "00bb536f6962249a"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 57
+    },
+    {
+      "id": "kaleidoscope_cookery:tomato",
+      "texture": "textures/kaleidoscope_cookery/tomato.png",
+      "models": {
+        "forge": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "kaleidoscope_cookery:item/tomato"
+          }
+        },
+        "neoforge": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "kaleidoscope_cookery:item/tomato"
+          }
+        }
+      },
+      "versions": {
+        "forge": {
+          "bytes_sha256": "072a9a07c31b6c2c89fcfce58135ce8dd267e667128107e0ad08c1a35dfa0b65",
+          "rgba_sha256": "a26673e3288cc4b0b75cdf61494a327415285f01350cdba7cbd11150622530c4",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "96e654d0a854004eeb55901a0f1756d94348412bf5605d158424330fdad74509",
+          "java_generated_quads": 20,
+          "shell_id": "9443edd3e42a5bb6",
+          "source": "https://github.com/KaleidoscopeMods/KaleidoscopeCookery/blob/2f4e386ce23f49a385ddf003c67fc6415c55417a/src/main/resources/assets/kaleidoscope_cookery/textures/item/tomato.png"
+        },
+        "neoforge": {
+          "bytes_sha256": "072a9a07c31b6c2c89fcfce58135ce8dd267e667128107e0ad08c1a35dfa0b65",
+          "rgba_sha256": "a26673e3288cc4b0b75cdf61494a327415285f01350cdba7cbd11150622530c4",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "96e654d0a854004eeb55901a0f1756d94348412bf5605d158424330fdad74509",
+          "java_generated_quads": 20,
+          "shell_id": "9443edd3e42a5bb6",
+          "source": "https://github.com/KaleidoscopeMods/KaleidoscopeCookery/blob/2f4e386ce23f49a385ddf003c67fc6415c55417a/src/main/resources/assets/kaleidoscope_cookery/textures/item/tomato.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/items/kc_tomato",
+      "native_png": {
+        "bytes_sha256": "072a9a07c31b6c2c89fcfce58135ce8dd267e667128107e0ad08c1a35dfa0b65",
+        "rgba_sha256": "a26673e3288cc4b0b75cdf61494a327415285f01350cdba7cbd11150622530c4",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "96e654d0a854004eeb55901a0f1756d94348412bf5605d158424330fdad74509",
+        "java_generated_quads": 20,
+        "shell_id": "9443edd3e42a5bb6"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 58
+    },
+    {
+      "id": "kaleidoscope_cookery:tomato_seed",
+      "texture": "textures/kaleidoscope_cookery/tomato_seed.png",
+      "models": {
+        "forge": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "kaleidoscope_cookery:item/tomato_seed"
+          }
+        },
+        "neoforge": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "kaleidoscope_cookery:item/tomato_seed"
+          }
+        }
+      },
+      "versions": {
+        "forge": {
+          "bytes_sha256": "2ccd697bf78743fbcf778526468760319d9ed974ef7ff1284fd658b5993094ab",
+          "rgba_sha256": "cd852ccf1d19e74a520a69172717f8f7532a81088c40fae1b2e0c34bbe3fd111",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "651bf28dc2e87c8f8957e031a7d5ab088f528e5faf5a5f301a52cf1ea67ed5fd",
+          "java_generated_quads": 36,
+          "shell_id": "878350664aba6e77",
+          "source": "https://github.com/KaleidoscopeMods/KaleidoscopeCookery/blob/2f4e386ce23f49a385ddf003c67fc6415c55417a/src/main/resources/assets/kaleidoscope_cookery/textures/item/tomato_seed.png"
+        },
+        "neoforge": {
+          "bytes_sha256": "2ccd697bf78743fbcf778526468760319d9ed974ef7ff1284fd658b5993094ab",
+          "rgba_sha256": "cd852ccf1d19e74a520a69172717f8f7532a81088c40fae1b2e0c34bbe3fd111",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "651bf28dc2e87c8f8957e031a7d5ab088f528e5faf5a5f301a52cf1ea67ed5fd",
+          "java_generated_quads": 36,
+          "shell_id": "878350664aba6e77",
+          "source": "https://github.com/KaleidoscopeMods/KaleidoscopeCookery/blob/2f4e386ce23f49a385ddf003c67fc6415c55417a/src/main/resources/assets/kaleidoscope_cookery/textures/item/tomato_seed.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/items/kc_tomato_seed",
+      "native_png": {
+        "bytes_sha256": "2ccd697bf78743fbcf778526468760319d9ed974ef7ff1284fd658b5993094ab",
+        "rgba_sha256": "cd852ccf1d19e74a520a69172717f8f7532a81088c40fae1b2e0c34bbe3fd111",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "651bf28dc2e87c8f8957e031a7d5ab088f528e5faf5a5f301a52cf1ea67ed5fd",
+        "java_generated_quads": 36,
+        "shell_id": "878350664aba6e77"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 59
+    },
+    {
+      "id": "kaleidoscope_cookery:wild_rice",
+      "texture": "textures/kaleidoscope_cookery/wild_rice.png",
+      "models": {
+        "forge": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "kaleidoscope_cookery:item/wild_rice"
+          }
+        },
+        "neoforge": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "kaleidoscope_cookery:item/wild_rice"
+          }
+        }
+      },
+      "versions": {
+        "forge": {
+          "bytes_sha256": "705155114748d0fb8b57d19d1f9af47b015f1013119dd64f4efc5b98a3f4a19a",
+          "rgba_sha256": "3bcdabd3e44efadfe98fa3d9a48c94b6b582b5a59ac46b5ac5505dff7e547c61",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "92ee3eb8e536f91e11ccca5870654d15c21977f2d8fcefb5070527a679797415",
+          "java_generated_quads": 36,
+          "shell_id": "e9bd6d364b558efb",
+          "source": "https://github.com/KaleidoscopeMods/KaleidoscopeCookery/blob/2f4e386ce23f49a385ddf003c67fc6415c55417a/src/main/resources/assets/kaleidoscope_cookery/textures/item/wild_rice.png"
+        },
+        "neoforge": {
+          "bytes_sha256": "6bd518cb41db510ec639b0f1382ee8201309e136e8436851102984d397cf9e16",
+          "rgba_sha256": "3bcdabd3e44efadfe98fa3d9a48c94b6b582b5a59ac46b5ac5505dff7e547c61",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "92ee3eb8e536f91e11ccca5870654d15c21977f2d8fcefb5070527a679797415",
+          "java_generated_quads": 36,
+          "shell_id": "e9bd6d364b558efb",
+          "source": "https://github.com/KaleidoscopeMods/KaleidoscopeCookery/blob/4d39e36cfa749939ba5f9d6d3b715ef9a984cb9c/src/main/resources/assets/kaleidoscope_cookery/textures/item/wild_rice.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/items/kc_wild_rice",
+      "native_png": {
+        "bytes_sha256": "6bd518cb41db510ec639b0f1382ee8201309e136e8436851102984d397cf9e16",
+        "rgba_sha256": "3bcdabd3e44efadfe98fa3d9a48c94b6b582b5a59ac46b5ac5505dff7e547c61",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "92ee3eb8e536f91e11ccca5870654d15c21977f2d8fcefb5070527a679797415",
+        "java_generated_quads": 36,
+        "shell_id": "e9bd6d364b558efb"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 60
+    },
+    {
+      "id": "minecraft:reeds",
+      "texture": "textures/minecraft/sugar_cane.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/sugar_cane"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/sugar_cane"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "669afe52f389ffcd8178829ef42b5f1151eee917430292b9914281018d4875ab",
+          "rgba_sha256": "8a03e7cd51c50ea9b5225e73d35538d765174a67302071d810e8b436d4878a03",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "5701735fc41c74a0c64a8debab2d06f3239a40bb28524f4b8c69ddbf87d19561",
+          "java_generated_quads": 34,
+          "shell_id": "2c6a828726e0fbc1",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/item/sugar_cane.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "dad3d43c986de5936e676d5335c679143900717069e6012ae7cd58c79c8964ec",
+          "rgba_sha256": "8a03e7cd51c50ea9b5225e73d35538d765174a67302071d810e8b436d4878a03",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "5701735fc41c74a0c64a8debab2d06f3239a40bb28524f4b8c69ddbf87d19561",
+          "java_generated_quads": 34,
+          "shell_id": "2c6a828726e0fbc1",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/item/sugar_cane.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/items/reeds",
+      "native_png": {
+        "bytes_sha256": "711695c4338b22324f55dad66932685f4e20f8a9a1fa709c4acdc01aa1a97152",
+        "rgba_sha256": "8a03e7cd51c50ea9b5225e73d35538d765174a67302071d810e8b436d4878a03",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "5701735fc41c74a0c64a8debab2d06f3239a40bb28524f4b8c69ddbf87d19561",
+        "java_generated_quads": 34,
+        "shell_id": "2c6a828726e0fbc1"
+      },
+      "native_source_rgba_equal": true,
+      "barrel_kind": 61
+    },
+    {
+      "id": "minecraft:glow_berries",
+      "texture": "textures/minecraft/glow_berries.png",
+      "models": {
+        "1.20.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/glow_berries"
+          }
+        },
+        "1.21.1": {
+          "parent": "minecraft:item/generated",
+          "textures": {
+            "layer0": "minecraft:item/glow_berries"
+          }
+        }
+      },
+      "versions": {
+        "1.20.1": {
+          "bytes_sha256": "b24c99d439528818c205d23e605bd7986691d782d8f8e0299666a1383e6f7a00",
+          "rgba_sha256": "db437752ce561f3625812eac7ea8bbbb0296b377dece2ac8b3b4c8c27e601398",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "5026a64ad0dcfec8cac15aec97da824b06ad3df5f08de23a371260efc9188a12",
+          "java_generated_quads": 41,
+          "shell_id": "9620af0cd72acf4e",
+          "source": "java-1.20.1-client.jar!/assets/minecraft/textures/item/glow_berries.png"
+        },
+        "1.21.1": {
+          "bytes_sha256": "430f3e4445a9263dc76877b42ab7a9c7790dd0cb3e647cc79e2a8cd21cd98bb2",
+          "rgba_sha256": "db437752ce561f3625812eac7ea8bbbb0296b377dece2ac8b3b4c8c27e601398",
+          "size": [
+            16,
+            16
+          ],
+          "alpha_sha256": "5026a64ad0dcfec8cac15aec97da824b06ad3df5f08de23a371260efc9188a12",
+          "java_generated_quads": 41,
+          "shell_id": "9620af0cd72acf4e",
+          "source": "java-1.21.1-client.jar!/assets/minecraft/textures/item/glow_berries.png"
+        }
+      },
+      "source_frame_count": 1,
+      "native_texture": "textures/items/glow_berries",
+      "native_png": {
+        "bytes_sha256": "b24c99d439528818c205d23e605bd7986691d782d8f8e0299666a1383e6f7a00",
+        "rgba_sha256": "db437752ce561f3625812eac7ea8bbbb0296b377dece2ac8b3b4c8c27e601398",
+        "size": [
+          16,
+          16
+        ],
+        "alpha_sha256": "5026a64ad0dcfec8cac15aec97da824b06ad3df5f08de23a371260efc9188a12",
+        "java_generated_quads": 41,
+        "shell_id": "9620af0cd72acf4e"
+      },
+      "native_source_rgba_equal": true,
+      "pressing_kind": 6
+    }
+  ],
+  "private_texture_replacements": {
+    "minecraft:honeycomb": "textures/kt_runtime/machine_ingredients/java/honeycomb",
+    "minecraft:lilac": "textures/kt_runtime/machine_ingredients/java/lilac"
+  }
+}

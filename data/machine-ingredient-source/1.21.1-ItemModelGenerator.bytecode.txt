@@ -1,0 +1,785 @@
+Compiled from "SourceFile"
+public class gge {
+  public static final java.util.List<java.lang.String> a;
+
+  private static final float b = 7.5f;
+
+  private static final float c = 8.5f;
+
+  public gge();
+    Code:
+       0: aload_0
+       1: invokespecial #30                 // Method java/lang/Object."<init>":()V
+       4: return
+
+  public ggb a(java.util.function.Function<gsq, gql>, ggb);
+    Code:
+       0: invokestatic  #40                 // Method com/google/common/collect/Maps.newHashMap:()Ljava/util/HashMap;
+       3: astore_3
+       4: invokestatic  #46                 // Method com/google/common/collect/Lists.newArrayList:()Ljava/util/ArrayList;
+       7: astore        4
+       9: iconst_0
+      10: istore        5
+      12: iload         5
+      14: getstatic     #52                 // Field a:Ljava/util/List;
+      17: invokeinterface #58,  1           // InterfaceMethod java/util/List.size:()I
+      22: if_icmpge     114
+      25: getstatic     #52                 // Field a:Ljava/util/List;
+      28: iload         5
+      30: invokeinterface #62,  2           // InterfaceMethod java/util/List.get:(I)Ljava/lang/Object;
+      35: checkcast     #64                 // class java/lang/String
+      38: astore        6
+      40: aload_2
+      41: aload         6
+      43: invokevirtual #67                 // Method ggb.b:(Ljava/lang/String;)Z
+      46: ifne          52
+      49: goto          114
+      52: aload_2
+      53: aload         6
+      55: invokevirtual #70                 // Method ggb.c:(Ljava/lang/String;)Lgsq;
+      58: astore        7
+      60: aload_3
+      61: aload         6
+      63: aload         7
+      65: invokestatic  #76                 // Method com/mojang/datafixers/util/Either.left:(Ljava/lang/Object;)Lcom/mojang/datafixers/util/Either;
+      68: invokeinterface #82,  3           // InterfaceMethod java/util/Map.put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+      73: pop
+      74: aload_1
+      75: aload         7
+      77: invokeinterface #88,  2           // InterfaceMethod java/util/function/Function.apply:(Ljava/lang/Object;)Ljava/lang/Object;
+      82: checkcast     #90                 // class gql
+      85: invokevirtual #94                 // Method gql.e:()Lgqf;
+      88: astore        8
+      90: aload         4
+      92: aload_0
+      93: iload         5
+      95: aload         6
+      97: aload         8
+      99: invokevirtual #97                 // Method a:(ILjava/lang/String;Lgqf;)Ljava/util/List;
+     102: invokeinterface #101,  2          // InterfaceMethod java/util/List.addAll:(Ljava/util/Collection;)Z
+     107: pop
+     108: iinc          5, 1
+     111: goto          12
+     114: aload_3
+     115: ldc           #103                // String particle
+     117: aload_2
+     118: ldc           #103                // String particle
+     120: invokevirtual #67                 // Method ggb.b:(Ljava/lang/String;)Z
+     123: ifeq          138
+     126: aload_2
+     127: ldc           #103                // String particle
+     129: invokevirtual #70                 // Method ggb.c:(Ljava/lang/String;)Lgsq;
+     132: invokestatic  #76                 // Method com/mojang/datafixers/util/Either.left:(Ljava/lang/Object;)Lcom/mojang/datafixers/util/Either;
+     135: goto          149
+     138: aload_3
+     139: ldc           #105                // String layer0
+     141: invokeinterface #107,  2          // InterfaceMethod java/util/Map.get:(Ljava/lang/Object;)Ljava/lang/Object;
+     146: checkcast     #72                 // class com/mojang/datafixers/util/Either
+     149: invokeinterface #82,  3           // InterfaceMethod java/util/Map.put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     154: pop
+     155: new           #13                 // class ggb
+     158: dup
+     159: aconst_null
+     160: aload         4
+     162: aload_3
+     163: iconst_0
+     164: invokestatic  #113                // Method java/lang/Boolean.valueOf:(Z)Ljava/lang/Boolean;
+     167: aload_2
+     168: invokevirtual #116                // Method ggb.c:()Lggb$b;
+     171: aload_2
+     172: invokevirtual #120                // Method ggb.h:()Lggi;
+     175: aload_2
+     176: invokevirtual #123                // Method ggb.e:()Ljava/util/List;
+     179: invokespecial #126                // Method ggb."<init>":(Lakr;Ljava/util/List;Ljava/util/Map;Ljava/lang/Boolean;Lggb$b;Lggi;Ljava/util/List;)V
+     182: astore        5
+     184: aload         5
+     186: aload_2
+     187: getfield      #129                // Field ggb.c:Ljava/lang/String;
+     190: putfield      #129                // Field ggb.c:Ljava/lang/String;
+     193: aload         5
+     195: areturn
+
+  private java.util.List<gfx> a(int, java.lang.String, gqf);
+    Code:
+       0: invokestatic  #40                 // Method com/google/common/collect/Maps.newHashMap:()Ljava/util/HashMap;
+       3: astore        4
+       5: aload         4
+       7: getstatic     #154                // Field ji.d:Lji;
+      10: new           #156                // class gfy
+      13: dup
+      14: aconst_null
+      15: iload_1
+      16: aload_2
+      17: new           #158                // class gga
+      20: dup
+      21: iconst_4
+      22: newarray       float
+      24: dup
+      25: iconst_0
+      26: fconst_0
+      27: fastore
+      28: dup
+      29: iconst_1
+      30: fconst_0
+      31: fastore
+      32: dup
+      33: iconst_2
+      34: ldc           #159                // float 16.0f
+      36: fastore
+      37: dup
+      38: iconst_3
+      39: ldc           #159                // float 16.0f
+      41: fastore
+      42: iconst_0
+      43: invokespecial #162                // Method gga."<init>":([FI)V
+      46: invokespecial #165                // Method gfy."<init>":(Lji;ILjava/lang/String;Lgga;)V
+      49: invokeinterface #82,  3           // InterfaceMethod java/util/Map.put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+      54: pop
+      55: aload         4
+      57: getstatic     #167                // Field ji.c:Lji;
+      60: new           #156                // class gfy
+      63: dup
+      64: aconst_null
+      65: iload_1
+      66: aload_2
+      67: new           #158                // class gga
+      70: dup
+      71: iconst_4
+      72: newarray       float
+      74: dup
+      75: iconst_0
+      76: ldc           #159                // float 16.0f
+      78: fastore
+      79: dup
+      80: iconst_1
+      81: fconst_0
+      82: fastore
+      83: dup
+      84: iconst_2
+      85: fconst_0
+      86: fastore
+      87: dup
+      88: iconst_3
+      89: ldc           #159                // float 16.0f
+      91: fastore
+      92: iconst_0
+      93: invokespecial #162                // Method gga."<init>":([FI)V
+      96: invokespecial #165                // Method gfy."<init>":(Lji;ILjava/lang/String;Lgga;)V
+      99: invokeinterface #82,  3           // InterfaceMethod java/util/Map.put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     104: pop
+     105: invokestatic  #46                 // Method com/google/common/collect/Lists.newArrayList:()Ljava/util/ArrayList;
+     108: astore        5
+     110: aload         5
+     112: new           #169                // class gfx
+     115: dup
+     116: new           #171                // class org/joml/Vector3f
+     119: dup
+     120: fconst_0
+     121: fconst_0
+     122: ldc           #24                 // float 7.5f
+     124: invokespecial #174                // Method org/joml/Vector3f."<init>":(FFF)V
+     127: new           #171                // class org/joml/Vector3f
+     130: dup
+     131: ldc           #159                // float 16.0f
+     133: ldc           #159                // float 16.0f
+     135: ldc           #26                 // float 8.5f
+     137: invokespecial #174                // Method org/joml/Vector3f."<init>":(FFF)V
+     140: aload         4
+     142: aconst_null
+     143: iconst_1
+     144: invokespecial #177                // Method gfx."<init>":(Lorg/joml/Vector3f;Lorg/joml/Vector3f;Ljava/util/Map;Lgfz;Z)V
+     147: invokeinterface #181,  2          // InterfaceMethod java/util/List.add:(Ljava/lang/Object;)Z
+     152: pop
+     153: aload         5
+     155: aload_0
+     156: aload_3
+     157: aload_2
+     158: iload_1
+     159: invokevirtual #184                // Method a:(Lgqf;Ljava/lang/String;I)Ljava/util/List;
+     162: invokeinterface #101,  2          // InterfaceMethod java/util/List.addAll:(Ljava/util/Collection;)Z
+     167: pop
+     168: aload         5
+     170: areturn
+
+  private java.util.List<gfx> a(gqf, java.lang.String, int);
+    Code:
+       0: aload_1
+       1: invokevirtual #190                // Method gqf.a:()I
+       4: i2f
+       5: fstore        4
+       7: aload_1
+       8: invokevirtual #192                // Method gqf.b:()I
+      11: i2f
+      12: fstore        5
+      14: invokestatic  #46                 // Method com/google/common/collect/Lists.newArrayList:()Ljava/util/ArrayList;
+      17: astore        6
+      19: aload_0
+      20: aload_1
+      21: invokevirtual #195                // Method a:(Lgqf;)Ljava/util/List;
+      24: invokeinterface #199,  1          // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+      29: astore        7
+      31: aload         7
+      33: invokeinterface #205,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+      38: ifeq          664
+      41: aload         7
+      43: invokeinterface #209,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      48: checkcast     #7                  // class gge$a
+      51: astore        8
+      53: fconst_0
+      54: fstore        9
+      56: fconst_0
+      57: fstore        10
+      59: fconst_0
+      60: fstore        11
+      62: fconst_0
+      63: fstore        12
+      65: fconst_0
+      66: fstore        13
+      68: fconst_0
+      69: fstore        14
+      71: fconst_0
+      72: fstore        15
+      74: fconst_0
+      75: fstore        16
+      77: ldc           #159                // float 16.0f
+      79: fload         4
+      81: fdiv
+      82: fstore        17
+      84: ldc           #159                // float 16.0f
+      86: fload         5
+      88: fdiv
+      89: fstore        18
+      91: aload         8
+      93: invokevirtual #210                // Method gge$a.b:()I
+      96: i2f
+      97: fstore        19
+      99: aload         8
+     101: invokevirtual #212                // Method gge$a.c:()I
+     104: i2f
+     105: fstore        20
+     107: aload         8
+     109: invokevirtual #214                // Method gge$a.d:()I
+     112: i2f
+     113: fstore        21
+     115: aload         8
+     117: invokevirtual #217                // Method gge$a.a:()Lgge$b;
+     120: astore        22
+     122: aload         22
+     124: invokevirtual #220                // Method gge$b.ordinal:()I
+     127: tableswitch   { // 0 to 3
+                     0: 156
+                     1: 192
+                     2: 233
+                     3: 269
+               default: 307
+          }
+     156: fload         19
+     158: dup
+     159: fstore        13
+     161: fstore        9
+     163: fload         20
+     165: fconst_1
+     166: fadd
+     167: dup
+     168: fstore        14
+     170: fstore        11
+     172: fload         21
+     174: dup
+     175: fstore        15
+     177: fstore        10
+     179: fload         21
+     181: fstore        12
+     183: fload         21
+     185: fconst_1
+     186: fadd
+     187: fstore        16
+     189: goto          307
+     192: fload         21
+     194: fstore        15
+     196: fload         21
+     198: fconst_1
+     199: fadd
+     200: fstore        16
+     202: fload         19
+     204: dup
+     205: fstore        13
+     207: fstore        9
+     209: fload         20
+     211: fconst_1
+     212: fadd
+     213: dup
+     214: fstore        14
+     216: fstore        11
+     218: fload         21
+     220: fconst_1
+     221: fadd
+     222: fstore        10
+     224: fload         21
+     226: fconst_1
+     227: fadd
+     228: fstore        12
+     230: goto          307
+     233: fload         21
+     235: dup
+     236: fstore        13
+     238: fstore        9
+     240: fload         21
+     242: fstore        11
+     244: fload         21
+     246: fconst_1
+     247: fadd
+     248: fstore        14
+     250: fload         19
+     252: dup
+     253: fstore        16
+     255: fstore        10
+     257: fload         20
+     259: fconst_1
+     260: fadd
+     261: dup
+     262: fstore        15
+     264: fstore        12
+     266: goto          307
+     269: fload         21
+     271: fstore        13
+     273: fload         21
+     275: fconst_1
+     276: fadd
+     277: fstore        14
+     279: fload         21
+     281: fconst_1
+     282: fadd
+     283: fstore        9
+     285: fload         21
+     287: fconst_1
+     288: fadd
+     289: fstore        11
+     291: fload         19
+     293: dup
+     294: fstore        16
+     296: fstore        10
+     298: fload         20
+     300: fconst_1
+     301: fadd
+     302: dup
+     303: fstore        15
+     305: fstore        12
+     307: fload         9
+     309: fload         17
+     311: fmul
+     312: fstore        9
+     314: fload         11
+     316: fload         17
+     318: fmul
+     319: fstore        11
+     321: fload         10
+     323: fload         18
+     325: fmul
+     326: fstore        10
+     328: fload         12
+     330: fload         18
+     332: fmul
+     333: fstore        12
+     335: ldc           #159                // float 16.0f
+     337: fload         10
+     339: fsub
+     340: fstore        10
+     342: ldc           #159                // float 16.0f
+     344: fload         12
+     346: fsub
+     347: fstore        12
+     349: fload         13
+     351: fload         17
+     353: fmul
+     354: fstore        13
+     356: fload         14
+     358: fload         17
+     360: fmul
+     361: fstore        14
+     363: fload         15
+     365: fload         18
+     367: fmul
+     368: fstore        15
+     370: fload         16
+     372: fload         18
+     374: fmul
+     375: fstore        16
+     377: invokestatic  #40                 // Method com/google/common/collect/Maps.newHashMap:()Ljava/util/HashMap;
+     380: astore        23
+     382: aload         23
+     384: aload         22
+     386: invokevirtual #223                // Method gge$b.a:()Lji;
+     389: new           #156                // class gfy
+     392: dup
+     393: aconst_null
+     394: iload_3
+     395: aload_2
+     396: new           #158                // class gga
+     399: dup
+     400: iconst_4
+     401: newarray       float
+     403: dup
+     404: iconst_0
+     405: fload         13
+     407: fastore
+     408: dup
+     409: iconst_1
+     410: fload         15
+     412: fastore
+     413: dup
+     414: iconst_2
+     415: fload         14
+     417: fastore
+     418: dup
+     419: iconst_3
+     420: fload         16
+     422: fastore
+     423: iconst_0
+     424: invokespecial #162                // Method gga."<init>":([FI)V
+     427: invokespecial #165                // Method gfy."<init>":(Lji;ILjava/lang/String;Lgga;)V
+     430: invokeinterface #82,  3           // InterfaceMethod java/util/Map.put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     435: pop
+     436: aload         22
+     438: invokevirtual #220                // Method gge$b.ordinal:()I
+     441: tableswitch   { // 0 to 3
+                     0: 472
+                     1: 520
+                     2: 568
+                     3: 616
+               default: 661
+          }
+     472: aload         6
+     474: new           #169                // class gfx
+     477: dup
+     478: new           #171                // class org/joml/Vector3f
+     481: dup
+     482: fload         9
+     484: fload         10
+     486: ldc           #24                 // float 7.5f
+     488: invokespecial #174                // Method org/joml/Vector3f."<init>":(FFF)V
+     491: new           #171                // class org/joml/Vector3f
+     494: dup
+     495: fload         11
+     497: fload         10
+     499: ldc           #26                 // float 8.5f
+     501: invokespecial #174                // Method org/joml/Vector3f."<init>":(FFF)V
+     504: aload         23
+     506: aconst_null
+     507: iconst_1
+     508: invokespecial #177                // Method gfx."<init>":(Lorg/joml/Vector3f;Lorg/joml/Vector3f;Ljava/util/Map;Lgfz;Z)V
+     511: invokeinterface #181,  2          // InterfaceMethod java/util/List.add:(Ljava/lang/Object;)Z
+     516: pop
+     517: goto          661
+     520: aload         6
+     522: new           #169                // class gfx
+     525: dup
+     526: new           #171                // class org/joml/Vector3f
+     529: dup
+     530: fload         9
+     532: fload         12
+     534: ldc           #24                 // float 7.5f
+     536: invokespecial #174                // Method org/joml/Vector3f."<init>":(FFF)V
+     539: new           #171                // class org/joml/Vector3f
+     542: dup
+     543: fload         11
+     545: fload         12
+     547: ldc           #26                 // float 8.5f
+     549: invokespecial #174                // Method org/joml/Vector3f."<init>":(FFF)V
+     552: aload         23
+     554: aconst_null
+     555: iconst_1
+     556: invokespecial #177                // Method gfx."<init>":(Lorg/joml/Vector3f;Lorg/joml/Vector3f;Ljava/util/Map;Lgfz;Z)V
+     559: invokeinterface #181,  2          // InterfaceMethod java/util/List.add:(Ljava/lang/Object;)Z
+     564: pop
+     565: goto          661
+     568: aload         6
+     570: new           #169                // class gfx
+     573: dup
+     574: new           #171                // class org/joml/Vector3f
+     577: dup
+     578: fload         9
+     580: fload         10
+     582: ldc           #24                 // float 7.5f
+     584: invokespecial #174                // Method org/joml/Vector3f."<init>":(FFF)V
+     587: new           #171                // class org/joml/Vector3f
+     590: dup
+     591: fload         9
+     593: fload         12
+     595: ldc           #26                 // float 8.5f
+     597: invokespecial #174                // Method org/joml/Vector3f."<init>":(FFF)V
+     600: aload         23
+     602: aconst_null
+     603: iconst_1
+     604: invokespecial #177                // Method gfx."<init>":(Lorg/joml/Vector3f;Lorg/joml/Vector3f;Ljava/util/Map;Lgfz;Z)V
+     607: invokeinterface #181,  2          // InterfaceMethod java/util/List.add:(Ljava/lang/Object;)Z
+     612: pop
+     613: goto          661
+     616: aload         6
+     618: new           #169                // class gfx
+     621: dup
+     622: new           #171                // class org/joml/Vector3f
+     625: dup
+     626: fload         11
+     628: fload         10
+     630: ldc           #24                 // float 7.5f
+     632: invokespecial #174                // Method org/joml/Vector3f."<init>":(FFF)V
+     635: new           #171                // class org/joml/Vector3f
+     638: dup
+     639: fload         11
+     641: fload         12
+     643: ldc           #26                 // float 8.5f
+     645: invokespecial #174                // Method org/joml/Vector3f."<init>":(FFF)V
+     648: aload         23
+     650: aconst_null
+     651: iconst_1
+     652: invokespecial #177                // Method gfx."<init>":(Lorg/joml/Vector3f;Lorg/joml/Vector3f;Ljava/util/Map;Lgfz;Z)V
+     655: invokeinterface #181,  2          // InterfaceMethod java/util/List.add:(Ljava/lang/Object;)Z
+     660: pop
+     661: goto          31
+     664: aload         6
+     666: areturn
+
+  private java.util.List<gge$a> a(gqf);
+    Code:
+       0: aload_1
+       1: invokevirtual #190                // Method gqf.a:()I
+       4: istore_2
+       5: aload_1
+       6: invokevirtual #192                // Method gqf.b:()I
+       9: istore_3
+      10: invokestatic  #46                 // Method com/google/common/collect/Lists.newArrayList:()Ljava/util/ArrayList;
+      13: astore        4
+      15: aload_1
+      16: invokevirtual #242                // Method gqf.d:()Ljava/util/stream/IntStream;
+      19: aload_0
+      20: iload_3
+      21: iload_2
+      22: aload_1
+      23: aload         4
+      25: invokedynamic #259,  0            // InvokeDynamic #0:accept:(Lgge;IILgqf;Ljava/util/List;)Ljava/util/function/IntConsumer;
+      30: invokeinterface #265,  2          // InterfaceMethod java/util/stream/IntStream.forEach:(Ljava/util/function/IntConsumer;)V
+      35: aload         4
+      37: areturn
+
+  private void a(gge$b, java.util.List<gge$a>, gqf, int, int, int, int, int, boolean);
+    Code:
+       0: aload_0
+       1: aload_3
+       2: iload         4
+       4: iload         5
+       6: aload_1
+       7: invokevirtual #269                // Method gge$b.b:()I
+      10: iadd
+      11: iload         6
+      13: aload_1
+      14: invokevirtual #270                // Method gge$b.c:()I
+      17: iadd
+      18: iload         7
+      20: iload         8
+      22: invokevirtual #273                // Method a:(Lgqf;IIIII)Z
+      25: ifeq          37
+      28: iload         9
+      30: ifeq          37
+      33: iconst_1
+      34: goto          38
+      37: iconst_0
+      38: istore        10
+      40: iload         10
+      42: ifeq          55
+      45: aload_0
+      46: aload_2
+      47: aload_1
+      48: iload         5
+      50: iload         6
+      52: invokevirtual #276                // Method a:(Ljava/util/List;Lgge$b;II)V
+      55: return
+
+  private void a(java.util.List<gge$a>, gge$b, int, int);
+    Code:
+       0: aconst_null
+       1: astore        5
+       3: aload_1
+       4: invokeinterface #199,  1          // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+       9: astore        6
+      11: aload         6
+      13: invokeinterface #205,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+      18: ifeq          80
+      21: aload         6
+      23: invokeinterface #209,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      28: checkcast     #7                  // class gge$a
+      31: astore        7
+      33: aload         7
+      35: invokevirtual #217                // Method gge$a.a:()Lgge$b;
+      38: aload_2
+      39: if_acmpeq     45
+      42: goto          11
+      45: aload_2
+      46: invokevirtual #280                // Method gge$b.d:()Z
+      49: ifeq          57
+      52: iload         4
+      54: goto          58
+      57: iload_3
+      58: istore        8
+      60: aload         7
+      62: invokevirtual #214                // Method gge$a.d:()I
+      65: iload         8
+      67: if_icmpne     77
+      70: aload         7
+      72: astore        5
+      74: goto          80
+      77: goto          11
+      80: aload_2
+      81: invokevirtual #280                // Method gge$b.d:()Z
+      84: ifeq          92
+      87: iload         4
+      89: goto          93
+      92: iload_3
+      93: istore        6
+      95: aload_2
+      96: invokevirtual #280                // Method gge$b.d:()Z
+      99: ifeq          106
+     102: iload_3
+     103: goto          108
+     106: iload         4
+     108: istore        7
+     110: aload         5
+     112: ifnonnull     137
+     115: aload_1
+     116: new           #7                  // class gge$a
+     119: dup
+     120: aload_2
+     121: iload         7
+     123: iload         6
+     125: invokespecial #283                // Method gge$a."<init>":(Lgge$b;II)V
+     128: invokeinterface #181,  2          // InterfaceMethod java/util/List.add:(Ljava/lang/Object;)Z
+     133: pop
+     134: goto          144
+     137: aload         5
+     139: iload         7
+     141: invokevirtual #285                // Method gge$a.a:(I)V
+     144: return
+
+  private boolean a(gqf, int, int, int, int, int);
+    Code:
+       0: iload_3
+       1: iflt          22
+       4: iload         4
+       6: iflt          22
+       9: iload_3
+      10: iload         5
+      12: if_icmpge     22
+      15: iload         4
+      17: iload         6
+      19: if_icmplt     24
+      22: iconst_1
+      23: ireturn
+      24: aload_1
+      25: iload_2
+      26: iload_3
+      27: iload         4
+      29: invokevirtual #288                // Method gqf.a:(III)Z
+      32: ireturn
+
+  private void a(int, int, gqf, java.util.List, int);
+    Code:
+       0: iconst_0
+       1: istore        6
+       3: iload         6
+       5: iload_1
+       6: if_icmpge     133
+       9: iconst_0
+      10: istore        7
+      12: iload         7
+      14: iload_2
+      15: if_icmpge     127
+      18: aload_0
+      19: aload_3
+      20: iload         5
+      22: iload         7
+      24: iload         6
+      26: iload_2
+      27: iload_1
+      28: invokevirtual #273                // Method a:(Lgqf;IIIII)Z
+      31: ifne          38
+      34: iconst_1
+      35: goto          39
+      38: iconst_0
+      39: istore        8
+      41: aload_0
+      42: getstatic     #290                // Field gge$b.a:Lgge$b;
+      45: aload         4
+      47: aload_3
+      48: iload         5
+      50: iload         7
+      52: iload         6
+      54: iload_2
+      55: iload_1
+      56: iload         8
+      58: invokevirtual #292                // Method a:(Lgge$b;Ljava/util/List;Lgqf;IIIIIZ)V
+      61: aload_0
+      62: getstatic     #294                // Field gge$b.b:Lgge$b;
+      65: aload         4
+      67: aload_3
+      68: iload         5
+      70: iload         7
+      72: iload         6
+      74: iload_2
+      75: iload_1
+      76: iload         8
+      78: invokevirtual #292                // Method a:(Lgge$b;Ljava/util/List;Lgqf;IIIIIZ)V
+      81: aload_0
+      82: getstatic     #296                // Field gge$b.c:Lgge$b;
+      85: aload         4
+      87: aload_3
+      88: iload         5
+      90: iload         7
+      92: iload         6
+      94: iload_2
+      95: iload_1
+      96: iload         8
+      98: invokevirtual #292                // Method a:(Lgge$b;Ljava/util/List;Lgqf;IIIIIZ)V
+     101: aload_0
+     102: getstatic     #298                // Field gge$b.d:Lgge$b;
+     105: aload         4
+     107: aload_3
+     108: iload         5
+     110: iload         7
+     112: iload         6
+     114: iload_2
+     115: iload_1
+     116: iload         8
+     118: invokevirtual #292                // Method a:(Lgge$b;Ljava/util/List;Lgqf;IIIIIZ)V
+     121: iinc          7, 1
+     124: goto          12
+     127: iinc          6, 1
+     130: goto          3
+     133: return
+
+  static {};
+    Code:
+       0: iconst_5
+       1: anewarray     #64                 // class java/lang/String
+       4: dup
+       5: iconst_0
+       6: ldc           #105                // String layer0
+       8: aastore
+       9: dup
+      10: iconst_1
+      11: ldc_w         #301                // String layer1
+      14: aastore
+      15: dup
+      16: iconst_2
+      17: ldc_w         #303                // String layer2
+      20: aastore
+      21: dup
+      22: iconst_3
+      23: ldc_w         #305                // String layer3
+      26: aastore
+      27: dup
+      28: iconst_4
+      29: ldc_w         #307                // String layer4
+      32: aastore
+      33: invokestatic  #310                // Method com/google/common/collect/Lists.newArrayList:([Ljava/lang/Object;)Ljava/util/ArrayList;
+      36: putstatic     #52                 // Field a:Ljava/util/List;
+      39: return
+}

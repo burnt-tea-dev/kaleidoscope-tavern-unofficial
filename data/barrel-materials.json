@@ -41,9 +41,10 @@
     },
     {
       "id": "minecraft:honeycomb",
-      "texture": "textures/items/honeycomb",
+      "texture": "textures/kt_runtime/machine_ingredients/java/honeycomb",
       "model": "card",
-      "source": "existing-reviewed-runtime"
+      "source": "mojang-java-1.20.1-machine-ingredient-source",
+      "texture_sha256": "a777ccc39d4316691207759613da039abe2f8926255837b6a78bd82ca049efbc"
     },
     {
       "id": "minecraft:iron_nugget",
@@ -192,9 +193,10 @@
     },
     {
       "id": "minecraft:lilac",
-      "texture": "textures/blocks/double_plant_syringa_top",
+      "texture": "textures/kt_runtime/machine_ingredients/java/lilac",
       "model": "card",
-      "source": "mojang-bedrock-samples"
+      "source": "mojang-java-1.20.1-machine-ingredient-source",
+      "texture_sha256": "f154437ef0ada77dfa83075c0492dcbea985a33172adca70e5cd80ff6b812c27"
     },
     {
       "id": "minecraft:lily_of_the_valley",

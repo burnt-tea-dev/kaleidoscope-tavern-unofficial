@@ -4,6 +4,7 @@ import collections,copy,hashlib,json,sys
 from pathlib import Path
 from repair_drink_planes import geometry_ids,repair_geometry
 from drink_surface_math import conflicts,faces
+from glowflower_source_contract import check as check_glowflower_source
 
 def uv_inventory(doc):
  return collections.Counter(json.dumps([g['description']['identifier'],b['name'],f,uv],sort_keys=True) for g in doc['minecraft:geometry'] for b in g['bones'] for c in b.get('cubes',[]) if isinstance(c.get('uv'),dict) for f,uv in c['uv'].items())
@@ -22,7 +23,7 @@ def fixture_checks():
  assert overlap([(0,0),(2,0),(2,2),(0,2)],[(1,1),(1,3),(3,3),(3,1)])==1
 
 def check(root):
- fixture_checks();ids=geometry_ids(root);count=0;face_count=0
+ fixture_checks();source_contract=check_glowflower_source(root);ids=geometry_ids(root);count=0;face_count=0
  review=json.loads((root/'data/drink-surface-review.json').read_text())
  for p in (root/'runtime/RP/models').rglob('*.json'):
   doc=json.loads(p.read_text());selected=[g for g in doc.get('minecraft:geometry',[]) if g['description']['identifier'] in ids]
@@ -39,6 +40,6 @@ def check(root):
   combined={'bones':[b for p in pair for b in json.loads(p.read_text())['minecraft:geometry'][0]['bones']]}
   assert not conflicts(combined), 'Signature glass/liquid render passes overlap'
  crops=[name for name,row in review['files'].items() if row.get('uvCropReview')]
- result={'geometriesChecked':count,'renderedFacesChecked':face_count,'remainingSameFacingDepthConflicts':0,'originalFaceUvsPreserved':not crops,'reviewedOccludedUvCrops':crops,'idempotent':True,'clientTest':False}
+ result={'geometriesChecked':count,'renderedFacesChecked':face_count,'remainingSameFacingDepthConflicts':0,'originalFaceUvsPreserved':not crops,'reviewedOccludedUvCrops':crops,'idempotent':True,'sourceContracts':{'glowflower':source_contract},'clientTest':False}
  print(json.dumps(result));return result
 if __name__=='__main__':check(Path(sys.argv[1]).resolve() if len(sys.argv)>1 else Path(__file__).resolve().parents[1])

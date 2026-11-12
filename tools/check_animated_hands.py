@@ -5,7 +5,7 @@ from PIL import Image
 from animated_item_render_contract import check_or_write,NAMES,TILES,TARGETS
 ROOT=Path(__file__).resolve().parents[1];RP=ROOT/'runtime/RP'
 atlas=json.loads((RP/'textures/item_texture.json').read_text())['texture_data']
-assert check_or_write()==4
+assert check_or_write()==len(NAMES)
 reference=json.loads((ROOT/'art/interfaces/animated-item-java-reference.json').read_text())
 def numeric_reference(value):
  if isinstance(value,list):return [numeric_reference(x) for x in value]

@@ -1,4 +1,4 @@
-"""Trim shell fragments hidden by the solid base, preserving visible texels.
+"""Shared Glowflower/Luminous shell repair beneath their authored opaque base.
 
 The source's inward shell spans y=.1..11.1, while the solid base spans
 y=.1..1.1. Coplanar opposite faces overlap in the bottom unit. Materials
@@ -35,8 +35,9 @@ def normalize(doc):
     return edited
 
 if __name__=='__main__':
-    for count in range(1,5):
-        path=ROOT/f'runtime/RP/models/entity/luminous_bride_{count}.geo.json'
-        doc=json.loads(path.read_text());n=normalize(doc)
-        if n:path.write_text(json.dumps(doc,ensure_ascii=False,indent=2)+'\n')
-        print(path.name,n)
+    for family in ('glowflower_brew','luminous_bride'):
+        for count in range(1,5):
+            path=ROOT/f'runtime/RP/models/entity/{family}_{count}.geo.json'
+            doc=json.loads(path.read_text());n=normalize(doc)
+            if n:path.write_text(json.dumps(doc,ensure_ascii=False,indent=2)+'\n')
+            print(path.name,n)
