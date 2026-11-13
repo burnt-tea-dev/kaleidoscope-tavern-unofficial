@@ -401,7 +401,9 @@ export function installCustomEffects(){
  installStatusAura();
  system.afterEvents.scriptEventReceive.subscribe(event=>{
   if(event.id!=='kaleidoscope_tavern:effect_apply'||event.sourceType!==ScriptEventSource.Server||event.message.length>1024)return;
-  try{const row=JSON.parse(event.message),definition=externalEffectDefinition(row.effect);if(!definition)return;
+  // Built-in effects have this owner and need no external definition.
+  try{const row=JSON.parse(event.message),definition=externalEffectDefinition(row.effect);
+   if(typeof row.effect!=='string'||(!definition&&!Object.prototype.hasOwnProperty.call(CUSTOM_IMPLEMENTED,row.effect)))return;
    if(!Number.isFinite(row.duration)||row.duration<0||row.duration>1000000||!Number.isInteger(row.amplifier)||row.amplifier<0||row.amplifier>255)return;
    const p=world.getEntity(row.entity);if(livingEffectEntity(p))applyCustomEffect(p,row);
   }catch(e){error(e);}

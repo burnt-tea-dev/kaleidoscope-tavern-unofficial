@@ -10,6 +10,33 @@ Fluid titles are optional. The shared guide resolves a missing title from the re
 
 The shared `kaleidoscope_tavern:toggle_light` component accepts the boolean `kaleidoscope_tavern:lit` state used by current addon lights. It uses the existing decoration interaction route, retains held items and facing, preserves waterlogging, and suppresses duplicate before/after callbacks. Turning on requests `random.orb` at volume 0.45/pitch 1.45; turning off requests `random.pop` at volume 0.40/pitch 1.0.
 
+## Applying a custom effect from an existing consumption component
+
+Server scripts can send `kaleidoscope_tavern:effect_apply` with JSON fields
+`entity` (entity ID), `effect` (effect ID), `duration` (seconds) and `amplifier`
+(zero-based level). The existing receiver accepts `ScriptEventSource.Server`,
+messages of at most 1024 characters, finite durations from 0 to 1000000 and
+integer amplifiers from 0 to 255. Effects must be implemented by Tavern or
+registered through the existing extension foundation. Unknown effects are
+ignored. Timed effects need positive duration; their existing owner performs
+the seconds-to-ticks conversion, stacking, expiry and persistence.
+
+This route now accepts Tavern's own implemented effects, including
+`kaleidoscope_tavern:slightly_tipsy`, without an external definition or addon
+registration. It calls the same `applyCustomEffect` used by ordinary Tavern
+drinks. There is no second countdown, saved property, or replacement buff.
+It sends no ACK; sending a packet does not prove application or client visuals.
+The component must dispatch only on actual consumption, leaving native item
+settlement with its existing owner. Ordinary bottle drinks continue through
+`completeDrink`; their extension/guide registration is a separate operation.
+
+The Dimensions Wine source adapter uses this route from its actual pop-can
+`onConsume`. Its existing quality-2 Fanta/Pepsi/Sprite `slightly_tipsy` data agrees
+with [the maintained NeoForge Java table](https://github.com/WitherRedstone/Kaleidoscope-DimensionsWine/blob/6702d5f678b98c67b37d50408b8446641d492c6a/src/main/resources/data/kaleidoscope_dim_wine/datamap/drink_effect/fanta.json):
+45 seconds, amplifier 0, probability 1. Java also declares `happy` at qualities
+3–6. The clean Bedrock author omits those rows and has no implementation;
+this connection does not claim to restore `happy` or Java's camera roll.
+
 ## Barrel quality boosters
 
 `barrelQualityBoosters` supplies `item`, `boost`, `firstBoost`, `maxQuality`, `cooldownTicks`, `damage` and `consume`. The host advertises `barrel_quality_boosters`. The existing machine state and inventory transaction own the result: quality changes preserve the current fermentation countdown, and a failed save restores the original item and state without starting the cooldown.

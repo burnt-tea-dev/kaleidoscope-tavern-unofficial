@@ -29,7 +29,7 @@ HELPER_IMPORT = 'import {createCookeryStationPerformance} from "../../api/senluo
 TEAPOT_HELPER = 'scripts/host_api/cookery-teapot-storage.js'
 TEAPOT_INSTALLED = 'scripts/api/senluo_teapot_storage.js'
 TEAPOT_IMPORTS = {
-    TARGET: 'import {loadTeapotState,insertTeapotIngredient,takeTeapotIngredient,portableTeapotStack,releaseTeapot,resumeTeapotRemoval,spillTeapot,recoverTeapotInventory} from "../../api/senluo_teapot_storage.js";\n',
+    TARGET: 'import {loadTeapotState,insertTeapotIngredient,takeTeapotIngredient,consumeTeapotIngredient,portableTeapotStack,releaseTeapot,resumeTeapotRemoval,spillTeapot,recoverTeapotInventory} from "../../api/senluo_teapot_storage.js";\n',
     PLACEMENT: 'import {captureTeapotPlacement,completeTeapotPlacement,finishPendingTeapotPlacement} from "../../api/senluo_teapot_storage.js";\n',
 }
 INIT = {'path': TARGET, 'anchor': 'const STEAMER_DISPLAY="kaleidoscope_cookery:steamer_item_display";',
