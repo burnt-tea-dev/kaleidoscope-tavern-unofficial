@@ -23,7 +23,7 @@ SOURCE_GROUPS = {
     'boardLayoutAndText': ('core/boards.js', 'data/board-font.js', 'core/board-layout.js', 'bedrock/board-text.js', 'bedrock/writing-boards.js'),
     'mixologyLifecycle': ('bedrock/mixology.js',),
     'sharedUtilities': ('core/util.js',),
-    'sharedItemLifecycle': ('bedrock/pickup-overflow.js', 'bedrock/natural-break.js', 'bedrock/transactions.js'),
+    'sharedItemLifecycle': ('bedrock/pickup-overflow.js', 'bedrock/natural-break.js', 'bedrock/transactions.js', 'bedrock/display-projectiles.js'),
 }
 COMPLETE_LOCALE_SOURCES = frozenset('runtime/RP/texts/' + locale + '.lang' for locale in ('en_US', 'zh_CN', 'zh_TW'))
 PARTIAL_LOCALE_SOURCES = frozenset('runtime/RP/texts/' + locale + '.lang' for locale in PARTIAL_LOCALES)
@@ -31,10 +31,11 @@ LOCALE_SOURCES = COMPLETE_LOCALE_SOURCES | PARTIAL_LOCALE_SOURCES
 QUALITY_UP_KEY = 'kaleidoscope_tavern.message.barrel_quality_up'
 LAMP_RECIPE = 'runtime/BP/recipes/blue_pendant_lamp_from_dye.json'
 GRASS_BOARD_RECIPE = 'runtime/BP/recipes/grass_sandwich_board_from_grass.json'
+MOLOTOV_BLOCK = 'runtime/BP/blocks/molotov.json'
 
 
 def runtime_sources():
-    return frozenset('runtime/BP/scripts/' + name for group in SOURCE_GROUPS.values() for name in group) | LOCALE_SOURCES | {LAMP_RECIPE, GRASS_BOARD_RECIPE} | {path.relative_to(ROOT).as_posix() for path in incense_outputs()}
+    return frozenset('runtime/BP/scripts/' + name for group in SOURCE_GROUPS.values() for name in group) | LOCALE_SOURCES | {LAMP_RECIPE, GRASS_BOARD_RECIPE, MOLOTOV_BLOCK} | {path.relative_to(ROOT).as_posix() for path in incense_outputs()}
 
 
 def check(root=ROOT, *, syntax=True, localization=True):
@@ -59,6 +60,19 @@ def check(root=ROOT, *, syntax=True, localization=True):
     ):
         imported(entrypoint, module, names)
     assert entrypoint.count('\n registerNaturalBreak,') == 1, 'Natural destruction registration is disconnected'
+    imported(entrypoint, './bedrock/display-projectiles.js', {'installDisplayProjectileEvents'})
+    assert entrypoint.count('\n installDisplayProjectileEvents,') == 1, 'Display projectile event owner is disconnected'
+    display_projectiles = modules['bedrock/display-projectiles.js']
+    imported(display_projectiles, './storage-projectile.js', {'spawnThrownDrink'})
+    imported(display_projectiles, './waterlogging.js', {'setWithWater', 'restoreWater'})
+    molotov = json.loads((root / MOLOTOV_BLOCK).read_text())['minecraft:block']
+    assert molotov['description']['identifier'] == 'kaleidoscope_tavern:molotov'
+    # BottleBlock.SHAPE, inherited by MolotovBlock in all three reviewed Java
+    # branches: box(5,0,5,11,14,11), with collision enabled (noOcclusion only).
+    bottle_shape = {'origin': [-3, 0, -3], 'size': [6, 14, 6]}
+    for component in ('minecraft:collision_box', 'minecraft:selection_box'):
+        assert molotov['components'][component] == bottle_shape, ('Java Molotov shape differs', component)
+
     imported(modules['bedrock/natural-break.js'], './native-item-storage.js', {'nativeStoragePlan', 'projectNativeStoredState'})
     imported(modules['bedrock/natural-break.js'], './machine-item-storage.js', {'machineIngredientPlan'})
     imported(modules['bedrock/natural-break.js'], './mixology.js', {'naturalShakerRemoval'})
@@ -149,7 +163,7 @@ def check(root=ROOT, *, syntax=True, localization=True):
         'sources': sorted(sources), 'ownershipAndWiring': 'passed',
         'syntax': 'passed' if syntax else 'not run',
         'localization': localization_result,
-        'behavior': 'existing current-extension-contract, transport-integrity, extension-bottle, furniture-interaction, board-farm-interaction, standalone-guide, board-layout, mixology rejection and pickup adapter persistence/destruction and native machine/shaker retention suites; not run by this static check',
+        'behavior': 'existing current-extension-contract, transport-integrity, extension-bottle, furniture-interaction, board-farm-interaction, standalone-guide, board-layout, mixology rejection and pickup adapter persistence/destruction and native machine/shaker retention plus molotov-fire-adapter suites; not run by this static check',
         'javaResources': 'existing incense surfaces/sampling, barrel materials/collision and guide checks in the package suite; not run by this static check',
         'bds': False, 'client': False,
     }

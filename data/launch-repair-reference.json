@@ -1427,12 +1427,6 @@
       "after": "a57c5ecb538cf263d7916bc3549f70eae3b5d8a38cc69b3c5870580a5c398958",
       "reason": "0.6.48: Java explosion resistance and native destruction cleanup; native Cookery product preparations and circular-rack base hitbox."
     },
-    "runtime/BP/blocks/molotov.json": {
-      "before": "af37bb95e6d9385921b20ae4fd6707d6a40041fcef9dcc3d040280aa3429e10b",
-      "beforeProjected": "af37bb95e6d9385921b20ae4fd6707d6a40041fcef9dcc3d040280aa3429e10b",
-      "after": "9e5c7ab344aa7a01c2e6a073602bbc13682d0e43443fd773e7df34048f74a578",
-      "reason": "0.6.48: Java explosion resistance and native destruction cleanup; native Cookery product preparations and circular-rack base hitbox."
-    },
     "runtime/BP/blocks/bottle_rum.json": {
       "before": "c5b9242bc485269a4785d79786d5e2e4c4848f93dcbcbf20852d5a8ea3d482f3",
       "beforeProjected": "c5b9242bc485269a4785d79786d5e2e4c4848f93dcbcbf20852d5a8ea3d482f3",
@@ -1792,12 +1786,6 @@
       "beforeProjected": "3c51a8246a4ab194d3a91005965cede0874e24eae7e58c020b25a4761f92e9d7",
       "after": "68bd63d90a795875e4fd9e2cfc7176dd62bca72715253a158613823be3911ba5",
       "reason": "2026-09-28 effects review: Source-derived post-commit feedback, isolated cosmetic failures and real splash lifecycle; preserves PR93 carrier repair. See docs/EFFECTS-REPORT-FOLLOWUP-20260928.md."
-    },
-    "runtime/BP/scripts/bedrock/display-projectiles.js": {
-      "before": "98a332ab0bb0f9028d49bf7ced3c58d02ff7620eeeaaffde07b665bfbe675084",
-      "beforeProjected": "98a332ab0bb0f9028d49bf7ced3c58d02ff7620eeeaaffde07b665bfbe675084",
-      "after": "ac563cf09e6aaae8c78ba4f411447016c06bb007f791f661990e75b4b42ab7f9",
-      "reason": "2026-09-28 effects review: Source-derived post-commit feedback, isolated cosmetic failures and real splash lifecycle; preserves PR93 carrier repair. See docs/EFFECTS-REPORT-FOLLOWUP-20260928.md. Pickup parity audit 2026-09-29: native ItemStack persistence, Java storage/main-hand versus Forge inventory delivery, per-block creative handling, exact Java slot boundaries and feedback; details in docs/PICKUP-PARITY-20260929.md."
     },
     "runtime/RP/particles/butterfly_incense.json": {
       "before": "c95a3889b3115198c9b7bf5fe871d77e1be5cdf4f09ef86f84ed584c559597f2",
@@ -2425,6 +2413,18 @@
       "beforeProjected": "7e21c1d99ddf944c11cfe443cf74fe45451ae1d68888eb34e992fd3a82e9fb7d",
       "after": "c8ca18954857c455d20766b5517bc67e41084cbdfaf367a6c59df003ae6a157e",
       "reason": "0.6.55: enforce seven guide roots with native child categories, split grape entries, clarify Java board alignment and use a shared alignment calculation. 0.6.60: user-requested Word-style board alignment and capacity checks; metadata-safe drink stack merging and empty-hand pickup; duplicate placement gesture coalescing."
+    },
+    "runtime/BP/blocks/molotov.json": {
+      "before": "af37bb95e6d9385921b20ae4fd6707d6a40041fcef9dcc3d040280aa3429e10b",
+      "beforeProjected": "af37bb95e6d9385921b20ae4fd6707d6a40041fcef9dcc3d040280aa3429e10b",
+      "after": "9e5c7ab344aa7a01c2e6a073602bbc13682d0e43443fd773e7df34048f74a578",
+      "reason": "0.6.48: Java explosion resistance and native destruction cleanup; native Cookery product preparations and circular-rack base hitbox."
+    },
+    "runtime/BP/scripts/bedrock/display-projectiles.js": {
+      "before": "98a332ab0bb0f9028d49bf7ced3c58d02ff7620eeeaaffde07b665bfbe675084",
+      "beforeProjected": "98a332ab0bb0f9028d49bf7ced3c58d02ff7620eeeaaffde07b665bfbe675084",
+      "after": "ac563cf09e6aaae8c78ba4f411447016c06bb007f791f661990e75b4b42ab7f9",
+      "reason": "2026-09-28 effects review: Source-derived post-commit feedback, isolated cosmetic failures and real splash lifecycle; preserves PR93 carrier repair. See docs/EFFECTS-REPORT-FOLLOWUP-20260928.md. Pickup parity audit 2026-09-29: native ItemStack persistence, Java storage/main-hand versus Forge inventory delivery, per-block creative handling, exact Java slot boundaries and feedback; details in docs/PICKUP-PARITY-20260929.md."
     }
   }
 }

@@ -1,6 +1,10 @@
 /** Impact callbacks against block-interface doubles, not native fire simulation. */
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {world,GameMode} from '@minecraft/server';
+import {naturalBreak} from '../runtime/BP/scripts/bedrock/natural-break.js';
+import {handleDisplayProjectileHit,displayProjectileDiagnostics} from '../runtime/BP/scripts/bedrock/display-projectiles.js';
 import {igniteMolotov,molotovDiagnostics,resolveMolotovImpact,THROWN_MOLOTOV} from '../runtime/BP/scripts/bedrock/molotov.js';
 const origin={x:.5,y:10.5,z:.5};
 const key=p=>p.x+','+p.y+','+p.z;
@@ -61,4 +65,65 @@ test('entity and block hit delivery still owns one impact, one burst and one rem
  assert.equal(resolveMolotovImpact({projectile:entity}),true);const fires=f.writes.length;
  assert.equal(resolveMolotovImpact({projectile:entity}),false);
  assert.equal(f.writes.length,fires);assert.equal(f.particles.length,50);assert.equal(removes,1);
+});
+
+
+// These callbacks do not prove that a real arrow delivers the native hit event.
+const MOLOTOV='kaleidoscope_tavern:molotov';let placedSerial=0;
+function placedMolotov(owner,{wet=false,id=MOLOTOV}={}){
+ const dimension=world.getDimension('overworld'),position={x:1000+(++placedSerial)*16,y:64,z:0},block=dimension.getBlock(position);
+ block.setType(id);if(wet)block.setWaterlogged(true);
+ const projectile=dimension.spawnEntity('minecraft:arrow',{x:position.x-1,y:64.5,z:.5}),component={owner};
+ projectile.getComponent=id=>id==='minecraft:projectile'?component:undefined;
+ projectile.nameTag='Original arrow';projectile.setDynamicProperty('test:payload','keep');projectile.velocity={x:1,y:0,z:0};
+ const spawned=()=>dimension.getEntities({type:THROWN_MOLOTOV,location:position,maxDistance:2});
+ const hit=()=>handleDisplayProjectileHit({projectile,getBlockHit:()=>({block})});
+ return {dimension,position,block,projectile,spawned,hit};
+}
+
+test('placed Molotov collision and selection use Java BottleBlock 6 by 14 by 6 shape',()=>{
+ const c=JSON.parse(fs.readFileSync(new URL('../runtime/BP/blocks/molotov.json',import.meta.url)))['minecraft:block'].components;
+ const expected={origin:[-3,0,-3],size:[6,14,6]};
+ assert.deepEqual(c['minecraft:collision_box'],expected);assert.deepEqual(c['minecraft:selection_box'],expected);
+});
+
+for(const mode of [undefined,GameMode.Survival,GameMode.Creative,'mob'])test('placed Molotov hit launches one ownerless native projectile for '+(mode??'ownerless arrow'),()=>{
+ const owner=mode==='mob'?{typeId:'minecraft:skeleton'}:mode?{typeId:'minecraft:player',getGameMode:()=>mode}:undefined;
+ const f=placedMolotov(owner),rule=world.gameRules.mobGriefing;world.gameRules.mobGriefing=true;
+ try{assert.equal(f.hit(),true);assert.equal(f.block.typeId,'minecraft:air');assert.equal(f.spawned().length,1);
+  const child=f.spawned()[0];assert.deepEqual(child.location,{x:f.position.x+.5,y:64.5,z:.5});assert.deepEqual(child.shots,[{x:0,y:0,z:0}]);assert.equal(child.getComponent('minecraft:projectile').owner,undefined);
+  assert.equal(f.projectile.removed,false);assert.equal(f.projectile.nameTag,'Original arrow');assert.equal(f.projectile.getDynamicProperty('test:payload'),'keep');assert.deepEqual(f.projectile.velocity,{x:1,y:0,z:0});
+  assert.equal(f.hit(),false);assert.equal(f.spawned().length,1,'a duplicate delivered after removal must not relaunch');
+  assert.equal(f.dimension.getEntities({type:'minecraft:item',location:f.position,maxDistance:2}).length,0);
+ }finally{world.gameRules.mobGriefing=rule;}
+});
+
+for(const owner of [{typeId:'minecraft:player',getGameMode:()=>GameMode.Adventure},{typeId:'minecraft:skeleton'}])test('Java Molotov spawn precedes the base-bottle removal permission for '+owner.typeId,()=>{
+ const f=placedMolotov(owner),rule=world.gameRules.mobGriefing;world.gameRules.mobGriefing=false;
+ try{assert.equal(f.hit(),true);assert.equal(f.block.typeId,MOLOTOV);assert.equal(f.spawned().length,1);assert.equal(f.projectile.removed,false);}
+ finally{world.gameRules.mobGriefing=rule;}
+});
+
+test('waterlogged placed Molotov retains its water and does not turn into an item drop',()=>{
+ const f=placedMolotov(undefined,{wet:true});assert.equal(f.hit(),true);assert.equal(f.block.typeId,'minecraft:water');assert.equal(f.spawned().length,1);
+ assert.equal(f.dimension.getEntities({type:'minecraft:item',location:f.position,maxDistance:2}).length,0);
+});
+
+for(const failure of ['spawn','shoot','block'])test('placed Molotov '+failure+' failure preserves the bottle and original projectile with no orphan',()=>{
+ const f=placedMolotov(undefined,{wet:failure==='block'}),spawn=f.dimension.spawnEntity,errors=displayProjectileDiagnostics.errors.length;
+ if(failure==='spawn')f.dimension.failSpawn=true;
+ if(failure==='block')f.block.failSet=true;
+ if(failure==='shoot')f.dimension.spawnEntity=function(...args){const child=spawn.apply(this,args);child.failShoot=true;return child;};
+ try{assert.equal(f.hit(),false);assert.equal(f.block.typeId,MOLOTOV);assert.equal(f.spawned().length,0);assert.equal(f.projectile.removed,false);assert.equal(f.projectile.getDynamicProperty('test:payload'),'keep');assert.equal(displayProjectileDiagnostics.errors.length,errors+1);assert.equal(f.block.isWaterlogged,failure==='block');}
+ finally{f.dimension.failSpawn=false;f.dimension.spawnEntity=spawn;}
+});
+
+test('an ordinary solid hit does not launch a Molotov or alter the target',()=>{
+ const f=placedMolotov(undefined,{id:'minecraft:stone'});assert.equal(f.hit(),false);assert.equal(f.block.typeId,'minecraft:stone');assert.equal(f.spawned().length,0);assert.equal(f.projectile.removed,false);
+});
+
+test('the queued natural-break callback cannot refund a shattered Molotov',()=>{
+ const f=placedMolotov(),brokenBlockPermutation=f.block.permutation;assert.equal(f.hit(),true);
+ naturalBreak({block:f.block,brokenBlockPermutation},{drop:MOLOTOV});
+ assert.equal(f.dimension.getEntities({type:'minecraft:item',location:f.position,maxDistance:2}).length,0);assert.equal(f.spawned().length,1);
 });
