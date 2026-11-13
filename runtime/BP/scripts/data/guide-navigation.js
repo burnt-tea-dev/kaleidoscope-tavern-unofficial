@@ -44,7 +44,7 @@ export function extensionGuideCategory(page,recipes,categories){
  if(recipes.some(recipe=>recipe.kind==='shaker'))return 'cocktail';
  if(recipes.some(recipe=>recipe.kind==='barrel'))return 'barrel';
  if(recipes.some(recipe=>recipe.kind==='pressing'))return 'juices';
- const mapped={cookery:'food',crafting:'food',tavern:'barrel',brewing:'barrel',pressing:'juices',equipment:'tools',string_lights:'lighting'};
+ const mapped={cookery:'food',crafting:'food',tavern:'barrel',brewing:'barrel',pressing:'juices',equipment:'tools',string_lights:'lighting',sources:'cultivation'};
  const byId=new Map(categories.filter(category=>category.source===page.source).map(category=>[category.id,category]));
  let category=page.category;
  while(category){

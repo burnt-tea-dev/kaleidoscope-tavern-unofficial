@@ -142,6 +142,7 @@ export function checkCookeryBootstrap(source=runtimeEntrypointSource()){
   ExtensionRegistry:Registry,BUILTIN_RECIPES:[],SHAKER_RECIPES:[],GUIDE_PAGES:[],EFFECT_PAGES:[],MIXOLOGY_PAGES:[],FLUIDS:[],
   installedBarrelRecipeSources:()=>[],cacheNativeItemDefinitionExists:()=>()=>true,cacheItemDefinitionTags:()=>()=>[],
   installCookeryGuidePublisher(_system,provider){assert(ready,'publisher must only install after registry readiness');assert(provider().ready,'publisher provider must see the complete registry');publisherInstalled=true;return {getStatus:()=>({deliveryState:'waiting_to_send'}),refresh(){trace.push('publisher:refresh');}};},
+  installFoodCatalogPublisher(_system,registry,options){assert(ready&&registry.ready,'food publisher must only install after registry readiness');assert.equal(typeof options.nutritionFor,'function');trace.push('food:publisher');},
   prepareCookeryGuidePayload:registry=>registry,
   setRegistry:()=>{trace.push('machines:registry-bound');},setMixologyRegistry:()=>{trace.push('mixology:registry-bound');},
   installExtensionFurniture:()=>({}),installFoundationBridge:()=>{},installExtensionHost:()=>{},
@@ -168,7 +169,7 @@ export function checkCookeryBootstrap(source=runtimeEntrypointSource()){
  const registry=context.runtimeRegistry();assert(registry?.ready);assert(publisherInstalled,'publisher installs after the complete registry is published');
  const snapshot=context.diagnosticSnapshot();assert.equal(snapshot.cookeryInitialization.state,'ready');assert.equal(snapshot.cookeryGuideChapter.deliveryState,'waiting_to_send');
  const readyAt=trace.indexOf('registry:prepare-done');
- for(const event of ['machines:registry-bound','mixology:registry-bound','publisher:refresh'])assert(trace.indexOf(event)>readyAt,`${event} must wait for completed registry`);
+ for(const event of ['machines:registry-bound','mixology:registry-bound','publisher:refresh','food:publisher'])assert(trace.indexOf(event)>readyAt,`${event} must wait for completed registry`);
  return {scope:'real main.js bootstrap generator with isolated imported interfaces; no BDS/client proof',registryPrivateUntilReady:true,publisherAfterReady:true,jobYields:2,phase:trace};
 }
 

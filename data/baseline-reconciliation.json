@@ -3800,12 +3800,6 @@
       "reason": "T150 builds the exact legacy API product projection during canonical builds, removing the module-load full guide drain, and retains exact JSON through bounded native quoting. Independent T149 page bytes and current guide/startup checks pass; native startup/client performance remains pending. See docs/RELEASE-NOTES-0.6.150.md.",
       "release": "0.6.150"
     },
-    "runtime/BP/scripts/core/installed-recipe-sources.js": {
-      "before": null,
-      "after": "6bae644a08b453f9098e9d0a96c36ea7d951245a36a10c0e0f5b143344929685",
-      "release": "0.6.153",
-      "reason": "T153 preserves unbatched barrel ingredients until detected optional recipe sources complete rebuild, without changing saved batch/builtin timing; encodes unchanged board font metrics as parsed JSON and reuses immutable guide page links within one projection. Dynamic views retain their original matching reads. Native/client performance remains pending. See docs/RELEASE-NOTES-0.6.153.md."
-    },
     "runtime/BP/scripts/core/graphical-actionbar-transport.js": {
       "before": null,
       "after": "080b15e6043c39b7943dd0f052f1e44cb5dcc1948473b3ac76d1be985606b181",
