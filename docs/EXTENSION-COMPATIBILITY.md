@@ -18,6 +18,29 @@ Dimensions Wine's Mead Essence advances an already produced batch by one quality
 
 These decisions follow the maintained Java source: [Forge MeadEssence](https://github.com/WitherRedstone/Kaleidoscope-DimensionsWine/blob/cd5e040051cdb03b33834d7670807909c5e8d7cb/src/main/java/com/chinaex123/kaleidoscope_dim_wine/item/MeadEssence.java), [NeoForge MeadEssence](https://github.com/WitherRedstone/Kaleidoscope-DimensionsWine/blob/6702d5f678b98c67b37d50408b8446641d492c6a/src/main/java/com/chinaex123/kaleidoscope_dim_wine/item/MeadEssence.java). Java's `firstBoost` applies only at raw level zero; this host's produced batches start at level one. Java's host accessors and persistence clamp to six levels. The clean Bedrock author host instead applies the first boost at level one and deletes an item at maximum damage; this implementation follows Java for those observable behaviors.
 
+## Yielding the optional effect bar to a one-shot message
+
+Server scripts can ask Tavern's existing effect bar to pause for one player:
+
+```js
+import {system} from '@minecraft/server';
+
+// Send at the actual message producer, immediately before its ActionBar write.
+try {
+ system.sendScriptEvent('kaleidoscope_tavern:actionbar_hold',
+  JSON.stringify({player:player.id,ticks:60}));
+} catch { /* A signalling failure must not suppress the original message. */ }
+player.onScreenDisplay.setActionBar(message);
+```
+
+The JSON object requires `player`, an existing player entity ID, not a name or selector. `ticks` is optional (default 60); supplied values must be positive safe integers. Values above 100 are capped at 100. Zero, negative, fractional, string and null values are ignored, as are malformed/oversized packets and unknown, invalid or non-player IDs. Extra fields are ignored.
+
+This event uses the existing extension-host boundary: only `ScriptEventSource.Server`, at most 1900 UTF-8 message bytes, and the existing shared limit of 256 accepted-source requests per server tick. Pack namespaces are cooperative identifiers, not authenticated pack identities. Do not send via a player's `runCommand`; use `system.sendScriptEvent`. No extension registration is needed and no ACK is sent, including for rejected requests. Sending is not confirmation of receipt or installation; the public API does not promise synchronous cross-pack dispatch before the following display write.
+
+On receipt at server tick `t`, the existing hold becomes `max(previousHold, t + min(ticks, 100))`. Tavern skips effect-bar writes while the current tick is below that deadline, then resumes through its existing 20-tick update. A shorter hold cannot shorten a longer one. The event never clears or writes the ActionBar, changes tags, effects or saved data, or pauses other players. Existing block/item interaction holds remain 60 ticks. Leave/spawn and the existing absent-player cleanup discard the same in-memory hold.
+
+This is a quiet window for cooperating one-shot producers, not ownership of every HUD writer. It does not pause Tavern's foreground shaker HUD or another addon's writers. For delayed messages, send from the actual display branch rather than when enqueueing. See [effect-bar behavior](EFFECT-BAR.md).
+
 ## Verification boundary
 
 Focused tests call the real transport, registry, bottle display, decoration, machine, native inventory transaction and shared guide implementations through the repository's API fixture. Private replay uses the two clean author senders, exact custom item/block definitions, this host and the original Cookery 1.6.4 guide receiver. No complete third-party scripts are published here. API-fixture results do not establish native BDS behavior, client rendering, audible output or TPS; those remain separate family gates and human acceptance.

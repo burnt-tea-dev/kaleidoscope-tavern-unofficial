@@ -18,22 +18,31 @@ const samePosition=(a,b)=>{
  }
  return true;
 };
-const one=item=>{const stack=item.clone();stack.amount=1;return stack;};
+// Counted callers keep whole stacks in the same native owner. Omitted counts
+// retain the established one-item display contract and its existing save shape.
+const amounts=(ids,counts)=>{
+ check(counts===undefined||Array.isArray(counts)&&counts.length<=SIZE,'NATIVE_STORAGE_COUNTS');
+ const result=ids.map((id,i)=>id?(counts===undefined?1:counts[i]):0);
+ check(result.every((count,i)=>ids[i]?Number.isInteger(count)&&count>0&&count<=255:counts===undefined||!counts[i]),'NATIVE_STORAGE_COUNTS');
+ return result;
+};
+const counted=(item,count)=>{check(item&&count<=item.maxAmount,'NATIVE_STORAGE_STACK_CAPACITY');const stack=item.clone();stack.amount=count;check(stack.amount===count,'NATIVE_STORAGE_STACK_CAPACITY');return stack;};
 export const nativeItemKey=key=>'kt:native_items/'+key;
 const requiredKey=key=>'kt:native_required/'+key;
 // Host adapters may use their own backing entity without requiring the Tavern pack.
 export class NativeItemStorage {
  constructor({backend,findEntity,createEntity,makeStack,entityType=NATIVE_ITEM_ENTITY,token=()=>Math.random().toString(36).slice(2)}){Object.assign(this,{backend,findEntity,createEntity,makeStack,entityType,token});}
  read(input){return this.#read(input,true);}
- #read({key,dimension,position,ids,legacyStacks,requireNative=false},requirePosition){
-  ids=padded(ids);const raw=this.backend.getDynamicProperty(nativeItemKey(key)),required=this.backend.getDynamicProperty(requiredKey(key));
+ #read({key,dimension,position,ids,counts,legacyStacks,requireNative=false},requirePosition){
+  ids=padded(ids);const sizes=amounts(ids,counts),raw=this.backend.getDynamicProperty(nativeItemKey(key)),required=this.backend.getDynamicProperty(requiredKey(key));
   if(raw===undefined){
    check(required===undefined&&!requireNative,'NATIVE_STORAGE_MISSING');
-   return {raw,required,ids,items:ids.map((id,i)=>id?one(legacyStacks?.[i]??this.makeStack(id,1)):undefined)};
+   return {raw,required,ids,counts:sizes,items:ids.map((id,i)=>id?counted(legacyStacks?.[i]??this.makeStack(id,sizes[i]),sizes[i]):undefined)};
   }
   check(typeof raw==='string','NATIVE_STORAGE_CORRUPT');let record;
   try{record=JSON.parse(raw);}catch{check(false,'NATIVE_STORAGE_CORRUPT');}
   check(required===1&&record?.schema===1&&record.key===key&&record.dimension===dimension.id&&samePosition(record.position,position)&&same(record.ids,ids),'NATIVE_STORAGE_MISMATCH');
+  check(counts===undefined?record.counts===undefined:same(record.counts,sizes),'NATIVE_STORAGE_COUNT_MISMATCH');
   check(typeof record.entity==='string'&&typeof record.token==='string'&&record.token.length>0,'NATIVE_STORAGE_CORRUPT');
   const entity=this.findEntity(record.entity);
   check(entity?.isValid&&entity.typeId===this.entityType&&entity.dimension.id===dimension.id,'NATIVE_STORAGE_UNAVAILABLE');
@@ -43,8 +52,8 @@ export class NativeItemStorage {
   if(requirePosition&&!centered){try{this.requestReanchor?.(key);}catch{/* Recovery scheduling must not mask the strict read failure. */}check(false,'NATIVE_STORAGE_MOVED');}
   const container=entity.getComponent('minecraft:inventory')?.container;check(container?.size===SIZE,'NATIVE_STORAGE_CONTAINER');
   const items=Array.from({length:SIZE},(_,i)=>container.getItem(i)?.clone());
-  for(let i=0;i<SIZE;i++)check(ids[i]?items[i]?.typeId===ids[i]&&items[i].amount===1:!items[i],'NATIVE_STORAGE_CONTENT_MISMATCH');
-  return {raw,required,record,entity,container,ids,items};
+  for(let i=0;i<SIZE;i++)check(ids[i]?items[i]?.typeId===ids[i]&&items[i].amount===sizes[i]:!items[i],'NATIVE_STORAGE_CONTENT_MISMATCH');
+  return {raw,required,record,entity,container,ids,counts:sizes,items};
  }
  /** Read-only recovery proof: every normal native check except current position.
   * Only the separate after-event adapter may move this exact owned entity. */
@@ -53,7 +62,7 @@ export class NativeItemStorage {
   check(typeof raw==='string','NATIVE_STORAGE_MISSING');let record;
   try{record=JSON.parse(raw);}catch{check(false,'NATIVE_STORAGE_CORRUPT');}
   check(Array.isArray(record?.ids)&&record.ids.length===SIZE&&record.ids.some(Boolean),'NATIVE_STORAGE_IDS');
-  const proof=this.#read({key,dimension,position,ids:record.ids,requireNative:true},false);
+  const proof=this.#read({key,dimension,position,ids:record.ids,counts:record.counts,requireNative:true},false);
   check(entity?.isValid&&entity.id===proof.record.entity&&entity.id===proof.entity.id,'NATIVE_STORAGE_WRONG_ENTITY');
   check(['x','y','z'].every(axis=>Number.isFinite(proof.entity.location?.[axis])),'NATIVE_STORAGE_MOVED');
   return proof;
@@ -65,30 +74,32 @@ export class NativeItemStorage {
   check(typeof raw==='string','NATIVE_STORAGE_CORRUPT');let record;
   try{record=JSON.parse(raw);}catch{check(false,'NATIVE_STORAGE_CORRUPT');}
   // read still validates key, location, owner, token and every native slot.
-  return this.read({key,dimension,position,ids:record?.ids,requireNative:true});
+  return this.read({key,dimension,position,ids:record?.ids,counts:record?.counts,requireNative:true});
  }
- plan({key,dimension,position,oldIds,nextIds,incoming,give=[],legacyStacks,requireNative=false,nextItems}){
+ plan({key,dimension,position,oldIds,nextIds,oldCounts,nextCounts,incoming,give=[],legacyStacks,requireNative=false,nextItems}){
   position={x:position.x,y:position.y,z:position.z};
   check(typeof key==='string'&&key.length>0&&Object.values(position).every(Number.isInteger),'NATIVE_STORAGE_LOCATION');
-  const before=this.read({key,dimension,position,ids:oldIds,legacyStacks,requireNative}),ids=padded(nextIds);
+  check((oldCounts===undefined)===(nextCounts===undefined)&& (nextCounts===undefined||nextItems!==undefined),'NATIVE_STORAGE_ITEMS');
+  const before=this.read({key,dimension,position,ids:oldIds,counts:oldCounts,legacyStacks,requireNative}),ids=padded(nextIds),counts=amounts(ids,nextCounts);
   const removed=before.ids.flatMap((id,i)=>id&&id!==ids[i]?[{slot:i,stack:before.items[i]}]:[]);
   const additions=ids.flatMap((id,i)=>id&&id!==before.ids[i]?[i]:[]);
-  check(additions.length<=1,'NATIVE_STORAGE_MULTIPLE_INPUTS');
+  check(nextItems!==undefined||additions.length<=1,'NATIVE_STORAGE_MULTIPLE_INPUTS');
   if(nextItems!==undefined){
    check(Array.isArray(nextItems)&&nextItems.length<=SIZE,'NATIVE_STORAGE_ITEMS');
-   for(let i=0;i<SIZE;i++)check(ids[i]?nextItems[i]?.typeId===ids[i]&&nextItems[i].amount===1:!nextItems[i],'NATIVE_STORAGE_INPUT_MISMATCH');
+   for(let i=0;i<SIZE;i++)check(ids[i]?nextItems[i]?.typeId===ids[i]&&nextItems[i].amount===counts[i]:!nextItems[i],'NATIVE_STORAGE_INPUT_MISMATCH');
   }
-  for(const i of additions){const item=nextItems?.[i]??incoming;check(item?.typeId===ids[i]&&item.amount>=1,'NATIVE_STORAGE_INPUT_MISMATCH');}
+  for(const i of additions){const item=nextItems?.[i]??incoming;check(item?.typeId===ids[i]&&item.amount>=counts[i],'NATIVE_STORAGE_INPUT_MISMATCH');}
   // Explicit native replacements update a stored item's payload without
   // changing its identifier. Each side retains its own complete native copy.
-  const after=ids.map((id,i)=>!id?undefined:nextItems?nextItems[i].clone():id===before.ids[i]?before.items[i]?.clone():one(incoming));
+  const after=ids.map((id,i)=>!id?undefined:nextItems?nextItems[i].clone():id===before.ids[i]?before.items[i]?.clone():counted(incoming,counts[i]));
   // Match only removed slots, never another identically named/type-ID slot.
   const available=removed.slice(),outputs=[];
   for(const output of give){
    check(Number.isInteger(output.count)&&output.count>0&&output.count<=1024,'BAD_GIVE');
    let count=output.count;const id=output.stack?.typeId??output.id;
    while(count){const index=available.findIndex(row=>row.stack.typeId===id);if(index<0)break;
-    const [{stack}]=available.splice(index,1);outputs.push({...output,stack:stack.clone(),count:1,exact:true});count--;
+    const row=available[index],size=Math.min(count,row.stack.amount);outputs.push({...output,stack:counted(row.stack,size),count:size,exact:true});count-=size;
+    if(size===row.stack.amount)available.splice(index,1);else row.stack=counted(row.stack,row.stack.amount-size);
    }
    if(count)outputs.push({...output,count});
   }
@@ -108,7 +119,7 @@ export class NativeItemStorage {
     }
     if(container)for(let i=0;i<SIZE;i++)container.setItem(i,after[i]);
     this.backend.setDynamicProperty(requiredKey(key),occupied?1:undefined);
-    this.backend.setDynamicProperty(nativeItemKey(key),occupied?JSON.stringify({schema:1,key,dimension:dimension.id,position,ids,entity:entity.id,token:newToken}):undefined);
+    this.backend.setDynamicProperty(nativeItemKey(key),occupied?JSON.stringify({schema:1,key,dimension:dimension.id,position,ids,...(nextCounts===undefined?{}:{counts}),entity:entity.id,token:newToken}):undefined);
    },
    rollback:()=>{
     if(!applied)return;let failed=false;

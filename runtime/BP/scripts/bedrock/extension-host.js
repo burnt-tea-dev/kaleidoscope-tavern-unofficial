@@ -1,7 +1,23 @@
-import {system,ScriptEventSource} from '@minecraft/server';
+import {world,system,ScriptEventSource} from '@minecraft/server';
 import {ExtensionTransport,EVENTS,TRANSPORT_LIMITS,createMutationQueue} from '../core/transport.js';
 import {CAPABILITIES} from '../core/registry.js';
-const EVENT_IDS=new Set(Object.values(EVENTS));
+import {utf8Bytes} from '../core/util.js';
+import {EFFECT_BAR_PAUSE_TICKS} from '../core/effect-bar.js';
+import {pauseEffectBar} from './effect-bar.js';
+const ACTIONBAR_HOLD_EVENT='kaleidoscope_tavern:actionbar_hold';
+const EVENT_IDS=new Set([...Object.values(EVENTS),ACTIONBAR_HOLD_EVENT]);
+function holdActionBar(message,tick){
+ if(utf8Bytes(message)>TRANSPORT_LIMITS.packetBytes)return;
+ let packet;
+ try{packet=JSON.parse(message);}catch{return;}
+ if(!packet||typeof packet!=='object'||Array.isArray(packet)||typeof packet.player!=='string'||!packet.player.length)return;
+ const ticks=packet.ticks===undefined?EFFECT_BAR_PAUSE_TICKS:packet.ticks;
+ if(!Number.isSafeInteger(ticks)||ticks<1)return;
+ let player;
+ try{player=world.getEntity(packet.player);}catch{return;}
+ if(player?.typeId!=='minecraft:player'||player.isValid===false)return;
+ pauseEffectBar(player.id,tick,Math.min(ticks,100));
+}
 export function installExtensionHost(registry){
  const transport=new ExtensionTransport(registry,{deferred:true});let countTick=-1,eventsThisTick=0;
  const send=(id,p)=>system.sendScriptEvent(id,JSON.stringify(p));
@@ -13,11 +29,12 @@ export function installExtensionHost(registry){
  const ready=()=>send(EVENTS.ready,{api:1,version:'0.3.0',capabilities:CAPABILITIES,maxPacketBytes:TRANSPORT_LIMITS.packetBytes,maxPayloadBytes:TRANSPORT_LIMITS.dataBytes,maxParts:TRANSPORT_LIMITS.maxParts});
  system.afterEvents.scriptEventReceive.subscribe(ev=>{
   if(!EVENT_IDS.has(ev.id)||ev.id===EVENTS.ready||ev.id===EVENTS.ack)return;
-  // Server-script-origin is required. Pack namespaces are cooperative, not authenticated identities.
+  // Server origin is required. Pack namespaces are cooperative, not authenticated identities.
   if(ev.sourceType!==ScriptEventSource.Server)return;
   const tick=system.currentTick;
   if(countTick!==tick){countTick=tick;eventsThisTick=0;}
   if(++eventsThisTick>256)return;
+  if(ev.id===ACTIONBAR_HOLD_EVENT){holdActionBar(ev.message,tick);return;}
   if(ev.id===EVENTS.ping){ready();return;}
   try{
    const result=transport.receive(ev.id,ev.message,tick);
