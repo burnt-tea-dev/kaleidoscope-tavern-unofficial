@@ -92,7 +92,7 @@ T169_AFTER='08ccd47b93dc60dd0b935a8d5e812d4195858e9d'
 T176_BEFORE='2810a59c08e52004bb69522a8900a8da1dcc2c16'
 T176_AFTER='fd791c0faa839b4317e7e07ad332b97c34ad9758'
 T176_PATHS=frozenset('runtime/BP/scripts/'+name for name in (
- 'bedrock/bottles.js','bedrock/display-projectiles.js','bedrock/machines.js',
+ 'bedrock/bottles.js','bedrock/machines.js',
  'core/bottle-display-schema.js','core/extension-content.js',
  'core/native-storage-anchor.js','core/registry.js'))
 
