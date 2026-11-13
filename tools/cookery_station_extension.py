@@ -134,8 +134,11 @@ def current_station_profile(spec, owned_root, api, api_raw, grilling_root):
     targets = set(originals)
     require(targets in ({TARGET}, {TARGET, PLACEMENT}), 'station target inventory differs')
     has_storage = PLACEMENT in targets
-    imports = {TARGET: HELPER_IMPORT + api['imports'][TARGET]}
-    helpers = {HELPER: INSTALLED_HELPER}
+    imports = {TARGET: 'import {NativeItemStorage,NATIVE_STORAGE_OWNER,nativeItemKey} from "../../api/stockpot-storage/native-item-storage.js";\n' + HELPER_IMPORT + api['imports'][TARGET]}
+    helpers = {HELPER: INSTALLED_HELPER,
+               'scripts/host_api/stockpot-storage/native-item-storage.js': 'scripts/api/stockpot-storage/native-item-storage.js',
+               'scripts/host_api/stockpot-storage/util.js': 'scripts/api/stockpot-storage/util.js',
+               'assets/Cookery/BP/entities/senluo_stockpot_inventory.json': 'entities/senluo_stockpot_inventory.json'}
     if has_storage:
         for path, value in TEAPOT_IMPORTS.items():
             imports[path] = imports.get(path, '') + value

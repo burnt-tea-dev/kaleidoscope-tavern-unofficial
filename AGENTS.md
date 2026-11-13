@@ -1,5 +1,13 @@
 # Tavern maintenance
 
+## Current owner rebuild policy
+
+Follow [/root/AGENTS.md](/root/AGENTS.md#owner-reset--2026-11-10) for current permissions. Source agents and the coordinator must not add or run tests, fixtures, Native/gameplay probes, simulated players, save/restart suites or indirect CI through push/PR. Read source/configuration/existing evidence, review changes and use normal generation. Only the existing bot may perform a few necessary client checks; independent source repair does not wait for those checks. The older test, CI and optional-client wording below and in release documents does not override this policy or the parity skill's current visual requirements.
+
+Each independent repair uses a fresh visible `gpt-6.1-sol / high` conversation with only relevant context and the [parity skill](/root/.codex/skills/minecraft-java-bedrock-parity/SKILL.md). Repair the actual functional owner; no environment/pack-specific gameplay, layered patches or new parallel owners. Source delivery, deployment and observed Java behavior remain separate.
+
+## Maintenance contracts
+
 - Follow `docs/BASELINE-MAINTENANCE.md` and the current Tavern family update/workspace procedures. Begin at the host CURRENT-WORK index when available; inspect the affected repository's branch/remote/dirty work and preserve concurrent fixes. Reuse successful evidence for exact unchanged inputs; local diagnosis is targeted and the PR runs required CI.
 - Own repairs enter canonical runtime and canonical remote PR/checks/merge. Keep private integration private; no private author scripts, archives, worlds or credentials in public Git. A changed export requires a fresh paired version, synchronized modules/dependencies/payload/baseline and append-only history. Tooling/prose with unchanged runtime needs no pack bump, candidate or LIVE restart.
 - Completed functional candidates follow canonical PR/CI, targeted native validation and saved-world deployment. Current simplification and evidence rules are in `family/UPDATE-WORKFLOW.md#擁有者簡化規則2026-11-04`; human client use is optional.

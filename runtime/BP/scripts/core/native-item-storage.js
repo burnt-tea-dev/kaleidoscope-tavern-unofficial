@@ -21,8 +21,9 @@ const samePosition=(a,b)=>{
 const one=item=>{const stack=item.clone();stack.amount=1;return stack;};
 export const nativeItemKey=key=>'kt:native_items/'+key;
 const requiredKey=key=>'kt:native_required/'+key;
+// Host adapters may use their own backing entity without requiring the Tavern pack.
 export class NativeItemStorage {
- constructor({backend,findEntity,createEntity,makeStack,token=()=>Math.random().toString(36).slice(2)}){Object.assign(this,{backend,findEntity,createEntity,makeStack,token});}
+ constructor({backend,findEntity,createEntity,makeStack,entityType=NATIVE_ITEM_ENTITY,token=()=>Math.random().toString(36).slice(2)}){Object.assign(this,{backend,findEntity,createEntity,makeStack,entityType,token});}
  read(input){return this.#read(input,true);}
  #read({key,dimension,position,ids,legacyStacks,requireNative=false},requirePosition){
   ids=padded(ids);const raw=this.backend.getDynamicProperty(nativeItemKey(key)),required=this.backend.getDynamicProperty(requiredKey(key));
@@ -35,7 +36,7 @@ export class NativeItemStorage {
   check(required===1&&record?.schema===1&&record.key===key&&record.dimension===dimension.id&&samePosition(record.position,position)&&same(record.ids,ids),'NATIVE_STORAGE_MISMATCH');
   check(typeof record.entity==='string'&&typeof record.token==='string'&&record.token.length>0,'NATIVE_STORAGE_CORRUPT');
   const entity=this.findEntity(record.entity);
-  check(entity?.isValid&&entity.typeId===NATIVE_ITEM_ENTITY&&entity.dimension.id===dimension.id,'NATIVE_STORAGE_UNAVAILABLE');
+  check(entity?.isValid&&entity.typeId===this.entityType&&entity.dimension.id===dimension.id,'NATIVE_STORAGE_UNAVAILABLE');
   check(entity.getDynamicProperty(OWNER)===key&&entity.getDynamicProperty(TOKEN)===record.token,'NATIVE_STORAGE_WRONG_OWNER');
   const p=entity.location;
   const centered=p&&Math.abs(p.x-position.x-.5)<.1&&Math.abs(p.y-position.y-.5)<.1&&Math.abs(p.z-position.z-.5)<.1;
@@ -100,7 +101,7 @@ export class NativeItemStorage {
     check(this.backend.getDynamicProperty(nativeItemKey(key))===before.raw&&this.backend.getDynamicProperty(requiredKey(key))===before.required,'NATIVE_STORAGE_CONFLICT');
     applied=true;
     if(!entity&&occupied){entity=this.createEntity(dimension,{x:position.x+.5,y:position.y+.5,z:position.z+.5});created=true;
-     check(entity?.isValid&&entity.typeId===NATIVE_ITEM_ENTITY,'NATIVE_STORAGE_CREATE_FAILED');
+     check(entity?.isValid&&entity.typeId===this.entityType,'NATIVE_STORAGE_CREATE_FAILED');
      entity.setDynamicProperty(OWNER,key);entity.setDynamicProperty(TOKEN,newToken);
      container=entity.getComponent('minecraft:inventory')?.container;check(container?.size===SIZE,'NATIVE_STORAGE_CONTAINER');
      for(let i=0;i<SIZE;i++)check(!container.getItem(i),'NATIVE_STORAGE_NOT_EMPTY');
