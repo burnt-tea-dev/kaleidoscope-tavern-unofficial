@@ -266,6 +266,7 @@ export class ExtensionRegistry {
  allFurniture(){return [...this.furnitureCache.values()].filter(row=>row.kind!=='pendant_lamp');}
  allFluids(){return this.fluidCache;}
  allRecipes(){return this.recipeCache;}
+ allDrinkContent(){return sorted([...this.extensions.values()],row=>row.source).flatMap(row=>row.content);}
  pendingBarrelRecipeSources(){return [...this.expectedBarrelRecipeSources].filter(source=>!this.extensions.has(source)||!this.readyRecipeSources.has(source));}
  barrelRecipesReady(){for(const source of this.expectedBarrelRecipeSources)if(!this.extensions.has(source)||!this.readyRecipeSources.has(source))return false;return true;}
  allPages(){return this.pageCache;}

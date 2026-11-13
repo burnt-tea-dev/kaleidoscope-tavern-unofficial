@@ -1,3 +1,18 @@
+## 0.6.223 — 2026-11-13
+
+- Separate the initial Van Gogh painting recipe from Deco's canvas: place the same frame and painting side by side. Keep the existing recipe ID, one output and frame unlock. This is a Bedrock arrangement adaptation of Java's shapeless recipe.
+- Retain T222's distinct six-ladder recipe and addon readiness, shared guide and optional drink catalog repairs. Preserve the frozen T222 release history.
+- Move the two coexistence recipes to the existing current source contract, retaining the original motion-era recipe aggregate and every unrelated historical source check.
+- Source checks and actual Deco archive comparisons cover ingredient costs, mirrored shapes and shaped/shapeless overlap. Native crafting, rendered client and saved-world acceptance remain unverified.
+
+## 0.6.222 — 2026-11-13
+
+- Preserve new barrel inputs until installed Orchard, Sculk and Dimensions Wine providers finish registering, using the existing shared readiness barrier. Standalone vinegar fallback and saved batches keep their behavior.
+- Map declared crop/resource guide categories through the shared taxonomy so Orchard can join the combined standalone/Cookery guide. Keep the seven entrances and 31 categories; no author-specific guide interface.
+- Separate Tavern's native stepladder crafting grid from Deco's mirrored triangle while preserving six ladders, one output and existing IDs. This deliberate Bedrock shape adaptation appears in the ordinary recipe book.
+- Publish accepted extension drink descriptors to optional Order to Cook through its existing event contract. Explicit quality aliases share one dish, native nutrition is retained, and existing menus/orders keep their snapshots when live supply is removed.
+- Focused source regressions and clean author payload/guide-receiver replay passed. Native gameplay, saved-world, client and LIVE acceptance remain unverified for this candidate.
+
 ## 0.6.221 — 2026-11-10
 
 Reorganize the native creative catalog by use with short labels and consistent shared vanilla icons. Keep all 161 existing visible items, Java wine/cocktail order, hidden variants and gameplay data. Pair the companion classification with World Liquor 0.1.209; source checks do not certify client inventory rendering.

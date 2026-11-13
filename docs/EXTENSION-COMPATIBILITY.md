@@ -1,6 +1,6 @@
 # Current API v1 extension compatibility
 
-The host accepts current Sculk and Dimensions Wine registrations through the existing Script Event protocol. Packet limits are 1900 UTF-8 bytes, 1,500,000 payload bytes and 2048 parts; incomplete transfers expire after 2400 loaded ticks. Readiness advertises these same limits. ACK identities, atomic replacement and the existing sender scheduling remain the protocol contract. The public SDK sender retains its conservative 262144-byte/512-part bound; independently maintained senders must honor the advertised host limits.
+The host accepts current Orchard, Sculk and Dimensions Wine registrations through the existing Script Event protocol. Packet limits are 1900 UTF-8 bytes, 1,500,000 payload bytes and 2048 parts; incomplete transfers expire after 2400 loaded ticks. Readiness advertises these same limits. ACK identities, atomic replacement and the existing sender scheduling remain the protocol contract. The public SDK sender retains its conservative 262144-byte/512-part bound; independently maintained senders must honor the advertised host limits.
 
 `shakerInputs` describes at most 256 distinct registered input items. A physical shaker still has three ingredient slots; a barrel still has four. Namespaced `itemGroups` expand alternative ingredients for barrel and pressing recipes. `recipes[].when` checks `itemsAll`, `itemsAny` and `fluidsAll` before validating a conditionally available recipe.
 
@@ -8,7 +8,29 @@ Quality-block bottle descriptors may omit `displayStates`: their count uses `kal
 
 Fluid titles are optional. The shared guide resolves a missing title from the registered filled-container page, preserving its localized name rather than inventing another bucket suffix. Declared guide-category trees are validated within their source, then projected into the family's existing seven roots and child groups. This keeps both entrances within Cookery's 32-category limit without replacing either guide interface.
 
+The source taxonomy `sources` denotes crops and world resources and maps to the existing cultivation group. Child categories follow their declared parent in the same source. This covers Orchard's six crop pages without item-name or author branches; unknown taxonomies still require an explicit classification. Before this mapping, accepting Orchard's valid extension caused the shared guide projection to throw and prevented the combined chapter from publishing.
+
+Installed supported barrel providers use the shared [startup readiness barrier](BARREL-STARTUP-READINESS.md). Registering one provider does not authorize vinegar fallback while another installed provider is still pending.
+
 The shared `kaleidoscope_tavern:toggle_light` component accepts the boolean `kaleidoscope_tavern:lit` state used by current addon lights. It uses the existing decoration interaction route, retains held items and facing, preserves waterlogging, and suppresses duplicate before/after callbacks. Turning on requests `random.orb` at volume 0.45/pitch 1.45; turning off requests `random.pop` at volume 0.40/pitch 1.0.
+
+## Native crafting coexistence
+
+Deco 1.0.2 (CF9512031) and Tavern originally used the same six-ladder triangle for two distinct stepladders. Horizontal mirroring makes the two inputs equivalent. Tavern's canonical recipe now fills the left and right columns of the crafting table, with the middle column empty. Both recipes keep six `minecraft:ladder` inputs and one original output. Recipe and item IDs, unlocks and saved items remain unchanged. This is an explicit Bedrock compatibility adaptation of Tavern's Java triangle, not a new material cost or a claim of exact Java shape parity.
+
+The ordinary recipe book displays the canonical native recipe. Equipment entries retain the shared guide's existing usage instructions, as required by [the guide standard](GUIDE-STANDARD.md); no parallel crafting interface or optional-author runtime branch is added.
+
+## Optional Order to Cook drink supply
+
+The existing accepted `content` descriptors are the source for OTC menu declarations. The host publishes registered bottles and cocktails through `ordertocook:food_catalog_v1`, grouped by the item's namespace. It never scans a namespace or classifies an item by its name. A bottle's first declared quality item is its canonical dish; the remaining declared quality IDs and any explicit generic item are aliases of that same drink. Cocktails retain their declared item ID. Conflicting aliases or duplicate canonical IDs stop preparation before a partial replacement is sent.
+
+Nutrition comes from the canonical native item's food component. Accepted script-driven drinks without that component have zero nutrition. Positive nutrition remains positive; zero-nutrition drinks explicitly declare `servingKind: 'drink'`. Shaker ingredients, grapes and arbitrary zero-nutrition items do not become drinks through this bridge. Tavern still owns consumption, effects, quality and container returns; the declaration changes only OTC eligibility and aliases. Source guide labels supply the display name, preferring Traditional Chinese and then English.
+
+The publisher starts after the registry's asynchronous initialization, follows its existing accepted-change hook and answers Server-origin `ordertocook:food_catalog_request_v1` requests. Preparation is split into at most 16 steps per scheduled callback, with at most two packets sent per callback and a 1900-byte packet bound. It has no periodic polling. Unchanged providers are not resent on unrelated registry changes; a real receiver request replays the complete current declaration. Removing a source sends an empty replacement for that source. A failed native read or send is reported and can retry on the next registration change or receiver request.
+
+OTC V1 uses one live catalog per provider namespace. Tavern is the single publisher for a namespace whose drinks are registered through this bridge; an author must not independently replace that same namespace's live catalog with a separate food publisher. The reviewed eleven author archives have no such competing publisher. The protocol's reserved `minecraft` and `ordertocook` namespaces are excluded. This does not add a broker or change the protocol.
+
+Only accepted extensions are projected. Tavern's own audited OTC fallback stays in OTC, and World Liquor's existing fallback still works with older Tavern versions or after a live declaration is withdrawn. No second maintained drink table, private runtime or hard OTC dependency is added. OTC continues to own saved menus and order snapshots; withdrawing live supply does not rewrite them.
 
 ## Barrel quality boosters
 
@@ -20,7 +42,13 @@ These decisions follow the maintained Java source: [Forge MeadEssence](https://g
 
 ## Verification boundary
 
-Focused tests call the real transport, registry, bottle display, decoration, machine, native inventory transaction and shared guide implementations through the repository's API fixture. Private replay uses the two clean author senders, exact custom item/block definitions, this host and the original Cookery 1.6.4 guide receiver. No complete third-party scripts are published here. API-fixture results do not establish native BDS behavior, client rendering, audible output or TPS; those remain separate family gates and human acceptance.
+Focused tests call the real transport, registry, bottle display, decoration, machine, native inventory transaction and shared guide implementations through the repository's API fixture. The 2026-11-13 source replay uses clean Orchard 1.0.1 (CF9227353), Sculk 1.0.0 (CF9317015) and Dimensions Wine 1.0.0 (CF9317013) payloads with World Liquor 0.1.209 and the original Cookery 1.6.6 (CF9511094) guide receiver. Both registration orders accept 99 barrel, 20 pressing and 30 shaker recipes. A representative accepted input for every recipe resolves to its own recipe, without shadowing in those cases. This is not an exhaustive check of every tag combination.
+
+The combined shared guide has 371 entries and 31 categories. Its 348 existing protocol messages reach the original Cookery receiver with all entry IDs, category parents, localized instructions and per-entry preparation counts preserved. No complete third-party scripts are published here. These source/API-fixture results do not establish native BDS behavior, client rendering, audible output or TPS; those remain separate family gates and human acceptance.
+
+Independent OTC source replay sends the three original author payloads through this publisher and OTC's production event receiver, board and order code. It resolves 371 explicitly declared item IDs into 53 drinks: all 363 native zero-nutrition foods, plus eight declared quality-one block items. Dimensions Wine accounts for 315 zero-nutrition drinks; its two grape foods retain nutrition 2 through OTC's ordinary positive-food fallback. Representative orders combine quality aliases from backpack and fridge, retain their snapshots after withdrawal and settle only once. These are source/API tests, not native player or saved-world acceptance.
+
+World Liquor 0.1.209 replay also preserves all 72 existing Tavern/World Liquor OTC drinks across 282 item IDs: canonical IDs, nutrition, aliases, serving kind, labels and menu keys are identical before registration, after request replay and after withdrawal. World Liquor's cola and tonic water continue using the built-in fallback. Saved menus remain unchanged and duplicate registration stays rejected.
 
 Dimensions Wine's Ranger's Satchel declares Java `minecraft:glowing` at qualities 3–6. The [official Bedrock stable effect list](https://learn.microsoft.com/en-gb/minecraft/creator/commands/commands/effect?view=minecraft-bedrock-stable) contains 37 effects and does not provide Glowing. The [stable EffectTypes API](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/effecttypes?view=minecraft-bedrock-stable) documents that an absent ID returns `undefined`. This is the documented stable boundary; this round has no separate native-registry or rendering receipt.
 

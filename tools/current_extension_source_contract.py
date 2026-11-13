@@ -14,7 +14,7 @@ from build_incense_native_entities import outputs as incense_outputs
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_GROUPS = {
-    'registrationAndTransport': ('bedrock/extension-host.js', 'core/registry.js', 'core/transport.js', 'core/extension-foundation.js'),
+    'registrationAndTransport': ('bedrock/extension-host.js', 'core/registry.js', 'core/transport.js', 'core/extension-foundation.js', 'core/installed-recipe-sources.js', 'core/food-catalog-publisher.js'),
     'bottleIdentity': ('core/extension-content.js', 'core/bottle-display-schema.js', 'core/quality-tooltip.js', 'bedrock/quality-tooltip.js'),
     'furnitureLifecycle': ('core/furniture.js', 'bedrock/furniture.js'),
     'optionalEffectProtocol': ('data/effect-icons.js',),
@@ -31,10 +31,12 @@ LOCALE_SOURCES = COMPLETE_LOCALE_SOURCES | PARTIAL_LOCALE_SOURCES
 QUALITY_UP_KEY = 'kaleidoscope_tavern.message.barrel_quality_up'
 LAMP_RECIPE = 'runtime/BP/recipes/blue_pendant_lamp_from_dye.json'
 GRASS_BOARD_RECIPE = 'runtime/BP/recipes/grass_sandwich_board_from_grass.json'
+STEPLADDER_RECIPE = 'runtime/BP/recipes/stepladder.json'
+PAINTING_RECIPE = 'runtime/BP/recipes/van_gogh_self_portrait_painting.json'
 
 
 def runtime_sources():
-    return frozenset('runtime/BP/scripts/' + name for group in SOURCE_GROUPS.values() for name in group) | LOCALE_SOURCES | {LAMP_RECIPE, GRASS_BOARD_RECIPE} | {path.relative_to(ROOT).as_posix() for path in incense_outputs()}
+    return frozenset('runtime/BP/scripts/' + name for group in SOURCE_GROUPS.values() for name in group) | LOCALE_SOURCES | {LAMP_RECIPE, GRASS_BOARD_RECIPE, STEPLADDER_RECIPE, PAINTING_RECIPE} | {path.relative_to(ROOT).as_posix() for path in incense_outputs()}
 
 
 def check(root=ROOT, *, syntax=True, localization=True):
@@ -46,6 +48,8 @@ def check(root=ROOT, *, syntax=True, localization=True):
     entrypoint = read_module(root, 'runtime/BP/scripts/main.js', False)
     for module, names in (
         ('./core/registry.js', {'ExtensionRegistry'}),
+        ('./core/installed-recipe-sources.js', {'installedBarrelRecipeSources'}),
+        ('./core/food-catalog-publisher.js', {'installFoodCatalogPublisher'}),
         ('./bedrock/extension-host.js', {'installExtensionHost'}),
         ('./bedrock/pickup-overflow.js', {'installPickupOverflowEvents'}),
         ('./bedrock/natural-break.js', {'registerNaturalBreak'}),
@@ -72,6 +76,8 @@ def check(root=ROOT, *, syntax=True, localization=True):
     for name in ('preparePickupOverflow', 'startPickupDelay', 'blockOverflowPickup', 'installPickupOverflowEvents'):
         assert 'export function ' + name + '(' in modules['bedrock/pickup-overflow.js'], ('Shared pickup interface missing', name)
     assert entrypoint.count('installExtensionHost(registry)') == 1, 'Current extension host is disconnected'
+    assert entrypoint.count('installFoodCatalogPublisher(system,registry,') == 1, 'Optional OTC drink publisher is disconnected'
+    assert 'expectedBarrelRecipeSources:installedBarrelRecipeSources(nativeItemExists)' in entrypoint, 'Installed barrel provider readiness is disconnected'
     assert entrypoint.count('setRegistry(registry)') == 1, 'Current machine registry is disconnected'
     assert '()=>prepareCookeryGuidePayload(registry)' in entrypoint, 'Shared guide publisher is disconnected'
     assert 'installCookeryGuidePublisher(system,()=>prepareCookeryGuidePayload(registry))' in entrypoint, 'Cookery guide publisher is disconnected'
@@ -104,6 +110,18 @@ def check(root=ROOT, *, syntax=True, localization=True):
     assert grass_recipe['ingredients']==grass_ingredients, 'Short-grass board ingredients differ'
     assert grass_recipe['result']=={'item':'kaleidoscope_tavern:grass_sandwich_board','count':1}, 'Short-grass board result differs'
     assert grass_recipe['unlock']==grass_ingredients+[{'item':'kaleidoscope_tavern:grass_sandwich_board'}], 'Short-grass board unlock differs'
+    # Preserve Java costs and results while giving Deco's native recipes their
+    # own inputs. A shapeless painting would still accept Deco's vertical pair.
+    for path, identifier, pattern, key, unlock in (
+        (STEPLADDER_RECIPE, 'stepladder', ['L L', 'L L', 'L L'], {'L': {'item': 'minecraft:ladder'}}, [{'item': 'minecraft:ladder'}, {'item': 'kaleidoscope_tavern:stepladder'}]),
+        (PAINTING_RECIPE, 'van_gogh_self_portrait_painting', ['FP'], {'F': {'item': 'minecraft:frame'}, 'P': {'item': 'minecraft:painting'}}, [{'item': 'minecraft:frame'}]),
+    ):
+        recipe = json.loads((root/path).read_text())['minecraft:recipe_shaped']
+        assert recipe['description']['identifier'] == 'kaleidoscope_tavern:' + identifier
+        assert recipe['tags'] == ['crafting_table']
+        assert recipe['pattern'] == pattern and recipe['key'] == key, ('Deco coexistence ingredients or arrangement differ', path)
+        assert recipe['result'] == {'item': 'kaleidoscope_tavern:' + identifier, 'count': 1}
+        assert recipe['unlock'] == unlock, ('Coexistence recipe unlock differs', path)
     imported(modules['core/bottle-display-schema.js'], './extension-content.js', {'bottleBase', 'bottleBlock'})
     imported(modules['bedrock/quality-tooltip.js'], '../core/quality-tooltip.js', {'qualityBottleLore', 'isManagedQualityBottleLore', 'isLegacyManagedQualityBottleLore'})
     imported(modules['bedrock/quality-tooltip.js'], '../core/cocktail-tooltip.js', {'normalizeCocktailStack'})
@@ -149,7 +167,7 @@ def check(root=ROOT, *, syntax=True, localization=True):
         'sources': sorted(sources), 'ownershipAndWiring': 'passed',
         'syntax': 'passed' if syntax else 'not run',
         'localization': localization_result,
-        'behavior': 'existing current-extension-contract, transport-integrity, extension-bottle, furniture-interaction, board-farm-interaction, standalone-guide, board-layout, mixology rejection and pickup adapter persistence/destruction and native machine/shaker retention suites; not run by this static check',
+        'behavior': 'existing current-extension-contract, barrel-recipe-readiness, food-catalog-publisher, transport-integrity, extension-bottle, furniture-interaction, board-farm-interaction, standalone-guide, board-layout, mixology rejection and pickup adapter persistence/destruction and native machine/shaker retention suites; not run by this static check',
         'javaResources': 'existing incense surfaces/sampling, barrel materials/collision and guide checks in the package suite; not run by this static check',
         'bds': False, 'client': False,
     }

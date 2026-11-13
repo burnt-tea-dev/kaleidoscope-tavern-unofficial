@@ -44,15 +44,16 @@ test('declared ingredient groups and omitted fluid titles reach the existing rec
  r.install({api:1,source,version:'1.0.0',
   fluids:[{id:fluid,filled,visuals:{barrel:N+'barrel_liquid',pressing_tub:N+'press_liquid'}}],
   itemGroups:[{id:N+'flowers',items:['minecraft:dandelion','minecraft:poppy']}],
-  guideCategories:[{id:'tavern'},{id:'brewing',parent:'tavern'},{id:'pressing',parent:'tavern'},{id:'cookery'},{id:'millstone',parent:'cookery'},{id:'decorations'},{id:'string_lights',parent:'decorations'}],
+  guideCategories:[{id:'tavern'},{id:'brewing',parent:'tavern'},{id:'pressing',parent:'tavern'},{id:'cookery'},{id:'millstone',parent:'cookery'},{id:'decorations'},{id:'string_lights',parent:'decorations'},{id:'sources'},{id:'berries',parent:'sources'}],
   recipes:[{id:N+'barrel/wine',kind:'barrel',fluid,ingredients:[['minecraft:glowstone_dust'],[{group:N+'flowers'}]],output:{byQuality:Array.from({length:6},(_,i)=>N+'wine_q'+(i+1))}}],
-  pages:[{id:filled,category:'pressing',title:labels('Reviewed Juice Bucket'),body:labels('Collect the juice.')},{id:N+'wine',category:'brewing',title:labels('Reviewed Wine'),body:labels('Age it in the barrel.'),recipeIds:[N+'barrel/wine']},{id:N+'food',category:'millstone',title:labels('Reviewed Food'),body:labels('Grind it.')},{id:N+'light',category:'string_lights',title:labels('Reviewed Light'),body:labels('Place it.')}]
+  pages:[{id:filled,category:'pressing',title:labels('Reviewed Juice Bucket'),body:labels('Collect the juice.')},{id:N+'wine',category:'brewing',title:labels('Reviewed Wine'),body:labels('Age it in the barrel.'),recipeIds:[N+'barrel/wine']},{id:N+'food',category:'millstone',title:labels('Reviewed Food'),body:labels('Grind it.')},{id:N+'light',category:'string_lights',title:labels('Reviewed Light'),body:labels('Place it.')},{id:N+'fruit_tree',category:'sources',title:labels('Reviewed Fruit Tree'),body:labels('Grow fruit.')},{id:N+'berry',category:'berries',title:labels('Reviewed Berry'),body:labels('Harvest it.')}]
  });
  assert.equal(r.findBarrel(fluid,[{id:'minecraft:glowstone_dust',count:1},{id:'minecraft:poppy',count:1}]).id,N+'barrel/wine');
  const p=buildCookeryGuidePayload(r);
  assert.deepEqual(p.categories.filter(category=>!category.parent).map(category=>category.id),GUIDE_ROOTS);
  assert.equal(p.entries.find(entry=>entry.id===drink).category,'barrel_addons');assert.equal(p.entries.find(entry=>entry.id===filled).category,'juices');
  assert.equal(p.entries.find(entry=>entry.id===N+'food').category,'food_crafting');assert.equal(p.entries.find(entry=>entry.id===N+'light').category,'lamps');
+ assert.equal(p.entries.find(entry=>entry.id===N+'fruit_tree').category,'plants');assert.equal(p.entries.find(entry=>entry.id===N+'berry').category,'plants');
  for(const locale of ['zh_CN','zh_TW','en_US'])assert.equal(p.names[locale][filled],'Reviewed Juice Bucket');
  const previous=r.extensions.get(source);
  assert.throws(()=>r.install({api:1,source,version:'1.0.1',guideCategories:[{id:'loop',parent:'loop'}]}),/GUIDE_CATEGORY_CYCLE/);assert.equal(r.extensions.get(source),previous);
@@ -63,6 +64,18 @@ test('optional recipe conditions are resolved before ingredient validation',()=>
  const r=new ExtensionRegistry({fluids:FLUIDS,itemExists:item=>item!==N+'missing'});
  r.install({api:1,source,version:'1.0.0',recipes:[{id:N+'optional',kind:'barrel',fluid:'minecraft:water',ingredients:[[N+'missing']],when:{itemsAll:[N+'missing']},output:{item:N+'output'}}]});
  assert.equal(r.recipe(N+'optional'),undefined);
+});
+
+test('Tavern stepladder keeps its material cost without overlapping the native Deco recipe',()=>{
+ const recipe=JSON.parse(readFileSync(new URL('../runtime/BP/recipes/stepladder.json',import.meta.url),'utf8'))['minecraft:recipe_shaped'];
+ const grid=recipe.pattern.map(row=>[...row].map(key=>key===' '?null:recipe.key[key].item));
+ assert.deepEqual(grid.flat().filter(Boolean),Array(6).fill('minecraft:ladder'));
+ assert.deepEqual(recipe.tags,['crafting_table']);assert.equal(recipe.description.identifier,'kaleidoscope_tavern:stepladder');
+ assert.deepEqual(recipe.result,{item:'kaleidoscope_tavern:stepladder',count:1});
+ // Deco 1.0.2 / CF9512031: six ladders make its separate step_ladder.
+ // Native shaped recipes accept both horizontal orientations of this grid.
+ const deco=['  L',' LL','LLL'],shape=grid.map(row=>row.map(item=>item?'L':' ').join(''));
+ assert.notDeepEqual(shape,deco);assert.notDeepEqual(shape,deco.map(row=>[...row].reverse().join('')));
 });
 
 registerFixtureItem(boosterItem,1);registerFixtureItem(meadItem,1);let serial=0;
