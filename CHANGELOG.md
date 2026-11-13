@@ -1,3 +1,10 @@
+## 0.6.223 — 2026-11-13
+
+- Separate the initial Van Gogh painting recipe from Deco's canvas: place the same frame and painting side by side. Keep the existing recipe ID, one output and frame unlock. This is a Bedrock arrangement adaptation of Java's shapeless recipe.
+- Retain T222's distinct six-ladder recipe and addon readiness, shared guide and optional drink catalog repairs. Preserve the frozen T222 release history.
+- Move the two coexistence recipes to the existing current source contract, retaining the original motion-era recipe aggregate and every unrelated historical source check.
+- Source checks and actual Deco archive comparisons cover ingredient costs, mirrored shapes and shaped/shapeless overlap. Native crafting, rendered client and saved-world acceptance remain unverified.
+
 ## 0.6.222 — 2026-11-13
 
 - Preserve new barrel inputs until installed Orchard, Sculk and Dimensions Wine providers finish registering, using the existing shared readiness barrier. Standalone vinegar fallback and saved batches keep their behavior.

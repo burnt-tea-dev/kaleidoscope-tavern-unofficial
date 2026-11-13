@@ -53,8 +53,8 @@
       "sha256": "7aea71da1836ab379ed6f0bae60abae723f31551a5acfd10464bae011cb0a790"
     },
     "runtime/BP/recipes": {
-      "files": 159,
-      "sha256": "6729158fa56ae6d09a6ca97a728030b21fe952120e7b1674e21f32f33d01f11e"
+      "files": 157,
+      "sha256": "2cdb013aa44e9974c20e5e7f9c674509fdcd1f856da8c1b95a16595d7e37259d"
     },
     "runtime/RP/particles": {
       "files": 44,
@@ -144,13 +144,17 @@
         "sha256": "7becdffc4644c702b1c7b836468fa775038f6dd4cbe703baaf4f2269fff8e6d7"
       },
       "retiredToCurrentContract": [
-        "runtime/BP/recipes/grass_sandwich_board_from_grass.json"
+        "runtime/BP/recipes/grass_sandwich_board_from_grass.json",
+        "runtime/BP/recipes/stepladder.json",
+        "runtime/BP/recipes/van_gogh_self_portrait_painting.json"
       ],
       "originalFiles": {
-        "runtime/BP/recipes/grass_sandwich_board_from_grass.json": "2b08b732eedddee8a4b8d4be1fdd6fd819b38c1905289fb7aa61db81bd74c578"
+        "runtime/BP/recipes/grass_sandwich_board_from_grass.json": "2b08b732eedddee8a4b8d4be1fdd6fd819b38c1905289fb7aa61db81bd74c578",
+        "runtime/BP/recipes/stepladder.json": "c3dbc2d6c8fadd8be9bf77611efa9e16160f6ffbb3aff76a4ef954329a656371",
+        "runtime/BP/recipes/van_gogh_self_portrait_painting.json": "e9e45037fc97f552addebf01ffc972994b5e3166549a03e866c90538c6435159"
       },
       "contract": "tools/current_extension_source_contract.py",
-      "reason": "The short-grass board recipe uses the current native ingredient and pinned Java resource contract. Retain the original aggregate and file digest as historical evidence; remaining recipe files keep their historical scope."
+      "reason": "The short-grass board recipe uses the current native ingredient and pinned Java resource contract. The current extension contract owns the distinct stepladder and initial painting layouts, preserving Java ingredient costs and results while separating Deco crafting inputs. Retain the original aggregate and original file digests as historical evidence; all remaining recipe files keep their historical scope."
     }
   }
 }

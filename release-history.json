@@ -1418,5 +1418,15 @@
       "sha256": "b325da5e72dbd45bde79c0c08096a6ed9f138c3b6ea0521ac8a1b6566f9d5202",
       "files": 3200
     }
+  },
+  "0.6.223": {
+    "BP": {
+      "sha256": "27a0eb1bf7ac1bc557ce0fd8f724d549b92af7f65b29797900cb9a8df553a2a4",
+      "files": 839
+    },
+    "RP": {
+      "sha256": "5443eb20536c72ce6f2a36360bce6636cb93e5686ea22897e978618d8eb4a3e9",
+      "files": 3200
+    }
   }
 }
