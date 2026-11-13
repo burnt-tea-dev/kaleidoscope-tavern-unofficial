@@ -3,7 +3,7 @@ import {nativeStoragePlan} from './native-item-storage.js';
 import {storageFeedback,placedPickupFeedback} from './pickup-feedback.js';
 import {waterSnapshot,setWithWater,restoreWater} from './waterlogging.js';
 /** Shared synchronous inventory/block transaction tools. Not crash-level atomicity. */
-import {BlockPermutation,GameMode,ItemStack} from '@minecraft/server';
+import {BlockPermutation,GameMode,ItemStack,world} from '@minecraft/server';
 import {planInventory,commitInventory} from '../core/inventory.js';
 import {check} from '../core/util.js';
 export const makeStack=(id,count)=>new ItemStack(id,count);
@@ -98,6 +98,9 @@ export function exchangeBlocksToWorld(player,outputs,changes,location,{wear=fals
  let rollback=()=>{};const spawned=[];
  commitInventory(plan,container,()=>{
   rollback=applyBlocks(changes);
+  // Java shearing uses Block.popResource: the block/tool change still commits,
+  // but the shared block-drop gamerule suppresses its world resources.
+  if(world.gameRules.doTileDrops===false)return;
   for(const output of outputs){
    let count=output.count;check(Number.isInteger(count)&&count>0&&count<=1024,'BAD_GIVE');
    const template=output.stack?output.stack.clone():makeStack(output.id,1);

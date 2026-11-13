@@ -12,6 +12,7 @@ import {barrelCells,validateMachine} from '../core/machines.js';
 import {validateShaker} from '../core/mixology.js';
 import {furnitureBlock,itemId,GLASSWARE_SLOTS} from '../core/furniture.js';
 import {boardRuntimeKey,chalkCenter} from '../core/boards.js';
+import {CROPS,fruitHarvest} from '../core/cultivation.js';
 import {cupItem,isBottleBlock} from '../core/extension-content.js';
 import {naturalCupStack,naturalShakerRemoval} from './mixology.js';
 import {removeBoardText} from './board-text.js';
@@ -159,6 +160,11 @@ export function naturalBreak(event,params){
  if(short==='bottle_empty')drop=NS+':empty_bottle';if(short==='bottle_water'){drops.push(restorePotion({item:'minecraft:potion',potion:{effectId:'minecraft:water',deliveryId:'Consume'}}));drop=undefined;}
  // Consume authoritative state before emitting drops; subsequent multi-part
  // destruction callbacks cannot duplicate inventory. Liquids are lost, as Java.
+ if(Object.hasOwn(CROPS,id)){
+  // GrapeCropBlock.getDrops is empty before maturity. Mature destruction uses
+  // the same Java loot as player break, not the component's plain-item fallback.
+  drop=undefined;for(const output of fruitHarvest(CROPS[id],state(perm,'age'),false))add(output.id,output.count);
+ }
  if(drop)add(drop);
  const savedKeys=keys.map(key=>[key,world.getDynamicProperty(key)]),spawned=[],retiredCells=[];
  const discard=event.entitySource?.typeId==='minecraft:player'&&event.entitySource.getGameMode()==='Creative'||world.gameRules.doTileDrops===false;

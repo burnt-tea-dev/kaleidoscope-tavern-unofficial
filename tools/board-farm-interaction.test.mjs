@@ -11,12 +11,14 @@ import {installFurnitureEvents} from '../runtime/BP/scripts/bedrock/furniture.js
 import {installJavaItemUseOnEvents,JAVA_PLACEMENT_TEST} from '../runtime/BP/scripts/bedrock/java-placement-router.js';
 import {exchangeBlocks,exchangeBlocksToWorld,air} from '../runtime/BP/scripts/bedrock/transactions.js';
 import {BOARD_HALF,BOARD_ROTATION,CHALK_POSITION,boardRuntimeKey} from '../runtime/BP/scripts/core/boards.js';
-import {naturalBreak} from '../runtime/BP/scripts/bedrock/natural-break.js';
+import {naturalBreak,registerNaturalBreak} from '../runtime/BP/scripts/bedrock/natural-break.js';
 import {boardTextDiagnostics} from '../runtime/BP/scripts/bedrock/board-text.js';
 
 const NS='kaleidoscope_tavern:',d=world.getDimension('overworld'),blocks=new Map(),items=new Map();let serial=0;
 registerFixtureItem('minecraft:ink_sac');
 registerWritingBoardComponents({blockComponentRegistry:{registerCustomComponent:(id,c)=>blocks.set(id,c)},itemComponentRegistry:{registerCustomComponent:(id,c)=>items.set(id,c)}});
+registerCultivation({blockComponentRegistry:{registerCustomComponent:(id,c)=>blocks.set(id,c)}});
+registerNaturalBreak({blockComponentRegistry:{registerCustomComponent:(id,c)=>blocks.set(id,c)}});
 installWritingBoardEvents();installCultivation();installFurnitureEvents();installJavaItemUseOnEvents();
 const defaults={text:'',color:'white',glowing:false,waxed:false,alignment:'center',verticalAlignment:'top'};
 function at(p,id,states={}){const b=d.getBlock(p);b.setPermutation(BlockPermutation.resolve(id,states));return b;}
@@ -188,6 +190,89 @@ test('Adventure board placement and breaking stay prohibited; Spectator ordinary
 });
 
 function trellis(p,pos,wax=false){const b=d.getBlock(pos);b.setPermutation(framePermutation(NS+'trellis','single',0,wax,true));p.location={...pos};return b;}
+
+/** Explicitly model BDS's queued script-removal onBreak callback, without
+ * changing the shared double or claiming an actual engine execution. */
+function supportedFruit(kind,years,mode=GameMode.Survival){
+ const {p,lower}=setup(mode),pos={...lower.location,z:lower.location.z+6};
+ const vine=at({...pos,y:pos.y+1},NS+kind+'vine_trellis',{[NS+'age']:3,[NS+'shape']:'single',[NS+'waterlogged']:false});
+ const crop=at(pos,NS+kind+'_crop',{[NS+'age']:years}),set=crop.setPermutation.bind(crop);
+ const params=JSON.parse(fs.readFileSync(new URL('../runtime/BP/blocks/'+kind+'_crop.json',import.meta.url)))['minecraft:block'];
+ crop.setPermutation=permutation=>{
+  const before=crop.permutation;set(permutation);
+  if(before.type.id===NS+kind+'_crop'&&before.type.id!==permutation.type.id)
+   system.run(()=>blocks.get(NS+'natural_break').onBreak({block:crop,brokenBlockPermutation:before},{params:params.components[NS+'natural_break']}));
+ };
+ p.location={...pos};hold(p,'minecraft:shears',1);
+ return {p,vine,crop,pos};
+}
+function worldDrops(pos){return d.getEntities({type:'minecraft:item',location:pos,maxDistance:3}).map(e=>[e.itemStack.typeId,e.itemStack.amount]).sort((a,b)=>a[0].localeCompare(b[0]));}
+function fixedFarmRandom(fn){const old=Math.random;Math.random=()=>.1;try{return fn();}finally{Math.random=old;}}
+
+for(const kind of ['grape','ice_grape','gold_grape'])for(const years of [4,5])test('unsupported '+kind+' crop age '+years+' uses mature Java loot, not a fixed fruit',()=>{
+ const {vine,crop,pos}=supportedFruit(kind,years),rule=world.gameRules.doTileDrops;world.gameRules.doTileDrops=true;
+ try{fixedFarmRandom(()=>{vine.setType('minecraft:air');blocks.get(NS+'grape_crop').onTick({block:crop});system.advance(4);});
+  assert.equal(crop.typeId,'minecraft:air');
+  assert.deepEqual(worldDrops(pos),years===5?[[NS+kind,1],[NS+'green_grape',1]].sort((a,b)=>a[0].localeCompare(b[0])):[]);
+ }finally{world.gameRules.doTileDrops=rule;}
+});
+
+for(const kind of ['grape','ice_grape','gold_grape'])for(const mode of [GameMode.Survival,GameMode.Creative])test(mode+' pruning '+kind+' preserves the unsupported ripe fruit drop',()=>{
+ const {p,vine,crop,pos}=supportedFruit(kind,5,mode),rule=world.gameRules.doTileDrops;world.gameRules.doTileDrops=true;
+ try{fixedFarmRandom(()=>{assert.equal(interact(p,vine).cancel,true);system.advance(4);});
+  assert.equal(vine.typeId,NS+'trellis');assert.equal(crop.typeId,'minecraft:air');
+  assert.deepEqual(worldDrops(pos),[[NS+kind,1],[NS+'green_grape',1],[NS+'grapevine',1]].sort((a,b)=>a[0].localeCompare(b[0])));
+ }finally{world.gameRules.doTileDrops=rule;}
+});
+
+for(const mode of [GameMode.Survival,GameMode.Creative])for(const drops of [true,false])test(mode+' breaking a loaded trellis preserves child loot with doTileDrops='+drops,()=>{
+ const {p,vine,crop,pos}=supportedFruit('grape',5,mode),rule=world.gameRules.doTileDrops;world.gameRules.doTileDrops=drops;
+ try{fixedFarmRandom(()=>{const e={player:p,block:vine,cancel:false};world.beforeEvents.playerBreakBlock.emit(e);assert.equal(e.cancel,true);system.advance(4);});
+  assert.equal(vine.typeId,'minecraft:air');assert.equal(crop.typeId,'minecraft:air');
+  const expected=drops?[[NS+'grape',1],[NS+'green_grape',1],...(mode===GameMode.Survival?[[NS+'grapevine',1],[NS+'trellis',1]]:[])]:[];
+  assert.deepEqual(worldDrops(pos),expected.sort((a,b)=>a[0].localeCompare(b[0])));
+ }finally{world.gameRules.doTileDrops=rule;}
+});
+
+test('a failed vine transaction leaves the supported fruit and original shears intact',()=>{
+ const {p,vine,crop,pos}=supportedFruit('ice_grape',5),tool=p.inventory.getItem(2),rule=world.gameRules.doTileDrops;world.gameRules.doTileDrops=true;
+ d.failSpawnItem=true;
+ try{const logs=capture(()=>{fixedFarmRandom(()=>{interact(p,vine);system.advance(4);});});assert.ok(logs.some(x=>x.includes('INJECTED_ITEM_SPAWN_FAILURE')));}
+ finally{d.failSpawnItem=false;world.gameRules.doTileDrops=rule;}
+ assert.equal(vine.typeId,NS+'ice_grapevine_trellis');assert.equal(crop.typeId,NS+'ice_grape_crop');assert.deepEqual(p.inventory.getItem(2),tool);assert.deepEqual(worldDrops(pos),[]);
+});
+
+for(const kind of ['grape','ice_grape','gold_grape'])for(const action of ['prune','harvest'])test('doTileDrops=false suppresses '+kind+' '+action+' resources but keeps tool wear and block changes',()=>{
+ const {p,vine,crop,pos}=supportedFruit(kind,5),rule=world.gameRules.doTileDrops;world.gameRules.doTileDrops=false;
+ try{fixedFarmRandom(()=>{assert.equal(interact(p,action==='prune'?vine:crop).cancel,true);system.advance(4);});
+  assert.equal(vine.typeId,NS+(action==='prune'?'trellis':kind+'vine_trellis'));assert.equal(crop.typeId,'minecraft:air');
+  assert.equal(p.inventory.getItem(2).getComponent('minecraft:durability').damage,1);assert.deepEqual(worldDrops(pos),[]);
+ }finally{world.gameRules.doTileDrops=rule;}
+});
+
+test('partial unsupported-fruit drop failure withdraws items, restores mature crop, and retries without duplication',()=>{
+ const {vine,crop,pos}=supportedFruit('gold_grape',5),spawn=d.spawnItem,rule=world.gameRules.doTileDrops;world.gameRules.doTileDrops=true;let attempts=0;
+ vine.setType('minecraft:air');
+ d.spawnItem=function(...args){if(++attempts===2)throw Error('INJECTED_SECOND_CROP_DROP');return spawn.apply(this,args);};
+ try{const logs=capture(()=>fixedFarmRandom(()=>{blocks.get(NS+'grape_crop').onTick({block:crop});system.advance(4);}));assert.ok(logs.some(x=>x.includes('INJECTED_SECOND_CROP_DROP')));}
+ finally{d.spawnItem=spawn;}
+ try{
+  assert.equal(crop.typeId,NS+'gold_grape_crop');assert.equal(crop.permutation.getState(NS+'age'),5);assert.deepEqual(worldDrops(pos),[]);
+  fixedFarmRandom(()=>{blocks.get(NS+'grape_crop').onTick({block:crop});system.advance(4);});
+  assert.equal(crop.typeId,'minecraft:air');assert.deepEqual(worldDrops(pos),[[NS+'gold_grape',1],[NS+'green_grape',1]]);
+  blocks.get(NS+'grape_crop').onTick({block:crop});system.advance(4);assert.deepEqual(worldDrops(pos),[[NS+'gold_grape',1],[NS+'green_grape',1]]);
+ }finally{world.gameRules.doTileDrops=rule;}
+});
+
+test('unknown support is not treated as air, and mature natural loot retains the two-fruit no-bonus outcome',()=>{
+ const {vine,crop,pos}=supportedFruit('grape',5),key=`${vine.location.x}_${vine.location.y}_${vine.location.z}`,rule=world.gameRules.doTileDrops;world.gameRules.doTileDrops=true;
+ d.unloaded.add(key);
+ try{blocks.get(NS+'grape_crop').onTick({block:crop});system.advance(4);assert.equal(crop.typeId,NS+'grape_crop');assert.deepEqual(worldDrops(pos),[]);}
+ finally{d.unloaded.delete(key);}
+ const random=Math.random;Math.random=()=>.9;
+ try{vine.setType('minecraft:air');blocks.get(NS+'grape_crop').onTick({block:crop});system.advance(4);assert.deepEqual(worldDrops(pos),[[NS+'grape',2]]);}
+ finally{Math.random=random;world.gameRules.doTileDrops=rule;}
+});
 test('Adventure can wax and unwax trellises without spending honeycomb or axe durability, matching Java',()=>{
  const {p,lower}=setup(),b=trellis(p,{...lower.location,z:lower.location.z+4}),wax=withMetadata(new ItemStack('minecraft:honeycomb',3));p.inventory.setItem(2,wax);
  interact(p,b);system.advance(1);assert.equal(b.permutation.getState(NS+'waxed'),true);assert.deepEqual(p.inventory.getItem(2),wax);
