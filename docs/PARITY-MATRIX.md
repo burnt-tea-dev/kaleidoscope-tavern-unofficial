@@ -6,6 +6,16 @@ Adopt the official Bedrock Tavern1.0.7 unique-reference rule. Preserve the curre
 
 目前維護版本與 BP／RP 身分以 [baseline.json](../baseline.json) 為準；公開下載、來源配對及部署見[家族現況](../family/BASELINE-STATUS.md)。下列日期段保留各次修補及原始證據範圍，不因較新的來源版本自動取得畫面或完整家族通過結果。真人使用不是發布、部署或完成門檻，沿用[擁有者現行規則](../family/UPDATE-WORKFLOW.md#擁有者簡化規則2026-11-04)。
 
+## 作者附加包與 Deco 共存（2026-11-13，T222）
+
+Java Tavern 的 [Forge 1.20.1 配方](https://github.com/KaleidoscopeMods/KaleidoscopeTavern/blob/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/generated/resources/data/kaleidoscope_tavern/recipes/stepladder.json)、[NeoForge 1.21.1 配方](https://github.com/KaleidoscopeMods/KaleidoscopeTavern/blob/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/generated/resources/data/kaleidoscope_tavern/recipe/stepladder.json)及 [26.1.2 配方](https://github.com/KaleidoscopeMods/KaleidoscopeTavern/blob/9b8f165a4641e738e694641dd81240a0206573e1/src/generated/resources/data/kaleidoscope_tavern/recipe/stepladder.json)均用六個原版梯子排成三角形；獨立 Java Deco 資料包的[廚房擴展梯子](https://github.com/KaleidoscopeMods/KaleidoscopeDeco/blob/6ce180e1226ce93b0fb0d45ea80e0ed5b01b1dc0/src/kaleidoscope_cookery_plus/data/kaleidoscope/recipe/cookery_plus/ladder.json)也用相同材料與排列。兩者各自擁有物品／模型，這些來源沒有提供二選一或互相替代規則。
+
+T222 在現有 Tavern 配方使用左右兩直欄（每欄三個梯子），讓 Deco 原三角配方及 Tavern 配方均可取得各自成品。這是明確的 **Bedrock 配方排列適配**，不是 Java 原配方還原；材料成本仍為六個梯子，產量仍為一個。現有物品／方塊 ID、原素材、放置行為與保存資料不因共存改成另一包的物件。只設定 recipe priority 會選出一個衝突結果，不能讓兩種成品都有獨立配方。
+
+Deco [Java 酒櫃](https://github.com/KaleidoscopeMods/KaleidoscopeDeco/blob/6ce180e1226ce93b0fb0d45ea80e0ed5b01b1dc0/src/kaleidoscope_bar/data/kaleidoscope/function/bar/index/cabinet.mcfunction)以其 `kaleidoscope_bar:wine_bottle` 標記辨識裝飾酒瓶。這不是 Tavern 釀造酒的公共容器契約；此適配不把裝飾瓶登記成可飲用或可釀造材料。不同命名空間的相似家具與貼圖保持各自歸屬。
+
+同一候選保留尚未註冊完成的 World Liquor／Orchard／Sculk／Dimensions Wine 酒桶材料，將 Orchard `sources` 頁面映射到既有栽培分類，並經既有 OTC food catalog 公開已接受的外部飲品描述。這些是來源／API 層修補；原生合成、客戶端材質呈現及存檔部署尚未由本次工作驗收。
+
 ## 板面文字有界視覺證據（2026-11-09，N06）
 
 [完整證據與可攜驗證](evidence/blockbench-board-text-20261109/README.md)保留6場景、7個文字案例、12張接受原始JPEG與16張診斷。只支持Unifont白色字卡的對齊／換行／fallback／outline結構與姿勢；空白第7例僅靜態證明。實際畫面是0.6.215，保留舊窄邊；0.6.217的7個host UV修補另見T217，文字與廣面輸入界線明列，不冒稱全體bytes相同。未完成Java Font、原生tint/glow/culling/distance或controller/entity lifecycle驗收。
