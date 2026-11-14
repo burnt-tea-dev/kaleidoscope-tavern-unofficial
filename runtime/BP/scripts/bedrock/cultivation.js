@@ -28,7 +28,8 @@ function bottomWildHead(b){
  if(b?.typeId===WILD_HEAD)return b;
  if(b?.typeId!==WILD_BODY)return undefined;
  let cursor=b;
- for(let n=0;n<64;n++){
+ // Bone meal can extend long chains; find the actual tip in loaded blocks.
+ while(cursor){
   const below=wildBelow(cursor);if(!below)return undefined;
   if(below.typeId===WILD_HEAD)return below;
   if(below.typeId!==WILD_BODY)return undefined;
@@ -67,9 +68,10 @@ function cropSupported(c){
 export function growthChanges(b,rng=Math.random){
  if(b.typeId===WILD_HEAD||b.typeId===WILD_BODY){
   const head=bottomWildHead(b);if(!head||head.permutation.getState(WILD_SHEARED)===true)return [];
-  const years=wildVineAge(head);if(years>=25)return [];
+  // The Java age cap stops random growth, not bone meal extension.
+  const years=wildVineAge(head);
   const below=wildBelow(head);if(!below?.isAir)return [];
-  return [{block:head,permutation:BlockPermutation.resolve(WILD_BODY)},{block:below,permutation:makeWildHead(BlockPermutation.resolve(WILD_HEAD),years+1,false)}];
+  return [{block:head,permutation:BlockPermutation.resolve(WILD_BODY)},{block:below,permutation:makeWildHead(BlockPermutation.resolve(WILD_HEAD),Math.min(25,years+1),false)}];
  }
  if(Object.hasOwn(CROPS,b.typeId)){
   if(cropSupported(b)!==true||age(b)>=5)return [];
@@ -168,7 +170,9 @@ export function registerCultivation({blockComponentRegistry:r}){
  });
  r.registerCustomComponent(NS+':wild_grapevine',{
   onBreak:wildVineBroken,
-  onTick:e=>safe(undefined,()=>{maintain(e.block);if(e.block.typeId===WILD_HEAD&&!e.block.permutation.getState(WILD_SHEARED)&&Math.random()<.15)grow(e.block,{force:true});})
+  // Java grows on random ticks; the scheduled tick only maintains support.
+  onRandomTick:e=>safe(undefined,()=>grow(e.block)),
+  onTick:e=>safe(undefined,()=>maintain(e.block))
  });
  r.registerCustomComponent(NS+':wild_grapevine_plant',{onBreak:wildVineBroken,onTick:e=>safe(undefined,()=>maintain(e.block))});
 }
