@@ -43,7 +43,8 @@
                   "uv_size": [
                     14,
                     14
-                  ]
+                  ],
+                  "uv_rotation": 180
                 },
                 "down": {
                   "uv": [
@@ -58,17 +59,18 @@
                 "north": {
                   "uv": [
                     1,
-                    14
+                    1
                   ],
                   "uv_size": [
                     14,
                     1
-                  ]
+                  ],
+                  "uv_rotation": 180
                 },
                 "south": {
                   "uv": [
                     1,
-                    1
+                    14
                   ],
                   "uv_size": [
                     14,
@@ -95,7 +97,7 @@
                     1,
                     14
                   ],
-                  "uv_rotation": 90
+                  "uv_rotation": 270
                 }
               }
             }

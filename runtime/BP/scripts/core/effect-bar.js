@@ -1,5 +1,6 @@
 /** Read-only custom-effect HUD. Native effects keep their native HUD. */
 export const EFFECT_BAR_INTERVAL=20;
+export const EFFECT_BAR_PAUSE_TICKS=60;
 export const EFFECT_BAR_PAGE_TICKS=60;
 export const EFFECT_BAR_PAGE_SIZE=2;
 export const EFFECT_BAR_HIDE_TAG='kaleidoscope_tavern:hide_effect_bar';
@@ -42,7 +43,7 @@ export function createEffectBar({status,show,busy=()=>false,hidden=p=>p.hasTag?.
  const forget=id=>{views.delete(id);holds.delete(id);};
  return {
   forget,
-  pause(id,tick){if(id)holds.set(id,Math.max(holds.get(id)??0,tick+60));},
+  pause(id,tick,ticks=EFFECT_BAR_PAUSE_TICKS){if(id)holds.set(id,Math.max(holds.get(id)??0,tick+ticks));},
   tick(players,tick){
    const seen=new Set();
    for(const player of players){

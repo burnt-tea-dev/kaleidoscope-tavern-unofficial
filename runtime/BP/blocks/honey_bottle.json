@@ -4,8 +4,7 @@
     "description": {
       "identifier": "kaleidoscope_tavern:honey_bottle",
       "menu_category": {
-        "category": "items",
-        "group": "kaleidoscope_tavern:itemGroup.name.ingredients"
+        "category": "items"
       },
       "traits": {
         "minecraft:placement_direction": {

@@ -1,5 +1,13 @@
 # Tavern maintenance
 
+## Current owner rebuild policy
+
+Follow the [host owner-reset rules](/root/AGENTS.md#owner-reset--2026-11-10) for current permissions, testing, CI, deployment ownership and Dot client checks. Source tests, deployment results and actual client observations are separate evidence; none substitutes for another. Older wording below or in release documents does not override the current host rules or the parity skill's visual requirements.
+
+Each independent repair uses a fresh visible `gpt-6.1-sol / high` conversation with only relevant context and the [parity skill](/root/.codex/skills/minecraft-java-bedrock-parity/SKILL.md). Repair the actual functional owner; no environment/pack-specific gameplay, layered patches or new parallel owners. Source delivery, deployment and observed Java behavior remain separate.
+
+## Maintenance contracts
+
 - Follow `docs/BASELINE-MAINTENANCE.md` and the current Tavern family update/workspace procedures. Begin at the host CURRENT-WORK index when available; inspect the affected repository's branch/remote/dirty work and preserve concurrent fixes. Reuse successful evidence for exact unchanged inputs; local diagnosis is targeted and the PR runs required CI.
 - Own repairs enter canonical runtime and canonical remote PR/checks/merge. Keep private integration private; no private author scripts, archives, worlds or credentials in public Git. A changed export requires a fresh paired version, synchronized modules/dependencies/payload/baseline and append-only history. Tooling/prose with unchanged runtime needs no pack bump, candidate or LIVE restart.
 - Completed functional candidates follow canonical PR/CI, targeted native validation and saved-world deployment. Current simplification and evidence rules are in `family/UPDATE-WORKFLOW.md#擁有者簡化規則2026-11-04`; human client use is optional.

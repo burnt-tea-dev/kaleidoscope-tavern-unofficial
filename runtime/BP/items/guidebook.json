@@ -4,8 +4,7 @@
     "description": {
       "identifier": "kaleidoscope_tavern:guidebook",
       "menu_category": {
-        "category": "items",
-        "group": "kaleidoscope_tavern:itemGroup.name.guides"
+        "category": "items"
       }
     },
     "components": {

@@ -3,18 +3,17 @@
 import copy
 import argparse,hashlib,json,re,subprocess,sys,importlib.util
 from pathlib import Path
-from baseline_reference import asset_projection
+from animated_item_render_contract import NAMES as ANIMATED_ITEM_NAMES, CONTEXTS as ANIMATED_ITEM_CONTEXTS, check_or_write as check_animated_item_render
 ROOT=Path(__file__).resolve().parents[1];RT=ROOT/'runtime'
 def read(p):return json.loads(p.read_text(encoding='utf-8-sig'))
 
-# Exact T131 source additions. World Liquor's <1024 compaction budget was
-# introduced in ce475bc35a305feb2408b93b6ad7c49d5e38ebe8; it is a project
-# budget, not a documented engine-wide geometry-ID limit. Preserve its base
-# allowance and account separately for these source-reviewed thin item meshes.
+# World Liquor's <1024 compaction budget is a project allowance, not a
+# documented engine-wide geometry-ID limit. Animated item allocations belong
+# to the complete current source/render contract, not historical mesh hashes.
 # Model complexity guidance: https://learn.microsoft.com/minecraft/creator/documents/practices/improvingperformanceandresourceusage
-REVIEWED_ITEM_GEOMETRIES={
+ANIMATED_ITEM_GEOMETRIES={
     'geometry.kt_runtime.item_sprite_'+name:'runtime/RP/models/entity/item_sprite_'+name+'.geo.json'
-    for name in ('depth_charge','mystery_cocktail','nether_special','ice_grape')
+    for name in ANIMATED_ITEM_NAMES
 }
 # T134 retains fixed glyph UVs because the combined emissive/overlay/UV-anim
 # material has no client witness. Separate outline meshes let distant text
@@ -44,23 +43,26 @@ def check_combined_geometry_budget(inventory,tavern_root=ROOT):
     tavern_root=Path(tavern_root).resolve()
     witnesses=read(tavern_root/'data/baseline-reconciliation.json')['files']
     sources=read(tavern_root/'art/interfaces/animated-item-java-reference.json')['sources']
-    for identifier,name in REVIEWED_ITEM_GEOMETRIES.items():
-        path=tavern_root/name;row=witnesses[name]
-        assert row['before'] is None and row['release']=='0.6.131',('Unreviewed geometry allocation',name)
-        assert row['reviewedSourceCommit']=='f08714307ea331be52a9240d8aa6473752325d1c',('Geometry allocation source changed',name)
-        assert [Path(p).resolve() for p in inventory.get(identifier,[])]==[path],('Reviewed geometry must have one exact Tavern owner/path',identifier)
-        # Preserve the original allocation witness through exact, reversible
-        # asset reviews; the current mesh still obeys the same shape budget.
-        try:
-            original=asset_projection(tavern_root,name,path.read_bytes())
-        except AssertionError as error:
-            raise AssertionError(('Reviewed item geometry changed',name)) from error
-        assert hashlib.sha256(original).hexdigest()==row['after'],('Reviewed item geometry changed',name)
-        geometries=read(path)['minecraft:geometry'];assert len(geometries)==1
+    assert set(sources)==set(ANIMATED_ITEM_NAMES), 'Incomplete animated item source contract'
+    # Require complete source-backed routes, source alpha shells and all eight
+    # Java display contexts before subtracting any animation-owned geometry.
+    for identifier,name in ANIMATED_ITEM_GEOMETRIES.items():
+        assert [Path(p).resolve() for p in inventory.get(identifier,[])]==[tavern_root/name],('Animated geometry must have one exact Tavern owner/path',identifier)
+    check_animated_item_render(root=tavern_root)
+    from check_animated_item_depth import check as check_animated_depth, valid as valid_animated_depth
+    depth=check_animated_depth(tavern_root)
+    assert set(depth)==set(ANIMATED_ITEM_NAMES) and all(valid_animated_depth(row) for row in depth.values()), 'Animated item source alpha shell differs'
+    animated_allocations={}
+    for identifier,name in ANIMATED_ITEM_GEOMETRIES.items():
+        geometries=read(tavern_root/name)['minecraft:geometry'];assert len(geometries)==1
         geometry=geometries[0];assert geometry['description']['identifier']==identifier
         bones=geometry['bones'];assert len(bones)==1 and bones[0]['name']=='root'
-        source=sources[identifier.removeprefix('geometry.kt_runtime.item_sprite_')]
-        assert len(bones[0]['cubes'])==source['java_element_count']<=50,('Unreviewed item mesh complexity',name)
+        cubes=len(bones[0]['cubes'])
+        # Exact cube count/shape already matches the source-generated output.
+        # Six quad faces are allocated per cube, even for single-face spans.
+        assert cubes<=50,('Animated item source mesh budget exceeded',name)
+        assert set(geometry['item_display_transforms'])==set(ANIMATED_ITEM_CONTEXTS) and len(ANIMATED_ITEM_CONTEXTS)==8,('Animated item display contexts changed',name)
+        animated_allocations[name]={'ids':1,'max_allocated_vertices':cubes*24,'max_bones':1,'display_contexts':8}
     allocations={}
     for name in sorted(set(REVIEWED_VISUAL_GEOMETRIES.values())):
         path=tavern_root/name;row=witnesses.get(name)
@@ -127,9 +129,10 @@ def check_combined_geometry_budget(inventory,tavern_root=ROOT):
             assert len(bones)<=9 and cubes<=8,('Optional lamp source complexity exceeds allocation',identifier)
             lamp_allocations[identifier]={'bones':len(bones),'cubes':cubes,'allocated_vertices':cubes*24}
     else:lamp_ids=set()
-    base=set(inventory)-set(REVIEWED_ITEM_GEOMETRIES)-set(REVIEWED_VISUAL_GEOMETRIES)-potion_ids-lamp_ids
+    base=set(inventory)-set(ANIMATED_ITEM_GEOMETRIES)-set(REVIEWED_VISUAL_GEOMETRIES)-potion_ids-lamp_ids
     assert len(base)<1024,('combined Tavern + World Liquor base geometry budget exceeded',len(base))
-    return {'geometries':len(inventory),'base_geometries':len(base),'reviewed_item_geometries':len(REVIEWED_ITEM_GEOMETRIES),
+    return {'geometries':len(inventory),'base_geometries':len(base),'animated_item_contract_geometries':len(ANIMATED_ITEM_GEOMETRIES),
+            'animated_item_allocations':animated_allocations,'animated_item_max_allocated_vertices':50*24,
             'reviewed_visual_geometries':len(REVIEWED_VISUAL_GEOMETRIES),'visual_allocations':allocations,
             'potion_contract_geometries':len(potion_ids),'potion_allocations':potion_allocations,
             'lamp_contract_geometries':len(lamp_ids),'lamp_allocations':lamp_allocations,

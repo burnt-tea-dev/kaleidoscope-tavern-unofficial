@@ -28,7 +28,8 @@ function bottomWildHead(b){
  if(b?.typeId===WILD_HEAD)return b;
  if(b?.typeId!==WILD_BODY)return undefined;
  let cursor=b;
- for(let n=0;n<64;n++){
+ // Bone meal can extend long chains; find the actual tip in loaded blocks.
+ while(cursor){
   const below=wildBelow(cursor);if(!below)return undefined;
   if(below.typeId===WILD_HEAD)return below;
   if(below.typeId!==WILD_BODY)return undefined;
@@ -67,9 +68,10 @@ function cropSupported(c){
 export function growthChanges(b,rng=Math.random){
  if(b.typeId===WILD_HEAD||b.typeId===WILD_BODY){
   const head=bottomWildHead(b);if(!head||head.permutation.getState(WILD_SHEARED)===true)return [];
-  const years=wildVineAge(head);if(years>=25)return [];
+  // The Java age cap stops random growth, not bone meal extension.
+  const years=wildVineAge(head);
   const below=wildBelow(head);if(!below?.isAir)return [];
-  return [{block:head,permutation:BlockPermutation.resolve(WILD_BODY)},{block:below,permutation:makeWildHead(BlockPermutation.resolve(WILD_HEAD),years+1,false)}];
+  return [{block:head,permutation:BlockPermutation.resolve(WILD_BODY)},{block:below,permutation:makeWildHead(BlockPermutation.resolve(WILD_HEAD),Math.min(25,years+1),false)}];
  }
  if(Object.hasOwn(CROPS,b.typeId)){
   if(cropSupported(b)!==true||age(b)>=5)return [];
@@ -137,8 +139,11 @@ export function farmUse(player,b,{rng=Math.random}={}){
    if(VINES[b.typeId]){
    const edits=[{block:b,permutation:framePermutation(BARE,shape(b),0,false,waterlogged(b))}];
     const child=blockAt(b.dimension,plus(b.location,{x:0,y:-1,z:0}));check(child,'UNLOADED_CROP');
-    if(CROPS[child.typeId])edits.push({block:child,permutation:air()});
-    exchangeBlocksToWorld(player,[{id:NS+':grapevine',count:1}],edits,b.location,{wear:true,rng,interaction:true});refreshAround(b);try{b.dimension.playSound('block.beehive.shear',b.location,{volume:1,pitch:1});}catch{}return 'pruned';
+    exchangeBlocksToWorld(player,[{id:NS+':grapevine',count:1}],edits,b.location,{wear:true,rng,interaction:true});
+    // Java's neighbour update destroys unsupported fruit through its own loot.
+    // Do not suppress that callback as part of the player's vine transaction.
+    if(CROPS[child.typeId])safe(undefined,()=>maintain(child));
+    refreshAround(b);try{b.dimension.playSound('block.beehive.shear',b.location,{volume:1,pitch:1});}catch{}return 'pruned';
    }
    if(CROPS[b.typeId]){
     check(age(b)===5,'NOT_RIPE');check(cropSupported(b)===true,'MISSING_TRELLIS');
@@ -154,8 +159,11 @@ export function farmBreak(player,b,{rng=Math.random}={}){
  return locks.with([key(b),player.id],()=>{
   const outputs=player.getGameMode()===GameMode.Creative?[]:CROPS[b.typeId]?fruitHarvest(CROPS[b.typeId],age(b),false,rng):b.typeId===WILD_HEAD||b.typeId===WILD_BODY?[{id:NS+':grapevine',count:1}]:[{id:BARE,count:1},...(VINES[b.typeId]?[{id:NS+':grapevine',count:1}]:[])];
   const edits=[{block:b,permutation:air()}];
-  if(VINES[b.typeId]){const child=blockAt(b.dimension,plus(b.location,{x:0,y:-1,z:0}));check(child,'UNLOADED_CROP');if(CROPS[child.typeId])edits.push({block:child,permutation:air()});}
-  exchangeBlocks(player,0,outputs,edits);refreshAround(b);return outputs;
+  const child=VINES[b.typeId]?blockAt(b.dimension,plus(b.location,{x:0,y:-1,z:0})):undefined;
+  if(VINES[b.typeId])check(child,'UNLOADED_CROP');
+  exchangeBlocks(player,0,outputs,edits);
+  if(child&&CROPS[child.typeId])safe(undefined,()=>maintain(child));
+  refreshAround(b);return outputs;
  });
 }
 export function registerCultivation({blockComponentRegistry:r}){
@@ -168,7 +176,9 @@ export function registerCultivation({blockComponentRegistry:r}){
  });
  r.registerCustomComponent(NS+':wild_grapevine',{
   onBreak:wildVineBroken,
-  onTick:e=>safe(undefined,()=>{maintain(e.block);if(e.block.typeId===WILD_HEAD&&!e.block.permutation.getState(WILD_SHEARED)&&Math.random()<.15)grow(e.block,{force:true});})
+  // Java grows on random ticks; the scheduled tick only maintains support.
+  onRandomTick:e=>safe(undefined,()=>grow(e.block)),
+  onTick:e=>safe(undefined,()=>maintain(e.block))
  });
  r.registerCustomComponent(NS+':wild_grapevine_plant',{onBreak:wildVineBroken,onTick:e=>safe(undefined,()=>maintain(e.block))});
 }

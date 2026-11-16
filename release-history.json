@@ -1418,5 +1418,85 @@
       "sha256": "cb1fc426dd52e93723e08b44a890db1d6474280ed025eccb25a6927d9926a939",
       "files": 3200
     }
+  },
+  "0.6.223": {
+    "BP": {
+      "sha256": "f3540ca3ff1ba5f3c779e640656afcbb00ec10e46a7a6c1ca29c5a37e6ec02d7",
+      "files": 838
+    },
+    "RP": {
+      "sha256": "f108f55c5c84ffd94cfea3d10663105fe125ba6ad316466d51775d2b85e7bc9c",
+      "files": 3200
+    }
+  },
+  "0.6.225": {
+    "BP": {
+      "sha256": "d0d685d04d2eabcfc35517c3f27638d1226f9a0dc1cf81a5e49a5c4ea2e62975",
+      "files": 838
+    },
+    "RP": {
+      "sha256": "bdb7f7a793bff0054058540c33d10710b1299e42f57c19638145fb8c9a26522e",
+      "files": 3205
+    }
+  },
+  "0.6.226": {
+    "BP": {
+      "sha256": "62c11c4691f3206d9599aa214564b72e5bff6c7e331acd2511333ad1910cc9b4",
+      "files": 838
+    },
+    "RP": {
+      "sha256": "d132fd599c6868ed3a4560bbc17129539b5e569a7fe48047c35d97f28b48f7f1",
+      "files": 3205
+    }
+  },
+  "0.6.227": {
+    "BP": {
+      "sha256": "ab83b7b5baa5d0c3f0598b3aca662d8090766cc5d1e6f67344ac13f07c0b6e5a",
+      "files": 838
+    },
+    "RP": {
+      "sha256": "1fef746f535962c43d166c28cc5878aa4215f952bd9e411493e9da4043265739",
+      "files": 3205
+    }
+  },
+  "0.6.228": {
+    "BP": {
+      "sha256": "89d38d19bf24aabada44c05e7861ea583053c6dd4428305ab731fee6682d9e85",
+      "files": 838
+    },
+    "RP": {
+      "sha256": "596356e2793008b1b5c49e3c9ac8471b5b0527e98205962b37ce0fa13ae47a3c",
+      "files": 3205
+    }
+  },
+  "0.6.229": {
+    "BP": {
+      "sha256": "2c1b3f1568f5f9c3bb219526726ad7a6492cbdb721a200abbaeb3f00d155a980",
+      "files": 840
+    },
+    "RP": {
+      "sha256": "8acb3de5fa0556fbd80f317a22dd0963c6b979d94c78e62c5cf5a16bee33138f",
+      "files": 3205
+    }
+  },
+  "0.6.230": {
+    "BP": {
+      "sha256": "6b143e89d56a1f845f30a0429936c6f06801c0d7fb8e269eac6cce0aaab5490f",
+      "files": 840
+    },
+    "RP": {
+      "sha256": "816567445e10c6cddeed5eb1dad5b341b39abc85715ef79653647241f17cecf2",
+      "files": 3205
+    }
+  },
+  "0.6.231": {
+    "BP": {
+      "sha256": "ca91e384ac996e3b2fbfef736cbad2b6f5135cfbcde406667df2b5a782c1b459",
+      "files": 840
+    },
+    "RP": {
+      "sha256": "e47fc1b84aef9275f152810c404b82e9272df2d78450a6036989476fdc66a56e",
+      "files": 3205
+    }
   }
 }

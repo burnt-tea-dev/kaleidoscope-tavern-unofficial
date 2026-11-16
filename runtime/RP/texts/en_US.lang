@@ -1,22 +1,6 @@
 ## BEGIN shared creative decoration groups
-kaleidoscope_tavern:itemGroup.name.tavern_cultivation=Crops & Seeds
-kaleidoscope_tavern:itemGroup.name.tavern_brewing=Brewing Equipment
-kaleidoscope_tavern:itemGroup.name.wines=Bottled Drinks
-kaleidoscope_tavern:itemGroup.name.cocktails=Cocktails
-kaleidoscope_cookery:itemGroup.name.foods=Prepared Food
-kaleidoscope_tavern:itemGroup.name.storage=Storage
-kaleidoscope_tavern:itemGroup.name.furniture=Furniture
-kaleidoscope_tavern:itemGroup.name.lighting=Lighting
-kaleidoscope_tavern:itemGroup.name.boards=Signs & Boards
-kaleidoscope_tavern:itemGroup.name.decoration=Paintings
-kaleidoscope_tavern:itemGroup.name.incense=Incense
-kaleidoscope_tavern:itemGroup.name.tools=Tools
-kaleidoscope_tavern:itemGroup.name.music=Records
-kaleidoscope_tavern:itemGroup.name.ingredients=Brewing Ingredients
-kaleidoscope_tavern:itemGroup.name.containers=Bottles & Glassware
-kaleidoscope_tavern:itemGroup.name.guides=Guides & Recipes
-kaleidoscope_tavern:itemGroup.name.projectiles=Throwables
-kaleidoscope_tavern:itemGroup.name.appliances=Kitchen Equipment
+kaleidoscope_tavern:itemGroup.name.tavern_main=Kaleidoscope: Tavern
+kaleidoscope_tavern:itemGroup.name.tavern_deco=Kaleidoscope: Tavern Deco
 ## END shared creative decoration groups
 ## Shared legacy addon creative groups; identities remain distinct.
 kaleidoscope_tavern:itemGroup.name.wines_spirits=Kaleidoscope Tavern: Drinks
@@ -1724,9 +1708,9 @@ kt.board.vertical_align=Vertical alignment
 kt.board.top=Top
 kt.board.middle=Middle
 kt.board.bottom=Bottom
-kt.board.overflow=Text exceeds the %s-line board. Shorten it or use a wider board; your saved text was not changed.
-kt.board.text_small=Up to %s lines; 10 halfwidth or 7 fullwidth characters per line
-kt.board.text_lines=Board text (up to %s lines)
+kt.board.overflow=Text exceeds the %s-character limit. Shorten it; your saved text was not changed.
+kt.board.text_small=Board text (up to %s characters)
+kt.board.text_lines=Board text (up to %s characters)
 kt.board.newline_hint=Press Enter for a new line
 
 action.hint.exit.kaleidoscope_tavern:seat_green=Sneak to get off

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Replace the one retained world backup after verifying its replacement.
+"""Replace one world's retained backup after verifying its replacement.
 
 The local state names backup roots and protected original worlds. Producers
 share this index; old operation logs are not dependencies of backup retention.
@@ -78,8 +78,9 @@ def register_alias(state_path, backup, alias):
     with state_path.with_suffix('.lock').open('a') as handle:
         fcntl.flock(handle, fcntl.LOCK_EX)
         state = read(state_path)
-        current = state['current']
-        if Path(current['backup']).resolve() != Path(backup).resolve():
+        current = next((entry for entry in state['current']
+                        if Path(entry['backup']).resolve() == Path(backup).resolve()), None)
+        if current is None:
             raise ValueError('Rollback alias belongs to a different retained backup')
         aliases = current.setdefault('aliases', [])
         if str(Path(alias).resolve()) not in aliases:
@@ -93,20 +94,33 @@ def adopt(state_path, backup, receipt, retire=()):
         fcntl.flock(handle, fcntl.LOCK_EX)
         state = read(state_path)
         verified = verify(backup, receipt)
+        world = str(Path(verified['world']).resolve())
+        current = next((entry for entry in state['current'] if entry['world'] == world), None)
         roots = [Path(p).resolve() for p in state['backup_roots']]
         protected = [Path(p).resolve() for p in state['protected_worlds']]
-        protected += [Path(verified['world']).resolve(), backup.resolve()]
-        previous = state.get('current', {}).get('backup')
-        requested = list(state.get('pending_retirement', [])) + list(retire)
+        protected += [Path(world), backup.resolve()]
+        # Explicit retire lists must not remove another world's recovery point.
+        for entry in state['current']:
+            if entry is not current:
+                protected.extend(Path(p).resolve() for p in
+                                 [entry['world'], entry['backup'], *entry.get('aliases', [])])
+        previous = current.get('backup') if current else None
+        requested = list(current.get('pending_retirement', [])) if current else []
+        requested.extend(retire)
         if previous and Path(previous).resolve() != backup.resolve():
             requested.append(previous)
-            requested.extend(state['current'].get('aliases', []))
-        aliases = state.get('current', {}).get('aliases', []) if previous == str(backup.resolve()) else []
+            requested.extend(current.get('aliases', []))
+        aliases = current.get('aliases', []) if previous == str(backup.resolve()) else []
+        protected.extend(Path(p).resolve() for p in aliases)
         targets = [retirement_target(p, roots, protected) for p in dict.fromkeys(map(str, requested))]
-        state['current'] = {'backup': str(backup.resolve()), 'receipt': str(receipt.resolve()),
-                            'aliases': aliases,
-                            'world': verified['world'], 'verified_at': datetime.datetime.now(datetime.timezone.utc).isoformat()}
-        state['pending_retirement'] = [str(p) for p in targets]
+        replacement = {'backup': str(backup.resolve()), 'receipt': str(receipt.resolve()),
+                       'aliases': aliases, 'world': world,
+                       'verified_at': datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                       'pending_retirement': [str(p) for p in targets]}
+        if current is None:
+            state['current'].append(replacement)
+        else:
+            state['current'][state['current'].index(current)] = replacement
         atomic(state_path, state)
         removed = []
         for path in targets:
@@ -115,11 +129,12 @@ def adopt(state_path, backup, receipt, retire=()):
             elif path.exists():
                 path.unlink()
             removed.append(str(path))
-            state['pending_retirement'].remove(str(path))
+            replacement['pending_retirement'].remove(str(path))
             atomic(state_path, state)
         if removed:
             with state_path.with_suffix('.retired.jsonl').open('a') as log:
-                log.write(json.dumps({'at': state['current']['verified_at'], 'kept': str(backup), 'removed': removed}) + '\n')
+                log.write(json.dumps({'at': replacement['verified_at'], 'world': world,
+                                      'kept': str(backup), 'removed': removed}) + '\n')
         return {'retained': str(backup.resolve()), 'retired': removed}
 
 

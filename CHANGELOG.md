@@ -1,8 +1,14 @@
-## 0.6.224 — 2026-11-16
+## 0.6.231 — 2026-11-17
 
-Reuse the existing storage pose owner for single-bottle holders. Read the actual kind, rotation and location, and write only differences; preserve Java slot/facing transforms, native item storage, drift repair and the original maintenance cadence. In the offline unchanged-pose sample (128 holders × 20 calls), each of property, rotation and teleport writes falls from 2,560 to zero; query count is unchanged and readbacks remain. This is not a claim about total native calls, FPS or client rendering.
+Integrate the reviewed retained-stack drink nutrition caller, board anchor and cup-state reuse, and the native CustomForm board editor using server-ui 2.2.0. Preserve raw Done/Cancel saves, alignment extensions, Java character limits, existing gameplay sources, history and data protection. Client multiline, scrolling, focus and exact input capacity remain unconfirmed. This is source delivery preparation, with no family installation or full Java parity claim.
 
-The [current parity matrix](docs/PARITY-MATRIX.md) reassesses 28 feature domains, records API candidates and existing PR ownership, and preserves bounded historical findings. Existing source/API suites and Java renderer checks pass; no new tests, fixtures, CI, engine/API upgrade, BDS, player-device or LIVE operation. The former holder source hashes remain unchanged in existing historical fields while the current shared owner contract verifies wiring and pose behavior.
+## 0.6.224 — 2026-11-12
+
+Carry the authorized 20261112 source-repair handoff into the maintained Tavern line: add the reviewed glowflower and machine-ingredient source data with its rewritten producers, bind the tartaric-acid painting block and item to the runtime sprite geometry with single-sided alpha testing and no face dimming, and keep the native naming-input and Java creative-order behaviour already frozen in 0.6.223. This is local source integration and a fresh release identity only: no tests, no client observation, no publication and no deployment.
+
+## 0.6.223 — 2026-11-11
+
+Restore the maintained Java main/decor creative order using the addon-owned tab plan and existing native catalog converter. Keep the 161 visible entries, explicit port additions and hidden variants. Remove the global `custom_input` override at its producer, preserving native naming inputs and the four guide animations; boards currently use the native single-line editor. Pair with World Liquor 0.1.210. This is local source integration, with no new tests, client observation, publication or deployment.
 
 ## 0.6.221 — 2026-11-10
 

@@ -53,7 +53,7 @@ class PressingCardContract(unittest.TestCase):
             for face in ('north', 'south'):
                 with self.subTest(cube=i, face=face):
                     self.rejects(CARD, lambda d, i=i, face=face:
-                        d['minecraft:geometry'][0]['bones'][5+i*3]['cubes'][0]['uv'][face]['uv_size'].__setitem__(0, -16))
+                        d['minecraft:geometry'][0]['bones'][5+i*3]['cubes'][0]['uv'][face]['uv_size'].__setitem__(0, 16 if face == 'north' else -16))
 
     def test_no_slot_or_pose_scaling_and_hierarchy_drift(self):
         for i in range(27):

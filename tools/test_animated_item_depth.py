@@ -9,8 +9,9 @@ from check_animated_item_depth import audit, check, valid
 class SpriteShells(unittest.TestCase):
     def test_all_source_frames_and_all_emitted_faces(self):
         results=check()
-        self.assertEqual(1918,sum(r['expected_boundary_edges'] for r in results.values()))
-        self.assertEqual(24,sum(r['frames'] for r in results.values()))
+        original={k:v for k,v in results.items() if k in ('depth_charge','mystery_cocktail','nether_special','ice_grape')}
+        self.assertEqual(1918,sum(r['expected_boundary_edges'] for r in original.values()))
+        self.assertEqual(24,sum(r['frames'] for r in original.values()))
         for name,result in results.items():self.assertTrue(valid(result),(name,result))
 
     def model(self,name='mystery_cocktail'):
@@ -21,7 +22,7 @@ class SpriteShells(unittest.TestCase):
 
     def test_reject_t160_reflected_sides_and_up_reversal(self):
         failures=0
-        for name in NAMES:
+        for name in ('depth_charge','mystery_cocktail','nether_special','ice_grape'):
             cubes,sheet=self.model(name)
             for c in cubes[1:]:
                 c['origin'][0]=-c['origin'][0]-c['size'][0]

@@ -5,7 +5,7 @@ import fs from 'node:fs/promises';
 const fixture=new URL('../../history/pre-release-0.6.29/tests/fake-server.js',import.meta.url);
 export async function resolve(specifier,context,next){
  if(specifier==='@minecraft/server')return {url:fixture.href,shortCircuit:true};
- if(specifier==='@minecraft/server-ui')return {url:new URL('../../history/pre-release-0.6.29/tests/fake-ui.js',import.meta.url).href,shortCircuit:true};
+ if(specifier==='@minecraft/server-ui')return {url:new URL('./mock-ui.mjs',import.meta.url).href,shortCircuit:true};
  return next(specifier,context);
 }
 export async function load(url,context,next){

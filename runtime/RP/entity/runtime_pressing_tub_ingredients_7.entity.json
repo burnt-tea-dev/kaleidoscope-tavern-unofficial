@@ -19,7 +19,7 @@
         "kind_10": "textures/items/glowstone_dust",
         "kind_11": "textures/items/gold_nugget",
         "kind_12": "textures/items/gunpowder",
-        "kind_13": "textures/items/honeycomb",
+        "kind_13": "textures/kt_runtime/machine_ingredients/java/honeycomb",
         "kind_14": "textures/items/iron_nugget",
         "kind_15": "textures/items/potato",
         "kind_16": "textures/items/redstone_dust",

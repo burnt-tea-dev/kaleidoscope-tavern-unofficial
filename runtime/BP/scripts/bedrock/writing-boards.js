@@ -1,9 +1,8 @@
 import {boardFeedback} from './effect-feedback.js';
-import {boardLayoutOptions,splitBoardLines} from '../core/board-layout.js';
 import {chalkPlacementFacing} from '../core/java-placement.js';
 import {renderBoardText as syncGlyphs,removeBoardText as removeGlyphs} from './board-text.js';
 import {system,world,BlockPermutation,GameMode} from '@minecraft/server';
-import {ModalFormData} from '@minecraft/server-ui';
+import {CustomForm,DataDrivenScreenClosedReason,ObservableNumber,ObservableString} from '@minecraft/server-ui';
 import {NS,SANDWICH_BOARDS,CHALKBOARD,BOARD_HALF,BOARD_ROTATION,CHALK_POSITION,FLOWER_BOARD_TRANSFORMS,BOARD_DYES,BOARD_ALIGNMENTS,BOARD_VERTICAL_ALIGNMENTS,boardBase,boardRotation16,chalkCenter,boardRuntimeKey,normalizeBoardData} from '../core/boards.js';
 import {check} from '../core/util.js';
 import {canWrite,canInteract,hand,handSnapshot,sameHand,exchangeBlocks,placementTake,blockAt,plus,safe,applyBlocks} from './transactions.js';
@@ -21,9 +20,6 @@ function boardKey(block){const base=boardBase(block.location,block.permutation.g
 function maxText(kind,large){return kind==='sandwich'?320:large?1500:350;}
 function dataFor(key,kind,large){const raw=world.getDynamicProperty(key);if(raw===undefined)return {text:'',color:'white',glowing:false,waxed:false,alignment:'center',verticalAlignment:'top'};check(typeof raw==='string','BOARD_DATA_CORRUPT');return normalizeBoardData(JSON.parse(raw),maxText(kind,large));}
 function saveData(key,data,kind,large){const clean=normalizeBoardData(data,maxText(kind,large));world.setDynamicProperty(key,JSON.stringify(clean));return clean;}
-// The exact invisible title marker and field label scope native multiline input
-// to board editors. Saved text and form results both contain raw newlines.
-const BOARD_FORM_TITLE_PREFIX='§r§0§r';
 const boardText=(key,...args)=>({translate:'kt.board.'+key,...(args.length?{with:args.map(String)}:{})});
 function currentInfo(block){const root=boardKey(block),key=boardRuntimeKey(block.dimension.id,root.root),data=dataFor(key,root.kind,root.large);return {root,key,data};}
 function eligibleFlower(id){return FLOWER_BOARD_TRANSFORMS[id];}
@@ -46,7 +42,42 @@ function saveBoardMaterial(player,block,key,data,kind,large){
  }});
  return renderCommitted(block,key,clean);
 }
-function editBoard(player,block,key,data,kind,large){const limit=maxText(kind,large),d=block.dimension,pos={...block.location},id=block.typeId,expected=JSON.stringify(data),form=new ModalFormData().title({rawtext:[{text:BOARD_FORM_TITLE_PREFIX},boardText(kind)]}).textField(boardText(kind==='chalk'&&!large?'text_small':'text_lines',kind==='sandwich'?8:11),boardText('newline_hint'),{defaultValue:data.text}).dropdown(boardText('align'),BOARD_ALIGNMENTS.map(key=>boardText(key)),{defaultValueIndex:BOARD_ALIGNMENTS.indexOf(data.alignment)}).dropdown(boardText('vertical_align'),BOARD_VERTICAL_ALIGNMENTS.map(key=>boardText(key)),{defaultValueIndex:BOARD_VERTICAL_ALIGNMENTS.indexOf(data.verticalAlignment??'top')});form.show(player).then(answer=>safe(player,()=>{if(answer.canceled||!Array.isArray(answer.formValues))return;canInteract(player);const current=blockAt(d,pos);check(current?.typeId===id,'BLOCK_CHANGED');const currentInfoNow=currentInfo(current);check(currentInfoNow.key===key,'BOARD_CHANGED');requireBoardReach(player,d,currentInfoNow.root.root);check(JSON.stringify(currentInfoNow.data)===expected,'BOARD_CHANGED');check(!currentInfoNow.data.waxed,'BOARD_WAXED');const [text,alignmentIndex,verticalIndex]=answer.formValues;check(typeof text==='string','BOARD_TEXT_REQUIRED');check(Number.isInteger(alignmentIndex)&&BOARD_ALIGNMENTS[alignmentIndex],'BOARD_ALIGNMENT_REQUIRED');check(Number.isInteger(verticalIndex)&&BOARD_VERTICAL_ALIGNMENTS[verticalIndex],'BOARD_ALIGNMENT_REQUIRED');const layout=splitBoardLines(text,boardLayoutOptions(kind,large));if(text.length>limit||layout.overflow){player.sendMessage(boardText('overflow',kind==='sandwich'?8:11));return;}const next={...data,text,alignment:BOARD_ALIGNMENTS[alignmentIndex],verticalAlignment:BOARD_VERTICAL_ALIGNMENTS[verticalIndex]};saveAndRender(current,key,next,kind,large);})).catch(record);}
+function editBoard(player,block,key,data,kind,large){
+ const limit=maxText(kind,large),d=block.dimension,pos={...block.location},id=block.typeId,expected=JSON.stringify(data);
+ const textValue=new ObservableString(data.text,{clientWritable:true});
+ const alignmentValue=new ObservableNumber(BOARD_ALIGNMENTS.indexOf(data.alignment),{clientWritable:true});
+ const verticalValue=new ObservableNumber(BOARD_VERTICAL_ALIGNMENTS.indexOf(data.verticalAlignment??'top'),{clientWritable:true});
+ const form=new CustomForm(player,boardText(kind));let submitted;
+ form.textField(boardText(kind==='chalk'&&!large?'text_small':'text_lines',limit),textValue,{description:boardText('newline_hint')})
+  .dropdown(boardText('align'),alignmentValue,BOARD_ALIGNMENTS.map((key,value)=>({label:boardText(key),value})))
+  .dropdown(boardText('vertical_align'),verticalValue,BOARD_VERTICAL_ALIGNMENTS.map((key,value)=>({label:boardText(key),value})))
+  .button({translate:'gui.cancel'},()=>safe(player,()=>{
+   if(submitted||!form.isShowing())return;
+   form.close();
+  }))
+  .button({translate:'gui.done'},()=>safe(player,()=>{
+   if(submitted||!form.isShowing())return;
+   const edit={text:textValue.getData(),alignmentIndex:alignmentValue.getData(),verticalIndex:verticalValue.getData()};
+   // close() can throw. Only an accepted Done close arms the saved snapshot.
+   form.close();submitted=edit;
+  }));
+ form.show().then(reason=>safe(player,()=>{
+  if(reason!==DataDrivenScreenClosedReason.ServerClosed||!submitted)return;
+  canInteract(player);
+  const current=blockAt(d,pos);check(current?.typeId===id,'BLOCK_CHANGED');
+  const currentInfoNow=currentInfo(current);check(currentInfoNow.key===key,'BOARD_CHANGED');
+  requireBoardReach(player,d,currentInfoNow.root.root);
+  check(JSON.stringify(currentInfoNow.data)===expected,'BOARD_CHANGED');
+  check(!currentInfoNow.data.waxed,'BOARD_WAXED');
+  const {text,alignmentIndex,verticalIndex}=submitted;
+  check(typeof text==='string','BOARD_TEXT_REQUIRED');
+  check(Number.isInteger(alignmentIndex)&&BOARD_ALIGNMENTS[alignmentIndex],'BOARD_ALIGNMENT_REQUIRED');
+  check(Number.isInteger(verticalIndex)&&BOARD_VERTICAL_ALIGNMENTS[verticalIndex],'BOARD_ALIGNMENT_REQUIRED');
+  if(text.length>limit){player.sendMessage(boardText('overflow',limit));return;}
+  const next={...data,text,alignment:BOARD_ALIGNMENTS[alignmentIndex],verticalAlignment:BOARD_VERTICAL_ALIGNMENTS[verticalIndex]};
+  saveAndRender(current,key,next,kind,large);
+ })).catch(record);
+}
 function boardAction(item,block,data){
  const target=eligibleFlower(item?.typeId);
  if(target&&block.typeId!==CHALKBOARD&&target!==block.typeId)return 'transform';

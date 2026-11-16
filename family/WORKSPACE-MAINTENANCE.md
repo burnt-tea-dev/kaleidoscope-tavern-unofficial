@@ -22,7 +22,7 @@
 
 ## 清理邊界
 
-依使用者2026-10-11要求，保留正式世界、最新一份完整一致回退、canonical Git、作者原包、活動工作與唯一未合併差異、現行政策及其傳遞引用的證據。
+保留正式與長期測試世界、依[每世界備份規則](UPDATE-WORKFLOW.md#擁有者簡化規則2026-11-04)保留的完整一致回退、canonical Git、作者原包、活動工作與唯一未合併差異、現行政策及其傳遞引用的證據。
 
 已完成部署的舊候選、QA DB／packs及多餘回退，先用 `cleanup-copies` 產生計畫，再用 `--execute` 執行。沿用 maintenance lock、host process namespace、掛載／symlink 拒絕、政策引用與保留副本核對；不得另寫通用刪除器绕過家族保護。
 
@@ -120,7 +120,7 @@ formal／staging 的 name、status、version 須與原 `servers-before.json` 相
 綁清單和原報告 metadata、精確目標身份；
 最新一份成功部署及完整 snapshot／rollback 仍按既有收據完整性邊界核對一次。
 若原 snapshot 已由既有 `world_backup.adopt` 正常輪替，清理器沿政策的 `world_backup_state`、
-原退休記錄及目前原始 receipt 核對同一正式世界的新停止備份，不把新存檔冒充舊 cutoff。
+原退休記錄及目前原始 receipt，按原 `world` 選出同一世界的新停止備份，不把新存檔冒充舊 cutoff；其他世界的回退點不參與這次輪替。
 原部署完整證據與原 pack rollback 仍須通過；缺少正常輪替鏈、世界不符、舊 cutoff、
 未完輪替或不完整備份均拒絕。刪除前沿同一內容核對入口驗全檔，之後僅重核身份／拓撲；
 索引、receipt、輪替記錄或保留內容改變則拒絕。備份允許根目錄只是 producer 的範圍，

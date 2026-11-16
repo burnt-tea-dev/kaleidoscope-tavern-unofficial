@@ -335,29 +335,11 @@
       "after": "76bdf29559799d3f10b131759bc0811d58f9f83f3c8b881c2f84c9b99d92b75b",
       "reason": "Reviewed reconciliation of PRs #25/#50/#69/#88 and paired version bump; preserves native pick, storage and creative metadata."
     },
-    "runtime/BP/manifest.json": {
-      "before": "a4a218098facd9202af67d19ceb7431d028224a49f907f1b035d8c2344b84d63",
-      "beforeProjected": "a4a218098facd9202af67d19ceb7431d028224a49f907f1b035d8c2344b84d63",
-      "after": "199e51b09fbae8a226effe4cdd21fd77b5d5c074dd05e402d8f902915a1a0d3a",
-      "reason": "Reviewed reconciliation of PRs #25/#50/#69/#88 and paired version bump; preserves native pick, storage and creative metadata.; 0.6.46: preserve existing behavior while repairing incense, source-owned guide transport or paired manifest version. 0.6.48: reviewed native product preparations, destruction cleanup, Java resistance/selection and native potion delivery IDs as applicable. 0.6.49: remove fixed custom animated-item hand rigs; use native item sprites/use animation and native barrel actionbar without duplicate expiring label. 0.6.50: repair coincident drink faces, sofa corner collision, chalkboard strip ordering, native storage gaze selection and Java tag-based guide ingredients. 0.6.51: consume transaction-owned script removal callbacks and prohibit display-block fallback drops. 0.6.52: use the actual InputInfo.lastInputModeUsed property so shared native storage ray selection executes; preserve off-crosshair touch input. 0.6.53: remove the unbound plain sandwich-board hand override; use native item icon rendering; record real bar placement direction for unresolved client report. 0.6.54: correct barrel/tap/aging instructions; derive legacy pages from the canonical Cookery chapter; expose feedback failures and truthful guide delivery state. 0.6.55: enforce seven guide roots with native child categories, split grape entries, clarify Java board alignment and use a shared alignment calculation. 0.6.56: remove unsolicited success hints; index live cabinet helper anchors before removal and prune invalid storage maintenance references.; 0.6.57 integrates protocol-scoped HUD filtering and updates release metadata.; 0.6.58 consolidates tested shaker fixes and guide singleton navigation instructions.; 0.6.59 surface repair and version metadata. 0.6.60: user-requested Word-style board alignment and capacity checks; metadata-safe drink stack merging and empty-hand pickup; duplicate placement gesture coalescing. 0.6.61: match cup visibility to Java world-space hit quadrants at all four holder rotations; localize native seat exit hints; align diagnostic and guide versions. 0.6.62: selected-hand shaker pickup; barrel full-block geometry candidate pending client mining acceptance. 0.6.63: add native water/lava liquid display assets and bindings; tested entity capacity properties, pending client visual acceptance. 0.6.64: release version bump (manifests, startup diagnostics and guide payload version strings). 0.6.65: release version bump (manifests, startup diagnostics and guide payload version strings). 0.6.66: release version bump (manifests, startup diagnostics and guide payload version strings). 0.6.67: paired version bump and public Cookery 1.0.8 dependency; preserves current gameplay/runtime fixes."
-    },
     "runtime/BP/scripts/bedrock/stateful-storage-router.js": {
       "before": "5956595116ce5dfa3c781117f76ad82704078819698158f0fa6921b02c20ad00",
       "beforeProjected": "5956595116ce5dfa3c781117f76ad82704078819698158f0fa6921b02c20ad00",
       "after": "0d370c09edcb921af513045bdca1ff20af4dcd0f52e3ad18863b5b4855d433d7",
       "reason": "Reviewed reconciliation of PRs #25/#50/#69/#88 and paired version bump; preserves native pick, storage and creative metadata. 0.6.48: reviewed native product preparations, destruction cleanup, Java resistance/selection and native potion delivery IDs as applicable. 0.6.50: repair coincident drink faces, sofa corner collision, chalkboard strip ordering, native storage gaze selection and Java tag-based guide ingredients. 0.6.52: use the actual InputInfo.lastInputModeUsed property so shared native storage ray selection executes; preserve off-crosshair touch input. 0.6.56: remove unsolicited success hints; index live cabinet helper anchors before removal and prune invalid storage maintenance references. 0.6.63: export the shared gaze-hit helper for the hanging rack; storage block behaviour unchanged. 0.6.63b: convert the shared gaze hit through the measured face basis (east/west faces arrive z-mirrored) so cabinet and rack slot selection matches the aimed shelf on every facing. 0.6.64: pick storage and glassware slots from the player's own aim ray against the reviewed selection box, so no engine face basis (and no unmeasured face) can mirror the pick. 0.6.64: use the aim point for every input mode (touch taps previously kept the engine event hit, which is the mirrored one); log mode/engine/ray/aimed/used for the first twelve picks per session. 2026-09-29 storage root-cause fix: valid touch aim survives absent native hit and diagnostic errors; schema-2 resolved point reflects actual consumer input. No slot/save/render remapping."
-    },
-    "runtime/BP/scripts/bedrock/storage-projectile.js": {
-      "before": "80a8572a1f9977b2a2e4f6c799d2037ab059d2be39998a848eef2edf846f1a08",
-      "beforeProjected": "80a8572a1f9977b2a2e4f6c799d2037ab059d2be39998a848eef2edf846f1a08",
-      "after": "3e6c53c33dd07f5d83700fa77d86cd7ee571da132f8411bb8d47ce026aa0c34f",
-      "reason": "Reviewed reconciliation of PRs #25/#50/#69/#88 and paired version bump; preserves native pick, storage and creative metadata. 2026-09-28 effects review: Source-derived post-commit feedback, isolated cosmetic failures and real splash lifecycle; preserves PR93 carrier repair. See docs/EFFECTS-REPORT-FOLLOWUP-20260928.md."
-    },
-    "runtime/BP/scripts/bedrock/tap-sources.js": {
-      "before": "ee5c098f025b65dc82c46e0e9d615962ad9d645756b6b7429ccf0cd3e36432cd",
-      "beforeProjected": "ee5c098f025b65dc82c46e0e9d615962ad9d645756b6b7429ccf0cd3e36432cd",
-      "after": "099ac0ac4169260801377ee8997a9ac18fcbb90343d10287bef66a1746f0fe06",
-      "reason": "Reviewed reconciliation of PRs #25/#50/#69/#88 and paired version bump; preserves native pick, storage and creative metadata. 2026-09-28 effects review: Source-derived post-commit feedback, isolated cosmetic failures and real splash lifecycle; preserves PR93 carrier repair. See docs/EFFECTS-REPORT-FOLLOWUP-20260928.md. Reviewed reconciliation of PRs #25/#50/#69/#88 and paired version bump; preserves native pick, storage and creative metadata. Pickup parity audit 2026-09-29: native ItemStack persistence, Java storage/main-hand versus Forge inventory delivery, per-block creative handling, exact Java slot boundaries and feedback; details in docs/PICKUP-PARITY-20260929.md."
     },
     "runtime/BP/scripts/bedrock/tilted-rack.js": {
       "before": "11241d384c119ebe3d4263ee6350189c1e32d86a46c7d12f5168735b882c3303",
@@ -1421,12 +1403,6 @@
       "after": "a57c5ecb538cf263d7916bc3549f70eae3b5d8a38cc69b3c5870580a5c398958",
       "reason": "0.6.48: Java explosion resistance and native destruction cleanup; native Cookery product preparations and circular-rack base hitbox."
     },
-    "runtime/BP/blocks/molotov.json": {
-      "before": "af37bb95e6d9385921b20ae4fd6707d6a40041fcef9dcc3d040280aa3429e10b",
-      "beforeProjected": "af37bb95e6d9385921b20ae4fd6707d6a40041fcef9dcc3d040280aa3429e10b",
-      "after": "9e5c7ab344aa7a01c2e6a073602bbc13682d0e43443fd773e7df34048f74a578",
-      "reason": "0.6.48: Java explosion resistance and native destruction cleanup; native Cookery product preparations and circular-rack base hitbox."
-    },
     "runtime/BP/blocks/bottle_rum.json": {
       "before": "c5b9242bc485269a4785d79786d5e2e4c4848f93dcbcbf20852d5a8ea3d482f3",
       "beforeProjected": "c5b9242bc485269a4785d79786d5e2e4c4848f93dcbcbf20852d5a8ea3d482f3",
@@ -1480,12 +1456,6 @@
       "beforeProjected": "d22f975b5cc3f31ff0e536ac0ff9b1b51586e084b63f1da6574ffc0a80cd74c3",
       "after": "d9a1977842a19f768babee27ee1fe24603ffff09c2dd90efab4d844993fe5895",
       "reason": "0.6.48: Java explosion resistance and native destruction cleanup; native Cookery product preparations and circular-rack base hitbox."
-    },
-    "runtime/BP/scripts/bedrock/bottles.js": {
-      "before": "9a8ef42f05d3dd5697809d29df393afcaee8905fff063bebf4be2daa3f8da42a",
-      "beforeProjected": "9a8ef42f05d3dd5697809d29df393afcaee8905fff063bebf4be2daa3f8da42a",
-      "after": "b482a1e65843678cb9029b51eb3d3a828f9673f1fca5388449776fef6af5ebe7",
-      "reason": "0.6.48: Java explosion resistance and native destruction cleanup; native Cookery product preparations and circular-rack base hitbox. 0.6.56: remove unsolicited success hints; index live cabinet helper anchors before removal and prune invalid storage maintenance references. Pickup parity audit 2026-09-29: native ItemStack persistence, Java storage/main-hand versus Forge inventory delivery, per-block creative handling, exact Java slot boundaries and feedback; details in docs/PICKUP-PARITY-20260929.md."
     },
     "runtime/BP/scripts/bedrock/shaker-screen.js": {
       "before": "72cea053ca1e6b41fc3bf1330a0fc61fbf051aada9b5c70662e27a575af65a45",
@@ -1541,18 +1511,6 @@
       "after": "d900054c2afb5e04df28848c0de4a2f7459b556b90456aeb76c0dc98ba8ae578",
       "reason": "0.6.50: repair coincident drink faces, sofa corner collision, chalkboard strip ordering, native storage gaze selection and Java tag-based guide ingredients. 0.6.50: repair coincident drink faces, sofa corner collision, chalkboard strip ordering, native storage gaze selection and Java tag-based guide ingredients.; 0.6.59 surface repair and version metadata."
     },
-    "runtime/RP/models/entity/glowflower_brew_1.geo.json": {
-      "before": "8bd2e849beb4f271b3faea50ba2169c94ca904c021539b642586e8f017934986",
-      "beforeProjected": "8bd2e849beb4f271b3faea50ba2169c94ca904c021539b642586e8f017934986",
-      "after": "49086abd28050c7cb3162ed5b08c611e5d230c0a785365422dbe954c4ecfea7d",
-      "reason": "0.6.50: repair coincident drink faces, sofa corner collision, chalkboard strip ordering, native storage gaze selection and Java tag-based guide ingredients. 0.6.50: repair coincident drink faces, sofa corner collision, chalkboard strip ordering, native storage gaze selection and Java tag-based guide ingredients.; 0.6.59 surface repair and version metadata."
-    },
-    "runtime/RP/models/entity/glowflower_brew_2.geo.json": {
-      "before": "fb4625886213acd2daf6e1c44e6a3e76c78889dbd9710b933766547a7c331798",
-      "beforeProjected": "fb4625886213acd2daf6e1c44e6a3e76c78889dbd9710b933766547a7c331798",
-      "after": "15302d766da71c0a79b71909c91c8d01789be04c7f4bfb03b7e58fe1cacc7c60",
-      "reason": "0.6.50: repair coincident drink faces, sofa corner collision, chalkboard strip ordering, native storage gaze selection and Java tag-based guide ingredients. 0.6.50: repair coincident drink faces, sofa corner collision, chalkboard strip ordering, native storage gaze selection and Java tag-based guide ingredients.; 0.6.59 surface repair and version metadata."
-    },
     "runtime/RP/models/entity/emerald.geo.json": {
       "before": "41c3959b73c56dd231a282041b0da1e22c71a18b8d22ed2dbeecf6e79f5b7ea9",
       "beforeProjected": "41c3959b73c56dd231a282041b0da1e22c71a18b8d22ed2dbeecf6e79f5b7ea9",
@@ -1593,18 +1551,6 @@
       "before": "4348cfbc2b65768a85303ff3cc1f99d0042e0c5fd629fc74291aef2090cdd998",
       "beforeProjected": "4348cfbc2b65768a85303ff3cc1f99d0042e0c5fd629fc74291aef2090cdd998",
       "after": "fe2f8eade254aa8d5c4bf5e67709a6e8593f71c9b548d5720f2a70ec7e2b3829",
-      "reason": "0.6.50: repair coincident drink faces, sofa corner collision, chalkboard strip ordering, native storage gaze selection and Java tag-based guide ingredients. 0.6.50: repair coincident drink faces, sofa corner collision, chalkboard strip ordering, native storage gaze selection and Java tag-based guide ingredients.; 0.6.59 surface repair and version metadata."
-    },
-    "runtime/RP/models/entity/glowflower_brew_4.geo.json": {
-      "before": "1a475eb702e57634e54f028abce67a40addd2b309b70becc1db1eb5aa5f00eb5",
-      "beforeProjected": "1a475eb702e57634e54f028abce67a40addd2b309b70becc1db1eb5aa5f00eb5",
-      "after": "624209a0e0f361d808aa46769e03b28b90b4aa2926c5eb631aeac47801b05b6c",
-      "reason": "0.6.50: repair coincident drink faces, sofa corner collision, chalkboard strip ordering, native storage gaze selection and Java tag-based guide ingredients. 0.6.50: repair coincident drink faces, sofa corner collision, chalkboard strip ordering, native storage gaze selection and Java tag-based guide ingredients.; 0.6.59 surface repair and version metadata."
-    },
-    "runtime/RP/models/entity/glowflower_brew_3.geo.json": {
-      "before": "a3978052deefa97bd49d651d3e7c966b3704f0b9087c04ec95108bc8aef0f84f",
-      "beforeProjected": "a3978052deefa97bd49d651d3e7c966b3704f0b9087c04ec95108bc8aef0f84f",
-      "after": "9cd5610d10af28b3cb2de11ee6c79df15cfb12e74bf3d82b9726f8f7739d4823",
       "reason": "0.6.50: repair coincident drink faces, sofa corner collision, chalkboard strip ordering, native storage gaze selection and Java tag-based guide ingredients. 0.6.50: repair coincident drink faces, sofa corner collision, chalkboard strip ordering, native storage gaze selection and Java tag-based guide ingredients.; 0.6.59 surface repair and version metadata."
     },
     "runtime/RP/models/entity/sculk_special.geo.json": {
@@ -1757,12 +1703,6 @@
       "after": "15d0a039b34796fc59478527f3eaad96d0619a0765040525822ed4ae2e8e3b3f",
       "reason": "Resolve drink face depth conflicts with unchanged original UVs; shared 0.6.59 renderer repair."
     },
-    "runtime/BP/scripts/core/inventory.js": {
-      "before": "243bb0e2669f6b5e4dfc374b8fb0311830c7277831af20fa1ff92b7580ee60dc",
-      "beforeProjected": "243bb0e2669f6b5e4dfc374b8fb0311830c7277831af20fa1ff92b7580ee60dc",
-      "after": "03cb17ce275eada64aa5f0dacb63d0de75994ca8bfbdb5ee612f6e71b67d4856",
-      "reason": "0.6.60: user-requested Word-style board alignment and capacity checks; metadata-safe drink stack merging and empty-hand pickup; duplicate placement gesture coalescing. 0.6.62: selected-hand shaker pickup; barrel full-block geometry candidate pending client mining acceptance. Pickup parity audit 2026-09-29: native ItemStack persistence, Java storage/main-hand versus Forge inventory delivery, per-block creative handling, exact Java slot boundaries and feedback; details in docs/PICKUP-PARITY-20260929.md."
-    },
     "runtime/BP/scripts/bedrock/java-placement-router.js": {
       "before": "a8fea3005a5f987c4c4412d5cd0cb65e0c3f62005ad149d01b13540368b038ff",
       "beforeProjected": "a8fea3005a5f987c4c4412d5cd0cb65e0c3f62005ad149d01b13540368b038ff",
@@ -1786,12 +1726,6 @@
       "beforeProjected": "3c51a8246a4ab194d3a91005965cede0874e24eae7e58c020b25a4761f92e9d7",
       "after": "68bd63d90a795875e4fd9e2cfc7176dd62bca72715253a158613823be3911ba5",
       "reason": "2026-09-28 effects review: Source-derived post-commit feedback, isolated cosmetic failures and real splash lifecycle; preserves PR93 carrier repair. See docs/EFFECTS-REPORT-FOLLOWUP-20260928.md."
-    },
-    "runtime/BP/scripts/bedrock/display-projectiles.js": {
-      "before": "98a332ab0bb0f9028d49bf7ced3c58d02ff7620eeeaaffde07b665bfbe675084",
-      "beforeProjected": "98a332ab0bb0f9028d49bf7ced3c58d02ff7620eeeaaffde07b665bfbe675084",
-      "after": "ac563cf09e6aaae8c78ba4f411447016c06bb007f791f661990e75b4b42ab7f9",
-      "reason": "2026-09-28 effects review: Source-derived post-commit feedback, isolated cosmetic failures and real splash lifecycle; preserves PR93 carrier repair. See docs/EFFECTS-REPORT-FOLLOWUP-20260928.md. Pickup parity audit 2026-09-29: native ItemStack persistence, Java storage/main-hand versus Forge inventory delivery, per-block creative handling, exact Java slot boundaries and feedback; details in docs/PICKUP-PARITY-20260929.md."
     },
     "runtime/RP/particles/butterfly_incense.json": {
       "before": "c95a3889b3115198c9b7bf5fe871d77e1be5cdf4f09ef86f84ed584c559597f2",
@@ -1966,8 +1900,6 @@
   "newRuntimeFiles": {
     "runtime/BP/functions/kt_molotov_diagnose.mcfunction": "97ca130cd2b40792d47af9f711373273590592795817f844d8531f3f89553d31",
     "runtime/BP/functions/kt_tipsy_diagnose.mcfunction": "eb4596fffa1a5865dd3cd363085c66048d41b41ca695206427cca325dff924bf",
-    "runtime/BP/scripts/bedrock/molotov.js": "2504519777d71c862e21012681c91c4d69a4a6b8e41805958f8ab4c9b49d8301",
-    "runtime/BP/scripts/core/projectile-parity.js": "88cbe00e64c54a1a039172ae2683b6558869616fb5420302e6d93d53cc93f4d2",
     "runtime/BP/scripts/core/incense-sampling.js": "cb2571534df3cdb3f94deb8c29391b85575d092c8504f7b96909860130d73696",
     "runtime/BP/scripts/core/guide-preparation.js": "46036ece1e0a9a8c223bbc11ac379c160894245ca00e982cabf8c5fb7558e57c",
     "runtime/RP/textures/ui/tavern_entries/white_lady.png": "60d7a4912ed62b7a15491f559275840d3a2ff691e60faaf59622250533692317",
@@ -2195,9 +2127,7 @@
     "runtime/RP/textures/kaleidoscope_tavern/particle/java_feedback.png": "acf176485d2ff2e1a817e77e6a00754bb7adace30c2557730b1b46a1057178aa",
     "runtime/BP/scripts/core/hit-basis.js": "f2343c08cbc86dced67ae436c52094cea5bc35af993c605a045b206c1bc8ec1a",
     "runtime/BP/entities/stored_items.json": "f6b03ac07252288d8e058c94f811584ad5321f2af48e9e8f0bc096c61bee9f68",
-    "runtime/BP/scripts/bedrock/native-item-storage.js": "11fb28849d6f6c798d20546985add6a12dde59cb3bb30b01e8fe6d1bfa4f4b5a",
     "runtime/BP/scripts/bedrock/pickup-feedback.js": "cc5fe8b7bb4af7a60f3edf2042baea3457e1bdbd25ceab8d459a1b6a007d43ad",
-    "runtime/BP/scripts/core/native-item-storage.js": "347b0220a9be0d796a73cbd2bf258ce5b51525ede304fadc10ce48ccf4a9573b",
     "runtime/RP/entity/stored_items.entity.json": "2ff7d6c9afd4f18c060d490954be5c870b584c5b0e41225161144b7ce1309295",
     "runtime/RP/models/entity/stored_items.geo.json": "1043baec5a1fc07c61875a5d3f45d89f4b5830bddd11297ccedbae8487abcf5c",
     "runtime/RP/render_controllers/stored_items.render_controllers.json": "1c9e659216c1ffa3c7f02824aa1a18994f19f1137573f57cdc0c49161a5b1b96",
@@ -2425,6 +2355,54 @@
       "beforeProjected": "cc9147f755b6bb82c8ac916fe8f493711be276f3122068c697447a1f14bb3f22",
       "after": "d936b2958af914c9f043be539dce7020ac4c5c5a7397f2109c7b335c59531bea",
       "reason": "Reviewed reconciliation of PRs #25/#50/#69/#88 and paired version bump; preserves native pick, storage and creative metadata. 0.6.56: remove unsolicited success hints; index live cabinet helper anchors before removal and prune invalid storage maintenance references. Pickup parity audit 2026-09-29: native ItemStack persistence, Java storage/main-hand versus Forge inventory delivery, per-block creative handling, exact Java slot boundaries and feedback; details in docs/PICKUP-PARITY-20260929.md."
+    },
+    "runtime/BP/blocks/molotov.json": {
+      "before": "af37bb95e6d9385921b20ae4fd6707d6a40041fcef9dcc3d040280aa3429e10b",
+      "beforeProjected": "af37bb95e6d9385921b20ae4fd6707d6a40041fcef9dcc3d040280aa3429e10b",
+      "after": "9e5c7ab344aa7a01c2e6a073602bbc13682d0e43443fd773e7df34048f74a578",
+      "reason": "0.6.48: Java explosion resistance and native destruction cleanup; native Cookery product preparations and circular-rack base hitbox."
+    },
+    "runtime/BP/scripts/bedrock/storage-projectile.js": {
+      "before": "80a8572a1f9977b2a2e4f6c799d2037ab059d2be39998a848eef2edf846f1a08",
+      "beforeProjected": "80a8572a1f9977b2a2e4f6c799d2037ab059d2be39998a848eef2edf846f1a08",
+      "after": "3e6c53c33dd07f5d83700fa77d86cd7ee571da132f8411bb8d47ce026aa0c34f",
+      "reason": "Reviewed reconciliation of PRs #25/#50/#69/#88 and paired version bump; preserves native pick, storage and creative metadata. 2026-09-28 effects review: Source-derived post-commit feedback, isolated cosmetic failures and real splash lifecycle; preserves PR93 carrier repair. See docs/EFFECTS-REPORT-FOLLOWUP-20260928.md."
+    },
+    "runtime/BP/scripts/bedrock/tap-sources.js": {
+      "before": "ee5c098f025b65dc82c46e0e9d615962ad9d645756b6b7429ccf0cd3e36432cd",
+      "beforeProjected": "ee5c098f025b65dc82c46e0e9d615962ad9d645756b6b7429ccf0cd3e36432cd",
+      "after": "099ac0ac4169260801377ee8997a9ac18fcbb90343d10287bef66a1746f0fe06",
+      "reason": "Reviewed reconciliation of PRs #25/#50/#69/#88 and paired version bump; preserves native pick, storage and creative metadata. 2026-09-28 effects review: Source-derived post-commit feedback, isolated cosmetic failures and real splash lifecycle; preserves PR93 carrier repair. See docs/EFFECTS-REPORT-FOLLOWUP-20260928.md. Reviewed reconciliation of PRs #25/#50/#69/#88 and paired version bump; preserves native pick, storage and creative metadata. Pickup parity audit 2026-09-29: native ItemStack persistence, Java storage/main-hand versus Forge inventory delivery, per-block creative handling, exact Java slot boundaries and feedback; details in docs/PICKUP-PARITY-20260929.md."
+    },
+    "runtime/BP/scripts/bedrock/bottles.js": {
+      "before": "9a8ef42f05d3dd5697809d29df393afcaee8905fff063bebf4be2daa3f8da42a",
+      "beforeProjected": "9a8ef42f05d3dd5697809d29df393afcaee8905fff063bebf4be2daa3f8da42a",
+      "after": "b482a1e65843678cb9029b51eb3d3a828f9673f1fca5388449776fef6af5ebe7",
+      "reason": "0.6.48: Java explosion resistance and native destruction cleanup; native Cookery product preparations and circular-rack base hitbox. 0.6.56: remove unsolicited success hints; index live cabinet helper anchors before removal and prune invalid storage maintenance references. Pickup parity audit 2026-09-29: native ItemStack persistence, Java storage/main-hand versus Forge inventory delivery, per-block creative handling, exact Java slot boundaries and feedback; details in docs/PICKUP-PARITY-20260929.md."
+    },
+    "runtime/BP/scripts/core/inventory.js": {
+      "before": "243bb0e2669f6b5e4dfc374b8fb0311830c7277831af20fa1ff92b7580ee60dc",
+      "beforeProjected": "243bb0e2669f6b5e4dfc374b8fb0311830c7277831af20fa1ff92b7580ee60dc",
+      "after": "03cb17ce275eada64aa5f0dacb63d0de75994ca8bfbdb5ee612f6e71b67d4856",
+      "reason": "0.6.60: user-requested Word-style board alignment and capacity checks; metadata-safe drink stack merging and empty-hand pickup; duplicate placement gesture coalescing. 0.6.62: selected-hand shaker pickup; barrel full-block geometry candidate pending client mining acceptance. Pickup parity audit 2026-09-29: native ItemStack persistence, Java storage/main-hand versus Forge inventory delivery, per-block creative handling, exact Java slot boundaries and feedback; details in docs/PICKUP-PARITY-20260929.md."
+    },
+    "runtime/BP/scripts/bedrock/display-projectiles.js": {
+      "before": "98a332ab0bb0f9028d49bf7ced3c58d02ff7620eeeaaffde07b665bfbe675084",
+      "beforeProjected": "98a332ab0bb0f9028d49bf7ced3c58d02ff7620eeeaaffde07b665bfbe675084",
+      "after": "ac563cf09e6aaae8c78ba4f411447016c06bb007f791f661990e75b4b42ab7f9",
+      "reason": "2026-09-28 effects review: Source-derived post-commit feedback, isolated cosmetic failures and real splash lifecycle; preserves PR93 carrier repair. See docs/EFFECTS-REPORT-FOLLOWUP-20260928.md. Pickup parity audit 2026-09-29: native ItemStack persistence, Java storage/main-hand versus Forge inventory delivery, per-block creative handling, exact Java slot boundaries and feedback; details in docs/PICKUP-PARITY-20260929.md."
+    },
+    "runtime/BP/manifest.json": {
+      "before": "a4a218098facd9202af67d19ceb7431d028224a49f907f1b035d8c2344b84d63",
+      "beforeProjected": "a4a218098facd9202af67d19ceb7431d028224a49f907f1b035d8c2344b84d63",
+      "after": "199e51b09fbae8a226effe4cdd21fd77b5d5c074dd05e402d8f902915a1a0d3a",
+      "reason": "Reviewed reconciliation of PRs #25/#50/#69/#88 and paired version bump; preserves native pick, storage and creative metadata.; 0.6.46: preserve existing behavior while repairing incense, source-owned guide transport or paired manifest version. 0.6.48: reviewed native product preparations, destruction cleanup, Java resistance/selection and native potion delivery IDs as applicable. 0.6.49: remove fixed custom animated-item hand rigs; use native item sprites/use animation and native barrel actionbar without duplicate expiring label. 0.6.50: repair coincident drink faces, sofa corner collision, chalkboard strip ordering, native storage gaze selection and Java tag-based guide ingredients. 0.6.51: consume transaction-owned script removal callbacks and prohibit display-block fallback drops. 0.6.52: use the actual InputInfo.lastInputModeUsed property so shared native storage ray selection executes; preserve off-crosshair touch input. 0.6.53: remove the unbound plain sandwich-board hand override; use native item icon rendering; record real bar placement direction for unresolved client report. 0.6.54: correct barrel/tap/aging instructions; derive legacy pages from the canonical Cookery chapter; expose feedback failures and truthful guide delivery state. 0.6.55: enforce seven guide roots with native child categories, split grape entries, clarify Java board alignment and use a shared alignment calculation. 0.6.56: remove unsolicited success hints; index live cabinet helper anchors before removal and prune invalid storage maintenance references.; 0.6.57 integrates protocol-scoped HUD filtering and updates release metadata.; 0.6.58 consolidates tested shaker fixes and guide singleton navigation instructions.; 0.6.59 surface repair and version metadata. 0.6.60: user-requested Word-style board alignment and capacity checks; metadata-safe drink stack merging and empty-hand pickup; duplicate placement gesture coalescing. 0.6.61: match cup visibility to Java world-space hit quadrants at all four holder rotations; localize native seat exit hints; align diagnostic and guide versions. 0.6.62: selected-hand shaker pickup; barrel full-block geometry candidate pending client mining acceptance. 0.6.63: add native water/lava liquid display assets and bindings; tested entity capacity properties, pending client visual acceptance. 0.6.64: release version bump (manifests, startup diagnostics and guide payload version strings). 0.6.65: release version bump (manifests, startup diagnostics and guide payload version strings). 0.6.66: release version bump (manifests, startup diagnostics and guide payload version strings). 0.6.67: paired version bump and public Cookery 1.0.8 dependency; preserves current gameplay/runtime fixes."
     }
+  },
+  "historicalNewRuntimeFiles": {
+    "runtime/BP/scripts/bedrock/native-item-storage.js": "11fb28849d6f6c798d20546985add6a12dde59cb3bb30b01e8fe6d1bfa4f4b5a",
+    "runtime/BP/scripts/core/native-item-storage.js": "347b0220a9be0d796a73cbd2bf258ce5b51525ede304fadc10ce48ccf4a9573b",
+    "runtime/BP/scripts/bedrock/molotov.js": "2504519777d71c862e21012681c91c4d69a4a6b8e41805958f8ab4c9b49d8301",
+    "runtime/BP/scripts/core/projectile-parity.js": "88cbe00e64c54a1a039172ae2683b6558869616fb5420302e6d93d53cc93f4d2"
   }
 }

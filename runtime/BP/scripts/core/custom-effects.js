@@ -1,23 +1,13 @@
+import {TAVERN_EFFECT_DEFINITIONS} from './custom-effect-definitions.js';
 import {externalEffectDefinition} from './extension-content.js';
 import {check,integer,clone} from './util.js';
 import {javaRandomFloat} from './java-random.js';
 export const CUSTOM_STATUS_KEY='kaleidoscope_tavern:custom_effects';
-export const CUSTOM_IMPLEMENTED=Object.freeze({
- 'kaleidoscope_tavern:bloody_mary':'kill_heal',
- 'kaleidoscope_tavern:xp_drain':'orb_attraction_adapter',
- 'kaleidoscope_tavern:zenith':'safe_surface_teleport_adapter',
- 'kaleidoscope_tavern:shriek_attack':'sonic_ray_pve_adapter',
- 'kaleidoscope_tavern:upside_down':'grumm_radius_name_adapter',
- 'kaleidoscope_tavern:vision':'glowing_radius_adapter',
- 'kaleidoscope_tavern:tomb_raider':'disarm_drop_adapter',
- 'kaleidoscope_tavern:ardent_heat':'sprint_break_adapter',
- 'kaleidoscope_tavern:high_heels':'one_block_auto_step_adapter',
- 'kaleidoscope_tavern:grass_stealth':'grass_exhaustion_and_invisibility_adapter',
- 'kaleidoscope_tavern:long_reach':'routed_item_use_9m_adapter',
- 'kaleidoscope_tavern:slightly_tipsy':'opt_in_yaw_adapter_unverified'
-});
-export const CUSTOM_INSTANT=Object.freeze(['kaleidoscope_tavern:zenith','kaleidoscope_tavern:shriek_attack','kaleidoscope_tavern:upside_down']);
-const instant=id=>CUSTOM_INSTANT.includes(id)||externalEffectDefinition(id)?.mode==='instant';
+export const CUSTOM_IMPLEMENTED=Object.freeze(Object.fromEntries(TAVERN_EFFECT_DEFINITIONS.map(row=>[row.id,row.implementation])));
+export const CUSTOM_INSTANT=Object.freeze(TAVERN_EFFECT_DEFINITIONS.filter(row=>row.mode==='instant').map(row=>row.id));
+// Java instantaneous classes can also be stored by LivingEntity.addEffect.
+// Only external instant-only adapters lack a host-owned status tick callback.
+const instant=id=>!CUSTOM_IMPLEMENTED[id]&&externalEffectDefinition(id)?.mode==='instant';
 const supported=id=>!!CUSTOM_IMPLEMENTED[id]||externalEffectDefinition(id)?.mode==='timed';
 // An absent addon must not make a saved world unreadable. Unknown external rows
 // remain structurally validated and inert; only registration allows application.
@@ -33,6 +23,10 @@ export function addStatus(state,id,ticks,amplifier){check(supported(id)&&!instan
 export function removeStatus(state,id){const s=clone(state);s.entries=s.entries.filter(e=>e.id!==id);return s;}
 export function advanceStatus(s,ticks){integer(ticks,0,2147483647);return {...s,schema:1,entries:s.entries.map(e=>({...e,ticks:e.ticks-ticks})).filter(e=>e.ticks>0)};}
 export function activeStatus(s,id){return s.entries.filter(e=>e.id===id).sort((a,b)=>b.amplifier-a.amplifier||b.ticks-a.ticks)[0];}
+/** Java checks remaining=1 before decrementing to zero. Only the active row
+ * receives that callback; hidden weaker rows keep counting down without firing.
+ */
+export function endingStatusActions(before,after){return CUSTOM_INSTANT.map(id=>activeStatus(before,id)).filter(row=>row&&!after.entries.some(next=>next.id===row.id&&next.amplifier===row.amplifier));}
 
 export function inflatedAabbIntersects(source,target,padding=0){check(Number.isFinite(padding)&&padding>=0,'INVALID_AABB');for(const box of[source,target])for(const axis of['x','y','z'])check(Number.isFinite(box?.center?.[axis])&&Number.isFinite(box?.extent?.[axis])&&box.extent[axis]>=0,'INVALID_AABB');for(const axis of['x','y','z']){const lo=source.center[axis]-source.extent[axis]-padding,hi=source.center[axis]+source.extent[axis]+padding,tlo=target.center[axis]-target.extent[axis],thi=target.center[axis]+target.extent[axis];if(thi<=lo||tlo>=hi)return false;}return true;}
 export function countdownPulseCrossed(beforeTicks,afterTicks,interval){integer(beforeTicks,1,20000000);integer(afterTicks,0,20000000);integer(interval,1,20000000);check(afterTicks<=beforeTicks,'INVALID_COUNTDOWN');return Math.floor(beforeTicks/interval)>Math.floor(afterTicks/interval);}

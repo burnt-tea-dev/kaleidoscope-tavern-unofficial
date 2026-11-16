@@ -1,8 +1,9 @@
 /** Optional pack content. No addon is required until it registers a descriptor. */
+import {TAVERN_EFFECT_DEFINITIONS} from './custom-effect-definitions.js';
 import {BOTTLES} from '../data/bottles.js';
 import {DRINK_EFFECTS} from '../data/drink-effects.js';
 import {COCKTAILS} from '../data/mixology.js';
-const drinks=new Map(),blocks=new Map(),sources=new Map(),foundations=new Map(),effectDefinitions=new Map(),itemParticles=new Map(),furnitureDefinitions=new Map();
+const drinks=new Map(),blocks=new Map(),sources=new Map(),foundations=new Map(),effectDefinitions=new Map(TAVERN_EFFECT_DEFINITIONS.map(row=>[row.id,row])),itemParticles=new Map(),furnitureDefinitions=new Map();
 export const externalDrink=item=>drinks.get(item);
 export const bottleBlock=(base,quality)=>BOTTLES[base]?.qualityBlocks?.[quality-1]??BOTTLES[base]?.block??`kaleidoscope_tavern:bottle_${base}`;
 export const bottleBase=block=>blocks.get(block)??(block?.startsWith('kaleidoscope_tavern:bottle_')?block.slice('kaleidoscope_tavern:bottle_'.length):undefined);
@@ -35,6 +36,11 @@ export function installContent(source,content=[],foundation={}){
 export function externalEffectSource(effect){const source=effect?.split(':')[0];return sources.has(source)?source:undefined;}
 
 export const externalEffectDefinition=id=>effectDefinitions.get(id);
+export const supportsStatusApplication=row=>row?.source==='kaleidoscope_tavern'||row?.mode==='timed';
+/** Read-only status-grant eligibility from this registry, not a second owner.
+ * Keep direct-only adapters visible, but unavailable to add_status consumers.
+ */
+export const registeredEffectDefinitions=()=>[...effectDefinitions.values()].map(row=>({id:row.id,source:row.source,category:row.category??null,mode:row.mode,available:row.available===true&&supportsStatusApplication(row)})).sort((a,b)=>a.id.localeCompare(b.id));
 export const externalFurnitureDefinition=id=>furnitureDefinitions.get(id);
 export const externalEffectMigrations=()=>[...foundations.entries()].filter(([,x])=>x.legacyEffectKey).map(([source,x])=>({source,key:x.legacyEffectKey,effects:x.effects}));
 

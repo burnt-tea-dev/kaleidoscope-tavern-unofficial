@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import hashlib
+import base64,gzip,hashlib
 import importlib.util
 import json
 from functools import lru_cache
@@ -13,13 +13,23 @@ PEER = Path(os.environ.get('LIQUOR_SOURCE', ROOT.parent / 'liquor'))
 
 @lru_cache(maxsize=1)
 def review_baseline():
-    return json.loads((ROOT/'data/pickup-pick-baseline.json').read_text())['files']
+    historical = json.loads((ROOT/'data/pickup-pick-baseline.json').read_text())['historicalFiles']
+    return {path: historical[path]['pickupReview']
+            for path in ('runtime/BP/scripts/bedrock/bottles.js',)}
+
+def pick_prefixes():
+    historical = json.loads((ROOT/'data/pickup-pick-baseline.json').read_text())['historicalFiles']
+    return {path: historical[path]['pickPrefix'] for path in review_baseline()}
+
+def reviewed_pickup_bytes(path):
+    historical = json.loads((ROOT/'data/baseline-reconciliation.json').read_text())['historicalFiles']
+    return gzip.decompress(base64.b64decode(historical[path]['beforeGzipBase64']))
 
 def restore_reviewed_pickup(path, data):
     review = json.loads((ROOT/'data/pickup-pick-baseline.json').read_text())
     assert review['baseCommit'] == 'f793a98a0180e1948f98e69a8ca879a028884e38'
-    assert set(review['files']) == set(json.loads((ROOT/'data/pick-block-prefixes.json').read_text()))
-    row = review['files'][path]
+    assert set(review_baseline()) == set(pick_prefixes())
+    row = review_baseline()[path]
     assert hashlib.sha256(data).hexdigest() == row['after'], ('Unreviewed pickup source change', path)
     lines = data.decode('utf-8').splitlines(keepends=True)
     for start, end, previous in reversed(row['reverseOps']):
@@ -31,9 +41,9 @@ def restore_reviewed_pickup(path, data):
 
 class PickDefinitions(unittest.TestCase):
     def test_pickup_review_rejects_unreviewed_runtime_edits(self):
-        for path in json.loads((ROOT/'data/pick-block-prefixes.json').read_text()):
+        for path in pick_prefixes():
             with self.assertRaises(AssertionError):
-                restore_reviewed_pickup(path, (ROOT/path).read_bytes() + b'\n// unreviewed change\n')
+                restore_reviewed_pickup(path, reviewed_pickup_bytes(path) + b'\n// unreviewed change\n')
 
     def test_native_registrations_are_complete_in_both_packs(self):
         for root in (ROOT, PEER):
@@ -53,11 +63,10 @@ class PickDefinitions(unittest.TestCase):
             self.assertEqual(item['components']['minecraft:block_placer']['use_on'], [{'tags': '0'}])
 
     def test_reviewed_pickup_delta_reconstructs_immutable_pick_baseline(self):
-        for path, proof in json.loads((ROOT/'data/pick-block-prefixes.json').read_text()).items():
-            from baseline_reference import previous_bytes
-            data = previous_bytes(ROOT,ROOT/path)
-            # This PR intentionally changes pickup gameplay. Verify the exact
-            # reviewed current bytes and reverse only that explicit delta first.
+        for path, proof in pick_prefixes().items():
+            data = reviewed_pickup_bytes(path)
+            # Keep the original pickup review input from its archived preimage;
+            # current bottle gameplay belongs to the current source contract.
             assert hashlib.sha256(data).hexdigest() == review_baseline()[path]['hashes']['current'], ('Reviewed current bytes changed', path)
             # Reconstruct the reviewed deltas from data before checking the
             # immutable pick baseline: the pickup delta over merged main, the

@@ -8,7 +8,7 @@ import copy
 import json
 from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
-SPRITE_REPLACEMENTS = frozenset(['bell_pendant_lamp','blue_pendant_lamp','yellow_pendant_lamp','holder','tap'] + [x+'_painting' for x in ['ysbb','tartaric_acid','cr019','unknown','master_marisa','son_of_man','david','girl_with_pearl_earring','starry_night','van_gogh_self_portrait','father','great_wave','mona_lisa','mondrian']])
+SPRITE_REPLACEMENTS = frozenset(['bell_pendant_lamp','blue_pendant_lamp','yellow_pendant_lamp','holder','tap'] + [x+'_painting' for x in ['ysbb','cr019','unknown','master_marisa','son_of_man','david','girl_with_pearl_earring','starry_night','van_gogh_self_portrait','father','great_wave','mona_lisa','mondrian']])
 CONTEXTS = ('gui','ground','fixed','head','firstperson_righthand','firstperson_lefthand','thirdperson_righthand','thirdperson_lefthand')
 
 def read(p): return json.loads(p.read_text())

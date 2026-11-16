@@ -14,6 +14,7 @@ from cultivation_source_contract import check as check_cultivation, runtime_sour
 from check_incense_surfaces import check as check_incense, runtime_sources as incense_runtime_sources
 from chalkboard_geometry import check as check_chalkboard, runtime_sources as chalkboard_runtime_sources
 from machine_ingredient_geometry import check as check_pressing, runtime_sources as pressing_runtime_sources
+from glowflower_source_contract import check as check_glowflower, runtime_sources as glowflower_runtime_sources
 from build_tavern_forms import CURRENT_FORM_SOURCES, check_or_write as check_current_forms
 
 # Only exact reviewed non-script assets and opt-in command entry points.
@@ -280,6 +281,9 @@ def previous_bytes(root,path,*,current_metadata=None):
   return data
  if root==Path(__file__).resolve().parents[1] and name in pressing_runtime_sources():
   check_pressing(root)
+  return data
+ if root==Path(__file__).resolve().parents[1] and name in glowflower_runtime_sources():
+  check_glowflower(root)
   return data
  if root==Path(__file__).resolve().parents[1] and name in chalkboard_runtime_sources():
   check_chalkboard(root)
