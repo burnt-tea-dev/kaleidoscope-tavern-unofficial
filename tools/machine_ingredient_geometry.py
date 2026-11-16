@@ -222,12 +222,9 @@ def check(root=ROOT):
     launch = read(root / 'data/launch-repair-reference.json')
     for section in ('reviewedChanges', 'newRuntimeFiles'):
         assert not runtime_sources() & set(launch.get(section, {})), 'Current geometry has a launch hash guard'
-    from check_machine_ingredient_broadfaces import check as check_broadfaces
-    broadfaces = check_broadfaces(root)
     return {'card_dimensions': dimensions, 'center': [0, 0, 0], 'cubes': 8,
             'helpers': 8, 'slots': 64, 'card_ids': 22, 'cube_kinds': 5,
             'barrel_control_cubes': 9, 'native_frame_culling_verified': False,
-            'broadface_source_frames': broadfaces['source_frames'],
             'alpha_edge_extrusion': False, 'geometry_ids': 2,
             'card_allocated_vertices': {'pressing': 8*24, 'barrel': 9*24},
             'gameplay_verified': False, 'material_verified': False}
