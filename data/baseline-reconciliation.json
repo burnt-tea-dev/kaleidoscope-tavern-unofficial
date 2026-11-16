@@ -3088,42 +3088,6 @@
       "reviewedSourceCommit": "f08714307ea331be52a9240d8aa6473752325d1c",
       "reviewDocument": "docs/RELEASE-NOTES-0.6.131.md"
     },
-    "runtime/RP/models/entity/item_sprite_depth_charge.geo.json": {
-      "before": null,
-      "after": "395be8cf99c0e034a7921f61d52f96bb21505cf1f93c28210e82eb136b42f05d",
-      "reason": "T131 appended reviewed runtime addition. Exact thin item mesh and display transforms derived from the SHA-1-verified Mojang 1.20.1 ItemModelGenerator and pinned Forge source animation; independent source-class geometry/UV output is recorded in art/interfaces/animated-item-java-reference.json.",
-      "release": "0.6.131",
-      "reviewedPredecessorCommit": "c4453491e2f52d4b4515dda0385db204aa892c97",
-      "reviewedSourceCommit": "f08714307ea331be52a9240d8aa6473752325d1c",
-      "reviewDocument": "docs/RELEASE-NOTES-0.6.131.md"
-    },
-    "runtime/RP/models/entity/item_sprite_mystery_cocktail.geo.json": {
-      "before": null,
-      "after": "8c46f1935160e57e37c2a7afebf2fb19c43b7838a39a04996a524780b8d09426",
-      "reason": "T131 appended reviewed runtime addition. Exact thin item mesh and display transforms derived from the SHA-1-verified Mojang 1.20.1 ItemModelGenerator and pinned Forge source animation; independent source-class geometry/UV output is recorded in art/interfaces/animated-item-java-reference.json.",
-      "release": "0.6.131",
-      "reviewedPredecessorCommit": "c4453491e2f52d4b4515dda0385db204aa892c97",
-      "reviewedSourceCommit": "f08714307ea331be52a9240d8aa6473752325d1c",
-      "reviewDocument": "docs/RELEASE-NOTES-0.6.131.md"
-    },
-    "runtime/RP/models/entity/item_sprite_nether_special.geo.json": {
-      "before": null,
-      "after": "ff21fc6d6f3dc0915a11f2acc1c45a1d5bffc0e2c192904e219b00fb4f81843a",
-      "reason": "T131 appended reviewed runtime addition. Exact thin item mesh and display transforms derived from the SHA-1-verified Mojang 1.20.1 ItemModelGenerator and pinned Forge source animation; independent source-class geometry/UV output is recorded in art/interfaces/animated-item-java-reference.json.",
-      "release": "0.6.131",
-      "reviewedPredecessorCommit": "c4453491e2f52d4b4515dda0385db204aa892c97",
-      "reviewedSourceCommit": "f08714307ea331be52a9240d8aa6473752325d1c",
-      "reviewDocument": "docs/RELEASE-NOTES-0.6.131.md"
-    },
-    "runtime/RP/models/entity/item_sprite_ice_grape.geo.json": {
-      "before": null,
-      "after": "81099cb91d7a139dc632c71669af01c9174f047c84c0058f96e17cfeca4bf914",
-      "reason": "T131 appended reviewed runtime addition. Exact thin item mesh and display transforms derived from the SHA-1-verified Mojang 1.20.1 ItemModelGenerator and pinned Forge source animation; independent source-class geometry/UV output is recorded in art/interfaces/animated-item-java-reference.json.",
-      "release": "0.6.131",
-      "reviewedPredecessorCommit": "c4453491e2f52d4b4515dda0385db204aa892c97",
-      "reviewedSourceCommit": "f08714307ea331be52a9240d8aa6473752325d1c",
-      "reviewDocument": "docs/RELEASE-NOTES-0.6.131.md"
-    },
     "runtime/RP/textures/ui/kt_guide_animated/depth_charge.png": {
       "before": null,
       "after": "b9c3eae29591c632e1af4edf01bde2c12711648c24e2bd1af44013b886a34220",
@@ -5853,35 +5817,6 @@
       }
     },
     {
-      "release": "0.6.160",
-      "files": {
-        "runtime/RP/models/entity/item_sprite_depth_charge.geo.json": {
-          "before": "395be8cf99c0e034a7921f61d52f96bb21505cf1f93c28210e82eb136b42f05d",
-          "after": "83c8180531f3df67e7172f86eb7ca5576fad12f7a2d0d954d47bf4a743aedfe7",
-          "reason": "Align Bedrock side X coordinates, outward east/west normals and up-face UV direction with the unchanged animated front/back texture; preserve Java thickness, spans, textures, timing and display transforms.",
-          "beforeGzipBase64": "H4sIAAAAAAACA+1c3XKqMBC+5ykcrqtDQFD6Kh2HQQmSOUqcJNj2dPruB6h6NCZWacBI6oWaHzbh+3aTzYbwYQ0GdorJOmbRFhKKcG4/D2wwcsHIsZ+q0jXK4YLEKXteQryGjLyXNV7KksHgo/4u6ySQLgjasK/L99llAUpgzlCKIKnE7gWM/rCIFGXBGo4Qg+uIbkj5GyVww7JokcVkCevGd1IYfGMFgdErSlhWCgKBoDCDaJkxvnSLKJqvYDTHRZ7QgwRXXuUg50IdnKYUsgMOXx/n6Tgx8k+Sh/+z3b/PfbE9xzmkJ7I+jq6083gNK/AIxsw+lmlv0BbzneC6MRhMT5POUWp2Im1RzLlu8F2pq2GClig/q1d9hlxbgt7U1UpsuMwZX8um6C8UNnLM7sW8b5sotie6+h9wTGodOS/aX/QiKBH3godc2pud8Eh63zVysiZAIGrjLO/z/Gqb4qLR3Tpt3+xP79W6lOaQuEnLPYGyearVPLzKlJorebFpouFATMlYnYaHTxLNvy/pogFGNeUifl2VnMOYsgasu2JKPHWWLjF0976ce9fxoZ50lZy/wkacj+/F+X0pd/pAeUMzn5pJuXA6f7ihvaGZA8fQsX0oGOCActpF8Cr14hL8mjehXTKl+wpXKo6ejpyQeOVD/ERL77191id6ku52YeyaenJ+20s2Pad10AfKG3pyEzMp72ZO19TM2w/N6Em630HI2blOrzq3c6/t+VxGuQljO9DRhZOM7IFCv11PD05g5sAxgnKJkU96T/lQ4LWHj7ZQa7pAd1pnXdOlmsCHmxriwrVu6Xp6cF4PGG/owPlmMu6Ya+MTMxkX+RimGHloKOVBB5QDLV12INk9DxX67Lo67QLWu9hAD3QIwUkcuGnblh7oF3cNHm1trngnFTj9X58LaPc6MHVPgzm9A9rBDU9m9Ix08Ei752Dcf0vvYlL3NB3gx+3T7mlKexdPxoWa0i5bVPm9f9RdFHd3DI+7g6D3gfdOaNc0Khe2buwP8/CEKYFY18yo3NjcOOzY0Disay7l7W+jt8m5Jbp2n3vorl0foE8Q3azi94iROKfVeX56eg5/WSAOP5tgFu8O7F88QO5ce4C8bnulViZdxKtz9DnU+aRUWopYxHCUkq8j9Wm8otAS2Ji9JNU5f50Qc3+GGPc6AnGGWOGOYEnRG2yMCpg+tiYJEclgrBkg/C7EpGNEUkQo20BCcR6R6k0aWdzckoYhbwZ+I4zAiIfFG3EWVVW52agC/u0awpybMFvB9Bey7yFjGSKJKjVrww69aycl6YB9PkALcm4C6qe61TucrOPf6ntmfVr/AF39zNYUSQAA"
-        },
-        "runtime/RP/models/entity/item_sprite_ice_grape.geo.json": {
-          "before": "81099cb91d7a139dc632c71669af01c9174f047c84c0058f96e17cfeca4bf914",
-          "after": "234515d640d1d71c3d5637dfdac830f29aa4c2c2db25fce6193c8b8e6fb86128",
-          "reason": "Align Bedrock side X coordinates, outward east/west normals and up-face UV direction with the unchanged animated front/back texture; preserve Java thickness, spans, textures, timing and display transforms.",
-          "beforeGzipBase64": "H4sIAAAAAAACA+1c3XKqMBC+9ykcrq3Dr2hfpeMwqEEzR8FJgm1Pp+9+wFaPxsQCBlhCvVAhIYn75dvsbtZ8DIZDI0rILmTBARGKk9h4HhrW2LbGpjHKS3c4RksSRux5jZIdYuQ9q/GSlQyHH8f3rM4K0SXBe/b1+Ol2VoBXKGY4wojkzZ4aGP9hAUmzgh0aY4Z2Ad2T7DPASxSsSbhHx56/m2DojaUEBa94xTZZK9ZEULhBeL1hfOkBU7zYomCRpPGKnluw5VXO7dypk0QRRewshK+XObq8GHtXl+fv8+9vn6diY5HEiF619XHxpBGHO5RLjiQJMy7bNPb4kPCD4IYxHE6vL82Lq/lVa8t0wQ2DH8qxWkLwGsc39fLXE9eXYDTHaplsuJtzvpZB8V8k7OQS3bv3fuwiPVxN1P8CT8hxjtwWnR56EZSIR8GLXDqa78YD6e8+Sk7WhTUR9XFz7/P2aYMmaaVfa9b9Yx/9rYN715wkSs1yXzDZXOXT3CnEpeqzPN1XmeKeGBNH4RR3RpKCdmG3RoUwegx1r2bQV8lrXAF2v3bUPZig202ALkJYJegopKwC6BL1a6tT8BL93rJ61wLzV1QJ81lPMRfMda8ByGcAaC4yXRrBfAbPjOsc5hVp3lfMBaOym9DsEJbz2m04mWoHqNvVr+eWDdJdk/DcVeiu2TAt9yenkIWlnus2BP1utkV2u2XUvWKIaOmwySInju7Wu98E6LUH5CrGZmQhOVf/kFwzbAcaiZVg4ukPu1vMwtZSx9du0MFU8XZLjpsJwJjz2oLcBOi4Kee5yEUCsay79et3F+iyLgB+2gDbXQiem9MS2114u6tW13ZXKxlykrjcRPu9Va9QbFw5yx0AVlxbJHdaVuxuITiUQz6FoNitutdzSQdTgFac2e/wu69/+L0J5W5BxNwpwcKKkMNEfNLSfguE9dxuK23GgRd5n3bOQ1eaCTvT3z/3dQjGVd1j+w3G3dP4mm6xuWVA0X+Pzemam17VZ7Nrxx2oo95EbqTVrf10cR6bVia8iOtuX2B3ymQ06e65ub3w1e0yXpX2TFe+qvsdY7pC2P3uJMWqz5cygeIuc61UZsqZQIFv658PAKz4ae10B5oW20QG/KxjXFeYPjODSfW2/vcAgOlu7QoeJtO9lhJiIcRo2tp6ceBBbvbEVXdqz5gC6rVNe5z4bvYz8X2iA+RVw+/9hNzvMeQ9ZbnwzJkGILch7Kibbfnndh+CcSBzZxrwzms14QaiZ093zwM2juearjDdb8P3gJEwpvkxq/T6eNR1ijkRGiRh4fc5qneP9jSLHu157Hurtk26DLe38ufEzl9KW4swC1gSROTrsNMo3FI0EJDMWJP8BFZIErMfkxh3UKz4hnjCXYglwm+oslSsabdnklAiGxQCEwi/8eQ3LJEIE8r2iNAkDkh+xvEmrM6kpxlPA6+SjKwxLxZnzDEqr1KaVBP+3GPhnVIy26LoV2Q/i4xtMFmpmmZ18NApuihJFfatghbcKSWoR+eWdnIaXH7m7/PB5+Af6Z5OOateAAA="
-        },
-        "runtime/RP/models/entity/item_sprite_mystery_cocktail.geo.json": {
-          "before": "8c46f1935160e57e37c2a7afebf2fb19c43b7838a39a04996a524780b8d09426",
-          "after": "3d1946bc655067a7419c0eb706829885bd83e1105021e4810495f038f903ae0e",
-          "reason": "Align Bedrock side X coordinates, outward east/west normals and up-face UV direction with the unchanged animated front/back texture; preserve Java thickness, spans, textures, timing and display transforms.",
-          "beforeGzipBase64": "H4sIAAAAAAACA+1c23KqMBR99yscnqtDuNtf6TgMatBMlThJsPV0+u8HqHo0Bo9GIAHqg5oLSVhr72Tv3L4Gw6ERY7KJWLiDhCKcGK9DA4wtMDaNlzx1gxI4J1HMXpcQbyAj+yzHW5YyHH4V31meBaRzgrbs5/FjdJaAFjBhKEaQ5MUeCxi/s5CkWcIGjhGDm5BuSfYbbvaUQbIP53j+ziK0LhpwKInBT5YSGH6gBVtlhQFPkLiCaLlifOoOUTRbw3CG02RBTyVY5VlO5dzIg+OYQnbC4udjvpwHxu5F8PR/evj3fUw2ZjiB9KKsr7MnjSTawBxAgjEzzss0tmiH+UZwzRgOg8ugeRaaXpQ2T2dcM/imFNkwQUuUXOXLPyOuLkFrimwZNlzklM9lUPQHCis5Z/dm3H+rSHcX8voPcEwKGblOOj70JkgRt4KHvLQ1h8LD0vcukCurAniiOq7ivq+fNihOpd7WrPtln33Xwa0wh8RDUu7eJ4DPifl9qiQv5OlWRsLtEkqqk/DgpUTyNSTdbRvpC/yR/NL+CO1AAD+omnYBx26VtMOIMgnaJ7X38OIKXMWcWwLsrQY4d6rk/AO2inNHMedOFziX1HPRi/aCdEEnO2mAc18DPVfGua+hHWdX7qOCNlnvToX+KWiR+W61jvaK7fceEO8pGteBBuN6SRdv193FK6ZcIOxB2zw2yVHdUcS4Yo/NUsN4oIGOe4rMuEAt42YHGJfUcb+fjDt39bh6+2qSOu7Ubb1p6qrZTdhunpae2iPjrJzB7rXIUat8wh2YbfLPvQrdNFNP2hXNxFka9O523ape0pdYPZh8rV3PK56Q8buv6aMuuOeyCy2gn/75SJHxDoAOKy1AkcMG+qDprTLfJ90335vQdF13SVmP6GG3tknZd+1s0FvVZWkv636tzmu73cB2b7Pu3d6StpyralT39FP1Rki3dbDlTFVLqrZa1sFdcyeaG/CSmu6r4lzDvc+NkK7DPthAVffu6Ne993vNBfRg0aWJMb1t5rvXS2cdVO62+Voqe+1740Z+ixZY7Z4fZLM7P0NjdeEcm6Qt5/b0HFsnjqxWupPC6ryemz0+xxb09Bib1eezi2abSR+Inj3GnpprFNfkLBDdrqN9yEiU0PzWHnp5284yRRx+BsEsOlzLc/OKGPPeK2KKutfVlknn0foafQ51PlhaWoxYyHAYk59Lc+JoTeFAoGTGkuQ3+eiEmPUcYtyFQ+IIscCdwRKjTyiNCgjaLUlCRFYw0gwQ3rrxG0YkRoSyLSQUJyHJ78paRfKaNJrwauBKYQTGPCz2mNOoPMvDSuXx92cJYx7CbA3jX8j+DxlbIbKoSszq0EP73kGptMO+7qAFMQ8B9axsdQ6nwflv/j0dfA/+AhcWtgT6UAAA"
-        },
-        "runtime/RP/models/entity/item_sprite_nether_special.geo.json": {
-          "before": "ff21fc6d6f3dc0915a11f2acc1c45a1d5bffc0e2c192904e219b00fb4f81843a",
-          "after": "cbec5a83f4a37629572b8fcd13497bcf40dc887b852cdc3620e87a67ebf3c5a5",
-          "reason": "Align Bedrock side X coordinates, outward east/west normals and up-face UV direction with the unchanged animated front/back texture; preserve Java thickness, spans, textures, timing and display transforms.",
-          "beforeGzipBase64": "H4sIAAAAAAACA+1b23KqMBR95ysYnitjuKn9lY7DoATJHCROEmx7Ov33A1Q9GIMVCiFifVBzIQlr7bWzE8iHputGhMk2YP4eEopwajzrBjAtYE6Np6J0i1K4JkHEnjcQbyEj73mNl7xE1z/K77xOCOmaoB37uvyYnRegEKYMRQiSotljA+Yf5pMsL9hCEzG49emO5L9+ClkMSZ6CaxQkZfeHdhh8YxmB/isKWZw3BTxBYQzRJmZ86R5RtEqgv8JZGtJTC1Z9lVM7V+rgKKKQnZD4+kyfqgnTPUue/i8P/z6PxcYKp5CetfVRudJIgy0s4CMYM6PaprFDe8wPghuGrs/Pk9NKannW2jpbccPgh1JWwwRtUHpRr/hMuL4Eoymr5dhwmUu+lkHRXyjspMru1bxvu8j2Z9b6H3BMShu5LDpe9CIoEY+Ch7x2NIfG/dr7LpGr6wJ4oj4u8j4vrzYozlrd7bTvm/3pvWrX0hwSjazcEhib07WZ3yal9kae7dpYeA3pdncWPn+qsfxhSXcF2Nudu7aeOQ/xa9qCdbt30oGapHsySBcx3CXpMKCsBemWmBKrO/de492HpdwZA+WvsBXl9mNSLhiVJYNxSwGVz4ai3FIwhnsUnS9+XfsVDY4yhHPEjDijD+EEcftCgswdBXx772E7aGBUEl27lKhdtBJWYH0uQedTNYUuYHguQeiuAvO5M5DQ3WEZt2TM54quzr2BKAcK+nYggXNLAZmDoSZ0S7m43ZVA+UwBmfc+ndcwPnsAzw5UDOC8BjPtqNZpcjy7oqvzurB9/LQ7Y2C9ldJrKPfGr/SBtmSUCOGsvoWuZggnhfPet2Taene7QZA1rk2ZyUC7Mios0QHom3ZF1+gDrdccFfz7UJw7D6BzT8kd9xpCFt05d09R3y5D53NFp/SaOA6A0b8IKZK6c29Sb0t7o7dZRqV2W8Kb/X0/XmsZyLm9a13N52uTMXDeNpCbPirpA70NqcLuzLx3767o7owtgfO7it6BO/7wXYZ3v7c4zrsT2jXRtcfc04CN8nBtiOguCd59RoKUFmd96fkZ3U2GOAgNgllwOMx79Wjp9NajpWXfSbdt0nWQXOLPMcsna1uLEPMZ9iPyddg2ChIKNYHMjA0pTgCrhJj1M8S4g8riDLHBVWCJ0BtsjQqY37clCRGJYaAYIPyDiJlkRCJEKNtBQnHqk+KMfRy0V9JkwcvAbYURMHlYbJNTVFGlsag8/ty9MKcRZgmMfiH7HjIWIxJ2ZWZ96NC+dVKqddiXDlqQ0wion9rW6HDSqr/F91L71P4BvVripDBFAAA="
-        }
-      }
-    },
-    {
       "release": "0.6.161",
       "files": {
         "runtime/RP/ui/hud_screen.json": {
@@ -6085,30 +6020,6 @@
       "reviewDocument": "docs/RELEASE-NOTES-0.6.174.md",
       "regressionTest": "tools/test_animated_item_depth.py",
       "files": {
-        "runtime/RP/models/entity/item_sprite_depth_charge.geo.json": {
-          "before": "83c8180531f3df67e7172f86eb7ca5576fad12f7a2d0d954d47bf4a743aedfe7",
-          "after": "14ff7f80892ae15bc7ecb44ab174f0282f57821e160cfd686d8919a607c8f92f",
-          "beforeGzipBase64": "H4sIAAAAAAACA+1c23KqMBR95yscnitDQFD6Kx2HQQmSOUqcJNj2dPrvB6h6NCZWacBo6oOaC0lYa69cdggf1mBgZ5isEhZvIKEIF/bzwAaOBxzXfqpTV6iAc5Jk7HkB8Qoy8l7leKlSBoOP5rvKk0I6J2jNvi7fRVcJKIUFQxmCpC52V4Dzh8WkrBJW0EEMrmK6JtVvnMI1y+N5npAFbCrflsLgGysJjF9RyvKqIBAKEnOIFjnjUzeIotkSxjNcFindl+DJs+zLOZMHZxmFbI/D18d9Ogw4wVFw/3+6/fe5S7ZnuID0qKyPgyvtIlnBGjyCMbMPy7TXaIP5RnDNGAwmx0H3IDQ9Km1ezrhm8E1psmGCFqg4yVd/hlxdgtY02SpsuMgpn8um6C8UVnLI7tm4b6soN0e2+h9wTBobOU3aXfQiSBG3godc2ppt4bH0vhvkZFWAUFTHSdzn6dU2xWWru3W7vtmf3qt1LswhcZWVi4zNV23m0UVSam/k5boF556YkZEyzqMnid1rSLlqxkX0eiopf4WUqSPdVyd0ic69G5PuX0aIetZVkg6TVqSPbkX6bTl3H4HyljqfmEm5/whde0uVA9fUvl00oCunXQSv0klcil+LNrRLhvRA4ULF1XQm18ugPtZx8h50TfpYU8q9PrSu6Twu6HrFpuegPgSPwHnLidzYTM5HBsscAEN1HvTgcXYvM6zede53PaDLODdiQAc6zuEkLvGwa8q1dMC6RlAuWauNH55yQdce3dtCre0C3e2a9KGuizXBLG5iyCTOv5HSNXTJTAxZqgVmUu6aK/KxmYwDczUeGdqtBz1QDrScsksG8kgd45rO2QWrtD52z0MdPHAS0iddyzzUbvs8vLd1ueJtVKDygU89hS5Ypfk9CN3XYDjvgXVwxVMZN1W6b4QHTjbagtGj++D8HsZzX9POfdQ56UPf4KedI01pl2ld4bNR0f043F3DHe4gfHiPu3ejHXQN1mxR51o32DWjKeeeod64kbkO2JGZlHvmMt79/nmXlFuia3ex++bazcH5FNH1MnmPGUkKWp/jp8fn7xcl4vCzCWbJ9qD+2YPj7qUHx5u6l2rLpPNkeYo+hzoflJaWIRYzHGfk6yh9liwptAQSsxekPt+vE2LezxDjXkMgjhAb3AEsGXqDrVEBk/u2JCEiOUw0A4TfgBj3jEiGCGVrSCguYlK/QSNP2itpGPEyCFphBBweFt/hFFVnuVpUIf9WDWHMVZgtYfYL2feQsRyRVJWZdaFD/9JBSdphn3bQgpirgPqpbT0cTtbhb/09tT6tf9KP2CwMSQAA",
-          "reason": "Independent Blockbench-coordinate shell correction; retain texels, animation, displays and gameplay."
-        },
-        "runtime/RP/models/entity/item_sprite_mystery_cocktail.geo.json": {
-          "before": "3d1946bc655067a7419c0eb706829885bd83e1105021e4810495f038f903ae0e",
-          "after": "1cca24269ccb188bc4c519c3170936e33105201919963bc336c3461a0bb5dcc7",
-          "beforeGzipBase64": "H4sIAAAAAAACA+1cbZOqIBT+3q9o/Lw14nv7V3YaxwqL2ZIGsN3uzv73q251i7AtQkW9fagEPODzcA7ngPA1GA6NGJNNxMIdJBThxHgdGmBsgbFpvOS5G5TAOYli9rqEeAMZ2Wcl3rKc4fCr+M7KLCCdE7RlP7cfk7MMtIAJQzGCJBd7FDB+ZyFJs4wNHCMGNyHdkuw33Owpg2QfzvH8nUVoXTTgIInBT5YSGH6gBVtlwoAnyFxBtFwxPneHKJqtYTjDabKgJwlWeZGTnBtlcBxTyE5Y/HzMl/OLsXtxefo/Pfz7PmYbM5xAeiHr6+xOI4k2MAeQYMyMc5nGFu0w3wiuGcNhcHlpnl1NL6TN0xnXDL4pRTFM0BIlV+Xyz4irS9CaoliGDZc45UsZFP2BwkrO2b2Z9msV6e6iv/4DHJOij1xnHW96E+SIW8FDXtqag/Cw9LkL5MqqAJ6ojqu07+u7DYpTqac1q37YZ591cOuaQ+KhXm7f1wGf6+b3qZJ8J0+3Epy7JYwo4zx4Ken3GlLuto3yBf5IZMyaXTXrI01pBwL0gWrWBRS7Kln/gJRJsD6p3LyLK3CbpdwSQG/VQLmjknIYtYpyp1nKnS5QLqnlogftA+cCCzupgXJfAy1vjHK/YR9OFCPayqNToKPfbj2ghHKUA00dd68O41456Yo9d0fhhESviReRrMGoXqLudtUWXsMoPWhbuCY5qjsNUd5wuDaymqE80EDLvYb8uKBZys0OMC6p5H4/GR85d9lcvaM1SSV3Kvfc9QzW7DrcN69FayyuMsY9TT12t47ZdmDqyHlJnOap03KzPaTXMRFnaWDa7aoVvcS0Wz2gvHI1Vzwj4yuckdFU1bsQnMuusoB+RucN+e0A6LDMAhoK1kAfZuHa5LlPOu+516Hnur4cZT2ihZ16O0qk6E7bFF2W9jLja6mj3WsP7WYdo7qngSfnNjWoe9o577VwbuvgyZlNLafaDWs6uGviRHP/XVLT/aZI1++d51o41+EF2KAp6+7oN6T3erEFdH+1pY4RvW3Ou9dL5x0oD9r8Fqm6ugHdbxHlds/3rtndn52xurB5TdKRc/u5ea0b21RVWner6zuTzR5vXgv6uXfN6vN+RbPNnA9E9x5TT801ilNxFohu19E+ZCRKaH5ID708XGeZIg4/g2AWHU7huXkijHnviTBF3Wu1Muk8Wl+jz6HOX5ZKixELGQ5j8nNGThytKRwIdMxYkvzgHp0Qs55DjDtfSJwg7nBnsMToE0qjAoJ29yQhIisYaQYIH8P4NSMSI0LZFhKKk5DkR2OtInlNGk14NXClMAJjHhZ7zGlUXuRhpfL447KEKQ9htobxf8h+h4ytEFmo6mZV6KF976BUarCvDbQg5SGgnu1bncNpcP6bf08H34O/Eu8g+OlQAAA=",
-          "reason": "Independent Blockbench-coordinate shell correction; retain texels, animation, displays and gameplay."
-        },
-        "runtime/RP/models/entity/item_sprite_nether_special.geo.json": {
-          "before": "cbec5a83f4a37629572b8fcd13497bcf40dc887b852cdc3620e87a67ebf3c5a5",
-          "after": "c6653cda7bc5ade3e20f95dddaaab22a7ec96cd15107432d2f8ead902f7a696e",
-          "beforeGzipBase64": "H4sIAAAAAAACA+1b25KiMBB99ysonmcowk2cX5myKNQgqVViJcGZ2an59wVGXYzBlQyXAOuDkgud0KdPdyeYz5mm6REm+5AFR0gowon+ounAsIBh6k956x4lcE3CiL1sId5DRj6yHq9Zi6Z9Ft9Znw2ka4IO7Pv2c3XWgDYwYShCkORizwKMXywgadawhwZicB/QA8l+gwSyGJKsBNco3BXDn+Qw+M5SAoM3tGFxJgp4gsYYom3M+NYjomi1g8EKp8mGXiRY1V0ucu70wVFEIbto4vtjPpULhntVvFwvT1df52Z9hRNIr2R9lu7Uk3APc/URjJlelqkf0BHzk+CmoWn+ddEslZZX0tbpipsGP5WiGyZoi5KbfvnnmRtLMJuiW6YbrnLJ99Ip+g2Fg5TRvVv3zyHS45W1/lU4JoWN3Dadb3oVtIhnwau8cjYn4UHlcxeaqxoCeKIxbuq+bu/WKU6lntZs+2F/+qyze2VOE7WsXGRsTtNm/hiV5I08PUhgbokRsRvD3H+qsHsFIbcb92wtQ77Bb4kE6HbboD+DKaMugrhJ1N8gZc1R3WrOvVd4954xd8aAOQylMLcnirlgWlYXkFsK8HzeF+ZWv6BbE+b5YqI8dx/j4CizOEcMiTP+LE6A+qIDojsKOPfWU3dQw6rGlsQBU8Uleus8B6aiPBcA7HfAc1eBgO70xHO3Z8itLgK6ogt0ryfMe6a5aE8GdAC5pQDNQV/x3FIvnrsdYD5XgObtx3PxAHP1ovnw1mpSGZxbI9Y2iXjfCZzbhWdXdHUOnLZBH9LyfHiwSxG9Ipp7EyT6YioZnNWTc7cmsAnX+oaMrHO3a6RYks5d0U2ZnvZkVFifA9A26mou0HtaqzkqePe+IHcmsPXqDWittmgMcE/RrL0LlvuKhvOKHA6A5uK5P5x3LM7QiC4Le60/ssjB7g0HdnNor9Yk0zi3dbKr+W5tDJDLpnHmRDHv6X+QKmzM+K07d0U3ZuwOMB9S6g7c0efuXbj2oSVx3kCSuJno3nPtZcJ6cax2g+hhF34EjIQJzU/50uvTudsUcSrUCWbh6Rjv3UOl5qOHSouxd83KpOtwd6t/Dlm+WCktQixgOIjI9zHbKNxROBPQTN+S/OyvShqzfqYx7oiyuEJscCW1ROgdSmsF+MO2JKFGYhgqphD+DcS8Y41EiFB2gITiJCD56fo4lGfS84KngSulI2DwarENjlF5l9qk8vgT98KaWjrbwei/yv6tMhYjsmnKzNrgof1oUKp02LcOWlBTS1E/ta3R6WlW/s2/l7Ov2R9Gsy/+KkUAAA==",
-          "reason": "Independent Blockbench-coordinate shell correction; retain texels, animation, displays and gameplay."
-        },
-        "runtime/RP/models/entity/item_sprite_ice_grape.geo.json": {
-          "before": "234515d640d1d71c3d5637dfdac830f29aa4c2c2db25fce6193c8b8e6fb86128",
-          "after": "f86bbea64a6d75424994b3bf8468cffe169343cc9a573067a0044e48379eed05",
-          "beforeGzipBase64": "H4sIAAAAAAACA+1cUXOiMBB+91c4PBcHAij2r3QcBjVo5hScJNr2Ov3vB1Y9jaGHaSALnA8qSUjCfvk2u5uQj8FwaCUZ3cY8OmDKSJZaz0PLHSF35FhPRe6WpHhB44Q/r3C2xZy+5yVe8pzh8OP4nZdZYragZMe/bj8n5xlkiVNOEoJpUe25gtEvHtF9nrHFI8LxNmI7mv9GZIGjFY13+NjyqQqO3/ie4uiVLPk6r8UdSzLXmKzWXMw9EEbmGxzNs326ZJcaUHmRSz3flMmShGF+EcLXx3m6vhgFN5eX/7PTv89ztjXPUsxu6vq4utNK4y0uJEezjFvXdVo7csjETgjdGA7D20vn6mp2U9tiPxe6IXblWCyjZEXSu3LFxxbakvTmWCyXjZA4E0tZjPzG0kau0f027Z9N7A83A/WvwDN6HCP3WeebXiQ58l6IIi/tzanyqPS5j5Ira8Idy9q4S/u8v9ti2V7paZ26H/anzzr47lqQxEOjXDbYfO3D3KvEJfVRvt8pgI7kkHj6QPeeSkY+QNA93aAHNWO+zF5TBdQndaNuB0BRR02gLoNYJ+qvmHEF1EvUL9LH9RL9bhbzTkCOYyXIp/2EXDLSgwYQnwIgucxwaQTyqVnIJx2AXJHkfYXclnQLNaHYIUzmtZtwZZq9F3a7i1rkrPn6MEcwzXavknWln+gIgnZ3TDEdmQU9qAZIJ121sqiJ13HDXardUetCcYphGTeoW8HbYMNxYSeAV5rWSxR80P0YrF/NuO6kivdrN+ZganhkyGlzANhygSnMHYDaXTvRZXEQENO6X7eCt8uasOEFYsMGyO5D8Ns8Q2T3AZrwbtsWVnXGZ8baEIe6qhpUCoxrp7kHwIwzxXLPLOR+JTS0Ix5CUOxu7f6avIEQoGJ3eh15n3Q+8i4DXbtqd1sEeVg3y0FujGvCQYcwmyNT+2UMT+f2pAFHrXb/XInnj+xtUIMcqG8uw7x9kTjVBba+RuIkoI97s77mPwJKtxbYAjMOmwfBYUO1ww7TSW9iG6zbrqV0+fY1RarDZLpfKR7eTdS9R7YydQp12cTu98JRf8il6pSnjhqY0yctY7rGd9gmPfbbZE4aCNzL2K5zj5wDE3hTrzsAMOFDUzq+D8HYacuornHfzBSoijf1wgMAqvu1K3igVA8MbYaFEKIxte7i9WJJHaZ+9+reLQXWVQ97vO3d6em293EXMFcNwPcU80mPMe8pz5EZwx1BWFJ3TDnpCBzmqB+Rd6d2D71WE24gu/eceumvdTzNdEnYbhO/R5zGKSsOV2W3h6Ku9kSQoEUzHp9OT/32QE+n6oGex7Y3eutki3hzL35B7OJlaW0J4RHPooR+HXGaxBuGBxKKWStanLsKSWLoZxITjoeVJ8gH3JVYEvKGlaXihu0eSVKJrHEMTCDi0tOkYYkkhDK+w5RlaUSLk43XsTqT7KlIg0BJRu5IFIs3EhhVFHmYVGPxtGNpykMy2+Dkv8j+LTK+JnSpa5jVwUOv6qRUqrDvFbQk5SFB/XRsdU5Og+vf4ns2+Bz8AdlEpn6hXgAA",
-          "reason": "Independent Blockbench-coordinate shell correction; retain texels, animation, displays and gameplay."
-        },
         "runtime/BP/blocks/xp_bottle.json": {
           "before": "7870387b3b61d7a2304dccce8add8ee070c37629392cc1fbc7ce5ec499ba0f90",
           "after": "686aa4e99fe2b06ace2c58cdb4196e327bc0ae2a9026c9e02bd6cc3ef64dd75f",
@@ -6333,6 +6244,42 @@
       "beforeGzipBase64": "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",
       "after": "19a5b1488e8e67c6140eb90e141603ebd45a913bf1615be7868a1299ea0782f9",
       "reason": " 0.6.85 owner-requested immersive feedback: optional barrel/effect text, one-shot rejection, quiet success and shared-channel cleanup. See docs/IMMERSIVE-FEEDBACK-20261002.md and tools/immersion-feedback.test.mjs. Reviewed 0.6.85 release identity / immersion; docs/IMMERSIVE-FEEDBACK-20261002.md."
+    },
+    "runtime/RP/models/entity/item_sprite_depth_charge.geo.json": {
+      "before": null,
+      "after": "395be8cf99c0e034a7921f61d52f96bb21505cf1f93c28210e82eb136b42f05d",
+      "reason": "T131 appended reviewed runtime addition. Exact thin item mesh and display transforms derived from the SHA-1-verified Mojang 1.20.1 ItemModelGenerator and pinned Forge source animation; independent source-class geometry/UV output is recorded in art/interfaces/animated-item-java-reference.json.",
+      "release": "0.6.131",
+      "reviewedPredecessorCommit": "c4453491e2f52d4b4515dda0385db204aa892c97",
+      "reviewedSourceCommit": "f08714307ea331be52a9240d8aa6473752325d1c",
+      "reviewDocument": "docs/RELEASE-NOTES-0.6.131.md"
+    },
+    "runtime/RP/models/entity/item_sprite_mystery_cocktail.geo.json": {
+      "before": null,
+      "after": "8c46f1935160e57e37c2a7afebf2fb19c43b7838a39a04996a524780b8d09426",
+      "reason": "T131 appended reviewed runtime addition. Exact thin item mesh and display transforms derived from the SHA-1-verified Mojang 1.20.1 ItemModelGenerator and pinned Forge source animation; independent source-class geometry/UV output is recorded in art/interfaces/animated-item-java-reference.json.",
+      "release": "0.6.131",
+      "reviewedPredecessorCommit": "c4453491e2f52d4b4515dda0385db204aa892c97",
+      "reviewedSourceCommit": "f08714307ea331be52a9240d8aa6473752325d1c",
+      "reviewDocument": "docs/RELEASE-NOTES-0.6.131.md"
+    },
+    "runtime/RP/models/entity/item_sprite_nether_special.geo.json": {
+      "before": null,
+      "after": "ff21fc6d6f3dc0915a11f2acc1c45a1d5bffc0e2c192904e219b00fb4f81843a",
+      "reason": "T131 appended reviewed runtime addition. Exact thin item mesh and display transforms derived from the SHA-1-verified Mojang 1.20.1 ItemModelGenerator and pinned Forge source animation; independent source-class geometry/UV output is recorded in art/interfaces/animated-item-java-reference.json.",
+      "release": "0.6.131",
+      "reviewedPredecessorCommit": "c4453491e2f52d4b4515dda0385db204aa892c97",
+      "reviewedSourceCommit": "f08714307ea331be52a9240d8aa6473752325d1c",
+      "reviewDocument": "docs/RELEASE-NOTES-0.6.131.md"
+    },
+    "runtime/RP/models/entity/item_sprite_ice_grape.geo.json": {
+      "before": null,
+      "after": "81099cb91d7a139dc632c71669af01c9174f047c84c0058f96e17cfeca4bf914",
+      "reason": "T131 appended reviewed runtime addition. Exact thin item mesh and display transforms derived from the SHA-1-verified Mojang 1.20.1 ItemModelGenerator and pinned Forge source animation; independent source-class geometry/UV output is recorded in art/interfaces/animated-item-java-reference.json.",
+      "release": "0.6.131",
+      "reviewedPredecessorCommit": "c4453491e2f52d4b4515dda0385db204aa892c97",
+      "reviewedSourceCommit": "f08714307ea331be52a9240d8aa6473752325d1c",
+      "reviewDocument": "docs/RELEASE-NOTES-0.6.131.md"
     }
   },
   "historicalReviewedFunctionalDeltaLayers": [
@@ -7906,6 +7853,70 @@
               "  check(required===1&&record?.schema===1&&record.key===key&&record.dimension===dimension.id&&same(record.position,position)&&same(record.ids,ids),'NATIVE_STORAGE_MISMATCH');\n"
             ]
           ]
+        }
+      }
+    }
+  ],
+  "historicalReviewedAssetDeltaLayers": [
+    {
+      "release": "0.6.160",
+      "files": {
+        "runtime/RP/models/entity/item_sprite_depth_charge.geo.json": {
+          "before": "395be8cf99c0e034a7921f61d52f96bb21505cf1f93c28210e82eb136b42f05d",
+          "after": "83c8180531f3df67e7172f86eb7ca5576fad12f7a2d0d954d47bf4a743aedfe7",
+          "reason": "Align Bedrock side X coordinates, outward east/west normals and up-face UV direction with the unchanged animated front/back texture; preserve Java thickness, spans, textures, timing and display transforms.",
+          "beforeGzipBase64": "H4sIAAAAAAACA+1c3XKqMBC+5ykcrqtDQFD6Kh2HQQmSOUqcJNj2dPruB6h6NCZWacBI6oWaHzbh+3aTzYbwYQ0GdorJOmbRFhKKcG4/D2wwcsHIsZ+q0jXK4YLEKXteQryGjLyXNV7KksHgo/4u6ySQLgjasK/L99llAUpgzlCKIKnE7gWM/rCIFGXBGo4Qg+uIbkj5GyVww7JokcVkCevGd1IYfGMFgdErSlhWCgKBoDCDaJkxvnSLKJqvYDTHRZ7QgwRXXuUg50IdnKYUsgMOXx/n6Tgx8k+Sh/+z3b/PfbE9xzmkJ7I+jq6083gNK/AIxsw+lmlv0BbzneC6MRhMT5POUWp2Im1RzLlu8F2pq2GClig/q1d9hlxbgt7U1UpsuMwZX8um6C8UNnLM7sW8b5sotie6+h9wTGodOS/aX/QiKBH3godc2pud8Eh63zVysiZAIGrjLO/z/Gqb4qLR3Tpt3+xP79W6lOaQuEnLPYGyearVPLzKlJorebFpouFATMlYnYaHTxLNvy/pogFGNeUifl2VnMOYsgasu2JKPHWWLjF0976ce9fxoZ50lZy/wkacj+/F+X0pd/pAeUMzn5pJuXA6f7ihvaGZA8fQsX0oGOCActpF8Cr14hL8mjehXTKl+wpXKo6ejpyQeOVD/ERL77191id6ku52YeyaenJ+20s2Pad10AfKG3pyEzMp72ZO19TM2w/N6Em630HI2blOrzq3c6/t+VxGuQljO9DRhZOM7IFCv11PD05g5sAxgnKJkU96T/lQ4LWHj7ZQa7pAd1pnXdOlmsCHmxriwrVu6Xp6cF4PGG/owPlmMu6Ya+MTMxkX+RimGHloKOVBB5QDLV12INk9DxX67Lo67QLWu9hAD3QIwUkcuGnblh7oF3cNHm1trngnFTj9X58LaPc6MHVPgzm9A9rBDU9m9Ix08Ei752Dcf0vvYlL3NB3gx+3T7mlKexdPxoWa0i5bVPm9f9RdFHd3DI+7g6D3gfdOaNc0Khe2buwP8/CEKYFY18yo3NjcOOzY0Disay7l7W+jt8m5Jbp2n3vorl0foE8Q3azi94iROKfVeX56eg5/WSAOP5tgFu8O7F88QO5ce4C8bnulViZdxKtz9DnU+aRUWopYxHCUkq8j9Wm8otAS2Ji9JNU5f50Qc3+GGPc6AnGGWOGOYEnRG2yMCpg+tiYJEclgrBkg/C7EpGNEUkQo20BCcR6R6k0aWdzckoYhbwZ+I4zAiIfFG3EWVVW52agC/u0awpybMFvB9Bey7yFjGSKJKjVrww69aycl6YB9PkALcm4C6qe61TucrOPf6ntmfVr/AF39zNYUSQAA"
+        },
+        "runtime/RP/models/entity/item_sprite_ice_grape.geo.json": {
+          "before": "81099cb91d7a139dc632c71669af01c9174f047c84c0058f96e17cfeca4bf914",
+          "after": "234515d640d1d71c3d5637dfdac830f29aa4c2c2db25fce6193c8b8e6fb86128",
+          "reason": "Align Bedrock side X coordinates, outward east/west normals and up-face UV direction with the unchanged animated front/back texture; preserve Java thickness, spans, textures, timing and display transforms.",
+          "beforeGzipBase64": "H4sIAAAAAAACA+1c3XKqMBC+9ykcrq3Dr2hfpeMwqEEzR8FJgm1Pp+9+wFaPxsQCBlhCvVAhIYn75dvsbtZ8DIZDI0rILmTBARGKk9h4HhrW2LbGpjHKS3c4RksSRux5jZIdYuQ9q/GSlQyHH8f3rM4K0SXBe/b1+Ol2VoBXKGY4wojkzZ4aGP9hAUmzgh0aY4Z2Ad2T7DPASxSsSbhHx56/m2DojaUEBa94xTZZK9ZEULhBeL1hfOkBU7zYomCRpPGKnluw5VXO7dypk0QRRewshK+XObq8GHtXl+fv8+9vn6diY5HEiF619XHxpBGHO5RLjiQJMy7bNPb4kPCD4IYxHE6vL82Lq/lVa8t0wQ2DH8qxWkLwGsc39fLXE9eXYDTHaplsuJtzvpZB8V8k7OQS3bv3fuwiPVxN1P8CT8hxjtwWnR56EZSIR8GLXDqa78YD6e8+Sk7WhTUR9XFz7/P2aYMmaaVfa9b9Yx/9rYN715wkSs1yXzDZXOXT3CnEpeqzPN1XmeKeGBNH4RR3RpKCdmG3RoUwegx1r2bQV8lrXAF2v3bUPZig202ALkJYJegopKwC6BL1a6tT8BL93rJ61wLzV1QJ81lPMRfMda8ByGcAaC4yXRrBfAbPjOsc5hVp3lfMBaOym9DsEJbz2m04mWoHqNvVr+eWDdJdk/DcVeiu2TAt9yenkIWlnus2BP1utkV2u2XUvWKIaOmwySInju7Wu98E6LUH5CrGZmQhOVf/kFwzbAcaiZVg4ukPu1vMwtZSx9du0MFU8XZLjpsJwJjz2oLcBOi4Kee5yEUCsay79et3F+iyLgB+2gDbXQiem9MS2114u6tW13ZXKxlykrjcRPu9Va9QbFw5yx0AVlxbJHdaVuxuITiUQz6FoNitutdzSQdTgFac2e/wu69/+L0J5W5BxNwpwcKKkMNEfNLSfguE9dxuK23GgRd5n3bOQ1eaCTvT3z/3dQjGVd1j+w3G3dP4mm6xuWVA0X+Pzemam17VZ7Nrxx2oo95EbqTVrf10cR6bVia8iOtuX2B3ymQ06e65ub3w1e0yXpX2TFe+qvsdY7pC2P3uJMWqz5cygeIuc61UZsqZQIFv658PAKz4ae10B5oW20QG/KxjXFeYPjODSfW2/vcAgOlu7QoeJtO9lhJiIcRo2tp6ceBBbvbEVXdqz5gC6rVNe5z4bvYz8X2iA+RVw+/9hNzvMeQ9ZbnwzJkGILch7Kibbfnndh+CcSBzZxrwzms14QaiZ093zwM2juearjDdb8P3gJEwpvkxq/T6eNR1ijkRGiRh4fc5qneP9jSLHu157Hurtk26DLe38ufEzl9KW4swC1gSROTrsNMo3FI0EJDMWJP8BFZIErMfkxh3UKz4hnjCXYglwm+oslSsabdnklAiGxQCEwi/8eQ3LJEIE8r2iNAkDkh+xvEmrM6kpxlPA6+SjKwxLxZnzDEqr1KaVBP+3GPhnVIy26LoV2Q/i4xtMFmpmmZ18NApuihJFfatghbcKSWoR+eWdnIaXH7m7/PB5+Af6Z5OOateAAA="
+        },
+        "runtime/RP/models/entity/item_sprite_mystery_cocktail.geo.json": {
+          "before": "8c46f1935160e57e37c2a7afebf2fb19c43b7838a39a04996a524780b8d09426",
+          "after": "3d1946bc655067a7419c0eb706829885bd83e1105021e4810495f038f903ae0e",
+          "reason": "Align Bedrock side X coordinates, outward east/west normals and up-face UV direction with the unchanged animated front/back texture; preserve Java thickness, spans, textures, timing and display transforms.",
+          "beforeGzipBase64": "H4sIAAAAAAACA+1c23KqMBR99yscnqtDuNtf6TgMatBMlThJsPV0+u8HqHo0Bo9GIAHqg5oLSVhr72Tv3L4Gw6ERY7KJWLiDhCKcGK9DA4wtMDaNlzx1gxI4J1HMXpcQbyAj+yzHW5YyHH4V31meBaRzgrbs5/FjdJaAFjBhKEaQ5MUeCxi/s5CkWcIGjhGDm5BuSfYbbvaUQbIP53j+ziK0LhpwKInBT5YSGH6gBVtlhQFPkLiCaLlifOoOUTRbw3CG02RBTyVY5VlO5dzIg+OYQnbC4udjvpwHxu5F8PR/evj3fUw2ZjiB9KKsr7MnjSTawBxAgjEzzss0tmiH+UZwzRgOg8ugeRaaXpQ2T2dcM/imFNkwQUuUXOXLPyOuLkFrimwZNlzklM9lUPQHCis5Z/dm3H+rSHcX8voPcEwKGblOOj70JkgRt4KHvLQ1h8LD0vcukCurAniiOq7ivq+fNihOpd7WrPtln33Xwa0wh8RDUu7eJ4DPifl9qiQv5OlWRsLtEkqqk/DgpUTyNSTdbRvpC/yR/NL+CO1AAD+omnYBx26VtMOIMgnaJ7X38OIKXMWcWwLsrQY4d6rk/AO2inNHMedOFziX1HPRi/aCdEEnO2mAc18DPVfGua+hHWdX7qOCNlnvToX+KWiR+W61jvaK7fceEO8pGteBBuN6SRdv193FK6ZcIOxB2zw2yVHdUcS4Yo/NUsN4oIGOe4rMuEAt42YHGJfUcb+fjDt39bh6+2qSOu7Ubb1p6qrZTdhunpae2iPjrJzB7rXIUat8wh2YbfLPvQrdNFNP2hXNxFka9O523ape0pdYPZh8rV3PK56Q8buv6aMuuOeyCy2gn/75SJHxDoAOKy1AkcMG+qDprTLfJ90335vQdF13SVmP6GG3tknZd+1s0FvVZWkv636tzmu73cB2b7Pu3d6StpyralT39FP1Rki3dbDlTFVLqrZa1sFdcyeaG/CSmu6r4lzDvc+NkK7DPthAVffu6Ne993vNBfRg0aWJMb1t5rvXS2cdVO62+Voqe+1740Z+ixZY7Z4fZLM7P0NjdeEcm6Qt5/b0HFsnjqxWupPC6ryemz0+xxb09Bib1eezi2abSR+Inj3GnpprFNfkLBDdrqN9yEiU0PzWHnp5284yRRx+BsEsOlzLc/OKGPPeK2KKutfVlknn0foafQ51PlhaWoxYyHAYk59Lc+JoTeFAoGTGkuQ3+eiEmPUcYtyFQ+IIscCdwRKjTyiNCgjaLUlCRFYw0gwQ3rrxG0YkRoSyLSQUJyHJ78paRfKaNJrwauBKYQTGPCz2mNOoPMvDSuXx92cJYx7CbA3jX8j+DxlbIbKoSszq0EP73kGptMO+7qAFMQ8B9axsdQ6nwflv/j0dfA/+AhcWtgT6UAAA"
+        },
+        "runtime/RP/models/entity/item_sprite_nether_special.geo.json": {
+          "before": "ff21fc6d6f3dc0915a11f2acc1c45a1d5bffc0e2c192904e219b00fb4f81843a",
+          "after": "cbec5a83f4a37629572b8fcd13497bcf40dc887b852cdc3620e87a67ebf3c5a5",
+          "reason": "Align Bedrock side X coordinates, outward east/west normals and up-face UV direction with the unchanged animated front/back texture; preserve Java thickness, spans, textures, timing and display transforms.",
+          "beforeGzipBase64": "H4sIAAAAAAACA+1b23KqMBR95ysYnitjuKn9lY7DoATJHCROEmx7Ov33A1Q9GIMVCiFifVBzIQlr7bWzE8iHputGhMk2YP4eEopwajzrBjAtYE6Np6J0i1K4JkHEnjcQbyEj73mNl7xE1z/K77xOCOmaoB37uvyYnRegEKYMRQiSotljA+Yf5pMsL9hCEzG49emO5L9+ClkMSZ6CaxQkZfeHdhh8YxmB/isKWZw3BTxBYQzRJmZ86R5RtEqgv8JZGtJTC1Z9lVM7V+rgKKKQnZD4+kyfqgnTPUue/i8P/z6PxcYKp5CetfVRudJIgy0s4CMYM6PaprFDe8wPghuGrs/Pk9NKannW2jpbccPgh1JWwwRtUHpRr/hMuL4Eoymr5dhwmUu+lkHRXyjspMru1bxvu8j2Z9b6H3BMShu5LDpe9CIoEY+Ch7x2NIfG/dr7LpGr6wJ4oj4u8j4vrzYozlrd7bTvm/3pvWrX0hwSjazcEhib07WZ3yal9kae7dpYeA3pdncWPn+qsfxhSXcF2Nudu7aeOQ/xa9qCdbt30oGapHsySBcx3CXpMKCsBemWmBKrO/de492HpdwZA+WvsBXl9mNSLhiVJYNxSwGVz4ai3FIwhnsUnS9+XfsVDY4yhHPEjDijD+EEcftCgswdBXx772E7aGBUEl27lKhdtBJWYH0uQedTNYUuYHguQeiuAvO5M5DQ3WEZt2TM54quzr2BKAcK+nYggXNLAZmDoSZ0S7m43ZVA+UwBmfc+ndcwPnsAzw5UDOC8BjPtqNZpcjy7oqvzurB9/LQ7Y2C9ldJrKPfGr/SBtmSUCOGsvoWuZggnhfPet2Taene7QZA1rk2ZyUC7Mios0QHom3ZF1+gDrdccFfz7UJw7D6BzT8kd9xpCFt05d09R3y5D53NFp/SaOA6A0b8IKZK6c29Sb0t7o7dZRqV2W8Kb/X0/XmsZyLm9a13N52uTMXDeNpCbPirpA70NqcLuzLx3767o7owtgfO7it6BO/7wXYZ3v7c4zrsT2jXRtcfc04CN8nBtiOguCd59RoKUFmd96fkZ3U2GOAgNgllwOMx79Wjp9NajpWXfSbdt0nWQXOLPMcsna1uLEPMZ9iPyddg2ChIKNYHMjA0pTgCrhJj1M8S4g8riDLHBVWCJ0BtsjQqY37clCRGJYaAYIPyDiJlkRCJEKNtBQnHqk+KMfRy0V9JkwcvAbYURMHlYbJNTVFGlsag8/ty9MKcRZgmMfiH7HjIWIxJ2ZWZ96NC+dVKqddiXDlqQ0wion9rW6HDSqr/F91L71P4BvVripDBFAAA="
+        }
+      }
+    },
+    {
+      "release": "0.6.174",
+      "reviewedPredecessorCommit": "e213fcef7241bd485c371053607778c464a79b07",
+      "reviewedSourceCommit": "e31bac59b8f891a2ae79a62b7365416278332fad",
+      "reviewDocument": "docs/RELEASE-NOTES-0.6.174.md",
+      "regressionTest": "tools/test_animated_item_depth.py",
+      "files": {
+        "runtime/RP/models/entity/item_sprite_depth_charge.geo.json": {
+          "before": "83c8180531f3df67e7172f86eb7ca5576fad12f7a2d0d954d47bf4a743aedfe7",
+          "after": "14ff7f80892ae15bc7ecb44ab174f0282f57821e160cfd686d8919a607c8f92f",
+          "beforeGzipBase64": "H4sIAAAAAAACA+1c23KqMBR95yscnitDQFD6Kx2HQQmSOUqcJNj2dPrvB6h6NCZWacBo6oOaC0lYa69cdggf1mBgZ5isEhZvIKEIF/bzwAaOBxzXfqpTV6iAc5Jk7HkB8Qoy8l7leKlSBoOP5rvKk0I6J2jNvi7fRVcJKIUFQxmCpC52V4Dzh8WkrBJW0EEMrmK6JtVvnMI1y+N5npAFbCrflsLgGysJjF9RyvKqIBAKEnOIFjnjUzeIotkSxjNcFindl+DJs+zLOZMHZxmFbI/D18d9Ogw4wVFw/3+6/fe5S7ZnuID0qKyPgyvtIlnBGjyCMbMPy7TXaIP5RnDNGAwmx0H3IDQ9Km1ezrhm8E1psmGCFqg4yVd/hlxdgtY02SpsuMgpn8um6C8UVnLI7tm4b6soN0e2+h9wTBobOU3aXfQiSBG3godc2ppt4bH0vhvkZFWAUFTHSdzn6dU2xWWru3W7vtmf3qt1LswhcZWVi4zNV23m0UVSam/k5boF556YkZEyzqMnid1rSLlqxkX0eiopf4WUqSPdVyd0ic69G5PuX0aIetZVkg6TVqSPbkX6bTl3H4HyljqfmEm5/whde0uVA9fUvl00oCunXQSv0klcil+LNrRLhvRA4ULF1XQm18ugPtZx8h50TfpYU8q9PrSu6Twu6HrFpuegPgSPwHnLidzYTM5HBsscAEN1HvTgcXYvM6zede53PaDLODdiQAc6zuEkLvGwa8q1dMC6RlAuWauNH55yQdce3dtCre0C3e2a9KGuizXBLG5iyCTOv5HSNXTJTAxZqgVmUu6aK/KxmYwDczUeGdqtBz1QDrScsksG8kgd45rO2QWrtD52z0MdPHAS0iddyzzUbvs8vLd1ueJtVKDygU89hS5Ypfk9CN3XYDjvgXVwxVMZN1W6b4QHTjbagtGj++D8HsZzX9POfdQ56UPf4KedI01pl2ld4bNR0f043F3DHe4gfHiPu3ejHXQN1mxR51o32DWjKeeeod64kbkO2JGZlHvmMt79/nmXlFuia3ex++bazcH5FNH1MnmPGUkKWp/jp8fn7xcl4vCzCWbJ9qD+2YPj7qUHx5u6l2rLpPNkeYo+hzoflJaWIRYzHGfk6yh9liwptAQSsxekPt+vE2LezxDjXkMgjhAb3AEsGXqDrVEBk/u2JCEiOUw0A4TfgBj3jEiGCGVrSCguYlK/QSNP2itpGPEyCFphBBweFt/hFFVnuVpUIf9WDWHMVZgtYfYL2feQsRyRVJWZdaFD/9JBSdphn3bQgpirgPqpbT0cTtbhb/09tT6tf9KP2CwMSQAA",
+          "reason": "Independent Blockbench-coordinate shell correction; retain texels, animation, displays and gameplay."
+        },
+        "runtime/RP/models/entity/item_sprite_mystery_cocktail.geo.json": {
+          "before": "3d1946bc655067a7419c0eb706829885bd83e1105021e4810495f038f903ae0e",
+          "after": "1cca24269ccb188bc4c519c3170936e33105201919963bc336c3461a0bb5dcc7",
+          "beforeGzipBase64": "H4sIAAAAAAACA+1cbZOqIBT+3q9o/Lw14nv7V3YaxwqL2ZIGsN3uzv73q251i7AtQkW9fagEPODzcA7ngPA1GA6NGJNNxMIdJBThxHgdGmBsgbFpvOS5G5TAOYli9rqEeAMZ2Wcl3rKc4fCr+M7KLCCdE7RlP7cfk7MMtIAJQzGCJBd7FDB+ZyFJs4wNHCMGNyHdkuw33Owpg2QfzvH8nUVoXTTgIInBT5YSGH6gBVtlwoAnyFxBtFwxPneHKJqtYTjDabKgJwlWeZGTnBtlcBxTyE5Y/HzMl/OLsXtxefo/Pfz7PmYbM5xAeiHr6+xOI4k2MAeQYMyMc5nGFu0w3wiuGcNhcHlpnl1NL6TN0xnXDL4pRTFM0BIlV+Xyz4irS9CaoliGDZc45UsZFP2BwkrO2b2Z9msV6e6iv/4DHJOij1xnHW96E+SIW8FDXtqag/Cw9LkL5MqqAJ6ojqu07+u7DYpTqac1q37YZ591cOuaQ+KhXm7f1wGf6+b3qZJ8J0+3Epy7JYwo4zx4Ken3GlLuto3yBf5IZMyaXTXrI01pBwL0gWrWBRS7Kln/gJRJsD6p3LyLK3CbpdwSQG/VQLmjknIYtYpyp1nKnS5QLqnlogftA+cCCzupgXJfAy1vjHK/YR9OFCPayqNToKPfbj2ghHKUA00dd68O41456Yo9d0fhhESviReRrMGoXqLudtUWXsMoPWhbuCY5qjsNUd5wuDaymqE80EDLvYb8uKBZys0OMC6p5H4/GR85d9lcvaM1SSV3Kvfc9QzW7DrcN69FayyuMsY9TT12t47ZdmDqyHlJnOap03KzPaTXMRFnaWDa7aoVvcS0Wz2gvHI1Vzwj4yuckdFU1bsQnMuusoB+RucN+e0A6LDMAhoK1kAfZuHa5LlPOu+516Hnur4cZT2ihZ16O0qk6E7bFF2W9jLja6mj3WsP7WYdo7qngSfnNjWoe9o577VwbuvgyZlNLafaDWs6uGviRHP/XVLT/aZI1++d51o41+EF2KAp6+7oN6T3erEFdH+1pY4RvW3Ou9dL5x0oD9r8Fqm6ugHdbxHlds/3rtndn52xurB5TdKRc/u5ea0b21RVWner6zuTzR5vXgv6uXfN6vN+RbPNnA9E9x5TT801ilNxFohu19E+ZCRKaH5ID708XGeZIg4/g2AWHU7huXkijHnviTBF3Wu1Muk8Wl+jz6HOX5ZKixELGQ5j8nNGThytKRwIdMxYkvzgHp0Qs55DjDtfSJwg7nBnsMToE0qjAoJ29yQhIisYaQYIH8P4NSMSI0LZFhKKk5DkR2OtInlNGk14NXClMAJjHhZ7zGlUXuRhpfL447KEKQ9htobxf8h+h4ytEFmo6mZV6KF976BUarCvDbQg5SGgnu1bncNpcP6bf08H34O/Eu8g+OlQAAA=",
+          "reason": "Independent Blockbench-coordinate shell correction; retain texels, animation, displays and gameplay."
+        },
+        "runtime/RP/models/entity/item_sprite_nether_special.geo.json": {
+          "before": "cbec5a83f4a37629572b8fcd13497bcf40dc887b852cdc3620e87a67ebf3c5a5",
+          "after": "c6653cda7bc5ade3e20f95dddaaab22a7ec96cd15107432d2f8ead902f7a696e",
+          "beforeGzipBase64": "H4sIAAAAAAACA+1b25KiMBB99ysonmcowk2cX5myKNQgqVViJcGZ2an59wVGXYzBlQyXAOuDkgud0KdPdyeYz5mm6REm+5AFR0gowon+ounAsIBh6k956x4lcE3CiL1sId5DRj6yHq9Zi6Z9Ft9Znw2ka4IO7Pv2c3XWgDYwYShCkORizwKMXywgadawhwZicB/QA8l+gwSyGJKsBNco3BXDn+Qw+M5SAoM3tGFxJgp4gsYYom3M+NYjomi1g8EKp8mGXiRY1V0ucu70wVFEIbto4vtjPpULhntVvFwvT1df52Z9hRNIr2R9lu7Uk3APc/URjJlelqkf0BHzk+CmoWn+ddEslZZX0tbpipsGP5WiGyZoi5KbfvnnmRtLMJuiW6YbrnLJ99Ip+g2Fg5TRvVv3zyHS45W1/lU4JoWN3Dadb3oVtIhnwau8cjYn4UHlcxeaqxoCeKIxbuq+bu/WKU6lntZs+2F/+qyze2VOE7WsXGRsTtNm/hiV5I08PUhgbokRsRvD3H+qsHsFIbcb92wtQ77Bb4kE6HbboD+DKaMugrhJ1N8gZc1R3WrOvVd4954xd8aAOQylMLcnirlgWlYXkFsK8HzeF+ZWv6BbE+b5YqI8dx/j4CizOEcMiTP+LE6A+qIDojsKOPfWU3dQw6rGlsQBU8Uleus8B6aiPBcA7HfAc1eBgO70xHO3Z8itLgK6ogt0ryfMe6a5aE8GdAC5pQDNQV/x3FIvnrsdYD5XgObtx3PxAHP1ovnw1mpSGZxbI9Y2iXjfCZzbhWdXdHUOnLZBH9LyfHiwSxG9Ipp7EyT6YioZnNWTc7cmsAnX+oaMrHO3a6RYks5d0U2ZnvZkVFifA9A26mou0HtaqzkqePe+IHcmsPXqDWittmgMcE/RrL0LlvuKhvOKHA6A5uK5P5x3LM7QiC4Le60/ssjB7g0HdnNor9Yk0zi3dbKr+W5tDJDLpnHmRDHv6X+QKmzM+K07d0U3ZuwOMB9S6g7c0efuXbj2oSVx3kCSuJno3nPtZcJ6cax2g+hhF34EjIQJzU/50uvTudsUcSrUCWbh6Rjv3UOl5qOHSouxd83KpOtwd6t/Dlm+WCktQixgOIjI9zHbKNxROBPQTN+S/OyvShqzfqYx7oiyuEJscCW1ROgdSmsF+MO2JKFGYhgqphD+DcS8Y41EiFB2gITiJCD56fo4lGfS84KngSulI2DwarENjlF5l9qk8vgT98KaWjrbwei/yv6tMhYjsmnKzNrgof1oUKp02LcOWlBTS1E/ta3R6WlW/s2/l7Ov2R9Gsy/+KkUAAA==",
+          "reason": "Independent Blockbench-coordinate shell correction; retain texels, animation, displays and gameplay."
+        },
+        "runtime/RP/models/entity/item_sprite_ice_grape.geo.json": {
+          "before": "234515d640d1d71c3d5637dfdac830f29aa4c2c2db25fce6193c8b8e6fb86128",
+          "after": "f86bbea64a6d75424994b3bf8468cffe169343cc9a573067a0044e48379eed05",
+          "beforeGzipBase64": "H4sIAAAAAAACA+1cUXOiMBB+91c4PBcHAij2r3QcBjVo5hScJNr2Ov3vB1Y9jaGHaSALnA8qSUjCfvk2u5uQj8FwaCUZ3cY8OmDKSJZaz0PLHSF35FhPRe6WpHhB44Q/r3C2xZy+5yVe8pzh8OP4nZdZYragZMe/bj8n5xlkiVNOEoJpUe25gtEvHtF9nrHFI8LxNmI7mv9GZIGjFY13+NjyqQqO3/ie4uiVLPk6r8UdSzLXmKzWXMw9EEbmGxzNs326ZJcaUHmRSz3flMmShGF+EcLXx3m6vhgFN5eX/7PTv89ztjXPUsxu6vq4utNK4y0uJEezjFvXdVo7csjETgjdGA7D20vn6mp2U9tiPxe6IXblWCyjZEXSu3LFxxbakvTmWCyXjZA4E0tZjPzG0kau0f027Z9N7A83A/WvwDN6HCP3WeebXiQ58l6IIi/tzanyqPS5j5Ira8Idy9q4S/u8v9ti2V7paZ26H/anzzr47lqQxEOjXDbYfO3D3KvEJfVRvt8pgI7kkHj6QPeeSkY+QNA93aAHNWO+zF5TBdQndaNuB0BRR02gLoNYJ+qvmHEF1EvUL9LH9RL9bhbzTkCOYyXIp/2EXDLSgwYQnwIgucxwaQTyqVnIJx2AXJHkfYXclnQLNaHYIUzmtZtwZZq9F3a7i1rkrPn6MEcwzXavknWln+gIgnZ3TDEdmQU9qAZIJ121sqiJ13HDXardUetCcYphGTeoW8HbYMNxYSeAV5rWSxR80P0YrF/NuO6kivdrN+ZganhkyGlzANhygSnMHYDaXTvRZXEQENO6X7eCt8uasOEFYsMGyO5D8Ns8Q2T3AZrwbtsWVnXGZ8baEIe6qhpUCoxrp7kHwIwzxXLPLOR+JTS0Ix5CUOxu7f6avIEQoGJ3eh15n3Q+8i4DXbtqd1sEeVg3y0FujGvCQYcwmyNT+2UMT+f2pAFHrXb/XInnj+xtUIMcqG8uw7x9kTjVBba+RuIkoI97s77mPwJKtxbYAjMOmwfBYUO1ww7TSW9iG6zbrqV0+fY1RarDZLpfKR7eTdS9R7YydQp12cTu98JRf8il6pSnjhqY0yctY7rGd9gmPfbbZE4aCNzL2K5zj5wDE3hTrzsAMOFDUzq+D8HYacuornHfzBSoijf1wgMAqvu1K3igVA8MbYaFEKIxte7i9WJJHaZ+9+reLQXWVQ97vO3d6em293EXMFcNwPcU80mPMe8pz5EZwx1BWFJ3TDnpCBzmqB+Rd6d2D71WE24gu/eceumvdTzNdEnYbhO/R5zGKSsOV2W3h6Ku9kSQoEUzHp9OT/32QE+n6oGex7Y3eutki3hzL35B7OJlaW0J4RHPooR+HXGaxBuGBxKKWStanLsKSWLoZxITjoeVJ8gH3JVYEvKGlaXihu0eSVKJrHEMTCDi0tOkYYkkhDK+w5RlaUSLk43XsTqT7KlIg0BJRu5IFIs3EhhVFHmYVGPxtGNpykMy2+Dkv8j+LTK+JnSpa5jVwUOv6qRUqrDvFbQk5SFB/XRsdU5Og+vf4ns2+Bz8AdlEpn6hXgAA",
+          "reason": "Independent Blockbench-coordinate shell correction; retain texels, animation, displays and gameplay."
         }
       }
     }

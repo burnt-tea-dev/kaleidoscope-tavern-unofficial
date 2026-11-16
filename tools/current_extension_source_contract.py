@@ -14,12 +14,13 @@ from build_incense_native_entities import outputs as incense_outputs
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_GROUPS = {
-    'registrationAndTransport': ('bedrock/extension-host.js', 'core/registry.js', 'core/transport.js', 'core/extension-foundation.js'),
+    'registrationAndTransport': ('bedrock/extension-host.js', 'core/registry.js', 'core/transport.js', 'core/extension-foundation.js',
+                                 'core/food-catalog-publisher.js'),
     'bottleIdentity': ('core/extension-content.js', 'core/bottle-display-schema.js', 'core/quality-tooltip.js', 'bedrock/quality-tooltip.js',
                        'core/bottles.js', 'bedrock/bottles.js', 'bedrock/display-projectiles.js',
                        'bedrock/storage-projectile.js', 'core/projectile-parity.js', 'bedrock/molotov.js', 'core/molotov-fire.js'),
     'furnitureLifecycle': ('core/furniture.js', 'bedrock/furniture.js', 'bedrock/holder.js'),
-    'optionalEffectProtocol': ('data/effect-icons.js', 'bedrock/effect-bar.js', 'core/effect-bar.js'),
+    'optionalEffectProtocol': ('data/effect-icons.js', 'bedrock/effect-bar.js', 'core/effect-bar.js', 'core/custom-effect-definitions.js'),
     'machinesAndDecorations': ('bedrock/machines.js', 'core/machines.js', 'bedrock/decorations.js', 'bedrock/tap-sources.js'),
     'sharedGuide': ('core/cookery-guide-publisher.js', 'data/cookery-guide-payload.js', 'data/guide-navigation.js', 'data/guide-copy.js', 'data/guide-native-names.js'),
     'boardLayoutAndText': ('core/boards.js', 'data/board-font.js', 'core/board-layout.js', 'bedrock/board-text.js', 'bedrock/writing-boards.js'),
@@ -40,7 +41,8 @@ PLACED_MOLOTOV = 'runtime/BP/blocks/molotov.json'
 
 
 def runtime_sources():
-    return frozenset('runtime/BP/scripts/' + name for group in SOURCE_GROUPS.values() for name in group) | LOCALE_SOURCES | {LAMP_RECIPE, GRASS_BOARD_RECIPE, PLACED_MOLOTOV} | {path.relative_to(ROOT).as_posix() for path in incense_outputs()}
+    from animated_item_render_contract import runtime_sources as animated_runtime_sources
+    return frozenset('runtime/BP/scripts/' + name for group in SOURCE_GROUPS.values() for name in group) | LOCALE_SOURCES | {LAMP_RECIPE, GRASS_BOARD_RECIPE, PLACED_MOLOTOV} | {path.relative_to(ROOT).as_posix() for path in incense_outputs()} | animated_runtime_sources()
 
 
 def check(root=ROOT, *, syntax=True, localization=True):
