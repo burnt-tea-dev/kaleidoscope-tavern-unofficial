@@ -1,8 +1,10 @@
-"""Current pressing-card geometry and consumer contract.
+"""Current pressing-card geometry and machine ingredient layout contract.
 
 Canonical runtime JSON is the authoring owner. No active geometry generator
 exists: history/pre-release-0.6.29 is archived, not a release input. This check
-owns the shared card's dimensions/topology, without an inverse hash projection.
+owns the shared card's dimensions/topology and the shared layout interfaces,
+without an inverse hash projection. Existing source-derived routing checks
+exercise layout values; this boundary verifies their live consumer connections.
 Placed frame/culling semantics remain a separate, unproven engine contract.
 """
 import hashlib
@@ -10,6 +12,7 @@ import json
 import re
 from pathlib import Path
 from machine_ingredient_animation import bindings
+from foundation.source_contract import imported
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = 'data/pressing-ingredient-source'
@@ -19,6 +22,11 @@ BARREL = 'runtime/RP/models/entity/runtime_barrel_ingredients_card.geo.json'
 ANIMATION = 'runtime/RP/animations/runtime_pressing_ingredients.animation.json'
 CONTROLLER = 'runtime/RP/render_controllers/runtime_pressing_ingredients.render_controllers.json'
 FOODS = 'runtime/BP/scripts/data/pressing-ingredient-visuals.js'
+LAYOUT = 'runtime/BP/scripts/core/ingredient-layout.js'
+LAYOUT_CONSUMERS = {
+    'runtime/BP/scripts/bedrock/pressing-ingredients.js': 'pressingIngredientLayout',
+    'runtime/BP/scripts/bedrock/barrel-ingredients.js': 'barrelIngredientLayout',
+}
 N = 'kaleidoscope_tavern:'
 CARD_ID = 'geometry.kt_runtime.pressing_card'
 HELPERS = tuple('pressing_tub_ingredients' + (f'_{i}' if i else '') for i in range(8))
@@ -42,14 +50,13 @@ def read(path):
 
 
 def runtime_sources():
-    # Only the repaired resource changes ownership. Routes/controls retain
-    # their current owners and are read to catch disconnection or scale drift.
-    return frozenset({CARD})
+    # Consumer adapters retain their own source owners.
+    return frozenset({CARD, LAYOUT})
 
 
 def resource_paths():
-    return {CARD, CUBE, BARREL, ANIMATION, CONTROLLER, FOODS,
-            'data/baseline-reconciliation.json', 'data/launch-repair-reference.json'} | {
+    return {CARD, CUBE, BARREL, ANIMATION, CONTROLLER, FOODS, LAYOUT,
+            'data/baseline-reconciliation.json', 'data/launch-repair-reference.json'} | set(LAYOUT_CONSUMERS) | {
         'runtime/RP/entity/runtime_' + h + '.entity.json' for h in HELPERS} | {
         'runtime/BP/entities/' + h + '_visual.json' for h in HELPERS}
 
@@ -107,6 +114,11 @@ def check_geometry(value, kind, dimensions):
 
 def check(root=ROOT):
     root = Path(root)
+    layout = (root / LAYOUT).read_text()
+    for name in ('blockPosSeed', 'stableItemRandom', 'barrelIngredientCount', *LAYOUT_CONSUMERS.values()):
+        assert 'export function ' + name + '(' in layout, ('Machine ingredient layout interface missing', name)
+    for path, name in LAYOUT_CONSUMERS.items():
+        imported((root / path).read_text(), '../core/ingredient-layout.js', {name})
     dimensions = source_dimensions(root)
     check_geometry(read(root / CARD), 'card', dimensions)
     check_geometry(read(root / CUBE), 'cube', [4, 4, 4])
