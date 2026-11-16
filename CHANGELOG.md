@@ -1,3 +1,7 @@
+## 0.6.225 — 2026-11-16
+
+Read each queried board helper anchor once during a synchronous maintenance pass, reusing it for owner filtering and duplicate grouping. Retain the radius query, cleanup order, current layout, signatures and saved data. Offline counts drop from 200 to 100 anchor reads for one 100-glyph board and 26,800 to 25,200 for 16 adjacent boards; entity queries and actors are unchanged. The exact-block query proposed in #639 remains unverified; no native frame-time or memory improvement is claimed.
+
 ## 0.6.221 — 2026-11-10
 
 Reorganize the native creative catalog by use with short labels and consistent shared vanilla icons. Keep all 161 existing visible items, Java wine/cocktail order, hidden variants and gameplay data. Pair the companion classification with World Liquor 0.1.209; source checks do not certify client inventory rendering.
