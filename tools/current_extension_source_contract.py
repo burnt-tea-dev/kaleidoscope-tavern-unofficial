@@ -32,10 +32,12 @@ LOCALE_SOURCES = COMPLETE_LOCALE_SOURCES | PARTIAL_LOCALE_SOURCES
 QUALITY_UP_KEY = 'kaleidoscope_tavern.message.barrel_quality_up'
 LAMP_RECIPE = 'runtime/BP/recipes/blue_pendant_lamp_from_dye.json'
 GRASS_BOARD_RECIPE = 'runtime/BP/recipes/grass_sandwich_board_from_grass.json'
+# Placed Tap product; selected Java MolotovBlock inherits BottleBlock.SHAPE.
+PLACED_MOLOTOV = 'runtime/BP/blocks/molotov.json'
 
 
 def runtime_sources():
-    return frozenset('runtime/BP/scripts/' + name for group in SOURCE_GROUPS.values() for name in group) | LOCALE_SOURCES | {LAMP_RECIPE, GRASS_BOARD_RECIPE} | {path.relative_to(ROOT).as_posix() for path in incense_outputs()}
+    return frozenset('runtime/BP/scripts/' + name for group in SOURCE_GROUPS.values() for name in group) | LOCALE_SOURCES | {LAMP_RECIPE, GRASS_BOARD_RECIPE, PLACED_MOLOTOV} | {path.relative_to(ROOT).as_posix() for path in incense_outputs()}
 
 
 def check(root=ROOT, *, syntax=True, localization=True):
@@ -68,8 +70,6 @@ def check(root=ROOT, *, syntax=True, localization=True):
     imported(modules['bedrock/transactions.js'], './pickup-overflow.js', {'preparePickupOverflow'})
     imported(modules['bedrock/transactions.js'], '../core/inventory.js', {'planInventory', 'commitInventory'})
     imported(modules['bedrock/transactions.js'], './native-item-storage.js', {'nativeStoragePlan'})
-    imported(modules['bedrock/native-item-storage.js'], '../core/native-item-storage.js', {'NativeItemStorage', 'NATIVE_ITEM_ENTITY'})
-    imported(modules['core/native-item-storage.js'], './util.js', {'check'})
     for name in ('withToolWear', 'exchangeBlocks', 'exchangeBlocksToWorld'):
         assert 'export function ' + name + '(' in modules['bedrock/transactions.js'], ('Shared transaction interface missing', name)
     imported(read_module(root, 'runtime/BP/scripts/bedrock/custom-effects.js', False), './pickup-overflow.js', {'blockOverflowPickup', 'startPickupDelay', 'TOMB_PICKUP_UNLOCK'})

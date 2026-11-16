@@ -1421,12 +1421,6 @@
       "after": "a57c5ecb538cf263d7916bc3549f70eae3b5d8a38cc69b3c5870580a5c398958",
       "reason": "0.6.48: Java explosion resistance and native destruction cleanup; native Cookery product preparations and circular-rack base hitbox."
     },
-    "runtime/BP/blocks/molotov.json": {
-      "before": "af37bb95e6d9385921b20ae4fd6707d6a40041fcef9dcc3d040280aa3429e10b",
-      "beforeProjected": "af37bb95e6d9385921b20ae4fd6707d6a40041fcef9dcc3d040280aa3429e10b",
-      "after": "9e5c7ab344aa7a01c2e6a073602bbc13682d0e43443fd773e7df34048f74a578",
-      "reason": "0.6.48: Java explosion resistance and native destruction cleanup; native Cookery product preparations and circular-rack base hitbox."
-    },
     "runtime/BP/blocks/bottle_rum.json": {
       "before": "c5b9242bc485269a4785d79786d5e2e4c4848f93dcbcbf20852d5a8ea3d482f3",
       "beforeProjected": "c5b9242bc485269a4785d79786d5e2e4c4848f93dcbcbf20852d5a8ea3d482f3",
@@ -2399,6 +2393,12 @@
       "beforeProjected": "cc9147f755b6bb82c8ac916fe8f493711be276f3122068c697447a1f14bb3f22",
       "after": "d936b2958af914c9f043be539dce7020ac4c5c5a7397f2109c7b335c59531bea",
       "reason": "Reviewed reconciliation of PRs #25/#50/#69/#88 and paired version bump; preserves native pick, storage and creative metadata. 0.6.56: remove unsolicited success hints; index live cabinet helper anchors before removal and prune invalid storage maintenance references. Pickup parity audit 2026-09-29: native ItemStack persistence, Java storage/main-hand versus Forge inventory delivery, per-block creative handling, exact Java slot boundaries and feedback; details in docs/PICKUP-PARITY-20260929.md."
+    },
+    "runtime/BP/blocks/molotov.json": {
+      "before": "af37bb95e6d9385921b20ae4fd6707d6a40041fcef9dcc3d040280aa3429e10b",
+      "beforeProjected": "af37bb95e6d9385921b20ae4fd6707d6a40041fcef9dcc3d040280aa3429e10b",
+      "after": "9e5c7ab344aa7a01c2e6a073602bbc13682d0e43443fd773e7df34048f74a578",
+      "reason": "0.6.48: Java explosion resistance and native destruction cleanup; native Cookery product preparations and circular-rack base hitbox."
     }
   },
   "historicalNewRuntimeFiles": {
