@@ -4,7 +4,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {world,system,Player,GameMode,ItemStack,BlockPermutation,registerFixtureItem} from '@minecraft/server';
-import {ui} from '@minecraft/server-ui';
+import {CustomForm,DataDrivenScreenClosedReason,ui} from '@minecraft/server-ui';
 import {registerWritingBoardComponents,installWritingBoardEvents,WRITING_BOARD_DIAGNOSTICS} from '../runtime/BP/scripts/bedrock/writing-boards.js';
 import {farmUse,farmBreak,framePermutation,installCultivation,registerCultivation} from '../runtime/BP/scripts/bedrock/cultivation.js';
 import {installFurnitureEvents} from '../runtime/BP/scripts/bedrock/furniture.js';
@@ -32,8 +32,106 @@ function interact(p,b,{face='Up',first=true,cancel=false}={}){const e={player:p,
 function native(p,b,face='Up'){return blocks.get(NS+'writing_board').onPlayerInteract({player:p,block:b,face,faceLocation:{x:.5,y:1,z:.5}});}
 function capture(fn){const logs=[],old=console.warn;console.warn=x=>logs.push(String(x));try{fn();return logs;}finally{console.warn=old;}}
 async function flush(){await new Promise(resolve=>setImmediate(resolve));}
+function submitEditor(text,alignmentIndex=1,verticalIndex=0,form=ui.forms.at(-1)){
+ assert.ok(form instanceof CustomForm);
+ form.edit(0,text);form.edit(1,alignmentIndex);form.edit(2,verticalIndex);form.click('gui.done');return form;
+}
+async function writesDuring(fn){
+ const writes=[],set=world.setDynamicProperty;
+ world.setDynamicProperty=function(key,value){writes.push({key,value});return set.call(this,key,value);};
+ try{await fn();}finally{world.setDynamicProperty=set;}
+ return writes;
+}
 async function quietAsync(fn){const logs=[],old=console.warn;console.warn=x=>logs.push(String(x));try{await fn();return logs;}finally{console.warn=old;}}
 function withMetadata(stack){stack.nameTag='Keep this native stack';stack.setLore([{text:'Original lore'}]);stack.keepOnDeath=true;stack.lockMode='slot';stack.setCanPlaceOn(['minecraft:stone']);stack.setCanDestroy(['minecraft:dirt']);return stack;}
+
+test('CustomForm Cancel discards edited local values and leaves saved data and held metadata untouched',async()=>{
+ const {p,lower,key}=setup(),original=withMetadata(new ItemStack('minecraft:stick',2));p.inventory.setItem(2,original);
+ save(key,{text:'Keep\n'+String.raw`C:\new`,alignment:'right',verticalAlignment:'bottom'});
+ const raw=world.getDynamicProperty(key);interact(p,lower);system.advance(1);const form=ui.forms.at(-1);
+ assert.ok(form instanceof CustomForm);
+ const writes=await writesDuring(async()=>{
+  form.edit(0,'Discard\nthis');form.edit(1,0);form.edit(2,1);
+  assert.equal(world.getDynamicProperty(key),raw);
+  form.click('gui.cancel');await flush();
+ });
+ assert.deepEqual(writes,[]);assert.equal(world.getDynamicProperty(key),raw);assert.deepEqual(p.inventory.getItem(2),original);
+ interact(p,lower);system.advance(1);const reopened=ui.forms.at(-1);
+ assert.equal(reopened.fields[0].observable.getData(),read(key).text);
+ assert.equal(reopened.fields[1].observable.getData(),2);assert.equal(reopened.fields[2].observable.getData(),2);
+ reopened.click('gui.cancel');await flush();
+});
+
+test('CustomForm Done commits one raw snapshot and both alignment selections through the real save owner',async()=>{
+ const {p,lower,key}=setup();save(key,{text:'Old',color:'red',glowing:true});
+ const raw=world.getDynamicProperty(key),text='Tea\r\n'+String.raw`C:\new`;
+ interact(p,lower);system.advance(1);const form=ui.forms.at(-1);assert.ok(form instanceof CustomForm);
+ assert.deepEqual(form.fields[1].items.map(row=>row.label.translate),['left','center','right','justify','distributed'].map(key=>'kt.board.'+key));
+ assert.deepEqual(form.fields[1].items.map(row=>row.value),[0,1,2,3,4]);
+ assert.deepEqual(form.fields[2].items.map(row=>row.label.translate),['top','middle','bottom'].map(key=>'kt.board.'+key));
+ const writes=await writesDuring(async()=>{
+  form.edit(0,text);form.edit(1,3);form.edit(2,1);assert.equal(world.getDynamicProperty(key),raw);
+  form.click('gui.done');form.click('gui.done');await flush();
+ });
+ assert.equal(form.closeCalls,1);assert.equal(writes.length,1);assert.equal(writes[0].key,key);
+ assert.deepEqual(read(key),{...defaults,text,color:'red',glowing:true,alignment:'justify',verticalAlignment:'middle'});
+});
+
+test('CustomForm client dismissal, UserBusy and a failed Done close never arm a world update',async()=>{
+ for(const reason of [DataDrivenScreenClosedReason.ClientClosed,DataDrivenScreenClosedReason.UserBusy]){
+  const {p,lower,key}=setup();save(key,{text:'Keep'});const raw=world.getDynamicProperty(key);
+  interact(p,lower);system.advance(1);const form=ui.forms.at(-1);assert.ok(form instanceof CustomForm);
+  if(reason===DataDrivenScreenClosedReason.ClientClosed)form.edit(0,'Discard');
+  const writes=await writesDuring(async()=>{form.dismiss(reason);await flush();});
+  assert.deepEqual(writes,[]);assert.equal(world.getDynamicProperty(key),raw);
+ }
+ const {p,lower,key}=setup();save(key,{text:'Keep'});const raw=world.getDynamicProperty(key);
+ interact(p,lower);system.advance(1);const form=ui.forms.at(-1);assert.ok(form instanceof CustomForm);form.edit(0,'Not accepted');form.failClose=true;
+ let logs;const writes=await writesDuring(async()=>{logs=await quietAsync(async()=>{form.click('gui.done');form.dismiss(DataDrivenScreenClosedReason.ServerClosed);await flush();});});
+ assert.ok(logs.some(row=>row.includes('INJECTED_FORM_CLOSE')));assert.deepEqual(writes,[]);assert.equal(world.getDynamicProperty(key),raw);
+});
+
+test('CustomForm rejects block, root, wax and stale changes while the real editor is waiting',async()=>{
+ for(const change of ['block','root','wax','stale']){
+  const {p,lower,key}=setup(),pos=lower.location;
+  const board=change==='root'?at({...pos,x:pos.x-1},NS+'chalkboard',{[BOARD_HALF]:0,[CHALK_POSITION]:1,'minecraft:cardinal_direction':'north'}):lower;
+  save(key,{text:'Keep'});interact(p,board);system.advance(1);const form=ui.forms.at(-1);assert.ok(form instanceof CustomForm);
+  if(change==='block')board.setType('minecraft:stone');
+  if(change==='root')board.setPermutation(board.permutation.withState(CHALK_POSITION,0));
+  if(change==='wax')save(key,{text:'Keep',waxed:true});
+  if(change==='stale')save(key,{text:'Other editor'});
+  const raw=world.getDynamicProperty(key);let logs;
+  const writes=await writesDuring(async()=>{logs=await quietAsync(async()=>{submitEditor('Do not save',4,2,form);await flush();});});
+  assert.ok(logs.some(row=>row.includes(change==='block'?'BLOCK_CHANGED':'BOARD_CHANGED')),change);
+  assert.deepEqual(writes,[],change);assert.equal(world.getDynamicProperty(key),raw,change);
+ }
+});
+
+test('CustomForm preserves exact 320, 350 and 1500 raw save boundaries and rejects overflow without clipping',async()=>{
+ for(const [kind,capacity]of [['sandwich',320],['small',350],['large',1500]]){
+  const {p,lower,key}=setup(),pos=lower.location;
+  const board=kind==='sandwich'?lower:at({...pos,x:pos.x-(kind==='large'?1:0)},NS+'chalkboard',{[BOARD_HALF]:0,[CHALK_POSITION]:kind==='large'?1:0,'minecraft:cardinal_direction':'north'});
+  const text='x'.repeat(capacity);save(key,{text:'Seed'});
+  interact(p,board);system.advance(1);
+  assert.deepEqual(ui.forms.at(-1).fields[0].label,{translate:'kt.board.'+(kind==='small'?'text_small':'text_lines'),with:[String(capacity)]},kind);
+  submitEditor(text,4,2);await flush();
+  assert.equal(read(key).text,text,kind);assert.equal(read(key).text.length,capacity,kind);
+  const raw=world.getDynamicProperty(key);interact(p,board);system.advance(1);
+  assert.equal(ui.forms.at(-1).fields[0].observable.getData(),text,kind);
+  const writes=await writesDuring(async()=>{submitEditor(text+'x');await flush();});
+  assert.deepEqual(writes,[],kind);assert.equal(world.getDynamicProperty(key),raw,kind);
+  assert.deepEqual(p.messages.at(-1),{translate:'kt.board.overflow',with:[String(capacity)]},kind);
+ }
+});
+
+test('CustomForm Done saves nine short lines unchanged beyond the visible sandwich board rows',async()=>{
+ const {p,lower,key}=setup(),text=Array(9).fill('x').join('\n');
+ assert.equal(text.length,17);save(key,{text:'Keep'});interact(p,lower);system.advance(1);
+ const writes=await writesDuring(async()=>{submitEditor(text);await flush();});
+ assert.equal(writes.length,1);assert.equal(writes[0].key,key);assert.equal(read(key).text,text);
+ interact(p,lower);system.advance(1);const reopened=ui.forms.at(-1);
+ assert.equal(reopened.fields[0].observable.getData(),text);reopened.click('gui.cancel');await flush();
+});
 
 test('Adventure board dye, glow, ink, wax and flower style commit once and preserve existing content',()=>{
  const {p,lower,upper,key}=setup();save(key,{text:'Tavern',alignment:'right',verticalAlignment:'bottom'});
@@ -49,9 +147,9 @@ test('Adventure board dye, glow, ink, wax and flower style commit once and prese
  assert.deepEqual(p.messages,[]);
 });
 
-test('Adventure ModalForm edits retain raw newlines and alignments, with exact root-origin reach',async()=>{
+test('Adventure CustomForm edits retain raw newlines and alignments, with exact root-origin reach',async()=>{
  const {p,lower,upper,key}=setup();p.location={...lower.location,x:lower.location.x-8};
- ui.responses.push({canceled:false,formValues:['Tea\nToday',0,2]});interact(p,upper);system.advance(1);await flush();
+ interact(p,upper);system.advance(1);submitEditor('Tea\nToday',0,2);await flush();
  assert.deepEqual(read(key),{...defaults,text:'Tea\nToday',alignment:'left',verticalAlignment:'bottom'});
  // The old clicked-block-centre check would accept this point outside Java's radius.
  p.location={...lower.location,x:lower.location.x+8.1};const opened=ui.forms.length;
@@ -62,16 +160,15 @@ test('opening and saving existing literal backslashes does not change board para
  const {p,lower,key}=setup();
  const text=String.raw`Tea\n`+'\n'+String.raw`C:\new`;
  save(key,{text,alignment:'distributed',verticalAlignment:'middle'});
- ui.responses.push({canceled:false,formValues:[text,4,1]});
- interact(p,lower);system.advance(1);await flush();
- assert.equal(ui.forms.at(-1).fields[0].args[2].defaultValue,text);
+ interact(p,lower);system.advance(1);
+ assert.equal(ui.forms.at(-1).fields[0].observable.getData(),text);
+ submitEditor(text,4,1);await flush();
  assert.deepEqual(read(key),{...defaults,text,alignment:'distributed',verticalAlignment:'middle'});
 });
 
 test('submitting raw multiline text never decodes a literal backslash-n',async()=>{
  const {p,lower,key}=setup(),text='Tea\n'+String.raw`C:\new`;
- ui.responses.push({canceled:false,formValues:[text,1,0]});
- interact(p,lower);system.advance(1);await flush();
+ interact(p,lower);system.advance(1);submitEditor(text);await flush();
  assert.equal(read(key).text,text);
 });
 
@@ -82,11 +179,12 @@ test('all three board editors keep complete raw seeds beyond the old native 100-
   const text=Array(lines).fill('i'.repeat(width)).join('\n');
   assert.ok(text.length>100);save(key,{text,alignment:'left'});
   const committed=WRITING_BOARD_DIAGNOSTICS.edited;
-  ui.responses.push({canceled:false,formValues:[text,0,0]});
-  interact(p,board);system.advance(1);await flush();
+  interact(p,board);system.advance(1);
   const form=ui.forms.at(-1);
-  assert.deepEqual(form.heading,{rawtext:[{text:'§r§0§r'},{translate:'kt.board.'+(kind==='sandwich'?'sandwich':'chalk')}]});
-  assert.equal(form.fields[0].args[2].defaultValue,text);
+  assert.ok(form instanceof CustomForm);
+  assert.deepEqual(form.heading,{translate:'kt.board.'+(kind==='sandwich'?'sandwich':'chalk')});
+  assert.equal(form.fields[0].observable.getData(),text);
+  submitEditor(text,0,0,form);await flush();
   assert.equal(form.fields.length,3);assert.equal(read(key).text,text);
   assert.equal(WRITING_BOARD_DIAGNOSTICS.edited,committed+1);assert.deepEqual(p.messages,[]);
  }
@@ -96,13 +194,13 @@ test('large chalkboard roots share one form and form submission rechecks mode, r
  const {p,lower,key}=setup(),pos=lower.location;
  const left=at({...pos,x:pos.x-1},NS+'chalkboard',{[BOARD_HALF]:0,[CHALK_POSITION]:1,'minecraft:cardinal_direction':'north'});
  const right=at({...pos,x:pos.x+1,y:pos.y+1},NS+'chalkboard',{[BOARD_HALF]:1,[CHALK_POSITION]:3,'minecraft:cardinal_direction':'north'});
- let answer;ui.responses.push(new Promise(resolve=>answer=resolve));const forms=ui.forms.length;
+ const forms=ui.forms.length;
  interact(p,left);interact(p,right,{face:'East'});system.advance(1);assert.equal(ui.forms.length,forms+1);
- p.location={...pos,x:pos.x+8.1};const rangeLogs=await quietAsync(async()=>{answer({canceled:false,formValues:['Too far',1,0]});await flush();});assert.ok(rangeLogs.some(x=>x.includes('OUT_OF_REACH')));assert.equal(read(key).text,'');
- p.location={...pos};ui.responses.push(new Promise(resolve=>answer=resolve));interact(p,left);system.advance(1);p.mode=GameMode.Spectator;
- const modeLogs=await quietAsync(async()=>{answer({canceled:false,formValues:['Spectator',1,0]});await flush();});assert.ok(modeLogs.some(x=>x.includes('GAME_MODE_LOCKED')));assert.equal(read(key).text,'');
- p.mode=GameMode.Adventure;ui.responses.push(new Promise(resolve=>answer=resolve));interact(p,left);system.advance(1);save(key,{text:'Someone else'});
- const staleLogs=await quietAsync(async()=>{answer({canceled:false,formValues:['Stale',1,0]});await flush();});assert.ok(staleLogs.some(x=>x.includes('BOARD_CHANGED')));assert.equal(read(key).text,'Someone else');
+ p.location={...pos,x:pos.x+8.1};const rangeLogs=await quietAsync(async()=>{submitEditor('Too far');await flush();});assert.ok(rangeLogs.some(x=>x.includes('OUT_OF_REACH')));assert.equal(read(key).text,'');
+ p.location={...pos};interact(p,left);system.advance(1);p.mode=GameMode.Spectator;
+ const modeLogs=await quietAsync(async()=>{submitEditor('Spectator');await flush();});assert.ok(modeLogs.some(x=>x.includes('GAME_MODE_LOCKED')));assert.equal(read(key).text,'');
+ p.mode=GameMode.Adventure;interact(p,left);system.advance(1);save(key,{text:'Someone else'});
+ const staleLogs=await quietAsync(async()=>{submitEditor('Stale');await flush();});assert.ok(staleLogs.some(x=>x.includes('BOARD_CHANGED')));assert.equal(read(key).text,'Someone else');
 });
 
 test('board save failure restores complete material and prior data, then releases the gesture for retry',()=>{
@@ -175,7 +273,7 @@ test('native held board use does not place items; secondary use and foreign canc
  const {p,lower,key}=setup();hold(p,'minecraft:red_dye');assert.equal(native(p,lower),true);assert.equal(native(p,lower),false);system.advance(1);assert.equal(read(key).color,'red');
  hold(p,'minecraft:blue_dye');p.isSneaking=true;assert.equal(interact(p,lower).cancel,false);assert.equal(native(p,lower),false);system.advance(1);assert.equal(read(key).color,'red');
  hold(p);p.equippable={getEquipment:()=>new ItemStack('minecraft:stick')};assert.equal(interact(p,lower).cancel,false);p.equippable=undefined;
- ui.responses.push({canceled:false,formValues:['Empty sneak',1,0]});interact(p,lower);system.advance(1);await flush();assert.equal(read(key).text,'Empty sneak');
+ interact(p,lower);system.advance(1);submitEditor('Empty sneak');await flush();assert.equal(read(key).text,'Empty sneak');
  p.isSneaking=false;hold(p,'minecraft:blue_dye');assert.equal(interact(p,lower,{cancel:true}).cancel,true);assert.equal(native(p,lower),false);system.advance(1);assert.equal(read(key).color,'red');
  const stone=at({...lower.location,z:lower.location.z+3},'minecraft:stone');hold(p,NS+'base_sandwich_board');assert.equal(native(p,stone),false);system.advance(1);assert.equal(d.getBlock({...stone.location,y:stone.location.y+1}).typeId,'minecraft:air');assert.equal(p.inventory.getItem(2).amount,2);
 });

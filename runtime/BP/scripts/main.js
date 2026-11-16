@@ -242,7 +242,11 @@ function* initializeCookery(){
   setRegistry(registry);setMixologyRegistry(registry);
   const extensionFurniture=installExtensionFurniture(registry);
   installFoundationBridge(registry,extensionFurniture);installExtensionHost(registry);
-  installFoodCatalogPublisher(system,registry,{nutritionFor:item=>new ItemStack(item,1).getComponent('minecraft:food')?.nutrition??0});
+  installFoodCatalogPublisher(system,registry,{nutritionFor:item=>{
+   // Keep the owning stack alive while reading its native component.
+   const stack=new ItemStack(item,1);
+   return stack.getComponent('minecraft:food')?.nutrition??0;
+  }});
   cookeryGuidePublisher=installCookeryGuidePublisher(system,()=>prepareCookeryGuidePayload(registry));
   startupRegistry.subscribe(()=>cookeryGuidePublisher.refresh());cookeryGuidePublisher.refresh();
   system.sendScriptEvent('kaleidoscope_cookery:api_ping','{}');

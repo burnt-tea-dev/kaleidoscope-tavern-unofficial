@@ -825,29 +825,6 @@
       "reason": "Canonical baseline reconciliation; stable API/connection/public dependencies and reviewed live fixes. See BASELINE-MAINTENANCE.md.",
       "beforeGzipBase64": "H4sIAAAAAAACA+2azXLTMBCA73kKjw8tMCHEaUtpZzjzEAyjkeVtIiJbriSXBqbvzvonjuzYaUqBumOdWkur/dW3kpP8mniefyNVTA25A6W5TPxrzw9mi4+zi7k/zadjngBT9MZch0KyNc7/wmGciEAzxVNTLioHcZhHkBh+w0HlqtZUAI+kZjIFYigaSa43OgxJSjmKJcvCSLEwhiQjjBpYSrWxNOKUNerDbcZTlDX1ShRYKpmlffa4gfhLLjBLaAyzCJhUtHC7UvBQ+6ANWtJN410qbyjLfb/2vtZynjefWg+B/bCwH87q/79ND1uhxlC2ImgMjje1076NbmLF6DMZpzLB9NlRWkVegozBtAvQLOpWZrY2RGU4gVnd1pP8oELsJ3ZnAPcaKE4F4QlmO2HtdL9rPOKAgXuTKSiqawjVGowmNDgnxX4keTnr3UTyveXb+fAVJBEogg6vZJQroSJdUYJlNk1BGoccoySSMZFVKMxnjUz7eSlIxOO4rL5RGdTTDweCRlZQlhkeCiDhhuBMqcEKXGMgSaSJkaQQl5vCgU9PUAv3qZC6CSQuqIeJAs3LrD+qO5Z3FNU2NeEg5OwRs0mLimAqKrkDqoSUJhfO/+LeRmn9AeLUbGbfNfratYIvV4ZENE6hStS8Q4pJIXgRVyjvm45KxZc8aVHz/rIXm8tOKDX/2SYvOJ/2P+2z1+G1BgHMvDav8yZK7rjOqGj63Nkw/rxlWNZz+4ebRUe7eHbDeELLOK5pPNI2do3jcAsRHA++CL035e5pVqEexuyKIkt2+VsJqlRtGf6RJ7kdGKMJwX5kME+klK8cb8nJ7TT2rYytCtN+kWj7cK+EMw1baSZ4mj6Sjv392HVKJhSrjVskVEDXrawomR53C+k8K1NQcWaKq4KdUftigh2bV9Xwb2flBisuEW9OHznRT996nz97c+/kxDtiYXnhqNbYN5/O8/yYM/15kDYwbRgziia6vFO2d2kJlzTbma+Nmdatpnug8fztCHf6z4j+jrvfdfc6b7P7tjpwXxfe7709I0+Osv9MeZVR9jfEl2YvGA17i0tHn6NvWPQtRkNf8MnR5+gbFn1no6HvysHn4Pt38AVDfemrPys52/EXUg2jfu/bc+b939qZ+1v1BfkbRpjDBTAYE4ADe/lzCDoE/9fr31AQHNgboEPQIfi/3gGHguCVI9AR+C8JXLyab/8YcGF9TzrWj0EvxsHgQOIcLoTBmCC8cgw6BofH4GJMDDoEHYLDQ/BsTAgO7QcxDsKXhXCylXmYPEx+A2rOCfVKMwAA"
     },
-    "runtime/BP/manifest.json": {
-      "before": "199e51b09fbae8a226effe4cdd21fd77b5d5c074dd05e402d8f902915a1a0d3a",
-      "after": "7efadb27226e9063e63926341245c194df4cd257153d7d262272658440ea228e",
-      "reason": "Current author instant-effect LivingEntity/shriek/height/audio and fall class repair; synced T116/L83 identity. Original preimage retained; see host docs/JAVA-INSTANT-EFFECTS-0.6.116.md.",
-      "beforeGzipBase64": "H4sIAAAAAAACA7VT247bIBB9z1dYfs5kAYMNfep/VFU0wJB6uyaRLyutov33Et8Sdd19qNoXNBfOzDnDcN1lWR7ObYP98ZXarj7H/Esm9rfwD0JPbXKvyUt+xIaSl1/Q/TyMzn5KeOpcW1/6CTzlH2PztWGo/S0flAxFFQxIrRCUsgF00AZKpTQ6NFo7tWDunL6NgSxj+9koV6Maje8zpKnjkeKpjnT8iOYLSKxwxSZ4Ot9H3c3ZDy/UrajrfDHv3y7jADz2mC/wVVZFgXm0EoT1BpRzJaCWDpDZMqDjFVp+R32k9iDtQdwqb2I4c9wgNY373uAF42nA05h7xlf8PU+xb9/uwO6pwToenrsNYUVhKyUZGFFKUDwkyykLpAtZVNrZAulfCNvNb5j26ULRU3T11isstJwwhnnFQLhQgTLp0LpEYEF4JiTzXJX/Yd5Le87SEiOJNAsXQBYqgC2kBUbkNDfceSM/b8/3W0z0p92n3TwuX/FrWnZyLYb+qaM2NdnqmItDdWD5X9WDof5DSbaWvL3b7n33CwN3g1FLBAAA",
-      "superseded": [
-        {
-          "commit": "892436df95b7e299221e6e7aa699ab9944febcbb",
-          "after": "82d452595c0ee60afb2c86577b30698d22e1649afa8181c4ef267b55ec93791e",
-          "reason": "Previous reviewed runtime before this guide/version repair; original historical preimage retained."
-        },
-        {
-          "commit": "6edb555d0467f90fa7ba09d879e17d62977f705e",
-          "after": "14f99ae815ba1bc05b24f29e7969c704051c24044b15c98152550c28c12d860c",
-          "reason": "Reviewed guide readability repair: localized fluid/container names, source-derived operation and aging, preserved recipe slots and shared optional chapter. See RELEASE-NOTES-0.6.94.md and standalone-guide.test.mjs."
-        },
-        {
-          "commit": "bc3694e9d4ecab22ab13087e3763165584ef6acf",
-          "after": "43177a94766976bb7ca355343f10ba5bc89bbb530176db753a84d9c594ad38a4",
-          "reason": "Reviewed 0.6.104 direct built-in native RGB material/source-frame correction and paired identity. Original preimage retained. See RELEASE-NOTES-0.6.104.md. Reviewed 0.6.102 source-backed all16 Java shaker HUD colors, multiplicative signature RGB fallback and paired release identity; historical preimage retained. See REBUILD-HUD-SIGNATURE-0.6.102.md. Reviewed 0.6.95 tap dismantling duplicate-drop repair and paired release identity; original historical preimage retained. See RELEASE-NOTES-0.6.95.md and tools/tap/tap-regression.test.mjs."
-        }
-      ]
-    },
     "runtime/BP/scripts/core/guide-preparation.js": {
       "before": "46036ece1e0a9a8c223bbc11ac379c160894245ca00e982cabf8c5fb7558e57c",
       "after": "b303adbe72411f00496fc31b6fdf42d1934ff7f7177046a821ec2efa9e546202",
@@ -6280,6 +6257,29 @@
       "reviewedPredecessorCommit": "c4453491e2f52d4b4515dda0385db204aa892c97",
       "reviewedSourceCommit": "f08714307ea331be52a9240d8aa6473752325d1c",
       "reviewDocument": "docs/RELEASE-NOTES-0.6.131.md"
+    },
+    "runtime/BP/manifest.json": {
+      "before": "199e51b09fbae8a226effe4cdd21fd77b5d5c074dd05e402d8f902915a1a0d3a",
+      "after": "7efadb27226e9063e63926341245c194df4cd257153d7d262272658440ea228e",
+      "reason": "Current author instant-effect LivingEntity/shriek/height/audio and fall class repair; synced T116/L83 identity. Original preimage retained; see host docs/JAVA-INSTANT-EFFECTS-0.6.116.md.",
+      "beforeGzipBase64": "H4sIAAAAAAACA7VT247bIBB9z1dYfs5kAYMNfep/VFU0wJB6uyaRLyutov33Et8Sdd19qNoXNBfOzDnDcN1lWR7ObYP98ZXarj7H/Esm9rfwD0JPbXKvyUt+xIaSl1/Q/TyMzn5KeOpcW1/6CTzlH2PztWGo/S0flAxFFQxIrRCUsgF00AZKpTQ6NFo7tWDunL6NgSxj+9koV6Maje8zpKnjkeKpjnT8iOYLSKxwxSZ4Ot9H3c3ZDy/UrajrfDHv3y7jADz2mC/wVVZFgXm0EoT1BpRzJaCWDpDZMqDjFVp+R32k9iDtQdwqb2I4c9wgNY373uAF42nA05h7xlf8PU+xb9/uwO6pwToenrsNYUVhKyUZGFFKUDwkyykLpAtZVNrZAulfCNvNb5j26ULRU3T11isstJwwhnnFQLhQgTLp0LpEYEF4JiTzXJX/Yd5Le87SEiOJNAsXQBYqgC2kBUbkNDfceSM/b8/3W0z0p92n3TwuX/FrWnZyLYb+qaM2NdnqmItDdWD5X9WDof5DSbaWvL3b7n33CwN3g1FLBAAA",
+      "superseded": [
+        {
+          "commit": "892436df95b7e299221e6e7aa699ab9944febcbb",
+          "after": "82d452595c0ee60afb2c86577b30698d22e1649afa8181c4ef267b55ec93791e",
+          "reason": "Previous reviewed runtime before this guide/version repair; original historical preimage retained."
+        },
+        {
+          "commit": "6edb555d0467f90fa7ba09d879e17d62977f705e",
+          "after": "14f99ae815ba1bc05b24f29e7969c704051c24044b15c98152550c28c12d860c",
+          "reason": "Reviewed guide readability repair: localized fluid/container names, source-derived operation and aging, preserved recipe slots and shared optional chapter. See RELEASE-NOTES-0.6.94.md and standalone-guide.test.mjs."
+        },
+        {
+          "commit": "bc3694e9d4ecab22ab13087e3763165584ef6acf",
+          "after": "43177a94766976bb7ca355343f10ba5bc89bbb530176db753a84d9c594ad38a4",
+          "reason": "Reviewed 0.6.104 direct built-in native RGB material/source-frame correction and paired identity. Original preimage retained. See RELEASE-NOTES-0.6.104.md. Reviewed 0.6.102 source-backed all16 Java shaker HUD colors, multiplicative signature RGB fallback and paired release identity; historical preimage retained. See REBUILD-HUD-SIGNATURE-0.6.102.md. Reviewed 0.6.95 tap dismantling duplicate-drop repair and paired release identity; original historical preimage retained. See RELEASE-NOTES-0.6.95.md and tools/tap/tap-regression.test.mjs."
+        }
+      ]
     }
   },
   "historicalReviewedFunctionalDeltaLayers": [

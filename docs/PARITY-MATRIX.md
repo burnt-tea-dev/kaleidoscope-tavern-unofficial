@@ -74,17 +74,21 @@ T207 的 `script:` deadline 是世界腳本絕對 tick，物品卸載後世界�
 
 共用拾取 owner 同時移交既有 current-source contract，以主入口及兩個 producer 的實際連線、上述回歸守住行為；原 launch 新增檔雜湊移至既有 historical 區，沒有新增版本特例、改舊 hash 或逆向來源層。
 
-## 黑板輸入：沿用原生單行，退役共用攔截（2026-11-11）
+## 黑板 CustomForm 原生編輯入口（2026-11-17，來源稿）
 
-目前黑板與其他表單都沿用 client 的原生單行文字框。RP222 維護線已移除共用 `custom_input` 覆寫，修正其他命名表單沒有文字框的問題；本輪把同一修正收回[真正生成器](../tools/build_tavern_forms.py)，並退役已不再掛載的四個 `kt_board_input_*` 與 `kt_board_input_branches`。這是本機生成來源修正，沒有改版、發布或部署，也沒有執行測試或觀察修後客戶端。
+黑板[editBoard](../runtime/BP/scripts/bedrock/writing-boards.js)改用公開的 `@minecraft/server-ui 2.2.0` 原生 `CustomForm`，由原方塊互動 owner 開啟。這是來源實作與定向回歸範圍，尚非已發布或已裝世界的結果；client多行、捲動、IME、焦點與精確輸入上限仍未確認，不能稱Java100%。[固定2.2.0公開宣告](https://registry.npmjs.org/@minecraft/server-ui/-/server-ui-2.2.0.tgz)中有CustomForm、ObservableString／Number及DataDrivenScreenClosedReason，不是只依內部ABI推測介面。
 
-舊文件稱「沒有全域 server-form 替換」並不準確：原生 `generated_contents.factory.control_ids.input` 指向所有 Modal 文字欄位共用的 `@server_form.custom_input`；原生成器覆寫該控件的 `$control_name`，再用 title／field binding 篩選黑板與 foreign 分支。篩選仍發生在共用入口後，不能保證其他表單保留原生輸入。本題未找到能直接限定黑板的獨立原生 caller，因此沒有新增條件或 fallback。原生路徑現在完整保留：`ModalFormData.textField → server_form.generated_contents → custom_input → settings_common.option_text_edit → 原生 option_text_edit_control`。
+每次開啟只建立該表單自己的原文字、水平對齊與垂直對齊Observable。標題與labels保留原翻譯，原newline_hint成為原生欄位description；自家表單不再需要已退役JSON UI的隱形title marker。欄位變動不寫世界。Cancel只關閉；Done讀取當刻raw文字與兩個選擇，close成功後才記錄本次提交快照。show回傳ServerClosed且有該Done快照，才進入原保存流程。ClientClosed、UserBusy、外部關閉或close拋錯都不能自行形成提交。沒有ModalFormResponse形狀的adapter，也沒有Observable回寫或文字escape codec。
 
-黑板[editBoard](../runtime/BP/scripts/bedrock/writing-boards.js)繼續以原文字作 default／提交值；保存的 `text`、layout、顏色／glowing／waxed、既有水平（含使用者擴充分散對齊）／垂直對齊及 legacy top 定位不變。互動資格、方塊與 root identity、reach、stale data、Wax、layout 保護也不變，沒有資料遷移。腳本仍限制320／350／1500字，但這不是原生單行框的可輸入容量保證：既有原生來源的 `$max_text_edit_length` 為100，舊分支的自訂容量已隨分支退役。現有多行保存文字在原生框的顯示與重新提交結果，本輪未觀察。
+保存前仍重新核互動資格、方塊類型、root key、dimension／reach、stale data、Wax及alignment，然後調用原saveAndRender／saveData。字數上限為立式板320、小黑板350、大黑板1500，沿Java String／JavaScript string的UTF-16長度計數；超限拒絕整次更新，不裁切。內容欄與超限提示均傳入該板的字數上限，三份canonical語系不再把可見行數稱為保存上限。這不等於client已具備相同的editor字數限制。顏色／glowing／waxed、legacy top定位與物品資料保留，沒有保存遷移或物品交換變更。
 
-指南四個動態圖、原生 image bindings 與精確貼圖路由保留。[生成器](../tools/build_tavern_forms.py)的 `python3 tools/build_tavern_forms.py --write --ui-only` 只由既有來源描述的尺寸與 Java 時序生成 `runtime/RP/ui/server_form.json`，不重產動畫 PNG，也不進入像素 assert 或 drift 檢查；正常完整生成仍使用同一 UI 生成邏輯。
+固定Forge／Neo的TextScreen只設定character limit，Done送原text與水平alignment；提交訊息的loaded／Wax／reach檢查後直接setText，TextBlockEntity也直接保存原文，沒有保存行數拒絕。故移除Bedrock額外的layout.overflow保存拒絕；9行共17字的立式板內容可原樣保存並再開。Java TextBlockEntityRender.doTextRender才以Math.min(splitLines.size(),maxLines)限制截顯；Bedrock原board-text／splitBoardLines也只取可見行，renderer本輪不改，實際畫面仍未觀察。視覺空間不再限制可保存資料。
 
-**後續有界題：還原 Java 黑板多行互動。** 從原作 `TextScreen` 與實際開啟／提交 caller 還原多行編輯、字數、Done／Cancel、鍵盤／IME、捲動及觸控／手把；先證明可限定自家黑板的入口，不能再次攔截所有表單。儲存支援 newline 或有原生 multiline 控件定義，均不代表玩家已能用多行 editor。
+固定Java TextScreen只有left／center／right水平對齊；justify／distributed及top／middle／bottom垂直對齊是[repo AGENTS的Project behavior](../AGENTS.md#project-behavior)明定保留的owner擴充，本題保留功能及資料，不能稱為Java原作欄位。
+
+RP222的共用custom_input退役修正保留。[UI生成器](../tools/build_tavern_forms.py)、server_form.json、其他命名表單、原指南四個動畫與貼圖路由不改。本來源稿不新增factory、全域router、timer、cache或DDUI框架，也沒有JSON UI overlay；最小依賴提案只將Tavern server-ui從2.0.0改為2.2.0，保留server 2.7.0。
+
+[真互動／保存回歸](../tools/board-farm-interaction.test.mjs)沿註冊事件、公開CustomForm API邊界替身與原保存owner測Cancel、Done、raw文字、兩種對齊、資料變動拒絕及保存容量。它不模擬client多行、scroll、focus、字數widget或網路同步。[資源回歸](../tools/test_tavern_forms.py)保留指南與生成器契約，另守住共用表單定義仍由client持有；原全域hook／多分支code-shape不再作新editor的正確性標準。Java多行及精確輸入容量目標未撤銷，未觀察的部分仍是原未交付題。
 
 以下是2026-11-07 T206 的原作／API來源記錄，不是本輪重新查詢或已還原證據：
 
@@ -95,7 +99,7 @@ T207 的 `script:` deadline 是世界腳本絕對 tick，物品卸載後世界�
 | [Modal text field options](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server-ui/modalformdatatextfieldoptions?view=minecraft-bedrock-stable)、[DDUI TextFieldOptions](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server-ui/textfieldoptions?view=minecraft-bedrock-experimental) | 當日官方 Modal 只列 defaultValue／tooltip；DDUI 只列 description／disabled／tooltip／visible。兩者均沒有 multiline。未添加未支援的 Script API 屬性，未把多行 label 當成輸入框。 |
 | [Mojang 原生 UI](https://github.com/Mojang/bedrock-samples/blob/15701fa9c13923f12662984c32c124327e40e3d3/resource_pack/ui/ui_common.json)、[server form](https://github.com/Mojang/bedrock-samples/blob/15701fa9c13923f12662984c32c124327e40e3d3/resource_pack/ui/server_form.json)、[option owner](https://github.com/Mojang/bedrock-samples/blob/15701fa9c13923f12662984c32c124327e40e3d3/resource_pack/ui/settings_sections/settings_common.json) | 1.26.60.5 官方 sample 的 scrollable_multiline_text_edit_box 明列 enabled_newline=true。其完整節點、scrollable_text_edit_box、server form factory／custom_input、option_text_edit／control 與既有1.26.50.4 fixture 相同，故沿用 fixture。common.text_edit_box 新增 clip offset 預設；它由 client 原生繼承，本修復不覆寫該基底。這是 BDS1.26.60.6 目標的 UI 來源核對，並非已觀察該 client 執行 Enter。 |
 
-T206 曾記錄 [interaction／提交 callback 回歸](../tools/board-farm-interaction.test.mjs)23項與[生成器回歸](../tools/test_tavern_forms.py)7項通過；它們只支持當時來源與 API double，不是 Native／client Enter 通過，也不支持上述共用攔截在其他表單上正確。本題依授權不執行、不修改測試；舊契約的具體失配列於本題回件。舊 [wire observer 說明](../tools/native/board-multiline/README.md)也不是目前派工指令。
+T206 曾記錄 [interaction／提交 callback 回歸](../tools/board-farm-interaction.test.mjs)23項與[生成器回歸](../tools/test_tavern_forms.py)7項通過；它們只支持當時來源與 API double，不是 Native／client Enter 通過，也不支持上述共用攔截在其他表單上正確。本輪按2026-11-17直接授權維護受影響測試並執行必要來源回歸；舊全域hook契約的移轉及未確認client操作列於本題回件。舊 [wire observer 說明](../tools/native/board-multiline/README.md)也不是目前派工指令。
 
 ## 香薰先傷害再判斷治療（2026-11-05）
 

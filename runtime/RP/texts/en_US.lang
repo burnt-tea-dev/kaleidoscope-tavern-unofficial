@@ -1708,9 +1708,9 @@ kt.board.vertical_align=Vertical alignment
 kt.board.top=Top
 kt.board.middle=Middle
 kt.board.bottom=Bottom
-kt.board.overflow=Text exceeds the %s-line board. Shorten it or use a wider board; your saved text was not changed.
-kt.board.text_small=Up to %s lines; 10 halfwidth or 7 fullwidth characters per line
-kt.board.text_lines=Board text (up to %s lines)
+kt.board.overflow=Text exceeds the %s-character limit. Shorten it; your saved text was not changed.
+kt.board.text_small=Board text (up to %s characters)
+kt.board.text_lines=Board text (up to %s characters)
 kt.board.newline_hint=Press Enter for a new line
 
 action.hint.exit.kaleidoscope_tavern:seat_green=Sneak to get off

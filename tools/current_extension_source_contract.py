@@ -38,12 +38,14 @@ LAMP_RECIPE = 'runtime/BP/recipes/blue_pendant_lamp_from_dye.json'
 GRASS_BOARD_RECIPE = 'runtime/BP/recipes/grass_sandwich_board_from_grass.json'
 # Placed Tap product; selected Java MolotovBlock inherits BottleBlock.SHAPE.
 PLACED_MOLOTOV = 'runtime/BP/blocks/molotov.json'
+# The current board caller owns its UI dependency; baseline_gate validates exact pair/API identity.
+BOARD_FORM_MANIFEST = 'runtime/BP/manifest.json'
 
 
 def runtime_sources():
     from animated_item_render_contract import runtime_sources as animated_runtime_sources
     from painting_geometry import MODELS as painting_models
-    return frozenset('runtime/BP/scripts/' + name for group in SOURCE_GROUPS.values() for name in group) | LOCALE_SOURCES | {LAMP_RECIPE, GRASS_BOARD_RECIPE, PLACED_MOLOTOV} | {path.relative_to(ROOT).as_posix() for path in incense_outputs()} | animated_runtime_sources() | frozenset(painting_models.values())
+    return frozenset('runtime/BP/scripts/' + name for group in SOURCE_GROUPS.values() for name in group) | LOCALE_SOURCES | {LAMP_RECIPE, GRASS_BOARD_RECIPE, PLACED_MOLOTOV, BOARD_FORM_MANIFEST} | {path.relative_to(ROOT).as_posix() for path in incense_outputs()} | animated_runtime_sources() | frozenset(painting_models.values())
 
 
 def check(root=ROOT, *, syntax=True, localization=True):
@@ -93,7 +95,7 @@ def check(root=ROOT, *, syntax=True, localization=True):
     imported(modules['bedrock/board-text.js'], '../data/board-font.js', {'fontBoldOffset'})
     writing_boards = modules['bedrock/writing-boards.js']
     imported(writing_boards, '../core/boards.js', {'FLOWER_BOARD_TRANSFORMS', 'normalizeBoardData', 'boardRuntimeKey'})
-    imported(writing_boards, '../core/board-layout.js', {'boardLayoutOptions', 'splitBoardLines'})
+    imported(modules['bedrock/board-text.js'], '../core/board-layout.js', {'boardLayoutOptions', 'splitBoardLines'})
     imported(writing_boards, './board-text.js', {'renderBoardText', 'removeBoardText'})
     imported(modules['bedrock/extension-host.js'], '../core/transport.js', {'ExtensionTransport', 'EVENTS', 'TRANSPORT_LIMITS'})
     imported(modules['bedrock/extension-host.js'], '../core/registry.js', {'CAPABILITIES'})

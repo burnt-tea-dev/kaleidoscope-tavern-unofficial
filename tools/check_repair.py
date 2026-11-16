@@ -68,7 +68,11 @@ assert 'registerJavaAmbient(block,emitIncenseSample)' in source
 # T132's shared adapter additionally accepts station ingredients and suppresses
 # post-consumption echoes; the cup's own block handler still refuses held use.
 source=(ROOT/'runtime/BP/scripts/bedrock/mixology.js').read_text()
-assert "cupStore.raw(key)===undefined" in source
+# The current initializer returns its validated state to the visual pass.
+# Keep absence-only recovery, including the store's revision guard, without
+# requiring a redundant raw read before that same record is loaded.
+initializer=source.split('function initializeNativeCup(block){',1)[1].split('\n}',1)[0]
+assert initializer.index('saved=cupStore.load(key)') < initializer.index('if(saved!==undefined)return saved;') < initializer.index('const state=getCup(block)') < initializer.index('cupStore.save(key,state,-1);return state;')
 assert "cupBlock(saved.item)===block.typeId" in source
 components=source.split('export function registerMixologyComponents(',1)[1].split('export function beforeShakerUse(',1)[0]
 assert "cocktail_cup',{\n  onPlayerInteract:nativeMixologyBlockUse" in components

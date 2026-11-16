@@ -1,16 +1,16 @@
 {
-  "version": "0.6.229",
-  "tag": "v0.6.229",
-  "title": "Tavern 0.6.229: integrate reviewed gameplay, effects and native presentation sources",
+  "version": "0.6.231",
+  "tag": "v0.6.231",
+  "title": "Tavern 0.6.231: reviewed CustomForm board and drink source integration",
   "prerelease": false,
   "publication_request": false,
   "public_notes_path": "CHANGELOG.md",
-  "public_notes_inline": "Integrate the reviewed cultivation drops, Molotov hit path, holder maintenance, extension effect ownership, drink catalog publication, creative ordering and existing native presentation source repairs. Preserve recipes and player data. This is source delivery; no new local tests or client/LIVE acceptance is claimed.",
+  "public_notes_inline": "Integrate the reviewed retained-stack drink nutrition caller, board anchor and cup-state reuse, and the native CustomForm board editor using server-ui 2.2.0. Preserve raw Done/Cancel saves, alignment extensions, Java character limits, existing gameplay sources, history and data protection. Client multiline, scrolling, focus and exact input capacity remain unconfirmed. This is source delivery preparation, with no family installation or full Java parity claim.",
   "client_acceptance": "pending",
   "full_client_acceptance": "pending",
   "client": false,
   "production_ready": false,
   "publication_ready": false,
   "family_ready": false,
-  "status": "reviewed_p208_source_pending_canonical_delivery"
+  "status": "reviewed_source_pending_root_exact_head_review"
 }

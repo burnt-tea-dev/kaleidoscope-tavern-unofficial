@@ -1708,9 +1708,9 @@ kt.board.vertical_align=垂直对齐
 kt.board.top=靠上
 kt.board.middle=垂直居中
 kt.board.bottom=靠下
-kt.board.overflow=文字超出黑板的 %s 行容量。请缩短内容或使用大黑板；原有文字未变更。
-kt.board.text_small=最多 %s 行；每行 10 个半角或 7 个全角字
-kt.board.text_lines=黑板文字（最多 %s 行）
+kt.board.overflow=文字超出 %s 字上限。请缩短内容；原有文字未变更。
+kt.board.text_small=黑板文字（最多 %s 字）
+kt.board.text_lines=黑板文字（最多 %s 字）
 kt.board.newline_hint=按 Enter 换行
 
 action.hint.exit.kaleidoscope_tavern:seat_green=潜行以离座
