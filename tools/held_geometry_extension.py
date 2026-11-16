@@ -4,7 +4,7 @@ from datetime import date
 import hashlib
 import json
 from pathlib import Path
-from stable_host_profiles import match_stable_profile,current_author_profile
+from stable_host_profiles import match_stable_profile,current_author_profile,extension_expired
 KIND='cookery-held-geometry-canonicalization'
 OWNER_VERSION=[1,0,50]
 NAMES=('red_lantern','bamboo_tray_base','bamboo_tray_stand')
@@ -28,14 +28,14 @@ def apply_held_geometry_extension(spec,owned_root,host_root,source):
             or spec.get('id')!='senluo:'+KIND or spec.get('version')!=version
             or spec.get('owner_version')!=owner or spec.get('official_author_release') is not False):
         raise ValueError('held geometry declaration identity differs')
+    profile=match_stable_profile(spec,owned_root,source)
     try:expires=date.fromisoformat(spec['expires'])
     except (KeyError,TypeError,ValueError) as exc:raise ValueError('held geometry expiry invalid') from exc
-    if expires<date.today():raise ValueError('held geometry repair expired')
+    if extension_expired(expires,profile):raise ValueError('held geometry repair expired')
     for key in ('authorization','feedback','removal_condition'):
         if not isinstance(spec.get(key),str) or not spec[key].strip():raise ValueError('held geometry review metadata missing')
     if any(spec.get(k)!=v for k,v in [('imports',{}),('copies',{}),('insertions',[]),('text_replacements',[]),('json_updates',[])]):
         raise ValueError('held geometry repair permits same-host copies only')
-    profile=match_stable_profile(spec,owned_root,source)
     if profile is None or profile.get('owner_version')!=owner:raise ValueError('unreviewed held geometry profile')
     if (set(spec.get('original_files',{}))!=set(PATHS) or set(spec.get('patched_files',{}))!=set(PATHS)
             or set(spec.get('host_copies',{}))!=set(PATHS)):

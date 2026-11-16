@@ -5,6 +5,7 @@ are admitted only with reviewed declaration digests, original/output hashes,
 helper hashes and their explicitly compatible preceding source receipts.
 """
 import copy
+from datetime import date
 import hashlib
 import json
 import re
@@ -112,6 +113,15 @@ def bind_source_catalog(source_root):
 
 def declaration_sha(spec):
     return hashlib.sha256(json.dumps(spec, sort_keys=True, separators=(',', ':'), ensure_ascii=False).encode()).hexdigest()
+
+
+def extension_expired(expires, reviewed_profile):
+    """Calendar limits apply to temporary declarations without an exact review.
+
+    Callers supply their existing validated declaration profile. The original
+    date remains in declarations and receipts; source changes still need review.
+    """
+    return reviewed_profile is None and expires < date.today()
 
 
 def receipt(profile):

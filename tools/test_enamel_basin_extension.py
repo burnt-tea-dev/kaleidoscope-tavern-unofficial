@@ -125,7 +125,7 @@ class EnamelBasinTests(unittest.TestCase):
 
     def test_expiry_review_identity_and_operation_scope_fail_before_writes(self):
         original = copy.deepcopy(self.spec)
-        cases = [('expires', '2000-01-01', 'expired'), ('authorization', '', 'metadata'),
+        cases = [('expires', '2000-01-01', 'exact reviewed profile'), ('authorization', '', 'metadata'),
                  ('host_uuid', 'foreign', 'identity'), ('owner_version', [1, 0, 50], 'identity'),
                  ('original_files', {repair.PATH: 'other'}, 'exact middle-range'),
                  ('patched_files', {repair.PATH: 'other'}, 'exact middle-range'),

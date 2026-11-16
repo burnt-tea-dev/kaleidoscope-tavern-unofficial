@@ -5,6 +5,7 @@ an owned private runtime helper; the clean author module is never replaced by a
 stored whole-file override or reconstructed from a historical output.
 """
 import copy
+from stable_host_profiles import extension_expired
 from datetime import date
 import hashlib
 import json
@@ -179,13 +180,14 @@ def current_station_profile(spec, owned_root, api, api_raw, grilling_root):
     helper_digests = {name: digest(safe(owned_root, name).read_bytes()) for name in helpers}
     if has_storage:
         require(spec.get('helper_sha256s') == helper_digests, 'station helper inventory differs')
-    require(date.fromisoformat(spec['expires']) >= date.today(), 'declaration expired')
     for field in ('authorization', 'feedback', 'removal_condition'):
         require(isinstance(spec.get(field), str) and bool(spec[field]), 'missing review metadata: ' + field)
-    return {key: spec[key] for key in ('id', 'version', 'host_uuid', 'archive_sha256', 'original_files', 'patched_files')} | {
+    profile = {key: spec[key] for key in ('id', 'version', 'host_uuid', 'archive_sha256', 'original_files', 'patched_files')} | {
         'spec_sha256': declaration_digest(spec),
         'copies': {target: {'source': name, 'sha256': helper_digests[name]} for name, target in helpers.items()},
         'source_owner': 'upstream_extended', 'required_extensions': [], 'admission': 'current-cookery-station-owner'}
+    require(not extension_expired(date.fromisoformat(spec['expires']), profile), 'declaration expired')
+    return profile
 
 
 def collect_station_handoffs(owned, sources):

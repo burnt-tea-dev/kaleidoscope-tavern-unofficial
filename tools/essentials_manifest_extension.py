@@ -64,15 +64,15 @@ def compile_spec(raw_pair, owner_version, local_pack_version):
 
 def apply_manifest_extension(spec, bp_root, rp_root, bp_source, rp_source, owner_version):
     """Validate the complete reviewed pair before changing either manifest."""
-    from stable_host_profiles import CURATED, declaration_sha, match_stable_profile, validate_stable_source
+    from stable_host_profiles import CURATED, declaration_sha, match_stable_profile, validate_stable_source, extension_expired
     roots = {'BP': Path(bp_root), 'RP': Path(rp_root)}
     raw_pair = {side: (root / 'manifest.json').read_bytes() for side, root in roots.items()}
     expected, changed = compile_spec(raw_pair, owner_version, spec.get('local_pack_version'))
     if spec != expected:
         raise ValueError('Essentials declaration changes more than the reviewed manifests')
-    if date.fromisoformat(spec['expires']) < date.today():
-        raise ValueError('Essentials manifest compatibility expired')
     profile = match_stable_profile(spec)
+    if extension_expired(date.fromisoformat(spec['expires']), profile):
+        raise ValueError('Essentials manifest compatibility expired')
     if profile is None or profile.get('admission') != CURATED or profile.get('owner_version') != owner_version:
         raise ValueError('Essentials manifest compatibility requires its reviewed current profile')
     for source in (bp_source, rp_source):
