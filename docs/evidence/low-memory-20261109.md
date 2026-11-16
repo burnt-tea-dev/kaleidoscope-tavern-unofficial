@@ -64,3 +64,72 @@ assert old(metrics) == Path(metrics).read_bytes()
 Dense text still uses one native helper per visible glyph (`bedrock/board-text.js`); 300 displayed nonblank glyphs still mean 300 helpers. Full cellar cabinets still require up to nine bottle helpers. This patch reduces duplicate texture resources and script iteration; it does not solve native actor or draw-call density.
 
 No Minecraft client, BDS, user's computer, saved-world deployment or LIVE instance was used. Low-memory-device peak RSS, native texture residency, frame time, rendering, save/reload and multiplayer acceptance remain unmeasured. World Liquor's manifest currently pins Tavern T205; this standalone candidate does not silently rebind that family dependency or publish a release.
+
+## Follow-up: reuse cup state within one maintenance pass (2026-11-16, T226)
+
+Base: `8d4a9c6a8d8e030fd07800b99de025572995fe7d`. This is a bounded implementation improvement to T21 in the existing [28-domain reassessment in PR643](https://github.com/burnt-tea-dev/kaleidoscope-tavern-unofficial/pull/643), not a second parity inventory. Open PRs 577, 623, 637, 640, 641, 642, 643 and 644 were checked; none owns `bedrock/mixology.js`. Their runtime changes remain separate candidates. All local and fetched remote source baselines and release histories were checked; T225 was the highest occupied public source version before this candidate reserved paired T226.
+
+`syncCupVisual` previously read the cup record to check initialization, then read it again to load the state. The same synchronous pass also rewrote the chosen helper's anchor even though that helper had just matched the identical key. `initializeNativeCup` now returns the validated current or newly saved state, and the visual adapter reuses it until the pass ends. A new helper still receives its anchor before any color writes. Existing helpers retain their already matched anchor. Native save conflict checks remain in `MixStore.save`; missing records still use the existing `getCup` default, while malformed records fail without replacement. An existing record is now validated during `onPlace` as well as visual maintenance; a malformed record is reported earlier and remains untouched.
+
+The original entity query, duplicate cleanup order, 20-tick block component, palette and RGB writes, rotation, cup payload, placement/pickup transactions and unknown-color fallback are unchanged. There is no cross-pass state cache, new helper, new timer, new experimental requirement, model/texture change or migrated data schema. `mixology.js` already belongs to the current extension source contract, so no historical hash or inverse ledger needed changing.
+
+### Source and API boundaries
+
+The upstream branch heads were re-read on 2026-11-16: Forge `c4ec1880bd44cf3139d3ba744ab30bb379cf1416`, NeoForge 1.21.1 `a1afba34981a00e89d57130d3dc8f1e64f1820a2`, and the separate 26.1.2 branch `9b8f165a4641e738e694641dd81240a0206573e1`. [Forge SignatureCocktailColor](https://github.com/KaleidoscopeMods/KaleidoscopeTavern/blob/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/client/render/misc/SignatureCocktailColor.java) reads the saved block-entity color for tint layer 0 and leaves other layers white. [NeoForge SignatureCocktailBlockEntity](https://github.com/KaleidoscopeMods/KaleidoscopeTavern/blob/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/blockentity/mixology/SignatureCocktailBlockEntity.java) retains the per-cup color/effects. Their color ownership is preserved; this narrow read/write reduction does not certify full loader or renderer equivalence.
+
+The official [Entity API](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/entity?view=minecraft-bedrock-stable#setproperty) states that `setProperty` applies on the next tick. Therefore a tempting `getProperty() === expected` skip alone cannot prove same-tick A→B→A correctness: committed A can still have a pending B write. This candidate preserves all palette/RGB writes instead of adopting that shortcut or adding a second property cache. The actual target remains `@minecraft/server` 2.7.0 / server-ui 2.0.0; no claim about a newer API's runtime availability is needed. Dynamic-property reads and writes already exist in the target implementation.
+
+### Operation counts and behavior checks
+
+Using the actual before/after `syncCupVisual` and the existing foundation API double, 128 initialized signature cups (four facings, atlas and arbitrary RGB values), followed by 20 manual maintenance rounds, produced:
+
+| Operation | Before | T226 |
+| --- | ---: | ---: |
+| World cup-record reads | 5,120 | 2,560 |
+| Existing-helper anchor writes | 2,560 | 0 |
+| Entity queries | 2,560 | 2,560 |
+| Palette/RGB property writes | 10,240 | 10,240 |
+| Rotation writes | 2,560 | 2,560 |
+| Retained helpers | 128 | 128 |
+| Spawns / removals during measured rounds | 0 / 0 | 0 / 0 |
+
+These are API operation counts, not native elapsed time, networking bytes, FPS, TPS, RAM or GC measurements. The rounds are explicit calls, not 20 Minecraft ticks. Color/property writes still occur at the original frequency; active helper density is unchanged. The latest state is read on every pass.
+
+A scratch-only comparison also ran nine scenario groups against both complete production modules and compared all world records, actor state and diagnostic errors: live color/facing A→B→A; duplicate cleanup with foreign anchors retained; missing legacy signature/ordinary cups; missing-helper recreation; corrupt numeric/null/JSON/object records; save failure/retry; spawn failure/retry; property failure/retry; and non-cup cleanup. All snapshots matched. This is deterministic source/API-double evidence, not native-engine or rendered-client acceptance. No new tests, fixture files or CI files were introduced; the existing structural verifier update is described below.
+
+The bounded count can be reproduced in any checkout of the before or after commit with its existing loader. Run from the checkout root:
+
+```sh
+node --experimental-loader ./tools/foundation/mock-loader.mjs --input-type=module <<'JS'
+import {world,Entity,Dimension,BlockPermutation} from '@minecraft/server';
+import {syncCupVisual} from './runtime/BP/scripts/bedrock/mixology.js';
+import {MixStore,validateCup,cupKey,SIGNATURE,EMPTY_CUP} from './runtime/BP/scripts/core/mixology.js';
+const d=world.getDimension('overworld'),store=new MixStore(world,validateCup);
+const anchor='kaleidoscope_tavern:cup_anchor',calls={};
+for(const [object,name,label,filter] of [
+ [world,'getDynamicProperty','worldReads',k=>k.startsWith('kt:cup/')],
+ [Entity.prototype,'setDynamicProperty','anchorWrites',k=>k===anchor],
+ [Entity.prototype,'setProperty','propertyWrites'],
+ [Entity.prototype,'setRotation','rotationWrites'],
+ [Dimension.prototype,'getEntities','queries'],
+ [Dimension.prototype,'spawnEntity','spawns'],[Entity.prototype,'remove','removes']]){
+ const original=object[name];calls[label]=0;
+ object[name]=function(...args){if(!filter||filter(...args))calls[label]++;return original.apply(this,args);};
+}
+const colors=[0x123456,0x5555ff,0xff5555,0xffffff,0];
+const cups=Array.from({length:128},(_,i)=>{
+ const b=d.getBlock({x:i*4,y:4,z:0}),facing=i%4;
+ b.setPermutation(BlockPermutation.resolve('kaleidoscope_tavern:cup_signature_cocktail',{'kaleidoscope_tavern:facing':facing}));
+ store.save(cupKey(d.id,b.location),{schema:1,revision:0,item:SIGNATURE,facing,
+  payload:{schema:1,color:colors[i%5],effects:[],ingredients:[EMPTY_CUP,EMPTY_CUP,EMPTY_CUP]}},-1);
+ syncCupVisual(b);return b;
+});
+for(const key of Object.keys(calls))calls[key]=0;
+for(let round=0;round<20;round++)for(const b of cups)syncCupVisual(b);
+console.log({...calls,actors:d.entities.size});
+JS
+```
+
+Existing shaker-retention, offhand, shared-interaction echo and instant-drink completion suites passed 110 cases. The initial creative-pick invocation did not start because its required World Liquor checkout was absent; this setup failure is distinct from those passing cases. With its existing CI-pinned World Liquor input `879e4bcaec6f77233046629955e09dcc26d76e0c` checked out, the creative-pick suite then passed all 114 cases. The current-extension ownership/syntax/localization check, launch compatibility check and diff check passed. The launch check without arguments does not revalidate upstream Java or a client renderer. Release identity and the real build/export checks passed. The first remote run `43822531841` passed baseline, impact, scripts and mechanics, then package stopped at the historical `check_repair.py` requirement for the literal `cupStore.raw(key)===undefined`. Its existing structural contract now checks the current initializer in order: validated load, return existing state, construct only when absent, and save with revision -1. Other guards and the frozen T226 runtime are unchanged. This updates the existing source contract instead of reinstating the redundant read; no new tests, fixtures, CI, historical hash or inverse projection were added. The final exact-head CI is recorded in the PR.
+
+T21's arbitrary-RGB shading difference and broader client matrix remain open. The existing T02/T03 native container routes still require capacity, metadata and saved-world migration evidence before eliminating helper storage. No BDS, Minecraft client, user's computer, save, deployment or LIVE operation was used.

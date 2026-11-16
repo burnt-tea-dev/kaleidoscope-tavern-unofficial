@@ -332,8 +332,9 @@ function getCup(block){
 }
 function initializeNativeCup(block){
  if(!isCupBlock(block?.typeId))return;
- const key=cupKey(block.dimension.id,block.location);
- if(cupStore.raw(key)===undefined)cupStore.save(key,getCup(block),-1);
+ const key=cupKey(block.dimension.id,block.location),saved=cupStore.load(key);
+ if(saved!==undefined)return saved;
+ const state=getCup(block);cupStore.save(key,state,-1);return state;
 }
 export function takeCup(player,block){
  canInteract(player);check(block,'UNLOADED_TARGET');requireBlockReach(player,block.dimension,block.location);const key=cupKey(block.dimension.id,block.location);
@@ -361,11 +362,12 @@ export function syncCupVisual(block){
   const found=block.dimension.getEntities({type:CUP_HELPER,location:point,maxDistance:2}).filter(x=>x.getDynamicProperty(CUP_ANCHOR)===key);
   // onTick also repairs stateless cups left by older versions; preserve every
   // existing record, including signatures with custom colors and effects.
-  initializeNativeCup(block);
-  const state=cupStore.load(key);
+  const state=isCupBlock(block?.typeId)?initializeNativeCup(block):cupStore.load(key);
   if(!state||state.item!==SIGNATURE||block.typeId!==NS+':cup_signature_cocktail'){for(const entity of found)entity.remove();return;}
-  const visual=found.shift()??block.dimension.spawnEntity(CUP_HELPER,point,{initialRotation:state.facing*90});
-  for(const extra of found)extra.remove();visual.setDynamicProperty(CUP_ANCHOR,key);
+  const existing=found.shift(),visual=existing??block.dimension.spawnEntity(CUP_HELPER,point,{initialRotation:state.facing*90});
+  for(const extra of found)extra.remove();
+  // Existing helpers already passed this exact anchor check in the same pass.
+  if(!existing)visual.setDynamicProperty(CUP_ANCHOR,key);
   visual.setProperty('kt_art:palette',signaturePaletteIndex(state.payload.color));
   visual.setProperty('kt_art:red',(state.payload.color>>16)&255);visual.setProperty('kt_art:green',(state.payload.color>>8)&255);visual.setProperty('kt_art:blue',state.payload.color&255);visual.setRotation({x:0,y:state.facing*90});
  });

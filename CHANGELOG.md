@@ -1,3 +1,7 @@
+## 0.6.226 — 2026-11-16
+
+Reuse the current cup state within one synchronous visual maintenance pass and write the helper anchor only on creation. Preserve the original query, color, palette, rotation, 20-tick cadence, saved payload and recovery paths. In the bounded 128-cup/20-pass source scenario, cup-state reads fall from 5,120 to 2,560 and repeated anchor writes from 2,560 to zero. These API operation counts do not establish native time, memory or rendered-client improvements.
+
 ## 0.6.221 — 2026-11-10
 
 Reorganize the native creative catalog by use with short labels and consistent shared vanilla icons. Keep all 161 existing visible items, Java wine/cocktail order, hidden variants and gameplay data. Pair the companion classification with World Liquor 0.1.209; source checks do not certify client inventory rendering.
