@@ -10,8 +10,17 @@ const layoutCache=new Map(),MAX_CACHED_BOARDS=128;
 export const boardTextDiagnostics={layoutBuilds:0,cacheHits:0,comparisons:0,spawned:0,removed:0};
 const cacheKey=(d,key)=>JSON.stringify([d.id,key]);
 const INK={white:0xffffff,orange:0xff681f,magenta:0xff00ff,light_blue:0x9ac0cd,yellow:0xffff00,lime:0xbfff00,pink:0xff69b4,gray:0x808080,light_gray:0xd3d3d3,cyan:0x00ffff,purple:0xa020f0,blue:0x0000ff,brown:0x8b4513,green:0x00ff00,red:0xff0000,black:0x000000};
-function helpers(d,base,key){return d.getEntities({type:TYPE,location:{x:base.x+.5,y:base.y+1,z:base.z+.5},maxDistance:4}).filter(e=>String(e.getDynamicProperty(ANCHOR)??'').startsWith(key+'|'));}
-export function removeBoardText(d,key,base){layoutCache.delete(cacheKey(d,key));for(const entity of helpers(d,base,key))entity.remove();}
+function forEachHelper(d,base,key,visit){
+ for(const entity of d.getEntities({type:TYPE,location:{x:base.x+.5,y:base.y+1,z:base.z+.5},maxDistance:4})){
+  const anchor=entity.getDynamicProperty(ANCHOR);
+  if(String(anchor??'').startsWith(key+'|'))visit(entity,anchor);
+ }
+}
+export function removeBoardText(d,key,base){
+ layoutCache.delete(cacheKey(d,key));
+ const entities=[];forEachHelper(d,base,key,entity=>entities.push(entity));
+ for(const entity of entities)entity.remove();
+}
 function frame(info){
  if(info.kind==='sandwich'){
   const yaw=info.rotation*22.5+180,r=yaw*Math.PI/180;
@@ -60,10 +69,9 @@ export function renderBoardText(d,info,data,unused,key){
  layoutCache.delete(id);layoutCache.set(id,cached);
  if(layoutCache.size>MAX_CACHED_BOARDS)layoutCache.delete(layoutCache.keys().next().value);
  const {f,color,expected}=cached,byAnchor=new Map();
- for(const entity of helpers(d,info.root,key)){
-  const anchor=entity.getDynamicProperty(ANCHOR),group=byAnchor.get(anchor)??[];
-  group.push(entity);byAnchor.set(anchor,group);
- }
+ forEachHelper(d,info.root,key,(entity,anchor)=>{
+  const group=byAnchor.get(anchor)??[];group.push(entity);byAnchor.set(anchor,group);
+ });
  let changed=false;
  const remove=entity=>{entity.remove();boardTextDiagnostics.removed++;changed=true;};
  for(const row of expected){

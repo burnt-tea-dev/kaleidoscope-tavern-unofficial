@@ -466,3 +466,10 @@ These rows default to Forge1.20.1 source c4ec1880; the XP pickup row independent
 | T-VISION-OUTLINE 感知穿牆輪廓 | Forge/Neo VisionEffect: 50-tick pulse, 60-tick Glowing, LivingEntity alive/AABB query before effects; radius6/12/18. | T132 fixes class selection including familyless vanilla fish, query-time membership and retained sound feedback. Native Glowing/through-wall rendering remains unavailable or unverified. | Source callback cases plus current native boat/cow/armor stand/cod observer; real Player behind opaque walls must still verify outline, duration and first/repeated-target sound. |
 
 Grass Stealth的官方[experimental Entity.target](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/entity?view=minecraft-bedrock-experimental)同頁標成read-only，文字卻寫retrieves or sets（2026-11-05查閱）。採上述真引擎的唯讀結果；[reset_target](https://learn.microsoft.com/en-us/minecraft/creator/reference/content/entityreference/examples/eventactions/reset_target?view=minecraft-bedrock-stable)是資料驅動實體事件動作，不能當作任意原版mob已具備可呼叫事件。此觀察只封閉本次target setter路線，不推論其他版本永遠沒有入口；未重跑裝備元件探測，也不把測試器成功當成清除仇恨成功。
+
+
+## 黑板 helper 原生屬性讀取（2026-11-16，T225）
+
+`board-text.js` 在同一同步維護 pass 重用已讀取的 anchor，將 owner 篩選與 duplicate 分組合成一次讀取；保留每次原生查詢、半徑、讀取失敗邊界與原順序清理。既有 source/API-double 對照：單板100glyph 的 anchor reads 200→100；4×4鄰接板、各100glyph 為26,800→25,200。查詢1/16次、signature100/1,600次、actor100/1,600個與零spawn/remove都不變；不等於原生FPS／RAM提升。
+
+[官方 Dimension API](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/dimension?view=minecraft-bedrock-stable#getentitiesatblocklocation)及目標2.7型別確認 `getEntitiesAtBlockLocation` 存在，不能再標成「沒有這個API」。然而契約未釐清半格root、bounding box及原半徑可見舊helper的完整涵蓋，沒有原生證據即不縮查詢範圍；[#639](https://github.com/burnt-tea-dev/kaleidoscope-tavern-unofficial/issues/639)保持待驗證。沒有新cache、保存格式、版本分支或API升版。Java字型／glow／camera距離等差異仍保留在原列；見[前後計數、來源與復現指令](evidence/low-memory-board-lifecycle-20261109.md#follow-up-one-anchor-read-per-maintenance-pass-2026-11-16-t225)。
