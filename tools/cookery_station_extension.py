@@ -301,6 +301,11 @@ def render_station(raw, spec, target=TARGET):
     station_inputs(spec)
     require(digest(raw) == spec['original_files'][target], 'station source is not clean author input')
     text = spec['imports'].get(target, '') + raw.decode()
+    for op in spec['text_replacements']:
+        if op['path'] != target:
+            continue
+        require(bool(op['before']) and text.count(op['before']) == 1, 'station wiring preimage differs')
+        text = text.replace(op['before'], op['after'])
     for op in spec['insertions']:
         if op['path'] != target:
             continue
@@ -308,11 +313,6 @@ def render_station(raw, spec, target=TARGET):
         require(bool(anchor) and text.count(anchor) == 1
                 and op['position'] in ('before', 'after'), 'station insertion is not unique')
         text = text.replace(anchor, op['text'] + anchor if op['position'] == 'before' else anchor + op['text'])
-    for op in spec['text_replacements']:
-        if op['path'] != target:
-            continue
-        require(bool(op['before']) and text.count(op['before']) == 1, 'station wiring preimage differs')
-        text = text.replace(op['before'], op['after'])
     raw = text.encode()
     require(digest(raw) == spec['patched_files'][target], 'current station output differs')
     return raw
