@@ -69,6 +69,37 @@ def planned(root):
     root = Path(root).resolve()
     plan = load(root / PLAN)
     defs = definitions(root)
+    visible_categories = {'construction', 'equipment', 'items', 'nature'}
+    reviewed = set()
+    for tab in plan['tabs']:
+        if tab['category'] not in visible_categories:
+            raise ValueError('Invalid creative category: ' + tab['category'])
+        for entry in tab['entries']:
+            item = entry.get('bedrock')
+            if entry.get('unavailable'):
+                continue
+            if not item:
+                raise ValueError('No Bedrock representative for Java entry: ' + entry['java'])
+            if item in reviewed:
+                raise ValueError('Duplicate plan entry: ' + item)
+            reviewed.add(item)
+    for entry in plan.get('bedrock_additions', []):
+        if entry['category'] not in visible_categories:
+            raise ValueError('Invalid creative category: ' + entry['category'])
+        item = entry['bedrock']
+        if item in reviewed:
+            raise ValueError('Duplicate plan entry: ' + item)
+        reviewed.add(item)
+    catalog_members = entries(load(root / CATALOG))
+    visible = {item for item, rows in defs.items() if any(
+        value[kind]['description'].get('menu_category', {}).get('category') in visible_categories
+        for _, value, kind in rows)}
+    unknown = (set(catalog_members) | visible) - reviewed
+    if unknown:
+        raise ValueError('Visible items missing from the reviewed plan: ' + ', '.join(sorted(unknown)))
+    missing = reviewed - visible
+    if missing:
+        raise ValueError('No visible definition for planned items: ' + ', '.join(sorted(missing)))
     output, displayed, groups = {}, set(), []
     for tab in plan['tabs']:
         members = []
@@ -79,10 +110,6 @@ def planned(root):
             rows = [row for row in defs.get(item, [])
                     if row[1][row[2]]['description'].get('menu_category', {}).get('category')
                     in ('construction', 'equipment', 'items', 'nature')]
-            if not rows:
-                continue
-            if item in displayed:
-                raise ValueError('An item cannot represent two creative stacks: ' + item)
             displayed.add(item)
             members.append(item)
             for path, value, kind in rows:
@@ -102,8 +129,6 @@ def planned(root):
     loose = {}
     for entry in plan.get('bedrock_additions', []):
         item = entry['bedrock']
-        if item in displayed:
-            continue
         for path, value, kind in defs.get(item, []):
             menu = value[kind]['description'].get('menu_category', {})
             if menu.get('category') not in ('construction', 'equipment', 'items', 'nature'):
@@ -174,6 +199,10 @@ def check_java_wine_order(root, java_source):
     actual = [representatives[name] for name in accepted if name in representatives]
     if actual != expected:
         raise ValueError('Creative wine order differs from Java accepted items')
+    catalog_order = [item.split(':', 1)[1] for item in entries(load(Path(root) / CATALOG))
+                     if item.split(':', 1)[1] in representatives.values()]
+    if catalog_order != expected:
+        raise ValueError('Visible wine catalog differs from the reviewed Java order')
     return {'source': str(source), 'items': len(actual), 'order': 'passed'}
 
 
