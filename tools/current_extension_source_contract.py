@@ -16,7 +16,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SOURCE_GROUPS = {
     'registrationAndTransport': ('bedrock/extension-host.js', 'core/registry.js', 'core/transport.js', 'core/extension-foundation.js'),
     'bottleIdentity': ('core/extension-content.js', 'core/bottle-display-schema.js', 'core/quality-tooltip.js', 'bedrock/quality-tooltip.js'),
-    'furnitureLifecycle': ('core/furniture.js', 'bedrock/furniture.js', 'bedrock/holder.js'),
+    'furnitureLifecycle': ('core/furniture.js', 'bedrock/furniture.js', 'bedrock/holder.js', 'bedrock/storage-visual-maintenance.js'),
     'optionalEffectProtocol': ('data/effect-icons.js',),
     'machinesAndDecorations': ('bedrock/machines.js', 'core/machines.js', 'bedrock/decorations.js'),
     'sharedGuide': ('core/cookery-guide-publisher.js', 'data/cookery-guide-payload.js', 'data/guide-navigation.js', 'data/guide-copy.js', 'data/guide-native-names.js'),
