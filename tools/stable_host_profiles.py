@@ -122,7 +122,8 @@ def receipt(profile):
 
 
 def public_profiles():
-    return {'public-api': CATALOG['public_api_profile'], **CATALOG.get('public_api_profiles', {})}
+    return {'public-api': CATALOG['public_api_profile'], **CATALOG.get('public_api_profiles', {}),
+            **{name: profile for name, profile in PROFILES.items() if profile.get('public_api') is True}}
 
 
 def public_predecessors(profile):
