@@ -137,15 +137,18 @@ def check_pose_writer(family, adapter, shared_pose):
     assert 'const facing='+facing_source+'.getState(FACING)??0' in adapter, (family, 'Pose facing must come from block state')
     assert 'initialRotation:pose.rotation.y' in adapter, (family, 'Spawn yaw must use the same pose')
     if family == 'holder':
-        assert 'e.setRotation({x:0,y:pose.rotation.y})' in adapter
-        return
-    if family in ('tilted_rack', 'circular_rack'):
+        assert 'pose='+pose_call+',at=position(block,facing)' in adapter
+        assert 'function position(block,facing){const p='+pose_call+'.offset;return {x:block.location.x+p.x,y:block.location.y+p.y,z:block.location.z+p.z};}' in adapter
+        assert "import {syncStorageVisualPose} from './storage-visual-maintenance.js';" in adapter
+        assert adapter.count('syncStorageVisualPose(e,HOLDER_KIND,state.kind,at,pose.rotation.y)') == 1, (family, 'Delegate the computed yaw and slot position exactly once')
+    elif family in ('tilted_rack', 'circular_rack'):
         assert 'const at=position(block,slot,facing),pose='+pose_call in adapter
         assert 'function position(block,slot,facing){const p='+pose_call+'.offset;return {x:block.location.x+p.x,y:block.location.y+p.y,z:block.location.z+p.z};}' in adapter
     else:
         assert 'pose='+pose_call+',at={x:block.location.x+pose.offset.x,y:block.location.y+pose.offset.y,z:block.location.z+pose.offset.z}' in adapter
-    assert "import {storageHelpersByAnchor,syncStorageVisualPose} from './storage-visual-maintenance.js';" in adapter
-    assert adapter.count("syncStorageVisualPose(e,NS+':storage_kind',bottle.kind,at,pose.rotation.y)") == 1, (family, 'Delegate the computed yaw and slot position exactly once')
+    if family != 'holder':
+        assert "import {storageHelpersByAnchor,syncStorageVisualPose} from './storage-visual-maintenance.js';" in adapter
+        assert adapter.count("syncStorageVisualPose(e,NS+':storage_kind',bottle.kind,at,pose.rotation.y)") == 1, (family, 'Delegate the computed yaw and slot position exactly once')
     assert '.setRotation(' not in adapter, (family, 'Delegated yaw must have no second writer')
     assert 'export function syncStorageVisualPose(entity,kindProperty,kind,at,yaw)' in shared_pose
     assert shared_pose.count('.setRotation(') == 1, 'Shared pose must have exactly one rotation writer'
