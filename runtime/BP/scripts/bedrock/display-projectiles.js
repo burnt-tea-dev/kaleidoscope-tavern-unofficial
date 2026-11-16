@@ -14,7 +14,7 @@ import {waterSnapshot,setWithWater,restoreWater} from './waterlogging.js';
 import {bottleDisplayKey} from './vanilla-bottle-displays.js';
 
 const NS='kaleidoscope_tavern',store=new BottleStore(world),cupStore=new MixStore(world,validateCup);
-const GLASS_BLOCKS=new Set([NS+':bottle_empty',NS+':bottle_water',NS+':honey_bottle',NS+':dragon_breath_bottle',NS+':potion_bottle',NS+':xp_bottle']);
+const GLASS_BLOCKS=new Set([NS+':bottle_empty',NS+':bottle_water',NS+':honey_bottle',NS+':dragon_breath_bottle',NS+':potion_bottle',NS+':xp_bottle',NS+':molotov']);
 export const displayProjectileDiagnostics={broken:0,clouds:0,errors:[]};
 function error(e){displayProjectileDiagnostics.errors.push(String(e?.code??e));if(displayProjectileDiagnostics.errors.length>12)displayProjectileDiagnostics.errors.shift();}
 function blockHit(e){try{return e.getBlockHit?.()?.block??e.block;}catch{return e.block;}}
@@ -40,24 +40,28 @@ function applyCloud(dimension,at,itemId){
 export function handleDisplayProjectileHit(e){
  try{
  const block=blockHit(e),projectile=e?.projectile;if(!block||!projectile)return false;
- const id=block.typeId,isCup=isCupBlock(id);if(!isBottleBlock(id)&&!GLASS_BLOCKS.has(id)&&!isCup)return false;
- // Java Projectile.mayInteract is the gate; Bedrock exposes projectile owner but not a
- // per-block griefing query on this event. Require a live, non-spectator owner.
- if(!ownerCanInteract(projectile))return false;
+ const id=block.typeId,isCup=isCupBlock(id),isMolotov=id===NS+':molotov';if(!isBottleBlock(id)&&!GLASS_BLOCKS.has(id)&&!isCup)return false;
+ // Java Projectile.mayInteract gates bottle removal; Bedrock exposes the owner
+ // but no equivalent per-block permission query. Reuse the shared owner policy.
+ const canRemove=ownerCanInteract(projectile);if(!canRemove&&!isMolotov)return false;
   const p={x:block.location.x,y:block.location.y,z:block.location.z},isDrink=isBottleBlock(id),isVanillaPotion=id===NS+':potion_bottle',vanillaKey=isVanillaPotion?bottleDisplayKey(block):undefined,k=isDrink?bottleKey(block.dimension.id,p):isCup?cupKey(block.dimension.id,p):undefined,s=isDrink?readBottleDisplay(block):undefined,raw=k?(isDrink?store.raw(k):cupStore.raw(k)):undefined,vanillaRaw=vanillaKey?world.getDynamicProperty(vanillaKey):undefined,old=waterSnapshot(block);
   const native=isDrink&&s?nativeStoragePlan(block,k,s,undefined):isVanillaPotion?potionDisplayRemoval(block):undefined;
   let highest,thrown;
   for(const item of s?.items??[]){const parsed=parseBottle(item);if(parsed&&(!highest||parsed.quality>highest.quality))highest=parsed;}
   try{
-   if(highest){let owner;try{owner=projectile.getComponent?.('minecraft:projectile')?.owner;}catch{}
+   // Java MolotovBlock creates an ownerless stationary projectile at the block
+   // centre before BottleBlock checks mayInteract for the bottle's removal.
+   if(isMolotov)thrown=spawnThrownDrink(block.dimension,NS+':molotov',{x:p.x+.5,y:p.y+.5,z:p.z+.5},{x:0,y:0,z:0});
+   else if(highest){let owner;try{owner=projectile.getComponent?.('minecraft:projectile')?.owner;}catch{}
     thrown=spawnThrownDrink(block.dimension,highest.id,p,{x:0,y:0,z:0},{owner});
    }
+   if(!canRemove)return true;
    setWithWater(block,BlockPermutation.resolve('minecraft:air'));if(k){if(isDrink)store.restore(k,undefined);else cupStore.restore(k,undefined);}if(vanillaKey)world.setDynamicProperty(vanillaKey,undefined);native?.apply();
   }catch(err){try{thrown?.remove();}catch{}try{try{native?.rollback();}finally{restoreWater(block,old);if(k){if(isDrink)store.restore(k,raw);else cupStore.restore(k,raw);}if(vanillaKey)world.setDynamicProperty(vanillaKey,vanillaRaw);}}catch(rollback){error(rollback);}throw err;}
   native?.finish();
   // Bottle impacts retain the Java 4x4x4 glass fragments, not generic furniture debris.
   glassBreakFeedback(block.dimension,p);
-  if(thrown)displayProjectileDiagnostics.clouds++;
+  if(thrown&&!isMolotov)displayProjectileDiagnostics.clouds++;
   displayProjectileDiagnostics.broken++;return true;
  }catch(e){error(e);return false;}
 }

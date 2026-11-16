@@ -1,6 +1,7 @@
 import {world,system,ScriptEventSource} from '@minecraft/server';
 import {ExtensionTransport,EVENTS,TRANSPORT_LIMITS,createMutationQueue} from '../core/transport.js';
 import {CAPABILITIES} from '../core/registry.js';
+import {registeredEffectDefinitions} from '../core/extension-content.js';
 import {utf8Bytes} from '../core/util.js';
 import {EFFECT_BAR_PAUSE_TICKS} from '../core/effect-bar.js';
 import {pauseEffectBar} from './effect-bar.js';
@@ -26,7 +27,18 @@ export function installExtensionHost(registry){
   if(job.operation==='install')send(EVENTS.ack,{...value,ok:true,registryRevision:value.revision,revision:job.revision});
   else send(EVENTS.ack,{ok:true,source:job.source,revision:job.revision,removed:value});
  },failed(job,error){console.warn(`[Tavern Extension] ${error}`);send(EVENTS.ack,{ok:false,...error.packetContext,code:error.code??'INVALID_PACKET'});},superseded:job=>ackError(job,'TRANSFER_SUPERSEDED'),schedule:callback=>system.runTimeout(callback,1)});
- const ready=()=>send(EVENTS.ready,{api:1,version:'0.3.0',capabilities:CAPABILITIES,maxPacketBytes:TRANSPORT_LIMITS.packetBytes,maxPayloadBytes:TRANSPORT_LIMITS.dataBytes,maxParts:TRANSPORT_LIMITS.maxParts});
+ // Publish on the existing readiness/change events; no new timer or registry.
+ function publishEffectDefinitions(){
+  const groups=[];let rows=[];
+  for(const row of registeredEffectDefinitions()){
+   if(utf8Bytes(JSON.stringify([...rows,row]))>1400){groups.push(rows);rows=[];}
+   rows.push(row);
+  }
+  groups.push(rows);
+  groups.forEach((rows,part)=>send('kaleidoscope_tavern:effect_definitions',{api:1,revision:registry.revision,part,parts:groups.length,rows}));
+ }
+ registry.subscribe(publishEffectDefinitions);
+ const ready=()=>{send(EVENTS.ready,{api:1,version:'0.3.0',capabilities:CAPABILITIES,maxPacketBytes:TRANSPORT_LIMITS.packetBytes,maxPayloadBytes:TRANSPORT_LIMITS.dataBytes,maxParts:TRANSPORT_LIMITS.maxParts});publishEffectDefinitions();};
  system.afterEvents.scriptEventReceive.subscribe(ev=>{
   if(!EVENT_IDS.has(ev.id)||ev.id===EVENTS.ready||ev.id===EVENTS.ack)return;
   // Server origin is required. Pack namespaces are cooperative, not authenticated identities.

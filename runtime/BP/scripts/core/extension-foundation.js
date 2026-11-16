@@ -23,7 +23,9 @@ export function normalizeFoundation(raw,source,itemExists){
  check(new Set(furniture.map(x=>x.block)).size===furniture.length,'DUPLICATE_FURNITURE');
  const normalizedEffects=effects.map(row=>{
   check(row&&['timed','instant'].includes(row.mode),'EFFECT_MODE');
-  return {id:own(row.id,source),mode:row.mode,source};
+  if(row.category!==undefined)check(['beneficial','harmful','neutral'].includes(row.category),'EFFECT_CATEGORY');
+  if(row.available!==undefined)check(typeof row.available==='boolean','EFFECT_AVAILABILITY');
+  return {id:own(row.id,source),mode:row.mode,source,...(row.category!==undefined?{category:row.category}:{}),...(row.available!==undefined?{available:row.available}:{})};
  });
  check(new Set(normalizedEffects.map(x=>x.id)).size===normalizedEffects.length,'DUPLICATE_EFFECT');
  const pickBlocks=raw.pickBlocks??[];

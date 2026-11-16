@@ -30,12 +30,106 @@ The component must dispatch only on actual consumption, leaving native item
 settlement with its existing owner. Ordinary bottle drinks continue through
 `completeDrink`; their extension/guide registration is a separate operation.
 
+For Java `LivingEntity.addEffect(new MobEffectInstance(...))` semantics, add
+`operation: "add_status"` to the same request. Omitting it preserves the existing
+direct application contract above, including immediate Tavern drinks. Duration
+remains seconds and must convert to a positive whole number of ticks. For example,
+`{"entity":"<id>","effect":"kaleidoscope_tavern:zenith","duration":15,"amplifier":0,"operation":"add_status"}`
+adds 300 ticks to the existing shared status owner. Zenith, Shriek Attack and
+Upside Down run their existing action on the last valid effect tick, when Java
+would check remaining duration 1 and then decrement it to 0. Assignment itself
+does not execute the action, including a one-tick duration. The existing online
+clock, stacking, persistence, milk and death clearing apply. Clearing a status
+never executes its natural-expiry action.
+
+Registered external timed effects use that same host status path. External
+instant adapters currently have no registered Java status-tick contract:
+`add_status` rejects those requests rather than guessing their callback timing.
+Their ordinary direct application remains available. The definition snapshot's
+`mode: "instant"` describes direct delivery; it is not permission to bypass a
+Java `MobEffectInstance` duration. The caller must select the operation from its
+actual Java call, not from an item-specific delay or this mode flag.
+
 The Dimensions Wine source adapter uses this route from its actual pop-can
 `onConsume`. Its existing quality-2 Fanta/Pepsi/Sprite `slightly_tipsy` data agrees
 with [the maintained NeoForge Java table](https://github.com/WitherRedstone/Kaleidoscope-DimensionsWine/blob/6702d5f678b98c67b37d50408b8446641d492c6a/src/main/resources/data/kaleidoscope_dim_wine/datamap/drink_effect/fanta.json):
 45 seconds, amplifier 0, probability 1. Java also declares `happy` at qualities
 3–6. The clean Bedrock author omits those rows and has no implementation;
 this connection does not claim to restore `happy` or Java's camera roll.
+
+## Reading registered effect definitions
+
+The host advertises `effect_definitions` in API v1 readiness. It publishes
+`kaleidoscope_tavern:effect_definitions` on existing readiness responses and
+after an extension is atomically installed, replaced or removed. A consumer
+subscribes before sending one existing `kaleidoscope_tavern:api_ping` (`{}`).
+No extension registration, pack dependency, polling or per-consumption request
+is required. Script namespaces remain cooperative identifiers, not authentication.
+
+Each server-origin packet is at most 1900 UTF-8 bytes:
+
+```ts
+{
+ api: 1,
+ revision: number, // host registry revision for this script lifetime
+ part: number,     // zero based
+ parts: number,
+ rows: Array<{
+  id: string,
+  source: string,
+  category: 'beneficial' | 'harmful' | 'neutral' | null,
+  mode: 'timed' | 'instant',
+  available: boolean
+ }>
+}
+```
+
+`rows` comes from the existing effect-definition registry, including Tavern's
+own definitions. Extension `effects[]` may supply Java `category` and boolean
+`available`; the foundation validates both on entry. Older descriptors remain
+valid but project as `category:null, available:false`. Classification must come
+from the selected Java registration/constructor. A descriptor's `available`
+certifies wired gameplay, possibly an incomplete platform adapter. The read-only
+view further requires host-owned `add_status` support: Tavern's own effects and
+external timed effects qualify; external instant-only adapters remain listed
+with their original category/mode but project `available:false`. The same
+registry predicate guards `add_status` application. Direct drinks still use the
+original definition, so this projection does not disable an instant adapter.
+Availability does not mean complete Java parity or observed client acceptance.
+An unimplemented countdown-only descriptor must not set availability true.
+
+The recipient validates server origin, byte/schema bounds and assembles all
+parts of one revision before replacing its previous complete view. Never mix
+revisions or append to the old view: omitted IDs are revoked. Ignore older
+revisions and duplicate completed revisions. The registry allows at most 64
+extension sources with 64 effects each and a global limit of 2048 extension
+entries, plus 12 Tavern definitions (at most 2060 effect rows);
+every part is nonempty and `parts` cannot exceed that total. IDs have at most
+160 characters; an ID's namespace must equal `source`. A newer incomplete
+snapshot does not become an empty pool. Before the first complete snapshot,
+the optional view is unknown; no packet is not proof of an empty Java registry.
+The view is local to the current script lifetime and is not saved to entity or
+world properties.
+
+A beneficial-effect consumer filters `category==='beneficial' && available`
+and deduplicates exact IDs against its other effect owners. It does not copy
+Tavern/World Liquor names into a private list. Selection remains at the real
+consumption owner, once per actually consumed item/material. Application still
+uses [the existing effect_apply contract](#applying-a-custom-effect-from-an-existing-consumption-component)
+with `duration` in seconds: for a Java duration of `ticks`, send `ticks/20`.
+A Java `addEffect(MobEffectInstance)` consumer must also send
+`operation: "add_status"`; it must not infer immediate delivery from `mode`.
+The existing owner retains stacking, cache, online time, save/milk/death handling
+and the selected operation's tick or apply-time side effects. No state property
+is written by the consumer.
+
+Standalone consumers retain their own existing local/native effects and must
+not require Tavern in their manifests or invent a fixed fallback list of its
+effects. Only a complete received view supplies optional definitions. The
+existing API does not certify that every other pack has finished startup
+registration; an early view is current at its revision, not an all-packs-ready
+barrier. The host's grant event still has no ACK. This interface alone does not
+complete any food's full Java registry pool or establish in-game application.
 
 ## Barrel quality boosters
 
