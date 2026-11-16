@@ -8,13 +8,13 @@
 一般正式發布路徑只做：**沿用來源 CI → 組裝與相依 → 停服備份一份 → 存檔副本載入／重啟 → 准入、更新與讀回**。
 BDS 與保存驗證共用同一次演練；不另建新世界再跑相同循環。完整世界備份依下方每世界保留規則。
 
-2026-11-11 的測試限制與本機 staging 部署例外，依下節執行；以下舊流程說明不授權執行目前被禁止的測試。一般正式部署的 CI／保存門檻保留，不能用 staging 例外繞過。
+來源修改的必要測試與正常 PR 檢查依[目前擁有者規則](/root/AGENTS.md#owner-reset--2026-11-10)執行。本機 staging 入口依下節執行。一般正式部署的 CI／保存門檻保留，不能用 staging 入口繞過。
 
 動畫、物品顯示及手持問題先依[家族共用修復流程](MAINTENANCE.md#動畫物品顯示與手持修復)完成官方來源／版本核對與可重現對照。僅更新這些流程文件不建立遊戲候選、不升包、不重啟 LIVE。
 
 ## 本機修復候選部署至 staging（2026-11-11）
 
-擁有者已授權頻繁部署直接審閱、正常生成的本機完整候選，以便 Dot 做少量具體玩家體驗觀察。不必等遠端交付／CI；協調者不執行 CI、fixture、Native、模擬玩家或 saved-world 演練。只經正常停服、完整備份、安裝、開服及精確讀回。正式服仍使用原本穩定發布路徑；此入口不產生正式准入，不新增 Dot 操作或批准流程。
+擁有者已授權頻繁部署直接審閱、正常生成的本機完整候選，以便 Dot 做少量具體玩家體驗觀察。不必等遠端交付／CI；此部署入口不附加 CI、fixture、Native、模擬玩家或 saved-world 演練。只經正常停服、完整備份、安裝、開服及精確讀回。來源修改的必要檢查仍依目前擁有者規則執行。正式服仍使用原本穩定發布路徑；此入口不產生正式准入，不新增 Dot 操作或批准流程。
 
 使用 `staging-repair`，不使用一般 `prepare/deploy/update`，也不複製私有部署腳本：
 
@@ -34,7 +34,15 @@ BDS 與保存驗證共用同一次演練；不另建新世界再跑相同循環�
 }
 ```
 
-candidate 必須是完整 family_bundle 組合結果，含原始 family-receipt、兩側包及 world 選包清單；部署證據 output_dir 是另一個全新目錄。source-batch 沿正常生成記錄的 `source_commits[name]={path,commit}`、`packs[uuid]={name,side,path,version,modules,dependencies,tree}`；side 為 BP/RP，tree 是原有完整檔案 SHA-256 map 的排序 JSON 摘要及檔案數。工具核對原生成輸入與候選逐檔相等，保留 receipt 原來的 owned／preserved／upstream 身分；已生成 preserved 輸入不能冒充作者原包。未列於 batch 的包必須與實裝完全相同。只接受明列退役 UUID，不能新增包身分、切換世界、修改模式或 DB。改動包須有新版本且維持 module 身分、成對版本及精確相依。
+candidate 必須是完整 family_bundle 組合結果，含原始 family-receipt、兩側包及 world 選包清單；部署證據 output_dir 是另一個全新目錄。source-batch 沿正常生成記錄的 `source_commits[name]={path,commit}`、`packs[uuid]={name,side,path,version,modules,dependencies,tree}`；side 為 BP/RP，tree 是原有完整檔案 SHA-256 map 的排序 JSON 摘要及檔案數。產生端與安裝端共用 [`generated_pack`](../tools/family_update/source_batch.py) 讀取實際生成包；產生端先核對 `generated-inputs.json` 的 UUID、版本及 tree，再記錄完整 batch 輸入。安裝不再生成包，也不把工作區當成生成包。工具核對原生成輸入與候選逐檔相等，保留 receipt 原來的 owned／preserved／upstream 身分；已生成 preserved 輸入不能冒充作者原包。未列於 batch 的包必須與實裝完全相同。只接受明列退役 UUID，不能新增包身分、切換世界、修改模式或 DB。改動包須有新版本且維持 module 身分、成對版本及精確相依。
+
+正常批次組裝的權威入口是 [`assemble_batch.py`](../tools/family_update/assemble_batch.py)，由選定 Tavern 的同版工具執行：
+
+```sh
+/path/to/venv/bin/python /selected/tavern/tools/family_update/assemble_batch.py /local/batch-options.json
+```
+
+沿用既有 batch options 的 `run`、`parent`、可選 `installed_parent`、`sources`、`scope` 與 `memory_unit`。`sources` 明列 Tavern、Grilling、World Liquor 及 private；其他生成來源仍可列入來歷。工具讀 `run/generated-inputs.json`、完整父 batch／候選與 installed_parent 的 staging 設定，世界路徑只取該明確設定。它不生成玩法、不升版本、不呼叫服務。輸出仍是原來的 batch、完整候選、組裝結果及 staging 設定。主機上的舊 `assemble-batch.py` 只載入選定 Tavern 的此入口，不另維護實作；舊凍結來源不自動取得新工具。
 
 `authorization_file` 在此入口是 Git 外明確目標 JSON，與一般 LIVE 文字授權分開：
 
@@ -53,7 +61,7 @@ candidate 必須是完整 family_bundle 組合結果，含原始 family-receipt�
 
 server 名稱必須以 `-staging` 結尾，並與授權完全一致。LIVE reference 提供既有正式目標和共用 lock/lease；兩服路徑不能重疊。備份索引必須同時保護兩服，並與既有 policy 的宣告一致。執行時再用實際 BSM servers 路徑、活動 world、summary 及 properties bytes 核對檔案目標。staging 設定不能交給其他命令使用。
 
-先執行不帶 `--execute` 的命令取得 `review_input`；root 完成直接來源審閱後，將該物件原樣存為 review_file。這會綁定來源提交與未提交差異、原生成 batch、完整候選、config、授權、API adapter 及工具 bytes；不要求來源已合入遠端。快照本身不是審閱。本機 tooling 的未提交修改可納入審閱，不能假裝遠端交付已完成。
+先執行不帶 `--execute` 的命令取得 `review_input`；root 完成直接來源及生成輸入審閱後，將該物件原樣存為 review_file。schema 2 綁定原生成 batch、完整候選、config、授權、LIVE reference、API adapter 及實際 staging 部署工具 bytes。取得審閱資料和安裝前都核對每個生成輸入、候選檔案、選包順序與相依；安裝只使用已核對的暫存包和審閱時的選包資料，不再讀取可變選包清單。來源 commit 與 tree 保留生成來歷，owned receipt 的 repository 與 commit 仍須符合該歷史提交。工作區 HEAD 前進、未提交差異及無關檔案不會改變已固定的生成包，因此不再使審閱失效；需要採用後續源修時，須正常生成並重新審閱新輸入。staging 不載入只供生成／正式准入使用的 private host catalog。不要求來源已合入遠端。快照本身不是審閱，本機部署工具修改仍須直接審閱，不能假裝遠端交付已完成。舊 schema 1 審閱不自動轉換；舊 run 保持原樣，新批次使用同版產生端與安裝工具重新取得審閱。
 
 部署沿同一 maintenance lock/lease，要求零玩家，按實際完整世界備份與新增包副本留足 2 GiB 餘量。正常 stop 後用 `world_backup.capture/adopt` 完整備份並只輪替同一世界的舊備份；舊包以 rename 保留於 package-rollback。只改包和選包清單，開服前直接比對其餘世界 bytes。正常 start 後核對完整選中包、版本、順序、properties／引擎與 API 狀態。
 
