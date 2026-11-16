@@ -9,6 +9,7 @@ import {check} from '../core/util.js';
 import {planInventory,commitInventory,isPlainIngredient} from '../core/inventory.js';
 import {makeStack,hand,inventory,canWrite,canInteract,placementTake,blockAt,blockCenter,requireBlockReach,commitStoredStateTransaction,tell,air} from './transactions.js';
 import {installStatefulStorageRoutes,tickStorageVisuals,routeStatefulStorageRedstone,popRandomStoredBottle} from './stateful-storage-router.js';
+import {syncStorageVisualPose} from './storage-visual-maintenance.js';
 const HELPER=NS+':holder_bottle_visual',ANCHOR=NS+':holder_anchor',store=nativeStorageView(new HolderStore(world)),visuals=new Map();let cursor=0;
 export const holderDiagnostics={placed:0,inserted:0,taken:0,recovered:0,spawned:0,orphans:0,duplicates:0,repairs:0,redstone:'DRINKS_AND_MOLOTOV',redstonePops:0,redstoneNoops:0,redstoneErrors:0,errors:[]};
 function error(e){holderDiagnostics.errors.push(String(e));if(holderDiagnostics.errors.length>16)holderDiagnostics.errors.shift();}
@@ -24,7 +25,7 @@ export function syncHolderVisual(block,state=store.load(holderKey(block.dimensio
  all.sort((a,b)=>a.id.localeCompare(b.id));let e=all[0];if(e&&e.typeId!==externalVisual(HELPER,state.item)){discard(e,'repairs');e=undefined;}for(const x of all.slice(1))discard(x,'duplicates');
  const facing=block.permutation.getState(FACING)??0,pose=holderVisualPose(facing),at=position(block,facing);
  if(!e){e=block.dimension.spawnEntity(externalVisual(HELPER,state.item),at,{initialRotation:pose.rotation.y});e.setDynamicProperty(ANCHOR,holderKey(block.dimension.id,block.location));e.addTag('kaleidoscope_tavern:visual_helper');visuals.set(e.id,e);holderDiagnostics.spawned++;}
- e.setProperty(HOLDER_KIND,state.kind);e.setRotation({x:0,y:pose.rotation.y});e.tryTeleport(at,{checkForBlocks:false});visuals.set(e.id,e);return e;
+ syncStorageVisualPose(e,HOLDER_KIND,state.kind,at,pose.rotation.y);visuals.set(e.id,e);return e;
 }
 export function syncHolder(block){
  if(block?.typeId!==HOLDER_BLOCK)return false;const k=holderKey(block.dimension.id,block.location),state=store.load(k),wanted=blockKind(state),current=kind(block);

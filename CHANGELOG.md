@@ -1,3 +1,9 @@
+## 0.6.224 — 2026-11-16
+
+Reuse the existing storage pose owner for single-bottle holders. Read the actual kind, rotation and location, and write only differences; preserve Java slot/facing transforms, native item storage, drift repair and the original maintenance cadence. In the offline unchanged-pose sample (128 holders × 20 calls), each of property, rotation and teleport writes falls from 2,560 to zero; query count is unchanged and readbacks remain. This is not a claim about total native calls, FPS or client rendering.
+
+The [current parity matrix](docs/PARITY-MATRIX.md) reassesses 28 feature domains, records API candidates and existing PR ownership, and preserves bounded historical findings. Existing source/API suites and Java renderer checks pass; no new tests, fixtures, CI, engine/API upgrade, BDS, player-device or LIVE operation. The former holder source hashes remain unchanged in existing historical fields while the current shared owner contract verifies wiring and pose behavior.
+
 ## 0.6.221 — 2026-11-10
 
 Reorganize the native creative catalog by use with short labels and consistent shared vanilla icons. Keep all 161 existing visible items, Java wine/cocktail order, hidden variants and gameplay data. Pair the companion classification with World Liquor 0.1.209; source checks do not certify client inventory rendering.
