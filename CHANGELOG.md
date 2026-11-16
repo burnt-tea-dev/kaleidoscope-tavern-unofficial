@@ -1,3 +1,7 @@
+## 0.6.228 — 2026-11-16
+
+Preserve the final storage display kind requested within one tick. The shared pose owner now retains its successful pending property writes until the next observed tick, so A → B → A also queues the final A. Actual-state drift repair and settled-state zero writes remain; no inventory, helper, pose, asset or maintenance-frequency changes. The [source/API-contract evidence](docs/STORAGE-VISUAL-TICK-WRITES.md) records the defect, bounded state, failures and verification limits. No native or client result is claimed.
+
 ## 0.6.224 — 2026-11-16
 
 Reuse the existing storage pose owner for single-bottle holders. Read the actual kind, rotation and location, and write only differences; preserve Java slot/facing transforms, native item storage, drift repair and the original maintenance cadence. In the offline unchanged-pose sample (128 holders × 20 calls), each of property, rotation and teleport writes falls from 2,560 to zero; query count is unchanged and readbacks remain. This is not a claim about total native calls, FPS or client rendering.

@@ -1,5 +1,8 @@
+import {system} from '@minecraft/server';
 /** Bounded cosmetic maintenance only. Never caches inventory or slot selection. */
 const scans=new WeakMap();
+const pendingKinds=new Map();
+let pendingTick;
 
 /** Snapshot at most budget handles, not the whole world registry. The persistent
  * iterator supplies fair progress even when a previous batch removes helpers.
@@ -48,7 +51,18 @@ export function storageHelpersByAnchor(block,anchorProperty){
  * A failed teleport is not remembered, so the next maintenance retries it.
  */
 export function syncStorageVisualPose(entity,kindProperty,kind,at,yaw){
- if(entity.getProperty(kindProperty)!==kind)entity.setProperty(kindProperty,kind);
+ const tick=system.currentTick;
+ if(pendingTick!==tick){pendingKinds.clear();pendingTick=tick;}
+ const actual=entity.getProperty(kindProperty),id=entity.id;
+ let kinds=pendingKinds.get(id);
+ // setProperty is applied next tick. Retain this owner's successful writes so
+ // A -> B -> A cannot mistake the still-visible A for the final queued value.
+ // Read actual state as well, retaining repair of any observable property drift.
+ if(actual!==kind||(kinds?.has(kindProperty)&&kinds.get(kindProperty)!==kind)){
+  entity.setProperty(kindProperty,kind);
+  if(!kinds){kinds=new Map();pendingKinds.set(id,kinds);}
+  kinds.set(kindProperty,kind);
+ }
  const rotation=entity.getRotation();
  const delta=((rotation.y-yaw+180)%360+360)%360-180;
  if(Math.abs(rotation.x)>1e-4||Math.abs(delta)>1e-4)entity.setRotation({x:0,y:yaw});
