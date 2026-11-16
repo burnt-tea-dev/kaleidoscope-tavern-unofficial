@@ -272,7 +272,8 @@ jobs:
           LIQUOR_SOURCE: ${{ github.workspace }}/world-liquor-src
         run: |
           set -o pipefail
-          python tools/creative/catalog.py --peer ../world-liquor-src | tee ../evidence/catalog.json
+          python tools/creative/catalog.py | tee ../evidence/catalog.json
+          python tools/creative/catalog.py --root ../world-liquor-src | tee ../evidence/peer-catalog.json
           python tools/creative/test_catalog.py 2>&1 | tee ../evidence/creative-tests.log
           python tools/creative/test_legacy_labels.py 2>&1 | tee ../evidence/creative-legacy-labels.log
           python tools/creative/catalog.py --write
