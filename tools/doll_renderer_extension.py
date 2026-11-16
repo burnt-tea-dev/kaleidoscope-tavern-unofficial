@@ -7,7 +7,7 @@ reported as an official author release.
 import copy,hashlib,json
 from datetime import date
 from pathlib import Path
-from stable_host_profiles import CATALOG,CURATED,match_stable_profile,validate_stable_source
+from stable_host_profiles import CATALOG,CURATED,match_stable_profile,validate_stable_source,extension_expired
 BP='b3c9db76-4ae6-4986-a380-90a4025d95a9'
 RP='b20a91d2-f099-4293-8a7f-46bf7fbc6017'
 ARCHIVE='63bd2eb2ee2819c985d7c484df633c913cbb995abf3162aa68c997c24ef607f2'
@@ -73,7 +73,7 @@ def apply_renderer_extension(spec,bp_root,rp_root,bp_source,rp_source,owner_vers
     if owner_version[:2]!=[1,0] or spec['owner_version']!=owner_version:raise ValueError('renderer extension release is not paired with owner')
     version=stable['version'] if current else [1,0,(10500 if stable else 10400)+owner_version[2]]
     if spec['local_pack_version']!=version:raise ValueError('renderer variant must advance with its canonical owner')
-    if date.fromisoformat(spec['expires'])<date.today():raise ValueError('renderer extension expired')
+    if extension_expired(date.fromisoformat(spec['expires']),stable):raise ValueError('renderer extension expired')
     for key in ['removal_condition','feedback','authorization']:
         if not spec.get(key):raise ValueError('renderer review metadata missing '+key)
     for source in [bp_source,rp_source]:

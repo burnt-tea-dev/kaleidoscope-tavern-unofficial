@@ -2,7 +2,7 @@
 from datetime import date
 from pathlib import Path,PurePosixPath
 import hashlib,json,re,subprocess
-from stable_host_profiles import CURATED,curated_profile,declaration_sha,match_stable_profile
+from stable_host_profiles import CURATED,curated_profile,declaration_sha,match_stable_profile,extension_expired
 from native_freezer_extension import LOWER_TITLE,apply_native_26_60_update
 
 def host_source_root(repo,config):
@@ -185,7 +185,6 @@ def apply_host_extension(spec,owned_root,host_root,source,*,retained_owner=None,
   if result.is_symlink() or not result.resolve().is_relative_to(root.resolve()):raise ValueError('extension path outside pack')
   return result
  if spec.get('schema')!=1 or not spec.get('id') or not spec.get('version'):raise ValueError('extension identity missing')
- if date.fromisoformat(spec['expires'])<date.today():raise ValueError('extension expired')
  for key in ['removal_condition','feedback','authorization']:
   if not spec.get(key):raise ValueError('extension review metadata missing '+key)
  recovery=spec.get('kind')=='chinesefood-reviewed-repairs'
@@ -193,6 +192,7 @@ def apply_host_extension(spec,owned_root,host_root,source,*,retained_owner=None,
  cache=spec.get('kind')=='cookery-recipe-cache-repair'
  guide=spec.get('kind')=='cookery-guide-startup-repair'
  stable=station_api_profile or match_stable_profile(spec,owned_root,source)
+ if extension_expired(date.fromisoformat(spec['expires']),stable):raise ValueError('extension expired')
  engine_context=bool(guide and stable and spec.get('id')=='senluo:cookery-guide-startup-repair')
  if spec.get('text_replacements') and not stable:
   raise ValueError('script replacements require an exact reviewed stable profile')

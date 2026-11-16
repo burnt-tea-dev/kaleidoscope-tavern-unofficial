@@ -7,7 +7,7 @@ import copy
 from datetime import date
 import hashlib
 from pathlib import Path
-from stable_host_profiles import match_stable_profile
+from stable_host_profiles import match_stable_profile, extension_expired
 
 KIND = 'cookery-millstone-extension-admission'
 OWNER_VERSION = [1, 0, 50]
@@ -29,7 +29,6 @@ def apply_millstone_extension(spec, owned_root, host_root, source):
         expires = date.fromisoformat(spec['expires'])
     except (KeyError, TypeError, ValueError) as exc:
         raise ValueError('millstone expiry is invalid') from exc
-    if expires < date.today():raise ValueError('millstone repair expired')
     for key in ('removal_condition', 'feedback', 'authorization'):
         if not isinstance(spec.get(key), str) or not spec[key].strip():
             raise ValueError('millstone review metadata missing ' + key)
@@ -39,6 +38,7 @@ def apply_millstone_extension(spec, owned_root, host_root, source):
             or spec.get('json_updates') != []):
         raise ValueError('millstone repair permits only its exact source file')
     profile = match_stable_profile(spec, owned_root, source)
+    if extension_expired(expires, profile):raise ValueError('millstone repair expired')
     if profile is None or profile.get('owner_version') != OWNER_VERSION:
         raise ValueError('millstone repair requires exact reviewed declaration')
     replacements = spec.get('text_replacements')

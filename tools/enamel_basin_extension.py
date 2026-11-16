@@ -9,7 +9,7 @@ import hashlib
 import json
 from pathlib import Path
 
-from stable_host_profiles import match_stable_profile,current_author_profile
+from stable_host_profiles import match_stable_profile,current_author_profile,extension_expired
 
 KIND = 'cookery-enamel-basin-lid-repair'
 IDENTIFIER = 'kaleidoscope_cookery:enamel_basin'
@@ -77,8 +77,6 @@ def apply_enamel_basin_extension(spec, owned_root, host_root, source):
         expires = date.fromisoformat(spec['expires'])
     except (KeyError, TypeError, ValueError) as exc:
         raise ValueError('enamel basin expiry is invalid') from exc
-    if expires < date.today():
-        raise ValueError('enamel basin repair expired')
     for key in ('removal_condition', 'feedback', 'authorization'):
         if not isinstance(spec.get(key), str) or not spec[key].strip():
             raise ValueError('enamel basin review metadata missing ' + key)
@@ -89,6 +87,8 @@ def apply_enamel_basin_extension(spec, owned_root, host_root, source):
             or spec.get('text_replacements') != [dict(path=PATH, before=BEFORE, after=AFTER)]):
         raise ValueError('enamel basin repair permits only the exact middle-range replacement')
     profile = match_stable_profile(spec, owned_root, source)
+    if extension_expired(expires, profile):
+        raise ValueError('enamel basin repair expired')
     if profile is None or profile.get('owner_version') != owner:
         raise ValueError('enamel basin repair requires its exact reviewed private owner')
     root = Path(host_root)
