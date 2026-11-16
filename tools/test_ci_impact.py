@@ -10,21 +10,30 @@ from ci_impact import changed_paths, plan
 
 
 class ImpactTests(unittest.TestCase):
-    def test_runtime_sources_tests_fixtures_and_dependencies_require_full_suite(self):
+    def test_exports_are_targeted_but_shared_and_unknown_inputs_require_both_suites(self):
+        for name in ("runtime/BP/scripts/core/effects.js", "runtime/RP/textures/x.png"):
+            with self.subTest(export=name):
+                result = plan([name])
+                self.assertTrue(result["runtime"])
+                self.assertFalse(result["family"])
         for name in (
-            "runtime/BP/scripts/core/effects.js", "runtime/RP/textures/x.png",
             "tools/check_release.py", "tools/efficiency/mock-loader.mjs",
+            "tools/host_extensions.py", "tools/paired_host_extension.py",
+            "tools/family_archive_index.py", "tools/ci_impact.py",
             "tools/fixtures/reference.md", "tools/ambient-sparse.test.mjs",
             "family/tests/tavern-probe.js", "docs/fixtures/expected.md",
             "data/hud-native-reference.json", "sdk/api.js", "art/model.bbmodel",
             "baseline.json", "release-history.json", "release.json", "config.json",
             "manifest.json", "package-lock.json", ".github/workflows/validation.yml",
             "docs/RELEASE-NOTES-0.6.89.md", "unknown/config.toml", "new-tool.py",
+            "runtime/unknown-helper.py", "runtime/BP/../../tools/helper.py",
         ):
             with self.subTest(name=name):
-                self.assertTrue(plan([name])["runtime"])
+                result = plan([name])
+                self.assertTrue(result["runtime"])
+                self.assertTrue(result["family"])
 
-    def test_family_tools_and_locks_use_always_running_family_regressions(self):
+    def test_family_tools_and_locks_select_family_regressions_without_runtime(self):
         for name in (
             "family/upstream.lock.json", "family/upstream-feedback.json",
             "tools/family_bundle.py", "tools/test_family_guard.py",
@@ -42,23 +51,32 @@ class ImpactTests(unittest.TestCase):
         result = plan(["README.md", "docs/BASELINE-MAINTENANCE.md", "family/MAINTENANCE.md"])
         self.assertTrue(result["baseline"])
         self.assertFalse(result["runtime"])
+        self.assertFalse(result["family"])
         self.assertTrue(plan(["docs/VALIDATION-0.6.89.json"])["runtime"])
+        self.assertTrue(plan(["docs/VALIDATION-0.6.89.json"])["family"])
 
     def test_mixed_changes_cannot_hide_runtime_or_new_family_tests(self):
-        self.assertTrue(plan(["docs/a.md", "family/upstream.lock.json", "tools/new-test.py"])["runtime"])
+        result = plan(["docs/a.md", "family/upstream.lock.json", "tools/new-test.py"])
+        self.assertTrue(result["runtime"])
+        self.assertTrue(result["family"])
         self.assertTrue(plan(["tools/test_family_new_feature.py"])["runtime"])
+        self.assertTrue(plan(["tools/test_family_new_feature.py"])["family"])
 
     def test_manual_missing_payload_and_unknown_event_require_full_suite(self):
         for event_name, event in (("workflow_dispatch", {}), ("push", {}), ("pull_request", {}), ("schedule", {})):
             with self.subTest(event=event_name):
                 names, reason = changed_paths(event_name, event, Path("."))
-                self.assertTrue(plan(names, reason)["runtime"])
+                result = plan(names, reason)
+                self.assertTrue(result["runtime"])
+                self.assertTrue(result["family"])
         names, reason = changed_paths("push", {"before": "0" * 40, "after": "1" * 40}, Path("."))
         self.assertTrue(plan(names, reason)["runtime"])
+        self.assertTrue(plan(names, reason)["family"])
 
     def test_missing_git_history_requires_full_suite(self):
         names, reason = changed_paths("push", {"before": "1" * 40, "after": "2" * 40}, Path("."))
         self.assertTrue(plan(names, reason)["runtime"])
+        self.assertTrue(plan(names, reason)["family"])
 
     def test_cli_produces_boolean_outputs(self):
         import os
@@ -73,6 +91,7 @@ class ImpactTests(unittest.TestCase):
             self.assertFalse(json.loads(result.stdout)["runtime"])
             self.assertIn("runtime=false\n", output.read_text())
             self.assertIn("baseline=true\n", output.read_text())
+            self.assertIn("family=true\n", output.read_text())
 
     def test_rename_from_runtime_to_markdown_and_multicommit_push(self):
         with tempfile.TemporaryDirectory() as directory:

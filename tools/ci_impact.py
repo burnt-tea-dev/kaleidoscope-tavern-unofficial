@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Plan CI from the full Git diff; unrecognised inputs require all checks."""
+"""Select runtime and family checks from the complete Git diff."""
 import argparse
 import json
 import os
@@ -8,7 +8,7 @@ import re
 import subprocess
 
 
-# These tools are covered by the unconditional baseline/family test job.
+# These tools select the existing family regressions in the baseline job.
 FAMILY_TOOLS = {
     f"tools/{name}.py"
     for name in (
@@ -45,14 +45,21 @@ def plan(paths, force_full_reason=None):
     groups = {"docs": [], "family": [], "runtime": []}
     for name in sorted(set(paths)):
         groups[classify_path(name)].append(name)
+    # Only known pack exports can skip the family suite. Shared helpers, CI,
+    # dependency configuration and unknown paths may affect family operations.
+    shared_inputs = any(
+        not name.startswith(("runtime/BP/", "runtime/RP/"))
+        or ".." in PurePosixPath(name).parts
+        for name in groups["runtime"]
+    )
     return {
         "schema": 1,
         "baseline": True,
         "runtime": bool(force_full_reason or groups["runtime"]),
-        "family": bool(groups["family"]),
+        "family": bool(force_full_reason or groups["family"] or shared_inputs),
         "reason": force_full_reason or (
             "Runtime, validation, source or unknown input changed" if groups["runtime"]
-            else "Only explicitly covered family inputs or prose changed"
+            else "Only classified family inputs or prose changed"
         ),
         "paths": groups,
     }
@@ -106,8 +113,9 @@ def main():
     if summary := os.environ.get("GITHUB_STEP_SUMMARY"):
         with open(summary, "a") as stream:
             stream.write(f"CI impact: {result['reason']}.\n\n")
-            stream.write("Baseline and family regressions always run. ")
-            stream.write("All runtime jobs run.\n" if result["runtime"] else "Runtime jobs are explicitly skipped.\n")
+            stream.write("Baseline checks always run. ")
+            stream.write("Family regressions run. " if result["family"] else "Family regressions are skipped. ")
+            stream.write("Runtime PR checks run; specialized jobs remain manual.\n" if result["runtime"] else "Runtime jobs are explicitly skipped.\n")
             stream.write("\n```json\n" + json.dumps(result, indent=2) + "\n```\n")
 
 

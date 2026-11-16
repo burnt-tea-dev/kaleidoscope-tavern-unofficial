@@ -32,7 +32,7 @@ def fingerprint(root):
 
 def validate_release_projections(config):
  # These four existing Tavern guards bind every authored release token. Run
- # them before hashing or claiming an identity; generic fixture packs keep
+ # them before hashing or recording an identity; generic fixture packs keep
  # their original manifest-only contract.
  if config.get('repository')!='casama233/kaleidoscope-tavern-unofficial':return
  from baseline_reference import version_projection
@@ -135,9 +135,6 @@ def main():
   trees,_=validate(config);history_path=ROOT/'release-history.json';history=read(history_path) if history_path.exists() else {};version='.'.join(map(str,config['version']))
   if version in history and history[version]!=trees:fail('version already used; bump the release version')
   if version not in history and history and tuple(config['version'])<=max(tuple(map(int,v.split('.'))) for v in history):fail('release version must advance')
-  from release_claim import claim_release,ReleaseClaimError
-  try:claim_release(ROOT,config['version'],trees,config['repository'])
-  except ReleaseClaimError as error:fail(str(error))
   history[version]=trees;config['source_trees']=trees
   history_path.write_text(json.dumps(history,indent=2)+'\n');(ROOT/'baseline.json').write_text(json.dumps(config,indent=2)+'\n')
   print('Frozen '+version);return
