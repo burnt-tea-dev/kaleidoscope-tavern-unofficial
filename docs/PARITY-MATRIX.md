@@ -6,66 +6,6 @@ Adopt the official Bedrock Tavern1.0.7 unique-reference rule. Preserve the curre
 
 目前維護版本與 BP／RP 身分以 [baseline.json](../baseline.json) 為準；公開下載、來源配對及部署見[家族現況](../family/BASELINE-STATUS.md)。下列日期段保留各次修補及原始證據範圍，不因較新的來源版本自動取得畫面或完整家族通過結果。真人使用不是發布、部署或完成門檻，沿用[擁有者現行規則](../family/UPDATE-WORKFLOW.md#擁有者簡化規則2026-11-04)。
 
-## 現行功能、API 與成本重審（2026-11-16，T224 候選）
-
-本節以 main `8d4a9c6a8d8e030fd07800b99de025572995fe7d` 為起點，逐項重審本矩陣、`EFFECTS-PARITY-AUDIT-20260928.md`、`ITEM-VIEW-PARITY-20261002.md` 與現行 runtime 的缺失／差異／取捨。表內 28 項是功能領域，並非 28 個新發現或 28 項全部未實作；後方有日期的原始證據仍保留原範圍。2026-11-16 直接核對官方 Java branches：Forge1.20.1 `c4ec1880bd44cf3139d3ba744ab30bb379cf1416`、NeoForge1.21.1 `a1afba34981a00e89d57130d3dc8f1e64f1820a2`；另行 26.1.2 `9b8f165a4641e738e694641dd81240a0206573e1` 不混成維護分支已完成。Java 路徑以[官方來源](https://github.com/KaleidoscopeMods/KaleidoscopeTavern/tree/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern)及既有逐檔來源記錄為準。
-
-判定分開為「可實作／本次改善」「已有未合併 PR」「現行已實作但證據有界」「仍有差距，API 組合尚未證明」。文件未列出某個 setter、舊版本一次陰性或未做客戶端觀察，都不足以證明所有 Bedrock API 永遠無法實現。現行 manifest 仍為 server **2.7.0**／server-ui **2.0.0**，最低引擎 **1.26.50**；當日較新的 stable／preview 文件只提供候選路線，不是這個 manifest 已可直接呼叫的證據。所有下一步以原作行為與完整物品保全為條件；不靠降低原作 tick 頻率或擴大全世界掃描換取表面性能。
-
-表中 `JS/` 指 `runtime/BP/scripts/`，`RP/` 指 `runtime/RP/`；原標記摘述的是既有差距原因，不把歷史客戶端回報當作本版重現。
-
-| ID／範圍 | 原標記／來源接點 | 現行判定與可行 API 路線 | 成本、風險與下一步 |
-| --- | --- | --- | --- |
-| T01 單瓶架顯示維護 | 新增成本發現；`JS/bedrock/holder.js`，`core/holder.js`；Java `HolderBlockEntityRender.render` 與 `data/storage-render-source.json` | **本次改善**：沿用 `storage-visual-maintenance.js` 的 `syncStorageVisualPose`，依實際 property／rotation／location 才寫入；四朝向、slot0 位置、RP pitch 與原維護頻率不變。[E] | 靜止時省掉三類寫入，仍需三類讀回與原查詢；沒有新增 helper／快取。外移修復、錯誤 yaw／kind 與 teleport 失敗重試保留。數據見下。 |
-| T02 放置型酒架／酒櫃完整物品 | `T-W-STORAGE` 的「native preservation bounded」；`JS/bedrock/native-item-storage.js`、`stateful-storage-router.js` | 原生 carrier 已保存完整 ItemStack，不能再標全部 metadata 缺失。`minecraft:block_entity.container`／block DP 可成為減少 carrier 的候選；[B] 的格式／module 條件需獨立符合。[C] 可沿用完整 stack 交易。 | 尚未證明容器格限、破壞掉落、重錨、卸載與舊存檔遷移全等價；先完成單一 owner 遷移設計及回復邊界，不能同時留下兩套可消費庫存。 |
-| T03 可攜雪克杯任意三份 decorated ItemStack | 歷史 metadata 取捨；`JS/bedrock/shaker-storage.js`、`mixology.js`、`core/shaker-tags.js` | 已放置 native stack 與可攜既有資料不同；不能把拒收任意三份非堆疊／藥水資料寫成永久 API 不可能。`storage_item`＋`ItemInventoryComponent` 有真 item container，但 [S] 最大 weight64，並不直接等於三格非堆疊物。block/item entity-storage 是另一候選 [B]。 | 優先證明容量、順序、完整 metadata、clone／放下／破壞／重登循環；target2.7 不直接採最新 beta counterpart。通過前保留拒收及原物，不能 JSON 重建未知內容。 |
-| T04 點格／空手／副手／Adventure 互動 | `T-W-STORAGE`、`T-W-FURNITURE` 的真 hit／輸入待驗；`JS/bedrock/java-placement-router.js`、`stateful-storage-router.js` | 現行 source router、revision 與 hand 支付已有；before／after block-use 及 getBlockFromViewDirection 可組合，不能由 fake ray 成功推到所有 native mouse／touch。 | 維持同一交易 owner；下一步逐入口對照原 Java hand／face／use 次序，精確處理事件重複而非增加每 tick 全玩家射線。 |
-| T05 放置 Molotov 投射路線 | 放置／普通投擲視覺與物理差距；`JS/bedrock/display-projectiles.js`、`runtime/BP/items/molotov.json` | 已有 [PR642](https://github.com/burnt-tea-dev/kaleidoscope-tavern-unofficial/pull/642) 對齊原生 projectile 路線，仍有 native 範圍未驗。 | 沿該 PR 完成權威物件、初速、碰撞及消費次序；不建立第二 projectile owner，本次不重做。 |
-| T06 拆葡萄架後採收 | 栽培／破壞順序缺失；`JS/bedrock/cultivation.js`、`natural-break.js`、`transactions.js` | [PR641](https://github.com/burnt-tea-dev/kaleidoscope-tavern-unofficial/pull/641) 已處理來源行為；不是引擎無法做到。 | 保持自然破壞與交易共用的掉落 owner，避免重複掉落或額外掃描；本次不覆蓋其變更。 |
-| T07 作者相容／Deco 配方與指南 | foreign integration／作者更新；`JS/core/registry.js`、`JS/core/installed-recipe-sources.js`、`JS/data/cookery-guide-payload.js` | [PR640](https://github.com/burnt-tea-dev/kaleidoscope-tavern-unofficial/pull/640) 已有 T223 來源採用；既有 extension protocol 可實作有來源的新增項目。 | 不把同名物品直接當等價依賴；沿原註冊與 ACK owner 按需更新，避免每 tick 重建配方／指南。 |
-| T08 微醺純 roll | `T-TIPSY-ROLL`，原作 CameraAnglesEvent；`JS/core/tipsy-visual.js`、`bedrock/tipsy-visual.js` | **缺失仍在，API 重審開放**。官方 Camera.playAnimation／RotationKeyFrame.rotation Vector3 [K] 有三軸路徑；尚未證明在目標版本作相對 roll 並保留瞄準、原生手臂及其他 camera owner。現有 yaw 僅 opt-in。 | 下一步以同一 camera owner 評估原作波形、恢復與衝突；不逐 tick 改玩家 yaw 冒稱 roll，不提前導入每人 spline 資源。 |
-| T09 長臂一般挖掘／攻擊距離 | `T-LONG-REACH`；Java `LongReachEffect`，`JS/bedrock/custom-effects.js` | 酒館 item-use 射線已延長，一般原生 attack／mine 尚未等價。[R] kinetic／piercing weapon確有native reach／creative_reach；前者使用中逐tick傷害、後者直線多目標且不能挖方塊，並不直接等於玩家一般reach +3。射線 [E] 仍可作自有互動。 | 先區分三種入口並確認目標版 attribute／事件可取消與支付契約；保留原作 +3 距離，避免全玩家全 tick 重做原生採掘。 |
-| T10 草叢隱身與已鎖定仇恨 | `T-GRASS-STEALTH`；Java `GrassStealthEffect`，`JS/bedrock/custom-effects.js` | 短 invisibility 存在，裝備／名稱整體隱藏與清既有 target 未完成。官方 Entity.target [E] 仍標 read-only；既有60.6陰性只封閉 setter。`reset_target` [A] 可供**自有** entity event，未證明任意 vanilla mob 可直接觸發。 | 優先限定目標族與原生事件 ownership；不可刪掉／重建 mob 丟交易與裝備，也不泛改全部 vanilla AI。 |
-| T11 高跟鞋步高 | `T-HIGH-HEELS`；Java `HighHeelsEffect`，`JS/bedrock/custom-effects.js` | 條件式 tryTeleport 不等於原生 step height。[PR577](https://github.com/burnt-tea-dev/kaleidoscope-tavern-unofficial/pull/577) 保留選定 Player keepVelocity 拒絕／步高候選結果；`variable_max_auto_step` [H] 存在，不代表可套一般 Player。 | 沿現有 PR 釐清 Player 與 rideable 差異、碰撞／速度及權限；不能加固定 impulse 或用節流掩蓋行走差異。 |
-| T12 經驗球吸引與拾取 | `T-XP-PICKUP`；Java `XpDrainEffect`，`JS/bedrock/custom-effects.js` | 真球吸引存在，Java 清 takeXpDelay／逐球 playerTouch、Mending 與多人歸屬仍有差距。addExperience 可加數值但不是同一拾取契約。 | 保留每5tick範圍與真球路線；後續需原生拾取／裝備修補 ownership，不能刪球改加XP造成雙領或跳過 Mending。 |
-| T13 感知／TreasureSense 穿牆輪廓 | `T-VISION-OUTLINE`；Java `VisionEffect`，`JS/bedrock/custom-effects.js` | alive／LivingEntity／AABB／50tick pulse 和聲音已處理，真 outline 未完成。per-viewer properties、render-controller 或 debug shape 可研究替代表現，但不是自動等價 Java Glowing。[E] | 不把所有目標生成常駐輪廓 helper；先證明遮擋、只給適用觀察者、60tick存活與卸載回收，再量 observer×target 成本。 |
-| T14 摸金校尉取武器 | 效果差距；`docs/EFFECTS-PARITY-AUDIT-20260928.md`；`JS/bedrock/custom-effects.js`、`pickup-overflow.js` | 實作已有 equippable 讀寫、原 stack 掉落與 rollback；部分 vanilla mob 在所選引擎不暴露 Script equippable，不能由 player 裝備 API 推全部 mob 可用。[E] | 按實際 mob 元件取用、缺元件不消費／不重建；繼續追原生 equipment 與 pickup delay，保留一個掉落 owner。 |
-| T15 即時治療／傷害 | `T-INSTANT-DRINK`；`JS/bedrock/instant-effects.js`、`drink-effects.js`，`data/java-parity/instant-source-reference.json` | 同步窄原生路線已存在，舊「所有 instant 必延後」過時；IndirectMagic 標籤、heal hooks、任意 class／事件階段仍有差距。health／applyDamage 是可用路徑 [E]，並不證明引擎接受傷害。 | 先維持真 consume callback 順序與來源分派；後續補原生 cause／防禦／death owner，不能額外第二次傷害充當漏掉的 Java hook。 |
-| T16 效果粒子、ambient／圖示與其他 owner | 原生效果 flag／status aura 取捨；`JS/bedrock/status-aura.js`、`effect-icons.js`、`drink-effects.js` | 自訂效果時鐘、圖示及色彩已實作；外部原生效果的 ambient／hidden flag 並非全可由現行讀取重建。addEffect／getEffects [E] 與 own metadata 可組合，仍需明確資料來源。 | 只記錄本 owner 已知事實，變更／到期失效；不把看不見的 flag 預設為 false，避免重覆每 tick 重建效果。 |
-| T17 香薰治療 | 歷史原生285秒 vs Java60tick；`JS/bedrock/decorations.js`、`runtime/BP/entities/zombie_villager*.json` | owned transformation group 已修60tick／重設，舊「原生做不到」被現行定義推翻；來源與既有窄原生結果見下方 T203。任意交易／裝備／DP、舊v1類型升級仍不能泛化。 | 保留原傷害次序、原生轉化與 source overlay；不要重建村民／搬運推測資料。這次不重跑已完成場景。 |
-| T18 香薰／互動／雪花粒子 | `T-INCENSE`，歷史固定頻率／幾乎不可見；`JS/core/incense-sampling.js`、`bedrock/decorations.js`、`RP/particles/` | 現行 recipient-local Java sampling 已取代舊固定值；Molang、粒子 motion／collision 等可實作受限部分，原作完整光照／遮擋／隨機流不是已證等價。 | 先對照來源 lifetime／大小／碰撞；合併相同 emitter 輸入可研究，但不可改每位玩家原作取樣頻率或向整維度廣播。 |
-| T19 黑板多行輸入 | 歷史「單行跳脫／正式多行未完成」；`JS/bedrock/writing-boards.js`、`tools/build_tavern_forms.py`、`RP/ui/` | **已有實作**：T206 原生 multiline edit_box 的 scoped form 分支；Modal API 無 multiline 不等於原生 UI 無能力。Enter／IME／觸控／手把的當前實際輸入未觀察。 | 保留原文本、320／350／1500上限與提交重查；不再計畫另一個聊天輸入器或全域 server_form 覆寫。 |
-| T20 黑板字型／glow／距離／spyglass | 板面 N06／`T-W-FURNITURE`；`JS/bedrock/board-text.js`、`writing-boards.js`、`core/board-layout.js` | layout／字卡幾何已有，Java Font、相機距離與 entity距離、近16／遠48及spyglass分支仍有界。per-viewer property 可候選，目標版可靠 camera／scoping 觀測未證明。 | 保留現有有界 cull；下一步先分離玩家腳點、頭點、主 camera 與觀察entity，不能只換成 getHeadLocation 就聲稱所有相機等價。 |
-| T21 特調杯身／酒液RGB／六幀 | `T-SIGNATURE-GUI`、`T-SIGNATURE-3D`；`JS/core/bottle-display-schema.js`、`RP/attachables/`、`RP/render_controllers/` | 原杯身白色、酒液 tint、336-entry atlas 與外部 RGB fallback 存在；atlas外平面overlay陰影差異仍在。原生 material／render-controller／Molang 可改善特定域，非全RGB逐像素保證。 | 下一步逐來源材質／tint 層比較，選有限 atlas 與通用shader取捨；不得按全部RGB生成巨大資源或改Java平均色。 |
-| T22 玻璃亮度／透明／PBR | `T-GLASS-PBR`；`tools/check_visuals.py`、`docs/VISUAL-MATERIAL-AUDIT-0.6.110.json`、`RP/textures/` | 目前 MER／透明像素檢查存在；歷史過亮不等於當前重現。材質參數、render_method 可調，Java原材質不提供所有Bedrock PBR真值。 | 有目標場景再改材質；先辨透明排序、曝光與資源包堆疊，不增加幾何層遮問題，也不以靜態texel驗證稱已改善FPS／畫面。 |
-| T23 雪克杯第一／三人稱動作 | `T-SHAKER-HELD`；`JS/bedrock/shaker-hands.js`、`RP/animations/runtime_shaker.animation.json`、`art/interfaces/shaker-hand-source.json` | rest／use／release 與原 waveform 已接，完整FOV／皮膚／所有幀仍未全驗；attachable／animation controller 可實作來源變換。 | 依現有同一手持owner評估插值及controller狀態；不另疊可見手臂，不降低使用時計來減載。 |
-| T24 HUD共存／進度體感 | HUD／雪克杯成本取捨；`JS/bedrock/shaker-screen.js`、`shaker-hud-transport.js`、`effect-bar.js` | 自有 namespace、三transport、原生root與有限跨維度refresh已在；partial-tick游標、foreign actionbar競爭／裝置比例仍有差距。 | 既有閒置preview快取可保留，活動進度與交易不可讀舊快取；後續合併未變封包而非降遊戲時計，避免新全域HUD owner。 |
-| T25 壓榨原料／未知物品碎屑 | 未知 third-party 顯示 fallback；`JS/bedrock/pressing-ingredients.js`、`interaction-particles.js`、`JS/data/item-particle-sprites.js` | 既有來源 sprite／item display 路線存在，未知物品退回有限表示；item metadata 與任意模型 renderer 並非同一能力。 | 可沿 extension 註冊宣告增補有來源的模型／粒子，不猜貼圖或每 tick 掃全部 item registry；先量資源大小與每台helper數。 |
-| T26 家具含水／座位／支撐／連接 | `T-W-FURNITURE`；`JS/bedrock/furniture.js`、`waterlogging.js`、`decorations.js` | source adapter 已實作，真 mouse hit、多玩家座位與各模型動畫保留待證範圍；block states、rideable、events可用。[M] 原生multi_block已有2–4 parts整體放置／破壞與getParts，可評估雙格家具整合。 | 以單一座位owner維護；multi_block需另核每part容器保存、原形狀與單次掉落語義，再減少手工配對／掃描，不能直接替換舊雙格存檔。 |
-| T27 聲音、來源粒度與使用感 | 飲用／調酒／投料聲場待驗；`JS/bedrock/mixology.js`、`bottles.js`、`RP/sounds/` | 原音檔與來源觸發存在，實際空間聲場、快速取消／重開及同時播放不由檔案hash證明。playSound／stopSound 或新版instance路線應按target API選用。 | 僅有事件時發聲，保留原頻率與stop ownership；不得用全域 stopsound 干擾其他物件，沒有本輪聲音或端到端延遲量測。 |
-| T28 可選附屬／效果時計與載入成本 | SDK／online clock／多owner取捨；`JS/bedrock/extension-host.js`、`core/transport.js`、`bedrock/custom-effects.js` | 既有 ACK、raw變更失效、離線暫停與fresh recipient有明確契約；不能重標已修的啟動／重複ACK為缺失。第三方Java event／class不會由註冊ID自動等價。 | 沿同一protocol增補可聲明資料；快取限不變解析／派生資料，源狀態依原頻率讀取，停止未證實的全世界輪詢。 |
-
-### T01 的實作、量測與驗證邊界
-
-`HolderBlockEntityRender.render` 的四朝向與 `renderStack(...,0.5,0.125,0.75,0.95f,0,-45)` 未改；RP 擁有瓶身 pitch，native yaw 使用同一 `holderVisualPose`。其他酒櫃／酒架已共用的 `syncStorageVisualPose` 每次讀實體實際狀態，只有差異才呼叫 `setProperty`、`setRotation`、`tryTeleport`，沒有用上次期望值掩蓋外來移動。維持 block tick／20tick helper維護、原查詢及重建／去重策略。
-
-臨時離線命令使用既有 `tools/efficiency/mock-loader.mjs`／`mock-server.mjs` 呼叫正式 `syncHolderVisual`；128 個已對位的 occupied holder，四朝向輪流，20輪。修前、修後皆查詢2560次／128實體／零spawn／零remove；三種 native 寫入各由2560降為0。代價是維持時讀回 property、rotation、location，故不宣稱**全部 native 呼叫數下降**。外移0.2、pitch10、錯誤kind及一次失敗teleport的離線場景顯示錯誤項修復，失敗位移於下次再試；沒有額外永久pose cache。
-
-既有 efficiency、pickup adapters 與 baseline-reference suites 通過；`check_storage_rendering.py --java-source <官方Forge checkout>` 驗21份原作檔案、100 pose／200 model pose／10400頂點比較。既有 renderer check 的 holder 特例以前要求無條件 `setRotation` 並提早return，現在沿其他家具相同的共用writer／真rotation讀回契約；獨立Java矩陣驗證保留。`holder.js` 的舊兩列hash原樣移至既有 reconciliation `historicalFiles` 及 launch `historicalChanges`，由既有 current extension contract 接手註冊、事件、20tick cadence及shared owner連線，沒有新逆向層、改舊hash、新測試或新fixture。這些是來源／API-double結果；本輪沒有BDS、Minecraft、LIVE、玩家裝置、FPS、TPS、記憶體或客戶端畫面量測。
-
-### 官方 API 對照（2026-11-16 查閱）
-
-- [E] [Entity](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/entity?view=minecraft-bedrock-stable)、[Player](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/player?view=minecraft-bedrock-stable)：實際 property／rotation／location、AABB、效果及玩家讀取邊界；latest頁面不替代target2.7型別或引擎驗證。
-- [B] [block_entity component](https://learn.microsoft.com/en-us/minecraft/creator/reference/content/blockreference/examples/blockcomponents/minecraftblock_block_entity?view=minecraft-bedrock-stable)、[Block Entity](https://learn.microsoft.com/en-us/minecraft/creator/documents/blockentity?view=minecraft-bedrock-stable)：原生容器／DP與block/item counterpart；教程明列DP從2.10、entity-storage需matching beta，不能套用較舊stable。
-- [C] [Container](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/container?view=minecraft-bedrock-stable)：完整stack的 get／set／move／transfer及容器規則；不保證自訂Java格限／hopper語義。
-- [S] [storage_item](https://learn.microsoft.com/en-us/minecraft/creator/reference/content/itemreference/examples/itemcomponents/minecraft_storage_item?view=minecraft-bedrock-stable)、[storage_weight_limit](https://learn.microsoft.com/en-us/minecraft/creator/reference/content/itemreference/examples/itemcomponents/minecraft_storage_weight_limit?view=minecraft-bedrock-stable)、[ItemInventoryComponent](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/iteminventorycomponent?view=minecraft-bedrock-stable)：真物品容器存在，最大weight64的限制需逐路線處理。
-- [R] [kinetic_weapon](https://learn.microsoft.com/en-us/minecraft/creator/reference/content/itemreference/examples/itemcomponents/minecraft_kinetic_weapon?view=minecraft-bedrock-stable)、[piercing_weapon](https://learn.microsoft.com/en-us/minecraft/creator/reference/content/itemreference/examples/itemcomponents/minecraft_piercing_weapon?view=minecraft-bedrock-stable)：原生item reach存在，但攻擊時序／多目標與採掘限制不同，不當作一般Player attribute已等價。
-- [K] [Camera](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/camera?view=minecraft-bedrock-stable)、[RotationKeyFrame](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/rotationkeyframe?view=minecraft-bedrock-stable)：三軸animation存在，純相對roll保留原生視角仍待證明。
-- [M] [Multi-blocks](https://learn.microsoft.com/en-us/minecraft/creator/documents/multi-blocks?view=minecraft-bedrock-stable)：2–4部分與整體放置／破壞，vertical format>=1.26.40、horizontal>=1.26.50免實驗；更早format仍需Upcoming Creator Features。
-- [A] [reset_target](https://learn.microsoft.com/en-us/minecraft/creator/reference/content/entityreference/examples/eventactions/reset_target?view=minecraft-bedrock-stable)；[H] [variable_max_auto_step](https://learn.microsoft.com/en-us/minecraft/creator/reference/content/entityreference/examples/entitycomponents/minecraftcomponent_variable_max_auto_step?view=minecraft-bedrock-stable)：資料定義能力不等於任意vanilla entity／Player即有可呼叫入口。
-
-優先次序：先交付 T01 的重複寫入消除；沿既有 PR 收斂 T05／T06／T07；T02／T03 以完整物品與存檔守恆為首的原生儲存路線，其次 T08／T10／T11／T13 的單一API組合能力。其餘已實作域只在具體缺失或來源變更時修復，不因驗收欄尚空便重寫整個功能。PR列表另含 #623 板面證據、#637 工作流規則，本輪不碰其owner。此候選未合併、未發布、未部署，WL維持各自精確T221相依直到另有明確整合變更。
-
 ## 板面文字有界視覺證據（2026-11-09，N06）
 
 [完整證據與可攜驗證](evidence/blockbench-board-text-20261109/README.md)保留6場景、7個文字案例、12張接受原始JPEG與16張診斷。只支持Unifont白色字卡的對齊／換行／fallback／outline結構與姿勢；空白第7例僅靜態證明。實際畫面是0.6.215，保留舊窄邊；0.6.217的7個host UV修補另見T217，文字與廣面輸入界線明列，不冒稱全體bytes相同。未完成Java Font、原生tint/glow/culling/distance或controller/entity lifecycle驗收。
@@ -134,9 +74,19 @@ T207 的 `script:` deadline 是世界腳本絕對 tick，物品卸載後世界�
 
 共用拾取 owner 同時移交既有 current-source contract，以主入口及兩個 producer 的實際連線、上述回歸守住行為；原 launch 新增檔雜湊移至既有 historical 區，沒有新增版本特例、改舊 hash 或逆向來源層。
 
-## 黑板原生多行輸入接線（2026-11-07，T206）
+## 黑板輸入：沿用原生單行，退役共用攔截（2026-11-11）
 
-舊版本只在單行 ModalForm 中用反斜線跳脫換行；儲存與板面 layout 已能處理真正 newline，不能據此說 editor 已對等。現在黑板專屬輸入採原生多行 edit_box 的換行、按鍵與捲動內容，表單 default／提交直接使用原文字。沒有 DDUI 遷移、自訂聊天入口、數個單行欄位或全域 server-form 替換。
+目前黑板與其他表單都沿用 client 的原生單行文字框。RP222 維護線已移除共用 `custom_input` 覆寫，修正其他命名表單沒有文字框的問題；本輪把同一修正收回[真正生成器](../tools/build_tavern_forms.py)，並退役已不再掛載的四個 `kt_board_input_*` 與 `kt_board_input_branches`。這是本機生成來源修正，沒有改版、發布或部署，也沒有執行測試或觀察修後客戶端。
+
+舊文件稱「沒有全域 server-form 替換」並不準確：原生 `generated_contents.factory.control_ids.input` 指向所有 Modal 文字欄位共用的 `@server_form.custom_input`；原生成器覆寫該控件的 `$control_name`，再用 title／field binding 篩選黑板與 foreign 分支。篩選仍發生在共用入口後，不能保證其他表單保留原生輸入。本題未找到能直接限定黑板的獨立原生 caller，因此沒有新增條件或 fallback。原生路徑現在完整保留：`ModalFormData.textField → server_form.generated_contents → custom_input → settings_common.option_text_edit → 原生 option_text_edit_control`。
+
+黑板[editBoard](../runtime/BP/scripts/bedrock/writing-boards.js)繼續以原文字作 default／提交值；保存的 `text`、layout、顏色／glowing／waxed、既有水平（含使用者擴充分散對齊）／垂直對齊及 legacy top 定位不變。互動資格、方塊與 root identity、reach、stale data、Wax、layout 保護也不變，沒有資料遷移。腳本仍限制320／350／1500字，但這不是原生單行框的可輸入容量保證：既有原生來源的 `$max_text_edit_length` 為100，舊分支的自訂容量已隨分支退役。現有多行保存文字在原生框的顯示與重新提交結果，本輪未觀察。
+
+指南四個動態圖、原生 image bindings 與精確貼圖路由保留。[生成器](../tools/build_tavern_forms.py)的 `python3 tools/build_tavern_forms.py --write --ui-only` 只由既有來源描述的尺寸與 Java 時序生成 `runtime/RP/ui/server_form.json`，不重產動畫 PNG，也不進入像素 assert 或 drift 檢查；正常完整生成仍使用同一 UI 生成邏輯。
+
+**後續有界題：還原 Java 黑板多行互動。** 從原作 `TextScreen` 與實際開啟／提交 caller 還原多行編輯、字數、Done／Cancel、鍵盤／IME、捲動及觸控／手把；先證明可限定自家黑板的入口，不能再次攔截所有表單。儲存支援 newline 或有原生 multiline 控件定義，均不代表玩家已能用多行 editor。
+
+以下是2026-11-07 T206 的原作／API來源記錄，不是本輪重新查詢或已還原證據：
 
 | 原作／接點 | 實際契約與採用方式 |
 | --- | --- |
@@ -145,15 +95,7 @@ T207 的 `script:` deadline 是世界腳本絕對 tick，物品卸載後世界�
 | [Modal text field options](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server-ui/modalformdatatextfieldoptions?view=minecraft-bedrock-stable)、[DDUI TextFieldOptions](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server-ui/textfieldoptions?view=minecraft-bedrock-experimental) | 當日官方 Modal 只列 defaultValue／tooltip；DDUI 只列 description／disabled／tooltip／visible。兩者均沒有 multiline。未添加未支援的 Script API 屬性，未把多行 label 當成輸入框。 |
 | [Mojang 原生 UI](https://github.com/Mojang/bedrock-samples/blob/15701fa9c13923f12662984c32c124327e40e3d3/resource_pack/ui/ui_common.json)、[server form](https://github.com/Mojang/bedrock-samples/blob/15701fa9c13923f12662984c32c124327e40e3d3/resource_pack/ui/server_form.json)、[option owner](https://github.com/Mojang/bedrock-samples/blob/15701fa9c13923f12662984c32c124327e40e3d3/resource_pack/ui/settings_sections/settings_common.json) | 1.26.60.5 官方 sample 的 scrollable_multiline_text_edit_box 明列 enabled_newline=true。其完整節點、scrollable_text_edit_box、server form factory／custom_input、option_text_edit／control 與既有1.26.50.4 fixture 相同，故沿用 fixture。common.text_edit_box 新增 clip offset 預設；它由 client 原生繼承，本修復不覆寫該基底。這是 BDS1.26.60.6 目標的 UI 來源核對，並非已觀察該 client 執行 Enter。 |
 
-實際生成路徑維持 `ModalFormData.textField → server_form.generated_contents → custom_input → settings_common.option_text_edit → $control_name → kt_board_input_branches`。[生成器](../tools/build_tavern_forms.py)僅在完整隱形 title-prefix 與欄位標籤同時吻合時，將原生 multiline 屬性、按鍵及 scroll 子控件放進目前的 option edit_box；保留同一 textbox name／collection／六條 root bindings、原生 disabled 變數與互斥焦點。foreign 分支完全保留單行元件。兩個 dropdown、submit、form factory、其他表單與指南路由不改。
-
-黑板 raw 容量維持320／350／1500，輸入上限同步回原字數，不再用雙倍逃逸容量。`text` 保存格式、layout、顏色／glowing／waxed 與原有水平／垂直對齊延伸不變；[editBoard](../runtime/BP/scripts/bedrock/writing-boards.js)在提交後仍重查互動資格、方塊及 root identity、reach、stale data、Wax 與 layout。移除已被替代的 encode/decode，沒有舊板面遷移。
-
-`writing-boards.js` 原來仍被 launch hash／reverse delta 要求還原到歷史單行來源，必要CI因此拒絕本次變更。沿用現有 `current_extension_source_contract.py` 的板面 owner 與上述實作回歸，將該檔的舊 launch 記錄及兩層 reverse delta 原樣移到既有 historical 區；沒有新增反向投影、改舊hash或放寬其他檔案。驗證這個交接時，既有契約測試的臨時root漏複製已納入owner的香薰生成輸入；只補其三個公開fixture來源，不改香薰runtime。
-
-**來源先紅後綠**：[既有 interaction／真提交 callback 回歸](../tools/board-farm-interaction.test.mjs)修前有3個失敗：default 不是原文字、真正換行混合字面反斜線+n 被解碼、三種板面的長 default 被跳脫；修後23項全通過。[生成器回歸](../tools/test_tavern_forms.py)先拒絕沒有 enabled_newline 的輸入，再驗證原生換行／scroll／按鍵、精確三語 scope、foreign 與 disabled／focus，7項通過；必要 CI 納入此既有測試。另通過原 layout、Mojang HUD root 保留與保留的隔離工具相容檢查。
-
-這些是實際來源加 API-double 證據，**不是 Native 或 client Enter 通過**。[單人正常 wire observer 契約](../tools/native/board-multiline/README.md)要求正常 block-click、實收 ModalFormRequest/default、一次正常 ModalFormResponse 與原 owner 保存只讀回，留給共同既有 functional phase；舊 v12 沒有 form response 能力，缺表單／timeout 不作 T 功能陰性。尚無 wire 結果；實體 Enter、IME、觸控／手把、畫面／caret 未驗，不加真人門檻，不盲跑 BDS。
+T206 曾記錄 [interaction／提交 callback 回歸](../tools/board-farm-interaction.test.mjs)23項與[生成器回歸](../tools/test_tavern_forms.py)7項通過；它們只支持當時來源與 API double，不是 Native／client Enter 通過，也不支持上述共用攔截在其他表單上正確。本題依授權不執行、不修改測試；舊契約的具體失配列於本題回件。舊 [wire observer 說明](../tools/native/board-multiline/README.md)也不是目前派工指令。
 
 ## 香薰先傷害再判斷治療（2026-11-05）
 

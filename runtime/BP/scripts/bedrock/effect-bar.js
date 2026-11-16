@@ -12,6 +12,8 @@ const bar=createEffectBar({
  show(player,message){player.onScreenDisplay.setActionBar(message);effectBarDiagnostics.sent++;},
  onError(error){effectBarDiagnostics.errors++;effectBarDiagnostics.lastError=String(error).slice(0,300);}
 });
+// The extension boundary validates requests; all callers share this bar's holds.
+export const pauseEffectBar=bar.pause;
 let installed=false;
 export function installEffectBar(){
  if(installed)return;installed=true;

@@ -4,8 +4,8 @@
     "description": {
       "identifier": "kaleidoscope_tavern:table",
       "menu_category": {
-        "category": "construction",
-        "group": "kaleidoscope_tavern:itemGroup.name.furniture"
+        "category": "items",
+        "group": "kaleidoscope_tavern:itemGroup.name.tavern_deco"
       },
       "traits": {
         "minecraft:placement_direction": {

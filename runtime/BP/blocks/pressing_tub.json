@@ -5,7 +5,7 @@
       "identifier": "kaleidoscope_tavern:pressing_tub",
       "menu_category": {
         "category": "items",
-        "group": "kaleidoscope_tavern:itemGroup.name.tavern_brewing"
+        "group": "kaleidoscope_tavern:itemGroup.name.tavern_main"
       },
       "traits": {
         "minecraft:placement_position": {

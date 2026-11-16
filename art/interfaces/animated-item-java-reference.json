@@ -166,6 +166,34 @@
           "frametime": 2
         }
       }
+    },
+    "tartaric_acid_painting": {
+      "texture": "runtime/RP/textures/kaleidoscope_tavern/block/deco/painting/tartaric_acid.png",
+      "rgba_sha256": "0b916650cf8fe2722b5defab4c40d4c5f2fff1135e4500eb5f55045e9fcbdfd9",
+      "size": [
+        16,
+        48
+      ],
+      "texture_sha256": "75b0ecec7752acdabb206a8dc6ee62c42dcc6a2d1ec2d9532ce0f0814e7cdd35",
+      "java_texture_path": "src/main/resources/assets/kaleidoscope_tavern/textures/block/deco/painting/tartaric_acid.png",
+      "java_animation_metadata": {
+        "animation": {
+          "frametime": 10,
+          "frames": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1
+          ]
+        }
+      },
+      "atlas_frame_texture": "textures/kt_derived/a14/painting_tartaric_acid_frame0",
+      "mesh_reference_method": "Source alpha boundaries validated with the independent Bedrock importer/CubeFace oracle; no new Mojang-class execution witness.",
+      "tavern_source_commit": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416"
     }
   },
   "generator_class_sha256": "44f68025a006549a8f21c8333d079772e6fd0407f83cc1b2a60e8f7a336926cf",

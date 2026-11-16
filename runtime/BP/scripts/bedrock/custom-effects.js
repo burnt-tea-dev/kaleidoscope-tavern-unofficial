@@ -1,7 +1,7 @@
 import {migrateLegacyEffects} from '../core/extension-foundation.js';
 import {check,digest} from '../core/util.js';
 import {TIPSY_ID} from '../core/tipsy-visual.js';
-import {externalEffectSource,externalEffectDefinition} from '../core/extension-content.js';
+import {externalEffectSource,externalEffectDefinition,supportsStatusApplication} from '../core/extension-content.js';
 import {pulseTipsyVisual,forgetTipsyVisual,pruneTipsyVisuals,tipsyVisualDiagnostics,tipsyVisualState} from './tipsy-visual.js';
 import {blockOverflowPickup,startPickupDelay,TOMB_PICKUP_UNLOCK} from './pickup-overflow.js';
 import {performShriek} from './combat-effects.js';
@@ -13,7 +13,7 @@ import {grassStealthPlant} from '../core/grass-stealth-plants.js';
 import {armorShouldWear} from '../core/armor-wear.js';
 import {livingEffectEntity,mobEffectEntity} from '../core/living-effect-entity.js';
 import {motionBlockingHeight} from '../core/motion-blocking-height.js';
-import {CUSTOM_STATUS_KEY,CUSTOM_IMPLEMENTED,readStatus,addStatus,removeStatus,advanceStatus,activeStatus,killHeal,orbVelocity,inflatedAabbIntersects,countdownPulseCrossed,visionRadius,grassStealthEligible,extendedReachDistance,tombRaiderTarget,tombRaiderProc,ardentHeatBreakable,ardentFrontBlocks,highHeelsDirection,highHeelsBlocked,highHeelsNearBoundary,highHeelsTarget} from '../core/custom-effects.js';
+import {CUSTOM_STATUS_KEY,CUSTOM_IMPLEMENTED,CUSTOM_INSTANT,endingStatusActions,readStatus,addStatus,removeStatus,advanceStatus,activeStatus,killHeal,orbVelocity,inflatedAabbIntersects,countdownPulseCrossed,visionRadius,grassStealthEligible,extendedReachDistance,tombRaiderTarget,tombRaiderProc,ardentHeatBreakable,ardentFrontBlocks,highHeelsDirection,highHeelsBlocked,highHeelsNearBoundary,highHeelsTarget} from '../core/custom-effects.js';
 const tracks=new Map(),deaths=new Map(),heelsSteps=new Map(),fastPlayers=new Map(),statusSnapshots=new Map();
 const visionFeedback=createVisionFeedback();let visionNativeChecked=false,visionNativeType;
 export {TOMB_PICKUP_UNLOCK};
@@ -21,14 +21,29 @@ export const ARDENT_COLLISION_COUNT='kaleidoscope_tavern:ardent_heat_collision_c
 export const customEffectDiagnostics={applied:0,killHeals:0,orbMoves:0,teleports:0,upsideDownRenames:0,visionPulses:0,visionTargets:0,visionSounds:0,visionOutline:'unchecked',grassStealthPulses:0,grassStealthEligible:0,longReachRays:0,tombAttempts:0,tombDisarms:0,tombRollbackFailures:0,tombPickupBlocks:0,ardentPulses:0,ardentBlocks:0,ardentArmorDamage:0,ardentBareHits:0,ardentHungerEnds:0,ardentRollbackFailures:0,highHeelsChecks:0,highHeelsSteps:0,highHeelsRejected:0,tipsyVisual:tipsyVisualDiagnostics,statusAura:statusAuraDiagnostics,errors:[],supported:CUSTOM_IMPLEMENTED};
 function error(e){customEffectDiagnostics.errors.push(String(e));if(customEffectDiagnostics.errors.length>16)customEffectDiagnostics.errors.shift();}
 function indexFastPlayer(p,state,before=state){
- // Keep an expired Ardent row pending until its per-tick finalization runs.
+ // Keep expired final-tick actions pending until the per-tick owner settles them.
  // A same-tick status read by another consumer must not discard that work.
- if(state.entries.some(row=>row.id==='kaleidoscope_tavern:ardent_heat'||row.id==='kaleidoscope_tavern:high_heels'||row.id==='kaleidoscope_tavern:grass_stealth')||before.entries.some(row=>row.id==='kaleidoscope_tavern:ardent_heat'))fastPlayers.set(p.id,p);
+ if(state.entries.some(row=>row.id==='kaleidoscope_tavern:ardent_heat'||row.id==='kaleidoscope_tavern:high_heels'||row.id==='kaleidoscope_tavern:grass_stealth'||CUSTOM_INSTANT.includes(row.id))||before.entries.some(row=>row.id==='kaleidoscope_tavern:ardent_heat'||CUSTOM_INSTANT.includes(row.id)))fastPlayers.set(p.id,p);
  else fastPlayers.delete(p.id);
 }
-function write(p,state){
- const raw=state.entries.length||state.migrations||state.legacyClosed?JSON.stringify(state):undefined;
+function write(p,state,settleEnding=true){
  const cached=statusSnapshots.get(p.id),now=system.currentTick;
+ const ending=settleEnding&&cached?.tick===now&&cached.player===p?endingStatusActions(cached.before,cached.state):[];
+ if(ending.length){
+  // Java calls the effect with remaining=1, then retires it. Keep that row
+  // visible to native damage/effect callbacks, using the SAME status property.
+  write(p,{...state,entries:[...state.entries,...ending.map(row=>({...row,ticks:1}))]},false);
+  for(const row of ending)try{
+   const active=activeStatus(statusNow(p),row.id);
+   if(active?.amplifier===row.amplifier&&active.ticks===1&&livingEffectEntity(p))performInstantCustomEffect(p,row.id);
+  }catch(e){error(e);}
+  // A native callback can clear or refresh statuses. Retire only the ending
+  // rows still present; retain the callback's writes and any longer renewal.
+  const current=statusNow(p),entries=current.entries.filter(row=>!ending.some(old=>old.id===row.id&&old.amplifier===row.amplifier&&row.ticks<=1));
+  if(entries.length!==current.entries.length)write(p,{...current,entries},false);
+  return;
+ }
+ const raw=state.entries.length||state.migrations||state.legacyClosed?JSON.stringify(state):undefined;
  const previous=cached?.tick===now&&cached.player===p?cached.raw:p.getDynamicProperty(CUSTOM_STATUS_KEY);
  if(previous!==raw)p.setDynamicProperty(CUSTOM_STATUS_KEY,raw);
  const isPlayer=p.typeId==='minecraft:player';tracks.set(p.id,{player:p,tick:now,isPlayer});
@@ -46,15 +61,35 @@ function statusWindow(p){
  const snapshot={player:p,tick:now,raw,before,state,isPlayer:p.typeId==='minecraft:player'};statusSnapshots.set(p.id,snapshot);indexFastPlayer(p,state,before);indexStatusAura(p,state.entries);return snapshot;
 }
 export function statusNow(p){return statusWindow(p).state;}
-export function clearCustomEffects(p){let previous;try{previous=readStatus(p.getDynamicProperty(CUSTOM_STATUS_KEY));}catch{previous={schema:1,entries:[]};}forgetTipsyVisual(p.id);write(p,{...previous,schema:1,entries:[],legacyClosed:true});tracks.delete(p.id);heelsSteps.delete(p.id);}
+function statusForMutation(p){
+ const {before,state}=statusWindow(p);
+ // Resolve elapsed callbacks before merging a new grant or legacy import.
+ // Otherwise a renewed row could replace the old instance's last tick.
+ if(endingStatusActions(before,state).length)writeAdvancedState(p,before,state);
+ return statusNow(p);
+}
+export function clearCustomEffects(p){let previous;try{previous=readStatus(p.getDynamicProperty(CUSTOM_STATUS_KEY));}catch{previous={schema:1,entries:[]};}forgetTipsyVisual(p.id);write(p,{...previous,schema:1,entries:[],legacyClosed:true},false);tracks.delete(p.id);heelsSteps.delete(p.id);}
 export function applyCustomEffect(p,row){
  if(!livingEffectEntity(p))return false;
  const definition=externalEffectDefinition(row.effect);
- if(definition?.mode==='timed'){if(row.duration<=0)return false;write(p,addStatus(statusNow(p),row.effect,row.duration*20,row.amplifier));customEffectDiagnostics.applied++;return true;}
+ // A registration's instant mode does not specify its Java addEffect callback.
+ // Its real owner must supply that contract; never guess immediate delivery.
+ if(row.operation==='add_status'&&!supportsStatusApplication(definition))return false;
+ // Built-in rows retain their own recipient rules and apply-time side effects.
+ if(definition?.source!=='kaleidoscope_tavern'&&definition?.mode==='timed'){if(row.duration<=0)return false;write(p,addStatus(statusForMutation(p),row.effect,row.duration*20,row.amplifier));customEffectDiagnostics.applied++;return true;}
  const source=externalEffectSource(row.effect);if(source){system.sendScriptEvent(source+':apply_effect',JSON.stringify({entity:p.id,effect:row.effect,duration:row.duration,amplifier:row.amplifier}));return true;}
  if(!CUSTOM_IMPLEMENTED[row.effect])return false;
- if(row.effect==='kaleidoscope_tavern:shriek_attack')return performShriek(p);
- if(row.effect==='kaleidoscope_tavern:upside_down'){
+ if(row.operation!=='add_status'&&CUSTOM_INSTANT.includes(row.effect))return performInstantCustomEffect(p,row.effect);
+ // Java accepts these timed effects on LivingEntity, including splash targets.
+ // Their callbacks use the existing loaded-living clock; movement, input and
+ // XP adapters still require a Player.
+ if(p?.typeId!=='minecraft:player'&&!['kaleidoscope_tavern:bloody_mary','kaleidoscope_tavern:tomb_raider','kaleidoscope_tavern:vision',...CUSTOM_INSTANT].includes(row.effect))return false;
+ const ticks=Number.isInteger(row.ticks)&&row.ticks>0?row.ticks:row.duration*20;
+ const state=addStatus(statusForMutation(p),row.effect,ticks,row.amplifier);write(p,state);if(row.effect===TIPSY_ID)pulseTipsyVisual(p,activeStatus(state,TIPSY_ID));customEffectDiagnostics.applied++;return true;
+}
+function performInstantCustomEffect(p,effect){
+ if(effect==='kaleidoscope_tavern:shriek_attack')return performShriek(p);
+ if(effect==='kaleidoscope_tavern:upside_down'){
   // Java selects the complete alive Mob list in user.getBoundingBox().inflate(16)
   // before naming any entity. Native fish can omit the "mob" family, while a
   // living ArmorStand is not a Mob. Keep the spatial query bounded and recheck
@@ -69,7 +104,7 @@ export function applyCustomEffect(p,row){
   for(const entity of selected)try{entity.nameTag='Grumm';renamed++;}catch(e){error(e);}
   customEffectDiagnostics.upsideDownRenames+=renamed;return true;
  }
- if(row.effect==='kaleidoscope_tavern:zenith'){
+ if(effect==='kaleidoscope_tavern:zenith'){
   const here=p.location,d=p.dimension;
   const x=Math.floor(here.x),z=Math.floor(here.z),surface=motionBlockingHeight(d,x,z);
   if(Math.floor(here.y)>=surface)return true;
@@ -81,12 +116,7 @@ export function applyCustomEffect(p,row){
   try{d.playSound('kt_java.effect.zenith',at,{volume:1,pitch:1});}catch(e){error(e);}
   applyNativeStatusWithAura(p,'hunger',600,{amplifier:0,showParticles:true});customEffectDiagnostics.teleports++;return true;
  }
- // Java accepts these timed effects on LivingEntity, including splash targets.
- // Their callbacks use the existing loaded-living clock; movement, input and
- // XP adapters still require a Player.
- if(p?.typeId!=='minecraft:player'&&!['kaleidoscope_tavern:bloody_mary','kaleidoscope_tavern:tomb_raider','kaleidoscope_tavern:vision'].includes(row.effect))return false;
- const ticks=Number.isInteger(row.ticks)&&row.ticks>0?row.ticks:row.duration*20;
- const state=addStatus(statusNow(p),row.effect,ticks,row.amplifier);write(p,state);if(row.effect===TIPSY_ID)pulseTipsyVisual(p,activeStatus(state,TIPSY_ID));customEffectDiagnostics.applied++;return true;
+ return false;
 }
 /** Only loaded recipients with host-owned rows, plus native players.
  * The bridge never reads another pack's properties or scans every entity per tick.
@@ -285,7 +315,7 @@ export function tickArdentHeat(){
  for(const p of fastPlayers.values())try{
   const {before,state}=statusWindow(p),current=activeStatus(state,'kaleidoscope_tavern:ardent_heat');
   if(!current){
-   if(activeStatus(before,'kaleidoscope_tavern:ardent_heat')){writeArdentState(p,before,state);finishArdentHunger(p);}
+   if(activeStatus(before,'kaleidoscope_tavern:ardent_heat')){writeAdvancedState(p,before,state);finishArdentHunger(p);}
    continue;
   }
   // Java adds Hunger on the last valid effect tick, then still processes
@@ -297,13 +327,19 @@ export function tickArdentHeat(){
   // PlayerTick.Post runs after the collision and ends the entire effect when
   // both food reserves are exhausted, including any weaker hidden duration.
   if(hunger&&saturation&&hunger.currentValue<=0&&saturation.currentValue<=.01){
-   writeArdentState(p,before,removeStatus(state,'kaleidoscope_tavern:ardent_heat'));
+   writeAdvancedState(p,before,removeStatus(state,'kaleidoscope_tavern:ardent_heat'));
    if(!ending)finishArdentHunger(p);
   }else if(ending){
    // Hidden rows count down too: retire every Ardent row ending this tick,
    // while retaining a genuinely longer weaker row.
-   writeArdentState(p,before,{...state,entries:state.entries.filter(row=>row.id!==current.id||row.ticks>1)});
+   writeAdvancedState(p,before,{...state,entries:state.entries.filter(row=>row.id!==current.id||row.ticks>1)});
   }
+ }catch(e){error(e);}
+}
+function tickEndingPlayerEffects(){
+ for(const p of fastPlayers.values())try{
+  const {before,state}=statusWindow(p);
+  if(endingStatusActions(before,state).length)writeAdvancedState(p,before,state);
  }catch(e){error(e);}
 }
 function finishArdentHunger(p){try{applyNativeStatusWithAura(p,'hunger',600,{amplifier:0,showParticles:true});customEffectDiagnostics.ardentHungerEnds++;}catch(e){error(e);}}
@@ -313,7 +349,7 @@ function pulseCountdown(p,before,state,id,interval,apply){
  const afterTicks=current?.amplifier===previous.amplifier?current.ticks:0;
  if(countdownPulseCrossed(previous.ticks,afterTicks,interval))apply(p,previous.amplifier);
 }
-function writeArdentState(p,before,state){
+function writeAdvancedState(p,before,state){
  // An early save advances every timer's persistence origin. Settle already-due
  // Vision/Grass pulses first, or the next five-tick pass loses their boundary.
  // Keep the existing Vision -> Grass order; the saved origin prevents replay.
@@ -360,7 +396,7 @@ export function handleKill(event){
  */
 export function importExternalEffects(p,source,raw,definitions){
  check(raw===null||typeof raw==='string','LEGACY_EFFECT_SCHEMA');
- let state=statusNow(p);if(state.migrations?.[source]!==undefined){check(state.legacyClosed||raw===null||state.migrations[source]===digest(raw),'LEGACY_EFFECT_CHANGED');return;}
+ let state=statusForMutation(p);if(state.migrations?.[source]!==undefined){check(state.legacyClosed||raw===null||state.migrations[source]===digest(raw),'LEGACY_EFFECT_CHANGED');return;}
  const rows=state.legacyClosed||raw===null?[]:migrateLegacyEffects(raw,source,definitions,world.getAbsoluteTime());
  for(const row of rows)state=addStatus(state,row.id,row.ticks,row.amplifier);
  state.migrations={...state.migrations,[source]:digest(raw??'null')};
@@ -401,9 +437,13 @@ export function installCustomEffects(){
  installStatusAura();
  system.afterEvents.scriptEventReceive.subscribe(event=>{
   if(event.id!=='kaleidoscope_tavern:effect_apply'||event.sourceType!==ScriptEventSource.Server||event.message.length>1024)return;
-  try{const row=JSON.parse(event.message),definition=externalEffectDefinition(row.effect);if(!definition)return;
+  // Built-in effects have this owner and need no external definition.
+  try{const row=JSON.parse(event.message),definition=externalEffectDefinition(row.effect);
+   if(typeof row.effect!=='string'||(!definition&&!Object.prototype.hasOwnProperty.call(CUSTOM_IMPLEMENTED,row.effect)))return;
+   if(row.operation!==undefined&&row.operation!=='add_status')return;
+   if(row.operation==='add_status'&&(!Number.isInteger(row.duration*20)||row.duration<=0))return;
    if(!Number.isFinite(row.duration)||row.duration<0||row.duration>1000000||!Number.isInteger(row.amplifier)||row.amplifier<0||row.amplifier>255)return;
-   const p=world.getEntity(row.entity);if(livingEffectEntity(p))applyCustomEffect(p,row);
+   const p=world.getEntity(row.entity);if(livingEffectEntity(p))applyCustomEffect(p,{effect:row.effect,duration:row.duration,amplifier:row.amplifier,operation:row.operation});
   }catch(e){error(e);}
  },{namespaces:['kaleidoscope_tavern']});
  system.afterEvents.scriptEventReceive.subscribe(e=>{
@@ -439,7 +479,7 @@ export function installCustomEffects(){
  });
  system.runInterval(tickExternalLivingEffects,1);
  system.runInterval(tickCustomEffects,5);
- system.runInterval(tickArdentHeat,1);
+ system.runInterval(()=>{tickArdentHeat();tickEndingPlayerEffects();},1);
  system.runInterval(tickHighHeels,1);
  system.runInterval(tickGrassStealth,1);
 }

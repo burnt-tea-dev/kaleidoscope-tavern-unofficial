@@ -1,0 +1,47 @@
+{
+  "repository": "https://github.com/KaleidoscopeMods/KaleidoscopeTavern",
+  "branches": {
+    "forge": "c4ec1880bd44cf3139d3ba744ab30bb379cf1416",
+    "neoforge": "a1afba34981a00e89d57130d3dc8f1e64f1820a2"
+  },
+  "files": {
+    "count1.json": {
+      "source_path": "src/main/resources/assets/kaleidoscope_tavern/models/block/brew/drink/glowflower_brew/count1.json",
+      "sha256": "7de30dfe7a3c847d8560b82f3cf1d0067adebd9f7058fee085c39bf6e2e66eec",
+      "bytes": 3179,
+      "neoforge_sha256": "7de30dfe7a3c847d8560b82f3cf1d0067adebd9f7058fee085c39bf6e2e66eec",
+      "models_equal": true
+    },
+    "count2.json": {
+      "source_path": "src/main/resources/assets/kaleidoscope_tavern/models/block/brew/drink/glowflower_brew/count2.json",
+      "sha256": "9d87f926592d1c875d335c040e091d3c0dcb96b1b5652478121c433bc0b2d074",
+      "bytes": 6041,
+      "neoforge_sha256": "9d87f926592d1c875d335c040e091d3c0dcb96b1b5652478121c433bc0b2d074",
+      "models_equal": true
+    },
+    "count3.json": {
+      "source_path": "src/main/resources/assets/kaleidoscope_tavern/models/block/brew/drink/glowflower_brew/count3.json",
+      "sha256": "c2e4dd5a3aae5e03f7a836e807b5f30edfc08eebdff60c15f190be3309afe525",
+      "bytes": 8915,
+      "neoforge_sha256": "c2e4dd5a3aae5e03f7a836e807b5f30edfc08eebdff60c15f190be3309afe525",
+      "models_equal": true
+    },
+    "count4.json": {
+      "source_path": "src/main/resources/assets/kaleidoscope_tavern/models/block/brew/drink/glowflower_brew/count4.json",
+      "sha256": "cf1d6d4abf6435b4e7a50efddb060349031fc3eba32d68ebf746a7f9d24e02e3",
+      "bytes": 11759,
+      "neoforge_sha256": "cf1d6d4abf6435b4e7a50efddb060349031fc3eba32d68ebf746a7f9d24e02e3",
+      "models_equal": true
+    },
+    "glowflower_brew.png": {
+      "source_path": "src/main/resources/assets/kaleidoscope_tavern/textures/block/brew/glowflower_brew.png",
+      "sha256": "edb21cd10842e90a351751d69d81ee617cc3e0da859e0eb2cc984bd34ca2816a",
+      "bytes": 420,
+      "neoforge_sha256": "6ff82770c50a8baa87b25e9ca2fdd853f0a14c0a328bd91c6e738da56a70c49c",
+      "rgba_equal": true
+    }
+  },
+  "author": "Kaleidoscope Official Production Team / YSBB",
+  "art_license": "CC BY-NC-SA 4.0; see LICENSE-ASSETS",
+  "method": "Official unmodified models and texture. Source contract proves opaque authored bottom-base coverage before cropping only inward shell y=.1..1.1. Source UV scale and all retained faces are checked independently; existing .125 opposing-sheet separation is retained. No native engine acceptance."
+}

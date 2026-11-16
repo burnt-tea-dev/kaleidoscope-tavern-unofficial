@@ -4,8 +4,8 @@
     "description": {
       "identifier": "kaleidoscope_tavern:string_lights_light_gray",
       "menu_category": {
-        "category": "construction",
-        "group": "kaleidoscope_tavern:itemGroup.name.lighting"
+        "category": "items",
+        "group": "kaleidoscope_tavern:itemGroup.name.tavern_deco"
       }
     },
     "components": {

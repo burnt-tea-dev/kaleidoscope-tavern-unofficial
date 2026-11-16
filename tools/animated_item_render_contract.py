@@ -14,9 +14,9 @@ from pathlib import Path
 from PIL import Image
 
 ROOT=Path(__file__).resolve().parents[1]
-NAMES=('depth_charge','mystery_cocktail','nether_special','ice_grape')
-TILES={'depth_charge':'kt_c3_depth_charge','mystery_cocktail':'kt_assets_a17_animation_item_mystery_cocktail','nether_special':'kt_c3_nether_special','ice_grape':'kt_assets_a17_animation_item_ice_grape'}
-TARGETS={name:('item_display_ice_grape' if name=='ice_grape' else 'cup_'+name) for name in NAMES}
+NAMES=('depth_charge','mystery_cocktail','nether_special','ice_grape','tartaric_acid_painting')
+TILES={'depth_charge':'kt_c3_depth_charge','mystery_cocktail':'kt_assets_a17_animation_item_mystery_cocktail','nether_special':'kt_c3_nether_special','ice_grape':'kt_assets_a17_animation_item_ice_grape','tartaric_acid_painting':'kt_assets_a14_block_deco_painting_tartaric_acid'}
+TARGETS={name:('item_display_ice_grape' if name=='ice_grape' else name if name.endswith('_painting') else 'cup_'+name) for name in NAMES}
 CONTEXTS=('gui','ground','fixed','head','firstperson_righthand','firstperson_lefthand','thirdperson_righthand','thirdperson_lefthand')
 def read(path):return json.loads(path.read_text())
 def encode(value):return json.dumps(value,ensure_ascii=False,indent=2)+'\n'
@@ -98,9 +98,13 @@ def planned(root=ROOT):
         result[rp/f'models/entity/item_sprite_{name}.geo.json']=geometry
         item_path=bp/f'items/{name}.json';item=read(item_path);components=item['minecraft:item']['components']
         # Disable native placement, preserving ordinary drink / Sneak-place
-        # callbacks and creative pick behavior. This is not a replacement item.
+        # callbacks and creative pick behavior, including replacement painting items.
         components.pop('minecraft:icon',None)
-        components['minecraft:block_placer']={'block':'kaleidoscope_tavern:'+TARGETS[name],'use_on':[{'tags':'0'}]}
+        placer=components.setdefault('minecraft:block_placer',{'block':'kaleidoscope_tavern:'+TARGETS[name],'use_on':[{'tags':'0'}]})
+        assert placer['block']=='kaleidoscope_tavern:'+TARGETS[name],name
+        assert placer.get('use_on')==[{'tags':'0'}],name
+        if name.endswith('_painting'):assert placer.get('replace_block_item') is True,name
+        # Preserve replacement block-item identity and script placement restrictions.
         result[item_path]=item
         block_path=bp/f'blocks/{TARGETS[name]}.json'
         visual={
@@ -118,8 +122,8 @@ def planned(root=ROOT):
         else:block=read(block_path)
         block['minecraft:block']['components']['minecraft:item_visual']=visual
         result[block_path]=block
-        terrain['texture_data'][TILES[name]]={'textures':f'textures/kt_runtime/animated_items/{name}/frame_00'}
-        row={'flipbook_texture':f'textures/kaleidoscope_tavern_jar/item/{name}','atlas_tile':TILES[name],
+        terrain['texture_data'][TILES[name]]={'textures':source.get('atlas_frame_texture',f'textures/kt_runtime/animated_items/{name}/frame_00')}
+        row={'flipbook_texture':str(Path(source['texture']).relative_to(rp.relative_to(root)).with_suffix('')),'atlas_tile':TILES[name],
              'ticks_per_frame':animation['durations'][0],'frames':animation['sequence'],'blend_frames':animation['interpolate']}
         indices=[i for i,r in enumerate(flipbooks) if r['atlas_tile']==TILES[name]]
         assert len(indices)==1,(name,'expected one original item flipbook')

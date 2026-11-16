@@ -23,8 +23,8 @@
         ]
       },
       "menu_category": {
-        "category": "nature",
-        "group": "kaleidoscope_tavern:itemGroup.name.tavern_cultivation"
+        "category": "items",
+        "group": "kaleidoscope_tavern:itemGroup.name.tavern_main"
       },
       "traits": {
         "minecraft:placement_position": {

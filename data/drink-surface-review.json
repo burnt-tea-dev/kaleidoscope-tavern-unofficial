@@ -54,18 +54,6 @@
       "uvInventory": "82629346b8d2808a2d474163c04d1fcd40ebce881e94210120f6d269bb483ac0",
       "repairs": 4
     },
-    "runtime/RP/models/entity/glowflower_brew_1.geo.json": {
-      "before": "b333225a7e0773a6f554b33902134b3dfcff3144c4447195edbb076abf41327a",
-      "after": "49086abd28050c7cb3162ed5b08c611e5d230c0a785365422dbe954c4ecfea7d",
-      "uvInventory": "668d19c6d08c517e9b37f5344d8952f7a55bc2e686d2cb8903c4c5da2c5e278c",
-      "repairs": 4
-    },
-    "runtime/RP/models/entity/glowflower_brew_2.geo.json": {
-      "before": "4475ef665ff166e670de3b2c1f37d13fbbab3ffd0930962f3c6f4cf9591828ea",
-      "after": "15302d766da71c0a79b71909c91c8d01789be04c7f4bfb03b7e58fe1cacc7c60",
-      "uvInventory": "790328601b31db5570543350afeaf66eea340d0a099601bf489c38ecbd5ab64f",
-      "repairs": 8
-    },
     "runtime/RP/models/entity/emerald.geo.json": {
       "before": "3c66ee21aa184c70de9e296a41791e6c17338f5b4b2305feed12bd2c33be1079",
       "after": "75195ecae9bed6876de484921b1bed8597b88aa63bd562267caebad425995971",
@@ -122,12 +110,6 @@
       "uvInventory": "f5c2a7c0fe61670da0498cdf143209e5e80b7784923e5a52adbdcb5e67bae593",
       "repairs": 4
     },
-    "runtime/RP/models/entity/glowflower_brew_4.geo.json": {
-      "before": "dee7ec74b4609232f4bb0dbfdc402c34bc76ce337196be95821db8a281627223",
-      "after": "624209a0e0f361d808aa46769e03b28b90b4aa2926c5eb631aeac47801b05b6c",
-      "uvInventory": "301db71fa5fa09ebb240c77b38f84ad4cfd25b2f5260ee6b27e5824a5df5d928",
-      "repairs": 16
-    },
     "runtime/RP/models/entity/madame_shexiang_1.geo.json": {
       "before": "413f5bf69e3967b81e9c64266a7f5d784df5901ee7a77cd0c5793f0ace4f6fa6",
       "after": "9c42845223d436aaac2107710ddfd47cbd3e340d3848f3f6883d3947c2559518",
@@ -151,12 +133,6 @@
       "after": "fd2137d422278edfb339a04f578c724d8e7abb487218bdf5eef5f44699632b28",
       "uvInventory": "46db0cae5eefbecfda48b60c2bec9e5a5f697a40e0e633bd8a8304f29a84376c",
       "repairs": 2
-    },
-    "runtime/RP/models/entity/glowflower_brew_3.geo.json": {
-      "before": "ed991790b8b99f13a1a9f634ecae281bfdd964ed3fa923a0635ebb6b1d10afd4",
-      "after": "9cd5610d10af28b3cb2de11ee6c79df15cfb12e74bf3d82b9726f8f7739d4823",
-      "uvInventory": "77cac7f865d0def77e0df46011cfec8d37d3022d09c214c2a3358dbba9f5a83c",
-      "repairs": 12
     },
     "runtime/RP/models/entity/sculk_special.geo.json": {
       "before": "16eea05fa9f912a0d21c1fc0be89fb7dde6bb7aaf2fa7360133266a4e6946061",

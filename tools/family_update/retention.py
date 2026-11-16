@@ -820,7 +820,7 @@ def _assert_idle(output, proc_root):
 
 
 def _shared_snapshot(proof, r, root, mounts, state_path):
-    """Follow the existing one-backup producer's handoff, never relabel an old save.
+    """Follow the world's backup handoff, never relabel an old save.
 
     A newer stopped backup replaces the world rollback only after the original
     snapshot was retired through world_backup.adopt. Deployment and pack rollback
@@ -842,13 +842,14 @@ def _shared_snapshot(proof, r, root, mounts, state_path):
         return value
 
     state = document(state_path)
-    current = state['current']
-    backup, receipt_path = _absolute(current['backup']), _absolute(current['receipt'])
-    receipt = document(receipt_path)
     old = proof['docs']['production-before/backup-receipt.json']
     world = _absolute(old['world'])
+    current = next((entry for entry in state['current'] if entry['world'] == str(world)), None)
+    _require(current is not None, 'Shared backup index has no recovery point for this world')
+    backup, receipt_path = _absolute(current['backup']), _absolute(current['receipt'])
+    receipt = document(receipt_path)
     _require(current['world'] == receipt.get('world') == str(world), 'Shared backup belongs to another world')
-    _require(not state.get('pending_retirement') and
+    _require(not current.get('pending_retirement') and
              receipt.get('consistent_stopped_snapshot') == str(backup) and
              receipt.get('status') == 'consistent_stopped_backup' and receipt.get('live_status') == 'STOPPED',
              'Shared stopped backup handoff is incomplete')

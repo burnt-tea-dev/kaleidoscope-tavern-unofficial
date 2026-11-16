@@ -1,32 +1,20 @@
-# 共用創造分類
+# Java 創造分頁與原序
 
-創造清單按用途放進原生四頁。群組使用簡短名稱，不再把作物、酒飲、家具一律放到裝備頁。
+2026-11-11 本機整合；版本固化狀態見 `baseline.json`／`release-history.json`。未發布或部署，未執行測試；畫面與「＋不展開」原因仍未確認。
 
-| 原生頁 | 群組與內容 |
-|---|---|
-| 建築 | 收納、家具、燈飾、告示牌、畫作 |
-| 裝備 | 真正的工具（梯具、雪克杯）、投擲物（燃燒瓶） |
-| 物品 | 指南與食譜、釀造原料、釀造設備、餐飲設備、瓶罐與杯具、酒飲、雞尾酒、香薰、唱片、料理 |
-| 自然 | 作物與種子（葡萄、葡萄藤、野生藤與藤架） |
+權威分類輸入是本包 [data/java-creative-tabs.json](../data/java-creative-tabs.json)：每列保留 Java ID、原分頁、位置、stack 狀態與 Bedrock ID。Forge 1.20.1 `c4ec1880`、NeoForge 1.21.1 `a1afba34` 的 `ModCreativeTabs.displayItems` 均為主頁、裝飾頁兩個線性列表。生成器不根據名稱、用途或檔名分類。 另讀未選用26.1.2來源 `9b8f165a`：主頁42項、裝飾83項，與維護分支不同，完整原序另存data的source branch，未混入本次生成。
 
-果汁桶留在釀造原料；指南不混入設備；空瓶與空杯不混入釀造設備。酒飲組保持原 Java 可見代表品及其相對順序，品質分級品、所有原可見物品與原隱藏實作保持原有可見性。顏色和木種也保持各自連續順序。
+| Java 頁 | 原生投影 | 圖示 | 成員 |
+|---|---|---|---|
+| tavern_main | Items 內一個群組 | 既有 wine_q6 | 依原作 displayItems，58項 |
+| tavern_deco | Items 內一個群組 | 既有 stepladder | 依原作 displayItems，99項 |
 
-資料來源仍是 `tools/creative/groups.json` 與各包 `data/creative-decoration-groups.json`，由真正的 `tools/creative/catalog.py` 產生 catalog、可見定義的 menu_category 與三語標籤。同名共享組使用同一個真原版圖示，附屬不再用另一個包內圖示覆蓋；不需要新物品、腳本選單或第二套分類介面。
+這是原生群組對 Java 分頁邊界的適配，不是新增兩個頂部分頁。Bedrock 只有四個既有 category，不能原樣新增 Java 頂部分頁。普通葡萄酒圖示用既有 q6 ID；未新增物品。既有 guidebook、dragon_breath_bottle、honey_bottle、wild_grapevine 不在上述 Java 列表，明列為群組外 port 額外項，不混入原作序列。隱藏品質／放置實作及 item/block 配對保持。
 
-這些資料檢查驗證分類、集合與生成器一致，不模擬玩家、分頁展開或實際創造畫面。
+`tools/creative/catalog.py` 是現行 producer，讀傳入 owner 的 `data/java-creative-tabs.json`，產生 catalog、可見定義的 menu_category 與三語群組標籤。World Liquor 也用此通用轉換器，但持有自己的列表；它按真 Java caller 擴展 Tavern 裝飾群組。Tavern 不持有 World Liquor 的分類。相對其他 addon 的顯示位置不由安裝順序特例控制。
 
-普通發布以目前的生成器檢查 menu 與 catalog。舊 menu／整檔聚合雜湊只保留為歷史；不再把舊裝備頁分類還原後才能接受新用途。遊戲行為檢查、UUID／相依、實際發布內容與 append-only 身份保護仍保留。
+`tools/creative/groups.json`、`data/creative-decoration-groups.json` 只供舊歷史摘要 consumer 讀取；已退出現行生成。舊用途表、共享原版圖示限制和 `--peer` 用途分類入口已退役，不能作本次 Java 順序的依據。
 
-世界名酒原本可見的綠色、粉色吊燈漏在 catalog 之外。本次讓其原生成 owner 與分類來源一致，補回這兩個既有 ID 的目錄項；沒有新增物品或公開隱藏的品質／實作方塊。
+普通重產入口：`python3 tools/creative/catalog.py --write`。本題只生成分類、定義與語系，不執行其檢查選項、測試或整包發布。
 
-## 0.6.186 來源候選：相容標籤與 Java 酒飲順序
-
-沿用既有 legacy 分類修正：五個語言檔提供 `wines_spirits`、`cultivation`、`barware_bottles`、`decorations_lighting`，分別重用該語言現有的 `wines`、`tavern_cultivation`、`empty_bottles`、`tavern_decor` 標籤。日文／俄文的現有英文 fallback 用詞維持原樣；沒有第二套翻譯生成 owner。相同標籤不代表 group ID 合併，也不變更其他附屬的分類、圖示、成員或順序。舊 `cultivation` 組亦可能包含果汁桶；此相容補丁保留既有用詞，未重新設計其語意分類。
-
-本體 `wines` 組內 25 個既有可見飲品依 Java `ModCreativeTabs` 的相對順序排列：西瓜汁、醋，接著依普通葡萄、冰葡萄、黃金葡萄、青提、發光漿果、甜漿果、水的原料系列排列。品質酒仍使用既有 `_q6` 代表品，可見集合、圖示及其餘組內順序保持。
-
-原始來源：[Java 1.21.1](https://github.com/KaleidoscopeMods/KaleidoscopeTavern/blob/a1afba34981a00e89d57130d3dc8f1e64f1820a2/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/init/ModCreativeTabs.java#L41-L80)。這個 25 項序列也與本輪檢查的 [main](https://github.com/KaleidoscopeMods/KaleidoscopeTavern/blob/c4ec1880bd44cf3139d3ba744ab30bb379cf1416/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/init/ModCreativeTabs.java) 及 [26.1.2](https://github.com/KaleidoscopeMods/KaleidoscopeTavern/blob/9b8f165a4641e738e694641dd81240a0206573e1/src/main/java/com/github/ysbbbbbb/kaleidoscopetavern/init/ModCreativeTabs.java) 一致。
-
-Catalog 由既有生成器的 current contract 管理。過時的 catalog 歷史 postimage 與 launch aggregate 項目已移除，未新增反向差異或改寫其他歷史雜湊。`catalog.py --java-source <Java checkout>` 以及 `check_launch.py --java-source <Java checkout>` 會把實際可見酒飲、reviewed plan 和 Java 的 `output.accept` 順序相互核對；缺項、重複或錯序均失敗。
-
-完整包組的共享圖示優先序、舊酒飲分類點擊開錯組的原因、實機展開／收起仍未通過。資料檢查不代表 Java 的兩個原生分頁、聲音、畫面或互動已完整還原。
+能力依據：[Microsoft crafting item catalog](https://learn.microsoft.com/en-us/minecraft/creator/documents/craftingitemcatalogdocumentation?view=minecraft-bedrock-stable)（2026-11-10 查閱）。自訂 item 可作群組圖示；同名群組會合併，新增項只能附加。乾淨 Cookery 1.6.6 作者包同樣直接使用顯式 catalog 與自有 item 圖示；它的15個食物／設備群組不是其他 addon 的分類模板。

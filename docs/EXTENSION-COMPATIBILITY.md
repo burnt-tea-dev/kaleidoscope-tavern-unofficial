@@ -10,6 +10,127 @@ Fluid titles are optional. The shared guide resolves a missing title from the re
 
 The shared `kaleidoscope_tavern:toggle_light` component accepts the boolean `kaleidoscope_tavern:lit` state used by current addon lights. It uses the existing decoration interaction route, retains held items and facing, preserves waterlogging, and suppresses duplicate before/after callbacks. Turning on requests `random.orb` at volume 0.45/pitch 1.45; turning off requests `random.pop` at volume 0.40/pitch 1.0.
 
+## Applying a custom effect from an existing consumption component
+
+Server scripts can send `kaleidoscope_tavern:effect_apply` with JSON fields
+`entity` (entity ID), `effect` (effect ID), `duration` (seconds) and `amplifier`
+(zero-based level). The existing receiver accepts `ScriptEventSource.Server`,
+messages of at most 1024 characters, finite durations from 0 to 1000000 and
+integer amplifiers from 0 to 255. Effects must be implemented by Tavern or
+registered through the existing extension foundation. Unknown effects are
+ignored. Timed effects need positive duration; their existing owner performs
+the seconds-to-ticks conversion, stacking, expiry and persistence.
+
+This route now accepts Tavern's own implemented effects, including
+`kaleidoscope_tavern:slightly_tipsy`, without an external definition or addon
+registration. It calls the same `applyCustomEffect` used by ordinary Tavern
+drinks. There is no second countdown, saved property, or replacement buff.
+It sends no ACK; sending a packet does not prove application or client visuals.
+The component must dispatch only on actual consumption, leaving native item
+settlement with its existing owner. Ordinary bottle drinks continue through
+`completeDrink`; their extension/guide registration is a separate operation.
+
+For Java `LivingEntity.addEffect(new MobEffectInstance(...))` semantics, add
+`operation: "add_status"` to the same request. Omitting it preserves the existing
+direct application contract above, including immediate Tavern drinks. Duration
+remains seconds and must convert to a positive whole number of ticks. For example,
+`{"entity":"<id>","effect":"kaleidoscope_tavern:zenith","duration":15,"amplifier":0,"operation":"add_status"}`
+adds 300 ticks to the existing shared status owner. Zenith, Shriek Attack and
+Upside Down run their existing action on the last valid effect tick, when Java
+would check remaining duration 1 and then decrement it to 0. Assignment itself
+does not execute the action, including a one-tick duration. The existing online
+clock, stacking, persistence, milk and death clearing apply. Clearing a status
+never executes its natural-expiry action.
+
+Registered external timed effects use that same host status path. External
+instant adapters currently have no registered Java status-tick contract:
+`add_status` rejects those requests rather than guessing their callback timing.
+Their ordinary direct application remains available. The definition snapshot's
+`mode: "instant"` describes direct delivery; it is not permission to bypass a
+Java `MobEffectInstance` duration. The caller must select the operation from its
+actual Java call, not from an item-specific delay or this mode flag.
+
+The Dimensions Wine source adapter uses this route from its actual pop-can
+`onConsume`. Its existing quality-2 Fanta/Pepsi/Sprite `slightly_tipsy` data agrees
+with [the maintained NeoForge Java table](https://github.com/WitherRedstone/Kaleidoscope-DimensionsWine/blob/6702d5f678b98c67b37d50408b8446641d492c6a/src/main/resources/data/kaleidoscope_dim_wine/datamap/drink_effect/fanta.json):
+45 seconds, amplifier 0, probability 1. Java also declares `happy` at qualities
+3–6. The clean Bedrock author omits those rows and has no implementation;
+this connection does not claim to restore `happy` or Java's camera roll.
+
+## Reading registered effect definitions
+
+The host advertises `effect_definitions` in API v1 readiness. It publishes
+`kaleidoscope_tavern:effect_definitions` on existing readiness responses and
+after an extension is atomically installed, replaced or removed. A consumer
+subscribes before sending one existing `kaleidoscope_tavern:api_ping` (`{}`).
+No extension registration, pack dependency, polling or per-consumption request
+is required. Script namespaces remain cooperative identifiers, not authentication.
+
+Each server-origin packet is at most 1900 UTF-8 bytes:
+
+```ts
+{
+ api: 1,
+ revision: number, // host registry revision for this script lifetime
+ part: number,     // zero based
+ parts: number,
+ rows: Array<{
+  id: string,
+  source: string,
+  category: 'beneficial' | 'harmful' | 'neutral' | null,
+  mode: 'timed' | 'instant',
+  available: boolean
+ }>
+}
+```
+
+`rows` comes from the existing effect-definition registry, including Tavern's
+own definitions. Extension `effects[]` may supply Java `category` and boolean
+`available`; the foundation validates both on entry. Older descriptors remain
+valid but project as `category:null, available:false`. Classification must come
+from the selected Java registration/constructor. A descriptor's `available`
+certifies wired gameplay, possibly an incomplete platform adapter. The read-only
+view further requires host-owned `add_status` support: Tavern's own effects and
+external timed effects qualify; external instant-only adapters remain listed
+with their original category/mode but project `available:false`. The same
+registry predicate guards `add_status` application. Direct drinks still use the
+original definition, so this projection does not disable an instant adapter.
+Availability does not mean complete Java parity or observed client acceptance.
+An unimplemented countdown-only descriptor must not set availability true.
+
+The recipient validates server origin, byte/schema bounds and assembles all
+parts of one revision before replacing its previous complete view. Never mix
+revisions or append to the old view: omitted IDs are revoked. Ignore older
+revisions and duplicate completed revisions. The registry allows at most 64
+extension sources with 64 effects each and a global limit of 2048 extension
+entries, plus 12 Tavern definitions (at most 2060 effect rows);
+every part is nonempty and `parts` cannot exceed that total. IDs have at most
+160 characters; an ID's namespace must equal `source`. A newer incomplete
+snapshot does not become an empty pool. Before the first complete snapshot,
+the optional view is unknown; no packet is not proof of an empty Java registry.
+The view is local to the current script lifetime and is not saved to entity or
+world properties.
+
+A beneficial-effect consumer filters `category==='beneficial' && available`
+and deduplicates exact IDs against its other effect owners. It does not copy
+Tavern/World Liquor names into a private list. Selection remains at the real
+consumption owner, once per actually consumed item/material. Application still
+uses [the existing effect_apply contract](#applying-a-custom-effect-from-an-existing-consumption-component)
+with `duration` in seconds: for a Java duration of `ticks`, send `ticks/20`.
+A Java `addEffect(MobEffectInstance)` consumer must also send
+`operation: "add_status"`; it must not infer immediate delivery from `mode`.
+The existing owner retains stacking, cache, online time, save/milk/death handling
+and the selected operation's tick or apply-time side effects. No state property
+is written by the consumer.
+
+Standalone consumers retain their own existing local/native effects and must
+not require Tavern in their manifests or invent a fixed fallback list of its
+effects. Only a complete received view supplies optional definitions. The
+existing API does not certify that every other pack has finished startup
+registration; an early view is current at its revision, not an all-packs-ready
+barrier. The host's grant event still has no ACK. This interface alone does not
+complete any food's full Java registry pool or establish in-game application.
+
 ## Barrel quality boosters
 
 `barrelQualityBoosters` supplies `item`, `boost`, `firstBoost`, `maxQuality`, `cooldownTicks`, `damage` and `consume`. The host advertises `barrel_quality_boosters`. The existing machine state and inventory transaction own the result: quality changes preserve the current fermentation countdown, and a failed save restores the original item and state without starting the cooldown.
@@ -17,6 +138,29 @@ The shared `kaleidoscope_tavern:toggle_light` component accepts the boolean `kal
 Dimensions Wine's Mead Essence advances an already produced batch by one quality level, up to the host's six levels. Survival spends one of its ten durability uses; an exhausted essence remains the same original item and cannot be used again in either mode. Creative spends no durability when using an essence that still has durability. A successful use starts the 600-tick player/item cooldown. Custom names, lore and properties remain intact.
 
 These decisions follow the maintained Java source: [Forge MeadEssence](https://github.com/WitherRedstone/Kaleidoscope-DimensionsWine/blob/cd5e040051cdb03b33834d7670807909c5e8d7cb/src/main/java/com/chinaex123/kaleidoscope_dim_wine/item/MeadEssence.java), [NeoForge MeadEssence](https://github.com/WitherRedstone/Kaleidoscope-DimensionsWine/blob/6702d5f678b98c67b37d50408b8446641d492c6a/src/main/java/com/chinaex123/kaleidoscope_dim_wine/item/MeadEssence.java). Java's `firstBoost` applies only at raw level zero; this host's produced batches start at level one. Java's host accessors and persistence clamp to six levels. The clean Bedrock author host instead applies the first boost at level one and deletes an item at maximum damage; this implementation follows Java for those observable behaviors.
+
+## Yielding the optional effect bar to a one-shot message
+
+Server scripts can ask Tavern's existing effect bar to pause for one player:
+
+```js
+import {system} from '@minecraft/server';
+
+// Send at the actual message producer, immediately before its ActionBar write.
+try {
+ system.sendScriptEvent('kaleidoscope_tavern:actionbar_hold',
+  JSON.stringify({player:player.id,ticks:60}));
+} catch { /* A signalling failure must not suppress the original message. */ }
+player.onScreenDisplay.setActionBar(message);
+```
+
+The JSON object requires `player`, an existing player entity ID, not a name or selector. `ticks` is optional (default 60); supplied values must be positive safe integers. Values above 100 are capped at 100. Zero, negative, fractional, string and null values are ignored, as are malformed/oversized packets and unknown, invalid or non-player IDs. Extra fields are ignored.
+
+This event uses the existing extension-host boundary: only `ScriptEventSource.Server`, at most 1900 UTF-8 message bytes, and the existing shared limit of 256 accepted-source requests per server tick. Pack namespaces are cooperative identifiers, not authenticated pack identities. Do not send via a player's `runCommand`; use `system.sendScriptEvent`. No extension registration is needed and no ACK is sent, including for rejected requests. Sending is not confirmation of receipt or installation; the public API does not promise synchronous cross-pack dispatch before the following display write.
+
+On receipt at server tick `t`, the existing hold becomes `max(previousHold, t + min(ticks, 100))`. Tavern skips effect-bar writes while the current tick is below that deadline, then resumes through its existing 20-tick update. A shorter hold cannot shorten a longer one. The event never clears or writes the ActionBar, changes tags, effects or saved data, or pauses other players. Existing block/item interaction holds remain 60 ticks. Leave/spawn and the existing absent-player cleanup discard the same in-memory hold.
+
+This is a quiet window for cooperating one-shot producers, not ownership of every HUD writer. It does not pause Tavern's foreground shaker HUD or another addon's writers. For delayed messages, send from the actual display branch rather than when enqueueing. See [effect-bar behavior](EFFECT-BAR.md).
 
 ## Verification boundary
 

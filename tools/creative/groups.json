@@ -275,5 +275,7 @@
     "equipment",
     "items",
     "nature"
-  ]
+  ],
+  "status": "historical-purpose-taxonomy; not a current generation input",
+  "current_source": "data/java-creative-tabs.json"
 }
