@@ -42,7 +42,8 @@ PLACED_MOLOTOV = 'runtime/BP/blocks/molotov.json'
 
 def runtime_sources():
     from animated_item_render_contract import runtime_sources as animated_runtime_sources
-    return frozenset('runtime/BP/scripts/' + name for group in SOURCE_GROUPS.values() for name in group) | LOCALE_SOURCES | {LAMP_RECIPE, GRASS_BOARD_RECIPE, PLACED_MOLOTOV} | {path.relative_to(ROOT).as_posix() for path in incense_outputs()} | animated_runtime_sources()
+    from painting_geometry import MODELS as painting_models
+    return frozenset('runtime/BP/scripts/' + name for group in SOURCE_GROUPS.values() for name in group) | LOCALE_SOURCES | {LAMP_RECIPE, GRASS_BOARD_RECIPE, PLACED_MOLOTOV} | {path.relative_to(ROOT).as_posix() for path in incense_outputs()} | animated_runtime_sources() | frozenset(painting_models.values())
 
 
 def check(root=ROOT, *, syntax=True, localization=True):
