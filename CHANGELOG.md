@@ -1,3 +1,9 @@
+## 0.6.227 — 2026-11-16
+
+Reuse each ingredient’s immutable index seed across the existing stable-random channels. A full pressing tub reduces BigInt conversions from 536 to 344 per complete layout pass; a full four-slot barrel reduces them from 372 to 228. The 8,380 sampled complete layouts and 5,280 direct random outputs are exactly equal before/after. All native writes, helpers, visuals, item transactions and update frequencies remain. No persistent cache or API requirement is added. These are arithmetic-operation results, not measured game FPS or RAM.
+
+The existing [ingredient source record](docs/PRESSING-INGREDIENT-GEOMETRY.md#layout-arithmetic-follow-up-2026-11-16-t227) records Java/API review, the retained 28-domain audit, open-PR scope, reproducible measurements and validation boundaries. No tests, fixtures or CI files are added. Draft candidate only; no merge, publication or deployment.
+
 ## 0.6.224 — 2026-11-16
 
 Reuse the existing storage pose owner for single-bottle holders. Read the actual kind, rotation and location, and write only differences; preserve Java slot/facing transforms, native item storage, drift repair and the original maintenance cadence. In the offline unchanged-pose sample (128 holders × 20 calls), each of property, rotation and teleport writes falls from 2,560 to zero; query count is unchanged and readbacks remain. This is not a claim about total native calls, FPS or client rendering.
