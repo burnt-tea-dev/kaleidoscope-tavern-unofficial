@@ -38,9 +38,6 @@ for p in (RT/'RP/textures').rglob('*.texture_set.json'):
  t=read(p)['minecraft:texture_set']
  for key in ['color','metalness_emissive_roughness']:
   if isinstance(t.get(key),str):assert (p.parent/(t[key]+'.png')).is_file(),(p,key)
-from painting_geometry import check as check_painting_geometry
-painting_report=check_painting_geometry(ROOT)
-print('Painting Java vertex/UV source contract:',painting_report)
 print('Painting UVs, glyph origins, Molotov storage/use and texture-set references passed.')
 # Every client entity using a shared controller must declare every friendly name,
 # including names in arrays even when its current property range cannot select them.

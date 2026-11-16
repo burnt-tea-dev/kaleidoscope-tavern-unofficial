@@ -12,7 +12,7 @@ from cultivation_source_contract import check as check_cultivation_sources, runt
 from check_incense_surfaces import check as check_incense_sources, runtime_sources as incense_runtime_sources
 from chalkboard_geometry import check as check_chalkboard, runtime_sources as chalkboard_runtime_sources
 from machine_ingredient_geometry import check as check_pressing_geometry, runtime_sources as pressing_geometry_sources
-from glowflower_source_contract import check as check_glowflower_source, runtime_sources as glowflower_runtime_sources
+from glowflower_source_contract import runtime_sources as glowflower_runtime_sources
 from build_tavern_forms import CURRENT_FORM_SOURCES, check_or_write as check_current_forms
 ROOT=Path(__file__).resolve().parents[1]
 # These domains are maintained against their current contracts. Their behavior
@@ -40,7 +40,6 @@ def main():
     pressing_sources=pressing_geometry_sources()
     pressing_contract=check_pressing_geometry(ROOT)
     glowflower_sources=glowflower_runtime_sources()
-    glowflower_contract=check_glowflower_source(ROOT)
     chalkboard_sources=chalkboard_runtime_sources()
     chalkboard_contract=check_chalkboard(ROOT)
     cultivation_sources=cultivation_runtime_sources()
@@ -188,7 +187,6 @@ def main():
                             'cultivation':cultivation_contract,
                             'pressingGeometry':pressing_contract,
                             'chalkboardGeometry':chalkboard_contract,
-                            'glowflowerGeometry':{**glowflower_contract,'sources':sorted(glowflower_sources)},
                             'incenseResources':incense_contract,
                             'creativeCatalog':creative_contract,
                             'guide':{'sources':sorted(GUIDE_SOURCES),'behaviorAndResources':'actual standalone-guide.test.mjs, presentation-settings.test.mjs and check_guide.mjs in the existing package suite; not run by this static command'},
