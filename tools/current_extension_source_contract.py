@@ -15,16 +15,19 @@ from build_incense_native_entities import outputs as incense_outputs
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_GROUPS = {
     'registrationAndTransport': ('bedrock/extension-host.js', 'core/registry.js', 'core/transport.js', 'core/extension-foundation.js'),
-    'bottleIdentity': ('core/extension-content.js', 'core/bottle-display-schema.js', 'core/quality-tooltip.js', 'bedrock/quality-tooltip.js'),
+    'bottleIdentity': ('core/extension-content.js', 'core/bottle-display-schema.js', 'core/quality-tooltip.js', 'bedrock/quality-tooltip.js',
+                       'core/bottles.js', 'bedrock/bottles.js', 'bedrock/display-projectiles.js',
+                       'bedrock/storage-projectile.js', 'core/projectile-parity.js', 'bedrock/molotov.js', 'core/molotov-fire.js'),
     'furnitureLifecycle': ('core/furniture.js', 'bedrock/furniture.js', 'bedrock/holder.js'),
-    'optionalEffectProtocol': ('data/effect-icons.js',),
-    'machinesAndDecorations': ('bedrock/machines.js', 'core/machines.js', 'bedrock/decorations.js'),
+    'optionalEffectProtocol': ('data/effect-icons.js', 'bedrock/effect-bar.js', 'core/effect-bar.js'),
+    'machinesAndDecorations': ('bedrock/machines.js', 'core/machines.js', 'bedrock/decorations.js', 'bedrock/tap-sources.js'),
     'sharedGuide': ('core/cookery-guide-publisher.js', 'data/cookery-guide-payload.js', 'data/guide-navigation.js', 'data/guide-copy.js', 'data/guide-native-names.js'),
     'boardLayoutAndText': ('core/boards.js', 'data/board-font.js', 'core/board-layout.js', 'bedrock/board-text.js', 'bedrock/writing-boards.js'),
     'mixologyLifecycle': ('bedrock/mixology.js',),
     'sharedUtilities': ('core/util.js',),
     'sharedItemLifecycle': ('bedrock/pickup-overflow.js', 'bedrock/natural-break.js', 'bedrock/transactions.js',
-                            'bedrock/native-item-storage.js', 'core/native-item-storage.js'),
+                            'bedrock/native-item-storage.js', 'core/native-item-storage.js', 'core/inventory.js',
+                            'core/native-storage-anchor.js', 'bedrock/native-storage-pinning.js'),
 }
 COMPLETE_LOCALE_SOURCES = frozenset('runtime/RP/texts/' + locale + '.lang' for locale in ('en_US', 'zh_CN', 'zh_TW'))
 PARTIAL_LOCALE_SOURCES = frozenset('runtime/RP/texts/' + locale + '.lang' for locale in PARTIAL_LOCALES)

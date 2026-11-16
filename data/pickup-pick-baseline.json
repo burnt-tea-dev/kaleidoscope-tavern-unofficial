@@ -1,89 +1,7 @@
 {
   "baseCommit": "f793a98a0180e1948f98e69a8ca879a028884e38",
   "reason": "Explicitly reverse this pickup repair only, then apply the original immutable creative-pick baseline checks. No golden hash is replaced.",
-  "files": {
-    "runtime/BP/scripts/bedrock/bottles.js": {
-      "before": "205a320b73ef3e603e0bf7ca729a2ecfcb0cde104b3da6e49149272242861fcb",
-      "after": "b482a1e65843678cb9029b51eb3d3a828f9673f1fca5388449776fef6af5ebe7",
-      "reverseOps": [
-        [
-          0,
-          1,
-          ""
-        ],
-        [
-          10,
-          11,
-          "import {makeStack,hand,inventory,handSnapshot,sameHand,canWrite,placementTake,blockAt,plus,safe} from './transactions.js';\n"
-        ],
-        [
-          28,
-          30,
-          " canWrite(player);check(b?.typeId===EMPTY_BLOCK,'NOT_EMPTY_BOTTLE_BLOCK');const c=inventory(player),plan=planInventory(c,player.selectedSlotIndex,0,[{id:EMPTY_ITEM,count:1}],makeStack),old=waterSnapshot(b);\n return locks.with([emptyKey(b),player.id],()=>{const out=commitInventory(plan,c,()=>setWithWater(b,BlockPermutation.resolve('minecraft:air')),()=>restoreWater(b,old));playMaterialInteraction(b.dimension,b.location,EMPTY_BLOCK);return out;});\n"
-        ],
-        [
-          32,
-          34,
-          " canWrite(player);check(b?.typeId===WATER_BLOCK,'NOT_WATER_BOTTLE_BLOCK');const c=inventory(player),plan=planInventory(c,player.selectedSlotIndex,0,[{stack:waterBottleStack(),count:1}],makeStack),old=waterSnapshot(b);\n return locks.with([simpleKey(b),player.id],()=>{const out=commitInventory(plan,c,()=>setWithWater(b,BlockPermutation.resolve('minecraft:air')),()=>restoreWater(b,old));playMaterialInteraction(b.dimension,b.location,WATER_BLOCK);return out;});\n"
-        ],
-        [
-          39,
-          40,
-          "  check(isPlainIngredient(h,makeStack),'METADATA_ITEM_REJECTED');\n"
-        ],
-        [
-          42,
-          43,
-          "  const next=displayAdd(old,h.typeId,facingFor(player));\n"
-        ],
-        [
-          46,
-          47,
-          "  commitInventory(plan,c,()=>{setWithWater(b,permutation(next));store.save(k,next,old?.revision??-1);},()=>{restoreWater(b,oldBlock);store.restore(k,raw);});\n"
-        ],
-        [
-          51,
-          52,
-          " canWrite(player);const k=bottleKey(b.dimension.id,b.location);\n"
-        ],
-        [
-          56,
-          60,
-          "  const plan=planInventory(c,player.selectedSlotIndex,0,tx.give,makeStack);\n  commitInventory(plan,c,()=>{setWithWater(b,tx.state?permutation(tx.state):BlockPermutation.resolve('minecraft:air'));store.save(k,tx.state,old.revision);},()=>{restoreWater(b,oldBlock);store.restore(k,raw);});\n  playMaterialInteraction(b.dimension,b.location,bottleBlock(old.base));return tx;\n"
-        ]
-      ],
-      "reason": "Reviewed pickup delta over main 06d941f0, effects delta over base f793a98a, and legacy delta to the immutable golden; all three op lists regenerated and the chain replay-verified end to end.",
-      "effectOps": [],
-      "legacyOps": [
-        [
-          9,
-          10,
-          "import {makeStack,hand,inventory,handSnapshot,sameHand,canWrite,placementTake,blockAt,plus,tell,safe} from './transactions.js';\n"
-        ],
-        [
-          24,
-          25,
-          "function waterBottleStack(){return restorePotion({item:'minecraft:potion',potion:{effectId:'minecraft:water',deliveryId:'minecraft:consumable'}});}\n"
-        ],
-        [
-          46,
-          47,
-          "  playMaterialInteraction(d,target,bottleBlock(next.base));tell(player,`§a${next.base} ${next.items.length}/${BOTTLES[next.base].maxCount}`);return next;\n"
-        ],
-        [
-          57,
-          58,
-          "  playMaterialInteraction(b.dimension,b.location,bottleBlock(old.base));tell(player,'§a已取回原品質酒瓶。');return tx;\n"
-        ]
-      ],
-      "hashes": {
-        "current": "b482a1e65843678cb9029b51eb3d3a828f9673f1fca5388449776fef6af5ebe7",
-        "main": "205a320b73ef3e603e0bf7ca729a2ecfcb0cde104b3da6e49149272242861fcb",
-        "base": "205a320b73ef3e603e0bf7ca729a2ecfcb0cde104b3da6e49149272242861fcb",
-        "golden": "9a8ef42f05d3dd5697809d29df393afcaee8905fff063bebf4be2daa3f8da42a"
-      }
-    }
-  },
+  "files": {},
   "historicalFiles": {
     "runtime/BP/scripts/bedrock/mixology.js": {
       "pickupReview": {
@@ -168,6 +86,94 @@
         "prefixBytes": 22549,
         "prefixSha256": "8da0a3cb0becde083315ef3ba2284d1541110ab40b106760dcc707ed5dccdac3",
         "sha256": "a9fb6cb3944dd69fc55d7804f0331a4957fe3252007a832d457ada1c333e1cc2"
+      }
+    },
+    "runtime/BP/scripts/bedrock/bottles.js": {
+      "pickupReview": {
+        "before": "205a320b73ef3e603e0bf7ca729a2ecfcb0cde104b3da6e49149272242861fcb",
+        "after": "b482a1e65843678cb9029b51eb3d3a828f9673f1fca5388449776fef6af5ebe7",
+        "reverseOps": [
+          [
+            0,
+            1,
+            ""
+          ],
+          [
+            10,
+            11,
+            "import {makeStack,hand,inventory,handSnapshot,sameHand,canWrite,placementTake,blockAt,plus,safe} from './transactions.js';\n"
+          ],
+          [
+            28,
+            30,
+            " canWrite(player);check(b?.typeId===EMPTY_BLOCK,'NOT_EMPTY_BOTTLE_BLOCK');const c=inventory(player),plan=planInventory(c,player.selectedSlotIndex,0,[{id:EMPTY_ITEM,count:1}],makeStack),old=waterSnapshot(b);\n return locks.with([emptyKey(b),player.id],()=>{const out=commitInventory(plan,c,()=>setWithWater(b,BlockPermutation.resolve('minecraft:air')),()=>restoreWater(b,old));playMaterialInteraction(b.dimension,b.location,EMPTY_BLOCK);return out;});\n"
+          ],
+          [
+            32,
+            34,
+            " canWrite(player);check(b?.typeId===WATER_BLOCK,'NOT_WATER_BOTTLE_BLOCK');const c=inventory(player),plan=planInventory(c,player.selectedSlotIndex,0,[{stack:waterBottleStack(),count:1}],makeStack),old=waterSnapshot(b);\n return locks.with([simpleKey(b),player.id],()=>{const out=commitInventory(plan,c,()=>setWithWater(b,BlockPermutation.resolve('minecraft:air')),()=>restoreWater(b,old));playMaterialInteraction(b.dimension,b.location,WATER_BLOCK);return out;});\n"
+          ],
+          [
+            39,
+            40,
+            "  check(isPlainIngredient(h,makeStack),'METADATA_ITEM_REJECTED');\n"
+          ],
+          [
+            42,
+            43,
+            "  const next=displayAdd(old,h.typeId,facingFor(player));\n"
+          ],
+          [
+            46,
+            47,
+            "  commitInventory(plan,c,()=>{setWithWater(b,permutation(next));store.save(k,next,old?.revision??-1);},()=>{restoreWater(b,oldBlock);store.restore(k,raw);});\n"
+          ],
+          [
+            51,
+            52,
+            " canWrite(player);const k=bottleKey(b.dimension.id,b.location);\n"
+          ],
+          [
+            56,
+            60,
+            "  const plan=planInventory(c,player.selectedSlotIndex,0,tx.give,makeStack);\n  commitInventory(plan,c,()=>{setWithWater(b,tx.state?permutation(tx.state):BlockPermutation.resolve('minecraft:air'));store.save(k,tx.state,old.revision);},()=>{restoreWater(b,oldBlock);store.restore(k,raw);});\n  playMaterialInteraction(b.dimension,b.location,bottleBlock(old.base));return tx;\n"
+          ]
+        ],
+        "reason": "Reviewed pickup delta over main 06d941f0, effects delta over base f793a98a, and legacy delta to the immutable golden; all three op lists regenerated and the chain replay-verified end to end.",
+        "effectOps": [],
+        "legacyOps": [
+          [
+            9,
+            10,
+            "import {makeStack,hand,inventory,handSnapshot,sameHand,canWrite,placementTake,blockAt,plus,tell,safe} from './transactions.js';\n"
+          ],
+          [
+            24,
+            25,
+            "function waterBottleStack(){return restorePotion({item:'minecraft:potion',potion:{effectId:'minecraft:water',deliveryId:'minecraft:consumable'}});}\n"
+          ],
+          [
+            46,
+            47,
+            "  playMaterialInteraction(d,target,bottleBlock(next.base));tell(player,`§a${next.base} ${next.items.length}/${BOTTLES[next.base].maxCount}`);return next;\n"
+          ],
+          [
+            57,
+            58,
+            "  playMaterialInteraction(b.dimension,b.location,bottleBlock(old.base));tell(player,'§a已取回原品質酒瓶。');return tx;\n"
+          ]
+        ],
+        "hashes": {
+          "current": "b482a1e65843678cb9029b51eb3d3a828f9673f1fca5388449776fef6af5ebe7",
+          "main": "205a320b73ef3e603e0bf7ca729a2ecfcb0cde104b3da6e49149272242861fcb",
+          "base": "205a320b73ef3e603e0bf7ca729a2ecfcb0cde104b3da6e49149272242861fcb",
+          "golden": "9a8ef42f05d3dd5697809d29df393afcaee8905fff063bebf4be2daa3f8da42a"
+        }
+      },
+      "pickPrefix": {
+        "prefixBytes": 9462,
+        "prefixSha256": "a4e6b8a4b391d0b8664c1bd1ab8ab58119096b856eec3bfa43b36e10af7f272d",
+        "sha256": "9a8ef42f05d3dd5697809d29df393afcaee8905fff063bebf4be2daa3f8da42a"
       }
     }
   }

@@ -848,18 +848,6 @@
         }
       ]
     },
-    "runtime/BP/scripts/bedrock/bottles.js": {
-      "before": "b482a1e65843678cb9029b51eb3d3a828f9673f1fca5388449776fef6af5ebe7",
-      "after": "b3afde9673f4dcffa723501c54fe08fa4e198302db7b9a966ea7b7e628426460",
-      "reason": "Canonical baseline reconciliation; stable API/connection/public dependencies and reviewed live fixes. See BASELINE-MAINTENANCE.md.",
-      "beforeGzipBase64": "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"
-    },
-    "runtime/BP/scripts/bedrock/display-projectiles.js": {
-      "before": "ac563cf09e6aaae8c78ba4f411447016c06bb007f791f661990e75b4b42ab7f9",
-      "after": "ff59c9d92a566120782682e388086dab55a302209e53d0c416df1debe500085b",
-      "reason": "Canonical baseline reconciliation; stable API/connection/public dependencies and reviewed live fixes. See BASELINE-MAINTENANCE.md. 0.6.70 external cellar redstone integration; see foundation tests. 0.6.70 external cellar redstone integration; see foundation tests.",
-      "beforeGzipBase64": "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"
-    },
     "runtime/BP/scripts/core/guide-preparation.js": {
       "before": "46036ece1e0a9a8c223bbc11ac379c160894245ca00e982cabf8c5fb7558e57c",
       "after": "b303adbe72411f00496fc31b6fdf42d1934ff7f7177046a821ec2efa9e546202",
@@ -1185,12 +1173,6 @@
       "before": null,
       "after": "0076a137d139c7d61aa67848129a18567dfcd92cba62295646969387ecc80218",
       "reason": "Source-backed additive cocktail tag membership and owned tooltip migration; exact regressions in tools/addon-mixology-tags.test.mjs and build_drink_colors.py."
-    },
-    "runtime/BP/scripts/core/inventory.js": {
-      "before": "03cb17ce275eada64aa5f0dacb63d0de75994ca8bfbdb5ee612f6e71b67d4856",
-      "after": "2534d63648a33dc045357352d5fdc4a45fe915a0b55e59b269bb76cc40cfb0db",
-      "reason": "Source-backed additive cocktail tag membership and owned tooltip migration; exact regressions in tools/addon-mixology-tags.test.mjs and build_drink_colors.py.",
-      "beforeGzipBase64": "H4sIAAAAAAACA51XW1PbOBR+51eIl8QujoGdfSI1TEpgm2kKbIHudBiGUWwlUbElV5YL3sB/33Mk+UJKup0+QGz53C/fOeJZLpUmq3jJ4vvgin5nSpwoJdUzmSuZkX64W2qehl+L/nCLO2JefKSCLljyd0lTrqt3UuuUTaVigZAqg7N/mT271DS+b0V9s/QDLWWqeW6l7r55s0XeEENKuNBMzWnMDoiucjZJAkIzWQodkIw+jtxjnErBPD8gvDBsdJayf7heelIvmfJDlHeRUiG4WBDBwCmSlZpqVhAgICn/zkDTdya0VFVIzkVaESoIe8xTHnNNTqVaMJLz+L7MQW9FFPtWskITCaLmqXwgiZJ5gXp2t4ALozIvRay5FCQHxZNauBdLoSkXTAUFS1msWRJoes8CWeq81EWQwYvxwV9tEZMF76zMZkyFvJhAMBZMeTWn3+vVj4fRXvvytlESFhD6oP9uNL67nJ5f9f3hBpFoA4jDHxBlOa5GH06AA8yQAnydsTlkNBopRasQM+itUiYWennwUt1z4N0F3I8O2+MF0xPNMo/7R6HLlR/QOaQ2slLDjObeY3T42H4HvXxu7VpZAziIiAzXTe3prfMHP/V6+D+05XEYmaj2J2eX16enk+PJydnV3fuT6RgcArEdyigypP6a4KgUCZuD9cmQpQUjHY6BYRg+14EBB2KWRII9kEumoQzrqohubocp01AtMYMSS6I9cAqoPcsniZwTl3fMNkHa2NgkQ/O7KVvmI6TL/B7uuYe30f7eH3/a3P01+Yy5s4rAdChCzUAse6SxPvJkWGCNHR015QZHPAn2fb9OwMFrrfszxmGtpg7sPnjrSvimiWbQX1KR9IN+02/925CLOC0TVoCshGE3qsq3foxPpuDJpy+mDrEgWgpInJXlW7TyttdS2ISlMayFjP7F5PjD9cXd+9HZ+O78+Pj6YnKCtbFeBQ2ri8o6Qe2rTZethJAmSdujwzr7O44I24KL0hSQqyAtNU3dZzjc3SUXACGIYgShsQC0KrCMdKkEnBjQQtddTxopPGEK4c1AHjFZQkCyMcsVmzP1Hlh6vfUw1e0loo9UL8OMC1tfwY9h+/34iGFsW0e8HqRn57axE/zJcqo5+m8dCdBlYfyGNkurwVwxlpAlSxNSpFK779Z3MElX5tgEABsOO4tD+/G3xr7QApcrkCHf2amDgFwOY/gtIgUe9Hpe3Tn4+npn4BfonvUJVAfI3xhmZGxDPDCv1IW787LTjSEYJvxOIDlEsC0nE4biNaTuet/gNPfDOU/hg8fhZTuK2rTYrEzZgsYVDL54CS0MYzGG4lvA8ISKBIDH2HNFpIIKDHHOglUDOfsKMuqZOZcp4GHhBil65chbm/E1etndLUQc/bovBwjOwA2ouG3bo63Go5swDG10mvF7e9B8D5qvt0NXOG7yGKRGC/0VhH7b4u9MMXqPqdiuC+Y3Wolv7CH+P81T57zFFwMjgwZGwDLz3OvJsBlJEFbcVQA0H5Y8ZW6U1NWPpfujPea4NuYXPKuVhXlZLD3D7dcudGW5mjXgHbtZvIcz+zNM6/NPX+5Or6dTg/zNrHWVh5N16yedbVu6KS7atHQwcxsHtretbrPtWbkWTApCAVMfFNeaiSEBu2QJRiZE0Iwlu0wgsUZig02QgAy7YFZpNgDRA3wAWo1bpW2DGohd9pa0gOw9PUHhQLdtz/CR9nozwBka2jUXzmfu8emJuniZQwcNvu9CYYPMXZTcjFhZJ+2OFTjKZi8J6pJ5Hm49475NLitwSkkhS4Ba6G+W4+o6UNC2M1zDtaKioGafHZJEQuufnV/B2k15RmJFi+Ugha06JaPjyTh8bQkGRM+4btdgXIqDzi4MF42g1mY2X5M3lwObba2q1VpLopTQeQcFbambgHTW0nr/DAxH067DZ1TsmfETUx0vPYZ3HX+FVTWn0B9JNKew/r0CB7U2hdeJAjdWNHCjzqbqQJlRtXLytXKrALLXIfA2UmEVmSNfQ8IecBySzjXN6386n07fjY4/3J2OJlPYaYL+pZY5KQtcDvSSFw2O4wJxz1hOKHmQCiYpai7z0O5aVryJhyktWygfAfETqulgxqhZN+BPsYRDWm3bKPbVYqm7Z0FA4Ae7BfYWiAQ0ymRckAJcEDqtXi0WXlwg4aQRbfb1l1cjhF089V3F12nCKDZ9n9lrKd5Eo82XVCO93i/Nno+NfkUX0JbmFa4vSHcUen6zOWx3ZEP/1nTjCnh5fAEQC15Xk6TocK3b2ugDxmNYeQBthQb6PsArg7aa64OkVHTG0d5+R8sGYodMuHv04aYFhCf2JMP0/KohVIzhaqtk1WHoqKbCTPhz8TN57r0TIyehmRIA9fvubH1laq8W5rO79++bK6Hrihf6sDb/A1vFuQe4EAAA"
     },
     "runtime/BP/scripts/core/shaker-tags.js": {
       "before": null,
@@ -2689,12 +2671,6 @@
       "after": "56ced825a69bf1ee82397e21e347f940fdcbd084d6fbbe3c2aed6ce5fa397f2e",
       "reason": " 0.6.85 owner-requested immersive feedback: optional barrel/effect text, one-shot rejection, quiet success and shared-channel cleanup. See docs/IMMERSIVE-FEEDBACK-20261002.md and tools/immersion-feedback.test.mjs. Reviewed 0.6.85 release identity / immersion; docs/IMMERSIVE-FEEDBACK-20261002.md."
     },
-    "runtime/BP/scripts/core/effect-bar.js": {
-      "before": "6e8e0d332fa28910cdf90054157d05d9a19fc8a008e3a7cef405d761a217ac16",
-      "beforeGzipBase64": "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",
-      "after": "19a5b1488e8e67c6140eb90e141603ebd45a913bf1615be7868a1299ea0782f9",
-      "reason": " 0.6.85 owner-requested immersive feedback: optional barrel/effect text, one-shot rejection, quiet success and shared-channel cleanup. See docs/IMMERSIVE-FEEDBACK-20261002.md and tools/immersion-feedback.test.mjs. Reviewed 0.6.85 release identity / immersion; docs/IMMERSIVE-FEEDBACK-20261002.md."
-    },
     "runtime/BP/scripts/core/shaker-hud.js": {
       "before": "a880cbc0227847eb7c8c9fec1e0f1efaddebda544999c1be401d63e82179602d",
       "beforeGzipBase64": "H4sIAAAAAAACA3VU4W7bNhD+76dggGCkbEWWU7jZrMhBkaSo0S0t7AwYYBgpLZEOF4U0SMp1YPk19nv/+h59lD3JjpRsF3MGmNbx+PHu48c7dtttNGY0p/OChYgLKSxDNLNCyTnVaEmzJ2ZNhO7YimlkNZVmqbRFmhlV6owBwj4aJCT68PsNsmxtI9TuttjaozIljXUrD5/Ht+9Hf6T4+zc9/Xg/Qzg5xgBkfDv58HA/uv44SXtx0qrXrj/9+mk8SafxmvN+n/MwXvf7jcE5pXHsPW7Re/aGQzUezmeHcDe3EA1f4BDnMH6B8RYGhcFgZDA4nu0J8lJ6PZAplL1WhdIjmbM1cdNg00KCkxNva2ZLLVGcgMc5oqVy+3b+i6TVHDZL78rnOdORMCNp2YLpGp+54MHVwR7syCcFs2jOjE0vwlwYS2XG0pH09/UCcbnSxEFECtkva8GigsmFfUxEp+NoNrlXab06FbMwT6e9t+HPYTyLNMvLjBEiQxOkQ9khhGTDoQl+Ou/3gzNCVvtJ0G6fh3EASd3J88sdnWCzJ5Ynnqro9JJtC8GvUcB5k9b2VWHv1ROTRDhlw1qHRtojqTwmqCr/vYwbY3heVcfYOlJV+a/DemN4EdhHrb4iyb6iMZULdqs1KIhHckULkftadqSwO2ZD/svpxifq9LaD799ON76Mpj7ebHu68cYV/uevv/EAn+EtFPqX/zur+ezbyl+6SaezYNPkOHRK553W9CXiWj2TTX2RgzfbkDyEAu7nB8HCV6rSwOUGQRD9qYQkGCE4xjGRpVYL6OIdFyuyJ+M0r8tEHkr0vX8UGsDVb9Dv0TNdkzisTUjR6/XqCS8UyFgjg2AQH9T74WTwBsxxZ2K1kAsig2hJ84ml2pI3IY5x0MGoiyAiCIhfE/CxzCdM5jclI0vNVkKVJnxiL6HL6vh3u+hOIZEXrKs4b16wEF6orChzSImoRU6YbsHoikXoRiGpoCdhqhEF8xEeOprnZ0pi43hHvg4hRZqmJWgMTcfyqqodsiyKXYNzWhiWePSO2RU0ltUv77hleugZ/gfbTE92G6pqZ0WQ4CRN4b+q3M6z/YKbDdOjF9OJ9S/2Pj6qzwUAAA==",
@@ -2980,12 +2956,6 @@
       "beforeGzipBase64": "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",
       "reason": "Selective 0.6.113 callback restoration from a4581c0: retain exact canonical main preimage for the historical launch guard while current shared-interaction regressions validate the repaired runtime. Test-only projection, never packaging or deployment input.; reviewed integration of remote PR200/46 callback/HUD repairs with current Java use/combat candidate, fresh identities 0.6.114/0.1.74."
     },
-    "runtime/BP/scripts/bedrock/storage-projectile.js": {
-      "before": "3e6c53c33dd07f5d83700fa77d86cd7ee571da132f8411bb8d47ce026aa0c34f",
-      "beforeGzipBase64": "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",
-      "after": "ed7fdd612f30227b7723446fda1ccaa8c7c8911d9443d33ffa0d90accfe5bb34",
-      "reason": "Living external effect routing, additive fresh-recipient SDK, source float heal and synced release identity; see World Liquor docs/LIVING-EFFECTS-0.1.81.md."
-    },
     "runtime/BP/scripts/core/living-effect-entity.js": {
       "before": null,
       "after": "d8868f83e0fc4b29dcd5fe5de8b6d94b961055352aee27774600f24288433e11",
@@ -3051,16 +3021,6 @@
       "reviewDocument": "docs/DRINK-COMPLETION-LIFECYCLE.md",
       "release": "0.6.120"
     },
-    "runtime/BP/scripts/bedrock/native-storage-pinning.js": {
-      "before": null,
-      "after": "ea6ab3128765b92a1e28fa6acda4f11296794c8c10feac78a3fd237763921bae",
-      "reason": "Owned storage helper anchoring adapter; introduced in0.6.121 with focused and Native proof. No historical runtime imported."
-    },
-    "runtime/BP/scripts/core/native-storage-anchor.js": {
-      "before": null,
-      "after": "1c453c7b34f55d413e241e8d3306f568bf371e9f16dd54dd78b49131eeb48b67",
-      "reason": "Owned storage helper anchoring adapter; introduced in0.6.121 with focused and Native proof. No historical runtime imported."
-    },
     "runtime/BP/scripts/bedrock/instant-effects.js": {
       "before": null,
       "after": "bba018f063314c5fcbe583b1074a1b98a1db5ea2ee49934d6d06692643550f2a",
@@ -3118,15 +3078,6 @@
       "reviewedPredecessorCommit": "27580b0e2809a5454398a07f875c4c360565db79",
       "reviewedSourceCommit": "26e53c6a99093503622af87f890d8c61624e5df9",
       "reviewDocument": "docs/RELEASE-NOTES-0.6.145.md"
-    },
-    "runtime/BP/scripts/core/molotov-fire.js": {
-      "before": null,
-      "after": "bc0f9b7e86c74ccb0687a8684ea60235578d5ba4d9f2423eb87bd4113f2dead6",
-      "reason": "T131 appended reviewed runtime addition. Bounded source-backed fire placement classifier for soul support, known normal support and adjacent flammable blocks, with explicit unknown-shape fallback.",
-      "release": "0.6.131",
-      "reviewedPredecessorCommit": "c4453491e2f52d4b4515dda0385db204aa892c97",
-      "reviewedSourceCommit": "f08714307ea331be52a9240d8aa6473752325d1c",
-      "reviewDocument": "docs/RELEASE-NOTES-0.6.131.md"
     },
     "runtime/BP/scripts/core/vision-feedback.js": {
       "before": null,
@@ -4049,33 +4000,6 @@
             ]
           ]
         },
-        "runtime/BP/scripts/core/inventory.js": {
-          "before": "2534d63648a33dc045357352d5fdc4a45fe915a0b55e59b269bb76cc40cfb0db",
-          "after": "ff21dbc539bf233aec0b07dc707f45ffd8a2cc744151e0c180a00cc0e708c8c2",
-          "reason": "Add an explicit takeAfterOutputs option for the Java shaker empty-container ordering; keep debit-first behavior as the default and retain inventory transaction rollback.",
-          "reverseOps": [
-            [
-              4,
-              5,
-              " * Planning never mutates the live inventory. Only an explicit Forge pickup may request overflow drops.\n"
-            ],
-            [
-              6,
-              7,
-              "export function planInventory(container,selected,take,outputs,makeStack){\n"
-            ],
-            [
-              9,
-              14,
-              " if(take){const item=after[selected];check(item&&item.amount>=take,'INSUFFICIENT_HELD');if(item.amount===take)after[selected]=undefined;else item.amount-=take;}\n"
-            ],
-            [
-              32,
-              33,
-              ""
-            ]
-          ]
-        },
         "runtime/BP/scripts/core/mixology.js": {
           "before": "19409a10cbc7e7ef1ea58e7f6966980cb05c2997ba07abe25f6de106c63aa5d8",
           "after": "f44978c57325018e8b36e8d00bec89cd63681d1cd3583ab242bfafb758ba2bae",
@@ -4105,28 +4029,6 @@
               46,
               47,
               "export function currentMixInputs(slots,registry){return registry?slots.map(slot=>slot.potion?clone(slot):{...clone(slot),...inputSnapshot(slot.item,registry)}):slots;}\n"
-            ]
-          ]
-        },
-        "runtime/BP/scripts/core/native-storage-anchor.js": {
-          "before": "1c453c7b34f55d413e241e8d3306f568bf371e9f16dd54dd78b49131eeb48b67",
-          "after": "d817d6e112866c1fa0caaaf7efec757d4e0ee4c9e8d05460bd340a258751dd05",
-          "reason": "Recognize the one-slot placed shaker native ledger and require its canonical shaker item/owner block. No world escrow is added for held items.",
-          "reverseOps": [
-            [
-              6,
-              7,
-              "const regular=new RegExp(`^kt:(holder|tilted_rack|circular_rack|cellar_cabinet)/${D}/${P}$`);\n"
-            ],
-            [
-              14,
-              15,
-              " if(m){type=NS+':'+m[1];dimension=m[2];p=position(m.slice(3));capacity={holder:1,tilted_rack:3,circular_rack:6,cellar_cabinet:9}[m[1]];}\n"
-            ],
-            [
-              34,
-              35,
-              ""
             ]
           ]
         },
@@ -4348,38 +4250,6 @@
             ]
           ]
         },
-        "runtime/BP/scripts/bedrock/molotov.js": {
-          "before": "2504519777d71c862e21012681c91c4d69a4a6b8e41805958f8ab4c9b49d8301",
-          "after": "8ae86b95134b2d2515644bbb96c2ae16bc80a0b43660ccf1b719350df90171aa",
-          "reason": "Use source-backed normal/soul fire and adjacent flammability decisions with a bounded impact-local neighborhood; unknown support shapes and portal rules remain explicit adaptation limits.",
-          "reverseOps": [
-            [
-              6,
-              7,
-              ""
-            ],
-            [
-              12,
-              13,
-              "export const molotovDiagnostics={starts:0,releases:0,earlyReleases:0,nativeProjectiles:0,impacts:0,duplicateImpacts:0,samples:[],errors:[]};\n"
-            ],
-            [
-              48,
-              49,
-              "  p.sendMessage('[Tavern Molotov] '+JSON.stringify({observedNativeProjectiles:own,clientAnimationConfirmed:false,delayedSampleIsNotInitialVelocity:true}));\n"
-            ],
-            [
-              70,
-              72,
-              ""
-            ],
-            [
-              76,
-              86,
-              "   const p={x:cx+dx,y:cy+dy,z:cz+dz},b=at(dimension,p),below=at(dimension,{x:p.x,y:p.y-1,z:p.z});\n   // Adapter limit: this is not Java's full BaseFireBlock.canBePlacedAt\n   // predicate (side support, soul fire and portal rules remain separate).\n   if(b?.isAir&&below&&!below.isAir){try{b.setType('minecraft:fire');break;}catch{}}\n"
-            ]
-          ]
-        },
         "runtime/BP/scripts/bedrock/shaker-screen.js": {
           "before": "56ced825a69bf1ee82397e21e347f940fdcbd084d6fbbe3c2aed6ce5fa397f2e",
           "after": "b6c71c71e69e6a935bdd6f0edf078bf19100e07c9478883185c04b92d4dea092",
@@ -4502,38 +4372,6 @@
               150,
               151,
               " nativeEmptyCallbacks.set(player.id,{gesture,tick:now});\n"
-            ]
-          ]
-        },
-        "runtime/BP/scripts/bedrock/storage-projectile.js": {
-          "before": "ed7fdd612f30227b7723446fda1ccaa8c7c8911d9443d33ffa0d90accfe5bb34",
-          "after": "0000401b9d1340c1ee92ed5d1605cc19110dc4a6dcb07ab0bf1aee261655dac3",
-          "reason": "Replace legacy signed-delta instant delivery with the shared Java class/numeric/hook dispatcher and per-recipient source potion-policy snapshot; known immunity gates the entire effect loop.",
-          "reverseOps": [
-            [
-              3,
-              5,
-              "import {EntityDamageCause,world} from '@minecraft/server';\nimport {splashFactor,splashTicks,instantHealthDelta} from '../core/projectile-parity.js';\n"
-            ],
-            [
-              9,
-              11,
-              ""
-            ],
-            [
-              52,
-              56,
-              "function nativeRow(entity,row,factor){\n if(row.effect==='minecraft:instant_health'||row.effect==='minecraft:instant_damage'){\n  const undead=entity.matches({families:['undead']}),delta=instantHealthDelta(row.effect,row.amplifier,factor,undead);\n  if(!delta)return false;\n  if(delta>0){const h=entity.getComponent('minecraft:health');if(!h)return false;h.setCurrentValue(Math.min(h.effectiveMax,h.currentValue+delta));}\n  else entity.applyDamage(-delta,{cause:EntityDamageCause.magic});\n"
-            ],
-            [
-              89,
-              96,
-              "   if(entity.id===projectile.id||!living(entity))continue;\n"
-            ],
-            [
-              100,
-              104,
-              "    if(row?.bedrockId)any=nativeRow(entity,row,factor)||any;\n"
             ]
           ]
         },
@@ -4754,51 +4592,6 @@
             ]
           ]
         },
-        "runtime/BP/scripts/bedrock/native-storage-pinning.js": {
-          "before": "ea6ab3128765b92a1e28fa6acda4f11296794c8c10feac78a3fd237763921bae",
-          "after": "a87b47d69804952930233bd1724b4dcaa68fea65eb015714affa87f0a10a75e0",
-          "reason": "T134 appended exact source review. Preserve counted complete native machine inputs and exact source outputs/adoption, metadata-sensitive merging, quantities and mode/game-rule handling. Rollback attempts each native slot/carrier, marker, block and public record independently; targeted production failure/retention regressions prevent duplication or plain-ID fallback.",
-          "reviewedPredecessorCommit": "625ff769f4c656ff224314bba38d26a1ef5dacc0",
-          "reviewedSourceCommit": "37ff9f12e74c6a4f3bb3a5fc40502d7e70e68c83",
-          "reviewDocument": "docs/RELEASE-NOTES-0.6.134.md",
-          "reverseOps": [
-            [
-              3,
-              4,
-              ""
-            ],
-            [
-              9,
-              10,
-              ""
-            ],
-            [
-              14,
-              16,
-              " const key=entity.getDynamicProperty(NATIVE_STORAGE_OWNER),anchor=nativeStorageAnchor(key,registry,k=>storage.backend.getDynamicProperty(k));\n"
-            ],
-            [
-              19,
-              20,
-              " const block=dimension.getBlock(anchor.position);checkNativeStorageOwner(anchor,block,proof.ids);\n"
-            ],
-            [
-              27,
-              28,
-              " checkNativeStorageOwner(anchor,dimension.getBlock(anchor.position),after.ids);\n"
-            ],
-            [
-              40,
-              42,
-              "    const raw=storage.backend.getDynamicProperty(nativeItemKey(key));check(typeof raw==='string','NATIVE_STORAGE_MISSING');\n    const record=JSON.parse(raw),entity=storage.findEntity(record.entity);\n"
-            ],
-            [
-              47,
-              48,
-              ""
-            ]
-          ]
-        },
         "runtime/BP/scripts/bedrock/pressing-feedback.js": {
           "before": "acff3cf0ebf1535bc91fdaac4a012b70bfefd48dfe1022515c8da63b26c08881",
           "after": "0ed0098faf533d43e16954b110073d96d923c4ef55445026066d9881a929814e",
@@ -4811,26 +4604,6 @@
               41,
               43,
               "    const e=block.dimension.spawnItem(new ItemStack(output.id,base+(i<remainder?1:0)),{x:block.location.x+.5+dx*.3,y:block.location.y+.55,z:block.location.z+.5+dz*.3});\n"
-            ]
-          ]
-        },
-        "runtime/BP/scripts/bedrock/storage-projectile.js": {
-          "before": "0000401b9d1340c1ee92ed5d1605cc19110dc4a6dcb07ab0bf1aee261655dac3",
-          "after": "95d3092655158822abacf927ba5e9d813d2fc0e12176ddce6f4c6440deace0d4",
-          "reason": "T134 appended exact source review. Route host-created timed native drink/splash effects through checked appearance ownership while retaining instantaneous source dispatch, effect order, target policy and original requested gameplay duration/options.",
-          "reviewedPredecessorCommit": "625ff769f4c656ff224314bba38d26a1ef5dacc0",
-          "reviewedSourceCommit": "37ff9f12e74c6a4f3bb3a5fc40502d7e70e68c83",
-          "reviewDocument": "docs/RELEASE-NOTES-0.6.134.md",
-          "reverseOps": [
-            [
-              9,
-              10,
-              ""
-            ],
-            [
-              62,
-              63,
-              "  entity.addEffect(row.bedrockId,ticks,{amplifier:row.amplifier,showParticles:true});\n"
             ]
           ]
         },
@@ -4891,41 +4664,6 @@
               33,
               34,
               " for(const slot of s.slots){id(slot.item);if(slot.container!==null)id(slot.container);integer(slot.color,0,0xffffff);check(Array.isArray(slot.effects)&&slot.effects.length<=32,'BAD_INPUT_EFFECTS');slot.effects.forEach(validateEffect);if(slot.potion){check(POTION_ITEMS.has(slot.item)&&slot.container==='minecraft:glass_bottle','BAD_POTION_SLOT');validatePotionIdentity(slot.potion);}}\n"
-            ]
-          ]
-        },
-        "runtime/BP/scripts/core/native-storage-anchor.js": {
-          "before": "d817d6e112866c1fa0caaaf7efec757d4e0ee4c9e8d05460bd340a258751dd05",
-          "after": "612f3b6138ab2375466e0de45b2c63720fa43ffa4528295a3810d61cad82e935",
-          "reason": "T134 appended exact source review. Preserve counted complete native machine inputs and exact source outputs/adoption, metadata-sensitive merging, quantities and mode/game-rule handling. Rollback attempts each native slot/carrier, marker, block and public record independently; targeted production failure/retention regressions prevent duplication or plain-ID fallback.",
-          "reviewedPredecessorCommit": "625ff769f4c656ff224314bba38d26a1ef5dacc0",
-          "reviewedSourceCommit": "37ff9f12e74c6a4f3bb3a5fc40502d7e70e68c83",
-          "reviewDocument": "docs/RELEASE-NOTES-0.6.134.md",
-          "reverseOps": [
-            [
-              5,
-              6,
-              ""
-            ],
-            [
-              12,
-              13,
-              ""
-            ],
-            [
-              22,
-              28,
-              ""
-            ],
-            [
-              36,
-              37,
-              "export function checkNativeStorageOwner(anchor,block,ids){\n"
-            ],
-            [
-              40,
-              41,
-              ""
             ]
           ]
         },
@@ -6546,6 +6284,55 @@
       "after": "35a39ea609f5fdf030855b07d767985f6c2009fa3a7503bc2c34f4836f227ef3",
       "reason": "Canonical baseline reconciliation; stable API/connection/public dependencies and reviewed live fixes. See BASELINE-MAINTENANCE.md.",
       "beforeGzipBase64": "H4sIAAAAAAACA81W247aMBB95ytQHis2hVVpJX6lqizjDODieFx7QqEr/r3jXEicZtmlT/uyq8ycuZ05mfAym8+zHfpSkjiBDxpttplnq/z5a75eZovoLrUF5eWONluD6sj+Fzazo4CgvHbUBDVGNusCLOmdBh9THaUBXWBQ6ECQ5CJ2U6JBwlNWR1wXTTaFpUPLoWGYrC++ByyB/GXg/adYh8mPJGQIQEHI1bc8qXermGRnAsBraYS2gaRVENI6n5JHNhCcqfJQjzgsJrpiiyHagy3AC27ugEWMkcYdpCAIlAJludU8kUClTNWuY5kvE8xOKhCFLrn7PbvJV3BzX3tkVtlwkAUUH7f1nTRh0Pud/WiCUpx0qKRJFzMpi/8URkrfG5KYEMWj3D7A7vv4fUMcyXyvC+QDjpEKpZfKfdEoNEbHEmKL5y7LBC6AAUU9biAv9HqvY4vfB9Wf1sNuk9af1reHHwMtBf0HRklWSdzqS/K07LPcmY8PMO+XO98aENuLYE9D12CAAAptEQShqOF4qfl+fiAtnJ3BkF55DriZhYegm1ck5r53ZfEkOWmah41QRkXQxdWK4623uDupDCJFcPzP3xVGh89QOrrkPwN3OhWh9wcShSwdtDTdNjD5lSLphPNYMBOx4eurKaHUoaWnX2OC+lXpgumnRmXp+Dez8JWpb8xQJaP3sk3VMfU7nqjxC6akFbxzktqKBt/egREOOzdro1KHunRWf+IjOyNwFaBDK6Odm74ud1Q7xbCVfGT4wG49yOOIFY/uXT8fuqrx73V2nf0F0lPDI9IIAAA="
+    },
+    "runtime/BP/scripts/bedrock/bottles.js": {
+      "before": "b482a1e65843678cb9029b51eb3d3a828f9673f1fca5388449776fef6af5ebe7",
+      "after": "b3afde9673f4dcffa723501c54fe08fa4e198302db7b9a966ea7b7e628426460",
+      "reason": "Canonical baseline reconciliation; stable API/connection/public dependencies and reviewed live fixes. See BASELINE-MAINTENANCE.md.",
+      "beforeGzipBase64": "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"
+    },
+    "runtime/BP/scripts/bedrock/display-projectiles.js": {
+      "before": "ac563cf09e6aaae8c78ba4f411447016c06bb007f791f661990e75b4b42ab7f9",
+      "after": "ff59c9d92a566120782682e388086dab55a302209e53d0c416df1debe500085b",
+      "reason": "Canonical baseline reconciliation; stable API/connection/public dependencies and reviewed live fixes. See BASELINE-MAINTENANCE.md. 0.6.70 external cellar redstone integration; see foundation tests. 0.6.70 external cellar redstone integration; see foundation tests.",
+      "beforeGzipBase64": "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"
+    },
+    "runtime/BP/scripts/core/inventory.js": {
+      "before": "03cb17ce275eada64aa5f0dacb63d0de75994ca8bfbdb5ee612f6e71b67d4856",
+      "after": "2534d63648a33dc045357352d5fdc4a45fe915a0b55e59b269bb76cc40cfb0db",
+      "reason": "Source-backed additive cocktail tag membership and owned tooltip migration; exact regressions in tools/addon-mixology-tags.test.mjs and build_drink_colors.py.",
+      "beforeGzipBase64": "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"
+    },
+    "runtime/BP/scripts/bedrock/storage-projectile.js": {
+      "before": "3e6c53c33dd07f5d83700fa77d86cd7ee571da132f8411bb8d47ce026aa0c34f",
+      "beforeGzipBase64": "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",
+      "after": "ed7fdd612f30227b7723446fda1ccaa8c7c8911d9443d33ffa0d90accfe5bb34",
+      "reason": "Living external effect routing, additive fresh-recipient SDK, source float heal and synced release identity; see World Liquor docs/LIVING-EFFECTS-0.1.81.md."
+    },
+    "runtime/BP/scripts/bedrock/native-storage-pinning.js": {
+      "before": null,
+      "after": "ea6ab3128765b92a1e28fa6acda4f11296794c8c10feac78a3fd237763921bae",
+      "reason": "Owned storage helper anchoring adapter; introduced in0.6.121 with focused and Native proof. No historical runtime imported."
+    },
+    "runtime/BP/scripts/core/native-storage-anchor.js": {
+      "before": null,
+      "after": "1c453c7b34f55d413e241e8d3306f568bf371e9f16dd54dd78b49131eeb48b67",
+      "reason": "Owned storage helper anchoring adapter; introduced in0.6.121 with focused and Native proof. No historical runtime imported."
+    },
+    "runtime/BP/scripts/core/molotov-fire.js": {
+      "before": null,
+      "after": "bc0f9b7e86c74ccb0687a8684ea60235578d5ba4d9f2423eb87bd4113f2dead6",
+      "reason": "T131 appended reviewed runtime addition. Bounded source-backed fire placement classifier for soul support, known normal support and adjacent flammable blocks, with explicit unknown-shape fallback.",
+      "release": "0.6.131",
+      "reviewedPredecessorCommit": "c4453491e2f52d4b4515dda0385db204aa892c97",
+      "reviewedSourceCommit": "f08714307ea331be52a9240d8aa6473752325d1c",
+      "reviewDocument": "docs/RELEASE-NOTES-0.6.131.md"
+    },
+    "runtime/BP/scripts/core/effect-bar.js": {
+      "before": "6e8e0d332fa28910cdf90054157d05d9a19fc8a008e3a7cef405d761a217ac16",
+      "beforeGzipBase64": "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",
+      "after": "19a5b1488e8e67c6140eb90e141603ebd45a913bf1615be7868a1299ea0782f9",
+      "reason": " 0.6.85 owner-requested immersive feedback: optional barrel/effect text, one-shot rejection, quiet success and shared-channel cleanup. See docs/IMMERSIVE-FEEDBACK-20261002.md and tools/immersion-feedback.test.mjs. Reviewed 0.6.85 release identity / immersion; docs/IMMERSIVE-FEEDBACK-20261002.md."
     }
   },
   "historicalReviewedFunctionalDeltaLayers": [
@@ -6988,6 +6775,55 @@
               "  for(const i of additions)check(incoming?.typeId===ids[i]&&incoming.amount>=1,'NATIVE_STORAGE_INPUT_MISMATCH');\n  const after=ids.map((id,i)=>!id?undefined:id===before.ids[i]?before.items[i]?.clone():one(incoming));\n"
             ]
           ]
+        },
+        "runtime/BP/scripts/core/inventory.js": {
+          "before": "2534d63648a33dc045357352d5fdc4a45fe915a0b55e59b269bb76cc40cfb0db",
+          "after": "ff21dbc539bf233aec0b07dc707f45ffd8a2cc744151e0c180a00cc0e708c8c2",
+          "reason": "Add an explicit takeAfterOutputs option for the Java shaker empty-container ordering; keep debit-first behavior as the default and retain inventory transaction rollback.",
+          "reverseOps": [
+            [
+              4,
+              5,
+              " * Planning never mutates the live inventory. Only an explicit Forge pickup may request overflow drops.\n"
+            ],
+            [
+              6,
+              7,
+              "export function planInventory(container,selected,take,outputs,makeStack){\n"
+            ],
+            [
+              9,
+              14,
+              " if(take){const item=after[selected];check(item&&item.amount>=take,'INSUFFICIENT_HELD');if(item.amount===take)after[selected]=undefined;else item.amount-=take;}\n"
+            ],
+            [
+              32,
+              33,
+              ""
+            ]
+          ]
+        },
+        "runtime/BP/scripts/core/native-storage-anchor.js": {
+          "before": "1c453c7b34f55d413e241e8d3306f568bf371e9f16dd54dd78b49131eeb48b67",
+          "after": "d817d6e112866c1fa0caaaf7efec757d4e0ee4c9e8d05460bd340a258751dd05",
+          "reason": "Recognize the one-slot placed shaker native ledger and require its canonical shaker item/owner block. No world escrow is added for held items.",
+          "reverseOps": [
+            [
+              6,
+              7,
+              "const regular=new RegExp(`^kt:(holder|tilted_rack|circular_rack|cellar_cabinet)/${D}/${P}$`);\n"
+            ],
+            [
+              14,
+              15,
+              " if(m){type=NS+':'+m[1];dimension=m[2];p=position(m.slice(3));capacity={holder:1,tilted_rack:3,circular_rack:6,cellar_cabinet:9}[m[1]];}\n"
+            ],
+            [
+              34,
+              35,
+              ""
+            ]
+          ]
         }
       }
     },
@@ -7312,6 +7148,38 @@
               "    try{this.backend.setDynamicProperty(nativeItemKey(key),before.raw);this.backend.setDynamicProperty(requiredKey(key),before.required);}catch{failed=true;}\n"
             ]
           ]
+        },
+        "runtime/BP/scripts/bedrock/storage-projectile.js": {
+          "before": "ed7fdd612f30227b7723446fda1ccaa8c7c8911d9443d33ffa0d90accfe5bb34",
+          "after": "0000401b9d1340c1ee92ed5d1605cc19110dc4a6dcb07ab0bf1aee261655dac3",
+          "reason": "Replace legacy signed-delta instant delivery with the shared Java class/numeric/hook dispatcher and per-recipient source potion-policy snapshot; known immunity gates the entire effect loop.",
+          "reverseOps": [
+            [
+              3,
+              5,
+              "import {EntityDamageCause,world} from '@minecraft/server';\nimport {splashFactor,splashTicks,instantHealthDelta} from '../core/projectile-parity.js';\n"
+            ],
+            [
+              9,
+              11,
+              ""
+            ],
+            [
+              52,
+              56,
+              "function nativeRow(entity,row,factor){\n if(row.effect==='minecraft:instant_health'||row.effect==='minecraft:instant_damage'){\n  const undead=entity.matches({families:['undead']}),delta=instantHealthDelta(row.effect,row.amplifier,factor,undead);\n  if(!delta)return false;\n  if(delta>0){const h=entity.getComponent('minecraft:health');if(!h)return false;h.setCurrentValue(Math.min(h.effectiveMax,h.currentValue+delta));}\n  else entity.applyDamage(-delta,{cause:EntityDamageCause.magic});\n"
+            ],
+            [
+              89,
+              96,
+              "   if(entity.id===projectile.id||!living(entity))continue;\n"
+            ],
+            [
+              100,
+              104,
+              "    if(row?.bedrockId)any=nativeRow(entity,row,factor)||any;\n"
+            ]
+          ]
         }
       }
     },
@@ -7390,6 +7258,106 @@
               358,
               359,
               "    if(native)player.addEffect(native,['minecraft:instant_health','minecraft:instant_damage'].includes(effect.effect)?1:effect.duration*20,{amplifier:effect.amplifier,showParticles:true});\n"
+            ]
+          ]
+        },
+        "runtime/BP/scripts/bedrock/native-storage-pinning.js": {
+          "before": "ea6ab3128765b92a1e28fa6acda4f11296794c8c10feac78a3fd237763921bae",
+          "after": "a87b47d69804952930233bd1724b4dcaa68fea65eb015714affa87f0a10a75e0",
+          "reason": "T134 appended exact source review. Preserve counted complete native machine inputs and exact source outputs/adoption, metadata-sensitive merging, quantities and mode/game-rule handling. Rollback attempts each native slot/carrier, marker, block and public record independently; targeted production failure/retention regressions prevent duplication or plain-ID fallback.",
+          "reviewedPredecessorCommit": "625ff769f4c656ff224314bba38d26a1ef5dacc0",
+          "reviewedSourceCommit": "37ff9f12e74c6a4f3bb3a5fc40502d7e70e68c83",
+          "reviewDocument": "docs/RELEASE-NOTES-0.6.134.md",
+          "reverseOps": [
+            [
+              3,
+              4,
+              ""
+            ],
+            [
+              9,
+              10,
+              ""
+            ],
+            [
+              14,
+              16,
+              " const key=entity.getDynamicProperty(NATIVE_STORAGE_OWNER),anchor=nativeStorageAnchor(key,registry,k=>storage.backend.getDynamicProperty(k));\n"
+            ],
+            [
+              19,
+              20,
+              " const block=dimension.getBlock(anchor.position);checkNativeStorageOwner(anchor,block,proof.ids);\n"
+            ],
+            [
+              27,
+              28,
+              " checkNativeStorageOwner(anchor,dimension.getBlock(anchor.position),after.ids);\n"
+            ],
+            [
+              40,
+              42,
+              "    const raw=storage.backend.getDynamicProperty(nativeItemKey(key));check(typeof raw==='string','NATIVE_STORAGE_MISSING');\n    const record=JSON.parse(raw),entity=storage.findEntity(record.entity);\n"
+            ],
+            [
+              47,
+              48,
+              ""
+            ]
+          ]
+        },
+        "runtime/BP/scripts/bedrock/storage-projectile.js": {
+          "before": "0000401b9d1340c1ee92ed5d1605cc19110dc4a6dcb07ab0bf1aee261655dac3",
+          "after": "95d3092655158822abacf927ba5e9d813d2fc0e12176ddce6f4c6440deace0d4",
+          "reason": "T134 appended exact source review. Route host-created timed native drink/splash effects through checked appearance ownership while retaining instantaneous source dispatch, effect order, target policy and original requested gameplay duration/options.",
+          "reviewedPredecessorCommit": "625ff769f4c656ff224314bba38d26a1ef5dacc0",
+          "reviewedSourceCommit": "37ff9f12e74c6a4f3bb3a5fc40502d7e70e68c83",
+          "reviewDocument": "docs/RELEASE-NOTES-0.6.134.md",
+          "reverseOps": [
+            [
+              9,
+              10,
+              ""
+            ],
+            [
+              62,
+              63,
+              "  entity.addEffect(row.bedrockId,ticks,{amplifier:row.amplifier,showParticles:true});\n"
+            ]
+          ]
+        },
+        "runtime/BP/scripts/core/native-storage-anchor.js": {
+          "before": "d817d6e112866c1fa0caaaf7efec757d4e0ee4c9e8d05460bd340a258751dd05",
+          "after": "612f3b6138ab2375466e0de45b2c63720fa43ffa4528295a3810d61cad82e935",
+          "reason": "T134 appended exact source review. Preserve counted complete native machine inputs and exact source outputs/adoption, metadata-sensitive merging, quantities and mode/game-rule handling. Rollback attempts each native slot/carrier, marker, block and public record independently; targeted production failure/retention regressions prevent duplication or plain-ID fallback.",
+          "reviewedPredecessorCommit": "625ff769f4c656ff224314bba38d26a1ef5dacc0",
+          "reviewedSourceCommit": "37ff9f12e74c6a4f3bb3a5fc40502d7e70e68c83",
+          "reviewDocument": "docs/RELEASE-NOTES-0.6.134.md",
+          "reverseOps": [
+            [
+              5,
+              6,
+              ""
+            ],
+            [
+              12,
+              13,
+              ""
+            ],
+            [
+              22,
+              28,
+              ""
+            ],
+            [
+              36,
+              37,
+              "export function checkNativeStorageOwner(anchor,block,ids){\n"
+            ],
+            [
+              40,
+              41,
+              ""
             ]
           ]
         }
@@ -7793,6 +7761,38 @@
               124,
               125,
               "export function registerWritingBoardComponents({blockComponentRegistry:b,itemComponentRegistry:i}){b.registerCustomComponent(NS+':writing_board',{onTick:e=>maintainBlock(e.block),onPlayerInteract:nativeEmptyHandBlockUse});i.registerCustomComponent(NS+':place_writing_board',{onUseOn:e=>safe(e.source,()=>placeBoard(e.source,e.block,e.blockFace))});}\n"
+            ]
+          ]
+        },
+        "runtime/BP/scripts/bedrock/molotov.js": {
+          "before": "2504519777d71c862e21012681c91c4d69a4a6b8e41805958f8ab4c9b49d8301",
+          "after": "8ae86b95134b2d2515644bbb96c2ae16bc80a0b43660ccf1b719350df90171aa",
+          "reason": "Use source-backed normal/soul fire and adjacent flammability decisions with a bounded impact-local neighborhood; unknown support shapes and portal rules remain explicit adaptation limits.",
+          "reverseOps": [
+            [
+              6,
+              7,
+              ""
+            ],
+            [
+              12,
+              13,
+              "export const molotovDiagnostics={starts:0,releases:0,earlyReleases:0,nativeProjectiles:0,impacts:0,duplicateImpacts:0,samples:[],errors:[]};\n"
+            ],
+            [
+              48,
+              49,
+              "  p.sendMessage('[Tavern Molotov] '+JSON.stringify({observedNativeProjectiles:own,clientAnimationConfirmed:false,delayedSampleIsNotInitialVelocity:true}));\n"
+            ],
+            [
+              70,
+              72,
+              ""
+            ],
+            [
+              76,
+              86,
+              "   const p={x:cx+dx,y:cy+dy,z:cz+dz},b=at(dimension,p),below=at(dimension,{x:p.x,y:p.y-1,z:p.z});\n   // Adapter limit: this is not Java's full BaseFireBlock.canBePlacedAt\n   // predicate (side support, soul fire and portal rules remain separate).\n   if(b?.isAir&&below&&!below.isAir){try{b.setType('minecraft:fire');break;}catch{}}\n"
             ]
           ]
         }
