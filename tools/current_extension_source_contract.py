@@ -23,7 +23,8 @@ SOURCE_GROUPS = {
     'boardLayoutAndText': ('core/boards.js', 'data/board-font.js', 'core/board-layout.js', 'bedrock/board-text.js', 'bedrock/writing-boards.js'),
     'mixologyLifecycle': ('bedrock/mixology.js',),
     'sharedUtilities': ('core/util.js',),
-    'sharedItemLifecycle': ('bedrock/pickup-overflow.js', 'bedrock/natural-break.js', 'bedrock/transactions.js'),
+    'sharedItemLifecycle': ('bedrock/pickup-overflow.js', 'bedrock/natural-break.js', 'bedrock/transactions.js',
+                            'bedrock/native-item-storage.js', 'core/native-item-storage.js'),
 }
 COMPLETE_LOCALE_SOURCES = frozenset('runtime/RP/texts/' + locale + '.lang' for locale in ('en_US', 'zh_CN', 'zh_TW'))
 PARTIAL_LOCALE_SOURCES = frozenset('runtime/RP/texts/' + locale + '.lang' for locale in PARTIAL_LOCALES)
@@ -67,6 +68,8 @@ def check(root=ROOT, *, syntax=True, localization=True):
     imported(modules['bedrock/transactions.js'], './pickup-overflow.js', {'preparePickupOverflow'})
     imported(modules['bedrock/transactions.js'], '../core/inventory.js', {'planInventory', 'commitInventory'})
     imported(modules['bedrock/transactions.js'], './native-item-storage.js', {'nativeStoragePlan'})
+    imported(modules['bedrock/native-item-storage.js'], '../core/native-item-storage.js', {'NativeItemStorage', 'NATIVE_ITEM_ENTITY'})
+    imported(modules['core/native-item-storage.js'], './util.js', {'check'})
     for name in ('withToolWear', 'exchangeBlocks', 'exchangeBlocksToWorld'):
         assert 'export function ' + name + '(' in modules['bedrock/transactions.js'], ('Shared transaction interface missing', name)
     imported(read_module(root, 'runtime/BP/scripts/bedrock/custom-effects.js', False), './pickup-overflow.js', {'blockOverflowPickup', 'startPickupDelay', 'TOMB_PICKUP_UNLOCK'})
