@@ -4,17 +4,17 @@ This transaction deliberately has no CI, native rehearsal or data-repair stages.
 It never produces LIVE admission and never restores world data automatically.
 """
 import fcntl
-import hashlib
-import json
 import os
 from pathlib import Path
 import shutil
 import sys
 import uuid
 
+import family_guard
+import world_backup
 from family_update import common as c
 from family_update.storage import require_space
-from world_backup import capture, adopt, overlaps
+from family_update.source_batch import generated_pack, source_provenance
 
 
 SIDES = ('behavior', 'resource')
@@ -53,7 +53,7 @@ def configuration():
     live = c.read(live_path)
     assert live['schema'] == 1 and 'staging_repair' not in live and not live['server_name'].endswith('-staging'), 'LIVE reference must be an existing normal deployment configuration'
     live_root, live_world = absolute(live['bds_root']), absolute(live['world_dir'])
-    assert live['server_name'] != c.SERVER and not overlaps(live_root, c.B) and not overlaps(live_world, c.W), 'Staging command cannot select LIVE'
+    assert live['server_name'] != c.SERVER and not world_backup.overlaps(live_root, c.B) and not world_backup.overlaps(live_world, c.W), 'Staging command cannot select LIVE'
     assert absolute(live['lock_file']) == c.LOCK and absolute(live['lease_file']) == c.LEASE, 'Staging and LIVE must share the maintenance lock and lease'
     backup_state = absolute(auth['world_backup_state'])
     state = c.read(backup_state)
@@ -67,41 +67,16 @@ def configuration():
     protected = [c.R, c.B, c.W, c.Q, live_root, absolute(live['quality_dir']), *source_roots]
     if c.EXTENSION:
         protected.append(c.EXTENSION)
-    assert all(not overlaps(candidate, path) for path in protected), 'Candidate overlaps deployment, server or source data'
-    assert all(not overlaps(c.R, path) for path in [live_root, live_world, absolute(live['quality_dir']), *source_roots, batch, review, c.AUTHORIZATION, live_path, backup_state]), 'Output overlaps a protected input or LIVE'
+    assert all(not world_backup.overlaps(candidate, path) for path in protected), 'Candidate overlaps deployment, server or source data'
+    assert all(not world_backup.overlaps(c.R, path) for path in [live_root, live_world, absolute(live['quality_dir']), *source_roots, batch, review, c.AUTHORIZATION, live_path, backup_state]), 'Output overlaps a protected input or LIVE'
     assert Path(sys.executable).absolute() == c.PY, 'Use the configured Python interpreter'
     return options, candidate, batch, review, live_path, backup_state
 
 
-def source_identity(batch):
-    """Read offline identities, including directly reviewed unfinished work."""
-    selected = batch['source_commits']
-    for name, path in c.SOURCES.items():
-        assert absolute(selected[name]['path']) == path, 'Batch source path differs: ' + name
-    if c.EXTENSION:
-        assert any(absolute(row['path']) == c.EXTENSION for row in selected.values()), 'Batch omits the configured private integration'
-    states = {}
-    for name, row in selected.items():
-        path = absolute(row['path'])
-        assert c.git(path, 'rev-parse', 'HEAD') == row['commit'], 'Batch source commit changed: ' + name
-        untracked = c.git(path, 'ls-files', '--others', '--exclude-standard').splitlines()
-        states[name] = {'path': str(path), 'commit': row['commit'],
-                        'tree': c.git(path, 'rev-parse', row['commit'] + '^{tree}'),
-                        'worktree_status': c.git(path, 'status', '--porcelain', '--untracked-files=all'),
-                        'worktree_diff_sha256': hashlib.sha256(c.git(path, 'diff', '--binary', 'HEAD').encode()).hexdigest(),
-                        'untracked_files': {relative: c.sha(path / relative) for relative in untracked}}
-    return states
-
-
-def candidate_input(candidate, batch):
+def candidate_input(candidate, batch, sources):
     receipt = c.read(candidate / 'family-receipt.json')
     assert receipt['schema'] == 1 and set(receipt['order']) == set(SIDES), 'Complete family receipt required'
-    owned_sources = {}
-    for source in batch['source_commits'].values():
-        path = absolute(source['path'])
-        if (path / 'baseline.json').is_file():
-            baseline = json.loads(c.git(path, 'show', source['commit'] + ':baseline.json'))
-            owned_sources[baseline['repository']] = source['commit']
+    owned_sources = {source['repository']: source['commit'] for source in sources.values() if 'repository' in source}
     by_uuid = {p['uuid']: p for p in receipt['packs']}
     assert len(by_uuid) == len(receipt['packs']) and by_uuid, 'Candidate pack identities must be unique'
     for uid, pack in by_uuid.items():
@@ -128,15 +103,11 @@ def candidate_input(candidate, batch):
     assert set(batch['packs']) <= set(by_uuid), 'Candidate omits a generated batch input'
     pairs = {}
     for uid, row in batch['packs'].items():
-        root = absolute(row['path'])
-        files = c.hashes(root)
-        tree = {'sha256': hashlib.sha256(json.dumps(files, sort_keys=True, separators=(',', ':')).encode()).hexdigest(), 'files': len(files)}
-        assert tree == row['tree'], 'Normally generated input changed: ' + uid
+        actual_uid, actual, files = generated_pack(row['name'], row['side'], row['path'])
+        assert actual_uid == uid and all(row[key] == value for key, value in actual.items()), 'Normally generated input changed: ' + uid
         pack = by_uuid[uid]
         assert row['side'] in {'BP', 'RP'} and pack['side'] == {'BP': 'behavior', 'RP': 'resource'}[row['side']], 'Generated input side changed'
         assert pack['files'] == files and pack['version'] == row['version'], 'Candidate is not the exact generated input: ' + uid
-        manifest = c.read(root / 'manifest.json')
-        assert manifest['modules'] == row['modules'] and manifest.get('dependencies', []) == row['dependencies'], 'Generated input metadata changed'
         pairs.setdefault(row['name'], {})[row['side']] = row['version']
     for name, sides in pairs.items():
         if set(sides) == {'BP', 'RP'}:
@@ -145,19 +116,29 @@ def candidate_input(candidate, batch):
 
 
 def review_binding(candidate, batch_path, live_path):
+    """Return the validated batch, receipt and their direct-review binding."""
+    assert c.read(c.CONFIG_PATH) == c.CONFIG, 'Loaded staging configuration changed'
     batch = c.read(batch_path)
-    runner = c.orchestration_hashes()
-    for name in ('family_bundle.py', 'family_guard.py', 'world_backup.py'):
-        path = c.T / 'tools' / name
-        runner[str(path)] = c.sha(path)
-    return {'schema': 1, 'scope': 'direct-source-review-staging',
+    sources = source_provenance(batch, c.SOURCES, c.EXTENSION)
+    receipt = candidate_input(candidate, batch, sources)
+    tools = Path(__file__).resolve().parents[1]
+    runner_paths = {tools / name for name in (
+        'family_update.py',
+        'family_update/__init__.py', 'family_update/common.py',
+        'family_update/staging_repair.py', 'family_update/source_batch.py',
+        'family_update/storage.py', 'family_update/memory_budget.py')}
+    runner_paths.update({Path(family_guard.__file__).resolve(), Path(world_backup.__file__).resolve(),
+                         c.T / 'tools/family_guard.py'})
+    review = {'schema': 2, 'scope': 'direct-source-review-staging',
             'config_sha256': c.sha(c.CONFIG_PATH),
             'authorization_sha256': c.sha(c.AUTHORIZATION),
             'live_config_sha256': c.sha(live_path),
             'api_module_sha256': c.sha(c.CONFIG['api_module']),
             'candidate_receipt_sha256': c.sha(candidate / 'family-receipt.json'),
             'source_batch_sha256': c.sha(batch_path),
-            'sources': source_identity(batch), 'runner_sha256': runner}
+            'sources': sources,
+            'runner_sha256': {str(path): c.sha(path) for path in sorted(runner_paths)}}
+    return batch, receipt, review
 
 
 def selection(receipt, original, batch, retired):
@@ -217,9 +198,7 @@ def copy_bytes(root):
 
 def run(*, execute=False):
     options, candidate, batch_path, review_path, live_path, backup_state = configuration()
-    batch = c.read(batch_path)
-    receipt = candidate_input(candidate, batch)
-    review = review_binding(candidate, batch_path, live_path)
+    batch, receipt, review = review_binding(candidate, batch_path, live_path)
     if not execute:
         return {'command': 'staging-repair', 'execute': False, 'candidate': str(candidate),
                 'output': str(c.R), 'server': c.SERVER, 'world': str(c.W),
@@ -273,11 +252,11 @@ def run(*, execute=False):
             engine = c.sha(c.B / 'bedrock_server')
             # Normal shutdown can grow the DB; remeasure the stopped copy.
             result['stopped_space'] = require_space(c.R, 'Stopped staging backup and package copies', copy_bytes(c.W) + pack_bytes)
-            capture(c.W, c.R / 'world-backup', c.R / 'world-backup-receipt.json')
-            result['backup_rotation'] = adopt(backup_state, c.R / 'world-backup', c.R / 'world-backup-receipt.json')
+            world_backup.capture(c.W, c.R / 'world-backup', c.R / 'world-backup-receipt.json')
+            result['backup_rotation'] = world_backup.adopt(backup_state, c.R / 'world-backup', c.R / 'world-backup-receipt.json')
             result['state'] = 'backed_up_stopped'
             c.atomic(result_path, result)
-            # The full candidate is already immutable; copy only changed packs.
+            # Stage changed packs, then recheck all reviewed inputs before replacement.
             prior = {p['uuid']: p for p in original['packs']}
             moves = []
             for uid in [*changed, *options['retire_uuids']]:
@@ -294,7 +273,7 @@ def run(*, execute=False):
                 moves.append({'uuid': uid, 'original': str(source), 'rollback': str(backup),
                               'staged': str(staged) if uid in target else None})
             c.atomic(c.R / 'package-moves.json', {'moves': moves, 'automatic_restore': False})
-            assert review_binding(candidate, batch_path, live_path) == review and c.read(review_path) == review, 'Reviewed source/candidate/config changed before installation'
+            assert review_binding(candidate, batch_path, live_path)[2] == review and c.read(review_path) == review, 'Reviewed input/candidate/config changed before installation'
             c.assert_lease()
             assert idle_binding()[1]['status'] == 'STOPPED' and c.live_inventory() == original, 'Staging changed while preparing packages'
             for move in moves:
@@ -304,7 +283,7 @@ def run(*, execute=False):
             for side in SIDES:
                 filename = 'world_' + side + '_packs.json'
                 assert not (c.W / filename).is_symlink(), 'Selected pack list is a symlink'
-                shutil.copy2(candidate / filename, c.W / filename)
+                c.atomic(c.W / filename, [{'pack_id': uid, 'version': target[uid]['version']} for uid in receipt['order'][side]])
             # No DB/metadata write is allowed before normal BDS startup.
             before = c.read(c.R / 'world-backup-receipt.json')['files']
             data_files = lambda rows: {key: digest for key, digest in rows.items() if not key.startswith(('behavior_packs/', 'resource_packs/')) and key not in {'world_behavior_packs.json', 'world_resource_packs.json'}}
