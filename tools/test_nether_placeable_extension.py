@@ -193,7 +193,7 @@ class NetherRepairTests(unittest.TestCase):
 
     def test_expiry_authorization_and_limited_inventory_are_required(self):
         self.spec['expires'] = '2000-01-01'
-        self.reject_without_writes('expired')
+        self.reject_without_writes('exact reviewed profile')
         self.spec['expires'] = '2099-01-01'
         self.spec['authorization'] = ' '
         self.reject_without_writes('metadata')
