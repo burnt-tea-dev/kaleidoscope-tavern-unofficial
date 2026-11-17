@@ -9,7 +9,7 @@ import json
 from datetime import date
 from pathlib import Path
 
-from stable_host_profiles import declaration_sha, match_stable_profile, validate_stable_source
+from stable_host_profiles import declaration_sha, match_stable_profile, validate_stable_source, extension_expired
 
 BP = '36cbd4fe-5677-495e-9caf-c267a83d116d'
 RP = '2b53ecef-9319-4ee5-9808-1b9fb0f260dc'
@@ -85,8 +85,6 @@ def apply_nether_extension(spec, bp_root, rp_root, bp_source, rp_source, owner_v
         expires = date.fromisoformat(spec['expires'])
     except (KeyError, TypeError, ValueError) as exc:
         raise ValueError('Nether extension expiry is invalid') from exc
-    if expires < date.today():
-        raise ValueError('Nether extension expired')
     for key in ('removal_condition', 'feedback', 'authorization'):
         if not isinstance(spec.get(key), str) or not spec[key].strip():
             raise ValueError('Nether review metadata missing ' + key)
@@ -100,6 +98,8 @@ def apply_nether_extension(spec, bp_root, rp_root, bp_source, rp_source, owner_v
             or spec.get('insertions') != [] or spec.get('copies') != {}):
         raise ValueError('Nether repair permits only its two reviewed empty guard removals')
     profile = match_stable_profile(spec)
+    if extension_expired(expires, profile):
+        raise ValueError('Nether extension expired')
     if profile is None:
         raise ValueError('unregistered stable Nether repair declaration')
     if not _version(profile.get('owner_version'), OWNER_VERSION):

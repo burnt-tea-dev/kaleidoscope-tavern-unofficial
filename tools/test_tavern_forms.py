@@ -1,11 +1,14 @@
-"""Source and routing regressions; not native UI/client acceptance."""
+"""Guide/resource contracts. Board editing and save behavior is exercised by
+board-farm-interaction.test.mjs, not by reproducing a native widget in Python.
+None of these checks establish rendered-client multiline or input limits.
+"""
 import copy
 import hashlib
 import json
 import unittest
 from pathlib import Path
 from PIL import Image
-from build_tavern_forms import ROOT,NAMES,BOARD_TITLE_PREFIX,BOARD_INPUT_LIMITS,check_or_write
+from build_tavern_forms import ROOT,NAMES,check_or_write
 from native_input_bindings import resolve_control
 from check_effect_ui_contract import typed_controls
 
@@ -20,109 +23,9 @@ class TavernForms(unittest.TestCase):
     def test_generator_reproduces_canonical_files_without_writing(self):
         check_or_write()
 
-    def test_owned_input_accepts_newlines_and_scrolls_in_the_existing_form_controller(self):
-        native=resolve_control(self.source,'common.scrollable_multiline_text_edit_box')
-        for kind in BOARD_INPUT_LIMITS:
-            node=self.ui['kt_board_input_'+kind+'@settings_common.option_text_edit_control']
-            resolved=resolve_control(self.source,'settings_common.option_text_edit_control',node)
-            self.assertIs(resolved.get('enabled_newline'),True,kind)
-            self.assertEqual(resolved['controls'],native['controls'])
-            self.assertEqual(resolved['button_mappings'],native['button_mappings'])
-            self.assertEqual(resolved['$text_edit_box_label_size'],native['$text_edit_box_label_size'])
-            self.assertEqual(resolved['size'],['100%',120])
-        foreign=resolve_control(self.source,'settings_common.option_text_edit_control',self.ui['kt_board_input_foreign@settings_common.option_text_edit_control'])
-        self.assertNotIn('enabled_newline',foreign)
-
-    def test_no_form_factory_dropdown_or_submit_overrides(self):
-        self.assertEqual(self.source['commit'],'46ba6ea985fb5a92d79a9419198f10dda14c199d')
-        expected={'namespace','dynamic_button/panel_name/image','dynamic_button/panel_name',
-                  'custom_input@settings_common.option_text_edit','kt_board_input_branches'}|{'kt_guide_'+n+'_animation' for n in NAMES}|{'kt_board_input_'+kind+'@settings_common.option_text_edit_control' for kind in ('foreign',*BOARD_INPUT_LIMITS)}
+    def test_guide_output_leaves_native_form_inputs_factories_dropdowns_and_submit_owned_by_the_client(self):
+        expected={'namespace','dynamic_button/panel_name/image','dynamic_button/panel_name'}|{'kt_guide_'+n+'_animation' for n in NAMES}
         self.assertEqual(set(self.ui),expected)
-        self.assertFalse({'generated_contents','custom_form','custom_dropdown','custom_form_scrolling_content'}.intersection(self.ui))
-        self.assertNotIn('button_mappings',self.ui['kt_board_input_foreign@settings_common.option_text_edit_control'])
-
-    def test_board_capacity_is_exact_scoped_and_preserves_the_native_form_controller(self):
-        key='custom_input@settings_common.option_text_edit'
-        expected=copy.deepcopy(self.vanilla[key]);expected['$control_name']='server_form.kt_board_input_branches'
-        self.assertEqual(self.ui[key],expected)
-        self.assertEqual(expected['$max_text_edit_length'],100)
-        self.assertEqual(expected['$text_box_name'],'custom_input')
-        runtime=(ROOT/'runtime/BP/scripts/bedrock/writing-boards.js').read_text()
-        self.assertIn("const BOARD_FORM_TITLE_PREFIX='"+BOARD_TITLE_PREFIX+"';",runtime)
-        self.assertIn('title({rawtext:[{text:BOARD_FORM_TITLE_PREFIX},boardText(kind)]})',runtime)
-        self.assertEqual(BOARD_INPUT_LIMITS,{'sandwich':320,'small':350,'large':1500})
-        controls=self.ui['kt_board_input_branches']['controls']
-        self.assertEqual(len(controls),4)
-        nodes={kind:self.ui['kt_board_input_'+kind+'@settings_common.option_text_edit_control'] for kind in ('foreign',*BOARD_INPUT_LIMITS)}
-        native=resolve_control(self.source,'settings_common.option_text_edit_control')
-        original=native['bindings']
-        self.assertEqual(native['type'],'edit_box');self.assertEqual(len(original),6)
-        for kind,node in nodes.items():
-            self.assertEqual(set(node),{'$enabled','visible','enabled','focus_enabled','property_bag','$text_edit_box_binding_condition','bindings'}|({'max_length','enabled_newline','$text_edit_box_label_size','button_mappings','controls','size'} if kind!='foreign' else set()))
-            self.assertIs(node['$enabled'], True)
-            self.assertEqual(node['$text_edit_box_binding_condition'],'visible')
-            if kind!='foreign':self.assertEqual(node['max_length'],BOARD_INPUT_LIMITS[kind])
-            resolved=resolve_control(self.source,'settings_common.option_text_edit_control',node)
-            typed_controls(resolved)
-            self.assertEqual(resolved['type'],'edit_box')
-            # Every branch retains the native form's controller and disabled
-            # variables. Foreign forms retain its single-line input verbatim.
-            for key in ('text_box_name','text_edit_box_grid_collection_name','variables')+ (('controls','button_mappings') if kind=='foreign' else ()):
-                self.assertEqual(resolved[key],native[key],key)
-            bindings=resolved['bindings'];self.assertEqual(bindings[:6],original)
-            self.assertEqual(node['property_bag'],{'#kt_board_native_enabled':'$enabled','#kt_board_native_focus':True,'#kt_board_native_visible':True})
-            for alias,target in zip(bindings[6:9],['#enabled','#focus_enabled','#visible']):
-                source=next(row for row in original if row.get('binding_name_override')==target)
-                self.assertEqual({k:v for k,v in alias.items() if k!='binding_name_override'},
-                                 {k:v for k,v in source.items() if k!='binding_name_override'})
-            self.assertEqual(bindings[9:11],[{'binding_name':'#title_text','binding_name_override':'#kt_board_title'},
-                {'binding_type':'collection','binding_collection_name':'custom_form','binding_name':'#custom_text','binding_name_override':'#kt_board_field'}])
-            self.assertEqual([b['target_property_name'] for b in bindings[-3:]],['#visible','#enabled','#focus_enabled'])
-            self.assertEqual([node[key] for key in ('visible','enabled','focus_enabled')],[kind=='foreign',native['enabled'],native['focus_enabled']])
-            for row in bindings[-3:]:self.assertNotIn(row['target_property_name'],row['source_property_name'])
-            if kind=='foreign':self.assertEqual(resolved['max_length'],'$max_text_edit_length')
-        def gate(kind,target,title,label,enabled=True,native_enabled=True,native_focus=True,native_visible=True):
-            expression=next(row['source_property_name'] for row in nodes[kind]['bindings'][-3:] if row['target_property_name']==target)
-            values={'#kt_board_title':title,'#kt_board_field':label,'$enabled':enabled,
-                    '#kt_board_native_enabled':native_enabled,'#kt_board_native_focus':native_focus,'#kt_board_native_visible':native_visible}
-            for key,value in values.items():expression=expression.replace(key,repr(value))
-            return eval(expression.replace(' = ',' == '),{'__builtins__':{}},{})
-        for locale in ('en_US','zh_CN','zh_TW'):
-            lang=dict(line.split('=',1) for line in (ROOT/f'runtime/RP/texts/{locale}.lang').read_text().splitlines() if '=' in line and not line.startswith('#'))
-            for kind in BOARD_INPUT_LIMITS:
-                title=BOARD_TITLE_PREFIX+lang['kt.board.'+('sandwich' if kind=='sandwich' else 'chalk')]
-                label=lang['kt.board.'+('text_small' if kind=='small' else 'text_lines')].replace('%s','8' if kind=='sandwich' else '11')
-                for candidate in nodes:self.assertEqual(gate(candidate,'#visible',title,label),candidate==kind)
-                for candidate in nodes:
-                    for enabled,native_enabled in [(False,True),(True,False),(True,True)]:
-                        self.assertEqual(gate(candidate,'#enabled',title,label,enabled,native_enabled),enabled and native_enabled and candidate==kind)
-                        self.assertEqual(gate(candidate,'#focus_enabled',title,label,enabled,native_enabled),enabled and native_enabled and candidate==kind)
-                    self.assertFalse(gate(candidate,'#focus_enabled',title,label,native_focus=False))
-                    self.assertFalse(gate(candidate,'#visible',title,label,native_visible=False))
-                    self.assertFalse(gate(candidate,'#enabled',title,label,native_visible=False))
-                    self.assertFalse(gate(candidate,'#focus_enabled',title,label,native_visible=False))
-                for foreign_title,foreign_label in [(title[len(BOARD_TITLE_PREFIX):],label),(title+' ',label),(title,label+' '),(title,'Foreign input'),('Cookery guide',label)]:
-                    for candidate in nodes:self.assertEqual(gate(candidate,'#visible',foreign_title,foreign_label),candidate=='foreign')
-
-        # Do not replace native source variables with a guessed collection read.
-        # If native disables the binding, its original $enabled fallback remains;
-        # if it binds an enabled source, the private alias preserves that source.
-        enabled_source=next(row for row in original if row.get('binding_name_override')=='#enabled')
-        self.assertEqual(enabled_source['binding_type'],'$text_edit_box_enabled_binding_type')
-        self.assertEqual(enabled_source['binding_name'],'$text_box_enabled_binding_name')
-        variable=native['variables'][0]
-        self.assertEqual(variable,{'requires':'(not $option_enabled_binding_name or not $enabled)',
-                                  '$text_box_enabled_binding_name':'#not_data_bound','$text_edit_box_enabled_binding_type':'none'})
-        for option_name,enabled,source_value in [('',True,False),('#custom_input_enabled',True,False),('#custom_input_enabled',True,True),('#custom_input_enabled',False,True)]:
-            context={'$option_enabled_binding_name':option_name,'$enabled':enabled}
-            expression=variable['requires']
-            for key,value in context.items():expression=expression.replace(key,repr(value))
-            inactive=eval(expression,{'__builtins__':{}},{})
-            alias_default=nodes['sandwich']['property_bag']['#kt_board_native_enabled']
-            self.assertEqual(alias_default,'$enabled')
-            alias_value=enabled if inactive else source_value
-            # Source `none` uses its fallback, never the unrelated custom field.
-            self.assertEqual(alias_value,True if not option_name and enabled else enabled and source_value)
 
     def test_reported_unapplied_modifications_are_rejected_after_native_inheritance(self):
         old={'visible':'#visible','enabled':'#enabled','focus_enabled':'#focus_enabled',

@@ -1,3 +1,7 @@
+## 0.6.231 — 2026-11-17
+
+Integrate the reviewed retained-stack drink nutrition caller, board anchor and cup-state reuse, and the native CustomForm board editor using server-ui 2.2.0. Preserve raw Done/Cancel saves, alignment extensions, Java character limits, existing gameplay sources, history and data protection. Client multiline, scrolling, focus and exact input capacity remain unconfirmed. This is source delivery preparation, with no family installation or full Java parity claim.
+
 ## 0.6.224 — 2026-11-12
 
 Carry the authorized 20261112 source-repair handoff into the maintained Tavern line: add the reviewed glowflower and machine-ingredient source data with its rewritten producers, bind the tartaric-acid painting block and item to the runtime sprite geometry with single-sided alpha testing and no face dimming, and keep the native naming-input and Java creative-order behaviour already frozen in 0.6.223. This is local source integration and a fresh release identity only: no tests, no client observation, no publication and no deployment.

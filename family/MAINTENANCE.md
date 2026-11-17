@@ -33,7 +33,7 @@ flowchart LR
 - 已部署的逐檔收據由 `family_guard.py --world ... --policy ... --report ...` 每 5 分鐘巡檢；報告 `ok` 只表示沒有漂移。舊混合版本被標為 `quarantined`，不能因此宣稱已驗收。
 - 燒烤現行爐／進階串架使用持久化原生容器實體，不需要為它們新增 `upcoming_creator_features`。其他 addon 可依已審查來源宣告必要實驗功能；保留既有設定，沿 [UPDATE-WORKFLOW.md](UPDATE-WORKFLOW.md) 的停服備份、同副本首次／重啟與相同 metadata 轉換正式採用，不由打包器或臨時 config 自行開關。
 - 官方廚房與國味的舊私服 UUID 涉及動態資料所有權；先演練保留資料的遷移，再切換到作者 UUID。
-- 自移植包的 `addon_localizations` 全檔替換必須退出啟用索引。第三方 `.lang` 可逐鍵漢化；程式修補只能作為有作者回饋、原檔／改後雜湊、有效期限與移除條件的臨時覆蓋。
+- 自移植包的 `addon_localizations` 全檔替換必須退出啟用索引。第三方 `.lang` 可逐鍵漢化；程式修補只能作為有作者回饋、原檔／改後雜湊、審查紀錄與移除條件的臨時覆蓋。來源重建的有效性按下方「Host extension 來源重建契約」判定。
 - 家族相容包的 1.2.x 本地混合版是待拆分資料。未完成上述驗收，不得作為官方原包或新基線發佈。
 - `family_upstream_watch.py` 每六小時唯讀核對五個 Bedrock 作者專案的最新檔案，分列正式版／預覽版；新版、作者身份改變及查詢失敗都要求審查。API 憑證只由本機設定／環境提供，不存 Git。巡檢不下载、安裝或自動改版本鎖。
 - 擁有者對完成候選的持續部署授權仍有效；依現行更新流程完成 PR、相關測試、同份存檔演練與部署讀回。純工具／文件變更不改 runtime 時，不換包、不重啟。
@@ -43,11 +43,19 @@ flowchart LR
 
 以上檢查能攔截正常 Git／BSM 發佈路徑的混亂。系統管理員直接改檔仍可能繞過入口，因此必須保留安裝後巡檢。
 
-- 使用者明確要求擴充作者 API 時，canonical owned runtime 可宣告 `host-extensions/*.json`。組裝器只在原作者 archive／逐檔 hash 完全吻合時插入已審查的小型呼叫點，複製該 runtime 的版本化 API 模組；逐檔收據標記 `upstream_extended`，保留作者 UUID／版本、原檔與改後 hash、模組來源 commit、獨立 API 版本、到期日及移除條件。原作者私有完整腳本不提交；新作者版必須重新審查。這些登記不得放入翻譯 hook。
+- 使用者明確要求擴充作者 API 時，canonical owned runtime 可宣告 `host-extensions/*.json`。組裝器只在原作者 archive／逐檔 hash 完全吻合時插入已審查的小型呼叫點，複製該 runtime 的版本化 API 模組；逐檔收據標記 `upstream_extended`，保留作者 UUID／版本、原檔與改後 hash、模組來源 commit、獨立 API 版本、原宣告日期及移除條件。原作者私有完整腳本不提交；新作者版必須重新審查。這些登記不得放入翻譯 hook。
 
 - 經使用者本輪油壺修復授權，已登記 API 可對 hash 釘選的作者 item JSON **僅新增** `minecraft:allow_off_hand: true`；不改原有能力、配方、identity 或 manifest。收據同樣列出原檔與改後 hash。組裝器拒絕其他 JSON 屬性、既有欄位或未列入清單的修改。
 
 - 原生 health／同步 property 擴充的 BP `minecraft:player` 必須保留原版內容；Grilling 自身生成器檢查其增量。家族組裝器直接確認最高優先序定義保留其他定義的 property schema、components、component_groups 與 events，總 property 不超過 32；不維護包組合或版本名冊。組裝器只核對，不合併或改寫玩家檔；收據記錄實際有效來源及保留對比。畫面與聲音的證據範圍依現行更新流程記錄。
+
+## Host extension 來源重建契約
+
+已由 canonical 工具的完整 profile 或 station source/handoff 契約核准的同一份來源，可在日後重建。有效性依原有 archive、UUID、宣告與來源版本、前置 API 回件、helper、原檔及輸出內容、modules 與 dependencies 檢查判定。日期變動不代表這些來源內容改變；新作者輸入或任何契約差異仍須重新審查。
+
+現有 `expires` 保留在宣告、宣告 digest 和回件中，不續期、不改寫歷史。對完整受審來源，它記錄原臨時修補日期，不再是同一來源重建的日曆門檻。沒有完整 profile 的臨時宣告仍按原日期拒絕；缺漏或不合法日期仍拒絕。
+
+這項來源重建規則不授予第三方授權，也不解除作者或服主另行明定的授權終止日。有這類限制時，先交回擁有者處理，不能將來源 profile 視為續授權。原有作者回饋、更新審查及移除條件仍保留。已安裝 runtime 不讀這個日期；工具檢查通過也不等於完整 Java 功能或客戶端驗收。
 
 ## 統一更新入口
 
@@ -58,7 +66,7 @@ flowchart LR
 乾淨作者 1.0.4 的六種人偶同時使用 BP geometry/material 與 RP blocks.json legacy
 textures。登記的 `chinesefood-doll-renderer-cleanup` 僅移除六個重複 textures 欄位，
 保持 cloth sound 與作者 geometry、材質／資產／UUID。原包 archive、逐檔 preimage、
-patched hash、有效期限與回饋狀態均須由已凍結的 canonical integration 聲明。
+patched hash、原宣告日期與回饋狀態均須由已凍結的 canonical integration 聲明。
 相容包 1.0.N 的本機國味變體明確標示作者 1.0.4，版本 1.0.(10400+N)；BP／RP
 與 modules／相依一起同步，讓客戶端重新取得修正的資源 bytes。此變體不是作者發布，
 不改原始 upstream lock，也不能移除其他欄位或借此加入玩法。此段保留當時的修復範圍；目前交付條件依現行更新流程。

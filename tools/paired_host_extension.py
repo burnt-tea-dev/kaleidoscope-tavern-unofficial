@@ -260,7 +260,7 @@ def apply_paired_data_extension(spec, bp_root, rp_root, bp_source, rp_source, ow
             or any(not isinstance(value, str) or not value.strip() or '\n' in value or '\x00' in value
                    for value in names.values())):
         raise ValueError('paired data requires exact reviewed manifest names')
-    if date.fromisoformat(spec['expires']) < date.today():
+    if stable.extension_expired(date.fromisoformat(spec['expires']), profile):
         raise ValueError('paired data extension expired')
     for key in ('authorization', 'feedback', 'removal_condition'):
         if not isinstance(spec.get(key), str) or not spec[key].strip():

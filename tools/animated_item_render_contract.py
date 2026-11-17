@@ -75,6 +75,10 @@ def sprite_geometry(name,frames,display):
         'bones':[{'name':'root','pivot':[0,8,0],'cubes':cubes}],
         'item_display_transforms':transforms}]}
 
+def runtime_sources():
+    return frozenset(f'runtime/RP/models/entity/item_sprite_{name}.geo.json' for name in NAMES)
+
+
 def planned(root=ROOT):
     rp=root/'runtime/RP';bp=root/'runtime/BP'
     reference=read(root/'art/interfaces/animated-item-java-reference.json')

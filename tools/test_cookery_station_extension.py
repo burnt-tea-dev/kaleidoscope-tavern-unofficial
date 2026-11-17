@@ -127,6 +127,17 @@ class CurrentStationOwnership(unittest.TestCase):
 
     def current_profile_fixture(self):
         self.prepare_files()
+        storage_helpers = {
+            'scripts/host_api/stockpot-storage/native-item-storage.js': (
+                'scripts/api/stockpot-storage/native-item-storage.js', b'export class SyntheticNativeItemStorage {}\n'),
+            'scripts/host_api/stockpot-storage/util.js': (
+                'scripts/api/stockpot-storage/util.js', b'export const syntheticStorageUtility = true;\n'),
+            'assets/Cookery/BP/entities/senluo_stockpot_inventory.json': (
+                'entities/senluo_stockpot_inventory.json', b'{"synthetic_stockpot_inventory":true}\n'),
+        }
+        for source, (target, raw) in storage_helpers.items():
+            path = self.owned / source; path.parent.mkdir(parents=True, exist_ok=True); path.write_bytes(raw)
+            self.profile['copies'][target] = {'source': source, 'sha256': hashlib.sha256(raw).hexdigest()}
         api = copy.deepcopy(self.api); api.update(host_uuid=station.HOST, archive_sha256=station.ARCHIVE)
         api['insertions'] = [{'path': station.TARGET, 'anchor': 'fixture', 'position': 'after', 'text': 'public-hook'}]
         api_raw = json.dumps(api).encode()
@@ -150,9 +161,10 @@ class CurrentStationOwnership(unittest.TestCase):
         operations = [{'path': station.TARGET, 'before': 'fixture-old', 'after': 'fixture-new'}]
         spec = copy.deepcopy(self.spec)
         spec.update(schema=1, kind=station.KIND, host_uuid=station.HOST, archive_sha256=station.ARCHIVE,
-                    imports={station.TARGET: station.HELPER_IMPORT + api['imports'][station.TARGET]},
+                    imports={station.TARGET: 'import {NativeItemStorage,NATIVE_STORAGE_OWNER,nativeItemKey} from "../../api/stockpot-storage/native-item-storage.js";\n' + station.HELPER_IMPORT + api['imports'][station.TARGET]},
                     insertions=[*api['insertions'], station.INIT], text_replacements=operations,
-                    json_updates=[], copies={station.HELPER: station.INSTALLED_HELPER}, expires='2099-01-01')
+                    json_updates=[], copies={station.HELPER: station.INSTALLED_HELPER,
+                                             **{source: target for source, (target, _) in storage_helpers.items()}}, expires='2099-01-01')
         spec['owner_handoff'].update(from_repository='burnt-tea-dev/kaleidoscope-grilling-unofficial', from_commit=anchor,
                 spec_path=station.API_SPEC, spec_sha256=station.digest(api_raw),
                 retained_imports_sha256=station.digest(api['imports'][station.TARGET].encode()),
@@ -191,8 +203,9 @@ class CurrentStationOwnership(unittest.TestCase):
     def test_collection_reads_runtime_identity_separately_from_host_sources(self):
         spec,api,api_raw,api_root,operations=self.current_profile_fixture()
         repo=self.root/'private-owner';sources=repo/'addon-sources'
-        helper=sources/station.HELPER;helper.parent.mkdir(parents=True)
-        helper.write_bytes((self.owned/station.HELPER).read_bytes())
+        for name in spec['copies']:
+            helper=sources/name;helper.parent.mkdir(parents=True,exist_ok=True)
+            helper.write_bytes((self.owned/name).read_bytes())
         declaration=sources/station.SPEC;declaration.parent.mkdir(parents=True)
         declaration.write_text(json.dumps(spec))
         manifest=repo/'runtime/BP/manifest.json';manifest.parent.mkdir(parents=True)

@@ -14,17 +14,21 @@ from build_incense_native_entities import outputs as incense_outputs
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_GROUPS = {
-    'registrationAndTransport': ('bedrock/extension-host.js', 'core/registry.js', 'core/transport.js', 'core/extension-foundation.js'),
-    'bottleIdentity': ('core/extension-content.js', 'core/bottle-display-schema.js', 'core/quality-tooltip.js', 'bedrock/quality-tooltip.js'),
+    'registrationAndTransport': ('bedrock/extension-host.js', 'core/registry.js', 'core/transport.js', 'core/extension-foundation.js',
+                                 'core/food-catalog-publisher.js'),
+    'bottleIdentity': ('core/extension-content.js', 'core/bottle-display-schema.js', 'core/quality-tooltip.js', 'bedrock/quality-tooltip.js',
+                       'core/bottles.js', 'bedrock/bottles.js', 'bedrock/display-projectiles.js',
+                       'bedrock/storage-projectile.js', 'core/projectile-parity.js', 'bedrock/molotov.js', 'core/molotov-fire.js'),
     'furnitureLifecycle': ('core/furniture.js', 'bedrock/furniture.js', 'bedrock/holder.js'),
-    'optionalEffectProtocol': ('data/effect-icons.js',),
-    'machinesAndDecorations': ('bedrock/machines.js', 'core/machines.js', 'bedrock/decorations.js'),
+    'optionalEffectProtocol': ('data/effect-icons.js', 'bedrock/effect-bar.js', 'core/effect-bar.js', 'core/custom-effect-definitions.js'),
+    'machinesAndDecorations': ('bedrock/machines.js', 'core/machines.js', 'bedrock/decorations.js', 'bedrock/tap-sources.js'),
     'sharedGuide': ('core/cookery-guide-publisher.js', 'data/cookery-guide-payload.js', 'data/guide-navigation.js', 'data/guide-copy.js', 'data/guide-native-names.js'),
     'boardLayoutAndText': ('core/boards.js', 'data/board-font.js', 'core/board-layout.js', 'bedrock/board-text.js', 'bedrock/writing-boards.js'),
     'mixologyLifecycle': ('bedrock/mixology.js',),
     'sharedUtilities': ('core/util.js',),
     'sharedItemLifecycle': ('bedrock/pickup-overflow.js', 'bedrock/natural-break.js', 'bedrock/transactions.js',
-                            'bedrock/native-item-storage.js', 'core/native-item-storage.js'),
+                            'bedrock/native-item-storage.js', 'core/native-item-storage.js', 'core/inventory.js',
+                            'core/native-storage-anchor.js', 'bedrock/native-storage-pinning.js'),
 }
 COMPLETE_LOCALE_SOURCES = frozenset('runtime/RP/texts/' + locale + '.lang' for locale in ('en_US', 'zh_CN', 'zh_TW'))
 PARTIAL_LOCALE_SOURCES = frozenset('runtime/RP/texts/' + locale + '.lang' for locale in PARTIAL_LOCALES)
@@ -34,10 +38,14 @@ LAMP_RECIPE = 'runtime/BP/recipes/blue_pendant_lamp_from_dye.json'
 GRASS_BOARD_RECIPE = 'runtime/BP/recipes/grass_sandwich_board_from_grass.json'
 # Placed Tap product; selected Java MolotovBlock inherits BottleBlock.SHAPE.
 PLACED_MOLOTOV = 'runtime/BP/blocks/molotov.json'
+# The current board caller owns its UI dependency; baseline_gate validates exact pair/API identity.
+BOARD_FORM_MANIFEST = 'runtime/BP/manifest.json'
 
 
 def runtime_sources():
-    return frozenset('runtime/BP/scripts/' + name for group in SOURCE_GROUPS.values() for name in group) | LOCALE_SOURCES | {LAMP_RECIPE, GRASS_BOARD_RECIPE, PLACED_MOLOTOV} | {path.relative_to(ROOT).as_posix() for path in incense_outputs()}
+    from animated_item_render_contract import runtime_sources as animated_runtime_sources
+    from painting_geometry import MODELS as painting_models
+    return frozenset('runtime/BP/scripts/' + name for group in SOURCE_GROUPS.values() for name in group) | LOCALE_SOURCES | {LAMP_RECIPE, GRASS_BOARD_RECIPE, PLACED_MOLOTOV, BOARD_FORM_MANIFEST} | {path.relative_to(ROOT).as_posix() for path in incense_outputs()} | animated_runtime_sources() | frozenset(painting_models.values())
 
 
 def check(root=ROOT, *, syntax=True, localization=True):
@@ -87,7 +95,7 @@ def check(root=ROOT, *, syntax=True, localization=True):
     imported(modules['bedrock/board-text.js'], '../data/board-font.js', {'fontBoldOffset'})
     writing_boards = modules['bedrock/writing-boards.js']
     imported(writing_boards, '../core/boards.js', {'FLOWER_BOARD_TRANSFORMS', 'normalizeBoardData', 'boardRuntimeKey'})
-    imported(writing_boards, '../core/board-layout.js', {'boardLayoutOptions', 'splitBoardLines'})
+    imported(modules['bedrock/board-text.js'], '../core/board-layout.js', {'boardLayoutOptions', 'splitBoardLines'})
     imported(writing_boards, './board-text.js', {'renderBoardText', 'removeBoardText'})
     imported(modules['bedrock/extension-host.js'], '../core/transport.js', {'ExtensionTransport', 'EVENTS', 'TRANSPORT_LIMITS'})
     imported(modules['bedrock/extension-host.js'], '../core/registry.js', {'CAPABILITIES'})
