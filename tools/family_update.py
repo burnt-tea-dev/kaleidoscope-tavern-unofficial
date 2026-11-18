@@ -51,7 +51,7 @@ def main(argv=None):
         return 0
     if args.command in ['cleanup-copies', 'cleanup-engine-inputs']:
         if args.execute:
-            common.verify_canonical_runner()
+            common.verify_cleanup_runner()
         from family_update import cleanup_copies, cleanup_engine_inputs
         module = cleanup_copies if args.command == 'cleanup-copies' else cleanup_engine_inputs
         cleanup_args = ['--execute'] if args.execute else []

@@ -196,6 +196,53 @@ def copy_bytes(root):
     return sum(path.stat().st_size for path in root.rglob('*') if path.is_file())
 
 
+def retire_replaced_package_rollbacks(result, batch, live_path, backup_state):
+    from family_update.cleanup_copies import absolute_paths
+    from family_update.retention import _assert_idle, _mount_paths, _walk
+
+    cleanup_path = Path(c.read(c.AUTHORIZATION)['live_config']).with_name('cleanup.json')
+    cleanup = c.read(cleanup_path)
+    assert Path(cleanup['lock_file']).resolve() == c.LOCK and Path(cleanup['lease_file']).resolve() == c.LEASE, 'Cleanup configuration has another maintenance lock or lease'
+    expected_namespace = cleanup['retention_pid_namespace']
+    assert os.readlink('/proc/self/ns/pid') == expected_namespace, 'Package retirement must observe the configured host process namespace'
+    state = c.read(backup_state)
+    current = next(row for row in state['current'] if row['world'] == str(c.W))
+    assert Path(current['backup']) == c.R / 'world-backup', 'Current staging recovery point changed'
+    lease = c.read(c.LEASE)
+    assert lease.get('candidate') == str(c.R) and lease.get('state') == 'completed', 'Maintenance owner changed'
+    assert c.read(c.CONFIG_PATH) == c.CONFIG and c.read(c.CONFIG['staging_repair']['source_batch']) == batch, 'Current staging inputs changed'
+    live = c.read(live_path)
+    references = list(absolute_paths([c.CONFIG, batch, live, state['current'], lease]))
+    references += [c.B, c.W, c.Q, c.R, Path(result['candidate'])]
+    references += list(map(Path, state['protected_worlds']))
+    references += list(absolute_paths(c.read(c.Q / 'senluo-policy.json')))
+    references += list(absolute_paths(c.read(Path(live['quality_dir']) / 'senluo-policy.json')))
+    removed = []
+    for name in result['backup_rotation']['retired']:
+        old_backup = Path(name)
+        if old_backup.name != 'world-backup' or old_backup.parent == c.R:
+            continue
+        report_path = old_backup.parent / 'staging-repair-result.json'
+        if not report_path.is_file():
+            continue
+        old = c.read(report_path)
+        target = old_backup.parent / 'package-rollback'
+        if not target.exists():
+            continue
+        assert old['state'] == 'staging_deployed_running' and old['world'] == str(c.W), 'Old staging deployment is not completed on this world'
+        assert old['completed_at'] < result['completed_at'], 'Old staging deployment is not superseded'
+        assert old['readback']['summary']['status'] == 'RUNNING', 'Old staging deployment has no successful readback'
+        assert old['world_backup'] == str(old_backup) and old['package_rollback'] == str(target), 'Old staging copy ownership differs'
+        if any(world_backup.overlaps(target, protected) for reference in references
+               for protected in (reference, reference.resolve())):
+            continue
+        _walk(target, old_backup.parent, _mount_paths())
+        _assert_idle(target, Path('/proc'))
+        shutil.rmtree(target)
+        removed.append(str(target))
+    return removed
+
+
 def run(*, execute=False):
     options, candidate, batch_path, review_path, live_path, backup_state = configuration()
     batch, receipt, review = review_binding(candidate, batch_path, live_path)
@@ -309,7 +356,6 @@ def run(*, execute=False):
             c.atomic(result_path, result)
             lease.update(state='completed', completed_at=c.now(), status='running')
             c.atomic(c.LEASE, lease)
-            return result
         except BaseException as error:
             result.update(state='failed', error=str(error), failed_at=c.now(),
                           recovery_required=True,
@@ -325,3 +371,10 @@ def run(*, execute=False):
             lease.update(recovery_required=True, failed_at=c.now(), status='inspect_actual_state')
             c.atomic(c.LEASE, lease)
             raise
+
+        try:
+            result['retired_package_rollbacks'] = retire_replaced_package_rollbacks(result, batch, live_path, backup_state)
+        except Exception as error:
+            result['package_retirement_warning'] = str(error)
+        c.atomic(result_path, result)
+        return result
