@@ -125,7 +125,15 @@ def retained_component_config(repo,config,sources):
  component=json.loads(subprocess.check_output(['git','show',anchor['source_commit']+':baseline.json'],cwd=repo))
  return component,{'schema':1,'source_commit':anchor['source_commit'],'source_tree':anchor['source_tree'],'source_version':anchor['source_version']}
 
-def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),reviewed_order=None,held_sources=(),source_identities=None,preserved_sources=None):
+def exact_dependency_differences(packs):
+ versions={row['uuid']:row['version'] for row in packs}
+ return [{'uuid':row['uuid'],'dependency':dep['uuid'],'required':dep.get('version'),
+          'selected':versions.get(dep['uuid'])}
+         for row in packs for dep in row['dependencies']
+         if 'uuid' in dep and (dep['uuid'] not in versions or versions[dep['uuid']]!=dep['version'])]
+
+def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),reviewed_order=None,held_sources=(),source_identities=None,preserved_sources=None,*,staging_updates=None,staging_inventory=None):
+ if staging_updates is not None and not working:fail('staging updates require a working candidate')
  if preserved_sources is None:preserved_sources={}
  if (not isinstance(preserved_sources,dict) or any(not isinstance(uid,str) or not uid or not isinstance(source,dict) or source.get('owner')!='preserved' or source.get('official_author_release') is True for uid,source in preserved_sources.items())):fail('preserved source descriptors must retain preserved ownership')
  replacements={uid for uid,source in preserved_sources.items() if source.get('role')=='owner_accepted_author_replacement'}
@@ -156,6 +164,7 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
   for own in lock['owned']:source_gate_environment(own,source_identities)
  if out.exists():fail('output exists; never replace another candidate')
  out.mkdir(parents=True);records=[];by_uuid={};components={};source_advisories=[]
+ staging_snapshot_differences=[]
  # Index every candidate archive once. Read and recheck the selected bytes at
  # use time so a concurrent file replacement cannot exploit the index.
  archive_index={}
@@ -167,9 +176,26 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
   if uid in by_uuid:fail('duplicate pack UUID '+uid)
   dest=out/(side+'_packs')/uid
   if root:
-   before=files_hash(root);shutil.copytree(root,dest)
+   observed=staging_inventory.get(root) if staging_inventory is not None else None
+   before=files_hash(root) if observed is None else observed['files']
+   shutil.copytree(root,dest)
    copied=files_hash(dest)
-   if files_hash(root)!=before or copied!=before:fail('source changed during candidate copy')
+   latest=files_hash(root)
+   if observed is not None:
+    captured=read(dest/'manifest.json')
+    captured_side='resource' if any(x['type']=='resources' for x in captured['modules']) else 'behavior'
+    if captured['header']['uuid']!=uid or captured_side!=side:fail('installed pack identity or side changed during candidate copy: '+uid)
+    manifest=captured
+    if copied!=before or copied!=latest:
+     staging_snapshot_differences.append({'uuid':uid,'observed_version':observed['version'],
+                                          'candidate_version':manifest['header']['version'],
+                                          'differs_from_initial':copied!=before,
+                                          'differs_from_source_after_copy':copied!=latest})
+    if copied!=before:
+     from family_update.source_batch import pack_tree
+     source={'owner':'preserved','role':'installed_staging_pack',
+             'input_tree':pack_tree(copied),'official_author_release':False}
+   elif latest!=before or copied!=before:fail('source changed during candidate copy')
   else:
    for name,b in data.items():
     target=dest/name;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(b)
@@ -321,9 +347,10 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
    row.update(version=manifest['header']['version'],dependencies=manifest.get('dependencies',[]),files=files_hash(root))
    owner=row['source']['owner'] if row['source']['owner'] in ('preserved','owned') else 'upstream_extended'
    row['source']={**row['source'],'owner':owner,'official_author_release':False,'reviewed_extensions':[*row['source'].get('reviewed_extensions',[]),proof]}
- for row in records:
-  for dep in row['dependencies']:
-   if 'uuid' in dep and (dep['uuid'] not in by_uuid or by_uuid[dep['uuid']]['version']!=dep['version']):fail('unresolved exact dependency '+row['uuid']+' -> '+dep['uuid'])
+ differences=exact_dependency_differences(records)
+ if differences and staging_updates is None:
+  first=differences[0]
+  fail('unresolved exact dependency '+first['uuid']+' -> '+first['dependency'])
  for side in ['behavior','resource']:
   if reviewed_order is not None and any(uid not in by_uuid or by_uuid[uid]['side']!=side for uid in lock['order'][side]):fail('reviewed order contains unknown or wrong-side identity')
   order=[uid for uid in lock['order'][side] if uid in by_uuid and by_uuid[uid]['side']==side]
@@ -357,6 +384,11 @@ def assemble(lock,sources,archives,out,working=False,extensions=(),preserved=(),
      else:definitions[identity]=uid
  behavior_player,player_contract=select_behavior_player(behavior_players)
  receipt={'schema':1,'lock_sha256':hashlib.sha256(json.dumps(lock,sort_keys=True).encode()).hexdigest(),'packs':records,'order':lock['order'],'definition_overlaps':overlaps,'behavior_player_definition':behavior_player,'acceptance':{'static':True,'bds':False,'client':False,'saved_world_migration':False},'production_ready':False}
+ if staging_updates is not None:
+  receipt['staging_updates']=list(staging_updates)
+  receipt['staging_snapshot_differences']=staging_snapshot_differences
+  receipt['dependency_check']={'mode':'advisory','differences':differences}
+  receipt['acceptance']['static']=False
  if source_advisories:receipt['source_advisories']=source_advisories
  if player_contract is not None:receipt['behavior_player_preservation']=player_contract
  (out/'family-receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');print(json.dumps({'candidate':str(out),'packs':len(records),'overlaps':len(overlaps),'production_ready':False}))

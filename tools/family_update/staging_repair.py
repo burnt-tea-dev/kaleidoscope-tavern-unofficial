@@ -10,11 +10,12 @@ import shutil
 import sys
 import uuid
 
+import family_bundle
 import family_guard
 import world_backup
 from family_update import common as c
 from family_update.storage import require_space
-from family_update.source_batch import generated_pack, source_provenance
+from family_update.source_batch import generated_pack, project_staging, source_provenance, staging_advisories
 
 
 SIDES = ('behavior', 'resource')
@@ -73,7 +74,7 @@ def configuration():
     return options, candidate, batch, review, live_path, backup_state
 
 
-def candidate_input(candidate, batch, sources):
+def candidate_input(candidate, batch, sources, batch_path):
     receipt = c.read(candidate / 'family-receipt.json')
     assert receipt['schema'] == 1 and set(receipt['order']) == set(SIDES), 'Complete family receipt required'
     owned_sources = {source['repository']: source['commit'] for source in sources.values() if 'repository' in source}
@@ -91,43 +92,53 @@ def candidate_input(candidate, batch, sources):
         manifest = c.read(root / 'manifest.json')
         assert manifest['header']['uuid'] == uid and manifest['header']['version'] == pack['version'], 'Candidate manifest identity differs'
         assert manifest.get('dependencies', []) == pack['dependencies'], 'Candidate dependency receipt differs'
-        for dep in pack['dependencies']:
-            if 'uuid' in dep:
-                assert dep['uuid'] in by_uuid and dep['version'] == by_uuid[dep['uuid']]['version'], 'Candidate dependency is missing or has another version'
     for side in SIDES:
         order = receipt['order'][side]
         assert len(order) == len(set(order)) and set(order) == {uid for uid, p in by_uuid.items() if p['side'] == side}, 'Incomplete candidate order'
         directory = candidate / (side + '_packs')
         assert not directory.is_symlink() and {p.name for p in directory.iterdir()} == set(order), 'Unexpected candidate pack directories'
         assert c.read(candidate / ('world_' + side + '_packs.json')) == [{'pack_id': uid, 'version': by_uuid[uid]['version']} for uid in order], 'Candidate selection differs from its full receipt'
-    assert set(batch['packs']) <= set(by_uuid), 'Candidate omits a generated batch input'
-    pairs = {}
-    for uid, row in batch['packs'].items():
+    update_uuids = receipt.get('staging_updates')
+    if update_uuids is None:
+        # Older assemble_batch receipts kept inherited rows in the same batch.
+        # Their source descriptors identify which inputs this run introduced.
+        update_uuids = [uid for uid in batch['packs'] if uid in by_uuid and
+                        by_uuid[uid]['source'].get('source_batch') == str(batch_path)]
+        if not update_uuids:
+            assert not batch.get('parent_source_batch'), 'Inherited batch lacks an explicit update selection'
+            update_uuids = list(batch['packs'])
+    assert len(set(update_uuids)) == len(update_uuids) and set(update_uuids) <= batch['packs'].keys() & by_uuid.keys(), 'Candidate omits a specified batch input'
+    updates = {}
+    for uid in update_uuids:
+        row = batch['packs'][uid]
         actual_uid, actual, files = generated_pack(row['name'], row['side'], row['path'])
         assert actual_uid == uid and all(row[key] == value for key, value in actual.items()), 'Normally generated input changed: ' + uid
         pack = by_uuid[uid]
-        assert row['side'] in {'BP', 'RP'} and pack['side'] == {'BP': 'behavior', 'RP': 'resource'}[row['side']], 'Generated input side changed'
+        assert pack['side'] == {'BP': 'behavior', 'RP': 'resource'}[row['side']], 'Generated input side changed'
         assert pack['files'] == files and pack['version'] == row['version'], 'Candidate is not the exact generated input: ' + uid
-        pairs.setdefault(row['name'], {})[row['side']] = row['version']
-    for name, sides in pairs.items():
-        if set(sides) == {'BP', 'RP'}:
-            assert sides['BP'] == sides['RP'], 'Generated BP/RP versions differ: ' + name
-    return receipt
+        updates[uid] = pack
+    return receipt, updates
 
 
 def review_binding(candidate, batch_path, live_path):
     """Return the validated batch, receipt and their direct-review binding."""
+    batch, receipt, review, _ = deployment_inputs(candidate, batch_path, live_path)
+    return batch, receipt, review
+
+
+def deployment_inputs(candidate, batch_path, live_path):
     assert c.read(c.CONFIG_PATH) == c.CONFIG, 'Loaded staging configuration changed'
     batch = c.read(batch_path)
     sources = source_provenance(batch, c.SOURCES, c.EXTENSION)
-    receipt = candidate_input(candidate, batch, sources)
+    receipt, updates = candidate_input(candidate, batch, sources, batch_path)
     tools = Path(__file__).resolve().parents[1]
     runner_paths = {tools / name for name in (
         'family_update.py',
         'family_update/__init__.py', 'family_update/common.py',
         'family_update/staging_repair.py', 'family_update/source_batch.py',
         'family_update/storage.py', 'family_update/memory_budget.py')}
-    runner_paths.update({Path(family_guard.__file__).resolve(), Path(world_backup.__file__).resolve(),
+    runner_paths.update({Path(family_bundle.__file__).resolve(), Path(family_guard.__file__).resolve(),
+                         Path(world_backup.__file__).resolve(),
                          c.T / 'tools/family_guard.py'})
     review = {'schema': 2, 'scope': 'direct-source-review-staging',
             'config_sha256': c.sha(c.CONFIG_PATH),
@@ -138,30 +149,16 @@ def review_binding(candidate, batch_path, live_path):
             'source_batch_sha256': c.sha(batch_path),
             'sources': sources,
             'runner_sha256': {str(path): c.sha(path) for path in sorted(runner_paths)}}
-    return batch, receipt, review
+    return batch, receipt, review, updates
 
 
-def selection(receipt, original, batch, retired):
-    prior = {p['uuid']: p for p in original['packs']}
-    target = {p['uuid']: p for p in receipt['packs']}
-    assert len(prior) == len(original['packs']), 'Installed identities are ambiguous'
-    assert set(prior) - set(target) == set(retired) and not set(target) - set(prior), 'Only explicitly retired UUIDs may disappear; new identities are not supported'
-    changed = []
-    for uid, pack in target.items():
-        old = prior[uid]
-        assert pack['side'] == old['side'], 'Pack side migration is not supported'
-        old_manifest = c.read(Path(old['path']) / 'manifest.json')
-        assert old_manifest['header']['uuid'] == uid and old_manifest['header']['version'] == old['version'], 'Installed manifest differs from selected reference'
-        if pack['files'] == old['files'] and pack['version'] == old['version']:
-            continue
-        assert uid in batch['packs'], 'Changed pack is absent from the reviewed generated batch: ' + uid
-        assert pack['version'] > old['version'], 'Changed bytes require a fresh version; downgrades are not supported: ' + uid
-        manifest = c.read(absolute(batch['packs'][uid]['path']) / 'manifest.json')
-        identities = lambda m: {(x['uuid'], x['type']) for x in m['modules']}
-        assert identities(manifest) == identities(old_manifest), 'Module identity migration is not supported: ' + uid
-        assert all(module['version'] == pack['version'] for module in manifest['modules']), 'Changed pack module versions must match the header'
-        changed.append(uid)
-    return changed
+def selection(original, updates, batch, retired):
+    projected, changed = project_staging(original, updates, retired)
+    prior = {row['uuid']: row for row in original['packs']}
+    for uid in changed:
+        identities = lambda modules: {(row['uuid'], row['type']) for row in modules}
+        assert identities(batch['packs'][uid]['modules']) == identities(prior[uid]['modules']), 'Module identity migration is not supported: ' + uid
+    return projected, changed
 
 
 def idle_binding():
@@ -175,20 +172,27 @@ def idle_binding():
     return binding, observed
 
 
-def pack_readback(receipt, original, binding, engine):
+def installed_inventory():
+    return c.pack_inventory(c.W, c.B, include_manifest=True, hash_files=c.hashes)
+
+
+def pack_readback(applied, receipt, binding, engine):
     current_binding = c.verify_server_binding()
     assert current_binding == binding and c.sha(c.B / 'bedrock_server') == engine, 'Server binding, properties or engine changed'
-    inventory = c.live_inventory()
-    want = {p['uuid']: p for p in receipt['packs']}
-    assert {p['uuid'] for p in inventory['packs']} == set(want), 'Installed selected UUIDs differ'
-    prior_paths = {p['uuid']: p['path'] for p in original['packs']}
+    inventory = installed_inventory()
+    expected = {p['uuid']: p for p in applied['packs']}
+    assert {p['uuid'] for p in inventory['packs']} == set(expected), 'Installed selected UUIDs differ'
     for row in inventory['packs']:
-        pack = want[row['uuid']]
-        assert row['path'] == prior_paths[row['uuid']], 'Installed pack path changed unexpectedly'
-        assert all(row[key] == pack[key] for key in ('uuid', 'side', 'version', 'files')), 'Installed pack differs from the complete candidate receipt'
-    for side in SIDES:
-        assert inventory['refs'][side] == [{'pack_id': uid, 'version': want[uid]['version']} for uid in receipt['order'][side]], 'Installed selection/order differs'
-    return {'binding': current_binding, 'summary': c.summary(), 'exact_candidate_files_and_refs': True}
+        pack = expected[row['uuid']]
+        assert all(row[key] == pack[key] for key in ('uuid', 'side', 'version', 'files', 'path')), 'Installed pack differs from the applied selection'
+    assert inventory['refs'] == applied['refs'], 'Installed selection/order differs'
+    candidate = {p['uuid']: p for p in receipt['packs']}
+    exact = (candidate.keys() == expected.keys() and
+             all(expected[uid]['files'] == pack['files'] for uid, pack in candidate.items()) and
+             all(refs == [{'pack_id': uid, 'version': candidate[uid]['version']} for uid in receipt['order'][side]]
+                 for side, refs in applied['refs'].items()))
+    return {'binding': current_binding, 'summary': c.summary(),
+            'exact_applied_files_and_refs': True, 'exact_candidate_files_and_refs': exact}
 
 
 def copy_bytes(root):
@@ -245,7 +249,7 @@ def retire_replaced_package_rollbacks(result, batch, live_path, backup_state):
 
 def run(*, execute=False):
     options, candidate, batch_path, review_path, live_path, backup_state = configuration()
-    batch, receipt, review = review_binding(candidate, batch_path, live_path)
+    batch, receipt, review, updates = deployment_inputs(candidate, batch_path, live_path)
     if not execute:
         return {'command': 'staging-repair', 'execute': False, 'candidate': str(candidate),
                 'output': str(c.R), 'server': c.SERVER, 'world': str(c.W),
@@ -257,25 +261,26 @@ def run(*, execute=False):
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         previous = c.lease_available()
         binding, initial = idle_binding()
-        original = c.live_inventory()
-        changed = selection(receipt, original, batch, options['retire_uuids'])
+        initial_inventory = installed_inventory()
+        retired = options['retire_uuids']
+        _, proposed = selection(initial_inventory, updates, batch, retired)
         assert c.R.parent.is_dir(), 'Create the evidence parent before deployment'
         assert c.R.parent.stat().st_dev == c.W.stat().st_dev == c.B.stat().st_dev, 'Package staging and rollback require the server filesystem'
-        target = {p['uuid']: p for p in receipt['packs']}
-        pack_bytes = sum(copy_bytes(candidate / (target[uid]['side'] + '_packs') / uid) for uid in changed)
+        inputs = {uid: candidate / (pack['side'] + '_packs') / uid for uid, pack in updates.items()}
+        pack_bytes = sum(copy_bytes(inputs[uid]) for uid in proposed)
         space = require_space(c.R.parent, 'Staging stopped backup and package copies', copy_bytes(c.W) + pack_bytes)
         c.R.mkdir()
         from family_update.memory_budget import require
         require('deploy')  # Existing light deployment cap; no native stage.
         c.atomic(c.R / 'source-review.json', review)
         c.atomic(c.R / 'previous-maintenance.json', previous)
-        c.atomic(c.R / 'original-inventory.json', original)
+        c.atomic(c.R / 'original-inventory.json', initial_inventory)
         shutil.copy2(candidate / 'family-receipt.json', c.R / 'local-family-receipt.json')
         shutil.copy2(c.AUTHORIZATION, c.R / 'staging-authorization.json')
         result_path = c.R / 'staging-repair-result.json'
         result = {'state': 'prepared', 'created_at': c.now(), 'server': c.SERVER,
                   'world': str(c.W), 'candidate': str(candidate), 'before': initial,
-                  'space': space, 'changed_uuids': changed, 'retire_uuids': options['retire_uuids'],
+                  'space': space, 'changed_uuids': proposed, 'retire_uuids': retired,
                   'world_backup': str(c.R / 'world-backup'),
                   'world_backup_receipt': str(c.R / 'world-backup-receipt.json'),
                   'package_rollback': str(c.R / 'package-rollback'),
@@ -289,13 +294,12 @@ def run(*, execute=False):
         c.atomic(c.LEASE, lease)
         try:
             c.assert_lease()
-            binding_now, _ = idle_binding()
-            assert binding_now == binding and c.live_inventory() == original, 'Concurrent staging configuration or package change'
-            if initial['status'] != 'STOPPED':
+            binding_now, observed = idle_binding()
+            assert binding_now == binding, 'Concurrent staging server binding change'
+            if observed['status'] != 'STOPPED':
                 c.action('stop')
             binding_now, stopped = idle_binding()
             assert stopped['status'] == 'STOPPED' and binding_now == binding, 'Staging did not stop on the captured world'
-            assert c.live_inventory() == original, 'Staging package inventory changed before backup'
             engine = c.sha(c.B / 'bedrock_server')
             # Normal shutdown can grow the DB; remeasure the stopped copy.
             result['stopped_space'] = require_space(c.R, 'Stopped staging backup and package copies', copy_bytes(c.W) + pack_bytes)
@@ -303,34 +307,59 @@ def run(*, execute=False):
             result['backup_rotation'] = world_backup.adopt(backup_state, c.R / 'world-backup', c.R / 'world-backup-receipt.json')
             result['state'] = 'backed_up_stopped'
             c.atomic(result_path, result)
-            # Stage changed packs, then recheck all reviewed inputs before replacement.
+            assert review_binding(candidate, batch_path, live_path)[2] == review and c.read(review_path) == review, 'Reviewed input/candidate/config changed before installation'
+            original = installed_inventory()
+            staged_inputs = {}
+            while True:
+                applied, changed = selection(original, updates, batch, retired)
+                pending = [uid for uid in changed if uid not in staged_inputs]
+                if not pending:
+                    break
+                require_space(c.R, 'Selected staging package copies', sum(copy_bytes(inputs[uid]) for uid in pending))
+                for uid in pending:
+                    staged = c.R / 'package-staged' / (updates[uid]['side'] + '_packs') / uid
+                    staged.parent.mkdir(parents=True, exist_ok=True)
+                    shutil.copytree(inputs[uid], staged)
+                    assert c.hashes(staged) == updates[uid]['files'], 'Staged package copy differs'
+                    staged_inputs[uid] = staged
+                original = installed_inventory()
+            c.assert_lease()
+            binding_now, observed = idle_binding()
+            assert observed['status'] == 'STOPPED' and binding_now == binding, 'Staging target changed while preparing packages'
+            # Capture the exact selection immediately preceding the package writes.
+            c.atomic(c.R / 'original-inventory.json', original)
+            result['changed_uuids'] = changed
+            result['installed_advisories'] = staging_advisories(initial_inventory, original, updates)
+            result['dependency_check'] = {'mode': 'advisory', 'differences': family_bundle.exact_dependency_differences(applied['packs'])}
+            c.atomic(result_path, result)
             prior = {p['uuid']: p for p in original['packs']}
             moves = []
-            for uid in [*changed, *options['retire_uuids']]:
+            for uid in [*changed, *(uid for uid in retired if uid in prior)]:
                 old = prior[uid]
                 source = Path(old['path'])
                 assert source.parent in {c.W / (old['side'] + '_packs'), c.B / (old['side'] + '_packs')}, 'Pack path escaped the staging server'
                 backup = c.R / 'package-rollback' / (old['side'] + '_packs') / uid
                 backup.parent.mkdir(parents=True, exist_ok=True)
-                staged = c.R / 'package-staged' / (old['side'] + '_packs') / uid
-                if uid in target:
-                    staged.parent.mkdir(parents=True, exist_ok=True)
-                    shutil.copytree(candidate / (old['side'] + '_packs') / uid, staged)
-                    assert c.hashes(staged) == target[uid]['files'], 'Staged package copy differs'
+                staged = staged_inputs.get(uid)
                 moves.append({'uuid': uid, 'original': str(source), 'rollback': str(backup),
-                              'staged': str(staged) if uid in target else None})
-            c.atomic(c.R / 'package-moves.json', {'moves': moves, 'automatic_restore': False})
-            assert review_binding(candidate, batch_path, live_path)[2] == review and c.read(review_path) == review, 'Reviewed input/candidate/config changed before installation'
-            c.assert_lease()
-            assert idle_binding()[1]['status'] == 'STOPPED' and c.live_inventory() == original, 'Staging changed while preparing packages'
+                              'staged': str(staged) if staged else None})
+            ref_backups = {}
+            for side in SIDES:
+                if applied['refs'][side] == original['refs'][side]:
+                    continue
+                path = c.W / ('world_' + side + '_packs.json')
+                backup = c.R / 'package-rollback' / path.name
+                backup.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(path, backup)
+                ref_backups[side] = backup
+            c.atomic(c.R / 'package-moves.json', {'moves': moves, 'automatic_restore': False,
+                      'original_refs': {side: str(path) for side, path in ref_backups.items()}})
             for move in moves:
                 os.replace(move['original'], move['rollback'])
                 if move['staged']:
                     os.replace(move['staged'], move['original'])
-            for side in SIDES:
-                filename = 'world_' + side + '_packs.json'
-                assert not (c.W / filename).is_symlink(), 'Selected pack list is a symlink'
-                c.atomic(c.W / filename, [{'pack_id': uid, 'version': target[uid]['version']} for uid in receipt['order'][side]])
+            for side in ref_backups:
+                c.atomic(c.W / ('world_' + side + '_packs.json'), applied['refs'][side])
             # No DB/metadata write is allowed before normal BDS startup.
             before = c.read(c.R / 'world-backup-receipt.json')['files']
             data_files = lambda rows: {key: digest for key, digest in rows.items() if not key.startswith(('behavior_packs/', 'resource_packs/')) and key not in {'world_behavior_packs.json', 'world_resource_packs.json'}}
@@ -344,13 +373,13 @@ def run(*, execute=False):
                 elif path.is_file():
                     data[path.name] = c.sha(path)
             assert data == data_files(before), 'World/player/item data changed before normal start'
-            result['installed_readback'] = pack_readback(receipt, original, binding, engine)
+            result['installed_readback'] = pack_readback(applied, receipt, binding, engine)
             result['state'] = 'installed_stopped'
             c.atomic(result_path, result)
             result['start_requested'] = True
             c.atomic(result_path, result)  # Persist ambiguity before sending POST.
             c.action('start')
-            result['readback'] = pack_readback(receipt, original, binding, engine)
+            result['readback'] = pack_readback(applied, receipt, binding, engine)
             assert result['readback']['summary']['status'] == 'RUNNING', 'Staging is not running after installation'
             result.update(state='staging_deployed_running', completed_at=c.now())
             c.atomic(result_path, result)
