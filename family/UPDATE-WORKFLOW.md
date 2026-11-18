@@ -34,15 +34,17 @@ BDS 與保存驗證共用同一次演練；不另建新世界再跑相同循環�
 }
 ```
 
-candidate 必須是完整 family_bundle 組合結果，含原始 family-receipt、兩側包及 world 選包清單；部署證據 output_dir 是另一個全新目錄。source-batch 沿正常生成記錄的 `source_commits[name]={path,commit}`、`packs[uuid]={name,side,path,version,modules,dependencies,tree}`；side 為 BP/RP，tree 是原有完整檔案 SHA-256 map 的排序 JSON 摘要及檔案數。產生端與安裝端共用 [`generated_pack`](../tools/family_update/source_batch.py) 讀取實際生成包；產生端先核對 `generated-inputs.json` 的 UUID、版本及 tree，再記錄完整 batch 輸入。安裝不再生成包，也不把工作區當成生成包。工具核對原生成輸入與候選逐檔相等，保留 receipt 原來的 owned／preserved／upstream 身分；已生成 preserved 輸入不能冒充作者原包。未列於 batch 的包必須與實裝完全相同。只接受明列退役 UUID，不能新增包身分、切換世界、修改模式或 DB。改動包須有新版本且維持 module 身分、成對版本及精確相依。
-
 正常批次組裝的權威入口是 [`assemble_batch.py`](../tools/family_update/assemble_batch.py)，由選定 Tavern 的同版工具執行：
 
 ```sh
 /path/to/venv/bin/python /selected/tavern/tools/family_update/assemble_batch.py /local/batch-options.json
 ```
 
-沿用既有 batch options 的 `run`、`parent`、可選 `installed_parent`、`sources`、`scope` 與 `memory_unit`。`sources` 明列 Tavern、Grilling、World Liquor 及 private；其他生成來源仍可列入來歷。工具讀 `run/generated-inputs.json`、完整父 batch／候選與 installed_parent 的 staging 設定，世界路徑只取該明確設定。它不生成玩法、不升版本、不呼叫服務。輸出仍是原來的 batch、完整候選、組裝結果及 staging 設定。主機上的舊 `assemble-batch.py` 只載入選定 Tavern 的此入口，不另維護實作；舊凍結來源不自動取得新工具。
+沿用 `run`、`parent`、可選 `installed_parent`、`sources`、`scope` 與 `memory_unit`。主機上的舊 `assemble-batch.py` 仍只載入選定 Tavern 的入口。
+
+`run` 內的 `generated-inputs.json` 逐個 UUID 指定本輪要換的成品。`parent` 與可選的 `installed_parent` 提供舊來源記錄、staging 設定及差異比較。工具從當下世界讀取兩側選包和實裝檔案，依現場順序組成完整 `release-candidate`。候選仍有 `family-receipt.json`、兩側包目錄和世界選包清單。從舊收據發現的增減、重排與檔案或版本差異列在 `ASSEMBLY-RESULT.json`。未指定的包若在複製時變動，收據記錄實際複製的內容和差異，安裝時仍讀最新現場。需要退役時，在本輪批次選項及目標授權明列相同的 `retire_uuids`。
+
+`source-batch.json` 保留原生成記錄的來源提交、包路徑及內容指紋。安裝以候選收據中的本輪 UUID 和經核對的生成成品為準。同 UUID 的版本或現場內容有差異時，會在最新實裝上重算並保留本輪指定替換。每次準備安裝時，現場新增、移除、重排或更新的其他包保留原狀。候選及部署結果都有 `dependency_check.mode=advisory`，列出一般包 UUID 相依與選中版本的差異；這個欄位只記錄提示。
 
 `authorization_file` 在此入口是 Git 外明確目標 JSON，與一般 LIVE 文字授權分開：
 
@@ -61,9 +63,9 @@ candidate 必須是完整 family_bundle 組合結果，含原始 family-receipt�
 
 server 名稱必須以 `-staging` 結尾，並與授權完全一致。LIVE reference 提供既有正式目標和共用 lock/lease；兩服路徑不能重疊。備份索引必須同時保護兩服，並與既有 policy 的宣告一致。執行時再用實際 BSM servers 路徑、活動 world、summary 及 properties bytes 核對檔案目標。staging 設定不能交給其他命令使用。
 
-先執行不帶 `--execute` 的命令取得 `review_input`；root 完成直接來源及生成輸入審閱後，將該物件原樣存為 review_file。schema 2 綁定原生成 batch、完整候選、config、授權、LIVE reference、API adapter 及實際 staging 部署工具 bytes。取得審閱資料和安裝前都核對每個生成輸入、候選檔案、選包順序與相依；安裝只使用已核對的暫存包和審閱時的選包資料，不再讀取可變選包清單。來源 commit 與 tree 保留生成來歷，owned receipt 的 repository 與 commit 仍須符合該歷史提交。工作區 HEAD 前進、未提交差異及無關檔案不會改變已固定的生成包，因此不再使審閱失效；需要採用後續源修時，須正常生成並重新審閱新輸入。staging 不載入只供生成／正式准入使用的 private host catalog。不要求來源已合入遠端。快照本身不是審閱，本機部署工具修改仍須直接審閱，不能假裝遠端交付已完成。舊 schema 1 審閱不自動轉換；舊 run 保持原樣，新批次使用同版產生端與安裝工具重新取得審閱。
+先執行不帶 `--execute` 的命令取得 `review_input`；root 完成直接來源及生成輸入審閱後，將該物件原樣存為 review_file。schema 2 綁定原生成 batch、完整候選、config、授權、LIVE reference、API adapter 及實際 staging 部署工具 bytes。取得審閱資料和安裝前都核對本輪指定生成輸入、候選檔案本身及其選包清單。安裝以審閱好的指定包套入停服後最近讀到的實裝與選包。來源 commit 與 tree 保留生成來歷，owned receipt 的 repository 與 commit 仍須符合該歷史提交。工作區 HEAD 前進、未提交差異及無關檔案不會改變已固定的生成包，因此不再使審閱失效；需要採用後續源修時，須正常生成並重新審閱新輸入。staging 不載入只供生成／正式准入使用的 private host catalog。不要求來源已合入遠端。快照本身不是審閱，本機部署工具修改仍須直接審閱，不能假裝遠端交付已完成。舊 schema 1 審閱不自動轉換；舊 run 保持原樣，新批次使用同版產生端與安裝工具重新取得審閱。
 
-部署沿同一 maintenance lock/lease，要求零玩家，按實際完整世界備份與新增包副本留足 2 GiB 餘量。正常 stop 後用 `world_backup.capture/adopt` 完整備份並只輪替同一世界的舊備份；舊包以 rename 保留於 package-rollback。只改包和選包清單，開服前直接比對其餘世界 bytes。正常 start 後核對完整選中包、版本、順序、properties／引擎與 API 狀態。
+部署沿同一 maintenance lock/lease，要求零玩家，按實際完整世界備份與新增包副本留足 2 GiB 餘量。正常 stop 後用 `world_backup.capture/adopt` 完整備份並只輪替同一世界的舊備份；寫入前再讀現場，將實際被替換或退役的舊包及要改動的選包清單原件保留在 `package-rollback`。只寫入本輪指定的包及選包變更，開服前直接比對其餘世界 bytes。正常 start 後核對實際套用的完整選包、版本、順序、properties／引擎與 API 狀態。部署結果的 `exact_applied_files_and_refs` 記錄這次核對，`exact_candidate_files_and_refs` 記錄實裝是否也與原候選完全相等。
 
 結果為 `staging-repair-result.json` 的 `state=staging_deployed_running`，固定保留 local=true、remote_delivery=false、ci=false、client=false、java_parity=false。這表示部署成功，不表示 Java 或 client 體驗已確認。錯誤／中斷保留實際狀態、完整備份、包回退位置及 active lease；不自動覆蓋世界、不再送 stop/start。尤其 start 已請求後，世界可能已有新資料，必須由協調者依現場明確恢復，不能用舊備份自動蓋回。
 

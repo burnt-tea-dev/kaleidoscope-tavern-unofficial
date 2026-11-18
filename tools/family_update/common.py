@@ -343,7 +343,12 @@ def source_state(verify_remote=False):
 
 
 def live_inventory():
-    world = active_world()
+    return pack_inventory(active_world(), B, hash_files=hashes)
+
+
+def pack_inventory(world, bds, *, include_manifest=False, hash_files=None):
+    if hash_files is None:
+        from family_guard import hashes as hash_files
     rows, refs = [], {}
     for side in ['behavior', 'resource']:
         refs[side] = read(world / ('world_' + side + '_packs.json'))
@@ -351,7 +356,7 @@ def live_inventory():
         # World references can resolve to BDS-global packs. Resolve the complete
         # identity once; a world/global collision is ambiguous, never priority.
         searched = set()
-        for directory in [world / (side + '_packs'), B / (side + '_packs')]:
+        for directory in [world / (side + '_packs'), bds / (side + '_packs')]:
             if directory.resolve() in searched or not directory.is_dir():
                 continue
             searched.add(directory.resolve())
@@ -363,7 +368,17 @@ def live_inventory():
             matches = roots.get(ref['pack_id'], [])
             assert len(matches) == 1, ('Missing or ambiguous live UUID', ref)
             path = matches[0]
-            rows.append({'uuid': ref['pack_id'], 'side': side, 'version': ref['version'], 'path': str(path), 'files': hashes(path)})
+            files = hash_files(path)
+            row = {'uuid': ref['pack_id'], 'side': side, 'version': ref['version'],
+                   'path': str(path), 'files': files}
+            if include_manifest:
+                manifest_bytes = (path / 'manifest.json').read_bytes()
+                manifest = json.loads(manifest_bytes.decode('utf-8-sig'))
+                assert manifest['header']['uuid'] == ref['pack_id'], 'Installed UUID changed during inventory: ' + ref['pack_id']
+                files['manifest.json'] = hashlib.sha256(manifest_bytes).hexdigest()
+                row.update(version=manifest['header']['version'], modules=manifest['modules'],
+                           dependencies=manifest.get('dependencies', []))
+            rows.append(row)
     return {'packs': rows, 'refs': refs}
 
 
