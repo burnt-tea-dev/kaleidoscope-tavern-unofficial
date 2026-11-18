@@ -447,6 +447,24 @@ def orchestration_hashes():
     return {str(path.relative_to(ENTRY.parent)): sha(path) for path in paths if not path.name.startswith('test_')}
 
 
+def verify_cleanup_runner():
+    from family_update.repository_identity import current_name, verify_remote as verify_repository
+    from family_update.github_reads import api_json
+
+    target = read(T / '.repo-target.json')
+    repository = read(T / 'baseline.json')['repository']
+    expected = verify_repository(api_json('repos/' + current_name(repository)), repository)
+    assert all(target[key] == expected[key] for key in ['repository', 'repository_id', 'private', 'owner']), 'Cleanup runner repository identity changed'
+    assert git(T, 'remote', 'get-url', 'origin').removesuffix('.git') == 'https://github.com/' + expected['repository'], 'Cleanup runner remote differs'
+    git(T, 'fetch', '--no-tags', 'origin', 'main')
+    remote_head = git(T, 'rev-parse', 'refs/remotes/origin/main')
+    for relative, digest in orchestration_hashes().items():
+        assert sha(T / 'tools' / relative) == digest, 'Running cleanup tool differs from canonical: ' + relative
+        raw = subprocess.check_output(['git', '-C', str(T), 'show', remote_head + ':tools/' + relative])
+        assert hashlib.sha256(raw).hexdigest() == digest, 'Cleanup runner is not the reviewed merged tool: ' + relative
+    assert Path(sys.executable).absolute() == PY, f'Run the command with the configured interpreter: {PY}'
+
+
 def verify_canonical_runner(*, lease_bound=False):
     # A reviewable worktree can plan, but only committed canonical tool bytes
     # may execute a release. Copying the CLI elsewhere does not bypass this.
