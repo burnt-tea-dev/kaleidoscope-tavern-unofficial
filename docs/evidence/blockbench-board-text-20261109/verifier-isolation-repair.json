@@ -1,0 +1,66 @@
+{
+  "kind": "N06 CLI input/output isolation repair; no new visual acceptance",
+  "publication_base_commit": "e47978d1fc4d27048e20792f0c4368ce2f263a82",
+  "runtime_version_unchanged": "0.6.217",
+  "old_validator_sha256": "1853e042b74553db2fe85641b35554181e546885020b1b180de414f298cd9564",
+  "repaired_validator_sha256": "15c290a1b415bab9e780926366dd1635e2107ed1c260ee53ca971fa1ec0df130",
+  "old_direct_artifact_manifest_sha256": "6a8ddf0bca241d749ecccbf8d2b5f00c048c054e12e025fae748c1264681535d",
+  "historical_defect": {
+    "source_fixture": "Owned non-Git plain copy of exactly 285 unchanged plus seven changed-host receipt inputs; no canonical inputs modified",
+    "cases": [
+      {
+        "case": "work-inside-repository",
+        "old_exit_code": 0,
+        "added_files": 84,
+        "existing_input_files_changed": 0,
+        "stdout_sha256": "73112dfa85c05a43f8a1313ab3465a56278945c060da6e9fb26c75e821f567b5"
+      },
+      {
+        "case": "report-inside-repository",
+        "old_exit_code": 0,
+        "added_files": 1,
+        "existing_input_files_changed": 0,
+        "stdout_sha256": "73112dfa85c05a43f8a1313ab3465a56278945c060da6e9fb26c75e821f567b5"
+      }
+    ],
+    "cause": "The old CLI excluded the evidence package and Git output ancestors, but never protected the --repository root before output creation.",
+    "temporary_directory_risk": "The old default called tempfile.TemporaryDirectory without a preflight; parent selection may probe-write before returning."
+  },
+  "repair": [
+    "Normalize and reject symlink/traversal input roots before any output creation; --repository must exist and be a directory.",
+    "Reject explicit outputs equal to, within, or covering the package or entire source root, including non-Git trees; retain Git and output-pair exclusions.",
+    "Choose the prospective automatic child without tempfile probe writes; validate it and the report before mkdir. First nonempty TMPDIR/TEMP/TMP, otherwise /tmp, fails closed if unusable.",
+    "Create automatic work privately (0700 subject to umask), and remove only that created directory after success or validation error. Preserve explicit work-directory behavior."
+  ],
+  "bounded_regression": {
+    "command": "python -B docs/evidence/blockbench-board-text-20261109/test_verifier_boundaries.py",
+    "test_methods": 13,
+    "posix_cli_rejection_cases": 41,
+    "result": "PASS",
+    "log_sha256": "bc3ce56dab1bf633c2caf4cbedbaa68ef8bbe6708ffa43cefc5f9def175d2d58",
+    "assurance": "Each CLI rejection exits 1 with no write audit events, unchanged file/link/directory fixture inventory and no requested outputs. Covers protected roots, descendants, ancestors, aliases, Git, existing outputs, traversal, missing/non-directory sources, TMPDIR/TEMP/TMP, optimization and FIFO. Separate tests cover safe common temporary parent, automatic report/work overlap, cleanup and private permissions."
+  },
+  "unchanged_evidence": {
+    "archive-entries.json": "1fd0029e460dbf361de03b3bbaed9e83460417da96b76d91d5eff164b7a92174",
+    "archives/inputs-01.zip": "c7ca440348d856a48e8c70307992b58f9b7f4392da75894cd63adf516a0ff45b",
+    "archives/inputs-02.zip": "e19d01ff993e1252c218c47863d7c7c5890eccf2364314001dea3dd3a24038f8",
+    "current-input-verification.json": "66859afe83cdeceb6db583716b2071d9ffe300c6471935315d94b4a5558c36cd",
+    "gui/evidence-sha256.json": "349e724840388eb7edbac8eba42ca78c771987364fad565d67e740689dd9e5b2",
+    "gui/gui-receipt.json": "81148c6cc236b428657505a3879c2359457d304900627e90bb0be6db40e4b0de"
+  },
+  "unchanged_scope": "Original ZIP members, all 28 raw JPEGs, historical capture/current-input receipts, numerical replay algorithms and all runtime/release files remain byte-identical. The CLI isolation defect does not invalidate the historical rendered observations; native rendering and Java Font limits remain unchanged.",
+  "review_base_commit": "1e991be7f64fd7227fd2586491e43c430bc650c3",
+  "base_reuse": {
+    "previous_tested_candidate_base_commit": "e47978d1fc4d27048e20792f0c4368ce2f263a82",
+    "current_review_base_commit": "1e991be7f64fd7227fd2586491e43c430bc650c3",
+    "source_package_tree": "2bd1340d742820665b80f712479ede59ebfd07dd",
+    "source_package_matches_original_publication_byte_for_byte": true,
+    "checked_receipt_input_files_unchanged": 292,
+    "runtime_tree_unchanged": "5963fd5dbbd9cd79c8315e2be104f42c5d0bf15b",
+    "runtime_version_unchanged": "0.6.217",
+    "validator_and_boundary_tests_unchanged": true,
+    "prior_bounded_tests_and_replays_reused": true,
+    "tests_rerun_after_base_refresh": false,
+    "scope": "The exact tested five-file delta was applied to current main. Only this base-reuse metadata and its direct artifact checksum were refreshed afterward. Prior test logs remain unchanged; independent review is pending."
+  }
+}

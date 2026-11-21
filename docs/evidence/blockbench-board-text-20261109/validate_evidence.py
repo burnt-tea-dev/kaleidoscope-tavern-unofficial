@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Offline, read-only validation of N06 evidence. No historical scripts are executed."""
-import argparse, base64, gzip, hashlib, json, math, os, re, stat, struct, sys, tempfile, zipfile, zlib
+import argparse, base64, gzip, hashlib, json, math, os, re, shutil, stat, struct, sys, uuid, zipfile, zlib
 from pathlib import Path, PurePosixPath
 MAX_FILE = 16 * 1024 * 1024
 MAX_TOTAL = 128 * 1024 * 1024
@@ -66,10 +66,16 @@ def no_links(path):
     return path
 
 
-def new_output(path, package):
-    p = no_links(path)
+def overlaps(a, b):
+    return a == b or a in b.parents or b in a.parents
+
+
+def new_output(path, package, repository=None):
+    p = no_links(path).resolve()
+    for label, root in (('package', package), ('repository', repository)):
+        if root is not None:
+            require(not overlaps(p, root), 'output overlaps ' + label)
     require(not p.exists(), 'output already exists')
-    require(package != p and package not in p.parents and p not in package.parents, 'output overlaps package')
     for parent in p.parents:
         marker = parent / '.git'
         require(not (marker.is_file() or (marker.is_dir() and (marker/'HEAD').is_file())), 'output is inside a Git checkout')
@@ -320,14 +326,20 @@ def validate(root, work, repository=None):
 def main():
     require(sys.flags.optimize==0 and not os.environ.get('PYTHONOPTIMIZE'),'optimized Python is unsupported')
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--repository',type=Path);parser.add_argument('--work-dir',type=Path);parser.add_argument('--report',type=Path);args=parser.parse_args()
-    root=no_links(Path(__file__).absolute().parent)
-    report=new_output(args.report,root) if args.report else None
-    if args.work_dir:
-        work=new_output(args.work_dir,root)
-        require(not report or (report!=work and work not in report.parents and report not in work.parents),'outputs overlap')
-        work.mkdir(); result=validate(root,work,args.repository)
-    else:
-        with tempfile.TemporaryDirectory(prefix='n06-portable-') as tmp:result=validate(root,Path(tmp),args.repository)
+    root=no_links(Path(__file__).absolute().parent).resolve(strict=True)
+    repository=no_links(args.repository).resolve(strict=True) if args.repository is not None else None
+    require(repository is None or repository.is_dir(), 'repository is not a directory')
+    report=new_output(args.report,root,repository) if args.report else None
+    # gettempdir()/TemporaryDirectory() can probe-write before returning a path.
+    # Choose and check the prospective child before any directory or file creation.
+    temp_parent=next((os.environ[name] for name in ('TMPDIR','TEMP','TMP') if os.environ.get(name)), '/tmp')
+    destination=args.work_dir if args.work_dir else Path(temp_parent)/('n06-portable-'+uuid.uuid4().hex)
+    work=new_output(destination,root,repository)
+    require(report is None or not overlaps(report,work),'outputs overlap')
+    work.mkdir(mode=0o700 if args.work_dir is None else 0o777)
+    try:result=validate(root,work,repository)
+    finally:
+        if args.work_dir is None:shutil.rmtree(work)
     payload=json.dumps(result,indent=2,allow_nan=False)+'\n'
     if report:
         with report.open('x') as f:f.write(payload)
