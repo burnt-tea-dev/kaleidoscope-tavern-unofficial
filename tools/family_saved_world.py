@@ -29,7 +29,7 @@ def move_owners(compound,mapping):
         del compound[old];changes+=1
     return changes
 
-def transform(raw,mapping,world_properties=False,*,sequence=False,state_rules=None):
+def transform(raw,mapping,world_properties=False,*,sequence=False,state_rules=None,item_blocks_only=False):
     import nbtlib
     from author_state_migration import StrictNBTStream
     stream=StrictNBTStream(raw);changes=0;state_changes=0;parts=[]
@@ -49,8 +49,9 @@ def transform(raw,mapping,world_properties=False,*,sequence=False,state_rules=No
         visit(tag)
         converted=0
         if state_rules:
-            from author_state_migration import visit_blocks
-            converted=visit_blocks(tag,state_rules);state_changes+=converted
+            from author_state_migration import visit_blocks,visit_item_blocks
+            visit_states=visit_item_blocks if item_blocks_only else visit_blocks
+            converted=visit_states(tag,state_rules);state_changes+=converted
         parts.append(encode(tag) if changes!=previous or converted else raw[start:end])
     if not parts:raise ValueError('empty NBT record')
     result=(b''.join(parts) if changes or state_changes else raw,changes)
@@ -74,17 +75,48 @@ def has_inventory_items(tag):
             if int(item.get('Count',0))!=0 or str(item.get('Name','')):return True
     return False
 
-def migrate(source,output,mapping,retire_empty=(),*,state_profile=None):
+def migrate_structure_files(output, rules, package_roots):
+    from author_state_migration import transform_structure
+    markers = tuple(name.encode() for name in rules)
+    changed_files = []
+    for root in (output, *package_roots):
+        for path in sorted(root.rglob('*.mcstructure')):
+            relative = path.relative_to(root)
+            copied_pack = root == output and relative.parts[0] in {'behavior_packs', 'resource_packs'}
+            if copied_pack and package_roots:
+                continue  # The caller supplied the complete effective package selection.
+            raw = path.read_bytes()
+            if raw[:1] != b'\x0a':
+                raise ValueError(f'Unsupported Bedrock structure encoding: {path}')
+            if not any(marker in raw for marker in markers):
+                continue
+            changed, count = transform_structure(raw, rules)
+            if not count:
+                continue
+            if root != output or copied_pack:
+                raise ValueError(f'Package structure requires conversion by its source owner: {path}')
+            path.write_bytes(changed)
+            changed_files.append({'path': relative.as_posix(), 'block_states': count})
+    return changed_files
+
+
+def migrate(source,output,mapping,retire_empty=(),*,state_profile=None,package_roots=()):
     from leveldb import LevelDB
     import nbtlib
     source=Path(source).resolve();output=Path(output).resolve()
     if output.exists() or output==source or source in output.parents:raise ValueError('use a new independent world copy')
-    if not mapping or len(set(mapping.values()))!=len(mapping) or set(mapping)&set(mapping.values()):raise ValueError('invalid/chained UUID mapping')
+    if (not mapping and state_profile is None) or len(set(mapping.values()))!=len(mapping) or set(mapping)&set(mapping.values()):raise ValueError('invalid/chained UUID mapping')
     state_rules=None
+    deco_states=False
     if state_profile is not None:
-        from author_state_migration import validate_profile,transform_subchunk
+        from author_state_migration import DECO_TABLECLOTH,validate_profile,transform_subchunk,transform_structure
         state_rules=validate_profile(state_profile)
+        deco_states=state_profile['kind']==DECO_TABLECLOTH
+    if package_roots and not deco_states:
+        raise ValueError('structure package scan requires a Deco state profile')
+    package_roots=tuple(Path(root).resolve(strict=True) for root in package_roots)
     shutil.copytree(source,output)
+    structure_files=migrate_structure_files(output,state_rules,package_roots) if deco_states else []
     db=LevelDB(str(output/'db'));records=[];retired=[];pointers=[]
     try:
         before=fingerprint(db)
@@ -103,9 +135,12 @@ def migrate(source,output,mapping,retire_empty=(),*,state_profile=None):
             has_states=any(name in raw for name in state_markers)
             if has_states and len(key) in (10,14) and key[-2]==0x2f:
                 changed,converted=transform_subchunk(raw,state_rules)
+            elif deco_states and key.startswith(b'structuretemplate_'):
+                changed,converted=transform_structure(raw,state_rules)
             elif any(uid in raw for uid in markers) or has_states:
                 block_actors=len(key) in (9,13) and key[-1]==0x31
-                result=transform(raw,mapping,key==b'DynamicProperties',sequence=block_actors,state_rules=state_rules)
+                result=transform(raw,mapping,key==b'DynamicProperties',sequence=block_actors,
+                                 state_rules=state_rules,item_blocks_only=deco_states)
                 changed,count=result[:2]
                 if state_rules is not None:converted=result[2]
             if count or converted:
@@ -128,6 +163,7 @@ def migrate(source,output,mapping,retire_empty=(),*,state_profile=None):
         return {'schema':1,'source':str(source),'output':str(output),'uuid_mapping':mapping,
             'before':before,'after':after,'changed_records':records,'retired_empty_entities':retired,
             'block_state_profile':state_profile,'block_states_migrated':sum(r['block_states'] for r in records),
+            'structure_files_changed':structure_files,
             'entity_index_records_changed':len(updates)-len(records),'unrelated_records_preserved':True,
             'client':False,'native_loading':False,'saved_world_migration':False}
     finally:db.close()
@@ -137,7 +173,14 @@ def main():
     parser.add_argument('--source',type=Path,required=True);parser.add_argument('--output',type=Path,required=True)
     parser.add_argument('--mapping',type=Path,required=True);parser.add_argument('--report',type=Path,required=True)
     parser.add_argument('--retire-empty-entity',action='append',default=[])
-    args=parser.parse_args();result=migrate(args.source,args.output,json.loads(args.mapping.read_text()),args.retire_empty_entity)
+    parser.add_argument('--state-profile',type=Path)
+    parser.add_argument('--package-root',type=Path,action='append',default=[],
+                        help='Effective pack directory, repeated for the complete selection. '
+                             'Omit to scan the package directories in the copied backup.')
+    args=parser.parse_args()
+    profile=json.loads(args.state_profile.read_text()) if args.state_profile else None
+    result=migrate(args.source,args.output,json.loads(args.mapping.read_text()),args.retire_empty_entity,
+                   state_profile=profile,package_roots=args.package_root)
     args.report.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
     print(json.dumps({'changed_records':len(result['changed_records']),'retired_empty_entities':len(result['retired_empty_entities']),'saved_world_migration':False}))
 if __name__=='__main__':main()

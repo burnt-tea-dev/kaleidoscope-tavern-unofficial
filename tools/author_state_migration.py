@@ -10,6 +10,11 @@ import nbtlib
 from bedrock_nbt import encode_root, parse_root
 
 PREFIX = 'kaleidoscope_cookery:'
+DECO_TABLECLOTH = 'deco_tablecloth_states'
+DECO_PREFIX = 'kaleidoscope_deco:'
+CARDINAL = 'minecraft:cardinal_direction'
+TABLE_WOOD = ('acacia', 'bamboo', 'birch', 'cherry', 'crimson', 'dark_oak',
+              'jungle', 'mangrove', 'oak', 'pale_oak', 'spruce', 'warped')
 COLORS = ('white', 'orange', 'magenta', 'light_blue', 'yellow', 'lime', 'pink',
           'gray', 'light_gray', 'cyan', 'purple', 'blue', 'brown', 'green', 'red', 'black')
 
@@ -25,13 +30,32 @@ class StrictNBTStream(io.BytesIO):
 
 def validate_profile(profile):
     kind = profile.get('kind')
-    if profile.get('schema') != 1 or kind not in ('cookery161_nether102_states', 'cookery162_nether103_states'):
+    if profile.get('schema') != 1 or kind not in (
+            'cookery161_nether102_states', 'cookery162_nether103_states', DECO_TABLECLOTH):
         raise ValueError('unreviewed author state profile')
     rules = profile.get('blocks', [])
-    if len(rules) != 28 or len({r['identifier'] for r in rules}) != 28:
-        raise ValueError('author state migration requires all 28 reviewed definitions')
+    expected_count = len(TABLE_WOOD) if kind == DECO_TABLECLOTH else 28
+    identifiers = {row['identifier'] for row in rules}
+    if len(rules) != expected_count or len(identifiers) != expected_count:
+        raise ValueError(f'author state migration requires all {expected_count} reviewed definitions')
+    if kind == DECO_TABLECLOTH and identifiers != {
+            f'kaleidoscope_deco:{wood}_dining_table' for wood in TABLE_WOOD}:
+        raise ValueError('author state migration requires the twelve reviewed Deco table IDs')
     for row in rules:
-        if kind == 'cookery162_nether103_states':
+        if kind == DECO_TABLECLOTH:
+            before, after = row['before_states'], row['after_states']
+            color = DECO_PREFIX + 'table_carpet'
+            presence = DECO_PREFIX + 'has_carpet'
+            slot = DECO_PREFIX + 'table_carpet_slot'
+            bank = DECO_PREFIX + 'table_carpet_bank'
+            expected = {state: values for state, values in before.items() if state not in (color, presence)}
+            expected[slot] = list(range(9))
+            expected[bank] = [0, 1]
+            if (row['conversion'] != kind or after != expected or slot in before or bank in before
+                    or before.get(color) != list(COLORS) or before.get(presence) != [False, True]
+                    or before.get(CARDINAL) != ['north', 'south', 'east', 'west']):
+                raise ValueError('Deco table conversion must only fold tablecloth presence and color')
+        elif kind == 'cookery162_nether103_states':
             if row['conversion'] != 'identity' or row['before_states'] != row['after_states']:
                 raise ValueError('current author state profile must preserve reviewed domains')
         elif row['conversion'] not in ('chair_carpet', 'table_carpet', 'basin_oil', 'board_mode'):
@@ -71,12 +95,13 @@ def convert_block(node, rules):
     if (set(after) - set(before)).intersection(states):
         raise ValueError('mixed old/new author state encoding')
     kind = rule['conversion']
-    if kind in ('chair_carpet', 'table_carpet'):
+    if kind in ('chair_carpet', 'table_carpet', DECO_TABLECLOTH):
+        prefix = DECO_PREFIX if kind == DECO_TABLECLOTH else PREFIX
         stem = 'chair' if kind == 'chair_carpet' else 'table'
-        color = PREFIX + ('carpet_color' if stem == 'chair' else 'table_carpet')
-        status = COLORS.index(str(states[color])) + 1 if states[PREFIX + 'has_carpet'] else 0
-        states[PREFIX + stem + '_carpet_slot'] = nbtlib.Int(status % 9)
-        states[PREFIX + stem + '_carpet_bank'] = nbtlib.Int(status // 9)
+        color = prefix + ('carpet_color' if stem == 'chair' else 'table_carpet')
+        status = COLORS.index(str(states[color])) + 1 if states[prefix + 'has_carpet'] else 0
+        states[prefix + stem + '_carpet_slot'] = nbtlib.Int(status % 9)
+        states[prefix + stem + '_carpet_bank'] = nbtlib.Int(status // 9)
     elif kind == 'basin_oil':
         amount = 32 if states[PREFIX + 'oil_full'] else int(states[PREFIX + 'oil_low']) + (16 if states[PREFIX + 'oil_high'] else 0)
         states[PREFIX + 'oil_low'] = nbtlib.Int(amount % 11)
@@ -103,6 +128,45 @@ def visit_blocks(node, rules):
         for value in node:
             changes += visit_blocks(value, rules)
     return changes
+
+
+def visit_item_blocks(node, rules):
+    """Visit typed ItemStack.Block fields, including items inside other items."""
+    if isinstance(node, nbtlib.List):
+        return sum(visit_item_blocks(item, rules) for item in node)
+    if not isinstance(node, nbtlib.Compound):
+        return 0
+    changed = 0
+    block = node.get('Block')
+    if (isinstance(block, nbtlib.Compound) and str(block.get('name', '')) in rules
+            and ('Name' in node or 'Count' in node)):
+        if (type(node.get('Name')) is not nbtlib.String or type(node.get('Count')) is not nbtlib.Byte
+                or node['Name'] != block['name']):
+            raise ValueError('invalid typed ItemStack for reviewed table Block')
+        changed = convert_block(block, rules)
+    return changed + sum(visit_item_blocks(value, rules) for value in node.values())
+
+
+def transform_structure(raw, rules):
+    stream = StrictNBTStream(raw)
+    root = parse_root(stream)
+    if stream.tell() != len(raw):
+        raise ValueError('structure contains an unparsed NBT suffix')
+    if root.get('compression', 0) != 0:
+        raise ValueError('unsupported saved structure compression')
+    structure = root.get('structure')
+    palettes = structure.get('palette') if isinstance(structure, nbtlib.Compound) else None
+    if not isinstance(palettes, nbtlib.Compound) or not palettes:
+        raise ValueError('missing saved structure palettes')
+    changed = 0
+    for palette in palettes.values():
+        if (not isinstance(palette, nbtlib.Compound)
+                or not isinstance(palette.get('block_palette'), nbtlib.List)
+                or palette['block_palette'].subtype is not nbtlib.Compound):
+            raise ValueError('invalid saved structure block palette')
+        changed += sum(convert_block(block, rules) for block in palette['block_palette'])
+    changed += visit_item_blocks(structure, rules)
+    return (encode_root(root), changed) if changed else (raw, 0)
 
 
 def transform_subchunk(raw, rules, observer=None):
