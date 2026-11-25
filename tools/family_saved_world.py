@@ -81,6 +81,10 @@ def migrate_structure_files(output, rules, package_roots):
     changed_files = []
     for root in (output, *package_roots):
         for path in sorted(root.rglob('*.mcstructure')):
+            relative = path.relative_to(root)
+            copied_pack = root == output and relative.parts[0] in {'behavior_packs', 'resource_packs'}
+            if copied_pack and package_roots:
+                continue  # The caller supplied the complete effective package selection.
             raw = path.read_bytes()
             if raw[:1] != b'\x0a':
                 raise ValueError(f'Unsupported Bedrock structure encoding: {path}')
@@ -89,8 +93,7 @@ def migrate_structure_files(output, rules, package_roots):
             changed, count = transform_structure(raw, rules)
             if not count:
                 continue
-            relative = path.relative_to(root)
-            if root != output or relative.parts[0] in {'behavior_packs', 'resource_packs'}:
+            if root != output or copied_pack:
                 raise ValueError(f'Package structure requires conversion by its source owner: {path}')
             path.write_bytes(changed)
             changed_files.append({'path': relative.as_posix(), 'block_states': count})
@@ -171,7 +174,9 @@ def main():
     parser.add_argument('--mapping',type=Path,required=True);parser.add_argument('--report',type=Path,required=True)
     parser.add_argument('--retire-empty-entity',action='append',default=[])
     parser.add_argument('--state-profile',type=Path)
-    parser.add_argument('--package-root',type=Path,action='append',default=[])
+    parser.add_argument('--package-root',type=Path,action='append',default=[],
+                        help='Effective pack directory, repeated for the complete selection. '
+                             'Omit to scan the package directories in the copied backup.')
     args=parser.parse_args()
     profile=json.loads(args.state_profile.read_text()) if args.state_profile else None
     result=migrate(args.source,args.output,json.loads(args.mapping.read_text()),args.retire_empty_entity,
