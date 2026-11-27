@@ -107,16 +107,18 @@ def migrate(source,output,mapping,retire_empty=(),*,state_profile=None,package_r
     if output.exists() or output==source or source in output.parents:raise ValueError('use a new independent world copy')
     if (not mapping and state_profile is None) or len(set(mapping.values()))!=len(mapping) or set(mapping)&set(mapping.values()):raise ValueError('invalid/chained UUID mapping')
     state_rules=None
-    deco_states=False
+    structure_states=False
     if state_profile is not None:
-        from author_state_migration import DECO_TABLECLOTH,validate_profile,transform_subchunk,transform_structure
+        from author_state_migration import (
+            DECO_TABLECLOTH, TEA_BANNER_MOUNT, transform_structure, transform_subchunk, validate_profile,
+        )
         state_rules=validate_profile(state_profile)
-        deco_states=state_profile['kind']==DECO_TABLECLOTH
-    if package_roots and not deco_states:
-        raise ValueError('structure package scan requires a Deco state profile')
+        structure_states=state_profile['kind'] in (DECO_TABLECLOTH, TEA_BANNER_MOUNT)
+    if package_roots and not structure_states:
+        raise ValueError('structure package scan requires a Deco table or Cookery tea banner state profile')
     package_roots=tuple(Path(root).resolve(strict=True) for root in package_roots)
     shutil.copytree(source,output)
-    structure_files=migrate_structure_files(output,state_rules,package_roots) if deco_states else []
+    structure_files=migrate_structure_files(output,state_rules,package_roots) if structure_states else []
     db=LevelDB(str(output/'db'));records=[];retired=[];pointers=[]
     try:
         before=fingerprint(db)
@@ -135,12 +137,12 @@ def migrate(source,output,mapping,retire_empty=(),*,state_profile=None,package_r
             has_states=any(name in raw for name in state_markers)
             if has_states and len(key) in (10,14) and key[-2]==0x2f:
                 changed,converted=transform_subchunk(raw,state_rules)
-            elif deco_states and key.startswith(b'structuretemplate_'):
+            elif structure_states and key.startswith(b'structuretemplate_'):
                 changed,converted=transform_structure(raw,state_rules)
             elif any(uid in raw for uid in markers) or has_states:
                 block_actors=len(key) in (9,13) and key[-1]==0x31
                 result=transform(raw,mapping,key==b'DynamicProperties',sequence=block_actors,
-                                 state_rules=state_rules,item_blocks_only=deco_states)
+                                 state_rules=state_rules,item_blocks_only=structure_states)
                 changed,count=result[:2]
                 if state_rules is not None:converted=result[2]
             if count or converted:
