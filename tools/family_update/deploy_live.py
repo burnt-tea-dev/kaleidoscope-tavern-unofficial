@@ -39,6 +39,8 @@ def preflight():
     elif CONFIG.get('managed_drift_recovery'):
         from family_update.managed_drift_recovery import validate_initial_status
         validate_initial_status(initial)
+    elif CONFIG.get('live_selected_repair'):
+        require_empty_running_server(initial)
     else:
         assert initial_status in {'RUNNING', 'STOPPED'}, 'Live must initially be RUNNING or STOPPED; wait for an in-progress lifecycle operation'
     assert sha(Q / 'family_guard.py') == sha(T / 'tools/family_guard.py'), 'BSM guard differs from canonical; investigate, never silently replace'
@@ -66,6 +68,11 @@ def preflight():
         allocation += allocated(trusted)
     require_space(R, "Stopped backup and saved-world rehearsal", allocation)
     return original,receipt,initial_status
+
+def require_empty_running_server(state):
+    assert state['name'] == SERVER and state['status'] == 'RUNNING', 'Selected repair needs a running server or the normal idle handoff'
+    assert type(state['player_count']) is int and state['player_count'] == 0, 'Selected repair needs a confirmed empty server'
+
 
 def acquire_lease(receipt):
     old = lease_available()
@@ -135,6 +142,13 @@ def finalize_receipt():
         reports.extend(str(EXTENSION / row['path']) for row in review['proofs'])
         if review.get('allow_initially_stopped'):
             reports.append(str(EXTENSION / review['stopped_server_review']['evidence']['path']))
+    if CONFIG.get('live_selected_repair'):
+        from family_update.selected_repair import review
+        selected, binding = review()
+        reports.append(binding['path'])
+        for key in ('observed_sources', 'replacements'):
+            reports.extend(str(EXTENSION / row['evidence']['path']) for row in selected[key].values())
+        assert not saved.get('world_experiments', {}).get('changed_flags'), 'Selected repair must preserve the world experiments'
     if CONFIG.get('normal_idle_update'):
         reports.extend([CONFIG['normal_idle_update'], 'deployment-initial-state.json'])
     elif CONFIG.get('fresh_world'):
@@ -168,6 +182,10 @@ def installation_selection(receipt,original):
         from family_update.managed_drift_recovery import global_relocations,verify_local_target
         relocations=global_relocations(original)
         local_targets=verify_local_target(receipt,original)
+    if CONFIG.get('live_selected_repair'):
+        from family_update.selected_repair import review
+        selected, _ = review()
+        local_targets = set(selected['replacements'])
     curated_targets=set()
     if CONFIG.get('extension_stable_validation'):
         from family_update.current_author_validation import installation_targets
@@ -253,7 +271,8 @@ def prepare_admission(receipt,original):
         from family_update.managed_drift_recovery import validate_target
         additions.update(validate_target(receipt,original,migration))
     sources=[] if CONFIG.get('fresh_world') else installation_sources(family,original,migration,additions)
-    policy['managed_uuids']=sorted(set(policy['managed_uuids'])|{p['uuid'] for p in family})
+    managed = receipt['packs'] if CONFIG.get('live_selected_repair') else family
+    policy['managed_uuids']=sorted(set(policy['managed_uuids'])|{p['uuid'] for p in managed})
     policy['upstream_lock_sha256']=sha(T/'family/upstream.lock.json')
     policy['reviewed_targets']=[{'name':name,'canonical_path':str(SOURCES[name]),'commit':row['commit'],'tree':row['tree']} for name,row in read(R/'build-evidence.json')['sources'].items() if name in SOURCES]
     note = 'Canonical merged sources; static, clean fresh-world initialization and same-world save/restart; old world retained for rollback, no migration claimed.' if CONFIG.get('fresh_world') else 'Canonical merged sources; complete static, native BDS and fresh stopped-world rehearsal; automated functional validation recorded.'
@@ -272,9 +291,20 @@ def restore_packs(original,retired,installed):
         if dest.exists(): shutil.rmtree(dest)
     for src,dest in reversed(retired):
         if src.exists(): os.replace(src,dest)
-    for side,refs in original['refs'].items(): atomic(W/('world_'+side+'_packs.json'),refs)
+    for side, refs in original['refs'].items():
+        name = 'world_' + side + '_packs.json'
+        if CONFIG.get('live_selected_repair'):
+            saved = R / 'production-snapshot' / name
+            backup = read(R / 'production-before/backup-receipt.json')
+            assert sha(saved) == backup['files'][name], 'Original selection backup changed: ' + name
+            shutil.copy2(saved, W / name)
+        else:
+            atomic(W / name, refs)
     shutil.copy2(R/'production-before/senluo-policy.json',Q/'senluo-policy.json')
-    check_live_against_policy(original)
+    if CONFIG.get('live_selected_repair'):
+        verify_original_before_restart(original)
+    else:
+        check_live_against_policy(original)
 
 def verify_original_before_restart(original):
     if CONFIG.get('managed_drift_recovery'):
@@ -294,7 +324,12 @@ def recover_after_failure(original,changed,retired,installed,rollback_failed=Fal
             if summary()['status']!='STOPPED':action('stop')
             assert summary()['status']=='STOPPED', 'World feature migration must remain stopped after a failed deployment'
             raise RecoveryRequired('Rehearsed world experiment adoption began; retain the compatible candidate and newest save stopped. The original complete backup remains available for reviewed recovery.')
-        if retain_stopped_on_failure():
+        if CONFIG.get('live_selected_repair') and not changed and not CONFIG.get('normal_idle_update'):
+            phase = 'selected_repair_before_candidate_start'
+            if not rollback_failed:
+                verify_original_before_restart(original)
+            raise RecoveryRequired('No candidate start was requested. Leave the server in its observed state for deployment owner recovery.')
+        if retain_stopped_on_failure() or CONFIG.get('live_selected_repair'):
             phase='retain_stopped_without_package_or_database_restore'
             if summary()['status']!='STOPPED': action('stop')
             assert summary()['status']=='STOPPED', 'Failed stopped-state update must remain stopped'
@@ -477,7 +512,11 @@ def install(receipt,original):
         adopt_world(receipt,original)
         from family_update.world_experiments import adopt as adopt_experiments, required as required_experiments
         experiment_transition=adopt_experiments(read(R/'saved-world-report.json')) if required_experiments() else None
-        policy['installed']={'status':'deployed','receipt':str(R/'reviewed-family-receipt.json'),'receipt_sha256':sha(R/'reviewed-family-receipt.json'),'installed_at':now(),'packs':[{**p,'directory':p['uuid']} for p in family],'refs':{side:[p for p in read(W/('world_'+side+'_packs.json')) if p['pack_id'] in policy['managed_uuids']] for side in ['behavior','resource']}}
+        installed_packs = [{**p, 'directory': p['uuid']} for p in family]
+        if CONFIG.get('live_selected_repair'):
+            installed_packs.extend({**p, 'directory': Path(prior[uid]['path']).name}
+                                   for uid, p in foreign.items())
+        policy['installed']={'status':'deployed','receipt':str(R/'reviewed-family-receipt.json'),'receipt_sha256':sha(R/'reviewed-family-receipt.json'),'installed_at':now(),'packs':installed_packs,'refs':{side:[p for p in read(W/('world_'+side+'_packs.json')) if p['pack_id'] in policy['managed_uuids']] for side in ['behavior','resource']}}
         policy['hold_reason']='來源、引擎與保存驗證完成；人工觀察為補充資料。'
         atomic(Q/'senluo-policy.json',policy)
         drift=G['audit'](W,policy); assert drift['ok']; atomic(R/'production-drift.json',drift)
@@ -542,7 +581,10 @@ def main(argv=None):
                 from family_update.managed_drift_recovery import prepare_rollback
                 prepare_rollback(original)
             print(f'Preparing {SERVER} for a fresh stopped backup and saved-world rehearsal',flush=True)
-            if summary()['status']!='STOPPED':
+            state = summary()
+            if CONFIG.get('live_selected_repair') and not CONFIG.get('normal_idle_update'):
+                require_empty_running_server(state)
+            if state['status'] != 'STOPPED':
                 action('stop')
             assert summary()['status']=='STOPPED'; verify_predeploy()
             # Admit the larger native ceiling only after normal production stop.

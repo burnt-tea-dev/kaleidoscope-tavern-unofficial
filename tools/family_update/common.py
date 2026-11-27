@@ -384,6 +384,10 @@ def pack_inventory(world, bds, *, include_manifest=False, hash_files=None):
 
 def check_live_against_policy(inventory):
     policy = read(Q / 'senluo-policy.json')
+    if CONFIG.get('live_selected_repair'):
+        from family_update.selected_repair import inputs
+        inputs(inventory, policy)
+        return policy
     if CONFIG.get('fresh_world') and active_world() == W:
         # Observed old bytes are backed up, never admitted or selected as inputs.
         return policy
@@ -441,6 +445,10 @@ def external_input_hashes():
     if CONFIG.get('preinstall_recovery_output'):
         from family_update.preinstall_recovery import input_refs as preinstall_inputs
         result.update(preinstall_inputs())
+    if CONFIG.get('live_selected_repair'):
+        from family_update.selected_repair import review
+        _, binding = review()
+        result['live_selected_repair'] = binding['sha256']
     from family_update.normal_idle_update import input_refs as normal_idle_inputs
     result.update(normal_idle_inputs())
     return result
@@ -526,6 +534,10 @@ def verify_candidate_sources():
         assert sha(T / 'tools' / name) == digest, 'Canonical tool changed: ' + name
     assert sha(C / 'family-receipt.json') == evidence['candidate_receipt_sha256'], 'Assembled receipt changed'
     receipt = read(C / 'family-receipt.json')
+    if CONFIG.get('live_selected_repair'):
+        from family_update.selected_repair import verify_candidate
+        verify_candidate(receipt, read(R / 'production-before/inventory.json'),
+                         read(R / 'production-before/senluo-policy.json'))
     if CONFIG.get('managed_drift_recovery'):
         from family_update.managed_drift_recovery import verify_owner_accepted_inputs
         verify_owner_accepted_inputs(receipt, read(R / 'production-before/inventory.json'))
