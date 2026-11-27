@@ -232,4 +232,69 @@ class AuthorStateMigrationTests(unittest.TestCase):
   self.assertTrue(verify(inspection,inspection,reply*2,expected)['ok'])
   self.assertFalse(verify(inspection,inspection,reply*3,expected)['ok'])
 
+class TeaBannerMigrationTests(unittest.TestCase):
+    identifier = 'kaleidoscope_cookery:tea_banner'
+    face = 'minecraft:block_face'
+    cardinal = 'minecraft:cardinal_direction'
+    mount = 'kaleidoscope_cookery:banner_mount'
+    color = 'kaleidoscope_cookery:banner_color'
+    pattern = 'kaleidoscope_cookery:banner_pattern'
+
+    def rules(self):
+        from author_state_migration import validate_profile
+
+        preserved = {
+            self.cardinal: ['north', 'south', 'east', 'west'],
+            self.color: list(range(16)),
+            self.pattern: ['tea', 'creeper', 'skull', 'flower', 'mojang', 'globe', 'piglin', 'flow', 'guster'],
+        }
+        kind = 'cookery_tea_banner_mount_states'
+        return validate_profile({'schema': 1, 'kind': kind, 'blocks': [{
+            'identifier': self.identifier,
+            'conversion': kind,
+            'before_sha256': '0' * 64,
+            'after_sha256': '1' * 64,
+            'before_states': {self.face: ['down', 'up', *preserved[self.cardinal]], **preserved},
+            'after_states': {self.mount: ['legacy_down', 'ground', 'wall'], **preserved},
+        }]})
+
+    def palette(self, states):
+        tag = nbtlib.File({'name': nbtlib.String(self.identifier), 'states': nbtlib.Compound(states),
+                          'version': nbtlib.Int(18168865)})
+        return b'\x09\x01\xff\x00' + encode(tag)
+
+    def test_three_legacy_tea_banner_placements_keep_their_display_direction(self):
+        from author_state_migration import transform_subchunk
+
+        rules = self.rules()
+        for face, old_facing, mount, facing, color, pattern in (
+            ('south', 'east', 'wall', 'south', 15, 'guster'),
+            ('up', 'north', 'ground', 'north', 7, 'flow'),
+            ('down', 'west', 'legacy_down', 'west', 0, 'tea'),
+        ):
+            with self.subTest(face=face):
+                appearance = {self.color: nbtlib.Int(color), self.pattern: nbtlib.String(pattern)}
+                before = self.palette({self.face: nbtlib.String(face),
+                                       self.cardinal: nbtlib.String(old_facing), **appearance})
+                after = self.palette({self.cardinal: nbtlib.String(facing), **appearance,
+                                      self.mount: nbtlib.String(mount)})
+                self.assertEqual(transform_subchunk(before, rules), (after, 1))
+                self.assertEqual(transform_subchunk(after, rules), (after, 0))
+
+    def test_corrupt_tea_banner_states_are_rejected(self):
+        from author_state_migration import transform_subchunk
+
+        rules = self.rules()
+        old = {self.face: nbtlib.String('down'), self.cardinal: nbtlib.String('west'),
+               self.color: nbtlib.Int(0), self.pattern: nbtlib.String('tea')}
+        for key, value, error in (
+            (self.face, nbtlib.String('diagonal'), 'invalid reviewed block state'),
+            (self.color, nbtlib.Byte(0), 'invalid reviewed block state'),
+            (self.pattern, nbtlib.String('unknown'), 'invalid reviewed block state'),
+            (self.mount, nbtlib.String('wall'), 'mixed old/new author state encoding'),
+        ):
+            with self.subTest(key=key), self.assertRaisesRegex(ValueError, error):
+                transform_subchunk(self.palette({**old, key: value}), rules)
+
+
 if __name__=='__main__':unittest.main()

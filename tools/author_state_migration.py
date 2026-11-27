@@ -12,7 +12,10 @@ from bedrock_nbt import encode_root, parse_root
 PREFIX = 'kaleidoscope_cookery:'
 DECO_TABLECLOTH = 'deco_tablecloth_states'
 DECO_PREFIX = 'kaleidoscope_deco:'
+TEA_BANNER_MOUNT = 'cookery_tea_banner_mount_states'
+BLOCK_FACE = 'minecraft:block_face'
 CARDINAL = 'minecraft:cardinal_direction'
+BANNER_MOUNT = PREFIX + 'banner_mount'
 TABLE_WOOD = ('acacia', 'bamboo', 'birch', 'cherry', 'crimson', 'dark_oak',
               'jungle', 'mangrove', 'oak', 'pale_oak', 'spruce', 'warped')
 COLORS = ('white', 'orange', 'magenta', 'light_blue', 'yellow', 'lime', 'pink',
@@ -31,10 +34,10 @@ class StrictNBTStream(io.BytesIO):
 def validate_profile(profile):
     kind = profile.get('kind')
     if profile.get('schema') != 1 or kind not in (
-            'cookery161_nether102_states', 'cookery162_nether103_states', DECO_TABLECLOTH):
+            'cookery161_nether102_states', 'cookery162_nether103_states', DECO_TABLECLOTH, TEA_BANNER_MOUNT):
         raise ValueError('unreviewed author state profile')
     rules = profile.get('blocks', [])
-    expected_count = len(TABLE_WOOD) if kind == DECO_TABLECLOTH else 28
+    expected_count = {DECO_TABLECLOTH: len(TABLE_WOOD), TEA_BANNER_MOUNT: 1}.get(kind, 28)
     identifiers = {row['identifier'] for row in rules}
     if len(rules) != expected_count or len(identifiers) != expected_count:
         raise ValueError(f'author state migration requires all {expected_count} reviewed definitions')
@@ -55,6 +58,20 @@ def validate_profile(profile):
                     or before.get(color) != list(COLORS) or before.get(presence) != [False, True]
                     or before.get(CARDINAL) != ['north', 'south', 'east', 'west']):
                 raise ValueError('Deco table conversion must only fold tablecloth presence and color')
+        elif kind == TEA_BANNER_MOUNT:
+            before, after = row['before_states'], row['after_states']
+            color = PREFIX + 'banner_color'
+            preserved = {
+                CARDINAL: ['north', 'south', 'east', 'west'],
+                color: list(range(16)),
+                PREFIX + 'banner_pattern': ['tea', 'creeper', 'skull', 'flower', 'mojang',
+                                            'globe', 'piglin', 'flow', 'guster'],
+            }
+            if (row['identifier'] != PREFIX + 'tea_banner' or row['conversion'] != kind
+                    or before != {BLOCK_FACE: ['down', 'up', *preserved[CARDINAL]], **preserved}
+                    or after != {BANNER_MOUNT: ['legacy_down', 'ground', 'wall'], **preserved}
+                    or any(type(value) is not int for domains in (before, after) for value in domains[color])):
+                raise ValueError('tea banner conversion must only replace the reviewed placement face')
         elif kind == 'cookery162_nether103_states':
             if row['conversion'] != 'identity' or row['before_states'] != row['after_states']:
                 raise ValueError('current author state profile must preserve reviewed domains')
@@ -112,6 +129,13 @@ def convert_block(node, rules):
         # item index, cutting progress and recovery token retain their meaning.
         states[PREFIX + 'extension_board_model'] = nbtlib.Int(
             int(states[PREFIX + 'extension_board_model']) + 1 if states[PREFIX + 'board_has_food'] else 0)
+    elif kind == TEA_BANNER_MOUNT:
+        face = states[BLOCK_FACE]
+        # Legacy down uses the wall model with the ground selection box.
+        mount = {'down': 'legacy_down', 'up': 'ground'}.get(str(face), 'wall')
+        if mount == 'wall':
+            states[CARDINAL] = face
+        states[BANNER_MOUNT] = nbtlib.String(mount)
     for key in removed:
         del states[key]
     validate_states(states, after)
@@ -142,7 +166,7 @@ def visit_item_blocks(node, rules):
             and ('Name' in node or 'Count' in node)):
         if (type(node.get('Name')) is not nbtlib.String or type(node.get('Count')) is not nbtlib.Byte
                 or node['Name'] != block['name']):
-            raise ValueError('invalid typed ItemStack for reviewed table Block')
+            raise ValueError('invalid typed ItemStack for reviewed block state')
         changed = convert_block(block, rules)
     return changed + sum(visit_item_blocks(value, rules) for value in node.values())
 
