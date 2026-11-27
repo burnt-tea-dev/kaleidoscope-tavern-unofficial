@@ -496,3 +496,28 @@ reviewed integration 仍須通過完整家族靜態門檻及同次停服副本�
 ### 共用完整世界備份
 
 本機政策 `world_backup_state` 指向跨部署入口共用的備份索引。索引 `current` 是記錄陣列，每筆用來源世界的絕對路徑 `world` 辨識，持有自己的 `backup`、`receipt`、`aliases`、`verified_at` 和 `pending_retirement`。`tools/world_backup.py` 核對完整替代副本後，只退役同一世界的前一份；其他世界的目前備份及別名也受保護。沿用現有備份逐檔清單，不依賴舊部署證據鏈；來源世界與明列保護目錄不允許刪除。啟動前的重複全世界備份由主機設定停用。
+
+### 同 UUID 的正式服現選包修復
+
+在正式 `family_update.py` 設定中，`live_selected_repair` 指向已合併的私有維護審查 JSON。
+使用原有 `prepare --execute` 和 `deploy --execute`。停服時需通過現有
+`normal_idle_update` 交接。從運行中接手時，部署者持鎖確認站點和現場零玩家，再使用正式停服操作。
+同一維護鎖下備份現選和世界，保留現選次序，只移動審查指定的新發行配對。存檔資料轉換仍走各自的遷移程序。
+
+審查文件使用 `schema: 1`、`kind: live_selected_repair`，`site` 包含
+`server`、`bds_root` 和 `world_dir`。`approved_receipt_sha256` 指舊收據，
+`refs` 是目前兩份世界選包清單，`removed` 列舊收據有而目前未選的 UUID。
+用原操作記錄核對移除和次序。`observed_sources` 逐一列出與舊收據不同或新增的現選
+UUID，`replacements` 只列更新目標。同一配對的兩側使用同份證據和新版號。
+每一側填 `version`、`tree`（`sha256` 和 `files`）、從原件重現的 `artifact`
+目錄與 `evidence`（私有維護相對路徑和 `sha256`）。
+
+證據使用 `schema: 1`、`kind: selected_pack_source`，`origin` 為 `author_archive`
+或 `owned_release`。`source` 記錄作者發行、檔案號及重現步驟，或自有發行的合併提交、
+檢查及重現步驟。`original` 是可讀原件的絕對路徑與 `sha256`，`packs` 將各 UUID
+綁到 `side`、`version` 和 `tree`。先核對原件和轉換，再合併審查。
+來源目錄放在活動世界和本次候選之外。
+
+正式流程檢查完整候選的相依、品質、GitHub 檢查、停服備份和隔離世界的首次啟動及重啟。
+安裝階段的回復取用停服備份中的原始選包檔和移出的原包。採用休眠交接時沿用它的失敗保留約定。
+候選一旦可能已啟動，保留停服和最新資料，供部署者查明並回復。

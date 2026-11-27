@@ -16,7 +16,8 @@ def main(argv=None):
     require_space(R, "Family candidate assembly")
     original = verify_predeploy()
     sources = source_state(verify_remote=True)
-    archives = archive_paths()
+    selected_repair = CONFIG.get('live_selected_repair')
+    archives = [] if selected_repair else archive_paths()
     preserved = read(R / 'production-before/preserved-packs.json')
     if CONFIG.get('fresh_world'):
         assert preserved == [], 'Fresh worlds cannot inherit captured retained packs'
@@ -55,7 +56,16 @@ def main(argv=None):
     if CONFIG.get('approved_runtime_retention'):
         assembly_lock, assembly_sources, retention = select_approved_runtime_retention(original, sources)
     local_arguments={'preserved_sources':local_sources} if local_sources else {}
-    receipt = assemble(assembly_lock, assembly_sources, archives, C, extensions=[EXTENSION] if EXTENSION else [], preserved=preserved_roots, reviewed_order=assembly_order(original),held_sources=requested,**local_arguments)
+    if selected_repair:
+        from family_update.selected_repair import inputs, verify_candidate as verify_selected_repair
+        policy = read(R / 'production-before/senluo-policy.json')
+        roots, descriptors, _, _ = inputs(original, policy)
+        selected_lock = {**assembly_lock, 'owned': [], 'upstream': [], 'deployment_holds': {}}
+        receipt = assemble(selected_lock, {}, [], C, preserved=roots,
+                           reviewed_order=assembly_order(original), preserved_sources=descriptors)
+        verify_selected_repair(receipt, original, policy)
+    else:
+        receipt = assemble(assembly_lock, assembly_sources, archives, C, extensions=[EXTENSION] if EXTENSION else [], preserved=preserved_roots, reviewed_order=assembly_order(original),held_sources=requested,**local_arguments)
     if CONFIG.get('managed_drift_recovery'):
         from family_update.managed_drift_recovery import verify_owner_accepted_inputs
         verify_owner_accepted_inputs(receipt, original)
@@ -66,8 +76,9 @@ def main(argv=None):
         from family_update.managed_drift_recovery import verify_local_target
         verify_local_target(receipt,original)
     from family_update.source_holds import verify_retained,verify_retained_extension
-    verify_retained(receipt,original,read(T/'family/upstream.lock.json'),requested)
-    verify_retained_extension(receipt,original,read(T/'family/upstream.lock.json'),CONFIG.get('extension_hold',False))
+    if not selected_repair:
+        verify_retained(receipt,original,read(T/'family/upstream.lock.json'),requested)
+        verify_retained_extension(receipt,original,read(T/'family/upstream.lock.json'),CONFIG.get('extension_hold',False))
     candidate_plan(receipt, original)
     from family_update.approved_runtime_retention import verify_candidate
     verify_candidate(receipt, original, retention)
